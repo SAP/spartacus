@@ -15,13 +15,20 @@ import {
   ViewChild,
 } from '@angular/core';
 import { VisualViewerAnimationSliderService } from './visual-viewer-animation-slider.service';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { CxNumericPipe } from '../../../../../../projects/core/src/i18n/numeric.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-epd-visualization-animation-slider',
-  templateUrl: './visual-viewer-animation-slider.component.html',
-  providers: [VisualViewerAnimationSliderService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-epd-visualization-animation-slider',
+    templateUrl: './visual-viewer-animation-slider.component.html',
+    providers: [VisualViewerAnimationSliderService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        TranslatePipe,
+        CxNumericPipe,
+        MockTranslatePipe,
+    ],
 })
 export class VisualViewerAnimationSliderComponent implements AfterViewInit {
   constructor(

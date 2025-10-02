@@ -19,26 +19,26 @@ import { ChatMessagingModule } from '@spartacus/storefront';
 import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    UrlModule,
-    ChatMessagingModule,
-    ReactiveFormsModule,
-    FormsModule,
-  ],
-  providers: [
-    CustomerTicketingMessagesComponentService,
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        SupportTicketUpdateComponent: {
-          component: CustomerTicketingMessagesComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [CustomerTicketingMessagesComponent],
-  exports: [CustomerTicketingMessagesComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        UrlModule,
+        ChatMessagingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        CustomerTicketingMessagesComponent,
+    ],
+    providers: [
+        CustomerTicketingMessagesComponentService,
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                SupportTicketUpdateComponent: {
+                    component: CustomerTicketingMessagesComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+    ],
+    exports: [CustomerTicketingMessagesComponent],
 })
 export class CustomerTicketingMessagesModule {}

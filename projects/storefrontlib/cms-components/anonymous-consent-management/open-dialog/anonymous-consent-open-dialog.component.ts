@@ -15,11 +15,21 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/launch-config';
 import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
+import { FeatureDirective } from '../../../../core/src/features-config/directives/feature.directive';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-anonymous-consent-open-dialog',
-  templateUrl: './anonymous-consent-open-dialog.component.html',
-  standalone: false,
+    selector: 'cx-anonymous-consent-open-dialog',
+    templateUrl: './anonymous-consent-open-dialog.component.html',
+    imports: [
+        FeatureDirective,
+        NgIf,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class AnonymousConsentOpenDialogComponent {
   @ViewChild('open') openElement: ElementRef;

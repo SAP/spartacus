@@ -157,32 +157,32 @@ describe('VisualPickingTabService', () => {
     mockCurrentProductService = new MockCurrentProductService();
 
     TestBed.configureTestingModule({
-      declarations: [MockTranslatePipe],
-      providers: [
+    imports: [MockTranslatePipe],
+    providers: [
         provideConfigFactory(getTestConfig),
         provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),
         {
-          provide: CurrentProductService,
-          useValue: mockCurrentProductService,
+            provide: CurrentProductService,
+            useValue: mockCurrentProductService,
         },
         {
-          provide: GlobalMessageService,
-          useValue: mockGlobalMessageService,
+            provide: GlobalMessageService,
+            useValue: mockGlobalMessageService,
         },
         {
-          provide: VisualViewerService,
-          useValue: mockVisualViewerService,
+            provide: VisualViewerService,
+            useValue: mockVisualViewerService,
         },
         {
-          provide: VisualPickingProductListService,
-          useValue: mockVisualPickingProductListService,
+            provide: VisualPickingProductListService,
+            useValue: mockVisualPickingProductListService,
         },
         {
-          provide: ChangeDetectorRef,
-          useValue: mockChangeDetectorRef,
+            provide: ChangeDetectorRef,
+            useValue: mockChangeDetectorRef,
         },
-      ],
-    });
+    ],
+});
 
     visualViewerService = TestBed.inject(VisualViewerService);
 

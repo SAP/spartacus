@@ -13,11 +13,32 @@ import {
 import { FormUtils } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
+import { FocusDirective } from '../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { FormRequiredAsterisksComponent } from '../../../../../../projects/storefrontlib/shared/components/form/form-required-asterisks/form-required-asterisks.component';
+import { FormErrorsComponent } from '../../../../../../projects/storefrontlib/shared/components/form/form-errors/form-errors.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { SpinnerComponent } from '../../../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-customer-ticketing-close-dialog',
-  templateUrl: './customer-ticketing-close-dialog.component.html',
-  standalone: false,
+    selector: 'cx-customer-ticketing-close-dialog',
+    templateUrl: './customer-ticketing-close-dialog.component.html',
+    imports: [
+        FocusDirective,
+        FormsModule,
+        ReactiveFormsModule,
+        IconComponent,
+        FormRequiredAsterisksComponent,
+        FormErrorsComponent,
+        NgIf,
+        SpinnerComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class CustomerTicketingCloseDialogComponent
   extends CustomerTicketingDialogComponent

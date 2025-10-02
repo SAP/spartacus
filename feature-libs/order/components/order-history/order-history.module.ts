@@ -47,32 +47,30 @@ const moduleComponents = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    NgSelectModule,
-    ListNavigationModule,
-    UrlModule,
-    I18nModule,
-    SpinnerModule,
-    MediaModule,
-    BtnLikeLinkModule,
-  ],
-  declarations: [OrderHistoryComponent, ...moduleComponents],
-  exports: [OrderHistoryComponent, ...moduleComponents],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        AccountOrderHistoryComponent: {
-          component: OrderHistoryComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-    provideDefaultConfigFactory(() =>
-      inject(USE_MY_ACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}
-    ),
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        NgSelectModule,
+        ListNavigationModule,
+        UrlModule,
+        I18nModule,
+        SpinnerModule,
+        MediaModule,
+        BtnLikeLinkModule,
+        OrderHistoryComponent, ...moduleComponents,
+    ],
+    exports: [OrderHistoryComponent, ...moduleComponents],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                AccountOrderHistoryComponent: {
+                    component: OrderHistoryComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+        provideDefaultConfigFactory(() => inject(USE_MY_ACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}),
+    ],
 })
 export class OrderHistoryModule {}

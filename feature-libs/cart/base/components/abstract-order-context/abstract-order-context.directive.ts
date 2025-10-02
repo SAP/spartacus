@@ -27,12 +27,11 @@ export interface AbstractOrderKeyInput {
 }
 
 @Directive({
-  selector: '[cxAbstractOrderContext]',
-  providers: [
-    AbstractOrderContextSource,
-    { provide: AbstractOrderContext, useExisting: AbstractOrderContextSource },
-  ],
-  standalone: false,
+    selector: '[cxAbstractOrderContext]',
+    providers: [
+        AbstractOrderContextSource,
+        { provide: AbstractOrderContext, useExisting: AbstractOrderContextSource },
+    ],
 })
 export class AbstractOrderContextDirective implements OnChanges {
   @Input() cxAbstractOrderContext: AbstractOrderKeyInput;

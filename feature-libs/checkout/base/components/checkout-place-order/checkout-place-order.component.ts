@@ -13,11 +13,7 @@ import {
   OnInit,
   ViewContainerRef,
 } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   CurrencyService,
   LanguageService,
@@ -26,12 +22,33 @@ import {
 import { OrderFacade } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { combineLatest, map, Observable } from 'rxjs';
+import { FormRequiredLegendComponent } from '../../../../../projects/storefrontlib/shared/components/form/form-required-legend/form-required-legend.component';
+import { RouterLink } from '@angular/router';
+import { FormRequiredAsterisksComponent } from '../../../../../projects/storefrontlib/shared/components/form/form-required-asterisks/form-required-asterisks.component';
+import { FormErrorsComponent } from '../../../../../projects/storefrontlib/shared/components/form/form-errors/form-errors.component';
+import { AtMessageDirective } from '../../../../../projects/storefrontlib/shared/components/assistive-technology-message/assistive-technology-message.directive';
+import { AsyncPipe } from '@angular/common';
+import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-place-order',
-  templateUrl: './checkout-place-order.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-place-order',
+    templateUrl: './checkout-place-order.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        FormRequiredLegendComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterLink,
+        FormRequiredAsterisksComponent,
+        FormErrorsComponent,
+        AtMessageDirective,
+        AsyncPipe,
+        UrlPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
   placedOrder: void | Observable<ComponentRef<any> | undefined>;

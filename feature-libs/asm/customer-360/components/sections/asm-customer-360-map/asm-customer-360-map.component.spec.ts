@@ -112,18 +112,17 @@ describe('AsmCustomer360MapComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [AsmCustomer360MapComponent],
-      providers: [
+    imports: [I18nTestingModule, AsmCustomer360MapComponent],
+    providers: [
         AsmCustomer360SectionContextSource,
         {
-          provide: AsmCustomer360SectionContext,
-          useExisting: AsmCustomer360SectionContextSource,
+            provide: AsmCustomer360SectionContext,
+            useExisting: AsmCustomer360SectionContextSource,
         },
         { provide: StoreFinderService, useClass: MockStoreFinderService },
         { provide: StoreFinderConfig, useValue: mockStoreFinderConfig },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

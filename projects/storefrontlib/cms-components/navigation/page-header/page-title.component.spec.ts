@@ -22,18 +22,17 @@ describe('PageTitleComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [PageTitleComponent],
-      providers: [
+    imports: [I18nTestingModule, PageTitleComponent],
+    providers: [
         { provide: PageMetaService, useClass: MockPageMetaService },
         {
-          provide: CmsComponentData,
-          useValue: {
-            data$: of({}),
-          },
+            provide: CmsComponentData,
+            useValue: {
+                data$: of({}),
+            },
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

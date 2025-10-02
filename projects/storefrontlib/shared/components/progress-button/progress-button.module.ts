@@ -11,8 +11,7 @@ import { I18nModule } from '@spartacus/core';
 import { ProgressButtonComponent } from './progress-button.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
-  declarations: [ProgressButtonComponent],
-  exports: [ProgressButtonComponent],
+    imports: [CommonModule, I18nModule, ProgressButtonComponent],
+    exports: [ProgressButtonComponent],
 })
 export class ProgressButtonModule {}

@@ -16,17 +16,16 @@ import { Directive } from '@angular/core';
  * to be using this consider it as a good 'code smell' for using BUttons instead of links.
  */
 @Directive({
-  selector: 'a[cxBtnLikeLink].btn', // 'a.btn'
-  host: {
-    // Adding [tabindex] allows tab-based access to this element.
-    tabindex: '0',
-    // Adding [role] tells screen reatders that this "link" is really a "button"
-    role: 'button',
-    // Add Enter keydown click mimic native Button's behaviour
-    '(keydown.enter)': '$event.preventDefault() ; $event.target.click() ;',
-    // Add Space keydown click mimic native Button's behaviour
-    '(keydown.space)': '$event.preventDefault() ; $event.target.click() ;',
-  },
-  standalone: false,
+    selector: 'a[cxBtnLikeLink].btn', // 'a.btn'
+    host: {
+        // Adding [tabindex] allows tab-based access to this element.
+        tabindex: '0',
+        // Adding [role] tells screen reatders that this "link" is really a "button"
+        role: 'button',
+        // Add Enter keydown click mimic native Button's behaviour
+        '(keydown.enter)': '$event.preventDefault() ; $event.target.click() ;',
+        // Add Space keydown click mimic native Button's behaviour
+        '(keydown.space)': '$event.preventDefault() ; $event.target.click() ;',
+    },
 })
 export class BtnLikeLinkDirective {}

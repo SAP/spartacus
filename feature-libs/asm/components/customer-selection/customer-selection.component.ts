@@ -16,7 +16,7 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AsmService } from '@spartacus/asm/core';
 import {
   AsmConfig,
@@ -33,14 +33,29 @@ import {
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { IconComponent } from '../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
+import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-customer-selection',
-  templateUrl: './customer-selection.component.html',
-  host: {
-    '(document:click)': 'onDocumentClick($event)',
-  },
-  standalone: false,
+    selector: 'cx-customer-selection',
+    templateUrl: './customer-selection.component.html',
+    host: {
+        '(document:click)': 'onDocumentClick($event)',
+    },
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        NgIf,
+        IconComponent,
+        NgFor,
+        DotSpinnerComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {
   customerSelectionForm: UntypedFormGroup;

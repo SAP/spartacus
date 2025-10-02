@@ -11,9 +11,7 @@ import { IconModule } from '@spartacus/storefront';
 import { ScheduleLinesComponent } from './schedule-lines.component';
 
 @NgModule({
-  imports: [CommonModule, UrlModule, I18nModule, IconModule],
-
-  declarations: [ScheduleLinesComponent],
-  exports: [ScheduleLinesComponent],
+    imports: [CommonModule, UrlModule, I18nModule, IconModule, ScheduleLinesComponent],
+    exports: [ScheduleLinesComponent],
 })
 export class ScheduleLinesModule {}

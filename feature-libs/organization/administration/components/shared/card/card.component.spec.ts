@@ -30,25 +30,24 @@ describe('CardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         CommonModule,
         // SplitViewTestingModule,
         IconTestingModule,
         I18nTestingModule,
         MessageTestingModule,
         PopoverModule,
-      ],
-      declarations: [CardComponent, ViewComponent, MockFeatureDirective],
-      providers: [
+        CardComponent, ViewComponent, MockFeatureDirective,
+    ],
+    providers: [
         {
-          provide: ItemService,
-          useClass: MockItemService,
+            provide: ItemService,
+            useClass: MockItemService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-
         SplitViewService,
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

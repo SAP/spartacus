@@ -61,23 +61,22 @@ describe('OpfB2bCheckoutCostCenterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OpfB2bCheckoutCostCenterComponent],
-      providers: [
+    imports: [I18nTestingModule, OpfB2bCheckoutCostCenterComponent],
+    providers: [
         {
-          provide: UserCostCenterService,
-          useClass: MockUserCostCenterService,
+            provide: UserCostCenterService,
+            useClass: MockUserCostCenterService,
         },
         {
-          provide: CheckoutCostCenterFacade,
-          useClass: MockCheckoutCostCenterService,
+            provide: CheckoutCostCenterFacade,
+            useClass: MockCheckoutCostCenterService,
         },
         {
-          provide: CheckoutPaymentTypeFacade,
-          useClass: MockCheckoutPaymentTypeFacade,
+            provide: CheckoutPaymentTypeFacade,
+            useClass: MockCheckoutPaymentTypeFacade,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

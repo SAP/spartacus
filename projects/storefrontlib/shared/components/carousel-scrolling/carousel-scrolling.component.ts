@@ -19,6 +19,11 @@ import { LoggerService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { disableTabbingForTick } from '../../../layout/a11y';
+import { NgIf, NgFor, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { HorizontalScrollingPositionDirective } from '../../directives/horizontal-scrolling-position/horizontal-scrolling-position.directive';
+import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
+import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 /**
  * Context passed to the `template` for each carousel item.
@@ -48,10 +53,19 @@ enum KeyboardEventKeys {
  * given `template`. This allows for maximum flexibility.
  */
 @Component({
-  selector: 'cx-carousel-scrolling',
-  templateUrl: './carousel-scrolling.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-carousel-scrolling',
+    templateUrl: './carousel-scrolling.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        HorizontalScrollingPositionDirective,
+        IconComponent,
+        NgFor,
+        NgTemplateOutlet,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class CarouselScrollingComponent<Item = any> implements OnInit {
   protected logger = inject(LoggerService);

@@ -188,9 +188,9 @@ class mockFeatureModulesService implements Partial<FeatureModulesService> {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
+    selector: 'cx-icon',
+    template: '',
+    imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -224,10 +224,7 @@ class MockAsmCustomerListFacade implements Partial<AsmCustomerListFacade> {
   }
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]', })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -243,30 +240,27 @@ describe('CustomerListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CustomerListComponent,
+    imports: [I18nTestingModule, CustomerListComponent,
         MockCxIconComponent,
-        MockKeyboadFocusDirective,
-      ],
-      providers: [
+        MockKeyboadFocusDirective],
+    providers: [
         {
-          provide: FeatureModulesService,
-          useClass: mockFeatureModulesService,
+            provide: FeatureModulesService,
+            useClass: mockFeatureModulesService,
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
+            provide: BreakpointService,
+            useClass: MockBreakpointService,
         },
         { provide: AsmConfig, useClass: MockAsmConfig },
         {
-          provide: AsmCustomerListFacade,
-          useClass: MockAsmCustomerListFacade,
+            provide: AsmCustomerListFacade,
+            useClass: MockAsmCustomerListFacade,
         },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-    }).compileComponents();
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+}).compileComponents();
     featureModulesService = TestBed.inject(FeatureModulesService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     config = TestBed.inject(AsmConfig);

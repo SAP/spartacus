@@ -94,15 +94,14 @@ function createFocusedElements(
 }
 
 @Component({
-  selector: 'cx-configurator',
-  template: `
+    selector: 'cx-configurator',
+    template: `
     <cx-configurator-form>
       <label id="ATTR_1--value_1">value_1</label>
       <label id="ATTR_1--value_2">value_2</label>
       <label id="ATTR_1--value_3">value_3</label>
     </cx-configurator-form>
   `,
-  standalone: false,
 })
 class MockComponent {}
 
@@ -142,28 +141,28 @@ describe('ConfiguratorStorefrontUtilsService', () => {
     routerStateObservable = of(mockRouterState);
 
     TestBed.configureTestingModule({
-      declarations: [MockComponent],
-      providers: [
+    imports: [MockComponent],
+    providers: [
         {
-          provide: ConfiguratorGroupsService,
-          useClass: MockConfiguratorGroupsService,
+            provide: ConfiguratorGroupsService,
+            useClass: MockConfiguratorGroupsService,
         },
         {
-          provide: KeyboardFocusService,
-          useClass: MockKeyboardFocusService,
+            provide: KeyboardFocusService,
+            useClass: MockKeyboardFocusService,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
         {
-          provide: ProductService,
-          useClass: MockProductService,
+            provide: ProductService,
+            useClass: MockProductService,
         },
         { provide: WindowRef, useClass: MockedWindowRef },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    });
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+});
     classUnderTest = TestBed.inject(ConfiguratorStorefrontUtilsService);
     fixture = TestBed.createComponent(MockComponent);
     htmlElem = fixture.nativeElement;

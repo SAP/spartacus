@@ -122,8 +122,8 @@ describe('AsmCustomer360SavedCartComponent', () => {
   @Component({
     template: '',
     selector: 'cx-media',
-    standalone: false,
-  })
+    imports: [I18nTestingModule],
+})
   class MockMediaComponent {
     @Input() container: any;
     @Input() format: any;
@@ -132,26 +132,23 @@ describe('AsmCustomer360SavedCartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        AsmCustomer360SavedCartComponent,
+    imports: [I18nTestingModule, AsmCustomer360SavedCartComponent,
         AsmCustomer360ProductListingComponent,
         AsmCustomer360ProductItemComponent,
-        MockMediaComponent,
-      ],
-      providers: [
+        MockMediaComponent],
+    providers: [
         AsmCustomer360SectionContextSource,
         {
-          provide: AsmCustomer360SectionContext,
-          useExisting: AsmCustomer360SectionContextSource,
+            provide: AsmCustomer360SectionContext,
+            useExisting: AsmCustomer360SectionContextSource,
         },
         { provide: ProductService, useValue: productService },
         {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
+            provide: BreakpointService,
+            useClass: MockBreakpointService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

@@ -33,9 +33,13 @@ const mockProducts = [
 ];
 
 @Component({
-  selector: 'cx-star-rating',
-  template: '',
-  standalone: false,
+    selector: 'cx-star-rating',
+    template: '',
+    imports: [ListNavigationModule,
+        FormsModule,
+        I18nTestingModule,
+        InfiniteScrollModule,
+        SpinnerModule,],
 })
 class MockStarRatingComponent {
   @Input() rating;
@@ -52,9 +56,13 @@ class MockPageLayoutService {
 }
 
 @Component({
-  template: '',
-  selector: 'cx-product-list-item',
-  standalone: false,
+    template: '',
+    selector: 'cx-product-list-item',
+    imports: [ListNavigationModule,
+        FormsModule,
+        I18nTestingModule,
+        InfiniteScrollModule,
+        SpinnerModule,],
 })
 class MockProductListItemComponent {
   @Input() product: any;
@@ -62,9 +70,13 @@ class MockProductListItemComponent {
 }
 
 @Component({
-  template: '',
-  selector: 'cx-product-grid-item',
-  standalone: false,
+    template: '',
+    selector: 'cx-product-grid-item',
+    imports: [ListNavigationModule,
+        FormsModule,
+        I18nTestingModule,
+        InfiniteScrollModule,
+        SpinnerModule,],
 })
 class MockProductGridItemComponent {
   @Input() product: any;
@@ -72,33 +84,42 @@ class MockProductGridItemComponent {
 }
 
 @Component({
-  selector: 'cx-product-scroll',
-  template: '',
-  standalone: false,
+    selector: 'cx-product-scroll',
+    template: '',
+    imports: [ListNavigationModule,
+        FormsModule,
+        I18nTestingModule,
+        InfiniteScrollModule,
+        SpinnerModule,],
 })
 class MockProductScrollComponent {}
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
+    selector: 'cx-icon',
+    template: '',
+    imports: [ListNavigationModule,
+        FormsModule,
+        I18nTestingModule,
+        InfiniteScrollModule,
+        SpinnerModule,],
 })
 class MockCxIconComponent {
   @Input() type;
 }
 
 @Component({
-  selector: 'cx-add-to-cart',
-  template: '<button>add to cart</button>',
-  standalone: false,
+    selector: 'cx-add-to-cart',
+    template: '<button>add to cart</button>',
+    imports: [ListNavigationModule,
+        FormsModule,
+        I18nTestingModule,
+        InfiniteScrollModule,
+        SpinnerModule,],
 })
 class MockAddToCartComponent {
   @Input() product;
@@ -139,33 +160,12 @@ describe('ProductListComponent', () => {
     }
 
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ListNavigationModule,
         FormsModule,
         I18nTestingModule,
         InfiniteScrollModule,
         SpinnerModule,
-      ],
-      providers: [
-        provideRouter([]),
-        {
-          provide: PageLayoutService,
-          useClass: MockPageLayoutService,
-        },
-        {
-          provide: ProductListComponentService,
-          useClass: MockProductListComponentService,
-        },
-        {
-          provide: ViewConfig,
-          useClass: MockViewConfig,
-        },
-        {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
-        },
-      ],
-      declarations: [
         ProductListComponent,
         ProductFacetNavigationComponent,
         MockStarRatingComponent,
@@ -178,8 +178,27 @@ describe('ProductListComponent', () => {
         MockCxIconComponent,
         MockFeatureLevelDirective,
         MockProductScrollComponent,
-      ],
-    }).compileComponents();
+    ],
+    providers: [
+        provideRouter([]),
+        {
+            provide: PageLayoutService,
+            useClass: MockPageLayoutService,
+        },
+        {
+            provide: ProductListComponentService,
+            useClass: MockProductListComponentService,
+        },
+        {
+            provide: ViewConfig,
+            useClass: MockViewConfig,
+        },
+        {
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
+        },
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

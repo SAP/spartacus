@@ -19,18 +19,12 @@ import {
 } from './recent-searches.component';
 import { RecentSearchesService } from './recent-searches.service';
 
-@Pipe({
-  name: 'cxHighlight',
-  standalone: false,
-})
+@Pipe({ name: 'cxHighlight', })
 class MockHighlightPipe implements PipeTransform {
   transform(): any {}
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform(): any {
     return ['test', 'url'];
@@ -59,21 +53,20 @@ describe('RecentSearchesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [RecentSearchesComponent, MockHighlightPipe, MockUrlPipe],
-      providers: [
+    imports: [I18nTestingModule, RecentSearchesComponent, MockHighlightPipe, MockUrlPipe],
+    providers: [
         {
-          provide: RecentSearchesService,
-          useValue: recentSearchesServiceMock,
+            provide: RecentSearchesService,
+            useValue: recentSearchesServiceMock,
         },
         {
-          provide: SearchBoxComponentService,
-          useValue: searchBoxComponentServiceMock,
+            provide: SearchBoxComponentService,
+            useValue: searchBoxComponentServiceMock,
         },
         { provide: OutletContextData, useValue: { context$ } },
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+}).compileComponents();
   });
 
   beforeEach(() => {

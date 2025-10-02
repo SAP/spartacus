@@ -33,18 +33,16 @@ import { StoreModule } from '@ngrx/store';
 import { Component, Input } from '@angular/core';
 import { OpfActiveConfigurationsResponse } from '@spartacus/opf/base/root';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate', })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
 @Component({
-  selector: 'cx-opf-checkout-payments',
-  template: '',
-  standalone: false,
+    selector: 'cx-opf-checkout-payments',
+    template: '',
+    imports: [ReactiveFormsModule,
+        I18nTestingModule],
 })
 class MockOpfCheckoutPaymentsComponent {
   @Input() onlyPaymentWrapperMode: boolean;
@@ -138,35 +136,33 @@ describe('OpfB2bCheckoutReviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         I18nTestingModule,
         StoreModule.forRoot({}),
-      ],
-      declarations: [
         OpfB2bCheckoutReviewComponent,
         MockTranslatePipe,
         MockOpfCheckoutPaymentsComponent,
-      ],
-      providers: [
+    ],
+    providers: [
         {
-          provide: CheckoutPaymentTypeFacade,
-          useClass: MockCheckoutPaymentTypeFacade,
+            provide: CheckoutPaymentTypeFacade,
+            useClass: MockCheckoutPaymentTypeFacade,
         },
         {
-          provide: CheckoutCostCenterFacade,
-          useClass: MockCheckoutCostCenterFacade,
+            provide: CheckoutCostCenterFacade,
+            useClass: MockCheckoutCostCenterFacade,
         },
         {
-          provide: OpfMetadataStoreService,
-          useClass: MockOpfMetadataStoreService,
+            provide: OpfMetadataStoreService,
+            useClass: MockOpfMetadataStoreService,
         },
         { provide: OpfBaseFacade, useClass: MockOpfBaseFacade },
         { provide: CmsService, useClass: MockCmsService },
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: ActivatedRoute, useValue: {} },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(OpfB2bCheckoutReviewComponent);
     component = fixture.componentInstance;

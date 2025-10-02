@@ -21,12 +21,39 @@ import {
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
+import { NgIf, NgFor, AsyncPipe, SlicePipe } from '@angular/common';
+import { SortingComponent } from '../../../../projects/storefrontlib/shared/components/list-navigation/sorting/sorting.component';
+import { PaginationComponent } from '../../../../projects/storefrontlib/shared/components/list-navigation/pagination/pagination.component';
+import { FeatureDirective } from '../../../../projects/core/src/features-config/directives/feature.directive';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { BtnLikeLinkDirective } from '../../../../projects/storefrontlib/layout/a11y/btn-like-link/btn-like-link.directive';
+import { UrlPipe } from '../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { CxDatePipe } from '../../../../projects/core/src/i18n/date.pipe';
+import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { MockDatePipe } from '../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-  selector: 'cx-replenishment-order-history',
-  templateUrl: './replenishment-order-history.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-replenishment-order-history',
+    templateUrl: './replenishment-order-history.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        SortingComponent,
+        PaginationComponent,
+        FeatureDirective,
+        NgFor,
+        RouterLink,
+        BtnLikeLinkDirective,
+        RouterLinkActive,
+        AsyncPipe,
+        SlicePipe,
+        UrlPipe,
+        TranslatePipe,
+        CxDatePipe,
+        MockTranslatePipe,
+        MockDatePipe,
+    ],
 })
 export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   @ViewChild('element') element: ElementRef;

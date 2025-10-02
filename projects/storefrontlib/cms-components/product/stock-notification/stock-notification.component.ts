@@ -31,12 +31,26 @@ import { filter, first, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 import { LaunchDialogService, LAUNCH_CALLER } from '../../../layout/index';
 import { take } from 'rxjs/operators';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
+import { UrlPipe } from '../../../../core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-stock-notification',
-  templateUrl: './stock-notification.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-stock-notification',
+    templateUrl: './stock-notification.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        RouterLink,
+        SpinnerComponent,
+        AsyncPipe,
+        TranslatePipe,
+        UrlPipe,
+        MockTranslatePipe,
+    ],
 })
 export class StockNotificationComponent implements OnInit, OnDestroy {
   hasProductInterests$: Observable<boolean>;

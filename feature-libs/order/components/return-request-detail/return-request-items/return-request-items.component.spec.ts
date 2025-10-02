@@ -18,9 +18,9 @@ class MockCheckoutService {
 }
 
 @Component({
-  template: '',
-  selector: 'cx-media',
-  standalone: false,
+    template: '',
+    selector: 'cx-media',
+    imports: [I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container;
@@ -33,16 +33,13 @@ describe('ReturnRequestItemsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ReturnRequestItemsComponent,
+    imports: [I18nTestingModule, ReturnRequestItemsComponent,
         MockMediaComponent,
-        MockFeatureLevelDirective,
-      ],
-      providers: [
+        MockFeatureLevelDirective],
+    providers: [
         { provide: ReturnRequestService, useClass: MockCheckoutService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

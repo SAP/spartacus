@@ -22,15 +22,15 @@ describe('PunchoutCloseSessionComponent', () => {
     );
 
     await TestBed.configureTestingModule({
-      declarations: [PunchoutCloseSessionComponent],
-      providers: [
+    imports: [PunchoutCloseSessionComponent],
+    providers: [
         { provide: PunchoutFacade, useValue: mockPunchoutFacade },
         {
-          provide: PunchoutUiRestrictionService,
-          useValue: mockPunchoutUiRestrictionService,
+            provide: PunchoutUiRestrictionService,
+            useValue: mockPunchoutUiRestrictionService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(PunchoutCloseSessionComponent);
     component = fixture.componentInstance;

@@ -16,29 +16,29 @@ import { OrderCancellationService } from '../order-cancellation.service';
 import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    AmendOrderItemsModule,
-    AmendOrderActionsModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CancelOrderConfirmationComponent: {
-          component: CancelOrderConfirmationComponent,
-          guards: [AuthGuard, OrderCancellationGuard],
-          providers: [
-            {
-              provide: OrderAmendService,
-              useExisting: OrderCancellationService,
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        AmendOrderItemsModule,
+        AmendOrderActionsModule,
+        CancelOrderConfirmationComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CancelOrderConfirmationComponent: {
+                    component: CancelOrderConfirmationComponent,
+                    guards: [AuthGuard, OrderCancellationGuard],
+                    providers: [
+                        {
+                            provide: OrderAmendService,
+                            useExisting: OrderCancellationService,
+                        },
+                    ],
+                },
             },
-          ],
-        },
-      },
-    }),
-  ],
-  declarations: [CancelOrderConfirmationComponent],
-  exports: [CancelOrderConfirmationComponent],
+        }),
+    ],
+    exports: [CancelOrderConfirmationComponent],
 })
 export class CancelOrderConfirmationModule {}

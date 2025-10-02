@@ -22,9 +22,13 @@ import { UpdatePasswordComponentService } from './update-password-component.serv
 import createSpy = jasmine.createSpy;
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
-  standalone: false,
+    selector: 'cx-spinner',
+    template: '',
+    imports: [ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        UrlTestingModule,
+        PasswordVisibilityToggleModule,],
 })
 class MockCxSpinnerComponent {}
 
@@ -51,21 +55,21 @@ describe('MyAccountV2PasswordComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         I18nTestingModule,
         FormErrorsModule,
         UrlTestingModule,
         PasswordVisibilityToggleModule,
-      ],
-      declarations: [MyAccountV2PasswordComponent, MockCxSpinnerComponent],
-      providers: [
+        MyAccountV2PasswordComponent, MockCxSpinnerComponent,
+    ],
+    providers: [
         {
-          provide: UpdatePasswordComponentService,
-          useClass: MockUpdatePasswordService,
+            provide: UpdatePasswordComponentService,
+            useClass: MockUpdatePasswordService,
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(MyAccountV2PasswordComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })

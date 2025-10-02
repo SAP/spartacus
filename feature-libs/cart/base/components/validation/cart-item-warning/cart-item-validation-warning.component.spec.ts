@@ -45,26 +45,19 @@ class MockCartValidationFacade {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
+    selector: 'cx-icon',
+    template: '',
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate', })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -77,19 +70,17 @@ describe('CartItemValidationWarningComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CartItemValidationWarningComponent,
+    imports: [CartItemValidationWarningComponent,
         MockCxIconComponent,
         MockTranslatePipe,
-        MockUrlPipe,
-      ],
-      providers: [
+        MockUrlPipe,],
+    providers: [
         {
-          provide: CartValidationFacade,
-          useClass: MockCartValidationFacade,
+            provide: CartValidationFacade,
+            useClass: MockCartValidationFacade,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(CartItemValidationWarningComponent);
     component = fixture.componentInstance;

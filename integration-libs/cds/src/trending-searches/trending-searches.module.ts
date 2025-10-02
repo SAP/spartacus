@@ -17,15 +17,14 @@ import { I18nModule, UrlModule } from '@spartacus/core';
 import { TrendingSearchesComponent } from './trending-searches.component';
 
 @NgModule({
-  exports: [],
-  declarations: [TrendingSearchesComponent],
-  imports: [CommonModule, I18nModule, SearchBoxModule, UrlModule, RouterModule],
-  providers: [
-    provideOutlet({
-      id: SearchBoxOutlets.TRENDING_SEARCHES,
-      component: TrendingSearchesComponent,
-      position: OutletPosition.AFTER,
-    }),
-  ],
+    exports: [],
+    imports: [CommonModule, I18nModule, SearchBoxModule, UrlModule, RouterModule, TrendingSearchesComponent],
+    providers: [
+        provideOutlet({
+            id: SearchBoxOutlets.TRENDING_SEARCHES,
+            component: TrendingSearchesComponent,
+            position: OutletPosition.AFTER,
+        }),
+    ],
 })
 export class TrendingSearchesModule {}

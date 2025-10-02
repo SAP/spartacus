@@ -16,17 +16,17 @@ import { MessageModule } from '../message/message.module';
 import { FormComponent } from './form.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    I18nModule,
-    RouterModule,
-    CardModule,
-    MessageModule,
-    ItemActiveModule,
-    KeyboardFocusModule,
-  ],
-  declarations: [FormComponent],
-  exports: [FormComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        I18nModule,
+        RouterModule,
+        CardModule,
+        MessageModule,
+        ItemActiveModule,
+        KeyboardFocusModule,
+        FormComponent,
+    ],
+    exports: [FormComponent],
 })
 export class FormModule {}

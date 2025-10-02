@@ -6,10 +6,7 @@
 
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 
-@Directive({
-  selector: '[cxFeatureLevel]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFeatureLevel]', })
 export class MockFeatureLevelDirective {
   constructor(
     protected templateRef: TemplateRef<any>,

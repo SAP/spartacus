@@ -41,29 +41,28 @@ describe('AssignCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AssignCellComponent],
-      imports: [UrlTestingModule, I18nTestingModule],
-      providers: [
+    imports: [UrlTestingModule, I18nTestingModule, AssignCellComponent],
+    providers: [
         {
-          provide: OutletContextData,
-          useValue: {
-            context: undefined,
-          },
+            provide: OutletContextData,
+            useValue: {
+                context: undefined,
+            },
         },
         {
-          provide: ItemService,
-          useClass: MockItemService,
+            provide: ItemService,
+            useClass: MockItemService,
         },
         {
-          provide: MessageService,
-          useClass: MockMessageService,
+            provide: MessageService,
+            useClass: MockMessageService,
         },
         {
-          provide: ListService,
-          useClass: MockListService,
+            provide: ListService,
+            useClass: MockListService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     organizationListService = TestBed.inject(ListService);
     messageService = TestBed.inject(MessageService);

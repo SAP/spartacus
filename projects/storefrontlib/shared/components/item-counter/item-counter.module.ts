@@ -12,14 +12,14 @@ import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboar
 import { ItemCounterComponent } from './item-counter.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    I18nModule,
-    KeyboardFocusModule,
-    FeaturesConfigModule,
-  ],
-  declarations: [ItemCounterComponent],
-  exports: [ItemCounterComponent],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        I18nModule,
+        KeyboardFocusModule,
+        FeaturesConfigModule,
+        ItemCounterComponent,
+    ],
+    exports: [ItemCounterComponent],
 })
 export class ItemCounterModule {}

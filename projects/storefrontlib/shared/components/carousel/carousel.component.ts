@@ -23,6 +23,10 @@ import { tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { disableTabbingForTick } from '../../../layout/a11y';
 import { CarouselService } from './carousel.service';
+import { NgIf, NgClass, NgFor, NgTemplateOutlet, AsyncPipe, SlicePipe } from '@angular/common';
+import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
+import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 /**
  * Generic carousel component that can be used to render any carousel items,
@@ -44,11 +48,21 @@ import { CarouselService } from './carousel.service';
  * can cause issues during the hydration process, so this component is excluded from Angular hydration.
  */
 @Component({
-  selector: 'cx-carousel',
-  templateUrl: './carousel.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { ngSkipHydration: 'true' },
-  standalone: false,
+    selector: 'cx-carousel',
+    templateUrl: './carousel.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { ngSkipHydration: 'true' },
+    imports: [
+        NgIf,
+        NgClass,
+        IconComponent,
+        NgFor,
+        NgTemplateOutlet,
+        AsyncPipe,
+        SlicePipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class CarouselComponent implements OnInit, OnChanges {
   @Output() keybordEvent = new BehaviorSubject<KeyboardEvent | null>(null);

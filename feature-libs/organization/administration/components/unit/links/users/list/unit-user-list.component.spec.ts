@@ -29,32 +29,32 @@ describe('UnitUserListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         SubListTestingModule,
         UrlTestingModule,
         I18nTestingModule,
         DisableInfoModule,
-      ],
-      providers: [
+        UnitUserListComponent,
+    ],
+    providers: [
         {
-          provide: UnitUserListService,
-          useClass: MockUnitUserListService,
+            provide: UnitUserListService,
+            useClass: MockUnitUserListService,
         },
         {
-          provide: CurrentUnitService,
-          useClass: MockCurrentUnitService,
+            provide: CurrentUnitService,
+            useClass: MockCurrentUnitService,
         },
         {
-          provide: B2BUserService,
-          useClass: MockB2BUserService,
+            provide: B2BUserService,
+            useClass: MockB2BUserService,
         },
         {
-          provide: ItemService,
-          useClass: MockItemService,
+            provide: ItemService,
+            useClass: MockItemService,
         },
-      ],
-      declarations: [UnitUserListComponent],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(UnitUserListComponent);
     component = fixture.componentInstance;

@@ -12,12 +12,26 @@ import {
   Output,
 } from '@angular/core';
 import { SortModel } from '@spartacus/core';
+import { NgSelectComponent, NgOptionComponent } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
+import { NgSelectA11yDirective } from '../../ng-select-a11y/ng-select-a11y.directive';
+import { NgFor } from '@angular/common';
+import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-sorting',
-  templateUrl: './sorting.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-sorting',
+    templateUrl: './sorting.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgSelectComponent,
+        FormsModule,
+        NgSelectA11yDirective,
+        NgFor,
+        NgOptionComponent,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class SortingComponent {
   @Input()

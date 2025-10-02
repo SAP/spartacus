@@ -17,17 +17,15 @@ import { defaultOccCartWithEddConfig } from './config/default-occ-cart-with-edd.
 import { CartOutlets } from '@spartacus/cart/base/root';
 
 @NgModule({
-  imports: [CommonModule, UrlModule, I18nModule, IconModule],
-
-  declarations: [EstimatedDeliveryDateComponent],
-  exports: [EstimatedDeliveryDateComponent],
-  providers: [
-    provideDefaultConfig(defaultOccCartWithEddConfig),
-    provideOutlet({
-      id: CartOutlets.ITEM_DETAILS,
-      position: OutletPosition.AFTER,
-      component: EstimatedDeliveryDateComponent,
-    }),
-  ],
+    imports: [CommonModule, UrlModule, I18nModule, IconModule, EstimatedDeliveryDateComponent],
+    exports: [EstimatedDeliveryDateComponent],
+    providers: [
+        provideDefaultConfig(defaultOccCartWithEddConfig),
+        provideOutlet({
+            id: CartOutlets.ITEM_DETAILS,
+            position: OutletPosition.AFTER,
+            component: EstimatedDeliveryDateComponent,
+        }),
+    ],
 })
 export class ShowEstimatedDeliveryDateModule {}

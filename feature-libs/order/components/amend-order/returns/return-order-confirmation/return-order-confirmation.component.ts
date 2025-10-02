@@ -5,17 +5,28 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OrderAmendService } from '../../amend-order.service';
+import { NgIf, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { CancelOrReturnItemsComponent } from '../../amend-order-items/amend-order-items.component';
+import { AmendOrderActionsComponent } from '../../amend-order-actions/amend-order-actions.component';
 
 @Component({
-  selector: 'cx-return-order-confirmation',
-  templateUrl: './return-order-confirmation.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-return-order-confirmation',
+    templateUrl: './return-order-confirmation.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        FormsModule,
+        ReactiveFormsModule,
+        NgTemplateOutlet,
+        CancelOrReturnItemsComponent,
+        AmendOrderActionsComponent,
+        AsyncPipe,
+    ],
 })
 export class ReturnOrderConfirmationComponent {
   orderCode: string;

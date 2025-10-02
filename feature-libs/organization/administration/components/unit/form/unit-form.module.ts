@@ -21,22 +21,22 @@ import { ItemActiveModule } from '../../shared/item-active.module';
 import { UnitFormComponent } from './unit-form.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormModule,
-    NgSelectModule,
-    UrlModule,
-    I18nModule,
-    ReactiveFormsModule,
-    FormErrorsModule,
-    ItemActiveModule,
-    FeaturesConfigModule,
-    NgSelectA11yModule,
-    FormRequiredAsterisksComponent,
-    FormRequiredLegendComponent,
-  ],
-  declarations: [UnitFormComponent],
-  exports: [UnitFormComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormModule,
+        NgSelectModule,
+        UrlModule,
+        I18nModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        ItemActiveModule,
+        FeaturesConfigModule,
+        NgSelectA11yModule,
+        FormRequiredAsterisksComponent,
+        FormRequiredLegendComponent,
+        UnitFormComponent,
+    ],
+    exports: [UnitFormComponent],
 })
 export class UnitFormModule {}

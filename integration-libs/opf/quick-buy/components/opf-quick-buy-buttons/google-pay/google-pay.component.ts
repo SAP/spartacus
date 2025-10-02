@@ -17,12 +17,13 @@ import {
 import { OpfActiveConfiguration } from '@spartacus/opf/base/root';
 import { BehaviorSubject } from 'rxjs';
 import { OpfGooglePayService } from './google-pay.service';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-opf-google-pay',
-  templateUrl: './google-pay.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-opf-google-pay',
+    templateUrl: './google-pay.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgIf, AsyncPipe],
 })
 export class OpfGooglePayComponent implements OnInit {
   protected opfGooglePayService = inject(OpfGooglePayService);

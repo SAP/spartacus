@@ -7,10 +7,7 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { FeatureConfigService } from '../services/feature-config.service';
 
-@Directive({
-  selector: '[cxFeature]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFeature]', })
 export class FeatureDirective {
   constructor(
     protected templateRef: TemplateRef<any>,

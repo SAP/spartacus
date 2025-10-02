@@ -7,10 +7,7 @@ import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { ParagraphComponent } from './paragraph.component';
 
-@Pipe({
-  name: 'cxSupplementHashAnchors',
-  standalone: false,
-})
+@Pipe({ name: 'cxSupplementHashAnchors', })
 export class MockAnchorPipe implements PipeTransform {
   public transform(html: string): string {
     return html;
@@ -48,15 +45,15 @@ describe('CmsParagraphComponent in CmsLib', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MockAnchorPipe, ParagraphComponent],
-      providers: [
+    imports: [MockAnchorPipe, ParagraphComponent],
+    providers: [
         {
-          provide: CmsComponentData,
-          useValue: MockCmsComponentData,
+            provide: CmsComponentData,
+            useValue: MockCmsComponentData,
         },
         { provide: DomSanitizer, useClass: MockDomSanitizer },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

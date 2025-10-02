@@ -15,13 +15,33 @@ import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, skip, take } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms-structure/page/index';
 import { ViewConfig } from '../../../../shared/config/view-config';
-import { ViewModes } from '../product-view/product-view.component';
+import { ViewModes, ProductViewComponent } from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { SortingComponent } from '../../../../shared/components/list-navigation/sorting/sorting.component';
+import { PaginationComponent } from '../../../../shared/components/list-navigation/pagination/pagination.component';
+import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
+import { ProductListItemComponent } from '../product-list-item/product-list-item.component';
+import { ProductScrollComponent } from './product-scroll/product-scroll.component';
+import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-product-list',
-  templateUrl: './product-list.component.html',
-  standalone: false,
+    selector: 'cx-product-list',
+    templateUrl: './product-list.component.html',
+    imports: [
+        NgIf,
+        SortingComponent,
+        PaginationComponent,
+        ProductViewComponent,
+        NgFor,
+        ProductGridItemComponent,
+        ProductListItemComponent,
+        ProductScrollComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ProductListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

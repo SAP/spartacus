@@ -34,17 +34,15 @@ describe('PaginationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, MockFocusDirective],
-      declarations: [PaginationComponent, MockFeatureDirective],
-      providers: [
+    imports: [I18nTestingModule, MockFocusDirective, PaginationComponent, MockFeatureDirective],
+    providers: [
         {
-          provide: PaginationConfig,
-          useValue: mockPaginationConfig,
+            provide: PaginationConfig,
+            useValue: mockPaginationConfig,
         },
-
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

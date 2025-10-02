@@ -34,18 +34,17 @@ describe('OpfPaymentMethodDetailsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [OpfPaymentMethodDetailsComponent],
-      imports: [I18nTestingModule],
-      providers: [
+    imports: [I18nTestingModule, OpfPaymentMethodDetailsComponent],
+    providers: [
         { provide: TranslationService, useValue: translationServiceMock },
         {
-          provide: OutletContextData,
-          useValue: {
-            context: orderMock,
-          },
+            provide: OutletContextData,
+            useValue: {
+                context: orderMock,
+            },
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

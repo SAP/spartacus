@@ -9,11 +9,21 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { NgFor, NgIf } from '@angular/common';
+import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-configurator-overview-filter-bar',
-  templateUrl: './configurator-overview-filter-bar.component.html',
-  standalone: false,
+    selector: 'cx-configurator-overview-filter-bar',
+    templateUrl: './configurator-overview-filter-bar.component.html',
+    imports: [
+        NgFor,
+        IconComponent,
+        NgIf,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ConfiguratorOverviewFilterBarComponent {
   readonly PREFIX_ID = 'cx-overview-filter-applied-';

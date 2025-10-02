@@ -24,6 +24,9 @@ import {
 } from './media.model';
 import { MediaService } from './media.service';
 import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
+import { NgIf, NgFor } from '@angular/common';
+import { FeatureDirective } from '../../../../core/src/features-config/directives/feature.directive';
+import { MediaSourcesPipe } from './media-sources.pipe';
 
 /**
  * The HTML element rendered in the template can be either `<img>` or `<picture>`,
@@ -48,10 +51,15 @@ import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
  * ```
  */
 @Component({
-  selector: 'cx-media',
-  templateUrl: './media.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-media',
+    templateUrl: './media.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        FeatureDirective,
+        NgFor,
+        MediaSourcesPipe,
+    ],
 })
 export class MediaComponent implements OnChanges {
   /**

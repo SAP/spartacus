@@ -14,24 +14,24 @@ import { MediaModule } from '../../../shared/components/media/media.module';
 import { VideoComponent } from './video.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    GenericLinkModule,
-    MediaModule,
-    I18nModule,
-    SpinnerModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        VideoComponent: {
-          component: VideoComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [VideoComponent],
-  exports: [VideoComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        GenericLinkModule,
+        MediaModule,
+        I18nModule,
+        SpinnerModule,
+        VideoComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                VideoComponent: {
+                    component: VideoComponent,
+                },
+            },
+        }),
+    ],
+    exports: [VideoComponent],
 })
 export class VideoModule {}

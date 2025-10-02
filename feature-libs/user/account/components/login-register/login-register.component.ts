@@ -7,11 +7,18 @@
 import { Component, OnInit, Optional, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RoutingService } from '@spartacus/core';
+import { NgClass } from '@angular/common';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-login-register',
-  templateUrl: './login-register.component.html',
-  standalone: false,
+    selector: 'cx-login-register',
+    templateUrl: './login-register.component.html',
+    imports: [
+        NgClass,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class LoginRegisterComponent implements OnInit {
   loginAsGuest = false;

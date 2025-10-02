@@ -18,30 +18,30 @@ import { LcpContextDirectiveModule } from '../../../shared/lcp-context/lcp-conte
 import { BannerComponent } from './banner.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    GenericLinkModule,
-    MediaModule,
-    FeaturesConfigModule,
-    LcpContextDirectiveModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        SimpleResponsiveBannerComponent: {
-          component: BannerComponent,
-        },
-        BannerComponent: {
-          component: BannerComponent,
-        },
-        SimpleBannerComponent: {
-          component: BannerComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [BannerComponent],
-  exports: [BannerComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        GenericLinkModule,
+        MediaModule,
+        FeaturesConfigModule,
+        LcpContextDirectiveModule,
+        BannerComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                SimpleResponsiveBannerComponent: {
+                    component: BannerComponent,
+                },
+                BannerComponent: {
+                    component: BannerComponent,
+                },
+                SimpleBannerComponent: {
+                    component: BannerComponent,
+                },
+            },
+        }),
+    ],
+    exports: [BannerComponent],
 })
 export class BannerModule {}

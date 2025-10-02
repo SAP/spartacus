@@ -17,23 +17,23 @@ import {
 import { BreadcrumbComponent } from './breadcrumb.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    PageMetaModule,
-    I18nModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        BreadcrumbComponent: {
-          component: BreadcrumbComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [BreadcrumbComponent],
-  exports: [BreadcrumbComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        PageMetaModule,
+        I18nModule,
+        FeaturesConfigModule,
+        BreadcrumbComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                BreadcrumbComponent: {
+                    component: BreadcrumbComponent,
+                },
+            },
+        }),
+    ],
+    exports: [BreadcrumbComponent],
 })
 export class BreadcrumbModule {}

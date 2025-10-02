@@ -12,24 +12,23 @@ describe('LimitCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LimitCellComponent],
-      imports: [UrlTestingModule, I18nTestingModule],
-      providers: [
+    imports: [UrlTestingModule, I18nTestingModule, LimitCellComponent],
+    providers: [
         {
-          provide: OutletContextData,
-          useValue: {
-            context: {
-              orderApprovalPermissionType: {
-                code: 'B2BOrderThresholdTimespanPermission',
-              },
-              currency: { symbol: '$' },
-              periodRange: 'QUARTER',
-              threshold: 10000.0,
-            } as Permission,
-          },
+            provide: OutletContextData,
+            useValue: {
+                context: {
+                    orderApprovalPermissionType: {
+                        code: 'B2BOrderThresholdTimespanPermission',
+                    },
+                    currency: { symbol: '$' },
+                    periodRange: 'QUARTER',
+                    threshold: 10000.0,
+                } as Permission,
+            },
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

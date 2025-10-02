@@ -35,10 +35,7 @@ import { of } from 'rxjs';
 import { OpfB2bCheckoutPaymentTypeComponent } from './opf-b2b-checkout-payment-type.component';
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate', })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -90,26 +87,25 @@ describe('OpfB2bCheckoutPaymentTypeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
-      declarations: [OpfB2bCheckoutPaymentTypeComponent, MockTranslatePipe],
-      providers: [
+    imports: [ReactiveFormsModule, I18nTestingModule, OpfB2bCheckoutPaymentTypeComponent, MockTranslatePipe],
+    providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         {
-          provide: CheckoutPaymentTypeFacade,
-          useClass: MockCheckoutPaymentTypeFacade,
+            provide: CheckoutPaymentTypeFacade,
+            useClass: MockCheckoutPaymentTypeFacade,
         },
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         {
-          provide: OpfMetadataStoreService,
-          useClass: MockOpfMetadataStoreService,
+            provide: OpfMetadataStoreService,
+            useClass: MockOpfMetadataStoreService,
         },
         { provide: OpfPaymentFacade, useClass: MockOpfPaymentFacade },
         { provide: UserIdService, useValue: {} },
         { provide: GlobalMessageService, useValue: {} },
         { provide: ActivatedRoute, useValue: {} },
         FormBuilder,
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(OpfB2bCheckoutPaymentTypeComponent);
     component = fixture.componentInstance;

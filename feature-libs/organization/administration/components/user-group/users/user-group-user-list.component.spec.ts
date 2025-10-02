@@ -42,19 +42,18 @@ describe('UserGroupUserListComponent', () => {
   let userGroupUserListService: UserGroupUserListService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SubListTestingModule, UrlTestingModule, I18nTestingModule],
-      providers: [
+    imports: [SubListTestingModule, UrlTestingModule, I18nTestingModule, UserGroupUserListComponent],
+    providers: [
         {
-          provide: UserGroupUserListService,
-          useClass: MockUserGroupUserListService,
+            provide: UserGroupUserListService,
+            useClass: MockUserGroupUserListService,
         },
         {
-          provide: CurrentUserGroupService,
-          useClass: MockCurrentUserGroupService,
+            provide: CurrentUserGroupService,
+            useClass: MockCurrentUserGroupService,
         },
-      ],
-      declarations: [UserGroupUserListComponent],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     userGroupUserListService = TestBed.inject(UserGroupUserListService);
     fixture = TestBed.createComponent(UserGroupUserListComponent);

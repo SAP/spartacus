@@ -19,19 +19,19 @@ import { PagedListModule } from './paged-list/paged-list.module';
 import { VisualPickingProductListComponent } from './visual-picking-product-list.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    ProductReferencesModule,
-    MediaModule,
-    IconModule,
-    CarouselModule,
-    PagedListModule,
-    UrlModule,
-    I18nModule,
-    CompactAddToCartModule,
-  ],
-  declarations: [VisualPickingProductListComponent],
-  exports: [VisualPickingProductListComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        ProductReferencesModule,
+        MediaModule,
+        IconModule,
+        CarouselModule,
+        PagedListModule,
+        UrlModule,
+        I18nModule,
+        CompactAddToCartModule,
+        VisualPickingProductListComponent,
+    ],
+    exports: [VisualPickingProductListComponent],
 })
 export class VisualPickingProductListModule {}

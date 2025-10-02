@@ -11,14 +11,14 @@ import { PromotionsModule, OutletModule } from '@spartacus/storefront';
 import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-cart-details.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    UrlModule,
-    PromotionsModule,
-    OutletModule,
-  ],
-  declarations: [OpfCheckoutReviewCartDetailsComponent],
-  exports: [OpfCheckoutReviewCartDetailsComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        UrlModule,
+        PromotionsModule,
+        OutletModule,
+        OpfCheckoutReviewCartDetailsComponent,
+    ],
+    exports: [OpfCheckoutReviewCartDetailsComponent],
 })
 export class OpfCheckoutReviewCartDetailsModule {}

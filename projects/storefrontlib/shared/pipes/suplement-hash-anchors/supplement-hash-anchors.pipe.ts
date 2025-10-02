@@ -18,10 +18,7 @@ import { WindowRef } from '@spartacus/core';
  *
  * It's useful for example for cms-provided content passed to the [innerHTML] directive.
  */
-@Pipe({
-  name: 'cxSupplementHashAnchors',
-  standalone: false,
-})
+@Pipe({ name: 'cxSupplementHashAnchors', })
 export class SupplementHashAnchorsPipe implements PipeTransform {
   constructor(
     protected renderer: Renderer2,

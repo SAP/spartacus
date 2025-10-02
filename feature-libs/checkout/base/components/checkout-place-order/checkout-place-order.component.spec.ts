@@ -33,10 +33,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   clear = createSpy();
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -57,17 +54,16 @@ describe('CheckoutPlaceOrderComponent', () => {
       getActive: () => of('en'),
     };
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, AtMessageModule],
-      declarations: [MockUrlPipe, CheckoutPlaceOrderComponent],
-      providers: [
+    imports: [ReactiveFormsModule, I18nTestingModule, AtMessageModule, MockUrlPipe, CheckoutPlaceOrderComponent],
+    providers: [
         { provide: OrderFacade, useClass: MockOrderFacade },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: GlobalMessageService, useValue: {} },
         { provide: CurrencyService, useValue: mockCurrencyService },
         { provide: LanguageService, useValue: mockLanguageService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

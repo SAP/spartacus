@@ -12,14 +12,14 @@ import { AtMessageModule } from '../../../shared/components/assistive-technology
 import { MessageComponent } from './message.component';
 
 @NgModule({
-  imports: [
-    AtMessageModule,
-    CommonModule,
-    I18nModule,
-    IconModule,
-    FeaturesConfigModule,
-  ],
-  declarations: [MessageComponent],
-  exports: [MessageComponent],
+    imports: [
+        AtMessageModule,
+        CommonModule,
+        I18nModule,
+        IconModule,
+        FeaturesConfigModule,
+        MessageComponent,
+    ],
+    exports: [MessageComponent],
 })
 export class MessageComponentModule {}

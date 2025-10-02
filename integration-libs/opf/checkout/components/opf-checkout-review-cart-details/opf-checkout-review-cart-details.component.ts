@@ -10,12 +10,21 @@ import {
   CartOutlets,
   Cart,
 } from '@spartacus/cart/base/root';
+import { PromotionsComponent } from '../../../../../projects/storefrontlib/cms-components/misc/promotions/promotions.component';
+import { OutletDirective } from '../../../../../projects/storefrontlib/cms-structure/outlet/outlet.directive';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-opf-checkout-review-cart-details',
-  templateUrl: './opf-checkout-review-cart-details.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-opf-checkout-review-cart-details',
+    templateUrl: './opf-checkout-review-cart-details.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        PromotionsComponent,
+        OutletDirective,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class OpfCheckoutReviewCartDetailsComponent {
   @Input() cart: Cart | null;

@@ -22,10 +22,7 @@ import { defaultConfiguratorUISettingsConfig } from '../../../config/default-con
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]', })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
@@ -53,30 +50,27 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeInputFieldComponent,
-        MockFocusDirective,
-      ],
-      imports: [ReactiveFormsModule, I18nTestingModule],
-      providers: [
+    imports: [ReactiveFormsModule, I18nTestingModule, ConfiguratorAttributeInputFieldComponent,
+        MockFocusDirective],
+    providers: [
         {
-          provide: ConfiguratorUISettingsConfig,
-          useValue: defaultConfiguratorUISettingsConfig,
+            provide: ConfiguratorUISettingsConfig,
+            useValue: defaultConfiguratorUISettingsConfig,
         },
         {
-          provide: ConfiguratorAttributeCompositionContext,
-          useValue: ConfiguratorTestUtils.getAttributeContext(),
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
         },
         {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(ConfiguratorAttributeInputFieldComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

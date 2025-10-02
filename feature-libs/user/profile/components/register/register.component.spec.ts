@@ -66,18 +66,21 @@ const mockTitlesList: Title[] = [
   },
 ];
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
-  standalone: false,
+    selector: 'cx-spinner',
+    template: '',
+    imports: [ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        NgSelectModule,
+        PasswordVisibilityToggleModule,
+        NgSelectA11yModule,
+        CaptchaModule,],
 })
 class MockSpinnerComponent {}
 
@@ -170,7 +173,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         I18nTestingModule,
         FormErrorsModule,
@@ -178,52 +181,50 @@ describe('RegisterComponent', () => {
         PasswordVisibilityToggleModule,
         NgSelectA11yModule,
         CaptchaModule,
-      ],
-      declarations: [
         RegisterComponent,
         MockUrlPipe,
         MockSpinnerComponent,
         MockFeatureDirective,
-      ],
-      providers: [
+    ],
+    providers: [
         {
-          provide: RegisterComponentService,
-          useClass: MockRegisterComponentService,
+            provide: RegisterComponentService,
+            useClass: MockRegisterComponentService,
         },
         {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
         {
-          provide: AnonymousConsentsService,
-          useClass: MockAnonymousConsentsService,
+            provide: AnonymousConsentsService,
+            useClass: MockAnonymousConsentsService,
         },
         {
-          provide: AnonymousConsentsConfig,
-          useValue: mockAnonymousConsentsConfig,
+            provide: AnonymousConsentsConfig,
+            useValue: mockAnonymousConsentsConfig,
         },
         {
-          provide: AuthConfigService,
-          useClass: MockAuthConfigService,
+            provide: AuthConfigService,
+            useClass: MockAuthConfigService,
         },
         {
-          provide: SiteAdapter,
-          useClass: MockSiteAdapter,
+            provide: SiteAdapter,
+            useClass: MockSiteAdapter,
         },
         {
-          provide: BaseSiteService,
-          useClass: MockBaseSiteService,
+            provide: BaseSiteService,
+            useClass: MockBaseSiteService,
         },
         {
-          provide: LanguageService,
-          useClass: MockLanguageService,
+            provide: LanguageService,
+            useClass: MockLanguageService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

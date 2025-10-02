@@ -19,12 +19,33 @@ import {
   OrderHistoryView,
 } from '@spartacus/order/root';
 import { OrderCriticalStatus } from '../my-account-v2-order-history.model';
+import { NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
+import { MyAccountV2ConsignmentEntriesComponent } from '../consignment-entries/my-account-v2-consignment-entries.component';
+import { RouterLink } from '@angular/router';
+import { MediaComponent } from '../../../../../../projects/storefrontlib/shared/components/media/media.component';
+import { UrlPipe } from '../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { CxDatePipe } from '../../../../../../projects/core/src/i18n/date.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { MockDatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-  selector: 'cx-my-account-v2-order-consolidated-information',
-  templateUrl: './my-account-v2-order-consolidated-information.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-my-account-v2-order-consolidated-information',
+    templateUrl: './my-account-v2-order-consolidated-information.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        NgTemplateOutlet,
+        MyAccountV2ConsignmentEntriesComponent,
+        NgFor,
+        RouterLink,
+        MediaComponent,
+        UrlPipe,
+        TranslatePipe,
+        CxDatePipe,
+        MockTranslatePipe,
+        MockDatePipe,
+    ],
 })
 export class MyAccountV2OrderConsolidatedInformationComponent {
   protected orderConsignmentsService = inject(

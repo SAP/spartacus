@@ -18,14 +18,14 @@ describe('ProfileTagComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ProfileTagComponent],
-      providers: [
+    imports: [ProfileTagComponent],
+    providers: [
         {
-          provide: ProfileTagInjectorService,
-          useClass: MockProfileTagInjector,
+            provide: ProfileTagInjectorService,
+            useClass: MockProfileTagInjector,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

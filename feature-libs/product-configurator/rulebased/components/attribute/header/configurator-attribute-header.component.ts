@@ -23,12 +23,26 @@ import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-setti
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { ConfiguratorShowOptionsComponent } from '../show-options/configurator-show-options.component';
+import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-configurator-attribute-header',
-  templateUrl: './configurator-attribute-header.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-configurator-attribute-header',
+    templateUrl: './configurator-attribute-header.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        IconComponent,
+        ConfiguratorShowOptionsComponent,
+        ConfiguratorShowMoreComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ConfiguratorAttributeHeaderComponent
   extends ConfiguratorAttributeBaseComponent

@@ -54,10 +54,7 @@ class MockConfiguratorTextfieldService {
   updateCartEntry(): void {}
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -84,22 +81,19 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ConfiguratorTextfieldAddToCartButtonComponent,
-        MockUrlPipe,
-      ],
-      providers: [
+    imports: [I18nTestingModule, ConfiguratorTextfieldAddToCartButtonComponent,
+        MockUrlPipe],
+    providers: [
         {
-          provide: ConfiguratorTextfieldService,
-          useClass: MockConfiguratorTextfieldService,
+            provide: ConfiguratorTextfieldService,
+            useClass: MockConfiguratorTextfieldService,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(ConfiguratorTextfieldAddToCartButtonComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

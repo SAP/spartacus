@@ -5,7 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   AsmCreateCustomerFacade,
   CustomerRegistrationForm,
@@ -25,11 +25,30 @@ import {
 import { BehaviorSubject } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { CreatedCustomer } from './asm-create-customer-form.model';
+import { FocusDirective } from '../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { MessageComponent } from '../../../../projects/storefrontlib/cms-components/misc/message/message.component';
+import { FormErrorsComponent } from '../../../../projects/storefrontlib/shared/components/form/form-errors/form-errors.component';
+import { SpinnerComponent } from '../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
+import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-asm-create-customer-form',
-  templateUrl: './asm-create-customer-form.component.html',
-  standalone: false,
+    selector: 'cx-asm-create-customer-form',
+    templateUrl: './asm-create-customer-form.component.html',
+    imports: [
+        FocusDirective,
+        FormsModule,
+        ReactiveFormsModule,
+        NgIf,
+        MessageComponent,
+        NgFor,
+        FormErrorsComponent,
+        SpinnerComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class AsmCreateCustomerFormComponent {
   createdCustomer: CreatedCustomer;

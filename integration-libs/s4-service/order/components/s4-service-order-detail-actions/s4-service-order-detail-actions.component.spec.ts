@@ -34,10 +34,7 @@ const mockOrder3 = {
   status: 'PENDING',
 };
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -59,9 +56,9 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 }
 
 @Component({
-  template: '',
-  selector: 'cx-order-details-actions',
-  standalone: false,
+    template: '',
+    selector: 'cx-order-details-actions',
+    imports: [I18nModule],
 })
 class MockOrderDetailActionsComponent {}
 
@@ -79,23 +76,20 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
     }
 
     TestBed.configureTestingModule({
-      imports: [I18nModule],
-      providers: [
+    imports: [I18nModule, S4ServiceOrderDetailActionsComponent,
+        MockUrlPipe,
+        MockOrderDetailActionsComponent],
+    providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         { provide: RoutingService, useClass: MockRoutingService },
         {
-          provide: CheckoutServiceSchedulePickerService,
-          useClass: MockCheckoutServiceSchedulePickerService,
+            provide: CheckoutServiceSchedulePickerService,
+            useClass: MockCheckoutServiceSchedulePickerService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-      ],
-      declarations: [
-        S4ServiceOrderDetailActionsComponent,
-        MockUrlPipe,
-        MockOrderDetailActionsComponent,
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(S4ServiceOrderDetailActionsComponent);
     checkoutServiceSchedulePickerService = TestBed.inject(

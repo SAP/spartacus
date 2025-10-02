@@ -104,88 +104,86 @@ const moduleComponents = [
 ];
 
 @NgModule({
-  imports: [
-    CardModule,
-    CommonModule,
-    I18nModule,
-    FeaturesConfigModule,
-    PromotionsModule,
-    UrlModule,
-    SpinnerModule,
-    RouterModule,
-    OutletModule,
-    AddToCartModule,
-    KeyboardFocusModule,
-    IconModule,
-    MyAccountV2DownloadInvoicesModule,
-    AbstractOrderContextModule,
-    BtnLikeLinkModule,
-    MessageComponentModule,
-  ],
-  providers: [
-    OrderOverviewComponentService,
-    provideDefaultConfig(<CmsConfig | FeaturesConfig>{
-      cmsComponents: {
-        AccountOrderDetailsActionsComponent: {
-          component: OrderDetailActionsComponent,
-          guards: [AuthGuard],
+    imports: [
+        CardModule,
+        CommonModule,
+        I18nModule,
+        FeaturesConfigModule,
+        PromotionsModule,
+        UrlModule,
+        SpinnerModule,
+        RouterModule,
+        OutletModule,
+        AddToCartModule,
+        KeyboardFocusModule,
+        IconModule,
+        MyAccountV2DownloadInvoicesModule,
+        AbstractOrderContextModule,
+        BtnLikeLinkModule,
+        MessageComponentModule,
+        ...moduleComponents,
+    ],
+    providers: [
+        OrderOverviewComponentService,
+        provideDefaultConfig(<CmsConfig | FeaturesConfig>{
+            cmsComponents: {
+                AccountOrderDetailsActionsComponent: {
+                    component: OrderDetailActionsComponent,
+                    guards: [AuthGuard],
+                },
+                AccountOrderDetailsItemsComponent: {
+                    component: OrderDetailItemsComponent,
+                    guards: [AuthGuard],
+                    data: {
+                        enableAddToCart: true,
+                    },
+                },
+                AccountOrderDetailsGroupedItemsComponent: {
+                    component: OrderDetailItemsComponent,
+                    guards: [AuthGuard],
+                    data: {
+                        enableAddToCart: true,
+                        groupCartItems: true,
+                    },
+                },
+                AccountOrderDetailsTotalsComponent: {
+                    component: OrderDetailTotalsComponent,
+                    guards: [AuthGuard],
+                },
+                AccountOrderDetailsOverviewComponent: {
+                    component: OrderOverviewComponent,
+                    guards: [AuthGuard],
+                },
+                AccountOrderDetailsSimpleOverviewComponent: {
+                    component: OrderOverviewComponent,
+                    guards: [AuthGuard],
+                    data: {
+                        simple: true,
+                    },
+                },
+                AccountOrderDetailsReorderComponent: {
+                    component: OrderDetailReorderComponent,
+                    guards: [AuthGuard],
+                },
+                AccountOrderAttachmentsComponent: {
+                    component: OrderAttachmentsComponent,
+                    guards: [AuthGuard],
+                },
+            },
+            features: {
+                consignmentTracking: '1.2',
+            },
+        }),
+        provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
+        provideDefaultConfig(defaultReorderLayoutConfig),
+        provideDefaultConfig(defaultOrderAttachmentsDialogLayoutConfig),
+        provideDefaultConfigFactory(() => inject(USE_MY_ACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}),
+        {
+            provide: MODULE_INITIALIZER,
+            useFactory: registerOrderOutletFactory,
+            multi: true,
         },
-        AccountOrderDetailsItemsComponent: {
-          component: OrderDetailItemsComponent,
-          guards: [AuthGuard],
-          data: {
-            enableAddToCart: true,
-          },
-        },
-        AccountOrderDetailsGroupedItemsComponent: {
-          component: OrderDetailItemsComponent,
-          guards: [AuthGuard],
-          data: {
-            enableAddToCart: true,
-            groupCartItems: true,
-          },
-        },
-        AccountOrderDetailsTotalsComponent: {
-          component: OrderDetailTotalsComponent,
-          guards: [AuthGuard],
-        },
-        AccountOrderDetailsOverviewComponent: {
-          component: OrderOverviewComponent,
-          guards: [AuthGuard],
-        },
-        AccountOrderDetailsSimpleOverviewComponent: {
-          component: OrderOverviewComponent,
-          guards: [AuthGuard],
-          data: {
-            simple: true,
-          },
-        },
-        AccountOrderDetailsReorderComponent: {
-          component: OrderDetailReorderComponent,
-          guards: [AuthGuard],
-        },
-        AccountOrderAttachmentsComponent: {
-          component: OrderAttachmentsComponent,
-          guards: [AuthGuard],
-        },
-      },
-      features: {
-        consignmentTracking: '1.2',
-      },
-    }),
-    provideDefaultConfig(defaultConsignmentTrackingLayoutConfig),
-    provideDefaultConfig(defaultReorderLayoutConfig),
-    provideDefaultConfig(defaultOrderAttachmentsDialogLayoutConfig),
-    provideDefaultConfigFactory(() =>
-      inject(USE_MY_ACCOUNT_V2_ORDER) ? myAccountV2CmsMapping : {}
-    ),
-    {
-      provide: MODULE_INITIALIZER,
-      useFactory: registerOrderOutletFactory,
-      multi: true,
-    },
-  ],
-  declarations: [...moduleComponents],
-  exports: [...moduleComponents],
+    ],
+    exports: [...moduleComponents],
 })
 export class OrderDetailsModule {}

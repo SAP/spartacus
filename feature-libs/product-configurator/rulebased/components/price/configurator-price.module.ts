@@ -10,8 +10,7 @@ import { ConfiguratorPriceComponent } from './configurator-price.component';
 import { I18nModule } from '@spartacus/core';
 
 @NgModule({
-  declarations: [ConfiguratorPriceComponent],
-  exports: [ConfiguratorPriceComponent],
-  imports: [CommonModule, I18nModule],
+    exports: [ConfiguratorPriceComponent],
+    imports: [CommonModule, I18nModule, ConfiguratorPriceComponent],
 })
 export class ConfiguratorPriceModule {}

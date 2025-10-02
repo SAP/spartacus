@@ -13,17 +13,16 @@ import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CheckoutReviewOverviewComponent } from './checkout-review-overview.component';
 
 @NgModule({
-  declarations: [CheckoutReviewOverviewComponent],
-  imports: [CommonModule, PromotionsModule, I18nModule],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CheckoutReviewOverview: {
-          component: CheckoutReviewOverviewComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
-        },
-      },
-    }),
-  ],
+    imports: [CommonModule, PromotionsModule, I18nModule, CheckoutReviewOverviewComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CheckoutReviewOverview: {
+                    component: CheckoutReviewOverviewComponent,
+                    guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+                },
+            },
+        }),
+    ],
 })
 export class CheckoutReviewOverviewModule {}

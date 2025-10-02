@@ -19,12 +19,27 @@ import {
   FocusConfig,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { FocusDirective } from '../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { InvoicesListComponent as InvoicesListComponent_1 } from '../../../../../pdf-invoices/components/invoices-list/invoices-list.component';
+import { NgIf } from '@angular/common';
+import { SpinnerComponent } from '../../../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-my-account-v2-download-invoices',
-  templateUrl: './my-account-v2-download-invoices.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-my-account-v2-download-invoices',
+    templateUrl: './my-account-v2-download-invoices.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        FocusDirective,
+        IconComponent,
+        InvoicesListComponent_1,
+        NgIf,
+        SpinnerComponent,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class MyAccountV2DownloadInvoicesComponent implements AfterViewChecked {
   @ViewChild(InvoicesListComponent, { static: false })

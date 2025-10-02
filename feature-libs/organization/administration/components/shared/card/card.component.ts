@@ -16,14 +16,35 @@ import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { MessageService } from '../message/services/message.service';
 import { BaseItem } from '../organization.model';
+import { ViewComponent as ViewComponent_1 } from '../../../../../../projects/storefrontlib/shared/components/split-view/view/view.component';
+import { FeatureDirective } from '../../../../../../projects/core/src/features-config/directives/feature.directive';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { PopoverDirective } from '../../../../../../projects/storefrontlib/shared/components/popover/popover.directive';
+import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { MessageComponent } from '../message/message.component';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-org-card',
-  templateUrl: './card.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
-  providers: [MessageService],
-  standalone: false,
+    selector: 'cx-org-card',
+    templateUrl: './card.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'content-wrapper' },
+    providers: [MessageService],
+    imports: [
+        ViewComponent_1,
+        FeatureDirective,
+        NgIf,
+        PopoverDirective,
+        IconComponent,
+        RouterLink,
+        MessageComponent,
+        RouterOutlet,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class CardComponent<T extends BaseItem> {
   @Input() i18nRoot: string;

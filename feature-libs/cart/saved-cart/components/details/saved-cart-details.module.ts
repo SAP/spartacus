@@ -28,44 +28,42 @@ import { SavedCartDetailsItemsComponent } from './saved-cart-details-items/saved
 import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview/saved-cart-details-overview.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    UrlModule,
-    RouterModule,
-    CardModule,
-    MediaModule,
-    IconModule,
-    SpinnerModule,
-    OutletModule,
-    AddToCartModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        SavedCartDetailsOverviewComponent: {
-          component: SavedCartDetailsOverviewComponent,
-          guards: [AuthGuard],
-        },
-        SavedCartDetailsItemsComponent: {
-          component: SavedCartDetailsItemsComponent,
-          guards: [AuthGuard],
-        },
-        SavedCartDetailsActionComponent: {
-          component: SavedCartDetailsActionComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-    FeaturesConfigModule,
-  ],
-  declarations: [
-    SavedCartDetailsOverviewComponent,
-    SavedCartDetailsActionComponent,
-    SavedCartDetailsItemsComponent,
-  ],
-  exports: [
-    SavedCartDetailsOverviewComponent,
-    SavedCartDetailsActionComponent,
-    SavedCartDetailsItemsComponent,
-  ],
+    imports: [
+        CommonModule,
+        I18nModule,
+        UrlModule,
+        RouterModule,
+        CardModule,
+        MediaModule,
+        IconModule,
+        SpinnerModule,
+        OutletModule,
+        AddToCartModule,
+        ConfigModule.withConfig(<CmsConfig>{
+            cmsComponents: {
+                SavedCartDetailsOverviewComponent: {
+                    component: SavedCartDetailsOverviewComponent,
+                    guards: [AuthGuard],
+                },
+                SavedCartDetailsItemsComponent: {
+                    component: SavedCartDetailsItemsComponent,
+                    guards: [AuthGuard],
+                },
+                SavedCartDetailsActionComponent: {
+                    component: SavedCartDetailsActionComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+        FeaturesConfigModule,
+        SavedCartDetailsOverviewComponent,
+        SavedCartDetailsActionComponent,
+        SavedCartDetailsItemsComponent,
+    ],
+    exports: [
+        SavedCartDetailsOverviewComponent,
+        SavedCartDetailsActionComponent,
+        SavedCartDetailsItemsComponent,
+    ],
 })
 export class SavedCartDetailsModule {}

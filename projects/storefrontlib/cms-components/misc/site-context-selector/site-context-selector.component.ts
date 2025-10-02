@@ -19,12 +19,19 @@ import { map, Observable } from 'rxjs';
 import { ICON_TYPE } from '../icon/icon.model';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextType } from './site-context.model';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { IconComponent } from '../icon/icon.component';
 
 @Component({
-  selector: 'cx-site-context-selector',
-  templateUrl: './site-context-selector.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-site-context-selector',
+    templateUrl: './site-context-selector.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        NgFor,
+        IconComponent,
+        AsyncPipe,
+    ],
 })
 export class SiteContextSelectorComponent {
   /**

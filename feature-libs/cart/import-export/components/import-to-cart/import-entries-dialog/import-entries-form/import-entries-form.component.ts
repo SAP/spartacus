@@ -12,11 +12,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrderEntriesSource, ProductData } from '@spartacus/cart/base/root';
 import { ImportExportConfig } from '@spartacus/cart/import-export/core';
 import {
@@ -29,12 +25,29 @@ import { of, Subject } from 'rxjs';
 import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
 import { GlobalMessageType } from '@spartacus/core';
+import { NgIf } from '@angular/common';
+import { MessageComponent } from '../../../../../../../projects/storefrontlib/cms-components/misc/message/message.component';
+import { FocusDirective } from '../../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { FileUploadComponent } from '../../../../../../../projects/storefrontlib/shared/components/form/file-upload/file-upload.component';
+import { FormErrorsComponent } from '../../../../../../../projects/storefrontlib/shared/components/form/form-errors/form-errors.component';
+import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-import-entries-form',
-  templateUrl: './import-entries-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-import-entries-form',
+    templateUrl: './import-entries-form.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        FormsModule,
+        ReactiveFormsModule,
+        MessageComponent,
+        FocusDirective,
+        FileUploadComponent,
+        FormErrorsComponent,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ImportEntriesFormComponent implements OnInit {
   form: UntypedFormGroup;

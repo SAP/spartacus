@@ -44,9 +44,13 @@ const mockAddress: Address = {
 };
 
 @Component({
-  selector: 'cx-card',
-  template: '',
-  standalone: false,
+    selector: 'cx-card',
+    template: '',
+    imports: [ReactiveFormsModule,
+        NgSelectModule,
+        NgSelectA11yModule,
+        I18nTestingModule,
+        FormErrorsModule,],
 })
 class MockCardComponent {
   @Input()
@@ -99,26 +103,26 @@ describe('CheckoutBillingAddressFormComponent', () => {
     mockGlobalMessageService = new MockGlobalMessageService();
 
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         NgSelectModule,
         NgSelectA11yModule,
         I18nTestingModule,
         FormErrorsModule,
-      ],
-      declarations: [CheckoutBillingAddressFormComponent, MockCardComponent],
-      providers: [
+        CheckoutBillingAddressFormComponent, MockCardComponent,
+    ],
+    providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: CheckoutDeliveryAddressFacade,
-          useValue: mockCheckoutDeliveryService,
+            provide: CheckoutDeliveryAddressFacade,
+            useValue: mockCheckoutDeliveryService,
         },
         { provide: UserPaymentService, useValue: mockUserPaymentService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
         { provide: UserAddressService, useClass: MockUserAddressService },
         CheckoutBillingAddressFormService,
-      ],
-    })
+    ],
+})
       .overrideComponent(CheckoutBillingAddressFormComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })

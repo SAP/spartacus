@@ -23,27 +23,27 @@ import {
 } from '@spartacus/storefront';
 
 @NgModule({
-  declarations: [CancelServiceOrderHeadlineComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    I18nModule,
-    CardModule,
-    UrlModule,
-    PromotionsModule,
-    IconModule,
-    OutletModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CancelServiceOrderHeadline: {
-          component: CancelServiceOrderHeadlineComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-  ],
-  exports: [CancelServiceOrderHeadlineComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        I18nModule,
+        CardModule,
+        UrlModule,
+        PromotionsModule,
+        IconModule,
+        OutletModule,
+        CancelServiceOrderHeadlineComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CancelServiceOrderHeadline: {
+                    component: CancelServiceOrderHeadlineComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+    ],
+    exports: [CancelServiceOrderHeadlineComponent],
 })
 export class CancelServiceOrderHeadlineModule {}

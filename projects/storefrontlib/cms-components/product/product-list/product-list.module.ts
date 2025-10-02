@@ -37,69 +37,67 @@ import { ProductListService } from './product-list.service';
 import { ProductViewComponent } from './product-view/product-view.component';
 
 @NgModule({
-  imports: [
-    AtMessageModule,
-    CommonModule,
-    I18nModule,
-    IconModule,
-    InfiniteScrollModule,
-    ItemCounterModule,
-    ListNavigationModule,
-    MediaModule,
-    OutletModule,
-    PageComponentModule,
-    RouterModule,
-    SpinnerModule,
-    StarRatingModule,
-    UrlModule,
-    FeaturesConfigModule,
-    LcpContextDirectiveModule,
-  ],
-  providers: [
-    ProductListService,
-    provideDefaultConfig(<ViewConfig>defaultViewConfig),
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CMSProductListComponent: {
-          component: ProductListComponent,
-          data: {
-            composition: {
-              inner: ['ProductAddToCartComponent'],
+    imports: [
+        AtMessageModule,
+        CommonModule,
+        I18nModule,
+        IconModule,
+        InfiniteScrollModule,
+        ItemCounterModule,
+        ListNavigationModule,
+        MediaModule,
+        OutletModule,
+        PageComponentModule,
+        RouterModule,
+        SpinnerModule,
+        StarRatingModule,
+        UrlModule,
+        FeaturesConfigModule,
+        LcpContextDirectiveModule,
+        ProductListComponent,
+        ProductListItemComponent,
+        ProductGridItemComponent,
+        ProductViewComponent,
+        ProductScrollComponent,
+    ],
+    providers: [
+        ProductListService,
+        provideDefaultConfig(<ViewConfig>defaultViewConfig),
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CMSProductListComponent: {
+                    component: ProductListComponent,
+                    data: {
+                        composition: {
+                            inner: ['ProductAddToCartComponent'],
+                        },
+                    },
+                },
+                ProductGridComponent: {
+                    component: ProductListComponent,
+                    data: {
+                        composition: {
+                            inner: ['ProductAddToCartComponent'],
+                        },
+                    },
+                },
+                SearchResultsListComponent: {
+                    component: ProductListComponent,
+                    data: {
+                        composition: {
+                            inner: ['ProductAddToCartComponent'],
+                        },
+                    },
+                },
             },
-          },
-        },
-        ProductGridComponent: {
-          component: ProductListComponent,
-          data: {
-            composition: {
-              inner: ['ProductAddToCartComponent'],
-            },
-          },
-        },
-        SearchResultsListComponent: {
-          component: ProductListComponent,
-          data: {
-            composition: {
-              inner: ['ProductAddToCartComponent'],
-            },
-          },
-        },
-      },
-    }),
-  ],
-  declarations: [
-    ProductListComponent,
-    ProductListItemComponent,
-    ProductGridItemComponent,
-    ProductViewComponent,
-    ProductScrollComponent,
-  ],
-  exports: [
-    ProductListComponent,
-    ProductListItemComponent,
-    ProductGridItemComponent,
-    ProductViewComponent,
-    ProductScrollComponent,
-  ],
+        }),
+    ],
+    exports: [
+        ProductListComponent,
+        ProductListItemComponent,
+        ProductGridItemComponent,
+        ProductViewComponent,
+        ProductScrollComponent,
+    ],
 })
 export class ProductListModule {}

@@ -54,27 +54,25 @@ describe('CostCenterFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         I18nTestingModule,
         UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         FormTestingModule,
-      ],
-      declarations: [
         CostCenterFormComponent,
         FormErrorsComponent,
         MockFeatureDirective,
-      ],
-      providers: [
+    ],
+    providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         {
-          provide: CostCenterItemService,
-          useClass: MockItemService,
+            provide: CostCenterItemService,
+            useClass: MockItemService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     currencyService = TestBed.inject(CurrencyService);
     b2bUnitService = TestBed.inject(OrgUnitService);

@@ -40,36 +40,36 @@ function createValue(code: string, name: string, isSelected: boolean) {
 
 class MockGroupService {}
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]', })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
 
 @Component({
-  selector: 'cx-configurator-attribute-quantity',
-  template: '',
-  standalone: false,
+    selector: 'cx-configurator-attribute-quantity',
+    template: '',
+    imports: [I18nTestingModule,
+        ReactiveFormsModule],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
 }
 
 @Component({
-  selector: 'cx-configurator-price',
-  template: '',
-  standalone: false,
+    selector: 'cx-configurator-price',
+    template: '',
+    imports: [I18nTestingModule,
+        ReactiveFormsModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
 @Component({
-  selector: 'cx-configurator-show-more',
-  template: '',
-  standalone: false,
+    selector: 'cx-configurator-show-more',
+    template: '',
+    imports: [I18nTestingModule,
+        ReactiveFormsModule],
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
@@ -121,7 +121,11 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       },
     });
     TestBed.configureTestingModule({
-      declarations: [
+    imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
         ConfiguratorAttributeRadioButtonComponent,
         ConfiguratorAttributeInputFieldComponent,
         ConfiguratorAttributeNumericInputFieldComponent,
@@ -130,29 +134,23 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         MockConfiguratorAttributeQuantityComponent,
         MockConfiguratorPriceComponent,
         MockConfiguratorShowMoreComponent,
-      ],
-      imports: [
-        I18nTestingModule,
-        ReactiveFormsModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
-      ],
-      providers: [
+    ],
+    providers: [
         ConfiguratorStorefrontUtilsService,
         {
-          provide: ConfiguratorGroupsService,
-          useClass: MockGroupService,
+            provide: ConfiguratorGroupsService,
+            useClass: MockGroupService,
         },
         {
-          provide: ConfiguratorAttributeCompositionContext,
-          useValue: ConfiguratorTestUtils.getAttributeContext(),
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
         {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfigUtilsService,
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfigUtilsService,
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

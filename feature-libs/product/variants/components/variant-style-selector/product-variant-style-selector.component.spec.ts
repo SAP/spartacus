@@ -54,10 +54,7 @@ const mockQualifiers = [
 ];
 const mockQualifiers2 = {} as VariantOptionQualifier;
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform(options: UrlCommandRoute): string {
     return options.cxRoute;
@@ -91,20 +88,19 @@ describe('ProductVariantStyleSelectorComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductVariantStyleSelectorComponent, MockUrlPipe],
-      imports: [I18nTestingModule],
-      providers: [
+    imports: [I18nTestingModule, ProductVariantStyleSelectorComponent, MockUrlPipe],
+    providers: [
         {
-          provide: OccConfig,
-          useValue: { backend: { occ: { baseUrl: mockOccBackendUrl } } },
+            provide: OccConfig,
+            useValue: { backend: { occ: { baseUrl: mockOccBackendUrl } } },
         },
         {
-          provide: ProductService,
-          useClass: MockProductService,
+            provide: ProductService,
+            useClass: MockProductService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   describe('Empty config scenario', () => {

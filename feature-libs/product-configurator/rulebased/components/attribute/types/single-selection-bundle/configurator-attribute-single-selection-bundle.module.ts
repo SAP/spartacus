@@ -17,30 +17,29 @@ import { ConfiguratorPriceModule } from '../../../price/configurator-price.modul
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ConfiguratorAttributeProductCardModule,
-    ConfiguratorAttributeQuantityModule,
-    FormsModule,
-    I18nModule,
-    ItemCounterModule,
-    KeyboardFocusModule,
-    ReactiveFormsModule,
-    RouterModule,
-    UrlModule,
-    ConfiguratorPriceModule,
-  ],
-  providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
-      productConfigurator: {
-        assignment: {
-          AttributeType_radioGroupProduct:
-            ConfiguratorAttributeSingleSelectionBundleComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ConfiguratorAttributeSingleSelectionBundleComponent],
-  exports: [ConfiguratorAttributeSingleSelectionBundleComponent],
+    imports: [
+        CommonModule,
+        ConfiguratorAttributeProductCardModule,
+        ConfiguratorAttributeQuantityModule,
+        FormsModule,
+        I18nModule,
+        ItemCounterModule,
+        KeyboardFocusModule,
+        ReactiveFormsModule,
+        RouterModule,
+        UrlModule,
+        ConfiguratorPriceModule,
+        ConfiguratorAttributeSingleSelectionBundleComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+            productConfigurator: {
+                assignment: {
+                    AttributeType_radioGroupProduct: ConfiguratorAttributeSingleSelectionBundleComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ConfiguratorAttributeSingleSelectionBundleComponent],
 })
 export class ConfiguratorAttributeSingleSelectionBundleModule {}

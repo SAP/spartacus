@@ -18,14 +18,27 @@ import { TrendingSearchesService } from './trending-searches.service';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { EMPTY, Observable } from 'rxjs';
 import { SearchBoxOutletTrendingSearches, SearchPhrases } from './model';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { UrlPipe } from '../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 const MAX_TRENDING_SEARCHES = 5;
 
 @Component({
-  selector: 'cx-trending-searches',
-  templateUrl: './trending-searches.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-trending-searches',
+    templateUrl: './trending-searches.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        NgFor,
+        RouterLink,
+        AsyncPipe,
+        TranslatePipe,
+        UrlPipe,
+        MockTranslatePipe,
+    ],
 })
 export class TrendingSearchesComponent implements OnInit {
   public searchPhrases$: Observable<SearchPhrases[]>;

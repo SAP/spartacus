@@ -36,20 +36,18 @@ describe('ToggleStatusComponent', () => {
   let messageService: MessageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, I18nTestingModule],
-      declarations: [ToggleStatusComponent],
-
-      providers: [
+    imports: [CommonModule, I18nTestingModule, ToggleStatusComponent],
+    providers: [
         {
-          provide: MessageService,
-          useClass: MockMessageService,
+            provide: MessageService,
+            useClass: MockMessageService,
         },
         {
-          provide: ItemService,
-          useClass: MockItemService,
+            provide: ItemService,
+            useClass: MockItemService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(ToggleStatusComponent);
     component = fixture.componentInstance;

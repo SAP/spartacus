@@ -6,12 +6,20 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CellComponent } from '../cell.component';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { UrlPipe } from '../../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
 
 @Component({
-  selector: 'cx-org-unit-cell',
-  templateUrl: '../cell.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-org-unit-cell',
+    templateUrl: '../cell.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        RouterLink,
+        NgTemplateOutlet,
+        UrlPipe,
+    ],
 })
 export class UnitCellComponent extends CellComponent {
   get property() {

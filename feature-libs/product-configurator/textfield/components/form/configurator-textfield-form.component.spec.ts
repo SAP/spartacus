@@ -79,28 +79,26 @@ describe('TextfieldFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         I18nTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         PageLayoutModule,
-      ],
-      declarations: [
         ConfiguratorTextfieldFormComponent,
         ConfiguratorTextfieldInputFieldComponent,
         ConfiguratorTextfieldAddToCartButtonComponent,
-      ],
-      providers: [
+    ],
+    providers: [
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
         {
-          provide: ConfiguratorTextfieldService,
-          useClass: MockConfiguratorTextfieldService,
+            provide: ConfiguratorTextfieldService,
+            useClass: MockConfiguratorTextfieldService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTextfieldFormComponent);

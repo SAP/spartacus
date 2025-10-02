@@ -24,13 +24,14 @@ import {
   ProductListOutlets,
 } from '@spartacus/storefront';
 import { EMPTY, Observable, Subscription } from 'rxjs';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'cx-variant-style-icons',
-  templateUrl: './product-variant-style-icons.component.html',
-  styleUrls: ['./product-variant-style-icons.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-variant-style-icons',
+    templateUrl: './product-variant-style-icons.component.html',
+    styleUrls: ['./product-variant-style-icons.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgIf, NgFor],
 })
 export class ProductVariantStyleIconsComponent implements OnInit, OnDestroy {
   constructor(

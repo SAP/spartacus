@@ -14,10 +14,7 @@ import { TrackingEventsComponent } from './tracking-events.component';
 
 const shipDate = new Date('2019-02-11T13:05:12+0000');
 
-@Pipe({
-  name: 'cxTranslateUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslateUrl', })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -40,18 +37,18 @@ describe('TrackingEventsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         SpinnerModule,
         I18nTestingModule,
         KeyboardFocusTestingModule,
         IconTestingModule,
-      ],
-      declarations: [TrackingEventsComponent, MockTranslateUrlPipe],
-      providers: [
+        TrackingEventsComponent, MockTranslateUrlPipe,
+    ],
+    providers: [
         { provide: OrderHistoryFacade, useValue: userOrderService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     launchDialogService = TestBed.inject(LaunchDialogService);
   }));

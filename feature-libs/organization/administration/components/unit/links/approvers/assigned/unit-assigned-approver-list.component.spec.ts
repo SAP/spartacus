@@ -13,15 +13,14 @@ describe('UnitAssignedApproverListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SubListTestingModule, UrlTestingModule, I18nTestingModule],
-      providers: [
+    imports: [SubListTestingModule, UrlTestingModule, I18nTestingModule, UnitAssignedApproverListComponent],
+    providers: [
         {
-          provide: UnitAssignedApproverListService,
-          useClass: MockUnitAssignedApproverListService,
+            provide: UnitAssignedApproverListService,
+            useClass: MockUnitAssignedApproverListService,
         },
-      ],
-      declarations: [UnitAssignedApproverListComponent],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(UnitAssignedApproverListComponent);
     component = fixture.componentInstance;

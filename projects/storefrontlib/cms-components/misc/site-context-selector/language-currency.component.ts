@@ -6,10 +6,11 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SiteContextType } from './site-context.model';
+import { SiteContextSelectorComponent } from './site-context-selector.component';
 
 @Component({
-  selector: 'cx-language-currency-selector',
-  template: `
+    selector: 'cx-language-currency-selector',
+    template: `
     <cx-site-context-selector
       [context]="siteContextType.LANGUAGE"
     ></cx-site-context-selector>
@@ -17,8 +18,8 @@ import { SiteContextType } from './site-context.model';
       [context]="siteContextType.CURRENCY"
     ></cx-site-context-selector>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [SiteContextSelectorComponent],
 })
 export class LanguageCurrencyComponent {
   readonly siteContextType = SiteContextType;

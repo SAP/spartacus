@@ -18,11 +18,12 @@ import { Observable, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
+import { SpinnerComponent } from '../../../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
 
 @Component({
-  selector: 'cx-opf-verify-payment',
-  templateUrl: './opf-payment-verification.component.html',
-  standalone: false,
+    selector: 'cx-opf-verify-payment',
+    templateUrl: './opf-payment-verification.component.html',
+    imports: [SpinnerComponent],
 })
 export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   protected route = inject(ActivatedRoute);

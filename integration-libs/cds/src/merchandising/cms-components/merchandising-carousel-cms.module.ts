@@ -13,24 +13,24 @@ import { AttributesModule } from './directives/attributes/attributes.module';
 import { MerchandisingCarouselComponent } from './merchandising-carousel/merchandising-carousel.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    AttributesModule,
-    CarouselModule,
-    MediaModule,
-    RouterModule,
-    UrlModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        MerchandisingCarouselComponent: {
-          component: MerchandisingCarouselComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [MerchandisingCarouselComponent],
-  exports: [MerchandisingCarouselComponent],
+    imports: [
+        CommonModule,
+        AttributesModule,
+        CarouselModule,
+        MediaModule,
+        RouterModule,
+        UrlModule,
+        MerchandisingCarouselComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                MerchandisingCarouselComponent: {
+                    component: MerchandisingCarouselComponent,
+                },
+            },
+        }),
+    ],
+    exports: [MerchandisingCarouselComponent],
 })
 export class MerchandisingCarouselCmsModule {}

@@ -11,10 +11,7 @@ import { PunchoutFacade, PunchoutRequisition } from '@spartacus/punchout/root';
 import { of, throwError } from 'rxjs';
 import { PunchoutRequisitionComponent } from './punchout-requisition.component';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate', })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -47,13 +44,12 @@ describe('PunchoutRequisitionComponent', () => {
     mockPunchoutFacade.endPunchoutSession.and.returnValue(of(true)); // Mock the method
 
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
-      declarations: [PunchoutRequisitionComponent, MockTranslatePipe],
-      providers: [
+    imports: [ReactiveFormsModule, PunchoutRequisitionComponent, MockTranslatePipe],
+    providers: [
         { provide: PunchoutFacade, useValue: mockPunchoutFacade },
         FormBuilder,
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

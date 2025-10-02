@@ -22,11 +22,27 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { CardComponent } from '../../../../../../projects/storefrontlib/shared/components/card/card.component';
+import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { CxDatePipe } from '../../../../../../projects/core/src/i18n/date.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { MockDatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-  selector: 'cx-saved-cart-details-overview',
-  templateUrl: './saved-cart-details-overview.component.html',
-  standalone: false,
+    selector: 'cx-saved-cart-details-overview',
+    templateUrl: './saved-cart-details-overview.component.html',
+    imports: [
+        NgIf,
+        CardComponent,
+        IconComponent,
+        AsyncPipe,
+        TranslatePipe,
+        CxDatePipe,
+        MockTranslatePipe,
+        MockDatePipe,
+    ],
 })
 export class SavedCartDetailsOverviewComponent implements OnDestroy {
   private subscription = new Subscription();

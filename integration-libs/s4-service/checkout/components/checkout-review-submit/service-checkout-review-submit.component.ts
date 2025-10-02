@@ -28,12 +28,37 @@ import {
   ServiceDateTime,
   S4ServiceDeliveryModeConfig,
 } from '@spartacus/s4-service/root';
+import { NgIf, NgFor, NgSwitch, NgSwitchCase, NgTemplateOutlet, NgClass, AsyncPipe } from '@angular/common';
+import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
+import { RouterLink } from '@angular/router';
+import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { OutletDirective } from '../../../../../projects/storefrontlib/cms-structure/outlet/outlet.directive';
+import { PromotionsComponent } from '../../../../../projects/storefrontlib/cms-components/misc/promotions/promotions.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-review-submit',
-  templateUrl: './service-checkout-review-submit.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-review-submit',
+    templateUrl: './service-checkout-review-submit.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        NgFor,
+        NgSwitch,
+        NgSwitchCase,
+        NgTemplateOutlet,
+        NgClass,
+        CardComponent,
+        RouterLink,
+        IconComponent,
+        OutletDirective,
+        PromotionsComponent,
+        AsyncPipe,
+        TranslatePipe,
+        UrlPipe,
+        MockTranslatePipe,
+    ],
 })
 export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmitComponent {
   checkoutStepTypeServiceDetails = CheckoutStepType.SERVICE_DETAILS;

@@ -17,9 +17,9 @@ import { LayoutConfig } from '../../../layout/config/layout-config';
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 
 @Component({
-  selector: 'cx-test-cmp',
-  template: '',
-  standalone: false,
+    selector: 'cx-test-cmp',
+    template: '',
+    imports: [I18nTestingModule],
 })
 class TestComponent {
   tabTitleParam$ = of('title param');
@@ -84,22 +84,19 @@ describe('TabParagraphContainerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        TestComponent,
+    imports: [I18nTestingModule, TestComponent,
         TabParagraphContainerComponent,
         ComponentWrapperDirective,
         OutletDirective,
-        MockFeatureDirective,
-      ],
-      providers: [
+        MockFeatureDirective],
+    providers: [
         WindowRef,
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: CmsService, useValue: MockCmsService },
         { provide: CmsConfig, useValue: MockCmsModuleConfig },
         { provide: LayoutConfig, useValue: MockLayoutConfig },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

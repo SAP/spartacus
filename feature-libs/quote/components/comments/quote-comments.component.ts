@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgIf, AsyncPipe } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, TranslationService } from '@spartacus/core';
@@ -21,14 +21,25 @@ import { combineLatest, Observable } from 'rxjs';
 import { delay, finalize, map, take } from 'rxjs/operators';
 import { QuoteUIConfig } from '../config/quote-ui.config';
 import { QuoteItemsComponentService } from '../items/quote-items.component.service';
+import { IconComponent } from '../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { MessagingComponent as MessagingComponent_1 } from '../../../../projects/storefrontlib/shared/components/chat-messaging/messaging/messaging.component';
+import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 const DEFAULT_COMMENT_MAX_CHARS = 1000;
 const ALL_PRODUCTS_ID = '';
 
 @Component({
-  selector: 'cx-quote-comments',
-  templateUrl: './quote-comments.component.html',
-  standalone: false,
+    selector: 'cx-quote-comments',
+    templateUrl: './quote-comments.component.html',
+    imports: [
+        NgIf,
+        IconComponent,
+        MessagingComponent_1,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class QuoteCommentsComponent {
   protected quoteFacade = inject(QuoteFacade);

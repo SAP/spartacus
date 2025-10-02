@@ -10,11 +10,7 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 import { CmsService, Page } from '@spartacus/core';
@@ -24,12 +20,37 @@ import {
 } from '@spartacus/opf/base/root';
 import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
 import { Observable, take, map, BehaviorSubject } from 'rxjs';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { OpfCheckoutReviewCardComponent } from '../opf-checkout-review-card/opf-checkout-review-card.component';
+import { OpfCheckoutTermsAndConditionsAlertComponent } from '../opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.component';
+import { RouterLink } from '@angular/router';
+import { OpfCheckoutBillingAddressFormComponent } from '../opf-checkout-billing-address-form/opf-checkout-billing-address-form.component';
+import { OpfCheckoutPaymentsComponent } from '../opf-checkout-payments/opf-checkout-payments.component';
+import { OpfCheckoutReviewCartDetailsComponent } from '../opf-checkout-review-cart-details/opf-checkout-review-cart-details.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-opf-checkout-payment-and-review',
-  templateUrl: './opf-checkout-payment-and-review.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-opf-checkout-payment-and-review',
+    templateUrl: './opf-checkout-payment-and-review.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        OpfCheckoutReviewCardComponent,
+        OpfCheckoutTermsAndConditionsAlertComponent,
+        NgClass,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterLink,
+        OpfCheckoutBillingAddressFormComponent,
+        OpfCheckoutPaymentsComponent,
+        OpfCheckoutReviewCartDetailsComponent,
+        AsyncPipe,
+        TranslatePipe,
+        UrlPipe,
+        MockTranslatePipe,
+    ],
 })
 export class OpfCheckoutPaymentAndReviewComponent
   extends CheckoutReviewSubmitComponent

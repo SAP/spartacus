@@ -12,12 +12,20 @@ import {
 import { ContextService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { ImportOrderEntriesComponent } from '../import-to-cart/import-entries/import-order-entries.component';
+import { ExportOrderEntriesComponent } from '../export-entries/export-order-entries.component';
 
 @Component({
-  selector: 'cx-import-export-order-entries',
-  templateUrl: './import-export-order-entries.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-import-export-order-entries',
+    templateUrl: './import-export-order-entries.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        ImportOrderEntriesComponent,
+        ExportOrderEntriesComponent,
+        AsyncPipe,
+    ],
 })
 export class ImportExportOrderEntriesComponent {
   constructor(protected contextService: ContextService) {}

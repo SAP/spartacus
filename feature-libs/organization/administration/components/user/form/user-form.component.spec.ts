@@ -82,25 +82,23 @@ describe('UserFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         I18nTestingModule,
         UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         FormTestingModule,
-      ],
-      declarations: [
         UserFormComponent,
         FormErrorsComponent,
         MockFeatureDirective,
-      ],
-      providers: [
+    ],
+    providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: UserItemService, useClass: MockItemService },
         { provide: UserProfileFacade, useClass: MockUserProfileFacade },
         { provide: B2BUserService, useClass: MockB2BUserService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     b2bUnitService = TestBed.inject(OrgUnitService);
 

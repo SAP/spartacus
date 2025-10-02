@@ -25,34 +25,32 @@ import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reo
 import { CustomerTicketingReopenComponentService } from './customer-ticketing-reopen-component.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    IconModule,
-    KeyboardFocusModule,
-    ReactiveFormsModule,
-    FormErrorsModule,
-    FileUploadModule,
-    SpinnerModule,
-  ],
-  providers: [
-    CustomerTicketingReopenComponentService,
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        SupportTicketReopenComponent: {
-          component: CustomerTicketingReopenComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [
-    CustomerTicketingReopenComponent,
-    CustomerTicketingReopenDialogComponent,
-  ],
-  exports: [
-    CustomerTicketingReopenComponent,
-    CustomerTicketingReopenDialogComponent,
-  ],
+    imports: [
+        CommonModule,
+        I18nModule,
+        IconModule,
+        KeyboardFocusModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        FileUploadModule,
+        SpinnerModule,
+        CustomerTicketingReopenComponent,
+        CustomerTicketingReopenDialogComponent,
+    ],
+    providers: [
+        CustomerTicketingReopenComponentService,
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                SupportTicketReopenComponent: {
+                    component: CustomerTicketingReopenComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+    ],
+    exports: [
+        CustomerTicketingReopenComponent,
+        CustomerTicketingReopenDialogComponent,
+    ],
 })
 export class CustomerTicketingReopenModule {}

@@ -13,11 +13,7 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   FeatureConfigService,
   isNotNullable,
@@ -34,12 +30,40 @@ import {
   tap,
 } from 'rxjs/operators';
 import { CurrentProductService } from '../../current-product.service';
+import { NgIf, NgFor, AsyncPipe, SlicePipe } from '@angular/common';
+import { StarRatingComponent } from '../../../../shared/components/star-rating/star-rating.component';
+import { FeatureDirective } from '../../../../../core/src/features-config/directives/feature.directive';
+import { ReadMoreComponent } from '../../../../shared/components/read-more/read-more.component';
+import { FormRequiredLegendComponent } from '../../../../shared/components/form/form-required-legend/form-required-legend.component';
+import { FormRequiredAsterisksComponent } from '../../../../shared/components/form/form-required-asterisks/form-required-asterisks.component';
+import { FormErrorsComponent } from '../../../../shared/components/form/form-errors/form-errors.component';
+import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
+import { CxDatePipe } from '../../../../../core/src/i18n/date.pipe';
+import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
+import { MockDatePipe } from '../../../../../core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-  selector: 'cx-product-reviews',
-  templateUrl: './product-reviews.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-product-reviews',
+    templateUrl: './product-reviews.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        StarRatingComponent,
+        NgFor,
+        FeatureDirective,
+        ReadMoreComponent,
+        FormRequiredLegendComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        FormRequiredAsterisksComponent,
+        FormErrorsComponent,
+        AsyncPipe,
+        SlicePipe,
+        TranslatePipe,
+        CxDatePipe,
+        MockTranslatePipe,
+        MockDatePipe,
+    ],
 })
 export class ProductReviewsComponent {
   @ViewChild('titleInput', { static: false }) titleInput: ElementRef;

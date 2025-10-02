@@ -20,18 +20,15 @@ const mockCssClassForMessage: Record<string, boolean> = {
 };
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
+    selector: 'cx-icon',
+    template: '',
+    imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-@Directive({
-  selector: '[cxAtMessage]',
-  standalone: false,
-})
+@Directive({ selector: '[cxAtMessage]', })
 class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
 }
@@ -43,14 +40,11 @@ describe('MessageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        MessageComponent,
+    imports: [I18nTestingModule, MessageComponent,
         MockCxIconComponent,
         MockAtMessageDirective,
-        MockFeatureDirective,
-      ],
-    }).compileComponents();
+        MockFeatureDirective],
+}).compileComponents();
   }));
 
   beforeEach(() => {

@@ -11,9 +11,8 @@ import createSpy = jasmine.createSpy;
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'cx-navigation-ui',
-  template: '',
-  standalone: false,
+    selector: 'cx-navigation-ui',
+    template: '',
 })
 class MockNavigationUIComponent {
   @Input()
@@ -39,18 +38,18 @@ describe('MyAccountV2NavigationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
+    imports: [MyAccountV2NavigationComponent, MockNavigationUIComponent],
+    providers: [
         {
-          provide: NavigationService,
-          useValue: mockNavigationService,
+            provide: NavigationService,
+            useValue: mockNavigationService,
         },
         {
-          provide: CmsComponentData,
-          useValue: MockCmsNavigationComponent,
+            provide: CmsComponentData,
+            useValue: MockCmsNavigationComponent,
         },
-      ],
-      declarations: [MyAccountV2NavigationComponent, MockNavigationUIComponent],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

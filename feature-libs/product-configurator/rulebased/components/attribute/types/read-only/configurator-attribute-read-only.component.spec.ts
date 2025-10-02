@@ -13,18 +13,18 @@ import { ConfiguratorAttributePriceChangeService } from '../../price-change/conf
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 
 @Component({
-  selector: 'cx-configurator-price',
-  template: '',
-  standalone: false,
+    selector: 'cx-configurator-price',
+    template: '',
+    imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
 @Component({
-  selector: 'cx-configurator-show-more',
-  template: '',
-  standalone: false,
+    selector: 'cx-configurator-show-more',
+    template: '',
+    imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
@@ -86,23 +86,20 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       },
     });
     TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeReadOnlyComponent,
+    providers: [
+        {
+            provide: ConfiguratorAttributeCompositionContext,
+            useValue: ConfiguratorTestUtils.getAttributeContext(),
+        },
+        {
+            provide: ConfiguratorStorefrontUtilsService,
+            useValue: {},
+        },
+    ],
+    imports: [ReactiveFormsModule, I18nTestingModule, ConfiguratorAttributeReadOnlyComponent,
         MockConfiguratorPriceComponent,
-        MockConfiguratorShowMoreComponent,
-      ],
-      providers: [
-        {
-          provide: ConfiguratorAttributeCompositionContext,
-          useValue: ConfiguratorTestUtils.getAttributeContext(),
-        },
-        {
-          provide: ConfiguratorStorefrontUtilsService,
-          useValue: {},
-        },
-      ],
-      imports: [ReactiveFormsModule, I18nTestingModule],
-    })
+        MockConfiguratorShowMoreComponent],
+})
       .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

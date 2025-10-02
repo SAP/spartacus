@@ -10,11 +10,7 @@ import {
   HostBinding,
   inject,
 } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RoutingService, useFeatureStyles, WindowRef } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
@@ -26,13 +22,37 @@ import {
 } from '@spartacus/user/account/root';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { SpinnerComponent } from '../../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
+import { FormRequiredLegendComponent } from '../../../../../projects/storefrontlib/shared/components/form/form-required-legend/form-required-legend.component';
+import { FormRequiredAsterisksComponent } from '../../../../../projects/storefrontlib/shared/components/form/form-required-asterisks/form-required-asterisks.component';
+import { FormErrorsComponent } from '../../../../../projects/storefrontlib/shared/components/form/form-errors/form-errors.component';
+import { PasswordVisibilityToggleDirective } from '../../../../../projects/storefrontlib/shared/components/form/password-visibility-toggle/password-visibility-toggle.directive';
+import { RouterLink } from '@angular/router';
+import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-otp-login-form',
-  templateUrl: './otp-login-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
-  host: { ngSkipHydration: 'true' },
+    selector: 'cx-otp-login-form',
+    templateUrl: './otp-login-form.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { ngSkipHydration: 'true' },
+    imports: [
+        NgIf,
+        SpinnerComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        FormRequiredLegendComponent,
+        FormRequiredAsterisksComponent,
+        FormErrorsComponent,
+        PasswordVisibilityToggleDirective,
+        RouterLink,
+        AsyncPipe,
+        UrlPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class OneTimePasswordLoginFormComponent {
   protected routingService = inject(RoutingService);

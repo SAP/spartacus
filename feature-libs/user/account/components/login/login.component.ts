@@ -9,11 +9,27 @@ import { AuthService, TranslationService } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { PageSlotComponent } from '../../../../../projects/storefrontlib/cms-structure/page/slot/page-slot.component';
+import { DomChangeDirective } from '../../../../../projects/storefrontlib/layout/a11y/on-dom-change/dom-change.directive';
+import { RouterLink } from '@angular/router';
+import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-login',
-  templateUrl: './login.component.html',
-  standalone: false,
+    selector: 'cx-login',
+    templateUrl: './login.component.html',
+    imports: [
+        NgIf,
+        PageSlotComponent,
+        DomChangeDirective,
+        RouterLink,
+        AsyncPipe,
+        UrlPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class LoginComponent implements OnInit {
   user$: Observable<User | undefined>;

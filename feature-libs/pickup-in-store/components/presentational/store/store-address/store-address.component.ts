@@ -6,14 +6,15 @@
 
 import { Component, Input } from '@angular/core';
 import { PointOfService } from '@spartacus/core';
+import { NgIf } from '@angular/common';
 
 /**
  * The address of a point of service.
  */
 @Component({
-  selector: 'cx-store-address',
-  templateUrl: 'store-address.component.html',
-  standalone: false,
+    selector: 'cx-store-address',
+    templateUrl: 'store-address.component.html',
+    imports: [NgIf],
 })
 export class StoreAddressComponent {
   /** The details of the store */

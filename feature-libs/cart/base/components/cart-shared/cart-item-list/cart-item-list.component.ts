@@ -33,6 +33,12 @@ import {
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { OutletDirective } from '../../../../../../projects/storefrontlib/cms-structure/outlet/outlet.directive';
+import { FeatureDirective } from '../../../../../../projects/core/src/features-config/directives/feature.directive';
+import { CartItemListRowComponent } from '../cart-item-list-row/cart-item-list-row.component';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 interface ItemListContext {
   readonly?: boolean;
@@ -45,10 +51,19 @@ interface ItemListContext {
 }
 
 @Component({
-  selector: 'cx-cart-item-list',
-  templateUrl: './cart-item-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-cart-item-list',
+    templateUrl: './cart-item-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        OutletDirective,
+        FeatureDirective,
+        NgFor,
+        CartItemListRowComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class CartItemListComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

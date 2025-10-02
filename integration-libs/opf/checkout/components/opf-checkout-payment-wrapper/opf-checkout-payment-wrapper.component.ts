@@ -38,12 +38,25 @@ import {
   filter,
 } from 'rxjs/operators';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
+import { NgIf, NgTemplateOutlet, NgFor, NgClass, AsyncPipe } from '@angular/common';
+import { SpinnerComponent } from '../../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-opf-checkout-payment-wrapper',
-  templateUrl: './opf-checkout-payment-wrapper.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-opf-checkout-payment-wrapper',
+    templateUrl: './opf-checkout-payment-wrapper.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        NgTemplateOutlet,
+        NgFor,
+        NgClass,
+        SpinnerComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   protected service = inject(OpfCheckoutPaymentWrapperService);

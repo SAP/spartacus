@@ -12,12 +12,26 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
+import { NgIf, NgFor } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { PopoverDirective } from '../../../../../../projects/storefrontlib/shared/components/popover/popover.directive';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { UrlPipe } from '../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-org-user-details-cell',
-  templateUrl: './user-details-cell.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-org-user-details-cell',
+    templateUrl: './user-details-cell.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        RouterLink,
+        NgFor,
+        PopoverDirective,
+        TranslatePipe,
+        UrlPipe,
+        MockTranslatePipe,
+    ],
 })
 export class UserDetailsCellComponent extends CellComponent {
   b2bUserModel: B2BUser;

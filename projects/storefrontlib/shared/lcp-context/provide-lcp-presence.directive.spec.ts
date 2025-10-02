@@ -6,24 +6,22 @@ import { DEFAULT_LCP_PRESENCE, LCP_PRESENCE } from './lcp-presence.token';
 import { ProvideLcpPresenceDirective } from './provide-lcp-presence.directive';
 
 @Component({
-  selector: 'cx-test-host',
-  template: `Parent:
+    selector: 'cx-test-host',
+    template: `Parent:
     <div [cxProvideLcpPresence]="lcpPresence">
       <cx-child></cx-child>
     </div>`,
-  standalone: false,
 })
 class TestHostComponent {
   lcpPresence: LcpPresence = LcpPresence.HAS_LCP;
 }
 
 @Component({
-  selector: 'cx-child',
-  template: `Child:
+    selector: 'cx-child',
+    template: `Child:
     <div class="lcpPresence">
       {{ lcpPresence$ | async }}
     </div>`,
-  standalone: false,
 })
 class ChildComponent {
   lcpPresence$ = inject(LCP_PRESENCE);
@@ -34,13 +32,11 @@ describe('ProvideLcpContextDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestHostComponent,
+    imports: [TestHostComponent,
         ChildComponent,
-        ProvideLcpPresenceDirective,
-      ],
-      providers: [],
-    });
+        ProvideLcpPresenceDirective,],
+    providers: [],
+});
     fixture = TestBed.createComponent(TestHostComponent);
     fixture.detectChanges();
   });

@@ -16,12 +16,23 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { FocusDirective } from '../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { ProductImageZoomViewComponent } from '../product-image-zoom-view/product-image-zoom-view.component';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-product-image-zoom-dialog',
-  templateUrl: 'product-image-zoom-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-product-image-zoom-dialog',
+    templateUrl: 'product-image-zoom-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        FocusDirective,
+        IconComponent,
+        ProductImageZoomViewComponent,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ProductImageZoomDialogComponent {
   iconType = ICON_TYPE;

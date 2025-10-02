@@ -23,10 +23,9 @@ import { CaptchaApiConfig } from './captcha-api-config';
 import { CaptchaRenderer } from './captcha.renderer';
 
 @Component({
-  selector: 'cx-captcha',
-  templateUrl: './captcha.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-captcha',
+    templateUrl: './captcha.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CaptchaComponent implements AfterViewInit, OnDestroy {
   // Emits true if user confirms captcha

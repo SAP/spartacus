@@ -4,9 +4,9 @@ import { FeaturesConfig, FeaturesConfigModule } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
 
 @Component({
-  selector: 'cx-test-cmp',
-  template: '',
-  standalone: false,
+    selector: 'cx-test-cmp',
+    template: '',
+    imports: [FeaturesConfigModule],
 })
 class TestComponent {}
 
@@ -27,17 +27,16 @@ describe('cxFeature directive', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestComponent],
-      imports: [FeaturesConfigModule],
-      providers: [
+    imports: [FeaturesConfigModule, TestComponent],
+    providers: [
         {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { testFeature: true, disabledFeature: false },
-          },
+            provide: FeaturesConfig,
+            useValue: {
+                features: { testFeature: true, disabledFeature: false },
+            },
         },
-      ],
-    });
+    ],
+});
   });
 
   it('should show components for enabled feature level', waitForAsync(() => {

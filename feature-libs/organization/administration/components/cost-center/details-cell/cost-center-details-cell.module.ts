@@ -12,8 +12,7 @@ import { PopoverModule } from '@spartacus/storefront';
 import { CostCenterDetailsCellComponent } from './cost-center-details-cell.component';
 
 @NgModule({
-  imports: [CommonModule, PopoverModule, RouterModule, I18nModule, UrlModule],
-  declarations: [CostCenterDetailsCellComponent],
-  exports: [CostCenterDetailsCellComponent],
+    imports: [CommonModule, PopoverModule, RouterModule, I18nModule, UrlModule, CostCenterDetailsCellComponent],
+    exports: [CostCenterDetailsCellComponent],
 })
 export class CostCenterDetailsCellModule {}

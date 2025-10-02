@@ -15,10 +15,9 @@ import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { PunchoutFacade } from '@spartacus/punchout/root';
 import { switchMap, take } from 'rxjs';
 @Component({
-  selector: 'cx-punchout-session',
-  template: '',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-punchout-session',
+    template: '',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PunchoutSessionComponent implements OnInit {
   protected activatedRoute = inject(ActivatedRoute);

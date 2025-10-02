@@ -16,7 +16,7 @@ const OUTLET_NAME_3 = 'OUTLET.3';
 const OUTLET_NAME_4 = 'OUTLET.4';
 
 @Component({
-  template: `
+    template: `
     <ng-template cxOutletRef="${OUTLET_NAME_1}"> </ng-template>
     <ng-template cxOutletRef="${OUTLET_NAME_2}" cxOutletPos="before">
     </ng-template>
@@ -27,23 +27,17 @@ const OUTLET_NAME_4 = 'OUTLET.4';
     <ng-template cxOutletRef="${OUTLET_NAME_4}" cxOutletPos="before">
     </ng-template>
   `,
-  standalone: false,
+    imports: [AnyModule],
 })
 class TestContainerComponent {}
 
-@Component({
-  template: ` any `,
-  standalone: false,
-})
+@Component({ template: ` any `, })
 class AnyComponent {}
 
-@Component({
-  template: ` any2 `,
-  standalone: false,
-})
+@Component({ template: ` any2 `, })
 class Any2Component {}
 @NgModule({
-  declarations: [AnyComponent, Any2Component],
+    imports: [AnyComponent, Any2Component],
 })
 class AnyModule {}
 
@@ -52,10 +46,9 @@ describe('OutletService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AnyModule],
-      declarations: [TestContainerComponent, OutletRefDirective],
-      providers: [OutletService],
-    }).compileComponents();
+    imports: [AnyModule, TestContainerComponent, OutletRefDirective],
+    providers: [OutletService],
+}).compileComponents();
 
     outletService = TestBed.inject(OutletService);
   });

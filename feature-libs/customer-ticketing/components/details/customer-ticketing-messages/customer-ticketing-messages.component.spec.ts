@@ -45,8 +45,8 @@ describe('CustomerTicketMessagesComponent', () => {
   @Component({
     selector: 'cx-messaging',
     template: '',
-    standalone: false,
-  })
+    imports: [I18nTestingModule],
+})
   class MockCxMessagingComponent {
     @Input() messageEvents$: Observable<Array<MessageEvent>>;
     @Input() scrollToInput?: boolean = true;
@@ -55,20 +55,17 @@ describe('CustomerTicketMessagesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CustomerTicketingMessagesComponent,
-        MockCxMessagingComponent,
-      ],
-      providers: [
+    imports: [I18nTestingModule, CustomerTicketingMessagesComponent,
+        MockCxMessagingComponent],
+    providers: [
         CustomerTicketingMessagesComponentService,
         {
-          provide: CustomerTicketingFacade,
-          useClass: MockCustomerTicketingFacade,
+            provide: CustomerTicketingFacade,
+            useClass: MockCustomerTicketingFacade,
         },
         { provide: EventService, useClass: MockEventService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     createTicketResponse$.next(mockResponse);
     customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);

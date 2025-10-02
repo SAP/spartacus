@@ -27,10 +27,7 @@ import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
 
-@Pipe({
-  name: 'cxNumeric',
-  standalone: false,
-})
+@Pipe({ name: 'cxNumeric', })
 class MockNumericPipe implements PipeTransform {
   transform(value: string): string {
     return value;
@@ -38,9 +35,9 @@ class MockNumericPipe implements PipeTransform {
 }
 
 @Component({
-  selector: 'cx-configure-cart-entry',
-  template: '',
-  standalone: false,
+    selector: 'cx-configure-cart-entry',
+    template: '',
+    imports: [I18nTestingModule],
 })
 class MockConfigureCartEntryComponent {
   @Input() cartEntry: OrderEntry;
@@ -105,19 +102,16 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ConfiguratorCartEntryBundleInfoComponent,
+    imports: [I18nTestingModule, ConfiguratorCartEntryBundleInfoComponent,
         MockNumericPipe,
-        MockConfigureCartEntryComponent,
-      ],
-      providers: [
+        MockConfigureCartEntryComponent],
+    providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {
-          provide: ControlContainer,
+            provide: ControlContainer,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {
@@ -931,9 +925,8 @@ describe('ConfiguratorCartEntryBundleInfoComponent without cart item context', (
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ConfiguratorCartEntryBundleInfoComponent],
-    }).compileComponents();
+    imports: [I18nTestingModule, ConfiguratorCartEntryBundleInfoComponent],
+}).compileComponents();
   }));
 
   beforeEach(() => {

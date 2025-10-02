@@ -10,12 +10,25 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 import { Price } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OrderAmendService } from '../amend-order.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { MediaComponent } from '../../../../../projects/storefrontlib/shared/components/media/media.component';
+import { ItemCounterComponent } from '../../../../../projects/storefrontlib/shared/components/item-counter/item-counter.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-amend-order-items',
-  templateUrl: './amend-order-items.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-amend-order-items',
+    templateUrl: './amend-order-items.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        NgFor,
+        MediaComponent,
+        ItemCounterComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class CancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];

@@ -21,9 +21,12 @@ const mockQueryParams: DocumentQueryParams = {
 };
 
 @Component({
-  selector: 'cx-date-picker',
-  template: '',
-  standalone: false,
+    selector: 'cx-date-picker',
+    template: '',
+    imports: [ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        NgSelectModule,],
 })
 class MockDatePickerComponent {
   @Input() control: any;
@@ -37,20 +40,18 @@ describe('AccountSummaryDocumentFilterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         I18nTestingModule,
         FormErrorsModule,
         NgSelectModule,
-      ],
-      declarations: [
         AccountSummaryDocumentFilterComponent,
         MockDatePickerComponent,
         MockFeatureDirective,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [],
-    }).compileComponents();
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    providers: [],
+}).compileComponents();
   });
 
   beforeEach(() => {

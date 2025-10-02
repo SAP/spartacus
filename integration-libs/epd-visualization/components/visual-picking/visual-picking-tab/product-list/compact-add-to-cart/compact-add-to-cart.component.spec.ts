@@ -98,9 +98,12 @@ class MockEventService implements Partial<EventService> {
 class MockProductAvailabilityAdapter {}
 
 @Component({
-  template: '',
-  selector: 'cx-item-counter',
-  standalone: false,
+    template: '',
+    selector: 'cx-item-counter',
+    imports: [SpinnerModule,
+        I18nTestingModule,
+        ReactiveFormsModule,
+        IconModule,],
 })
 class MockItemCounterComponent {
   @Input() min: number;
@@ -121,35 +124,35 @@ describe('CompactAddToCartComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         BrowserAnimationsModule,
         SpinnerModule,
         I18nTestingModule,
         ReactiveFormsModule,
         IconModule,
-      ],
-      declarations: [CompactAddToCartComponent, MockItemCounterComponent],
-      providers: [
+        CompactAddToCartComponent, MockItemCounterComponent,
+    ],
+    providers: [
         {
-          provide: LaunchDialogService,
-          useValue: MockLaunchDialogService,
+            provide: LaunchDialogService,
+            useValue: MockLaunchDialogService,
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
-          provide: CurrentProductService,
-          useClass: MockCurrentProductService,
+            provide: CurrentProductService,
+            useClass: MockCurrentProductService,
         },
         {
-          provide: CmsComponentData,
-          useValue: MockCmsComponentData,
+            provide: CmsComponentData,
+            useValue: MockCmsComponentData,
         },
         {
-          provide: ProductAvailabilityAdapter,
-          useClass: MockProductAvailabilityAdapter,
+            provide: ProductAvailabilityAdapter,
+            useClass: MockProductAvailabilityAdapter,
         },
         { provide: EventService, useClass: MockEventService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

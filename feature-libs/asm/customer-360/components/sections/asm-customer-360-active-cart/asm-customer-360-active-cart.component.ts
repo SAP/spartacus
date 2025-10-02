@@ -14,12 +14,22 @@ import {
   AsmCustomer360ActiveCart,
   CustomerCart,
 } from '@spartacus/asm/customer-360/root';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { AsmCustomer360ProductListingComponent } from '../../asm-customer-360-product-listing/asm-customer-360-product-listing.component';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'cx-asm-customer-360-active-cart',
-  templateUrl: './asm-customer-360-active-cart.component.html',
-  standalone: false,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-asm-customer-360-active-cart',
+    templateUrl: './asm-customer-360-active-cart.component.html',
+    imports: [
+        NgIf,
+        AsmCustomer360ProductListingComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class AsmCustomer360ActiveCartComponent {
   productItems$: Observable<Array<ProductItem>>;

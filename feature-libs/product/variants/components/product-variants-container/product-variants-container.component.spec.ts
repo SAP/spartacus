@@ -41,10 +41,7 @@ class MockRoutingService {
   ): void {}
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform(options: UrlCommandRoute): string {
     return options.cxRoute;
@@ -58,9 +55,9 @@ class MockCurrentProductService {
 }
 
 @Component({
-  selector: 'cx-product-variant-style-selector',
-  template: '',
-  standalone: false,
+    selector: 'cx-product-variant-style-selector',
+    template: '',
+    imports: [I18nTestingModule],
 })
 class MockCxProductStyleSelectorComponent {
   @Input() product: Product;
@@ -68,9 +65,9 @@ class MockCxProductStyleSelectorComponent {
 }
 
 @Component({
-  selector: 'cx-product-variant-size-selector',
-  template: '',
-  standalone: false,
+    selector: 'cx-product-variant-size-selector',
+    template: '',
+    imports: [I18nTestingModule],
 })
 class MockCxProductSizeSelectorComponent {
   @Input() product: Product;
@@ -78,9 +75,9 @@ class MockCxProductSizeSelectorComponent {
 }
 
 @Component({
-  selector: 'cx-product-variant-color-selector',
-  template: '',
-  standalone: false,
+    selector: 'cx-product-variant-color-selector',
+    template: '',
+    imports: [I18nTestingModule],
 })
 class MockCxProductColorSelectorComponent {
   @Input() product: Product;
@@ -93,25 +90,22 @@ describe('ProductVariantsContainerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ProductVariantsContainerComponent,
+    imports: [I18nTestingModule, ProductVariantsContainerComponent,
         MockUrlPipe,
         MockCxProductStyleSelectorComponent,
         MockCxProductSizeSelectorComponent,
-        MockCxProductColorSelectorComponent,
-      ],
-      imports: [I18nTestingModule],
-      providers: [
+        MockCxProductColorSelectorComponent],
+    providers: [
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
         {
-          provide: CurrentProductService,
-          useClass: MockCurrentProductService,
+            provide: CurrentProductService,
+            useClass: MockCurrentProductService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

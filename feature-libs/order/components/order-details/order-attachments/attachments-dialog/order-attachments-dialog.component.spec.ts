@@ -92,31 +92,31 @@ describe('OrderAttachmentsDialogComponent', () => {
     );
 
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         I18nTestingModule,
         IconModule,
         SpinnerModule,
         KeyboardFocusModule,
         MessageComponentModule,
         StoreModule.forRoot({}),
-      ],
-      declarations: [OrderAttachmentsDialogComponent],
-      providers: [
+        OrderAttachmentsDialogComponent,
+    ],
+    providers: [
         provideDefaultConfig(mockConfig),
         {
-          provide: OrderAttachmentsFacade,
-          useValue: orderAttachmentsFacadeSpy,
+            provide: OrderAttachmentsFacade,
+            useValue: orderAttachmentsFacadeSpy,
         },
         {
-          provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
         },
         {
-          provide: ChangeDetectorRef,
-          useValue: { markForCheck: createSpy('markForCheck') },
+            provide: ChangeDetectorRef,
+            useValue: { markForCheck: createSpy('markForCheck') },
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

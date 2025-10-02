@@ -31,39 +31,39 @@ import { OneTimePasswordRegisterComponent } from './otp-login-register.component
 import { RegisterComponentService } from '../register';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    UrlModule,
-    PageSlotModule,
-    I18nModule,
-    FeaturesConfigModule,
-    BtnLikeLinkModule,
-    ReactiveFormsModule,
-    NgSelectModule,
-    NgSelectA11yModule,
-    CaptchaModule,
-    SpinnerModule,
-    FormErrorsModule,
-    FormRequiredAsterisksComponent,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        RegisterCustomerWithOTPComponent: {
-          component: OneTimePasswordRegisterComponent,
-          guards: [NotAuthGuard],
-          providers: [
-            {
-              provide: RegisterComponentService,
-              useClass: RegisterComponentService,
-              deps: [UserRegisterFacade, UntypedFormBuilder],
+    imports: [
+        CommonModule,
+        RouterModule,
+        UrlModule,
+        PageSlotModule,
+        I18nModule,
+        FeaturesConfigModule,
+        BtnLikeLinkModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        NgSelectA11yModule,
+        CaptchaModule,
+        SpinnerModule,
+        FormErrorsModule,
+        FormRequiredAsterisksComponent,
+        OneTimePasswordRegisterComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                RegisterCustomerWithOTPComponent: {
+                    component: OneTimePasswordRegisterComponent,
+                    guards: [NotAuthGuard],
+                    providers: [
+                        {
+                            provide: RegisterComponentService,
+                            useClass: RegisterComponentService,
+                            deps: [UserRegisterFacade, UntypedFormBuilder],
+                        },
+                    ],
+                },
             },
-          ],
-        },
-      },
-    }),
-  ],
-  declarations: [OneTimePasswordRegisterComponent],
+        }),
+    ],
 })
 export class OneTimePasswordRegisterModule {}

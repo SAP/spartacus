@@ -30,9 +30,9 @@ import { ProductListItemContext } from '../model/product-list-item-context.model
 import { ProductGridItemComponent } from './product-grid-item.component';
 
 @Component({
-  selector: 'cx-add-to-cart',
-  template: '<button>add to cart</button>',
-  standalone: false,
+    selector: 'cx-add-to-cart',
+    template: '<button>add to cart</button>',
+    imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule,],
 })
 class MockAddToCartComponent {
   @Input() product;
@@ -40,9 +40,9 @@ class MockAddToCartComponent {
 }
 
 @Component({
-  selector: 'cx-star-rating',
-  template: '*****',
-  standalone: false,
+    selector: 'cx-star-rating',
+    template: '*****',
+    imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule,],
 })
 class MockStarRatingComponent {
   @Input() rating;
@@ -51,9 +51,9 @@ class MockStarRatingComponent {
 }
 
 @Component({
-  selector: 'cx-media',
-  template: 'mock picture component',
-  standalone: false,
+    selector: 'cx-media',
+    template: 'mock picture component',
+    imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule,],
 })
 class MockMediaComponent {
   @Input() container;
@@ -62,18 +62,15 @@ class MockMediaComponent {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
+    selector: 'cx-icon',
+    template: '',
+    imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule,],
 })
 class MockCxIconComponent {
   @Input() type;
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -81,10 +78,7 @@ class MockUrlPipe implements PipeTransform {
 class MockRoutingService {}
 class MockProductService {}
 
-@Directive({
-  selector: '[cxOutlet]',
-  standalone: false,
-})
+@Directive({ selector: '[cxOutlet]', })
 class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
 }
@@ -114,32 +108,29 @@ describe('ProductGridItemComponent in product-list', () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
-      declarations: [
-        ProductGridItemComponent,
+    imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule, ProductGridItemComponent,
         MockMediaComponent,
         MockAddToCartComponent,
         MockStarRatingComponent,
         MockUrlPipe,
         MockCxIconComponent,
         MockFeatureLevelDirective,
-        MockOutletDirective,
-      ],
-      providers: [
+        MockOutletDirective],
+    providers: [
         {
-          provide: LCP_PRESENCE,
-          useValue: mockLcpPresence$,
+            provide: LCP_PRESENCE,
+            useValue: mockLcpPresence$,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
         {
-          provide: ProductService,
-          useClass: MockProductService,
+            provide: ProductService,
+            useClass: MockProductService,
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(ProductGridItemComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })

@@ -33,59 +33,59 @@ import { ReplenishmentOrderDetailsService } from './replenishment-order-details.
 const moduleComponents = [ReplenishmentOrderCancellationComponent];
 
 @NgModule({
-  imports: [
-    CardModule,
-    CommonModule,
-    I18nModule,
-    PromotionsModule,
-    UrlModule,
-    ReplenishmentOrderCancellationDialogModule,
-    SpinnerModule,
-    ListNavigationModule,
-    RouterModule,
-    BtnLikeLinkModule,
-  ],
-  providers: [
-    provideDefaultConfig(defaultReplenishmentOrderCancellationLayoutConfig),
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ReplenishmentDetailItemsComponent: {
-          component: OrderDetailItemsComponent,
-          providers: [
-            {
-              provide: OrderDetailsService,
-              useExisting: ReplenishmentOrderDetailsService,
+    imports: [
+        CardModule,
+        CommonModule,
+        I18nModule,
+        PromotionsModule,
+        UrlModule,
+        ReplenishmentOrderCancellationDialogModule,
+        SpinnerModule,
+        ListNavigationModule,
+        RouterModule,
+        BtnLikeLinkModule,
+        ...moduleComponents,
+    ],
+    providers: [
+        provideDefaultConfig(defaultReplenishmentOrderCancellationLayoutConfig),
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ReplenishmentDetailItemsComponent: {
+                    component: OrderDetailItemsComponent,
+                    providers: [
+                        {
+                            provide: OrderDetailsService,
+                            useExisting: ReplenishmentOrderDetailsService,
+                        },
+                    ],
+                },
+                ReplenishmentDetailTotalsComponent: {
+                    component: OrderDetailTotalsComponent,
+                    providers: [
+                        {
+                            provide: OrderDetailsService,
+                            useExisting: ReplenishmentOrderDetailsService,
+                        },
+                    ],
+                },
+                ReplenishmentDetailShippingComponent: {
+                    component: OrderOverviewComponent,
+                    providers: [
+                        {
+                            provide: OrderDetailsService,
+                            useExisting: ReplenishmentOrderDetailsService,
+                        },
+                    ],
+                },
+                ReplenishmentDetailActionsComponent: {
+                    component: ReplenishmentOrderCancellationComponent,
+                },
+                ReplenishmentDetailOrderHistoryComponent: {
+                    component: OrderHistoryComponent,
+                },
             },
-          ],
-        },
-        ReplenishmentDetailTotalsComponent: {
-          component: OrderDetailTotalsComponent,
-          providers: [
-            {
-              provide: OrderDetailsService,
-              useExisting: ReplenishmentOrderDetailsService,
-            },
-          ],
-        },
-        ReplenishmentDetailShippingComponent: {
-          component: OrderOverviewComponent,
-          providers: [
-            {
-              provide: OrderDetailsService,
-              useExisting: ReplenishmentOrderDetailsService,
-            },
-          ],
-        },
-        ReplenishmentDetailActionsComponent: {
-          component: ReplenishmentOrderCancellationComponent,
-        },
-        ReplenishmentDetailOrderHistoryComponent: {
-          component: OrderHistoryComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [...moduleComponents],
-  exports: [...moduleComponents],
+        }),
+    ],
+    exports: [...moduleComponents],
 })
 export class ReplenishmentOrderDetailsModule {}

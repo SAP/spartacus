@@ -49,12 +49,28 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { FeatureDirective } from '../../../../../../projects/core/src/features-config/directives/feature.directive';
+import { MediaComponent } from '../../../../../../projects/storefrontlib/shared/components/media/media.component';
+import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumbnails/product-image-zoom-thumbnails.component';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-product-image-zoom-view',
-  templateUrl: './product-image-zoom-view.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-product-image-zoom-view',
+    templateUrl: './product-image-zoom-view.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        IconComponent,
+        FeatureDirective,
+        MediaComponent,
+        ProductImageZoomThumbnailsComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
   iconType = ICON_TYPE;

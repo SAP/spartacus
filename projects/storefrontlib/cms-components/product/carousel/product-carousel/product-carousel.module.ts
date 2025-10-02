@@ -25,28 +25,28 @@ import { ProductCarouselItemComponent } from '../product-carousel-item/product-c
 import { ProductCarouselComponent } from './product-carousel.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CarouselModule,
-    CarouselScrollingModule,
-    MediaModule,
-    RouterModule,
-    UrlModule,
-    I18nModule,
-    PageComponentModule,
-    FeaturesConfigModule,
-    LcpContextDirectiveModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ProductCarouselComponent: {
-          component: ProductCarouselComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ProductCarouselComponent, ProductCarouselItemComponent],
-  exports: [ProductCarouselComponent, ProductCarouselItemComponent],
+    imports: [
+        CommonModule,
+        CarouselModule,
+        CarouselScrollingModule,
+        MediaModule,
+        RouterModule,
+        UrlModule,
+        I18nModule,
+        PageComponentModule,
+        FeaturesConfigModule,
+        LcpContextDirectiveModule,
+        ProductCarouselComponent, ProductCarouselItemComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ProductCarouselComponent: {
+                    component: ProductCarouselComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ProductCarouselComponent, ProductCarouselItemComponent],
 })
 export class ProductCarouselModule {}

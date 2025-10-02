@@ -80,23 +80,19 @@ describe('ConfigPriceSummaryComponent', () => {
   beforeEach(waitForAsync(() => {
     routerStateObservable = of(mockRouterState);
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ConfiguratorPriceSummaryComponent,
-        MockFeatureLevelDirective,
-      ],
-      providers: [
+    imports: [I18nTestingModule, ConfiguratorPriceSummaryComponent,
+        MockFeatureLevelDirective],
+    providers: [
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
         },
-
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(ConfiguratorPriceSummaryComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

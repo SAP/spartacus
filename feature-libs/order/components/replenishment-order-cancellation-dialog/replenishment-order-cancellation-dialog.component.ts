@@ -21,12 +21,21 @@ import {
 } from '@spartacus/storefront';
 import { combineLatest, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
+import { FocusDirective } from '../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { IconComponent } from '../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-replenishment-order-cancellation-dialog',
-  templateUrl: './replenishment-order-cancellation-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-replenishment-order-cancellation-dialog',
+    templateUrl: './replenishment-order-cancellation-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        FocusDirective,
+        IconComponent,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ReplenishmentOrderCancellationDialogComponent
   implements OnInit, OnDestroy

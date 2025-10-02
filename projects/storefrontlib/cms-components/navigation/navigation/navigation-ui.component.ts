@@ -35,14 +35,30 @@ import { BREAKPOINT, BreakpointService } from '../../../layout';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
+import { NgIf, NgFor, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { IconComponent } from '../../misc/icon/icon.component';
+import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
+import { FeatureDirective } from '../../../../core/src/features-config/directives/feature.directive';
+import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 const ARIA_EXPANDED_ATTR = 'aria-expanded';
 
 @Component({
-  selector: 'cx-navigation-ui',
-  templateUrl: './navigation-ui.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-navigation-ui',
+    templateUrl: './navigation-ui.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        IconComponent,
+        NgFor,
+        NgTemplateOutlet,
+        GenericLinkComponent,
+        FeatureDirective,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class NavigationUIComponent implements OnInit, OnDestroy {
   /**

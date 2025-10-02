@@ -39,18 +39,12 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   activeStepIndex$: Observable<number> = of(0);
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-@Pipe({
-  name: 'cxMultiLine',
-  standalone: false,
-})
+@Pipe({ name: 'cxMultiLine', })
 class MockMultiLinePipe implements PipeTransform {
   transform(value: string): string {
     return value;
@@ -69,18 +63,15 @@ describe('CheckoutProgressComponent', () => {
       getActive: () => of('en'),
     };
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CheckoutProgressComponent,
+    imports: [I18nTestingModule, CheckoutProgressComponent,
         MockTranslateUrlPipe,
-        MockMultiLinePipe,
-      ],
-      providers: [
+        MockMultiLinePipe],
+    providers: [
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: CurrencyService, useValue: mockCurrencyService },
         { provide: LanguageService, useValue: mockLanguageService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

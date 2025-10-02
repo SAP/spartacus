@@ -15,12 +15,21 @@ import {
 } from '../../asm-customer-360-table/asm-customer-360-table.model';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { SupportTicketEntry } from './asm-customer-360-support-tickets.model';
+import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
+import { AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'cx-asm-customer-360-support-tickets',
-  templateUrl: './asm-customer-360-support-tickets.component.html',
-  standalone: false,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-asm-customer-360-support-tickets',
+    templateUrl: './asm-customer-360-support-tickets.component.html',
+    imports: [
+        AsmCustomer360TableComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class AsmCustomer360SupportTicketsComponent implements OnInit {
   supportTicketsColumns: Array<CustomerTableColumn> = [

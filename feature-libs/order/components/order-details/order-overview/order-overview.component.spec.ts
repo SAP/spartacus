@@ -16,19 +16,16 @@ import { OrderOverviewComponent } from './order-overview.component';
 import { OrderOverviewComponentService } from './order-overview-component.service';
 
 @Component({
-  selector: 'cx-card',
-  template: '',
-  standalone: false,
+    selector: 'cx-card',
+    template: '',
+    imports: [I18nTestingModule],
 })
 class MockCardComponent {
   @Input()
   content: Card;
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -163,19 +160,18 @@ describe('OrderOverviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OrderOverviewComponent, MockCardComponent, MockUrlPipe],
-      providers: [
+    imports: [I18nTestingModule, OrderOverviewComponent, MockCardComponent, MockUrlPipe],
+    providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {
-          provide: OrderOverviewComponentService,
-          useClass: MockOrderOverviewComponentService,
+            provide: OrderOverviewComponentService,
+            useClass: MockOrderOverviewComponentService,
         },
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: OrderConfig, useValue: mockOrderConfig },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

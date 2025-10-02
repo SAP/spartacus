@@ -64,37 +64,31 @@ class MockCmsComponentData {
   }
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform(): any {
     return ['test', 'url'];
   }
 }
 
-@Pipe({
-  name: 'cxHighlight',
-  standalone: false,
-})
+@Pipe({ name: 'cxHighlight', })
 class MockHighlightPipe implements PipeTransform {
   transform(): any {}
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
+    selector: 'cx-icon',
+    template: '',
+    imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type;
 }
 
 @Component({
-  selector: 'cx-media',
-  template: '<img>',
-  standalone: false,
+    selector: 'cx-media',
+    template: '<img>',
+    imports: [I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container;
@@ -102,19 +96,16 @@ class MockMediaComponent {
   @Input() alt;
 }
 
-@Directive({
-  selector: '[cxOutlet]',
-  standalone: false,
-})
+@Directive({ selector: '[cxOutlet]', })
 class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
   @Input() cxOutletContext: string;
 }
 
 @Component({
-  selector: 'cx-carousel',
-  template: ``,
-  standalone: false,
+    selector: 'cx-carousel',
+    template: ``,
+    imports: [I18nTestingModule],
 })
 class MockCarouselComponent {
   @Input() items: any;
@@ -193,12 +184,10 @@ describe('SearchBoxComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         BrowserAnimationsModule,
         RouterModule.forRoot([]),
         I18nTestingModule,
-      ],
-      declarations: [
         SearchBoxComponent,
         MockFeatureDirective,
         MockUrlPipe,
@@ -207,30 +196,30 @@ describe('SearchBoxComponent', () => {
         MockMediaComponent,
         MockOutletDirective,
         MockCarouselComponent,
-      ],
-      providers: [
+    ],
+    providers: [
         {
-          provide: ProductSearchService,
-          useValue: {},
+            provide: ProductSearchService,
+            useValue: {},
         },
         {
-          provide: CmsComponentData,
-          useClass: MockCmsComponentData,
+            provide: CmsComponentData,
+            useClass: MockCmsComponentData,
         },
         {
-          provide: SearchBoxComponentService,
-          useClass: SearchBoxComponentServiceSpy,
+            provide: SearchBoxComponentService,
+            useClass: SearchBoxComponentServiceSpy,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
         {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   describe('Default config', () => {

@@ -12,15 +12,15 @@ import { CardModule, IconModule } from '@spartacus/storefront';
 import { OpfCheckoutReviewCardComponent } from './opf-checkout-review-card.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    I18nModule,
-    CardModule,
-    IconModule,
-    UrlModule,
-  ],
-  declarations: [OpfCheckoutReviewCardComponent],
-  exports: [OpfCheckoutReviewCardComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        I18nModule,
+        CardModule,
+        IconModule,
+        UrlModule,
+        OpfCheckoutReviewCardComponent,
+    ],
+    exports: [OpfCheckoutReviewCardComponent],
 })
 export class OpfCheckoutReviewCardModule {}

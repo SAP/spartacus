@@ -27,12 +27,46 @@ import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { OrganizationTableType } from '../organization.model';
 import { CreateButtonType, ListService } from './list.service';
+import { SplitViewComponent } from '../../../../../../projects/storefrontlib/shared/components/split-view/split/split-view.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { ViewComponent } from '../../../../../../projects/storefrontlib/shared/components/split-view/view/view.component';
+import { FeatureDirective } from '../../../../../../projects/core/src/features-config/directives/feature.directive';
+import { PopoverDirective } from '../../../../../../projects/storefrontlib/shared/components/popover/popover.directive';
+import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { NgSelectComponent, NgOptionComponent } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
+import { RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
+import { TableComponent } from '../../../../../../projects/storefrontlib/shared/components/table/table.component';
+import { PaginationComponent } from '../../../../../../projects/storefrontlib/shared/components/list-navigation/pagination/pagination.component';
+import { UrlPipe } from '../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-org-list',
-  templateUrl: './list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-org-list',
+    templateUrl: './list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        SplitViewComponent,
+        NgIf,
+        ViewComponent,
+        FeatureDirective,
+        PopoverDirective,
+        IconComponent,
+        NgSelectComponent,
+        FormsModule,
+        NgFor,
+        NgOptionComponent,
+        RouterLinkActive,
+        RouterLink,
+        TableComponent,
+        PaginationComponent,
+        RouterOutlet,
+        AsyncPipe,
+        UrlPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ListComponent<T = any, P = PaginationModel> {
   readonly trapFocus = TrapFocus;

@@ -27,30 +27,30 @@ import {
 import { OpfB2bCheckoutPlaceOrderModule } from '../opf-b2b-checkout-place-order/opf-b2b-checkout-place-order.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    I18nModule,
-    UrlModule,
-    OpfCheckoutReviewCardModule,
-    OpfCheckoutTermsAndConditionsAlertModule,
-    OpfCheckoutBillingAddressFormModule,
-    OpfCheckoutPaymentsModule,
-    OpfCheckoutReviewCartDetailsModule,
-    OpfB2bCheckoutPlaceOrderModule,
-    CheckoutPlaceOrderModule,
-  ],
-  declarations: [OpfB2bCheckoutReviewComponent],
-  exports: [OpfB2bCheckoutReviewComponent],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        OpfCheckoutReview: {
-          component: OpfB2bCheckoutReviewComponent,
-        },
-      },
-    }),
-  ],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        RouterModule,
+        I18nModule,
+        UrlModule,
+        OpfCheckoutReviewCardModule,
+        OpfCheckoutTermsAndConditionsAlertModule,
+        OpfCheckoutBillingAddressFormModule,
+        OpfCheckoutPaymentsModule,
+        OpfCheckoutReviewCartDetailsModule,
+        OpfB2bCheckoutPlaceOrderModule,
+        CheckoutPlaceOrderModule,
+        OpfB2bCheckoutReviewComponent,
+    ],
+    exports: [OpfB2bCheckoutReviewComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                OpfCheckoutReview: {
+                    component: OpfB2bCheckoutReviewComponent,
+                },
+            },
+        }),
+    ],
 })
 export class OpfB2bCheckoutReviewModule {}

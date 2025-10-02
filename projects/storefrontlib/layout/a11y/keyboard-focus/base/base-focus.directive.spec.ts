@@ -5,15 +5,12 @@ import { BaseFocusDirective } from './base-focus.directive';
 import { BaseFocusService } from './base-focus.service';
 
 // create custom mock to test extending from the abstract base
-@Directive({
-  selector: '[cxCustomFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxCustomFocus]', })
 class CustomFocusDirective extends BaseFocusDirective {}
 
 @Component({
-  selector: 'cx-host',
-  template: `
+    selector: 'cx-host',
+    template: `
     <div id="a" cxCustomFocus></div>
     <div id="b" tabindex="-1" cxCustomFocus></div>
     <div id="c" tabindex="0" cxCustomFocus></div>
@@ -29,7 +26,6 @@ class CustomFocusDirective extends BaseFocusDirective {}
     <a id="inactive" cxCustomFocus>inactive link</a>
     <a id="routerlink" routerlink="/link" cxCustomFocus>router link</a>
   `,
-  standalone: false,
 })
 class MockComponent {}
 
@@ -40,14 +36,14 @@ describe('BaseFocusDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CustomFocusDirective, MockComponent],
-      providers: [
+    imports: [CustomFocusDirective, MockComponent],
+    providers: [
         {
-          provide: BaseFocusService,
-          useClass: MockBaseFocusService,
+            provide: BaseFocusService,
+            useClass: MockBaseFocusService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(MockComponent);
 

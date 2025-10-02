@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { ArgsPipe } from './args.pipe';
 
 @NgModule({
-  declarations: [ArgsPipe],
-  exports: [ArgsPipe],
+    imports: [ArgsPipe],
+    exports: [ArgsPipe],
 })
 export class ArgsModule {}

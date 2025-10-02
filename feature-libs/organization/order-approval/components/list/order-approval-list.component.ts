@@ -16,12 +16,35 @@ import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../core/services/order-approval.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { FeatureDirective } from '../../../../../projects/core/src/features-config/directives/feature.directive';
+import { SortingComponent } from '../../../../../projects/storefrontlib/shared/components/list-navigation/sorting/sorting.component';
+import { PaginationComponent } from '../../../../../projects/storefrontlib/shared/components/list-navigation/pagination/pagination.component';
+import { RouterLink } from '@angular/router';
+import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { CxDatePipe } from '../../../../../projects/core/src/i18n/date.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-  selector: 'cx-order-approval-list',
-  templateUrl: './order-approval-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-order-approval-list',
+    templateUrl: './order-approval-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        FeatureDirective,
+        SortingComponent,
+        PaginationComponent,
+        NgFor,
+        RouterLink,
+        AsyncPipe,
+        UrlPipe,
+        TranslatePipe,
+        CxDatePipe,
+        MockTranslatePipe,
+        MockDatePipe,
+    ],
 })
 export class OrderApprovalListComponent implements OnInit {
   constructor(

@@ -4,18 +4,38 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgIf, NgFor, NgClass, NgSwitch, NgSwitchCase, KeyValuePipe } from '@angular/common';
 import { Component, Inject, Input, ViewChild } from '@angular/core';
 import { PointOfService } from '@spartacus/core';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { LocationDisplayMode } from './store-finder-list.model';
+import { StoreFinderPaginationDetailsComponent } from '../../store-finder-pagination-details/store-finder-pagination-details.component';
+import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { StoreFinderStoreDescriptionComponent } from '../../store-finder-store-description/store-finder-store-description.component';
+import { StoreFinderListItemComponent } from '../../store-finder-list-item/store-finder-list-item.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-store-finder-list',
-  templateUrl: './store-finder-list.component.html',
-  standalone: false,
+    selector: 'cx-store-finder-list',
+    templateUrl: './store-finder-list.component.html',
+    imports: [
+        NgIf,
+        StoreFinderPaginationDetailsComponent,
+        IconComponent,
+        StoreFinderStoreDescriptionComponent,
+        NgFor,
+        NgClass,
+        StoreFinderListItemComponent,
+        StoreFinderMapComponent,
+        NgSwitch,
+        NgSwitchCase,
+        KeyValuePipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class StoreFinderListComponent {
   @Input()

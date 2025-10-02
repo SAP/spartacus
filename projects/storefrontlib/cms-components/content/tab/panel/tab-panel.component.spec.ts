@@ -9,10 +9,10 @@ const mockTab: Tab | any = {
 };
 
 @Component({
-  template: `<ng-template #templateRef
+    template: `<ng-template #templateRef
     ><span id="tempRef">hello</span></ng-template
   >`,
-  standalone: false,
+    imports: [KeyboardFocusTestingModule],
 })
 class MockComponent {
   @ViewChild('templateRef') templateRef: TemplateRef<any>;
@@ -24,9 +24,8 @@ describe('TabPanelComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [KeyboardFocusTestingModule],
-      declarations: [TabPanelComponent, MockComponent],
-    }).compileComponents();
+    imports: [KeyboardFocusTestingModule, TabPanelComponent, MockComponent],
+}).compileComponents();
   }));
 
   beforeEach(() => {

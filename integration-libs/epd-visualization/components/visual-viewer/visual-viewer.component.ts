@@ -15,13 +15,26 @@ import { NavigationMode } from './models/navigation-mode';
 import { SelectionMode } from './models/selection-mode';
 import { VisualizationLoadInfo } from './models/visualization-load-info';
 import { VisualViewerService } from './visual-viewer.service';
+import { NgIf } from '@angular/common';
+import { VisualViewerToolbarButtonComponent } from './toolbar/visual-viewer-toolbar-button/visual-viewer-toolbar-button.component';
+import { VisualViewerAnimationSliderComponent } from './toolbar/visual-viewer-animation-slider/visual-viewer-animation-slider.component';
+import { SpinnerComponent } from '../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
+import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-epd-visualization-viewer',
-  templateUrl: './visual-viewer.component.html',
-  providers: [VisualViewerService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-epd-visualization-viewer',
+    templateUrl: './visual-viewer.component.html',
+    providers: [VisualViewerService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        VisualViewerToolbarButtonComponent,
+        VisualViewerAnimationSliderComponent,
+        SpinnerComponent,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class VisualViewerComponent {
   constructor(protected visualViewerService: VisualViewerService) {}

@@ -14,11 +14,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   AuthConfigService,
   FeatureConfigService,
@@ -40,13 +36,33 @@ import { UserSignUp } from '@spartacus/user/profile/root';
 import { BehaviorSubject } from 'rxjs';
 import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
 import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
+import { FormRequiredAsterisksComponent } from '../../../../../projects/storefrontlib/shared/components/form/form-required-asterisks/form-required-asterisks.component';
+import { FormErrorsComponent } from '../../../../../projects/storefrontlib/shared/components/form/form-errors/form-errors.component';
+import { NgIf, NgClass } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { SpinnerComponent } from '../../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
+import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-registration-verification-token-form',
-  templateUrl: './verify-register-verification-token-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
-  host: { ngSkipHydration: 'true' },
+    selector: 'cx-registration-verification-token-form',
+    templateUrl: './verify-register-verification-token-form.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { ngSkipHydration: 'true' },
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        FormRequiredAsterisksComponent,
+        FormErrorsComponent,
+        NgIf,
+        NgClass,
+        RouterLink,
+        SpinnerComponent,
+        UrlPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class RegistrationVerificationTokenFormComponent implements OnInit {
   protected fb = inject(UntypedFormBuilder);

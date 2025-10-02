@@ -7,11 +7,17 @@
 import { Component, Input } from '@angular/core';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { MessageEvent } from '../messaging/messaging.model';
+import { NgIf, NgClass } from '@angular/common';
+import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
 
 @Component({
-  selector: 'cx-avatar',
-  templateUrl: './avatar.component.html',
-  standalone: false,
+    selector: 'cx-avatar',
+    templateUrl: './avatar.component.html',
+    imports: [
+        NgIf,
+        NgClass,
+        IconComponent,
+    ],
 })
 export class AvatarComponent {
   @Input() message: MessageEvent;

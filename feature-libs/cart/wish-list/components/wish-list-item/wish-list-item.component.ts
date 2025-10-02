@@ -19,19 +19,37 @@ import {
   ProductListItemContext,
   ProductListItemContextSource,
 } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { MediaComponent } from '../../../../../projects/storefrontlib/shared/components/media/media.component';
+import { NgIf, NgFor } from '@angular/common';
+import { InnerComponentsHostDirective } from '../../../../../projects/storefrontlib/cms-structure/page/component/inner-components-host.directive';
+import { AtMessageDirective } from '../../../../../projects/storefrontlib/shared/components/assistive-technology-message/assistive-technology-message.directive';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: '[cx-wish-list-item], cx-wish-list-item',
-  templateUrl: './wish-list-item.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    ProductListItemContextSource,
-    {
-      provide: ProductListItemContext,
-      useExisting: ProductListItemContextSource,
-    },
-  ],
-  standalone: false,
+    selector: '[cx-wish-list-item], cx-wish-list-item',
+    templateUrl: './wish-list-item.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        ProductListItemContextSource,
+        {
+            provide: ProductListItemContext,
+            useExisting: ProductListItemContextSource,
+        },
+    ],
+    imports: [
+        RouterLink,
+        MediaComponent,
+        NgIf,
+        NgFor,
+        InnerComponentsHostDirective,
+        AtMessageDirective,
+        TranslatePipe,
+        UrlPipe,
+        MockTranslatePipe,
+    ],
 })
 export class WishListItemComponent implements OnChanges {
   @Input()

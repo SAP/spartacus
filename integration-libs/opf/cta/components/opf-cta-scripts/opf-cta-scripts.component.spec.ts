@@ -17,18 +17,16 @@ const mockHtmlsList: OpfDynamicScript[] = [
 const ctaElementSelector = 'cx-opf-cta-element';
 
 @Component({
-  selector: 'cx-opf-cta-element',
-  template: '',
-  standalone: false,
+    selector: 'cx-opf-cta-element',
+    template: '',
 })
 export class MockOpfCtaElementComponent {
   @Input() ctaScriptHtml: string;
 }
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
-  standalone: false,
+    selector: 'cx-spinner',
+    template: '',
 })
 class MockSpinnerComponent {}
 
@@ -47,15 +45,13 @@ describe('OpfCtaScriptsComponent', () => {
     ]);
 
     TestBed.configureTestingModule({
-      declarations: [
-        OpfCtaScriptsComponent,
+    imports: [OpfCtaScriptsComponent,
         MockOpfCtaElementComponent,
-        MockSpinnerComponent,
-      ],
-      providers: [
+        MockSpinnerComponent,],
+    providers: [
         { provide: OpfCtaScriptsService, useValue: opfCtaScriptsService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

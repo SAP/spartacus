@@ -13,18 +13,18 @@ class MockLaunchDialogService {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
+    selector: 'cx-icon',
+    template: '',
+    imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Component({
-  selector: 'cx-product-image-zoom-view',
-  template: '',
-  standalone: false,
+    selector: 'cx-product-image-zoom-view',
+    template: '',
+    imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockProductImageZoomViewComponent {
   @Input() galleryIndex: number;
@@ -37,19 +37,16 @@ describe('ProductImageZoomDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, KeyboardFocusTestingModule],
-      providers: [
-        {
-          provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
-        },
-      ],
-      declarations: [
-        ProductImageZoomDialogComponent,
+    imports: [I18nTestingModule, KeyboardFocusTestingModule, ProductImageZoomDialogComponent,
         MockCxIconComponent,
-        MockProductImageZoomViewComponent,
-      ],
-    }).compileComponents();
+        MockProductImageZoomViewComponent],
+    providers: [
+        {
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
+        },
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(ProductImageZoomDialogComponent);
     component = fixture.componentInstance;

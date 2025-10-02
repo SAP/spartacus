@@ -26,18 +26,15 @@ const owner: CommonConfigurator.Owner =
 const product: Product = { code: 'pCode' };
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
+    selector: 'cx-icon',
+    template: '',
+    imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]', })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -87,29 +84,26 @@ describe('ConfiguratorRestartDialogComponent', () => {
   beforeEach(waitForAsync(() => {
     initializeMocks();
     TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorRestartDialogComponent,
+    imports: [I18nTestingModule, ConfiguratorRestartDialogComponent,
         MockCxIconComponent,
         MockKeyboadFocusDirective,
-        MockFeatureDirective,
-      ],
-      imports: [I18nTestingModule],
-      providers: [
+        MockFeatureDirective],
+    providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: ConfiguratorCommonsService,
-          useValue: mockConfigCommonsService,
+            provide: ConfiguratorCommonsService,
+            useValue: mockConfigCommonsService,
         },
         {
-          provide: RoutingService,
-          useValue: mockRoutingService,
+            provide: RoutingService,
+            useValue: mockRoutingService,
         },
         {
-          provide: ProductService,
-          useValue: mockProductService,
+            provide: ProductService,
+            useValue: mockProductService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

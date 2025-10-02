@@ -13,11 +13,7 @@ import { UserGroupAssignedPermissionListComponent } from './assigned/user-group-
 import { UserGroupPermissionListComponent } from './user-group-permission-list.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, RouterModule, SubListModule],
-
-  declarations: [
-    UserGroupPermissionListComponent,
-    UserGroupAssignedPermissionListComponent,
-  ],
+    imports: [CommonModule, I18nModule, RouterModule, SubListModule, UserGroupPermissionListComponent,
+        UserGroupAssignedPermissionListComponent],
 })
 export class UserGroupPermissionModule {}

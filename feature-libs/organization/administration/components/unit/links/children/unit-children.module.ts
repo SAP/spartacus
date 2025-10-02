@@ -14,14 +14,14 @@ import { SubListModule } from '../../../shared/sub-list/sub-list.module';
 import { UnitChildrenComponent } from './unit-children.component';
 
 @NgModule({
-  imports: [
-    ListModule,
-    I18nModule,
-    RouterModule,
-    SubListModule,
-    CommonModule,
-    DisableInfoModule,
-  ],
-  declarations: [UnitChildrenComponent],
+    imports: [
+        ListModule,
+        I18nModule,
+        RouterModule,
+        SubListModule,
+        CommonModule,
+        DisableInfoModule,
+        UnitChildrenComponent,
+    ],
 })
 export class UnitChildrenModule {}

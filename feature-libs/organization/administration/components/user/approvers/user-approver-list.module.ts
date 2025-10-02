@@ -13,7 +13,6 @@ import { UserAssignedApproverListComponent } from './assigned/user-assigned-appr
 import { UserApproverListComponent } from './user-approver-list.component';
 
 @NgModule({
-  imports: [ListModule, I18nModule, RouterModule, SubListModule],
-  declarations: [UserApproverListComponent, UserAssignedApproverListComponent],
+    imports: [ListModule, I18nModule, RouterModule, SubListModule, UserApproverListComponent, UserAssignedApproverListComponent],
 })
 export class UserApproverListModule {}

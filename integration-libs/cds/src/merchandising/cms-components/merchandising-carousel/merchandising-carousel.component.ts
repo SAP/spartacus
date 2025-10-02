@@ -21,12 +21,26 @@ import { CmsMerchandisingCarouselComponent as model } from '../../../cds-models/
 import { MerchandisingProduct } from '../../model/index';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import { MerchandisingCarouselModel } from './model/index';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { AttributesDirective } from '../directives/attributes/attributes.directive';
+import { CarouselComponent } from '../../../../../../projects/storefrontlib/shared/components/carousel/carousel.component';
+import { RouterLink } from '@angular/router';
+import { MediaComponent } from '../../../../../../projects/storefrontlib/shared/components/media/media.component';
+import { UrlPipe } from '../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
 
 @Component({
-  selector: 'cx-merchandising-carousel',
-  templateUrl: './merchandising-carousel.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-merchandising-carousel',
+    templateUrl: './merchandising-carousel.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        AttributesDirective,
+        CarouselComponent,
+        RouterLink,
+        MediaComponent,
+        AsyncPipe,
+        UrlPipe,
+    ],
 })
 export class MerchandisingCarouselComponent {
   protected lastEventModelId: string;

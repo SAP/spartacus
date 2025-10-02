@@ -9,12 +9,23 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { PageLayoutService } from './page-layout.service';
 import { useFeatureStyles } from '@spartacus/core';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { PageTemplateDirective } from './page-template.directive';
+import { OutletDirective } from '../../outlet/outlet.directive';
+import { PageSlotComponent } from '../slot/page-slot.component';
 
 @Component({
-  selector: 'cx-page-layout',
-  templateUrl: './page-layout.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-page-layout',
+    templateUrl: './page-layout.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        PageTemplateDirective,
+        OutletDirective,
+        NgFor,
+        PageSlotComponent,
+        AsyncPipe,
+    ],
 })
 export class PageLayoutComponent {
   @Input() set section(value: string) {

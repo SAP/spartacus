@@ -193,33 +193,32 @@ describe('QuoteSummaryActionsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [QuoteSummaryActionsComponent],
-      providers: [
+    imports: [I18nTestingModule, QuoteSummaryActionsComponent],
+    providers: [
         {
-          provide: QuoteFacade,
-          useClass: MockCommerceQuotesFacade,
+            provide: QuoteFacade,
+            useClass: MockCommerceQuotesFacade,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: QuoteUIConfig,
-          useValue: {
-            quote: { confirmActionDialogMapping: testMappings },
-          },
+            provide: QuoteUIConfig,
+            useValue: {
+                quote: { confirmActionDialogMapping: testMappings },
+            },
         },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         {
-          provide: QuoteStorefrontUtilsService,
-          useClass: MockQuoteStorefrontUtilsService,
+            provide: QuoteStorefrontUtilsService,
+            useClass: MockQuoteStorefrontUtilsService,
         },
         {
-          provide: IntersectionService,
-          useClass: MockIntersectionService,
+            provide: IntersectionService,
+            useClass: MockIntersectionService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

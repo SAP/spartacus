@@ -23,9 +23,16 @@ import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
-import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorPriceComponentOptions, ConfiguratorPriceComponent } from '../../price/configurator-price.component';
+import { ConfiguratorAttributeQuantityComponentOptions, ConfiguratorAttributeQuantityComponent } from '../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { MediaComponent } from '../../../../../../projects/storefrontlib/shared/components/media/media.component';
+import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
+import { FocusDirective } from '../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 export interface ConfiguratorAttributeProductCardComponentOptions {
   /** If set to `true`, all action buttons will be disabled.  */
@@ -52,10 +59,22 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
 }
 
 @Component({
-  selector: 'cx-configurator-attribute-product-card',
-  templateUrl: './configurator-attribute-product-card.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-configurator-attribute-product-card',
+    templateUrl: './configurator-attribute-product-card.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        NgClass,
+        MediaComponent,
+        ConfiguratorShowMoreComponent,
+        ConfiguratorAttributeQuantityComponent,
+        ConfiguratorPriceComponent,
+        FocusDirective,
+        IconComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ConfiguratorAttributeProductCardComponent
   extends ConfiguratorAttributeBaseComponent

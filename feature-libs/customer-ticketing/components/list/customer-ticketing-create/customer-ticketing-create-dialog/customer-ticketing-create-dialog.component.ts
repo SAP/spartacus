@@ -5,7 +5,7 @@
  */
 
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   FeatureConfigService,
   GlobalMessageService,
@@ -24,11 +24,41 @@ import { FormUtils } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
 import { catchError, first, map, tap } from 'rxjs/operators';
 import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
+import { FocusDirective } from '../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { FormRequiredLegendComponent } from '../../../../../../projects/storefrontlib/shared/components/form/form-required-legend/form-required-legend.component';
+import { FormRequiredAsterisksComponent } from '../../../../../../projects/storefrontlib/shared/components/form/form-required-asterisks/form-required-asterisks.component';
+import { FormErrorsComponent } from '../../../../../../projects/storefrontlib/shared/components/form/form-errors/form-errors.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { FeatureDirective } from '../../../../../../projects/core/src/features-config/directives/feature.directive';
+import { NgSelectComponent, NgOptionTemplateDirective } from '@ng-select/ng-select';
+import { NgSelectA11yDirective } from '../../../../../../projects/storefrontlib/shared/components/ng-select-a11y/ng-select-a11y.directive';
+import { FileUploadComponent } from '../../../../../../projects/storefrontlib/shared/components/form/file-upload/file-upload.component';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-customer-ticketing-create-dialog',
-  templateUrl: './customer-ticketing-create-dialog.component.html',
-  standalone: false,
+    selector: 'cx-customer-ticketing-create-dialog',
+    templateUrl: './customer-ticketing-create-dialog.component.html',
+    imports: [
+        FocusDirective,
+        FormsModule,
+        ReactiveFormsModule,
+        IconComponent,
+        FormRequiredLegendComponent,
+        FormRequiredAsterisksComponent,
+        FormErrorsComponent,
+        NgIf,
+        FeatureDirective,
+        NgFor,
+        NgSelectComponent,
+        NgSelectA11yDirective,
+        NgOptionTemplateDirective,
+        FileUploadComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class CustomerTicketingCreateDialogComponent
   extends CustomerTicketingDialogComponent

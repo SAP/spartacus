@@ -39,9 +39,8 @@ class MockAuthConfigService implements Partial<AuthConfigService> {
 }
 
 @Component({
-  selector: 'cx-page-layout',
-  template: 'mock',
-  standalone: false,
+    selector: 'cx-page-layout',
+    template: 'mock',
 })
 class MockPageLayoutComponent {}
 
@@ -53,40 +52,40 @@ describe('LoginGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         RouterModule.forRoot([
-          {
-            path: 'login',
-            component: MockPageLayoutComponent,
-            canActivate: [LoginGuard],
-          },
-        ]),
-      ],
-      declarations: [MockPageLayoutComponent],
-      providers: [
-        {
-          provide: RoutingConfig,
-          useValue: {
-            routing: {
-              routes: {
-                login: {
-                  paths: ['login'],
-                },
-                home: {
-                  paths: [''],
-                },
-                logout: {
-                  paths: ['logout'],
-                },
-              },
+            {
+                path: 'login',
+                component: MockPageLayoutComponent,
+                canActivate: [LoginGuard],
             },
-          },
+        ]),
+        MockPageLayoutComponent,
+    ],
+    providers: [
+        {
+            provide: RoutingConfig,
+            useValue: {
+                routing: {
+                    routes: {
+                        login: {
+                            paths: ['login'],
+                        },
+                        home: {
+                            paths: [''],
+                        },
+                        logout: {
+                            paths: ['logout'],
+                        },
+                    },
+                },
+            },
         },
         { provide: AuthService, useClass: MockAuthService },
         { provide: CmsPageGuard, useClass: MockCmsPageGuard },
         { provide: AuthConfigService, useClass: MockAuthConfigService },
-      ],
-    });
+    ],
+});
     authService = TestBed.inject(AuthService);
     loginGuard = TestBed.inject(LoginGuard);
     cmsPageGuard = TestBed.inject(CmsPageGuard);

@@ -12,8 +12,7 @@ import { StarRatingModule } from '@spartacus/storefront';
 import { AsmCustomer360TableComponent } from './asm-customer-360-table.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, ArgsModule, StarRatingModule],
-  declarations: [AsmCustomer360TableComponent],
-  exports: [AsmCustomer360TableComponent],
+    imports: [CommonModule, I18nModule, ArgsModule, StarRatingModule, AsmCustomer360TableComponent],
+    exports: [AsmCustomer360TableComponent],
 })
 export class AsmCustomer360TableModule {}

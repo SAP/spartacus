@@ -16,15 +16,26 @@ import { BaseMessageComponent } from '../base-message.component';
 import { MessageData } from '../message.model';
 import { MessageService } from '../services/message.service';
 import { ConfirmationMessageData } from './confirmation-message.model';
+import { FocusDirective } from '../../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { NgIf } from '@angular/common';
+import { IconComponent } from '../../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 /**
  * Renders a confirmation message and cancel/confirm button in the message component.
  */
 @Component({
-  selector: 'cx-org-confirmation',
-  templateUrl: './confirmation-message.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-org-confirmation',
+    templateUrl: './confirmation-message.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        FocusDirective,
+        NgIf,
+        IconComponent,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ConfirmationMessageComponent
   extends BaseMessageComponent

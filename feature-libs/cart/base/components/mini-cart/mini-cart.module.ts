@@ -17,17 +17,16 @@ import { IconModule } from '@spartacus/storefront';
 import { MiniCartComponent } from './mini-cart.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UrlModule, IconModule, I18nModule],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        MiniCartComponent: {
-          component: MiniCartComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [MiniCartComponent],
-  exports: [MiniCartComponent],
+    imports: [CommonModule, RouterModule, UrlModule, IconModule, I18nModule, MiniCartComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                MiniCartComponent: {
+                    component: MiniCartComponent,
+                },
+            },
+        }),
+    ],
+    exports: [MiniCartComponent],
 })
 export class MiniCartModule {}

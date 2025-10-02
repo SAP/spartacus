@@ -22,12 +22,13 @@ import { CurrentProductService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { ApplePayService } from './apple-pay.service';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-opf-apple-pay',
-  templateUrl: './apple-pay.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-opf-apple-pay',
+    templateUrl: './apple-pay.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgIf, AsyncPipe],
 })
 export class ApplePayComponent implements OnInit {
   @Input() activeConfiguration: OpfActiveConfiguration;

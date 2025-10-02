@@ -3,9 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { JsonLdDirective } from './json-ld.directive';
 
 @Component({
-  selector: 'cx-test-cmp',
-  template: '',
-  standalone: false,
+    selector: 'cx-test-cmp',
+    template: '',
 })
 class TestComponent {}
 
@@ -26,9 +25,8 @@ describe('JsonLdDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestComponent, JsonLdDirective],
-      imports: [],
-    });
+    imports: [TestComponent, JsonLdDirective],
+});
   });
 
   it('should add script tag with schema json', () => {

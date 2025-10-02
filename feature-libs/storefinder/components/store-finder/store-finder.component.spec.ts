@@ -3,9 +3,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { StoreFinderComponent } from './store-finder.component';
 
 @Component({
-  selector: 'cx-store-finder-header',
-  template: '',
-  standalone: false,
+    selector: 'cx-store-finder-header',
+    template: '',
 })
 class MockStoreFinderHeaderComponent {}
 
@@ -15,8 +14,8 @@ describe('StoreFinderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [StoreFinderComponent, MockStoreFinderHeaderComponent],
-    }).compileComponents();
+    imports: [StoreFinderComponent, MockStoreFinderHeaderComponent],
+}).compileComponents();
   }));
 
   beforeEach(() => {

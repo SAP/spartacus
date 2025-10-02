@@ -11,12 +11,23 @@ import { Observable, combineLatest } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 import { OrderAmendService } from '../../amend-order.service';
 import { Consignment } from '@spartacus/order/root';
+import { NgIf, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { CancelOrReturnItemsComponent } from '../../amend-order-items/amend-order-items.component';
+import { FormErrorsComponent } from '../../../../../../projects/storefrontlib/shared/components/form/form-errors/form-errors.component';
+import { AmendOrderActionsComponent } from '../../amend-order-actions/amend-order-actions.component';
 
 @Component({
-  selector: 'cx-return-order',
-  templateUrl: './return-order.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-return-order',
+    templateUrl: './return-order.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        NgTemplateOutlet,
+        CancelOrReturnItemsComponent,
+        FormErrorsComponent,
+        AmendOrderActionsComponent,
+        AsyncPipe,
+    ],
 })
 export class ReturnOrderComponent {
   orderCode: string;

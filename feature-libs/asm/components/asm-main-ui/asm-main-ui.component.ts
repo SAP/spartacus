@@ -57,6 +57,17 @@ import {
 } from 'rxjs/operators';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
+import { IconComponent } from '../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { FeatureDirective } from '../../../../projects/core/src/features-config/directives/feature.directive';
+import { AsmToggleUiComponent } from '../asm-toggle-ui/asm-toggle-ui.component';
+import { AsmSessionTimerComponent } from '../asm-session-timer/asm-session-timer.component';
+import { CustomerEmulationComponent } from '../customer-emulation/customer-emulation.component';
+import { MessageComponent } from '../../../../projects/storefrontlib/cms-components/misc/message/message.component';
+import { CustomerSelectionComponent } from '../customer-selection/customer-selection.component';
+import { CSAgentLoginFormComponent } from '../csagent-login-form/csagent-login-form.component';
+import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 interface CartTypeKey {
   [key: string]: string;
@@ -67,9 +78,22 @@ export const CART_TYPE_KEY: CartTypeKey = {
   inactive: 'asm.saveInactiveCartAlertInfo',
 };
 @Component({
-  selector: 'cx-asm-main-ui',
-  templateUrl: './asm-main-ui.component.html',
-  standalone: false,
+    selector: 'cx-asm-main-ui',
+    templateUrl: './asm-main-ui.component.html',
+    imports: [
+        IconComponent,
+        NgIf,
+        FeatureDirective,
+        AsmToggleUiComponent,
+        AsmSessionTimerComponent,
+        CustomerEmulationComponent,
+        MessageComponent,
+        CustomerSelectionComponent,
+        CSAgentLoginFormComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class AsmMainUiComponent implements OnInit, OnDestroy {
   customerSupportAgentLoggedIn$: Observable<boolean>;

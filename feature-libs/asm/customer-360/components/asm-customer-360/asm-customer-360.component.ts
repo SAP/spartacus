@@ -44,12 +44,38 @@ import {
 import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { AsmCustomer360Config } from '../config/asm-customer-360-config';
+import { FocusDirective } from '../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { NgTemplateOutlet, NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { MessageComponent } from '../../../../../projects/storefrontlib/cms-components/misc/message/message.component';
+import { MediaComponent } from '../../../../../projects/storefrontlib/shared/components/media/media.component';
+import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { AsmCustomer360SectionComponent } from '../sections/asm-customer-360-section/asm-customer-360-section.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { CxDatePipe } from '../../../../../projects/core/src/i18n/date.pipe';
+import { ArgsPipe } from '../../../core/utils/args/args.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'cx-asm-customer-360',
-  templateUrl: './asm-customer-360.component.html',
-  standalone: false,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-asm-customer-360',
+    templateUrl: './asm-customer-360.component.html',
+    imports: [
+        FocusDirective,
+        NgTemplateOutlet,
+        NgIf,
+        MessageComponent,
+        MediaComponent,
+        IconComponent,
+        NgFor,
+        AsmCustomer360SectionComponent,
+        AsyncPipe,
+        TranslatePipe,
+        CxDatePipe,
+        ArgsPipe,
+        MockTranslatePipe,
+        MockDatePipe,
+    ],
 })
 export class AsmCustomer360Component implements OnDestroy, OnInit {
   @HostBinding('attr.role') role = 'dialog';

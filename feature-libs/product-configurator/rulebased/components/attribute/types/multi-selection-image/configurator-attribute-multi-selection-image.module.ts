@@ -18,29 +18,27 @@ import { ConfiguratorPriceModule } from '../../../price/configurator-price.modul
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 
 @NgModule({
-  imports: [
-    KeyboardFocusModule,
-    FormsModule,
-    ReactiveFormsModule,
-    CommonModule,
-    I18nModule,
-    IconModule,
-    ConfiguratorPriceModule,
-    PopoverModule,
-  ],
-  providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
-      productConfigurator: {
-        assignment: {
-          AttributeType_multi_selection_image:
-            ConfiguratorAttributeMultiSelectionImageComponent,
-          AttributeType_read_only_multi_selection_image:
-            ConfiguratorAttributeMultiSelectionImageComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ConfiguratorAttributeMultiSelectionImageComponent],
-  exports: [ConfiguratorAttributeMultiSelectionImageComponent],
+    imports: [
+        KeyboardFocusModule,
+        FormsModule,
+        ReactiveFormsModule,
+        CommonModule,
+        I18nModule,
+        IconModule,
+        ConfiguratorPriceModule,
+        PopoverModule,
+        ConfiguratorAttributeMultiSelectionImageComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+            productConfigurator: {
+                assignment: {
+                    AttributeType_multi_selection_image: ConfiguratorAttributeMultiSelectionImageComponent,
+                    AttributeType_read_only_multi_selection_image: ConfiguratorAttributeMultiSelectionImageComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ConfiguratorAttributeMultiSelectionImageComponent],
 })
 export class ConfiguratorAttributeMultiSelectionImageModule {}

@@ -4,9 +4,9 @@ import { FeaturesConfig, FeaturesConfigModule } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
 
 @Component({
-  selector: 'cx-test-cmp',
-  template: '',
-  standalone: false,
+    selector: 'cx-test-cmp',
+    template: '',
+    imports: [FeaturesConfigModule],
 })
 class TestComponent {}
 
@@ -27,17 +27,16 @@ describe('cxFeatureLevel directive', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestComponent],
-      imports: [FeaturesConfigModule],
-      providers: [
+    imports: [FeaturesConfigModule, TestComponent],
+    providers: [
         {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.1' },
-          },
+            provide: FeaturesConfig,
+            useValue: {
+                features: { level: '1.1' },
+            },
         },
-      ],
-    });
+    ],
+});
   });
 
   describe('when using string parameter', () => {

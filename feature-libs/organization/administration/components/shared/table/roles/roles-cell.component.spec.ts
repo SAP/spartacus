@@ -11,19 +11,18 @@ describe('RolesCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RolesCellComponent],
-      imports: [UrlTestingModule, I18nTestingModule],
-      providers: [
+    imports: [UrlTestingModule, I18nTestingModule, RolesCellComponent],
+    providers: [
         {
-          provide: OutletContextData,
-          useValue: {
-            context: {
-              roles: ['approver', 'worker'],
+            provide: OutletContextData,
+            useValue: {
+                context: {
+                    roles: ['approver', 'worker'],
+                },
             },
-          },
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

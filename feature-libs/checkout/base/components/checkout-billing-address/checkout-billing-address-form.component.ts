@@ -5,7 +5,7 @@
  */
 
 import { Component, OnInit, inject } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
 import {
   Address,
@@ -35,11 +35,33 @@ import {
   tap,
 } from 'rxjs';
 import { CheckoutBillingAddressFormService } from './checkout-billing-address-form.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
+import { FormRequiredLegendComponent } from '../../../../../projects/storefrontlib/shared/components/form/form-required-legend/form-required-legend.component';
+import { FormRequiredAsterisksComponent } from '../../../../../projects/storefrontlib/shared/components/form/form-required-asterisks/form-required-asterisks.component';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { NgSelectA11yDirective } from '../../../../../projects/storefrontlib/shared/components/ng-select-a11y/ng-select-a11y.directive';
+import { FormErrorsComponent } from '../../../../../projects/storefrontlib/shared/components/form/form-errors/form-errors.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-checkout-billing-address-form',
-  templateUrl: './checkout-billing-address-form.component.html',
-  standalone: false,
+    selector: 'cx-checkout-billing-address-form',
+    templateUrl: './checkout-billing-address-form.component.html',
+    imports: [
+        NgIf,
+        CardComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        FormRequiredLegendComponent,
+        FormRequiredAsterisksComponent,
+        NgSelectComponent,
+        NgSelectA11yDirective,
+        FormErrorsComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class CheckoutBillingAddressFormComponent implements OnInit {
   showSameAsDeliveryAddressCheckbox$: Observable<boolean>;

@@ -13,14 +13,14 @@ import { FileUploadComponent } from './file-upload.component';
 import { KeyboardFocusModule } from '../../../../layout/a11y';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormErrorsModule,
-    I18nModule,
-    KeyboardFocusModule,
-  ],
-  declarations: [FileUploadComponent],
-  exports: [FileUploadComponent],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        I18nModule,
+        KeyboardFocusModule,
+        FileUploadComponent,
+    ],
+    exports: [FileUploadComponent],
 })
 export class FileUploadModule {}

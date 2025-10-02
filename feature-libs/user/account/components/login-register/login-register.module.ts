@@ -19,24 +19,24 @@ import { LoginAsGuestGuard } from '../guards/login-as-guest.guard';
 import { LoginRegisterComponent } from './login-register.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    UrlModule,
-    PageSlotModule,
-    I18nModule,
-    BtnLikeLinkModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ReturningCustomerRegisterComponent: {
-          component: LoginRegisterComponent,
-          guards: [NotAuthGuard, LoginAsGuestGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [LoginRegisterComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        UrlModule,
+        PageSlotModule,
+        I18nModule,
+        BtnLikeLinkModule,
+        LoginRegisterComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ReturningCustomerRegisterComponent: {
+                    component: LoginRegisterComponent,
+                    guards: [NotAuthGuard, LoginAsGuestGuard],
+                },
+            },
+        }),
+    ],
 })
 export class LoginRegisterModule {}

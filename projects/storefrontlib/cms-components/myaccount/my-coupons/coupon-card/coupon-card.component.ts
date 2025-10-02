@@ -19,12 +19,24 @@ import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
+import { AsyncPipe, LowerCasePipe } from '@angular/common';
+import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
+import { CxDatePipe } from '../../../../../core/src/i18n/date.pipe';
+import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
+import { MockDatePipe } from '../../../../../core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-  selector: 'cx-coupon-card',
-  templateUrl: './coupon-card.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-coupon-card',
+    templateUrl: './coupon-card.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        AsyncPipe,
+        LowerCasePipe,
+        TranslatePipe,
+        CxDatePipe,
+        MockTranslatePipe,
+        MockDatePipe,
+    ],
 })
 export class CouponCardComponent {
   @Input() coupon: CustomerCoupon;

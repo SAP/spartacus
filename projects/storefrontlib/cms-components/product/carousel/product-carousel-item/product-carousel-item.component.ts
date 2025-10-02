@@ -16,19 +16,32 @@ import {
   ProductListItemContext,
   ProductListItemContextSource,
 } from '../../product-list';
+import { RouterLink } from '@angular/router';
+import { LcpContextDirective } from '../../../../shared/lcp-context/lcp-context.directive';
+import { MediaComponent } from '../../../../shared/components/media/media.component';
+import { InnerComponentsHostDirective } from '../../../../cms-structure/page/component/inner-components-host.directive';
+import { AsyncPipe } from '@angular/common';
+import { UrlPipe } from '../../../../../core/src/routing/configurable-routes/url-translation/url.pipe';
 
 @Component({
-  selector: 'cx-product-carousel-item',
-  templateUrl: './product-carousel-item.component.html',
-  providers: [
-    ProductListItemContextSource,
-    {
-      provide: ProductListItemContext,
-      useExisting: ProductListItemContextSource,
-    },
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-product-carousel-item',
+    templateUrl: './product-carousel-item.component.html',
+    providers: [
+        ProductListItemContextSource,
+        {
+            provide: ProductListItemContext,
+            useExisting: ProductListItemContextSource,
+        },
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        RouterLink,
+        LcpContextDirective,
+        MediaComponent,
+        InnerComponentsHostDirective,
+        AsyncPipe,
+        UrlPipe,
+    ],
 })
 export class ProductCarouselItemComponent implements OnChanges {
   /**

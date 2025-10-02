@@ -23,12 +23,35 @@ import {
   paymentMethodCard,
 } from '@spartacus/order/root';
 import { OrderOverviewComponentService } from './order-overview-component.service';
+import { NgIf, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
+import { OutletDirective } from '../../../../../projects/storefrontlib/cms-structure/outlet/outlet.directive';
+import { OrderDetailBillingComponent } from '../order-detail-billing/order-detail-billing.component';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { CxDatePipe } from '../../../../../projects/core/src/i18n/date.pipe';
+import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-  selector: 'cx-order-overview',
-  templateUrl: './order-overview.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-order-overview',
+    templateUrl: './order-overview.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        CardComponent,
+        OutletDirective,
+        NgTemplateOutlet,
+        OrderDetailBillingComponent,
+        RouterLink,
+        AsyncPipe,
+        TranslatePipe,
+        CxDatePipe,
+        UrlPipe,
+        MockTranslatePipe,
+        MockDatePipe,
+    ],
 })
 export class OrderOverviewComponent {
   protected orderOverviewComponentService = inject(

@@ -29,37 +29,37 @@ import { RegistrationVerificationTokenFormComponentService } from './verify-regi
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    KeyboardFocusModule,
-    ReactiveFormsModule,
-    RouterModule,
-    UrlModule,
-    IconModule,
-    I18nModule,
-    FormErrorsModule,
-    SpinnerModule,
-    FeaturesConfigModule,
-    FormRequiredAsterisksComponent,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        VerifyOTPForRegistrationComponent: {
-          component: RegistrationVerificationTokenFormComponent,
-          guards: [NotAuthGuard],
-          providers: [
-            {
-              provide: RegistrationVerificationTokenFormComponentService,
-              useClass: RegistrationVerificationTokenFormComponentService,
-              deps: [GlobalMessageService, UserRegisterFacade],
+    imports: [
+        CommonModule,
+        FormsModule,
+        KeyboardFocusModule,
+        ReactiveFormsModule,
+        RouterModule,
+        UrlModule,
+        IconModule,
+        I18nModule,
+        FormErrorsModule,
+        SpinnerModule,
+        FeaturesConfigModule,
+        FormRequiredAsterisksComponent,
+        RegistrationVerificationTokenFormComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                VerifyOTPForRegistrationComponent: {
+                    component: RegistrationVerificationTokenFormComponent,
+                    guards: [NotAuthGuard],
+                    providers: [
+                        {
+                            provide: RegistrationVerificationTokenFormComponentService,
+                            useClass: RegistrationVerificationTokenFormComponentService,
+                            deps: [GlobalMessageService, UserRegisterFacade],
+                        },
+                    ],
+                },
             },
-          ],
-        },
-      },
-    }),
-  ],
-  declarations: [RegistrationVerificationTokenFormComponent],
+        }),
+    ],
 })
 export class RegistrationVerificationTokenFormModule {}

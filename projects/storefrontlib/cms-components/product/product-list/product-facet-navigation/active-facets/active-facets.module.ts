@@ -13,14 +13,14 @@ import { KeyboardFocusModule } from '../../../../../layout/a11y/keyboard-focus/k
 import { ActiveFacetsComponent } from './active-facets.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    I18nModule,
-    IconModule,
-    KeyboardFocusModule,
-  ],
-  declarations: [ActiveFacetsComponent],
-  exports: [ActiveFacetsComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        I18nModule,
+        IconModule,
+        KeyboardFocusModule,
+        ActiveFacetsComponent,
+    ],
+    exports: [ActiveFacetsComponent],
 })
 export class ActiveFacetsModule {}

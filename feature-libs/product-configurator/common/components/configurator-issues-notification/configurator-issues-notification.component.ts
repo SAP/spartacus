@@ -10,11 +10,23 @@ import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-configurator-issues-notification',
-  templateUrl: './configurator-issues-notification.component.html',
-  standalone: false,
+    selector: 'cx-configurator-issues-notification',
+    templateUrl: './configurator-issues-notification.component.html',
+    imports: [
+        NgIf,
+        IconComponent,
+        ConfigureCartEntryComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ConfiguratorIssuesNotificationComponent {
   iconTypes = ICON_TYPE;

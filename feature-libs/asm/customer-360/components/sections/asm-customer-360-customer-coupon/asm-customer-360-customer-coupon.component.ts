@@ -22,12 +22,23 @@ import { catchError, map } from 'rxjs/operators';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { CustomerCouponEntry } from './asm-customer-360-customer-coupon.model';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
+import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'cx-asm-customer-360-customer-coupon',
-  templateUrl: './asm-customer-360-customer-coupon.component.html',
-  standalone: false,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-asm-customer-360-customer-coupon',
+    templateUrl: './asm-customer-360-customer-coupon.component.html',
+    imports: [
+        AsmCustomer360PromotionListingComponent,
+        IconComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class AsmCustomer360CustomerCouponComponent
   implements OnInit, OnDestroy

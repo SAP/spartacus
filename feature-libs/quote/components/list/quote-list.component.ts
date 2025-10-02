@@ -18,13 +18,37 @@ import {
 } from '@spartacus/core';
 import { QuoteState } from '@spartacus/quote/root';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
+import { SortingComponent } from '../../../../projects/storefrontlib/shared/components/list-navigation/sorting/sorting.component';
+import { PaginationComponent } from '../../../../projects/storefrontlib/shared/components/list-navigation/pagination/pagination.component';
+import { RouterLink } from '@angular/router';
+import { IconComponent } from '../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { CxDatePipe as CxDatePipe_1 } from '../../../../projects/core/src/i18n/date.pipe';
+import { UrlPipe } from '../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { MockDatePipe } from '../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-  selector: 'cx-quote-list',
-  templateUrl: './quote-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [CxDatePipe],
-  standalone: false,
+    selector: 'cx-quote-list',
+    templateUrl: './quote-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [CxDatePipe],
+    imports: [
+        NgIf,
+        SortingComponent,
+        PaginationComponent,
+        NgFor,
+        RouterLink,
+        NgClass,
+        IconComponent,
+        AsyncPipe,
+        TranslatePipe,
+        CxDatePipe_1,
+        UrlPipe,
+        MockTranslatePipe,
+        MockDatePipe,
+    ],
 })
 export class QuoteListComponent implements OnInit {
   protected quoteListComponentService = inject(QuoteListComponentService);

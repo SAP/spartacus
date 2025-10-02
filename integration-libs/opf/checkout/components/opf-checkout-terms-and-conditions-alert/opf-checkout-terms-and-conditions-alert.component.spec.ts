@@ -3,18 +3,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OpfCheckoutTermsAndConditionsAlertComponent } from './opf-checkout-terms-and-conditions-alert.component';
 
 @Component({
-  selector: 'cx-icon',
-  template: '<ng-content></ng-content>',
-  standalone: false,
+    selector: 'cx-icon',
+    template: '<ng-content></ng-content>',
 })
 class MockIconComponent {
   @Input() type: string;
 }
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate', })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -27,12 +23,10 @@ describe('OpfCheckoutTermsAndConditionsAlertComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        OpfCheckoutTermsAndConditionsAlertComponent,
+    imports: [OpfCheckoutTermsAndConditionsAlertComponent,
         MockIconComponent,
-        MockTranslatePipe,
-      ],
-    }).compileComponents();
+        MockTranslatePipe,],
+}).compileComponents();
 
     fixture = TestBed.createComponent(
       OpfCheckoutTermsAndConditionsAlertComponent

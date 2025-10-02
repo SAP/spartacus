@@ -12,9 +12,8 @@ import { OpfCheckoutPaymentWrapperComponent } from './opf-checkout-payment-wrapp
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 
 @NgModule({
-  declarations: [OpfCheckoutPaymentWrapperComponent],
-  providers: [OpfCheckoutPaymentWrapperService],
-  exports: [OpfCheckoutPaymentWrapperComponent],
-  imports: [CommonModule, I18nModule, SpinnerModule],
+    providers: [OpfCheckoutPaymentWrapperService],
+    exports: [OpfCheckoutPaymentWrapperComponent],
+    imports: [CommonModule, I18nModule, SpinnerModule, OpfCheckoutPaymentWrapperComponent],
 })
 export class OpfCheckoutPaymentWrapperModule {}

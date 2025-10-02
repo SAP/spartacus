@@ -96,17 +96,16 @@ describe('ProductVariantSizeSelectorComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductVariantSizeSelectorComponent],
-      imports: [I18nTestingModule],
-      providers: [
+    imports: [I18nTestingModule, ProductVariantSizeSelectorComponent],
+    providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: RoutingService, useClass: MockRoutingService },
         {
-          provide: ProductService,
-          useClass: MockProductService,
+            provide: ProductService,
+            useClass: MockProductService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
     routingService = TestBed.inject(RoutingService);
   }));
 

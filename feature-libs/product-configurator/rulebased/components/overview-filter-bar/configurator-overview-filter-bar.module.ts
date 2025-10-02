@@ -12,14 +12,14 @@ import { IconModule } from '@spartacus/storefront';
 import { ConfiguratorOverviewFilterBarComponent } from './configurator-overview-filter-bar.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    IconModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
-  declarations: [ConfiguratorOverviewFilterBarComponent],
-  exports: [ConfiguratorOverviewFilterBarComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        IconModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ConfiguratorOverviewFilterBarComponent,
+    ],
+    exports: [ConfiguratorOverviewFilterBarComponent],
 })
 export class ConfiguratorOverviewFilterBarModule {}

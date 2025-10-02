@@ -9,11 +9,13 @@ import { delay, take, distinctUntilChanged, filter } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-configurator-show-options',
-  templateUrl: './configurator-show-options.component.html',
-  standalone: false,
+    selector: 'cx-configurator-show-options',
+    templateUrl: './configurator-show-options.component.html',
+    imports: [TranslatePipe, MockTranslatePipe],
 })
 export class ConfiguratorShowOptionsComponent {
   protected configuratorCommonsService = inject(ConfiguratorCommonsService);

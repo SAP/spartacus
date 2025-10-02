@@ -26,17 +26,16 @@ describe('CellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CellComponent],
-      imports: [UrlTestingModule, I18nTestingModule],
-      providers: [
+    imports: [UrlTestingModule, I18nTestingModule, CellComponent],
+    providers: [
         {
-          provide: OutletContextData,
-          useValue: {
-            context: mockContext,
-          },
+            provide: OutletContextData,
+            useValue: {
+                context: mockContext,
+            },
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

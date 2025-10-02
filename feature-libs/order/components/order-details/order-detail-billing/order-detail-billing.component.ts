@@ -15,12 +15,18 @@ import { Card } from '@spartacus/storefront';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
 
 @Component({
-  selector: 'cx-order-detail-billing',
-  templateUrl: './order-detail-billing.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-order-detail-billing',
+    templateUrl: './order-detail-billing.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        CardComponent,
+        AsyncPipe,
+    ],
 })
 export class OrderDetailBillingComponent {
   order$: Observable<Order | undefined> =

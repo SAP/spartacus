@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { HorizontalScrollingPositionDirective } from './horizontal-scrolling-position.directive';
 
 @NgModule({
-  declarations: [HorizontalScrollingPositionDirective],
-  exports: [HorizontalScrollingPositionDirective],
+    imports: [HorizontalScrollingPositionDirective],
+    exports: [HorizontalScrollingPositionDirective],
 })
 export class HorizontalScrollingPositionDirectiveModule {}

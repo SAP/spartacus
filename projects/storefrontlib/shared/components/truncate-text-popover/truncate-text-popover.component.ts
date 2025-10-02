@@ -5,12 +5,24 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { NgClass, NgIf } from '@angular/common';
+import { PopoverDirective } from '../popover/popover.directive';
+import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
+import { TruncatePipe } from './truncate.pipe';
+import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-truncate-text-popover',
-  templateUrl: './truncate-text-popover.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-truncate-text-popover',
+    templateUrl: './truncate-text-popover.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgClass,
+        NgIf,
+        PopoverDirective,
+        TranslatePipe,
+        TruncatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class TruncateTextPopoverComponent {
   /**

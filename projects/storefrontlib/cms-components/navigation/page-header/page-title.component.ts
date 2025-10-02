@@ -18,12 +18,13 @@ import {
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'cx-page-title',
-  templateUrl: './page-title.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-page-title',
+    templateUrl: './page-title.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [AsyncPipe],
 })
 export class PageTitleComponent implements OnInit, AfterViewInit {
   title$: Observable<string>;

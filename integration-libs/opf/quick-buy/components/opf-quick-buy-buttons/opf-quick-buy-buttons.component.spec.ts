@@ -36,15 +36,15 @@ describe('OpfQuickBuyButtonsComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      declarations: [OpfQuickBuyButtonsComponent],
-      providers: [
+    imports: [OpfQuickBuyButtonsComponent],
+    providers: [
         {
-          provide: OpfQuickBuyButtonsService,
-          useValue: opfQuickBuyButtonsServiceMock,
+            provide: OpfQuickBuyButtonsService,
+            useValue: opfQuickBuyButtonsServiceMock,
         },
         { provide: RoutingService, useValie: MockRoutingService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

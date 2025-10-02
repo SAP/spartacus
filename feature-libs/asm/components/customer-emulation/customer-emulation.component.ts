@@ -23,11 +23,21 @@ import { UserAccountFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { AsmBindCartComponent } from '../asm-bind-cart/asm-bind-cart.component';
+import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-customer-emulation',
-  templateUrl: './customer-emulation.component.html',
-  standalone: false,
+    selector: 'cx-customer-emulation',
+    templateUrl: './customer-emulation.component.html',
+    imports: [
+        NgIf,
+        AsmBindCartComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;

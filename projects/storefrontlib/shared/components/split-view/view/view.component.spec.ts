@@ -39,12 +39,12 @@ describe('ViewComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ViewComponent],
-      providers: [
+    imports: [ViewComponent],
+    providers: [
         { provide: SplitViewService, useClass: MockSplitViewService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-      ],
-    })
+    ],
+})
       .overrideComponent(ViewComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

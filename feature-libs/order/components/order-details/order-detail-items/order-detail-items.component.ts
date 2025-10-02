@@ -18,11 +18,29 @@ import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { MyAccountV2OrderConsignmentsService } from '../my-account-v2-order-consignments.service';
 import { OrderDetailsService } from '../order-details.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { PromotionsComponent } from '../../../../../projects/storefrontlib/cms-components/misc/promotions/promotions.component';
+import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
+import { OutletDirective } from '../../../../../projects/storefrontlib/cms-structure/outlet/outlet.directive';
+import { AbstractOrderContextDirective } from '../../../../cart/base/components/abstract-order-context/abstract-order-context.directive';
+import { AddToCartComponent } from '../../../../cart/base/components/add-to-cart/add-to-cart.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-order-details-items',
-  templateUrl: './order-detail-items.component.html',
-  standalone: false,
+    selector: 'cx-order-details-items',
+    templateUrl: './order-detail-items.component.html',
+    imports: [
+        NgIf,
+        PromotionsComponent,
+        OrderConsignedEntriesComponent,
+        OutletDirective,
+        AbstractOrderContextDirective,
+        AddToCartComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class OrderDetailItemsComponent {
   protected orderConsignmentsService = inject(

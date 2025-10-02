@@ -14,19 +14,27 @@ import { ListService } from '../../shared/list/list.service';
 import { SubListComponent } from '../../shared/sub-list/sub-list.component';
 import { CurrentUserGroupService } from '../services/current-user-group.service';
 import { UserGroupUserListService } from './user-group-user-list.service';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-org-user-group-user-list',
-  templateUrl: './user-group-user-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
-  providers: [
-    {
-      provide: ListService,
-      useExisting: UserGroupUserListService,
-    },
-  ],
-  standalone: false,
+    selector: 'cx-org-user-group-user-list',
+    templateUrl: './user-group-user-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'content-wrapper' },
+    providers: [
+        {
+            provide: ListService,
+            useExisting: UserGroupUserListService,
+        },
+    ],
+    imports: [
+        SubListComponent,
+        RouterLink,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class UserGroupUserListComponent {
   constructor(

@@ -18,12 +18,24 @@ import {
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { LcpContextDirective } from '../../../shared/lcp-context/lcp-context.directive';
+import { MediaComponent } from '../../../shared/components/media/media.component';
+import { CarouselScrollingComponent } from '../../../shared/components/carousel-scrolling/carousel-scrolling.component';
+import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
 
 @Component({
-  selector: 'cx-product-images',
-  templateUrl: './product-images.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-product-images',
+    templateUrl: './product-images.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        LcpContextDirective,
+        MediaComponent,
+        CarouselScrollingComponent,
+        CarouselComponent,
+        AsyncPipe,
+    ],
 })
 export class ProductImagesComponent {
   protected mainMediaContainer = new BehaviorSubject<any>(null);

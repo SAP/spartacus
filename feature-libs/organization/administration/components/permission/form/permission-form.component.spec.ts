@@ -79,28 +79,26 @@ describe('PermissionFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         I18nTestingModule,
         UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         FormTestingModule,
-      ],
-      declarations: [
         PermissionFormComponent,
         FormErrorsComponent,
         MockFeatureDirective,
-      ],
-      providers: [
+    ],
+    providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         {
-          provide: PermissionItemService,
-          useClass: MockItemService,
+            provide: PermissionItemService,
+            useClass: MockItemService,
         },
         { provide: PermissionService, useClass: MockPermissionService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     currencyService = TestBed.inject(CurrencyService);
     b2bUnitService = TestBed.inject(OrgUnitService);

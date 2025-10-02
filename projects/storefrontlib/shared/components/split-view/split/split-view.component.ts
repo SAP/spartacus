@@ -40,11 +40,10 @@ import { SplitViewService } from '../split-view.service';
  * property conveniently.
  */
 @Component({
-  selector: 'cx-split-view',
-  templateUrl: './split-view.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [SplitViewService],
-  standalone: false,
+    selector: 'cx-split-view',
+    templateUrl: './split-view.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [SplitViewService],
 })
 export class SplitViewComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

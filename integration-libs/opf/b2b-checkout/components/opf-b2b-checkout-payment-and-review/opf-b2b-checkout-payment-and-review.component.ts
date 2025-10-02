@@ -10,12 +10,38 @@ import { Observable, take, map, filter, combineLatest } from 'rxjs';
 import { Card } from '@spartacus/storefront';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import { OpfCheckoutPaymentAndReviewComponent } from '@spartacus/opf/checkout/components';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { OpfCheckoutReviewCardComponent } from '../../../checkout/components/opf-checkout-review-card/opf-checkout-review-card.component';
+import { OpfCheckoutTermsAndConditionsAlertComponent } from '../../../checkout/components/opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { OpfCheckoutBillingAddressFormComponent } from '../../../checkout/components/opf-checkout-billing-address-form/opf-checkout-billing-address-form.component';
+import { OpfCheckoutPaymentsComponent } from '../../../checkout/components/opf-checkout-payments/opf-checkout-payments.component';
+import { OpfCheckoutReviewCartDetailsComponent } from '../../../checkout/components/opf-checkout-review-cart-details/opf-checkout-review-cart-details.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-opf-b2b-checkout-payment-and-review',
-  templateUrl: './opf-b2b-checkout-payment-and-review.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-opf-b2b-checkout-payment-and-review',
+    templateUrl: './opf-b2b-checkout-payment-and-review.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        OpfCheckoutReviewCardComponent,
+        OpfCheckoutTermsAndConditionsAlertComponent,
+        NgClass,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterLink,
+        OpfCheckoutBillingAddressFormComponent,
+        OpfCheckoutPaymentsComponent,
+        OpfCheckoutReviewCartDetailsComponent,
+        AsyncPipe,
+        TranslatePipe,
+        UrlPipe,
+        MockTranslatePipe,
+    ],
 })
 export class OpfB2bCheckoutPaymentAndReviewComponent
   extends OpfCheckoutPaymentAndReviewComponent

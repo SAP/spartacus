@@ -5,8 +5,7 @@ import { MOVE_FOCUS, TrapFocus } from '../keyboard-focus.model';
 import { SelectFocusUtility } from '../services';
 import { TrapFocusService } from './trap-focus.service';
 
-@Component({
-  template: `
+@Component({ template: `
     <div id="a"></div>
     <div id="b">
       <button id="b1"></button>
@@ -16,9 +15,7 @@ import { TrapFocusService } from './trap-focus.service';
       <button id="b5"></button>
     </div>
     <div id="c"></div>
-  `,
-  standalone: false,
-})
+  `, })
 class MockComponent {}
 
 class MockSelectFocusUtility {
@@ -34,15 +31,15 @@ describe('TrapFocusService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent],
-      providers: [
+    imports: [MockComponent],
+    providers: [
         TrapFocusService,
         {
-          provide: SelectFocusUtility,
-          useClass: MockSelectFocusUtility,
+            provide: SelectFocusUtility,
+            useClass: MockSelectFocusUtility,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     service = TestBed.inject(TrapFocusService);
     fixture = TestBed.createComponent(MockComponent);

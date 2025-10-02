@@ -9,30 +9,26 @@ import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.se
 import { StorefrontComponent } from './storefront.component';
 
 @Component({
-  selector: 'cx-header',
-  template: '',
-  standalone: false,
+    selector: 'cx-header',
+    template: '',
 })
 class MockHeaderComponent {}
 
 @Component({
-  selector: 'cx-global-message',
-  template: '',
-  standalone: false,
+    selector: 'cx-global-message',
+    template: '',
 })
 class MockGlobalMessageComponent {}
 
 @Component({
-  selector: 'cx-page-slot',
-  template: '',
-  standalone: false,
+    selector: 'cx-page-slot',
+    template: '',
 })
 class DynamicSlotComponent {}
 
 @Component({
-  selector: 'cx-footer',
-  template: '',
-  standalone: false,
+    selector: 'cx-footer',
+    template: '',
 })
 class MockFooterComponent {}
 
@@ -43,16 +39,14 @@ class MockRoutingService {
 }
 
 @Component({
-  selector: 'cx-schema',
-  template: '',
-  standalone: false,
+    selector: 'cx-schema',
+    template: '',
 })
 class MockSchemaComponent {}
 
 @Component({
-  selector: 'cx-page-layout',
-  template: '',
-  standalone: false,
+    selector: 'cx-page-layout',
+    template: '',
 })
 class MockPageLayoutComponent {}
 
@@ -61,10 +55,7 @@ class MockHamburgerMenuService {
   isExpanded = of(false);
 }
 
-@Directive({
-  selector: '[cxOutlet]',
-  standalone: false,
-})
+@Directive({ selector: '[cxOutlet]', })
 class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
 }
@@ -91,8 +82,7 @@ describe('StorefrontComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        StorefrontComponent,
+    imports: [StorefrontComponent,
         MockHeaderComponent,
         MockGlobalMessageComponent,
         MockFooterComponent,
@@ -100,29 +90,28 @@ describe('StorefrontComponent', () => {
         MockPageLayoutComponent,
         MockFeatureDirective,
         MockSchemaComponent,
-        MockOutletDirective,
-      ],
-      providers: [
+        MockOutletDirective,],
+    providers: [
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
         {
-          provide: HamburgerMenuService,
-          useClass: MockHamburgerMenuService,
+            provide: HamburgerMenuService,
+            useClass: MockHamburgerMenuService,
         },
         {
-          provide: SkipLinkService,
-          useClass: MockSkipLinkService,
+            provide: SkipLinkService,
+            useClass: MockSkipLinkService,
         },
         {
-          provide: FeatureConfigService,
-          useValue: {
-            isEnabled: () => true,
-          },
+            provide: FeatureConfigService,
+            useValue: {
+                isEnabled: () => true,
+            },
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

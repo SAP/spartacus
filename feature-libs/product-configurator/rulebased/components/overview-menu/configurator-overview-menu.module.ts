@@ -11,8 +11,7 @@ import { IconModule } from '@spartacus/storefront';
 import { ConfiguratorOverviewMenuComponent } from './configurator-overview-menu.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule],
-  declarations: [ConfiguratorOverviewMenuComponent],
-  exports: [ConfiguratorOverviewMenuComponent],
+    imports: [CommonModule, I18nModule, IconModule, ConfiguratorOverviewMenuComponent],
+    exports: [ConfiguratorOverviewMenuComponent],
 })
 export class ConfiguratorOverviewMenuModule {}

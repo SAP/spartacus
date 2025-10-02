@@ -14,15 +14,15 @@ import { ListModule } from '../../shared/list/list.module';
 import { ToggleLinkCellComponent } from './toggle-link/toggle-link-cell.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    UrlModule,
-    I18nModule,
-    IconModule,
-    ListModule,
-  ],
-  declarations: [UnitListComponent, ToggleLinkCellComponent],
-  exports: [ToggleLinkCellComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        UrlModule,
+        I18nModule,
+        IconModule,
+        ListModule,
+        UnitListComponent, ToggleLinkCellComponent,
+    ],
+    exports: [ToggleLinkCellComponent],
 })
 export class UnitListModule {}

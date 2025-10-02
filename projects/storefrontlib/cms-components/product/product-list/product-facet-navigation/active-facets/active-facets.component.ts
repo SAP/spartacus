@@ -15,16 +15,31 @@ import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import { FacetList } from '../facet.model';
 import { FacetService } from '../services/facet.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
+import { IconComponent } from '../../../../misc/icon/icon.component';
+import { TranslatePipe } from '../../../../../../core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 /**
  * Active facets render the applied facet values as a list of focusable buttons
  * which can be used to remove the applied facet value.
  */
 @Component({
-  selector: 'cx-active-facets',
-  templateUrl: './active-facets.component.html',
-  changeDetection: ChangeDetectionStrategy.Default,
-  standalone: false,
+    selector: 'cx-active-facets',
+    templateUrl: './active-facets.component.html',
+    changeDetection: ChangeDetectionStrategy.Default,
+    imports: [
+        NgIf,
+        NgFor,
+        RouterLink,
+        FocusDirective,
+        IconComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ActiveFacetsComponent {
   @HostBinding('attr.role') role = 'group';

@@ -6,6 +6,9 @@
 
 import { Component } from '@angular/core';
 import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
+import { FocusDirective } from '../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 export enum BIND_CART_DIALOG_ACTION {
   CANCEL = 'CANCEL',
@@ -13,9 +16,13 @@ export enum BIND_CART_DIALOG_ACTION {
 }
 
 @Component({
-  selector: 'cx-asm-bind-cart-dialog',
-  templateUrl: './asm-bind-cart-dialog.component.html',
-  standalone: false,
+    selector: 'cx-asm-bind-cart-dialog',
+    templateUrl: './asm-bind-cart-dialog.component.html',
+    imports: [
+        FocusDirective,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class AsmBindCartDialogComponent {
   BIND_CART_ACTION = BIND_CART_DIALOG_ACTION;

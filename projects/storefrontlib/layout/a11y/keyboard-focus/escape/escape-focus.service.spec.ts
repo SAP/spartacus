@@ -5,10 +5,7 @@ import { EscapeFocusConfig } from '../keyboard-focus.model';
 import { SelectFocusUtility } from '../services';
 import { EscapeFocusService } from './escape-focus.service';
 
-@Component({
-  template: '<div id="a"></div><div id="b" tabindex="5"></div>',
-  standalone: false,
-})
+@Component({ template: '<div id="a"></div><div id="b" tabindex="5"></div>', })
 class MockComponent {}
 
 class MockSelectFocusUtility {
@@ -21,15 +18,15 @@ describe('EscapeFocusService', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent],
-      providers: [
+    imports: [MockComponent],
+    providers: [
         EscapeFocusService,
         {
-          provide: SelectFocusUtility,
-          useClass: MockSelectFocusUtility,
+            provide: SelectFocusUtility,
+            useClass: MockSelectFocusUtility,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     service = TestBed.inject(EscapeFocusService);
     focusUtility = TestBed.inject(SelectFocusUtility);

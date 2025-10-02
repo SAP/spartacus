@@ -13,11 +13,23 @@ import {
 } from '@angular/core';
 import { GlobalMessageType } from '@spartacus/core';
 import { PromotionListEntry } from './asm-customer-360-promotion-listing.model';
+import { NgIf, NgFor } from '@angular/common';
+import { MessageComponent } from '../../../../../projects/storefrontlib/cms-components/misc/message/message.component';
+import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'cx-asm-customer-360-promotion-listing',
-  templateUrl: './asm-customer-360-promotion-listing.component.html',
-  standalone: false,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-asm-customer-360-promotion-listing',
+    templateUrl: './asm-customer-360-promotion-listing.component.html',
+    imports: [
+        NgIf,
+        MessageComponent,
+        NgFor,
+        IconComponent,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class AsmCustomer360PromotionListingComponent {
   @Input() headerText: string;

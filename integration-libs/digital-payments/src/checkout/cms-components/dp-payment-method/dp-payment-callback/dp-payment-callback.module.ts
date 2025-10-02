@@ -13,15 +13,15 @@ import { CheckoutBillingAddressFormModule } from '@spartacus/checkout/base/compo
 import { DpConfirmationDialogModule } from '../dp-confirmation-dialog/dp-confirmation-dialog.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SpinnerModule,
-    I18nModule,
-    CheckoutBillingAddressFormModule,
-    FeaturesConfigModule,
-    DpConfirmationDialogModule,
-  ],
-  declarations: [DpPaymentCallbackComponent],
-  exports: [DpPaymentCallbackComponent],
+    imports: [
+        CommonModule,
+        SpinnerModule,
+        I18nModule,
+        CheckoutBillingAddressFormModule,
+        FeaturesConfigModule,
+        DpConfirmationDialogModule,
+        DpPaymentCallbackComponent,
+    ],
+    exports: [DpPaymentCallbackComponent],
 })
 export class DpPaymentCallbackModule {}

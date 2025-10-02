@@ -39,10 +39,7 @@ import { ComponentHandlerService } from './services/component-handler.service';
 /**
  * Directive used to facilitate instantiation of CMS driven dynamic components
  */
-@Directive({
-  selector: '[cxComponentWrapper]',
-  standalone: false,
-})
+@Directive({ selector: '[cxComponentWrapper]', })
 export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Input() cxComponentWrapper: ContentSlotComponentData;
   @Output() cxComponentRef = new EventEmitter<ComponentRef<any>>();

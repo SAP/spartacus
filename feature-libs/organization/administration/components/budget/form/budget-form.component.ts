@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Currency, CurrencyService } from '@spartacus/core';
 import {
   B2BUnitNode,
@@ -19,23 +19,45 @@ import { ItemService } from '../../shared/item.service';
 import { createCodeForEntityName } from '../../shared/utility/entity-code';
 import { BudgetItemService } from '../services/budget-item.service';
 import { CurrentBudgetService } from '../services/current-budget.service';
+import { FormComponent } from '../../shared/form/form.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { FormRequiredLegendComponent } from '../../../../../../projects/storefrontlib/shared/components/form/form-required-legend/form-required-legend.component';
+import { FormRequiredAsterisksComponent } from '../../../../../../projects/storefrontlib/shared/components/form/form-required-asterisks/form-required-asterisks.component';
+import { FormErrorsComponent } from '../../../../../../projects/storefrontlib/shared/components/form/form-errors/form-errors.component';
+import { DatePickerComponent } from '../../../../../../projects/storefrontlib/shared/components/form/date-picker/date-picker.component';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-org-budget-form',
-  templateUrl: './budget-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
-  providers: [
-    {
-      provide: ItemService,
-      useExisting: BudgetItemService,
-    },
-    {
-      provide: CurrentItemService,
-      useExisting: CurrentBudgetService,
-    },
-  ],
-  standalone: false,
+    selector: 'cx-org-budget-form',
+    templateUrl: './budget-form.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'content-wrapper' },
+    providers: [
+        {
+            provide: ItemService,
+            useExisting: BudgetItemService,
+        },
+        {
+            provide: CurrentItemService,
+            useExisting: CurrentBudgetService,
+        },
+    ],
+    imports: [
+        FormComponent,
+        NgIf,
+        FormsModule,
+        ReactiveFormsModule,
+        FormRequiredLegendComponent,
+        FormRequiredAsterisksComponent,
+        FormErrorsComponent,
+        DatePickerComponent,
+        NgSelectComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class BudgetFormComponent implements OnInit {
   form: UntypedFormGroup | null = this.itemService.getForm();

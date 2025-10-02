@@ -11,17 +11,16 @@ import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule, KeyboardFocusModule],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ConfiguratorMenu: {
-          component: ConfiguratorGroupMenuComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ConfiguratorGroupMenuComponent],
-  exports: [ConfiguratorGroupMenuComponent],
+    imports: [CommonModule, I18nModule, IconModule, KeyboardFocusModule, ConfiguratorGroupMenuComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ConfiguratorMenu: {
+                    component: ConfiguratorGroupMenuComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ConfiguratorGroupMenuComponent],
 })
 export class ConfiguratorGroupMenuModule {}

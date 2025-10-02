@@ -24,6 +24,19 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { SortingComponent } from '../../../shared/components/list-navigation/sorting/sorting.component';
+import { PaginationComponent } from '../../../shared/components/list-navigation/pagination/pagination.component';
+import { FeatureDirective } from '../../../../core/src/features-config/directives/feature.directive';
+import { RouterLink } from '@angular/router';
+import { MediaComponent } from '../../../shared/components/media/media.component';
+import { AtMessageDirective } from '../../../shared/components/assistive-technology-message/assistive-technology-message.directive';
+import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
+import { CxDatePipe } from '../../../../core/src/i18n/date.pipe';
+import { UrlPipe } from '../../../../core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
+import { MockDatePipe } from '../../../../core/src/i18n/testing/mock-date.pipe';
 
 interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   results?: (ProductInterestEntryRelation & {
@@ -32,10 +45,26 @@ interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
 }
 
 @Component({
-  selector: 'cx-my-interests',
-  templateUrl: './my-interests.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-my-interests',
+    templateUrl: './my-interests.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        SortingComponent,
+        PaginationComponent,
+        FeatureDirective,
+        NgFor,
+        RouterLink,
+        MediaComponent,
+        AtMessageDirective,
+        SpinnerComponent,
+        AsyncPipe,
+        TranslatePipe,
+        CxDatePipe,
+        UrlPipe,
+        MockTranslatePipe,
+        MockDatePipe,
+    ],
 })
 export class MyInterestsComponent implements OnInit, OnDestroy {
   private DEFAULT_PAGE_SIZE = 10;

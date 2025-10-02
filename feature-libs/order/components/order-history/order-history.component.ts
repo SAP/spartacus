@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { Params } from '@angular/router';
+import { Params, RouterLink, RouterLinkActive } from '@angular/router';
 import {
   RoutingService,
   TranslationService,
@@ -19,12 +19,36 @@ import {
 } from '@spartacus/order/root';
 import { Observable, combineLatest } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
+import { NgIf, NgClass, NgFor, AsyncPipe } from '@angular/common';
+import { SortingComponent } from '../../../../projects/storefrontlib/shared/components/list-navigation/sorting/sorting.component';
+import { PaginationComponent } from '../../../../projects/storefrontlib/shared/components/list-navigation/pagination/pagination.component';
+import { BtnLikeLinkDirective } from '../../../../projects/storefrontlib/layout/a11y/btn-like-link/btn-like-link.directive';
+import { UrlPipe } from '../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { CxDatePipe } from '../../../../projects/core/src/i18n/date.pipe';
+import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { MockDatePipe } from '../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-  selector: 'cx-order-history',
-  templateUrl: './order-history.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-order-history',
+    templateUrl: './order-history.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        NgClass,
+        SortingComponent,
+        PaginationComponent,
+        NgFor,
+        RouterLink,
+        BtnLikeLinkDirective,
+        RouterLinkActive,
+        AsyncPipe,
+        UrlPipe,
+        TranslatePipe,
+        CxDatePipe,
+        MockTranslatePipe,
+        MockDatePipe,
+    ],
 })
 export class OrderHistoryComponent implements OnDestroy {
   constructor(

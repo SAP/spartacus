@@ -46,9 +46,9 @@ import { AsmBindCartComponent } from './asm-bind-cart.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
+    selector: 'cx-icon',
+    template: '',
+    imports: [FormsModule, ReactiveFormsModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -83,10 +83,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   }
 }
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate', })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -164,14 +161,11 @@ describe('AsmBindCartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule],
-      declarations: [
-        AsmBindCartComponent,
+    imports: [FormsModule, ReactiveFormsModule, AsmBindCartComponent,
         MockTranslatePipe,
         MockCxIconComponent,
-        DotSpinnerComponent,
-      ],
-      providers: [
+        DotSpinnerComponent],
+    providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
@@ -182,8 +176,8 @@ describe('AsmBindCartComponent', () => {
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: AsmComponentService, useClass: MockAsmComponentService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

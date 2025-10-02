@@ -49,9 +49,11 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 @Component({
-  selector: 'cx-import-entries-form',
-  template: '',
-  standalone: false,
+    selector: 'cx-import-entries-form',
+    template: '',
+    imports: [I18nTestingModule,
+        IconTestingModule,
+        KeyboardFocusTestingModule,],
 })
 class MockImportEntriesFormComponent {
   @Input()
@@ -65,20 +67,18 @@ describe('ImportEntriesDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         I18nTestingModule,
         IconTestingModule,
         KeyboardFocusTestingModule,
-      ],
-      declarations: [
         ImportEntriesDialogComponent,
         MockImportEntriesFormComponent,
         MockFeatureDirective,
-      ],
-      providers: [
+    ],
+    providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(ImportEntriesDialogComponent);
     component = fixture.componentInstance;

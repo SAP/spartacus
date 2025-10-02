@@ -44,17 +44,14 @@ describe('StockNotificationDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        StockNotificationDialogComponent,
+    imports: [I18nTestingModule, SpinnerModule, UrlTestingModule, StockNotificationDialogComponent,
         FocusDirective,
-        MockFeatureDirective,
-      ],
-      imports: [I18nTestingModule, SpinnerModule, UrlTestingModule],
-      providers: [
+        MockFeatureDirective],
+    providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: UserInterestsService, useValue: interestsService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     launchDialogService = TestBed.inject(LaunchDialogService);
   }));

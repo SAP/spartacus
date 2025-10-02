@@ -34,18 +34,16 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { Component, Input } from '@angular/core';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate', })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
 @Component({
-  selector: 'cx-opf-checkout-payments',
-  template: '',
-  standalone: false,
+    selector: 'cx-opf-checkout-payments',
+    template: '',
+    imports: [ReactiveFormsModule,
+        I18nTestingModule],
 })
 class MockOpfCheckoutPaymentsComponent {
   @Input() onlyPaymentWrapperMode: boolean;
@@ -111,33 +109,31 @@ describe('OpfB2bCheckoutPaymentAndReviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         I18nTestingModule,
         StoreModule.forRoot({}),
-      ],
-      declarations: [
         OpfB2bCheckoutPaymentAndReviewComponent,
         MockTranslatePipe,
         MockOpfCheckoutPaymentsComponent,
-      ],
-      providers: [
+    ],
+    providers: [
         {
-          provide: CheckoutPaymentTypeFacade,
-          useClass: MockCheckoutPaymentTypeFacade,
+            provide: CheckoutPaymentTypeFacade,
+            useClass: MockCheckoutPaymentTypeFacade,
         },
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         {
-          provide: OpfMetadataStoreService,
-          useClass: MockOpfMetadataStoreService,
+            provide: OpfMetadataStoreService,
+            useClass: MockOpfMetadataStoreService,
         },
         { provide: OpfPaymentFacade, useClass: MockOpfPaymentFacade },
         { provide: UserIdService, useValue: {} },
         { provide: GlobalMessageService, useValue: {} },
         { provide: ActivatedRoute, useValue: {} },
         { provide: CmsService, useClass: MockCmsService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(OpfB2bCheckoutPaymentAndReviewComponent);
     component = fixture.componentInstance;

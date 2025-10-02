@@ -32,42 +32,42 @@ import { RegisterVerificationTokenFormComponent } from './verification-token-for
 import { VerificationTokenFacade } from '@spartacus/user/account/root';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    KeyboardFocusModule,
-    ReactiveFormsModule,
-    RouterModule,
-    UrlModule,
-    IconModule,
-    I18nModule,
-    FormErrorsModule,
-    SpinnerModule,
-    FeaturesConfigModule,
-    FormRequiredAsterisksComponent,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        VerifyOTPForB2BRegistrationComponent: {
-          component: RegisterVerificationTokenFormComponent,
-          guards: [NotAuthGuard],
-          providers: [
-            {
-              provide: RegisterVerificationTokenFormComponentService,
-              useClass: RegisterVerificationTokenFormComponentService,
-              deps: [
-                AuthService,
-                GlobalMessageService,
-                VerificationTokenFacade,
-                WindowRef,
-              ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        KeyboardFocusModule,
+        ReactiveFormsModule,
+        RouterModule,
+        UrlModule,
+        IconModule,
+        I18nModule,
+        FormErrorsModule,
+        SpinnerModule,
+        FeaturesConfigModule,
+        FormRequiredAsterisksComponent,
+        RegisterVerificationTokenFormComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                VerifyOTPForB2BRegistrationComponent: {
+                    component: RegisterVerificationTokenFormComponent,
+                    guards: [NotAuthGuard],
+                    providers: [
+                        {
+                            provide: RegisterVerificationTokenFormComponentService,
+                            useClass: RegisterVerificationTokenFormComponentService,
+                            deps: [
+                                AuthService,
+                                GlobalMessageService,
+                                VerificationTokenFacade,
+                                WindowRef,
+                            ],
+                        },
+                    ],
+                },
             },
-          ],
-        },
-      },
-    }),
-  ],
-  declarations: [RegisterVerificationTokenFormComponent],
+        }),
+    ],
 })
 export class RegisterVerificationTokenFormModule {}

@@ -22,26 +22,26 @@ import {
 import { AddToWishListComponent } from './add-to-wish-list.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    IconModule,
-    RouterModule,
-    UrlModule,
-    AtMessageModule,
-    FeaturesConfigModule,
-    BtnLikeLinkModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        AddToWishListComponent: {
-          component: AddToWishListComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [AddToWishListComponent],
-  exports: [AddToWishListComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        IconModule,
+        RouterModule,
+        UrlModule,
+        AtMessageModule,
+        FeaturesConfigModule,
+        BtnLikeLinkModule,
+        AddToWishListComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                AddToWishListComponent: {
+                    component: AddToWishListComponent,
+                },
+            },
+        }),
+    ],
+    exports: [AddToWishListComponent],
 })
 export class AddToWishListModule {}

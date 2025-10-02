@@ -8,10 +8,7 @@ import { CmsComponentData, Media, MediaService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PDFComponent } from './pdf.component';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate', })
 class MockTranslatePipe implements PipeTransform {
   transform(value: string): any {
     if (value === 'pdf.defaultTitle') return 'Document';
@@ -30,9 +27,8 @@ class MockMediaService {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
+    selector: 'cx-icon',
+    template: '',
 })
 class MockCxIconComponent {
   @Input() type: any;
@@ -67,15 +63,15 @@ describe('PdfComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PDFComponent, MockTranslatePipe, MockCxIconComponent],
-      providers: [
+    imports: [PDFComponent, MockTranslatePipe, MockCxIconComponent,],
+    providers: [
         {
-          provide: CmsComponentData,
-          useClass: MockCmsPDFDocumentComponentData,
+            provide: CmsComponentData,
+            useClass: MockCmsPDFDocumentComponentData,
         },
         { provide: MediaService, useClass: MockMediaService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

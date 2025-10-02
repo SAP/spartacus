@@ -11,10 +11,9 @@ import createSpy = jasmine.createSpy;
 const mockCode = 'mc1';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'cx-host',
-  template: `<div [cxOrgItemExists]>TEST</div>`,
-  standalone: false,
+    // eslint-disable-next-line @angular-eslint/component-selector
+    selector: 'cx-host',
+    template: `<div [cxOrgItemExists]>TEST</div>`,
 })
 class TestComponent {
   form: UntypedFormGroup = new UntypedFormGroup({});
@@ -52,18 +51,18 @@ describe('ItemExistsDirective', () => {
 
   function configureTestingModule(service) {
     TestBed.configureTestingModule({
-      declarations: [ItemExistsDirective, TestComponent],
-      providers: [
+    imports: [ItemExistsDirective, TestComponent],
+    providers: [
         {
-          provide: ItemService,
-          useClass: service,
+            provide: ItemService,
+            useClass: service,
         },
         {
-          provide: MessageService,
-          useClass: MockMessageService,
+            provide: MessageService,
+            useClass: MockMessageService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     messageService = TestBed.inject(MessageService);
     fixture = TestBed.createComponent(TestComponent);

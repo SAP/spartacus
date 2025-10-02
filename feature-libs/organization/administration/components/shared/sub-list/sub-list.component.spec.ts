@@ -37,10 +37,14 @@ const mockEmptyList: EntitiesModel<any> = {
 };
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'cx-table',
-  template: '',
-  standalone: false,
+    // eslint-disable-next-line @angular-eslint/component-selector
+    selector: 'cx-table',
+    template: '',
+    imports: [CommonModule,
+        CardTestingModule,
+        MessageTestingModule,
+        I18nTestingModule,
+        PaginationTestingModule,],
 })
 class MockTableComponent {
   @Input() data;
@@ -78,11 +82,9 @@ class ActivatedRouteMock {
   constructor(public snapshot: any) {}
 }
 
-@Directive({
-  // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ 
+    // eslint-disable-next-line @angular-eslint/directive-selector
+    selector: '[cxFocus]', })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -94,34 +96,31 @@ describe('SubListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         CommonModule,
         CardTestingModule,
         MessageTestingModule,
         I18nTestingModule,
         PaginationTestingModule,
-      ],
-      declarations: [
         SubListComponent,
         MockTableComponent,
         MockKeyboadFocusDirective,
-      ],
-
-      providers: [
+    ],
+    providers: [
         {
-          provide: ListService,
-          useClass: MockBaseListService,
+            provide: ListService,
+            useClass: MockBaseListService,
         },
         {
-          provide: ItemService,
-          useClass: MockItemService,
+            provide: ItemService,
+            useClass: MockItemService,
         },
         {
-          provide: ActivatedRoute,
-          useValue: new ActivatedRouteMock({}),
+            provide: ActivatedRoute,
+            useValue: new ActivatedRouteMock({}),
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

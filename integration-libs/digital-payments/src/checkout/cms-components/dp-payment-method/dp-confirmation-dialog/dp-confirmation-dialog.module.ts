@@ -16,14 +16,14 @@ import { defaultDpConfirmationDialogConfig } from './default-dp-confirmation-dia
 import { DpConfirmationDialogComponent } from './dp-confirmation-dialog.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    KeyboardFocusModule,
-    IconModule,
-    FeaturesConfigModule,
-  ],
-  providers: [provideDefaultConfig(defaultDpConfirmationDialogConfig)],
-  declarations: [DpConfirmationDialogComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        KeyboardFocusModule,
+        IconModule,
+        FeaturesConfigModule,
+        DpConfirmationDialogComponent,
+    ],
+    providers: [provideDefaultConfig(defaultDpConfirmationDialogConfig)],
 })
 export class DpConfirmationDialogModule {}

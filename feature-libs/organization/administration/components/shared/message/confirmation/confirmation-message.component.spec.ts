@@ -27,26 +27,25 @@ describe('ConfirmationMessageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         CommonModule,
         PaginationTestingModule,
         KeyboardFocusTestingModule,
         I18nTestingModule,
         IconTestingModule,
-      ],
-      declarations: [ConfirmationMessageComponent],
-
-      providers: [
+        ConfirmationMessageComponent,
+    ],
+    providers: [
         {
-          provide: MessageData,
-          useValue: MockMessageData,
+            provide: MessageData,
+            useValue: MockMessageData,
         },
         {
-          provide: MessageService,
-          useClass: MockMessageService,
+            provide: MessageService,
+            useClass: MockMessageService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     messageData = TestBed.inject(MessageData);
 

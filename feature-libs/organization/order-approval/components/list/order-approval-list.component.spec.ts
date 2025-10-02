@@ -75,9 +75,9 @@ class MockActivatedRoute {
 }
 
 @Component({
-  template: '',
-  selector: 'cx-sorting',
-  standalone: false,
+    template: '',
+    selector: 'cx-sorting',
+    imports: [I18nTestingModule, UrlTestingModule, PaginationTestingModule,],
 })
 class MockSortingComponent {
   @Input() sortOptions;
@@ -111,15 +111,14 @@ describe('OrderApprovalListComponent?', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, UrlTestingModule, PaginationTestingModule],
-      declarations: [OrderApprovalListComponent, MockSortingComponent],
-      providers: [
+    imports: [I18nTestingModule, UrlTestingModule, PaginationTestingModule, OrderApprovalListComponent, MockSortingComponent],
+    providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrderApprovalService, useClass: MockOrderApprovalService },
         { provide: RoutingService, useClass: MockRoutingService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     orderApprovalService = TestBed.inject(OrderApprovalService);
     routingService = TestBed.inject(RoutingService);

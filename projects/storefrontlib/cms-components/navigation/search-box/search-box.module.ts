@@ -23,28 +23,28 @@ import { HighlightPipe } from './highlight.pipe';
 import { SearchBoxComponent } from './search-box.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    MediaModule,
-    IconModule,
-    UrlModule,
-    I18nModule,
-    OutletModule,
-    FeaturesConfigModule,
-    CarouselModule,
-    KeyboardFocusModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        SearchBoxComponent: {
-          component: SearchBoxComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [SearchBoxComponent, HighlightPipe],
-  exports: [SearchBoxComponent, HighlightPipe],
+    imports: [
+        CommonModule,
+        RouterModule,
+        MediaModule,
+        IconModule,
+        UrlModule,
+        I18nModule,
+        OutletModule,
+        FeaturesConfigModule,
+        CarouselModule,
+        KeyboardFocusModule,
+        SearchBoxComponent, HighlightPipe,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                SearchBoxComponent: {
+                    component: SearchBoxComponent,
+                },
+            },
+        }),
+    ],
+    exports: [SearchBoxComponent, HighlightPipe],
 })
 export class SearchBoxModule {}

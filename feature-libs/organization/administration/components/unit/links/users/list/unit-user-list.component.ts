@@ -12,19 +12,33 @@ import { ListService } from '../../../../shared/list/list.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitUserListService } from '../services/unit-user-list.service';
 import { B2BUserService } from '@spartacus/organization/administration/core';
+import { SubListComponent } from '../../../../shared/sub-list/sub-list.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { DisableInfoComponent } from '../../../../shared/detail/disable-info/disable-info.component';
+import { TranslatePipe } from '../../../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-org-unit-user-list',
-  templateUrl: './unit-user-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
-  providers: [
-    {
-      provide: ListService,
-      useExisting: UnitUserListService,
-    },
-  ],
-  standalone: false,
+    selector: 'cx-org-unit-user-list',
+    templateUrl: './unit-user-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'content-wrapper' },
+    providers: [
+        {
+            provide: ListService,
+            useExisting: UnitUserListService,
+        },
+    ],
+    imports: [
+        SubListComponent,
+        NgIf,
+        RouterLink,
+        DisableInfoComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class UnitUserListComponent {
   routerKey = ROUTE_PARAMS.userCode;

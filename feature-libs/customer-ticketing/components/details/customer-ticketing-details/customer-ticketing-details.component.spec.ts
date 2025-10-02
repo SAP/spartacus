@@ -52,18 +52,17 @@ describe('CustomerTicketingDetailsComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, CardModule],
-      declarations: [CustomerTicketingDetailsComponent],
-      providers: [
+    imports: [I18nTestingModule, CardModule, CustomerTicketingDetailsComponent],
+    providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {
-          provide: CustomerTicketingFacade,
-          useClass: MockCustomerTicketingFacade,
+            provide: CustomerTicketingFacade,
+            useClass: MockCustomerTicketingFacade,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: EventService, useClass: MockEventService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
     eventService = TestBed.inject(EventService);
     spyOn(eventService, 'dispatch').and.callThrough();
     routerParam$.next({ ticketCode: '1' });

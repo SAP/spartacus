@@ -89,10 +89,19 @@ class ActivatedRouteMock {
 }
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'cx-table',
-  template: '',
-  standalone: false,
+    // eslint-disable-next-line @angular-eslint/component-selector
+    selector: 'cx-table',
+    template: '',
+    imports: [CommonModule,
+        I18nTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+        PaginationTestingModule,
+        IconTestingModule,
+        NgSelectModule,
+        FormsModule,
+        KeyboardFocusTestingModule,
+        PopoverModule,],
 })
 class MockTableComponent {
   @Input() data;
@@ -104,8 +113,17 @@ class MockTableComponent {
 }
 
 @Component({
-  templateUrl: './list.component.html',
-  standalone: false,
+    templateUrl: './list.component.html',
+    imports: [CommonModule,
+        I18nTestingModule,
+        UrlTestingModule,
+        SplitViewTestingModule,
+        PaginationTestingModule,
+        IconTestingModule,
+        NgSelectModule,
+        FormsModule,
+        KeyboardFocusTestingModule,
+        PopoverModule,],
 })
 class MockListComponent extends ListComponent<Mock> {
   constructor(
@@ -125,7 +143,7 @@ describe('ListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         CommonModule,
         I18nTestingModule,
         UrlTestingModule,
@@ -136,27 +154,25 @@ describe('ListComponent', () => {
         FormsModule,
         KeyboardFocusTestingModule,
         PopoverModule,
-      ],
-      declarations: [
         MockListComponent,
         MockTableComponent,
         MockFeatureDirective,
-      ],
-      providers: [
+    ],
+    providers: [
         {
-          provide: ActivatedRoute,
-          useValue: new ActivatedRouteMock({}),
+            provide: ActivatedRoute,
+            useValue: new ActivatedRouteMock({}),
         },
         {
-          provide: ListService,
-          useClass: MockBaseListService,
+            provide: ListService,
+            useClass: MockBaseListService,
         },
         {
-          provide: ItemService,
-          useClass: MockItemService,
+            provide: ItemService,
+            useClass: MockItemService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     service = TestBed.inject(ListService);
     itemService = TestBed.inject(ItemService);

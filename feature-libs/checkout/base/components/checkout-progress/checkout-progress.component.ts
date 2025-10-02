@@ -15,12 +15,27 @@ import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CurrencyService, LanguageService } from '@spartacus/core';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MultiLinePipe } from './multiline-titles.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-checkout-progress',
-  templateUrl: './checkout-progress.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-checkout-progress',
+    templateUrl: './checkout-progress.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        NgFor,
+        RouterLink,
+        AsyncPipe,
+        UrlPipe,
+        TranslatePipe,
+        MultiLinePipe,
+        MockTranslatePipe,
+    ],
 })
 export class CheckoutProgressComponent implements OnInit {
   params$ = new Observable<string[]>();

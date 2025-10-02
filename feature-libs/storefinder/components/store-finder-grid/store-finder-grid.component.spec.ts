@@ -13,9 +13,9 @@ const countryIsoCode = 'CA';
 const regionIsoCode = 'CA-QC';
 
 @Component({
-  selector: 'cx-store-finder-list-item',
-  template: '',
-  standalone: false,
+    selector: 'cx-store-finder-list-item',
+    template: '',
+    imports: [SpinnerModule],
 })
 class MockStoreFinderListItemComponent {
   @Input()
@@ -54,19 +54,16 @@ describe('StoreFinderGridComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SpinnerModule],
-      declarations: [
-        StoreFinderGridComponent,
+    imports: [SpinnerModule, StoreFinderGridComponent,
         MockStoreFinderListItemComponent,
-        MockFeatureDirective,
-      ],
-      providers: [
+        MockFeatureDirective],
+    providers: [
         { provide: StoreFinderService, useClass: MockStoreFinderService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: RoutingService, useValue: mockRoutingService },
         { provide: TranslationService, useClass: MockTranslationService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

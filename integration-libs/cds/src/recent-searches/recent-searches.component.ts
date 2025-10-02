@@ -18,6 +18,12 @@ import {
 import { RecentSearchesService } from './recent-searches.service';
 import { map, tap } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { HighlightPipe } from '../../../../projects/storefrontlib/cms-components/navigation/search-box/highlight.pipe';
+import { UrlPipe } from '../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 export interface SearchBoxOutlet {
   search: string;
@@ -28,10 +34,19 @@ export interface SearchBoxOutlet {
 const MAX_RECENT_SEARCHES = 5;
 
 @Component({
-  selector: 'cx-recent-searches',
-  templateUrl: './recent-searches.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-recent-searches',
+    templateUrl: './recent-searches.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        NgFor,
+        RouterLink,
+        AsyncPipe,
+        TranslatePipe,
+        HighlightPipe,
+        UrlPipe,
+        MockTranslatePipe,
+    ],
 })
 export class RecentSearchesComponent implements OnInit {
   public result$: Observable<string[]>;

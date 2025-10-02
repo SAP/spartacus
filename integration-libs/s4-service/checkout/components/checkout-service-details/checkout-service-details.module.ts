@@ -20,25 +20,25 @@ import {
 import { CheckoutServiceDetailsComponent } from './checkout-service-details.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    DatePickerModule,
-    ReactiveFormsModule,
-    FormRequiredAsterisksComponent,
-    FormRequiredLegendComponent,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CheckoutServiceDetails: {
-          component: CheckoutServiceDetailsComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
-        },
-      },
-    }),
-  ],
-  exports: [CheckoutServiceDetailsComponent],
-  declarations: [CheckoutServiceDetailsComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        DatePickerModule,
+        ReactiveFormsModule,
+        FormRequiredAsterisksComponent,
+        FormRequiredLegendComponent,
+        CheckoutServiceDetailsComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CheckoutServiceDetails: {
+                    component: CheckoutServiceDetailsComponent,
+                    guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+                },
+            },
+        }),
+    ],
+    exports: [CheckoutServiceDetailsComponent],
 })
 export class CheckoutServiceDetailsModule {}

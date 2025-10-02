@@ -28,10 +28,9 @@ describe('AsmCustomer360ProductListingComponent', () => {
 
   @Component({
     template: '',
-    selector:
-      '[cx-asm-customer-360-product-item], cx-asm-customer-360-product-item',
-    standalone: false,
-  })
+    selector: '[cx-asm-customer-360-product-item], cx-asm-customer-360-product-item',
+    imports: [I18nTestingModule],
+})
   class MockAsmProductItemComponent {
     @Input() product: Product;
     @Input() quantity: number;
@@ -57,8 +56,8 @@ describe('AsmCustomer360ProductListingComponent', () => {
         <div id="product-listing-header-template"></div>
       </ng-template>
     `,
-    standalone: false,
-  })
+    imports: [I18nTestingModule],
+})
   // eslint-disable-next-line @angular-eslint/component-class-suffix
   class AsmCustomerProductListingComponentTest {
     @ViewChild(AsmCustomer360ProductListingComponent)
@@ -86,19 +85,16 @@ describe('AsmCustomer360ProductListingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        AsmCustomer360ProductListingComponent,
+    imports: [I18nTestingModule, AsmCustomer360ProductListingComponent,
         MockAsmProductItemComponent,
-        AsmCustomerProductListingComponentTest,
-      ],
-      providers: [
+        AsmCustomerProductListingComponentTest],
+    providers: [
         {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
+            provide: BreakpointService,
+            useClass: MockBreakpointService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   function createComponent(): void {

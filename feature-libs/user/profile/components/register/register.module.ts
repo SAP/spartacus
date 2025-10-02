@@ -32,43 +32,43 @@ import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
 
 @NgModule({
-  imports: [
-    CaptchaModule,
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    UrlModule,
-    I18nModule,
-    SpinnerModule,
-    FormErrorsModule,
-    FormRequiredAsterisksComponent,
-    FormRequiredLegendComponent,
-    NgSelectA11yModule,
-    NgSelectModule,
-    PasswordVisibilityToggleModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        RegisterCustomerComponent: {
-          component: RegisterComponent,
-          guards: [NotAuthGuard],
-          providers: [
-            {
-              provide: RegisterComponentService,
-              useClass: RegisterComponentService,
-              deps: [
-                UserRegisterFacade,
-                GlobalMessageService,
-                UntypedFormBuilder,
-              ],
+    imports: [
+        CaptchaModule,
+        CommonModule,
+        ReactiveFormsModule,
+        RouterModule,
+        UrlModule,
+        I18nModule,
+        SpinnerModule,
+        FormErrorsModule,
+        FormRequiredAsterisksComponent,
+        FormRequiredLegendComponent,
+        NgSelectA11yModule,
+        NgSelectModule,
+        PasswordVisibilityToggleModule,
+        FeaturesConfigModule,
+        RegisterComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                RegisterCustomerComponent: {
+                    component: RegisterComponent,
+                    guards: [NotAuthGuard],
+                    providers: [
+                        {
+                            provide: RegisterComponentService,
+                            useClass: RegisterComponentService,
+                            deps: [
+                                UserRegisterFacade,
+                                GlobalMessageService,
+                                UntypedFormBuilder,
+                            ],
+                        },
+                    ],
+                },
             },
-          ],
-        },
-      },
-    }),
-  ],
-  declarations: [RegisterComponent],
+        }),
+    ],
 })
 export class RegisterComponentModule {}

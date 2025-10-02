@@ -11,7 +11,7 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
 import {
@@ -22,12 +22,27 @@ import {
 } from '@spartacus/core';
 import { FocusConfig, LaunchDialogService } from '../../../../layout/index';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
+import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
+import { IconComponent } from '../../../misc/icon/icon.component';
+import { FormRequiredAsterisksComponent } from '../../../../shared/components/form/form-required-asterisks/form-required-asterisks.component';
+import { FormErrorsComponent } from '../../../../shared/components/form/form-errors/form-errors.component';
+import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-claim-dialog',
-  templateUrl: './claim-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-claim-dialog',
+    templateUrl: './claim-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        FocusDirective,
+        IconComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        FormRequiredAsterisksComponent,
+        FormErrorsComponent,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ClaimDialogComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();

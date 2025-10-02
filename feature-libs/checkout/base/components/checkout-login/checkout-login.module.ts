@@ -22,27 +22,27 @@ import { NotCheckoutAuthGuard } from '../guards/not-checkout-auth.guard';
 import { CheckoutLoginComponent } from './checkout-login.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FormErrorsModule,
-    FeaturesConfigModule,
-    FormRequiredAsterisksComponent,
-    FormRequiredLegendComponent,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        GuestCheckoutLoginComponent: {
-          component: CheckoutLoginComponent,
-          guards: [NotCheckoutAuthGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [CheckoutLoginComponent],
-  exports: [CheckoutLoginComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        FeaturesConfigModule,
+        FormRequiredAsterisksComponent,
+        FormRequiredLegendComponent,
+        CheckoutLoginComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                GuestCheckoutLoginComponent: {
+                    component: CheckoutLoginComponent,
+                    guards: [NotCheckoutAuthGuard],
+                },
+            },
+        }),
+    ],
+    exports: [CheckoutLoginComponent],
 })
 export class CheckoutLoginModule {}

@@ -29,12 +29,29 @@ import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { first, map, tap } from 'rxjs/operators';
 import { QuickOrderFormComponent } from './form/quick-order-form.component';
+import { NgIf, NgFor, AsyncPipe, KeyValuePipe } from '@angular/common';
+import { MessageComponent } from '../../../../../projects/storefrontlib/cms-components/misc/message/message.component';
+import { QuickOrderTableComponent } from './table/quick-order-table.component';
+import { ProgressButtonComponent } from '../../../../../projects/storefrontlib/shared/components/progress-button/progress-button.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-quick-order',
-  templateUrl: './quick-order.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-quick-order',
+    templateUrl: './quick-order.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        MessageComponent,
+        NgFor,
+        QuickOrderFormComponent,
+        QuickOrderTableComponent,
+        ProgressButtonComponent,
+        AsyncPipe,
+        KeyValuePipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class QuickOrderComponent implements OnInit, OnDestroy {
   cartId$: Observable<string>;

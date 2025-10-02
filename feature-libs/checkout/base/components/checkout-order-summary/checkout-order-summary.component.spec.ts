@@ -26,18 +26,15 @@ describe('CheckoutOrderSummaryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CheckoutOrderSummaryComponent,
+    imports: [I18nTestingModule, CheckoutOrderSummaryComponent,
         OrderSummaryComponent,
         PromotionsComponent,
         AppliedCouponsComponent,
-        MockFeatureLevelDirective,
-      ],
-      providers: [
+        MockFeatureLevelDirective],
+    providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

@@ -11,11 +11,21 @@ import { Card, OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { DateValidationService } from '../shared/date-validation.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
+import { CxDatePipe } from '../../../../../projects/core/src/i18n/date.pipe';
+import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-  selector: 'cx-order-overview-delivery-date',
-  templateUrl: './order-overview-delivery-date.component.html',
-  standalone: false,
+    selector: 'cx-order-overview-delivery-date',
+    templateUrl: './order-overview-delivery-date.component.html',
+    imports: [
+        NgIf,
+        CardComponent,
+        AsyncPipe,
+        CxDatePipe,
+        MockDatePipe,
+    ],
 })
 export class OrderOverviewDeliveryDateComponent implements OnInit, OnDestroy {
   constructor(

@@ -26,22 +26,22 @@ import { ItemActiveModule } from '../../shared/item-active.module';
 import { CostCenterFormComponent } from './cost-center-form.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormModule,
-    NgSelectModule,
-    UrlModule,
-    I18nModule,
-    ReactiveFormsModule,
-    FormErrorsModule,
-    ItemActiveModule,
-    FeaturesConfigModule,
-    FormRequiredAsterisksComponent,
-    FormRequiredLegendComponent,
-  ],
-  declarations: [CostCenterFormComponent],
-  exports: [CostCenterFormComponent],
-  providers: [CurrencyService, OrgUnitService],
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormModule,
+        NgSelectModule,
+        UrlModule,
+        I18nModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        ItemActiveModule,
+        FeaturesConfigModule,
+        FormRequiredAsterisksComponent,
+        FormRequiredLegendComponent,
+        CostCenterFormComponent,
+    ],
+    exports: [CostCenterFormComponent],
+    providers: [CurrencyService, OrgUnitService],
 })
 export class CostCenterFormModule {}

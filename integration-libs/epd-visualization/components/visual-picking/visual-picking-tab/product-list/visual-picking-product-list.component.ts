@@ -14,13 +14,31 @@ import {
 import { Observable } from 'rxjs';
 import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
 import { VisualPickingProductListService } from './visual-picking-product-list.service';
+import { PagedListComponent } from './paged-list/paged-list.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { MediaComponent } from '../../../../../../projects/storefrontlib/shared/components/media/media.component';
+import { RouterLink } from '@angular/router';
+import { CompactAddToCartComponent } from './compact-add-to-cart/compact-add-to-cart.component';
+import { UrlPipe } from '../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-epd-visualization-product-list',
-  templateUrl: './visual-picking-product-list.component.html',
-  providers: [VisualPickingProductListService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-epd-visualization-product-list',
+    templateUrl: './visual-picking-product-list.component.html',
+    providers: [VisualPickingProductListService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        PagedListComponent,
+        NgIf,
+        MediaComponent,
+        RouterLink,
+        CompactAddToCartComponent,
+        AsyncPipe,
+        UrlPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class VisualPickingProductListComponent implements OnInit {
   constructor(

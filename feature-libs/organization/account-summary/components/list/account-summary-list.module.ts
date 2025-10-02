@@ -18,12 +18,11 @@ import {
 } from './account-summary-list.config';
 
 @NgModule({
-  imports: [I18nModule, ListModule],
-  providers: [
-    provideDefaultConfig(accountSummaryListCmsConfig),
-    provideDefaultConfigFactory(accountSummaryUnitsTableConfigFactory),
-  ],
-  declarations: [AccountSummaryListComponent],
-  exports: [AccountSummaryListComponent],
+    imports: [I18nModule, ListModule, AccountSummaryListComponent],
+    providers: [
+        provideDefaultConfig(accountSummaryListCmsConfig),
+        provideDefaultConfigFactory(accountSummaryUnitsTableConfigFactory),
+    ],
+    exports: [AccountSummaryListComponent],
 })
 export class AccountSummaryListModule {}

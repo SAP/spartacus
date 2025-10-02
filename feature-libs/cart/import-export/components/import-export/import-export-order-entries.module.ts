@@ -18,22 +18,22 @@ import { ImportOrderEntriesModule } from '../import-to-cart';
 import { ImportExportOrderEntriesComponent } from './import-export-order-entries.component';
 
 @NgModule({
-  imports: [
-    PageComponentModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        ImportExportOrderEntriesComponent: {
-          component: ImportExportOrderEntriesComponent,
-        },
-      },
-    }),
-    I18nModule,
-    UrlModule,
-    ImportOrderEntriesModule,
-    ExportOrderEntriesModule,
-    CommonModule,
-  ],
-  exports: [ImportExportOrderEntriesComponent],
-  declarations: [ImportExportOrderEntriesComponent],
+    imports: [
+        PageComponentModule,
+        ConfigModule.withConfig(<CmsConfig>{
+            cmsComponents: {
+                ImportExportOrderEntriesComponent: {
+                    component: ImportExportOrderEntriesComponent,
+                },
+            },
+        }),
+        I18nModule,
+        UrlModule,
+        ImportOrderEntriesModule,
+        ExportOrderEntriesModule,
+        CommonModule,
+        ImportExportOrderEntriesComponent,
+    ],
+    exports: [ImportExportOrderEntriesComponent],
 })
 export class ImportExportOrderEntriesModule {}

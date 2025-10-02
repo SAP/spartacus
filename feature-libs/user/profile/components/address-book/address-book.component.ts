@@ -15,11 +15,26 @@ import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AddressBookComponentService } from './address-book.component.service';
 import { Card, getAddressNumbers } from '@spartacus/storefront';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
+import { AddressFormComponent } from './address-form/address-form.component';
+import { SpinnerComponent } from '../../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-address-book',
-  templateUrl: './address-book.component.html',
-  standalone: false,
+    selector: 'cx-address-book',
+    templateUrl: './address-book.component.html',
+    imports: [
+        NgIf,
+        NgFor,
+        CardComponent,
+        AddressFormComponent,
+        SpinnerComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class AddressBookComponent implements OnInit {
   addresses$: Observable<Address[]>;

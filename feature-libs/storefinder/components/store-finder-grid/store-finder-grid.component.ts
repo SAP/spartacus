@@ -9,12 +9,25 @@ import { ActivatedRoute } from '@angular/router';
 import { GeoPoint } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { Observable } from 'rxjs';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { StoreFinderListItemComponent } from '../store-finder-list-item/store-finder-list-item.component';
+import { SpinnerComponent } from '../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
+import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-store-finder-grid',
-  templateUrl: './store-finder-grid.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-store-finder-grid',
+    templateUrl: './store-finder-grid.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        NgFor,
+        StoreFinderListItemComponent,
+        SpinnerComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class StoreFinderGridComponent implements OnInit {
   defaultLocation: GeoPoint;

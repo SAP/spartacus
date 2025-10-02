@@ -15,17 +15,17 @@ import { SpinnerModule } from '../spinner/spinner.module';
 import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    IconModule,
-    SpinnerModule,
-    ConsentManagementModule,
-    KeyboardFocusModule,
-    FeaturesConfigModule,
-    MessageComponentModule,
-  ],
-  declarations: [AnonymousConsentDialogComponent],
-  exports: [AnonymousConsentDialogComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        IconModule,
+        SpinnerModule,
+        ConsentManagementModule,
+        KeyboardFocusModule,
+        FeaturesConfigModule,
+        MessageComponentModule,
+        AnonymousConsentDialogComponent,
+    ],
+    exports: [AnonymousConsentDialogComponent],
 })
 export class AnonymousConsentsDialogModule {}

@@ -22,15 +22,14 @@ describe('MyAccountV2ConsentManagementFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [MyAccountV2ConsentManagementFormComponent],
-      providers: [
+    imports: [I18nTestingModule, MyAccountV2ConsentManagementFormComponent],
+    providers: [
         {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

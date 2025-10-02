@@ -16,12 +16,14 @@ import {
 import { take } from 'rxjs/operators';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { RoutingService } from '@spartacus/core';
+import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-close-account',
-  templateUrl: './close-account.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-close-account',
+    templateUrl: './close-account.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [TranslatePipe, MockTranslatePipe],
 })
 export class CloseAccountComponent {
   @ViewChild('element') element: ElementRef;

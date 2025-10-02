@@ -43,10 +43,7 @@ const mockConsignments: ConsignmentView[] = [
     ],
   },
 ];
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -69,17 +66,14 @@ describe('MyAccountV2ConsignmentEntriesComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nModule],
-      providers: [
+    imports: [I18nModule, MyAccountV2ConsignmentEntriesComponent,
+        MockUrlPipe,
+        MockDatePipe],
+    providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: LanguageService, useClass: MockLanguageService },
-      ],
-      declarations: [
-        MyAccountV2ConsignmentEntriesComponent,
-        MockUrlPipe,
-        MockDatePipe,
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

@@ -17,13 +17,33 @@ import {
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { NgIf, NgTemplateOutlet, NgFor, NgClass, NgSwitch, NgSwitchCase, NgSwitchDefault, AsyncPipe } from '@angular/common';
+import { FeatureDirective } from '../../../../../projects/core/src/features-config/directives/feature.directive';
+import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/configurator-overview-attribute.component';
+import { ConfiguratorOverviewBundleAttributeComponent } from '../overview-bundle-attribute/configurator-overview-bundle-attribute.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-configurator-overview-form',
-  templateUrl: './configurator-overview-form.component.html',
-  //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
-  changeDetection: ChangeDetectionStrategy.Default,
-  standalone: false,
+    selector: 'cx-configurator-overview-form',
+    templateUrl: './configurator-overview-form.component.html',
+    //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
+    changeDetection: ChangeDetectionStrategy.Default,
+    imports: [
+        NgIf,
+        NgTemplateOutlet,
+        NgFor,
+        NgClass,
+        FeatureDirective,
+        NgSwitch,
+        NgSwitchCase,
+        ConfiguratorOverviewAttributeComponent,
+        ConfiguratorOverviewBundleAttributeComponent,
+        NgSwitchDefault,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ConfiguratorOverviewFormComponent {
   @HostBinding('class.ghost') ghostStyle = true;

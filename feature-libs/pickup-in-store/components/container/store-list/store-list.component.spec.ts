@@ -26,26 +26,26 @@ describe('StoreListComponent', () => {
   let intendedPickupLocationService: IntendedPickupLocationFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [StoreListComponent, MockFeatureDirective],
-      imports: [
+    imports: [
         I18nTestingModule,
         SpinnerModule,
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
-      ],
-      providers: [
+        StoreListComponent, MockFeatureDirective,
+    ],
+    providers: [
         {
-          provide: PickupLocationsSearchFacade,
-          useClass: MockPickupLocationsSearchService,
+            provide: PickupLocationsSearchFacade,
+            useClass: MockPickupLocationsSearchService,
         },
         {
-          provide: IntendedPickupLocationFacade,
-          useClass: MockIntendedPickupLocationService,
+            provide: IntendedPickupLocationFacade,
+            useClass: MockIntendedPickupLocationService,
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(StoreListComponent);
     component = fixture.componentInstance;

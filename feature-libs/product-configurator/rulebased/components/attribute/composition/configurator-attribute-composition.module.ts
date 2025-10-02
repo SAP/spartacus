@@ -9,8 +9,7 @@ import { NgModule } from '@angular/core';
 import { ConfiguratorAttributeCompositionDirective } from './configurator-attribute-composition.directive';
 
 @NgModule({
-  imports: [CommonModule],
-  declarations: [ConfiguratorAttributeCompositionDirective],
-  exports: [ConfiguratorAttributeCompositionDirective],
+    imports: [CommonModule, ConfiguratorAttributeCompositionDirective],
+    exports: [ConfiguratorAttributeCompositionDirective],
 })
 export class ConfiguratorAttributeCompositionModule {}

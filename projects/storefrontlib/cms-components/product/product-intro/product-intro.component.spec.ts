@@ -13,9 +13,9 @@ import { CurrentProductService } from '../current-product.service';
 import { ProductIntroComponent } from './product-intro.component';
 
 @Component({
-  selector: 'cx-star-rating',
-  template: '',
-  standalone: false,
+    selector: 'cx-star-rating',
+    template: '',
+    imports: [I18nTestingModule],
 })
 class MockStarRatingComponent {
   @Input() rating: number;
@@ -48,27 +48,24 @@ describe('ProductIntroComponent in product', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ProductIntroComponent,
+    imports: [I18nTestingModule, ProductIntroComponent,
         MockStarRatingComponent,
-        MockFeatureDirective,
-      ],
-      providers: [
+        MockFeatureDirective],
+    providers: [
         {
-          provide: CurrentProductService,
-          useClass: MockCurrentProductService,
+            provide: CurrentProductService,
+            useClass: MockCurrentProductService,
         },
         {
-          provide: TranslationService,
-          useClass: MockTranslationService,
+            provide: TranslationService,
+            useClass: MockTranslationService,
         },
         {
-          provide: EventService,
-          useClass: MockEventService,
+            provide: EventService,
+            useClass: MockEventService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

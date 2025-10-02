@@ -15,12 +15,26 @@ import { OrderDetailActionsComponent } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
 import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
 import { map, Observable, tap } from 'rxjs';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { BtnLikeLinkDirective } from '../../../../../projects/storefrontlib/layout/a11y/btn-like-link/btn-like-link.directive';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-s4-service-order-detail-actions',
-  templateUrl: './s4-service-order-detail-actions.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-s4-service-order-detail-actions',
+    templateUrl: './s4-service-order-detail-actions.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        BtnLikeLinkDirective,
+        RouterLink,
+        AsyncPipe,
+        TranslatePipe,
+        UrlPipe,
+        MockTranslatePipe,
+    ],
 })
 export class S4ServiceOrderDetailActionsComponent
   extends OrderDetailActionsComponent

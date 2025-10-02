@@ -12,23 +12,23 @@ import { FormErrorsModule } from '@spartacus/storefront';
 import { OpfCheckoutEmailUpdateComponent } from './opf-checkout-email-update.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FormErrorsModule,
-  ],
-  declarations: [OpfCheckoutEmailUpdateComponent],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        OpfCheckoutEmailUpdateComponent: {
-          component: OpfCheckoutEmailUpdateComponent,
-        },
-      },
-    }),
-  ],
-  exports: [OpfCheckoutEmailUpdateComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        OpfCheckoutEmailUpdateComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                OpfCheckoutEmailUpdateComponent: {
+                    component: OpfCheckoutEmailUpdateComponent,
+                },
+            },
+        }),
+    ],
+    exports: [OpfCheckoutEmailUpdateComponent],
 })
 export class OpfCheckoutEmailUpdateModule {}

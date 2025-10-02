@@ -10,8 +10,7 @@ import { CommonModule } from '@angular/common';
 import { OutletRefDirective } from './outlet-ref.directive';
 
 @NgModule({
-  imports: [CommonModule],
-  declarations: [OutletRefDirective],
-  exports: [OutletRefDirective],
+    imports: [CommonModule, OutletRefDirective],
+    exports: [OutletRefDirective],
 })
 export class OutletRefModule {}

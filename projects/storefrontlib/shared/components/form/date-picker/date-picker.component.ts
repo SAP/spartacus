@@ -5,8 +5,13 @@
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePickerService } from './date-picker.service';
+import { FormErrorsComponent } from '../form-errors/form-errors.component';
+import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
+import { CxDatePipe } from '../../../../../core/src/i18n/date.pipe';
+import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
+import { MockDatePipe } from '../../../../../core/src/i18n/testing/mock-date.pipe';
 
 /**
  * Component that adds a date control. While the native date picker works in most
@@ -19,9 +24,17 @@ import { DatePickerService } from './date-picker.service';
  * Most of the implementation is done in the `DatePickerFallbackDirective`.
  */
 @Component({
-  selector: 'cx-date-picker',
-  templateUrl: './date-picker.component.html',
-  standalone: false,
+    selector: 'cx-date-picker',
+    templateUrl: './date-picker.component.html',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        FormErrorsComponent,
+        TranslatePipe,
+        CxDatePipe,
+        MockTranslatePipe,
+        MockDatePipe,
+    ],
 })
 export class DatePickerComponent {
   constructor(protected service: DatePickerService) {}

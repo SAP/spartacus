@@ -5,22 +5,18 @@ import { TrapFocusConfig } from '../keyboard-focus.model';
 import { TrapFocusDirective } from './trap-focus.directive';
 import { TrapFocusService } from './trap-focus.service';
 
-@Directive({
-  selector: '[cxTrapFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxTrapFocus]', })
 class CustomFocusDirective extends TrapFocusDirective {
   @Input('cxTrapFocus') protected config: TrapFocusConfig;
 }
 
 @Component({
-  selector: 'cx-host',
-  template: `
+    selector: 'cx-host',
+    template: `
     <div cxTrapFocus id="a"></div>
     <div [cxTrapFocus]="{ trap: true }" id="b"></div>
     <div [cxTrapFocus]="{ trap: false }" id="c"></div>
   `,
-  standalone: false,
 })
 class MockComponent {}
 
@@ -37,14 +33,14 @@ describe('TrapFocusDirective', () => {
   let service: TrapFocusService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent, CustomFocusDirective],
-      providers: [
+    imports: [MockComponent, CustomFocusDirective],
+    providers: [
         {
-          provide: TrapFocusService,
-          useClass: MockTrapFocusService,
+            provide: TrapFocusService,
+            useClass: MockTrapFocusService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(MockComponent);
     service = TestBed.inject(TrapFocusService);

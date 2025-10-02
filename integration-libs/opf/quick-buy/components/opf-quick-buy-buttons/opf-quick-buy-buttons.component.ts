@@ -14,12 +14,20 @@ import { OpfActiveConfiguration } from '@spartacus/opf/base/root';
 import { OpfQuickBuyProviderType } from '@spartacus/opf/quick-buy/root';
 import { Observable } from 'rxjs';
 import { OpfQuickBuyButtonsService } from './opf-quick-buy-buttons.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { ApplePayComponent } from './apple-pay/apple-pay.component';
+import { OpfGooglePayComponent } from './google-pay/google-pay.component';
 
 @Component({
-  selector: 'cx-opf-quick-buy-buttons',
-  templateUrl: './opf-quick-buy-buttons.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-opf-quick-buy-buttons',
+    templateUrl: './opf-quick-buy-buttons.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        ApplePayComponent,
+        OpfGooglePayComponent,
+        AsyncPipe,
+    ],
 })
 export class OpfQuickBuyButtonsComponent implements OnInit {
   protected opfQuickBuyButtonsService = inject(OpfQuickBuyButtonsService);

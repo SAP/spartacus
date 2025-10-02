@@ -15,23 +15,21 @@ import { MyAccountV2ConsentManagementFormComponent } from './components/consent-
 import { MyAccountV2ConsentManagementComponent } from './components/my-account-v2-consent-management.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SpinnerModule,
-    I18nModule,
-    IconModule,
-    FeaturesConfigModule,
-  ],
-  providers: [ConsentManagementComponentService],
-  declarations: [
-    MyAccountV2ConsentManagementComponent,
-    MyAccountV2ConsentManagementFormComponent,
-  ],
-  exports: [
-    MyAccountV2ConsentManagementComponent,
-    MyAccountV2ConsentManagementFormComponent,
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SpinnerModule,
+        I18nModule,
+        IconModule,
+        FeaturesConfigModule,
+        MyAccountV2ConsentManagementComponent,
+        MyAccountV2ConsentManagementFormComponent,
+    ],
+    providers: [ConsentManagementComponentService],
+    exports: [
+        MyAccountV2ConsentManagementComponent,
+        MyAccountV2ConsentManagementFormComponent,
+    ],
 })
 export class MyAccountV2ConsentManagementModule {}

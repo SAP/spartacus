@@ -95,35 +95,32 @@ describe('AsmCustomer360CouponComponent', () => {
   }
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        AsmCustomer360CouponComponent,
-        AsmCustomer360PromotionListingComponent,
-      ],
-      providers: [
+    imports: [I18nTestingModule, AsmCustomer360CouponComponent,
+        AsmCustomer360PromotionListingComponent],
+    providers: [
         AsmCustomer360SectionContextSource,
         {
-          provide: AsmCustomer360SectionContext,
-          useExisting: AsmCustomer360SectionContextSource,
+            provide: AsmCustomer360SectionContext,
+            useExisting: AsmCustomer360SectionContextSource,
         },
         {
-          provide: CartVoucherFacade,
-          useClass: MockCartVoucherFacade,
+            provide: CartVoucherFacade,
+            useClass: MockCartVoucherFacade,
         },
         {
-          provide: UserIdService,
-          useClass: MockUserIdService,
+            provide: UserIdService,
+            useClass: MockUserIdService,
         },
         {
-          provide: ActiveCartFacade,
-          useClass: MockActiveCartFacade,
+            provide: ActiveCartFacade,
+            useClass: MockActiveCartFacade,
         },
         {
-          provide: AsmCustomer360Facade,
-          useClass: MockAsmCustomer360Facade,
+            provide: AsmCustomer360Facade,
+            useClass: MockAsmCustomer360Facade,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
     cartVoucherService = TestBed.inject(CartVoucherFacade);
   });
 

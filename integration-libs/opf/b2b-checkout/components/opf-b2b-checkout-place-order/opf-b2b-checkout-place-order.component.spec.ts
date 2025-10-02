@@ -71,12 +71,11 @@ describe('OpfB2bCheckoutPlaceOrderComponent', () => {
       getActive: () => of('en'),
     };
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, AtMessageModule],
-      declarations: [OpfB2bCheckoutPlaceOrderComponent],
-      providers: [
+    imports: [ReactiveFormsModule, I18nTestingModule, AtMessageModule, OpfB2bCheckoutPlaceOrderComponent],
+    providers: [
         {
-          provide: CheckoutPlaceOrderComponent,
-          useClass: MockCheckoutPlaceOrderComponent,
+            provide: CheckoutPlaceOrderComponent,
+            useClass: MockCheckoutPlaceOrderComponent,
         },
         { provide: Store, useClass: MockStore },
         { provide: LaunchRenderStrategy, useClass: MockLaunchRenderStrategy },
@@ -86,8 +85,8 @@ describe('OpfB2bCheckoutPlaceOrderComponent', () => {
         { provide: GlobalMessageService, useValue: {} },
         { provide: CurrencyService, useValue: mockCurrencyService },
         { provide: LanguageService, useValue: mockLanguageService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

@@ -48,10 +48,7 @@ class MockStore {
   dispatch = jasmine.createSpy();
   select = jasmine.createSpy().and.returnValue(of({}));
 }
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -71,31 +68,31 @@ describe('RegisterVerificationTokenFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         RouterTestingModule,
         I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
-      ],
-      declarations: [RegisterVerificationTokenFormComponent, MockUrlPipe],
-      providers: [
+        RegisterVerificationTokenFormComponent, MockUrlPipe,
+    ],
+    providers: [
         { provide: Store, useClass: MockStore },
         {
-          provide: RegisterVerificationTokenFormComponent,
-          useClass: MockFormComponentService,
+            provide: RegisterVerificationTokenFormComponent,
+            useClass: MockFormComponentService,
         },
         {
-          provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
         ChangeDetectorRef,
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

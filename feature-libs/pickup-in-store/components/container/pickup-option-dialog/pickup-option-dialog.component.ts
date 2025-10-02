@@ -30,14 +30,32 @@ import {
 
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
+import { FocusDirective } from '../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { StoreSearchComponent } from '../store-search/store-search.component';
+import { StoreListComponent } from '../store-list/store-list.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { SpinnerComponent } from '../../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 /**
  * The dialog box to select the pickup location for a product.
  */
 @Component({
-  selector: 'cx-pickup-option-dialog',
-  templateUrl: './pickup-option-dialog.component.html',
-  standalone: false,
+    selector: 'cx-pickup-option-dialog',
+    templateUrl: './pickup-option-dialog.component.html',
+    imports: [
+        FocusDirective,
+        IconComponent,
+        StoreSearchComponent,
+        StoreListComponent,
+        NgIf,
+        SpinnerComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   productCode: string;

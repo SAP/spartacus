@@ -30,19 +30,18 @@ describe('ConfiguratorShowOptionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ConfiguratorShowOptionsComponent],
-      imports: [I18nTestingModule],
-      providers: [
+    imports: [I18nTestingModule, ConfiguratorShowOptionsComponent],
+    providers: [
         {
-          provide: ConfiguratorCommonsService,
-          useClass: MockConfiguratorCommonsService,
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
         },
         {
-          provide: ConfiguratorStorefrontUtilsService,
-          useClass: MockConfiguratorStorefrontUtilsService,
+            provide: ConfiguratorStorefrontUtilsService,
+            useClass: MockConfiguratorStorefrontUtilsService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     configuratorCommonsService = TestBed.inject(ConfiguratorCommonsService);
     configuratorStorefrontUtilsService = TestBed.inject(

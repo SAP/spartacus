@@ -16,25 +16,25 @@ import { LcpContextDirectiveModule } from '../../../shared/lcp-context/lcp-conte
 import { ProductImagesComponent } from './product-images.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    MediaModule,
-    OutletModule,
-    CarouselModule,
-    CarouselScrollingModule,
-    LcpContextDirectiveModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ProductImagesComponent: {
-          component: ProductImagesComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ProductImagesComponent],
-  exports: [ProductImagesComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        MediaModule,
+        OutletModule,
+        CarouselModule,
+        CarouselScrollingModule,
+        LcpContextDirectiveModule,
+        ProductImagesComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ProductImagesComponent: {
+                    component: ProductImagesComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ProductImagesComponent],
 })
 export class ProductImagesModule {}

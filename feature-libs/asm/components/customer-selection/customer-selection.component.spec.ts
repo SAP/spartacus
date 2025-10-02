@@ -119,23 +119,20 @@ describe('CustomerSelectionComponent', () => {
     customerSearchResultsLoading = new BehaviorSubject<boolean>(false);
 
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-      declarations: [
-        CustomerSelectionComponent,
+    imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule, CustomerSelectionComponent,
         DotSpinnerComponent,
-        MockFeatureDirective,
-      ],
-      providers: [
+        MockFeatureDirective],
+    providers: [
         { provide: AsmService, useClass: MockAsmService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: AsmConfig, useValue: MockAsmConfig },
         {
-          provide: DirectionService,
-          useClass: MockDirectionService,
+            provide: DirectionService,
+            useClass: MockDirectionService,
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     launchDialogService = TestBed.inject(LaunchDialogService);
   }));

@@ -17,11 +17,12 @@ import { TranslationService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { CpqQuoteService } from '../../cpq-qute.service';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'cx-cpq-quote-heading',
-  templateUrl: './cpq-quote-heading.component.html',
-  standalone: false,
+    selector: 'cx-cpq-quote-heading',
+    templateUrl: './cpq-quote-heading.component.html',
+    imports: [NgIf],
 })
 export class CpqQuoteHeadingComponent implements OnInit, OnDestroy {
   @Input()

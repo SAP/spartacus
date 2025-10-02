@@ -125,9 +125,9 @@ const backToTopBtn = 'productList.backToTopBtn';
 const showMoreBtn = 'productList.showMoreBtn';
 
 @Component({
-  selector: 'cx-star-rating',
-  template: '',
-  standalone: false,
+    selector: 'cx-star-rating',
+    template: '',
+    imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule,],
 })
 class MockStarRatingComponent {
   @Input() rating: number;
@@ -135,9 +135,9 @@ class MockStarRatingComponent {
 }
 
 @Component({
-  template: '',
-  selector: 'cx-product-list-item',
-  standalone: false,
+    template: '',
+    selector: 'cx-product-list-item',
+    imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule,],
 })
 class MockProductListItemComponent {
   @Input() product: any;
@@ -145,27 +145,24 @@ class MockProductListItemComponent {
 }
 
 @Component({
-  template: '',
-  selector: 'cx-product-grid-item',
-  standalone: false,
+    template: '',
+    selector: 'cx-product-grid-item',
+    imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule,],
 })
 class MockProductGridItemComponent {
   @Input() product: any;
   @Input() itemIndex: number;
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
 @Component({
-  selector: 'cx-add-to-cart',
-  template: '<button>add to cart</button>',
-  standalone: false,
+    selector: 'cx-add-to-cart',
+    template: '<button>add to cart</button>',
+    imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule,],
 })
 class MockAddToCartComponent {
   @Input() product: string;
@@ -182,9 +179,9 @@ class MockProductListComponentService {
 }
 
 @Component({
-  selector: 'cx-variant-style-icons',
-  template: 'test',
-  standalone: false,
+    selector: 'cx-variant-style-icons',
+    template: 'test',
+    imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule,],
 })
 class MockStyleIconsComponent {
   @Input() variants: any[];
@@ -197,8 +194,7 @@ describe('ProductScrollComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ProductScrollComponent,
+    imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule, ProductScrollComponent,
         MockProductGridItemComponent,
         MockProductListItemComponent,
         MockUrlPipe,
@@ -206,16 +202,14 @@ describe('ProductScrollComponent', () => {
         MockStarRatingComponent,
         MockAddToCartComponent,
         MockStyleIconsComponent,
-        MockFeatureLevelDirective,
-      ],
-      imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule],
-      providers: [
+        MockFeatureLevelDirective],
+    providers: [
         {
-          provide: ProductListComponentService,
-          useClass: MockProductListComponentService,
+            provide: ProductListComponentService,
+            useClass: MockProductListComponentService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

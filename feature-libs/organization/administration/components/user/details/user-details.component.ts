@@ -11,19 +11,43 @@ import { startWith, switchMap } from 'rxjs/operators';
 import { ItemService } from '../../shared/item.service';
 import { UserItemService } from '../services/user-item.service';
 import { B2BUserService } from '@spartacus/organization/administration/core';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { CardComponent } from '../../shared/card/card.component';
+import { FocusDirective } from '../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ToggleStatusComponent } from '../../shared/detail/toggle-status-action/toggle-status.component';
+import { DisableInfoComponent } from '../../shared/detail/disable-info/disable-info.component';
+import { ItemExistsDirective } from '../../shared/item-exists.directive';
+import { UrlPipe } from '../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-org-user-details',
-  templateUrl: './user-details.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: ItemService,
-      useExisting: UserItemService,
-    },
-  ],
-  host: { class: 'content-wrapper' },
-  standalone: false,
+    selector: 'cx-org-user-details',
+    templateUrl: './user-details.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: ItemService,
+            useExisting: UserItemService,
+        },
+    ],
+    host: { class: 'content-wrapper' },
+    imports: [
+        NgIf,
+        CardComponent,
+        FocusDirective,
+        RouterLink,
+        ToggleStatusComponent,
+        DisableInfoComponent,
+        ItemExistsDirective,
+        NgFor,
+        RouterLinkActive,
+        AsyncPipe,
+        UrlPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class UserDetailsComponent {
   userGuardSubscription: Subscription;

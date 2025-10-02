@@ -16,12 +16,34 @@ import { CmsComponentData, ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { DeliveryPointsService } from '../../services/delivery-points.service';
+import { NgClass, NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { StoreAddressComponent } from '../../presentational/store/store-address/store-address.component';
+import { StoreScheduleComponent } from '../../presentational/store/store-schedule/store-schedule.component';
+import { RouterLink } from '@angular/router';
+import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { MediaComponent } from '../../../../../projects/storefrontlib/shared/components/media/media.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-pick-up-in-store-items-details',
-  templateUrl: './pickup-items-details.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-pick-up-in-store-items-details',
+    templateUrl: './pickup-items-details.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgClass,
+        NgIf,
+        NgFor,
+        StoreAddressComponent,
+        StoreScheduleComponent,
+        RouterLink,
+        IconComponent,
+        MediaComponent,
+        AsyncPipe,
+        TranslatePipe,
+        UrlPipe,
+        MockTranslatePipe,
+    ],
 })
 export class PickUpItemsDetailsComponent implements OnInit {
   @Input() showEdit: boolean;

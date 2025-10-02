@@ -35,11 +35,11 @@ describe('OpfCtaButton', () => {
     ]);
 
     TestBed.configureTestingModule({
-      declarations: [OpfCtaElementComponent],
-      providers: [
+    imports: [OpfCtaElementComponent],
+    providers: [
         { provide: OpfCtaScriptsService, useValue: opfCtaScriptsServiceMock },
-      ],
-    });
+    ],
+});
     fixture = TestBed.createComponent(OpfCtaElementComponent);
     component = fixture.componentInstance;
     domSanitizer = TestBed.inject(DomSanitizer);

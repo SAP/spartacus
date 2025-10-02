@@ -11,9 +11,8 @@ import { NavigationService } from './navigation.service';
 import createSpy = jasmine.createSpy;
 
 @Component({
-  selector: 'cx-navigation-ui',
-  template: '',
-  standalone: false,
+    selector: 'cx-navigation-ui',
+    template: '',
 })
 class MockNavigationUIComponent {
   @Input()
@@ -43,18 +42,18 @@ describe('CmsNavigationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
+    imports: [NavigationComponent, MockNavigationUIComponent],
+    providers: [
         {
-          provide: NavigationService,
-          useValue: mockNavigationService,
+            provide: NavigationService,
+            useValue: mockNavigationService,
         },
         {
-          provide: CmsComponentData,
-          useValue: MockCmsNavigationComponent,
+            provide: CmsComponentData,
+            useValue: MockCmsNavigationComponent,
         },
-      ],
-      declarations: [NavigationComponent, MockNavigationUIComponent],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

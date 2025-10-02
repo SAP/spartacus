@@ -14,18 +14,14 @@ import {
 import { of } from 'rxjs';
 import { OpfCheckoutEmailUpdateComponent } from './opf-checkout-email-update.component';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate', })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
 @Component({
-  selector: 'cx-form-errors',
-  template: '',
-  standalone: false,
+    selector: 'cx-form-errors',
+    template: '',
 })
 class MockFormErrorsComponent {
   @Input() control: UntypedFormControl;
@@ -62,20 +58,18 @@ describe('OpfCheckoutEmailUpdateComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      declarations: [
-        OpfCheckoutEmailUpdateComponent,
+    imports: [OpfCheckoutEmailUpdateComponent,
         MockTranslatePipe,
-        MockFormErrorsComponent,
-      ],
-      providers: [
+        MockFormErrorsComponent,],
+    providers: [
         { provide: CartGuestUserFacade, useValue: cartGuestUserFacadeSpy },
         { provide: MultiCartFacade, useValue: multiCartFacadeSpy },
         { provide: UserIdService, useValue: userIdServiceSpy },
         { provide: RoutingService, useValue: routerSpy },
         { provide: SemanticPathService, useValue: semanticPathServiceSpy },
         { provide: ActiveCartFacade, useValue: activeCartFacadeSpy },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(OpfCheckoutEmailUpdateComponent);
     component = fixture.componentInstance;

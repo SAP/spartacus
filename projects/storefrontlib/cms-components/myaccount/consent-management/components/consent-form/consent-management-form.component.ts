@@ -20,11 +20,19 @@ import {
   ConsentTemplate,
   FeatureConfigService,
 } from '@spartacus/core';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { TranslatePipe } from '../../../../../../core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-consent-management-form',
-  templateUrl: './consent-management-form.component.html',
-  standalone: false,
+    selector: 'cx-consent-management-form',
+    templateUrl: './consent-management-form.component.html',
+    imports: [
+        NgIf,
+        NgTemplateOutlet,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ConsentManagementFormComponent implements OnInit, OnChanges {
   consentGiven = false;

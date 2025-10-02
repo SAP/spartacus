@@ -11,10 +11,9 @@ import createSpy = jasmine.createSpy;
 const mockCode = 'mc1';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'cx-host',
-  template: `<div cxOrgItemActive>TEST</div>`,
-  standalone: false,
+    // eslint-disable-next-line @angular-eslint/component-selector
+    selector: 'cx-host',
+    template: `<div cxOrgItemActive>TEST</div>`,
 })
 class TestComponent {}
 
@@ -61,18 +60,18 @@ describe('ItemActiveDirective', () => {
 
   function configureTestingModule(itemService) {
     TestBed.configureTestingModule({
-      declarations: [ItemActiveDirective, TestComponent],
-      providers: [
+    imports: [ItemActiveDirective, TestComponent],
+    providers: [
         {
-          provide: ItemService,
-          useClass: itemService,
+            provide: ItemService,
+            useClass: itemService,
         },
         {
-          provide: MessageService,
-          useClass: MockMessageService,
+            provide: MessageService,
+            useClass: MockMessageService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     messageService = TestBed.inject(MessageService);
     fixture = TestBed.createComponent(TestComponent);

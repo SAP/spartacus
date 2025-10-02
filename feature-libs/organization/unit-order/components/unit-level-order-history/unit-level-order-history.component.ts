@@ -15,12 +15,42 @@ import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core
 import { UnitOrderFacade } from '@spartacus/organization/unit-order/root';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { UnitLevelOrderHistoryFilterComponent } from './filter/unit-level-order-history-filter.component';
+import { SortingComponent } from '../../../../../projects/storefrontlib/shared/components/list-navigation/sorting/sorting.component';
+import { TotalComponent } from '../../../../../projects/storefrontlib/shared/components/list-navigation/total/total.component';
+import { PaginationComponent } from '../../../../../projects/storefrontlib/shared/components/list-navigation/pagination/pagination.component';
+import { FeatureDirective } from '../../../../../projects/core/src/features-config/directives/feature.directive';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { BtnLikeLinkDirective } from '../../../../../projects/storefrontlib/layout/a11y/btn-like-link/btn-like-link.directive';
+import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { CxDatePipe } from '../../../../../projects/core/src/i18n/date.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-  selector: 'cx-unit-level-order-history',
-  templateUrl: './unit-level-order-history.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-unit-level-order-history',
+    templateUrl: './unit-level-order-history.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        UnitLevelOrderHistoryFilterComponent,
+        SortingComponent,
+        TotalComponent,
+        PaginationComponent,
+        FeatureDirective,
+        NgFor,
+        RouterLink,
+        BtnLikeLinkDirective,
+        RouterLinkActive,
+        AsyncPipe,
+        UrlPipe,
+        TranslatePipe,
+        CxDatePipe,
+        MockTranslatePipe,
+        MockDatePipe,
+    ],
 })
 export class UnitLevelOrderHistoryComponent implements OnDestroy {
   private PAGE_SIZE = 5;

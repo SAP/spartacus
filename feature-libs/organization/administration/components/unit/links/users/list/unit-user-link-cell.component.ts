@@ -14,10 +14,15 @@ import {
 import { Observable } from 'rxjs';
 import { ItemService } from '../../../../shared/item.service';
 import { CellComponent } from '../../../../shared/table/cell.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '../../../../../../../../projects/core/src/i18n/translate.pipe';
+import { UrlPipe } from '../../../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockTranslatePipe } from '../../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-org-unit-user-link-cell',
-  template: `
+    selector: 'cx-org-unit-user-link-cell',
+    template: `
     <a
       class="button"
       *ngIf="isUpdatingUserAllowed && hasItem && (unitKey$ | async) as uid"
@@ -28,8 +33,15 @@ import { CellComponent } from '../../../../shared/table/cell.component';
       {{ 'orgUser.links.rolesAndRights' | cxTranslate }}
     </a>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        RouterLink,
+        AsyncPipe,
+        TranslatePipe,
+        UrlPipe,
+        MockTranslatePipe,
+    ],
 })
 export class UnitUserRolesCellComponent extends CellComponent {
   unitKey$: Observable<string> = this.itemService.key$;

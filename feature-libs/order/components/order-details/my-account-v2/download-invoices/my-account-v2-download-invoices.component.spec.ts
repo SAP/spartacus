@@ -75,18 +75,18 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
+    selector: 'cx-icon',
+    template: '',
+    imports: [I18nModule, PDFInvoicesModule, KeyboardFocusTestingModule,],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
-  standalone: false,
+    selector: 'cx-spinner',
+    template: '',
+    imports: [I18nModule, PDFInvoicesModule, KeyboardFocusTestingModule,],
 })
 class MockSpinnerComponent {}
 
@@ -99,22 +99,19 @@ describe('MyAccountV2DownloadInvoicesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nModule, PDFInvoicesModule, KeyboardFocusTestingModule],
-      providers: [
+    imports: [I18nModule, PDFInvoicesModule, KeyboardFocusTestingModule, MyAccountV2DownloadInvoicesComponent,
+        InvoicesListComponent,
+        MockCxIconComponent,
+        MockSpinnerComponent],
+    providers: [
         ChangeDetectorRef,
         { provide: LanguageService, useClass: MockLanguageService },
         { provide: PDFInvoicesFacade, useClass: MockPDFInvoicesFacade },
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-      ],
-      declarations: [
-        MyAccountV2DownloadInvoicesComponent,
-        InvoicesListComponent,
-        MockCxIconComponent,
-        MockSpinnerComponent,
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
     fixture = TestBed.createComponent(MyAccountV2DownloadInvoicesComponent);
     fixture2 = TestBed.createComponent(InvoicesListComponent);
     launchService = TestBed.inject(LaunchDialogService);

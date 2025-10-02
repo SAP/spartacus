@@ -20,21 +20,21 @@ import { MyAccountV2DownloadInvoicesEventListener } from './my-account-v2-downlo
 import { MyAccountV2DownloadInvoicesComponent } from './my-account-v2-download-invoices.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    KeyboardFocusModule,
-    IconModule,
-    I18nModule,
-    PaginationModule,
-    SortingModule,
-    SpinnerModule,
-    PDFInvoicesComponentsModule,
-  ],
-  providers: [
-    provideDefaultConfig(defaultMyAccountV2DownloadInvoicesLayoutConfig),
-  ],
-  exports: [MyAccountV2DownloadInvoicesComponent],
-  declarations: [MyAccountV2DownloadInvoicesComponent],
+    imports: [
+        CommonModule,
+        KeyboardFocusModule,
+        IconModule,
+        I18nModule,
+        PaginationModule,
+        SortingModule,
+        SpinnerModule,
+        PDFInvoicesComponentsModule,
+        MyAccountV2DownloadInvoicesComponent,
+    ],
+    providers: [
+        provideDefaultConfig(defaultMyAccountV2DownloadInvoicesLayoutConfig),
+    ],
+    exports: [MyAccountV2DownloadInvoicesComponent],
 })
 export class MyAccountV2DownloadInvoicesModule {
   protected downloadInvoicesDialogEventListener = inject(

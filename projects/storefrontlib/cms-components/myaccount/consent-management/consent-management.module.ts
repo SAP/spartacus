@@ -33,30 +33,28 @@ const myAccountV2CmsMapping: CmsConfig = {
 };
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SpinnerModule,
-    I18nModule,
-    IconModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    ConsentManagementComponentService,
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ConsentManagementComponent: {
-          component: ConsentManagementComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
-    provideDefaultConfigFactory(() =>
-      inject(USE_MY_ACCOUNT_V2_CONSENT) ? myAccountV2CmsMapping : {}
-    ),
-  ],
-  declarations: [ConsentManagementComponent, ConsentManagementFormComponent],
-  exports: [ConsentManagementComponent, ConsentManagementFormComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SpinnerModule,
+        I18nModule,
+        IconModule,
+        FeaturesConfigModule,
+        ConsentManagementComponent, ConsentManagementFormComponent,
+    ],
+    providers: [
+        ConsentManagementComponentService,
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ConsentManagementComponent: {
+                    component: ConsentManagementComponent,
+                    guards: [AuthGuard],
+                },
+            },
+        }),
+        provideDefaultConfigFactory(() => inject(USE_MY_ACCOUNT_V2_CONSENT) ? myAccountV2CmsMapping : {}),
+    ],
+    exports: [ConsentManagementComponent, ConsentManagementFormComponent],
 })
 export class ConsentManagementModule {}

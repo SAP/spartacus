@@ -10,19 +10,32 @@ import { Observable, of } from 'rxjs';
 import { ListService } from '../../../shared/list/list.service';
 import { CurrentUnitService } from '../../services/current-unit.service';
 import { UnitCostCenterListService } from './unit-cost-centers.service';
+import { SubListComponent } from '../../../shared/sub-list/sub-list.component';
+import { RouterLink } from '@angular/router';
+import { DisableInfoComponent } from '../../../shared/detail/disable-info/disable-info.component';
+import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/translate.pipe';
+import { AsyncPipe } from '@angular/common';
+import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-org-unit-cost-centers',
-  templateUrl: './unit-cost-centers.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
-  providers: [
-    {
-      provide: ListService,
-      useExisting: UnitCostCenterListService,
-    },
-  ],
-  standalone: false,
+    selector: 'cx-org-unit-cost-centers',
+    templateUrl: './unit-cost-centers.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'content-wrapper' },
+    providers: [
+        {
+            provide: ListService,
+            useExisting: UnitCostCenterListService,
+        },
+    ],
+    imports: [
+        SubListComponent,
+        RouterLink,
+        DisableInfoComponent,
+        TranslatePipe,
+        AsyncPipe,
+        MockTranslatePipe,
+    ],
 })
 export class UnitCostCenterListComponent {
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService

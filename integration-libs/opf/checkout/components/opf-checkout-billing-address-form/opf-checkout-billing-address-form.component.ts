@@ -14,12 +14,30 @@ import { Address, Country } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
+import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { AddressFormComponent } from '../../../../../feature-libs/user/profile/components/address-book/address-form/address-form.component';
+import { SpinnerComponent } from '../../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { GetAddressCardContent } from './get-address-card-content.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-opf-checkout-billing-address-form',
-  templateUrl: './opf-checkout-billing-address-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-opf-checkout-billing-address-form',
+    templateUrl: './opf-checkout-billing-address-form.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        CardComponent,
+        IconComponent,
+        AddressFormComponent,
+        SpinnerComponent,
+        AsyncPipe,
+        TranslatePipe,
+        GetAddressCardContent,
+        MockTranslatePipe,
+    ],
 })
 export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   protected service = inject(OpfCheckoutBillingAddressFormService);

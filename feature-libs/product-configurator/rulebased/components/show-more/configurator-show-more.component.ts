@@ -11,12 +11,19 @@ import {
   Component,
   Input,
 } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-configurator-show-more',
-  templateUrl: './configurator-show-more.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-configurator-show-more',
+    templateUrl: './configurator-show-more.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ConfiguratorShowMoreComponent implements AfterViewInit {
   showMore = false;

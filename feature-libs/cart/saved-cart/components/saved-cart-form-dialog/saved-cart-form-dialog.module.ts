@@ -18,19 +18,19 @@ import {
 import { SavedCartFormDialogComponent } from './saved-cart-form-dialog.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FormErrorsModule,
-    I18nModule,
-    IconModule,
-    KeyboardFocusModule,
-    FeaturesConfigModule,
-    FormRequiredAsterisksComponent,
-    FormRequiredLegendComponent,
-  ],
-  declarations: [SavedCartFormDialogComponent],
-  exports: [SavedCartFormDialogComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        I18nModule,
+        IconModule,
+        KeyboardFocusModule,
+        FeaturesConfigModule,
+        FormRequiredAsterisksComponent,
+        FormRequiredLegendComponent,
+        SavedCartFormDialogComponent,
+    ],
+    exports: [SavedCartFormDialogComponent],
 })
 export class SavedCartFormDialogModule {}

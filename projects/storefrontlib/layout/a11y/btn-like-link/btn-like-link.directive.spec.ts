@@ -9,7 +9,7 @@ export const Mock = {
 };
 
 @Component({
-  template: `
+    template: `
     <a class="btn affected-link" cxBtnLikeLink (click)="onClick('Affected')">
       Affected Link
     </a>
@@ -20,7 +20,7 @@ export const Mock = {
       Unaffected Link 2
     </a>
   `,
-  standalone: false,
+    imports: [BtnLikeLinkModule],
 })
 class TestContainerComponent {
   onClick(value: string) {
@@ -33,9 +33,8 @@ describe('BtnLikeLinkDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BtnLikeLinkModule],
-      declarations: [BtnLikeLinkDirective, TestContainerComponent],
-    }).compileComponents();
+    imports: [BtnLikeLinkModule, BtnLikeLinkDirective, TestContainerComponent],
+}).compileComponents();
   }));
 
   beforeEach(() => {

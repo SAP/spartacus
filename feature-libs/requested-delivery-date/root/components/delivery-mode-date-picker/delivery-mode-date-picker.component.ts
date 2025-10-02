@@ -6,7 +6,7 @@
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Cart } from '@spartacus/cart/base/root';
 import { CheckoutSupportedDeliveryModesQueryReloadEvent } from '@spartacus/checkout/base/root';
 import {
@@ -22,12 +22,30 @@ import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { RequestedDeliveryDateFacade } from '../../facade/requested-delivery-date.facade';
 import { DateValidationService } from '../shared/date-validation.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
+import { DatePickerComponent } from '../../../../../projects/storefrontlib/shared/components/form/date-picker/date-picker.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { CxDatePipe as CxDatePipe_1 } from '../../../../../projects/core/src/i18n/date.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-  selector: 'cx-request-delivery-date',
-  templateUrl: './delivery-mode-date-picker.component.html',
-  providers: [CxDatePipe],
-  standalone: false,
+    selector: 'cx-request-delivery-date',
+    templateUrl: './delivery-mode-date-picker.component.html',
+    providers: [CxDatePipe],
+    imports: [
+        NgIf,
+        CardComponent,
+        FormsModule,
+        ReactiveFormsModule,
+        DatePickerComponent,
+        AsyncPipe,
+        TranslatePipe,
+        CxDatePipe_1,
+        MockTranslatePipe,
+        MockDatePipe,
+    ],
 })
 export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
   constructor(

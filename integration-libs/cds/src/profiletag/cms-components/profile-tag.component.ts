@@ -7,14 +7,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProfileTagInjectorService } from '../services/profile-tag.injector.service';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'cx-profiletag',
-  template: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'cx-profiletag',
+    template: `
     <ng-container *ngIf="profileTagEnabled$ | async"></ng-container>
   `,
-  standalone: false,
+    imports: [NgIf, AsyncPipe],
 })
 export class ProfileTagComponent {
   profileTagEnabled$: Observable<boolean> = this.profileTagInjector.track();

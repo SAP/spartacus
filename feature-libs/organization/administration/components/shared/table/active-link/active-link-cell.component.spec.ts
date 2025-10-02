@@ -24,15 +24,14 @@ describe('ActiveLinkCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ActiveLinkCellComponent],
-      imports: [UrlTestingModule],
-      providers: [
+    imports: [UrlTestingModule, ActiveLinkCellComponent],
+    providers: [
         {
-          provide: OutletContextData,
-          useValue: { context: mockContext },
+            provide: OutletContextData,
+            useValue: { context: mockContext },
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

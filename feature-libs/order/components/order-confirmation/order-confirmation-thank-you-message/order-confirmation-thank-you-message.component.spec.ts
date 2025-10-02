@@ -22,16 +22,16 @@ const mockOrder = {
 };
 
 @Component({
-  selector: 'cx-add-to-home-screen-banner',
-  template: '',
-  standalone: false,
+    selector: 'cx-add-to-home-screen-banner',
+    template: '',
+    imports: [I18nTestingModule],
 })
 class MockAddtoHomeScreenBannerComponent {}
 
 @Component({
-  selector: 'cx-guest-register-form',
-  template: '',
-  standalone: false,
+    selector: 'cx-guest-register-form',
+    template: '',
+    imports: [I18nTestingModule],
 })
 class MockGuestRegisterFormComponent {
   @Input() guid: string;
@@ -60,19 +60,16 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        OrderConfirmationThankYouMessageComponent,
+    imports: [I18nTestingModule, OrderConfirmationThankYouMessageComponent,
         MockAddtoHomeScreenBannerComponent,
         MockGuestRegisterFormComponent,
-        MockFeatureLevelDirective,
-      ],
-      providers: [
+        MockFeatureLevelDirective],
+    providers: [
         { provide: OrderFacade, useClass: MockOrderFacade },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: TranslationService, useClass: MockTranslationService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

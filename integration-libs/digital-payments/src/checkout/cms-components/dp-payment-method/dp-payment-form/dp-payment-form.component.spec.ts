@@ -34,9 +34,8 @@ class MockDpCheckoutPaymentService
 }
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
-  standalone: false,
+    selector: 'cx-spinner',
+    template: '',
 })
 class MockSpinnerComponent {}
 
@@ -49,28 +48,25 @@ describe('DpPaymentFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        DpPaymentFormComponent,
+    imports: [StoreModule.forRoot({}), DpPaymentFormComponent,
         MockTranslatePipe,
-        MockSpinnerComponent,
-      ],
-      imports: [StoreModule.forRoot({})],
-      providers: [
+        MockSpinnerComponent],
+    providers: [
         {
-          provide: DpCheckoutPaymentService,
-          useClass: MockDpCheckoutPaymentService,
+            provide: DpCheckoutPaymentService,
+            useClass: MockDpCheckoutPaymentService,
         },
         {
-          provide: DpPaymentFormComponent,
-          useClass: DpPaymentFormComponent,
+            provide: DpPaymentFormComponent,
+            useClass: DpPaymentFormComponent,
         },
         {
-          provide: GlobalMessageService,
-          useClass: GlobalMessageService,
+            provide: GlobalMessageService,
+            useClass: GlobalMessageService,
         },
         { provide: WindowRef, useValue: mockWinRef },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     dpPaymentService = TestBed.inject(DpCheckoutPaymentService);
     winRef = TestBed.inject(WindowRef);

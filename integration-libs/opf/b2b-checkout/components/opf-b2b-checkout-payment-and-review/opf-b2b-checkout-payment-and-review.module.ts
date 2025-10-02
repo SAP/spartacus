@@ -36,35 +36,35 @@ import {
 } from '@spartacus/checkout/base/components';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    OpfCheckoutPaymentsModule,
-    UrlModule,
-    ReactiveFormsModule,
-    RouterModule,
-    OpfCheckoutBillingAddressFormModule,
-    AddressFormModule,
-    OutletModule,
-    PromotionsModule,
-    IconModule,
-    CardModule,
-    OpfCheckoutTermsAndConditionsAlertModule,
-    OpfCheckoutPaymentWrapperModule,
-    OpfCheckoutReviewCardModule,
-    OpfCheckoutReviewCartDetailsModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        OpfB2bCheckoutPaymentAndReview: {
-          component: OpfB2bCheckoutPaymentAndReviewComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [OpfB2bCheckoutPaymentAndReviewComponent],
-  exports: [OpfB2bCheckoutPaymentAndReviewComponent],
+    imports: [
+        CommonModule,
+        I18nModule,
+        OpfCheckoutPaymentsModule,
+        UrlModule,
+        ReactiveFormsModule,
+        RouterModule,
+        OpfCheckoutBillingAddressFormModule,
+        AddressFormModule,
+        OutletModule,
+        PromotionsModule,
+        IconModule,
+        CardModule,
+        OpfCheckoutTermsAndConditionsAlertModule,
+        OpfCheckoutPaymentWrapperModule,
+        OpfCheckoutReviewCardModule,
+        OpfCheckoutReviewCartDetailsModule,
+        OpfB2bCheckoutPaymentAndReviewComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                OpfB2bCheckoutPaymentAndReview: {
+                    component: OpfB2bCheckoutPaymentAndReviewComponent,
+                    guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+                },
+            },
+        }),
+    ],
+    exports: [OpfB2bCheckoutPaymentAndReviewComponent],
 })
 export class OpfB2bCheckoutPaymentAndReviewModule {}

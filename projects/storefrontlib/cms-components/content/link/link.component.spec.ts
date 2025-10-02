@@ -38,19 +38,18 @@ describe('LinkComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [GenericLinkModule],
-      declarations: [LinkComponent],
-      providers: [
+    imports: [GenericLinkModule, LinkComponent],
+    providers: [
         {
-          provide: ActivatedRoute,
-          useValue: new MockActivatedRoute({}),
+            provide: ActivatedRoute,
+            useValue: new MockActivatedRoute({}),
         },
         {
-          provide: CmsComponentData,
-          useClass: MockCmsComponentData,
+            provide: CmsComponentData,
+            useClass: MockCmsComponentData,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(LinkComponent);
     linkComponent = fixture.componentInstance;

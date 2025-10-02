@@ -15,12 +15,13 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { OpfDynamicScript } from '@spartacus/opf/base/root';
 import { OpfCtaScriptsService } from '../opf-cta-scripts/opf-cta-scripts.service';
+import { NgIf } from '@angular/common';
 
 @Component({
-  selector: 'cx-opf-cta-element',
-  templateUrl: './opf-cta-element.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-opf-cta-element',
+    templateUrl: './opf-cta-element.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgIf],
 })
 export class OpfCtaElementComponent implements AfterViewInit {
   protected sanitizer = inject(DomSanitizer);

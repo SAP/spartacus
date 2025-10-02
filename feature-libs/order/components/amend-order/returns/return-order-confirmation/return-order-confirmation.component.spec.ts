@@ -15,9 +15,9 @@ import { ReturnOrderConfirmationComponent } from './return-order-confirmation.co
 import createSpy = jasmine.createSpy;
 
 @Component({
-  template: '',
-  selector: 'cx-amend-order-actions',
-  standalone: false,
+    template: '',
+    selector: 'cx-amend-order-actions',
+    imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockAmendOrderActionComponent {
   @Input() orderCode: string;
@@ -27,9 +27,9 @@ class MockAmendOrderActionComponent {
 }
 
 @Component({
-  template: '',
-  selector: 'cx-amend-order-items',
-  standalone: false,
+    template: '',
+    selector: 'cx-amend-order-items',
+    imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
@@ -68,16 +68,13 @@ describe('ReturnOrderConfirmationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule],
-      providers: [
-        { provide: OrderAmendService, useClass: MockOrderAmendService },
-      ],
-      declarations: [
-        ReturnOrderConfirmationComponent,
+    imports: [I18nTestingModule, ReactiveFormsModule, ReturnOrderConfirmationComponent,
         MockAmendOrderActionComponent,
-        MockCancelOrReturnItemsComponent,
-      ],
-    }).compileComponents();
+        MockCancelOrReturnItemsComponent],
+    providers: [
+        { provide: OrderAmendService, useClass: MockOrderAmendService },
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

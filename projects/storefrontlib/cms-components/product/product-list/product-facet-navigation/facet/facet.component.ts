@@ -27,12 +27,28 @@ import {
 } from '../../../../../layout/a11y';
 import { FacetCollapseState } from '../facet.model';
 import { FacetService } from '../services/facet.service';
+import { NgIf, NgFor, AsyncPipe, SlicePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { FocusDirective as FocusDirective_1 } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
+import { AtMessageDirective } from '../../../../../shared/components/assistive-technology-message/assistive-technology-message.directive';
+import { TranslatePipe } from '../../../../../../core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-facet',
-  templateUrl: './facet.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-facet',
+    templateUrl: './facet.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        NgFor,
+        RouterLink,
+        FocusDirective_1,
+        AtMessageDirective,
+        AsyncPipe,
+        SlicePipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class FacetComponent implements AfterViewInit {
   protected _facet: Facet;

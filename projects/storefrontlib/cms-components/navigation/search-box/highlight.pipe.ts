@@ -6,10 +6,7 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-  name: 'cxHighlight',
-  standalone: false,
-})
+@Pipe({ name: 'cxHighlight', })
 export class HighlightPipe implements PipeTransform {
   transform(text: string, match?: string, caseSensitive = true): string {
     if (!match) {

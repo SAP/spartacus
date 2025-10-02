@@ -31,10 +31,7 @@ import { PopoverService } from './popover.service';
 /**
  * Directive to bind popover with any DOM element.
  */
-@Directive({
-  selector: '[cxPopover]',
-  standalone: false,
-})
+@Directive({ selector: '[cxPopover]', })
 export class PopoverDirective implements OnInit {
   /**
    * Template or string to be rendered inside popover wrapper component.

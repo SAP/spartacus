@@ -13,20 +13,18 @@ import { DeliveryModeDatePickerComponent } from './delivery-mode-date-picker/del
 import { OrderOverviewDeliveryDateComponent } from './order-overview-delivery-date/order-overview-delivery-date.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    DatePickerModule,
-    I18nModule,
-    ReactiveFormsModule,
-    CardModule,
-  ],
-  declarations: [
-    DeliveryModeDatePickerComponent,
-    OrderOverviewDeliveryDateComponent,
-  ],
-  exports: [
-    DeliveryModeDatePickerComponent,
-    OrderOverviewDeliveryDateComponent,
-  ],
+    imports: [
+        CommonModule,
+        DatePickerModule,
+        I18nModule,
+        ReactiveFormsModule,
+        CardModule,
+        DeliveryModeDatePickerComponent,
+        OrderOverviewDeliveryDateComponent,
+    ],
+    exports: [
+        DeliveryModeDatePickerComponent,
+        OrderOverviewDeliveryDateComponent,
+    ],
 })
 export class RequestedDeliveryDateComponentsModule {}

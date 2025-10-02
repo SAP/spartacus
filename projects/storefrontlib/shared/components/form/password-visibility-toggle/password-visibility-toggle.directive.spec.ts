@@ -18,7 +18,7 @@ const mockFormConfig: FormConfig = {
 };
 
 @Component({
-  template: `
+    template: `
     <div>
       <form [formGroup]="form">
         <input
@@ -34,7 +34,11 @@ const mockFormConfig: FormConfig = {
       </form>
     </div>
   `,
-  standalone: false,
+    imports: [I18nTestingModule,
+        IconTestingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        PasswordVisibilityToggleModule,],
 })
 class MockFormComponent {
   form: UntypedFormGroup = new UntypedFormGroup({
@@ -54,22 +58,22 @@ describe('PasswordVisibilityToggleDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         I18nTestingModule,
         IconTestingModule,
         FormsModule,
         ReactiveFormsModule,
         PasswordVisibilityToggleModule,
-      ],
-      declarations: [MockFormComponent],
-      providers: [
+        MockFormComponent,
+    ],
+    providers: [
         {
-          provide: FormConfig,
-          useValue: mockFormConfig,
+            provide: FormConfig,
+            useValue: mockFormConfig,
         },
         { provide: WindowRef, useClass: MockWinRef },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

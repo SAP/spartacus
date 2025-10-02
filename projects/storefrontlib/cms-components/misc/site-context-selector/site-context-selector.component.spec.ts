@@ -25,18 +25,14 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
+    selector: 'cx-icon',
+    template: '',
 })
 class MockCxIconComponent {
   @Input() type;
@@ -84,33 +80,30 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule],
-      declarations: [
-        SiteContextSelectorComponent,
+    imports: [BrowserAnimationsModule, SiteContextSelectorComponent,
         MockUrlPipe,
-        MockCxIconComponent,
-      ],
-      providers: [
+        MockCxIconComponent],
+    providers: [
         { provide: CmsService, useValue: MockCmsService },
         {
-          provide: LanguageService,
-          useValue: MockLanguageService,
+            provide: LanguageService,
+            useValue: MockLanguageService,
         },
         {
-          provide: CurrencyService,
-          useValue: {},
+            provide: CurrencyService,
+            useValue: {},
         },
         {
-          provide: CmsComponentData,
-          useValue: MockCmsComponentData,
+            provide: CmsComponentData,
+            useValue: MockCmsComponentData,
         },
         {
-          provide: TranslationService,
-          useClass: MockTranslationService,
+            provide: TranslationService,
+            useClass: MockTranslationService,
         },
         contextServiceMapProvider,
-      ],
-    })
+    ],
+})
       .overrideComponent(SiteContextSelectorComponent, {
         set: {
           providers: [

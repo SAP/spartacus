@@ -27,9 +27,12 @@ class MockProductReviewService {
 }
 
 @Component({
-  selector: 'cx-star-rating',
-  template: '',
-  standalone: false,
+    selector: 'cx-star-rating',
+    template: '',
+    imports: [ReactiveFormsModule,
+        ItemCounterModule,
+        I18nTestingModule,
+        FormErrorsModule,],
 })
 class MockStarRatingComponent {
   @Input() rating;
@@ -50,28 +53,26 @@ describe('ProductReviewsComponent in product', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         ItemCounterModule,
         I18nTestingModule,
         FormErrorsModule,
-      ],
-      providers: [
-        {
-          provide: ProductReviewService,
-          useClass: MockProductReviewService,
-        },
-        {
-          provide: CurrentProductService,
-          useClass: MockCurrentProductService,
-        },
-      ],
-      declarations: [
         MockStarRatingComponent,
         ProductReviewsComponent,
         MockFeatureDirective,
-      ],
-    }).compileComponents();
+    ],
+    providers: [
+        {
+            provide: ProductReviewService,
+            useClass: MockProductReviewService,
+        },
+        {
+            provide: CurrentProductService,
+            useClass: MockCurrentProductService,
+        },
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

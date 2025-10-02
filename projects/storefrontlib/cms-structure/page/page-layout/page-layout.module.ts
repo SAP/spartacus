@@ -12,8 +12,7 @@ import { PageLayoutComponent } from './page-layout.component';
 import { PageTemplateDirective } from './page-template.directive';
 
 @NgModule({
-  imports: [CommonModule, OutletModule, PageSlotModule],
-  declarations: [PageLayoutComponent, PageTemplateDirective],
-  exports: [PageLayoutComponent, PageTemplateDirective],
+    imports: [CommonModule, OutletModule, PageSlotModule, PageLayoutComponent, PageTemplateDirective],
+    exports: [PageLayoutComponent, PageTemplateDirective],
 })
 export class PageLayoutModule {}

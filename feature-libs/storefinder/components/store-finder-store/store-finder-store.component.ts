@@ -10,11 +10,25 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { StoreFinderService } from '@spartacus/storefinder/core';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { IconComponent } from '../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { StoreFinderStoreDescriptionComponent } from '../store-finder-store-description/store-finder-store-description.component';
+import { SpinnerComponent } from '../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
+import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-store-finder-store',
-  templateUrl: './store-finder-store.component.html',
-  standalone: false,
+    selector: 'cx-store-finder-store',
+    templateUrl: './store-finder-store.component.html',
+    imports: [
+        NgIf,
+        IconComponent,
+        StoreFinderStoreDescriptionComponent,
+        SpinnerComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class StoreFinderStoreComponent implements OnInit {
   location$: Observable<any>;

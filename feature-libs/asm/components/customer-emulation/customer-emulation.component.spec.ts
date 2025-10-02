@@ -32,8 +32,8 @@ describe('CustomerEmulationComponent', () => {
   @Component({
     selector: 'cx-asm-bind-cart',
     template: '',
-    standalone: false,
-  })
+    imports: [I18nTestingModule],
+})
   class MockAsmBindCartComponent {}
 
   const dialogClose$ = new BehaviorSubject<any>('');
@@ -62,28 +62,25 @@ describe('CustomerEmulationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CustomerEmulationComponent,
+    imports: [I18nTestingModule, CustomerEmulationComponent,
         MockFeatureLevelDirective,
-        MockAsmBindCartComponent,
-      ],
-      providers: [
+        MockAsmBindCartComponent],
+    providers: [
         {
-          provide: FeatureModulesService,
-          useClass: mockFeatureModulesService,
+            provide: FeatureModulesService,
+            useClass: mockFeatureModulesService,
         },
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
         { provide: AsmComponentService, useClass: MockAsmComponentService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '6.3' },
-          },
+            provide: FeaturesConfig,
+            useValue: {
+                features: { level: '6.3' },
+            },
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

@@ -4,14 +4,11 @@ import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DomChangeDirective } from './dom-change.directive';
 
-@Component({
-  template: `
+@Component({ template: `
     <div id="testElement" cxDomChange>
       <div class="targetElement"></div>
     </div>
-  `,
-  standalone: false,
-})
+  `, })
 class TestHostComponent {}
 
 describe('DomChangeDirective', () => {
@@ -21,9 +18,8 @@ describe('DomChangeDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TestHostComponent, DomChangeDirective],
-      imports: [BrowserAnimationsModule],
-    }).compileComponents();
+    imports: [BrowserAnimationsModule, TestHostComponent, DomChangeDirective],
+}).compileComponents();
 
     fixture = TestBed.createComponent(TestHostComponent);
 

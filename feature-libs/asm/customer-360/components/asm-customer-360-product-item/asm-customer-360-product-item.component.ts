@@ -13,12 +13,21 @@ import {
 } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { ProductItem } from '../asm-customer-360-product-listing/product-item.model';
+import { MediaComponent } from '../../../../../projects/storefrontlib/shared/components/media/media.component';
+import { NgIf } from '@angular/common';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-asm-customer-360-product-item',
-  templateUrl: './asm-customer-360-product-item.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-asm-customer-360-product-item',
+    templateUrl: './asm-customer-360-product-item.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        MediaComponent,
+        NgIf,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class AsmCustomer360ProductItemComponent {
   @Input() product: ProductItem;

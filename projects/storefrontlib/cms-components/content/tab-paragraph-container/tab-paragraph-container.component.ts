@@ -32,6 +32,9 @@ import { ComponentWrapperDirective } from '../../../cms-structure/page/component
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { BREAKPOINT } from '../../../layout/config/layout-config';
 import { Tab, TabConfig } from '../tab/tab.model';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { TabComponent } from '../tab/tab.component';
+import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
 
 const defaultTabConfig = {
   openTabs: [0],
@@ -39,10 +42,17 @@ const defaultTabConfig = {
 };
 
 @Component({
-  selector: 'cx-tab-paragraph-container',
-  templateUrl: './tab-paragraph-container.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-tab-paragraph-container',
+    templateUrl: './tab-paragraph-container.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        TabComponent,
+        NgFor,
+        OutletDirective,
+        ComponentWrapperDirective,
+        AsyncPipe,
+    ],
 })
 export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);

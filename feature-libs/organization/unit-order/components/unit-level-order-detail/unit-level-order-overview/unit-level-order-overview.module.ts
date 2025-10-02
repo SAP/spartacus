@@ -11,8 +11,7 @@ import { CardModule } from '@spartacus/storefront';
 import { UnitLevelOrderOverviewComponent as UnitLevelOrderOverviewComponent } from './unit-level-order-overview.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, CardModule],
-  declarations: [UnitLevelOrderOverviewComponent],
-  exports: [UnitLevelOrderOverviewComponent],
+    imports: [CommonModule, I18nModule, CardModule, UnitLevelOrderOverviewComponent],
+    exports: [UnitLevelOrderOverviewComponent],
 })
 export class UnitLevelOrderOverviewModule {}

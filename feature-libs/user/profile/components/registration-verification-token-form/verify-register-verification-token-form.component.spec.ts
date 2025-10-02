@@ -68,10 +68,7 @@ class MockFormComponentService
   );
   displayMessage = createSpy('displayMessage').and.stub();
 }
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -107,38 +104,38 @@ describe('RegistrationVerificationTokenFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         ReactiveFormsModule,
         RouterTestingModule,
         I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
-      ],
-      declarations: [RegistrationVerificationTokenFormComponent, MockUrlPipe],
-      providers: [
+        RegistrationVerificationTokenFormComponent, MockUrlPipe,
+    ],
+    providers: [
         {
-          provide: RegistrationVerificationTokenFormComponentService,
-          useClass: MockFormComponentService,
+            provide: RegistrationVerificationTokenFormComponentService,
+            useClass: MockFormComponentService,
         },
         {
-          provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
         },
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+            provide: RoutingService,
+            useClass: MockRoutingService,
         },
         {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
         },
         {
-          provide: RegistrationVerificationTokenFormComponentService,
-          useClass: MockRegistrationVerificationTokenFormComponentService,
+            provide: RegistrationVerificationTokenFormComponentService,
+            useClass: MockRegistrationVerificationTokenFormComponentService,
         },
         ChangeDetectorRef,
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

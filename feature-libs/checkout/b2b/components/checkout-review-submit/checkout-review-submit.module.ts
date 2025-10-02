@@ -26,27 +26,27 @@ import {
 import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CardModule,
-    I18nModule,
-    UrlModule,
-    RouterModule,
-    PromotionsModule,
-    IconModule,
-    OutletModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CheckoutReviewOrder: {
-          component: B2BCheckoutReviewSubmitComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [B2BCheckoutReviewSubmitComponent],
-  exports: [B2BCheckoutReviewSubmitComponent],
+    imports: [
+        CommonModule,
+        CardModule,
+        I18nModule,
+        UrlModule,
+        RouterModule,
+        PromotionsModule,
+        IconModule,
+        OutletModule,
+        B2BCheckoutReviewSubmitComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CheckoutReviewOrder: {
+                    component: B2BCheckoutReviewSubmitComponent,
+                    guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+                },
+            },
+        }),
+    ],
+    exports: [B2BCheckoutReviewSubmitComponent],
 })
 export class B2BCheckoutReviewSubmitModule {}

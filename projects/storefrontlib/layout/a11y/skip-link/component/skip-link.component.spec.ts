@@ -27,10 +27,7 @@ const mockSkipLinks: SkipLink[] = [
   },
 ];
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]', })
 export class MockFocusDirective {
   @Input('cxFocus') protected config;
 }
@@ -47,16 +44,15 @@ describe('SkipLinkComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [SkipLinkComponent, MockFocusDirective],
-      providers: [
+    imports: [I18nTestingModule, SkipLinkComponent, MockFocusDirective],
+    providers: [
         {
-          provide: SkipLinkConfig,
-          useValue: { skipLinks: [mockSkipLinks] },
+            provide: SkipLinkConfig,
+            useValue: { skipLinks: [mockSkipLinks] },
         },
         { provide: SkipLinkService, useClass: MockSkipLinkService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(async () => {

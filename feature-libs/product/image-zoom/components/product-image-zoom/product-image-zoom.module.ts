@@ -30,42 +30,40 @@ import { ProductImageZoomTriggerComponent } from './product-image-zoom-trigger/p
 import { ProductImageZoomViewComponent } from './product-image-zoom-view/product-image-zoom-view.component';
 
 @NgModule({
-  imports: [
-    CarouselModule,
-    CarouselScrollingModule,
-    CommonModule,
-    I18nModule,
-    IconModule,
-    KeyboardFocusModule,
-    MediaModule,
-    OutletModule,
-    RouterModule,
-    FeaturesConfigModule,
-    LcpContextDirectiveModule,
-  ],
-  providers: [
-    provideDefaultConfig(defaultProductImageZoomLayoutConfig),
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ProductImagesComponent: {
-          component: ProductImageZoomProductImagesComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [
-    ProductImageZoomDialogComponent,
-    ProductImageZoomProductImagesComponent,
-    ProductImageZoomThumbnailsComponent,
-    ProductImageZoomTriggerComponent,
-    ProductImageZoomViewComponent,
-  ],
-  exports: [
-    ProductImageZoomDialogComponent,
-    ProductImageZoomProductImagesComponent,
-    ProductImageZoomThumbnailsComponent,
-    ProductImageZoomTriggerComponent,
-    ProductImageZoomViewComponent,
-  ],
+    imports: [
+        CarouselModule,
+        CarouselScrollingModule,
+        CommonModule,
+        I18nModule,
+        IconModule,
+        KeyboardFocusModule,
+        MediaModule,
+        OutletModule,
+        RouterModule,
+        FeaturesConfigModule,
+        LcpContextDirectiveModule,
+        ProductImageZoomDialogComponent,
+        ProductImageZoomProductImagesComponent,
+        ProductImageZoomThumbnailsComponent,
+        ProductImageZoomTriggerComponent,
+        ProductImageZoomViewComponent,
+    ],
+    providers: [
+        provideDefaultConfig(defaultProductImageZoomLayoutConfig),
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ProductImagesComponent: {
+                    component: ProductImageZoomProductImagesComponent,
+                },
+            },
+        }),
+    ],
+    exports: [
+        ProductImageZoomDialogComponent,
+        ProductImageZoomProductImagesComponent,
+        ProductImageZoomThumbnailsComponent,
+        ProductImageZoomTriggerComponent,
+        ProductImageZoomViewComponent,
+    ],
 })
 export class ProductImageZoomModule {}

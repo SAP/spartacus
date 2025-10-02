@@ -20,28 +20,27 @@ import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, SiteContextModule, IconModule],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CMSSiteContextComponent: {
-          component: SiteContextSelectorComponent,
-          providers: [
-            {
-              provide: SiteContextComponentService,
-              useClass: SiteContextComponentService,
-              deps: [CmsComponentData, ContextServiceMap, Injector],
+    imports: [CommonModule, RouterModule, SiteContextModule, IconModule, SiteContextSelectorComponent, LanguageCurrencyComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CMSSiteContextComponent: {
+                    component: SiteContextSelectorComponent,
+                    providers: [
+                        {
+                            provide: SiteContextComponentService,
+                            useClass: SiteContextComponentService,
+                            deps: [CmsComponentData, ContextServiceMap, Injector],
+                        },
+                    ],
+                },
+                LanguageCurrencyComponent: {
+                    component: LanguageCurrencyComponent,
+                },
             },
-          ],
-        },
-        LanguageCurrencyComponent: {
-          component: LanguageCurrencyComponent,
-        },
-      },
-    }),
-    SiteContextComponentService,
-  ],
-  declarations: [SiteContextSelectorComponent, LanguageCurrencyComponent],
-  exports: [SiteContextSelectorComponent, LanguageCurrencyComponent],
+        }),
+        SiteContextComponentService,
+    ],
+    exports: [SiteContextSelectorComponent, LanguageCurrencyComponent],
 })
 export class SiteContextSelectorModule {}

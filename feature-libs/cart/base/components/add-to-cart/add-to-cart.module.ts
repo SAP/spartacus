@@ -21,28 +21,28 @@ import {
 import { AddToCartComponent } from './add-to-cart.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    I18nModule,
-    IconModule,
-    ItemCounterModule,
-    OutletModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        ProductAddToCartComponent: {
-          component: AddToCartComponent,
-          data: {
-            inventoryDisplay: false,
-          },
-        },
-      },
-    }),
-  ],
-  declarations: [AddToCartComponent],
-  exports: [AddToCartComponent],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        I18nModule,
+        IconModule,
+        ItemCounterModule,
+        OutletModule,
+        FeaturesConfigModule,
+        AddToCartComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                ProductAddToCartComponent: {
+                    component: AddToCartComponent,
+                    data: {
+                        inventoryDisplay: false,
+                    },
+                },
+            },
+        }),
+    ],
+    exports: [AddToCartComponent],
 })
 export class AddToCartModule {}

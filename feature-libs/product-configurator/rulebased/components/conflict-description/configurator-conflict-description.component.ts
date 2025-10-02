@@ -12,12 +12,14 @@ import {
 } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Configurator } from '../../core/model/configurator.model';
+import { NgIf } from '@angular/common';
+import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
 
 @Component({
-  selector: 'cx-configurator-conflict-description',
-  templateUrl: './configurator-conflict-description.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-configurator-conflict-description',
+    templateUrl: './configurator-conflict-description.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgIf, IconComponent],
 })
 export class ConfiguratorConflictDescriptionComponent {
   @Input() currentGroup: Configurator.Group;

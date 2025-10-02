@@ -13,8 +13,8 @@ describe('AsmCustomer360SectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AsmCustomer360SectionComponent],
-    }).compileComponents();
+    imports: [AsmCustomer360SectionComponent],
+}).compileComponents();
 
     fixture = TestBed.createComponent(AsmCustomer360SectionComponent);
     component = fixture.componentInstance;

@@ -31,9 +31,9 @@ import { CheckoutPaymentMethodComponent } from './checkout-payment-method.compon
 import createSpy = jasmine.createSpy;
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
+    selector: 'cx-icon',
+    template: '',
+    imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -151,9 +151,9 @@ const mockAddress: Address = {
 };
 
 @Component({
-  selector: 'cx-payment-form',
-  template: '',
-  standalone: false,
+    selector: 'cx-payment-form',
+    template: '',
+    imports: [I18nTestingModule],
 })
 class MockPaymentFormComponent {
   @Input()
@@ -167,9 +167,9 @@ class MockPaymentFormComponent {
 }
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
-  standalone: false,
+    selector: 'cx-spinner',
+    template: '',
+    imports: [I18nTestingModule],
 })
 class MockSpinnerComponent {}
 
@@ -191,44 +191,41 @@ describe('CheckoutPaymentMethodComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CheckoutPaymentMethodComponent,
+    imports: [I18nTestingModule, CheckoutPaymentMethodComponent,
         MockPaymentFormComponent,
         CardComponent,
         MockSpinnerComponent,
         MockCxIconComponent,
-        MockFeatureDirective,
-      ],
-      providers: [
+        MockFeatureDirective],
+    providers: [
         { provide: UserPaymentService, useClass: MockUserPaymentService },
         {
-          provide: CheckoutDeliveryAddressFacade,
-          useClass: MockCheckoutDeliveryFacade,
+            provide: CheckoutDeliveryAddressFacade,
+            useClass: MockCheckoutDeliveryFacade,
         },
         {
-          provide: ActiveCartFacade,
-          useClass: MockActiveCartService,
+            provide: ActiveCartFacade,
+            useClass: MockActiveCartService,
         },
         {
-          provide: CheckoutPaymentFacade,
-          useClass: MockCheckoutPaymentService,
+            provide: CheckoutPaymentFacade,
+            useClass: MockCheckoutPaymentService,
         },
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '6.3' },
-          },
+            provide: FeaturesConfig,
+            useValue: {
+                features: { level: '6.3' },
+            },
         },
         {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     mockUserPaymentService = TestBed.inject(UserPaymentService);
     mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentFacade);

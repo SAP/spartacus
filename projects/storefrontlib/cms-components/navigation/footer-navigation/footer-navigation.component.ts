@@ -11,12 +11,23 @@ import { map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationService } from '../navigation/navigation.service';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { NavigationUIComponent } from '../navigation/navigation-ui.component';
+import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-footer-navigation',
-  templateUrl: './footer-navigation.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-footer-navigation',
+    templateUrl: './footer-navigation.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        NavigationUIComponent,
+        NgClass,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class FooterNavigationComponent {
   node$: Observable<NavigationNode> = this.service.getNavigationNode(

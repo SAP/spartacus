@@ -68,28 +68,31 @@ class MockProductService {
 let focusService: KeyboardFocusService;
 
 @Component({
-  selector: 'cx-configurator-price',
-  template: '',
-  standalone: false,
+    selector: 'cx-configurator-price',
+    template: '',
+    imports: [I18nTestingModule,
+        ReactiveFormsModule,
+        UrlTestingModule,
+        MediaModule,],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
 @Component({
-  selector: 'cx-configurator-attribute-quantity',
-  template: '',
-  standalone: false,
+    selector: 'cx-configurator-attribute-quantity',
+    template: '',
+    imports: [I18nTestingModule,
+        ReactiveFormsModule,
+        UrlTestingModule,
+        MediaModule,],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
   @Output() changeQuantity = new EventEmitter<number>();
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]', })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
@@ -157,31 +160,29 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         I18nTestingModule,
         ReactiveFormsModule,
         UrlTestingModule,
         MediaModule,
-      ],
-      declarations: [
         ConfiguratorAttributeProductCardComponent,
         ConfiguratorShowMoreComponent,
         ItemCounterComponent,
         MockConfiguratorPriceComponent,
         MockFocusDirective,
         MockConfiguratorAttributeQuantityComponent,
-      ],
-      providers: [
+    ],
+    providers: [
         {
-          provide: ProductService,
-          useClass: MockProductService,
+            provide: ProductService,
+            useClass: MockProductService,
         },
         {
-          provide: ConfiguratorStorefrontUtilsService,
-          useValue: {},
+            provide: ConfiguratorStorefrontUtilsService,
+            useValue: {},
         },
-      ],
-    })
+    ],
+})
       .overrideComponent(ConfiguratorAttributeProductCardComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

@@ -14,11 +14,26 @@ import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { ConfiguratorTextfieldInputFieldComponent } from '../input-field/configurator-textfield-input-field.component';
+import { ConfiguratorTextfieldAddToCartButtonComponent } from '../add-to-cart-button/configurator-textfield-add-to-cart-button.component';
+import { ConfiguratorTextfieldInputFieldReadonlyComponent } from '../input-field-readonly/configurator-textfield-input-field-readonly.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-configurator-textfield-form',
-  templateUrl: './configurator-textfield-form.component.html',
-  standalone: false,
+    selector: 'cx-configurator-textfield-form',
+    templateUrl: './configurator-textfield-form.component.html',
+    imports: [
+        NgIf,
+        NgFor,
+        ConfiguratorTextfieldInputFieldComponent,
+        ConfiguratorTextfieldAddToCartButtonComponent,
+        ConfiguratorTextfieldInputFieldReadonlyComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ConfiguratorTextfieldFormComponent {
   configuration$: Observable<ConfiguratorTextfield.Configuration> =

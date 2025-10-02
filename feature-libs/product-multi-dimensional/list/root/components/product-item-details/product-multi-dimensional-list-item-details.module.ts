@@ -11,8 +11,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { ProductMultiDimensionalListItemDetailsComponent } from './product-multi-dimensional-list-item-details.component';
 
 @NgModule({
-  imports: [I18nModule, NgIf, AsyncPipe, StarRatingModule],
-  declarations: [ProductMultiDimensionalListItemDetailsComponent],
-  exports: [ProductMultiDimensionalListItemDetailsComponent],
+    imports: [I18nModule, NgIf, AsyncPipe, StarRatingModule, ProductMultiDimensionalListItemDetailsComponent],
+    exports: [ProductMultiDimensionalListItemDetailsComponent],
 })
 export class ProductMultiDimensionalListItemDetailsModule {}

@@ -67,25 +67,25 @@ describe('ImportToNewSavedCartFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         FormErrorsModule,
         FileUploadModule,
         FormsModule,
         ReactiveFormsModule,
         I18nTestingModule,
-      ],
-      declarations: [ImportToNewSavedCartFormComponent],
-      providers: [
+        ImportToNewSavedCartFormComponent,
+    ],
+    providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: ImportProductsFromCsvService,
-          useClass: MockImportToCartService,
+            provide: ImportProductsFromCsvService,
+            useClass: MockImportToCartService,
         },
         { provide: ImportCsvFileService, useClass: MockImportCsvFileService },
         { provide: LanguageService, useClass: MockLanguageService },
         { provide: ImportExportConfig, useValue: defaultImportExportConfig },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(ImportToNewSavedCartFormComponent);
     component = fixture.componentInstance;

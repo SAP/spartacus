@@ -73,10 +73,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   clear = createSpy();
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform = createSpy();
 }
@@ -100,31 +97,28 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
       getActive: () => of('en'),
     };
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, AtMessageModule],
-      declarations: [
-        MockUrlPipe,
-        CheckoutScheduledReplenishmentPlaceOrderComponent,
-      ],
-      providers: [
+    imports: [ReactiveFormsModule, I18nTestingModule, AtMessageModule, MockUrlPipe,
+        CheckoutScheduledReplenishmentPlaceOrderComponent],
+    providers: [
         { provide: OrderFacade, useClass: MockOrderFacade },
         {
-          provide: CheckoutReplenishmentFormService,
-          useClass: MockCheckoutReplenishmentFormService,
+            provide: CheckoutReplenishmentFormService,
+            useClass: MockCheckoutReplenishmentFormService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: ScheduledReplenishmentOrderFacade,
-          useClass: MockScheduledReplenishmentOrderFacade,
+            provide: ScheduledReplenishmentOrderFacade,
+            useClass: MockScheduledReplenishmentOrderFacade,
         },
         {
-          provide: GlobalMessageService,
-          useValue: {},
+            provide: GlobalMessageService,
+            useValue: {},
         },
         { provide: CurrencyService, useValue: mockCurrencyService },
         { provide: LanguageService, useValue: mockLanguageService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

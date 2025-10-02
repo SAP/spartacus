@@ -17,13 +17,29 @@ import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ListComponent } from '../list/list.component';
 import { MessageService } from '../message/services/message.service';
+import { CardComponent } from '../card/card.component';
+import { FocusDirective } from '../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { TableComponent } from '../../../../../../projects/storefrontlib/shared/components/table/table.component';
+import { PaginationComponent } from '../../../../../../projects/storefrontlib/shared/components/list-navigation/pagination/pagination.component';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-org-sub-list',
-  templateUrl: './sub-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
-  standalone: false,
+    selector: 'cx-org-sub-list',
+    templateUrl: './sub-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'content-wrapper' },
+    imports: [
+        CardComponent,
+        FocusDirective,
+        NgIf,
+        TableComponent,
+        PaginationComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class SubListComponent extends ListComponent {
   hostClass = '';

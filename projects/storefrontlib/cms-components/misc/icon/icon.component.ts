@@ -15,6 +15,7 @@ import { SafeHtml } from '@angular/platform-browser';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
 import { ICON_TYPE as DEFAULT_ICON_TYPE } from './icon.model';
+import { NgIf } from '@angular/common';
 
 type ICON_TYPE = DEFAULT_ICON_TYPE | string;
 
@@ -39,9 +40,9 @@ type ICON_TYPE = DEFAULT_ICON_TYPE | string;
  * additional DOM node which is an advantage over the component selector.
  */
 @Component({
-  selector: 'cx-icon,[cxIcon]',
-  templateUrl: './icon.component.html',
-  standalone: false,
+    selector: 'cx-icon,[cxIcon]',
+    templateUrl: './icon.component.html',
+    imports: [NgIf],
 })
 export class IconComponent {
   /**

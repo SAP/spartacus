@@ -15,12 +15,26 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon';
-import { Card } from '../../../shared/components/card/card.component';
+import { Card, CardComponent } from '../../../shared/components/card/card.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { FormRequiredLegendComponent } from '../../../shared/components/form/form-required-legend/form-required-legend.component';
+import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-payment-methods',
-  templateUrl: './payment-methods.component.html',
-  standalone: false,
+    selector: 'cx-payment-methods',
+    templateUrl: './payment-methods.component.html',
+    imports: [
+        NgIf,
+        FormRequiredLegendComponent,
+        SpinnerComponent,
+        NgFor,
+        CardComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class PaymentMethodsComponent implements OnInit {
   paymentMethods$: Observable<PaymentDetails[]>;

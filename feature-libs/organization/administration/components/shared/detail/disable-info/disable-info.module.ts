@@ -11,8 +11,7 @@ import { IconModule } from '@spartacus/storefront';
 import { I18nModule } from '@spartacus/core';
 
 @NgModule({
-  imports: [CommonModule, IconModule, I18nModule],
-  declarations: [DisableInfoComponent],
-  exports: [DisableInfoComponent],
+    imports: [CommonModule, IconModule, I18nModule, DisableInfoComponent],
+    exports: [DisableInfoComponent],
 })
 export class DisableInfoModule {}

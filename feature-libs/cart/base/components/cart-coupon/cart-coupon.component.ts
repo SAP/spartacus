@@ -5,11 +5,7 @@
  */
 
 import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
@@ -23,11 +19,24 @@ import {
 } from '@spartacus/core';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-cart-coupon',
-  templateUrl: './cart-coupon.component.html',
-  standalone: false,
+    selector: 'cx-cart-coupon',
+    templateUrl: './cart-coupon.component.html',
+    imports: [
+        NgIf,
+        FormsModule,
+        ReactiveFormsModule,
+        AppliedCouponsComponent,
+        NgFor,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
   MAX_CUSTOMER_COUPON_PAGE = 100;

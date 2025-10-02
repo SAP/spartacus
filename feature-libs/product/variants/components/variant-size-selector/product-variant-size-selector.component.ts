@@ -23,12 +23,20 @@ import {
 } from '@spartacus/core';
 import { filter, map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { NgFor, AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-product-variant-size-selector',
-  templateUrl: './product-variant-size-selector.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-product-variant-size-selector',
+    templateUrl: './product-variant-size-selector.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgFor,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class ProductVariantSizeSelectorComponent {
   protected translationService = inject(TranslationService);

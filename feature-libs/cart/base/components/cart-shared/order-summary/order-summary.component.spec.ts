@@ -8,9 +8,9 @@ import { of } from 'rxjs';
 import { OrderSummaryComponent } from './order-summary.component';
 
 @Component({
-  selector: 'cx-applied-coupons',
-  template: '',
-  standalone: false,
+    selector: 'cx-applied-coupons',
+    template: '',
+    imports: [CommonModule, PromotionsModule, I18nTestingModule,],
 })
 class MockAppliedCouponsComponent {
   @Input()
@@ -33,16 +33,15 @@ describe('OrderSummary', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, PromotionsModule, I18nTestingModule],
-      declarations: [OrderSummaryComponent, MockAppliedCouponsComponent],
-      providers: [
+    imports: [CommonModule, PromotionsModule, I18nTestingModule, OrderSummaryComponent, MockAppliedCouponsComponent],
+    providers: [
         { provide: CartVoucherFacade, useValue: {} },
         {
-          provide: OutletContextData,
-          useValue: { context$ },
+            provide: OutletContextData,
+            useValue: { context$ },
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

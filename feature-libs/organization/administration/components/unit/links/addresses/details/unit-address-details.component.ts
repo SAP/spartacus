@@ -17,19 +17,37 @@ import {
 import { ItemService } from '../../../../shared/item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitAddressItemService } from '../services/unit-address-item.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { CardComponent } from '../../../../shared/card/card.component';
+import { FocusDirective } from '../../../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { RouterLink } from '@angular/router';
+import { DeleteItemComponent } from '../../../../shared/detail/delete-item-action/delete-item.component';
+import { UrlPipe } from '../../../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { TranslatePipe } from '../../../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-org-unit-address-details',
-  templateUrl: './unit-address-details.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
-  providers: [
-    {
-      provide: ItemService,
-      useExisting: UnitAddressItemService,
-    },
-  ],
-  standalone: false,
+    selector: 'cx-org-unit-address-details',
+    templateUrl: './unit-address-details.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'content-wrapper' },
+    providers: [
+        {
+            provide: ItemService,
+            useExisting: UnitAddressItemService,
+        },
+    ],
+    imports: [
+        NgIf,
+        CardComponent,
+        FocusDirective,
+        RouterLink,
+        DeleteItemComponent,
+        AsyncPipe,
+        UrlPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class UnitAddressDetailsComponent {
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService.item$;

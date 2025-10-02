@@ -5,17 +5,14 @@ import { AutoFocusConfig } from '../keyboard-focus.model';
 import { AutoFocusDirective } from './auto-focus.directive';
 import { AutoFocusService } from './auto-focus.service';
 
-@Directive({
-  selector: '[cxAutoFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxAutoFocus]', })
 class CustomFocusDirective extends AutoFocusDirective {
   @Input('cxAutoFocus') protected config: AutoFocusConfig;
 }
 
 @Component({
-  selector: 'cx-host',
-  template: `
+    selector: 'cx-host',
+    template: `
     <div cxAutoFocus id="a">
       <button id="a1"></button>
       <button id="a2"></button>
@@ -36,7 +33,6 @@ class CustomFocusDirective extends AutoFocusDirective {
       <button id="d2"></button>
     </div>
   `,
-  standalone: false,
 })
 class MockComponent {}
 
@@ -55,14 +51,14 @@ describe('AutoFocusDirective', () => {
   let service: AutoFocusService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent, CustomFocusDirective],
-      providers: [
+    imports: [MockComponent, CustomFocusDirective],
+    providers: [
         {
-          provide: AutoFocusService,
-          useClass: MockAutoFocusService,
+            provide: AutoFocusService,
+            useClass: MockAutoFocusService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(MockComponent);
     service = TestBed.inject(AutoFocusService);

@@ -14,10 +14,7 @@ const mockOrder: Order = {
   cancellable: false,
 };
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -36,18 +33,17 @@ describe('OrderDetailActionsComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      providers: [
+    imports: [I18nTestingModule, OrderDetailActionsComponent, MockUrlPipe],
+    providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
         {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { cancellationAndReturn: true },
-          },
+            provide: FeaturesConfig,
+            useValue: {
+                features: { cancellationAndReturn: true },
+            },
         },
-      ],
-      declarations: [OrderDetailActionsComponent, MockUrlPipe],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

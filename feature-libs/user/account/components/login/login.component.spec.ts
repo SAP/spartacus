@@ -41,9 +41,8 @@ class MockUserAccountFacade {
 }
 
 @Component({
-  selector: 'cx-page-slot',
-  standalone: false,
-  template: `
+    selector: 'cx-page-slot',
+    template: `
     <cx-navigation-ui>
       <nav>
         <ul>
@@ -54,16 +53,14 @@ class MockUserAccountFacade {
       </nav>
     </cx-navigation-ui>
   `,
+    imports: [I18nTestingModule],
 })
 class MockDynamicSlotComponent {
   @Input()
   position: string;
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform(): void {}
 }
@@ -78,26 +75,25 @@ describe('LoginComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [LoginComponent, MockDynamicSlotComponent, MockUrlPipe],
-      providers: [
+    imports: [I18nTestingModule, LoginComponent, MockDynamicSlotComponent, MockUrlPipe],
+    providers: [
         {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              firstChild: {
-                routeConfig: {
-                  canActivate: [{ GUARD_NAME: 'AuthGuard' }],
+            provide: ActivatedRoute,
+            useValue: {
+                snapshot: {
+                    firstChild: {
+                        routeConfig: {
+                            canActivate: [{ GUARD_NAME: 'AuthGuard' }],
+                        },
+                    },
                 },
-              },
             },
-          },
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
         { provide: AuthService, useClass: MockAuthService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     authService = TestBed.inject(AuthService);
   }));

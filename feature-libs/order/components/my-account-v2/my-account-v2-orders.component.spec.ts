@@ -40,10 +40,7 @@ const mockEmptyOrderList: OrderHistoryListView = {
   pagination: { totalResults: 0, totalPages: 1 },
 };
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -74,9 +71,9 @@ class MockTranslationService {
 }
 
 @Component({
-  template: '',
-  selector: 'cx-media',
-  standalone: false,
+    template: '',
+    selector: 'cx-media',
+    imports: [I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -85,9 +82,9 @@ class MockMediaComponent {
 }
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
-  standalone: false,
+    selector: 'cx-spinner',
+    template: '',
+    imports: [I18nTestingModule],
 })
 class MockSpinnerComponent {}
 
@@ -98,19 +95,16 @@ describe(' MyAccountV2OrdersComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        MyAccountV2OrdersComponent,
+    imports: [I18nTestingModule, MyAccountV2OrdersComponent,
         MockUrlPipe,
         MockMediaComponent,
-        MockSpinnerComponent,
-      ],
-      providers: [
+        MockSpinnerComponent],
+    providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: MyAccountV2OrderHistoryService, useClass: MockService },
         { provide: TranslationService, useClass: MockTranslationService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
     service = TestBed.inject(MyAccountV2OrderHistoryService);
   }));
 

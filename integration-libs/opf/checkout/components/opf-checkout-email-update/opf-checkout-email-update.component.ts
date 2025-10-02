@@ -5,11 +5,7 @@
  */
 
 import { Component, inject } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   ActiveCartFacade,
   CartGuestUserFacade,
@@ -22,11 +18,22 @@ import {
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { combineLatest, switchMap, take, tap } from 'rxjs';
+import { NgTemplateOutlet } from '@angular/common';
+import { FormErrorsComponent } from '../../../../../projects/storefrontlib/shared/components/form/form-errors/form-errors.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-opf-checkout-email-update',
-  templateUrl: './opf-checkout-email-update.component.html',
-  standalone: false,
+    selector: 'cx-opf-checkout-email-update',
+    templateUrl: './opf-checkout-email-update.component.html',
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        NgTemplateOutlet,
+        FormErrorsComponent,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class OpfCheckoutEmailUpdateComponent {
   protected cartGuestUserFacade = inject(CartGuestUserFacade);

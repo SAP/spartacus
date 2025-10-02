@@ -6,15 +6,23 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeProductCardComponentOptions, ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
+import { NgIf, NgFor } from '@angular/common';
+import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
 
 @Component({
-  selector: 'cx-configurator-attribute-single-selection-bundle',
-  templateUrl:
-    './configurator-attribute-single-selection-bundle.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-configurator-attribute-single-selection-bundle',
+    templateUrl: './configurator-attribute-single-selection-bundle.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        ConfiguratorAttributeQuantityComponent,
+        ConfiguratorPriceComponent,
+        NgFor,
+        ConfiguratorAttributeProductCardComponent,
+    ],
 })
 export class ConfiguratorAttributeSingleSelectionBundleComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
   /**

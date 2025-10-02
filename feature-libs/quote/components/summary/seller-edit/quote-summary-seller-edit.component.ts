@@ -12,7 +12,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   Quote,
   QuoteDiscount,
@@ -34,11 +34,25 @@ import {
   LocalizationElements,
   QuoteSummarySellerEditComponentService,
 } from './quote-summary-seller-edit.component.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { DatePickerComponent } from '../../../../../projects/storefrontlib/shared/components/form/date-picker/date-picker.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-quote-summary-seller-edit',
-  templateUrl: './quote-summary-seller-edit.component.html',
-  standalone: false,
+    selector: 'cx-quote-summary-seller-edit',
+    templateUrl: './quote-summary-seller-edit.component.html',
+    imports: [
+        NgIf,
+        FormsModule,
+        ReactiveFormsModule,
+        IconComponent,
+        DatePickerComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class QuoteSummarySellerEditComponent implements OnInit, OnDestroy {
   protected quoteFacade = inject(QuoteFacade);

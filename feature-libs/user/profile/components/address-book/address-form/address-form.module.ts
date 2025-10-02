@@ -22,22 +22,22 @@ import { AddressFormComponent } from './address-form.component';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 
 @NgModule({
-  imports: [
-    NgSelectA11yModule,
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    RouterModule,
-    NgSelectModule,
-    IconModule,
-    I18nModule,
-    FormErrorsModule,
-    KeyboardFocusModule,
-    FeaturesConfigModule,
-    FormRequiredAsterisksComponent,
-    FormRequiredLegendComponent,
-  ],
-  declarations: [AddressFormComponent, SuggestedAddressDialogComponent],
-  exports: [AddressFormComponent, SuggestedAddressDialogComponent],
+    imports: [
+        NgSelectA11yModule,
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        RouterModule,
+        NgSelectModule,
+        IconModule,
+        I18nModule,
+        FormErrorsModule,
+        KeyboardFocusModule,
+        FeaturesConfigModule,
+        FormRequiredAsterisksComponent,
+        FormRequiredLegendComponent,
+        AddressFormComponent, SuggestedAddressDialogComponent,
+    ],
+    exports: [AddressFormComponent, SuggestedAddressDialogComponent],
 })
 export class AddressFormModule {}

@@ -13,9 +13,8 @@ import { OpfPaymentVerificationComponent } from './opf-payment-verification.comp
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
-  standalone: false,
+    selector: 'cx-spinner',
+    template: '',
 })
 class MockSpinnerComponent {}
 
@@ -43,15 +42,15 @@ describe('OpfPaymentVerificationComponent', () => {
     );
 
     TestBed.configureTestingModule({
-      declarations: [OpfPaymentVerificationComponent, MockSpinnerComponent],
-      providers: [
+    imports: [OpfPaymentVerificationComponent, MockSpinnerComponent],
+    providers: [
         { provide: ActivatedRoute, useValue: routeMock },
         {
-          provide: OpfPaymentVerificationService,
-          useValue: opfPaymentVerificationServiceMock,
+            provide: OpfPaymentVerificationService,
+            useValue: opfPaymentVerificationServiceMock,
         },
-      ],
-    });
+    ],
+});
 
     fixture = TestBed.createComponent(OpfPaymentVerificationComponent);
     component = fixture.componentInstance;

@@ -19,9 +19,8 @@ class MockAuthService implements Partial<AuthService> {
 }
 
 @Component({
-  selector: 'cx-page-layout',
-  template: 'mock',
-  standalone: false,
+    selector: 'cx-page-layout',
+    template: 'mock',
 })
 class MockPageLayoutComponent {}
 
@@ -48,44 +47,44 @@ describe('LogoutGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         RouterModule.forRoot([
-          {
-            path: 'logout',
-            component: MockPageLayoutComponent,
-            canActivate: [LogoutGuard],
-          },
-        ]),
-      ],
-      declarations: [MockPageLayoutComponent],
-      providers: [
-        {
-          provide: RoutingConfig,
-          useValue: {
-            routing: {
-              routes: {
-                login: {
-                  paths: ['login'],
-                },
-                home: {
-                  paths: [''],
-                },
-                logout: {
-                  paths: ['logout'],
-                },
-              },
+            {
+                path: 'logout',
+                component: MockPageLayoutComponent,
+                canActivate: [LogoutGuard],
             },
-          },
+        ]),
+        MockPageLayoutComponent,
+    ],
+    providers: [
+        {
+            provide: RoutingConfig,
+            useValue: {
+                routing: {
+                    routes: {
+                        login: {
+                            paths: ['login'],
+                        },
+                        home: {
+                            paths: [''],
+                        },
+                        logout: {
+                            paths: ['logout'],
+                        },
+                    },
+                },
+            },
         },
         { provide: AuthService, useClass: MockAuthService },
         { provide: CmsService, useClass: MockCmsService },
         {
-          provide: ProtectedRoutesService,
-          useClass: MockProtectedRoutesService,
+            provide: ProtectedRoutesService,
+            useClass: MockProtectedRoutesService,
         },
         SemanticPathService,
-      ],
-    });
+    ],
+});
     authService = TestBed.inject(AuthService);
     logoutGuard = TestBed.inject(LogoutGuard);
     router = TestBed.inject(Router);

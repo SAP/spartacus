@@ -26,12 +26,30 @@ import {
   OrderConfig,
   OrderAttachmentsFacade,
 } from '@spartacus/order/root';
+import { FocusDirective } from '../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
+import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { MessageComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/message/message.component';
+import { SpinnerComponent } from '../../../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-order-attachments-dialog',
-  templateUrl: './order-attachments-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-order-attachments-dialog',
+    templateUrl: './order-attachments-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        FocusDirective,
+        NgIf,
+        IconComponent,
+        NgFor,
+        MessageComponent,
+        NgClass,
+        SpinnerComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class OrderAttachmentsDialogComponent {
   protected config = inject(OrderConfig);

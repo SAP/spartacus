@@ -15,12 +15,22 @@ import {
   CustomerCart,
 } from '@spartacus/asm/customer-360/root';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { AsmCustomer360ProductListingComponent } from '../../asm-customer-360-product-listing/asm-customer-360-product-listing.component';
+import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-asm-customer-360-saved-cart',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './asm-customer-360-saved-cart.component.html',
-  standalone: false,
+    selector: 'cx-asm-customer-360-saved-cart',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './asm-customer-360-saved-cart.component.html',
+    imports: [
+        NgIf,
+        AsmCustomer360ProductListingComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class AsmCustomer360SavedCartComponent {
   savedCart$: Observable<CustomerCart | undefined>;

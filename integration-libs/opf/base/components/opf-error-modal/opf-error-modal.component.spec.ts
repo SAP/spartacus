@@ -41,16 +41,15 @@ describe('OpfErrorModalComponent', () => {
   let opfErrorModalService: OpfErrorModalService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, KeyboardFocusTestingModule],
-      declarations: [OpfErrorModalComponent],
-      providers: [
+    imports: [I18nTestingModule, KeyboardFocusTestingModule, OpfErrorModalComponent],
+    providers: [
         { provide: OpfErrorModalService, useClass: MockOpfErrorModalService },
         {
-          provide: LaunchDialogService,
-          useClass: MockLaunchDialogService,
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
         },
-      ],
-    });
+    ],
+});
 
     fixture = TestBed.createComponent(OpfErrorModalComponent);
     component = fixture.componentInstance;

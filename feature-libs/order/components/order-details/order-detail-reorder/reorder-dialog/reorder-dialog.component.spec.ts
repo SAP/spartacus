@@ -86,25 +86,30 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
+    selector: 'cx-icon',
+    template: '',
+    imports: [FormsModule,
+        ReactiveFormsModule,
+        SpinnerModule,
+        I18nTestingModule,
+        PromotionsModule,],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Component({
-  selector: 'cx-spinner',
-  template: '',
-  standalone: false,
+    selector: 'cx-spinner',
+    template: '',
+    imports: [FormsModule,
+        ReactiveFormsModule,
+        SpinnerModule,
+        I18nTestingModule,
+        PromotionsModule,],
 })
 class MockSpinnerComponent {}
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]', })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
@@ -117,31 +122,29 @@ describe('ReorderDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         FormsModule,
         ReactiveFormsModule,
         SpinnerModule,
         I18nTestingModule,
         PromotionsModule,
-      ],
-      declarations: [
         ReorderDialogComponent,
         MockCxIconComponent,
         MockSpinnerComponent,
         MockFocusDirective,
-      ],
-      providers: [
+    ],
+    providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: ReorderOrderFacade,
-          useClass: MockReorderOrderFacade,
+            provide: ReorderOrderFacade,
+            useClass: MockReorderOrderFacade,
         },
         {
-          provide: MultiCartFacade,
-          useClass: MockMultiCartService,
+            provide: MultiCartFacade,
+            useClass: MockMultiCartService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

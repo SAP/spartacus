@@ -6,10 +6,7 @@ import { VERIFICATION_TOKEN_DIALOG_ACTION } from '@spartacus/user/account/root';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { VerificationTokenDialogComponent } from './verification-token-dialog.component';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate', })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -26,16 +23,14 @@ describe('VerificationTokenDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        VerificationTokenDialogComponent,
+    imports: [VerificationTokenDialogComponent,
         MockTranslatePipe,
         FocusDirective,
-        MockFeatureDirective,
-      ],
-      providers: [
+        MockFeatureDirective,],
+    providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   });
 
   beforeEach(() => {

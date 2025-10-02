@@ -6,9 +6,8 @@ import { BehaviorSubject, filter } from 'rxjs';
 import { HorizontalScrollingPositionDirective } from './horizontal-scrolling-position.directive';
 
 @Component({
-  selector: 'cx-test-component',
-  standalone: false,
-  template: `
+    selector: 'cx-test-component',
+    template: `
     <ng-container
       cxHorizontalScrollingPosition
       #dir="cxHorizontalScrollingPosition"
@@ -49,14 +48,14 @@ describe('HorizontalScrollingPositionDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [HorizontalScrollingPositionDirective, TestComponent],
-      providers: [
+    imports: [HorizontalScrollingPositionDirective, TestComponent],
+    providers: [
         {
-          provide: WindowRef,
-          useClass: MockWindowRef,
+            provide: WindowRef,
+            useClass: MockWindowRef,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

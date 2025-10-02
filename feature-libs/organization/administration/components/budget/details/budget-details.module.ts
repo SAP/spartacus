@@ -16,17 +16,17 @@ import { BudgetDetailsComponent } from './budget-details.component';
 import { DisableInfoModule } from '../../shared/detail/disable-info/disable-info.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CardModule,
-    RouterModule,
-    UrlModule,
-    I18nModule,
-    ToggleStatusModule,
-    ItemExistsModule,
-    DisableInfoModule,
-    KeyboardFocusModule,
-  ],
-  declarations: [BudgetDetailsComponent],
+    imports: [
+        CommonModule,
+        CardModule,
+        RouterModule,
+        UrlModule,
+        I18nModule,
+        ToggleStatusModule,
+        ItemExistsModule,
+        DisableInfoModule,
+        KeyboardFocusModule,
+        BudgetDetailsComponent,
+    ],
 })
 export class BudgetDetailsModule {}

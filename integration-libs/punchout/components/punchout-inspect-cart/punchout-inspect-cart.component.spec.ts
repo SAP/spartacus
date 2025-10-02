@@ -53,17 +53,16 @@ describe('PunchoutInspectCartComponent', () => {
     mockPunchoutUiRestrictionService = new MockPunchoutUiRestrictionService();
 
     await TestBed.configureTestingModule({
-      declarations: [PunchoutInspectCartComponent],
-      imports: [],
-      providers: [
+    imports: [PunchoutInspectCartComponent],
+    providers: [
         { provide: ActiveCartFacade, useValue: mockActiveCartFacade },
         { provide: AuthService, useValue: mockAuthService },
         {
-          provide: PunchoutUiRestrictionService,
-          useValue: mockPunchoutUiRestrictionService,
+            provide: PunchoutUiRestrictionService,
+            useValue: mockPunchoutUiRestrictionService,
         },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     fixture = TestBed.createComponent(PunchoutInspectCartComponent);
     component = fixture.componentInstance;

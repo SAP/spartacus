@@ -72,9 +72,9 @@ class MockFeatureConfigService {
 }
 
 @Component({
-  selector: 'cx-icon',
-  template: '',
-  standalone: false,
+    selector: 'cx-icon',
+    template: '',
+    imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule,],
 })
 class MockCxIconComponent {
   @Input() type: any;
@@ -91,27 +91,24 @@ describe('QuickOrderFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-      declarations: [
-        QuickOrderFormComponent,
+    imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule, QuickOrderFormComponent,
         MockCxIconComponent,
-        MockFeatureDirective,
-      ],
-      providers: [
+        MockFeatureDirective],
+    providers: [
         ChangeDetectorRef,
         WindowRef,
         QuickOrderConfig,
         { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '5.1' },
-          },
+            provide: FeaturesConfig,
+            useValue: {
+                features: { level: '5.1' },
+            },
         },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     quickOrderService = TestBed.inject(QuickOrderFacade);
   });

@@ -9,6 +9,10 @@ import { User } from '@spartacus/core';
 import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
 import { AsmComponentService } from '../services';
+import { FocusDirective } from '../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { IconComponent } from '../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 export enum SWITCH_CUSTOMER_DIALOG_ACTION {
   CANCEL = 'CANCEL',
@@ -21,9 +25,14 @@ export interface SwitchCustomerData {
 }
 
 @Component({
-  selector: 'cx-asm-switch-customer-dialog',
-  templateUrl: './asm-switch-customer-dialog.component.html',
-  standalone: false,
+    selector: 'cx-asm-switch-customer-dialog',
+    templateUrl: './asm-switch-customer-dialog.component.html',
+    imports: [
+        FocusDirective,
+        IconComponent,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class AsmSwitchCustomerDialogComponent implements OnInit {
   SWITCH_CUSTOMER_DIALOG_ACTION = SWITCH_CUSTOMER_DIALOG_ACTION;

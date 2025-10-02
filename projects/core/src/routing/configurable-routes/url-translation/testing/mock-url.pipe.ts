@@ -37,10 +37,7 @@ export const URL_TESTING_ALLOWLISTED_PARAMS = new InjectionToken<string[]>(
  * - if the `params` object has too many properties that pollute the output,
  *    they can be allowlisted by using module's method. For example `UrlTestingModule.allowlistParams(['code', 'name'])`
  */
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl', })
 export class MockUrlPipe implements PipeTransform {
   constructor(
     @Inject(URL_TESTING_ALLOWLISTED_PARAMS)

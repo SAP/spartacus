@@ -14,12 +14,21 @@ import {
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { filter, take } from 'rxjs';
+import { NgIf } from '@angular/common';
+import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-opf-checkout-terms-and-conditions-alert',
-  templateUrl: './opf-checkout-terms-and-conditions-alert.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-opf-checkout-terms-and-conditions-alert',
+    templateUrl: './opf-checkout-terms-and-conditions-alert.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        IconComponent,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class OpfCheckoutTermsAndConditionsAlertComponent implements OnInit {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);

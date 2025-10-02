@@ -22,15 +22,16 @@ import {
 } from '@spartacus/organization/account-summary/root';
 import { Subscription, zip } from 'rxjs';
 
-import {
-  AbstractControl,
-  AbstractControlOptions,
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-} from '@angular/forms';
+import { AbstractControl, AbstractControlOptions, FormBuilder, FormGroup, ValidationErrors, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { DatePickerComponent } from '../../../../../../../projects/storefrontlib/shared/components/form/date-picker/date-picker.component';
+import { FormErrorsComponent } from '../../../../../../../projects/storefrontlib/shared/components/form/form-errors/form-errors.component';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { NgSelectA11yDirective } from '../../../../../../../projects/storefrontlib/shared/components/ng-select-a11y/ng-select-a11y.directive';
+import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 interface ItemType {
   code: string;
@@ -44,10 +45,21 @@ interface GroupValidator {
 }
 
 @Component({
-  selector: 'cx-account-summary-document-filter',
-  templateUrl: './account-summary-document-filter.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-account-summary-document-filter',
+    templateUrl: './account-summary-document-filter.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        NgIf,
+        DatePickerComponent,
+        FormErrorsComponent,
+        NgSelectComponent,
+        NgSelectA11yDirective,
+        NgTemplateOutlet,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class AccountSummaryDocumentFilterComponent
   implements OnInit, OnDestroy

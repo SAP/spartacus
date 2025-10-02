@@ -28,11 +28,11 @@ describe('SplitViewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SplitViewComponent],
-      providers: [
+    imports: [SplitViewComponent],
+    providers: [
         { provide: BreakpointService, useClass: MockBreakpointService },
-      ],
-    })
+    ],
+})
       .overrideComponent(SplitViewComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

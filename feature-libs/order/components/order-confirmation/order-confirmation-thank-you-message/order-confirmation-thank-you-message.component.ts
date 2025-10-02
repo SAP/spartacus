@@ -19,12 +19,24 @@ import {
 import { Order, OrderFacade, ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { filter, take, tap, withLatestFrom } from 'rxjs/operators';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { OrderGuestRegisterFormComponent } from '../order-guest-register-form/order-guest-register-form.component';
+import { AddToHomeScreenBannerComponent } from '../../../../../projects/storefrontlib/cms-structure/pwa/components/add-to-home-screen-banner/add-to-home-screen-banner.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-order-confirmation-thank-you-message',
-  templateUrl: './order-confirmation-thank-you-message.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-order-confirmation-thank-you-message',
+    templateUrl: './order-confirmation-thank-you-message.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        OrderGuestRegisterFormComponent,
+        AddToHomeScreenBannerComponent,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class OrderConfirmationThankYouMessageComponent
   implements OnInit, AfterViewInit, OnDestroy

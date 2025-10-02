@@ -30,44 +30,42 @@ import { QuickOrderItemComponent } from './table/item/quick-order-item.component
 import { QuickOrderTableComponent } from './table/quick-order-table.component';
 
 @NgModule({
-  imports: [
-    AtMessageModule,
-    CommonModule,
-    FormErrorsModule,
-    I18nModule,
-    IconModule,
-    ItemCounterModule,
-    MediaModule,
-    MessageComponentModule,
-    ProgressButtonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    UrlModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        QuickOrderComponent: {
-          component: QuickOrderComponent,
-          data: {
-            quickOrderListLimit: 10,
-          },
-        },
-      },
-    }),
-  ],
-  declarations: [
-    QuickOrderComponent,
-    QuickOrderFormComponent,
-    QuickOrderItemComponent,
-    QuickOrderTableComponent,
-  ],
-  exports: [
-    QuickOrderComponent,
-    QuickOrderFormComponent,
-    QuickOrderItemComponent,
-    QuickOrderTableComponent,
-  ],
+    imports: [
+        AtMessageModule,
+        CommonModule,
+        FormErrorsModule,
+        I18nModule,
+        IconModule,
+        ItemCounterModule,
+        MediaModule,
+        MessageComponentModule,
+        ProgressButtonModule,
+        ReactiveFormsModule,
+        RouterModule,
+        UrlModule,
+        FeaturesConfigModule,
+        QuickOrderComponent,
+        QuickOrderFormComponent,
+        QuickOrderItemComponent,
+        QuickOrderTableComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                QuickOrderComponent: {
+                    component: QuickOrderComponent,
+                    data: {
+                        quickOrderListLimit: 10,
+                    },
+                },
+            },
+        }),
+    ],
+    exports: [
+        QuickOrderComponent,
+        QuickOrderFormComponent,
+        QuickOrderItemComponent,
+        QuickOrderTableComponent,
+    ],
 })
 export class QuickOrderListModule {}

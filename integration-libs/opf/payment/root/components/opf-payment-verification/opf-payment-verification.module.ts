@@ -10,8 +10,7 @@ import { SpinnerModule } from '@spartacus/storefront';
 import { OpfPaymentVerificationComponent } from './opf-payment-verification.component';
 
 @NgModule({
-  declarations: [OpfPaymentVerificationComponent],
-  imports: [CommonModule, SpinnerModule],
-  exports: [OpfPaymentVerificationComponent],
+    imports: [CommonModule, SpinnerModule, OpfPaymentVerificationComponent],
+    exports: [OpfPaymentVerificationComponent],
 })
 export class OpfPaymentVerificationModule {}

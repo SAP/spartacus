@@ -12,7 +12,6 @@ import { UnitAssignedApproverListComponent } from './assigned/unit-assigned-appr
 import { UnitApproverListComponent } from './unit-approver-list.component';
 
 @NgModule({
-  imports: [I18nModule, RouterModule, SubListModule],
-  declarations: [UnitApproverListComponent, UnitAssignedApproverListComponent],
+    imports: [I18nModule, RouterModule, SubListModule, UnitApproverListComponent, UnitAssignedApproverListComponent],
 })
 export class UnitApproverListModule {}

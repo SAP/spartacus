@@ -26,28 +26,28 @@ import {
 import { UserRegistrationOTPFormComponent } from './user-registration-otp-form.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    UrlModule,
-    I18nModule,
-    SpinnerModule,
-    FormErrorsModule,
-    NgSelectModule,
-    NgSelectA11yModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        RegisterB2BCustomerWithOTPComponent: {
-          component: UserRegistrationOTPFormComponent,
-          guards: [NotAuthGuard],
-        },
-      },
-    }),
-    FeaturesConfigModule,
-    FormRequiredAsterisksComponent,
-  ],
-  declarations: [UserRegistrationOTPFormComponent],
-  exports: [UserRegistrationOTPFormComponent],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        RouterModule,
+        UrlModule,
+        I18nModule,
+        SpinnerModule,
+        FormErrorsModule,
+        NgSelectModule,
+        NgSelectA11yModule,
+        ConfigModule.withConfig(<CmsConfig>{
+            cmsComponents: {
+                RegisterB2BCustomerWithOTPComponent: {
+                    component: UserRegistrationOTPFormComponent,
+                    guards: [NotAuthGuard],
+                },
+            },
+        }),
+        FeaturesConfigModule,
+        FormRequiredAsterisksComponent,
+        UserRegistrationOTPFormComponent,
+    ],
+    exports: [UserRegistrationOTPFormComponent],
 })
 export class UserRegistrationOTPFormModule {}

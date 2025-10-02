@@ -51,10 +51,14 @@ class MockItemService {
 }
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'cx-date-picker',
-  template: '',
-  standalone: false,
+    // eslint-disable-next-line @angular-eslint/component-selector
+    selector: 'cx-date-picker',
+    template: '',
+    imports: [I18nTestingModule,
+        UrlTestingModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        FormTestingModule,],
 })
 class MockDatePickerComponent {
   @Input() control: UntypedFormControl;
@@ -71,26 +75,24 @@ describe('BudgetFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
+    imports: [
         I18nTestingModule,
         UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         FormTestingModule,
-      ],
-      declarations: [
         BudgetFormComponent,
         FormErrorsComponent,
         MockDatePickerComponent,
         FocusDirective,
         MockFeatureDirective,
-      ],
-      providers: [
+    ],
+    providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: BudgetItemService, useClass: MockItemService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
 
     currencyService = TestBed.inject(CurrencyService);
     b2bUnitService = TestBed.inject(OrgUnitService);

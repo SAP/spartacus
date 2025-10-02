@@ -16,17 +16,16 @@ import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { SaveForLaterComponent } from './save-for-later.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, CartSharedModule],
-  providers: [
-    provideDefaultConfig(<CmsConfig | FeaturesConfig>{
-      cmsComponents: {
-        SaveForLaterComponent: {
-          component: SaveForLaterComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [SaveForLaterComponent],
-  exports: [SaveForLaterComponent],
+    imports: [CommonModule, I18nModule, CartSharedModule, SaveForLaterComponent],
+    providers: [
+        provideDefaultConfig(<CmsConfig | FeaturesConfig>{
+            cmsComponents: {
+                SaveForLaterComponent: {
+                    component: SaveForLaterComponent,
+                },
+            },
+        }),
+    ],
+    exports: [SaveForLaterComponent],
 })
 export class SaveForLaterModule {}

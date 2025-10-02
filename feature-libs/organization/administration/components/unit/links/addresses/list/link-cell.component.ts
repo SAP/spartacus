@@ -13,10 +13,13 @@ import {
 import { Observable } from 'rxjs';
 import { ItemService } from '../../../../shared/item.service';
 import { CellComponent } from '../../../../shared/table/cell.component';
+import { NgIf, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { UrlPipe } from '../../../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
 
 @Component({
-  selector: 'cx-org-link-cell',
-  template: `
+    selector: 'cx-org-link-cell',
+    template: `
     <ng-container *ngIf="unitKey$ | async as uid">
       <a
         *ngIf="linkable; else text"
@@ -31,8 +34,14 @@ import { CellComponent } from '../../../../shared/table/cell.component';
       <span class="text" title="{{ property }}">{{ property }}</span>
     </ng-template>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        RouterLink,
+        NgTemplateOutlet,
+        AsyncPipe,
+        UrlPipe,
+    ],
 })
 export class LinkCellComponent extends CellComponent {
   unitKey$: Observable<string> = this.itemService.key$;

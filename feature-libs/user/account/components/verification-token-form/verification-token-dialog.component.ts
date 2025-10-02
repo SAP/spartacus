@@ -7,11 +7,20 @@
 import { Component } from '@angular/core';
 import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
 import { VERIFICATION_TOKEN_DIALOG_ACTION } from '@spartacus/user/account/root';
+import { FocusDirective } from '../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
+import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-verification-token-dialog',
-  templateUrl: './verification-token-dialog.component.html',
-  standalone: false,
+    selector: 'cx-verification-token-dialog',
+    templateUrl: './verification-token-dialog.component.html',
+    imports: [
+        FocusDirective,
+        IconComponent,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class VerificationTokenDialogComponent {
   VERIFICATION_TOKEN_DIALOG_ACTION = VERIFICATION_TOKEN_DIALOG_ACTION;

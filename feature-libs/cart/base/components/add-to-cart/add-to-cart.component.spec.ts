@@ -108,9 +108,12 @@ class MockCurrentProductService {
 class MockProductAvailabilityAdapter {}
 
 @Component({
-  template: '',
-  selector: 'cx-item-counter',
-  standalone: false,
+    template: '',
+    selector: 'cx-item-counter',
+    imports: [SpinnerModule,
+        I18nTestingModule,
+        ReactiveFormsModule,
+        OutletModule,],
 })
 class MockItemCounterComponent {
   @Input() min;
@@ -135,35 +138,35 @@ describe('AddToCartComponent', () => {
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-      imports: [
+    imports: [
         BrowserAnimationsModule,
         SpinnerModule,
         I18nTestingModule,
         ReactiveFormsModule,
         OutletModule,
-      ],
-      declarations: [AddToCartComponent, MockItemCounterComponent],
-      providers: [
+        AddToCartComponent, MockItemCounterComponent,
+    ],
+    providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
-          provide: CurrentProductService,
-          useClass: MockCurrentProductService,
+            provide: CurrentProductService,
+            useClass: MockCurrentProductService,
         },
         {
-          provide: CmsComponentData,
-          useValue: toggleInventoryDisplay,
+            provide: CmsComponentData,
+            useValue: toggleInventoryDisplay,
         },
         {
-          provide: ProductListItemContext,
-          useValue: undefined,
+            provide: ProductListItemContext,
+            useValue: undefined,
         },
         { provide: EventService, useClass: MockEventService },
         {
-          provide: ProductAvailabilityAdapter,
-          useClass: MockProductAvailabilityAdapter,
+            provide: ProductAvailabilityAdapter,
+            useClass: MockProductAvailabilityAdapter,
         },
-      ],
-    });
+    ],
+});
   }
 
   function stubSeviceAndCreateComponent() {

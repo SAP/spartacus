@@ -23,12 +23,11 @@ describe('ConsentManagementFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ConsentManagementFormComponent, MockFeatureDirective],
-      providers: [
+    imports: [I18nTestingModule, ConsentManagementFormComponent, MockFeatureDirective],
+    providers: [
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-      ],
-    }).compileComponents();
+    ],
+}).compileComponents();
   }));
 
   beforeEach(() => {

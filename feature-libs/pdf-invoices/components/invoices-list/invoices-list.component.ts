@@ -35,12 +35,33 @@ import {
   Subscription,
 } from 'rxjs';
 import { catchError, skip, switchMap, take, tap } from 'rxjs/operators';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { SortingComponent } from '../../../../projects/storefrontlib/shared/components/list-navigation/sorting/sorting.component';
+import { PaginationComponent } from '../../../../projects/storefrontlib/shared/components/list-navigation/pagination/pagination.component';
+import { FeatureDirective } from '../../../../projects/core/src/features-config/directives/feature.directive';
+import { IconComponent } from '../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { CxDatePipe } from '../../../../projects/core/src/i18n/date.pipe';
+import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { MockDatePipe } from '../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-  selector: 'cx-invoices-list',
-  templateUrl: './invoices-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-invoices-list',
+    templateUrl: './invoices-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        SortingComponent,
+        PaginationComponent,
+        FeatureDirective,
+        IconComponent,
+        NgFor,
+        AsyncPipe,
+        TranslatePipe,
+        CxDatePipe,
+        MockTranslatePipe,
+        MockDatePipe,
+    ],
 })
 export class InvoicesListComponent implements OnInit, OnDestroy {
   /* For Enum use in HTML */

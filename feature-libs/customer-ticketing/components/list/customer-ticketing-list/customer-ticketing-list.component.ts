@@ -20,11 +20,37 @@ import {
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
+import { SortingComponent } from '../../../../../projects/storefrontlib/shared/components/list-navigation/sorting/sorting.component';
+import { CustomerTicketingCreateComponent } from '../customer-ticketing-create/customer-ticketing-create.component';
+import { RouterLink } from '@angular/router';
+import { PaginationComponent } from '../../../../../projects/storefrontlib/shared/components/list-navigation/pagination/pagination.component';
+import { SpinnerComponent } from '../../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { CxDatePipe } from '../../../../../projects/core/src/i18n/date.pipe';
+import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-  selector: 'cx-customer-ticketing-list',
-  templateUrl: './customer-ticketing-list.component.html',
-  standalone: false,
+    selector: 'cx-customer-ticketing-list',
+    templateUrl: './customer-ticketing-list.component.html',
+    imports: [
+        NgIf,
+        SortingComponent,
+        CustomerTicketingCreateComponent,
+        NgFor,
+        RouterLink,
+        NgClass,
+        PaginationComponent,
+        SpinnerComponent,
+        AsyncPipe,
+        TranslatePipe,
+        CxDatePipe,
+        UrlPipe,
+        MockTranslatePipe,
+        MockDatePipe,
+    ],
 })
 export class CustomerTicketingListComponent {
   constructor(

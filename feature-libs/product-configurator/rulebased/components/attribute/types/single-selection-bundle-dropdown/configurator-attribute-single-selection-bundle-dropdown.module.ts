@@ -17,28 +17,27 @@ import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ConfiguratorAttributeProductCardModule,
-    FormsModule,
-    I18nModule,
-    KeyboardFocusModule,
-    NgSelectModule,
-    ReactiveFormsModule,
-    ConfiguratorAttributeQuantityModule,
-    ConfiguratorPriceModule,
-  ],
-  providers: [
-    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
-      productConfigurator: {
-        assignment: {
-          AttributeType_dropdownProduct:
-            ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
-        },
-      },
-    }),
-  ],
-  declarations: [ConfiguratorAttributeSingleSelectionBundleDropdownComponent],
-  exports: [ConfiguratorAttributeSingleSelectionBundleDropdownComponent],
+    imports: [
+        CommonModule,
+        ConfiguratorAttributeProductCardModule,
+        FormsModule,
+        I18nModule,
+        KeyboardFocusModule,
+        NgSelectModule,
+        ReactiveFormsModule,
+        ConfiguratorAttributeQuantityModule,
+        ConfiguratorPriceModule,
+        ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+            productConfigurator: {
+                assignment: {
+                    AttributeType_dropdownProduct: ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+                },
+            },
+        }),
+    ],
+    exports: [ConfiguratorAttributeSingleSelectionBundleDropdownComponent],
 })
 export class ConfiguratorAttributeSingleSelectionBundleDropdownModule {}

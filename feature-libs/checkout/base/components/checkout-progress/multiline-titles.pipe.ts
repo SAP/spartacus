@@ -6,10 +6,7 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-  name: 'cxMultiLine',
-  standalone: false,
-})
+@Pipe({ name: 'cxMultiLine', })
 export class MultiLinePipe implements PipeTransform {
   transform(value: string): string {
     const lastIndex = value.lastIndexOf(' ');

@@ -14,12 +14,23 @@ import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfigFormUpdateEvent } from '../form/configurator-form.event';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { ConfiguratorConflictDescriptionComponent } from '../conflict-description/configurator-conflict-description.component';
+import { ConfiguratorConflictSuggestionComponent } from '../conflict-suggestion/configurator-conflict-suggestion.component';
+import { ConfiguratorAttributeCompositionDirective } from '../attribute/composition/configurator-attribute-composition.directive';
 
 @Component({
-  selector: 'cx-configurator-group',
-  templateUrl: './configurator-group.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-configurator-group',
+    templateUrl: './configurator-group.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        ConfiguratorConflictDescriptionComponent,
+        NgFor,
+        ConfiguratorConflictSuggestionComponent,
+        ConfiguratorAttributeCompositionDirective,
+        AsyncPipe,
+    ],
 })
 export class ConfiguratorGroupComponent {
   protected readonly typePrefix = 'AttributeType_';

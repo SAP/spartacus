@@ -41,13 +41,13 @@ describe('PunchoutSessionComponent', () => {
       'remove',
     ]);
     TestBed.configureTestingModule({
-      declarations: [PunchoutSessionComponent],
-      providers: [
+    imports: [PunchoutSessionComponent],
+    providers: [
         { provide: ActivatedRoute, useClass: mockActivatedRoute },
         { provide: PunchoutFacade, useValue: punchoutFacadeMock },
         { provide: GlobalMessageService, useValue: globalMessageServiceMock },
-      ],
-    });
+    ],
+});
     fixture = TestBed.createComponent(PunchoutSessionComponent);
     component = fixture.componentInstance;
     punchoutFacadeMock.initPunchoutSession.and.returnValue(

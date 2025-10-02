@@ -16,21 +16,30 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
+import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 /**
  * Component that adds a file upload control.
  */
 @Component({
-  selector: 'cx-file-upload',
-  templateUrl: './file-upload.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => FileUploadComponent),
-      multi: true,
-    },
-  ],
-  standalone: false,
+    selector: 'cx-file-upload',
+    templateUrl: './file-upload.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => FileUploadComponent),
+            multi: true,
+        },
+    ],
+    imports: [
+        NgIf,
+        NgTemplateOutlet,
+        NgFor,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class FileUploadComponent implements ControlValueAccessor {
   /**

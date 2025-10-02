@@ -14,12 +14,18 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { CmsParagraphComponent } from '@spartacus/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { SupplementHashAnchorsPipe } from '../../../shared/pipes/suplement-hash-anchors/supplement-hash-anchors.pipe';
 
 @Component({
-  selector: 'cx-paragraph',
-  templateUrl: './paragraph.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-paragraph',
+    templateUrl: './paragraph.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        AsyncPipe,
+        SupplementHashAnchorsPipe,
+    ],
 })
 export class ParagraphComponent {
   protected sanitizer = inject(DomSanitizer);

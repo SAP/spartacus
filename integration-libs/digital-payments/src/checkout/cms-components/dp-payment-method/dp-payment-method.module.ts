@@ -21,26 +21,25 @@ import { DpPaymentFormModule } from './dp-payment-form/dp-payment-form.module';
 import { DpPaymentMethodComponent } from './dp-payment-method.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    DpPaymentFormModule,
-    RouterModule,
-    CardModule,
-    SpinnerModule,
-    I18nModule,
-    DpPaymentCallbackModule,
-
-    ConfigModule.withConfig({
-      cmsComponents: {
-        CheckoutPaymentDetails: {
-          component: DpPaymentMethodComponent,
-        },
-      },
-    }),
-    FeaturesConfigModule,
-  ],
-  declarations: [DpPaymentMethodComponent],
-  exports: [DpPaymentMethodComponent],
-  providers: [provideDefaultConfig(defaultDigitalPaymentsConfig)],
+    imports: [
+        CommonModule,
+        DpPaymentFormModule,
+        RouterModule,
+        CardModule,
+        SpinnerModule,
+        I18nModule,
+        DpPaymentCallbackModule,
+        ConfigModule.withConfig({
+            cmsComponents: {
+                CheckoutPaymentDetails: {
+                    component: DpPaymentMethodComponent,
+                },
+            },
+        }),
+        FeaturesConfigModule,
+        DpPaymentMethodComponent,
+    ],
+    exports: [DpPaymentMethodComponent],
+    providers: [provideDefaultConfig(defaultDigitalPaymentsConfig)],
 })
 export class DpPaymentMethodModule extends CorePaymentMethodModule {}

@@ -23,31 +23,31 @@ import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
 import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    I18nModule,
-    SpinnerModule,
-    OutletModule,
-    PageComponentModule,
-    FeaturesConfigModule,
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CheckoutDeliveryMode: {
-          component: CheckoutDeliveryModeComponent,
-          data: {
-            composition: {
-              inner: ['PickupInStoreDeliveryModeComponent'],
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        I18nModule,
+        SpinnerModule,
+        OutletModule,
+        PageComponentModule,
+        FeaturesConfigModule,
+        CheckoutDeliveryModeComponent,
+    ],
+    providers: [
+        provideDefaultConfig(<CmsConfig>{
+            cmsComponents: {
+                CheckoutDeliveryMode: {
+                    component: CheckoutDeliveryModeComponent,
+                    data: {
+                        composition: {
+                            inner: ['PickupInStoreDeliveryModeComponent'],
+                        },
+                    },
+                    guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+                },
             },
-          },
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
-        },
-      },
-    }),
-  ],
-  declarations: [CheckoutDeliveryModeComponent],
-  exports: [CheckoutDeliveryModeComponent],
+        }),
+    ],
+    exports: [CheckoutDeliveryModeComponent],
 })
 export class CheckoutDeliveryModeModule {}

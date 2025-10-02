@@ -15,12 +15,22 @@ import {
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { ProductVariantStyleSelectorComponent } from '../variant-style-selector/product-variant-style-selector.component';
+import { ProductVariantSizeSelectorComponent } from '../variant-size-selector/product-variant-size-selector.component';
+import { ProductVariantColorSelectorComponent } from '../variant-color-selector/product-variant-color-selector.component';
 
 @Component({
-  selector: 'cx-product-variants-container',
-  templateUrl: './product-variants-container.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+    selector: 'cx-product-variants-container',
+    templateUrl: './product-variants-container.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgIf,
+        ProductVariantStyleSelectorComponent,
+        ProductVariantSizeSelectorComponent,
+        ProductVariantColorSelectorComponent,
+        AsyncPipe,
+    ],
 })
 export class ProductVariantsContainerComponent implements OnInit {
   constructor(private currentProductService: CurrentProductService) {}

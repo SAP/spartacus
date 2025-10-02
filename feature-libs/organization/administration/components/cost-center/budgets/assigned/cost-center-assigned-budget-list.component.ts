@@ -7,18 +7,27 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ListService } from '../../../shared/list/list.service';
 import { CostCenterAssignedBudgetListService } from './cost-center-assigned-budget-list.service';
+import { SubListComponent } from '../../../shared/sub-list/sub-list.component';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-org-cost-center-assigned-budget-list',
-  templateUrl: './cost-center-assigned-budget-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
-  providers: [
-    {
-      provide: ListService,
-      useExisting: CostCenterAssignedBudgetListService,
-    },
-  ],
-  standalone: false,
+    selector: 'cx-org-cost-center-assigned-budget-list',
+    templateUrl: './cost-center-assigned-budget-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'content-wrapper' },
+    providers: [
+        {
+            provide: ListService,
+            useExisting: CostCenterAssignedBudgetListService,
+        },
+    ],
+    imports: [
+        SubListComponent,
+        RouterLink,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class CostCenterAssignedBudgetListComponent {}

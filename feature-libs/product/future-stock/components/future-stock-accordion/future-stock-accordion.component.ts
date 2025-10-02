@@ -8,11 +8,22 @@ import { Component } from '@angular/core';
 import { useFeatureStyles } from '@spartacus/core';
 import { FutureStockFacade } from '@spartacus/product/future-stock/root';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
+import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-  selector: 'cx-future-stock-accordion',
-  templateUrl: './future-stock-accordion.component.html',
-  standalone: false,
+    selector: 'cx-future-stock-accordion',
+    templateUrl: './future-stock-accordion.component.html',
+    imports: [
+        NgIf,
+        IconComponent,
+        NgFor,
+        AsyncPipe,
+        TranslatePipe,
+        MockTranslatePipe,
+    ],
 })
 export class FutureStockAccordionComponent {
   futureStocks$ = this.futureStockService.getFutureStock();

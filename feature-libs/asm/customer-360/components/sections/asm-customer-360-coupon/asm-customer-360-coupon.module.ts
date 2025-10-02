@@ -11,8 +11,7 @@ import { AsmCustomer360CouponComponent } from './asm-customer-360-coupon.compone
 import { AsmCustomer360PromotionListingModule } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.module';
 
 @NgModule({
-  imports: [CommonModule, AsmCustomer360PromotionListingModule, I18nModule],
-  declarations: [AsmCustomer360CouponComponent],
-  exports: [AsmCustomer360CouponComponent],
+    imports: [CommonModule, AsmCustomer360PromotionListingModule, I18nModule, AsmCustomer360CouponComponent],
+    exports: [AsmCustomer360CouponComponent],
 })
 export class AsmCustomer360CouponComponentModule {}
