@@ -17,13 +17,9 @@ import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/trans
 import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-dp-payment-form',
-    templateUrl: './dp-payment-form.component.html',
-    imports: [
-        SpinnerComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-dp-payment-form',
+  templateUrl: './dp-payment-form.component.html',
+  imports: [SpinnerComponent, TranslatePipe, MockTranslatePipe],
 })
 export class DpPaymentFormComponent implements OnInit {
   @Output()

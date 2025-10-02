@@ -29,11 +29,11 @@ describe('ReturnRequestOverviewComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ReturnRequestOverviewComponent],
-    providers: [
+      imports: [I18nTestingModule, ReturnRequestOverviewComponent],
+      providers: [
         { provide: ReturnRequestService, useClass: MockReturnRequestService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

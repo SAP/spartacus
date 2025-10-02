@@ -78,22 +78,22 @@ export const CART_TYPE_KEY: CartTypeKey = {
   inactive: 'asm.saveInactiveCartAlertInfo',
 };
 @Component({
-    selector: 'cx-asm-main-ui',
-    templateUrl: './asm-main-ui.component.html',
-    imports: [
-        IconComponent,
-        NgIf,
-        FeatureDirective,
-        AsmToggleUiComponent,
-        AsmSessionTimerComponent,
-        CustomerEmulationComponent,
-        MessageComponent,
-        CustomerSelectionComponent,
-        CSAgentLoginFormComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-asm-main-ui',
+  templateUrl: './asm-main-ui.component.html',
+  imports: [
+    IconComponent,
+    NgIf,
+    FeatureDirective,
+    AsmToggleUiComponent,
+    AsmSessionTimerComponent,
+    CustomerEmulationComponent,
+    MessageComponent,
+    CustomerSelectionComponent,
+    CSAgentLoginFormComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AsmMainUiComponent implements OnInit, OnDestroy {
   customerSupportAgentLoggedIn$: Observable<boolean>;

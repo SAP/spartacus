@@ -39,22 +39,22 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-product-multi-dimensional-selector',
-    templateUrl: './product-multi-dimensional-selector.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        NgClass,
-        FocusDirective,
-        MediaComponent,
-        NgSelectComponent,
-        FormsModule,
-        NgSelectA11yDirective,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-product-multi-dimensional-selector',
+  templateUrl: './product-multi-dimensional-selector.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgFor,
+    NgClass,
+    FocusDirective,
+    MediaComponent,
+    NgSelectComponent,
+    FormsModule,
+    NgSelectA11yDirective,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ProductMultiDimensionalSelectorComponent {
   protected multiDimensionalService: ProductMultiDimensionalSelectorService =

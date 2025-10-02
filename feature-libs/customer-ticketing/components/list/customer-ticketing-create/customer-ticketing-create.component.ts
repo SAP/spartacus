@@ -18,9 +18,9 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-customer-ticketing-create',
-    templateUrl: './customer-ticketing-create.component.html',
-    imports: [TranslatePipe, MockTranslatePipe],
+  selector: 'cx-customer-ticketing-create',
+  templateUrl: './customer-ticketing-create.component.html',
+  imports: [TranslatePipe, MockTranslatePipe],
 })
 export class CustomerTicketingCreateComponent implements OnDestroy {
   protected subscription = new Subscription();

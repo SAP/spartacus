@@ -13,21 +13,16 @@ import { TranslatePipe } from '../../../../../../../../projects/core/src/i18n/tr
 import { MockTranslatePipe } from '../../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-unit-assigned-approver-list',
-    templateUrl: './unit-assigned-approver-list.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'content-wrapper' },
-    providers: [
-        {
-            provide: ListService,
-            useExisting: UnitAssignedApproverListService,
-        },
-    ],
-    imports: [
-        SubListComponent,
-        RouterLink,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-unit-assigned-approver-list',
+  templateUrl: './unit-assigned-approver-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
+  providers: [
+    {
+      provide: ListService,
+      useExisting: UnitAssignedApproverListService,
+    },
+  ],
+  imports: [SubListComponent, RouterLink, TranslatePipe, MockTranslatePipe],
 })
 export class UnitAssignedApproverListComponent {}

@@ -21,17 +21,17 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-clear-cart-dialog',
-    templateUrl: './clear-cart-dialog.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FocusDirective,
-        NgIf,
-        IconComponent,
-        SpinnerComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-clear-cart-dialog',
+  templateUrl: './clear-cart-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FocusDirective,
+    NgIf,
+    IconComponent,
+    SpinnerComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ClearCartDialogComponent implements OnDestroy {
   focusConfig: FocusConfig = {

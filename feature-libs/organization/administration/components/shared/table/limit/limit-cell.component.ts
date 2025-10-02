@@ -14,17 +14,17 @@ import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/trans
 import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-limit-cell',
-    templateUrl: './limit-cell.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        RouterLink,
-        NgTemplateOutlet,
-        UrlPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-limit-cell',
+  templateUrl: './limit-cell.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    RouterLink,
+    NgTemplateOutlet,
+    UrlPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class LimitCellComponent extends CellComponent {
   get isTimeSpanThreshold(): boolean {

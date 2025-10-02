@@ -29,27 +29,27 @@ import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-r
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: '[cx-wish-list-item], cx-wish-list-item',
-    templateUrl: './wish-list-item.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [
-        ProductListItemContextSource,
-        {
-            provide: ProductListItemContext,
-            useExisting: ProductListItemContextSource,
-        },
-    ],
-    imports: [
-        RouterLink,
-        MediaComponent,
-        NgIf,
-        NgFor,
-        InnerComponentsHostDirective,
-        AtMessageDirective,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: '[cx-wish-list-item], cx-wish-list-item',
+  templateUrl: './wish-list-item.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    ProductListItemContextSource,
+    {
+      provide: ProductListItemContext,
+      useExisting: ProductListItemContextSource,
+    },
+  ],
+  imports: [
+    RouterLink,
+    MediaComponent,
+    NgIf,
+    NgFor,
+    InnerComponentsHostDirective,
+    AtMessageDirective,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class WishListItemComponent implements OnChanges {
   @Input()

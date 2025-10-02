@@ -33,22 +33,22 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-user-registration-form',
-    templateUrl: './user-registration-otp-form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        NgSelectComponent,
-        NgSelectA11yDirective,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-user-registration-form',
+  templateUrl: './user-registration-otp-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class UserRegistrationOTPFormComponent {
   protected routingService = inject(RoutingService);

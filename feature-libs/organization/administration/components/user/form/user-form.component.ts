@@ -10,7 +10,13 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { UntypedFormArray, UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { B2BUser, B2BUserRole, B2BUserRight, Title } from '@spartacus/core';
 import {
   B2BUnitNode,
@@ -34,34 +40,34 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-user-form',
-    templateUrl: './user-form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'content-wrapper' },
-    providers: [
-        {
-            provide: ItemService,
-            useExisting: UserItemService,
-        },
-        {
-            provide: CurrentItemService,
-            useExisting: CurrentUserService,
-        },
-    ],
-    imports: [
-        FormComponent,
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        FormRequiredLegendComponent,
-        NgSelectComponent,
-        FormErrorsComponent,
-        FormRequiredAsterisksComponent,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-user-form',
+  templateUrl: './user-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
+  providers: [
+    {
+      provide: ItemService,
+      useExisting: UserItemService,
+    },
+    {
+      provide: CurrentItemService,
+      useExisting: CurrentUserService,
+    },
+  ],
+  imports: [
+    FormComponent,
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    NgSelectComponent,
+    FormErrorsComponent,
+    FormRequiredAsterisksComponent,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class UserFormComponent implements OnInit {
   form: UntypedFormGroup | null = this.itemService.getForm();

@@ -24,32 +24,32 @@ import { QuoteListComponentService } from './quote-list-component.service';
 import { QuoteListComponent } from './quote-list.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        IconModule,
-        UrlModule,
-        RouterModule,
-        ListNavigationModule,
-        QuoteListComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<ViewConfig>{
-            view: {
-                defaultPageSize: 5,
-            },
-        }),
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                AccountMyQuotesComponent: {
-                    component: QuoteListComponent,
-                    guards: [AuthGuard],
-                },
-            },
-        }),
-        QuoteListComponentService,
-        FeaturesConfigModule,
-    ],
-    exports: [QuoteListComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    UrlModule,
+    RouterModule,
+    ListNavigationModule,
+    QuoteListComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<ViewConfig>{
+      view: {
+        defaultPageSize: 5,
+      },
+    }),
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        AccountMyQuotesComponent: {
+          component: QuoteListComponent,
+          guards: [AuthGuard],
+        },
+      },
+    }),
+    QuoteListComponentService,
+    FeaturesConfigModule,
+  ],
+  exports: [QuoteListComponent],
 })
 export class QuoteListModule {}

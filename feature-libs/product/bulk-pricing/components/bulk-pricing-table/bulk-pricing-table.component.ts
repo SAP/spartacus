@@ -15,15 +15,9 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-bulk-pricing-table',
-    templateUrl: './bulk-pricing-table.component.html',
-    imports: [
-        NgIf,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-bulk-pricing-table',
+  templateUrl: './bulk-pricing-table.component.html',
+  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class BulkPricingTableComponent implements OnInit {
   protected readonly PRODUCT_KEY = 'productCode';

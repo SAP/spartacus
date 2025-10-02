@@ -23,19 +23,19 @@ import { MultiLinePipe } from './multiline-titles.pipe';
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-checkout-progress',
-    templateUrl: './checkout-progress.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        RouterLink,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        MultiLinePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-checkout-progress',
+  templateUrl: './checkout-progress.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgFor,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    MultiLinePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CheckoutProgressComponent implements OnInit {
   params$ = new Observable<string[]>();

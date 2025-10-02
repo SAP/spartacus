@@ -16,15 +16,10 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-update-message',
-    templateUrl: './configurator-update-message.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-update-message',
+  templateUrl: './configurator-update-message.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SpinnerComponent, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class ConfiguratorUpdateMessageComponent {
   hasPendingChanges$: Observable<boolean> = this.configRouterExtractorService

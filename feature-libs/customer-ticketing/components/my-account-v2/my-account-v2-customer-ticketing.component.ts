@@ -20,20 +20,20 @@ import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mo
 import { MockDatePipe } from '../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-my-account-v2-customer-ticketing',
-    templateUrl: './my-account-v2-customer-ticketing.component.html',
-    imports: [
-        RouterLink,
-        NgIf,
-        NgFor,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        CxDatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-my-account-v2-customer-ticketing',
+  templateUrl: './my-account-v2-customer-ticketing.component.html',
+  imports: [
+    RouterLink,
+    NgIf,
+    NgFor,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class MyAccountV2CustomerTicketingComponent {
   protected readonly PAGE_SIZE = 1;

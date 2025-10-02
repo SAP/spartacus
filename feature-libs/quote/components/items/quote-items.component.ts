@@ -33,18 +33,18 @@ import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mo
  */
 
 @Component({
-    selector: 'cx-quote-items',
-    templateUrl: './quote-items.component.html',
-    imports: [
-        NgIf,
-        IconComponent,
-        AbstractOrderContextDirective,
-        OutletDirective,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-quote-items',
+  templateUrl: './quote-items.component.html',
+  imports: [
+    NgIf,
+    IconComponent,
+    AbstractOrderContextDirective,
+    OutletDirective,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class QuoteItemsComponent {
   protected quoteItemsComponentService = inject(QuoteItemsComponentService);

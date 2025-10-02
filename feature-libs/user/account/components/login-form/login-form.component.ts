@@ -11,7 +11,11 @@ import {
   HostBinding,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
@@ -28,26 +32,26 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-login-form',
-    templateUrl: './login-form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { ngSkipHydration: 'true' },
-    imports: [
-        NgIf,
-        SpinnerComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        FormRequiredLegendComponent,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        PasswordVisibilityToggleDirective,
-        FeatureDirective,
-        RouterLink,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-login-form',
+  templateUrl: './login-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    PasswordVisibilityToggleDirective,
+    FeatureDirective,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class LoginFormComponent {
   @ViewChild('loginForm') loginForm: ElementRef<HTMLElementTagNameMap['form']>;

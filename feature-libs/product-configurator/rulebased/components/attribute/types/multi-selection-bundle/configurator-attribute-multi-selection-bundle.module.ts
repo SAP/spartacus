@@ -17,28 +17,29 @@ import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurat
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ConfiguratorAttributeProductCardModule,
-        FormsModule,
-        I18nModule,
-        KeyboardFocusModule,
-        ReactiveFormsModule,
-        RouterModule,
-        UrlModule,
-        ConfiguratorAttributeQuantityModule,
-        ConfiguratorPriceModule,
-        ConfiguratorAttributeMultiSelectionBundleComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
-            productConfigurator: {
-                assignment: {
-                    AttributeType_checkBoxListProduct: ConfiguratorAttributeMultiSelectionBundleComponent,
-                },
-            },
-        }),
-    ],
-    exports: [ConfiguratorAttributeMultiSelectionBundleComponent],
+  imports: [
+    CommonModule,
+    ConfiguratorAttributeProductCardModule,
+    FormsModule,
+    I18nModule,
+    KeyboardFocusModule,
+    ReactiveFormsModule,
+    RouterModule,
+    UrlModule,
+    ConfiguratorAttributeQuantityModule,
+    ConfiguratorPriceModule,
+    ConfiguratorAttributeMultiSelectionBundleComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+      productConfigurator: {
+        assignment: {
+          AttributeType_checkBoxListProduct:
+            ConfiguratorAttributeMultiSelectionBundleComponent,
+        },
+      },
+    }),
+  ],
+  exports: [ConfiguratorAttributeMultiSelectionBundleComponent],
 })
 export class ConfiguratorAttributeMultiSelectionBundleModule {}

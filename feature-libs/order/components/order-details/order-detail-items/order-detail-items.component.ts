@@ -28,19 +28,19 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-order-details-items',
-    templateUrl: './order-detail-items.component.html',
-    imports: [
-        NgIf,
-        PromotionsComponent,
-        OrderConsignedEntriesComponent,
-        OutletDirective,
-        AbstractOrderContextDirective,
-        AddToCartComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-order-details-items',
+  templateUrl: './order-detail-items.component.html',
+  imports: [
+    NgIf,
+    PromotionsComponent,
+    OrderConsignedEntriesComponent,
+    OutletDirective,
+    AbstractOrderContextDirective,
+    AddToCartComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class OrderDetailItemsComponent {
   protected orderConsignmentsService = inject(

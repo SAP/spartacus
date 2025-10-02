@@ -36,18 +36,18 @@ describe('Order detail reorder component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, OrderDetailReorderComponent],
-    providers: [
+      imports: [I18nTestingModule, OrderDetailReorderComponent],
+      providers: [
         {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
         },
         {
-            provide: OrderDetailsService,
-            useClass: MockOrderDetailsService,
+          provide: OrderDetailsService,
+          useClass: MockOrderDetailsService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

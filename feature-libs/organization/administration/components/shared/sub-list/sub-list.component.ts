@@ -26,20 +26,20 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-sub-list',
-    templateUrl: './sub-list.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'content-wrapper' },
-    imports: [
-        CardComponent,
-        FocusDirective,
-        NgIf,
-        TableComponent,
-        PaginationComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-sub-list',
+  templateUrl: './sub-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
+  imports: [
+    CardComponent,
+    FocusDirective,
+    NgIf,
+    TableComponent,
+    PaginationComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class SubListComponent extends ListComponent {
   hostClass = '';

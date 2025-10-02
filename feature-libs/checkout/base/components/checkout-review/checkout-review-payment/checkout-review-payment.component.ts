@@ -28,19 +28,19 @@ import { UrlPipe } from '../../../../../../projects/core/src/routing/configurabl
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-checkout-review-payment',
-    templateUrl: './checkout-review-payment.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        CardComponent,
-        RouterLink,
-        IconComponent,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-checkout-review-payment',
+  templateUrl: './checkout-review-payment.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    CardComponent,
+    RouterLink,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class CheckoutReviewPaymentComponent {
   iconTypes = ICON_TYPE;

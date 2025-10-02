@@ -13,14 +13,14 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule } from '@spartacus/core';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        NgSelectModule,
-        I18nModule,
-        SpinnerModule,
-        DpPaymentFormComponent,
-    ],
-    exports: [DpPaymentFormComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    I18nModule,
+    SpinnerModule,
+    DpPaymentFormComponent,
+  ],
+  exports: [DpPaymentFormComponent],
 })
 export class DpPaymentFormModule {}

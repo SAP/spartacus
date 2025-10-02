@@ -20,9 +20,9 @@ import { CpqQuoteService } from '../../cpq-qute.service';
 import { NgIf } from '@angular/common';
 
 @Component({
-    selector: 'cx-cpq-quote-heading',
-    templateUrl: './cpq-quote-heading.component.html',
-    imports: [NgIf],
+  selector: 'cx-cpq-quote-heading',
+  templateUrl: './cpq-quote-heading.component.html',
+  imports: [NgIf],
 })
 export class CpqQuoteHeadingComponent implements OnInit, OnDestroy {
   @Input()

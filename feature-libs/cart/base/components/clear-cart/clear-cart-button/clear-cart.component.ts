@@ -21,15 +21,10 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-clear-cart',
-    templateUrl: './clear-cart.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-clear-cart',
+  templateUrl: './clear-cart.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class ClearCartComponent implements OnDestroy {
   cart$: Observable<Cart> = this.activeCartFacade.getActive();

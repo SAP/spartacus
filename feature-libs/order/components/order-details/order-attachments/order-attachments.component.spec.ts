@@ -24,18 +24,18 @@ describe('OrderAttachmentsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, OrderAttachmentsComponent],
-    providers: [
+      imports: [I18nTestingModule, OrderAttachmentsComponent],
+      providers: [
         {
-            provide: LaunchDialogService,
-            useValue: {},
+          provide: LaunchDialogService,
+          useValue: {},
         },
         {
-            provide: OrderDetailsService,
-            useClass: MockOrderDetailsService,
+          provide: OrderDetailsService,
+          useClass: MockOrderDetailsService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

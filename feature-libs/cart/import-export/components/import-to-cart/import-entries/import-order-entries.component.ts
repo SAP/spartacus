@@ -25,15 +25,10 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-import-order-entries',
-    templateUrl: './import-order-entries.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-import-order-entries',
+  templateUrl: './import-order-entries.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class ImportOrderEntriesComponent {
   protected subscription = new Subscription();

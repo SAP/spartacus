@@ -32,21 +32,21 @@ describe('FormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         CommonModule,
         I18nTestingModule,
         ReactiveFormsModule,
         CardTestingModule,
         FormComponent,
-    ],
-    providers: [
+      ],
+      providers: [
         {
-            provide: ItemService,
-            useClass: MockItemService,
+          provide: ItemService,
+          useClass: MockItemService,
         },
         MessageService,
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FormComponent);
     organizationItemService = TestBed.inject(ItemService);

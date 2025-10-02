@@ -11,7 +11,11 @@ import {
   isDevMode,
   OnInit,
 } from '@angular/core';
-import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { LoggerService } from '@spartacus/core';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -27,21 +31,21 @@ import { FocusDirective } from '../../../../../../../projects/storefrontlib/layo
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 
 @Component({
-    selector: 'cx-configurator-attribute-checkbox-list',
-    templateUrl: './configurator-attribute-checkbox-list.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [ConfiguratorAttributePriceChangeService],
-    imports: [
-        NgIf,
-        ConfiguratorAttributeQuantityComponent,
-        ConfiguratorPriceComponent,
-        NgFor,
-        FormsModule,
-        FocusDirective,
-        ReactiveFormsModule,
-        ConfiguratorShowMoreComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-configurator-attribute-checkbox-list',
+  templateUrl: './configurator-attribute-checkbox-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfiguratorAttributePriceChangeService],
+  imports: [
+    NgIf,
+    ConfiguratorAttributeQuantityComponent,
+    ConfiguratorPriceComponent,
+    NgFor,
+    FormsModule,
+    FocusDirective,
+    ReactiveFormsModule,
+    ConfiguratorShowMoreComponent,
+    AsyncPipe,
+  ],
 })
 export class ConfiguratorAttributeCheckBoxListComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent

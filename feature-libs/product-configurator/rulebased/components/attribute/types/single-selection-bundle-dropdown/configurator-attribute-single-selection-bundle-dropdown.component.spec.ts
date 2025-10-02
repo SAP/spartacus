@@ -34,42 +34,48 @@ import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './c
 
 const VALUE_DISPLAY_NAME = 'Lorem Ipsum Dolor';
 @Component({
-    selector: 'cx-configurator-attribute-product-card',
-    template: '',
-    imports: [ReactiveFormsModule,
-        NgSelectModule,
-        I18nTestingModule,
-        UrlTestingModule,],
+  selector: 'cx-configurator-attribute-product-card',
+  template: '',
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    I18nTestingModule,
+    UrlTestingModule,
+  ],
 })
 class MockProductCardComponent {
   @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
 }
 
 @Component({
-    selector: 'cx-configurator-attribute-quantity',
-    template: '',
-    imports: [ReactiveFormsModule,
-        NgSelectModule,
-        I18nTestingModule,
-        UrlTestingModule,],
+  selector: 'cx-configurator-attribute-quantity',
+  template: '',
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    I18nTestingModule,
+    UrlTestingModule,
+  ],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
 }
 
 @Component({
-    selector: 'cx-configurator-price',
-    template: '',
-    imports: [ReactiveFormsModule,
-        NgSelectModule,
-        I18nTestingModule,
-        UrlTestingModule,],
+  selector: 'cx-configurator-price',
+  template: '',
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    I18nTestingModule,
+    UrlTestingModule,
+  ],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
-@Directive({ selector: '[cxFocus]', })
+@Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
@@ -205,7 +211,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         ReactiveFormsModule,
         NgSelectModule,
         I18nTestingModule,
@@ -219,19 +225,19 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         MockConfiguratorPriceComponent,
         MockFocusDirective,
         MockFeatureLevelDirective,
-    ],
-    providers: [
+      ],
+      providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
         {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
         },
-    ],
-})
+      ],
+    })
       .overrideComponent(
         ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
         {

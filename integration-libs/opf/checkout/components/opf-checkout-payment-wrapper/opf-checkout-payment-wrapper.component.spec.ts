@@ -86,35 +86,35 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
     );
 
     TestBed.configureTestingModule({
-    imports: [OpfCheckoutPaymentWrapperComponent],
-    providers: [
+      imports: [OpfCheckoutPaymentWrapperComponent],
+      providers: [
         { provide: OpfCheckoutPaymentWrapperService, useValue: mockService },
         {
-            provide: OpfGlobalFunctionsFacade,
-            useValue: mockGlobalFunctionsService,
+          provide: OpfGlobalFunctionsFacade,
+          useValue: mockGlobalFunctionsService,
         },
         {
-            provide: OpfPaymentEventsService,
-            useValue: mockPaymentEventsService,
+          provide: OpfPaymentEventsService,
+          useValue: mockPaymentEventsService,
         },
         {
-            provide: LanguageService,
-            useValue: mockLanguageService,
+          provide: LanguageService,
+          useValue: mockLanguageService,
         },
         {
-            provide: CurrencyService,
-            useValue: mockCurrencyService,
+          provide: CurrencyService,
+          useValue: mockCurrencyService,
         },
         {
-            provide: ActiveCartFacade,
-            useValue: mockActiveCartService,
+          provide: ActiveCartFacade,
+          useValue: mockActiveCartService,
         },
         {
-            provide: ViewContainerRef,
-            useValue: {},
+          provide: ViewContainerRef,
+          useValue: {},
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(OpfCheckoutPaymentWrapperComponent);
     component = fixture.componentInstance;

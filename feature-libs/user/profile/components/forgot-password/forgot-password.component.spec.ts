@@ -25,7 +25,7 @@ class MockForgotPasswordService
   requestEmail = createSpy().and.stub();
   resetForm = createSpy().and.stub();
 }
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -43,7 +43,7 @@ describe('ForgotPasswordComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         ReactiveFormsModule,
         I18nTestingModule,
         FormErrorsModule,
@@ -51,18 +51,18 @@ describe('ForgotPasswordComponent', () => {
         ForgotPasswordComponent,
         MockUrlPipe,
         MockFeatureDirective,
-    ],
-    providers: [
+      ],
+      providers: [
         {
-            provide: ForgotPasswordComponentService,
-            useClass: MockForgotPasswordService,
+          provide: ForgotPasswordComponentService,
+          useClass: MockForgotPasswordService,
         },
         {
-            provide: RoutingService,
-            useClass: MockRoutingService,
+          provide: RoutingService,
+          useClass: MockRoutingService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

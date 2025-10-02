@@ -21,16 +21,16 @@ import { ProductVariantSizeSelectorComponent } from '../variant-size-selector/pr
 import { ProductVariantColorSelectorComponent } from '../variant-color-selector/product-variant-color-selector.component';
 
 @Component({
-    selector: 'cx-product-variants-container',
-    templateUrl: './product-variants-container.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        ProductVariantStyleSelectorComponent,
-        ProductVariantSizeSelectorComponent,
-        ProductVariantColorSelectorComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-product-variants-container',
+  templateUrl: './product-variants-container.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    ProductVariantStyleSelectorComponent,
+    ProductVariantSizeSelectorComponent,
+    ProductVariantColorSelectorComponent,
+    AsyncPipe,
+  ],
 })
 export class ProductVariantsContainerComponent implements OnInit {
   constructor(private currentProductService: CurrentProductService) {}

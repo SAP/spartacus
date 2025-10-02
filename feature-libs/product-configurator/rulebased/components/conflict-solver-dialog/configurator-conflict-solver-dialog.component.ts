@@ -30,18 +30,18 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-conflict-solver-dialog',
-    templateUrl: './configurator-conflict-solver-dialog.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FocusDirective,
-        IconComponent,
-        NgIf,
-        ConfiguratorGroupComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-conflict-solver-dialog',
+  templateUrl: './configurator-conflict-solver-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FocusDirective,
+    IconComponent,
+    NgIf,
+    ConfiguratorGroupComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorConflictSolverDialogComponent
   implements OnInit, OnDestroy

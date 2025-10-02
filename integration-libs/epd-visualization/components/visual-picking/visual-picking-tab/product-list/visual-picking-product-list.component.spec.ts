@@ -146,14 +146,14 @@ describe('VisualPickingProductListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         CommonModule,
         StoreModule.forRoot({}),
         RouterModule.forRoot([
-            {
-                path: 'product',
-                component: MockPageLayoutComponent,
-            },
+          {
+            path: 'product',
+            component: MockPageLayoutComponent,
+          },
         ]),
         CommonModule,
         MediaModule,
@@ -165,21 +165,21 @@ describe('VisualPickingProductListComponent', () => {
         I18nTestingModule,
         CompactAddToCartModule,
         VisualPickingProductListComponent,
-    ],
-    providers: [
+      ],
+      providers: [
         Actions,
         {
-            provide: CmsComponentData,
-            useValue: MockCmsComponentData,
+          provide: CmsComponentData,
+          useValue: MockCmsComponentData,
         },
         {
-            provide: ProductAvailabilityAdapter,
-            useClass: MockProductAvailabilityAdapter,
+          provide: ProductAvailabilityAdapter,
+          useClass: MockProductAvailabilityAdapter,
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
-    ],
-})
+      ],
+    })
       .overrideComponent(VisualPickingProductListComponent, {
         set: {
           providers: [

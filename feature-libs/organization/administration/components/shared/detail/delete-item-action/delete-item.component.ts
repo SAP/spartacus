@@ -21,15 +21,10 @@ import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/t
  * Reusable component in the my-company is to delete an item (if it's possible)
  */
 @Component({
-    selector: 'cx-org-delete-item',
-    templateUrl: './delete-item.component.html',
-    host: { class: 'content-wrapper' },
-    imports: [
-        NgIf,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-delete-item',
+  templateUrl: './delete-item.component.html',
+  host: { class: 'content-wrapper' },
+  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
   /**

@@ -18,8 +18,8 @@ const slots = {
 };
 
 @Component({
-    selector: 'cx-page-template-test',
-    template: `
+  selector: 'cx-page-template-test',
+  template: `
     <cx-page-layout cxPageTemplateStyle>
       <div class="content">content projection</div>
     </cx-page-layout>
@@ -28,14 +28,14 @@ const slots = {
 class MockPageTemplateComponent {}
 
 @Component({
-    selector: 'cx-page-header-test',
-    template: ` <cx-page-layout section="header"> </cx-page-layout> `,
+  selector: 'cx-page-header-test',
+  template: ` <cx-page-layout section="header"> </cx-page-layout> `,
 })
 class MockHeaderComponent {}
 
 @Component({
-    selector: 'cx-page-slot',
-    template: 'dynamic-slot.component',
+  selector: 'cx-page-slot',
+  template: 'dynamic-slot.component',
 })
 class MockDynamicSlotComponent {
   @Input() position: string;
@@ -89,20 +89,23 @@ class MockDeferLoaderService {
 }
 
 @NgModule({
-    imports: [CommonModule, PageLayoutComponent,
-        MockDynamicSlotComponent,
-        MockPageTemplateComponent,
-        MockHeaderComponent,
-        OutletDirective,
-        PageTemplateDirective],
-    providers: [
-        {
-            provide: CmsService,
-            useClass: MockCmsService,
-        },
-        { provide: PageLayoutService, useClass: MockPageLayoutService },
-        { provide: DeferLoaderService, useClass: MockDeferLoaderService },
-    ],
+  imports: [
+    CommonModule,
+    PageLayoutComponent,
+    MockDynamicSlotComponent,
+    MockPageTemplateComponent,
+    MockHeaderComponent,
+    OutletDirective,
+    PageTemplateDirective,
+  ],
+  providers: [
+    {
+      provide: CmsService,
+      useClass: MockCmsService,
+    },
+    { provide: PageLayoutService, useClass: MockPageLayoutService },
+    { provide: DeferLoaderService, useClass: MockDeferLoaderService },
+  ],
 })
 class TestModule {}
 
@@ -112,8 +115,8 @@ describe('PageLayoutComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [TestModule, PageTemplateDirective],
-}).compileComponents();
+      imports: [TestModule, PageTemplateDirective],
+    }).compileComponents();
   });
 
   beforeEach(() => {

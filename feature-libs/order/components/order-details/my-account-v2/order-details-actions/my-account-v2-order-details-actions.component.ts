@@ -15,15 +15,9 @@ import { UrlPipe } from '../../../../../../projects/core/src/routing/configurabl
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-my-account-v2-order-details-actions',
-    templateUrl: './my-account-v2-order-details-actions.component.html',
-    imports: [
-        NgIf,
-        RouterLink,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-my-account-v2-order-details-actions',
+  templateUrl: './my-account-v2-order-details-actions.component.html',
+  imports: [NgIf, RouterLink, TranslatePipe, UrlPipe, MockTranslatePipe],
 })
 export class MyAccountV2OrderDetailsActionsComponent
   extends OrderDetailActionsComponent

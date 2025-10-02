@@ -11,10 +11,9 @@ describe('PickupInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [StoreAddressStubComponent,
-        StoreScheduleStubComponent],
-    imports: [I18nTestingModule, PickupInfoComponent],
-}).compileComponents();
+      declarations: [StoreAddressStubComponent, StoreScheduleStubComponent],
+      imports: [I18nTestingModule, PickupInfoComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

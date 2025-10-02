@@ -5,9 +5,9 @@ import { I18nTestingModule } from '@spartacus/core';
 import { StarRatingComponent } from './star-rating.component';
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockIconComponent {
   @Input() type;
@@ -19,9 +19,9 @@ describe('StarRatingComponent in product', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, MockIconComponent, StarRatingComponent],
-    providers: [],
-}).compileComponents();
+      imports: [I18nTestingModule, MockIconComponent, StarRatingComponent],
+      providers: [],
+    }).compileComponents();
   });
 
   beforeEach(() => {

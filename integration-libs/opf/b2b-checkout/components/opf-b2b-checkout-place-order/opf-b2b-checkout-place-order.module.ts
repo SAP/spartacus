@@ -20,21 +20,21 @@ import { CheckoutPlaceOrderModule } from '@spartacus/checkout/base/components';
 import { OpfB2bCheckoutPlaceOrderComponent } from './opf-b2b-checkout-place-order.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        SpinnerModule,
-        I18nModule,
-        UrlModule,
-        FeaturesConfigModule,
-        AtMessageModule,
-        ReactiveFormsModule,
-        FormErrorsModule,
-        FormRequiredAsterisksComponent,
-        FormRequiredLegendComponent,
-        CheckoutPlaceOrderModule,
-        OpfB2bCheckoutPlaceOrderComponent,
-    ],
-    exports: [OpfB2bCheckoutPlaceOrderComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    SpinnerModule,
+    I18nModule,
+    UrlModule,
+    FeaturesConfigModule,
+    AtMessageModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
+    CheckoutPlaceOrderModule,
+    OpfB2bCheckoutPlaceOrderComponent,
+  ],
+  exports: [OpfB2bCheckoutPlaceOrderComponent],
 })
 export class OpfB2bCheckoutPlaceOrderModule {}

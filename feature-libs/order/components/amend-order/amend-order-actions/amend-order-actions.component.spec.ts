@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import { AmendOrderActionsComponent } from './amend-order-actions.component';
 
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -29,15 +29,20 @@ describe('AmendOrderActionsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, StoreModule.forRoot({}), MockUrlPipe, AmendOrderActionsComponent],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        StoreModule.forRoot({}),
+        MockUrlPipe,
+        AmendOrderActionsComponent,
+      ],
+      providers: [
         {
-            provide: RoutingConfigService,
-            useClass: MockRoutingConfigService,
+          provide: RoutingConfigService,
+          useClass: MockRoutingConfigService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     routingService = TestBed.inject(RoutingService);
   }));

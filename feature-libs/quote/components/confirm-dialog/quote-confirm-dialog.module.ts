@@ -24,21 +24,21 @@ import { defaultQuoteActionDialogConfig } from './default-quote-confirm-dialog.c
 import { QuoteConfirmDialogComponent } from './quote-confirm-dialog.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        UrlModule,
-        IconModule,
-        FormsModule,
-        ReactiveFormsModule,
-        FormErrorsModule,
-        RouterModule,
-        KeyboardFocusModule,
-        SpinnerModule,
-        FeaturesConfigModule,
-        QuoteConfirmDialogComponent,
-    ],
-    providers: [provideDefaultConfig(defaultQuoteActionDialogConfig)],
-    exports: [QuoteConfirmDialogComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    UrlModule,
+    IconModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    RouterModule,
+    KeyboardFocusModule,
+    SpinnerModule,
+    FeaturesConfigModule,
+    QuoteConfirmDialogComponent,
+  ],
+  providers: [provideDefaultConfig(defaultQuoteActionDialogConfig)],
+  exports: [QuoteConfirmDialogComponent],
 })
 export class QuoteConfirmDialogModule {}

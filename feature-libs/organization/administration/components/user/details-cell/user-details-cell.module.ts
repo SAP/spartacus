@@ -12,7 +12,14 @@ import { PopoverModule } from '@spartacus/storefront';
 import { UserDetailsCellComponent } from './user-details-cell.component';
 
 @NgModule({
-    imports: [CommonModule, PopoverModule, RouterModule, I18nModule, UrlModule, UserDetailsCellComponent],
-    exports: [UserDetailsCellComponent],
+  imports: [
+    CommonModule,
+    PopoverModule,
+    RouterModule,
+    I18nModule,
+    UrlModule,
+    UserDetailsCellComponent,
+  ],
+  exports: [UserDetailsCellComponent],
 })
 export class UserDetailsCellModule {}

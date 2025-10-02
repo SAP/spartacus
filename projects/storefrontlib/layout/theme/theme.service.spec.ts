@@ -9,8 +9,8 @@ import { ThemeService } from './theme.service';
 import { of } from 'rxjs';
 
 @Component({
-    selector: 'cx-test',
-    template: '',
+  selector: 'cx-test',
+  template: '',
 })
 class TestComponent {}
 
@@ -37,17 +37,17 @@ describe('ThemeService', () => {
     mockSiteThemeService = new MockSiteThemeService();
     mockFeatureConfigService = new MockFeatureConfigService();
     TestBed.configureTestingModule({
-    imports: [TestComponent],
-    providers: [
+      imports: [TestComponent],
+      providers: [
         ThemeService,
         {
-            provide: SiteContextConfig,
-            useValue: { context: { theme: ['test-theme'] } },
+          provide: SiteContextConfig,
+          useValue: { context: { theme: ['test-theme'] } },
         },
         { provide: SiteThemeService, useValue: mockSiteThemeService },
         { provide: FeatureConfigService, useValue: mockFeatureConfigService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     service = TestBed.inject(ThemeService);
     mockSiteThemeService = TestBed.inject(SiteThemeService);

@@ -19,26 +19,26 @@ import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
 @NgModule({
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        KeyboardFocusModule,
-        NgSelectModule,
-        CommonModule,
-        I18nModule,
-        UrlModule,
-        RouterModule,
-        ConfiguratorTabBarComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                ConfiguratorTabBar: {
-                    component: ConfiguratorTabBarComponent,
-                },
-            },
-        }),
-    ],
-    exports: [ConfiguratorTabBarComponent],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    KeyboardFocusModule,
+    NgSelectModule,
+    CommonModule,
+    I18nModule,
+    UrlModule,
+    RouterModule,
+    ConfiguratorTabBarComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ConfiguratorTabBar: {
+          component: ConfiguratorTabBarComponent,
+        },
+      },
+    }),
+  ],
+  exports: [ConfiguratorTabBarComponent],
 })
 export class ConfiguratorTabBarModule {}

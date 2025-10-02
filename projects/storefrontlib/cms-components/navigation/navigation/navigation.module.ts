@@ -19,24 +19,25 @@ import { NavigationUIComponent } from './navigation-ui.component';
 import { NavigationComponent } from './navigation.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        IconModule,
-        GenericLinkModule,
-        I18nModule,
-        FeaturesConfigModule,
-        NavigationComponent, NavigationUIComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                NavigationComponent: {
-                    component: NavigationComponent,
-                },
-            },
-        }),
-    ],
-    exports: [NavigationComponent, NavigationUIComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    IconModule,
+    GenericLinkModule,
+    I18nModule,
+    FeaturesConfigModule,
+    NavigationComponent,
+    NavigationUIComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        NavigationComponent: {
+          component: NavigationComponent,
+        },
+      },
+    }),
+  ],
+  exports: [NavigationComponent, NavigationUIComponent],
 })
 export class NavigationModule {}

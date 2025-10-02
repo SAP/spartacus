@@ -5,7 +5,12 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { AbstractControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CostCenter, Currency, CurrencyService } from '@spartacus/core';
 import {
   B2BUnitNode,
@@ -28,33 +33,33 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-cost-center-form',
-    templateUrl: './cost-center-form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'content-wrapper' },
-    providers: [
-        {
-            provide: ItemService,
-            useExisting: CostCenterItemService,
-        },
-        {
-            provide: CurrentItemService,
-            useExisting: CurrentCostCenterService,
-        },
-    ],
-    imports: [
-        FormComponent,
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        FormRequiredLegendComponent,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        NgSelectComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-cost-center-form',
+  templateUrl: './cost-center-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
+  providers: [
+    {
+      provide: ItemService,
+      useExisting: CostCenterItemService,
+    },
+    {
+      provide: CurrentItemService,
+      useExisting: CurrentCostCenterService,
+    },
+  ],
+  imports: [
+    FormComponent,
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    NgSelectComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CostCenterFormComponent {
   form: UntypedFormGroup | null = this.itemService.getForm();

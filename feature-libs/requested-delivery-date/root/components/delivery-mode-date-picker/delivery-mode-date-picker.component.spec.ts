@@ -47,31 +47,31 @@ describe('DeliveryModeDatePickerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [
+      imports: [
         I18nTestingModule,
         DatePickerModule,
         CardModule,
         ReactiveFormsModule,
         DeliveryModeDatePickerComponent,
-    ],
-    providers: [
+      ],
+      providers: [
         CxDatePipe,
         EventService,
         {
-            provide: RequestedDeliveryDateFacade,
-            useValue: requestedDelDateFacadeMock,
+          provide: RequestedDeliveryDateFacade,
+          useValue: requestedDelDateFacadeMock,
         },
         { provide: GlobalMessageService, useValue: mockedGlobalMessageService },
         { provide: TranslationService, useValue: translationServiceMock },
         { provide: LanguageService, useValue: mockLanguageService },
         {
-            provide: OutletContextData,
-            useValue: {
-                context: undefined,
-            },
+          provide: OutletContextData,
+          useValue: {
+            context: undefined,
+          },
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

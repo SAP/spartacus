@@ -17,17 +17,23 @@ import { RouterModule } from '@angular/router';
 import { MyAccountV2UserComponent } from './my-account-v2-user.component';
 
 @NgModule({
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                MyAccountViewUserComponent: {
-                    component: MyAccountV2UserComponent,
-                    guards: [AuthGuard],
-                },
-            },
-        }),
-    ],
-    exports: [MyAccountV2UserComponent],
-    imports: [CommonModule, RouterModule, UrlModule, I18nModule, MyAccountV2UserComponent],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        MyAccountViewUserComponent: {
+          component: MyAccountV2UserComponent,
+          guards: [AuthGuard],
+        },
+      },
+    }),
+  ],
+  exports: [MyAccountV2UserComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    MyAccountV2UserComponent,
+  ],
 })
 export class MyAccountV2UserModule {}

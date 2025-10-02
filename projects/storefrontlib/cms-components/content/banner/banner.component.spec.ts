@@ -72,9 +72,9 @@ class MockSemanticPathService {
 }
 
 @Component({
-    selector: 'cx-media',
-    template: '',
-    imports: [FeaturesConfigModule, LcpContextDirectiveModule],
+  selector: 'cx-media',
+  template: '',
+  imports: [FeaturesConfigModule, LcpContextDirectiveModule],
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -92,29 +92,33 @@ describe('BannerComponent', () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
-    imports: [FeaturesConfigModule, LcpContextDirectiveModule, BannerComponent,
+      imports: [
+        FeaturesConfigModule,
+        LcpContextDirectiveModule,
+        BannerComponent,
         MockMediaComponent,
         GenericLinkComponent,
-        MockFeatureDirective],
-    providers: [
+        MockFeatureDirective,
+      ],
+      providers: [
         {
-            provide: LCP_PRESENCE,
-            useValue: mockLcpPresence$,
+          provide: LCP_PRESENCE,
+          useValue: mockLcpPresence$,
         },
         {
-            provide: CmsComponentData,
-            useClass: MockCmsComponentData,
+          provide: CmsComponentData,
+          useClass: MockCmsComponentData,
         },
         { provide: CmsService, useClass: MockCmsService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
         {
-            provide: FeaturesConfig,
-            useValue: {
-                features: { level: '6.3' },
-            },
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '6.3' },
+          },
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BannerComponent);
     bannerComponent = fixture.componentInstance;

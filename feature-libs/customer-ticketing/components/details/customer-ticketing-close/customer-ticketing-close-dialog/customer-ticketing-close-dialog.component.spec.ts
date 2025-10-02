@@ -31,17 +31,17 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule,],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Component({
-    selector: 'cx-messaging',
-    imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule,],
+  selector: 'cx-messaging',
+  imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
 })
 class MockCxMessagingComponent {
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
@@ -49,7 +49,7 @@ class MockCxMessagingComponent {
   @Input() messagingConfigs?: MessagingConfigs;
 }
 
-@Directive({ selector: '[cxFocus]', })
+@Directive({ selector: '[cxFocus]' })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -61,19 +61,24 @@ describe('CustomerTicketingCloseDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule, CustomerTicketingCloseDialogComponent,
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        CustomerTicketingCloseDialogComponent,
         MockCxIconComponent,
         MockCxMessagingComponent,
-        MockKeyboadFocusDirective],
-    providers: [
+        MockKeyboadFocusDirective,
+      ],
+      providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-            provide: CustomerTicketingFacade,
-            useClass: MockCustomerTicketingFacade,
+          provide: CustomerTicketingFacade,
+          useClass: MockCustomerTicketingFacade,
         },
         { provide: RoutingService, useClass: MockRoutingService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
   });

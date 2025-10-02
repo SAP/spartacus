@@ -22,18 +22,18 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-textfield-form',
-    templateUrl: './configurator-textfield-form.component.html',
-    imports: [
-        NgIf,
-        NgFor,
-        ConfiguratorTextfieldInputFieldComponent,
-        ConfiguratorTextfieldAddToCartButtonComponent,
-        ConfiguratorTextfieldInputFieldReadonlyComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-textfield-form',
+  templateUrl: './configurator-textfield-form.component.html',
+  imports: [
+    NgIf,
+    NgFor,
+    ConfiguratorTextfieldInputFieldComponent,
+    ConfiguratorTextfieldAddToCartButtonComponent,
+    ConfiguratorTextfieldInputFieldReadonlyComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorTextfieldFormComponent {
   configuration$: Observable<ConfiguratorTextfield.Configuration> =

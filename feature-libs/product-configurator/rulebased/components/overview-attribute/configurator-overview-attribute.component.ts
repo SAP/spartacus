@@ -7,23 +7,26 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorPriceComponentOptions, ConfiguratorPriceComponent } from '../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponentOptions,
+  ConfiguratorPriceComponent,
+} from '../price/configurator-price.component';
 import { Observable } from 'rxjs';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-overview-attribute',
-    templateUrl: './configurator-overview-attribute.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        ConfiguratorPriceComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-overview-attribute',
+  templateUrl: './configurator-overview-attribute.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    ConfiguratorPriceComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorOverviewAttributeComponent {
   @Input() attributeOverview: Configurator.AttributeOverview;

@@ -16,17 +16,23 @@ import { ChatMessagingModule, IconModule } from '@spartacus/storefront';
 import { QuoteCommentsComponent } from './quote-comments.component';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, IconModule, ChatMessagingModule, QuoteCommentsComponent],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                QuoteCommentsComponent: {
-                    component: QuoteCommentsComponent,
-                    guards: [AuthGuard],
-                },
-            },
-        }),
-    ],
-    exports: [QuoteCommentsComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    ChatMessagingModule,
+    QuoteCommentsComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        QuoteCommentsComponent: {
+          component: QuoteCommentsComponent,
+          guards: [AuthGuard],
+        },
+      },
+    }),
+  ],
+  exports: [QuoteCommentsComponent],
 })
 export class QuoteCommentsModule {}

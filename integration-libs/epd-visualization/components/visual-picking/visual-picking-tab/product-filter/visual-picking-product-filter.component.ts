@@ -13,15 +13,10 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-epd-visualization-product-filter',
-    templateUrl: './visual-picking-product-filter.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FormsModule,
-        IconComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-epd-visualization-product-filter',
+  templateUrl: './visual-picking-product-filter.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule, IconComponent, TranslatePipe, MockTranslatePipe],
 })
 export class VisualPickingProductFilterComponent {
   constructor(

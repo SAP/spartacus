@@ -42,11 +42,11 @@ describe('TableComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [OutletModule, TableComponent],
-    providers: [
+      imports: [OutletModule, TableComponent],
+      providers: [
         { provide: TableRendererService, useClass: MockTableRendererService },
-    ],
-})
+      ],
+    })
       .overrideComponent(TableComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })

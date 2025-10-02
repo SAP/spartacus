@@ -34,16 +34,16 @@ import { AddToCartComponent } from '../../../../base/components/add-to-cart/add-
 import { SpinnerComponent } from '../../../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
 
 @Component({
-    selector: 'cx-saved-cart-details-items',
-    templateUrl: './saved-cart-details-items.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        OutletDirective,
-        AddToCartComponent,
-        SpinnerComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-saved-cart-details-items',
+  templateUrl: './saved-cart-details-items.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    OutletDirective,
+    AddToCartComponent,
+    SpinnerComponent,
+    AsyncPipe,
+  ],
 })
 export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

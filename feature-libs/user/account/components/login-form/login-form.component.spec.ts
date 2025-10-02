@@ -26,7 +26,7 @@ class MockLoginFormComponentService
   login = createSpy().and.stub();
   handleCustomLoginError = createSpy().and.stub();
 }
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -39,20 +39,22 @@ describe('LoginFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         ReactiveFormsModule,
         I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
-        LoginFormComponent, MockUrlPipe, MockFeatureDirective,
-    ],
-    providers: [
+        LoginFormComponent,
+        MockUrlPipe,
+        MockFeatureDirective,
+      ],
+      providers: [
         {
-            provide: LoginFormComponentService,
-            useClass: MockLoginFormComponentService,
+          provide: LoginFormComponentService,
+          useClass: MockLoginFormComponentService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

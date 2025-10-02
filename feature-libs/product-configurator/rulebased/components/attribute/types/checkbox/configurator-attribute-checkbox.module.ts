@@ -15,25 +15,25 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition';
 import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
 
 @NgModule({
-    imports: [
-        KeyboardFocusModule,
-        FormsModule,
-        ReactiveFormsModule,
-        CommonModule,
-        I18nModule,
-        ConfiguratorPriceModule,
-        ConfiguratorShowMoreModule,
-        ConfiguratorAttributeCheckBoxComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
-            productConfigurator: {
-                assignment: {
-                    AttributeType_checkBox: ConfiguratorAttributeCheckBoxComponent,
-                },
-            },
-        }),
-    ],
-    exports: [ConfiguratorAttributeCheckBoxComponent],
+  imports: [
+    KeyboardFocusModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    I18nModule,
+    ConfiguratorPriceModule,
+    ConfiguratorShowMoreModule,
+    ConfiguratorAttributeCheckBoxComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+      productConfigurator: {
+        assignment: {
+          AttributeType_checkBox: ConfiguratorAttributeCheckBoxComponent,
+        },
+      },
+    }),
+  ],
+  exports: [ConfiguratorAttributeCheckBoxComponent],
 })
 export class ConfiguratorAttributeCheckboxModule {}

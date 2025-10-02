@@ -14,16 +14,16 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-wish-list',
-    templateUrl: './wish-list.component.html',
-    imports: [
-        NgIf,
-        NgFor,
-        WishListItemComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-wish-list',
+  templateUrl: './wish-list.component.html',
+  imports: [
+    NgIf,
+    NgFor,
+    WishListItemComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class WishListComponent {
   wishList$: Observable<Cart> = this.wishListFacade.getWishList();

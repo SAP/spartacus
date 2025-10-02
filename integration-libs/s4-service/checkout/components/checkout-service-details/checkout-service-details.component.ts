@@ -14,7 +14,13 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Subscription, BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import {
@@ -29,21 +35,21 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-service-details',
-    templateUrl: './checkout-service-details.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        FormRequiredLegendComponent,
-        FormRequiredAsterisksComponent,
-        DatePickerComponent,
-        NgIf,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-service-details',
+  templateUrl: './checkout-service-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    DatePickerComponent,
+    NgIf,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
   protected activatedRoute = inject(ActivatedRoute);

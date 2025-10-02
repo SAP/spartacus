@@ -31,20 +31,20 @@ describe('TrendingSearchesComponent', () => {
   };
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, TrendingSearchesComponent],
-    providers: [
+      imports: [I18nTestingModule, TrendingSearchesComponent],
+      providers: [
         {
-            provide: TrendingSearchesService,
-            useValue: trendingSearchesServiceMock,
+          provide: TrendingSearchesService,
+          useValue: trendingSearchesServiceMock,
         },
         {
-            provide: SearchBoxComponentService,
-            useValue: searchBoxComponentServiceMock,
+          provide: SearchBoxComponentService,
+          useValue: searchBoxComponentServiceMock,
         },
         { provide: OutletContextData, useValue: { context$ } },
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-}).compileComponents();
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    }).compileComponents();
   });
 
   beforeEach(() => {

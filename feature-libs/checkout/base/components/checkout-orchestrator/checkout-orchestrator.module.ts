@@ -13,17 +13,17 @@ import { CheckoutGuard } from '../guards/checkout.guard';
 import { CheckoutOrchestratorComponent } from './checkout-orchestrator.component';
 
 @NgModule({
-    imports: [CommonModule, CheckoutOrchestratorComponent],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                CheckoutOrchestrator: {
-                    component: CheckoutOrchestratorComponent,
-                    guards: [CheckoutAuthGuard, CartNotEmptyGuard, CheckoutGuard],
-                },
-            },
-        }),
-    ],
-    exports: [CheckoutOrchestratorComponent],
+  imports: [CommonModule, CheckoutOrchestratorComponent],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        CheckoutOrchestrator: {
+          component: CheckoutOrchestratorComponent,
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CheckoutGuard],
+        },
+      },
+    }),
+  ],
+  exports: [CheckoutOrchestratorComponent],
 })
 export class CheckoutOrchestratorModule {}

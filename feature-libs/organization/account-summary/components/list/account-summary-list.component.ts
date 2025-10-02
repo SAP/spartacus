@@ -10,12 +10,8 @@ import { ListComponent } from '../../../administration/components/shared/list/li
 import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 @Component({
-    selector: 'cx-account-summary-list',
-    templateUrl: './account-summary-list.component.html',
-    imports: [
-        ListComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-account-summary-list',
+  templateUrl: './account-summary-list.component.html',
+  imports: [ListComponent, TranslatePipe, MockTranslatePipe],
 })
 export class AccountSummaryListComponent extends UnitListComponent {}

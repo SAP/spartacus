@@ -15,14 +15,10 @@ import { NavigationUIComponent } from './navigation-ui.component';
 import { NgClass, AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'cx-navigation',
-    templateUrl: './navigation.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NavigationUIComponent,
-        NgClass,
-        AsyncPipe,
-    ],
+  selector: 'cx-navigation',
+  templateUrl: './navigation.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NavigationUIComponent, NgClass, AsyncPipe],
 })
 export class NavigationComponent {
   node$: Observable<NavigationNode> = this.service.createNavigation(

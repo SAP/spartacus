@@ -71,20 +71,20 @@ describe('ApplePayComponent', () => {
     );
 
     TestBed.configureTestingModule({
-    imports: [ApplePayComponent],
-    providers: [
+      imports: [ApplePayComponent],
+      providers: [
         { provide: ApplePayService, useValue: mockApplePayService },
         { provide: CurrentProductService, useValue: mockCurrentProductService },
         {
-            provide: OpfPaymentErrorHandlerService,
-            useValue: mockOpfPaymentErrorHandlerService,
+          provide: OpfPaymentErrorHandlerService,
+          useValue: mockOpfPaymentErrorHandlerService,
         },
         {
-            provide: OpfQuickBuyTransactionService,
-            useValue: mockOpfQuickBuyTransactionService,
+          provide: OpfQuickBuyTransactionService,
+          useValue: mockOpfQuickBuyTransactionService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ApplePayComponent);
     component = fixture.componentInstance;

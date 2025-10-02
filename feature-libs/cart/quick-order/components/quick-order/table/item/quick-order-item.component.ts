@@ -27,19 +27,19 @@ import { UrlPipe } from '../../../../../../../projects/core/src/routing/configur
 import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: '[cx-quick-order-item], cx-quick-order-item',
-    templateUrl: './quick-order-item.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgClass,
-        RouterLink,
-        MediaComponent,
-        FeatureDirective,
-        ItemCounterComponent,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: '[cx-quick-order-item], cx-quick-order-item',
+  templateUrl: './quick-order-item.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgClass,
+    RouterLink,
+    MediaComponent,
+    FeatureDirective,
+    ItemCounterComponent,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class QuickOrderItemComponent implements OnInit, OnDestroy {
   quantityControl: UntypedFormControl;

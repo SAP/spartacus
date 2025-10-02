@@ -21,14 +21,14 @@ import { DeliveryMode } from '@spartacus/cart/base/root';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-@Pipe({ name: 'cxTranslate', })
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
 @Component({
-    selector: 'cx-opf-checkout-review-card',
-    template: '',
+  selector: 'cx-opf-checkout-review-card',
+  template: '',
 })
 class MockReviewCardComponent {
   @Input() cardContent$: Observable<Card>;
@@ -36,8 +36,8 @@ class MockReviewCardComponent {
 }
 
 @Component({
-    selector: 'cx-opf-checkout-payments',
-    template: '',
+  selector: 'cx-opf-checkout-payments',
+  template: '',
 })
 class MockPaymentsComponent {
   @Input() elementsPerPage: number;
@@ -46,8 +46,8 @@ class MockPaymentsComponent {
 }
 
 @Component({
-    selector: 'cx-opf-checkout-terms-and-conditions-alert',
-    template: '',
+  selector: 'cx-opf-checkout-terms-and-conditions-alert',
+  template: '',
 })
 class MockTermsAndConditionsAlertComponent {
   @Input() isDismissible: boolean;
@@ -56,14 +56,14 @@ class MockTermsAndConditionsAlertComponent {
 }
 
 @Component({
-    selector: 'cx-opf-checkout-billing-address-form',
-    template: '',
+  selector: 'cx-opf-checkout-billing-address-form',
+  template: '',
 })
 class MockBillingAddressFormComponent {}
 
 @Component({
-    selector: 'cx-opf-checkout-review-cart-details',
-    template: '',
+  selector: 'cx-opf-checkout-review-cart-details',
+  template: '',
 })
 class MockReviewCartDetailsComponent {
   @Input() cart: any;
@@ -137,33 +137,35 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [OpfCheckoutPaymentAndReviewComponent,
+      imports: [
+        OpfCheckoutPaymentAndReviewComponent,
         MockReviewCardComponent,
         MockPaymentsComponent,
         MockTermsAndConditionsAlertComponent,
         MockBillingAddressFormComponent,
         MockReviewCartDetailsComponent,
-        MockTranslatePipe,],
-    providers: [
+        MockTranslatePipe,
+      ],
+      providers: [
         { provide: CheckoutStepService, useValue: mockCheckoutStepService },
         {
-            provide: CheckoutDeliveryAddressFacade,
-            useValue: mockCheckoutDeliveryAddressFacade,
+          provide: CheckoutDeliveryAddressFacade,
+          useValue: mockCheckoutDeliveryAddressFacade,
         },
         { provide: CheckoutPaymentFacade, useValue: mockCheckoutPaymentFacade },
         {
-            provide: CheckoutDeliveryModesFacade,
-            useValue: mockCheckoutDeliveryModesFacade,
+          provide: CheckoutDeliveryModesFacade,
+          useValue: mockCheckoutDeliveryModesFacade,
         },
         {
-            provide: CheckoutFlowOrchestratorService,
-            useValue: mockCheckoutFlowOrchestratorService,
+          provide: CheckoutFlowOrchestratorService,
+          useValue: mockCheckoutFlowOrchestratorService,
         },
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: Store, useClass: MockStore },
         { provide: CmsService, useClass: MockCmsService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

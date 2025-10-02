@@ -35,21 +35,21 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-order-attachments-dialog',
-    templateUrl: './order-attachments-dialog.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FocusDirective,
-        NgIf,
-        IconComponent,
-        NgFor,
-        MessageComponent,
-        NgClass,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-order-attachments-dialog',
+  templateUrl: './order-attachments-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FocusDirective,
+    NgIf,
+    IconComponent,
+    NgFor,
+    MessageComponent,
+    NgClass,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class OrderAttachmentsDialogComponent {
   protected config = inject(OrderConfig);

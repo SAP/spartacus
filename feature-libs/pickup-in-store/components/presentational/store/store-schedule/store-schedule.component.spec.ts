@@ -10,8 +10,8 @@ describe('StoreScheduleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, IconTestingModule, StoreScheduleComponent],
-}).compileComponents();
+      imports: [I18nTestingModule, IconTestingModule, StoreScheduleComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -6,7 +6,12 @@
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Cart } from '@spartacus/cart/base/root';
 import { CheckoutSupportedDeliveryModesQueryReloadEvent } from '@spartacus/checkout/base/root';
 import {
@@ -31,21 +36,21 @@ import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing
 import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-request-delivery-date',
-    templateUrl: './delivery-mode-date-picker.component.html',
-    providers: [CxDatePipe],
-    imports: [
-        NgIf,
-        CardComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        DatePickerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        CxDatePipe_1,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-request-delivery-date',
+  templateUrl: './delivery-mode-date-picker.component.html',
+  providers: [CxDatePipe],
+  imports: [
+    NgIf,
+    CardComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    DatePickerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe_1,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
   constructor(

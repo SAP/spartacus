@@ -18,24 +18,24 @@ import { QuoteSummarySellerEditModule } from './seller-edit/quote-summary-seller
 import { QuoteSummaryActionsModule } from './actions/quote-summary-actions.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        QuoteSummaryPricesModule,
-        QuoteSummarySellerEditModule,
-        QuoteSummaryActionsModule,
-        QuoteSummaryComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                QuoteSummaryComponent: {
-                    component: QuoteSummaryComponent,
-                    guards: [AuthGuard],
-                },
-            },
-        }),
-    ],
-    exports: [QuoteSummaryComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    QuoteSummaryPricesModule,
+    QuoteSummarySellerEditModule,
+    QuoteSummaryActionsModule,
+    QuoteSummaryComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        QuoteSummaryComponent: {
+          component: QuoteSummaryComponent,
+          guards: [AuthGuard],
+        },
+      },
+    }),
+  ],
+  exports: [QuoteSummaryComponent],
 })
 export class QuoteSummaryModule {}

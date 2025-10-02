@@ -16,18 +16,18 @@ import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe
 import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-store-finder-grid',
-    templateUrl: './store-finder-grid.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        StoreFinderListItemComponent,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-store-finder-grid',
+  templateUrl: './store-finder-grid.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgFor,
+    StoreFinderListItemComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class StoreFinderGridComponent implements OnInit {
   defaultLocation: GeoPoint;

@@ -14,14 +14,16 @@ import { StoreScheduleComponent } from './store-schedule/index';
 import { StoreComponent } from './store.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        IconModule,
-        SpinnerModule,
-        SetPreferredStoreModule,
-        StoreComponent, StoreScheduleComponent, StoreAddressComponent,
-    ],
-    exports: [StoreComponent, StoreScheduleComponent, StoreAddressComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    SpinnerModule,
+    SetPreferredStoreModule,
+    StoreComponent,
+    StoreScheduleComponent,
+    StoreAddressComponent,
+  ],
+  exports: [StoreComponent, StoreScheduleComponent, StoreAddressComponent],
 })
 export class StoreModule {}

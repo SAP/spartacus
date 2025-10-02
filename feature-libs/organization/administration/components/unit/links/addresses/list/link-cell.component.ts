@@ -18,8 +18,8 @@ import { RouterLink } from '@angular/router';
 import { UrlPipe } from '../../../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
 
 @Component({
-    selector: 'cx-org-link-cell',
-    template: `
+  selector: 'cx-org-link-cell',
+  template: `
     <ng-container *ngIf="unitKey$ | async as uid">
       <a
         *ngIf="linkable; else text"
@@ -34,14 +34,8 @@ import { UrlPipe } from '../../../../../../../../projects/core/src/routing/confi
       <span class="text" title="{{ property }}">{{ property }}</span>
     </ng-template>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        RouterLink,
-        NgTemplateOutlet,
-        AsyncPipe,
-        UrlPipe,
-    ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, RouterLink, NgTemplateOutlet, AsyncPipe, UrlPipe],
 })
 export class LinkCellComponent extends CellComponent {
   unitKey$: Observable<string> = this.itemService.key$;

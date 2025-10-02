@@ -25,17 +25,17 @@ import { UrlPipe } from '../../../../projects/core/src/routing/configurable-rout
 import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-quote-links',
-    templateUrl: './quote-links.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        RouterLink,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-quote-links',
+  templateUrl: './quote-links.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class QuoteLinksComponent {
   protected quoteFacade = inject(QuoteFacade);

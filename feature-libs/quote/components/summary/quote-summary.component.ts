@@ -14,18 +14,18 @@ import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe
 import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-quote-summary',
-    templateUrl: 'quote-summary.component.html',
-    imports: [
-        NgIf,
-        QuoteSummaryPricesComponent,
-        QuoteSummarySellerEditComponent,
-        QuoteSummaryActionsComponent,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-quote-summary',
+  templateUrl: 'quote-summary.component.html',
+  imports: [
+    NgIf,
+    QuoteSummaryPricesComponent,
+    QuoteSummarySellerEditComponent,
+    QuoteSummaryActionsComponent,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class QuoteSummaryComponent {
   protected quoteFacade = inject(QuoteFacade);

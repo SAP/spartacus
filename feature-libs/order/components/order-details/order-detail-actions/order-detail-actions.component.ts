@@ -15,17 +15,17 @@ import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-r
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-order-details-actions',
-    templateUrl: './order-detail-actions.component.html',
-    imports: [
-        NgIf,
-        RouterLink,
-        BtnLikeLinkDirective,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-order-details-actions',
+  templateUrl: './order-detail-actions.component.html',
+  imports: [
+    NgIf,
+    RouterLink,
+    BtnLikeLinkDirective,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class OrderDetailActionsComponent {
   constructor(protected orderDetailsService: OrderDetailsService) {}

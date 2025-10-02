@@ -14,16 +14,16 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-future-stock-accordion',
-    templateUrl: './future-stock-accordion.component.html',
-    imports: [
-        NgIf,
-        IconComponent,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-future-stock-accordion',
+  templateUrl: './future-stock-accordion.component.html',
+  imports: [
+    NgIf,
+    IconComponent,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class FutureStockAccordionComponent {
   futureStocks$ = this.futureStockService.getFutureStock();

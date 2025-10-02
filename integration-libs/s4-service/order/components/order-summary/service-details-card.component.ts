@@ -18,13 +18,9 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
 
 @Component({
-    selector: 'cx-card-service-details',
-    templateUrl: './service-details-card.component.html',
-    imports: [
-        NgIf,
-        CardComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-card-service-details',
+  templateUrl: './service-details-card.component.html',
+  imports: [NgIf, CardComponent, AsyncPipe],
 })
 export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);

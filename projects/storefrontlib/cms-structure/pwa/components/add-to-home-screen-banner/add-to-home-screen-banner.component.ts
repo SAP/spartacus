@@ -12,14 +12,9 @@ import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-add-to-home-screen-banner',
-    templateUrl: './add-to-home-screen-banner.component.html',
-    imports: [
-        NgIf,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-add-to-home-screen-banner',
+  templateUrl: './add-to-home-screen-banner.component.html',
+  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class AddToHomeScreenBannerComponent extends AddToHomeScreenComponent {
   constructor(protected addToHomeScreenService: AddToHomeScreenService) {

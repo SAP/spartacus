@@ -23,17 +23,17 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-asm-customer-360-profile',
-    templateUrl: './asm-customer-360-profile.component.html',
-    imports: [
-        NgIf,
-        NgTemplateOutlet,
-        NgFor,
-        CardComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-asm-customer-360-profile',
+  templateUrl: './asm-customer-360-profile.component.html',
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    NgFor,
+    CardComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AsmCustomer360ProfileComponent implements OnInit {
   focusConfig: FocusConfig = {

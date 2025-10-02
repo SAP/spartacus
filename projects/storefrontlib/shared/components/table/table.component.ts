@@ -49,14 +49,10 @@ import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive'
  * `table.cost-center.data.name`.
  */
 @Component({
-    selector: 'cx-table',
-    templateUrl: './table.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        OutletDirective,
-    ],
+  selector: 'cx-table',
+  templateUrl: './table.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, NgFor, OutletDirective],
 })
 export class TableComponent<T> {
   @HostBinding('attr.__cx-table-type') tableType: string;

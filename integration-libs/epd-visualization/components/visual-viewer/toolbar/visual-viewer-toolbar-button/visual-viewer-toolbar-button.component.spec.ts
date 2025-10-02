@@ -9,8 +9,8 @@ describe('VisualViewerToolbarButtonComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [CommonModule, IconModule, VisualViewerToolbarButtonComponent],
-}).compileComponents();
+      imports: [CommonModule, IconModule, VisualViewerToolbarButtonComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(VisualViewerToolbarButtonComponent);
     toolbarButtonComponent = fixture.componentInstance;

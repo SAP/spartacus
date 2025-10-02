@@ -11,7 +11,13 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
@@ -37,24 +43,24 @@ import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-r
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-reschedule-service-order',
-    templateUrl: './reschedule-service-order.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        FormRequiredLegendComponent,
-        FormRequiredAsterisksComponent,
-        DatePickerComponent,
-        NgIf,
-        NgFor,
-        OutletDirective,
-        RouterLink,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-reschedule-service-order',
+  templateUrl: './reschedule-service-order.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    DatePickerComponent,
+    NgIf,
+    NgFor,
+    OutletDirective,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class RescheduleServiceOrderComponent implements OnInit, OnDestroy {
   protected orderDetailsService = inject(OrderDetailsService);

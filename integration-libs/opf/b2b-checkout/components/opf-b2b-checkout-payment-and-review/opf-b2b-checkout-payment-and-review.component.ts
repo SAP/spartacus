@@ -23,25 +23,25 @@ import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-r
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-opf-b2b-checkout-payment-and-review',
-    templateUrl: './opf-b2b-checkout-payment-and-review.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        OpfCheckoutReviewCardComponent,
-        OpfCheckoutTermsAndConditionsAlertComponent,
-        NgClass,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterLink,
-        OpfCheckoutBillingAddressFormComponent,
-        OpfCheckoutPaymentsComponent,
-        OpfCheckoutReviewCartDetailsComponent,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-opf-b2b-checkout-payment-and-review',
+  templateUrl: './opf-b2b-checkout-payment-and-review.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    OpfCheckoutReviewCardComponent,
+    OpfCheckoutTermsAndConditionsAlertComponent,
+    NgClass,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink,
+    OpfCheckoutBillingAddressFormComponent,
+    OpfCheckoutPaymentsComponent,
+    OpfCheckoutReviewCartDetailsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class OpfB2bCheckoutPaymentAndReviewComponent
   extends OpfCheckoutPaymentAndReviewComponent

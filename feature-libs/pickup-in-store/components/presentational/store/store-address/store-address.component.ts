@@ -12,9 +12,9 @@ import { NgIf } from '@angular/common';
  * The address of a point of service.
  */
 @Component({
-    selector: 'cx-store-address',
-    templateUrl: 'store-address.component.html',
-    imports: [NgIf],
+  selector: 'cx-store-address',
+  templateUrl: 'store-address.component.html',
+  imports: [NgIf],
 })
 export class StoreAddressComponent {
   /** The details of the store */

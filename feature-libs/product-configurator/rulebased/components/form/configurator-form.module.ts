@@ -12,16 +12,22 @@ import { ConfiguratorFormComponent } from './configurator-form.component';
 import { ConfiguratorGroupModule } from '../group/configurator-group.module';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, NgSelectModule, ConfiguratorGroupModule, ConfiguratorFormComponent],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                ConfiguratorForm: {
-                    component: ConfiguratorFormComponent,
-                },
-            },
-        }),
-    ],
-    exports: [ConfiguratorFormComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    NgSelectModule,
+    ConfiguratorGroupModule,
+    ConfiguratorFormComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ConfiguratorForm: {
+          component: ConfiguratorFormComponent,
+        },
+      },
+    }),
+  ],
+  exports: [ConfiguratorFormComponent],
 })
 export class ConfiguratorFormModule {}

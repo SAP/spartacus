@@ -5,7 +5,12 @@
  */
 
 import { Component } from '@angular/core';
-import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   AsmCreateCustomerFacade,
   CustomerRegistrationForm,
@@ -34,21 +39,21 @@ import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe
 import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-asm-create-customer-form',
-    templateUrl: './asm-create-customer-form.component.html',
-    imports: [
-        FocusDirective,
-        FormsModule,
-        ReactiveFormsModule,
-        NgIf,
-        MessageComponent,
-        NgFor,
-        FormErrorsComponent,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-asm-create-customer-form',
+  templateUrl: './asm-create-customer-form.component.html',
+  imports: [
+    FocusDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    MessageComponent,
+    NgFor,
+    FormErrorsComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AsmCreateCustomerFormComponent {
   createdCustomer: CreatedCustomer;

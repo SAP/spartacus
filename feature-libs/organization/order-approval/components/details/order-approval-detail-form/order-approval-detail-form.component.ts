@@ -5,7 +5,13 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {
@@ -24,22 +30,22 @@ import { UrlPipe } from '../../../../../../projects/core/src/routing/configurabl
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-order-approval-detail-form',
-    templateUrl: './order-approval-detail-form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        SpinnerComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        FormErrorsComponent,
-        BtnLikeLinkDirective,
-        RouterLink,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-order-approval-detail-form',
+  templateUrl: './order-approval-detail-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormErrorsComponent,
+    BtnLikeLinkDirective,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class OrderApprovalDetailFormComponent implements OnDestroy {
   approvalDecisionValue = OrderApprovalDecisionValue;

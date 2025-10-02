@@ -90,36 +90,36 @@ class MockBreakpointService {
 }
 
 @Component({
-    selector: 'cx-media',
-    template: '',
-    imports: [I18nTestingModule, FeaturesConfigModule],
+  selector: 'cx-media',
+  template: '',
+  imports: [I18nTestingModule, FeaturesConfigModule],
 })
 class MockMediaComponent {
   @Input() container;
 }
 
 @Component({
-    selector: 'cx-product-thumbnails',
-    template: '',
-    imports: [I18nTestingModule, FeaturesConfigModule],
+  selector: 'cx-product-thumbnails',
+  template: '',
+  imports: [I18nTestingModule, FeaturesConfigModule],
 })
 class MockProductThumbnailsComponent {
   @Input() thumbs$;
 }
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule, FeaturesConfigModule],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule, FeaturesConfigModule],
 })
 class MockIconComponent {
   @Input() type;
 }
 
 @Component({
-    selector: 'cx-product-image-zoom-thumbnails',
-    template: '',
-    imports: [I18nTestingModule, FeaturesConfigModule],
+  selector: 'cx-product-image-zoom-thumbnails',
+  template: '',
+  imports: [I18nTestingModule, FeaturesConfigModule],
 })
 export class MockProductImageZoomThumbnailsComponent {
   @Output() productImage = new EventEmitter<{ image: any; index: number }>();
@@ -140,17 +140,21 @@ describe('ProductImageZoomViewComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, FeaturesConfigModule, ProductImageZoomViewComponent,
+      imports: [
+        I18nTestingModule,
+        FeaturesConfigModule,
+        ProductImageZoomViewComponent,
         MockIconComponent,
         MockMediaComponent,
         MockProductThumbnailsComponent,
-        MockProductImageZoomThumbnailsComponent],
-    providers: [
+        MockProductImageZoomThumbnailsComponent,
+      ],
+      providers: [
         { provide: CurrentProductService, useClass: MockCurrentProductService },
         { provide: BreakpointService, useClass: MockBreakpointService },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     currentProductService = TestBed.inject(CurrentProductService);
   });

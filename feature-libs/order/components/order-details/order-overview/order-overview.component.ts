@@ -35,23 +35,23 @@ import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing
 import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-order-overview',
-    templateUrl: './order-overview.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        CardComponent,
-        OutletDirective,
-        NgTemplateOutlet,
-        OrderDetailBillingComponent,
-        RouterLink,
-        AsyncPipe,
-        TranslatePipe,
-        CxDatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-order-overview',
+  templateUrl: './order-overview.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    CardComponent,
+    OutletDirective,
+    NgTemplateOutlet,
+    OrderDetailBillingComponent,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class OrderOverviewComponent {
   protected orderOverviewComponentService = inject(

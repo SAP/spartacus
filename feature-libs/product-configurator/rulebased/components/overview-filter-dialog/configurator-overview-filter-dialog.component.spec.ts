@@ -37,24 +37,24 @@ function initializeMocks() {
 }
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Component({
-    selector: 'cx-configurator-overview-filter',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-configurator-overview-filter',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockConfiguratorOverviewFilterComponent {
   @Input() showFilterBar: boolean = true;
   @Input() config: Configurator.ConfigurationWithOverview;
 }
-@Directive({ selector: '[cxFocus]', })
+@Directive({ selector: '[cxFocus]' })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -63,15 +63,18 @@ describe('ConfiguratorOverviewFilterDialogComponent', () => {
   beforeEach(waitForAsync(() => {
     initializeMocks();
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ConfiguratorOverviewFilterDialogComponent,
+      imports: [
+        I18nTestingModule,
+        ConfiguratorOverviewFilterDialogComponent,
         MockCxIconComponent,
         MockConfiguratorOverviewFilterComponent,
         MockKeyboadFocusDirective,
-        MockFeatureDirective],
-    providers: [
+        MockFeatureDirective,
+      ],
+      providers: [
         { provide: LaunchDialogService, useValue: mockLaunchDialogService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   it('should create component', () => {

@@ -40,22 +40,27 @@ describe('ToggleLinkCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [UrlTestingModule, IconModule, I18nTestingModule, ToggleLinkCellComponent],
-    providers: [
+      imports: [
+        UrlTestingModule,
+        IconModule,
+        I18nTestingModule,
+        ToggleLinkCellComponent,
+      ],
+      providers: [
         {
-            provide: OutletContextData,
-            useValue: { context: mockContext },
+          provide: OutletContextData,
+          useValue: { context: mockContext },
         },
         {
-            provide: UnitTreeService,
-            useClass: MockUnitTreeService,
+          provide: UnitTreeService,
+          useClass: MockUnitTreeService,
         },
         {
-            provide: RoutingService,
-            useClass: MockRoutingService,
+          provide: RoutingService,
+          useClass: MockRoutingService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

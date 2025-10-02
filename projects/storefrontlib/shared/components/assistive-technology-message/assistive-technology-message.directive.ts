@@ -19,7 +19,7 @@ import {
 } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 
-@Directive({ selector: '[cxAtMessage]', })
+@Directive({ selector: '[cxAtMessage]' })
 export class AtMessageDirective {
   /**
    * Usage [cxAtMessage]="'translatableKey' | cxTranslate"

@@ -92,35 +92,39 @@ describe('DpPaymentMethodComponent', () => {
   let fixture: ComponentFixture<DpPaymentMethodComponent>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [StoreModule.forRoot({}), RouterModule.forRoot([]), DpPaymentMethodComponent],
-    providers: [
+      imports: [
+        StoreModule.forRoot({}),
+        RouterModule.forRoot([]),
+        DpPaymentMethodComponent,
+      ],
+      providers: [
         { provide: UserPaymentService, useClass: MockUserPaymentService },
         {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartService,
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
         },
         {
-            provide: TranslationService,
-            useClass: MockTranslationService,
+          provide: TranslationService,
+          useClass: MockTranslationService,
         },
         {
-            provide: CheckoutStepService,
-            useClass: MockCheckoutStepService,
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
         },
         {
-            provide: CheckoutDeliveryAddressService,
-            useClass: MockCheckoutDeliveryAddressService,
+          provide: CheckoutDeliveryAddressService,
+          useClass: MockCheckoutDeliveryAddressService,
         },
         {
-            provide: CheckoutPaymentService,
-            useClass: MockCheckoutPaymentService,
+          provide: CheckoutPaymentService,
+          useClass: MockCheckoutPaymentService,
         },
         {
-            provide: ActivatedRoute,
-            useValue: mockActivatedRoute,
+          provide: ActivatedRoute,
+          useValue: mockActivatedRoute,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
   beforeEach(() => {
     fixture = TestBed.createComponent(DpPaymentMethodComponent);

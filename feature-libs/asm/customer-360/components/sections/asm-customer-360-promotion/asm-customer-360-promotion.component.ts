@@ -26,15 +26,15 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'cx-asm-customer-360-promotion',
-    templateUrl: './asm-customer-360-promotion.component.html',
-    imports: [
-        AsmCustomer360PromotionListingComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'cx-asm-customer-360-promotion',
+  templateUrl: './asm-customer-360-promotion.component.html',
+  imports: [
+    AsmCustomer360PromotionListingComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
   showErrorAlert$ = new BehaviorSubject<boolean>(false);

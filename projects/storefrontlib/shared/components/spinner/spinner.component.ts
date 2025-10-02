@@ -11,9 +11,9 @@ import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-transl
 // TODO: Improve a11y with better text appropriate to usage (example: loading cart spinner)
 
 @Component({
-    selector: 'cx-spinner',
-    templateUrl: './spinner.component.html',
-    imports: [TranslatePipe, MockTranslatePipe],
+  selector: 'cx-spinner',
+  templateUrl: './spinner.component.html',
+  imports: [TranslatePipe, MockTranslatePipe],
 })
 export class SpinnerComponent {
   constructor() {

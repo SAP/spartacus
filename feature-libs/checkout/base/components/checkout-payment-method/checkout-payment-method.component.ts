@@ -54,20 +54,20 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-payment-method',
-    templateUrl: './checkout-payment-method.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgTemplateOutlet,
-        NgFor,
-        CardComponent,
-        CheckoutPaymentFormComponent,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-payment-method',
+  templateUrl: './checkout-payment-method.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    NgFor,
+    CardComponent,
+    CheckoutPaymentFormComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();

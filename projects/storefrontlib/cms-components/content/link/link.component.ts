@@ -18,14 +18,10 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
 
 @Component({
-    selector: 'cx-link',
-    templateUrl: './link.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        GenericLinkComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-link',
+  templateUrl: './link.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, GenericLinkComponent, AsyncPipe],
 })
 export class LinkComponent implements OnDestroy, OnInit {
   @HostBinding('class') styleClasses: string | undefined;

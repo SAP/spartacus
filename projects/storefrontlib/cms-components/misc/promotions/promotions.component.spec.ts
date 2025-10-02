@@ -15,9 +15,9 @@ describe('PromotionsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [PromotionsComponent],
-    providers: [],
-}).compileComponents();
+      imports: [PromotionsComponent],
+      providers: [],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

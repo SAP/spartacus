@@ -18,9 +18,9 @@ import { PickupOptionsComponent } from './pickup-options.component';
 import { PickupOptionsTabs } from './pickup-options.model';
 
 @Component({
-    selector: 'cx-tab',
-    template: `<div></div>`,
-    imports: [CommonModule, I18nTestingModule, ReactiveFormsModule,],
+  selector: 'cx-tab',
+  template: `<div></div>`,
+  imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
 })
 class MockTabComponent {
   @Input() disabled: boolean;
@@ -30,7 +30,7 @@ class MockTabComponent {
 
 // Reverted mock directive used to check whether all parts of the component works properly
 // if the feature flag is disabled.
-@Directive({ selector: '[cxFeature]', })
+@Directive({ selector: '[cxFeature]' })
 export class MockRevertedFeatureDirective {
   constructor(
     protected templateRef: TemplateRef<any>,
@@ -64,16 +64,21 @@ describe('PickupOptionsComponent', () => {
   describe('with feature flags disabled', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-    imports: [CommonModule, I18nTestingModule, ReactiveFormsModule, PickupOptionsComponent,
-        MockRevertedFeatureDirective,
-        MockTabComponent],
-    providers: [
-        {
+        imports: [
+          CommonModule,
+          I18nTestingModule,
+          ReactiveFormsModule,
+          PickupOptionsComponent,
+          MockRevertedFeatureDirective,
+          MockTabComponent,
+        ],
+        providers: [
+          {
             provide: FeatureConfigService,
             useClass: MockRevertedFeatureConfigService,
-        },
-    ],
-});
+          },
+        ],
+      });
       fixture = TestBed.createComponent(PickupOptionsComponent);
       component = fixture.componentInstance;
     });
@@ -192,17 +197,18 @@ describe('PickupOptionsComponent', () => {
   describe('with feature flags enabled', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-    imports: [
-        CommonModule,
-        I18nTestingModule,
-        ReactiveFormsModule,
-        TabModule,
-        PickupOptionsComponent, MockFeatureDirective,
-    ],
-    providers: [
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-    ],
-});
+        imports: [
+          CommonModule,
+          I18nTestingModule,
+          ReactiveFormsModule,
+          TabModule,
+          PickupOptionsComponent,
+          MockFeatureDirective,
+        ],
+        providers: [
+          { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        ],
+      });
       fixture = TestBed.createComponent(PickupOptionsComponent);
       component = fixture.componentInstance;
     });

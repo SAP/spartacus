@@ -59,19 +59,23 @@ describe('DpConfirmationDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, DpConfirmationDialogComponent, MockFeatureDirective],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        DpConfirmationDialogComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-            provide: ActivatedRoute,
-            useValue: mockActivatedRoute,
+          provide: ActivatedRoute,
+          useValue: mockActivatedRoute,
         },
         {
-            provide: Router,
-            useClass: MockRouter,
+          provide: Router,
+          useClass: MockRouter,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

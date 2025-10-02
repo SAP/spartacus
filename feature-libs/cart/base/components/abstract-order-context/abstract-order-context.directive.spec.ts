@@ -11,11 +11,11 @@ const abstractOrderId = '129374';
 let emissionCounterKey = 0;
 
 @Component({
-    selector: 'cx-test-cmp',
-    template: ` <span [cxAbstractOrderContext]="abstractOrderKey"
+  selector: 'cx-test-cmp',
+  template: ` <span [cxAbstractOrderContext]="abstractOrderKey"
     ><cx-test-cmp-inner />
   </span>`,
-    imports: [AbstractOrderContextModule],
+  imports: [AbstractOrderContextModule],
 })
 class TestComponent {
   abstractOrderKey: AbstractOrderKeyInput = {
@@ -25,14 +25,14 @@ class TestComponent {
 }
 
 @Component({
-    selector: 'cx-test-cmp-inner',
-    template: `
+  selector: 'cx-test-cmp-inner',
+  template: `
     <ng-container *ngIf="myKey$ | async as key">
       {{ key.id }}
       {{ key.type }}
     </ng-container>
   `,
-    imports: [AbstractOrderContextModule],
+  imports: [AbstractOrderContextModule],
 })
 class TestInnerComponent {
   abstractOrderContext = inject(AbstractOrderContext, { optional: true });
@@ -47,9 +47,9 @@ describe('AbstractOrderContextDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [AbstractOrderContextModule, TestComponent, TestInnerComponent],
-    providers: [],
-}).compileComponents();
+      imports: [AbstractOrderContextModule, TestComponent, TestInnerComponent],
+      providers: [],
+    }).compileComponents();
     emissionCounterKey = 0;
     fixture = TestBed.createComponent(TestComponent);
     testOuterComponent = fixture.componentInstance;

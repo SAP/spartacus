@@ -29,15 +29,15 @@ import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe
 import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-customer-emulation',
-    templateUrl: './customer-emulation.component.html',
-    imports: [
-        NgIf,
-        AsmBindCartComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-customer-emulation',
+  templateUrl: './customer-emulation.component.html',
+  imports: [
+    NgIf,
+    AsmBindCartComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;

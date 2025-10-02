@@ -15,16 +15,16 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-cart-entry-info',
-    templateUrl: './configurator-cart-entry-info.component.html',
-    imports: [
-        NgIf,
-        NgFor,
-        ConfigureCartEntryComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-cart-entry-info',
+  templateUrl: './configurator-cart-entry-info.component.html',
+  imports: [
+    NgIf,
+    NgFor,
+    ConfigureCartEntryComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorCartEntryInfoComponent {
   constructor(

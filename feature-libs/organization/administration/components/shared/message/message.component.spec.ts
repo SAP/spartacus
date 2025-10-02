@@ -27,9 +27,14 @@ describe('MessageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [CommonModule, I18nTestingModule, IconTestingModule, MessageComponent],
-    providers: [MessageService],
-}).compileComponents();
+      imports: [
+        CommonModule,
+        I18nTestingModule,
+        IconTestingModule,
+        MessageComponent,
+      ],
+      providers: [MessageService],
+    }).compileComponents();
 
     messageService = TestBed.inject(MessageService);
     fixture = TestBed.createComponent(MessageComponent);

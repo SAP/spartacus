@@ -10,7 +10,11 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { User } from '@spartacus/user/account/root';
 import { Title } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
@@ -24,23 +28,23 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-my-account-v2-profile',
-    templateUrl: './my-account-v2-profile.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        SpinnerComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        NgSelectComponent,
-        NgSelectA11yDirective,
-        NgFor,
-        NgOptionComponent,
-        FormErrorsComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-my-account-v2-profile',
+  templateUrl: './my-account-v2-profile.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    NgFor,
+    NgOptionComponent,
+    FormErrorsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class MyAccountV2ProfileComponent implements OnInit {
   protected service = inject(UpdateProfileComponentService);

@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';
 import { MiniCartComponent } from './mini-cart.component';
 
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(options: UrlCommandRoute): string {
     return options.cxRoute;
@@ -15,9 +15,9 @@ class MockUrlPipe implements PipeTransform {
 }
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule, RouterLink],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule, RouterLink],
 })
 class MockCxIconComponent {
   @Input() type;
@@ -38,15 +38,21 @@ describe('MiniCartComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, RouterLink, MiniCartComponent, MockUrlPipe, MockCxIconComponent],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        RouterLink,
+        MiniCartComponent,
+        MockUrlPipe,
+        MockCxIconComponent,
+      ],
+      providers: [
         provideRouter([]),
         {
-            provide: MiniCartComponentService,
-            useValue: mockMiniCartComponentService,
+          provide: MiniCartComponentService,
+          useValue: mockMiniCartComponentService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

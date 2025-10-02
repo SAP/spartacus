@@ -37,18 +37,18 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-order-confirmation-shipping',
-    templateUrl: './order-confirmation-shipping.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        CardComponent,
-        AbstractOrderContextDirective,
-        OutletDirective,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-order-confirmation-shipping',
+  templateUrl: './order-confirmation-shipping.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    CardComponent,
+    AbstractOrderContextDirective,
+    OutletDirective,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
   @Input() showItemList: boolean = true;

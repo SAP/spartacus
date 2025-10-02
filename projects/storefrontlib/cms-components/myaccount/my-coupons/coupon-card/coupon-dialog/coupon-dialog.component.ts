@@ -25,18 +25,18 @@ import { MockTranslatePipe } from '../../../../../../core/src/i18n/testing/mock-
 import { MockDatePipe } from '../../../../../../core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-coupon-dialog',
-    templateUrl: './coupon-dialog.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FocusDirective,
-        IconComponent,
-        LowerCasePipe,
-        TranslatePipe,
-        CxDatePipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-coupon-dialog',
+  templateUrl: './coupon-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FocusDirective,
+    IconComponent,
+    LowerCasePipe,
+    TranslatePipe,
+    CxDatePipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class CouponDialogComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();

@@ -20,17 +20,17 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-epd-visualization-visual-picking-tab',
-    templateUrl: './visual-picking-tab.component.html',
-    providers: [VisualPickingTabService],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        VisualViewerComponent,
-        VisualPickingProductFilterComponent,
-        VisualPickingProductListComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-epd-visualization-visual-picking-tab',
+  templateUrl: './visual-picking-tab.component.html',
+  providers: [VisualPickingTabService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    VisualViewerComponent,
+    VisualPickingProductFilterComponent,
+    VisualPickingProductListComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class VisualPickingTabComponent implements AfterViewInit {
   constructor(protected visualPickingTabService: VisualPickingTabService) {}

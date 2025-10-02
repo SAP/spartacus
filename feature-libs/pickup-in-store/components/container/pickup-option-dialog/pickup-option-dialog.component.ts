@@ -43,19 +43,19 @@ import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing
  * The dialog box to select the pickup location for a product.
  */
 @Component({
-    selector: 'cx-pickup-option-dialog',
-    templateUrl: './pickup-option-dialog.component.html',
-    imports: [
-        FocusDirective,
-        IconComponent,
-        StoreSearchComponent,
-        StoreListComponent,
-        NgIf,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-pickup-option-dialog',
+  templateUrl: './pickup-option-dialog.component.html',
+  imports: [
+    FocusDirective,
+    IconComponent,
+    StoreSearchComponent,
+    StoreListComponent,
+    NgIf,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   productCode: string;

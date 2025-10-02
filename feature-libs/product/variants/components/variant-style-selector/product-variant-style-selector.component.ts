@@ -22,16 +22,10 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-product-variant-style-selector',
-    templateUrl: './product-variant-style-selector.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        NgClass,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-product-variant-style-selector',
+  templateUrl: './product-variant-style-selector.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, NgFor, NgClass, TranslatePipe, MockTranslatePipe],
 })
 export class ProductVariantStyleSelectorComponent {
   constructor(

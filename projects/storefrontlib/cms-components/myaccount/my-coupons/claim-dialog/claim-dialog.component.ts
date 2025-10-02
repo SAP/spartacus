@@ -11,7 +11,13 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 import { Subscription } from 'rxjs';
 import {
@@ -30,19 +36,19 @@ import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-claim-dialog',
-    templateUrl: './claim-dialog.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FocusDirective,
-        IconComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-claim-dialog',
+  templateUrl: './claim-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FocusDirective,
+    IconComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ClaimDialogComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();

@@ -26,19 +26,19 @@ import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/trans
 import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-suggested-addresses-dialog',
-    templateUrl: './suggested-addresses-dialog.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FocusDirective,
-        NgIf,
-        IconComponent,
-        FormsModule,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-suggested-addresses-dialog',
+  templateUrl: './suggested-addresses-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FocusDirective,
+    NgIf,
+    IconComponent,
+    FormsModule,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class SuggestedAddressDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;

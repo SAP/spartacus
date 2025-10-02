@@ -21,25 +21,25 @@ import {
 import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        I18nModule,
-        FormErrorsModule,
-        FeaturesConfigModule,
-        FormRequiredAsterisksComponent,
-        FormRequiredLegendComponent,
-        CartQuickOrderFormComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                CartQuickOrderFormComponent: {
-                    component: CartQuickOrderFormComponent,
-                },
-            },
-        }),
-    ],
-    exports: [CartQuickOrderFormComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    I18nModule,
+    FormErrorsModule,
+    FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
+    CartQuickOrderFormComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        CartQuickOrderFormComponent: {
+          component: CartQuickOrderFormComponent,
+        },
+      },
+    }),
+  ],
+  exports: [CartQuickOrderFormComponent],
 })
 export class CartQuickOrderFormModule {}

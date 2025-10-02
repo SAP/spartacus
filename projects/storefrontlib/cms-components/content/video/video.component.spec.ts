@@ -17,7 +17,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { MediaService } from '../../../shared/components/media/media.service';
 import { VideoComponent } from './video.component';
 
-@Pipe({ name: 'cxTranslate', })
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -79,14 +79,14 @@ describe('VideoComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [RouterModule.forRoot([]), VideoComponent, MockTranslatePipe],
-    providers: [
+      imports: [RouterModule.forRoot([]), VideoComponent, MockTranslatePipe],
+      providers: [
         { provide: CmsComponentData, useClass: MockCmsVideoComponentData },
         { provide: CmsService, useClass: MockCmsService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
         { provide: MediaService, useClass: MockMediaService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
   beforeEach(() => {
     fixture = TestBed.createComponent(VideoComponent);

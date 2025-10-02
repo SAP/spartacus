@@ -16,16 +16,16 @@ import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-anonymous-consent-management-banner',
-    templateUrl: './anonymous-consent-management-banner.component.html',
-    imports: [
-        NgIf,
-        NgClass,
-        FeatureDirective,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-anonymous-consent-management-banner',
+  templateUrl: './anonymous-consent-management-banner.component.html',
+  imports: [
+    NgIf,
+    NgClass,
+    FeatureDirective,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AnonymousConsentManagementBannerComponent implements OnDestroy {
   private subscriptions = new Subscription();

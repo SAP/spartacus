@@ -30,41 +30,41 @@ import { ConfiguratorConflictSuggestionModule } from '../conflict-suggestion/con
 import { ConfiguratorGroupComponent } from './configurator-group.component';
 
 @NgModule({
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        CommonModule,
-        I18nModule,
-        NgSelectModule,
-        ConfiguratorAttributeNotSupportedModule,
-        ConfiguratorAttributeInputFieldModule,
-        ConfiguratorAttributeFooterModule,
-        ConfiguratorAttributeNumericInputFieldModule,
-        ConfiguratorAttributeHeaderModule,
-        ConfiguratorAttributeRadioButtonModule,
-        ConfiguratorAttributeSingleSelectionBundleModule,
-        ConfiguratorAttributeMultiSelectionBundleModule,
-        ConfiguratorAttributeReadOnlyModule,
-        ConfiguratorAttributeSingleSelectionImageModule,
-        ConfiguratorAttributeSingleSelectionBundleDropdownModule,
-        ConfiguratorAttributeCheckboxModule,
-        ConfiguratorAttributeCheckboxListModule,
-        ConfiguratorAttributeDropDownModule,
-        ConfiguratorAttributeMultiSelectionImageModule,
-        ConfiguratorConflictDescriptionModule,
-        ConfiguratorConflictSuggestionModule,
-        ConfiguratorAttributeCompositionModule,
-        ConfiguratorGroupComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                ConfiguratorForm: {
-                    component: ConfiguratorGroupComponent,
-                },
-            },
-        }),
-    ],
-    exports: [ConfiguratorGroupComponent],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    I18nModule,
+    NgSelectModule,
+    ConfiguratorAttributeNotSupportedModule,
+    ConfiguratorAttributeInputFieldModule,
+    ConfiguratorAttributeFooterModule,
+    ConfiguratorAttributeNumericInputFieldModule,
+    ConfiguratorAttributeHeaderModule,
+    ConfiguratorAttributeRadioButtonModule,
+    ConfiguratorAttributeSingleSelectionBundleModule,
+    ConfiguratorAttributeMultiSelectionBundleModule,
+    ConfiguratorAttributeReadOnlyModule,
+    ConfiguratorAttributeSingleSelectionImageModule,
+    ConfiguratorAttributeSingleSelectionBundleDropdownModule,
+    ConfiguratorAttributeCheckboxModule,
+    ConfiguratorAttributeCheckboxListModule,
+    ConfiguratorAttributeDropDownModule,
+    ConfiguratorAttributeMultiSelectionImageModule,
+    ConfiguratorConflictDescriptionModule,
+    ConfiguratorConflictSuggestionModule,
+    ConfiguratorAttributeCompositionModule,
+    ConfiguratorGroupComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ConfiguratorForm: {
+          component: ConfiguratorGroupComponent,
+        },
+      },
+    }),
+  ],
+  exports: [ConfiguratorGroupComponent],
 })
 export class ConfiguratorGroupModule {}

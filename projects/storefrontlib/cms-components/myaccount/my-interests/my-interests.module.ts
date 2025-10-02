@@ -24,37 +24,37 @@ import { SpinnerModule } from '../../../shared/components/spinner/spinner.module
 import { MyInterestsComponent } from './my-interests.component';
 
 @NgModule({
-    imports: [
-        AtMessageModule,
-        CommonModule,
-        I18nModule,
-        ListNavigationModule,
-        I18nModule,
-        UrlModule,
-        MediaModule,
-        SpinnerModule,
-        RouterModule.forChild([
-            {
-                // @ts-ignore
-                path: null,
-                canActivate: [AuthGuard, CmsPageGuard],
-                component: PageLayoutComponent,
-                data: { cxRoute: 'myInterests' },
-            },
-        ]),
-        FeaturesConfigModule,
-        MyInterestsComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                MyInterestsComponent: {
-                    component: MyInterestsComponent,
-                    guards: [AuthGuard],
-                },
-            },
-        }),
-    ],
-    exports: [MyInterestsComponent],
+  imports: [
+    AtMessageModule,
+    CommonModule,
+    I18nModule,
+    ListNavigationModule,
+    I18nModule,
+    UrlModule,
+    MediaModule,
+    SpinnerModule,
+    RouterModule.forChild([
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'myInterests' },
+      },
+    ]),
+    FeaturesConfigModule,
+    MyInterestsComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        MyInterestsComponent: {
+          component: MyInterestsComponent,
+          guards: [AuthGuard],
+        },
+      },
+    }),
+  ],
+  exports: [MyInterestsComponent],
 })
 export class MyInterestsModule {}

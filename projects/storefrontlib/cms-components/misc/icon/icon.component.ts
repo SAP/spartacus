@@ -40,9 +40,9 @@ type ICON_TYPE = DEFAULT_ICON_TYPE | string;
  * additional DOM node which is an advantage over the component selector.
  */
 @Component({
-    selector: 'cx-icon,[cxIcon]',
-    templateUrl: './icon.component.html',
-    imports: [NgIf],
+  selector: 'cx-icon,[cxIcon]',
+  templateUrl: './icon.component.html',
+  imports: [NgIf],
 })
 export class IconComponent {
   /**

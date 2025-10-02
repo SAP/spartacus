@@ -17,17 +17,17 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configuration-conflict-and-error-messages',
-    templateUrl: './configurator-conflict-and-error-messages.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        IconComponent,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configuration-conflict-and-error-messages',
+  templateUrl: './configurator-conflict-and-error-messages.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    IconComponent,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorConflictAndErrorMessagesComponent {
   iconTypes = ICON_TYPE;

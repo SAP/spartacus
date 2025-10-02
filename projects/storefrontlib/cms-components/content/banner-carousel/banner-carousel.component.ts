@@ -21,15 +21,10 @@ import { ComponentWrapperDirective } from '../../../cms-structure/page/component
  * Generic carousel that renders CMS Components.
  */
 @Component({
-    selector: 'cx-banner-carousel',
-    templateUrl: 'banner-carousel.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        CarouselComponent,
-        ComponentWrapperDirective,
-        AsyncPipe,
-    ],
+  selector: 'cx-banner-carousel',
+  templateUrl: 'banner-carousel.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, CarouselComponent, ComponentWrapperDirective, AsyncPipe],
 })
 export class BannerCarouselComponent {
   private componentData$: Observable<model> = this.componentData.data$.pipe(

@@ -41,15 +41,15 @@ const confirmationContext: ConfirmationContext = {
 };
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-@Directive({ selector: '[cxFocus]', })
+@Directive({ selector: '[cxFocus]' })
 export class MockKeyboardFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -79,19 +79,22 @@ describe('QuoteConfirmDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, QuoteConfirmDialogComponent,
+      imports: [
+        I18nTestingModule,
+        QuoteConfirmDialogComponent,
         MockKeyboardFocusDirective,
         MockCxIconComponent,
-        MockFeatureDirective],
-    providers: [
+        MockFeatureDirective,
+      ],
+      providers: [
         CxDatePipe,
         {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
         },
         { provide: LanguageService, useClass: MockLanguageService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

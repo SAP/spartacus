@@ -14,16 +14,16 @@ import { UrlPipe } from '../../../../../../projects/core/src/routing/configurabl
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-unit-details-cell',
-    templateUrl: './unit-details-cell.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        RouterLink,
-        NgIf,
-        PopoverDirective,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-unit-details-cell',
+  templateUrl: './unit-details-cell.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    RouterLink,
+    NgIf,
+    PopoverDirective,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class UnitDetailsCellComponent extends CellComponent {}

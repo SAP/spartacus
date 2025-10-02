@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { PositioningService } from './positioning.service';
 
-@Component({ template: `
+@Component({
+  template: `
     <div
       id="element"
       style="display: inline-block; height: 200px; width: 300px; margin-top: 100px; margin-left: 150px"
@@ -12,7 +13,8 @@ import { PositioningService } from './positioning.service';
       id="targetElement"
       style="position:absolute;top:0;left:0; display: inline-block; height: 50px; width: 100px; margin-top: 10px; margin-left: 20px"
     ></div>
-  `, })
+  `,
+})
 class TestComponent {}
 
 describe('PositioningService', () => {
@@ -69,9 +71,9 @@ describe('PositioningService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [TestComponent],
-    providers: [{ provide: WindowRef, useClass: MockWindowRef }],
-});
+      imports: [TestComponent],
+      providers: [{ provide: WindowRef, useClass: MockWindowRef }],
+    });
     const fixture = TestBed.createComponent(TestComponent);
     positioningService = TestBed.inject(PositioningService);
 

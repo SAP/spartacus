@@ -9,8 +9,8 @@ describe('StoreAddressComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, StoreAddressComponent],
-}).compileComponents();
+      imports: [I18nTestingModule, StoreAddressComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

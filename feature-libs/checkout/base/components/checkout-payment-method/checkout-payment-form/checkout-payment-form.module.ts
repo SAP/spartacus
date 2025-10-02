@@ -21,22 +21,22 @@ import {
 import { CheckoutBillingAddressFormModule } from '../../checkout-billing-address';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 @NgModule({
-    imports: [
-        NgSelectA11yModule,
-        CommonModule,
-        ReactiveFormsModule,
-        NgSelectModule,
-        CardModule,
-        I18nModule,
-        IconModule,
-        SpinnerModule,
-        FormErrorsModule,
-        FeaturesConfigModule,
-        CheckoutBillingAddressFormModule,
-        FormRequiredAsterisksComponent,
-        FormRequiredLegendComponent,
-        CheckoutPaymentFormComponent,
-    ],
-    exports: [CheckoutPaymentFormComponent],
+  imports: [
+    NgSelectA11yModule,
+    CommonModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    CardModule,
+    I18nModule,
+    IconModule,
+    SpinnerModule,
+    FormErrorsModule,
+    FeaturesConfigModule,
+    CheckoutBillingAddressFormModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
+    CheckoutPaymentFormComponent,
+  ],
+  exports: [CheckoutPaymentFormComponent],
 })
 export class CheckoutPaymentFormModule {}

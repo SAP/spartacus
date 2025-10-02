@@ -7,8 +7,8 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorConflictDescriptionComponent } from './configurator-conflict-description.component';
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
+  selector: 'cx-icon',
+  template: '',
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -21,10 +21,9 @@ describe('ConfigurationConflictDescriptionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [ConfiguratorConflictDescriptionComponent,
-        MockCxIconComponent],
-    providers: [],
-})
+      imports: [ConfiguratorConflictDescriptionComponent, MockCxIconComponent],
+      providers: [],
+    })
       .overrideComponent(ConfiguratorConflictDescriptionComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

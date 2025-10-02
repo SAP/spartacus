@@ -44,16 +44,9 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-quote-summary-actions',
-    templateUrl: './quote-summary-actions.component.html',
-    imports: [
-        NgIf,
-        NgClass,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-quote-summary-actions',
+  templateUrl: './quote-summary-actions.component.html',
+  imports: [NgIf, NgClass, NgFor, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class QuoteSummaryActionsComponent
   implements AfterViewInit, OnInit, OnDestroy

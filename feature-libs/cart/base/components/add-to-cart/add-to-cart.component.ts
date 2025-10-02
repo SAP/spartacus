@@ -18,7 +18,12 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
@@ -54,22 +59,22 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-add-to-cart',
-    templateUrl: './add-to-cart.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        FeatureDirective,
-        ItemCounterComponent,
-        OutletDirective,
-        NgClass,
-        IconComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-add-to-cart',
+  templateUrl: './add-to-cart.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    FeatureDirective,
+    ItemCounterComponent,
+    OutletDirective,
+    NgClass,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AddToCartComponent implements OnInit, OnDestroy {
   @Input() productCode: string;

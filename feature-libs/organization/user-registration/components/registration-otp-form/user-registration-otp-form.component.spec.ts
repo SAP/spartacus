@@ -107,7 +107,7 @@ class MockUserRegistrationFormService
   }
 }
 
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -118,7 +118,7 @@ describe('UserRegistrationOTPFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         ReactiveFormsModule,
         RouterTestingModule,
         I18nTestingModule,
@@ -129,16 +129,16 @@ describe('UserRegistrationOTPFormComponent', () => {
         NgSelectA11yDirective,
         SpinnerComponent,
         MockFeatureDirective,
-    ],
-    providers: [
+      ],
+      providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {
-            provide: UserRegistrationFormService,
-            useClass: MockUserRegistrationFormService,
+          provide: UserRegistrationFormService,
+          useClass: MockUserRegistrationFormService,
         },
-    ],
-});
+      ],
+    });
     verificationTokenFacade = TestBed.inject(VerificationTokenFacade);
   }));
 

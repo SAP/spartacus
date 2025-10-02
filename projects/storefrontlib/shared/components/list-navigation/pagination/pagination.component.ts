@@ -26,15 +26,10 @@ import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.dir
  * all common features, which can be configured or hidden by CSS.
  */
 @Component({
-    selector: 'cx-pagination',
-    templateUrl: './pagination.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgFor,
-        RouterLink,
-        FocusDirective,
-        AsyncPipe,
-    ],
+  selector: 'cx-pagination',
+  templateUrl: './pagination.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgFor, RouterLink, FocusDirective, AsyncPipe],
 })
 export class PaginationComponent {
   /** The (optional) pageRoute used for the anchor links created in the pagination   */

@@ -11,7 +11,7 @@ import { I18nModule } from '@spartacus/core';
 import { AsmCustomer360MapComponent } from './asm-customer-360-map.component';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, AsmCustomer360MapComponent],
-    exports: [AsmCustomer360MapComponent],
+  imports: [CommonModule, I18nModule, AsmCustomer360MapComponent],
+  exports: [AsmCustomer360MapComponent],
 })
 export class AsmCustomer360MapComponentModule {}

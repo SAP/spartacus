@@ -25,17 +25,17 @@ import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-transl
  * as create new ratings. The component can be used for any ratings.
  */
 @Component({
-    selector: 'cx-star-rating',
-    templateUrl: './star-rating.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgTemplateOutlet,
-        NgFor,
-        IconComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-star-rating',
+  templateUrl: './star-rating.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    NgFor,
+    IconComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class StarRatingComponent {
   protected initialRate = 0;

@@ -26,17 +26,17 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-order-confirmation-thank-you-message',
-    templateUrl: './order-confirmation-thank-you-message.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        OrderGuestRegisterFormComponent,
-        AddToHomeScreenBannerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-order-confirmation-thank-you-message',
+  templateUrl: './order-confirmation-thank-you-message.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    OrderGuestRegisterFormComponent,
+    AddToHomeScreenBannerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class OrderConfirmationThankYouMessageComponent
   implements OnInit, AfterViewInit, OnDestroy

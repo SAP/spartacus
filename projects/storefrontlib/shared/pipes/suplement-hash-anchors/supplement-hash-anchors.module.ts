@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { SupplementHashAnchorsPipe } from './supplement-hash-anchors.pipe';
 
 @NgModule({
-    imports: [SupplementHashAnchorsPipe],
-    exports: [SupplementHashAnchorsPipe],
+  imports: [SupplementHashAnchorsPipe],
+  exports: [SupplementHashAnchorsPipe],
 })
 export class SupplementHashAnchorsModule {}

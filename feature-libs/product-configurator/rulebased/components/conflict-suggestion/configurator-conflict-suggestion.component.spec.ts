@@ -13,9 +13,9 @@ describe('ConfigurationConflictSuggestionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ConfiguratorConflictSuggestionComponent],
-    providers: [],
-})
+      imports: [I18nTestingModule, ConfiguratorConflictSuggestionComponent],
+      providers: [],
+    })
       .overrideComponent(ConfiguratorConflictSuggestionComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

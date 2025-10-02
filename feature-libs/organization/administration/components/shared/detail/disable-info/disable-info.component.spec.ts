@@ -183,15 +183,20 @@ describe('ExplainDisableInfoComponent', () => {
   let fixture: ComponentFixture<DisableInfoComponent<BaseItem>>;
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [CommonModule, I18nTestingModule, IconModule, DisableInfoComponent],
-    providers: [
+      imports: [
+        CommonModule,
+        I18nTestingModule,
+        IconModule,
+        DisableInfoComponent,
+      ],
+      providers: [
         {
-            provide: ItemService,
-            useClass: MockItemService,
+          provide: ItemService,
+          useClass: MockItemService,
         },
         DisableInfoService,
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DisableInfoComponent);
     component = fixture.componentInstance;

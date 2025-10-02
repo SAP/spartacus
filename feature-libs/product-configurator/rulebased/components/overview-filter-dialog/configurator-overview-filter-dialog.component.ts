@@ -18,17 +18,17 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-overview-filter-dialog',
-    templateUrl: './configurator-overview-filter-dialog.component.html',
-    imports: [
-        FocusDirective,
-        IconComponent,
-        NgIf,
-        ConfiguratorOverviewFilterComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-overview-filter-dialog',
+  templateUrl: './configurator-overview-filter-dialog.component.html',
+  imports: [
+    FocusDirective,
+    IconComponent,
+    NgIf,
+    ConfiguratorOverviewFilterComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorOverviewFilterDialogComponent {
   constructor(protected launchDialogService: LaunchDialogService) {}

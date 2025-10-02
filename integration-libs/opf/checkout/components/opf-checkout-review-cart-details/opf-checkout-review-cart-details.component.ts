@@ -16,15 +16,15 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-opf-checkout-review-cart-details',
-    templateUrl: './opf-checkout-review-cart-details.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        PromotionsComponent,
-        OutletDirective,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-opf-checkout-review-cart-details',
+  templateUrl: './opf-checkout-review-cart-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    PromotionsComponent,
+    OutletDirective,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class OpfCheckoutReviewCartDetailsComponent {
   @Input() cart: Cart | null;

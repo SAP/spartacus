@@ -15,17 +15,17 @@ import { OutletDirective } from '../../outlet/outlet.directive';
 import { PageSlotComponent } from '../slot/page-slot.component';
 
 @Component({
-    selector: 'cx-page-layout',
-    templateUrl: './page-layout.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        PageTemplateDirective,
-        OutletDirective,
-        NgFor,
-        PageSlotComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-page-layout',
+  templateUrl: './page-layout.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    PageTemplateDirective,
+    OutletDirective,
+    NgFor,
+    PageSlotComponent,
+    AsyncPipe,
+  ],
 })
 export class PageLayoutComponent {
   @Input() set section(value: string) {

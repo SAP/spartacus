@@ -12,8 +12,8 @@ import { PageSlotComponent } from './page-slot.component';
 import { PageSlotService } from './page-slot.service';
 
 @NgModule({
-    imports: [CommonModule, OutletModule, PageComponentModule, PageSlotComponent],
-    exports: [PageSlotComponent],
+  imports: [CommonModule, OutletModule, PageComponentModule, PageSlotComponent],
+  exports: [PageSlotComponent],
 })
 export class PageSlotModule {
   // instantiate PageSlotService ASAP, so it can examine SSR pre-rendered DOM

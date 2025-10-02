@@ -21,18 +21,18 @@ import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing
  * distance from the search location.
  */
 @Component({
-    selector: 'cx-store',
-    templateUrl: './store.component.html',
-    imports: [
-        StoreAddressComponent,
-        IconComponent,
-        NgIf,
-        StoreScheduleComponent,
-        SetPreferredStoreComponent,
-        NgClass,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-store',
+  templateUrl: './store.component.html',
+  imports: [
+    StoreAddressComponent,
+    IconComponent,
+    NgIf,
+    StoreScheduleComponent,
+    SetPreferredStoreComponent,
+    NgClass,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class StoreComponent implements OnInit {
   /** The details of the store to be displayed */

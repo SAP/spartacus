@@ -18,50 +18,50 @@ import { PunchoutRequisitionComponent } from './punchout-requisition/punchout-re
 import { PunchoutSessionComponent } from './punchout-session/punchout-session.component';
 
 @NgModule({
-    exports: [
-        PunchoutSessionComponent,
-        PunchoutErrorComponent,
-        PunchoutRequisitionComponent,
-        PunchoutButtonsComponent,
-        PunchoutCloseSessionComponent,
-        PunchoutInspectCartComponent,
-    ],
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        I18nModule,
-        CartSharedModule,
-        IconModule,
-        PunchoutSessionComponent,
-        PunchoutErrorComponent,
-        PunchoutRequisitionComponent,
-        PunchoutButtonsComponent,
-        PunchoutCloseSessionComponent,
-        PunchoutInspectCartComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                PunchoutSessionComponent: {
-                    component: PunchoutSessionComponent,
-                },
-                PunchoutErrorComponent: {
-                    component: PunchoutErrorComponent,
-                },
-                PunchoutButtonsComponent: {
-                    component: PunchoutButtonsComponent,
-                },
-                PunchoutRequisitionComponent: {
-                    component: PunchoutRequisitionComponent,
-                },
-                PunchoutCloseSessionComponent: {
-                    component: PunchoutCloseSessionComponent,
-                },
-                PunchoutInspectCartComponent: {
-                    component: PunchoutInspectCartComponent,
-                },
-            },
-        }),
-    ],
+  exports: [
+    PunchoutSessionComponent,
+    PunchoutErrorComponent,
+    PunchoutRequisitionComponent,
+    PunchoutButtonsComponent,
+    PunchoutCloseSessionComponent,
+    PunchoutInspectCartComponent,
+  ],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    I18nModule,
+    CartSharedModule,
+    IconModule,
+    PunchoutSessionComponent,
+    PunchoutErrorComponent,
+    PunchoutRequisitionComponent,
+    PunchoutButtonsComponent,
+    PunchoutCloseSessionComponent,
+    PunchoutInspectCartComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        PunchoutSessionComponent: {
+          component: PunchoutSessionComponent,
+        },
+        PunchoutErrorComponent: {
+          component: PunchoutErrorComponent,
+        },
+        PunchoutButtonsComponent: {
+          component: PunchoutButtonsComponent,
+        },
+        PunchoutRequisitionComponent: {
+          component: PunchoutRequisitionComponent,
+        },
+        PunchoutCloseSessionComponent: {
+          component: PunchoutCloseSessionComponent,
+        },
+        PunchoutInspectCartComponent: {
+          component: PunchoutInspectCartComponent,
+        },
+      },
+    }),
+  ],
 })
 export class PunchoutComponentsModule {}

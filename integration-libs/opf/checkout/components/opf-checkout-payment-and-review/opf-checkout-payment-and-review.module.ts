@@ -35,35 +35,35 @@ import { OpfCheckoutReviewCardModule } from '../opf-checkout-review-card/opf-che
 import { OpfCheckoutReviewCartDetailsModule } from '../opf-checkout-review-cart-details/opf-checkout-review-cart-details.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        OpfCheckoutPaymentsModule,
-        UrlModule,
-        ReactiveFormsModule,
-        RouterModule,
-        OpfCheckoutBillingAddressFormModule,
-        AddressFormModule,
-        OutletModule,
-        PromotionsModule,
-        IconModule,
-        CardModule,
-        OpfCheckoutTermsAndConditionsAlertModule,
-        OpfCheckoutPaymentWrapperModule,
-        OpfCheckoutReviewCardModule,
-        OpfCheckoutReviewCartDetailsModule,
-        OpfCheckoutPaymentAndReviewComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                OpfCheckoutPaymentAndReview: {
-                    component: OpfCheckoutPaymentAndReviewComponent,
-                    guards: [CheckoutAuthGuard, CartNotEmptyGuard],
-                },
-            },
-        }),
-    ],
-    exports: [OpfCheckoutPaymentAndReviewComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    OpfCheckoutPaymentsModule,
+    UrlModule,
+    ReactiveFormsModule,
+    RouterModule,
+    OpfCheckoutBillingAddressFormModule,
+    AddressFormModule,
+    OutletModule,
+    PromotionsModule,
+    IconModule,
+    CardModule,
+    OpfCheckoutTermsAndConditionsAlertModule,
+    OpfCheckoutPaymentWrapperModule,
+    OpfCheckoutReviewCardModule,
+    OpfCheckoutReviewCartDetailsModule,
+    OpfCheckoutPaymentAndReviewComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        OpfCheckoutPaymentAndReview: {
+          component: OpfCheckoutPaymentAndReviewComponent,
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+        },
+      },
+    }),
+  ],
+  exports: [OpfCheckoutPaymentAndReviewComponent],
 })
 export class OpfCheckoutPaymentAndReviewModule {}

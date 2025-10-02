@@ -24,21 +24,21 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-customer-ticketing-reopen-dialog',
-    templateUrl: './customer-ticketing-reopen-dialog.component.html',
-    imports: [
-        FocusDirective,
-        FormsModule,
-        ReactiveFormsModule,
-        IconComponent,
-        FormErrorsComponent,
-        FileUploadComponent,
-        NgIf,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-customer-ticketing-reopen-dialog',
+  templateUrl: './customer-ticketing-reopen-dialog.component.html',
+  imports: [
+    FocusDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    IconComponent,
+    FormErrorsComponent,
+    FileUploadComponent,
+    NgIf,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CustomerTicketingReopenDialogComponent
   extends CustomerTicketingDialogComponent

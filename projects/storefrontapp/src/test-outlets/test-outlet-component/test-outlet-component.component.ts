@@ -9,9 +9,9 @@ import { PageLayoutComponent } from '../../../../storefrontlib/cms-structure/pag
 import { OutletRefDirective } from '../../../../storefrontlib/cms-structure/outlet/outlet-ref/outlet-ref.directive';
 
 @Component({
-    selector: 'cx-test-outlet-component',
-    templateUrl: './test-outlet-component.component.html',
-    imports: [PageLayoutComponent, OutletRefDirective],
+  selector: 'cx-test-outlet-component',
+  templateUrl: './test-outlet-component.component.html',
+  imports: [PageLayoutComponent, OutletRefDirective],
 })
 export class TestOutletComponentComponent {
   testComponent = 'CMSParagraphComponent';

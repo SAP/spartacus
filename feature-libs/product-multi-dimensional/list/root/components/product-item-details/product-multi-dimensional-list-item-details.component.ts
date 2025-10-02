@@ -14,16 +14,16 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-product-multi-dimensional-list-item-details',
-    templateUrl: './product-multi-dimensional-list-item-details.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        StarRatingComponent,
-        TranslatePipe,
-        AsyncPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-product-multi-dimensional-list-item-details',
+  templateUrl: './product-multi-dimensional-list-item-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    StarRatingComponent,
+    TranslatePipe,
+    AsyncPipe,
+    MockTranslatePipe,
+  ],
 })
 export class ProductMultiDimensionalListItemDetailsComponent {
   productListItemContext?: ProductListItemContext = inject(

@@ -14,18 +14,18 @@ describe('CpqQuoteHeadingComponent', () => {
     mockOutletContextData = new BehaviorSubject<any[]>([]);
 
     TestBed.configureTestingModule({
-    imports: [CpqQuoteHeadingComponent],
-    providers: [
+      imports: [CpqQuoteHeadingComponent],
+      providers: [
         {
-            provide: TranslationService,
-            useValue: { translate: () => of('Discount Percentage') },
+          provide: TranslationService,
+          useValue: { translate: () => of('Discount Percentage') },
         },
         {
-            provide: OutletContextData,
-            useValue: { context$: mockOutletContextData },
+          provide: OutletContextData,
+          useValue: { context$: mockOutletContextData },
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

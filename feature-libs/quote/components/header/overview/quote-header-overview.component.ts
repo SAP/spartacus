@@ -18,7 +18,11 @@ import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { QuoteUIConfig } from '../../config/quote-ui.config';
-import { EditCard, SaveEvent, QuoteHeaderBuyerEditComponent } from '../buyer-edit/quote-header-buyer-edit.component';
+import {
+  EditCard,
+  SaveEvent,
+  QuoteHeaderBuyerEditComponent,
+} from '../buyer-edit/quote-header-buyer-edit.component';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
 import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
@@ -28,20 +32,20 @@ import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing
 import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-quote-header-overview',
-    templateUrl: './quote-header-overview.component.html',
-    imports: [
-        NgIf,
-        CardComponent,
-        IconComponent,
-        QuoteHeaderBuyerEditComponent,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        CxDatePipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-quote-header-overview',
+  templateUrl: './quote-header-overview.component.html',
+  imports: [
+    NgIf,
+    CardComponent,
+    IconComponent,
+    QuoteHeaderBuyerEditComponent,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class QuoteHeaderOverviewComponent {
   protected quoteFacade = inject(QuoteFacade);

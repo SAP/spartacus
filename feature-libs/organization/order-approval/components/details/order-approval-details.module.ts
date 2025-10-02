@@ -33,73 +33,73 @@ import { OrderApprovalDetailService } from './order-approval-detail.service';
 import { OrderDetailPermissionResultsComponent } from './order-detail-permission-results/order-detail-permission-results.component';
 
 @NgModule({
-    imports: [
-        ReactiveFormsModule,
-        CommonModule,
-        I18nModule,
-        UrlModule,
-        FormErrorsModule,
-        SpinnerModule,
-        RouterModule,
-        BtnLikeLinkModule,
-        ConfigModule.withConfig(<CmsConfig>{
-            cmsComponents: {
-                OrderApprovalDetailTotalsComponent: {
-                    component: OrderDetailTotalsComponent,
-                    providers: [
-                        {
-                            provide: OrderDetailsService,
-                            useExisting: OrderApprovalDetailService,
-                        },
-                    ],
-                    guards: [AuthGuard, ApproverGuard],
-                },
-                OrderApprovalDetailApprovalDetailsComponent: {
-                    component: OrderDetailPermissionResultsComponent,
-                    providers: [
-                        {
-                            provide: OrderDetailsService,
-                            useExisting: OrderApprovalDetailService,
-                        },
-                    ],
-                    guards: [AuthGuard, ApproverGuard],
-                },
-                AccountOrderDetailsApprovalDetailsComponent: {
-                    component: OrderDetailPermissionResultsComponent,
-                },
-                OrderApprovalDetailShippingComponent: {
-                    component: OrderOverviewComponent,
-                    providers: [
-                        {
-                            provide: OrderDetailsService,
-                            useExisting: OrderApprovalDetailService,
-                        },
-                    ],
-                    guards: [AuthGuard, ApproverGuard],
-                },
-                OrderApprovalDetailItemsComponent: {
-                    component: OrderDetailItemsComponent,
-                    providers: [
-                        {
-                            provide: OrderDetailsService,
-                            useExisting: OrderApprovalDetailService,
-                        },
-                    ],
-                    guards: [AuthGuard, ApproverGuard],
-                },
-                OrderApprovalDetailFormComponent: {
-                    component: OrderApprovalDetailFormComponent,
-                    guards: [AuthGuard, ApproverGuard],
-                },
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    I18nModule,
+    UrlModule,
+    FormErrorsModule,
+    SpinnerModule,
+    RouterModule,
+    BtnLikeLinkModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        OrderApprovalDetailTotalsComponent: {
+          component: OrderDetailTotalsComponent,
+          providers: [
+            {
+              provide: OrderDetailsService,
+              useExisting: OrderApprovalDetailService,
             },
-        }),
-        FeaturesConfigModule,
-        OrderApprovalDetailFormComponent,
-        OrderDetailPermissionResultsComponent,
-    ],
-    exports: [
-        OrderApprovalDetailFormComponent,
-        OrderDetailPermissionResultsComponent,
-    ],
+          ],
+          guards: [AuthGuard, ApproverGuard],
+        },
+        OrderApprovalDetailApprovalDetailsComponent: {
+          component: OrderDetailPermissionResultsComponent,
+          providers: [
+            {
+              provide: OrderDetailsService,
+              useExisting: OrderApprovalDetailService,
+            },
+          ],
+          guards: [AuthGuard, ApproverGuard],
+        },
+        AccountOrderDetailsApprovalDetailsComponent: {
+          component: OrderDetailPermissionResultsComponent,
+        },
+        OrderApprovalDetailShippingComponent: {
+          component: OrderOverviewComponent,
+          providers: [
+            {
+              provide: OrderDetailsService,
+              useExisting: OrderApprovalDetailService,
+            },
+          ],
+          guards: [AuthGuard, ApproverGuard],
+        },
+        OrderApprovalDetailItemsComponent: {
+          component: OrderDetailItemsComponent,
+          providers: [
+            {
+              provide: OrderDetailsService,
+              useExisting: OrderApprovalDetailService,
+            },
+          ],
+          guards: [AuthGuard, ApproverGuard],
+        },
+        OrderApprovalDetailFormComponent: {
+          component: OrderApprovalDetailFormComponent,
+          guards: [AuthGuard, ApproverGuard],
+        },
+      },
+    }),
+    FeaturesConfigModule,
+    OrderApprovalDetailFormComponent,
+    OrderDetailPermissionResultsComponent,
+  ],
+  exports: [
+    OrderApprovalDetailFormComponent,
+    OrderDetailPermissionResultsComponent,
+  ],
 })
 export class OrderApprovalDetailsModule {}

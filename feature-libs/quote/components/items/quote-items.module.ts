@@ -17,24 +17,24 @@ import { IconModule, OutletModule } from '@spartacus/storefront';
 import { QuoteItemsComponent } from './quote-items.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        OutletModule,
-        IconModule,
-        I18nModule,
-        AbstractOrderContextModule,
-        QuoteItemsComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                QuoteItemsComponent: {
-                    component: QuoteItemsComponent,
-                    guards: [AuthGuard],
-                },
-            },
-        }),
-    ],
-    exports: [QuoteItemsComponent],
+  imports: [
+    CommonModule,
+    OutletModule,
+    IconModule,
+    I18nModule,
+    AbstractOrderContextModule,
+    QuoteItemsComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        QuoteItemsComponent: {
+          component: QuoteItemsComponent,
+          guards: [AuthGuard],
+        },
+      },
+    }),
+  ],
+  exports: [QuoteItemsComponent],
 })
 export class QuoteItemsModule {}

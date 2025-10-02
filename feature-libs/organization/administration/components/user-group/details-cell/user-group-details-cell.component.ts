@@ -13,15 +13,15 @@ import { UrlPipe } from '../../../../../../projects/core/src/routing/configurabl
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-user-group-details-cell',
-    templateUrl: './user-group-details-cell.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        RouterLink,
-        PopoverDirective,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-user-group-details-cell',
+  templateUrl: './user-group-details-cell.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    RouterLink,
+    PopoverDirective,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class UserGroupDetailsCellComponent extends CellComponent {}

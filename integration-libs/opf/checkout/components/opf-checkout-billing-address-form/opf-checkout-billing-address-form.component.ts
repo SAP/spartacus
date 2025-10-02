@@ -24,20 +24,20 @@ import { GetAddressCardContent } from './get-address-card-content.pipe';
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-opf-checkout-billing-address-form',
-    templateUrl: './opf-checkout-billing-address-form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        CardComponent,
-        IconComponent,
-        AddressFormComponent,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        GetAddressCardContent,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-opf-checkout-billing-address-form',
+  templateUrl: './opf-checkout-billing-address-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    CardComponent,
+    IconComponent,
+    AddressFormComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    GetAddressCardContent,
+    MockTranslatePipe,
+  ],
 })
 export class OpfCheckoutBillingAddressFormComponent implements OnInit {
   protected service = inject(OpfCheckoutBillingAddressFormService);

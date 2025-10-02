@@ -14,12 +14,17 @@ import { PasswordVisibilityToggleDirective } from './password-visibility-toggle.
 import { PasswordVisibilityToggleComponent } from './password-visibility-toggle.component';
 
 @NgModule({
-    imports: [CommonModule, IconModule, I18nModule, PasswordVisibilityToggleDirective,
-        PasswordVisibilityToggleComponent],
-    providers: [provideDefaultConfig(<FormConfig>defaultFormConfig)],
-    exports: [
-        PasswordVisibilityToggleDirective,
-        PasswordVisibilityToggleComponent,
-    ],
+  imports: [
+    CommonModule,
+    IconModule,
+    I18nModule,
+    PasswordVisibilityToggleDirective,
+    PasswordVisibilityToggleComponent,
+  ],
+  providers: [provideDefaultConfig(<FormConfig>defaultFormConfig)],
+  exports: [
+    PasswordVisibilityToggleDirective,
+    PasswordVisibilityToggleComponent,
+  ],
 })
 export class PasswordVisibilityToggleModule {}

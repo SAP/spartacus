@@ -11,7 +11,7 @@ import { I18nModule } from '@spartacus/core';
 import { TotalComponent } from './total.component';
 
 @NgModule({
-    imports: [CommonModule, FormsModule, I18nModule, TotalComponent],
-    exports: [TotalComponent],
+  imports: [CommonModule, FormsModule, I18nModule, TotalComponent],
+  exports: [TotalComponent],
 })
 export class TotalModule {}

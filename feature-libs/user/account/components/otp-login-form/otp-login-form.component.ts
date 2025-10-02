@@ -10,7 +10,13 @@ import {
   HostBinding,
   inject,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { RoutingService, useFeatureStyles, WindowRef } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
@@ -34,25 +40,25 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-otp-login-form',
-    templateUrl: './otp-login-form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { ngSkipHydration: 'true' },
-    imports: [
-        NgIf,
-        SpinnerComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        FormRequiredLegendComponent,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        PasswordVisibilityToggleDirective,
-        RouterLink,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-otp-login-form',
+  templateUrl: './otp-login-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    PasswordVisibilityToggleDirective,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class OneTimePasswordLoginFormComponent {
   protected routingService = inject(RoutingService);

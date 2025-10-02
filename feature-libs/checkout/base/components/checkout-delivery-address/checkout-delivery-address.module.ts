@@ -21,26 +21,26 @@ import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
 import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        AddressFormModule,
-        CardModule,
-        SpinnerModule,
-        I18nModule,
-        FeaturesConfigModule,
-        CheckoutDeliveryAddressComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                CheckoutDeliveryAddress: {
-                    component: CheckoutDeliveryAddressComponent,
-                    guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
-                },
-            },
-        }),
-    ],
-    exports: [CheckoutDeliveryAddressComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    AddressFormModule,
+    CardModule,
+    SpinnerModule,
+    I18nModule,
+    FeaturesConfigModule,
+    CheckoutDeliveryAddressComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        CheckoutDeliveryAddress: {
+          component: CheckoutDeliveryAddressComponent,
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
+        },
+      },
+    }),
+  ],
+  exports: [CheckoutDeliveryAddressComponent],
 })
 export class CheckoutDeliveryAddressModule {}

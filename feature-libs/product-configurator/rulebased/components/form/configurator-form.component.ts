@@ -38,15 +38,10 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { ConfiguratorGroupComponent } from '../group/configurator-group.component';
 
 @Component({
-    selector: 'cx-configurator-form',
-    templateUrl: './configurator-form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        ConfiguratorGroupComponent,
-        NgFor,
-        AsyncPipe,
-    ],
+  selector: 'cx-configurator-form',
+  templateUrl: './configurator-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, ConfiguratorGroupComponent, NgFor, AsyncPipe],
 })
 export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

@@ -14,17 +14,17 @@ import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-skip-link',
-    templateUrl: './skip-link.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        FocusDirective,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-skip-link',
+  templateUrl: './skip-link.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    FocusDirective,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class SkipLinkComponent {
   skipLinks$: Observable<SkipLink[]> = this.skipLinkService.getSkipLinks();

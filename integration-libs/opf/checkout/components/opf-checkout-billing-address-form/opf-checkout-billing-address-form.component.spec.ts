@@ -40,7 +40,7 @@ class Service {
   }
 }
 
-@Pipe({ name: 'cxTranslate', })
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -52,14 +52,14 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [OpfCheckoutBillingAddressFormComponent, MockTranslatePipe],
-    providers: [
+      imports: [OpfCheckoutBillingAddressFormComponent, MockTranslatePipe],
+      providers: [
         {
-            provide: OpfCheckoutBillingAddressFormService,
-            useClass: Service,
+          provide: OpfCheckoutBillingAddressFormService,
+          useClass: Service,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     service = TestBed.inject(OpfCheckoutBillingAddressFormService);
     fixture = TestBed.createComponent(OpfCheckoutBillingAddressFormComponent);

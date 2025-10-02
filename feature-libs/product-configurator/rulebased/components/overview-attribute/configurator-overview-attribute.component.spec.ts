@@ -10,9 +10,9 @@ import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.c
 import { ConfiguratorOverviewAttributeComponent } from './configurator-overview-attribute.component';
 
 @Component({
-    selector: 'cx-configurator-price',
-    template: '',
-    imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule,],
+  selector: 'cx-configurator-price',
+  template: '',
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -26,10 +26,15 @@ describe('ConfigurationOverviewAttributeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule, ConfiguratorOverviewAttributeComponent,
-        MockConfiguratorPriceComponent],
-    providers: [],
-});
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        I18nTestingModule,
+        ConfiguratorOverviewAttributeComponent,
+        MockConfiguratorPriceComponent,
+      ],
+      providers: [],
+    });
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorOverviewAttributeComponent);

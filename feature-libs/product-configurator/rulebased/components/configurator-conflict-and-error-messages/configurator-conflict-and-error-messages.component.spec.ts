@@ -97,9 +97,9 @@ export class MockIconFontLoaderService {
 }
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule,],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockCxIconComponent {
   @Input() type: any;
@@ -113,20 +113,25 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule, ConfiguratorConflictAndErrorMessagesComponent,
-        MockCxIconComponent],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        ConfiguratorConflictAndErrorMessagesComponent,
+        MockCxIconComponent,
+      ],
+      providers: [
         {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorService,
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
         },
         {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
         },
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-    ],
-});
+      ],
+    });
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(

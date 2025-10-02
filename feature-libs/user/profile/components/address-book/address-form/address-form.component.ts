@@ -15,7 +15,13 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   Address,
   AddressValidation,
@@ -46,22 +52,22 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-address-form',
-    templateUrl: './address-form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FormRequiredLegendComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        NgIf,
-        FormRequiredAsterisksComponent,
-        NgSelectComponent,
-        NgSelectA11yDirective,
-        FormErrorsComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-address-form',
+  templateUrl: './address-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormRequiredLegendComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    FormRequiredAsterisksComponent,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    FormErrorsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<Country[]>;

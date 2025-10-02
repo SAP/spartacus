@@ -15,13 +15,9 @@ import { FormatTimerPipe } from './format-timer.pipe';
 import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-asm-session-timer',
-    templateUrl: './asm-session-timer.component.html',
-    imports: [
-        TranslatePipe,
-        FormatTimerPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-asm-session-timer',
+  templateUrl: './asm-session-timer.component.html',
+  imports: [TranslatePipe, FormatTimerPipe, MockTranslatePipe],
 })
 export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();

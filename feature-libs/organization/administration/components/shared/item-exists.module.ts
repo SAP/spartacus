@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { ItemExistsDirective } from './item-exists.directive';
 
 @NgModule({
-    imports: [CommonModule, ItemExistsDirective],
-    exports: [ItemExistsDirective],
+  imports: [CommonModule, ItemExistsDirective],
+  exports: [ItemExistsDirective],
 })
 export class ItemExistsModule {}

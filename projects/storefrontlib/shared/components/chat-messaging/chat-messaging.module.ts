@@ -14,16 +14,17 @@ import { MessagingComponent } from './messaging';
 import { FileUploadModule, FormErrorsModule } from '../form';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        IconModule,
-        FormsModule,
-        ReactiveFormsModule,
-        FileUploadModule,
-        FormErrorsModule,
-        AvatarComponent, MessagingComponent,
-    ],
-    exports: [AvatarComponent, MessagingComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FileUploadModule,
+    FormErrorsModule,
+    AvatarComponent,
+    MessagingComponent,
+  ],
+  exports: [AvatarComponent, MessagingComponent],
 })
 export class ChatMessagingModule {}

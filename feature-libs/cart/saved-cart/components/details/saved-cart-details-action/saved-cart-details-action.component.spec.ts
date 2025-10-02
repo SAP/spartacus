@@ -36,15 +36,15 @@ describe('SavedCartDetailsActionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [SavedCartDetailsActionComponent],
-    providers: [
+      imports: [SavedCartDetailsActionComponent],
+      providers: [
         {
-            provide: SavedCartDetailsService,
-            useClass: MockSavedCartDetailsService,
+          provide: SavedCartDetailsService,
+          useClass: MockSavedCartDetailsService,
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SavedCartDetailsActionComponent);
     component = fixture.componentInstance;

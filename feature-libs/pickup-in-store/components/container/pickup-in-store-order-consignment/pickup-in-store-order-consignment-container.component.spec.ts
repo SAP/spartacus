@@ -75,8 +75,12 @@ describe('PickupInStoreOrderConsignmentContainerComponent', () => {
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
-    imports: [CommonModule, I18nTestingModule, PickupInStoreOrderConsignmentContainerComponent],
-});
+      imports: [
+        CommonModule,
+        I18nTestingModule,
+        PickupInStoreOrderConsignmentContainerComponent,
+      ],
+    });
 
   const stubServiceAndCreateComponent = () => {
     fixture = TestBed.createComponent(

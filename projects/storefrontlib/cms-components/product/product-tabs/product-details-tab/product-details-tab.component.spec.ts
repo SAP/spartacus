@@ -68,22 +68,22 @@ describe('ProductDetailsTabComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [ProductDetailsTabComponent],
-    providers: [
+      imports: [ProductDetailsTabComponent],
+      providers: [
         {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
         },
         {
-            provide: CmsComponentData,
-            useClass: MockCmsComponentData,
+          provide: CmsComponentData,
+          useClass: MockCmsComponentData,
         },
         {
-            provide: CmsService,
-            useClass: MockCmsService,
+          provide: CmsService,
+          useClass: MockCmsService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -5,7 +5,12 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   B2BUnitNode,
   OrgUnitService,
@@ -26,29 +31,29 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-user-group-form',
-    templateUrl: './user-group-form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'content-wrapper' },
-    providers: [
-        {
-            provide: ItemService,
-            useExisting: UserGroupItemService,
-        },
-    ],
-    imports: [
-        FormComponent,
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        FormRequiredLegendComponent,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        NgSelectComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-user-group-form',
+  templateUrl: './user-group-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
+  providers: [
+    {
+      provide: ItemService,
+      useExisting: UserGroupItemService,
+    },
+  ],
+  imports: [
+    FormComponent,
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    NgSelectComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class UserGroupFormComponent implements OnInit {
   form: UntypedFormGroup | null = this.itemService.getForm();

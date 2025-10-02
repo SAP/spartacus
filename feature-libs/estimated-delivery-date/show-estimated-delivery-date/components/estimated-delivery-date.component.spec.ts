@@ -38,9 +38,9 @@ class MockLanguageService {
 }
 
 @Component({
-    selector: 'cx-estimated-delivery-date',
-    template: '',
-    imports: [ReactiveFormsModule, I18nTestingModule],
+  selector: 'cx-estimated-delivery-date',
+  template: '',
+  imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockConfigureEstimatedDeliveryDateComponent {
   @Input() cartEntry: Partial<OrderEntry & Array<ArrivalSlots>>;
@@ -55,18 +55,22 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [ReactiveFormsModule, I18nTestingModule, EstimatedDeliveryDateComponent,
-        MockConfigureEstimatedDeliveryDateComponent],
-    providers: [
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        EstimatedDeliveryDateComponent,
+        MockConfigureEstimatedDeliveryDateComponent,
+      ],
+      providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
         {
-            provide: TranslationService,
-            useClass: MockTranslationService,
+          provide: TranslationService,
+          useClass: MockTranslationService,
         },
         { provide: LanguageService, useClass: MockLanguageService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

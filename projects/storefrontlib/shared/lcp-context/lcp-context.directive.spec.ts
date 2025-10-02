@@ -17,8 +17,8 @@ class MockLcpPresenceMappingService {
 }
 
 @Component({
-    selector: 'cx-test-host',
-    template: `
+  selector: 'cx-test-host',
+  template: `
     <ng-container *cxLcpContext="let lcpContext">
       <div class="test-lcpPresence">
         {{ lcpContext.lcpPresence$ | async }}
@@ -38,18 +38,18 @@ describe('LcpContextDirective', () => {
   beforeEach(() => {
     mockLcpPresence$ = new ReplaySubject<LcpPresence>();
     TestBed.configureTestingModule({
-    imports: [TestHostComponent, LcpContextDirective],
-    providers: [
+      imports: [TestHostComponent, LcpContextDirective],
+      providers: [
         {
-            provide: LCP_PRESENCE,
-            useValue: mockLcpPresence$,
+          provide: LCP_PRESENCE,
+          useValue: mockLcpPresence$,
         },
         {
-            provide: LcpPresenceMappingService,
-            useClass: MockLcpPresenceMappingService,
+          provide: LcpPresenceMappingService,
+          useClass: MockLcpPresenceMappingService,
         },
-    ],
-});
+      ],
+    });
     fixture = TestBed.createComponent(TestHostComponent);
     fixture.detectChanges();
   });

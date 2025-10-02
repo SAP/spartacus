@@ -13,14 +13,14 @@ import { FormsModule } from '@angular/forms';
 import { I18nModule } from '@spartacus/core';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        NgSelectModule,
-        FormsModule,
-        NgSelectA11yModule,
-        I18nModule,
-        SortingComponent,
-    ],
-    exports: [SortingComponent],
+  imports: [
+    CommonModule,
+    NgSelectModule,
+    FormsModule,
+    NgSelectA11yModule,
+    I18nModule,
+    SortingComponent,
+  ],
+  exports: [SortingComponent],
 })
 export class SortingModule {}

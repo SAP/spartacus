@@ -25,27 +25,28 @@ import { defaultCloseDialogModalLayoutConfig } from './components/close-account-
 import { CloseAccountComponent } from './components/close-account/close-account.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        UrlModule,
-        I18nModule,
-        IconModule,
-        SpinnerModule,
-        KeyboardFocusModule,
-        BtnLikeLinkModule,
-        CloseAccountComponent, CloseAccountModalComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                CloseAccountComponent: {
-                    component: CloseAccountComponent,
-                    guards: [AuthGuard],
-                },
-            },
-        }),
-        provideDefaultConfig(defaultCloseDialogModalLayoutConfig),
-    ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    IconModule,
+    SpinnerModule,
+    KeyboardFocusModule,
+    BtnLikeLinkModule,
+    CloseAccountComponent,
+    CloseAccountModalComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        CloseAccountComponent: {
+          component: CloseAccountComponent,
+          guards: [AuthGuard],
+        },
+      },
+    }),
+    provideDefaultConfig(defaultCloseDialogModalLayoutConfig),
+  ],
 })
 export class CloseAccountModule {}

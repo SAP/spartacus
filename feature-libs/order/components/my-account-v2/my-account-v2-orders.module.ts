@@ -19,26 +19,26 @@ import { MediaModule, SpinnerModule } from '@spartacus/storefront';
 import { MyAccountV2OrdersComponent } from './my-account-v2-orders.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        FormsModule,
-        SpinnerModule,
-        UrlModule,
-        I18nModule,
-        MediaModule,
-        MyAccountV2OrdersComponent,
-    ],
-    exports: [MyAccountV2OrdersComponent],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                MyAccountViewOrderComponent: {
-                    component: MyAccountV2OrdersComponent,
-                    guards: [AuthGuard],
-                },
-            },
-        }),
-    ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    SpinnerModule,
+    UrlModule,
+    I18nModule,
+    MediaModule,
+    MyAccountV2OrdersComponent,
+  ],
+  exports: [MyAccountV2OrdersComponent],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        MyAccountViewOrderComponent: {
+          component: MyAccountV2OrdersComponent,
+          guards: [AuthGuard],
+        },
+      },
+    }),
+  ],
 })
 export class MyAccountV2OrdersModule {}

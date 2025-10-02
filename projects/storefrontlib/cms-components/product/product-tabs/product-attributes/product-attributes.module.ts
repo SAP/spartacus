@@ -11,16 +11,16 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ProductAttributesComponent } from './product-attributes.component';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, ProductAttributesComponent],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                ProductSpecsTabComponent: {
-                    component: ProductAttributesComponent,
-                },
-            },
-        }),
-    ],
-    exports: [ProductAttributesComponent],
+  imports: [CommonModule, I18nModule, ProductAttributesComponent],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ProductSpecsTabComponent: {
+          component: ProductAttributesComponent,
+        },
+      },
+    }),
+  ],
+  exports: [ProductAttributesComponent],
 })
 export class ProductAttributesModule {}

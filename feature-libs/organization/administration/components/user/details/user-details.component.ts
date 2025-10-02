@@ -23,31 +23,31 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-user-details',
-    templateUrl: './user-details.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [
-        {
-            provide: ItemService,
-            useExisting: UserItemService,
-        },
-    ],
-    host: { class: 'content-wrapper' },
-    imports: [
-        NgIf,
-        CardComponent,
-        FocusDirective,
-        RouterLink,
-        ToggleStatusComponent,
-        DisableInfoComponent,
-        ItemExistsDirective,
-        NgFor,
-        RouterLinkActive,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-user-details',
+  templateUrl: './user-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: ItemService,
+      useExisting: UserItemService,
+    },
+  ],
+  host: { class: 'content-wrapper' },
+  imports: [
+    NgIf,
+    CardComponent,
+    FocusDirective,
+    RouterLink,
+    ToggleStatusComponent,
+    DisableInfoComponent,
+    ItemExistsDirective,
+    NgFor,
+    RouterLinkActive,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class UserDetailsComponent {
   userGuardSubscription: Subscription;

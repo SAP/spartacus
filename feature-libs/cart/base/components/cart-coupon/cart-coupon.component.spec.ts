@@ -20,9 +20,9 @@ import { EMPTY, of } from 'rxjs';
 import { CartCouponComponent } from './cart-coupon.component';
 
 @Component({
-    selector: 'cx-applied-coupons',
-    template: '',
-    imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule,],
+  selector: 'cx-applied-coupons',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
 })
 class MockAppliedCouponsComponent {
   @Input()
@@ -73,18 +73,23 @@ describe('CartCouponComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule, CartCouponComponent,
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        CartCouponComponent,
         MockAppliedCouponsComponent,
-        MockFeatureDirective],
-    providers: [
+        MockFeatureDirective,
+      ],
+      providers: [
         { provide: ActiveCartFacade, useValue: mockActiveCartService },
         { provide: CartVoucherFacade, useValue: mockCartVoucherService },
         {
-            provide: CustomerCouponService,
-            useValue: mockCustomerCouponService,
+          provide: CustomerCouponService,
+          useValue: mockCustomerCouponService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

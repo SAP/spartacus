@@ -31,18 +31,18 @@ import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/test
 import { MockDatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-saved-cart-details-overview',
-    templateUrl: './saved-cart-details-overview.component.html',
-    imports: [
-        NgIf,
-        CardComponent,
-        IconComponent,
-        AsyncPipe,
-        TranslatePipe,
-        CxDatePipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-saved-cart-details-overview',
+  templateUrl: './saved-cart-details-overview.component.html',
+  imports: [
+    NgIf,
+    CardComponent,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class SavedCartDetailsOverviewComponent implements OnDestroy {
   private subscription = new Subscription();

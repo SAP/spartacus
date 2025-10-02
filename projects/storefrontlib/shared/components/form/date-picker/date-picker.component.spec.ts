@@ -7,8 +7,8 @@ import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-fe
 import { DatePickerComponent } from './date-picker.component';
 
 @Component({
-    selector: 'cx-form-errors',
-    imports: [I18nTestingModule, ReactiveFormsModule],
+  selector: 'cx-form-errors',
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockFormErrorComponent {
   @Input() control: UntypedFormControl;
@@ -29,10 +29,14 @@ describe('DatePickerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ReactiveFormsModule, DatePickerComponent,
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        DatePickerComponent,
         MockFormErrorComponent,
-        MockFeatureDirective],
-}).compileComponents();
+        MockFeatureDirective,
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -55,16 +55,21 @@ describe('SavedCartDetailsOverviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, IconTestingModule, CardModule, SavedCartDetailsOverviewComponent],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        IconTestingModule,
+        CardModule,
+        SavedCartDetailsOverviewComponent,
+      ],
+      providers: [
         {
-            provide: SavedCartDetailsService,
-            useClass: MockSavedCartDetailsService,
+          provide: SavedCartDetailsService,
+          useClass: MockSavedCartDetailsService,
         },
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SavedCartDetailsOverviewComponent);
     component = fixture.componentInstance;

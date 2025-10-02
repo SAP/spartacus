@@ -12,17 +12,22 @@ import { ClearCartDialogModule } from '../clear-cart-dialog/clear-cart-dialog.mo
 import { defaultClearCartLayoutConfig } from '../clear-cart-dialog/default-clear-cart-layout.config';
 
 @NgModule({
-    exports: [ClearCartComponent],
-    imports: [CommonModule, I18nModule, ClearCartDialogModule, ClearCartComponent],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                ClearCartComponent: {
-                    component: ClearCartComponent,
-                },
-            },
-        }),
-        provideDefaultConfig(defaultClearCartLayoutConfig),
-    ],
+  exports: [ClearCartComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    ClearCartDialogModule,
+    ClearCartComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ClearCartComponent: {
+          component: ClearCartComponent,
+        },
+      },
+    }),
+    provideDefaultConfig(defaultClearCartLayoutConfig),
+  ],
 })
 export class ClearCartModule {}

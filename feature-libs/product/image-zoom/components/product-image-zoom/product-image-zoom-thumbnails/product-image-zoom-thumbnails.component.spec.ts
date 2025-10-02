@@ -25,8 +25,8 @@ const secondImage = {
 };
 
 @Component({
-    selector: 'cx-carousel',
-    template: `
+  selector: 'cx-carousel',
+  template: `
     <ng-container *ngFor="let item of items">
       <ng-container
         *ngTemplateOutlet="template; context: { item: item }"
@@ -47,10 +47,12 @@ describe('ProductImageZoomThumbnailsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [ProductImageZoomThumbnailsComponent,
+      imports: [
+        ProductImageZoomThumbnailsComponent,
         MockCarouselComponent,
-        MockFeatureDirective,],
-}).compileComponents();
+        MockFeatureDirective,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

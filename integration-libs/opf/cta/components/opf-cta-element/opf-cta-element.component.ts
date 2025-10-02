@@ -18,10 +18,10 @@ import { OpfCtaScriptsService } from '../opf-cta-scripts/opf-cta-scripts.service
 import { NgIf } from '@angular/common';
 
 @Component({
-    selector: 'cx-opf-cta-element',
-    templateUrl: './opf-cta-element.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NgIf],
+  selector: 'cx-opf-cta-element',
+  templateUrl: './opf-cta-element.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf],
 })
 export class OpfCtaElementComponent implements AfterViewInit {
   protected sanitizer = inject(DomSanitizer);

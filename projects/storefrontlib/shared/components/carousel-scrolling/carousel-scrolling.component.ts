@@ -53,19 +53,19 @@ enum KeyboardEventKeys {
  * given `template`. This allows for maximum flexibility.
  */
 @Component({
-    selector: 'cx-carousel-scrolling',
-    templateUrl: './carousel-scrolling.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        HorizontalScrollingPositionDirective,
-        IconComponent,
-        NgFor,
-        NgTemplateOutlet,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-carousel-scrolling',
+  templateUrl: './carousel-scrolling.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    HorizontalScrollingPositionDirective,
+    IconComponent,
+    NgFor,
+    NgTemplateOutlet,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CarouselScrollingComponent<Item = any> implements OnInit {
   protected logger = inject(LoggerService);

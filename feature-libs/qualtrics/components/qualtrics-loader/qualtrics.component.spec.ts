@@ -20,15 +20,15 @@ describe('QualtricsComponent', () => {
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-    imports: [QualtricsComponent],
-    providers: [
+      imports: [QualtricsComponent],
+      providers: [
         {
-            provide: QualtricsLoaderService,
-            useClass: MockQualtricsLoaderService,
+          provide: QualtricsLoaderService,
+          useClass: MockQualtricsLoaderService,
         },
         { provide: QualtricsConfig, useValue: mockQualtricsConfig },
-    ],
-});
+      ],
+    });
   }
 
   function stubSeviceAndCreateComponent() {

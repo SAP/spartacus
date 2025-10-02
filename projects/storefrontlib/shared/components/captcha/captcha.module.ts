@@ -14,8 +14,13 @@ import { FormErrorsModule } from '../form';
 import { MockCaptchaApiConfig } from './mock-captcha/config/mock-captcha-api-config';
 
 @NgModule({
-    imports: [CommonModule, ReactiveFormsModule, FormErrorsModule, CaptchaComponent],
-    providers: [provideDefaultConfig(MockCaptchaApiConfig)],
-    exports: [CaptchaComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    CaptchaComponent,
+  ],
+  providers: [provideDefaultConfig(MockCaptchaApiConfig)],
+  exports: [CaptchaComponent],
 })
 export class CaptchaModule {}

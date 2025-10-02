@@ -12,15 +12,10 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { OpfCtaElementComponent } from '../opf-cta-element/opf-cta-element.component';
 
 @Component({
-    selector: 'cx-opf-cta-scripts',
-    templateUrl: './opf-cta-scripts.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        OpfCtaElementComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-opf-cta-scripts',
+  templateUrl: './opf-cta-scripts.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, NgFor, OpfCtaElementComponent, AsyncPipe],
 })
 export class OpfCtaScriptsComponent {
   protected opfCtaScriptService = inject(OpfCtaScriptsService);

@@ -22,14 +22,10 @@ import { FocusDirective } from '../../../../../projects/storefrontlib/layout/a11
 import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'cx-opf-error-modal',
-    templateUrl: './opf-error-modal.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FocusDirective,
-        NgIf,
-        AsyncPipe,
-    ],
+  selector: 'cx-opf-error-modal',
+  templateUrl: './opf-error-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FocusDirective, NgIf, AsyncPipe],
 })
 export class OpfErrorModalComponent implements OnInit {
   protected launchDialogService = inject(LaunchDialogService);

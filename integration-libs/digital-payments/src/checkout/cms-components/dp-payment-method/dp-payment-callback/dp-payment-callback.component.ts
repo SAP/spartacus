@@ -24,15 +24,15 @@ import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/trans
 import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-dp-payment-callback',
-    templateUrl: './dp-payment-callback.component.html',
-    imports: [
-        NgIf,
-        CheckoutBillingAddressFormComponent,
-        SpinnerComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-dp-payment-callback',
+  templateUrl: './dp-payment-callback.component.html',
+  imports: [
+    NgIf,
+    CheckoutBillingAddressFormComponent,
+    SpinnerComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class DpPaymentCallbackComponent implements OnInit {
   @Output()

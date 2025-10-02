@@ -30,14 +30,10 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { HamburgerMenuComponent } from '../../../../../projects/storefrontlib/layout/header/hamburger-menu/hamburger-menu.component';
 
 @Component({
-    selector: 'cx-configurator-group-title',
-    templateUrl: './configurator-group-title.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        HamburgerMenuComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-configurator-group-title',
+  templateUrl: './configurator-group-title.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, HamburgerMenuComponent, AsyncPipe],
 })
 export class ConfiguratorGroupTitleComponent
   implements OnInit, OnDestroy, AfterContentChecked

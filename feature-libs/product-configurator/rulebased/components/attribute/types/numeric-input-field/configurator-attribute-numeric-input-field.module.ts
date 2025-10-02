@@ -13,24 +13,25 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition/config
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
 
 @NgModule({
-    imports: [
-        KeyboardFocusModule,
-        FormsModule,
-        ReactiveFormsModule,
-        CommonModule,
-        I18nModule,
-        IconModule,
-        ConfiguratorAttributeNumericInputFieldComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
-            productConfigurator: {
-                assignment: {
-                    AttributeType_numeric: ConfiguratorAttributeNumericInputFieldComponent,
-                },
-            },
-        }),
-    ],
-    exports: [ConfiguratorAttributeNumericInputFieldComponent],
+  imports: [
+    KeyboardFocusModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    I18nModule,
+    IconModule,
+    ConfiguratorAttributeNumericInputFieldComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+      productConfigurator: {
+        assignment: {
+          AttributeType_numeric:
+            ConfiguratorAttributeNumericInputFieldComponent,
+        },
+      },
+    }),
+  ],
+  exports: [ConfiguratorAttributeNumericInputFieldComponent],
 })
 export class ConfiguratorAttributeNumericInputFieldModule {}

@@ -16,7 +16,12 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { AsmService } from '@spartacus/asm/core';
 import {
   AsmConfig,
@@ -40,22 +45,22 @@ import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe
 import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-customer-selection',
-    templateUrl: './customer-selection.component.html',
-    host: {
-        '(document:click)': 'onDocumentClick($event)',
-    },
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        NgIf,
-        IconComponent,
-        NgFor,
-        DotSpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-customer-selection',
+  templateUrl: './customer-selection.component.html',
+  host: {
+    '(document:click)': 'onDocumentClick($event)',
+  },
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    IconComponent,
+    NgFor,
+    DotSpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {
   customerSelectionForm: UntypedFormGroup;

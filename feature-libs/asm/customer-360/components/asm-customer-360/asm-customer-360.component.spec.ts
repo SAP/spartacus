@@ -113,7 +113,7 @@ describe('AsmCustomer360Component', () => {
     selector: 'cx-asm-customer-360-section',
     template: '',
     imports: [I18nTestingModule],
-})
+  })
   class MockAsmCustomer360SectionComponent {}
 
   class MockDirectionService {
@@ -174,30 +174,33 @@ describe('AsmCustomer360Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, AsmCustomer360Component,
+      imports: [
+        I18nTestingModule,
+        AsmCustomer360Component,
         MockAsmCustomer360SectionComponent,
         ArgsPipe,
-        FocusDirective],
-    providers: [
+        FocusDirective,
+      ],
+      providers: [
         CxDatePipe,
         { provide: LanguageService, useValue: mockLanguageService },
         { provide: AsmCustomer360Config, useValue: mockAsmConfig },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: AsmCustomer360Facade, useClass: MockAsm360Service },
         {
-            provide: DirectionService,
-            useClass: MockDirectionService,
+          provide: DirectionService,
+          useClass: MockDirectionService,
         },
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         {
-            provide: FeaturesConfig,
-            useValue: {
-                features: { level: '*' },
-            },
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '*' },
+          },
         },
-    ],
-    schemas: [NO_ERRORS_SCHEMA],
-}).compileComponents();
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
     datePipe = TestBed.inject(CxDatePipe);
     languageService = TestBed.inject(LanguageService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);

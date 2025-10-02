@@ -57,9 +57,9 @@ function initMocks() {
 }
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -73,19 +73,22 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     initTestData();
     initMocks();
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ConfiguratorOverviewFilterBarComponent,
-        MockCxIconComponent],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        ConfiguratorOverviewFilterBarComponent,
+        MockCxIconComponent,
+      ],
+      providers: [
         {
-            provide: ConfiguratorCommonsService,
-            useValue: mockConfigCommonsService,
+          provide: ConfiguratorCommonsService,
+          useValue: mockConfigCommonsService,
         },
         {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

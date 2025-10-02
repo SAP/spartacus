@@ -10,7 +10,11 @@ import {
   Optional,
   inject,
 } from '@angular/core';
-import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Title } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
@@ -26,26 +30,26 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-update-profile',
-    templateUrl: './update-profile.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'user-form' },
-    imports: [
-        NgIf,
-        SpinnerComponent,
-        FormRequiredLegendComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        NgSelectComponent,
-        NgSelectA11yDirective,
-        NgFor,
-        NgOptionComponent,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-update-profile',
+  templateUrl: './update-profile.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'user-form' },
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    FormRequiredLegendComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    NgFor,
+    NgOptionComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class UpdateProfileComponent {
   @Optional() protected routingService = inject(RoutingService, {

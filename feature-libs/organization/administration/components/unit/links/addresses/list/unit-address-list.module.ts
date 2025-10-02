@@ -13,6 +13,14 @@ import { LinkCellComponent } from './link-cell.component';
 import { UnitAddressListComponent } from './unit-address-list.component';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, RouterModule, UrlModule, SubListModule, UnitAddressListComponent, LinkCellComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    RouterModule,
+    UrlModule,
+    SubListModule,
+    UnitAddressListComponent,
+    LinkCellComponent,
+  ],
 })
 export class UnitAddressListModule {}

@@ -42,17 +42,17 @@ const defaultTabConfig = {
 };
 
 @Component({
-    selector: 'cx-tab-paragraph-container',
-    templateUrl: './tab-paragraph-container.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        TabComponent,
-        NgFor,
-        OutletDirective,
-        ComponentWrapperDirective,
-        AsyncPipe,
-    ],
+  selector: 'cx-tab-paragraph-container',
+  templateUrl: './tab-paragraph-container.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    TabComponent,
+    NgFor,
+    OutletDirective,
+    ComponentWrapperDirective,
+    AsyncPipe,
+  ],
 })
 export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);

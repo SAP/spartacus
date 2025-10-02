@@ -21,22 +21,22 @@ import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mo
 import { MockDatePipe } from '../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-my-account-v2-orders',
-    templateUrl: './my-account-v2-orders.component.html',
-    imports: [
-        RouterLink,
-        NgIf,
-        NgFor,
-        MediaComponent,
-        RouterLinkActive,
-        SpinnerComponent,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        CxDatePipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-my-account-v2-orders',
+  templateUrl: './my-account-v2-orders.component.html',
+  imports: [
+    RouterLink,
+    NgIf,
+    NgFor,
+    MediaComponent,
+    RouterLinkActive,
+    SpinnerComponent,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    CxDatePipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class MyAccountV2OrdersComponent implements OnDestroy {
   protected service = inject(MyAccountV2OrderHistoryService);

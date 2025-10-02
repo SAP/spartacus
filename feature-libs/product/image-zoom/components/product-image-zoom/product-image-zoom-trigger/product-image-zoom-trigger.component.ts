@@ -31,15 +31,10 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-product-image-zoom-trigger',
-    templateUrl: 'product-image-zoom-trigger.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FeatureDirective,
-        IconComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-product-image-zoom-trigger',
+  templateUrl: 'product-image-zoom-trigger.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FeatureDirective, IconComponent, TranslatePipe, MockTranslatePipe],
 })
 export class ProductImageZoomTriggerComponent implements OnDestroy {
   iconType = ICON_TYPE;

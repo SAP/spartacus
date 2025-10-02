@@ -5,7 +5,13 @@
  */
 
 import { Component, inject, Input, OnDestroy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   AuthService,
   FeatureConfigService,
@@ -23,19 +29,19 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-guest-register-form',
-    templateUrl: './order-guest-register-form.component.html',
-    host: { ngSkipHydration: 'true' },
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        FormRequiredLegendComponent,
-        FormRequiredAsterisksComponent,
-        PasswordVisibilityToggleDirective,
-        FormErrorsComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-guest-register-form',
+  templateUrl: './order-guest-register-form.component.html',
+  host: { ngSkipHydration: 'true' },
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    PasswordVisibilityToggleDirective,
+    FormErrorsComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class OrderGuestRegisterFormComponent implements OnDestroy {
   private featureConfigService = inject(FeatureConfigService);

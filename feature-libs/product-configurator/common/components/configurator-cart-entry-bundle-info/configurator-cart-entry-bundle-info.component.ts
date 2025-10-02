@@ -25,17 +25,17 @@ import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing
  * which would not be proper detected with onPush strategy.
  */
 @Component({
-    selector: 'cx-configurator-cart-entry-bundle-info',
-    templateUrl: './configurator-cart-entry-bundle-info.component.html',
-    imports: [
-        NgIf,
-        NgFor,
-        ConfigureCartEntryComponent,
-        AsyncPipe,
-        TranslatePipe,
-        CxNumericPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-cart-entry-bundle-info',
+  templateUrl: './configurator-cart-entry-bundle-info.component.html',
+  imports: [
+    NgIf,
+    NgFor,
+    ConfigureCartEntryComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxNumericPipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorCartEntryBundleInfoComponent {
   constructor(

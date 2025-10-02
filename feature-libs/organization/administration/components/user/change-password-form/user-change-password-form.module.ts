@@ -21,21 +21,21 @@ import { CardModule } from '../../shared/card/card.module';
 import { UserChangePasswordFormComponent } from './user-change-password-form.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        NgSelectModule,
-        UrlModule,
-        I18nModule,
-        ReactiveFormsModule,
-        FormErrorsModule,
-        CardModule,
-        KeyboardFocusModule,
-        PasswordVisibilityToggleModule,
-        FeaturesConfigModule,
-        FormRequiredAsterisksComponent,
-        FormRequiredLegendComponent,
-        UserChangePasswordFormComponent,
-    ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    NgSelectModule,
+    UrlModule,
+    I18nModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    CardModule,
+    KeyboardFocusModule,
+    PasswordVisibilityToggleModule,
+    FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
+    UserChangePasswordFormComponent,
+  ],
 })
 export class UserChangePasswordFormModule {}

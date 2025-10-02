@@ -44,14 +44,14 @@ describe('OrderDetailBillingComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, OrderDetailBillingComponent],
-    providers: [
+      imports: [I18nTestingModule, OrderDetailBillingComponent],
+      providers: [
         {
-            provide: OrderDetailsService,
-            useClass: MockOrderDetailsService,
+          provide: OrderDetailsService,
+          useClass: MockOrderDetailsService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

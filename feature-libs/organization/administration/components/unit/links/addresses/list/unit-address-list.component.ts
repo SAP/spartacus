@@ -14,22 +14,17 @@ import { TranslatePipe } from '../../../../../../../../projects/core/src/i18n/tr
 import { MockTranslatePipe } from '../../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-unit-address-list',
-    templateUrl: './unit-address-list.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'content-wrapper' },
-    providers: [
-        {
-            provide: ListService,
-            useExisting: UnitAddressListService,
-        },
-    ],
-    imports: [
-        SubListComponent,
-        RouterLink,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-unit-address-list',
+  templateUrl: './unit-address-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
+  providers: [
+    {
+      provide: ListService,
+      useExisting: UnitAddressListService,
+    },
+  ],
+  imports: [SubListComponent, RouterLink, TranslatePipe, MockTranslatePipe],
 })
 export class UnitAddressListComponent {
   routerKey = ROUTE_PARAMS.addressCode;

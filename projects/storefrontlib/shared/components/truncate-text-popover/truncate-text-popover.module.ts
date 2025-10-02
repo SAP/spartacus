@@ -12,7 +12,13 @@ import { TruncateTextPopoverComponent } from './truncate-text-popover.component'
 import { TruncatePipe } from './truncate.pipe';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, PopoverModule, TruncateTextPopoverComponent, TruncatePipe],
-    exports: [TruncateTextPopoverComponent, TruncatePipe],
+  imports: [
+    CommonModule,
+    I18nModule,
+    PopoverModule,
+    TruncateTextPopoverComponent,
+    TruncatePipe,
+  ],
+  exports: [TruncateTextPopoverComponent, TruncatePipe],
 })
 export class TruncateTextPopoverModule {}

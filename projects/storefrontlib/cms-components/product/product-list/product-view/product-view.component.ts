@@ -23,16 +23,10 @@ export enum ViewModes {
 }
 
 @Component({
-    selector: 'cx-product-view',
-    templateUrl: './product-view.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgClass,
-        NgIf,
-        IconComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-product-view',
+  templateUrl: './product-view.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgClass, NgIf, IconComponent, TranslatePipe, MockTranslatePipe],
 })
 export class ProductViewComponent {
   iconTypes = ICON_TYPE;

@@ -29,7 +29,7 @@ import { BREAKPOINT, BreakpointService } from '../../../layout';
 
 const ARIA_LABEL = 'aria-label';
 
-@Directive({ selector: '[cxNgSelectA11y]', })
+@Directive({ selector: '[cxNgSelectA11y]' })
 export class NgSelectA11yDirective implements AfterViewInit {
   /**
    * Use directive to bind aria attribute to inner element of ng-select

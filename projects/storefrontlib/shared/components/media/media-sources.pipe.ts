@@ -6,7 +6,7 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'cxMediaSources', })
+@Pipe({ name: 'cxMediaSources' })
 export class MediaSourcesPipe implements PipeTransform {
   transform(sizes: string) {
     const sources: Pick<HTMLSourceElement, 'srcset' | 'media'>[] = [];

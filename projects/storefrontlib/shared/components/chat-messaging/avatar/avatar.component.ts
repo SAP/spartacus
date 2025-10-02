@@ -11,13 +11,9 @@ import { NgIf, NgClass } from '@angular/common';
 import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
 
 @Component({
-    selector: 'cx-avatar',
-    templateUrl: './avatar.component.html',
-    imports: [
-        NgIf,
-        NgClass,
-        IconComponent,
-    ],
+  selector: 'cx-avatar',
+  templateUrl: './avatar.component.html',
+  imports: [NgIf, NgClass, IconComponent],
 })
 export class AvatarComponent {
   @Input() message: MessageEvent;

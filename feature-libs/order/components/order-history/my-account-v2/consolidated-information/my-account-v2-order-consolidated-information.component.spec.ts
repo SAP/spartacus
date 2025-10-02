@@ -34,15 +34,15 @@ const mock_images: Images[] = [
 ];
 
 @Component({
-    template: '',
-    selector: 'cx-media',
-    imports: [I18nTestingModule],
+  template: '',
+  selector: 'cx-media',
+  imports: [I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container: MediaContainer;
 }
 
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -67,17 +67,20 @@ describe('MyAccountV2OrderConsolidatedInformationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, MyAccountV2OrderConsolidatedInformationComponent,
+      imports: [
+        I18nTestingModule,
+        MyAccountV2OrderConsolidatedInformationComponent,
         MockUrlPipe,
-        MockMediaComponent],
-    providers: [
+        MockMediaComponent,
+      ],
+      providers: [
         {
-            provide: MyAccountV2OrderConsignmentsService,
-            useClass: MockMyAccountV2OrderConsignmentsService,
+          provide: MyAccountV2OrderConsignmentsService,
+          useClass: MockMyAccountV2OrderConsignmentsService,
         },
         { provide: TranslationService, useClass: MockTranslationService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
     service = TestBed.inject(MyAccountV2OrderConsignmentsService);
   }));
 

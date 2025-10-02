@@ -23,16 +23,10 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-cost-center',
-    templateUrl: './checkout-cost-center.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-cost-center',
+  templateUrl: './checkout-cost-center.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

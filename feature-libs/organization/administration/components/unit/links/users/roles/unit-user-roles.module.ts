@@ -14,16 +14,16 @@ import { CardModule } from '../../../../shared/card/card.module';
 import { UnitUserRolesFormComponent } from './unit-user-roles.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        CardModule,
-        FormsModule,
-        RouterModule,
-        UrlModule,
-        I18nModule,
-        ReactiveFormsModule,
-        KeyboardFocusModule,
-        UnitUserRolesFormComponent,
-    ],
+  imports: [
+    CommonModule,
+    CardModule,
+    FormsModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    ReactiveFormsModule,
+    KeyboardFocusModule,
+    UnitUserRolesFormComponent,
+  ],
 })
 export class UnitUserRolesModule {}

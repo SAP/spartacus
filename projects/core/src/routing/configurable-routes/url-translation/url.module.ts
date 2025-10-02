@@ -10,7 +10,7 @@ import { UrlPipe } from './url.pipe';
 import { ProductURLPipe } from './product-url.pipe';
 
 @NgModule({
-    imports: [CommonModule, UrlPipe, ProductURLPipe],
-    exports: [UrlPipe, ProductURLPipe],
+  imports: [CommonModule, UrlPipe, ProductURLPipe],
+  exports: [UrlPipe, ProductURLPipe],
 })
 export class UrlModule {}

@@ -10,7 +10,8 @@ const OUTLET_NAME = 'PDP.images';
 const STANDARD_TEXT = 'standard';
 const CUSTOM_TEXT = 'customized';
 
-@Component({ template: `
+@Component({
+  template: `
     <ng-container *ngIf="outletRefVisible">
       <ng-template cxOutletRef="${OUTLET_NAME}"> ${CUSTOM_TEXT} </ng-template>
     </ng-container>
@@ -20,7 +21,8 @@ const CUSTOM_TEXT = 'customized';
         ${STANDARD_TEXT}
       </ng-container>
     </ng-container>
-  `, })
+  `,
+})
 class TestContainerComponent {
   outletRefVisible = true;
   outletVisible = true;
@@ -55,14 +57,12 @@ describe('OutletRefDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [TestContainerComponent,
-        OutletDirective,
-        OutletRefDirective],
-    providers: [
+      imports: [TestContainerComponent, OutletDirective, OutletRefDirective],
+      providers: [
         OutletService,
         { provide: DeferLoaderService, useClass: MockDeferLoaderService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

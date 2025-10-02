@@ -28,14 +28,10 @@ export interface ConfiguratorAttributeQuantityComponentOptions {
 }
 
 @Component({
-    selector: 'cx-configurator-attribute-quantity',
-    templateUrl: './configurator-attribute-quantity.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        ItemCounterComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-attribute-quantity',
+  templateUrl: './configurator-attribute-quantity.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ItemCounterComponent, TranslatePipe, MockTranslatePipe],
 })
 export class ConfiguratorAttributeQuantityComponent
   implements OnDestroy, OnInit

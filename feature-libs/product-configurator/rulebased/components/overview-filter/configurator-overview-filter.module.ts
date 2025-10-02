@@ -12,14 +12,14 @@ import { ConfiguratorOverviewFilterBarModule } from '../overview-filter-bar/conf
 import { ConfiguratorOverviewFilterComponent } from './configurator-overview-filter.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        FormsModule,
-        ReactiveFormsModule,
-        ConfiguratorOverviewFilterBarModule,
-        ConfiguratorOverviewFilterComponent,
-    ],
-    exports: [ConfiguratorOverviewFilterComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ConfiguratorOverviewFilterBarModule,
+    ConfiguratorOverviewFilterComponent,
+  ],
+  exports: [ConfiguratorOverviewFilterComponent],
 })
 export class ConfiguratorOverviewFilterModule {}

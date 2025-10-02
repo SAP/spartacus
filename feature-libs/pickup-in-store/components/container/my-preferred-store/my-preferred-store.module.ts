@@ -11,21 +11,21 @@ import { CardModule, IconModule } from '@spartacus/storefront';
 import { StoreModule } from '../../presentational/store';
 import { MyPreferredStoreComponent } from './my-preferred-store.component';
 @NgModule({
-    imports: [
-        CardModule,
-        StoreModule,
-        CommonModule,
-        I18nModule,
-        IconModule,
-        ConfigModule.withConfig({
-            cmsComponents: {
-                MyPreferredStoreComponent: {
-                    component: MyPreferredStoreComponent,
-                },
-            },
-        } as CmsConfig),
-        MyPreferredStoreComponent,
-    ],
-    exports: [MyPreferredStoreComponent],
+  imports: [
+    CardModule,
+    StoreModule,
+    CommonModule,
+    I18nModule,
+    IconModule,
+    ConfigModule.withConfig({
+      cmsComponents: {
+        MyPreferredStoreComponent: {
+          component: MyPreferredStoreComponent,
+        },
+      },
+    } as CmsConfig),
+    MyPreferredStoreComponent,
+  ],
+  exports: [MyPreferredStoreComponent],
 })
 export class MyPreferredStoreModule {}

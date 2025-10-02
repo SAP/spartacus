@@ -10,9 +10,9 @@ import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe
 import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-store-finder-pagination-details',
-    templateUrl: './store-finder-pagination-details.component.html',
-    imports: [TranslatePipe, MockTranslatePipe],
+  selector: 'cx-store-finder-pagination-details',
+  templateUrl: './store-finder-pagination-details.component.html',
+  imports: [TranslatePipe, MockTranslatePipe],
 })
 export class StoreFinderPaginationDetailsComponent {
   @Input()

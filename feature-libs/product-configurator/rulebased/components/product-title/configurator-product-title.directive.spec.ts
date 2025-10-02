@@ -3,9 +3,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ConfiguratorMainAriaLabelledByDirective } from './configurator-product-title.directive';
 
 @Component({
-    template: `<main></main>
+  template: `<main></main>
     <span id="test" [cxConfiguratorMainAriaLabelledBy]="'test'"></span>`,
-    imports: [ConfiguratorMainAriaLabelledByDirective],
+  imports: [ConfiguratorMainAriaLabelledByDirective],
 })
 class TestComponent {}
 
@@ -15,8 +15,8 @@ describe('ConfiguratorMainAriaLabelledByDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [ConfiguratorMainAriaLabelledByDirective, TestComponent],
-});
+      imports: [ConfiguratorMainAriaLabelledByDirective, TestComponent],
+    });
     fixture = TestBed.createComponent(TestComponent);
     fixture.detectChanges();
     mainEl = fixture.nativeElement.querySelector('main');

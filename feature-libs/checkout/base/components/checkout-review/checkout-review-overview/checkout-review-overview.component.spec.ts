@@ -32,11 +32,15 @@ describe('CheckoutReviewOverviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, PromotionsModule, CheckoutReviewOverviewComponent],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        PromotionsModule,
+        CheckoutReviewOverviewComponent,
+      ],
+      providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CheckoutReviewOverviewComponent);
     component = fixture.componentInstance;

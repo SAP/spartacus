@@ -18,26 +18,26 @@ import { AddressFormModule } from '@spartacus/user/profile/components';
 import { OpfB2bCheckoutDeliveryAddressComponent } from './opf-b2b-checkout-delivery-address.component';
 import { OpfB2bCheckoutCostCenterModule } from '../opf-b2b-checkout-cost-center';
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        AddressFormModule,
-        CardModule,
-        SpinnerModule,
-        I18nModule,
-        FeaturesConfigModule,
-        OpfB2bCheckoutCostCenterModule,
-        OpfB2bCheckoutDeliveryAddressComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                OpfCheckoutDeliveryAddress: {
-                    component: OpfB2bCheckoutDeliveryAddressComponent,
-                },
-            },
-        }),
-    ],
-    exports: [OpfB2bCheckoutDeliveryAddressComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    AddressFormModule,
+    CardModule,
+    SpinnerModule,
+    I18nModule,
+    FeaturesConfigModule,
+    OpfB2bCheckoutCostCenterModule,
+    OpfB2bCheckoutDeliveryAddressComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        OpfCheckoutDeliveryAddress: {
+          component: OpfB2bCheckoutDeliveryAddressComponent,
+        },
+      },
+    }),
+  ],
+  exports: [OpfB2bCheckoutDeliveryAddressComponent],
 })
 export class OpfB2bCheckoutDeliveryAddressModule {}

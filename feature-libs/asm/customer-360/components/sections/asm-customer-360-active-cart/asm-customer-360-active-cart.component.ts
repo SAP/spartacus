@@ -20,16 +20,16 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'cx-asm-customer-360-active-cart',
-    templateUrl: './asm-customer-360-active-cart.component.html',
-    imports: [
-        NgIf,
-        AsmCustomer360ProductListingComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'cx-asm-customer-360-active-cart',
+  templateUrl: './asm-customer-360-active-cart.component.html',
+  imports: [
+    NgIf,
+    AsmCustomer360ProductListingComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AsmCustomer360ActiveCartComponent {
   productItems$: Observable<Array<ProductItem>>;

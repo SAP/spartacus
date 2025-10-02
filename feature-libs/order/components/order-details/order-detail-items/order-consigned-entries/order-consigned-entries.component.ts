@@ -23,21 +23,21 @@ import { CxDatePipe } from '../../../../../../projects/core/src/i18n/date.pipe';
 import { MockDatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-order-consigned-entries',
-    templateUrl: './order-consigned-entries.component.html',
-    imports: [
-        NgFor,
-        OutletDirective,
-        NgIf,
-        FeatureDirective,
-        ConsignmentTrackingComponent,
-        AbstractOrderContextDirective,
-        AddToCartComponent,
-        AsyncPipe,
-        TitleCasePipe,
-        CxDatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-order-consigned-entries',
+  templateUrl: './order-consigned-entries.component.html',
+  imports: [
+    NgFor,
+    OutletDirective,
+    NgIf,
+    FeatureDirective,
+    ConsignmentTrackingComponent,
+    AbstractOrderContextDirective,
+    AddToCartComponent,
+    AsyncPipe,
+    TitleCasePipe,
+    CxDatePipe,
+    MockDatePipe,
+  ],
 })
 export class OrderConsignedEntriesComponent {
   @Input() consignments: Consignment[];

@@ -15,15 +15,9 @@ import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/test
 import { MockDatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 type ConsignmentOutletContextData = { item: Consignment; order?: Order };
 @Component({
-    selector: 'cx-my-account-v2-consignment-tracking',
-    templateUrl: './my-account-v2-consignment-tracking.component.html',
-    imports: [
-        NgIf,
-        TranslatePipe,
-        CxDatePipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-my-account-v2-consignment-tracking',
+  templateUrl: './my-account-v2-consignment-tracking.component.html',
+  imports: [NgIf, TranslatePipe, CxDatePipe, MockTranslatePipe, MockDatePipe],
 })
 export class MyAccountV2ConsignmentTrackingComponent
   extends ConsignmentTrackingComponent

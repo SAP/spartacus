@@ -19,11 +19,11 @@ describe('StoreFinderMapComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [StoreFinderMapComponent],
-    providers: [
+      imports: [StoreFinderMapComponent],
+      providers: [
         { provide: GoogleMapRendererService, useClass: MapRendererServiceMock },
-    ],
-});
+      ],
+    });
 
     fixture = TestBed.createComponent(StoreFinderMapComponent);
     component = fixture.componentInstance;

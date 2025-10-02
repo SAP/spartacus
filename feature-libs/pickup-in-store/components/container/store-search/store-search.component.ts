@@ -16,9 +16,9 @@ import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing
  * locations without stock.
  */
 @Component({
-    selector: 'cx-store-search',
-    templateUrl: './store-search.component.html',
-    imports: [TranslatePipe, MockTranslatePipe],
+  selector: 'cx-store-search',
+  templateUrl: './store-search.component.html',
+  imports: [TranslatePipe, MockTranslatePipe],
 })
 export class StoreSearchComponent {
   /** Whether the hide out of stock checkbox appears checked */

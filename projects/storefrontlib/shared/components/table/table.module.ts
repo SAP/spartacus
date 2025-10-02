@@ -17,14 +17,14 @@ import { TableComponent } from './table.component';
  * The TableModule provides a table component that is driven by (responsible) configuration.
  */
 @NgModule({
-    imports: [
-        CommonModule,
-        OutletModule,
-        TableHeaderCellModule,
-        TableDataCellModule,
-        TableComponent,
-    ],
-    exports: [TableComponent],
-    providers: [provideDefaultConfig(defaultTableConfig)],
+  imports: [
+    CommonModule,
+    OutletModule,
+    TableHeaderCellModule,
+    TableDataCellModule,
+    TableComponent,
+  ],
+  exports: [TableComponent],
+  providers: [provideDefaultConfig(defaultTableConfig)],
 })
 export class TableModule {}

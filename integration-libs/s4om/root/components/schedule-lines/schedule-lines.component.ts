@@ -15,18 +15,18 @@ import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing
 import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-schedule-lines',
-    templateUrl: './schedule-lines.component.html',
-    providers: [CxDatePipe],
-    imports: [
-        NgIf,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        CxDatePipe_1,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-schedule-lines',
+  templateUrl: './schedule-lines.component.html',
+  providers: [CxDatePipe],
+  imports: [
+    NgIf,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe_1,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class ScheduleLinesComponent {
   constructor(

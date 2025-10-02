@@ -29,18 +29,18 @@ import { MediaComponent } from '../../../../../../projects/storefrontlib/shared/
 import { UrlPipe } from '../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
 
 @Component({
-    selector: 'cx-merchandising-carousel',
-    templateUrl: './merchandising-carousel.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        AttributesDirective,
-        CarouselComponent,
-        RouterLink,
-        MediaComponent,
-        AsyncPipe,
-        UrlPipe,
-    ],
+  selector: 'cx-merchandising-carousel',
+  templateUrl: './merchandising-carousel.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    AttributesDirective,
+    CarouselComponent,
+    RouterLink,
+    MediaComponent,
+    AsyncPipe,
+    UrlPipe,
+  ],
 })
 export class MerchandisingCarouselComponent {
   protected lastEventModelId: string;

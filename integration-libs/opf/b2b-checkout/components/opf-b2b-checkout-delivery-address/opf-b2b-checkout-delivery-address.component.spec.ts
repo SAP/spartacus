@@ -30,7 +30,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { CheckoutModule } from '@spartacus/checkout/base';
 import createSpy = jasmine.createSpy;
 
-@Pipe({ name: 'cxTranslate', })
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -121,9 +121,9 @@ const mockActivatedRoute = {
 };
 
 @Component({
-    selector: 'cx-address-form',
-    template: '',
-    imports: [I18nTestingModule, CheckoutModule],
+  selector: 'cx-address-form',
+  template: '',
+  imports: [I18nTestingModule, CheckoutModule],
 })
 class MockAddressFormComponent {
   @Input() cancelBtnLabel: string;
@@ -133,16 +133,16 @@ class MockAddressFormComponent {
 }
 
 @Component({
-    selector: 'cx-spinner',
-    template: '',
-    imports: [I18nTestingModule, CheckoutModule],
+  selector: 'cx-spinner',
+  template: '',
+  imports: [I18nTestingModule, CheckoutModule],
 })
 class MockSpinnerComponent {}
 
 @Component({
-    selector: 'cx-card',
-    template: '',
-    imports: [I18nTestingModule, CheckoutModule],
+  selector: 'cx-card',
+  template: '',
+  imports: [I18nTestingModule, CheckoutModule],
 })
 class MockCardComponent {
   @Input()
@@ -165,42 +165,47 @@ describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, StoreModule.forRoot({}), CheckoutModule, OpfB2bCheckoutDeliveryAddressComponent,
+      imports: [
+        I18nTestingModule,
+        StoreModule.forRoot({}),
+        CheckoutModule,
+        OpfB2bCheckoutDeliveryAddressComponent,
         MockAddressFormComponent,
         MockCardComponent,
         MockSpinnerComponent,
-        MockTranslatePipe],
-    providers: [
+        MockTranslatePipe,
+      ],
+      providers: [
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
-            provide: CheckoutDeliveryAddressFacade,
-            useClass: MockCheckoutDeliveryAddressFacade,
+          provide: CheckoutDeliveryAddressFacade,
+          useClass: MockCheckoutDeliveryAddressFacade,
         },
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {
-            provide: CheckoutDeliveryModesFacade,
-            useClass: MockCheckoutDeliveryModesFacade,
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModesFacade,
         },
         {
-            provide: FeaturesConfig,
-            useValue: {
-                features: { level: '6.3' },
-            },
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '6.3' },
+          },
         },
         {
-            provide: CheckoutFlowOrchestratorService,
-            useClass: MockCheckoutFlowOrchestratorService,
+          provide: CheckoutFlowOrchestratorService,
+          useClass: MockCheckoutFlowOrchestratorService,
         },
         {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
         { provide: Store, useClass: MockStore },
-    ],
-})
+      ],
+    })
       .overrideComponent(OpfB2bCheckoutDeliveryAddressComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })

@@ -20,24 +20,30 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
-import { NgFor, NgIf, AsyncPipe, TitleCasePipe, KeyValuePipe } from '@angular/common';
+import {
+  NgFor,
+  NgIf,
+  AsyncPipe,
+  TitleCasePipe,
+  KeyValuePipe,
+} from '@angular/common';
 import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-schedule-replenishment-order',
-    templateUrl: './checkout-schedule-replenishment-order.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        IconComponent,
-        NgFor,
-        NgIf,
-        AsyncPipe,
-        TitleCasePipe,
-        KeyValuePipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-schedule-replenishment-order',
+  templateUrl: './checkout-schedule-replenishment-order.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    IconComponent,
+    NgFor,
+    NgIf,
+    AsyncPipe,
+    TitleCasePipe,
+    KeyValuePipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CheckoutScheduleReplenishmentOrderComponent
   implements OnInit, OnDestroy

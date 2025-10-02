@@ -39,18 +39,18 @@ import { UrlPipe } from '../../../../core/src/routing/configurable-routes/url-tr
 import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-stock-notification',
-    templateUrl: './stock-notification.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        RouterLink,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-stock-notification',
+  templateUrl: './stock-notification.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    RouterLink,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class StockNotificationComponent implements OnInit, OnDestroy {
   hasProductInterests$: Observable<boolean>;

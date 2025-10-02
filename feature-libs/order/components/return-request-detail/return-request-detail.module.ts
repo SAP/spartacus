@@ -25,22 +25,29 @@ const components = [
 ];
 
 @NgModule({
-    imports: [CommonModule, RouterModule, UrlModule, I18nModule, MediaModule, ...components],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                ReturnRequestOverviewComponent: {
-                    component: ReturnRequestOverviewComponent,
-                },
-                ReturnRequestItemsComponent: {
-                    component: ReturnRequestItemsComponent,
-                },
-                ReturnRequestTotalsComponent: {
-                    component: ReturnRequestTotalsComponent,
-                },
-            },
-        }),
-    ],
-    exports: [...components],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    MediaModule,
+    ...components,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ReturnRequestOverviewComponent: {
+          component: ReturnRequestOverviewComponent,
+        },
+        ReturnRequestItemsComponent: {
+          component: ReturnRequestItemsComponent,
+        },
+        ReturnRequestTotalsComponent: {
+          component: ReturnRequestTotalsComponent,
+        },
+      },
+    }),
+  ],
+  exports: [...components],
 })
 export class ReturnRequestDetailModule {}

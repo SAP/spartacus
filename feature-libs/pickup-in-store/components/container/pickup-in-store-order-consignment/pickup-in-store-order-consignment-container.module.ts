@@ -12,14 +12,18 @@ import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 import { PickupInStoreOrderConsignmentContainerComponent } from './pickup-in-store-order-consignment-container.component';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, PickupInStoreOrderConsignmentContainerComponent],
-    exports: [PickupInStoreOrderConsignmentContainerComponent],
-    providers: [
-        provideOutlet({
-            id: OrderOutlets.ORDER_CONSIGNMENT,
-            position: OutletPosition.AFTER,
-            component: PickupInStoreOrderConsignmentContainerComponent,
-        }),
-    ],
+  imports: [
+    CommonModule,
+    I18nModule,
+    PickupInStoreOrderConsignmentContainerComponent,
+  ],
+  exports: [PickupInStoreOrderConsignmentContainerComponent],
+  providers: [
+    provideOutlet({
+      id: OrderOutlets.ORDER_CONSIGNMENT,
+      position: OutletPosition.AFTER,
+      component: PickupInStoreOrderConsignmentContainerComponent,
+    }),
+  ],
 })
 export class OrderConsignmentContainerModule {}

@@ -15,16 +15,16 @@ import { DeleteItemModule } from '../../shared/detail/delete-item-action/delete-
 import { UserGroupDetailsComponent } from './user-group-details.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        CardModule,
-        RouterModule,
-        UrlModule,
-        I18nModule,
-        DeleteItemModule,
-        ItemExistsModule,
-        KeyboardFocusModule,
-        UserGroupDetailsComponent,
-    ],
+  imports: [
+    CommonModule,
+    CardModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    DeleteItemModule,
+    ItemExistsModule,
+    KeyboardFocusModule,
+    UserGroupDetailsComponent,
+  ],
 })
 export class UserGroupDetailsModule {}

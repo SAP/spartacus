@@ -13,23 +13,23 @@ import { NavigationModule } from '../navigation/navigation.module';
 import { FooterNavigationComponent } from './footer-navigation.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        NavigationModule,
-        GenericLinkModule,
-        I18nModule,
-        FooterNavigationComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                FooterNavigationComponent: {
-                    component: FooterNavigationComponent,
-                },
-            },
-        }),
-    ],
-    exports: [FooterNavigationComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    NavigationModule,
+    GenericLinkModule,
+    I18nModule,
+    FooterNavigationComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        FooterNavigationComponent: {
+          component: FooterNavigationComponent,
+        },
+      },
+    }),
+  ],
+  exports: [FooterNavigationComponent],
 })
 export class FooterNavigationModule {}

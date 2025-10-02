@@ -21,25 +21,25 @@ import { QuoteHeaderOverviewComponent } from './quote-header-overview.component'
 import { QuoteHeaderBuyerEditModule } from '../buyer-edit/quote-header-buyer-edit.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        IconModule,
-        CardModule,
-        QuoteHeaderBuyerEditModule,
-        KeyboardFocusModule,
-        QuoteHeaderOverviewComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                QuoteHeaderOverviewComponent: {
-                    component: QuoteHeaderOverviewComponent,
-                    guards: [AuthGuard],
-                },
-            },
-        }),
-    ],
-    exports: [QuoteHeaderOverviewComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    CardModule,
+    QuoteHeaderBuyerEditModule,
+    KeyboardFocusModule,
+    QuoteHeaderOverviewComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        QuoteHeaderOverviewComponent: {
+          component: QuoteHeaderOverviewComponent,
+          guards: [AuthGuard],
+        },
+      },
+    }),
+  ],
+  exports: [QuoteHeaderOverviewComponent],
 })
 export class QuoteHeaderOverviewModule {}

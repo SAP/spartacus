@@ -33,17 +33,17 @@ import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-popover',
-    templateUrl: './popover.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FocusDirective,
-        NgIf,
-        IconComponent,
-        NgTemplateOutlet,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-popover',
+  templateUrl: './popover.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FocusDirective,
+    NgIf,
+    IconComponent,
+    NgTemplateOutlet,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   /**

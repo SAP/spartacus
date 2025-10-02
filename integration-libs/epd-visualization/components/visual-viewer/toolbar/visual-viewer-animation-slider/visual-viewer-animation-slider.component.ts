@@ -20,15 +20,11 @@ import { CxNumericPipe } from '../../../../../../projects/core/src/i18n/numeric.
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-epd-visualization-animation-slider',
-    templateUrl: './visual-viewer-animation-slider.component.html',
-    providers: [VisualViewerAnimationSliderService],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        TranslatePipe,
-        CxNumericPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-epd-visualization-animation-slider',
+  templateUrl: './visual-viewer-animation-slider.component.html',
+  providers: [VisualViewerAnimationSliderService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslatePipe, CxNumericPipe, MockTranslatePipe],
 })
 export class VisualViewerAnimationSliderComponent implements AfterViewInit {
   constructor(

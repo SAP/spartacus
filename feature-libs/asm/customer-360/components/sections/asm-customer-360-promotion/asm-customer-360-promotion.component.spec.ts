@@ -20,7 +20,7 @@ describe('AsmCustomer360PromotionComponent', () => {
     selector: 'cx-icon',
     template: '',
     imports: [I18nTestingModule],
-})
+  })
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
   }
@@ -95,25 +95,28 @@ describe('AsmCustomer360PromotionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, AsmCustomer360PromotionComponent,
+      imports: [
+        I18nTestingModule,
+        AsmCustomer360PromotionComponent,
         AsmCustomer360PromotionListingComponent,
-        MockCxIconComponent],
-    providers: [
+        MockCxIconComponent,
+      ],
+      providers: [
         AsmCustomer360SectionContextSource,
         {
-            provide: AsmCustomer360SectionContext,
-            useExisting: AsmCustomer360SectionContextSource,
+          provide: AsmCustomer360SectionContext,
+          useExisting: AsmCustomer360SectionContextSource,
         },
         {
-            provide: AsmCustomer360Facade,
-            useClass: MockAsmCustomer360Facade,
+          provide: AsmCustomer360Facade,
+          useClass: MockAsmCustomer360Facade,
         },
         {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartFacade,
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartFacade,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

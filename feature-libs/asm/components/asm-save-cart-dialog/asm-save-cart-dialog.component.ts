@@ -24,17 +24,17 @@ export enum SAVE_CART_DIALOG_ACTION {
 }
 
 @Component({
-    selector: 'cx-asm-save-cart-dialog',
-    templateUrl: './asm-save-cart-dialog.component.html',
-    imports: [
-        FocusDirective,
-        NgIf,
-        MessageComponent,
-        FeatureDirective,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-asm-save-cart-dialog',
+  templateUrl: './asm-save-cart-dialog.component.html',
+  imports: [
+    FocusDirective,
+    NgIf,
+    MessageComponent,
+    FeatureDirective,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AsmSaveCartDialogComponent implements OnInit {
   BIND_CART_ACTION = SAVE_CART_DIALOG_ACTION;

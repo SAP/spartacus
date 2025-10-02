@@ -26,34 +26,35 @@ import { WishListItemComponent } from './wish-list-item/wish-list-item.component
 import { WishListComponent } from './wish-list/wish-list.component';
 
 @NgModule({
-    imports: [
-        AtMessageModule,
-        CommonModule,
-        I18nModule,
-        ItemCounterModule,
-        MediaModule,
-        PageComponentModule,
-        RouterModule,
-        StarRatingModule,
-        UrlModule,
-        FeaturesConfigModule,
-        WishListComponent, WishListItemComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                WishListComponent: {
-                    component: WishListComponent,
-                    data: {
-                        composition: {
-                            inner: ['ProductAddToCartComponent'],
-                        },
-                    },
-                    guards: [AuthGuard],
-                },
+  imports: [
+    AtMessageModule,
+    CommonModule,
+    I18nModule,
+    ItemCounterModule,
+    MediaModule,
+    PageComponentModule,
+    RouterModule,
+    StarRatingModule,
+    UrlModule,
+    FeaturesConfigModule,
+    WishListComponent,
+    WishListItemComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        WishListComponent: {
+          component: WishListComponent,
+          data: {
+            composition: {
+              inner: ['ProductAddToCartComponent'],
             },
-        }),
-    ],
-    exports: [WishListComponent, WishListItemComponent],
+          },
+          guards: [AuthGuard],
+        },
+      },
+    }),
+  ],
+  exports: [WishListComponent, WishListItemComponent],
 })
 export class WishListComponentsModule {}

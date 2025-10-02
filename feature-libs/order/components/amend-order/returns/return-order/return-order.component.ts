@@ -17,17 +17,17 @@ import { FormErrorsComponent } from '../../../../../../projects/storefrontlib/sh
 import { AmendOrderActionsComponent } from '../../amend-order-actions/amend-order-actions.component';
 
 @Component({
-    selector: 'cx-return-order',
-    templateUrl: './return-order.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgTemplateOutlet,
-        CancelOrReturnItemsComponent,
-        FormErrorsComponent,
-        AmendOrderActionsComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-return-order',
+  templateUrl: './return-order.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    CancelOrReturnItemsComponent,
+    FormErrorsComponent,
+    AmendOrderActionsComponent,
+    AsyncPipe,
+  ],
 })
 export class ReturnOrderComponent {
   orderCode: string;

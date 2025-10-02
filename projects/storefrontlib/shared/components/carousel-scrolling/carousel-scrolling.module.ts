@@ -14,16 +14,16 @@ import { MediaModule } from '../media/media.module';
 import { CarouselScrollingComponent } from './carousel-scrolling.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        IconModule,
-        MediaModule,
-        UrlModule,
-        I18nModule,
-        HorizontalScrollingPositionDirectiveModule,
-        CarouselScrollingComponent,
-    ],
-    exports: [CarouselScrollingComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    IconModule,
+    MediaModule,
+    UrlModule,
+    I18nModule,
+    HorizontalScrollingPositionDirectiveModule,
+    CarouselScrollingComponent,
+  ],
+  exports: [CarouselScrollingComponent],
 })
 export class CarouselScrollingModule {}

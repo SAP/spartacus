@@ -29,7 +29,7 @@ class MockRoutingService {
   go = createSpy();
 }
 
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -44,18 +44,19 @@ describe('OneTimePasswordLoginFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         ReactiveFormsModule,
         I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
-        OneTimePasswordLoginFormComponent, MockUrlPipe,
-    ],
-    providers: [
+        OneTimePasswordLoginFormComponent,
+        MockUrlPipe,
+      ],
+      providers: [
         { provide: WindowRef, useClass: MockWinRef },
         { provide: RoutingService, useClass: MockRoutingService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

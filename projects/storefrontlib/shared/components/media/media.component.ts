@@ -51,15 +51,10 @@ import { MediaSourcesPipe } from './media-sources.pipe';
  * ```
  */
 @Component({
-    selector: 'cx-media',
-    templateUrl: './media.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        FeatureDirective,
-        NgFor,
-        MediaSourcesPipe,
-    ],
+  selector: 'cx-media',
+  templateUrl: './media.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, FeatureDirective, NgFor, MediaSourcesPipe],
 })
 export class MediaComponent implements OnChanges {
   /**

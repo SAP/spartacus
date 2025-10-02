@@ -28,24 +28,24 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 import { defaultAddedToCartLayoutConfig } from './default-added-to-cart-layout.config';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        CartSharedModule,
-        RouterModule,
-        SpinnerModule,
-        PromotionsModule,
-        UrlModule,
-        IconModule,
-        I18nModule,
-        ItemCounterModule,
-        KeyboardFocusModule,
-        FeaturesConfigModule,
-        BtnLikeLinkModule,
-        AddedToCartDialogComponent,
-    ],
-    providers: [provideDefaultConfig(defaultAddedToCartLayoutConfig)],
-    exports: [AddedToCartDialogComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    CartSharedModule,
+    RouterModule,
+    SpinnerModule,
+    PromotionsModule,
+    UrlModule,
+    IconModule,
+    I18nModule,
+    ItemCounterModule,
+    KeyboardFocusModule,
+    FeaturesConfigModule,
+    BtnLikeLinkModule,
+    AddedToCartDialogComponent,
+  ],
+  providers: [provideDefaultConfig(defaultAddedToCartLayoutConfig)],
+  exports: [AddedToCartDialogComponent],
 })
 export class AddedToCartDialogModule {
   constructor(_addToCartDialogEventListener: AddedToCartDialogEventListener) {

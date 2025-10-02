@@ -87,18 +87,18 @@ const mockReplenishmentOrder$ = new BehaviorSubject<ReplenishmentOrder>(
 );
 
 @Component({
-    template: '',
-    selector: 'cx-pagination',
-    imports: [I18nTestingModule],
+  template: '',
+  selector: 'cx-pagination',
+  imports: [I18nTestingModule],
 })
 class MockPaginationComponent {
   @Input() pagination;
   @Output() viewPageEvent = new EventEmitter<string>();
 }
 @Component({
-    template: '',
-    selector: 'cx-sorting',
-    imports: [I18nTestingModule],
+  template: '',
+  selector: 'cx-sorting',
+  imports: [I18nTestingModule],
 })
 class MockSortingComponent {
   @Input() sortOptions;
@@ -108,7 +108,7 @@ class MockSortingComponent {
   @Output() sortListEvent = new EventEmitter<string>();
 }
 
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -157,20 +157,23 @@ describe('OrderHistoryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, OrderHistoryComponent,
+      imports: [
+        I18nTestingModule,
+        OrderHistoryComponent,
         MockUrlPipe,
         MockPaginationComponent,
-        MockSortingComponent],
-    providers: [
+        MockSortingComponent,
+      ],
+      providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
         { provide: TranslationService, useClass: MockTranslationService },
         {
-            provide: ReplenishmentOrderHistoryFacade,
-            useClass: MockReplenishmentOrderHistoryFacade,
+          provide: ReplenishmentOrderHistoryFacade,
+          useClass: MockReplenishmentOrderHistoryFacade,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
     routingService = TestBed.inject(RoutingService);

@@ -18,16 +18,16 @@ import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-global-message',
-    templateUrl: './global-message.component.html',
-    imports: [
-        NgIf,
-        NgFor,
-        IconComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-global-message',
+  templateUrl: './global-message.component.html',
+  imports: [
+    NgIf,
+    NgFor,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class GlobalMessageComponent implements OnInit {
   iconTypes = ICON_TYPE;

@@ -14,17 +14,17 @@ import {
 import { ProfileTagComponent } from './profile-tag.component';
 
 @NgModule({
-    imports: [CommonModule, ProfileTagComponent],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                ProfileTagComponent: {
-                    component: ProfileTagComponent,
-                    deferLoading: DeferLoadingStrategy.INSTANT,
-                },
-            },
-        }),
-    ],
-    exports: [ProfileTagComponent],
+  imports: [CommonModule, ProfileTagComponent],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ProfileTagComponent: {
+          component: ProfileTagComponent,
+          deferLoading: DeferLoadingStrategy.INSTANT,
+        },
+      },
+    }),
+  ],
+  exports: [ProfileTagComponent],
 })
 export class ProfileTagCmsModule {}

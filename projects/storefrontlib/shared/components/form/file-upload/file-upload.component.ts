@@ -24,22 +24,16 @@ import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-tra
  * Component that adds a file upload control.
  */
 @Component({
-    selector: 'cx-file-upload',
-    templateUrl: './file-upload.component.html',
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => FileUploadComponent),
-            multi: true,
-        },
-    ],
-    imports: [
-        NgIf,
-        NgTemplateOutlet,
-        NgFor,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-file-upload',
+  templateUrl: './file-upload.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => FileUploadComponent),
+      multi: true,
+    },
+  ],
+  imports: [NgIf, NgTemplateOutlet, NgFor, TranslatePipe, MockTranslatePipe],
 })
 export class FileUploadComponent implements ControlValueAccessor {
   /**

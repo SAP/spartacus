@@ -24,15 +24,15 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-overview-filter-button',
-    templateUrl: './configurator-overview-filter-button.component.html',
-    imports: [
-        NgIf,
-        ConfiguratorOverviewFilterBarComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-overview-filter-button',
+  templateUrl: './configurator-overview-filter-button.component.html',
+  imports: [
+    NgIf,
+    ConfiguratorOverviewFilterBarComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorOverviewFilterButtonComponent {
   protected configuratorStorefrontUtilsService = inject(

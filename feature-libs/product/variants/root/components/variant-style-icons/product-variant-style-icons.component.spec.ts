@@ -42,14 +42,14 @@ describe('ProductVariantStyleIconsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [ProductVariantStyleIconsComponent],
-    providers: [
+      imports: [ProductVariantStyleIconsComponent],
+      providers: [
         {
-            provide: OccConfig,
-            useValue: { backend: { occ: { baseUrl: mockOccBackendUrl } } },
+          provide: OccConfig,
+          useValue: { backend: { occ: { baseUrl: mockOccBackendUrl } } },
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

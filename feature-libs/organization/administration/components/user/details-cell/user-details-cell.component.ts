@@ -20,18 +20,18 @@ import { UrlPipe } from '../../../../../../projects/core/src/routing/configurabl
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-user-details-cell',
-    templateUrl: './user-details-cell.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        RouterLink,
-        NgFor,
-        PopoverDirective,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-user-details-cell',
+  templateUrl: './user-details-cell.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    RouterLink,
+    NgFor,
+    PopoverDirective,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class UserDetailsCellComponent extends CellComponent {
   b2bUserModel: B2BUser;

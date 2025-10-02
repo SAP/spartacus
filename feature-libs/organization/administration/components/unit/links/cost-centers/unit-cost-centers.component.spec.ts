@@ -23,28 +23,28 @@ describe('UnitCostCenterListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         SubListTestingModule,
         UrlTestingModule,
         I18nTestingModule,
         DisableInfoModule,
         UnitCostCenterListComponent,
-    ],
-    providers: [
+      ],
+      providers: [
         {
-            provide: UnitCostCenterListService,
-            useClass: MockUnitCostCenterListService,
+          provide: UnitCostCenterListService,
+          useClass: MockUnitCostCenterListService,
         },
         {
-            provide: CurrentUnitService,
-            useClass: MockCurrentUnitService,
+          provide: CurrentUnitService,
+          useClass: MockCurrentUnitService,
         },
         {
-            provide: ItemService,
-            useClass: MockItemService,
+          provide: ItemService,
+          useClass: MockItemService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UnitCostCenterListComponent);
     component = fixture.componentInstance;

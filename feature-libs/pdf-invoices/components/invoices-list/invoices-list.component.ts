@@ -46,22 +46,22 @@ import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mo
 import { MockDatePipe } from '../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-invoices-list',
-    templateUrl: './invoices-list.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        SortingComponent,
-        PaginationComponent,
-        FeatureDirective,
-        IconComponent,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        CxDatePipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-invoices-list',
+  templateUrl: './invoices-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    SortingComponent,
+    PaginationComponent,
+    FeatureDirective,
+    IconComponent,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class InvoicesListComponent implements OnInit, OnDestroy {
   /* For Enum use in HTML */

@@ -13,16 +13,16 @@ import { TranslatePipe } from '../../../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-my-account-v2-consent-management',
-    templateUrl: './my-account-v2-consent-management.component.html',
-    imports: [
-        NgIf,
-        SpinnerComponent,
-        NgFor,
-        MyAccountV2ConsentManagementFormComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-my-account-v2-consent-management',
+  templateUrl: './my-account-v2-consent-management.component.html',
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    NgFor,
+    MyAccountV2ConsentManagementFormComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class MyAccountV2ConsentManagementComponent extends ConsentManagementComponent {}

@@ -8,7 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Address } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 
-@Pipe({ name: 'cxGetAddressCardContent', })
+@Pipe({ name: 'cxGetAddressCardContent' })
 export class GetAddressCardContent implements PipeTransform {
   transform(address: Address): Card {
     if (!address) {

@@ -23,30 +23,30 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-unit-details',
-    templateUrl: './unit-details.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [
-        {
-            provide: ItemService,
-            useExisting: UnitItemService,
-        },
-    ],
-    host: { class: 'content-wrapper' },
-    imports: [
-        NgIf,
-        CardComponent,
-        FocusDirective,
-        RouterLink,
-        ToggleStatusComponent,
-        DisableInfoComponent,
-        ItemExistsDirective,
-        RouterLinkActive,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-unit-details',
+  templateUrl: './unit-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: ItemService,
+      useExisting: UnitItemService,
+    },
+  ],
+  host: { class: 'content-wrapper' },
+  imports: [
+    NgIf,
+    CardComponent,
+    FocusDirective,
+    RouterLink,
+    ToggleStatusComponent,
+    DisableInfoComponent,
+    ItemExistsDirective,
+    RouterLinkActive,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class UnitDetailsComponent {
   model$: Observable<B2BUnit> = this.itemService.key$.pipe(

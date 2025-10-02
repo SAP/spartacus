@@ -25,20 +25,20 @@ import { UrlPipe } from '../../../../../core/src/routing/configurable-routes/url
 import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-stock-notification-dialog',
-    templateUrl: './stock-notification-dialog.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FocusDirective,
-        NgIf,
-        NgFor,
-        RouterLink,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-stock-notification-dialog',
+  templateUrl: './stock-notification-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FocusDirective,
+    NgIf,
+    NgFor,
+    RouterLink,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class StockNotificationDialogComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

@@ -14,22 +14,22 @@ import { SpinnerModule } from '../../../../shared/components/spinner/spinner.mod
 import { MyAccountV2NotificationPreferenceComponent } from './my-account-v2-notification-preference.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        SpinnerModule,
-        I18nModule,
-        RouterModule.forChild([
-            {
-                // @ts-ignore
-                path: null,
-                canActivate: [AuthGuard, CmsPageGuard],
-                component: PageLayoutComponent,
-                data: { cxRoute: 'notificationPreference' },
-            },
-        ]),
-        FeaturesConfigModule,
-        MyAccountV2NotificationPreferenceComponent,
-    ],
-    exports: [MyAccountV2NotificationPreferenceComponent],
+  imports: [
+    CommonModule,
+    SpinnerModule,
+    I18nModule,
+    RouterModule.forChild([
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'notificationPreference' },
+      },
+    ]),
+    FeaturesConfigModule,
+    MyAccountV2NotificationPreferenceComponent,
+  ],
+  exports: [MyAccountV2NotificationPreferenceComponent],
 })
 export class MyAccountV2NotificationPreferenceModule {}

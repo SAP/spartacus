@@ -13,15 +13,10 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-return-request-totals',
-    templateUrl: './return-request-totals.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-return-request-totals',
+  templateUrl: './return-request-totals.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class ReturnRequestTotalsComponent implements OnDestroy {
   constructor(protected returnRequestService: ReturnRequestService) {}

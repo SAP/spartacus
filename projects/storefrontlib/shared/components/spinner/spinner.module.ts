@@ -11,7 +11,7 @@ import { I18nModule } from '@spartacus/core';
 import { SpinnerComponent } from './spinner.component';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, SpinnerComponent],
-    exports: [SpinnerComponent],
+  imports: [CommonModule, I18nModule, SpinnerComponent],
+  exports: [SpinnerComponent],
 })
 export class SpinnerModule {}

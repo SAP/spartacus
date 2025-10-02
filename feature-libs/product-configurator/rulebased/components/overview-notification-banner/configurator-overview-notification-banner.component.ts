@@ -24,18 +24,18 @@ import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-r
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-overview-notification-banner',
-    templateUrl: './configurator-overview-notification-banner.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        IconComponent,
-        RouterLink,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-overview-notification-banner',
+  templateUrl: './configurator-overview-notification-banner.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    IconComponent,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorOverviewNotificationBannerComponent {
   routerData$: Observable<ConfiguratorRouter.Data> =

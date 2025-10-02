@@ -10,7 +10,11 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   Config,
   FeatureConfigService,
@@ -19,7 +23,10 @@ import {
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorPriceComponentOptions, ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponentOptions,
+  ConfiguratorPriceComponent,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
@@ -31,24 +38,24 @@ import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/trans
 import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-attribute-single-selection-image',
-    templateUrl: './configurator-attribute-single-selection-image.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [ConfiguratorAttributePriceChangeService],
-    imports: [
-        NgIf,
-        NgFor,
-        FormsModule,
-        ReactiveFormsModule,
-        FocusDirective,
-        NgClass,
-        PopoverDirective,
-        IconComponent,
-        ConfiguratorPriceComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-attribute-single-selection-image',
+  templateUrl: './configurator-attribute-single-selection-image.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfiguratorAttributePriceChangeService],
+  imports: [
+    NgIf,
+    NgFor,
+    FormsModule,
+    ReactiveFormsModule,
+    FocusDirective,
+    NgClass,
+    PopoverDirective,
+    IconComponent,
+    ConfiguratorPriceComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorAttributeSingleSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent

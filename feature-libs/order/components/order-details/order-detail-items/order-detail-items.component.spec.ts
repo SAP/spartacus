@@ -132,9 +132,9 @@ const MockCmsComponentData = <CmsComponentData<any>>{
 };
 
 @Component({
-    selector: 'cx-consignment-tracking',
-    template: '',
-    imports: [CardModule, I18nTestingModule, PromotionsModule, OutletModule,],
+  selector: 'cx-consignment-tracking',
+  template: '',
+  imports: [CardModule, I18nTestingModule, PromotionsModule, OutletModule],
 })
 class MockConsignmentTrackingComponent {
   @Input()
@@ -160,14 +160,20 @@ describe('OrderDetailItemsComponent', () => {
     };
 
     TestBed.configureTestingModule({
-    imports: [CardModule, I18nTestingModule, PromotionsModule, OutletModule, OrderDetailItemsComponent,
+      imports: [
+        CardModule,
+        I18nTestingModule,
+        PromotionsModule,
+        OutletModule,
+        OrderDetailItemsComponent,
         MockConsignmentTrackingComponent,
-        OrderConsignedEntriesComponent],
-    providers: [
+        OrderConsignedEntriesComponent,
+      ],
+      providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
         { provide: CmsComponentData, useValue: MockCmsComponentData },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -11,16 +11,16 @@ import { ConfiguratorGroupTitleComponent } from './configurator-group-title.comp
 import { HamburgerMenuModule } from '@spartacus/storefront';
 
 @NgModule({
-    imports: [CommonModule, HamburgerMenuModule, ConfiguratorGroupTitleComponent],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                ConfiguratorGroupTitle: {
-                    component: ConfiguratorGroupTitleComponent,
-                },
-            },
-        }),
-    ],
-    exports: [ConfiguratorGroupTitleComponent],
+  imports: [CommonModule, HamburgerMenuModule, ConfiguratorGroupTitleComponent],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ConfiguratorGroupTitle: {
+          component: ConfiguratorGroupTitleComponent,
+        },
+      },
+    }),
+  ],
+  exports: [ConfiguratorGroupTitleComponent],
 })
 export class ConfiguratorGroupTitleModule {}

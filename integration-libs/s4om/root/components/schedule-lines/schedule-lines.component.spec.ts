@@ -26,9 +26,9 @@ class MockLanguageService {
 }
 
 @Component({
-    selector: 'cx-schedule-lines',
-    template: '',
-    imports: [ReactiveFormsModule, I18nTestingModule],
+  selector: 'cx-schedule-lines',
+  template: '',
+  imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockConfigureScheduleLineComponent {
   @Input() cartEntry: Partial<OrderEntry & Array<ScheduleLine>>;
@@ -42,17 +42,21 @@ describe('ScheduleLinesCartEntryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [ReactiveFormsModule, I18nTestingModule, ScheduleLinesComponent,
-        MockConfigureScheduleLineComponent],
-    providers: [
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        ScheduleLinesComponent,
+        MockConfigureScheduleLineComponent,
+      ],
+      providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {
-            provide: TranslationService,
-            useClass: MockTranslationService,
+          provide: TranslationService,
+          useClass: MockTranslationService,
         },
         { provide: LanguageService, useClass: MockLanguageService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

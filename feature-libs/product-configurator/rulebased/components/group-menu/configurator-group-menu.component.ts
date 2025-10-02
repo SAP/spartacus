@@ -40,19 +40,19 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-group-menu',
-    templateUrl: './configurator-group-menu.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        FocusDirective,
-        IconComponent,
-        NgClass,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-group-menu',
+  templateUrl: './configurator-group-menu.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgFor,
+    FocusDirective,
+    IconComponent,
+    NgClass,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorGroupMenuComponent {
   @ViewChildren('groupItem') groups: QueryList<ElementRef<HTMLElement>>;

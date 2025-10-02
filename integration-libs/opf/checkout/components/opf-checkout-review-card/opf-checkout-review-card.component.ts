@@ -17,19 +17,19 @@ import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-r
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-opf-checkout-review-card',
-    templateUrl: './opf-checkout-review-card.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        CardComponent,
-        RouterLink,
-        IconComponent,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-opf-checkout-review-card',
+  templateUrl: './opf-checkout-review-card.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    CardComponent,
+    RouterLink,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class OpfCheckoutReviewCardComponent {
   @Input() cardContent$: Observable<Card | null | undefined>;

@@ -6,9 +6,9 @@ import { I18nTestingModule } from '@spartacus/core';
 import { ProductViewComponent, ViewModes } from './product-view.component';
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [NgSelectModule, FormsModule, I18nTestingModule,],
+  selector: 'cx-icon',
+  template: '',
+  imports: [NgSelectModule, FormsModule, I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type;
@@ -20,8 +20,14 @@ describe('ProductViewComponent in product-list', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [NgSelectModule, FormsModule, I18nTestingModule, ProductViewComponent, MockCxIconComponent],
-}).compileComponents();
+      imports: [
+        NgSelectModule,
+        FormsModule,
+        I18nTestingModule,
+        ProductViewComponent,
+        MockCxIconComponent,
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

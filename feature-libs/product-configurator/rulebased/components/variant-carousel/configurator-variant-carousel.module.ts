@@ -12,24 +12,24 @@ import { CarouselModule, ProductCarouselModule } from '@spartacus/storefront';
 import { ConfiguratorVariantCarouselComponent } from './configurator-variant-carousel.component';
 
 @NgModule({
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        CommonModule,
-        I18nModule,
-        CarouselModule,
-        ProductCarouselModule,
-        ConfiguratorVariantCarouselComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                ConfiguratorVariantCarousel: {
-                    component: ConfiguratorVariantCarouselComponent,
-                },
-            },
-        }),
-    ],
-    exports: [ConfiguratorVariantCarouselComponent],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    I18nModule,
+    CarouselModule,
+    ProductCarouselModule,
+    ConfiguratorVariantCarouselComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ConfiguratorVariantCarousel: {
+          component: ConfiguratorVariantCarouselComponent,
+        },
+      },
+    }),
+  ],
+  exports: [ConfiguratorVariantCarouselComponent],
 })
 export class ConfiguratorVariantCarouselModule {}

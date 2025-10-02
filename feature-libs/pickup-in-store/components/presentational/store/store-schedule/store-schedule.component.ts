@@ -20,14 +20,9 @@ type OpeningTime = {
  * A presentational component for a store's opening hours
  */
 @Component({
-    selector: 'cx-store-schedule',
-    templateUrl: 'store-schedule.component.html',
-    imports: [
-        NgFor,
-        NgIf,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-store-schedule',
+  templateUrl: 'store-schedule.component.html',
+  imports: [NgFor, NgIf, TranslatePipe, MockTranslatePipe],
 })
 export class StoreScheduleComponent implements OnChanges {
   /** The details of the store */

@@ -13,9 +13,9 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-show-options',
-    templateUrl: './configurator-show-options.component.html',
-    imports: [TranslatePipe, MockTranslatePipe],
+  selector: 'cx-configurator-show-options',
+  templateUrl: './configurator-show-options.component.html',
+  imports: [TranslatePipe, MockTranslatePipe],
 })
 export class ConfiguratorShowOptionsComponent {
   protected configuratorCommonsService = inject(ConfiguratorCommonsService);

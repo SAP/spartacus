@@ -24,28 +24,28 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        UrlModule,
-        MediaModule,
-        KeyboardFocusModule,
-        NgSelectModule,
-        FormsModule,
-        NgSelectA11yModule,
-        I18nModule,
-        ProductMultiDimensionalSelectorComponent,
-    ],
-    exports: [ProductMultiDimensionalSelectorComponent],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                ProductMultiDimensionalSelectorComponent: {
-                    component: ProductMultiDimensionalSelectorComponent,
-                    guards: [ProductMultiDimensionalSelectorGuard],
-                },
-            },
-        }),
-    ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    MediaModule,
+    KeyboardFocusModule,
+    NgSelectModule,
+    FormsModule,
+    NgSelectA11yModule,
+    I18nModule,
+    ProductMultiDimensionalSelectorComponent,
+  ],
+  exports: [ProductMultiDimensionalSelectorComponent],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ProductMultiDimensionalSelectorComponent: {
+          component: ProductMultiDimensionalSelectorComponent,
+          guards: [ProductMultiDimensionalSelectorGuard],
+        },
+      },
+    }),
+  ],
 })
 export class ProductMultiDimensionalSelectorComponentModule {}

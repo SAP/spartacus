@@ -19,17 +19,17 @@ import { IconComponent } from '../../../../../projects/storefrontlib/cms-compone
 import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'cx-asm-customer-360-promotion-listing',
-    templateUrl: './asm-customer-360-promotion-listing.component.html',
-    imports: [
-        NgIf,
-        MessageComponent,
-        NgFor,
-        IconComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'cx-asm-customer-360-promotion-listing',
+  templateUrl: './asm-customer-360-promotion-listing.component.html',
+  imports: [
+    NgIf,
+    MessageComponent,
+    NgFor,
+    IconComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AsmCustomer360PromotionListingComponent {
   @Input() headerText: string;

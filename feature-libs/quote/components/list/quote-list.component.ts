@@ -30,25 +30,25 @@ import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mo
 import { MockDatePipe } from '../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-quote-list',
-    templateUrl: './quote-list.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [CxDatePipe],
-    imports: [
-        NgIf,
-        SortingComponent,
-        PaginationComponent,
-        NgFor,
-        RouterLink,
-        NgClass,
-        IconComponent,
-        AsyncPipe,
-        TranslatePipe,
-        CxDatePipe_1,
-        UrlPipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-quote-list',
+  templateUrl: './quote-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CxDatePipe],
+  imports: [
+    NgIf,
+    SortingComponent,
+    PaginationComponent,
+    NgFor,
+    RouterLink,
+    NgClass,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe_1,
+    UrlPipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class QuoteListComponent implements OnInit {
   protected quoteListComponentService = inject(QuoteListComponentService);

@@ -10,13 +10,9 @@ import { OutletRefDirective } from '../../../../storefrontlib/cms-structure/outl
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'cx-test-outlet-slot',
-    templateUrl: './test-outlet-slot.component.html',
-    imports: [
-        PageLayoutComponent,
-        OutletRefDirective,
-        AsyncPipe,
-    ],
+  selector: 'cx-test-outlet-slot',
+  templateUrl: './test-outlet-slot.component.html',
+  imports: [PageLayoutComponent, OutletRefDirective, AsyncPipe],
 })
 export class TestOutletSlotComponent {
   testSlot1 = 'Section2A';

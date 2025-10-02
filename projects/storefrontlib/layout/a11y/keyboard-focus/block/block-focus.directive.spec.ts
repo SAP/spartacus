@@ -4,14 +4,14 @@ import { By } from '@angular/platform-browser';
 import { BaseFocusService } from '../base';
 import { BlockFocusConfig } from '../keyboard-focus.model';
 import { BlockFocusDirective } from './block-focus.directive';
-@Directive({ selector: '[cxBlockFocus]', })
+@Directive({ selector: '[cxBlockFocus]' })
 class CustomFocusDirective extends BlockFocusDirective {
   @Input('cxBlockFocus') protected config: BlockFocusConfig;
 }
 
 @Component({
-    selector: 'cx-host',
-    template: `
+  selector: 'cx-host',
+  template: `
     <div id="a" cxBlockFocus tabindex="0">block</div>
     <div id="b" [cxBlockFocus]="{ block: true }" tabindex="0">block</div>
     <div id="c" [cxBlockFocus]="{ block: false }" tabindex="0">block</div>
@@ -26,14 +26,14 @@ describe('BlockFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [MockComponent, CustomFocusDirective],
-    providers: [
+      imports: [MockComponent, CustomFocusDirective],
+      providers: [
         {
-            provide: BaseFocusService,
-            useClass: MockBaseFocusService,
+          provide: BaseFocusService,
+          useClass: MockBaseFocusService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
     fixture = TestBed.createComponent(MockComponent);
   }));
 

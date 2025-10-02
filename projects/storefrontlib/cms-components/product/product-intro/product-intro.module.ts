@@ -16,16 +16,22 @@ import { StarRatingModule } from '../../../shared/components/star-rating/star-ra
 import { ProductIntroComponent } from './product-intro.component';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, StarRatingModule, FeaturesConfigModule, ProductIntroComponent],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                ProductIntroComponent: {
-                    component: ProductIntroComponent,
-                },
-            },
-        }),
-    ],
-    exports: [ProductIntroComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    StarRatingModule,
+    FeaturesConfigModule,
+    ProductIntroComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ProductIntroComponent: {
+          component: ProductIntroComponent,
+        },
+      },
+    }),
+  ],
+  exports: [ProductIntroComponent],
 })
 export class ProductIntroModule {}

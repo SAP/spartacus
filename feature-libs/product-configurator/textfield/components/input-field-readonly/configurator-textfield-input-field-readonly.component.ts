@@ -11,10 +11,10 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-textfield-input-field-readonly',
-    templateUrl: './configurator-textfield-input-field-readonly.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslatePipe, MockTranslatePipe],
+  selector: 'cx-configurator-textfield-input-field-readonly',
+  templateUrl: './configurator-textfield-input-field-readonly.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslatePipe, MockTranslatePipe],
 })
 export class ConfiguratorTextfieldInputFieldReadonlyComponent {
   PREFIX_TEXTFIELD = 'cx-configurator-textfield';

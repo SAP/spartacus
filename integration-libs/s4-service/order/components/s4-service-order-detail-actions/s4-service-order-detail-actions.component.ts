@@ -23,18 +23,18 @@ import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-r
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-s4-service-order-detail-actions',
-    templateUrl: './s4-service-order-detail-actions.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        BtnLikeLinkDirective,
-        RouterLink,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-s4-service-order-detail-actions',
+  templateUrl: './s4-service-order-detail-actions.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    BtnLikeLinkDirective,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class S4ServiceOrderDetailActionsComponent
   extends OrderDetailActionsComponent

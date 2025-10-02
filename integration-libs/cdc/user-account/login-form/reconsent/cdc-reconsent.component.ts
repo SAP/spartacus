@@ -34,21 +34,21 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-anonymous-consent-dialog', //reusing existing selector
-    templateUrl: './cdc-reconsent.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FocusDirective,
-        NgIf,
-        IconComponent,
-        NgFor,
-        ConsentManagementFormComponent,
-        BtnLikeLinkDirective,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-anonymous-consent-dialog', //reusing existing selector
+  templateUrl: './cdc-reconsent.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FocusDirective,
+    NgIf,
+    IconComponent,
+    NgFor,
+    ConsentManagementFormComponent,
+    BtnLikeLinkDirective,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CdcReconsentComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

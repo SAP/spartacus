@@ -13,24 +13,24 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition/config
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
 
 @NgModule({
-    imports: [
-        KeyboardFocusModule,
-        FormsModule,
-        ReactiveFormsModule,
-        CommonModule,
-        I18nModule,
-        ConfiguratorAttributeInputFieldComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
-            productConfigurator: {
-                assignment: {
-                    AttributeType_string: ConfiguratorAttributeInputFieldComponent,
-                    AttributeType_sap_date: ConfiguratorAttributeInputFieldComponent,
-                },
-            },
-        }),
-    ],
-    exports: [ConfiguratorAttributeInputFieldComponent],
+  imports: [
+    KeyboardFocusModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    I18nModule,
+    ConfiguratorAttributeInputFieldComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+      productConfigurator: {
+        assignment: {
+          AttributeType_string: ConfiguratorAttributeInputFieldComponent,
+          AttributeType_sap_date: ConfiguratorAttributeInputFieldComponent,
+        },
+      },
+    }),
+  ],
+  exports: [ConfiguratorAttributeInputFieldComponent],
 })
 export class ConfiguratorAttributeInputFieldModule {}

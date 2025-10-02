@@ -33,54 +33,54 @@ import { MyCouponsComponent } from './my-coupons.component';
 import { FormRequiredAsterisksComponent } from '../../../shared/components/form/form-required-asterisks';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        FormErrorsModule,
-        FormRequiredAsterisksComponent,
-        CardModule,
-        SpinnerModule,
-        I18nModule,
-        RouterModule,
-        UrlModule,
-        IconModule,
-        ListNavigationModule,
-        RouterModule.forChild([
-            {
-                // @ts-ignore
-                path: null,
-                canActivate: [AuthGuard, CmsPageGuard],
-                component: PageLayoutComponent,
-                data: { cxRoute: 'couponClaim' },
-            },
-        ]),
-        KeyboardFocusModule,
-        FeaturesConfigModule,
-        MyCouponsComponent,
-        CouponCardComponent,
-        CouponDialogComponent,
-        CouponClaimComponent,
-        ClaimDialogComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                MyCouponsComponent: {
-                    component: MyCouponsComponent,
-                    guards: [AuthGuard],
-                },
-                CouponClaimComponent: {
-                    component: CouponClaimComponent,
-                    guards: [AuthGuard],
-                },
-                ClaimDialogComponent: {
-                    component: ClaimDialogComponent,
-                    guards: [AuthGuard],
-                },
-            },
-        }),
-        provideDefaultConfig(defaultCouponLayoutConfig),
-    ],
-    exports: [MyCouponsComponent, CouponClaimComponent, ClaimDialogComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    FormRequiredAsterisksComponent,
+    CardModule,
+    SpinnerModule,
+    I18nModule,
+    RouterModule,
+    UrlModule,
+    IconModule,
+    ListNavigationModule,
+    RouterModule.forChild([
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'couponClaim' },
+      },
+    ]),
+    KeyboardFocusModule,
+    FeaturesConfigModule,
+    MyCouponsComponent,
+    CouponCardComponent,
+    CouponDialogComponent,
+    CouponClaimComponent,
+    ClaimDialogComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        MyCouponsComponent: {
+          component: MyCouponsComponent,
+          guards: [AuthGuard],
+        },
+        CouponClaimComponent: {
+          component: CouponClaimComponent,
+          guards: [AuthGuard],
+        },
+        ClaimDialogComponent: {
+          component: ClaimDialogComponent,
+          guards: [AuthGuard],
+        },
+      },
+    }),
+    provideDefaultConfig(defaultCouponLayoutConfig),
+  ],
+  exports: [MyCouponsComponent, CouponClaimComponent, ClaimDialogComponent],
 })
 export class MyCouponsModule {}

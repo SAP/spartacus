@@ -31,41 +31,41 @@ import { ForgotPasswordComponentService } from './forgot-password-component.serv
 import { ForgotPasswordComponent } from './forgot-password.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        RouterModule,
-        UrlModule,
-        I18nModule,
-        FormErrorsModule,
-        SpinnerModule,
-        FeaturesConfigModule,
-        BtnLikeLinkModule,
-        FormRequiredAsterisksComponent,
-        FormRequiredLegendComponent,
-        ForgotPasswordComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                ForgotPasswordComponent: {
-                    component: ForgotPasswordComponent,
-                    guards: [NotAuthGuard],
-                    providers: [
-                        {
-                            provide: ForgotPasswordComponentService,
-                            useClass: ForgotPasswordComponentService,
-                            deps: [
-                                UserPasswordFacade,
-                                RoutingService,
-                                AuthConfigService,
-                                GlobalMessageService,
-                            ],
-                        },
-                    ],
-                },
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    FormErrorsModule,
+    SpinnerModule,
+    FeaturesConfigModule,
+    BtnLikeLinkModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
+    ForgotPasswordComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ForgotPasswordComponent: {
+          component: ForgotPasswordComponent,
+          guards: [NotAuthGuard],
+          providers: [
+            {
+              provide: ForgotPasswordComponentService,
+              useClass: ForgotPasswordComponentService,
+              deps: [
+                UserPasswordFacade,
+                RoutingService,
+                AuthConfigService,
+                GlobalMessageService,
+              ],
             },
-        }),
-    ],
+          ],
+        },
+      },
+    }),
+  ],
 })
 export class ForgotPasswordModule {}

@@ -34,9 +34,9 @@ import { ConfiguratorFormComponent } from './configurator-form.component';
 import { KeyboardFocusService } from '@spartacus/storefront';
 
 @Component({
-    selector: 'cx-configurator-group',
-    template: '',
-    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule,],
+  selector: 'cx-configurator-group',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockConfiguratorGroupComponent {
   @Input() group: Configurator.Group;
@@ -266,31 +266,37 @@ let keyboardFocusService: KeyboardFocusService;
 describe('ConfigurationFormComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule, MockConfiguratorGroupComponent, ConfiguratorFormComponent],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        MockConfiguratorGroupComponent,
+        ConfiguratorFormComponent,
+      ],
+      providers: [
         {
-            provide: RoutingService,
-            useClass: MockRoutingService,
+          provide: RoutingService,
+          useClass: MockRoutingService,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
         },
         {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupsService,
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
         },
         {
-            provide: ConfiguratorExpertModeService,
-            useClass: MockConfiguratorExpertModeService,
+          provide: ConfiguratorExpertModeService,
+          useClass: MockConfiguratorExpertModeService,
         },
         {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
         },
-    ],
-})
+      ],
+    })
       .overrideComponent(ConfiguratorAttributeHeaderComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

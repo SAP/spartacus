@@ -20,26 +20,26 @@ import { CancelServiceOrderComponent } from './cancel-service-order.component';
 import { CancelServiceOrderGuard } from '../guards';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        SpinnerModule,
-        DatePickerModule,
-        ReactiveFormsModule,
-        UrlModule,
-        RouterModule,
-        CancelServiceOrderComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                CancelServiceOrder: {
-                    component: CancelServiceOrderComponent,
-                    guards: [AuthGuard, CancelServiceOrderGuard],
-                },
-            },
-        }),
-    ],
-    exports: [CancelServiceOrderComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    SpinnerModule,
+    DatePickerModule,
+    ReactiveFormsModule,
+    UrlModule,
+    RouterModule,
+    CancelServiceOrderComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        CancelServiceOrder: {
+          component: CancelServiceOrderComponent,
+          guards: [AuthGuard, CancelServiceOrderGuard],
+        },
+      },
+    }),
+  ],
+  exports: [CancelServiceOrderComponent],
 })
 export class CancelServiceOrderModule {}

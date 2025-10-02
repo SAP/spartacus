@@ -12,15 +12,15 @@ import { StoreModule } from '../../presentational/index';
 import { StoreListComponent } from './store-list.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        IconModule,
-        SpinnerModule,
-        StoreModule,
-        FeaturesConfigModule,
-        StoreListComponent,
-    ],
-    exports: [StoreListComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    SpinnerModule,
+    StoreModule,
+    FeaturesConfigModule,
+    StoreListComponent,
+  ],
+  exports: [StoreListComponent],
 })
 export class StoreListModule {}

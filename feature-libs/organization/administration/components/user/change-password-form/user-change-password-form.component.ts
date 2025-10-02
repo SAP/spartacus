@@ -5,7 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { useFeatureStyles, User } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
@@ -25,25 +29,25 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-user-change-password-form',
-    templateUrl: './user-change-password-form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'content-wrapper', ngSkipHydration: 'true' },
-    imports: [
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        CardComponent,
-        FocusDirective,
-        RouterLink,
-        FormRequiredLegendComponent,
-        FormRequiredAsterisksComponent,
-        PasswordVisibilityToggleDirective,
-        FormErrorsComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-user-change-password-form',
+  templateUrl: './user-change-password-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper', ngSkipHydration: 'true' },
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    CardComponent,
+    FocusDirective,
+    RouterLink,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    PasswordVisibilityToggleDirective,
+    FormErrorsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class UserChangePasswordFormComponent {
   form$: Observable<UntypedFormGroup | null> = this.itemService.current$.pipe(

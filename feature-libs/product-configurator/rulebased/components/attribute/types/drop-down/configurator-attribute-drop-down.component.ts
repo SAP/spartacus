@@ -11,7 +11,11 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Config, TranslationService } from '@spartacus/core';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -32,26 +36,26 @@ import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/trans
 import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-attribute-drop-down',
-    templateUrl: './configurator-attribute-drop-down.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [ConfiguratorAttributePriceChangeService],
-    imports: [
-        NgIf,
-        FormsModule,
-        NgClass,
-        ReactiveFormsModule,
-        FocusDirective,
-        NgFor,
-        ConfiguratorShowMoreComponent,
-        ConfiguratorPriceComponent,
-        ConfiguratorAttributeQuantityComponent,
-        ConfiguratorAttributeNumericInputFieldComponent,
-        ConfiguratorAttributeInputFieldComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-attribute-drop-down',
+  templateUrl: './configurator-attribute-drop-down.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfiguratorAttributePriceChangeService],
+  imports: [
+    NgIf,
+    FormsModule,
+    NgClass,
+    ReactiveFormsModule,
+    FocusDirective,
+    NgFor,
+    ConfiguratorShowMoreComponent,
+    ConfiguratorPriceComponent,
+    ConfiguratorAttributeQuantityComponent,
+    ConfiguratorAttributeNumericInputFieldComponent,
+    ConfiguratorAttributeInputFieldComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorAttributeDropDownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent

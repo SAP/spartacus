@@ -57,25 +57,25 @@ import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing
 import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'cx-asm-customer-360',
-    templateUrl: './asm-customer-360.component.html',
-    imports: [
-        FocusDirective,
-        NgTemplateOutlet,
-        NgIf,
-        MessageComponent,
-        MediaComponent,
-        IconComponent,
-        NgFor,
-        AsmCustomer360SectionComponent,
-        AsyncPipe,
-        TranslatePipe,
-        CxDatePipe,
-        ArgsPipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'cx-asm-customer-360',
+  templateUrl: './asm-customer-360.component.html',
+  imports: [
+    FocusDirective,
+    NgTemplateOutlet,
+    NgIf,
+    MessageComponent,
+    MediaComponent,
+    IconComponent,
+    NgFor,
+    AsmCustomer360SectionComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    ArgsPipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class AsmCustomer360Component implements OnDestroy, OnInit {
   @HostBinding('attr.role') role = 'dialog';

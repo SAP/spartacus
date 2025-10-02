@@ -18,15 +18,10 @@ import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/trans
 import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-dp-confirmation-dialog',
-    templateUrl: './dp-confirmation-dialog.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FocusDirective,
-        IconComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-dp-confirmation-dialog',
+  templateUrl: './dp-confirmation-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FocusDirective, IconComponent, TranslatePipe, MockTranslatePipe],
 })
 export class DpConfirmationDialogComponent {
   focusConfig: FocusConfig = {

@@ -93,30 +93,35 @@ describe('ServiceCheckoutDeliveryModeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [ReactiveFormsModule, I18nTestingModule, OutletModule, ServiceCheckoutDeliveryModeComponent],
-    providers: [
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        OutletModule,
+        ServiceCheckoutDeliveryModeComponent,
+      ],
+      providers: [
         {
-            provide: CheckoutServiceDetailsFacade,
-            useClass: MockCheckoutServiceDetailsFacade,
+          provide: CheckoutServiceDetailsFacade,
+          useClass: MockCheckoutServiceDetailsFacade,
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: ActiveCartFacade, useClass: MockCartService },
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {
-            provide: CheckoutFlowOrchestratorService,
-            useClass: MockCheckoutFlowOrchestratorService,
+          provide: CheckoutFlowOrchestratorService,
+          useClass: MockCheckoutFlowOrchestratorService,
         },
         {
-            provide: S4ServiceDeliveryModeConfig,
-            useValue: mockServiceDeliveryModeConfig,
+          provide: S4ServiceDeliveryModeConfig,
+          useValue: mockServiceDeliveryModeConfig,
         },
         {
-            provide: CheckoutDeliveryModesFacade,
-            useClass: MockCheckoutDeliveryModesFacade,
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModesFacade,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
     facade = TestBed.inject(CheckoutServiceDetailsFacade);
     spyOn(facade, 'hasServiceItems').and.callThrough();
     fixture = TestBed.createComponent(ServiceCheckoutDeliveryModeComponent);

@@ -23,18 +23,18 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-address-book',
-    templateUrl: './address-book.component.html',
-    imports: [
-        NgIf,
-        NgFor,
-        CardComponent,
-        AddressFormComponent,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-address-book',
+  templateUrl: './address-book.component.html',
+  imports: [
+    NgIf,
+    NgFor,
+    CardComponent,
+    AddressFormComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AddressBookComponent implements OnInit {
   addresses$: Observable<Address[]>;

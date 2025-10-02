@@ -12,7 +12,7 @@ const mockOrder = {
   deliveryAddress: { town: 'Test Town' },
   entries: [{ product: { productTypes: 'SERVICE' } }],
 };
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -29,11 +29,15 @@ describe('CancelServiceOrderHeadlineComponent', () => {
     orderDetailsServiceSpy.getOrderDetails.and.returnValue(of(mockOrder));
 
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, CancelServiceOrderHeadlineComponent, MockUrlPipe],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        CancelServiceOrderHeadlineComponent,
+        MockUrlPipe,
+      ],
+      providers: [
         { provide: OrderDetailsService, useValue: orderDetailsServiceSpy },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

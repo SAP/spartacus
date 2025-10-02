@@ -12,7 +12,7 @@ import {
   Renderer2,
 } from '@angular/core';
 
-@Directive({ selector: '[cxAttributes]', })
+@Directive({ selector: '[cxAttributes]' })
 export class AttributesDirective implements OnChanges {
   @Input() cxAttributes: { [attribute: string]: any };
 

@@ -12,7 +12,13 @@ import { I18nModule } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 
 @NgModule({
-    exports: [UnitLevelOrderHistoryFilterComponent],
-    imports: [CommonModule, ReactiveFormsModule, I18nModule, IconModule, UnitLevelOrderHistoryFilterComponent],
+  exports: [UnitLevelOrderHistoryFilterComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    I18nModule,
+    IconModule,
+    UnitLevelOrderHistoryFilterComponent,
+  ],
 })
 export class UnitLevelOrderHistoryFilterModule {}

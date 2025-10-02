@@ -6,8 +6,8 @@ import { I18nTestingModule } from '@spartacus/core';
 import { FileUploadComponent } from './file-upload.component';
 
 @Component({
-    selector: 'cx-form-errors',
-    imports: [I18nTestingModule, ReactiveFormsModule],
+  selector: 'cx-form-errors',
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockFormErrorComponent {
   @Input() control: UntypedFormControl;
@@ -35,8 +35,13 @@ describe('FileUploadComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ReactiveFormsModule, FileUploadComponent, MockFormErrorComponent],
-}).compileComponents();
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        FileUploadComponent,
+        MockFormErrorComponent,
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

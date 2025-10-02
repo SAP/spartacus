@@ -9,14 +9,14 @@ describe('AmountCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [UrlTestingModule, AmountCellComponent],
-    providers: [
+      imports: [UrlTestingModule, AmountCellComponent],
+      providers: [
         {
-            provide: OutletContextData,
-            useValue: { context: { budget: '1000', currency: 'EUR' } },
+          provide: OutletContextData,
+          useValue: { context: { budget: '1000', currency: 'EUR' } },
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

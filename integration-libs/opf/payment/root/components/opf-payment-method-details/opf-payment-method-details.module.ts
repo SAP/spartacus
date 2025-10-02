@@ -15,14 +15,14 @@ import {
 import { OpfPaymentMethodDetailsComponent } from './opf-payment-method-details.component';
 
 @NgModule({
-    imports: [CommonModule, CardModule, OpfPaymentMethodDetailsComponent],
-    exports: [OpfPaymentMethodDetailsComponent],
-    providers: [
-        provideOutlet({
-            id: CartOutlets.ORDER_OVERVIEW,
-            position: OutletPosition.BEFORE,
-            component: OpfPaymentMethodDetailsComponent,
-        }),
-    ],
+  imports: [CommonModule, CardModule, OpfPaymentMethodDetailsComponent],
+  exports: [OpfPaymentMethodDetailsComponent],
+  providers: [
+    provideOutlet({
+      id: CartOutlets.ORDER_OVERVIEW,
+      position: OutletPosition.BEFORE,
+      component: OpfPaymentMethodDetailsComponent,
+    }),
+  ],
 })
 export class OpfPaymentMethodDetailsModule {}

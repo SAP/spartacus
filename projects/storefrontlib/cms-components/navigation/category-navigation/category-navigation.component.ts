@@ -16,17 +16,17 @@ import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-category-navigation',
-    templateUrl: './category-navigation.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NavigationUIComponent,
-        NgClass,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-category-navigation',
+  templateUrl: './category-navigation.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NavigationUIComponent,
+    NgClass,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CategoryNavigationComponent {
   node$: Observable<NavigationNode> = this.service.getNavigationNode(

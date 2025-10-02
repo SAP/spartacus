@@ -33,21 +33,21 @@ const DISABLED_STATUS = 'DISABLED';
  * know anything about form specific.
  */
 @Component({
-    selector: 'cx-org-form',
-    templateUrl: './form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'content-wrapper' },
-    imports: [
-        NgIf,
-        FormsModule,
-        CardComponent,
-        ItemActiveDirective,
-        FocusDirective,
-        RouterLink,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-form',
+  templateUrl: './form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
+  imports: [
+    NgIf,
+    FormsModule,
+    CardComponent,
+    ItemActiveDirective,
+    FocusDirective,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class FormComponent<T> implements OnInit, OnDestroy {
   /**

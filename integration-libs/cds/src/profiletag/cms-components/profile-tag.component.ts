@@ -10,12 +10,12 @@ import { ProfileTagInjectorService } from '../services/profile-tag.injector.serv
 import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'cx-profiletag',
-    template: `
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'cx-profiletag',
+  template: `
     <ng-container *ngIf="profileTagEnabled$ | async"></ng-container>
   `,
-    imports: [NgIf, AsyncPipe],
+  imports: [NgIf, AsyncPipe],
 })
 export class ProfileTagComponent {
   profileTagEnabled$: Observable<boolean> = this.profileTagInjector.track();

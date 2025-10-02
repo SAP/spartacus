@@ -17,19 +17,19 @@ import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
 import { OpfCtaScriptsService } from './opf-cta-scripts.service';
 
 @NgModule({
-    providers: [
-        OpfCtaScriptsService,
-        OpfDynamicCtaService,
-        OpfStaticCtaService,
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                OpfCtaScriptsComponent: {
-                    component: OpfCtaScriptsComponent,
-                },
-            },
-        }),
-    ],
-    exports: [OpfCtaScriptsComponent],
-    imports: [CommonModule, OpfCtaElementModule, OpfCtaScriptsComponent],
+  providers: [
+    OpfCtaScriptsService,
+    OpfDynamicCtaService,
+    OpfStaticCtaService,
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        OpfCtaScriptsComponent: {
+          component: OpfCtaScriptsComponent,
+        },
+      },
+    }),
+  ],
+  exports: [OpfCtaScriptsComponent],
+  imports: [CommonModule, OpfCtaElementModule, OpfCtaScriptsComponent],
 })
 export class OpfCtaScriptsModule {}

@@ -13,14 +13,19 @@ describe('UserGroupAssignedUserListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [SubListTestingModule, UrlTestingModule, I18nTestingModule, UserGroupAssignedUserListComponent],
-    providers: [
+      imports: [
+        SubListTestingModule,
+        UrlTestingModule,
+        I18nTestingModule,
+        UserGroupAssignedUserListComponent,
+      ],
+      providers: [
         {
-            provide: UserGroupAssignedUserListService,
-            useClass: MockUserGroupAssignedUsersListService,
+          provide: UserGroupAssignedUserListService,
+          useClass: MockUserGroupAssignedUsersListService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(UserGroupAssignedUserListComponent);
     component = fixture.componentInstance;

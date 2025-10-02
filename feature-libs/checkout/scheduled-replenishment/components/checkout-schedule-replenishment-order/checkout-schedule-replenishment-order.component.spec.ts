@@ -38,14 +38,18 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, IconTestingModule, CheckoutScheduleReplenishmentOrderComponent],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        IconTestingModule,
+        CheckoutScheduleReplenishmentOrderComponent,
+      ],
+      providers: [
         {
-            provide: CheckoutReplenishmentFormService,
-            useClass: MockCheckoutReplenishmentFormService,
+          provide: CheckoutReplenishmentFormService,
+          useClass: MockCheckoutReplenishmentFormService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

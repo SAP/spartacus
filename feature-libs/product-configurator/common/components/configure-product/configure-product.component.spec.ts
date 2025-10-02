@@ -61,7 +61,7 @@ class MockProductListItemContext implements Partial<ProductListItemContext> {
   product$ = of(mockProduct);
 }
 
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -87,60 +87,72 @@ function setupWithCurrentProductService(
     productListItemContextReturnsNull
   ) {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, RouterModule, ConfigureProductComponent,
+      imports: [
+        I18nTestingModule,
+        RouterModule,
+        ConfigureProductComponent,
         MockUrlPipe,
-        MockFeatureDirective],
-    providers: [
+        MockFeatureDirective,
+      ],
+      providers: [
         {
-            provide: ProductListItemContext,
-            useClass: MockProductListItemContextReturnsNull,
+          provide: ProductListItemContext,
+          useClass: MockProductListItemContextReturnsNull,
         },
         {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductServiceReturnsNull,
+          provide: CurrentProductService,
+          useClass: MockCurrentProductServiceReturnsNull,
         },
         {
-            provide: RoutingService,
-            useClass: MockRoutingService,
+          provide: RoutingService,
+          useClass: MockRoutingService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   } else if (useCurrentProductServiceOnly) {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, StoreModule.forRoot({}), ConfigureProductComponent,
+      imports: [
+        I18nTestingModule,
+        StoreModule.forRoot({}),
+        ConfigureProductComponent,
         MockUrlPipe,
-        MockFeatureDirective],
-    providers: [
+        MockFeatureDirective,
+      ],
+      providers: [
         {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
         },
         {
-            provide: RoutingService,
-            useClass: MockRoutingService,
+          provide: RoutingService,
+          useClass: MockRoutingService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   } else {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, StoreModule.forRoot({}), ConfigureProductComponent,
+      imports: [
+        I18nTestingModule,
+        StoreModule.forRoot({}),
+        ConfigureProductComponent,
         MockUrlPipe,
-        MockFeatureDirective],
-    providers: [
+        MockFeatureDirective,
+      ],
+      providers: [
         {
-            provide: ProductListItemContext,
-            useClass: MockProductListItemContext,
+          provide: ProductListItemContext,
+          useClass: MockProductListItemContext,
         },
         {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
         },
         {
-            provide: RoutingService,
-            useClass: MockRoutingService,
+          provide: RoutingService,
+          useClass: MockRoutingService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }
 
   currentProductService = TestBed.inject(

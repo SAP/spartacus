@@ -26,7 +26,14 @@ import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
-import { NgIf, NgFor, NgSwitch, NgSwitchCase, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import {
+  NgIf,
+  NgFor,
+  NgSwitch,
+  NgSwitchCase,
+  NgTemplateOutlet,
+  AsyncPipe,
+} from '@angular/common';
 import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
 import { RouterLink } from '@angular/router';
 import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
@@ -37,25 +44,25 @@ import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-r
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-review-submit',
-    templateUrl: './checkout-review-submit.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        NgSwitch,
-        NgSwitchCase,
-        NgTemplateOutlet,
-        CardComponent,
-        RouterLink,
-        IconComponent,
-        OutletDirective,
-        PromotionsComponent,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-review-submit',
+  templateUrl: './checkout-review-submit.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgFor,
+    NgSwitch,
+    NgSwitchCase,
+    NgTemplateOutlet,
+    CardComponent,
+    RouterLink,
+    IconComponent,
+    OutletDirective,
+    PromotionsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class CheckoutReviewSubmitComponent {
   readonly cartOutlets = CartOutlets;

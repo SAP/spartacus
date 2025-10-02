@@ -10,16 +10,16 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { QuoteRequestButtonComponent } from './quote-request-button.component';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, QuoteRequestButtonComponent],
-    exports: [QuoteRequestButtonComponent],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                QuoteRequestComponent: {
-                    component: QuoteRequestButtonComponent,
-                },
-            },
-        }),
-    ],
+  imports: [CommonModule, I18nModule, QuoteRequestButtonComponent],
+  exports: [QuoteRequestButtonComponent],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        QuoteRequestComponent: {
+          component: QuoteRequestButtonComponent,
+        },
+      },
+    }),
+  ],
 })
 export class QuoteRequestButtonModule {}

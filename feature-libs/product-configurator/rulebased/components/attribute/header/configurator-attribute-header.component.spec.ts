@@ -24,9 +24,9 @@ import { ConfiguratorAttributeCompositionContext } from '../composition/configur
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
 
 @Component({
-    selector: 'cx-configurator-show-more',
-    template: '',
-    imports: [I18nTestingModule, IconModule],
+  selector: 'cx-configurator-show-more',
+  template: '',
+  imports: [I18nTestingModule, IconModule],
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
@@ -35,9 +35,9 @@ class MockConfiguratorShowMoreComponent {
 }
 
 @Component({
-    selector: 'cx-configurator-show-options',
-    template: '',
-    imports: [I18nTestingModule, IconModule],
+  selector: 'cx-configurator-show-options',
+  template: '',
+  imports: [I18nTestingModule, IconModule],
 })
 class MockConfiguratorShowOptionsComponent {
   @Input() attributeComponentContext: ConfiguratorAttributeCompositionContext;
@@ -141,34 +141,38 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, IconModule, ConfiguratorAttributeHeaderComponent,
+      imports: [
+        I18nTestingModule,
+        IconModule,
+        ConfiguratorAttributeHeaderComponent,
         MockConfiguratorShowMoreComponent,
-        MockConfiguratorShowOptionsComponent],
-    providers: [
+        MockConfiguratorShowOptionsComponent,
+      ],
+      providers: [
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfigUtilsService,
         },
         {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
         },
         {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupsService,
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
         },
         {
-            provide: ConfiguratorUISettingsConfig,
-            useValue: structuredClone(testConfiguratorUISettings),
+          provide: ConfiguratorUISettingsConfig,
+          useValue: structuredClone(testConfiguratorUISettings),
         },
         {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
         { provide: Config, useClass: MockConfig },
-    ],
-})
+      ],
+    })
       .overrideComponent(ConfiguratorAttributeHeaderComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

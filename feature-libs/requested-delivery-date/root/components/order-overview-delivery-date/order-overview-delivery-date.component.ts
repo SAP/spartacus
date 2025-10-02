@@ -17,15 +17,9 @@ import { CxDatePipe } from '../../../../../projects/core/src/i18n/date.pipe';
 import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-order-overview-delivery-date',
-    templateUrl: './order-overview-delivery-date.component.html',
-    imports: [
-        NgIf,
-        CardComponent,
-        AsyncPipe,
-        CxDatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-order-overview-delivery-date',
+  templateUrl: './order-overview-delivery-date.component.html',
+  imports: [NgIf, CardComponent, AsyncPipe, CxDatePipe, MockDatePipe],
 })
 export class OrderOverviewDeliveryDateComponent implements OnInit, OnDestroy {
   constructor(

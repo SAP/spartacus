@@ -18,8 +18,8 @@ describe('GenericLinkComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [GenericLinkComponent],
-}).compileComponents();
+      imports: [GenericLinkComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

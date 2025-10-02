@@ -14,15 +14,16 @@ import { CarouselComponent } from './carousel.component';
 import { FocusableCarouselItemDirective } from './focusable-carousel-item/focusable-carousel-item.directive';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        IconModule,
-        MediaModule,
-        UrlModule,
-        I18nModule,
-        CarouselComponent, FocusableCarouselItemDirective,
-    ],
-    exports: [CarouselComponent, FocusableCarouselItemDirective],
+  imports: [
+    CommonModule,
+    RouterModule,
+    IconModule,
+    MediaModule,
+    UrlModule,
+    I18nModule,
+    CarouselComponent,
+    FocusableCarouselItemDirective,
+  ],
+  exports: [CarouselComponent, FocusableCarouselItemDirective],
 })
 export class CarouselModule {}

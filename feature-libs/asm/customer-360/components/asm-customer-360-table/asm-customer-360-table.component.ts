@@ -47,21 +47,21 @@ import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing
 import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'cx-asm-customer-360-table',
-    templateUrl: './asm-customer-360-table.component.html',
-    imports: [
-        NgIf,
-        NgFor,
-        NgClass,
-        StarRatingComponent,
-        AsyncPipe,
-        TranslatePipe,
-        CxDatePipe,
-        ArgsPipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'cx-asm-customer-360-table',
+  templateUrl: './asm-customer-360-table.component.html',
+  imports: [
+    NgIf,
+    NgFor,
+    NgClass,
+    StarRatingComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    ArgsPipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class AsmCustomer360TableComponent
   implements OnChanges, AfterViewChecked

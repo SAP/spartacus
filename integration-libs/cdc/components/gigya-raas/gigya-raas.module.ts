@@ -12,24 +12,24 @@ import { GigyaRaasComponent } from './gigya-raas.component';
 import { GigyaRaasGuard } from './gigya-raas.guard';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        ConfigModule.withConfig(<CmsConfig | LayoutConfig>{
-            cmsComponents: {
-                GigyaRaasComponent: {
-                    component: GigyaRaasComponent,
-                    guards: [GigyaRaasGuard],
-                },
-            },
-            layoutSlots: {
-                GigyaLoginPageTemplate: {
-                    slots: ['BodyContent', 'BottomContent'],
-                },
-            },
-        }),
-        GigyaRaasComponent,
-    ],
-    exports: [GigyaRaasComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    ConfigModule.withConfig(<CmsConfig | LayoutConfig>{
+      cmsComponents: {
+        GigyaRaasComponent: {
+          component: GigyaRaasComponent,
+          guards: [GigyaRaasGuard],
+        },
+      },
+      layoutSlots: {
+        GigyaLoginPageTemplate: {
+          slots: ['BodyContent', 'BottomContent'],
+        },
+      },
+    }),
+    GigyaRaasComponent,
+  ],
+  exports: [GigyaRaasComponent],
 })
 export class GigyaRaasModule {}

@@ -12,15 +12,15 @@ import { of } from 'rxjs';
 import { CloseAccountComponent } from './close-account.component';
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -43,15 +43,18 @@ describe('CloseAccountComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, CloseAccountComponent,
+      imports: [
+        I18nTestingModule,
+        CloseAccountComponent,
         MockUrlPipe,
         MockCxIconComponent,
-        MockFeatureDirective],
-    providers: [
+        MockFeatureDirective,
+      ],
+      providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: RoutingService, useClass: MockRoutingService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

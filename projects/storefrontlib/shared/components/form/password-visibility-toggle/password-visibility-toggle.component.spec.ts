@@ -25,22 +25,22 @@ describe('PasswordVisibilityToggleComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         I18nTestingModule,
         IconTestingModule,
         FormsModule,
         ReactiveFormsModule,
         PasswordVisibilityToggleModule,
         PasswordVisibilityToggleComponent,
-    ],
-    providers: [
+      ],
+      providers: [
         {
-            provide: FormConfig,
-            useValue: mockFormConfig,
+          provide: FormConfig,
+          useValue: mockFormConfig,
         },
         { provide: WindowRef, useClass: MockWinRef },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

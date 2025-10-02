@@ -21,9 +21,9 @@ const mockCoupon: CustomerCoupon = {
 };
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -43,14 +43,17 @@ describe('CouponDialogComponent', () => {
   let launchDialogService: LaunchDialogService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, CouponDialogComponent,
+      imports: [
+        I18nTestingModule,
+        CouponDialogComponent,
         MockCxIconComponent,
         FocusDirective,
-        MockFeatureDirective],
-    providers: [
+        MockFeatureDirective,
+      ],
+      providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

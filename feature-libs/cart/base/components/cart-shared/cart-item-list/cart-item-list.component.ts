@@ -51,19 +51,19 @@ interface ItemListContext {
 }
 
 @Component({
-    selector: 'cx-cart-item-list',
-    templateUrl: './cart-item-list.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        OutletDirective,
-        FeatureDirective,
-        NgFor,
-        CartItemListRowComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-cart-item-list',
+  templateUrl: './cart-item-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    OutletDirective,
+    FeatureDirective,
+    NgFor,
+    CartItemListRowComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CartItemListComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

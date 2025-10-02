@@ -15,15 +15,10 @@ import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe
 import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-punchout-close-session',
-    templateUrl: './punchout-close-session.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-punchout-close-session',
+  templateUrl: './punchout-close-session.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class PunchoutCloseSessionComponent {
   protected punchoutFacade = inject(PunchoutFacade);

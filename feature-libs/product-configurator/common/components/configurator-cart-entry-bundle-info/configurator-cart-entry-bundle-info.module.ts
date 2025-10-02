@@ -13,13 +13,18 @@ import { ConfigureCartEntryModule } from '../configure-cart-entry/configure-cart
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, ConfigureCartEntryModule, ConfiguratorCartEntryBundleInfoComponent],
-    providers: [
-        provideOutlet({
-            id: CartOutlets.ITEM_BUNDLE_DETAILS,
-            position: OutletPosition.AFTER,
-            component: ConfiguratorCartEntryBundleInfoComponent,
-        }),
-    ],
+  imports: [
+    CommonModule,
+    I18nModule,
+    ConfigureCartEntryModule,
+    ConfiguratorCartEntryBundleInfoComponent,
+  ],
+  providers: [
+    provideOutlet({
+      id: CartOutlets.ITEM_BUNDLE_DETAILS,
+      position: OutletPosition.AFTER,
+      component: ConfiguratorCartEntryBundleInfoComponent,
+    }),
+  ],
 })
 export class ConfiguratorCartEntryBundleInfoModule {}

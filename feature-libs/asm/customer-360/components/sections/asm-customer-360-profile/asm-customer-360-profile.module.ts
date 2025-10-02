@@ -11,7 +11,12 @@ import { CardModule } from '@spartacus/storefront';
 import { AsmCustomer360ProfileComponent } from './asm-customer-360-profile.component';
 
 @NgModule({
-    imports: [CardModule, CommonModule, I18nModule, AsmCustomer360ProfileComponent],
-    exports: [AsmCustomer360ProfileComponent],
+  imports: [
+    CardModule,
+    CommonModule,
+    I18nModule,
+    AsmCustomer360ProfileComponent,
+  ],
+  exports: [AsmCustomer360ProfileComponent],
 })
 export class AsmCustomer360ProfileModule {}

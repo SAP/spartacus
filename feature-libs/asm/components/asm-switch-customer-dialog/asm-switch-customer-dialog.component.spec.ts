@@ -22,7 +22,7 @@ import {
   SWITCH_CUSTOMER_DIALOG_ACTION,
 } from './asm-switch-customer-dialog.component';
 
-@Pipe({ name: 'cxTranslate', })
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -42,8 +42,8 @@ class MockAsmComponentService extends AsmComponentService {
 }
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
+  selector: 'cx-icon',
+  template: '',
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -79,18 +79,20 @@ describe('AsmSwitchCustomerDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [AsmSwitchCustomerDialogComponent,
+      imports: [
+        AsmSwitchCustomerDialogComponent,
         MockTranslatePipe,
         FocusDirective,
-        MockCxIconComponent,],
-    providers: [
+        MockCxIconComponent,
+      ],
+      providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: AsmComponentService, useClass: MockAsmComponentService },
         { provide: AuthService, useClass: MockAuthService },
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: RoutingService, useClass: MockRoutingService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

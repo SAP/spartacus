@@ -18,18 +18,18 @@ import { FormModule } from '../../../../shared/form/form.module';
 import { UnitAddressFormComponent } from './unit-address-form.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormModule,
-        NgSelectModule,
-        UrlModule,
-        I18nModule,
-        ReactiveFormsModule,
-        FormErrorsModule,
-        FeaturesConfigModule,
-        FormRequiredAsterisksComponent,
-        FormRequiredLegendComponent,
-        UnitAddressFormComponent,
-    ],
+  imports: [
+    CommonModule,
+    FormModule,
+    NgSelectModule,
+    UrlModule,
+    I18nModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
+    UnitAddressFormComponent,
+  ],
 })
 export class UnitAddressFormModule {}

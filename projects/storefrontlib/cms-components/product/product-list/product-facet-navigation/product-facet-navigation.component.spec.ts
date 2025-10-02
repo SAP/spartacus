@@ -14,25 +14,25 @@ import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 @Component({
-    selector: 'cx-active-facets',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-active-facets',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockActiveFacetsComponent {
   @Input() facetList;
 }
 @Component({
-    selector: 'cx-facet-list',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-facet-list',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockFacetListComponent {
   @Input() isDialog;
@@ -52,17 +52,20 @@ describe('ProductFacetNavigationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ProductFacetNavigationComponent,
+      imports: [
+        I18nTestingModule,
+        ProductFacetNavigationComponent,
         MockActiveFacetsComponent,
         MockFacetListComponent,
-        MockCxIconComponent],
-    providers: [
+        MockCxIconComponent,
+      ],
+      providers: [
         {
-            provide: BreakpointService,
-            useClass: MockBreakpointService,
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

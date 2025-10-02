@@ -15,17 +15,17 @@ import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/test
 import { MockDatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-org-budget-details-cell',
-    templateUrl: './budget-details-cell.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        RouterLink,
-        PopoverDirective,
-        TranslatePipe,
-        CxDatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-org-budget-details-cell',
+  templateUrl: './budget-details-cell.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    RouterLink,
+    PopoverDirective,
+    TranslatePipe,
+    CxDatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class BudgetDetailsCellComponent extends CellComponent {}

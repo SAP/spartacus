@@ -24,9 +24,9 @@ class MockMessageService {
 }
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type;
@@ -39,11 +39,11 @@ describe('GlobalMessageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, GlobalMessageComponent, MockCxIconComponent],
-    providers: [
+      imports: [I18nTestingModule, GlobalMessageComponent, MockCxIconComponent],
+      providers: [
         { provide: GlobalMessageService, useClass: MockMessageService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

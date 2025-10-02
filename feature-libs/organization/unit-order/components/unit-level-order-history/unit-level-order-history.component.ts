@@ -30,27 +30,27 @@ import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing
 import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-unit-level-order-history',
-    templateUrl: './unit-level-order-history.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        UnitLevelOrderHistoryFilterComponent,
-        SortingComponent,
-        TotalComponent,
-        PaginationComponent,
-        FeatureDirective,
-        NgFor,
-        RouterLink,
-        BtnLikeLinkDirective,
-        RouterLinkActive,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        CxDatePipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-unit-level-order-history',
+  templateUrl: './unit-level-order-history.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    UnitLevelOrderHistoryFilterComponent,
+    SortingComponent,
+    TotalComponent,
+    PaginationComponent,
+    FeatureDirective,
+    NgFor,
+    RouterLink,
+    BtnLikeLinkDirective,
+    RouterLinkActive,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    CxDatePipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class UnitLevelOrderHistoryComponent implements OnDestroy {
   private PAGE_SIZE = 5;

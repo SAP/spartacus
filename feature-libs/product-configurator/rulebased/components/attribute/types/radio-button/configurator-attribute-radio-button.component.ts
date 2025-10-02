@@ -5,7 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
@@ -23,23 +27,23 @@ import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-inpu
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 
 @Component({
-    selector: 'cx-configurator-attribute-radio-button',
-    templateUrl: './configurator-attribute-radio-button.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [ConfiguratorAttributePriceChangeService],
-    imports: [
-        NgIf,
-        ConfiguratorAttributeQuantityComponent,
-        ConfiguratorPriceComponent,
-        NgFor,
-        FormsModule,
-        ReactiveFormsModule,
-        FocusDirective,
-        ConfiguratorShowMoreComponent,
-        ConfiguratorAttributeNumericInputFieldComponent,
-        ConfiguratorAttributeInputFieldComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-configurator-attribute-radio-button',
+  templateUrl: './configurator-attribute-radio-button.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfiguratorAttributePriceChangeService],
+  imports: [
+    NgIf,
+    ConfiguratorAttributeQuantityComponent,
+    ConfiguratorPriceComponent,
+    NgFor,
+    FormsModule,
+    ReactiveFormsModule,
+    FocusDirective,
+    ConfiguratorShowMoreComponent,
+    ConfiguratorAttributeNumericInputFieldComponent,
+    ConfiguratorAttributeInputFieldComponent,
+    AsyncPipe,
+  ],
 })
 export class ConfiguratorAttributeRadioButtonComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent

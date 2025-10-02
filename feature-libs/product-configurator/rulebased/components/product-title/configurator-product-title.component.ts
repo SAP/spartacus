@@ -29,18 +29,18 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-product-title',
-    templateUrl: './configurator-product-title.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        ConfiguratorMainAriaLabelledByDirective,
-        IconComponent,
-        MediaComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-product-title',
+  templateUrl: './configurator-product-title.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    ConfiguratorMainAriaLabelledByDirective,
+    IconComponent,
+    MediaComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorProductTitleComponent {
   @HostBinding('class.ghost') ghostStyle = true;

@@ -34,18 +34,18 @@ describe('PickupInfoContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [PickupInfoContainerComponent, PickupInfoStubComponent],
-    providers: [
+      declarations: [PickupInfoContainerComponent, PickupInfoStubComponent],
+      providers: [
         {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartFacade,
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartFacade,
         },
         {
-            provide: PickupLocationsSearchFacade,
-            useClass: MockPickupLocationsSearchFacade,
+          provide: PickupLocationsSearchFacade,
+          useClass: MockPickupLocationsSearchFacade,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

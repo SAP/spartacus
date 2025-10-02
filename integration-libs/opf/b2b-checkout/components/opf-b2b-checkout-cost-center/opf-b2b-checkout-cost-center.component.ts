@@ -11,15 +11,9 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-opf-b2b-checkout-cost-center',
-    templateUrl: './opf-b2b-checkout-cost-center.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-opf-b2b-checkout-cost-center',
+  templateUrl: './opf-b2b-checkout-cost-center.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class OpfB2bCheckoutCostCenterComponent extends CheckoutCostCenterComponent {}

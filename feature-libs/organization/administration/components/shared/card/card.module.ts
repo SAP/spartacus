@@ -22,18 +22,18 @@ import { CardComponent } from './card.component';
  * a reusable component inside the organization UI.
  */
 @NgModule({
-    imports: [
-        CommonModule,
-        SplitViewModule,
-        RouterModule,
-        I18nModule,
-        IconModule,
-        UrlModule,
-        MessageModule,
-        PopoverModule,
-        FeaturesConfigModule,
-        CardComponent,
-    ],
-    exports: [CardComponent],
+  imports: [
+    CommonModule,
+    SplitViewModule,
+    RouterModule,
+    I18nModule,
+    IconModule,
+    UrlModule,
+    MessageModule,
+    PopoverModule,
+    FeaturesConfigModule,
+    CardComponent,
+  ],
+  exports: [CardComponent],
 })
 export class CardModule {}

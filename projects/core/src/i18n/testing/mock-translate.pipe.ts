@@ -8,7 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Translatable, isTranslatable } from '../translatable';
 import { mockTranslate } from './mock-translate';
 
-@Pipe({ name: 'cxTranslate', })
+@Pipe({ name: 'cxTranslate' })
 export class MockTranslatePipe implements PipeTransform {
   transform(
     input: Translatable | string | string[],

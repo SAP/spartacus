@@ -35,7 +35,7 @@ export class MockKeyboadFocusDirective {
 }
 
 describe('AsmCustomer360ActivityComponent', () => {
-  @Pipe({ name: 'cxTranslate', })
+  @Pipe({ name: 'cxTranslate' })
   class MockTranslatePipe implements PipeTransform {
     transform(): any {}
   }
@@ -43,7 +43,7 @@ describe('AsmCustomer360ActivityComponent', () => {
     selector: 'cx-icon',
     template: '',
     imports: [I18nTestingModule],
-})
+  })
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
   }
@@ -125,24 +125,27 @@ describe('AsmCustomer360ActivityComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, AsmCustomer360ActivityComponent,
+      imports: [
+        I18nTestingModule,
+        AsmCustomer360ActivityComponent,
         MockTranslatePipe,
         MockCxIconComponent,
         AsmCustomer360TableComponent,
-        ArgsPipe],
-    providers: [
+        ArgsPipe,
+      ],
+      providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         AsmCustomer360SectionContextSource,
         {
-            provide: AsmCustomer360SectionContext,
-            useExisting: AsmCustomer360SectionContextSource,
+          provide: AsmCustomer360SectionContext,
+          useExisting: AsmCustomer360SectionContextSource,
         },
         {
-            provide: DirectionService,
-            useClass: MockDirectionService,
+          provide: DirectionService,
+          useClass: MockDirectionService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

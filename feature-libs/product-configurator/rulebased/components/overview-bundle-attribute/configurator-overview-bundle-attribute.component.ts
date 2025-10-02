@@ -20,7 +20,10 @@ import {
 import { Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorPriceComponentOptions, ConfiguratorPriceComponent } from '../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponentOptions,
+  ConfiguratorPriceComponent,
+} from '../price/configurator-price.component';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { MediaComponent } from '../../../../../projects/storefrontlib/shared/components/media/media.component';
 import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
@@ -28,18 +31,18 @@ import { CxNumericPipe } from '../../../../../projects/core/src/i18n/numeric.pip
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-cpq-overview-attribute',
-    templateUrl: './configurator-overview-bundle-attribute.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        MediaComponent,
-        ConfiguratorPriceComponent,
-        AsyncPipe,
-        TranslatePipe,
-        CxNumericPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-cpq-overview-attribute',
+  templateUrl: './configurator-overview-bundle-attribute.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    MediaComponent,
+    ConfiguratorPriceComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxNumericPipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
   product$: Observable<Product>;

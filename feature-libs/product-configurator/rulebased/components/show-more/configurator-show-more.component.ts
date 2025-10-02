@@ -16,14 +16,10 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-show-more',
-    templateUrl: './configurator-show-more.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-show-more',
+  templateUrl: './configurator-show-more.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, TranslatePipe, MockTranslatePipe],
 })
 export class ConfiguratorShowMoreComponent implements AfterViewInit {
   showMore = false;

@@ -23,22 +23,22 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-product-images',
-    templateUrl: './product-image-zoom-product-images.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        LcpContextDirective,
-        MediaComponent,
-        ProductImageZoomTriggerComponent,
-        FeatureDirective,
-        CarouselScrollingComponent,
-        CarouselComponent,
-        FocusableCarouselItemDirective,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-product-images',
+  templateUrl: './product-image-zoom-product-images.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    LcpContextDirective,
+    MediaComponent,
+    ProductImageZoomTriggerComponent,
+    FeatureDirective,
+    CarouselScrollingComponent,
+    CarouselComponent,
+    FocusableCarouselItemDirective,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ProductImageZoomProductImagesComponent extends ProductImagesComponent {
   expandImage = new BehaviorSubject(false);

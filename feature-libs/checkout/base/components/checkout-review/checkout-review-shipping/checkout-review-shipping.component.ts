@@ -36,20 +36,20 @@ import { UrlPipe } from '../../../../../../projects/core/src/routing/configurabl
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-checkout-review-shipping',
-    templateUrl: './checkout-review-shipping.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        CardComponent,
-        RouterLink,
-        IconComponent,
-        OutletDirective,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-checkout-review-shipping',
+  templateUrl: './checkout-review-shipping.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    CardComponent,
+    RouterLink,
+    IconComponent,
+    OutletDirective,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class CheckoutReviewShippingComponent {
   protected featureConfig = inject(FeatureConfigService);

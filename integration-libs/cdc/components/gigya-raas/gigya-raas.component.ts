@@ -22,17 +22,12 @@ import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe
 import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-gigya-raas',
-    templateUrl: './gigya-raas.component.html',
-    styleUrls: ['./gigya-raas.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-gigya-raas',
+  templateUrl: './gigya-raas.component.html',
+  styleUrls: ['./gigya-raas.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class GigyaRaasComponent implements OnInit {
   protected renderScreenSet = true;

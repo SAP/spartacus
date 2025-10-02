@@ -10,7 +10,11 @@ import {
   Optional,
   inject,
 } from '@angular/core';
-import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
 import { RoutingService } from '@spartacus/core';
@@ -23,21 +27,21 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-forgot-password',
-    templateUrl: './forgot-password.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        SpinnerComponent,
-        FormRequiredLegendComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-forgot-password',
+  templateUrl: './forgot-password.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    FormRequiredLegendComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ForgotPasswordComponent {
   @Optional() protected routingService = inject(RoutingService, {

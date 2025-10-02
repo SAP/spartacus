@@ -25,17 +25,17 @@ import { CarouselScrollingComponent } from '../../../shared/components/carousel-
 import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
 
 @Component({
-    selector: 'cx-product-images',
-    templateUrl: './product-images.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        LcpContextDirective,
-        MediaComponent,
-        CarouselScrollingComponent,
-        CarouselComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-product-images',
+  templateUrl: './product-images.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    LcpContextDirective,
+    MediaComponent,
+    CarouselScrollingComponent,
+    CarouselComponent,
+    AsyncPipe,
+  ],
 })
 export class ProductImagesComponent {
   protected mainMediaContainer = new BehaviorSubject<any>(null);

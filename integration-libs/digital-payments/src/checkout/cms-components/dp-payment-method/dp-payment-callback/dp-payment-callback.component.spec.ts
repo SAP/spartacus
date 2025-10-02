@@ -73,8 +73,8 @@ const mockPaymentDetails: PaymentDetails = {
 };
 
 @Component({
-    selector: 'cx-spinner',
-    template: '',
+  selector: 'cx-spinner',
+  template: '',
 })
 class MockSpinnerComponent {}
 class MockLaunchDialogService {
@@ -96,37 +96,41 @@ describe('DpPaymentCallbackComponent with success query param', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [RouterModule.forRoot([]), StoreModule.forRoot({}), DpPaymentCallbackComponent,
+      imports: [
+        RouterModule.forRoot([]),
+        StoreModule.forRoot({}),
+        DpPaymentCallbackComponent,
         MockTranslatePipe,
-        MockSpinnerComponent],
-    providers: [
+        MockSpinnerComponent,
+      ],
+      providers: [
         {
-            provide: DpPaymentCallbackComponent,
-            useClass: DpPaymentCallbackComponent,
+          provide: DpPaymentCallbackComponent,
+          useClass: DpPaymentCallbackComponent,
         },
         {
-            provide: ActivatedRoute,
-            useValue: mockActivatedRoute,
+          provide: ActivatedRoute,
+          useValue: mockActivatedRoute,
         },
         {
-            provide: DpCheckoutPaymentService,
-            useClass: MockDpCheckoutPaymentService,
+          provide: DpCheckoutPaymentService,
+          useClass: MockDpCheckoutPaymentService,
         },
         {
-            provide: DpLocalStorageService,
-            useClass: MockDpLocalStorageService,
+          provide: DpLocalStorageService,
+          useClass: MockDpLocalStorageService,
         },
         {
-            provide: GlobalMessageService,
-            useClass: GlobalMessageService,
+          provide: GlobalMessageService,
+          useClass: GlobalMessageService,
         },
         {
-            provide: CheckoutBillingAddressFormService,
-            useClass: MockCheckoutBillingAddressFormService,
+          provide: CheckoutBillingAddressFormService,
+          useClass: MockCheckoutBillingAddressFormService,
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     dpPaymentService = TestBed.inject(DpCheckoutPaymentService);
     launchDialogService = TestBed.inject(LaunchDialogService);
@@ -243,37 +247,41 @@ describe('DpPaymentCallbackComponent without query param', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [RouterModule.forRoot([]), StoreModule.forRoot({}), DpPaymentCallbackComponent,
+      imports: [
+        RouterModule.forRoot([]),
+        StoreModule.forRoot({}),
+        DpPaymentCallbackComponent,
         MockTranslatePipe,
-        MockSpinnerComponent],
-    providers: [
+        MockSpinnerComponent,
+      ],
+      providers: [
         {
-            provide: DpPaymentCallbackComponent,
-            useClass: DpPaymentCallbackComponent,
+          provide: DpPaymentCallbackComponent,
+          useClass: DpPaymentCallbackComponent,
         },
         {
-            provide: ActivatedRoute,
-            useValue: emptyActivatedRoute,
+          provide: ActivatedRoute,
+          useValue: emptyActivatedRoute,
         },
         {
-            provide: DpCheckoutPaymentService,
-            useClass: MockDpCheckoutPaymentService,
+          provide: DpCheckoutPaymentService,
+          useClass: MockDpCheckoutPaymentService,
         },
         {
-            provide: DpLocalStorageService,
-            useClass: MockDpLocalStorageService,
+          provide: DpLocalStorageService,
+          useClass: MockDpLocalStorageService,
         },
         {
-            provide: GlobalMessageService,
-            useClass: GlobalMessageService,
+          provide: GlobalMessageService,
+          useClass: GlobalMessageService,
         },
         {
-            provide: CheckoutBillingAddressFormService,
-            useClass: MockCheckoutBillingAddressFormService,
+          provide: CheckoutBillingAddressFormService,
+          useClass: MockCheckoutBillingAddressFormService,
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     msgService = TestBed.inject(GlobalMessageService);
 

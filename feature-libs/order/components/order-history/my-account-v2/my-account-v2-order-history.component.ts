@@ -22,23 +22,23 @@ import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing
 import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-my-account-v2-order-history',
-    templateUrl: './my-account-v2-order-history.component.html',
-    imports: [
-        NgIf,
-        NgFor,
-        RouterLink,
-        MyAccountV2OrderConsolidatedInformationComponent,
-        PaginationComponent,
-        RouterLinkActive,
-        SpinnerComponent,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        CxDatePipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-my-account-v2-order-history',
+  templateUrl: './my-account-v2-order-history.component.html',
+  imports: [
+    NgIf,
+    NgFor,
+    RouterLink,
+    MyAccountV2OrderConsolidatedInformationComponent,
+    PaginationComponent,
+    RouterLinkActive,
+    SpinnerComponent,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    CxDatePipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class MyAccountV2OrderHistoryComponent extends OrderHistoryComponent {
   protected service = inject(MyAccountV2OrderHistoryService);

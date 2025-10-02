@@ -25,13 +25,9 @@ interface RouteParts {
  * This component navigates using [routerLink] attribute when input 'url' is a relative url. Otherwise (when it's absolute), [href] is used.
  */
 @Component({
-    selector: 'cx-generic-link',
-    templateUrl: './generic-link.component.html',
-    imports: [
-        NgIf,
-        NgTemplateOutlet,
-        RouterLink,
-    ],
+  selector: 'cx-generic-link',
+  templateUrl: './generic-link.component.html',
+  imports: [NgIf, NgTemplateOutlet, RouterLink],
 })
 export class GenericLinkComponent implements OnChanges {
   constructor(

@@ -22,23 +22,23 @@ import { MessageModule } from '../message/message.module';
 import { ListComponent } from './list.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        SplitViewModule,
-        TableModule,
-        IconModule,
-        UrlModule,
-        I18nModule,
-        PaginationModule,
-        NgSelectModule,
-        FormsModule,
-        MessageModule,
-        KeyboardFocusModule,
-        PopoverModule,
-        FeaturesConfigModule,
-        ListComponent,
-    ],
-    exports: [ListComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    SplitViewModule,
+    TableModule,
+    IconModule,
+    UrlModule,
+    I18nModule,
+    PaginationModule,
+    NgSelectModule,
+    FormsModule,
+    MessageModule,
+    KeyboardFocusModule,
+    PopoverModule,
+    FeaturesConfigModule,
+    ListComponent,
+  ],
+  exports: [ListComponent],
 })
 export class ListModule {}

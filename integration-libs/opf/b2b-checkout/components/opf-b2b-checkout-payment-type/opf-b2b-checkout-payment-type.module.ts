@@ -23,23 +23,23 @@ import { OpfCheckoutPaymentsModule } from '@spartacus/opf/checkout/components';
 import { OpfB2bCheckoutPaymentTypeComponent } from './opf-b2b-checkout-payment-type.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        SpinnerModule,
-        FeaturesConfigModule,
-        OpfCheckoutPaymentsModule,
-        ReactiveFormsModule,
-        ConfigModule.withConfig(<CmsConfig>{
-            cmsComponents: {
-                OpfCheckoutPaymentType: {
-                    component: OpfB2bCheckoutPaymentTypeComponent,
-                    guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
-                },
-            },
-        }),
-        OpfB2bCheckoutPaymentTypeComponent,
-    ],
-    exports: [OpfB2bCheckoutPaymentTypeComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    SpinnerModule,
+    FeaturesConfigModule,
+    OpfCheckoutPaymentsModule,
+    ReactiveFormsModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        OpfCheckoutPaymentType: {
+          component: OpfB2bCheckoutPaymentTypeComponent,
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
+        },
+      },
+    }),
+    OpfB2bCheckoutPaymentTypeComponent,
+  ],
+  exports: [OpfB2bCheckoutPaymentTypeComponent],
 })
 export class OpfB2bCheckoutPaymentTypeModule {}

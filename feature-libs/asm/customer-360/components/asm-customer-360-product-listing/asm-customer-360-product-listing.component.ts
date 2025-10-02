@@ -19,25 +19,31 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ProductItem } from './product-item.model';
-import { NgIf, NgTemplateOutlet, NgClass, NgFor, AsyncPipe } from '@angular/common';
+import {
+  NgIf,
+  NgTemplateOutlet,
+  NgClass,
+  NgFor,
+  AsyncPipe,
+} from '@angular/common';
 import { AsmCustomer360ProductItemComponent } from '../asm-customer-360-product-item/asm-customer-360-product-item.component';
 import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-asm-customer-360-product-listing',
-    templateUrl: './asm-customer-360-product-listing.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgTemplateOutlet,
-        NgClass,
-        NgFor,
-        AsmCustomer360ProductItemComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-asm-customer-360-product-listing',
+  templateUrl: './asm-customer-360-product-listing.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    NgClass,
+    NgFor,
+    AsmCustomer360ProductItemComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AsmCustomer360ProductListingComponent implements OnInit {
   @Input()

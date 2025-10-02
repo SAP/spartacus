@@ -20,18 +20,18 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-order-confirmation-items',
-    templateUrl: './order-confirmation-items.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        PromotionsComponent,
-        AbstractOrderContextDirective,
-        OutletDirective,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-order-confirmation-items',
+  templateUrl: './order-confirmation-items.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    PromotionsComponent,
+    AbstractOrderContextDirective,
+    OutletDirective,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class OrderConfirmationItemsComponent implements OnDestroy {
   readonly cartOutlets = CartOutlets;

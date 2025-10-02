@@ -12,11 +12,13 @@ describe('StoreComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [StoreAddressStubComponent,
+      declarations: [
+        StoreAddressStubComponent,
         StoreScheduleStubComponent,
-        SetPreferredStoreStubComponent,],
-    imports: [I18nTestingModule, IconTestingModule, StoreComponent],
-}).compileComponents();
+        SetPreferredStoreStubComponent,
+      ],
+      imports: [I18nTestingModule, IconTestingModule, StoreComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

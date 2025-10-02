@@ -12,8 +12,8 @@ class MockCartItemContext implements Partial<CartItemContext> {
 }
 
 @Component({
-    selector: 'cx-cpq-quote',
-    template: '',
+  selector: 'cx-cpq-quote',
+  template: '',
 })
 class MockConfigureCpqDiscountsComponent {
   @Input() cartEntry: Partial<OrderEntry & Array<CpqDiscounts>>;
@@ -31,13 +31,12 @@ describe('CpqQuoteDiscountComponent', () => {
     };
     mockCartItemContext = new MockCartItemContext();
     await TestBed.configureTestingModule({
-    imports: [CpqQuoteDiscountComponent,
-        MockConfigureCpqDiscountsComponent],
-    providers: [
+      imports: [CpqQuoteDiscountComponent, MockConfigureCpqDiscountsComponent],
+      providers: [
         { provide: CpqQuoteService, useValue: cpqQuoteServiceMock },
         { provide: CartItemContext, useValue: mockCartItemContext },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
   beforeEach(() => {
     fixture = TestBed.createComponent(CpqQuoteDiscountComponent);

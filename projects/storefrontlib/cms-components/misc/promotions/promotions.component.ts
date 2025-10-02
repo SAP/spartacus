@@ -9,10 +9,10 @@ import { Promotion } from '@spartacus/core';
 import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-    selector: 'cx-promotions',
-    templateUrl: './promotions.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NgIf, NgFor],
+  selector: 'cx-promotions',
+  templateUrl: './promotions.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, NgFor],
 })
 export class PromotionsComponent {
   @Input()

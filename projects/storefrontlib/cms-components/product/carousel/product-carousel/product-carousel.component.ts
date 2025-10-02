@@ -32,19 +32,19 @@ import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-product-carousel',
-    templateUrl: './product-carousel.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FeatureDirective,
-        NgIf,
-        CarouselScrollingComponent,
-        CarouselComponent,
-        ProductCarouselItemComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-product-carousel',
+  templateUrl: './product-carousel.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FeatureDirective,
+    NgIf,
+    CarouselScrollingComponent,
+    CarouselComponent,
+    ProductCarouselItemComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ProductCarouselComponent {
   private featureConfigService: FeatureConfigService =

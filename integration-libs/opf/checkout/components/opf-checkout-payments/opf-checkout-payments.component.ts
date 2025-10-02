@@ -43,21 +43,21 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-opf-checkout-payments',
-    templateUrl: './opf-checkout-payments.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        IconComponent,
-        NgTemplateOutlet,
-        OpfCheckoutPaymentWrapperComponent,
-        PaginationComponent,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-opf-checkout-payments',
+  templateUrl: './opf-checkout-payments.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgFor,
+    IconComponent,
+    NgTemplateOutlet,
+    OpfCheckoutPaymentWrapperComponent,
+    PaginationComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected opfBaseService = inject(OpfBaseFacade);

@@ -124,31 +124,32 @@ describe('VisualPickingTabComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         CommonModule,
         IconModule,
         FormsModule,
         UrlModule,
         RouterModule.forRoot([
-            {
-                path: 'product',
-                component: MockPageLayoutComponent,
-            },
+          {
+            path: 'product',
+            component: MockPageLayoutComponent,
+          },
         ]),
         VisualViewerModule,
         VisualPickingProductListModule,
         VisualPickingProductFilterModule,
-        VisualPickingTabComponent, MockTranslatePipe,
-    ],
-    providers: [
+        VisualPickingTabComponent,
+        MockTranslatePipe,
+      ],
+      providers: [
         {
-            provide: TranslationService,
-            useClass: MockTranslationService,
+          provide: TranslationService,
+          useClass: MockTranslationService,
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
-    ],
-})
+      ],
+    })
       .overrideComponent(VisualViewerComponent, {
         set: {
           providers: [

@@ -25,7 +25,7 @@ import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { CmsInjectorService } from './services/cms-injector.service';
 import { ComponentHandlerService } from './services/component-handler.service';
 
-@Directive({ selector: '[cxInnerComponentsHost]', })
+@Directive({ selector: '[cxInnerComponentsHost]' })
 export class InnerComponentsHostDirective implements OnInit, OnDestroy {
   protected innerComponents$ = this.data.data$.pipe(
     map((data) => data?.composition?.inner ?? []),

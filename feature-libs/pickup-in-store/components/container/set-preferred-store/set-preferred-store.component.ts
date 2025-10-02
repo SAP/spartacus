@@ -19,17 +19,17 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-set-preferred-store',
-    templateUrl: './set-preferred-store.component.html',
-    imports: [
-        FeatureDirective,
-        NgIf,
-        NgClass,
-        IconComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-set-preferred-store',
+  templateUrl: './set-preferred-store.component.html',
+  imports: [
+    FeatureDirective,
+    NgIf,
+    NgClass,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class SetPreferredStoreComponent implements OnInit, OnDestroy {
   readonly ICON_TYPE = ICON_TYPE;

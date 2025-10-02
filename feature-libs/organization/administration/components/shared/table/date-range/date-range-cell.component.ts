@@ -13,17 +13,17 @@ import { CxDatePipe } from '../../../../../../../projects/core/src/i18n/date.pip
 import { MockDatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-org-date-range-cell',
-    templateUrl: './date-range-cell.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        RouterLink,
-        NgTemplateOutlet,
-        UrlPipe,
-        CxDatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-org-date-range-cell',
+  templateUrl: './date-range-cell.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    RouterLink,
+    NgTemplateOutlet,
+    UrlPipe,
+    CxDatePipe,
+    MockDatePipe,
+  ],
 })
 export class DateRangeCellComponent extends CellComponent {
   get linkable(): boolean {

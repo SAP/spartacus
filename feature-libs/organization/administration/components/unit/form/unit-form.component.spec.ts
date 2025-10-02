@@ -57,7 +57,7 @@ describe('UnitFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         I18nTestingModule,
         UrlTestingModule,
         ReactiveFormsModule,
@@ -66,12 +66,12 @@ describe('UnitFormComponent', () => {
         UnitFormComponent,
         FormErrorsComponent,
         MockFeatureDirective,
-    ],
-    providers: [
+      ],
+      providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: UnitItemService, useClass: MockItemService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     b2bUnitService = TestBed.inject(OrgUnitService);
 

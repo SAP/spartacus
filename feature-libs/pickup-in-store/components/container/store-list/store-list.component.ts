@@ -22,17 +22,17 @@ import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing
  * Used in the PickupOptionDialog component for selecting a pickup location.
  */
 @Component({
-    selector: 'cx-store-list',
-    templateUrl: 'store-list.component.html',
-    imports: [
-        NgIf,
-        NgFor,
-        StoreComponent,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-store-list',
+  templateUrl: 'store-list.component.html',
+  imports: [
+    NgIf,
+    NgFor,
+    StoreComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class StoreListComponent implements OnInit {
   /** The product code for the stock levels at each location */

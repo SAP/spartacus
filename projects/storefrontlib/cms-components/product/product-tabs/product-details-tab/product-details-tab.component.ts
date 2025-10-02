@@ -15,16 +15,10 @@ import { OutletDirective } from '../../../../cms-structure/outlet/outlet.directi
 import { ComponentWrapperDirective } from '../../../../cms-structure/page/component/component-wrapper.directive';
 
 @Component({
-    selector: 'cx-product-details-tab',
-    templateUrl: './product-details-tab.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        OutletDirective,
-        ComponentWrapperDirective,
-        AsyncPipe,
-    ],
+  selector: 'cx-product-details-tab',
+  templateUrl: './product-details-tab.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, NgFor, OutletDirective, ComponentWrapperDirective, AsyncPipe],
 })
 export class ProductDetailsTabComponent implements OnInit {
   product$: Observable<Product | null>;

@@ -23,23 +23,24 @@ import { defaultSkipLinkConfig } from './config/default-skip-link.config';
 import { SkipLinkDirective } from './directive/skip-link.directive';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        ConfigModule.withConfig(defaultSkipLinkConfig),
-        KeyboardFocusModule,
-        SkipLinkComponent, SkipLinkDirective,
-    ],
-    exports: [SkipLinkDirective],
-    providers: [
-        provideDefaultConfig(defaultSkipLinkConfig),
-        {
-            provide: APP_INITIALIZER,
-            useFactory: skipLinkFactory,
-            deps: [ComponentFactoryResolver, OutletService],
-            multi: true,
-        },
-    ],
+  imports: [
+    CommonModule,
+    I18nModule,
+    ConfigModule.withConfig(defaultSkipLinkConfig),
+    KeyboardFocusModule,
+    SkipLinkComponent,
+    SkipLinkDirective,
+  ],
+  exports: [SkipLinkDirective],
+  providers: [
+    provideDefaultConfig(defaultSkipLinkConfig),
+    {
+      provide: APP_INITIALIZER,
+      useFactory: skipLinkFactory,
+      deps: [ComponentFactoryResolver, OutletService],
+      multi: true,
+    },
+  ],
 })
 export class SkipLinkModule {}
 

@@ -27,9 +27,9 @@ const form = new FormGroup({
 });
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule,],
+  selector: 'cx-icon',
+  template: '',
+  imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -59,17 +59,22 @@ describe('ClaimDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule, ClaimDialogComponent,
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
+        ClaimDialogComponent,
         MockCxIconComponent,
         FocusDirective,
-        MockFeatureDirective],
-    providers: [
+        MockFeatureDirective,
+      ],
+      providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: CustomerCouponService, useValue: couponService },
         { provide: RoutingService, useValue: routingService },
         { provide: GlobalMessageService, useValue: globalMessageService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

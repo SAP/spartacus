@@ -17,21 +17,21 @@ import { ConfigureCartEntryModule } from '../configure-cart-entry/configure-cart
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        UrlModule,
-        I18nModule,
-        IconModule,
-        ConfigureCartEntryModule,
-        ConfiguratorIssuesNotificationComponent,
-    ],
-    providers: [
-        provideOutlet({
-            id: CartOutlets.ITEM_CONFIGURATOR_ISSUES,
-            position: OutletPosition.REPLACE,
-            component: ConfiguratorIssuesNotificationComponent,
-        }),
-    ],
-    exports: [ConfiguratorIssuesNotificationComponent],
+  imports: [
+    CommonModule,
+    UrlModule,
+    I18nModule,
+    IconModule,
+    ConfigureCartEntryModule,
+    ConfiguratorIssuesNotificationComponent,
+  ],
+  providers: [
+    provideOutlet({
+      id: CartOutlets.ITEM_CONFIGURATOR_ISSUES,
+      position: OutletPosition.REPLACE,
+      component: ConfiguratorIssuesNotificationComponent,
+    }),
+  ],
+  exports: [ConfiguratorIssuesNotificationComponent],
 })
 export class ConfiguratorIssuesNotificationModule {}

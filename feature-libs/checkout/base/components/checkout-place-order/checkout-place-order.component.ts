@@ -13,7 +13,13 @@ import {
   OnInit,
   ViewContainerRef,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   CurrencyService,
   LanguageService,
@@ -33,22 +39,22 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-place-order',
-    templateUrl: './checkout-place-order.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FormRequiredLegendComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterLink,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        AtMessageDirective,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-place-order',
+  templateUrl: './checkout-place-order.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormRequiredLegendComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    AtMessageDirective,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
   placedOrder: void | Observable<ComponentRef<any> | undefined>;

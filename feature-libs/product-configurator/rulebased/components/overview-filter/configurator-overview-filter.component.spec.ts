@@ -61,9 +61,9 @@ function initTestComponent() {
 }
 
 @Component({
-    selector: 'cx-configurator-overview-filter-bar',
-    template: '',
-    imports: [I18nTestingModule, ReactiveFormsModule],
+  selector: 'cx-configurator-overview-filter-bar',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorOverviewFilterBarComponent {
   @Input() config: Configurator.ConfigurationWithOverview;
@@ -81,19 +81,23 @@ describe('ConfiguratorOverviewFilterComponent', () => {
     mockRouterState.state.params.displayOnly = false;
 
     return TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ReactiveFormsModule, ConfiguratorOverviewFilterComponent,
-        MockConfiguratorOverviewFilterBarComponent],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        ConfiguratorOverviewFilterComponent,
+        MockConfiguratorOverviewFilterBarComponent,
+      ],
+      providers: [
         {
-            provide: ConfiguratorCommonsService,
-            useValue: mockConfigCommonsService,
+          provide: ConfiguratorCommonsService,
+          useValue: mockConfigCommonsService,
         },
         {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
-    ],
-});
+      ],
+    });
   }
 
   beforeEach(waitForAsync(() => {

@@ -58,19 +58,19 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-product-image-zoom-view',
-    templateUrl: './product-image-zoom-view.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        IconComponent,
-        FeatureDirective,
-        MediaComponent,
-        ProductImageZoomThumbnailsComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-product-image-zoom-view',
+  templateUrl: './product-image-zoom-view.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    IconComponent,
+    FeatureDirective,
+    MediaComponent,
+    ProductImageZoomThumbnailsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
   iconType = ICON_TYPE;

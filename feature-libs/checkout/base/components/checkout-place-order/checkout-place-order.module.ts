@@ -27,30 +27,30 @@ import { CheckoutPlaceOrderComponent } from './checkout-place-order.component';
 import { defaultPlaceOrderSpinnerLayoutConfig } from './default-place-order-spinner-layout.config';
 
 @NgModule({
-    imports: [
-        AtMessageModule,
-        CommonModule,
-        RouterModule,
-        UrlModule,
-        I18nModule,
-        ReactiveFormsModule,
-        FormErrorsModule,
-        FeaturesConfigModule,
-        FormRequiredAsterisksComponent,
-        FormRequiredLegendComponent,
-        CheckoutPlaceOrderComponent,
-    ],
-    providers: [
-        provideDefaultConfig(defaultPlaceOrderSpinnerLayoutConfig),
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                CheckoutPlaceOrder: {
-                    component: CheckoutPlaceOrderComponent,
-                    guards: [CheckoutAuthGuard, CartNotEmptyGuard],
-                },
-            },
-        }),
-    ],
-    exports: [CheckoutPlaceOrderComponent],
+  imports: [
+    AtMessageModule,
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
+    CheckoutPlaceOrderComponent,
+  ],
+  providers: [
+    provideDefaultConfig(defaultPlaceOrderSpinnerLayoutConfig),
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        CheckoutPlaceOrder: {
+          component: CheckoutPlaceOrderComponent,
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+        },
+      },
+    }),
+  ],
+  exports: [CheckoutPlaceOrderComponent],
 })
 export class CheckoutPlaceOrderModule {}

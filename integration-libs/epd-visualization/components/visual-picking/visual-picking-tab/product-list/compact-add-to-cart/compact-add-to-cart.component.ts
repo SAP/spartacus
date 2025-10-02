@@ -13,16 +13,16 @@ import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/trans
 import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-epd-visualization-compact-add-to-cart',
-    templateUrl: './compact-add-to-cart.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        IconComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-epd-visualization-compact-add-to-cart',
+  templateUrl: './compact-add-to-cart.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    IconComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CompactAddToCartComponent extends AddToCartComponent {}

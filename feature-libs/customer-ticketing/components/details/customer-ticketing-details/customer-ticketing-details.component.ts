@@ -28,17 +28,17 @@ import { CxDatePipe } from '../../../../../projects/core/src/i18n/date.pipe';
 import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-customer-ticketing-details',
-    templateUrl: './customer-ticketing-details.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        CardComponent,
-        SpinnerComponent,
-        AsyncPipe,
-        CxDatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-customer-ticketing-details',
+  templateUrl: './customer-ticketing-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    CardComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    CxDatePipe,
+    MockDatePipe,
+  ],
 })
 export class CustomerTicketingDetailsComponent implements OnDestroy {
   dateFormat = DATE_FORMAT;

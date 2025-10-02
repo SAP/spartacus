@@ -23,18 +23,18 @@ import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe
 import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-epd-visualization-viewer',
-    templateUrl: './visual-viewer.component.html',
-    providers: [VisualViewerService],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        VisualViewerToolbarButtonComponent,
-        VisualViewerAnimationSliderComponent,
-        SpinnerComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-epd-visualization-viewer',
+  templateUrl: './visual-viewer.component.html',
+  providers: [VisualViewerService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    VisualViewerToolbarButtonComponent,
+    VisualViewerAnimationSliderComponent,
+    SpinnerComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class VisualViewerComponent {
   constructor(protected visualViewerService: VisualViewerService) {}

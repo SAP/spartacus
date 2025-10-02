@@ -71,7 +71,7 @@ class MockInlineRenderStrategy {
   }
 }
 
-@Component({ template: '', })
+@Component({ template: '' })
 class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}
 }
@@ -85,22 +85,22 @@ describe('LaunchDialogService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [TestContainerComponent],
-    providers: [
+      imports: [TestContainerComponent],
+      providers: [
         LaunchDialogService,
         {
-            provide: LaunchRenderStrategy,
-            useExisting: MockRoutingRenderStrategy,
-            multi: true,
+          provide: LaunchRenderStrategy,
+          useExisting: MockRoutingRenderStrategy,
+          multi: true,
         },
         {
-            provide: LaunchRenderStrategy,
-            useExisting: MockInlineRenderStrategy,
-            multi: true,
+          provide: LaunchRenderStrategy,
+          useExisting: MockInlineRenderStrategy,
+          multi: true,
         },
         { provide: LayoutConfig, useValue: mockLaunchConfig },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     service = TestBed.inject(LaunchDialogService);
     component = TestBed.createComponent(

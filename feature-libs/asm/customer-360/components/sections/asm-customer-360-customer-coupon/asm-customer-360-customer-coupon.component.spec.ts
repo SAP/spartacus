@@ -21,7 +21,7 @@ describe('AsmCustomer360CouponComponent', () => {
     selector: 'cx-icon',
     template: '',
     imports: [I18nTestingModule],
-})
+  })
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
   }
@@ -158,25 +158,28 @@ describe('AsmCustomer360CouponComponent', () => {
   }
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, AsmCustomer360CustomerCouponComponent,
+      imports: [
+        I18nTestingModule,
+        AsmCustomer360CustomerCouponComponent,
         AsmCustomer360PromotionListingComponent,
-        MockCxIconComponent],
-    providers: [
+        MockCxIconComponent,
+      ],
+      providers: [
         AsmCustomer360SectionContextSource,
         {
-            provide: AsmCustomer360SectionContext,
-            useExisting: AsmCustomer360SectionContextSource,
+          provide: AsmCustomer360SectionContext,
+          useExisting: AsmCustomer360SectionContextSource,
         },
         {
-            provide: CustomerCouponService,
-            useClass: MockCustomerCouponService,
+          provide: CustomerCouponService,
+          useClass: MockCustomerCouponService,
         },
         {
-            provide: AsmCustomer360Facade,
-            useClass: MockAsmCustomer360Facade,
+          provide: AsmCustomer360Facade,
+          useClass: MockAsmCustomer360Facade,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
     customerCouponService = TestBed.inject(CustomerCouponService);
   });
 

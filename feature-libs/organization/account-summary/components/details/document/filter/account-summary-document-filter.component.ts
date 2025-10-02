@@ -22,7 +22,15 @@ import {
 } from '@spartacus/organization/account-summary/root';
 import { Subscription, zip } from 'rxjs';
 
-import { AbstractControl, AbstractControlOptions, FormBuilder, FormGroup, ValidationErrors, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  AbstractControlOptions,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
@@ -45,21 +53,21 @@ interface GroupValidator {
 }
 
 @Component({
-    selector: 'cx-account-summary-document-filter',
-    templateUrl: './account-summary-document-filter.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        NgIf,
-        DatePickerComponent,
-        FormErrorsComponent,
-        NgSelectComponent,
-        NgSelectA11yDirective,
-        NgTemplateOutlet,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-account-summary-document-filter',
+  templateUrl: './account-summary-document-filter.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    DatePickerComponent,
+    FormErrorsComponent,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    NgTemplateOutlet,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AccountSummaryDocumentFilterComponent
   implements OnInit, OnDestroy

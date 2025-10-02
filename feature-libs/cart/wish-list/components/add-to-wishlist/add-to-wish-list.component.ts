@@ -27,21 +27,21 @@ import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-r
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-add-to-wishlist',
-    templateUrl: './add-to-wish-list.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        FeatureDirective,
-        AtMessageDirective,
-        IconComponent,
-        BtnLikeLinkDirective,
-        RouterLink,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-add-to-wishlist',
+  templateUrl: './add-to-wish-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    FeatureDirective,
+    AtMessageDirective,
+    IconComponent,
+    BtnLikeLinkDirective,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class AddToWishListComponent {
   product$: Observable<Product> = this.currentProductService.getProduct().pipe(

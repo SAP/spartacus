@@ -31,8 +31,8 @@ const mockedWindowRef = {
 };
 
 @Component({
-    selector: 'cx-page-layout',
-    template: 'mock',
+  selector: 'cx-page-layout',
+  template: 'mock',
 })
 class MockPageLayoutComponent {}
 
@@ -58,45 +58,45 @@ describe('CdcLogoutGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         RouterModule.forRoot([
-            {
-                path: 'logout',
-                component: MockPageLayoutComponent,
-                canActivate: [CdcLogoutGuard],
-            },
+          {
+            path: 'logout',
+            component: MockPageLayoutComponent,
+            canActivate: [CdcLogoutGuard],
+          },
         ]),
         MockPageLayoutComponent,
-    ],
-    providers: [
+      ],
+      providers: [
         {
-            provide: RoutingConfig,
-            useValue: {
-                routing: {
-                    routes: {
-                        login: {
-                            paths: ['login'],
-                        },
-                        home: {
-                            paths: [''],
-                        },
-                        logout: {
-                            paths: ['logout'],
-                        },
-                    },
+          provide: RoutingConfig,
+          useValue: {
+            routing: {
+              routes: {
+                login: {
+                  paths: ['login'],
                 },
+                home: {
+                  paths: [''],
+                },
+                logout: {
+                  paths: ['logout'],
+                },
+              },
             },
+          },
         },
         { provide: AuthService, useClass: MockAuthService },
         { provide: CmsService, useClass: MockCmsService },
         { provide: WindowRef, useValue: mockedWindowRef },
         {
-            provide: ProtectedRoutesService,
-            useClass: MockProtectedRoutesService,
+          provide: ProtectedRoutesService,
+          useClass: MockProtectedRoutesService,
         },
         SemanticPathService,
-    ],
-});
+      ],
+    });
     authService = TestBed.inject(AuthService);
     winRef = TestBed.inject(WindowRef);
     router = TestBed.inject(Router);

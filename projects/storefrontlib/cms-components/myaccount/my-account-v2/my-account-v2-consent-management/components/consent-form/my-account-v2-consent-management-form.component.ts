@@ -12,13 +12,9 @@ import { TranslatePipe } from '../../../../../../../core/src/i18n/translate.pipe
 import { MockTranslatePipe } from '../../../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-my-account-v2-consent-management-form',
-    templateUrl: './my-account-v2-consent-management-form.component.html',
-    imports: [
-        NgIf,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-my-account-v2-consent-management-form',
+  templateUrl: './my-account-v2-consent-management-form.component.html',
+  imports: [NgIf, TranslatePipe, MockTranslatePipe],
 })
 export class MyAccountV2ConsentManagementFormComponent
   extends ConsentManagementFormComponent

@@ -13,7 +13,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { LoggerService, TranslationService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -40,20 +44,20 @@ class DefaultSettings {
 }
 
 @Component({
-    selector: 'cx-configurator-attribute-numeric-input-field',
-    templateUrl: './configurator-attribute-numeric-input-field.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        NgClass,
-        FocusDirective,
-        IconComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-attribute-numeric-input-field',
+  templateUrl: './configurator-attribute-numeric-input-field.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    NgClass,
+    FocusDirective,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorAttributeNumericInputFieldComponent
   extends ConfiguratorAttributeInputFieldComponent

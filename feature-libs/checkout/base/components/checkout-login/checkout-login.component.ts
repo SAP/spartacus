@@ -5,7 +5,13 @@
  */
 
 import { Component, OnDestroy } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { AuthRedirectService } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
@@ -17,17 +23,17 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-checkout-login',
-    templateUrl: './checkout-login.component.html',
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        FormRequiredLegendComponent,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-checkout-login',
+  templateUrl: './checkout-login.component.html',
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CheckoutLoginComponent implements OnDestroy {
   checkoutLoginForm: UntypedFormGroup = this.formBuilder.group(

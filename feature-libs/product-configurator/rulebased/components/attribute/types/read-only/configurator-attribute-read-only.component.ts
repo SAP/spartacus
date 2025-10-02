@@ -16,17 +16,17 @@ import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-s
 import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
 
 @Component({
-    selector: 'cx-configurator-attribute-read-only',
-    templateUrl: './configurator-attribute-read-only.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [ConfiguratorAttributePriceChangeService],
-    imports: [
-        NgIf,
-        NgFor,
-        ConfiguratorShowMoreComponent,
-        ConfiguratorPriceComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-configurator-attribute-read-only',
+  templateUrl: './configurator-attribute-read-only.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfiguratorAttributePriceChangeService],
+  imports: [
+    NgIf,
+    NgFor,
+    ConfiguratorShowMoreComponent,
+    ConfiguratorPriceComponent,
+    AsyncPipe,
+  ],
 })
 export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttributeBaseComponent {
   attribute: Configurator.Attribute;

@@ -15,10 +15,10 @@ import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-table-header-cell',
-    template: `{{ header || (localizedHeader | cxTranslate) }}`,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslatePipe, MockTranslatePipe],
+  selector: 'cx-table-header-cell',
+  template: `{{ header || (localizedHeader | cxTranslate) }}`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslatePipe, MockTranslatePipe],
 })
 export class TableHeaderCellComponent {
   constructor(protected outlet: OutletContextData<TableHeaderOutletContext>) {}

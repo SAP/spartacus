@@ -32,18 +32,18 @@ import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-tab',
-    templateUrl: './tab.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        NgTemplateOutlet,
-        TabPanelComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-tab',
+  templateUrl: './tab.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgFor,
+    NgTemplateOutlet,
+    TabPanelComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
   /**

@@ -19,18 +19,18 @@ import { TranslatePipe } from '../../../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-product-scroll',
-    templateUrl: './product-scroll.component.html',
-    imports: [
-        NgIf,
-        InfiniteScrollDirective,
-        NgFor,
-        ProductGridItemComponent,
-        SpinnerComponent,
-        ProductListItemComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-product-scroll',
+  templateUrl: './product-scroll.component.html',
+  imports: [
+    NgIf,
+    InfiniteScrollDirective,
+    NgFor,
+    ProductGridItemComponent,
+    SpinnerComponent,
+    ProductListItemComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ProductScrollComponent implements OnDestroy {
   private subscription = new Subscription();

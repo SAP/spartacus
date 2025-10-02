@@ -24,20 +24,21 @@ describe('ClearCartDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         CommonModule,
         I18nTestingModule,
         KeyboardFocusTestingModule,
         IconTestingModule,
-        ClearCartDialogComponent, MockFeatureDirective,
-    ],
-    providers: [
+        ClearCartDialogComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
         {
-            provide: ClearCartDialogComponentService,
-            useClass: MockClearCartService,
+          provide: ClearCartDialogComponentService,
+          useClass: MockClearCartService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     clearCartService = TestBed.inject(ClearCartDialogComponentService);
   });

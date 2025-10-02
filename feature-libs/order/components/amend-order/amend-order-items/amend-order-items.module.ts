@@ -16,15 +16,15 @@ import {
 import { CancelOrReturnItemsComponent } from './amend-order-items.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        I18nModule,
-        MediaModule,
-        ItemCounterModule,
-        FormErrorsModule,
-        CancelOrReturnItemsComponent,
-    ],
-    exports: [CancelOrReturnItemsComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    I18nModule,
+    MediaModule,
+    ItemCounterModule,
+    FormErrorsModule,
+    CancelOrReturnItemsComponent,
+  ],
+  exports: [CancelOrReturnItemsComponent],
 })
 export class AmendOrderItemsModule {}

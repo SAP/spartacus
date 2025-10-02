@@ -12,14 +12,10 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-unit-list',
-    templateUrl: './unit-list.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        ListComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-unit-list',
+  templateUrl: './unit-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ListComponent, TranslatePipe, MockTranslatePipe],
 })
 export class UnitListComponent {
   constructor(

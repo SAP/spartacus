@@ -5,7 +5,12 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Currency, CurrencyService } from '@spartacus/core';
 import {
   B2BUnitNode,
@@ -30,34 +35,34 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-budget-form',
-    templateUrl: './budget-form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'content-wrapper' },
-    providers: [
-        {
-            provide: ItemService,
-            useExisting: BudgetItemService,
-        },
-        {
-            provide: CurrentItemService,
-            useExisting: CurrentBudgetService,
-        },
-    ],
-    imports: [
-        FormComponent,
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        FormRequiredLegendComponent,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        DatePickerComponent,
-        NgSelectComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-budget-form',
+  templateUrl: './budget-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
+  providers: [
+    {
+      provide: ItemService,
+      useExisting: BudgetItemService,
+    },
+    {
+      provide: CurrentItemService,
+      useExisting: CurrentBudgetService,
+    },
+  ],
+  imports: [
+    FormComponent,
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    DatePickerComponent,
+    NgSelectComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class BudgetFormComponent implements OnInit {
   form: UntypedFormGroup | null = this.itemService.getForm();

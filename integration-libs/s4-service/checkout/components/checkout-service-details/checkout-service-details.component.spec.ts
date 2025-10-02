@@ -64,31 +64,31 @@ describe('CheckoutServiceDetailsComponent', () => {
   let messageService: GlobalMessageService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, CheckoutServiceDetailsComponent],
-    providers: [
+      imports: [I18nTestingModule, CheckoutServiceDetailsComponent],
+      providers: [
         {
-            provide: ActivatedRoute,
-            useClass: MockActivatedRoute,
+          provide: ActivatedRoute,
+          useClass: MockActivatedRoute,
         },
         {
-            provide: CheckoutStepService,
-            useClass: MockCheckoutStepService,
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
         },
         {
-            provide: GlobalMessageService,
-            useClass: MockGlobalMessageService,
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
         },
         {
-            provide: CheckoutServiceDetailsFacade,
-            useClass: MockCheckoutServiceDetailsFacade,
+          provide: CheckoutServiceDetailsFacade,
+          useClass: MockCheckoutServiceDetailsFacade,
         },
         UntypedFormBuilder,
         {
-            provide: CheckoutServiceSchedulePickerService,
-            useClass: MockCheckoutServiceSchedulePickerService,
+          provide: CheckoutServiceSchedulePickerService,
+          useClass: MockCheckoutServiceSchedulePickerService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutServiceDetailsComponent);

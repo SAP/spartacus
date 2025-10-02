@@ -45,9 +45,9 @@ class MockOrderFacade implements Partial<OrderFacade> {
 }
 
 @Component({
-    selector: 'cx-card',
-    template: '',
-    imports: [I18nTestingModule, PromotionsModule, OutletModule,],
+  selector: 'cx-card',
+  template: '',
+  imports: [I18nTestingModule, PromotionsModule, OutletModule],
 })
 class MockCardComponent {
   @Input()
@@ -66,9 +66,15 @@ describe('OrderConfirmationShippingComponent', () => {
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-    imports: [I18nTestingModule, PromotionsModule, OutletModule, OrderConfirmationShippingComponent, MockCardComponent],
-    providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
-});
+      imports: [
+        I18nTestingModule,
+        PromotionsModule,
+        OutletModule,
+        OrderConfirmationShippingComponent,
+        MockCardComponent,
+      ],
+      providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
+    });
   }
 
   function stubSeviceAndCreateComponent() {
@@ -143,9 +149,15 @@ describe('OrderConfirmationShippingComponent', () => {
     }
     function configureTestingModule(): TestBed {
       return TestBed.configureTestingModule({
-    imports: [I18nTestingModule, PromotionsModule, OutletModule, OrderConfirmationShippingComponent, MockCardComponent],
-    providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
-});
+        imports: [
+          I18nTestingModule,
+          PromotionsModule,
+          OutletModule,
+          OrderConfirmationShippingComponent,
+          MockCardComponent,
+        ],
+        providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
+      });
     }
     beforeEach(() => {
       configureTestingModule();

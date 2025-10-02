@@ -11,7 +11,7 @@ import { BaseFocusService } from '../base/base-focus.service';
 import { VisibleFocusConfig } from '../keyboard-focus.model';
 import { VisibleFocusDirective } from './visible-focus.directive';
 
-@Directive({ selector: '[cxVisibleFocus]', })
+@Directive({ selector: '[cxVisibleFocus]' })
 class CustomFocusDirective extends VisibleFocusDirective {
   @Input('cxVisibleFocus') protected config: VisibleFocusConfig;
 
@@ -23,7 +23,7 @@ class CustomFocusDirective extends VisibleFocusDirective {
   }
 }
 
-@Directive({ selector: '[cxCustomFocus]', })
+@Directive({ selector: '[cxCustomFocus]' })
 class CustomFakeFocusDirective extends VisibleFocusDirective {
   protected defaultConfig = {};
 
@@ -36,8 +36,8 @@ class CustomFakeFocusDirective extends VisibleFocusDirective {
 }
 
 @Component({
-    selector: 'cx-host',
-    template: `
+  selector: 'cx-host',
+  template: `
     <div id="a" cxVisibleFocus></div>
     <div id="b" [cxVisibleFocus]="{ disableMouseFocus: false }"></div>
     <div id="c" cxCustomFocus></div>
@@ -88,16 +88,14 @@ describe('VisibleFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [MockComponent,
-        CustomFocusDirective,
-        CustomFakeFocusDirective,],
-    providers: [
+      imports: [MockComponent, CustomFocusDirective, CustomFakeFocusDirective],
+      providers: [
         {
-            provide: BaseFocusService,
-            useClass: MockVisibleFocusService,
+          provide: BaseFocusService,
+          useClass: MockVisibleFocusService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
     fixture = TestBed.createComponent(MockComponent);
   }));
 

@@ -14,16 +14,16 @@ import { UrlPipe } from '../../../../../../projects/core/src/routing/configurabl
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-cost-center-details-cell',
-    templateUrl: './cost-center-details-cell.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        RouterLink,
-        NgIf,
-        PopoverDirective,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-cost-center-details-cell',
+  templateUrl: './cost-center-details-cell.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    RouterLink,
+    NgIf,
+    PopoverDirective,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class CostCenterDetailsCellComponent extends CellComponent {}

@@ -10,18 +10,18 @@ class StoreFinderServiceMock {
 }
 
 @Component({
-    selector: 'cx-schedule',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-schedule',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockScheduleComponent {
   @Input() location;
 }
 
 @Component({
-    selector: 'cx-store-finder-map',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-store-finder-map',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockStoreFinderMapComponent {
   @Input() locations;
@@ -33,13 +33,16 @@ describe('StoreFinderStoreDescriptionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, StoreFinderStoreDescriptionComponent,
+      imports: [
+        I18nTestingModule,
+        StoreFinderStoreDescriptionComponent,
         MockScheduleComponent,
-        MockStoreFinderMapComponent],
-    providers: [
+        MockStoreFinderMapComponent,
+      ],
+      providers: [
         { provide: StoreFinderService, useClass: StoreFinderServiceMock },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

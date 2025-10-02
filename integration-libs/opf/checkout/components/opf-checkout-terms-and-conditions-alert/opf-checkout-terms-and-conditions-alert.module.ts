@@ -11,7 +11,12 @@ import { IconModule } from '@spartacus/storefront';
 import { OpfCheckoutTermsAndConditionsAlertComponent } from './opf-checkout-terms-and-conditions-alert.component';
 
 @NgModule({
-    exports: [OpfCheckoutTermsAndConditionsAlertComponent],
-    imports: [CommonModule, I18nModule, IconModule, OpfCheckoutTermsAndConditionsAlertComponent],
+  exports: [OpfCheckoutTermsAndConditionsAlertComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    OpfCheckoutTermsAndConditionsAlertComponent,
+  ],
 })
 export class OpfCheckoutTermsAndConditionsAlertModule {}

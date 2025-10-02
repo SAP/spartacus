@@ -5,7 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   Currency,
   CurrencyService,
@@ -34,33 +38,33 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-permission-form',
-    templateUrl: './permission-form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'content-wrapper' },
-    providers: [
-        {
-            provide: ItemService,
-            useExisting: PermissionItemService,
-        },
-        {
-            provide: CurrentItemService,
-            useExisting: CurrentPermissionService,
-        },
-    ],
-    imports: [
-        FormComponent,
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        FormRequiredLegendComponent,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        NgSelectComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-permission-form',
+  templateUrl: './permission-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
+  providers: [
+    {
+      provide: ItemService,
+      useExisting: PermissionItemService,
+    },
+    {
+      provide: CurrentItemService,
+      useExisting: CurrentPermissionService,
+    },
+  ],
+  imports: [
+    FormComponent,
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    NgSelectComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class PermissionFormComponent implements OnInit {
   form: UntypedFormGroup | null = this.itemService.getForm();

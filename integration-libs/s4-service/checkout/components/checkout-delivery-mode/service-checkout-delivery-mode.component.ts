@@ -20,22 +20,22 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-delivery-mode',
-    templateUrl: './service-checkout-delivery-mode.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgTemplateOutlet,
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        NgFor,
-        OutletDirective,
-        SpinnerComponent,
-        InnerComponentsHostDirective,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-delivery-mode',
+  templateUrl: './service-checkout-delivery-mode.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgTemplateOutlet,
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    NgFor,
+    OutletDirective,
+    SpinnerComponent,
+    InnerComponentsHostDirective,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ServiceCheckoutDeliveryModeComponent extends CheckoutDeliveryModeComponent {
   protected checkoutServiceDetailsFacade = inject(CheckoutServiceDetailsFacade);

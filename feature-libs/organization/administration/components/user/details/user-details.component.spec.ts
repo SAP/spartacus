@@ -65,9 +65,10 @@ class MockB2BUserService implements Partial<B2BUserService> {
   }
 }
 
-@Directive({ 
-    // eslint-disable-next-line @angular-eslint/directive-selector
-    selector: '[cxFocus]', })
+@Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
+  selector: '[cxFocus]',
+})
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -80,7 +81,7 @@ describe('UserDetailsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         CommonModule,
         I18nTestingModule,
         UrlTestingModule,
@@ -91,12 +92,12 @@ describe('UserDetailsComponent', () => {
         UserDetailsComponent,
         ItemExistsDirective,
         MockKeyboadFocusDirective,
-    ],
-    providers: [
+      ],
+      providers: [
         { provide: ItemService, useClass: MockUserItemService },
         { provide: B2BUserService, useClass: MockB2BUserService },
-    ],
-})
+      ],
+    })
       .overrideComponent(UserDetailsComponent, {
         set: {
           providers: [

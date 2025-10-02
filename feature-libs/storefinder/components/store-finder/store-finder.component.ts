@@ -9,8 +9,8 @@ import { StoreFinderHeaderComponent } from '../store-finder-header/store-finder-
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-    selector: 'cx-store-finder',
-    templateUrl: './store-finder.component.html',
-    imports: [StoreFinderHeaderComponent, RouterOutlet],
+  selector: 'cx-store-finder',
+  templateUrl: './store-finder.component.html',
+  imports: [StoreFinderHeaderComponent, RouterOutlet],
 })
 export class StoreFinderComponent {}

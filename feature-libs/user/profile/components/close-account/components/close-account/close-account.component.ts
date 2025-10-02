@@ -20,10 +20,10 @@ import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/trans
 import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-close-account',
-    templateUrl: './close-account.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [TranslatePipe, MockTranslatePipe],
+  selector: 'cx-close-account',
+  templateUrl: './close-account.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TranslatePipe, MockTranslatePipe],
 })
 export class CloseAccountComponent {
   @ViewChild('element') element: ElementRef;

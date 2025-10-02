@@ -28,15 +28,15 @@ describe('PunchoutButtonsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, CommonModule, PunchoutButtonsComponent],
-    providers: [
+      imports: [I18nTestingModule, CommonModule, PunchoutButtonsComponent],
+      providers: [
         { provide: PunchoutFacade, useClass: MockPunchoutFacade },
         {
-            provide: PunchoutUiRestrictionService,
-            useClass: MockPunchoutUiRestrictionService,
+          provide: PunchoutUiRestrictionService,
+          useClass: MockPunchoutUiRestrictionService,
         },
-    ],
-});
+      ],
+    });
     fixture = TestBed.createComponent(PunchoutButtonsComponent);
     component = fixture.componentInstance;
     punchoutFacade = TestBed.inject(PunchoutFacade);

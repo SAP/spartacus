@@ -45,9 +45,9 @@ function initializeWithObs(disableObs: Observable<boolean>) {
   fixture.detectChanges();
 }
 @Component({
-    template: '',
-    selector: 'cx-item-counter',
-    imports: [I18nTestingModule],
+  template: '',
+  selector: 'cx-item-counter',
+  imports: [I18nTestingModule],
 })
 class MockItemCounterComponent {
   @Input() min: number;
@@ -60,15 +60,18 @@ class MockItemCounterComponent {
 describe(' ConfiguratorAttributeQuantityComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ConfiguratorAttributeQuantityComponent,
-        MockItemCounterComponent],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        ConfiguratorAttributeQuantityComponent,
+        MockItemCounterComponent,
+      ],
+      providers: [
         {
-            provide: ConfiguratorUISettingsConfig,
-            useValue: TestConfiguratorUISettings,
+          provide: ConfiguratorUISettingsConfig,
+          useValue: TestConfiguratorUISettings,
         },
-    ],
-})
+      ],
+    })
       .overrideComponent(ConfiguratorAttributeQuantityComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

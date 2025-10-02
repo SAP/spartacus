@@ -12,21 +12,21 @@ import { ActiveFacetsModule } from './active-facets/active-facets.module';
 import { FacetListModule } from './facet-list/facet-list.module';
 import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
 @NgModule({
-    imports: [
-        CommonModule,
-        FacetListModule,
-        ActiveFacetsModule,
-        IconModule,
-        I18nModule,
-        ConfigModule.withConfig(<CmsConfig>{
-            cmsComponents: {
-                ProductRefinementComponent: {
-                    component: ProductFacetNavigationComponent,
-                },
-            },
-        }),
-        ProductFacetNavigationComponent,
-    ],
-    exports: [ProductFacetNavigationComponent],
+  imports: [
+    CommonModule,
+    FacetListModule,
+    ActiveFacetsModule,
+    IconModule,
+    I18nModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        ProductRefinementComponent: {
+          component: ProductFacetNavigationComponent,
+        },
+      },
+    }),
+    ProductFacetNavigationComponent,
+  ],
+  exports: [ProductFacetNavigationComponent],
 })
 export class ProductFacetNavigationModule {}

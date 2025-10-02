@@ -24,20 +24,20 @@ import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/t
 import { MockDatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-tracking-events',
-    templateUrl: './tracking-events.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FocusDirective,
-        NgIf,
-        NgFor,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        CxDatePipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-tracking-events',
+  templateUrl: './tracking-events.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FocusDirective,
+    NgIf,
+    NgFor,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class TrackingEventsComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();

@@ -10,7 +10,7 @@ import { IconModule } from '@spartacus/storefront';
 import { VisualViewerToolbarButtonComponent } from './visual-viewer-toolbar-button.component';
 
 @NgModule({
-    imports: [CommonModule, IconModule, VisualViewerToolbarButtonComponent],
-    exports: [VisualViewerToolbarButtonComponent],
+  imports: [CommonModule, IconModule, VisualViewerToolbarButtonComponent],
+  exports: [VisualViewerToolbarButtonComponent],
 })
 export class VisualViewerToolbarButtonModule {}

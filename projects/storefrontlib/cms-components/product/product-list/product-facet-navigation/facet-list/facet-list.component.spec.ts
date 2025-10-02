@@ -23,24 +23,24 @@ import { FacetService } from '../services/facet.service';
 import { FacetListComponent } from './facet-list.component';
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule, TabModule],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule, TabModule],
 })
 class MockIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Component({
-    selector: 'cx-facet',
-    template: '',
-    imports: [I18nTestingModule, TabModule],
+  selector: 'cx-facet',
+  template: '',
+  imports: [I18nTestingModule, TabModule],
 })
 class MockFacetComponent {
   @Input() facet;
 }
 
-@Directive({ selector: '[cxFocus]', })
+@Directive({ selector: '[cxFocus]' })
 class MockKeyboadFocusDirective {
   @Input() cxFocus;
 }
@@ -70,13 +70,17 @@ describe('FacetListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, TabModule, FacetListComponent,
+      imports: [
+        I18nTestingModule,
+        TabModule,
+        FacetListComponent,
         MockIconComponent,
         MockFacetComponent,
         MockKeyboadFocusDirective,
-        MockFeatureDirective],
-    providers: [{ provide: FacetService, useClass: MockFacetService }],
-})
+        MockFeatureDirective,
+      ],
+      providers: [{ provide: FacetService, useClass: MockFacetService }],
+    })
       .overrideComponent(FacetListComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })

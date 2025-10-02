@@ -26,21 +26,21 @@ import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-my-coupons',
-    templateUrl: './my-coupons.component.html',
-    imports: [
-        NgIf,
-        SortingComponent,
-        PaginationComponent,
-        NgFor,
-        CouponCardComponent,
-        IconComponent,
-        RouterLink,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-my-coupons',
+  templateUrl: './my-coupons.component.html',
+  imports: [
+    NgIf,
+    SortingComponent,
+    PaginationComponent,
+    NgFor,
+    CouponCardComponent,
+    IconComponent,
+    RouterLink,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class MyCouponsComponent implements OnInit, OnDestroy {
   couponResult$: Observable<CustomerCouponSearchResult>;

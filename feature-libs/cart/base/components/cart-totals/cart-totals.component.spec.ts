@@ -15,8 +15,8 @@ class MockActiveCartService {
 }
 
 @Component({
-    selector: 'cx-order-summary',
-    template: '',
+  selector: 'cx-order-summary',
+  template: '',
 })
 class MockOrderSummaryComponent {
   @Input() cart: Cart;
@@ -28,15 +28,15 @@ describe('CartTotalsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [MockOrderSummaryComponent],
-    declarations: [CartTotalsComponent],
-    providers: [
+      imports: [MockOrderSummaryComponent],
+      declarations: [CartTotalsComponent],
+      providers: [
         {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartService,
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

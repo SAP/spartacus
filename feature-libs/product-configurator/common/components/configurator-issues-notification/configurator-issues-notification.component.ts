@@ -17,16 +17,16 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-issues-notification',
-    templateUrl: './configurator-issues-notification.component.html',
-    imports: [
-        NgIf,
-        IconComponent,
-        ConfigureCartEntryComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-issues-notification',
+  templateUrl: './configurator-issues-notification.component.html',
+  imports: [
+    NgIf,
+    IconComponent,
+    ConfigureCartEntryComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorIssuesNotificationComponent {
   iconTypes = ICON_TYPE;

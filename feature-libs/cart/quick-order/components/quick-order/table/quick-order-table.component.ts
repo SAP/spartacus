@@ -14,17 +14,17 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-quick-order-table',
-    templateUrl: './quick-order-table.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        FeatureDirective,
-        NgFor,
-        QuickOrderItemComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-quick-order-table',
+  templateUrl: './quick-order-table.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    FeatureDirective,
+    NgFor,
+    QuickOrderItemComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class QuickOrderTableComponent {
   @Input()

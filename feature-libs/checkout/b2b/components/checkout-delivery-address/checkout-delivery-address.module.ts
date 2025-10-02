@@ -23,26 +23,26 @@ import { AddressFormModule } from '@spartacus/user/profile/components';
 import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        AddressFormModule,
-        CardModule,
-        SpinnerModule,
-        I18nModule,
-        FeaturesConfigModule,
-        B2BCheckoutDeliveryAddressComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                CheckoutDeliveryAddress: {
-                    component: B2BCheckoutDeliveryAddressComponent,
-                    guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
-                },
-            },
-        }),
-    ],
-    exports: [B2BCheckoutDeliveryAddressComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    AddressFormModule,
+    CardModule,
+    SpinnerModule,
+    I18nModule,
+    FeaturesConfigModule,
+    B2BCheckoutDeliveryAddressComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        CheckoutDeliveryAddress: {
+          component: B2BCheckoutDeliveryAddressComponent,
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
+        },
+      },
+    }),
+  ],
+  exports: [B2BCheckoutDeliveryAddressComponent],
 })
 export class B2BCheckoutDeliveryAddressModule {}

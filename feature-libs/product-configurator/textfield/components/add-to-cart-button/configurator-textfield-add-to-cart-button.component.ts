@@ -14,15 +14,10 @@ import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-r
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-textfield-add-to-cart-button',
-    templateUrl: './configurator-textfield-add-to-cart-button.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        RouterLink,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-textfield-add-to-cart-button',
+  templateUrl: './configurator-textfield-add-to-cart-button.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, TranslatePipe, UrlPipe, MockTranslatePipe],
 })
 export class ConfiguratorTextfieldAddToCartButtonComponent {
   @Input() configuration: ConfiguratorTextfield.Configuration;

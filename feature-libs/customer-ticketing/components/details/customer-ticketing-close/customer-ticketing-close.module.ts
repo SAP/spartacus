@@ -27,34 +27,34 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CustomerTicketingCloseComponentService } from './customer-ticketing-close-component.service';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        IconModule,
-        KeyboardFocusModule,
-        ReactiveFormsModule,
-        FormErrorsModule,
-        FileUploadModule,
-        SpinnerModule,
-        FeaturesConfigModule,
-        FormRequiredAsterisksComponent,
-        CustomerTicketingCloseComponent,
-        CustomerTicketingCloseDialogComponent,
-    ],
-    providers: [
-        CustomerTicketingCloseComponentService,
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                SupportTicketCloseComponent: {
-                    component: CustomerTicketingCloseComponent,
-                    guards: [AuthGuard],
-                },
-            },
-        }),
-    ],
-    exports: [
-        CustomerTicketingCloseComponent,
-        CustomerTicketingCloseDialogComponent,
-    ],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    KeyboardFocusModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    FileUploadModule,
+    SpinnerModule,
+    FeaturesConfigModule,
+    FormRequiredAsterisksComponent,
+    CustomerTicketingCloseComponent,
+    CustomerTicketingCloseDialogComponent,
+  ],
+  providers: [
+    CustomerTicketingCloseComponentService,
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        SupportTicketCloseComponent: {
+          component: CustomerTicketingCloseComponent,
+          guards: [AuthGuard],
+        },
+      },
+    }),
+  ],
+  exports: [
+    CustomerTicketingCloseComponent,
+    CustomerTicketingCloseDialogComponent,
+  ],
 })
 export class CustomerTicketingCloseModule {}

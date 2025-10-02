@@ -12,14 +12,10 @@ import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-hamburger-menu',
-    templateUrl: './hamburger-menu.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-hamburger-menu',
+  templateUrl: './hamburger-menu.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class HamburgerMenuComponent {
   constructor(private hamburgerMenuService: HamburgerMenuService) {}

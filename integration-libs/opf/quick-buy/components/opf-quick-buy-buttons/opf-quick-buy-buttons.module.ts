@@ -13,17 +13,22 @@ import { OpfQuickBuyButtonsComponent } from './opf-quick-buy-buttons.component';
 import { OpfQuickBuyButtonsService } from './opf-quick-buy-buttons.service';
 
 @NgModule({
-    providers: [
-        OpfQuickBuyButtonsService,
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                OpfQuickBuyButtonsComponent: {
-                    component: OpfQuickBuyButtonsComponent,
-                },
-            },
-        }),
-    ],
-    exports: [OpfQuickBuyButtonsComponent],
-    imports: [CommonModule, OpfApplePayModule, OpfGooglePayModule, OpfQuickBuyButtonsComponent],
+  providers: [
+    OpfQuickBuyButtonsService,
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        OpfQuickBuyButtonsComponent: {
+          component: OpfQuickBuyButtonsComponent,
+        },
+      },
+    }),
+  ],
+  exports: [OpfQuickBuyButtonsComponent],
+  imports: [
+    CommonModule,
+    OpfApplePayModule,
+    OpfGooglePayModule,
+    OpfQuickBuyButtonsComponent,
+  ],
 })
 export class OpfQuickBuyButtonsModule {}

@@ -23,16 +23,16 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-product-image-zoom-dialog',
-    templateUrl: 'product-image-zoom-dialog.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FocusDirective,
-        IconComponent,
-        ProductImageZoomViewComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-product-image-zoom-dialog',
+  templateUrl: 'product-image-zoom-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FocusDirective,
+    IconComponent,
+    ProductImageZoomViewComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ProductImageZoomDialogComponent {
   iconType = ICON_TYPE;

@@ -13,14 +13,10 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { OutletDirective } from '../../../../../projects/storefrontlib/cms-structure/outlet/outlet.directive';
 
 @Component({
-    selector: 'cx-order-confirmation-totals',
-    templateUrl: './order-confirmation-totals.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        OutletDirective,
-        AsyncPipe,
-    ],
+  selector: 'cx-order-confirmation-totals',
+  templateUrl: './order-confirmation-totals.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, OutletDirective, AsyncPipe],
 })
 export class OrderConfirmationTotalsComponent implements OnDestroy {
   readonly cartOutlets = CartOutlets;

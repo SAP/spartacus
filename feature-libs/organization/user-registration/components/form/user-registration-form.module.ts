@@ -28,30 +28,30 @@ import { UserRegistrationFormComponent } from './user-registration-form.componen
 import { UserRegistrationFormService } from './user-registration-form.service';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        RouterModule,
-        UrlModule,
-        I18nModule,
-        SpinnerModule,
-        FormErrorsModule,
-        FormRequiredAsterisksComponent,
-        FormRequiredLegendComponent,
-        NgSelectModule,
-        NgSelectA11yModule,
-        ConfigModule.withConfig(<CmsConfig>{
-            cmsComponents: {
-                OrganizationUserRegistrationComponent: {
-                    component: UserRegistrationFormComponent,
-                    guards: [NotAuthGuard],
-                },
-            },
-        }),
-        FeaturesConfigModule,
-        UserRegistrationFormComponent,
-    ],
-    exports: [UserRegistrationFormComponent],
-    providers: [UserRegistrationFormService],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    SpinnerModule,
+    FormErrorsModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
+    NgSelectModule,
+    NgSelectA11yModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        OrganizationUserRegistrationComponent: {
+          component: UserRegistrationFormComponent,
+          guards: [NotAuthGuard],
+        },
+      },
+    }),
+    FeaturesConfigModule,
+    UserRegistrationFormComponent,
+  ],
+  exports: [UserRegistrationFormComponent],
+  providers: [UserRegistrationFormService],
 })
 export class UserRegistrationFormModule {}

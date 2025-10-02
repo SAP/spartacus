@@ -21,10 +21,10 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'cx-page-title',
-    templateUrl: './page-title.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [AsyncPipe],
+  selector: 'cx-page-title',
+  templateUrl: './page-title.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AsyncPipe],
 })
 export class PageTitleComponent implements OnInit, AfterViewInit {
   title$: Observable<string>;

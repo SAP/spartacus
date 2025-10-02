@@ -20,18 +20,18 @@ import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-sorting',
-    templateUrl: './sorting.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgSelectComponent,
-        FormsModule,
-        NgSelectA11yDirective,
-        NgFor,
-        NgOptionComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-sorting',
+  templateUrl: './sorting.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgSelectComponent,
+    FormsModule,
+    NgSelectA11yDirective,
+    NgFor,
+    NgOptionComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class SortingComponent {
   @Input()

@@ -19,16 +19,10 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-attribute-footer',
-    templateUrl: './configurator-attribute-footer.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        IconComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-attribute-footer',
+  templateUrl: './configurator-attribute-footer.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class ConfiguratorAttributeFooterComponent
   extends ConfiguratorAttributeBaseComponent

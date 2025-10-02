@@ -24,21 +24,21 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-customer-ticketing-close-dialog',
-    templateUrl: './customer-ticketing-close-dialog.component.html',
-    imports: [
-        FocusDirective,
-        FormsModule,
-        ReactiveFormsModule,
-        IconComponent,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        NgIf,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-customer-ticketing-close-dialog',
+  templateUrl: './customer-ticketing-close-dialog.component.html',
+  imports: [
+    FocusDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    IconComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    NgIf,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CustomerTicketingCloseDialogComponent
   extends CustomerTicketingDialogComponent

@@ -77,11 +77,9 @@ class MockCurrentProductService {
 }
 
 @Component({
-    selector: 'cx-media',
-    template: '',
-    imports: [I18nTestingModule,
-        LcpContextDirectiveModule,
-        FeaturesConfigModule,],
+  selector: 'cx-media',
+  template: '',
+  imports: [I18nTestingModule, LcpContextDirectiveModule, FeaturesConfigModule],
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -89,8 +87,8 @@ class MockMediaComponent {
 }
 
 @Component({
-    selector: 'cx-carousel',
-    template: `
+  selector: 'cx-carousel',
+  template: `
     cx-carousel
     <ng-container *ngFor="let item$ of items">
       <ng-container
@@ -98,9 +96,7 @@ class MockMediaComponent {
       ></ng-container>
     </ng-container>
   `,
-    imports: [I18nTestingModule,
-        LcpContextDirectiveModule,
-        FeaturesConfigModule,],
+  imports: [I18nTestingModule, LcpContextDirectiveModule, FeaturesConfigModule],
 })
 class MockCarouselComponent {
   @Input() items: any;
@@ -110,8 +106,8 @@ class MockCarouselComponent {
 }
 
 @Component({
-    selector: 'cx-carousel-scrolling',
-    template: `
+  selector: 'cx-carousel-scrolling',
+  template: `
     cx-carousel-scrolling
     <ng-container *ngFor="let item$ of items">
       <ng-container
@@ -119,9 +115,7 @@ class MockCarouselComponent {
       ></ng-container>
     </ng-container>
   `,
-    imports: [I18nTestingModule,
-        LcpContextDirectiveModule,
-        FeaturesConfigModule,],
+  imports: [I18nTestingModule, LcpContextDirectiveModule, FeaturesConfigModule],
 })
 class MockCarouselScrollingComponent {
   @Input() items: any;
@@ -131,11 +125,9 @@ class MockCarouselScrollingComponent {
 }
 
 @Component({
-    selector: 'cx-product-image-zoom-trigger',
-    template: ``,
-    imports: [I18nTestingModule,
-        LcpContextDirectiveModule,
-        FeaturesConfigModule,],
+  selector: 'cx-product-image-zoom-trigger',
+  template: ``,
+  imports: [I18nTestingModule, LcpContextDirectiveModule, FeaturesConfigModule],
 })
 class MockProductImageZoomTriggerComponent {
   @Input() expandImage: any;
@@ -173,7 +165,7 @@ describe('ProductImageZoomProductImagesComponent', () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         I18nTestingModule,
         LcpContextDirectiveModule,
         FeaturesConfigModule,
@@ -182,19 +174,19 @@ describe('ProductImageZoomProductImagesComponent', () => {
         MockCarouselComponent,
         MockCarouselScrollingComponent,
         MockProductImageZoomTriggerComponent,
-    ],
-    providers: [
+      ],
+      providers: [
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
-            provide: LCP_PRESENCE,
-            useValue: mockLcpPresence$,
+          provide: LCP_PRESENCE,
+          useValue: mockLcpPresence$,
         },
         {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     currentProductService = TestBed.inject(CurrentProductService);
   }));

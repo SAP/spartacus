@@ -5,7 +5,7 @@ import { MessageData } from '../message.model';
 import { NotificationMessageComponent } from '../notification/notification-message.component';
 import { MessageRenderService } from './message-render.service';
 
-@Component({ template: '', })
+@Component({ template: '' })
 class MockComponent extends BaseMessageComponent {}
 
 describe('MessageRenderService', () => {
@@ -13,8 +13,8 @@ describe('MessageRenderService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [MockComponent],
-});
+      imports: [MockComponent],
+    });
 
     service = TestBed.inject(MessageRenderService);
   });

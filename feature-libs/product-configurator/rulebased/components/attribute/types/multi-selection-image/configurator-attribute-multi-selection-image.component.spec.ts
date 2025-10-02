@@ -26,19 +26,21 @@ class MockGroupService {}
 
 const VALUE_NAME_3 = 'val3';
 
-@Directive({ selector: '[cxFocus]', })
+@Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
 
 @Component({
-    selector: 'cx-configurator-price',
-    template: '',
-    imports: [ReactiveFormsModule,
-        NgSelectModule,
-        I18nTestingModule,
-        IconTestingModule,
-        PopoverModule,],
+  selector: 'cx-configurator-price',
+  template: '',
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    I18nTestingModule,
+    IconTestingModule,
+    PopoverModule,
+  ],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -91,7 +93,7 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
       }
     );
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         ReactiveFormsModule,
         NgSelectModule,
         I18nTestingModule,
@@ -100,26 +102,26 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
         ConfiguratorAttributeMultiSelectionImageComponent,
         MockFocusDirective,
         MockConfiguratorPriceComponent,
-    ],
-    providers: [
+      ],
+      providers: [
         {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
         {
-            provide: ConfiguratorGroupsService,
-            useClass: MockGroupService,
+          provide: ConfiguratorGroupsService,
+          useClass: MockGroupService,
         },
         {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
         {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
         },
-    ],
-})
+      ],
+    })
       .overrideComponent(ConfiguratorAttributeMultiSelectionImageComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

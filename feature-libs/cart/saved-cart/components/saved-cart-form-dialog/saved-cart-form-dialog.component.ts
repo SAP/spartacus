@@ -12,7 +12,13 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   Cart,
   DeleteCartEvent as DeleteSavedCartEvent,
@@ -54,25 +60,25 @@ export interface SavedCartFormDialogOptions {
 }
 
 @Component({
-    selector: 'cx-saved-cart-form-dialog',
-    templateUrl: './saved-cart-form-dialog.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        FocusDirective,
-        FormsModule,
-        ReactiveFormsModule,
-        NgSwitch,
-        NgSwitchCase,
-        IconComponent,
-        FeatureDirective,
-        FormRequiredLegendComponent,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-saved-cart-form-dialog',
+  templateUrl: './saved-cart-form-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    FocusDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSwitch,
+    NgSwitchCase,
+    IconComponent,
+    FeatureDirective,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

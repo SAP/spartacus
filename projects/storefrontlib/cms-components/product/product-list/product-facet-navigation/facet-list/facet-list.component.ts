@@ -43,20 +43,20 @@ import { TranslatePipe } from '../../../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-facet-list',
-    templateUrl: './facet-list.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        FocusDirective,
-        IconComponent,
-        TabComponent,
-        NgFor,
-        FacetComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-facet-list',
+  templateUrl: './facet-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    FocusDirective,
+    IconComponent,
+    TabComponent,
+    NgFor,
+    FacetComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
   protected subscriptions = new Subscription();

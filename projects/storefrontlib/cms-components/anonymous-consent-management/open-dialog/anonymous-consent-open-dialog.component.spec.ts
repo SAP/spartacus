@@ -39,18 +39,22 @@ describe('AnonymousConsentOpenDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, AnonymousConsentOpenDialogComponent, MockFeatureDirective],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        AnonymousConsentOpenDialogComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
         {
-            provide: AnonymousConsentsService,
-            useClass: MockAnonymousConsentsService,
+          provide: AnonymousConsentsService,
+          useClass: MockAnonymousConsentsService,
         },
         {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

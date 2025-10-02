@@ -25,14 +25,14 @@ describe('QuoteSummaryPricesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, QuoteSummaryPricesComponent],
-    providers: [
+      imports: [I18nTestingModule, QuoteSummaryPricesComponent],
+      providers: [
         {
-            provide: QuoteFacade,
-            useClass: MockCommerceQuotesFacade,
+          provide: QuoteFacade,
+          useClass: MockCommerceQuotesFacade,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

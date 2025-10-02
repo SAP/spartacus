@@ -13,13 +13,13 @@ import { SubListModule } from '../../../shared/sub-list/sub-list.module';
 import { UnitCostCenterListComponent } from './unit-cost-centers.component';
 
 @NgModule({
-    imports: [
-        I18nModule,
-        RouterModule,
-        SubListModule,
-        CommonModule,
-        DisableInfoModule,
-        UnitCostCenterListComponent,
-    ],
+  imports: [
+    I18nModule,
+    RouterModule,
+    SubListModule,
+    CommonModule,
+    DisableInfoModule,
+    UnitCostCenterListComponent,
+  ],
 })
 export class UnitCostCenterListModule {}

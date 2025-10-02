@@ -22,13 +22,14 @@ import { LCP_PRESENCE } from './lcp-presence.token';
  * based on the dynamic CMS component data.
  */
 @Directive({
-    selector: '[cxProvideLcpPresence]',
-    providers: [
-        {
-            provide: LCP_PRESENCE,
-            useFactory: (): Observable<LcpPresence> => inject(ProvideLcpPresenceDirective).lcpPresence$,
-        },
-    ],
+  selector: '[cxProvideLcpPresence]',
+  providers: [
+    {
+      provide: LCP_PRESENCE,
+      useFactory: (): Observable<LcpPresence> =>
+        inject(ProvideLcpPresenceDirective).lcpPresence$,
+    },
+  ],
 })
 export class ProvideLcpPresenceDirective implements OnChanges {
   @Input() cxProvideLcpPresence?: LcpPresence | null;

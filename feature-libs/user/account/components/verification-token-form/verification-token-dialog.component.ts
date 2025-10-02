@@ -13,14 +13,9 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-verification-token-dialog',
-    templateUrl: './verification-token-dialog.component.html',
-    imports: [
-        FocusDirective,
-        IconComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-verification-token-dialog',
+  templateUrl: './verification-token-dialog.component.html',
+  imports: [FocusDirective, IconComponent, TranslatePipe, MockTranslatePipe],
 })
 export class VerificationTokenDialogComponent {
   VERIFICATION_TOKEN_DIALOG_ACTION = VERIFICATION_TOKEN_DIALOG_ACTION;

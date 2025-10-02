@@ -13,16 +13,10 @@ import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-product-attributes',
-    templateUrl: './product-attributes.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-product-attributes',
+  templateUrl: './product-attributes.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class ProductAttributesComponent {
   product$: Observable<Product | null> = this.currentProductService.getProduct(

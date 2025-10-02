@@ -9,6 +9,6 @@ import { MockFeatureDirective } from './mock-feature-directive';
 import { MockFeatureLevelDirective } from './mock-feature-level-directive';
 
 @NgModule({
-    imports: [MockFeatureDirective, MockFeatureLevelDirective],
+  imports: [MockFeatureDirective, MockFeatureLevelDirective],
 })
 export class MockFeatureDirectivesModule {}

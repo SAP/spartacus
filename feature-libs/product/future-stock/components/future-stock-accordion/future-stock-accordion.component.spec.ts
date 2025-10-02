@@ -9,9 +9,9 @@ import { FutureStockService } from '../../core/services';
 import { FutureStockAccordionComponent } from './future-stock-accordion.component';
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -51,11 +51,15 @@ describe('FutureStockAccordionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, MockCxIconComponent, FutureStockAccordionComponent],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        MockCxIconComponent,
+        FutureStockAccordionComponent,
+      ],
+      providers: [
         { provide: FutureStockFacade, useClass: MockFutureStockService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

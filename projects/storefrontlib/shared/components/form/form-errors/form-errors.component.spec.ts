@@ -26,15 +26,15 @@ describe('FormErrors', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, FormErrorsComponent, MockFeatureDirective],
-    providers: [
+      imports: [I18nTestingModule, FormErrorsComponent, MockFeatureDirective],
+      providers: [
         FeatureConfigService,
         {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -23,16 +23,16 @@ import { MediaComponent } from '../../../../../../projects/storefrontlib/shared/
 import { FocusableCarouselItemDirective } from '../../../../../../projects/storefrontlib/shared/components/carousel/focusable-carousel-item/focusable-carousel-item.directive';
 
 @Component({
-    selector: 'cx-product-image-zoom-thumbnails',
-    templateUrl: './product-image-zoom-thumbnails.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        CarouselComponent,
-        MediaComponent,
-        FocusableCarouselItemDirective,
-        AsyncPipe,
-    ],
+  selector: 'cx-product-image-zoom-thumbnails',
+  templateUrl: './product-image-zoom-thumbnails.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    CarouselComponent,
+    MediaComponent,
+    FocusableCarouselItemDirective,
+    AsyncPipe,
+  ],
 })
 export class ProductImageZoomThumbnailsComponent implements OnInit, OnDestroy {
   private mainMediaContainer = new BehaviorSubject<ImageGroup>({});

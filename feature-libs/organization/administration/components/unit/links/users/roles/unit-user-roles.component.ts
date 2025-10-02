@@ -5,7 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { B2BUser, B2BUserRole, B2BUserRight } from '@spartacus/core';
 import {
   B2BUserService,
@@ -26,28 +30,28 @@ import { TranslatePipe } from '../../../../../../../../projects/core/src/i18n/tr
 import { MockTranslatePipe } from '../../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-unit-user-roles',
-    templateUrl: './unit-user-roles.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'content-wrapper' },
-    providers: [
-        {
-            provide: ItemService,
-            useExisting: UnitUserRolesItemService,
-        },
-    ],
-    imports: [
-        NgIf,
-        FormsModule,
-        CardComponent,
-        FocusDirective,
-        RouterLink,
-        ReactiveFormsModule,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-unit-user-roles',
+  templateUrl: './unit-user-roles.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
+  providers: [
+    {
+      provide: ItemService,
+      useExisting: UnitUserRolesItemService,
+    },
+  ],
+  imports: [
+    NgIf,
+    FormsModule,
+    CardComponent,
+    FocusDirective,
+    RouterLink,
+    ReactiveFormsModule,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class UnitUserRolesFormComponent {
   protected item: B2BUser | undefined;

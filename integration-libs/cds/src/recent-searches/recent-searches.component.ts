@@ -34,19 +34,19 @@ export interface SearchBoxOutlet {
 const MAX_RECENT_SEARCHES = 5;
 
 @Component({
-    selector: 'cx-recent-searches',
-    templateUrl: './recent-searches.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        RouterLink,
-        AsyncPipe,
-        TranslatePipe,
-        HighlightPipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-recent-searches',
+  templateUrl: './recent-searches.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgFor,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    HighlightPipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class RecentSearchesComponent implements OnInit {
   public result$: Observable<string[]>;

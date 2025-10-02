@@ -111,24 +111,28 @@ describe('ExportOrderEntriesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [StoreModule.forRoot({}), I18nTestingModule, ExportOrderEntriesComponent],
-    providers: [
+      imports: [
+        StoreModule.forRoot({}),
+        I18nTestingModule,
+        ExportOrderEntriesComponent,
+      ],
+      providers: [
         {
-            provide: ExportOrderEntriesToCsvService,
-            useClass: MockExportProductsToCsvService,
+          provide: ExportOrderEntriesToCsvService,
+          useClass: MockExportProductsToCsvService,
         },
         {
-            provide: ContextService,
-            useClass: MockContextService,
+          provide: ContextService,
+          useClass: MockContextService,
         },
         {
-            provide: FeaturesConfig,
-            useValue: {
-                features: { level: '5.2' },
-            },
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.2' },
+          },
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

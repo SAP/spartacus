@@ -8,10 +8,10 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
 
 @Component({
-    selector: 'cx-epd-visualization-viewer-toolbar-button',
-    templateUrl: './visual-viewer-toolbar-button.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [IconComponent],
+  selector: 'cx-epd-visualization-viewer-toolbar-button',
+  templateUrl: './visual-viewer-toolbar-button.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IconComponent],
 })
 export class VisualViewerToolbarButtonComponent {
   @Input() text = '';

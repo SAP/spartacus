@@ -15,17 +15,17 @@ import { CardComponent } from './card.component';
 import { GenericLinkModule } from '../generic-link';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        AtMessageModule,
-        I18nModule,
-        IconModule,
-        TruncateTextPopoverModule,
-        KeyboardFocusModule,
-        FeaturesConfigModule,
-        GenericLinkModule,
-        CardComponent,
-    ],
-    exports: [CardComponent],
+  imports: [
+    CommonModule,
+    AtMessageModule,
+    I18nModule,
+    IconModule,
+    TruncateTextPopoverModule,
+    KeyboardFocusModule,
+    FeaturesConfigModule,
+    GenericLinkModule,
+    CardComponent,
+  ],
+  exports: [CardComponent],
 })
 export class CardModule {}

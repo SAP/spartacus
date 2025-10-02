@@ -15,17 +15,17 @@ import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe
 import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-store-finder-store-description',
-    templateUrl: './store-finder-store-description.component.html',
-    imports: [
-        NgIf,
-        ScheduleComponent,
-        NgFor,
-        StoreFinderMapComponent,
-        JsonPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-store-finder-store-description',
+  templateUrl: './store-finder-store-description.component.html',
+  imports: [
+    NgIf,
+    ScheduleComponent,
+    NgFor,
+    StoreFinderMapComponent,
+    JsonPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class StoreFinderStoreDescriptionComponent extends AbstractStoreItemComponent {
   @Input() location: PointOfService;

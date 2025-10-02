@@ -20,19 +20,19 @@ import { UrlPipe } from '../../../../../../projects/core/src/routing/configurabl
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-cart-validation-warnings',
-    templateUrl: './cart-validation-warnings.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgFor,
-        NgIf,
-        IconComponent,
-        RouterLink,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-cart-validation-warnings',
+  templateUrl: './cart-validation-warnings.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgFor,
+    NgIf,
+    IconComponent,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class CartValidationWarningsComponent {
   iconTypes = ICON_TYPE;

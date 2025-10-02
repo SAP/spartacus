@@ -17,23 +17,23 @@ import { ProgressButtonModule } from '@spartacus/storefront';
 import { CartProceedToCheckoutComponent } from './cart-proceed-to-checkout.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ProgressButtonModule,
-        RouterModule,
-        I18nModule,
-        UrlModule,
-        CartProceedToCheckoutComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                CartProceedToCheckoutComponent: {
-                    component: CartProceedToCheckoutComponent,
-                },
-            },
-        }),
-    ],
-    exports: [CartProceedToCheckoutComponent],
+  imports: [
+    CommonModule,
+    ProgressButtonModule,
+    RouterModule,
+    I18nModule,
+    UrlModule,
+    CartProceedToCheckoutComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        CartProceedToCheckoutComponent: {
+          component: CartProceedToCheckoutComponent,
+        },
+      },
+    }),
+  ],
+  exports: [CartProceedToCheckoutComponent],
 })
 export class CartProceedToCheckoutModule {}

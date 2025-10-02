@@ -24,28 +24,28 @@ import { UrlPipe } from '../../../../../../projects/core/src/routing/configurabl
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: '[cx-cart-item-list-row], cx-cart-item-list-row',
-    templateUrl: './cart-item-list-row.component.html',
-    providers: [
-        CartItemContextSource,
-        { provide: CartItemContext, useExisting: CartItemContextSource },
-    ],
-    imports: [
-        OutletDirective,
-        CartItemValidationWarningComponent,
-        NgIf,
-        RouterLink,
-        MediaComponent,
-        PromotionsComponent,
-        NgFor,
-        FeatureDirective,
-        ItemCounterComponent,
-        NgTemplateOutlet,
-        AtMessageDirective,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: '[cx-cart-item-list-row], cx-cart-item-list-row',
+  templateUrl: './cart-item-list-row.component.html',
+  providers: [
+    CartItemContextSource,
+    { provide: CartItemContext, useExisting: CartItemContextSource },
+  ],
+  imports: [
+    OutletDirective,
+    CartItemValidationWarningComponent,
+    NgIf,
+    RouterLink,
+    MediaComponent,
+    PromotionsComponent,
+    NgFor,
+    FeatureDirective,
+    ItemCounterComponent,
+    NgTemplateOutlet,
+    AtMessageDirective,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class CartItemListRowComponent extends CartItemComponent {
   protected componentService = inject(CartItemListComponentService);

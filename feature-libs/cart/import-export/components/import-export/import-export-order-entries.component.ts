@@ -17,15 +17,15 @@ import { ImportOrderEntriesComponent } from '../import-to-cart/import-entries/im
 import { ExportOrderEntriesComponent } from '../export-entries/export-order-entries.component';
 
 @Component({
-    selector: 'cx-import-export-order-entries',
-    templateUrl: './import-export-order-entries.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        ImportOrderEntriesComponent,
-        ExportOrderEntriesComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-import-export-order-entries',
+  templateUrl: './import-export-order-entries.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    ImportOrderEntriesComponent,
+    ExportOrderEntriesComponent,
+    AsyncPipe,
+  ],
 })
 export class ImportExportOrderEntriesComponent {
   constructor(protected contextService: ContextService) {}

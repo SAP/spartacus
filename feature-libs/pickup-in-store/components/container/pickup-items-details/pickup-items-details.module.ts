@@ -19,42 +19,42 @@ import { StoreModule } from '../../presentational';
 import { PickUpItemsDetailsComponent } from './pickup-items-details.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        RouterModule,
-        UrlModule,
-        IconModule,
-        StoreModule,
-        CardModule,
-        MediaModule,
-        ConfigModule.withConfig({
-            cmsComponents: {
-                OrderConfirmationPickUpComponent: {
-                    component: PickUpItemsDetailsComponent,
-                    data: {
-                        showEdit: false,
-                        context: 'order',
-                    },
-                },
-                CheckoutReviewPickup: {
-                    component: PickUpItemsDetailsComponent,
-                    data: {
-                        showEdit: true,
-                        context: 'review',
-                    },
-                },
-                PickupInStoreDeliveryModeComponent: {
-                    component: PickUpItemsDetailsComponent,
-                    data: {
-                        showEdit: false,
-                        context: 'deliveryMode',
-                    },
-                },
-            },
-        } as CmsConfig),
-        PickUpItemsDetailsComponent,
-    ],
-    exports: [PickUpItemsDetailsComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    RouterModule,
+    UrlModule,
+    IconModule,
+    StoreModule,
+    CardModule,
+    MediaModule,
+    ConfigModule.withConfig({
+      cmsComponents: {
+        OrderConfirmationPickUpComponent: {
+          component: PickUpItemsDetailsComponent,
+          data: {
+            showEdit: false,
+            context: 'order',
+          },
+        },
+        CheckoutReviewPickup: {
+          component: PickUpItemsDetailsComponent,
+          data: {
+            showEdit: true,
+            context: 'review',
+          },
+        },
+        PickupInStoreDeliveryModeComponent: {
+          component: PickUpItemsDetailsComponent,
+          data: {
+            showEdit: false,
+            context: 'deliveryMode',
+          },
+        },
+      },
+    } as CmsConfig),
+    PickUpItemsDetailsComponent,
+  ],
+  exports: [PickUpItemsDetailsComponent],
 })
 export class PickUpItemsDetailsModule {}

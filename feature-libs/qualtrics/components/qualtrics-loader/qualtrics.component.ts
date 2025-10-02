@@ -13,8 +13,8 @@ import { QualtricsLoaderService } from './qualtrics-loader.service';
  * deployment script is loaded from the global configuration (`qualtrics.scriptSource`).
  */
 @Component({
-    selector: 'cx-qualtrics',
-    template: '',
+  selector: 'cx-qualtrics',
+  template: '',
 })
 export class QualtricsComponent {
   protected logger = inject(LoggerService);

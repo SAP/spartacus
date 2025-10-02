@@ -25,16 +25,16 @@ import { ConsentManagementComponentService } from '../../../consent-management';
 import { MyAccountV2ConsentManagementComponent } from './my-account-v2-consent-management.component';
 
 @Component({
-    selector: 'cx-spinner',
-    template: ` <div>spinner</div> `,
-    imports: [I18nTestingModule],
+  selector: 'cx-spinner',
+  template: ` <div>spinner</div> `,
+  imports: [I18nTestingModule],
 })
 class MockCxSpinnerComponent {}
 
 @Component({
-    selector: 'cx-my-account-v2-consent-management',
-    template: ` <div>form</div> `,
-    imports: [I18nTestingModule],
+  selector: 'cx-my-account-v2-consent-management',
+  template: ` <div>form</div> `,
+  imports: [I18nTestingModule],
 })
 class MockConsentManagementFormComponent {
   @Input()
@@ -129,28 +129,31 @@ describe('MyAccountV2ConsentManagementComponent', () => {
     };
 
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, MockCxSpinnerComponent,
+      imports: [
+        I18nTestingModule,
+        MockCxSpinnerComponent,
         MockConsentManagementFormComponent,
         MyAccountV2ConsentManagementComponent,
-        MockFeatureDirective],
-    providers: [
+        MockFeatureDirective,
+      ],
+      providers: [
         ConsentManagementComponentService,
         { provide: UserConsentService, useClass: UserConsentServiceMock },
         { provide: GlobalMessageService, useClass: GlobalMessageServiceMock },
         {
-            provide: AnonymousConsentsService,
-            useClass: AnonymousConsentsServiceMock,
+          provide: AnonymousConsentsService,
+          useClass: AnonymousConsentsServiceMock,
         },
         {
-            provide: AuthService,
-            useClass: AuthServiceMock,
+          provide: AuthService,
+          useClass: AuthServiceMock,
         },
         {
-            provide: AnonymousConsentsConfig,
-            useValue: mockAnonymousConsentsConfig,
+          provide: AnonymousConsentsConfig,
+          useValue: mockAnonymousConsentsConfig,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

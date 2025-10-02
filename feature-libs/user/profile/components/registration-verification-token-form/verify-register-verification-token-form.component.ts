@@ -14,7 +14,13 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   AuthConfigService,
   FeatureConfigService,
@@ -46,23 +52,23 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-registration-verification-token-form',
-    templateUrl: './verify-register-verification-token-form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { ngSkipHydration: 'true' },
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        NgIf,
-        NgClass,
-        RouterLink,
-        SpinnerComponent,
-        UrlPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-registration-verification-token-form',
+  templateUrl: './verify-register-verification-token-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { ngSkipHydration: 'true' },
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    NgIf,
+    NgClass,
+    RouterLink,
+    SpinnerComponent,
+    UrlPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class RegistrationVerificationTokenFormComponent implements OnInit {
   protected fb = inject(UntypedFormBuilder);

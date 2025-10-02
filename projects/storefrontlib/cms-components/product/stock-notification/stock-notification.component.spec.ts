@@ -109,7 +109,7 @@ describe('StockNotificationComponent', () => {
   const removeSuccess = new BehaviorSubject<boolean>(false);
   const addFail = new BehaviorSubject<boolean>(false);
 
-  @Pipe({ name: 'cxUrl', })
+  @Pipe({ name: 'cxUrl' })
   class MockUrlPipe implements PipeTransform {
     transform(): any {}
   }
@@ -118,28 +118,32 @@ describe('StockNotificationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, SpinnerModule, StockNotificationComponent,
+      imports: [
+        I18nTestingModule,
+        SpinnerModule,
+        StockNotificationComponent,
         StockNotificationDialogComponent,
         MockUrlPipe,
         FocusDirective,
-        MockFeatureDirective],
-    providers: [
+        MockFeatureDirective,
+      ],
+      providers: [
         { provide: UserIdService, useValue: userIdService },
         { provide: CurrentProductService, useValue: currentProductService },
         { provide: GlobalMessageService, useValue: globalMessageService },
         { provide: TranslationService, useValue: translationService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-            provide: UserNotificationPreferenceService,
-            useValue: notificationPrefService,
+          provide: UserNotificationPreferenceService,
+          useValue: notificationPrefService,
         },
         {
-            provide: StockNotificationDialogComponent,
-            useValue: dialogComponent,
+          provide: StockNotificationDialogComponent,
+          useValue: dialogComponent,
         },
         { provide: UserInterestsService, useValue: interestsService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

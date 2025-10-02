@@ -19,25 +19,25 @@ import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CheckoutReviewPaymentComponent } from './checkout-review-payment.component';
 
 @NgModule({
-    exports: [CheckoutReviewPaymentComponent],
-    imports: [
-        CommonModule,
-        CardModule,
-        I18nModule,
-        UrlModule,
-        RouterModule,
-        IconModule,
-        CheckoutReviewPaymentComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                CheckoutReviewPayment: {
-                    component: CheckoutReviewPaymentComponent,
-                    guards: [CheckoutAuthGuard, CartNotEmptyGuard],
-                },
-            },
-        }),
-    ],
+  exports: [CheckoutReviewPaymentComponent],
+  imports: [
+    CommonModule,
+    CardModule,
+    I18nModule,
+    UrlModule,
+    RouterModule,
+    IconModule,
+    CheckoutReviewPaymentComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        CheckoutReviewPayment: {
+          component: CheckoutReviewPaymentComponent,
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+        },
+      },
+    }),
+  ],
 })
 export class CheckoutReviewPaymentModule {}

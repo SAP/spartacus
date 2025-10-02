@@ -34,15 +34,20 @@ describe('ThemeSwitcherComponent', () => {
     );
 
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, IconModule, CommonModule, SiteThemeSwitcherComponent],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        IconModule,
+        CommonModule,
+        SiteThemeSwitcherComponent,
+      ],
+      providers: [
         {
-            provide: SiteThemeSwitcherComponentService,
-            useValue: themeSwitcherServiceSpy,
+          provide: SiteThemeSwitcherComponentService,
+          useValue: themeSwitcherServiceSpy,
         },
         { provide: TranslationService, useClass: MockTranslationService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     themeSwitcherComponentService = TestBed.inject(
       SiteThemeSwitcherComponentService

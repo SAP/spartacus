@@ -23,17 +23,17 @@ const createKeyboardEvent = (key: string) =>
   });
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Directive({
-    selector: '[cxHorizontalScrollingPosition]',
-    exportAs: 'cxHorizontalScrollingPosition',
+  selector: '[cxHorizontalScrollingPosition]',
+  exportAs: 'cxHorizontalScrollingPosition',
 })
 class MockHorizontalScrollingPositionDirective
   implements Partial<HorizontalScrollingPositionDirective>
@@ -50,8 +50,8 @@ class MockHorizontalScrollingPositionDirective
 }
 
 @Component({
-    selector: 'cx-test-child',
-    template: ` Test Carousel Item
+  selector: 'cx-test-child',
+  template: ` Test Carousel Item
     <div>
       Item testProperty:
       <span class="child-item">{{ item.testProperty }}</span>
@@ -60,7 +60,7 @@ class MockHorizontalScrollingPositionDirective
       itemIndex:
       <span class="child-itemIndex">{{ itemIndex }}</span>
     </div>`,
-    imports: [I18nTestingModule],
+  imports: [I18nTestingModule],
 })
 class TestChildComponent implements OnDestroy {
   @Input() item: any;
@@ -73,8 +73,8 @@ class TestChildComponent implements OnDestroy {
 }
 
 @Component({
-    selector: 'cx-test-parent',
-    template: `
+  selector: 'cx-test-parent',
+  template: `
     <cx-carousel-scrolling
       [items]="mockItems"
       [title]="mockTitle"
@@ -89,7 +89,7 @@ class TestChildComponent implements OnDestroy {
       ></cx-test-child>
     </ng-template>
   `,
-    imports: [I18nTestingModule],
+  imports: [I18nTestingModule],
 })
 class TestParentComponent {
   mockTitle: string | undefined = 'Test Carousel Title';
@@ -104,8 +104,8 @@ class TestParentComponent {
 }
 
 @Component({
-    selector: 'cx-test-parent-with-cx-focusable-carousel-item',
-    template: `
+  selector: 'cx-test-parent-with-cx-focusable-carousel-item',
+  template: `
     <cx-carousel-scrolling
       [items]="mockItems"
       [title]="mockTitle"
@@ -121,7 +121,7 @@ class TestParentComponent {
       ></cx-test-child>
     </ng-template>
   `,
-    imports: [I18nTestingModule],
+  imports: [I18nTestingModule],
 })
 class TestParentWithCxFocusableCarouselItemComponent {
   mockTitle: string | undefined = 'Test Carousel With cxFocusableCarouselItem';
@@ -136,8 +136,8 @@ class TestParentWithCxFocusableCarouselItemComponent {
 }
 
 @Component({
-    selector: 'cx-test-parent-without-track-by',
-    template: `
+  selector: 'cx-test-parent-without-track-by',
+  template: `
     <cx-carousel-scrolling
       [items]="mockItems"
       [title]="mockTitle"
@@ -151,7 +151,7 @@ class TestParentWithCxFocusableCarouselItemComponent {
       ></cx-test-child>
     </ng-template>
   `,
-    imports: [I18nTestingModule],
+  imports: [I18nTestingModule],
 })
 class TestParentWithoutTrackByComponent {
   mockTitle: string | undefined = 'Test Carousel Without TrackBy';
@@ -166,15 +166,15 @@ class TestParentWithoutTrackByComponent {
 }
 
 @Component({
-    selector: 'cx-test-parent-without-child-template',
-    template: `
+  selector: 'cx-test-parent-without-child-template',
+  template: `
     <cx-carousel-scrolling
       [items]="mockItems"
       [title]="mockTitle"
       [trackByFn]="carouselTrackByFn"
     ></cx-carousel-scrolling>
   `,
-    imports: [I18nTestingModule],
+  imports: [I18nTestingModule],
 })
 class TestParentWithoutChildTemplateComponent {
   mockTitle = 'Test Carousel Without Child Template';
@@ -191,12 +191,15 @@ describe('CarouselScrollingComponent', () => {
     beforeEach(waitForAsync(() => {
       TestChildComponent.destroyedCount = 0;
       TestBed.configureTestingModule({
-    imports: [I18nTestingModule, CarouselScrollingComponent,
-        MockHorizontalScrollingPositionDirective,
-        MockCxIconComponent,
-        TestParentComponent,
-        TestChildComponent],
-}).compileComponents();
+        imports: [
+          I18nTestingModule,
+          CarouselScrollingComponent,
+          MockHorizontalScrollingPositionDirective,
+          MockCxIconComponent,
+          TestParentComponent,
+          TestChildComponent,
+        ],
+      }).compileComponents();
     }));
 
     beforeEach(() => {
@@ -581,13 +584,16 @@ describe('CarouselScrollingComponent', () => {
 
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
-    imports: [I18nTestingModule, CarouselScrollingComponent,
-        MockHorizontalScrollingPositionDirective,
-        MockCxIconComponent,
-        TestParentWithCxFocusableCarouselItemComponent,
-        TestChildComponent,
-        FocusableCarouselItemDirective],
-}).compileComponents();
+        imports: [
+          I18nTestingModule,
+          CarouselScrollingComponent,
+          MockHorizontalScrollingPositionDirective,
+          MockCxIconComponent,
+          TestParentWithCxFocusableCarouselItemComponent,
+          TestChildComponent,
+          FocusableCarouselItemDirective,
+        ],
+      }).compileComponents();
     }));
 
     beforeEach(() => {
@@ -707,11 +713,14 @@ describe('CarouselScrollingComponent', () => {
 
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
-    imports: [I18nTestingModule, CarouselScrollingComponent,
-        MockHorizontalScrollingPositionDirective,
-        MockCxIconComponent,
-        TestParentWithoutChildTemplateComponent],
-}).compileComponents();
+        imports: [
+          I18nTestingModule,
+          CarouselScrollingComponent,
+          MockHorizontalScrollingPositionDirective,
+          MockCxIconComponent,
+          TestParentWithoutChildTemplateComponent,
+        ],
+      }).compileComponents();
     }));
 
     beforeEach(() => {
@@ -736,12 +745,15 @@ describe('CarouselScrollingComponent', () => {
 
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
-    imports: [I18nTestingModule, CarouselScrollingComponent,
-        MockHorizontalScrollingPositionDirective,
-        MockCxIconComponent,
-        TestParentWithoutTrackByComponent,
-        TestChildComponent],
-}).compileComponents();
+        imports: [
+          I18nTestingModule,
+          CarouselScrollingComponent,
+          MockHorizontalScrollingPositionDirective,
+          MockCxIconComponent,
+          TestParentWithoutTrackByComponent,
+          TestChildComponent,
+        ],
+      }).compileComponents();
     }));
 
     beforeEach(() => {

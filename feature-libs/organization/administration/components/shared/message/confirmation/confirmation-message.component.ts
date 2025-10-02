@@ -26,16 +26,16 @@ import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/t
  * Renders a confirmation message and cancel/confirm button in the message component.
  */
 @Component({
-    selector: 'cx-org-confirmation',
-    templateUrl: './confirmation-message.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FocusDirective,
-        NgIf,
-        IconComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-confirmation',
+  templateUrl: './confirmation-message.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FocusDirective,
+    NgIf,
+    IconComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfirmationMessageComponent
   extends BaseMessageComponent

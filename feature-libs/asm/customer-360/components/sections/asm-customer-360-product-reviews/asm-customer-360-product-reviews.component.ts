@@ -24,16 +24,16 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'cx-asm-customer-360-product-reviews',
-    templateUrl: './asm-customer-360-product-reviews.component.html',
-    providers: [CxDatePipe],
-    imports: [
-        AsmCustomer360TableComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'cx-asm-customer-360-product-reviews',
+  templateUrl: './asm-customer-360-product-reviews.component.html',
+  providers: [CxDatePipe],
+  imports: [
+    AsmCustomer360TableComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AsmCustomer360ProductReviewsComponent implements OnInit {
   reviewColumns: Array<CustomerTableColumn> = [

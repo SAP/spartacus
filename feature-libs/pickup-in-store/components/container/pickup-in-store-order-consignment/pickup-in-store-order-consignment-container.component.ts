@@ -20,14 +20,9 @@ export type IOutletContextData = { item: Consignment };
  * A container component of the pickup address for order consignment.
  */
 @Component({
-    selector: 'cx-pickup-in-store-order-consignment',
-    templateUrl: './pickup-in-store-order-consignment-container.component.html',
-    imports: [
-        NgIf,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-pickup-in-store-order-consignment',
+  templateUrl: './pickup-in-store-order-consignment-container.component.html',
+  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class PickupInStoreOrderConsignmentContainerComponent implements OnInit {
   constructor(

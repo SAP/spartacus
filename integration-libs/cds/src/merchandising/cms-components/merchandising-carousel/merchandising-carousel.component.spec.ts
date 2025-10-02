@@ -24,8 +24,8 @@ import { MerchandisingCarouselModel } from './model/index';
 import createSpy = jasmine.createSpy;
 
 @Component({
-    selector: 'cx-carousel',
-    template: `
+  selector: 'cx-carousel',
+  template: `
     <ng-container *ngFor="let item$ of items">
       <ng-container
         *ngTemplateOutlet="template; context: { item: item$ | async }"
@@ -45,23 +45,23 @@ class MockCarouselComponent {
  * metadata attributes to contain any kind of prefix
  */
 @Directive({
-    selector: '[cxAttributes]',
-    // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
-    inputs: ['cxAttributes', 'cxAttributesNamePrefix'],
+  selector: '[cxAttributes]',
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
+  inputs: ['cxAttributes', 'cxAttributesNamePrefix'],
 })
 class MockAttributesDirective {
   @Input() cxAttributes: { [attribute: string]: any };
   @Input() cxAttributesNamePrefix: string;
 }
 
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
 @Component({
-    selector: 'cx-media',
-    template: '',
+  selector: 'cx-media',
+  template: '',
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -164,30 +164,32 @@ describe('MerchandisingCarouselComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [MerchandisingCarouselComponent,
+      imports: [
+        MerchandisingCarouselComponent,
         MockCarouselComponent,
         MockAttributesDirective,
         MockMediaComponent,
-        MockUrlPipe,],
-    providers: [
+        MockUrlPipe,
+      ],
+      providers: [
         {
-            provide: CmsComponentData,
-            useValue: MockCmsMerchandisingCarouselComponent,
+          provide: CmsComponentData,
+          useValue: MockCmsMerchandisingCarouselComponent,
         },
         {
-            provide: MerchandisingCarouselComponentService,
-            useClass: MockMerchandisingCarouselComponentService,
+          provide: MerchandisingCarouselComponentService,
+          useClass: MockMerchandisingCarouselComponentService,
         },
         {
-            provide: RoutingService,
-            useClass: RoutingServiceStub,
+          provide: RoutingService,
+          useClass: RoutingServiceStub,
         },
         {
-            provide: IntersectionService,
-            useClass: IntersectionServiceStub,
+          provide: IntersectionService,
+          useClass: IntersectionServiceStub,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MerchandisingCarouselComponent);
     component = fixture.componentInstance;

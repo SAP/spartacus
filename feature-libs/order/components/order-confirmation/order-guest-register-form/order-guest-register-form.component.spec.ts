@@ -56,20 +56,21 @@ describe('OrderGuestRegisterFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         I18nTestingModule,
         ReactiveFormsModule,
         FormErrorsModule,
         PasswordVisibilityToggleModule,
-        OrderGuestRegisterFormComponent, MockFeatureDirective,
-    ],
-    providers: [
+        OrderGuestRegisterFormComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

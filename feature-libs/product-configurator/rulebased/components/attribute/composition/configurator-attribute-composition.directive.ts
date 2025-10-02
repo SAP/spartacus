@@ -22,7 +22,7 @@ import {
 import { ConfiguratorAttributeCompositionContext } from './configurator-attribute-composition.model';
 import { Configurator } from '../../../core/model/configurator.model';
 
-@Directive({ selector: '[cxConfiguratorAttributeComponent]', })
+@Directive({ selector: '[cxConfiguratorAttributeComponent]' })
 export class ConfiguratorAttributeCompositionDirective
   implements OnInit, OnChanges
 {

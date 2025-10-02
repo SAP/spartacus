@@ -27,23 +27,23 @@ import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-r
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-pick-up-in-store-items-details',
-    templateUrl: './pickup-items-details.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgClass,
-        NgIf,
-        NgFor,
-        StoreAddressComponent,
-        StoreScheduleComponent,
-        RouterLink,
-        IconComponent,
-        MediaComponent,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-pick-up-in-store-items-details',
+  templateUrl: './pickup-items-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgClass,
+    NgIf,
+    NgFor,
+    StoreAddressComponent,
+    StoreScheduleComponent,
+    RouterLink,
+    IconComponent,
+    MediaComponent,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class PickUpItemsDetailsComponent implements OnInit {
   @Input() showEdit: boolean;

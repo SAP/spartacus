@@ -29,16 +29,16 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    selector: 'cx-asm-customer-360-customer-coupon',
-    templateUrl: './asm-customer-360-customer-coupon.component.html',
-    imports: [
-        AsmCustomer360PromotionListingComponent,
-        IconComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'cx-asm-customer-360-customer-coupon',
+  templateUrl: './asm-customer-360-customer-coupon.component.html',
+  imports: [
+    AsmCustomer360PromotionListingComponent,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AsmCustomer360CustomerCouponComponent
   implements OnInit, OnDestroy

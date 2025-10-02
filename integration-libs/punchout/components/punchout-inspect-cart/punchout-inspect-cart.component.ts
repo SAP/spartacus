@@ -14,16 +14,16 @@ import { OrderSummaryComponent } from '../../../../feature-libs/cart/base/compon
 import { PunchoutButtonsComponent } from '../punchout-buttons/punchout-buttons.component';
 
 @Component({
-    selector: 'cx-punchout-inspect-cart',
-    templateUrl: './punchout-inspect-cart.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        CartItemListComponent,
-        OrderSummaryComponent,
-        PunchoutButtonsComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-punchout-inspect-cart',
+  templateUrl: './punchout-inspect-cart.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    CartItemListComponent,
+    OrderSummaryComponent,
+    PunchoutButtonsComponent,
+    AsyncPipe,
+  ],
 })
 export class PunchoutInspectCartComponent {
   protected activeCartService = inject(ActiveCartFacade);

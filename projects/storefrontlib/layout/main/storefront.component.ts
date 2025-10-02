@@ -44,20 +44,20 @@ import { GlobalMessageComponent } from '../../cms-components/misc/global-message
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-    selector: 'cx-storefront',
-    templateUrl: './storefront.component.html',
-    imports: [
-        PageTemplateDirective,
-        OutletDirective,
-        SkipLinkDirective,
-        FocusDirective,
-        PageLayoutComponent,
-        SkipFocusDirective,
-        PageSlotComponent,
-        GlobalMessageComponent,
-        RouterOutlet,
-        AsyncPipe,
-    ],
+  selector: 'cx-storefront',
+  templateUrl: './storefront.component.html',
+  imports: [
+    PageTemplateDirective,
+    OutletDirective,
+    SkipLinkDirective,
+    FocusDirective,
+    PageLayoutComponent,
+    SkipFocusDirective,
+    PageSlotComponent,
+    GlobalMessageComponent,
+    RouterOutlet,
+    AsyncPipe,
+  ],
 })
 export class StorefrontComponent implements OnInit, OnDestroy {
   navigateSubscription: Subscription;

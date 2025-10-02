@@ -11,16 +11,21 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition/config
 import { ConfiguratorAttributeNotSupportedComponent } from './configurator-attribute-not-supported.component';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, ConfiguratorAttributeNotSupportedComponent],
-    providers: [
-        provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
-            productConfigurator: {
-                assignment: {
-                    AttributeType_not_implemented: ConfiguratorAttributeNotSupportedComponent,
-                },
-            },
-        }),
-    ],
-    exports: [ConfiguratorAttributeNotSupportedComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    ConfiguratorAttributeNotSupportedComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+      productConfigurator: {
+        assignment: {
+          AttributeType_not_implemented:
+            ConfiguratorAttributeNotSupportedComponent,
+        },
+      },
+    }),
+  ],
+  exports: [ConfiguratorAttributeNotSupportedComponent],
 })
 export class ConfiguratorAttributeNotSupportedModule {}

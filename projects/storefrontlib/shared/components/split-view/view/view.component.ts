@@ -32,9 +32,9 @@ import { SplitViewService } from '../split-view.service';
  * overall experience.
  */
 @Component({
-    selector: 'cx-view',
-    templateUrl: './view.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'cx-view',
+  templateUrl: './view.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ViewComponent implements OnInit, OnDestroy {
   protected _hidden: boolean | undefined;

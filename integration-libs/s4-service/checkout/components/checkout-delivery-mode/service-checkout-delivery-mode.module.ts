@@ -21,25 +21,25 @@ import {
 } from '@spartacus/storefront';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        I18nModule,
-        SpinnerModule,
-        OutletModule,
-        PageComponentModule,
-        FeaturesConfigModule,
-        ServiceCheckoutDeliveryModeComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                CheckoutDeliveryMode: {
-                    component: ServiceCheckoutDeliveryModeComponent,
-                },
-            },
-        }),
-    ],
-    exports: [ServiceCheckoutDeliveryModeComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    I18nModule,
+    SpinnerModule,
+    OutletModule,
+    PageComponentModule,
+    FeaturesConfigModule,
+    ServiceCheckoutDeliveryModeComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        CheckoutDeliveryMode: {
+          component: ServiceCheckoutDeliveryModeComponent,
+        },
+      },
+    }),
+  ],
+  exports: [ServiceCheckoutDeliveryModeComponent],
 })
 export class ServiceCheckoutDeliveryModeModule {}

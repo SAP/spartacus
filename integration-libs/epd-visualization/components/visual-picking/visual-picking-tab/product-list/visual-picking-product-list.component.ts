@@ -24,21 +24,21 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-epd-visualization-product-list',
-    templateUrl: './visual-picking-product-list.component.html',
-    providers: [VisualPickingProductListService],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        PagedListComponent,
-        NgIf,
-        MediaComponent,
-        RouterLink,
-        CompactAddToCartComponent,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-epd-visualization-product-list',
+  templateUrl: './visual-picking-product-list.component.html',
+  providers: [VisualPickingProductListService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    PagedListComponent,
+    NgIf,
+    MediaComponent,
+    RouterLink,
+    CompactAddToCartComponent,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class VisualPickingProductListComponent implements OnInit {
   constructor(

@@ -18,19 +18,19 @@ import { ConfiguratorConflictSolverDialogComponent } from './configurator-confli
 import { defaultConfiguratorConflictSolverLayoutConfig } from './default-configurator-conflict-solver-layout.config';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        IconModule,
-        I18nModule,
-        ConfiguratorGroupModule,
-        KeyboardFocusModule,
-        FeaturesConfigModule,
-        ConfiguratorConflictSolverDialogComponent,
-    ],
-    providers: [
-        provideDefaultConfig(defaultConfiguratorConflictSolverLayoutConfig),
-    ],
-    exports: [ConfiguratorConflictSolverDialogComponent],
+  imports: [
+    CommonModule,
+    IconModule,
+    I18nModule,
+    ConfiguratorGroupModule,
+    KeyboardFocusModule,
+    FeaturesConfigModule,
+    ConfiguratorConflictSolverDialogComponent,
+  ],
+  providers: [
+    provideDefaultConfig(defaultConfiguratorConflictSolverLayoutConfig),
+  ],
+  exports: [ConfiguratorConflictSolverDialogComponent],
 })
 export class ConfiguratorConflictSolverDialogModule {
   constructor(

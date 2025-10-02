@@ -28,16 +28,11 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-tab-bar',
-    templateUrl: './configurator-tab-bar.component.html',
-    //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
-    changeDetection: ChangeDetectionStrategy.Default,
-    imports: [
-        NgIf,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-tab-bar',
+  templateUrl: './configurator-tab-bar.component.html',
+  //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
+  changeDetection: ChangeDetectionStrategy.Default,
+  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class ConfiguratorTabBarComponent {
   @HostBinding('class.ghost') ghostStyle = true;

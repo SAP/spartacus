@@ -82,24 +82,30 @@ describe('SavedCartDetailsItemsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [StoreModule.forRoot({}), I18nTestingModule, OutletModule, SavedCartDetailsItemsComponent, MockFeatureDirective],
-    providers: [
+      imports: [
+        StoreModule.forRoot({}),
+        I18nTestingModule,
+        OutletModule,
+        SavedCartDetailsItemsComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
         {
-            provide: SavedCartFacade,
-            useClass: MockSavedCartFacade,
+          provide: SavedCartFacade,
+          useClass: MockSavedCartFacade,
         },
         {
-            provide: EventService,
-            useClass: MockEventService,
+          provide: EventService,
+          useClass: MockEventService,
         },
         {
-            provide: SavedCartDetailsService,
-            useClass: MockSavedCartDetailsService,
+          provide: SavedCartDetailsService,
+          useClass: MockSavedCartDetailsService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SavedCartDetailsItemsComponent);
     component = fixture.componentInstance;

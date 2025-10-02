@@ -18,24 +18,24 @@ import { AsyncPipe } from '@angular/common';
 import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-unit-children',
-    templateUrl: './unit-children.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'content-wrapper' },
-    providers: [
-        {
-            provide: ListService,
-            useExisting: UnitChildrenService,
-        },
-    ],
-    imports: [
-        SubListComponent,
-        RouterLink,
-        DisableInfoComponent,
-        TranslatePipe,
-        AsyncPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-unit-children',
+  templateUrl: './unit-children.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
+  providers: [
+    {
+      provide: ListService,
+      useExisting: UnitChildrenService,
+    },
+  ],
+  imports: [
+    SubListComponent,
+    RouterLink,
+    DisableInfoComponent,
+    TranslatePipe,
+    AsyncPipe,
+    MockTranslatePipe,
+  ],
 })
 export class UnitChildrenComponent {
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService

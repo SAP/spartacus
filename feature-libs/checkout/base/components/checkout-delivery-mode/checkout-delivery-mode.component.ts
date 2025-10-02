@@ -5,7 +5,13 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade, CartOutlets } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
@@ -29,21 +35,21 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-delivery-mode',
-    templateUrl: './checkout-delivery-mode.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        NgFor,
-        OutletDirective,
-        SpinnerComponent,
-        InnerComponentsHostDirective,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-delivery-mode',
+  templateUrl: './checkout-delivery-mode.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    NgFor,
+    OutletDirective,
+    SpinnerComponent,
+    InnerComponentsHostDirective,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CheckoutDeliveryModeComponent {
   protected globalMessageService = inject(GlobalMessageService);

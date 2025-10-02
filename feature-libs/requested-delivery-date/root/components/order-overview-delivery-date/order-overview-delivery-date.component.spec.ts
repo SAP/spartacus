@@ -16,11 +16,11 @@ describe('OrderOverviewDeliveryDateComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, OrderOverviewDeliveryDateComponent],
-    providers: [
+      imports: [I18nTestingModule, OrderOverviewDeliveryDateComponent],
+      providers: [
         { provide: TranslationService, useValue: translationServiceMock },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

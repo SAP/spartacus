@@ -25,18 +25,18 @@ import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mo
 import { MockDatePipe } from '../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-estimated-delivery-date',
-    templateUrl: './estimated-delivery-date.component.html',
-    providers: [CxDatePipe],
-    imports: [
-        NgIf,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        CxDatePipe_1,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-estimated-delivery-date',
+  templateUrl: './estimated-delivery-date.component.html',
+  providers: [CxDatePipe],
+  imports: [
+    NgIf,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe_1,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class EstimatedDeliveryDateComponent {
   @Optional() protected cartItemContext = inject(CartItemContext);

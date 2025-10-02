@@ -26,7 +26,7 @@ describe('Order - PickUpItemsDetailsComponent', () => {
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         CommonModule,
         I18nModule,
         RouterModule,
@@ -36,18 +36,18 @@ describe('Order - PickUpItemsDetailsComponent', () => {
         CardModule,
         MediaModule,
         PickUpItemsDetailsComponent,
-    ],
-    providers: [
+      ],
+      providers: [
         {
-            provide: DeliveryPointsService,
-            useClass: DeliveryPointsServiceMock,
+          provide: DeliveryPointsService,
+          useClass: DeliveryPointsServiceMock,
         },
         {
-            provide: CmsComponentData,
-            useValue: data,
+          provide: CmsComponentData,
+          useValue: data,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
     fixture = TestBed.createComponent(PickUpItemsDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -69,7 +69,7 @@ describe('Delivery Mode - PickUpItemsDetailsComponent', () => {
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         CommonModule,
         I18nModule,
         RouterModule,
@@ -79,18 +79,18 @@ describe('Delivery Mode - PickUpItemsDetailsComponent', () => {
         CardModule,
         MediaModule,
         PickUpItemsDetailsComponent,
-    ],
-    providers: [
+      ],
+      providers: [
         {
-            provide: DeliveryPointsService,
-            useClass: DeliveryPointsServiceMock,
+          provide: DeliveryPointsService,
+          useClass: DeliveryPointsServiceMock,
         },
         {
-            provide: CmsComponentData,
-            useValue: data,
+          provide: CmsComponentData,
+          useValue: data,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
     fixture = TestBed.createComponent(PickUpItemsDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

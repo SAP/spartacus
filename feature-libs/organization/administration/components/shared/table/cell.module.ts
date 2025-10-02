@@ -19,13 +19,20 @@ import { StatusCellComponent } from './status/status-cell.component';
 import { UnitCellComponent } from './unit/unit-cell.component';
 
 @NgModule({
-    imports: [CommonModule, RouterModule, UrlModule, I18nModule, IconModule, CellComponent,
-        ActiveLinkCellComponent,
-        AmountCellComponent,
-        DateRangeCellComponent,
-        LimitCellComponent,
-        RolesCellComponent,
-        StatusCellComponent,
-        UnitCellComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    IconModule,
+    CellComponent,
+    ActiveLinkCellComponent,
+    AmountCellComponent,
+    DateRangeCellComponent,
+    LimitCellComponent,
+    RolesCellComponent,
+    StatusCellComponent,
+    UnitCellComponent,
+  ],
 })
 export class CellModule {}

@@ -14,16 +14,10 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-checkout-progress-mobile-bottom',
-    templateUrl: './checkout-progress-mobile-bottom.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-checkout-progress-mobile-bottom',
+  templateUrl: './checkout-progress-mobile-bottom.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class CheckoutProgressMobileBottomComponent {
   private _steps$: BehaviorSubject<CheckoutStep[]> =

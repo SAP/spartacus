@@ -20,15 +20,10 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-opf-checkout-terms-and-conditions-alert',
-    templateUrl: './opf-checkout-terms-and-conditions-alert.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        IconComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-opf-checkout-terms-and-conditions-alert',
+  templateUrl: './opf-checkout-terms-and-conditions-alert.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, IconComponent, TranslatePipe, MockTranslatePipe],
 })
 export class OpfCheckoutTermsAndConditionsAlertComponent implements OnInit {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);

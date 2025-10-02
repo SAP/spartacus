@@ -44,15 +44,16 @@ describe('MessagingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [
+      imports: [
         I18nTestingModule,
         IconModule,
         FileUploadModule,
         FormErrorsModule,
         ReactiveFormsModule,
-        MessagingComponent, AvatarComponent,
-    ],
-}).compileComponents();
+        MessagingComponent,
+        AvatarComponent,
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

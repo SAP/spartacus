@@ -125,9 +125,9 @@ const backToTopBtn = 'productList.backToTopBtn';
 const showMoreBtn = 'productList.showMoreBtn';
 
 @Component({
-    selector: 'cx-star-rating',
-    template: '',
-    imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule,],
+  selector: 'cx-star-rating',
+  template: '',
+  imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule],
 })
 class MockStarRatingComponent {
   @Input() rating: number;
@@ -135,9 +135,9 @@ class MockStarRatingComponent {
 }
 
 @Component({
-    template: '',
-    selector: 'cx-product-list-item',
-    imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule,],
+  template: '',
+  selector: 'cx-product-list-item',
+  imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule],
 })
 class MockProductListItemComponent {
   @Input() product: any;
@@ -145,24 +145,24 @@ class MockProductListItemComponent {
 }
 
 @Component({
-    template: '',
-    selector: 'cx-product-grid-item',
-    imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule,],
+  template: '',
+  selector: 'cx-product-grid-item',
+  imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule],
 })
 class MockProductGridItemComponent {
   @Input() product: any;
   @Input() itemIndex: number;
 }
 
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
 @Component({
-    selector: 'cx-add-to-cart',
-    template: '<button>add to cart</button>',
-    imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule,],
+  selector: 'cx-add-to-cart',
+  template: '<button>add to cart</button>',
+  imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule],
 })
 class MockAddToCartComponent {
   @Input() product: string;
@@ -179,9 +179,9 @@ class MockProductListComponentService {
 }
 
 @Component({
-    selector: 'cx-variant-style-icons',
-    template: 'test',
-    imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule,],
+  selector: 'cx-variant-style-icons',
+  template: 'test',
+  imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule],
 })
 class MockStyleIconsComponent {
   @Input() variants: any[];
@@ -194,7 +194,11 @@ describe('ProductScrollComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule, ProductScrollComponent,
+      imports: [
+        InfiniteScrollModule,
+        I18nTestingModule,
+        SpinnerModule,
+        ProductScrollComponent,
         MockProductGridItemComponent,
         MockProductListItemComponent,
         MockUrlPipe,
@@ -202,14 +206,15 @@ describe('ProductScrollComponent', () => {
         MockStarRatingComponent,
         MockAddToCartComponent,
         MockStyleIconsComponent,
-        MockFeatureLevelDirective],
-    providers: [
+        MockFeatureLevelDirective,
+      ],
+      providers: [
         {
-            provide: ProductListComponentService,
-            useClass: MockProductListComponentService,
+          provide: ProductListComponentService,
+          useClass: MockProductListComponentService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

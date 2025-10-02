@@ -78,9 +78,9 @@ const conflictGroupBase: Configurator.Group = {
 let conflictGroup: Configurator.Group;
 
 @Component({
-    selector: 'cx-configurator-conflict-description',
-    template: '',
-    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule,],
+  selector: 'cx-configurator-conflict-description',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockConfiguratorConflictDescriptionComponent {
   @Input() ownerType: CommonConfigurator.OwnerType;
@@ -88,27 +88,27 @@ class MockConfiguratorConflictDescriptionComponent {
 }
 
 @Component({
-    selector: 'cx-configurator-price',
-    template: '',
-    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule,],
+  selector: 'cx-configurator-price',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
 @Component({
-    selector: 'cx-configurator-attribute-product-card',
-    template: '',
-    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule,],
+  selector: 'cx-configurator-attribute-product-card',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockProductCardComponent {
   @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
 }
 
 @Component({
-    selector: 'cx-configurator-attribute-input-field',
-    template: '',
-    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule,],
+  selector: 'cx-configurator-attribute-input-field',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockConfiguratorAttributeInputFieldComponent {
   @Input() ownerType: CommonConfigurator.OwnerType;
@@ -120,9 +120,9 @@ class MockConfiguratorAttributeInputFieldComponent {
 }
 
 @Component({
-    selector: 'cx-configurator-attribute-numeric-input-field',
-    template: '',
-    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule,],
+  selector: 'cx-configurator-attribute-numeric-input-field',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockConfiguratorAttributeNumericInputFieldComponent {
   @Input() ownerType: CommonConfigurator.OwnerType;
@@ -135,15 +135,15 @@ class MockConfiguratorAttributeNumericInputFieldComponent {
 }
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule,],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-@Directive({ selector: '[cxFocus]', })
+@Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: string;
 }
@@ -304,7 +304,11 @@ describe('ConfiguratorGroupComponent', () => {
     };
 
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule, MockCxIconComponent,
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        MockCxIconComponent,
         MockConfiguratorPriceComponent,
         MockFocusDirective,
         MockFeatureLevelDirective,
@@ -327,39 +331,40 @@ describe('ConfiguratorGroupComponent', () => {
         MockConfiguratorAttributeNumericInputFieldComponent,
         ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
         ConfiguratorAttributeSingleSelectionBundleComponent,
-        ConfiguratorAttributeMultiSelectionBundleComponent],
-    providers: [
+        ConfiguratorAttributeMultiSelectionBundleComponent,
+      ],
+      providers: [
         {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
         },
         {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupsService,
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupsService,
         },
         { provide: LanguageService, useValue: mockLanguageService },
         {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
         {
-            provide: ConfiguratorExpertModeService,
-            useClass: MockConfiguratorExpertModeService,
+          provide: ConfiguratorExpertModeService,
+          useClass: MockConfiguratorExpertModeService,
         },
         {
-            provide: ConfiguratorAttributeCompositionConfig,
-            useValue: mockConfiguratorAttributeCompositionConfig,
+          provide: ConfiguratorAttributeCompositionConfig,
+          useValue: mockConfiguratorAttributeCompositionConfig,
         },
         {
-            provide: ProductService,
-            useClass: MockProductService,
+          provide: ProductService,
+          useClass: MockProductService,
         },
         {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorService,
+          provide: ConfiguratorRouterExtractorService,
+          useClass: MockConfiguratorRouterExtractorService,
         },
-    ],
-})
+      ],
+    })
       .overrideComponent(ConfiguratorAttributeHeaderComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

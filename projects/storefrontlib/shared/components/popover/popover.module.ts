@@ -14,14 +14,15 @@ import { PopoverComponent } from './popover.component';
 import { PopoverDirective } from './popover.directive';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        KeyboardFocusModule,
-        IconModule,
-        I18nModule,
-        PopoverDirective, PopoverComponent,
-    ],
-    exports: [PopoverDirective, PopoverComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    KeyboardFocusModule,
+    IconModule,
+    I18nModule,
+    PopoverDirective,
+    PopoverComponent,
+  ],
+  exports: [PopoverDirective, PopoverComponent],
 })
 export class PopoverModule {}

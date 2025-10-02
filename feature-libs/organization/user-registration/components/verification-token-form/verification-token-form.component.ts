@@ -16,7 +16,11 @@ import {
 } from '@angular/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 
-import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { FeatureConfigService, RoutingService } from '@spartacus/core';
 import {
   VerificationToken,
@@ -35,23 +39,23 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-verification-token-form',
-    templateUrl: './verification-token-form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        SpinnerComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        NgClass,
-        RouterLink,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-verification-token-form',
+  templateUrl: './verification-token-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    NgClass,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class RegisterVerificationTokenFormComponent implements OnInit {
   private featureConfigService = inject(FeatureConfigService);

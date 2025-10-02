@@ -19,15 +19,10 @@ import { ApplePayComponent } from './apple-pay/apple-pay.component';
 import { OpfGooglePayComponent } from './google-pay/google-pay.component';
 
 @Component({
-    selector: 'cx-opf-quick-buy-buttons',
-    templateUrl: './opf-quick-buy-buttons.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        ApplePayComponent,
-        OpfGooglePayComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-opf-quick-buy-buttons',
+  templateUrl: './opf-quick-buy-buttons.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, ApplePayComponent, OpfGooglePayComponent, AsyncPipe],
 })
 export class OpfQuickBuyButtonsComponent implements OnInit {
   protected opfQuickBuyButtonsService = inject(OpfQuickBuyButtonsService);

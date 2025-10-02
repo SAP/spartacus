@@ -37,18 +37,18 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Component({
-    selector: 'cx-spinner',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-spinner',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockCxSpinnerComponent {}
 
@@ -61,32 +61,35 @@ describe('CloseAccountModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, CloseAccountModalComponent,
+      imports: [
+        I18nTestingModule,
+        CloseAccountModalComponent,
         MockCxSpinnerComponent,
-        MockCxIconComponent],
-    providers: [
+        MockCxIconComponent,
+      ],
+      providers: [
         {
-            provide: UserProfileFacade,
-            useClass: MockUserProfileFacade,
+          provide: UserProfileFacade,
+          useClass: MockUserProfileFacade,
         },
         {
-            provide: GlobalMessageService,
-            useClass: MockGlobalMessageService,
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
         },
         {
-            provide: RoutingService,
-            useClass: MockRoutingService,
+          provide: RoutingService,
+          useClass: MockRoutingService,
         },
         {
-            provide: AuthService,
-            useClass: MockAuthService,
+          provide: AuthService,
+          useClass: MockAuthService,
         },
         {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

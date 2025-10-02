@@ -21,7 +21,7 @@ import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { OpfGlobalFunctionsService } from './opf-global-functions.service';
 export const WINDOW = new InjectionToken<Window>('window');
-@Component({ template: '', })
+@Component({ template: '' })
 class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}
 }
@@ -59,18 +59,18 @@ describe('OpfGlobalFunctionsService', () => {
   let launchDialogService: LaunchDialogService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [TestContainerComponent],
-    providers: [
+      imports: [TestContainerComponent],
+      providers: [
         OpfGlobalFunctionsService,
         WindowRef,
         { provide: OpfPaymentFacade, useValue: opfPaymentFacadeMock },
         {
-            provide: OpfPaymentEventsService,
-            useValue: opfPaymentEventsServiceMock,
+          provide: OpfPaymentEventsService,
+          useValue: opfPaymentEventsServiceMock,
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-    ],
-});
+      ],
+    });
     service = TestBed.inject(OpfGlobalFunctionsService);
     windowRef = TestBed.inject(WindowRef);
     componentRef = TestBed.createComponent(TestContainerComponent).componentRef;

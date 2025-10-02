@@ -10,8 +10,8 @@ describe('ConfiguratorAttributeNotSupportedComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ConfiguratorAttributeNotSupportedComponent],
-}).compileComponents();
+      imports: [I18nTestingModule, ConfiguratorAttributeNotSupportedComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(
       ConfiguratorAttributeNotSupportedComponent

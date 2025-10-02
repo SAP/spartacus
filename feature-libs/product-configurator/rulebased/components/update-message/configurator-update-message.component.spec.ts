@@ -47,9 +47,9 @@ class MockMessageConfig {
   };
 }
 @Component({
-    selector: 'cx-spinner',
-    template: '',
-    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule,],
+  selector: 'cx-spinner',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockCxSpinnerComponent {}
 describe('ConfigurationUpdateMessageComponent', () => {
@@ -61,23 +61,28 @@ describe('ConfigurationUpdateMessageComponent', () => {
   beforeEach(waitForAsync(() => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule, ConfiguratorUpdateMessageComponent,
-        MockCxSpinnerComponent],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        ConfiguratorUpdateMessageComponent,
+        MockCxSpinnerComponent,
+      ],
+      providers: [
         {
-            provide: RoutingService,
-            useClass: MockRoutingService,
+          provide: RoutingService,
+          useClass: MockRoutingService,
         },
         {
-            provide: ConfiguratorMessageConfig,
-            useClass: MockMessageConfig,
+          provide: ConfiguratorMessageConfig,
+          useClass: MockMessageConfig,
         },
         {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
         },
-    ],
-});
+      ],
+    });
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorUpdateMessageComponent);

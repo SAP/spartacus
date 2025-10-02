@@ -20,16 +20,10 @@ export interface ConfiguratorPriceComponentOptions {
 }
 
 @Component({
-    selector: 'cx-configurator-price',
-    templateUrl: './configurator-price.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgClass,
-        TranslatePipe,
-        CxNumericPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-price',
+  templateUrl: './configurator-price.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, NgClass, TranslatePipe, CxNumericPipe, MockTranslatePipe],
 })
 export class ConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;

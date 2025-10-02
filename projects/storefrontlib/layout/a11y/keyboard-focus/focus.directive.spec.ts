@@ -5,8 +5,8 @@ import { FocusDirective } from './focus.directive';
 import { KeyboardFocusService } from './services';
 
 @Component({
-    selector: 'cx-host',
-    template: ` <div
+  selector: 'cx-host',
+  template: ` <div
     id="a"
     [cxFocus]="{ autofocus: true, refreshFocus: modelA }"
   ></div>`,
@@ -32,14 +32,14 @@ describe('FocusDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [FocusDirective, MockComponent],
-    providers: [
+      imports: [FocusDirective, MockComponent],
+      providers: [
         {
-            provide: KeyboardFocusService,
-            useClass: MockKeyboardFocusService,
+          provide: KeyboardFocusService,
+          useClass: MockKeyboardFocusService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MockComponent);
 

@@ -22,18 +22,18 @@ import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-product-facet-navigation',
-    templateUrl: './product-facet-navigation.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        IconComponent,
-        ActiveFacetsComponent,
-        NgIf,
-        FacetListComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-product-facet-navigation',
+  templateUrl: './product-facet-navigation.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    IconComponent,
+    ActiveFacetsComponent,
+    NgIf,
+    FacetListComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ProductFacetNavigationComponent {
   iconTypes = ICON_TYPE;

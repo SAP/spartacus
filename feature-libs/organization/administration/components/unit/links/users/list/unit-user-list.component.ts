@@ -20,25 +20,25 @@ import { TranslatePipe } from '../../../../../../../../projects/core/src/i18n/tr
 import { MockTranslatePipe } from '../../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-unit-user-list',
-    templateUrl: './unit-user-list.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'content-wrapper' },
-    providers: [
-        {
-            provide: ListService,
-            useExisting: UnitUserListService,
-        },
-    ],
-    imports: [
-        SubListComponent,
-        NgIf,
-        RouterLink,
-        DisableInfoComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-unit-user-list',
+  templateUrl: './unit-user-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
+  providers: [
+    {
+      provide: ListService,
+      useExisting: UnitUserListService,
+    },
+  ],
+  imports: [
+    SubListComponent,
+    NgIf,
+    RouterLink,
+    DisableInfoComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class UnitUserListComponent {
   routerKey = ROUTE_PARAMS.userCode;

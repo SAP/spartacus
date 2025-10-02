@@ -16,16 +16,10 @@ import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/trans
 import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-disable-info',
-    templateUrl: './disable-info.component.html',
-    host: { class: 'content-wrapper' },
-    imports: [
-        NgIf,
-        IconComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-disable-info',
+  templateUrl: './disable-info.component.html',
+  host: { class: 'content-wrapper' },
+  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class DisableInfoComponent<T extends BaseItem> implements OnInit {
   /**

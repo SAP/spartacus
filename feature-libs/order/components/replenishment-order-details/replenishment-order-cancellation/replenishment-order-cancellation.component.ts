@@ -26,17 +26,17 @@ import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-r
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-replenishment-order-cancellation',
-    templateUrl: './replenishment-order-cancellation.component.html',
-    imports: [
-        BtnLikeLinkDirective,
-        RouterLink,
-        NgIf,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-replenishment-order-cancellation',
+  templateUrl: './replenishment-order-cancellation.component.html',
+  imports: [
+    BtnLikeLinkDirective,
+    RouterLink,
+    NgIf,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class ReplenishmentOrderCancellationComponent implements OnDestroy {
   @ViewChild('element') element: ElementRef;

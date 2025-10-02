@@ -14,19 +14,19 @@ import { SpinnerComponent } from '../../../../../projects/storefrontlib/shared/c
 import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 @Component({
-    selector: 'cx-opf-b2b-checkout-delivery-address',
-    templateUrl: './opf-b2b-checkout-delivery-address.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        OpfB2bCheckoutCostCenterComponent,
-        NgIf,
-        NgFor,
-        CardComponent,
-        AddressFormComponent,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-opf-b2b-checkout-delivery-address',
+  templateUrl: './opf-b2b-checkout-delivery-address.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    OpfB2bCheckoutCostCenterComponent,
+    NgIf,
+    NgFor,
+    CardComponent,
+    AddressFormComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class OpfB2bCheckoutDeliveryAddressComponent extends B2BCheckoutDeliveryAddressComponent {}

@@ -23,17 +23,17 @@ class MockCarouselService {
 }
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-icon',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
 @Component({
-    template: ` <div id="templateEl"></div> `,
-    imports: [I18nTestingModule],
+  template: ` <div id="templateEl"></div> `,
+  imports: [I18nTestingModule],
 })
 class MockTemplateComponent {}
 
@@ -57,11 +57,14 @@ describe('Carousel Component', () => {
   let template: TemplateRef<any>;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, CarouselComponent,
+      imports: [
+        I18nTestingModule,
+        CarouselComponent,
         MockCxIconComponent,
-        MockTemplateComponent],
-    providers: [{ provide: CarouselService, useClass: MockCarouselService }],
-}).compileComponents();
+        MockTemplateComponent,
+      ],
+      providers: [{ provide: CarouselService, useClass: MockCarouselService }],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -647,8 +650,8 @@ describe('Carousel Component', () => {
 });
 
 @Component({
-    selector: 'cx-test-child',
-    template: ` Test Carousel Item
+  selector: 'cx-test-child',
+  template: ` Test Carousel Item
     <div>
       Item testProperty:
       <span class="child-item">{{ item.testProperty }}</span>
@@ -657,7 +660,7 @@ describe('Carousel Component', () => {
       itemIndex:
       <span class="child-itemIndex">{{ itemIndex }}</span>
     </div>`,
-    imports: [I18nTestingModule],
+  imports: [I18nTestingModule],
 })
 class TestChildComponent implements OnDestroy {
   @Input() item: any;
@@ -670,8 +673,8 @@ class TestChildComponent implements OnDestroy {
 }
 
 @Component({
-    selector: 'cx-test-parent',
-    template: `
+  selector: 'cx-test-parent',
+  template: `
     <cx-carousel
       [items]="mockItems"
       [title]="mockTitle"
@@ -682,7 +685,7 @@ class TestChildComponent implements OnDestroy {
       <cx-test-child [item]="item" [itemIndex]="itemIndex"></cx-test-child>
     </ng-template>
   `,
-    imports: [I18nTestingModule],
+  imports: [I18nTestingModule],
 })
 class TestParentComponent {
   mockTitle = 'Test Carousel';
@@ -703,13 +706,16 @@ describe('Carousel Component tested in TestParentComponent', () => {
   beforeEach(waitForAsync(() => {
     TestChildComponent.destroyedCount = 0;
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, CarouselComponent,
+      imports: [
+        I18nTestingModule,
+        CarouselComponent,
         MockCxIconComponent,
         MockTemplateComponent,
         TestParentComponent,
-        TestChildComponent],
-    providers: [{ provide: CarouselService, useClass: MockCarouselService }],
-}).compileComponents();
+        TestChildComponent,
+      ],
+      providers: [{ provide: CarouselService, useClass: MockCarouselService }],
+    }).compileComponents();
 
     service = TestBed.inject(CarouselService);
     spyOn(service, 'getItemsPerSlide').and.returnValue(of(2));

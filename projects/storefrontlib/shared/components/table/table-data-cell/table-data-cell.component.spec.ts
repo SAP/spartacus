@@ -10,21 +10,21 @@ describe('TableDataCellComponent', () => {
   describe('static field', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-    imports: [I18nTestingModule, TableDataCellComponent],
-    providers: [
-        {
+        imports: [I18nTestingModule, TableDataCellComponent],
+        providers: [
+          {
             provide: OutletContextData,
             useValue: {
-                context: {
-                    _type: 'table',
-                    _field: 'name',
-                    name: 'the name',
-                    code: 'the code',
-                },
+              context: {
+                _type: 'table',
+                _field: 'name',
+                name: 'the name',
+                code: 'the code',
+              },
             },
-        },
-    ],
-}).compileComponents();
+          },
+        ],
+      }).compileComponents();
     });
 
     beforeEach(() => {

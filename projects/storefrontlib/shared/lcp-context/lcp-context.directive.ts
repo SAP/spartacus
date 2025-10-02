@@ -42,7 +42,7 @@ interface LcpContextDirectiveTemplateContext {
  *   <cx-media [fetchPriority]="lcpContext.fetchPriority$ | async">
  * </ng-container>
  */
-@Directive({ selector: '[cxLcpContext]', })
+@Directive({ selector: '[cxLcpContext]' })
 export class LcpContextDirective implements OnInit {
   protected readonly lcpPresence$ = inject(LCP_PRESENCE);
   protected readonly lcpPresenceMappingService = inject(

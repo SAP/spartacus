@@ -45,12 +45,12 @@ describe('ClearCartComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ClearCartComponent],
-    providers: [
+      imports: [I18nTestingModule, ClearCartComponent],
+      providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-    ],
-})
+      ],
+    })
       .overrideComponent(ClearCartComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })

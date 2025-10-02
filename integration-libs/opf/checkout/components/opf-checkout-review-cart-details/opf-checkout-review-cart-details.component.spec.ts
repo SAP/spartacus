@@ -20,20 +20,20 @@ import {
   Directive,
 } from '@angular/core';
 
-@Directive({ selector: '[cxOutlet]', })
+@Directive({ selector: '[cxOutlet]' })
 class MockOutletDirective {
   @Input() cxOutlet: string;
   @Input() cxOutletContext: any;
 }
 
-@Pipe({ name: 'cxTranslate', })
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
 @Component({
-    selector: 'cx-cart-item-list',
-    template: '',
+  selector: 'cx-cart-item-list',
+  template: '',
 })
 class MockCartItemListComponent {
   @Input() items: OrderEntry[];
@@ -42,16 +42,16 @@ class MockCartItemListComponent {
 }
 
 @Component({
-    selector: 'cx-order-summary',
-    template: '',
+  selector: 'cx-order-summary',
+  template: '',
 })
 class MockOrderSummaryComponent {
   @Input() cart: Cart;
 }
 
 @Component({
-    selector: 'cx-applied-coupons',
-    template: '',
+  selector: 'cx-applied-coupons',
+  template: '',
 })
 class MockAppliedCouponsComponent {
   @Input() cart: Cart;
@@ -59,8 +59,8 @@ class MockAppliedCouponsComponent {
 }
 
 @Component({
-    selector: 'cx-promotions',
-    template: '',
+  selector: 'cx-promotions',
+  template: '',
 })
 class MockPromotionsComponent {
   @Input() promotions: any[];
@@ -110,14 +110,16 @@ describe('OpfCheckoutReviewCartDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [OpfCheckoutReviewCartDetailsComponent,
+      imports: [
+        OpfCheckoutReviewCartDetailsComponent,
         MockCartItemListComponent,
         MockOrderSummaryComponent,
         MockAppliedCouponsComponent,
         MockPromotionsComponent,
         MockTranslatePipe,
-        MockOutletDirective,],
-}).compileComponents();
+        MockOutletDirective,
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -18,14 +18,10 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { SupplementHashAnchorsPipe } from '../../../shared/pipes/suplement-hash-anchors/supplement-hash-anchors.pipe';
 
 @Component({
-    selector: 'cx-paragraph',
-    templateUrl: './paragraph.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        AsyncPipe,
-        SupplementHashAnchorsPipe,
-    ],
+  selector: 'cx-paragraph',
+  templateUrl: './paragraph.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, AsyncPipe, SupplementHashAnchorsPipe],
 })
 export class ParagraphComponent {
   protected sanitizer = inject(DomSanitizer);

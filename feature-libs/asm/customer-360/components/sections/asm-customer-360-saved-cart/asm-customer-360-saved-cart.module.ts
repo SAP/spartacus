@@ -12,7 +12,12 @@ import { AsmCustomer360ProductListingModule } from '../../asm-customer-360-produ
 import { AsmCustomer360SavedCartComponent } from './asm-customer-360-saved-cart.component';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, AsmCustomer360ProductListingModule, AsmCustomer360SavedCartComponent],
-    exports: [AsmCustomer360SavedCartComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    AsmCustomer360ProductListingModule,
+    AsmCustomer360SavedCartComponent,
+  ],
+  exports: [AsmCustomer360SavedCartComponent],
 })
 export class AsmCustomer360SavedCartModule {}

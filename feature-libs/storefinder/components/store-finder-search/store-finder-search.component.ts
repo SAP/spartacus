@@ -5,7 +5,11 @@
  */
 
 import { Component } from '@angular/core';
-import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { FeatureDirective } from '../../../../projects/core/src/features-config/directives/feature.directive';
@@ -16,19 +20,19 @@ import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe
 import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-store-finder-search',
-    templateUrl: './store-finder-search.component.html',
-    imports: [
-        FeatureDirective,
-        FormsModule,
-        ReactiveFormsModule,
-        IconComponent,
-        RouterLink,
-        NgClass,
-        NgTemplateOutlet,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-store-finder-search',
+  templateUrl: './store-finder-search.component.html',
+  imports: [
+    FeatureDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    IconComponent,
+    RouterLink,
+    NgClass,
+    NgTemplateOutlet,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class StoreFinderSearchComponent {
   searchBox: UntypedFormControl = new UntypedFormControl();

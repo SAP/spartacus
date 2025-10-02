@@ -28,7 +28,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 import { ProductCarouselItemComponent } from './product-carousel-item.component';
 
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -36,15 +36,15 @@ class MockUrlPipe implements PipeTransform {
 class MockRoutingService {}
 class MockProductService {}
 
-@Directive({ selector: '[cxOutlet]', })
+@Directive({ selector: '[cxOutlet]' })
 class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
 }
 
 @Component({
-    selector: 'cx-media',
-    template: '<img>',
-    imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule,],
+  selector: 'cx-media',
+  template: '<img>',
+  imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -80,25 +80,30 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule, ProductCarouselItemComponent,
+      imports: [
+        I18nTestingModule,
+        OutletModule,
+        LcpContextDirectiveModule,
+        ProductCarouselItemComponent,
         MockUrlPipe,
         MockOutletDirective,
-        MockMediaComponent],
-    providers: [
+        MockMediaComponent,
+      ],
+      providers: [
         {
-            provide: LCP_PRESENCE,
-            useValue: mockLcpPresence$,
+          provide: LCP_PRESENCE,
+          useValue: mockLcpPresence$,
         },
         {
-            provide: RoutingService,
-            useClass: MockRoutingService,
+          provide: RoutingService,
+          useClass: MockRoutingService,
         },
         {
-            provide: ProductService,
-            useClass: MockProductService,
+          provide: ProductService,
+          useClass: MockProductService,
         },
-    ],
-})
+      ],
+    })
       .overrideComponent(ProductCarouselItemComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

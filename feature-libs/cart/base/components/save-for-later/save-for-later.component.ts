@@ -20,15 +20,15 @@ import { CartItemListComponent } from '../cart-shared/cart-item-list/cart-item-l
 import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 @Component({
-    selector: 'cx-save-for-later',
-    templateUrl: './save-for-later.component.html',
-    imports: [
-        NgIf,
-        CartItemListComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-save-for-later',
+  templateUrl: './save-for-later.component.html',
+  imports: [
+    NgIf,
+    CartItemListComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class SaveForLaterComponent implements OnInit {
   saveForLater$: Observable<Cart>;

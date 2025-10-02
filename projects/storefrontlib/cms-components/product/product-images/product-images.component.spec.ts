@@ -64,9 +64,9 @@ class MockCurrentProductService {
 }
 
 @Component({
-    selector: 'cx-media',
-    template: '',
-    imports: [LcpContextDirectiveModule, FeaturesConfigModule],
+  selector: 'cx-media',
+  template: '',
+  imports: [LcpContextDirectiveModule, FeaturesConfigModule],
 })
 class MockMediaComponent {
   @Input() container;
@@ -74,8 +74,8 @@ class MockMediaComponent {
 }
 
 @Component({
-    selector: 'cx-carousel',
-    template: `
+  selector: 'cx-carousel',
+  template: `
     cx-carousel
     <ng-container *ngFor="let item$ of items">
       <ng-container
@@ -83,7 +83,7 @@ class MockMediaComponent {
       ></ng-container>
     </ng-container>
   `,
-    imports: [LcpContextDirectiveModule, FeaturesConfigModule],
+  imports: [LcpContextDirectiveModule, FeaturesConfigModule],
 })
 class MockCarouselComponent {
   @Input() items;
@@ -93,8 +93,8 @@ class MockCarouselComponent {
 }
 
 @Component({
-    selector: 'cx-carousel-scrolling',
-    template: `
+  selector: 'cx-carousel-scrolling',
+  template: `
     cx-carousel-scrolling
     <ng-container *ngFor="let item$ of items">
       <ng-container
@@ -102,7 +102,7 @@ class MockCarouselComponent {
       ></ng-container>
     </ng-container>
   `,
-    imports: [LcpContextDirectiveModule, FeaturesConfigModule],
+  imports: [LcpContextDirectiveModule, FeaturesConfigModule],
 })
 class MockCarouselScrollingComponent {
   @Input() items;
@@ -140,22 +140,26 @@ describe('ProductImagesComponent', () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
-    imports: [LcpContextDirectiveModule, FeaturesConfigModule, ProductImagesComponent,
+      imports: [
+        LcpContextDirectiveModule,
+        FeaturesConfigModule,
+        ProductImagesComponent,
         MockMediaComponent,
         MockCarouselComponent,
-        MockCarouselScrollingComponent],
-    providers: [
+        MockCarouselScrollingComponent,
+      ],
+      providers: [
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
-            provide: LCP_PRESENCE,
-            useValue: mockLcpPresence$,
+          provide: LCP_PRESENCE,
+          useValue: mockLcpPresence$,
         },
         {
-            provide: CurrentProductService,
-            useClass: MockCurrentProductService,
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     currentProductService = TestBed.inject(CurrentProductService);
   }));

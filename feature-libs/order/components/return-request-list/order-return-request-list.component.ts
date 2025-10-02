@@ -24,23 +24,23 @@ import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mo
 import { MockDatePipe } from '../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-order-return-request-list',
-    templateUrl: './order-return-request-list.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        SortingComponent,
-        PaginationComponent,
-        FeatureDirective,
-        NgFor,
-        RouterLink,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        CxDatePipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-order-return-request-list',
+  templateUrl: './order-return-request-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    SortingComponent,
+    PaginationComponent,
+    FeatureDirective,
+    NgFor,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    CxDatePipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class OrderReturnRequestListComponent implements OnDestroy {
   constructor(

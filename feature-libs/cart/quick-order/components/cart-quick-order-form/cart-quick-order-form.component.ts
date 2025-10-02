@@ -10,7 +10,12 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
@@ -31,19 +36,19 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-cart-quick-order-form',
-    templateUrl: './cart-quick-order-form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        FormRequiredAsterisksComponent,
-        FeatureDirective,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-cart-quick-order-form',
+  templateUrl: './cart-quick-order-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    FeatureDirective,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   quickOrderForm: UntypedFormGroup;

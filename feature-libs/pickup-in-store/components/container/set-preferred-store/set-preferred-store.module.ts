@@ -16,14 +16,20 @@ import {
 import { SetPreferredStoreComponent } from './set-preferred-store.component';
 
 @NgModule({
-    imports: [CommonModule, IconModule, I18nModule, FeaturesConfigModule, SetPreferredStoreComponent],
-    exports: [SetPreferredStoreComponent],
-    providers: [
-        provideOutlet({
-            id: StoreFinderOutlets.PREFERRED_STORE,
-            position: OutletPosition.REPLACE,
-            component: SetPreferredStoreComponent,
-        }),
-    ],
+  imports: [
+    CommonModule,
+    IconModule,
+    I18nModule,
+    FeaturesConfigModule,
+    SetPreferredStoreComponent,
+  ],
+  exports: [SetPreferredStoreComponent],
+  providers: [
+    provideOutlet({
+      id: StoreFinderOutlets.PREFERRED_STORE,
+      position: OutletPosition.REPLACE,
+      component: SetPreferredStoreComponent,
+    }),
+  ],
 })
 export class SetPreferredStoreModule {}

@@ -32,18 +32,20 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-@Directive({ selector: '[cxFocus]', })
+@Directive({ selector: '[cxFocus]' })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule,
-        ReactiveFormsModule,
-        FormErrorsModule,
-        FileUploadModule,],
+  selector: 'cx-icon',
+  template: '',
+  imports: [
+    I18nTestingModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    FileUploadModule,
+  ],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -56,7 +58,7 @@ describe('CustomerTicketingReopenDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [
+      imports: [
         I18nTestingModule,
         ReactiveFormsModule,
         FormErrorsModule,
@@ -64,16 +66,16 @@ describe('CustomerTicketingReopenDialogComponent', () => {
         CustomerTicketingReopenDialogComponent,
         MockKeyboadFocusDirective,
         MockCxIconComponent,
-    ],
-    providers: [
+      ],
+      providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-            provide: CustomerTicketingFacade,
-            useClass: MockCustomerTicketingFacade,
+          provide: CustomerTicketingFacade,
+          useClass: MockCustomerTicketingFacade,
         },
         { provide: RoutingService, useClass: MockRoutingService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
   });

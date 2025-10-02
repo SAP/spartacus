@@ -12,13 +12,9 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-login-register',
-    templateUrl: './login-register.component.html',
-    imports: [
-        NgClass,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-login-register',
+  templateUrl: './login-register.component.html',
+  imports: [NgClass, TranslatePipe, MockTranslatePipe],
 })
 export class LoginRegisterComponent implements OnInit {
   loginAsGuest = false;

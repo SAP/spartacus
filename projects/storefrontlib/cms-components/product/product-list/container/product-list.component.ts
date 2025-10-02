@@ -15,7 +15,10 @@ import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, skip, take } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms-structure/page/index';
 import { ViewConfig } from '../../../../shared/config/view-config';
-import { ViewModes, ProductViewComponent } from '../product-view/product-view.component';
+import {
+  ViewModes,
+  ProductViewComponent,
+} from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { SortingComponent } from '../../../../shared/components/list-navigation/sorting/sorting.component';
@@ -27,21 +30,21 @@ import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-product-list',
-    templateUrl: './product-list.component.html',
-    imports: [
-        NgIf,
-        SortingComponent,
-        PaginationComponent,
-        ProductViewComponent,
-        NgFor,
-        ProductGridItemComponent,
-        ProductListItemComponent,
-        ProductScrollComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-product-list',
+  templateUrl: './product-list.component.html',
+  imports: [
+    NgIf,
+    SortingComponent,
+    PaginationComponent,
+    ProductViewComponent,
+    NgFor,
+    ProductGridItemComponent,
+    ProductListItemComponent,
+    ProductScrollComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ProductListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

@@ -7,8 +7,8 @@ describe('MultiStepCheckoutOrchestratorComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [CheckoutOrchestratorComponent],
-}).compileComponents();
+      imports: [CheckoutOrchestratorComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

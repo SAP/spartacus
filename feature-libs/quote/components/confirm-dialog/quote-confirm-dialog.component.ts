@@ -33,20 +33,20 @@ import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mo
 import { MockDatePipe } from '../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-quote-confirm-dialog',
-    templateUrl: './quote-confirm-dialog.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [CxDatePipe],
-    imports: [
-        FocusDirective,
-        NgIf,
-        IconComponent,
-        AsyncPipe,
-        TranslatePipe,
-        CxDatePipe_1,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-quote-confirm-dialog',
+  templateUrl: './quote-confirm-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CxDatePipe],
+  imports: [
+    FocusDirective,
+    NgIf,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe_1,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class QuoteConfirmDialogComponent implements OnInit {
   protected launchDialogService = inject(LaunchDialogService);

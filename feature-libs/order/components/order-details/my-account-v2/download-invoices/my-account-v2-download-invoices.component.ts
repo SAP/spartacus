@@ -28,18 +28,18 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-my-account-v2-download-invoices',
-    templateUrl: './my-account-v2-download-invoices.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FocusDirective,
-        IconComponent,
-        InvoicesListComponent_1,
-        NgIf,
-        SpinnerComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-my-account-v2-download-invoices',
+  templateUrl: './my-account-v2-download-invoices.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FocusDirective,
+    IconComponent,
+    InvoicesListComponent_1,
+    NgIf,
+    SpinnerComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class MyAccountV2DownloadInvoicesComponent implements AfterViewChecked {
   @ViewChild(InvoicesListComponent, { static: false })

@@ -15,7 +15,12 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   Config,
@@ -42,21 +47,21 @@ import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/test
 const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
 
 @Component({
-    selector: 'cx-quick-order-form',
-    templateUrl: './quick-order-form.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        NgIf,
-        IconComponent,
-        NgFor,
-        FeatureDirective,
-        MediaComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-quick-order-form',
+  templateUrl: './quick-order-form.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    IconComponent,
+    NgFor,
+    FeatureDirective,
+    MediaComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class QuickOrderFormComponent implements OnInit, OnDestroy {
   form: UntypedFormGroup;

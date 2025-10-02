@@ -25,29 +25,29 @@ import {
 import { InvoicesListComponent } from './invoices-list/invoices-list.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        DatePickerModule,
-        I18nModule,
-        ReactiveFormsModule,
-        ListNavigationModule,
-        UrlModule,
-        IconModule,
-        MediaModule,
-        SpinnerModule,
-        FeaturesConfigModule,
-        InvoicesListComponent,
-    ],
-    exports: [InvoicesListComponent],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                AccountOrderDetailsPDFInvoicesComponent: {
-                    component: InvoicesListComponent,
-                    guards: [AuthGuard],
-                },
-            },
-        }),
-    ],
+  imports: [
+    CommonModule,
+    DatePickerModule,
+    I18nModule,
+    ReactiveFormsModule,
+    ListNavigationModule,
+    UrlModule,
+    IconModule,
+    MediaModule,
+    SpinnerModule,
+    FeaturesConfigModule,
+    InvoicesListComponent,
+  ],
+  exports: [InvoicesListComponent],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        AccountOrderDetailsPDFInvoicesComponent: {
+          component: InvoicesListComponent,
+          guards: [AuthGuard],
+        },
+      },
+    }),
+  ],
 })
 export class PDFInvoicesComponentsModule {}

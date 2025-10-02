@@ -9,9 +9,9 @@ import { NavigationService } from '../navigation/navigation.service';
 import { CategoryNavigationComponent } from './category-navigation.component';
 
 @Component({
-    template: '',
-    selector: 'cx-navigation-ui',
-    imports: [I18nTestingModule],
+  template: '',
+  selector: 'cx-navigation-ui',
+  imports: [I18nTestingModule],
 })
 class MockNavigationComponent {
   @Input() node: NavigationNode;
@@ -59,18 +59,22 @@ describe('CategoryNavigationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, CategoryNavigationComponent, MockNavigationComponent],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        CategoryNavigationComponent,
+        MockNavigationComponent,
+      ],
+      providers: [
         {
-            provide: NavigationService,
-            useValue: mockNavigationService,
+          provide: NavigationService,
+          useValue: mockNavigationService,
         },
         {
-            provide: CmsComponentData,
-            useValue: MockCmsNavigationComponent,
+          provide: CmsComponentData,
+          useValue: MockCmsNavigationComponent,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

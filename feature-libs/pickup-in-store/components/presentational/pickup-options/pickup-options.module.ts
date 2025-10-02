@@ -12,14 +12,14 @@ import { PickupOptionsComponent } from './pickup-options.component';
 import { TabModule } from '@spartacus/storefront';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        ReactiveFormsModule,
-        FeaturesConfigModule,
-        TabModule,
-        PickupOptionsComponent,
-    ],
-    exports: [PickupOptionsComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    ReactiveFormsModule,
+    FeaturesConfigModule,
+    TabModule,
+    PickupOptionsComponent,
+  ],
+  exports: [PickupOptionsComponent],
 })
 export class PickupOptionsModule {}

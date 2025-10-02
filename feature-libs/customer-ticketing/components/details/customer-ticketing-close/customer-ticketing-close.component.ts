@@ -22,14 +22,9 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-customer-ticketing-close',
-    templateUrl: './customer-ticketing-close.component.html',
-    imports: [
-        NgIf,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-customer-ticketing-close',
+  templateUrl: './customer-ticketing-close.component.html',
+  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class CustomerTicketingCloseComponent implements OnDestroy {
   protected subscription = new Subscription();

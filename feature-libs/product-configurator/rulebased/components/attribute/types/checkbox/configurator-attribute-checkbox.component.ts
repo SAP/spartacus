@@ -5,7 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
@@ -17,19 +21,19 @@ import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-s
 import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
 
 @Component({
-    selector: 'cx-configurator-attribute-checkbox',
-    templateUrl: './configurator-attribute-checkbox.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [ConfiguratorAttributePriceChangeService],
-    imports: [
-        NgIf,
-        FormsModule,
-        FocusDirective,
-        ReactiveFormsModule,
-        ConfiguratorShowMoreComponent,
-        ConfiguratorPriceComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-configurator-attribute-checkbox',
+  templateUrl: './configurator-attribute-checkbox.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfiguratorAttributePriceChangeService],
+  imports: [
+    NgIf,
+    FormsModule,
+    FocusDirective,
+    ReactiveFormsModule,
+    ConfiguratorShowMoreComponent,
+    ConfiguratorPriceComponent,
+    AsyncPipe,
+  ],
 })
 export class ConfiguratorAttributeCheckBoxComponent
   extends ConfiguratorAttributeBaseComponent

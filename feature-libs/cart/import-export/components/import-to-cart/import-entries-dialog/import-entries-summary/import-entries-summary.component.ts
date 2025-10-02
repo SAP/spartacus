@@ -16,25 +16,31 @@ import {
   ProductImportSummary,
 } from '@spartacus/cart/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault, NgFor } from '@angular/common';
+import {
+  NgIf,
+  NgSwitch,
+  NgSwitchCase,
+  NgSwitchDefault,
+  NgFor,
+} from '@angular/common';
 import { IconComponent } from '../../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
 import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-import-entries-summary',
-    templateUrl: './import-entries-summary.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgSwitch,
-        NgSwitchCase,
-        NgSwitchDefault,
-        IconComponent,
-        NgFor,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-import-entries-summary',
+  templateUrl: './import-entries-summary.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgSwitch,
+    NgSwitchCase,
+    NgSwitchDefault,
+    IconComponent,
+    NgFor,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ImportEntriesSummaryComponent {
   iconTypes = ICON_TYPE;

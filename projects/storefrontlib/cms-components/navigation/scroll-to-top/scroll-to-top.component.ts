@@ -27,14 +27,10 @@ import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-scroll-to-top',
-    templateUrl: './scroll-to-top.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        IconComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-scroll-to-top',
+  templateUrl: './scroll-to-top.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IconComponent, TranslatePipe, MockTranslatePipe],
 })
 export class ScrollToTopComponent implements OnInit {
   iconTypes = ICON_TYPE;

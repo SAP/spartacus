@@ -33,24 +33,24 @@ import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing
 import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-customer-ticketing-list',
-    templateUrl: './customer-ticketing-list.component.html',
-    imports: [
-        NgIf,
-        SortingComponent,
-        CustomerTicketingCreateComponent,
-        NgFor,
-        RouterLink,
-        NgClass,
-        PaginationComponent,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        CxDatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-customer-ticketing-list',
+  templateUrl: './customer-ticketing-list.component.html',
+  imports: [
+    NgIf,
+    SortingComponent,
+    CustomerTicketingCreateComponent,
+    NgFor,
+    RouterLink,
+    NgClass,
+    PaginationComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class CustomerTicketingListComponent {
   constructor(

@@ -30,9 +30,10 @@ class MockUserChangePasswordFormService {
   getForm() {}
 }
 
-@Directive({ 
-    // eslint-disable-next-line @angular-eslint/directive-selector
-    selector: '[cxFocus]', })
+@Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
+  selector: '[cxFocus]',
+})
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -44,7 +45,7 @@ describe('UserChangePasswordFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         I18nTestingModule,
         UrlTestingModule,
         ReactiveFormsModule,
@@ -54,19 +55,19 @@ describe('UserChangePasswordFormComponent', () => {
         FormErrorsComponent,
         MockKeyboadFocusDirective,
         MockFeatureDirective,
-    ],
-    providers: [
+      ],
+      providers: [
         {
-            provide: UserItemService,
-            useClass: MockUserItemService,
+          provide: UserItemService,
+          useClass: MockUserItemService,
         },
         {
-            provide: UserChangePasswordFormService,
-            useClass: MockUserChangePasswordFormService,
+          provide: UserChangePasswordFormService,
+          useClass: MockUserChangePasswordFormService,
         },
         MessageService,
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
     formService = TestBed.inject(UserChangePasswordFormService);
 
     fixture = TestBed.createComponent(UserChangePasswordFormComponent);

@@ -4,7 +4,8 @@ import { By } from '@angular/platform-browser';
 import { SelectFocusUtility } from '../services';
 import { TabFocusService } from './tab-focus.service';
 
-@Component({ template: `
+@Component({
+  template: `
     <div id="a">
       <button id="a1"></button>
       <button id="a2"></button>
@@ -20,7 +21,8 @@ import { TabFocusService } from './tab-focus.service';
       <button id="b5"></button>
     </div>
     <div id="c"></div>
-  `, })
+  `,
+})
 class MockComponent {}
 
 class MockSelectFocusUtility {
@@ -34,15 +36,15 @@ describe('TabFocusService', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [MockComponent],
-    providers: [
+      imports: [MockComponent],
+      providers: [
         TabFocusService,
         {
-            provide: SelectFocusUtility,
-            useClass: MockSelectFocusUtility,
+          provide: SelectFocusUtility,
+          useClass: MockSelectFocusUtility,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     service = TestBed.inject(TabFocusService);
     fixture = TestBed.createComponent(MockComponent);

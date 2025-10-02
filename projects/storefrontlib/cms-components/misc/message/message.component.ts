@@ -21,16 +21,16 @@ import { AtMessageDirective } from '../../../shared/components/assistive-technol
 import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 @Component({
-    selector: 'cx-message',
-    templateUrl: './message.component.html',
-    imports: [
-        NgClass,
-        IconComponent,
-        NgIf,
-        AtMessageDirective,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-message',
+  templateUrl: './message.component.html',
+  imports: [
+    NgClass,
+    IconComponent,
+    NgIf,
+    AtMessageDirective,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class MessageComponent implements AfterViewInit {
   @Input()

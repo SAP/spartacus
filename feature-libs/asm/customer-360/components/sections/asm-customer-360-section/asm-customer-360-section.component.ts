@@ -21,16 +21,16 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
 import { NgComponentOutlet } from '@angular/common';
 
 @Component({
-    selector: 'cx-asm-customer-360-section',
-    templateUrl: './asm-customer-360-section.component.html',
-    providers: [
-        AsmCustomer360SectionContextSource,
-        {
-            provide: AsmCustomer360SectionContext,
-            useExisting: AsmCustomer360SectionContextSource,
-        },
-    ],
-    imports: [NgComponentOutlet],
+  selector: 'cx-asm-customer-360-section',
+  templateUrl: './asm-customer-360-section.component.html',
+  providers: [
+    AsmCustomer360SectionContextSource,
+    {
+      provide: AsmCustomer360SectionContext,
+      useExisting: AsmCustomer360SectionContextSource,
+    },
+  ],
+  imports: [NgComponentOutlet],
 })
 export class AsmCustomer360SectionComponent implements OnDestroy {
   @Input()

@@ -39,24 +39,24 @@ import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/test
 import { MockDatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-account-summary-document',
-    templateUrl: './account-summary-document.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        AccountSummaryDocumentFilterComponent,
-        SortingComponent,
-        PaginationComponent,
-        FeatureDirective,
-        IconComponent,
-        NgFor,
-        NgClass,
-        AsyncPipe,
-        TranslatePipe,
-        CxDatePipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-account-summary-document',
+  templateUrl: './account-summary-document.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    AccountSummaryDocumentFilterComponent,
+    SortingComponent,
+    PaginationComponent,
+    FeatureDirective,
+    IconComponent,
+    NgFor,
+    NgClass,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
   /* For Enum use in HTML */

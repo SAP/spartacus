@@ -23,31 +23,31 @@ import { ConfiguratorAttributeNumericInputFieldModule } from '../numeric-input-f
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ConfiguratorAttributeQuantityModule,
-        FormsModule,
-        I18nModule,
-        KeyboardFocusModule,
-        NgSelectModule,
-        ReactiveFormsModule,
-        ConfiguratorPriceModule,
-        ConfiguratorAttributeNumericInputFieldModule,
-        ConfiguratorAttributeInputFieldModule,
-        ConfiguratorShowMoreModule,
-        FeaturesConfigModule,
-        ConfiguratorAttributeDropDownComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
-            productConfigurator: {
-                assignment: {
-                    AttributeType_dropdown: ConfiguratorAttributeDropDownComponent,
-                    AttributeType_dropdown_add: ConfiguratorAttributeDropDownComponent,
-                },
-            },
-        }),
-    ],
-    exports: [ConfiguratorAttributeDropDownComponent],
+  imports: [
+    CommonModule,
+    ConfiguratorAttributeQuantityModule,
+    FormsModule,
+    I18nModule,
+    KeyboardFocusModule,
+    NgSelectModule,
+    ReactiveFormsModule,
+    ConfiguratorPriceModule,
+    ConfiguratorAttributeNumericInputFieldModule,
+    ConfiguratorAttributeInputFieldModule,
+    ConfiguratorShowMoreModule,
+    FeaturesConfigModule,
+    ConfiguratorAttributeDropDownComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+      productConfigurator: {
+        assignment: {
+          AttributeType_dropdown: ConfiguratorAttributeDropDownComponent,
+          AttributeType_dropdown_add: ConfiguratorAttributeDropDownComponent,
+        },
+      },
+    }),
+  ],
+  exports: [ConfiguratorAttributeDropDownComponent],
 })
 export class ConfiguratorAttributeDropDownModule {}

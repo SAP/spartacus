@@ -9,12 +9,12 @@ const mockCmsMappingService = {
   getComponentMapping: () => ({ component: TestComponent }),
 };
 
-@Component({ template: '', })
+@Component({ template: '' })
 class WrapperComponent {
   constructor(public vcr: ViewContainerRef) {}
 }
 
-@Component({ template: 'testComponent', })
+@Component({ template: 'testComponent' })
 class TestComponent {}
 
 describe('DefaultComponentHandler', () => {
@@ -22,14 +22,14 @@ describe('DefaultComponentHandler', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [TestComponent, WrapperComponent],
-    providers: [
+      imports: [TestComponent, WrapperComponent],
+      providers: [
         {
-            provide: CmsComponentsService,
-            useValue: mockCmsMappingService,
+          provide: CmsComponentsService,
+          useValue: mockCmsMappingService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
     handler = TestBed.inject(DefaultComponentHandler);
   });
 

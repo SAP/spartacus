@@ -10,9 +10,9 @@ import { AddToHomeScreenComponent } from '../add-to-home-screen.component';
 import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'cx-add-to-home-screen-btn',
-    templateUrl: './add-to-home-screen-btn.component.html',
-    imports: [NgIf, AsyncPipe],
+  selector: 'cx-add-to-home-screen-btn',
+  templateUrl: './add-to-home-screen-btn.component.html',
+  imports: [NgIf, AsyncPipe],
 })
 export class AddToHomeScreenBtnComponent extends AddToHomeScreenComponent {
   constructor(protected addToHomeScreenService: AddToHomeScreenService) {

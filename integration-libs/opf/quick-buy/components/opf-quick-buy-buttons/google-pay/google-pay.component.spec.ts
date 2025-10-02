@@ -35,12 +35,12 @@ describe('OpfGooglePayComponent', () => {
     mockOpfGooglePayService = new MockOpfGooglePayService();
 
     TestBed.configureTestingModule({
-    imports: [OpfGooglePayComponent],
-    providers: [
+      imports: [OpfGooglePayComponent],
+      providers: [
         { provide: OpfGooglePayService, useValue: mockOpfGooglePayService },
         { provide: ChangeDetectorRef, useValue: mockChangeDetectorRef },
-    ],
-})
+      ],
+    })
       .overrideComponent(OpfGooglePayComponent, {
         set: { changeDetection: ChangeDetectionStrategy.OnPush },
       })

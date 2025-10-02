@@ -64,10 +64,10 @@ class MockConfiguratorCommonsService {
 }
 
 @Component({
-    selector: 'cx-configurator-attribute-single-selection',
-    template: 'test-configurator-attribute-single-selection',
-    providers: [ConfiguratorAttributePriceChangeService],
-    imports: [I18nTestingModule],
+  selector: 'cx-configurator-attribute-single-selection',
+  template: 'test-configurator-attribute-single-selection',
+  providers: [ConfiguratorAttributePriceChangeService],
+  imports: [I18nTestingModule],
 })
 class ExampleConfiguratorAttributeSingleSelectionComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
   constructor(
@@ -100,24 +100,24 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         I18nTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
         ExampleConfiguratorAttributeSingleSelectionComponent,
-    ],
-    providers: [
+      ],
+      providers: [
         ConfiguratorAttributeQuantityService,
         {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
         {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

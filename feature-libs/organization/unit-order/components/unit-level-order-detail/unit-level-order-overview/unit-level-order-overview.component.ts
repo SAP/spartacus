@@ -24,16 +24,10 @@ import { CxDatePipe } from '../../../../../../projects/core/src/i18n/date.pipe';
 import { MockDatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-unit-level-order-overview',
-    templateUrl: './unit-level-order-overview.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        CardComponent,
-        AsyncPipe,
-        CxDatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-unit-level-order-overview',
+  templateUrl: './unit-level-order-overview.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, CardComponent, AsyncPipe, CxDatePipe, MockDatePipe],
 })
 export class UnitLevelOrderOverviewComponent implements OnInit {
   constructor(

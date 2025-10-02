@@ -27,27 +27,27 @@ import { TranslatePipe } from '../../../../../../../../projects/core/src/i18n/tr
 import { MockTranslatePipe } from '../../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-unit-address-details',
-    templateUrl: './unit-address-details.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'content-wrapper' },
-    providers: [
-        {
-            provide: ItemService,
-            useExisting: UnitAddressItemService,
-        },
-    ],
-    imports: [
-        NgIf,
-        CardComponent,
-        FocusDirective,
-        RouterLink,
-        DeleteItemComponent,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-unit-address-details',
+  templateUrl: './unit-address-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
+  providers: [
+    {
+      provide: ItemService,
+      useExisting: UnitAddressItemService,
+    },
+  ],
+  imports: [
+    NgIf,
+    CardComponent,
+    FocusDirective,
+    RouterLink,
+    DeleteItemComponent,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class UnitAddressDetailsComponent {
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService.item$;

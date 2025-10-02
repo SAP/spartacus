@@ -11,15 +11,10 @@ import { RouterLink } from '@angular/router';
 import { UrlPipe } from '../../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
 
 @Component({
-    selector: 'cx-org-active-link-cell',
-    templateUrl: '../cell.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        RouterLink,
-        NgTemplateOutlet,
-        UrlPipe,
-    ],
+  selector: 'cx-org-active-link-cell',
+  templateUrl: '../cell.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, RouterLink, NgTemplateOutlet, UrlPipe],
 })
 export class ActiveLinkCellComponent extends CellComponent {
   get tabIndex() {

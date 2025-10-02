@@ -14,13 +14,9 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { CardComponent } from '../../../../../../projects/storefrontlib/shared/components/card/card.component';
 
 @Component({
-    selector: 'cx-opf-payment-method-details',
-    templateUrl: './opf-payment-method-details.component.html',
-    imports: [
-        NgIf,
-        CardComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-opf-payment-method-details',
+  templateUrl: './opf-payment-method-details.component.html',
+  imports: [NgIf, CardComponent, AsyncPipe],
 })
 export class OpfPaymentMethodDetailsComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);

@@ -30,9 +30,9 @@ import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-
 import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
 
 @Component({
-    template: '',
-    selector: 'cx-pagination',
-    imports: [I18nTestingModule, OpfCheckoutTermsAndConditionsAlertModule],
+  template: '',
+  selector: 'cx-pagination',
+  imports: [I18nTestingModule, OpfCheckoutTermsAndConditionsAlertModule],
 })
 class MockPaginationComponent {
   @Input() pagination: PaginationModel;
@@ -40,9 +40,9 @@ class MockPaginationComponent {
 }
 
 @Component({
-    template: '',
-    selector: 'cx-opf-checkout-payment-wrapper',
-    imports: [I18nTestingModule, OpfCheckoutTermsAndConditionsAlertModule],
+  template: '',
+  selector: 'cx-opf-checkout-payment-wrapper',
+  imports: [I18nTestingModule, OpfCheckoutTermsAndConditionsAlertModule],
 })
 class MockOpfCheckoutPaymentWrapperComponent {}
 
@@ -116,21 +116,25 @@ describe('OpfCheckoutPaymentsComponent', () => {
       of(mockOpfMetadata)
     );
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, OpfCheckoutTermsAndConditionsAlertModule, OpfCheckoutPaymentsComponent,
+      imports: [
+        I18nTestingModule,
+        OpfCheckoutTermsAndConditionsAlertModule,
+        OpfCheckoutPaymentsComponent,
         MockOpfCheckoutPaymentWrapperComponent,
-        MockPaginationComponent],
-    providers: [
+        MockPaginationComponent,
+      ],
+      providers: [
         {
-            provide: OpfBaseFacade,
-            useClass: MockOpfBaseFacade,
+          provide: OpfBaseFacade,
+          useClass: MockOpfBaseFacade,
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         {
-            provide: OpfMetadataStoreService,
-            useValue: opfMetadataStoreServiceMock,
+          provide: OpfMetadataStoreService,
+          useValue: opfMetadataStoreServiceMock,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(OpfCheckoutPaymentsComponent);
     component = fixture.componentInstance;

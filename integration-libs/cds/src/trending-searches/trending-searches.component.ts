@@ -27,18 +27,18 @@ import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mo
 const MAX_TRENDING_SEARCHES = 5;
 
 @Component({
-    selector: 'cx-trending-searches',
-    templateUrl: './trending-searches.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        RouterLink,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-trending-searches',
+  templateUrl: './trending-searches.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgFor,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class TrendingSearchesComponent implements OnInit {
   public searchPhrases$: Observable<SearchPhrases[]>;

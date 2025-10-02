@@ -17,16 +17,16 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-opf-b2b-checkout-place-order',
-    templateUrl: './opf-b2b-checkout-place-order.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        AtMessageDirective,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-opf-b2b-checkout-place-order',
+  templateUrl: './opf-b2b-checkout-place-order.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    AtMessageDirective,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class OpfB2bCheckoutPlaceOrderComponent
   extends CheckoutPlaceOrderComponent

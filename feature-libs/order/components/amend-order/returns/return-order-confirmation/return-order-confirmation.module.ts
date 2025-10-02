@@ -21,30 +21,30 @@ import { OrderReturnService } from '../order-return.service';
 import { ReturnOrderConfirmationComponent } from './return-order-confirmation.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        AmendOrderItemsModule,
-        I18nModule,
-        ReactiveFormsModule,
-        AmendOrderActionsModule,
-        ReturnOrderConfirmationComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                ReturnOrderConfirmationComponent: {
-                    component: ReturnOrderConfirmationComponent,
-                    guards: [AuthGuard, OrderReturnGuard],
-                    providers: [
-                        {
-                            provide: OrderAmendService,
-                            useExisting: OrderReturnService,
-                        },
-                    ],
-                },
+  imports: [
+    CommonModule,
+    AmendOrderItemsModule,
+    I18nModule,
+    ReactiveFormsModule,
+    AmendOrderActionsModule,
+    ReturnOrderConfirmationComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ReturnOrderConfirmationComponent: {
+          component: ReturnOrderConfirmationComponent,
+          guards: [AuthGuard, OrderReturnGuard],
+          providers: [
+            {
+              provide: OrderAmendService,
+              useExisting: OrderReturnService,
             },
-        }),
-    ],
-    exports: [ReturnOrderConfirmationComponent],
+          ],
+        },
+      },
+    }),
+  ],
+  exports: [ReturnOrderConfirmationComponent],
 })
 export class ReturnOrderConfirmationModule {}

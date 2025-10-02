@@ -6,7 +6,7 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'formatTimer', })
+@Pipe({ name: 'formatTimer' })
 export class FormatTimerPipe implements PipeTransform {
   transform(totalSeconds: number): string {
     if (totalSeconds < 0) {

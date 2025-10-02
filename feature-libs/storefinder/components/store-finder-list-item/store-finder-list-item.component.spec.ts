@@ -104,19 +104,19 @@ describe('StoreFinderListItemComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         CommonModule,
         ReactiveFormsModule,
         I18nTestingModule,
         RouterModule.forRoot([]),
         OutletModule,
         StoreFinderListItemComponent,
-    ],
-    providers: [
+      ],
+      providers: [
         provideLocationMocks(),
         { provide: StoreFinderService, useClass: MockStoreFinderService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

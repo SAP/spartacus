@@ -6,10 +6,12 @@ import { SkipLinkConfig, SkipLinkDirective } from '../index';
 const SKIP_KEY_1 = 'Key1';
 const SKIP_KEY_2 = 'Key2';
 
-@Component({ template: `
+@Component({
+  template: `
     <ng-container [cxSkipLink]="'${SKIP_KEY_1}'"></ng-container>
     <div [cxSkipLink]="'${SKIP_KEY_2}'"></div>
-  `, })
+  `,
+})
 class TestContainerComponent {}
 
 describe('SkipLinkDirective', () => {
@@ -18,15 +20,15 @@ describe('SkipLinkDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [TestContainerComponent, SkipLinkDirective],
-    providers: [
+      imports: [TestContainerComponent, SkipLinkDirective],
+      providers: [
         SkipLinkService,
         {
-            provide: SkipLinkConfig,
-            useValue: { skipLinks: [] },
+          provide: SkipLinkConfig,
+          useValue: { skipLinks: [] },
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

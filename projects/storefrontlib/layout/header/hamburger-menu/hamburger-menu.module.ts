@@ -10,16 +10,16 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { HamburgerMenuComponent } from './hamburger-menu.component';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, HamburgerMenuComponent],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                HamburgerMenuComponent: {
-                    component: HamburgerMenuComponent,
-                },
-            },
-        }),
-    ],
-    exports: [HamburgerMenuComponent],
+  imports: [CommonModule, I18nModule, HamburgerMenuComponent],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        HamburgerMenuComponent: {
+          component: HamburgerMenuComponent,
+        },
+      },
+    }),
+  ],
+  exports: [HamburgerMenuComponent],
 })
 export class HamburgerMenuModule {}

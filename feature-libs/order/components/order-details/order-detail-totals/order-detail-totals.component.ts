@@ -12,13 +12,9 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { OutletDirective } from '../../../../../projects/storefrontlib/cms-structure/outlet/outlet.directive';
 
 @Component({
-    selector: 'cx-order-details-totals',
-    templateUrl: './order-detail-totals.component.html',
-    imports: [
-        NgIf,
-        OutletDirective,
-        AsyncPipe,
-    ],
+  selector: 'cx-order-details-totals',
+  templateUrl: './order-detail-totals.component.html',
+  imports: [NgIf, OutletDirective, AsyncPipe],
 })
 export class OrderDetailTotalsComponent implements OnInit {
   constructor(protected orderDetailsService: OrderDetailsService) {}

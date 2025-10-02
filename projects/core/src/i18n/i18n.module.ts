@@ -34,8 +34,8 @@ export function initI18nConfig(
 }
 
 @NgModule({
-    imports: [TranslatePipe, CxDatePipe, CxNumericPipe],
-    exports: [TranslatePipe, CxDatePipe, CxNumericPipe],
+  imports: [TranslatePipe, CxDatePipe, CxNumericPipe],
+  exports: [TranslatePipe, CxDatePipe, CxNumericPipe],
 })
 export class I18nModule {
   static forRoot(): ModuleWithProviders<I18nModule> {

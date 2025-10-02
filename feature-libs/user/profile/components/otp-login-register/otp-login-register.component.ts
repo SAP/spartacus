@@ -5,7 +5,15 @@
  */
 
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormArray,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   AnonymousConsent,
   AnonymousConsentsConfig,
@@ -50,25 +58,25 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-otp-register-form',
-    templateUrl: './otp-login-register.component.html',
-    imports: [
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        NgSelectComponent,
-        NgSelectA11yDirective,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        NgFor,
-        RouterLink,
-        CaptchaComponent,
-        SpinnerComponent,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-otp-register-form',
+  templateUrl: './otp-login-register.component.html',
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    NgFor,
+    RouterLink,
+    CaptchaComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
   protected globalMessageService = inject(GlobalMessageService);

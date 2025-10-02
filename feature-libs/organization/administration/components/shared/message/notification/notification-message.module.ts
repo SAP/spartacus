@@ -11,6 +11,12 @@ import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { NotificationMessageComponent } from './notification-message.component';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, IconModule, KeyboardFocusModule, NotificationMessageComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    KeyboardFocusModule,
+    NotificationMessageComponent,
+  ],
 })
 export class NotificationMessageModule {}

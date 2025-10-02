@@ -14,15 +14,15 @@ import { UnitAddressDetailsComponent } from './unit-address-details.component';
 import { DeleteItemModule } from '../../../../shared/detail/delete-item-action/delete-item.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        CardModule,
-        RouterModule,
-        UrlModule,
-        I18nModule,
-        DeleteItemModule,
-        KeyboardFocusModule,
-        UnitAddressDetailsComponent,
-    ],
+  imports: [
+    CommonModule,
+    CardModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    DeleteItemModule,
+    KeyboardFocusModule,
+    UnitAddressDetailsComponent,
+  ],
 })
 export class UnitAddressDetailsModule {}

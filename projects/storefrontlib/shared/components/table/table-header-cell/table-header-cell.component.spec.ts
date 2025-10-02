@@ -23,20 +23,20 @@ describe('TableHeaderCellComponent', () => {
   describe('static field', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-    imports: [I18nTestingModule, TableHeaderCellComponent],
-    providers: [
-        {
+        imports: [I18nTestingModule, TableHeaderCellComponent],
+        providers: [
+          {
             provide: OutletContextData,
             useValue: {
-                context: {
-                    _type: 'table',
-                    _field: 'name1',
-                    _options: mockOptions,
-                } as TableHeaderOutletContext,
+              context: {
+                _type: 'table',
+                _field: 'name1',
+                _options: mockOptions,
+              } as TableHeaderOutletContext,
             },
-        },
-    ],
-}).compileComponents();
+          },
+        ],
+      }).compileComponents();
     });
 
     beforeEach(() => {
@@ -57,21 +57,21 @@ describe('TableHeaderCellComponent', () => {
   describe('i18n default', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-    imports: [I18nTestingModule, TableHeaderCellComponent],
-    providers: [
-        {
+        imports: [I18nTestingModule, TableHeaderCellComponent],
+        providers: [
+          {
             provide: OutletContextData,
             useValue: {
-                context: {
-                    _type: 'table',
-                    _field: 'name2',
-                    _i18nRoot: 'i18nRoot',
-                    _options: mockOptions,
-                } as TableHeaderOutletContext,
+              context: {
+                _type: 'table',
+                _field: 'name2',
+                _i18nRoot: 'i18nRoot',
+                _options: mockOptions,
+              } as TableHeaderOutletContext,
             },
-        },
-    ],
-}).compileComponents();
+          },
+        ],
+      }).compileComponents();
     });
 
     beforeEach(() => {
@@ -88,20 +88,20 @@ describe('TableHeaderCellComponent', () => {
   describe('i18n field', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-    imports: [I18nTestingModule, TableHeaderCellComponent],
-    providers: [
-        {
+        imports: [I18nTestingModule, TableHeaderCellComponent],
+        providers: [
+          {
             provide: OutletContextData,
             useValue: {
-                context: {
-                    _type: 'table',
-                    _field: 'name3',
-                    _options: mockOptions,
-                } as TableHeaderOutletContext,
+              context: {
+                _type: 'table',
+                _field: 'name3',
+                _options: mockOptions,
+              } as TableHeaderOutletContext,
             },
-        },
-    ],
-}).compileComponents();
+          },
+        ],
+      }).compileComponents();
     });
 
     beforeEach(() => {

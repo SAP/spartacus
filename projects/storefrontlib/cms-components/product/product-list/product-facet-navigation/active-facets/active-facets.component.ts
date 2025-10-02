@@ -27,19 +27,19 @@ import { MockTranslatePipe } from '../../../../../../core/src/i18n/testing/mock-
  * which can be used to remove the applied facet value.
  */
 @Component({
-    selector: 'cx-active-facets',
-    templateUrl: './active-facets.component.html',
-    changeDetection: ChangeDetectionStrategy.Default,
-    imports: [
-        NgIf,
-        NgFor,
-        RouterLink,
-        FocusDirective,
-        IconComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-active-facets',
+  templateUrl: './active-facets.component.html',
+  changeDetection: ChangeDetectionStrategy.Default,
+  imports: [
+    NgIf,
+    NgFor,
+    RouterLink,
+    FocusDirective,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ActiveFacetsComponent {
   @HostBinding('attr.role') role = 'group';

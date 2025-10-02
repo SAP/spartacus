@@ -13,14 +13,14 @@ import { PageComponentModule } from '../../../../cms-structure/page/component/pa
 import { TabPanelComponent } from './tab-panel.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        PageComponentModule,
-        OutletModule,
-        I18nModule,
-        KeyboardFocusModule,
-        TabPanelComponent,
-    ],
-    exports: [TabPanelComponent],
+  imports: [
+    CommonModule,
+    PageComponentModule,
+    OutletModule,
+    I18nModule,
+    KeyboardFocusModule,
+    TabPanelComponent,
+  ],
+  exports: [TabPanelComponent],
 })
 export class TabPanelModule {}

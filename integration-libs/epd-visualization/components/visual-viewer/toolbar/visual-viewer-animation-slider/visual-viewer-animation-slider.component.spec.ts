@@ -5,7 +5,7 @@ import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { VisualViewerAnimationSliderComponent } from './visual-viewer-animation-slider.component';
 
-@Pipe({ name: 'cxNumeric', })
+@Pipe({ name: 'cxNumeric' })
 class MockNumericPipe implements PipeTransform {
   transform(): any {}
 }
@@ -22,14 +22,14 @@ describe('VisualViewerAnimationSliderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [CommonModule, I18nTestingModule, MockNumericPipe],
-    providers: [
+      imports: [CommonModule, I18nTestingModule, MockNumericPipe],
+      providers: [
         {
-            provide: LanguageService,
-            useClass: MockLanguageService,
+          provide: LanguageService,
+          useClass: MockLanguageService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(VisualViewerAnimationSliderComponent);
     visualViewerAnimationSliderComponent = fixture.componentInstance;

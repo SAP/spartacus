@@ -14,16 +14,16 @@ import { FacetModule } from '../facet/facet.module';
 import { FacetListComponent } from './facet-list.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        IconModule,
-        FacetModule,
-        KeyboardFocusModule,
-        FeaturesConfigModule,
-        TabModule,
-        FacetListComponent,
-    ],
-    exports: [FacetListComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    FacetModule,
+    KeyboardFocusModule,
+    FeaturesConfigModule,
+    TabModule,
+    FacetListComponent,
+  ],
+  exports: [FacetListComponent],
 })
 export class FacetListModule {}

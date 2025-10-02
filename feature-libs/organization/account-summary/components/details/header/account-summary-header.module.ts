@@ -26,7 +26,12 @@ export const accountSummaryHeaderCmsConfig: CmsConfig = {
 };
 
 @NgModule({
-    imports: [CardModule, CommonModule, I18nModule, AccountSummaryHeaderComponent],
-    providers: [provideDefaultConfig(accountSummaryHeaderCmsConfig)],
+  imports: [
+    CardModule,
+    CommonModule,
+    I18nModule,
+    AccountSummaryHeaderComponent,
+  ],
+  providers: [provideDefaultConfig(accountSummaryHeaderCmsConfig)],
 })
 export class AccountSummaryHeaderModule {}

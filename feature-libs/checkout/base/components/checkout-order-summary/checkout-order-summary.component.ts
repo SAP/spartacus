@@ -11,10 +11,10 @@ import { OutletDirective } from '../../../../../projects/storefrontlib/cms-struc
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'cx-checkout-order-summary',
-    templateUrl: './checkout-order-summary.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [OutletDirective, AsyncPipe],
+  selector: 'cx-checkout-order-summary',
+  templateUrl: './checkout-order-summary.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [OutletDirective, AsyncPipe],
 })
 export class CheckoutOrderSummaryComponent {
   cart$: Observable<Cart>;

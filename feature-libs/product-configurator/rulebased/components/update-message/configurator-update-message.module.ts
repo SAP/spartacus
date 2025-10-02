@@ -13,18 +13,23 @@ import { defaultConfiguratorMessageConfig } from '../config/default-configurator
 import { ConfiguratorUpdateMessageComponent } from './configurator-update-message.component';
 
 @NgModule({
-    imports: [CommonModule, SpinnerModule, I18nModule, ConfiguratorUpdateMessageComponent],
-    providers: [
-        provideDefaultConfig({
-            cmsComponents: {
-                ConfiguratorUpdateMessage: {
-                    component: ConfiguratorUpdateMessageComponent,
-                },
-            },
-        }),
-        provideDefaultConfig(defaultConfiguratorMessageConfig),
-        { provide: ConfiguratorMessageConfig, useExisting: Config },
-    ],
-    exports: [ConfiguratorUpdateMessageComponent],
+  imports: [
+    CommonModule,
+    SpinnerModule,
+    I18nModule,
+    ConfiguratorUpdateMessageComponent,
+  ],
+  providers: [
+    provideDefaultConfig({
+      cmsComponents: {
+        ConfiguratorUpdateMessage: {
+          component: ConfiguratorUpdateMessageComponent,
+        },
+      },
+    }),
+    provideDefaultConfig(defaultConfiguratorMessageConfig),
+    { provide: ConfiguratorMessageConfig, useExisting: Config },
+  ],
+  exports: [ConfiguratorUpdateMessageComponent],
 })
 export class ConfiguratorUpdateMessageModule {}

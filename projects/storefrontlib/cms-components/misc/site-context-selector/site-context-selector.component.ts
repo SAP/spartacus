@@ -23,15 +23,10 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 
 @Component({
-    selector: 'cx-site-context-selector',
-    templateUrl: './site-context-selector.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        IconComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-site-context-selector',
+  templateUrl: './site-context-selector.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, NgFor, IconComponent, AsyncPipe],
 })
 export class SiteContextSelectorComponent {
   /**

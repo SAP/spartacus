@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { ProvideLcpPresenceDirective } from './provide-lcp-presence.directive';
 
 @NgModule({
-    imports: [ProvideLcpPresenceDirective],
-    exports: [ProvideLcpPresenceDirective],
+  imports: [ProvideLcpPresenceDirective],
+  exports: [ProvideLcpPresenceDirective],
 })
 export class ProvideLcpPresenceDirectiveModule {}

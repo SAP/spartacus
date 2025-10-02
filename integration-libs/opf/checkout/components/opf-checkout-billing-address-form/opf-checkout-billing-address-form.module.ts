@@ -22,20 +22,21 @@ import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-a
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 
 @NgModule({
-    exports: [OpfCheckoutBillingAddressFormComponent],
-    imports: [
-        NgSelectA11yModule,
-        CommonModule,
-        ReactiveFormsModule,
-        NgSelectModule,
-        CardModule,
-        I18nModule,
-        IconModule,
-        FormErrorsModule,
-        SpinnerModule,
-        AddressFormModule,
-        OpfCheckoutBillingAddressFormComponent, GetAddressCardContent,
-    ],
-    providers: [OpfCheckoutBillingAddressFormService],
+  exports: [OpfCheckoutBillingAddressFormComponent],
+  imports: [
+    NgSelectA11yModule,
+    CommonModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    CardModule,
+    I18nModule,
+    IconModule,
+    FormErrorsModule,
+    SpinnerModule,
+    AddressFormModule,
+    OpfCheckoutBillingAddressFormComponent,
+    GetAddressCardContent,
+  ],
+  providers: [OpfCheckoutBillingAddressFormService],
 })
 export class OpfCheckoutBillingAddressFormModule {}

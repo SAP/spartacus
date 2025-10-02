@@ -10,13 +10,9 @@ import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.dir
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 
 @Component({
-    selector: 'cx-tab-panel',
-    templateUrl: './tab-panel.component.html',
-    imports: [
-        FocusDirective,
-        NgIf,
-        NgTemplateOutlet,
-    ],
+  selector: 'cx-tab-panel',
+  templateUrl: './tab-panel.component.html',
+  imports: [FocusDirective, NgIf, NgTemplateOutlet],
 })
 export class TabPanelComponent {
   TAB_MODE = TAB_MODE;

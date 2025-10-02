@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { OpfCtaElementComponent } from './opf-cta-element.component';
 
 @NgModule({
-    imports: [CommonModule, OpfCtaElementComponent],
-    exports: [OpfCtaElementComponent],
+  imports: [CommonModule, OpfCtaElementComponent],
+  exports: [OpfCtaElementComponent],
 })
 export class OpfCtaElementModule {}

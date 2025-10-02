@@ -15,15 +15,10 @@ import { RouterLink } from '@angular/router';
 import { UrlPipe } from '../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
 
 @Component({
-    selector: 'cx-org-cell',
-    templateUrl: './cell.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        RouterLink,
-        NgTemplateOutlet,
-        UrlPipe,
-    ],
+  selector: 'cx-org-cell',
+  templateUrl: './cell.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, RouterLink, NgTemplateOutlet, UrlPipe],
 })
 export class CellComponent {
   constructor(protected outlet: OutletContextData<TableDataOutletContext>) {}

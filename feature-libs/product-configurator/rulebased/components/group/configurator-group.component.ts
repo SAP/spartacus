@@ -20,17 +20,17 @@ import { ConfiguratorConflictSuggestionComponent } from '../conflict-suggestion/
 import { ConfiguratorAttributeCompositionDirective } from '../attribute/composition/configurator-attribute-composition.directive';
 
 @Component({
-    selector: 'cx-configurator-group',
-    templateUrl: './configurator-group.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        ConfiguratorConflictDescriptionComponent,
-        NgFor,
-        ConfiguratorConflictSuggestionComponent,
-        ConfiguratorAttributeCompositionDirective,
-        AsyncPipe,
-    ],
+  selector: 'cx-configurator-group',
+  templateUrl: './configurator-group.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    ConfiguratorConflictDescriptionComponent,
+    NgFor,
+    ConfiguratorConflictSuggestionComponent,
+    ConfiguratorAttributeCompositionDirective,
+    AsyncPipe,
+  ],
 })
 export class ConfiguratorGroupComponent {
   protected readonly typePrefix = 'AttributeType_';

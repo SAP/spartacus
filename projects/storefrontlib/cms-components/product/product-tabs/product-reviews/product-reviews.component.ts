@@ -13,7 +13,13 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   FeatureConfigService,
   isNotNullable,
@@ -43,27 +49,27 @@ import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-tra
 import { MockDatePipe } from '../../../../../core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-product-reviews',
-    templateUrl: './product-reviews.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        StarRatingComponent,
-        NgFor,
-        FeatureDirective,
-        ReadMoreComponent,
-        FormRequiredLegendComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        FormRequiredAsterisksComponent,
-        FormErrorsComponent,
-        AsyncPipe,
-        SlicePipe,
-        TranslatePipe,
-        CxDatePipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-product-reviews',
+  templateUrl: './product-reviews.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    StarRatingComponent,
+    NgFor,
+    FeatureDirective,
+    ReadMoreComponent,
+    FormRequiredLegendComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    AsyncPipe,
+    SlicePipe,
+    TranslatePipe,
+    CxDatePipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class ProductReviewsComponent {
   @ViewChild('titleInput', { static: false }) titleInput: ElementRef;

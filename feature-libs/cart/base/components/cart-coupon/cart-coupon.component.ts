@@ -5,7 +5,13 @@
  */
 
 import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
@@ -25,18 +31,18 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-cart-coupon',
-    templateUrl: './cart-coupon.component.html',
-    imports: [
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        AppliedCouponsComponent,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-cart-coupon',
+  templateUrl: './cart-coupon.component.html',
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    AppliedCouponsComponent,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
   MAX_CUSTOMER_COUPON_PAGE = 100;

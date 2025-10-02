@@ -15,18 +15,18 @@ import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 import { CheckoutCostCenterComponent } from './checkout-cost-center.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        I18nModule,
-        ConfigModule.withConfig(<CmsConfig>{
-            cmsComponents: {
-                CheckoutCostCenterComponent: {
-                    component: CheckoutCostCenterComponent,
-                    guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
-                },
-            },
-        }),
-        CheckoutCostCenterComponent,
-    ],
+  imports: [
+    CommonModule,
+    I18nModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        CheckoutCostCenterComponent: {
+          component: CheckoutCostCenterComponent,
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
+        },
+      },
+    }),
+    CheckoutCostCenterComponent,
+  ],
 })
 export class CheckoutCostCenterModule {}

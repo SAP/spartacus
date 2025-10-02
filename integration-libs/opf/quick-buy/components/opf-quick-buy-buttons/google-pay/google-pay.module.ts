@@ -10,8 +10,8 @@ import { OpfGooglePayComponent } from './google-pay.component';
 import { OpfGooglePayService } from './google-pay.service';
 
 @NgModule({
-    exports: [OpfGooglePayComponent],
-    imports: [CommonModule, OpfGooglePayComponent],
-    providers: [OpfGooglePayService],
+  exports: [OpfGooglePayComponent],
+  imports: [CommonModule, OpfGooglePayComponent],
+  providers: [OpfGooglePayService],
 })
 export class OpfGooglePayModule {}

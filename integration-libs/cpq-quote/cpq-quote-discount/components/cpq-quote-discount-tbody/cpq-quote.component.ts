@@ -16,14 +16,9 @@ interface ExtendedOrderEntry extends OrderEntry {
 }
 
 @Component({
-    selector: 'cx-cpq-quote',
-    templateUrl: './cpq-quote.component.html',
-    imports: [
-        NgIf,
-        NgFor,
-        NgClass,
-        DecimalPipe,
-    ],
+  selector: 'cx-cpq-quote',
+  templateUrl: './cpq-quote.component.html',
+  imports: [NgIf, NgFor, NgClass, DecimalPipe],
 })
 export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
   quoteDiscountData: ExtendedOrderEntry | null;

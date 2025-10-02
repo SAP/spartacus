@@ -10,7 +10,12 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Cart, PaymentType } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
@@ -38,25 +43,25 @@ import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-r
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-opf-b2b-checkout-review',
-    templateUrl: './opf-b2b-checkout-review.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        OpfCheckoutReviewCardComponent,
-        OpfCheckoutTermsAndConditionsAlertComponent,
-        NgClass,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterLink,
-        OpfCheckoutPaymentsComponent,
-        OpfCheckoutReviewCartDetailsComponent,
-        OpfB2bCheckoutPlaceOrderComponent,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-opf-b2b-checkout-review',
+  templateUrl: './opf-b2b-checkout-review.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    OpfCheckoutReviewCardComponent,
+    OpfCheckoutTermsAndConditionsAlertComponent,
+    NgClass,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink,
+    OpfCheckoutPaymentsComponent,
+    OpfCheckoutReviewCartDetailsComponent,
+    OpfB2bCheckoutPlaceOrderComponent,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class OpfB2bCheckoutReviewComponent
   extends CheckoutReviewSubmitComponent

@@ -18,9 +18,9 @@ import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component'
 import createSpy = jasmine.createSpy;
 
 @Component({
-    selector: 'cx-spinner',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-spinner',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockSpinnerComponent {}
 
@@ -88,25 +88,28 @@ describe('CheckoutOnePaymentTypeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, CheckoutPaymentTypeComponent,
+      imports: [
+        I18nTestingModule,
+        CheckoutPaymentTypeComponent,
         MockSpinnerComponent,
-        MockFeatureDirective],
-    providers: [
+        MockFeatureDirective,
+      ],
+      providers: [
         {
-            provide: CheckoutPaymentTypeFacade,
-            useClass: MockCheckoutOnePaymentTypeService,
+          provide: CheckoutPaymentTypeFacade,
+          useClass: MockCheckoutOnePaymentTypeService,
         },
         {
-            provide: CheckoutStepService,
-            useClass: MockCheckoutStepService,
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         {
-            provide: GlobalMessageService,
-            useClass: MockGlobalMessageService,
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     checkoutStepService = TestBed.inject(
       CheckoutStepService as Type<CheckoutStepService>
@@ -144,23 +147,27 @@ describe('CheckoutPaymentTypeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, CheckoutPaymentTypeComponent, MockSpinnerComponent],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        CheckoutPaymentTypeComponent,
+        MockSpinnerComponent,
+      ],
+      providers: [
         {
-            provide: CheckoutPaymentTypeFacade,
-            useClass: MockCheckoutPaymentTypeService,
+          provide: CheckoutPaymentTypeFacade,
+          useClass: MockCheckoutPaymentTypeService,
         },
         {
-            provide: CheckoutStepService,
-            useClass: MockCheckoutStepService,
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
         },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         {
-            provide: GlobalMessageService,
-            useClass: MockGlobalMessageService,
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     checkoutPaymentTypeFacade = TestBed.inject(
       CheckoutPaymentTypeFacade as Type<CheckoutPaymentTypeFacade>

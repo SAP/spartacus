@@ -13,7 +13,11 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { useFeatureStyles } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
@@ -28,16 +32,16 @@ import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-transl
  * so that the state of the control can be managed outside of this component.
  */
 @Component({
-    selector: 'cx-item-counter',
-    templateUrl: './item-counter.component.html',
-    imports: [
-        FeatureDirective,
-        FocusDirective,
-        FormsModule,
-        ReactiveFormsModule,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-item-counter',
+  templateUrl: './item-counter.component.html',
+  imports: [
+    FeatureDirective,
+    FocusDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ItemCounterComponent implements OnInit, OnDestroy {
   /**

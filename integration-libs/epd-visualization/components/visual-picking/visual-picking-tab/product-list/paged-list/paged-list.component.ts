@@ -29,16 +29,10 @@ import { IconComponent } from '../../../../../../../projects/storefrontlib/cms-c
  * given `template` and `headerTemplate`.
  */
 @Component({
-    selector: 'cx-epd-visualization-paged-list',
-    templateUrl: './paged-list.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgTemplateOutlet,
-        NgFor,
-        IconComponent,
-        SlicePipe,
-    ],
+  selector: 'cx-epd-visualization-paged-list',
+  templateUrl: './paged-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, NgTemplateOutlet, NgFor, IconComponent, SlicePipe],
 })
 export class PagedListComponent implements OnInit {
   /**

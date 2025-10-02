@@ -24,32 +24,32 @@ import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/test
 import { MockDatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-org-budget-details',
-    templateUrl: './budget-details.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [
-        {
-            provide: ItemService,
-            useExisting: BudgetItemService,
-        },
-    ],
-    host: { class: 'content-wrapper' },
-    imports: [
-        NgIf,
-        CardComponent,
-        FocusDirective,
-        RouterLink,
-        ToggleStatusComponent,
-        DisableInfoComponent,
-        ItemExistsDirective,
-        RouterLinkActive,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        CxDatePipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-org-budget-details',
+  templateUrl: './budget-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: ItemService,
+      useExisting: BudgetItemService,
+    },
+  ],
+  host: { class: 'content-wrapper' },
+  imports: [
+    NgIf,
+    CardComponent,
+    FocusDirective,
+    RouterLink,
+    ToggleStatusComponent,
+    DisableInfoComponent,
+    ItemExistsDirective,
+    RouterLinkActive,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    CxDatePipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class BudgetDetailsComponent implements OnInit {
   model$: Observable<Budget>;

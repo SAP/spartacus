@@ -12,7 +12,13 @@ import { ConfiguratorPriceModule } from '../price/configurator-price.module';
 import { ConfiguratorOverviewBundleAttributeComponent } from './configurator-overview-bundle-attribute.component';
 
 @NgModule({
-    imports: [CommonModule, MediaModule, I18nModule, ConfiguratorPriceModule, ConfiguratorOverviewBundleAttributeComponent],
-    exports: [ConfiguratorOverviewBundleAttributeComponent],
+  imports: [
+    CommonModule,
+    MediaModule,
+    I18nModule,
+    ConfiguratorPriceModule,
+    ConfiguratorOverviewBundleAttributeComponent,
+  ],
+  exports: [ConfiguratorOverviewBundleAttributeComponent],
 })
 export class ConfiguratorOverviewBundleAttributeModule {}

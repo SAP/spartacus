@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 import { CartProceedToCheckoutComponent } from './cart-proceed-to-checkout.component';
 import createSpy = jasmine.createSpy;
 
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -24,18 +24,23 @@ describe('CartProceedToCheckoutComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ProgressButtonModule, CartProceedToCheckoutComponent, MockUrlPipe],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        ProgressButtonModule,
+        CartProceedToCheckoutComponent,
+        MockUrlPipe,
+      ],
+      providers: [
         {
-            provide: Router,
-            useClass: MockRouter,
+          provide: Router,
+          useClass: MockRouter,
         },
         {
-            provide: ChangeDetectorRef,
-            useValue: { markForCheck: createSpy('markForCheck') },
+          provide: ChangeDetectorRef,
+          useValue: { markForCheck: createSpy('markForCheck') },
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

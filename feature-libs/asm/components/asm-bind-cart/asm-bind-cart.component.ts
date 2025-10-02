@@ -13,7 +13,13 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { FormControl, ValidatorFn, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  ValidatorFn,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { AsmBindCartFacade } from '@spartacus/asm/root';
 import {
   ActiveCartFacade,
@@ -57,19 +63,19 @@ import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe
 import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-asm-bind-cart',
-    templateUrl: './asm-bind-cart.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FormsModule,
-        NgClass,
-        ReactiveFormsModule,
-        NgIf,
-        DotSpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-asm-bind-cart',
+  templateUrl: './asm-bind-cart.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    NgClass,
+    ReactiveFormsModule,
+    NgIf,
+    DotSpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AsmBindCartComponent implements OnInit, OnDestroy {
   activeCartValidator: ValidatorFn = (control) => {

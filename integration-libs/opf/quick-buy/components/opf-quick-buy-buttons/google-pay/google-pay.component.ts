@@ -20,10 +20,10 @@ import { OpfGooglePayService } from './google-pay.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'cx-opf-google-pay',
-    templateUrl: './google-pay.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NgIf, AsyncPipe],
+  selector: 'cx-opf-google-pay',
+  templateUrl: './google-pay.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, AsyncPipe],
 })
 export class OpfGooglePayComponent implements OnInit {
   protected opfGooglePayService = inject(OpfGooglePayService);

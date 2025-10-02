@@ -26,18 +26,18 @@ import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-product-intro',
-    templateUrl: './product-intro.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        StarRatingComponent,
-        FeatureDirective,
-        AsyncPipe,
-        DecimalPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-product-intro',
+  templateUrl: './product-intro.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    StarRatingComponent,
+    FeatureDirective,
+    AsyncPipe,
+    DecimalPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ProductIntroComponent {
   product$: Observable<Product | null> =

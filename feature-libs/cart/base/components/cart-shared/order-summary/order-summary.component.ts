@@ -14,14 +14,9 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-order-summary',
-    templateUrl: './order-summary.component.html',
-    imports: [
-        NgIf,
-        AppliedCouponsComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-order-summary',
+  templateUrl: './order-summary.component.html',
+  imports: [NgIf, AppliedCouponsComponent, TranslatePipe, MockTranslatePipe],
 })
 export class OrderSummaryComponent implements OnInit, OnDestroy {
   @Input()

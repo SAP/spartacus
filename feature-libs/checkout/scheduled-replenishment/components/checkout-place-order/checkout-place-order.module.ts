@@ -22,25 +22,25 @@ import { AtMessageModule } from '@spartacus/storefront';
 import { CheckoutScheduledReplenishmentPlaceOrderComponent } from './checkout-place-order.component';
 
 @NgModule({
-    imports: [
-        AtMessageModule,
-        CommonModule,
-        RouterModule,
-        UrlModule,
-        I18nModule,
-        ReactiveFormsModule,
-        CheckoutScheduledReplenishmentPlaceOrderComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                CheckoutPlaceOrder: {
-                    component: CheckoutScheduledReplenishmentPlaceOrderComponent,
-                    guards: [CheckoutAuthGuard, CartNotEmptyGuard],
-                },
-            },
-        }),
-    ],
-    exports: [CheckoutScheduledReplenishmentPlaceOrderComponent],
+  imports: [
+    AtMessageModule,
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    ReactiveFormsModule,
+    CheckoutScheduledReplenishmentPlaceOrderComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        CheckoutPlaceOrder: {
+          component: CheckoutScheduledReplenishmentPlaceOrderComponent,
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+        },
+      },
+    }),
+  ],
+  exports: [CheckoutScheduledReplenishmentPlaceOrderComponent],
 })
 export class CheckoutScheduledReplenishmentPlaceOrderModule {}

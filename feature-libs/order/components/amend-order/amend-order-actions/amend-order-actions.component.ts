@@ -20,17 +20,17 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-amend-order-actions',
-    templateUrl: './amend-order-actions.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        BtnLikeLinkDirective,
-        RouterLink,
-        NgIf,
-        UrlPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-amend-order-actions',
+  templateUrl: './amend-order-actions.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    BtnLikeLinkDirective,
+    RouterLink,
+    NgIf,
+    UrlPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AmendOrderActionsComponent {
   @Input() orderCode: string;

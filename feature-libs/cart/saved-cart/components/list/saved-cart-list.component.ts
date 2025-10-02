@@ -39,22 +39,22 @@ import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing
 import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-saved-cart-list',
-    templateUrl: './saved-cart-list.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        FeatureDirective,
-        NgFor,
-        RouterLink,
-        SpinnerComponent,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        CxDatePipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-saved-cart-list',
+  templateUrl: './saved-cart-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    FeatureDirective,
+    NgFor,
+    RouterLink,
+    SpinnerComponent,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    CxDatePipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class SavedCartListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

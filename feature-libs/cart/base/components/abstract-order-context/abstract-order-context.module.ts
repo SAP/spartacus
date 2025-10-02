@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { AbstractOrderContextDirective } from './abstract-order-context.directive';
 
 @NgModule({
-    imports: [AbstractOrderContextDirective],
-    exports: [AbstractOrderContextDirective],
+  imports: [AbstractOrderContextDirective],
+  exports: [AbstractOrderContextDirective],
 })
 export class AbstractOrderContextModule {}

@@ -10,7 +10,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable, Subscription, of, timer } from 'rxjs';
 import { debounce, map } from 'rxjs/operators';
@@ -26,19 +30,19 @@ import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/trans
 import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-attribute-input-field',
-    templateUrl: './configurator-attribute-input-field.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        NgClass,
-        FocusDirective,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-attribute-input-field',
+  templateUrl: './configurator-attribute-input-field.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    NgClass,
+    FocusDirective,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorAttributeInputFieldComponent
   extends ConfiguratorAttributeBaseComponent

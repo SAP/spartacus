@@ -10,7 +10,12 @@ import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { FormErrorsComponent } from './form-errors.component';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, FeaturesConfigModule, FormErrorsComponent],
-    exports: [FormErrorsComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    FeaturesConfigModule,
+    FormErrorsComponent,
+  ],
+  exports: [FormErrorsComponent],
 })
 export class FormErrorsModule {}

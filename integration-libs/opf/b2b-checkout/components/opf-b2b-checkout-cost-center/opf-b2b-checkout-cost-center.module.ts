@@ -11,7 +11,12 @@ import { OpfB2bCheckoutCostCenterComponent } from './opf-b2b-checkout-cost-cente
 import { CheckoutCostCenterModule } from '@spartacus/checkout/b2b/components';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, CheckoutCostCenterModule, OpfB2bCheckoutCostCenterComponent],
-    exports: [OpfB2bCheckoutCostCenterComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    CheckoutCostCenterModule,
+    OpfB2bCheckoutCostCenterComponent,
+  ],
+  exports: [OpfB2bCheckoutCostCenterComponent],
 })
 export class OpfB2bCheckoutCostCenterModule {}

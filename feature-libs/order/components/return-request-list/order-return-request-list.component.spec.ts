@@ -32,7 +32,7 @@ class ActivatedRouteMock {
   constructor(public snapshot: any) {}
 }
 
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -65,22 +65,27 @@ describe('OrderReturnRequestListComponent', () => {
   let el: DebugElement;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [ListNavigationModule, I18nTestingModule, OrderReturnRequestListComponent, MockUrlPipe],
-    providers: [
+      imports: [
+        ListNavigationModule,
+        I18nTestingModule,
+        OrderReturnRequestListComponent,
+        MockUrlPipe,
+      ],
+      providers: [
         {
-            provide: ActivatedRoute,
-            useValue: new ActivatedRouteMock({}),
+          provide: ActivatedRoute,
+          useValue: new ActivatedRouteMock({}),
         },
         {
-            provide: OrderReturnRequestFacade,
-            useClass: MockOrderReturnRequestService,
+          provide: OrderReturnRequestFacade,
+          useClass: MockOrderReturnRequestService,
         },
         {
-            provide: TranslationService,
-            useClass: MockTranslationService,
+          provide: TranslationService,
+          useClass: MockTranslationService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     returnService = TestBed.inject(OrderReturnRequestFacade);
   }));

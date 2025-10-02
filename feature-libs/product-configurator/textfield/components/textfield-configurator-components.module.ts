@@ -21,33 +21,33 @@ import { ConfiguratorTextfieldInputFieldComponent } from './input-field/configur
 import { ConfiguratorTextfieldInputFieldReadonlyComponent } from './input-field-readonly/configurator-textfield-input-field-readonly.component';
 
 @NgModule({
-    imports: [
-        RouterModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgSelectModule,
-        CommonModule,
-        I18nModule,
-        UrlModule,
-        ConfiguratorTextfieldFormComponent,
-        ConfiguratorTextfieldInputFieldComponent,
-        ConfiguratorTextfieldInputFieldReadonlyComponent,
-        ConfiguratorTextfieldAddToCartButtonComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                TextfieldConfigurationForm: {
-                    component: ConfiguratorTextfieldFormComponent,
-                },
-            },
-        }),
-    ],
-    exports: [
-        ConfiguratorTextfieldFormComponent,
-        ConfiguratorTextfieldInputFieldComponent,
-        ConfiguratorTextfieldInputFieldReadonlyComponent,
-        ConfiguratorTextfieldAddToCartButtonComponent,
-    ],
+  imports: [
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    CommonModule,
+    I18nModule,
+    UrlModule,
+    ConfiguratorTextfieldFormComponent,
+    ConfiguratorTextfieldInputFieldComponent,
+    ConfiguratorTextfieldInputFieldReadonlyComponent,
+    ConfiguratorTextfieldAddToCartButtonComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        TextfieldConfigurationForm: {
+          component: ConfiguratorTextfieldFormComponent,
+        },
+      },
+    }),
+  ],
+  exports: [
+    ConfiguratorTextfieldFormComponent,
+    ConfiguratorTextfieldInputFieldComponent,
+    ConfiguratorTextfieldInputFieldReadonlyComponent,
+    ConfiguratorTextfieldAddToCartButtonComponent,
+  ],
 })
 export class TextfieldConfiguratorComponentsModule {}

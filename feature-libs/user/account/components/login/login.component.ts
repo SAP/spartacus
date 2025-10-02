@@ -18,18 +18,18 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-login',
-    templateUrl: './login.component.html',
-    imports: [
-        NgIf,
-        PageSlotComponent,
-        DomChangeDirective,
-        RouterLink,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-login',
+  templateUrl: './login.component.html',
+  imports: [
+    NgIf,
+    PageSlotComponent,
+    DomChangeDirective,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class LoginComponent implements OnInit {
   user$: Observable<User | undefined>;

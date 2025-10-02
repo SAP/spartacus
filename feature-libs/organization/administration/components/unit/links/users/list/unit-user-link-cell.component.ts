@@ -21,8 +21,8 @@ import { UrlPipe } from '../../../../../../../../projects/core/src/routing/confi
 import { MockTranslatePipe } from '../../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-unit-user-link-cell',
-    template: `
+  selector: 'cx-org-unit-user-link-cell',
+  template: `
     <a
       class="button"
       *ngIf="isUpdatingUserAllowed && hasItem && (unitKey$ | async) as uid"
@@ -33,15 +33,15 @@ import { MockTranslatePipe } from '../../../../../../../../projects/core/src/i18
       {{ 'orgUser.links.rolesAndRights' | cxTranslate }}
     </a>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        RouterLink,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class UnitUserRolesCellComponent extends CellComponent {
   unitKey$: Observable<string> = this.itemService.key$;

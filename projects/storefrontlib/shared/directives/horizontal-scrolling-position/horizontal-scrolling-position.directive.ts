@@ -50,8 +50,8 @@ import {
  * </ng-container>
  */
 @Directive({
-    selector: '[cxHorizontalScrollingPosition]',
-    exportAs: 'cxHorizontalScrollingPosition',
+  selector: '[cxHorizontalScrollingPosition]',
+  exportAs: 'cxHorizontalScrollingPosition',
 })
 export class HorizontalScrollingPositionDirective
   implements OnDestroy, OnChanges

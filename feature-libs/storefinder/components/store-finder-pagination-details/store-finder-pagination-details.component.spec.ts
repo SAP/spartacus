@@ -15,8 +15,8 @@ describe('StoreFinderPaginationDetailsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, StoreFinderPaginationDetailsComponent],
-}).compileComponents();
+      imports: [I18nTestingModule, StoreFinderPaginationDetailsComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -12,8 +12,11 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ConfiguratorTextfieldInputFieldReadonlyComponent],
-});
+      imports: [
+        I18nTestingModule,
+        ConfiguratorTextfieldInputFieldReadonlyComponent,
+      ],
+    });
   }));
 
   beforeEach(() => {

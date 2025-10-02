@@ -9,7 +9,7 @@ import { NgModule } from '@angular/core';
 import { PromotionsComponent } from './promotions.component';
 
 @NgModule({
-    imports: [CommonModule, PromotionsComponent],
-    exports: [PromotionsComponent],
+  imports: [CommonModule, PromotionsComponent],
+  exports: [PromotionsComponent],
 })
 export class PromotionsModule {}

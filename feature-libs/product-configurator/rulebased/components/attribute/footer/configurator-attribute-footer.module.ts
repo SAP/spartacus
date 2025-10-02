@@ -13,23 +13,23 @@ import { ConfiguratorAttributeCompositionConfig } from '../composition/configura
 import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-footer.component';
 
 @NgModule({
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        CommonModule,
-        I18nModule,
-        IconModule,
-        ConfiguratorAttributeFooterComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
-            productConfigurator: {
-                assignment: {
-                    Footer: ConfiguratorAttributeFooterComponent,
-                },
-            },
-        }),
-    ],
-    exports: [ConfiguratorAttributeFooterComponent],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    I18nModule,
+    IconModule,
+    ConfiguratorAttributeFooterComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+      productConfigurator: {
+        assignment: {
+          Footer: ConfiguratorAttributeFooterComponent,
+        },
+      },
+    }),
+  ],
+  exports: [ConfiguratorAttributeFooterComponent],
 })
 export class ConfiguratorAttributeFooterModule {}

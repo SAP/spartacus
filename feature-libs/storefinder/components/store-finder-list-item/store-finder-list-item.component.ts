@@ -18,17 +18,17 @@ import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe
 import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-store-finder-list-item',
-    templateUrl: './store-finder-list-item.component.html',
-    imports: [
-        NgIf,
-        RouterLink,
-        OutletDirective,
-        FeatureDirective,
-        BtnLikeLinkDirective,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-store-finder-list-item',
+  templateUrl: './store-finder-list-item.component.html',
+  imports: [
+    NgIf,
+    RouterLink,
+    OutletDirective,
+    FeatureDirective,
+    BtnLikeLinkDirective,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
   @Input()

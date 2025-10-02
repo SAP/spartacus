@@ -12,21 +12,21 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { PunchoutFacade, PunchoutRequisition } from '@spartacus/punchout/root';
 import { filter, map, Observable, switchMap, take, tap, timer } from 'rxjs';
 import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
-    selector: 'cx-punchout-requsition',
-    templateUrl: './punchout-requisition.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        FormsModule,
-        ReactiveFormsModule,
-        AsyncPipe,
-    ],
+  selector: 'cx-punchout-requsition',
+  templateUrl: './punchout-requisition.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, FormsModule, ReactiveFormsModule, AsyncPipe],
 })
 export class PunchoutRequisitionComponent implements OnInit {
   protected punchoutFacade = inject(PunchoutFacade);

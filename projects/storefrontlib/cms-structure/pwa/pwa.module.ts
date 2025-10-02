@@ -30,26 +30,27 @@ export function pwaFactory(
 }
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ServiceWorkerModule.register('ngsw-worker.js'),
-        I18nModule,
-        AddToHomeScreenBtnComponent, AddToHomeScreenBannerComponent,
-    ],
-    providers: [
-        provideDefaultConfig(defaultPWAModuleConfig),
-        {
-            provide: SwRegistrationOptions,
-            useFactory: pwaConfigurationFactory,
-            deps: [Config],
-        },
-        {
-            provide: APP_INITIALIZER,
-            useFactory: pwaFactory,
-            deps: [AddToHomeScreenService],
-            multi: true,
-        },
-    ],
-    exports: [AddToHomeScreenBtnComponent, AddToHomeScreenBannerComponent],
+  imports: [
+    CommonModule,
+    ServiceWorkerModule.register('ngsw-worker.js'),
+    I18nModule,
+    AddToHomeScreenBtnComponent,
+    AddToHomeScreenBannerComponent,
+  ],
+  providers: [
+    provideDefaultConfig(defaultPWAModuleConfig),
+    {
+      provide: SwRegistrationOptions,
+      useFactory: pwaConfigurationFactory,
+      deps: [Config],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: pwaFactory,
+      deps: [AddToHomeScreenService],
+      multi: true,
+    },
+  ],
+  exports: [AddToHomeScreenBtnComponent, AddToHomeScreenBannerComponent],
 })
 export class PwaModule {}

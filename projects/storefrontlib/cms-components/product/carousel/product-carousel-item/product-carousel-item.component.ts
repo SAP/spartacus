@@ -24,24 +24,24 @@ import { AsyncPipe } from '@angular/common';
 import { UrlPipe } from '../../../../../core/src/routing/configurable-routes/url-translation/url.pipe';
 
 @Component({
-    selector: 'cx-product-carousel-item',
-    templateUrl: './product-carousel-item.component.html',
-    providers: [
-        ProductListItemContextSource,
-        {
-            provide: ProductListItemContext,
-            useExisting: ProductListItemContextSource,
-        },
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        RouterLink,
-        LcpContextDirective,
-        MediaComponent,
-        InnerComponentsHostDirective,
-        AsyncPipe,
-        UrlPipe,
-    ],
+  selector: 'cx-product-carousel-item',
+  templateUrl: './product-carousel-item.component.html',
+  providers: [
+    ProductListItemContextSource,
+    {
+      provide: ProductListItemContext,
+      useExisting: ProductListItemContextSource,
+    },
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    RouterLink,
+    LcpContextDirective,
+    MediaComponent,
+    InnerComponentsHostDirective,
+    AsyncPipe,
+    UrlPipe,
+  ],
 })
 export class ProductCarouselItemComponent implements OnChanges {
   /**

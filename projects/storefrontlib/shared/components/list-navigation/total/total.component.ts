@@ -11,14 +11,10 @@ import { TranslatePipe } from '../../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-total',
-    templateUrl: './total.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-total',
+  templateUrl: './total.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, TranslatePipe, MockTranslatePipe],
 })
 export class TotalComponent {
   private _pagination: PaginationModel;

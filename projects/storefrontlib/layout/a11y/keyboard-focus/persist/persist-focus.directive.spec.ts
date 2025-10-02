@@ -5,13 +5,13 @@ import { PersistFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusDirective } from './persist-focus.directive';
 import { PersistFocusService } from './persist-focus.service';
 
-@Directive({ selector: '[cxPersistFocus]', })
+@Directive({ selector: '[cxPersistFocus]' })
 class CustomFocusDirective extends PersistFocusDirective {
   @Input('cxPersistFocus') protected config: PersistFocusConfig;
 }
 @Component({
-    selector: 'cx-host',
-    template: `
+  selector: 'cx-host',
+  template: `
     <div id="a" cxPersistFocus></div>
     <div id="b" cxPersistFocus="key-b"></div>
     <div id="c" [cxPersistFocus]="{ key: 'key-c' }"></div>
@@ -37,14 +37,14 @@ describe('PersistFocusDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [MockComponent, CustomFocusDirective],
-    providers: [
+      imports: [MockComponent, CustomFocusDirective],
+      providers: [
         {
-            provide: PersistFocusService,
-            useClass: MockPersistFocusService,
+          provide: PersistFocusService,
+          useClass: MockPersistFocusService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MockComponent);
     component = fixture.componentInstance;

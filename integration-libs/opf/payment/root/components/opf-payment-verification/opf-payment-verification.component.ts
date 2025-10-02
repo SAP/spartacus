@@ -21,9 +21,9 @@ import { OpfPaymentVerificationService } from './opf-payment-verification.servic
 import { SpinnerComponent } from '../../../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
 
 @Component({
-    selector: 'cx-opf-verify-payment',
-    templateUrl: './opf-payment-verification.component.html',
-    imports: [SpinnerComponent],
+  selector: 'cx-opf-verify-payment',
+  templateUrl: './opf-payment-verification.component.html',
+  imports: [SpinnerComponent],
 })
 export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   protected route = inject(ActivatedRoute);

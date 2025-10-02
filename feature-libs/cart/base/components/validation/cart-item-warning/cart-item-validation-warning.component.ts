@@ -14,16 +14,10 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-cart-item-validation-warning',
-    templateUrl: './cart-item-validation-warning.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        IconComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-cart-item-validation-warning',
+  templateUrl: './cart-item-validation-warning.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class CartItemValidationWarningComponent {
   @Input()

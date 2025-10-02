@@ -35,20 +35,20 @@ import { TranslatePipe } from '../../../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-facet',
-    templateUrl: './facet.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        RouterLink,
-        FocusDirective_1,
-        AtMessageDirective,
-        AsyncPipe,
-        SlicePipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-facet',
+  templateUrl: './facet.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgFor,
+    RouterLink,
+    FocusDirective_1,
+    AtMessageDirective,
+    AsyncPipe,
+    SlicePipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class FacetComponent implements AfterViewInit {
   protected _facet: Facet;

@@ -14,18 +14,18 @@ import { ServiceOrderOverviewComponentService } from './service-order-overview-c
 import { OrderOverviewComponentService } from '@spartacus/order/components';
 
 @NgModule({
-    imports: [CardModule, CommonModule, I18nModule, ServiceDetailsCardComponent],
-    providers: [
-        ServiceOrderOverviewComponentService,
-        {
-            provide: OrderOverviewComponentService,
-            useExisting: ServiceOrderOverviewComponentService,
-        },
-        provideOutlet({
-            id: OrderOutlets.SERVICE_DETAILS,
-            component: ServiceDetailsCardComponent,
-        }),
-    ],
-    exports: [ServiceDetailsCardComponent],
+  imports: [CardModule, CommonModule, I18nModule, ServiceDetailsCardComponent],
+  providers: [
+    ServiceOrderOverviewComponentService,
+    {
+      provide: OrderOverviewComponentService,
+      useExisting: ServiceOrderOverviewComponentService,
+    },
+    provideOutlet({
+      id: OrderOutlets.SERVICE_DETAILS,
+      component: ServiceDetailsCardComponent,
+    }),
+  ],
+  exports: [ServiceDetailsCardComponent],
 })
 export class ServiceDetailsCardModule {}

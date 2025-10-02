@@ -28,7 +28,12 @@ import {
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 import {
   BehaviorSubject,
@@ -46,19 +51,19 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-opf-b2b-checkout-payment-type',
-    templateUrl: './opf-b2b-checkout-payment-type.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        NgIf,
-        OpfCheckoutPaymentsComponent,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-opf-b2b-checkout-payment-type',
+  templateUrl: './opf-b2b-checkout-payment-type.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    OpfCheckoutPaymentsComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class OpfB2bCheckoutPaymentTypeComponent
   implements OnInit, AfterViewInit, OnDestroy

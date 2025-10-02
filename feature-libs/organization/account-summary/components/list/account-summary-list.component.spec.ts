@@ -10,7 +10,7 @@ describe('AccountSummaryListComponent', () => {
     template: '<ng-content select="[actions]"></ng-content>',
     selector: 'cx-org-list',
     imports: [I18nTestingModule, UrlTestingModule],
-})
+  })
   class MockListComponent {
     @Input() key: any;
     @Input() hideAddButton = false;
@@ -21,8 +21,14 @@ describe('AccountSummaryListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, UrlTestingModule, StoreModule.forRoot({}), AccountSummaryListComponent, MockListComponent],
-}).compileComponents();
+      imports: [
+        I18nTestingModule,
+        UrlTestingModule,
+        StoreModule.forRoot({}),
+        AccountSummaryListComponent,
+        MockListComponent,
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AccountSummaryListComponent);
     component = fixture.componentInstance;

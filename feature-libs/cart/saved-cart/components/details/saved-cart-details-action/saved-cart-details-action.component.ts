@@ -22,14 +22,9 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-saved-cart-details-action',
-    templateUrl: './saved-cart-details-action.component.html',
-    imports: [
-        NgIf,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-saved-cart-details-action',
+  templateUrl: './saved-cart-details-action.component.html',
+  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class SavedCartDetailsActionComponent implements OnDestroy {
   private subscription = new Subscription();

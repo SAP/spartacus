@@ -33,9 +33,9 @@ mockEntries.forEach((entry) => {
 });
 
 @Component({
-    template: '',
-    selector: 'cx-media',
-    imports: [ReactiveFormsModule, I18nTestingModule],
+  template: '',
+  selector: 'cx-media',
+  imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container;
@@ -43,9 +43,9 @@ class MockMediaComponent {
 }
 
 @Component({
-    template: '',
-    selector: 'cx-item-counter',
-    imports: [ReactiveFormsModule, I18nTestingModule],
+  template: '',
+  selector: 'cx-item-counter',
+  imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockItemCounterComponent {
   @Input() min;
@@ -69,17 +69,21 @@ describe('CancelOrReturnItemsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [ReactiveFormsModule, I18nTestingModule, CancelOrReturnItemsComponent,
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        CancelOrReturnItemsComponent,
         MockMediaComponent,
         MockItemCounterComponent,
-        MockFeatureLevelDirective],
-    providers: [
+        MockFeatureLevelDirective,
+      ],
+      providers: [
         {
-            provide: OrderAmendService,
-            useClass: MockOrderAmendService,
+          provide: OrderAmendService,
+          useClass: MockOrderAmendService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

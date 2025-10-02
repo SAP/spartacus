@@ -10,14 +10,9 @@ import { OutletRefDirective } from '../../../../storefrontlib/cms-structure/outl
 import { AsyncPipe, JsonPipe } from '@angular/common';
 
 @Component({
-    selector: 'cx-test-outlet-template',
-    templateUrl: './test-outlet-template.component.html',
-    imports: [
-        PageLayoutComponent,
-        OutletRefDirective,
-        AsyncPipe,
-        JsonPipe,
-    ],
+  selector: 'cx-test-outlet-template',
+  templateUrl: './test-outlet-template.component.html',
+  imports: [PageLayoutComponent, OutletRefDirective, AsyncPipe, JsonPipe],
 })
 export class TestOutletTemplateComponent {
   testTemplate = 'ContentPage1Template';

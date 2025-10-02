@@ -22,29 +22,29 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-permission-details',
-    templateUrl: './permission-details.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [
-        {
-            provide: ItemService,
-            useExisting: PermissionItemService,
-        },
-    ],
-    host: { class: 'content-wrapper' },
-    imports: [
-        NgIf,
-        CardComponent,
-        FocusDirective,
-        RouterLink,
-        ToggleStatusComponent,
-        DisableInfoComponent,
-        ItemExistsDirective,
-        AsyncPipe,
-        UrlPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-permission-details',
+  templateUrl: './permission-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: ItemService,
+      useExisting: PermissionItemService,
+    },
+  ],
+  host: { class: 'content-wrapper' },
+  imports: [
+    NgIf,
+    CardComponent,
+    FocusDirective,
+    RouterLink,
+    ToggleStatusComponent,
+    DisableInfoComponent,
+    ItemExistsDirective,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class PermissionDetailsComponent {
   model$: Observable<Permission> = this.itemService.key$.pipe(

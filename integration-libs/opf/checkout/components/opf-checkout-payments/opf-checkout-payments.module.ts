@@ -17,16 +17,16 @@ import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-
 import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
 
 @NgModule({
-    exports: [OpfCheckoutPaymentsComponent],
-    imports: [
-        CommonModule,
-        I18nModule,
-        SpinnerModule,
-        PaginationModule,
-        IconModule,
-        OpfCheckoutPaymentWrapperModule,
-        OpfCheckoutTermsAndConditionsAlertModule,
-        OpfCheckoutPaymentsComponent,
-    ],
+  exports: [OpfCheckoutPaymentsComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    SpinnerModule,
+    PaginationModule,
+    IconModule,
+    OpfCheckoutPaymentWrapperModule,
+    OpfCheckoutTermsAndConditionsAlertModule,
+    OpfCheckoutPaymentsComponent,
+  ],
 })
 export class OpfCheckoutPaymentsModule {}

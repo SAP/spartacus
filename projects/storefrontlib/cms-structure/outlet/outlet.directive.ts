@@ -30,7 +30,7 @@ import {
 } from './outlet.model';
 import { OutletService } from './outlet.service';
 
-@Directive({ selector: '[cxOutlet]', })
+@Directive({ selector: '[cxOutlet]' })
 export class OutletDirective<T = any> implements OnDestroy, OnChanges {
   private renderedTemplate: any[] = [];
   public renderedComponents = new Map<

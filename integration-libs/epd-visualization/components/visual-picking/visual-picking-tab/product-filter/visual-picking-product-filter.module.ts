@@ -13,8 +13,15 @@ import { VisualPickingProductFilterComponent } from './visual-picking-product-fi
 import { VisualPickingProductFilterService } from './visual-picking-product-filter.service';
 
 @NgModule({
-    imports: [CommonModule, FormsModule, IconModule, UrlModule, I18nModule, VisualPickingProductFilterComponent],
-    providers: [VisualPickingProductFilterService],
-    exports: [VisualPickingProductFilterComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IconModule,
+    UrlModule,
+    I18nModule,
+    VisualPickingProductFilterComponent,
+  ],
+  providers: [VisualPickingProductFilterService],
+  exports: [VisualPickingProductFilterComponent],
 })
 export class VisualPickingProductFilterModule {}

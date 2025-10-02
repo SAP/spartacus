@@ -30,22 +30,22 @@ import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/test
 import { MockDatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-my-account-v2-order-consolidated-information',
-    templateUrl: './my-account-v2-order-consolidated-information.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgTemplateOutlet,
-        MyAccountV2ConsignmentEntriesComponent,
-        NgFor,
-        RouterLink,
-        MediaComponent,
-        UrlPipe,
-        TranslatePipe,
-        CxDatePipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-my-account-v2-order-consolidated-information',
+  templateUrl: './my-account-v2-order-consolidated-information.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    MyAccountV2ConsignmentEntriesComponent,
+    NgFor,
+    RouterLink,
+    MediaComponent,
+    UrlPipe,
+    TranslatePipe,
+    CxDatePipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class MyAccountV2OrderConsolidatedInformationComponent {
   protected orderConsignmentsService = inject(

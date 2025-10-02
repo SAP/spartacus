@@ -33,7 +33,7 @@ class MockAbstractOrderContext {
   key$ = of({ id: quoteCode, type: AbstractOrderType.QUOTE });
 }
 
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -60,15 +60,20 @@ describe('ConfigureCartEntryComponent', () => {
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-    imports: [I18nTestingModule, RouterModule, ConfigureCartEntryComponent, MockUrlPipe],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        RouterModule,
+        ConfigureCartEntryComponent,
+        MockUrlPipe,
+      ],
+      providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
-            provide: RoutingService,
-            useClass: MockRoutingService,
+          provide: RoutingService,
+          useClass: MockRoutingService,
         },
-    ],
-});
+      ],
+    });
   }
 
   function assignTestArtifacts(): void {

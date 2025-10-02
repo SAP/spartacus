@@ -23,13 +23,15 @@ import { UpdateEmailComponentService } from './update-email-component.service';
 import createSpy = jasmine.createSpy;
 
 @Component({
-    selector: 'cx-spinner',
-    template: '',
-    imports: [ReactiveFormsModule,
-        I18nTestingModule,
-        FormErrorsModule,
-        UrlTestingModule,
-        PasswordVisibilityToggleModule,],
+  selector: 'cx-spinner',
+  template: '',
+  imports: [
+    ReactiveFormsModule,
+    I18nTestingModule,
+    FormErrorsModule,
+    UrlTestingModule,
+    PasswordVisibilityToggleModule,
+  ],
 })
 class MockCxSpinnerComponent {}
 
@@ -67,25 +69,26 @@ describe('MyAccountV2EmailComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         ReactiveFormsModule,
         I18nTestingModule,
         FormErrorsModule,
         UrlTestingModule,
         PasswordVisibilityToggleModule,
-        MyAccountV2EmailComponent, MockCxSpinnerComponent,
-    ],
-    providers: [
+        MyAccountV2EmailComponent,
+        MockCxSpinnerComponent,
+      ],
+      providers: [
         {
-            provide: UpdateEmailComponentService,
-            useClass: MockMyAccountV2EmailService,
+          provide: UpdateEmailComponentService,
+          useClass: MockMyAccountV2EmailService,
         },
         {
-            provide: UserProfileFacade,
-            useClass: MockNewProfileFacade,
+          provide: UserProfileFacade,
+          useClass: MockNewProfileFacade,
         },
-    ],
-})
+      ],
+    })
       .overrideComponent(MyAccountV2EmailComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
       })

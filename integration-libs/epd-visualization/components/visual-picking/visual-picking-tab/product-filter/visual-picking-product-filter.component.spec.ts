@@ -44,16 +44,24 @@ describe('VisualPickingProductFilterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [I18nModule, CommonModule, FormsModule, UrlModule, IconModule, VisualPickingProductFilterComponent, MockTranslatePipe],
-    providers: [
+      imports: [
+        I18nModule,
+        CommonModule,
+        FormsModule,
+        UrlModule,
+        IconModule,
+        VisualPickingProductFilterComponent,
+        MockTranslatePipe,
+      ],
+      providers: [
         {
-            provide: VisualPickingProductFilterService,
-            useValue: mockVisualPickingProductFilterService,
+          provide: VisualPickingProductFilterService,
+          useValue: mockVisualPickingProductFilterService,
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     TestBed.inject(HttpTestingController);
 

@@ -23,15 +23,10 @@ import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/t
  * my company entities.
  */
 @Component({
-    selector: 'cx-org-toggle-status',
-    templateUrl: './toggle-status.component.html',
-    host: { class: 'content-wrapper' },
-    imports: [
-        NgIf,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-toggle-status',
+  templateUrl: './toggle-status.component.html',
+  host: { class: 'content-wrapper' },
+  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**

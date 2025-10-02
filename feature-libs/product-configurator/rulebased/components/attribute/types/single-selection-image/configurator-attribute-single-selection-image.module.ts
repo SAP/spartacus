@@ -18,27 +18,29 @@ import { ConfiguratorPriceModule } from '../../../price/configurator-price.modul
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 
 @NgModule({
-    imports: [
-        KeyboardFocusModule,
-        FormsModule,
-        ReactiveFormsModule,
-        CommonModule,
-        I18nModule,
-        IconModule,
-        ConfiguratorPriceModule,
-        PopoverModule,
-        ConfiguratorAttributeSingleSelectionImageComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
-            productConfigurator: {
-                assignment: {
-                    AttributeType_single_selection_image: ConfiguratorAttributeSingleSelectionImageComponent,
-                    AttributeType_read_only_single_selection_image: ConfiguratorAttributeSingleSelectionImageComponent,
-                },
-            },
-        }),
-    ],
-    exports: [ConfiguratorAttributeSingleSelectionImageComponent],
+  imports: [
+    KeyboardFocusModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    I18nModule,
+    IconModule,
+    ConfiguratorPriceModule,
+    PopoverModule,
+    ConfiguratorAttributeSingleSelectionImageComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
+      productConfigurator: {
+        assignment: {
+          AttributeType_single_selection_image:
+            ConfiguratorAttributeSingleSelectionImageComponent,
+          AttributeType_read_only_single_selection_image:
+            ConfiguratorAttributeSingleSelectionImageComponent,
+        },
+      },
+    }),
+  ],
+  exports: [ConfiguratorAttributeSingleSelectionImageComponent],
 })
 export class ConfiguratorAttributeSingleSelectionImageModule {}

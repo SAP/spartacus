@@ -16,16 +16,10 @@ import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-pdf',
-    templateUrl: './pdf.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        IconComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-pdf',
+  templateUrl: './pdf.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class PDFComponent {
   url?: string;

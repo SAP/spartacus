@@ -26,9 +26,9 @@ import { AccountSummaryHeaderComponent } from './account-summary-header.componen
 import { mockAccountSummaryDetails } from '../account-summary-mock-data';
 
 @Component({
-    selector: 'cx-card',
-    template: '',
-    imports: [I18nTestingModule],
+  selector: 'cx-card',
+  template: '',
+  imports: [I18nTestingModule],
 })
 class MockCardComponent {
   @Input() content: any;
@@ -53,13 +53,17 @@ describe('AccountSummaryHeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, AccountSummaryHeaderComponent, MockCardComponent],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        AccountSummaryHeaderComponent,
+        MockCardComponent,
+      ],
+      providers: [
         { provide: AccountSummaryFacade, useClass: MockAccountSummaryFacade },
         { provide: LanguageService, useClass: MockLanguageService },
         { provide: TranslationService, useClass: MockTranslationService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

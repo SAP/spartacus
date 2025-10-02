@@ -17,23 +17,23 @@ import {
 import { AddToSavedCartComponent } from './add-to-saved-cart.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        I18nModule,
-        UrlModule,
-        FeaturesConfigModule,
-        AddToSavedCartComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                AddToSavedCartsComponent: {
-                    component: AddToSavedCartComponent,
-                },
-            },
-        }),
-    ],
-    exports: [AddToSavedCartComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    I18nModule,
+    UrlModule,
+    FeaturesConfigModule,
+    AddToSavedCartComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        AddToSavedCartsComponent: {
+          component: AddToSavedCartComponent,
+        },
+      },
+    }),
+  ],
+  exports: [AddToSavedCartComponent],
 })
 export class AddToSavedCartModule {}

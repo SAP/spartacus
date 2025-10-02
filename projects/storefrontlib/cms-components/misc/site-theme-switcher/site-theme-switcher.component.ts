@@ -23,17 +23,17 @@ import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-transl
  * Component for switching themes.
  */
 @Component({
-    selector: 'cx-site-theme-switcher',
-    templateUrl: './site-theme-switcher.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        IconComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-site-theme-switcher',
+  templateUrl: './site-theme-switcher.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgFor,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class SiteThemeSwitcherComponent {
   readonly translationService = inject(TranslationService);

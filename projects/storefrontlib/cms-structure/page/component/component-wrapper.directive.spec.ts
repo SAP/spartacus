@@ -38,8 +38,8 @@ import { CxApiService } from './services/cx-api.service';
 const testText = 'test text';
 
 @Component({
-    selector: 'cx-test',
-    template: ` <div id="debugEl1">${testText}</div> `,
+  selector: 'cx-test',
+  template: ` <div id="debugEl1">${testText}</div> `,
 })
 class TestComponent {
   constructor(
@@ -49,8 +49,8 @@ class TestComponent {
 }
 
 @NgModule({
-    imports: [TestComponent],
-    exports: [TestComponent],
+  imports: [TestComponent],
+  exports: [TestComponent],
 })
 class TestModule {}
 

@@ -70,9 +70,9 @@ class MockBreakpointService {
 }
 
 @Component({
-    selector: 'cx-hamburger-menu',
-    template: '',
-    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule,],
+  selector: 'cx-hamburger-menu',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockHamburgerMenuComponent {}
 
@@ -96,37 +96,42 @@ describe('ConfiguratorGroupTitleComponent', () => {
   beforeEach(waitForAsync(() => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule, ConfiguratorGroupTitleComponent,
-        MockHamburgerMenuComponent],
-    providers: [
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        ConfiguratorGroupTitleComponent,
+        MockHamburgerMenuComponent,
+      ],
+      providers: [
         HamburgerMenuService,
         {
-            provide: Router,
-            useClass: MockRouter,
+          provide: Router,
+          useClass: MockRouter,
         },
         {
-            provide: RoutingService,
-            useClass: MockRoutingService,
+          provide: RoutingService,
+          useClass: MockRoutingService,
         },
         {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
+          provide: ConfiguratorCommonsService,
+          useClass: MockConfiguratorCommonsService,
         },
         {
-            provide: ConfiguratorGroupsService,
-            useClass: MockConfiguratorGroupService,
+          provide: ConfiguratorGroupsService,
+          useClass: MockConfiguratorGroupService,
         },
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         {
-            provide: BreakpointService,
-            useClass: MockBreakpointService,
+          provide: BreakpointService,
+          useClass: MockBreakpointService,
         },
         {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfiguratorStorefrontUtilsService,
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: MockConfiguratorStorefrontUtilsService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorGroupTitleComponent);

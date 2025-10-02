@@ -10,7 +10,7 @@ import { LoggerService } from '../logger';
 import { LanguageService } from '../site-context/facade/language.service';
 
 // type CxDatePipe, not DatePipe, due to conflict with Angular's DatePipe - problem occurs for the backward compatibility compiler of Ivy
-@Pipe({ name: 'cxDate', })
+@Pipe({ name: 'cxDate' })
 export class CxDatePipe extends DatePipe implements PipeTransform {
   protected logger = inject(LoggerService);
 

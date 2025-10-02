@@ -12,14 +12,14 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-pickup-info',
-    templateUrl: './pickup-info.component.html',
-    imports: [
-        StoreAddressComponent,
-        StoreScheduleComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-pickup-info',
+  templateUrl: './pickup-info.component.html',
+  imports: [
+    StoreAddressComponent,
+    StoreScheduleComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class PickupInfoComponent {
   @Input() storeDetails: PointOfService;

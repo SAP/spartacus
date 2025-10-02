@@ -30,29 +30,29 @@ import { UrlPipe } from '../../../../../../projects/core/src/routing/configurabl
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-cart-item',
-    templateUrl: './cart-item.component.html',
-    providers: [
-        CartItemContextSource,
-        { provide: CartItemContext, useExisting: CartItemContextSource },
-    ],
-    imports: [
-        OutletDirective,
-        CartItemValidationWarningComponent,
-        NgClass,
-        RouterLink,
-        MediaComponent,
-        NgIf,
-        NgFor,
-        FeatureDirective,
-        ItemCounterComponent,
-        PromotionsComponent,
-        NgTemplateOutlet,
-        AtMessageDirective,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-cart-item',
+  templateUrl: './cart-item.component.html',
+  providers: [
+    CartItemContextSource,
+    { provide: CartItemContext, useExisting: CartItemContextSource },
+  ],
+  imports: [
+    OutletDirective,
+    CartItemValidationWarningComponent,
+    NgClass,
+    RouterLink,
+    MediaComponent,
+    NgIf,
+    NgFor,
+    FeatureDirective,
+    ItemCounterComponent,
+    PromotionsComponent,
+    NgTemplateOutlet,
+    AtMessageDirective,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class CartItemComponent implements OnChanges {
   @Input() compact = false;

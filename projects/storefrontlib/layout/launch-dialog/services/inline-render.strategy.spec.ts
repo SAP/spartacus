@@ -11,7 +11,7 @@ import { InlineRenderStrategy } from './inline-render.strategy';
 
 const testTemplate = {} as ComponentFactory<any>;
 
-@Component({ template: '', })
+@Component({ template: '' })
 class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}
 }
@@ -41,15 +41,15 @@ describe('InlineRenderStrategy', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [TestContainerComponent],
-    providers: [
+      imports: [TestContainerComponent],
+      providers: [
         InlineRenderStrategy,
         {
-            provide: ComponentFactoryResolver,
-            useClass: MockComponentFactoryResolver,
+          provide: ComponentFactoryResolver,
+          useClass: MockComponentFactoryResolver,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     service = TestBed.inject(InlineRenderStrategy);
     component = TestBed.createComponent(

@@ -27,7 +27,7 @@ export interface SkipFocusConfig {
  * in a host container from `tab` or `shift-tab` navigation
  * except elements in `activeElementSelectors` config.
  */
-@Directive({ selector: '[cxSkipFocus]', })
+@Directive({ selector: '[cxSkipFocus]' })
 export class SkipFocusDirective implements OnChanges {
   @Input('cxSkipFocus') config: SkipFocusConfig = { isEnabled: false };
 

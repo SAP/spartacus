@@ -148,41 +148,43 @@ describe('CartPickupOptionsContainerComponent', () => {
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
-    declarations: [CartPickupOptionsContainerComponent,
-        PickupOptionsStubComponent],
-    imports: [CommonModule, I18nTestingModule],
-    providers: [
+      declarations: [
+        CartPickupOptionsContainerComponent,
+        PickupOptionsStubComponent,
+      ],
+      imports: [CommonModule, I18nTestingModule],
+      providers: [
         {
-            provide: ActiveCartFacade,
-            useClass: MockActiveCartFacade,
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartFacade,
         },
         {
-            provide: LaunchDialogService,
-            useClass: MockLaunchDialogService,
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
         },
         {
-            provide: PreferredStoreFacade,
-            useClass: MockPreferredStoreService,
+          provide: PreferredStoreFacade,
+          useClass: MockPreferredStoreService,
         },
         {
-            provide: PickupLocationsSearchFacade,
-            useClass: MockPickupLocationsSearchFacade,
+          provide: PickupLocationsSearchFacade,
+          useClass: MockPickupLocationsSearchFacade,
         },
         {
-            provide: PickupOptionFacade,
-            useClass: MockPickupOptionFacade,
+          provide: PickupOptionFacade,
+          useClass: MockPickupOptionFacade,
         },
         { provide: CmsService, useClass: MockCmsService },
         {
-            provide: IntendedPickupLocationFacade,
-            useClass: MockIntendedPickupLocationFacade,
+          provide: IntendedPickupLocationFacade,
+          useClass: MockIntendedPickupLocationFacade,
         },
         {
-            provide: FeatureConfigService,
-            useClass: MockFeatureConfigService,
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
         },
-    ],
-});
+      ],
+    });
 
   const stubServiceAndCreateComponent = () => {
     fixture = TestBed.createComponent(CartPickupOptionsContainerComponent);

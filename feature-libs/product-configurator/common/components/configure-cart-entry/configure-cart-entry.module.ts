@@ -12,7 +12,14 @@ import { IconModule } from '@spartacus/storefront';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 
 @NgModule({
-    imports: [CommonModule, UrlModule, I18nModule, IconModule, RouterModule, ConfigureCartEntryComponent],
-    exports: [ConfigureCartEntryComponent],
+  imports: [
+    CommonModule,
+    UrlModule,
+    I18nModule,
+    IconModule,
+    RouterModule,
+    ConfigureCartEntryComponent,
+  ],
+  exports: [ConfigureCartEntryComponent],
 })
 export class ConfigureCartEntryModule {}

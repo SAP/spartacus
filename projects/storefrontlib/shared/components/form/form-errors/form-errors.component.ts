@@ -33,16 +33,10 @@ import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-tra
  * (if only it's an object) merged with the optional input object `translationParams`.
  */
 @Component({
-    selector: 'cx-form-errors',
-    templateUrl: './form-errors.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-form-errors',
+  templateUrl: './form-errors.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, MockTranslatePipe],
 })
 export class FormErrorsComponent implements DoCheck {
   private featureConfigService = inject(FeatureConfigService);

@@ -16,8 +16,8 @@ describe('AvatarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, IconModule, AvatarComponent],
-}).compileComponents();
+      imports: [I18nTestingModule, IconModule, AvatarComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -4,7 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT, NgIf, NgFor, NgClass, NgSwitch, NgSwitchCase, KeyValuePipe } from '@angular/common';
+import {
+  DOCUMENT,
+  NgIf,
+  NgFor,
+  NgClass,
+  NgSwitch,
+  NgSwitchCase,
+  KeyValuePipe,
+} from '@angular/common';
 import { Component, Inject, Input, ViewChild } from '@angular/core';
 import { PointOfService } from '@spartacus/core';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
@@ -19,23 +27,23 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-store-finder-list',
-    templateUrl: './store-finder-list.component.html',
-    imports: [
-        NgIf,
-        StoreFinderPaginationDetailsComponent,
-        IconComponent,
-        StoreFinderStoreDescriptionComponent,
-        NgFor,
-        NgClass,
-        StoreFinderListItemComponent,
-        StoreFinderMapComponent,
-        NgSwitch,
-        NgSwitchCase,
-        KeyValuePipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-store-finder-list',
+  templateUrl: './store-finder-list.component.html',
+  imports: [
+    NgIf,
+    StoreFinderPaginationDetailsComponent,
+    IconComponent,
+    StoreFinderStoreDescriptionComponent,
+    NgFor,
+    NgClass,
+    StoreFinderListItemComponent,
+    StoreFinderMapComponent,
+    NgSwitch,
+    NgSwitchCase,
+    KeyValuePipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class StoreFinderListComponent {
   @Input()

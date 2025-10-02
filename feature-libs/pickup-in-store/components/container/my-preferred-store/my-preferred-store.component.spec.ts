@@ -192,34 +192,34 @@ describe('MyPreferredStoreComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [
+      imports: [
         CardModule,
         CommonModule,
         I18nTestingModule,
         IconTestingModule,
         StoreModule,
         ConfigModule.withConfig({
-            cmsComponents: {
-                MyPreferredStore: {
-                    component: MyPreferredStoreComponent,
-                },
+          cmsComponents: {
+            MyPreferredStore: {
+              component: MyPreferredStoreComponent,
             },
+          },
         } as CmsConfig),
         MyPreferredStoreComponent,
-    ],
-    providers: [
+      ],
+      providers: [
         { provide: PreferredStoreFacade, useClass: MockPreferredStoreService },
         {
-            provide: PickupLocationsSearchFacade,
-            useClass: MockPickupLocationsSearchService,
+          provide: PickupLocationsSearchFacade,
+          useClass: MockPickupLocationsSearchService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: StoreFinderFacade, useClass: MockStoreLocationService },
         { provide: StoreLocationService, useClass: MockStoreLocationService },
         { provide: CmsService, useClass: MockCmsService },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-    ],
-})
+      ],
+    })
       .overrideModule(FeaturesConfigModule, {
         set: {
           declarations: [MockFeatureDirective],

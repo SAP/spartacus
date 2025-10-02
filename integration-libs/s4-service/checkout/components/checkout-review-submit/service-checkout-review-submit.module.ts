@@ -26,27 +26,27 @@ import {
 import { ServiceCheckoutReviewSubmitComponent } from './service-checkout-review-submit.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        CardModule,
-        I18nModule,
-        UrlModule,
-        RouterModule,
-        PromotionsModule,
-        IconModule,
-        OutletModule,
-        ServiceCheckoutReviewSubmitComponent,
-    ],
-    providers: [
-        provideDefaultConfig(<CmsConfig>{
-            cmsComponents: {
-                CheckoutReviewOrder: {
-                    component: ServiceCheckoutReviewSubmitComponent,
-                    guards: [CheckoutAuthGuard, CartNotEmptyGuard],
-                },
-            },
-        }),
-    ],
-    exports: [ServiceCheckoutReviewSubmitComponent],
+  imports: [
+    CommonModule,
+    CardModule,
+    I18nModule,
+    UrlModule,
+    RouterModule,
+    PromotionsModule,
+    IconModule,
+    OutletModule,
+    ServiceCheckoutReviewSubmitComponent,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        CheckoutReviewOrder: {
+          component: ServiceCheckoutReviewSubmitComponent,
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+        },
+      },
+    }),
+  ],
+  exports: [ServiceCheckoutReviewSubmitComponent],
 })
 export class ServiceCheckoutReviewSubmitModule {}

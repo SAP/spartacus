@@ -16,10 +16,10 @@ import { NgIf } from '@angular/common';
 import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
 
 @Component({
-    selector: 'cx-configurator-conflict-description',
-    templateUrl: './configurator-conflict-description.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NgIf, IconComponent],
+  selector: 'cx-configurator-conflict-description',
+  templateUrl: './configurator-conflict-description.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, IconComponent],
 })
 export class ConfiguratorConflictDescriptionComponent {
   @Input() currentGroup: Configurator.Group;

@@ -94,20 +94,22 @@ class MockTranslationService {
 }
 
 @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule,
-        ReactiveFormsModule,
-        FormErrorsModule,
-        FileUploadModule,
-        NgSelectModule,
-        NgSelectA11yModule,],
+  selector: 'cx-icon',
+  template: '',
+  imports: [
+    I18nTestingModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    FileUploadModule,
+    NgSelectModule,
+    NgSelectA11yModule,
+  ],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-@Directive({ selector: '[cxFocus]', })
+@Directive({ selector: '[cxFocus]' })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -120,7 +122,7 @@ describe('CustomerTicketingCreateDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [
+      imports: [
         I18nTestingModule,
         ReactiveFormsModule,
         FormErrorsModule,
@@ -130,18 +132,18 @@ describe('CustomerTicketingCreateDialogComponent', () => {
         CustomerTicketingCreateDialogComponent,
         MockCxIconComponent,
         MockKeyboadFocusDirective,
-    ],
-    providers: [
+      ],
+      providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-            provide: CustomerTicketingFacade,
-            useClass: MockCustomerTicketingFacade,
+          provide: CustomerTicketingFacade,
+          useClass: MockCustomerTicketingFacade,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: TranslationService, useClass: MockTranslationService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
     customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
 

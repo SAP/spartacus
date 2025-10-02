@@ -22,30 +22,27 @@ import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/co
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
 
 @Component({
-    selector: 'cx-configurator-attribute-product-card',
-    template: '',
-    imports: [I18nTestingModule,
-        ReactiveFormsModule],
+  selector: 'cx-configurator-attribute-product-card',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockProductCardComponent {
   @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
 }
 
 @Component({
-    selector: 'cx-configurator-price',
-    template: '',
-    imports: [I18nTestingModule,
-        ReactiveFormsModule],
+  selector: 'cx-configurator-price',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
 @Component({
-    selector: 'cx-configurator-attribute-quantity',
-    template: '',
-    imports: [I18nTestingModule,
-        ReactiveFormsModule],
+  selector: 'cx-configurator-attribute-quantity',
+  template: '',
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -107,7 +104,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         I18nTestingModule,
         ReactiveFormsModule,
         StoreModule.forRoot({}),
@@ -118,16 +115,16 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         MockProductCardComponent,
         MockConfiguratorPriceComponent,
         MockConfiguratorAttributeQuantityComponent,
-    ],
-    providers: [
+      ],
+      providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
-            provide: ConfiguratorAttributeCompositionContext,
-            useValue: ConfiguratorTestUtils.getAttributeContext(),
+          provide: ConfiguratorAttributeCompositionContext,
+          useValue: ConfiguratorTestUtils.getAttributeContext(),
         },
         { provide: ProductConnector, useClass: MockProductConnector },
-    ],
-})
+      ],
+    })
       .overrideComponent(ConfiguratorAttributeSingleSelectionBundleComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,

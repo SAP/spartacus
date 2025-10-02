@@ -34,26 +34,26 @@ import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mo
 import { MockDatePipe } from '../../../../projects/core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-replenishment-order-history',
-    templateUrl: './replenishment-order-history.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        SortingComponent,
-        PaginationComponent,
-        FeatureDirective,
-        NgFor,
-        RouterLink,
-        BtnLikeLinkDirective,
-        RouterLinkActive,
-        AsyncPipe,
-        SlicePipe,
-        UrlPipe,
-        TranslatePipe,
-        CxDatePipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-replenishment-order-history',
+  templateUrl: './replenishment-order-history.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    SortingComponent,
+    PaginationComponent,
+    FeatureDirective,
+    NgFor,
+    RouterLink,
+    BtnLikeLinkDirective,
+    RouterLinkActive,
+    AsyncPipe,
+    SlicePipe,
+    UrlPipe,
+    TranslatePipe,
+    CxDatePipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   @ViewChild('element') element: ElementRef;

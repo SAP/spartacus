@@ -36,82 +36,82 @@ import { StoreFinderStoreComponent } from './store-finder-store/store-finder-sto
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count/store-finder-stores-count.component';
 import { StoreFinderComponent } from './store-finder/store-finder.component';
 @NgModule({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        RouterModule,
-        ListNavigationModule,
-        SpinnerModule,
-        UrlModule,
-        StoreFinderCoreModule,
-        I18nModule,
-        IconModule,
-        OutletModule,
-        FeaturesConfigModule,
-        BtnLikeLinkModule,
-        StoreFinderSearchComponent,
-        StoreFinderListComponent,
-        StoreFinderMapComponent,
-        StoreFinderListItemComponent,
-        StoreFinderStoresCountComponent,
-        StoreFinderGridComponent,
-        StoreFinderStoreDescriptionComponent,
-        ScheduleComponent,
-        StoreFinderHeaderComponent,
-        StoreFinderSearchResultComponent,
-        StoreFinderComponent,
-        StoreFinderPaginationDetailsComponent,
-        StoreFinderStoreComponent,
-    ],
-    providers: [
-        provideDefaultConfig({
-            cmsComponents: {
-                StoreFinderComponent: {
-                    component: StoreFinderComponent,
-                    childRoutes: [
-                        {
-                            path: 'find',
-                            component: StoreFinderSearchResultComponent,
-                        },
-                        {
-                            path: 'view-all',
-                            component: StoreFinderStoresCountComponent,
-                        },
-                        {
-                            path: 'country/:country',
-                            component: StoreFinderGridComponent,
-                        },
-                        {
-                            path: 'country/:country/region/:region',
-                            component: StoreFinderGridComponent,
-                        },
-                        {
-                            path: 'country/:country/region/:region/:store',
-                            component: StoreFinderStoreComponent,
-                        },
-                        {
-                            path: 'country/:country/:store',
-                            component: StoreFinderStoreComponent,
-                        },
-                    ],
-                },
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    ListNavigationModule,
+    SpinnerModule,
+    UrlModule,
+    StoreFinderCoreModule,
+    I18nModule,
+    IconModule,
+    OutletModule,
+    FeaturesConfigModule,
+    BtnLikeLinkModule,
+    StoreFinderSearchComponent,
+    StoreFinderListComponent,
+    StoreFinderMapComponent,
+    StoreFinderListItemComponent,
+    StoreFinderStoresCountComponent,
+    StoreFinderGridComponent,
+    StoreFinderStoreDescriptionComponent,
+    ScheduleComponent,
+    StoreFinderHeaderComponent,
+    StoreFinderSearchResultComponent,
+    StoreFinderComponent,
+    StoreFinderPaginationDetailsComponent,
+    StoreFinderStoreComponent,
+  ],
+  providers: [
+    provideDefaultConfig({
+      cmsComponents: {
+        StoreFinderComponent: {
+          component: StoreFinderComponent,
+          childRoutes: [
+            {
+              path: 'find',
+              component: StoreFinderSearchResultComponent,
             },
-        }),
-    ],
-    exports: [
-        ScheduleComponent,
-        StoreFinderComponent,
-        StoreFinderGridComponent,
-        StoreFinderHeaderComponent,
-        StoreFinderListItemComponent,
-        StoreFinderMapComponent,
-        StoreFinderPaginationDetailsComponent,
-        StoreFinderSearchComponent,
-        StoreFinderSearchResultComponent,
-        StoreFinderListComponent,
-        StoreFinderStoreDescriptionComponent,
-        StoreFinderStoresCountComponent,
-        StoreFinderStoreComponent,
-    ],
+            {
+              path: 'view-all',
+              component: StoreFinderStoresCountComponent,
+            },
+            {
+              path: 'country/:country',
+              component: StoreFinderGridComponent,
+            },
+            {
+              path: 'country/:country/region/:region',
+              component: StoreFinderGridComponent,
+            },
+            {
+              path: 'country/:country/region/:region/:store',
+              component: StoreFinderStoreComponent,
+            },
+            {
+              path: 'country/:country/:store',
+              component: StoreFinderStoreComponent,
+            },
+          ],
+        },
+      },
+    }),
+  ],
+  exports: [
+    ScheduleComponent,
+    StoreFinderComponent,
+    StoreFinderGridComponent,
+    StoreFinderHeaderComponent,
+    StoreFinderListItemComponent,
+    StoreFinderMapComponent,
+    StoreFinderPaginationDetailsComponent,
+    StoreFinderSearchComponent,
+    StoreFinderSearchResultComponent,
+    StoreFinderListComponent,
+    StoreFinderStoreDescriptionComponent,
+    StoreFinderStoresCountComponent,
+    StoreFinderStoreComponent,
+  ],
 })
 export class StoreFinderComponentsModule {}

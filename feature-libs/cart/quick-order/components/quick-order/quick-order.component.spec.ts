@@ -126,9 +126,9 @@ const MockCmsComponentData = <CmsComponentData<any>>{
 };
 
 @Component({
-    template: '',
-    selector: 'cx-quick-order-form',
-    imports: [I18nTestingModule, MessageComponentModule],
+  template: '',
+  selector: 'cx-quick-order-form',
+  imports: [I18nTestingModule, MessageComponentModule],
 })
 class MockQuickOrderFormComponent {
   @Input() isLoading: boolean;
@@ -136,9 +136,9 @@ class MockQuickOrderFormComponent {
 }
 
 @Component({
-    template: '',
-    selector: 'cx-quick-order-table',
-    imports: [I18nTestingModule, MessageComponentModule],
+  template: '',
+  selector: 'cx-quick-order-table',
+  imports: [I18nTestingModule, MessageComponentModule],
 })
 class MockQuickOrderTableComponent {
   @Input() entries: OrderEntry[];
@@ -146,9 +146,9 @@ class MockQuickOrderTableComponent {
 }
 
 @Component({
-    template: '',
-    selector: 'cx-progress-button',
-    imports: [I18nTestingModule, MessageComponentModule],
+  template: '',
+  selector: 'cx-progress-button',
+  imports: [I18nTestingModule, MessageComponentModule],
 })
 class MockProgressButtonComponent {
   @Input() loading: boolean;
@@ -164,30 +164,34 @@ describe('QuickOrderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, MessageComponentModule, QuickOrderComponent,
+      imports: [
+        I18nTestingModule,
+        MessageComponentModule,
+        QuickOrderComponent,
         MockQuickOrderFormComponent,
         MockQuickOrderTableComponent,
-        MockProgressButtonComponent],
-    providers: [
+        MockProgressButtonComponent,
+      ],
+      providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
         {
-            provide: QuickOrderStatePersistenceService,
-            useClass: MockQuickOrderStatePersistenceService,
+          provide: QuickOrderStatePersistenceService,
+          useClass: MockQuickOrderStatePersistenceService,
         },
         {
-            provide: CmsComponentData,
-            useValue: MockCmsComponentData,
+          provide: CmsComponentData,
+          useValue: MockCmsComponentData,
         },
         {
-            provide: FeaturesConfig,
-            useValue: {
-                features: { level: '5.1' },
-            },
+          provide: FeaturesConfig,
+          useValue: {
+            features: { level: '5.1' },
+          },
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     quickOrderService = TestBed.inject(QuickOrderFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);

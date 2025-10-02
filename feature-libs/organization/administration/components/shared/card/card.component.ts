@@ -27,24 +27,24 @@ import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translat
 import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-card',
-    templateUrl: './card.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'content-wrapper' },
-    providers: [MessageService],
-    imports: [
-        ViewComponent_1,
-        FeatureDirective,
-        NgIf,
-        PopoverDirective,
-        IconComponent,
-        RouterLink,
-        MessageComponent,
-        RouterOutlet,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-card',
+  templateUrl: './card.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
+  providers: [MessageService],
+  imports: [
+    ViewComponent_1,
+    FeatureDirective,
+    NgIf,
+    PopoverDirective,
+    IconComponent,
+    RouterLink,
+    MessageComponent,
+    RouterOutlet,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CardComponent<T extends BaseItem> {
   @Input() i18nRoot: string;

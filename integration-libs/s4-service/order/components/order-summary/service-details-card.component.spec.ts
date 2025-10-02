@@ -20,17 +20,17 @@ describe('ServiceDetailsCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [ServiceDetailsCardComponent],
-    providers: [
+      imports: [ServiceDetailsCardComponent],
+      providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: CheckoutServiceSchedulePickerService, useValue: {} },
         { provide: OutletContextData, useValue: {} },
         {
-            provide: CheckoutServiceSchedulePickerService,
-            useClass: MockCheckoutServiceSchedulePickerService,
+          provide: CheckoutServiceSchedulePickerService,
+          useClass: MockCheckoutServiceSchedulePickerService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
     fixture = TestBed.createComponent(ServiceDetailsCardComponent);
     component = fixture.componentInstance;
     translateService = TestBed.inject(TranslationService);

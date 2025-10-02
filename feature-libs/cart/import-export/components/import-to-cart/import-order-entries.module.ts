@@ -31,40 +31,40 @@ import { ImportToNewSavedCartFormComponent } from './import-entries-dialog/impor
 import { ImportOrderEntriesComponent } from './import-entries/import-order-entries.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        FormErrorsModule,
-        FormRequiredAsterisksComponent,
-        FormRequiredLegendComponent,
-        IconModule,
-        KeyboardFocusModule,
-        FileUploadModule,
-        I18nModule,
-        MessageComponentModule,
-        FeaturesConfigModule,
-        ConfigModule.withConfig(<CmsConfig>{
-            cmsComponents: {
-                ImportOrderEntriesComponent: {
-                    component: ImportOrderEntriesComponent,
-                },
-            },
-        }),
-        FeaturesConfigModule,
-        ImportOrderEntriesComponent,
-        ImportEntriesDialogComponent,
-        ImportEntriesFormComponent,
-        ImportEntriesSummaryComponent,
-        ImportToNewSavedCartFormComponent,
-    ],
-    exports: [
-        ImportOrderEntriesComponent,
-        ImportEntriesDialogComponent,
-        ImportEntriesFormComponent,
-        ImportEntriesSummaryComponent,
-        ImportToNewSavedCartFormComponent,
-    ],
-    providers: [provideDefaultConfig(defaultImportEntriesLayoutConfig)],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    FormRequiredAsterisksComponent,
+    FormRequiredLegendComponent,
+    IconModule,
+    KeyboardFocusModule,
+    FileUploadModule,
+    I18nModule,
+    MessageComponentModule,
+    FeaturesConfigModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        ImportOrderEntriesComponent: {
+          component: ImportOrderEntriesComponent,
+        },
+      },
+    }),
+    FeaturesConfigModule,
+    ImportOrderEntriesComponent,
+    ImportEntriesDialogComponent,
+    ImportEntriesFormComponent,
+    ImportEntriesSummaryComponent,
+    ImportToNewSavedCartFormComponent,
+  ],
+  exports: [
+    ImportOrderEntriesComponent,
+    ImportEntriesDialogComponent,
+    ImportEntriesFormComponent,
+    ImportEntriesSummaryComponent,
+    ImportToNewSavedCartFormComponent,
+  ],
+  providers: [provideDefaultConfig(defaultImportEntriesLayoutConfig)],
 })
 export class ImportOrderEntriesModule {}

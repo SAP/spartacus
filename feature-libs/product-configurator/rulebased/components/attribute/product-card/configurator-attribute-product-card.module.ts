@@ -20,21 +20,21 @@ import { ConfiguratorAttributeQuantityModule } from '../quantity/configurator-at
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
 
 @NgModule({
-    exports: [ConfiguratorAttributeProductCardComponent],
-    imports: [
-        CommonModule,
-        ConfiguratorShowMoreModule,
-        ConfiguratorAttributeQuantityModule,
-        I18nModule,
-        RouterModule,
-        UrlModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MediaModule,
-        ConfiguratorPriceModule,
-        KeyboardFocusModule,
-        IconModule,
-        ConfiguratorAttributeProductCardComponent,
-    ],
+  exports: [ConfiguratorAttributeProductCardComponent],
+  imports: [
+    CommonModule,
+    ConfiguratorShowMoreModule,
+    ConfiguratorAttributeQuantityModule,
+    I18nModule,
+    RouterModule,
+    UrlModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MediaModule,
+    ConfiguratorPriceModule,
+    KeyboardFocusModule,
+    IconModule,
+    ConfiguratorAttributeProductCardComponent,
+  ],
 })
 export class ConfiguratorAttributeProductCardModule {}

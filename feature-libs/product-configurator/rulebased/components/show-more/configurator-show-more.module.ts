@@ -10,7 +10,7 @@ import { I18nModule } from '@spartacus/core';
 import { ConfiguratorShowMoreComponent } from './configurator-show-more.component';
 
 @NgModule({
-    imports: [CommonModule, I18nModule, ConfiguratorShowMoreComponent],
-    exports: [ConfiguratorShowMoreComponent],
+  imports: [CommonModule, I18nModule, ConfiguratorShowMoreComponent],
+  exports: [ConfiguratorShowMoreComponent],
 })
 export class ConfiguratorShowMoreModule {}

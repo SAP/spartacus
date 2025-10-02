@@ -39,21 +39,21 @@ import { TranslatePipe } from '../../../../core/src/i18n/translate.pipe';
 import { MockTranslatePipe } from '../../../../core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-anonymous-consent-dialog',
-    templateUrl: './anonymous-consent-dialog.component.html',
-    imports: [
-        FocusDirective,
-        NgIf,
-        SpinnerComponent,
-        IconComponent,
-        FeatureDirective,
-        MessageComponent,
-        NgFor,
-        ConsentManagementFormComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-anonymous-consent-dialog',
+  templateUrl: './anonymous-consent-dialog.component.html',
+  imports: [
+    FocusDirective,
+    NgIf,
+    SpinnerComponent,
+    IconComponent,
+    FeatureDirective,
+    MessageComponent,
+    NgFor,
+    ConsentManagementFormComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();

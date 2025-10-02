@@ -23,17 +23,17 @@ import { FeatureDirective } from '../../../../core/src/features-config/directive
 import { MediaComponent } from '../../../shared/components/media/media.component';
 
 @Component({
-    selector: 'cx-banner',
-    templateUrl: './banner.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        LcpContextDirective,
-        NgIf,
-        GenericLinkComponent,
-        FeatureDirective,
-        MediaComponent,
-        AsyncPipe,
-    ],
+  selector: 'cx-banner',
+  templateUrl: './banner.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    LcpContextDirective,
+    NgIf,
+    GenericLinkComponent,
+    FeatureDirective,
+    MediaComponent,
+    AsyncPipe,
+  ],
 })
 export class BannerComponent {
   routerLink: string | any[] | undefined;

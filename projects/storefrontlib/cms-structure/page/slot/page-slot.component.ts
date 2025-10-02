@@ -46,15 +46,10 @@ import { ComponentWrapperDirective } from '../component/component-wrapper.direct
  * - The `page-fold` style class is added for the page slot which is configured as the page fold.
  */
 @Component({
-    selector: 'cx-page-slot,[cx-page-slot]',
-    templateUrl: './page-slot.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        OutletDirective,
-        NgFor,
-        ComponentWrapperDirective,
-    ],
+  selector: 'cx-page-slot,[cx-page-slot]',
+  templateUrl: './page-slot.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, OutletDirective, NgFor, ComponentWrapperDirective],
 })
 export class PageSlotComponent implements OnInit, OnDestroy {
   /**

@@ -15,15 +15,9 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-overview-filter-bar',
-    templateUrl: './configurator-overview-filter-bar.component.html',
-    imports: [
-        NgFor,
-        IconComponent,
-        NgIf,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-overview-filter-bar',
+  templateUrl: './configurator-overview-filter-bar.component.html',
+  imports: [NgFor, IconComponent, NgIf, TranslatePipe, MockTranslatePipe],
 })
 export class ConfiguratorOverviewFilterBarComponent {
   readonly PREFIX_ID = 'cx-overview-filter-applied-';

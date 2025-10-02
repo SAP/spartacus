@@ -45,7 +45,7 @@ describe('UserGroupFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         I18nTestingModule,
         UrlTestingModule,
         ReactiveFormsModule,
@@ -54,15 +54,15 @@ describe('UserGroupFormComponent', () => {
         UserGroupFormComponent,
         FormErrorsComponent,
         MockFeatureDirective,
-    ],
-    providers: [
+      ],
+      providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         {
-            provide: UserGroupItemService,
-            useClass: MockItemService,
+          provide: UserGroupItemService,
+          useClass: MockItemService,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     b2bUnitService = TestBed.inject(OrgUnitService);
 

@@ -124,7 +124,7 @@ describe('SavedCartFormDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [
+      imports: [
         CommonModule,
         I18nTestingModule,
         FormsModule,
@@ -132,19 +132,20 @@ describe('SavedCartFormDialogComponent', () => {
         FormErrorsModule,
         KeyboardFocusTestingModule,
         IconTestingModule,
-        SavedCartFormDialogComponent, MockFeatureDirective,
-    ],
-    providers: [
+        SavedCartFormDialogComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },
         {
-            provide: EventService,
-            useClass: MockEventService,
+          provide: EventService,
+          useClass: MockEventService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     globalMessageService = TestBed.inject(GlobalMessageService);
     savedCartService = TestBed.inject(SavedCartFacade);

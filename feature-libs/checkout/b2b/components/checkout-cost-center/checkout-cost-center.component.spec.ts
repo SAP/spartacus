@@ -55,22 +55,22 @@ describe('CheckoutCostCenterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, CheckoutCostCenterComponent],
-    providers: [
+      imports: [I18nTestingModule, CheckoutCostCenterComponent],
+      providers: [
         {
-            provide: UserCostCenterService,
-            useClass: MockUserCostCenterService,
+          provide: UserCostCenterService,
+          useClass: MockUserCostCenterService,
         },
         {
-            provide: CheckoutCostCenterFacade,
-            useClass: MockCheckoutCostCenterService,
+          provide: CheckoutCostCenterFacade,
+          useClass: MockCheckoutCostCenterService,
         },
         {
-            provide: CheckoutPaymentTypeFacade,
-            useClass: MockCheckoutPaymentTypeFacade,
+          provide: CheckoutPaymentTypeFacade,
+          useClass: MockCheckoutPaymentTypeFacade,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

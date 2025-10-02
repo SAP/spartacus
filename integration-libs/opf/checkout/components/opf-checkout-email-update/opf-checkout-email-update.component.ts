@@ -5,7 +5,13 @@
  */
 
 import { Component, inject } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {
   ActiveCartFacade,
   CartGuestUserFacade,
@@ -24,16 +30,16 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-opf-checkout-email-update',
-    templateUrl: './opf-checkout-email-update.component.html',
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        NgTemplateOutlet,
-        FormErrorsComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-opf-checkout-email-update',
+  templateUrl: './opf-checkout-email-update.component.html',
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgTemplateOutlet,
+    FormErrorsComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class OpfCheckoutEmailUpdateComponent {
   protected cartGuestUserFacade = inject(CartGuestUserFacade);

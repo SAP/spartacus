@@ -20,8 +20,12 @@ describe('ImportEntriesFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, IconTestingModule, ImportEntriesSummaryComponent],
-}).compileComponents();
+      imports: [
+        I18nTestingModule,
+        IconTestingModule,
+        ImportEntriesSummaryComponent,
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ImportEntriesSummaryComponent);
     component = fixture.componentInstance;

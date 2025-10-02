@@ -56,20 +56,20 @@ export interface CardWithAddress {
 }
 
 @Component({
-    selector: 'cx-delivery-address',
-    templateUrl: './checkout-delivery-address.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgIf,
-        NgTemplateOutlet,
-        NgFor,
-        CardComponent,
-        AddressFormComponent,
-        SpinnerComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-delivery-address',
+  templateUrl: './checkout-delivery-address.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    NgFor,
+    CardComponent,
+    AddressFormComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class CheckoutDeliveryAddressComponent implements OnInit {
   protected checkoutConfigService = inject(CheckoutConfigService);

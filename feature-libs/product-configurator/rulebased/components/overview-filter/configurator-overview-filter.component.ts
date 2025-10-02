@@ -5,7 +5,11 @@
  */
 
 import { Component, inject, Input, OnChanges } from '@angular/core';
-import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  UntypedFormControl,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -16,18 +20,18 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-overview-filter',
-    templateUrl: './configurator-overview-filter.component.html',
-    imports: [
-        NgIf,
-        ConfiguratorOverviewFilterBarComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-overview-filter',
+  templateUrl: './configurator-overview-filter.component.html',
+  imports: [
+    NgIf,
+    ConfiguratorOverviewFilterBarComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorOverviewFilterComponent implements OnChanges {
   protected configuratorStorefrontUtilsService = inject(

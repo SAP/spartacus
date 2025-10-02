@@ -13,7 +13,13 @@ import { CostCenterAssignedBudgetListComponent } from './assigned/cost-center-as
 import { CostCenterBudgetListComponent } from './cost-center-budget-list.component';
 
 @NgModule({
-    imports: [ListModule, I18nModule, RouterModule, SubListModule, CostCenterAssignedBudgetListComponent,
-        CostCenterBudgetListComponent],
+  imports: [
+    ListModule,
+    I18nModule,
+    RouterModule,
+    SubListModule,
+    CostCenterAssignedBudgetListComponent,
+    CostCenterBudgetListComponent,
+  ],
 })
 export class CostCenterBudgetListModule {}

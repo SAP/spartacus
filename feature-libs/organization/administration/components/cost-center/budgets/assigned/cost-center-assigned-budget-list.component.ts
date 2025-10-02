@@ -13,21 +13,16 @@ import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/trans
 import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-cost-center-assigned-budget-list',
-    templateUrl: './cost-center-assigned-budget-list.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'content-wrapper' },
-    providers: [
-        {
-            provide: ListService,
-            useExisting: CostCenterAssignedBudgetListService,
-        },
-    ],
-    imports: [
-        SubListComponent,
-        RouterLink,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-cost-center-assigned-budget-list',
+  templateUrl: './cost-center-assigned-budget-list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
+  providers: [
+    {
+      provide: ListService,
+      useExisting: CostCenterAssignedBudgetListService,
+    },
+  ],
+  imports: [SubListComponent, RouterLink, TranslatePipe, MockTranslatePipe],
 })
 export class CostCenterAssignedBudgetListComponent {}

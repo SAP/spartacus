@@ -11,8 +11,12 @@ describe('TextfieldInputFieldComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [I18nTestingModule, ReactiveFormsModule, ConfiguratorTextfieldInputFieldComponent],
-});
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        ConfiguratorTextfieldInputFieldComponent,
+      ],
+    });
   }));
 
   beforeEach(() => {

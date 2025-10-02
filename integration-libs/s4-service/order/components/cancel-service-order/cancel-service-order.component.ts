@@ -5,7 +5,13 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
@@ -25,19 +31,19 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 @Component({
-    selector: 'cx-cancel-service-order',
-    templateUrl: './cancel-service-order.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        NgIf,
-        RouterLink,
-        AsyncPipe,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-cancel-service-order',
+  templateUrl: './cancel-service-order.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class CancelServiceOrderComponent {
   protected orderDetailsService = inject(OrderDetailsService);

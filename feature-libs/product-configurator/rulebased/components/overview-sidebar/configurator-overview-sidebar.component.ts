@@ -18,17 +18,17 @@ import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.p
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-configurator-overview-sidebar',
-    templateUrl: './configurator-overview-sidebar.component.html',
-    imports: [
-        NgIf,
-        ConfiguratorOverviewFilterComponent,
-        ConfiguratorOverviewMenuComponent,
-        NgFor,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-configurator-overview-sidebar',
+  templateUrl: './configurator-overview-sidebar.component.html',
+  imports: [
+    NgIf,
+    ConfiguratorOverviewFilterComponent,
+    ConfiguratorOverviewMenuComponent,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class ConfiguratorOverviewSidebarComponent {
   @HostBinding('class.ghost') ghostStyle = true;

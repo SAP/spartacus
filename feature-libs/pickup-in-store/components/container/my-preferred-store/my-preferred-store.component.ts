@@ -58,20 +58,20 @@ interface PreferredStoreContent {
 }
 
 @Component({
-    selector: 'cx-my-preferred-store',
-    templateUrl: 'my-preferred-store.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        NgClass,
-        CardComponent,
-        StoreAddressComponent,
-        NgIf,
-        IconComponent,
-        StoreScheduleComponent,
-        AsyncPipe,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-my-preferred-store',
+  templateUrl: 'my-preferred-store.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgClass,
+    CardComponent,
+    StoreAddressComponent,
+    NgIf,
+    IconComponent,
+    StoreScheduleComponent,
+    AsyncPipe,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class MyPreferredStoreComponent implements OnInit {
   protected storeLocationService: StoreLocationService =

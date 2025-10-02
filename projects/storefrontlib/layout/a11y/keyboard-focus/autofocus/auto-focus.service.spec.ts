@@ -4,7 +4,8 @@ import { By } from '@angular/platform-browser';
 import { SelectFocusUtility } from '../services';
 import { AutoFocusService } from './auto-focus.service';
 
-@Component({ template: `
+@Component({
+  template: `
     <div id="a"></div>
     <div id="b">
       <button id="b1"></button>
@@ -22,7 +23,8 @@ import { AutoFocusService } from './auto-focus.service';
       <div id="e1"></div>
       <div id="e2"></div>
     </div>
-  `, })
+  `,
+})
 class MockComponent {}
 
 class MockSelectFocusUtility {
@@ -37,15 +39,15 @@ describe('AutoFocusService', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [MockComponent],
-    providers: [
+      imports: [MockComponent],
+      providers: [
         AutoFocusService,
         {
-            provide: SelectFocusUtility,
-            useClass: MockSelectFocusUtility,
+          provide: SelectFocusUtility,
+          useClass: MockSelectFocusUtility,
         },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     service = TestBed.inject(AutoFocusService);
     focusUtility = TestBed.inject(SelectFocusUtility);

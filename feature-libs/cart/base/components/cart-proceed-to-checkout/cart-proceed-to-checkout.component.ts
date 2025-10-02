@@ -11,7 +11,13 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { Event, NavigationCancel, NavigationEnd, Router, RouterLink } from '@angular/router';
+import {
+  Event,
+  NavigationCancel,
+  NavigationEnd,
+  Router,
+  RouterLink,
+} from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ProgressButtonComponent } from '../../../../../projects/storefrontlib/shared/components/progress-button/progress-button.component';
 import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
@@ -19,16 +25,16 @@ import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-r
 import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-cart-proceed-to-checkout',
-    templateUrl: './cart-proceed-to-checkout.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        ProgressButtonComponent,
-        RouterLink,
-        TranslatePipe,
-        UrlPipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-cart-proceed-to-checkout',
+  templateUrl: './cart-proceed-to-checkout.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ProgressButtonComponent,
+    RouterLink,
+    TranslatePipe,
+    UrlPipe,
+    MockTranslatePipe,
+  ],
 })
 export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
   cartValidationInProgress = false;

@@ -27,15 +27,10 @@ import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe
 import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-replenishment-order-cancellation-dialog',
-    templateUrl: './replenishment-order-cancellation-dialog.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FocusDirective,
-        IconComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-replenishment-order-cancellation-dialog',
+  templateUrl: './replenishment-order-cancellation-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FocusDirective, IconComponent, TranslatePipe, MockTranslatePipe],
 })
 export class ReplenishmentOrderCancellationDialogComponent
   implements OnInit, OnDestroy

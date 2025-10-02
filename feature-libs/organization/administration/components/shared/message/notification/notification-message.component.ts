@@ -14,16 +14,16 @@ import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/trans
 import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
 
 @Component({
-    selector: 'cx-org-notification',
-    templateUrl: './notification-message.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        FocusDirective,
-        NgIf,
-        IconComponent,
-        TranslatePipe,
-        MockTranslatePipe,
-    ],
+  selector: 'cx-org-notification',
+  templateUrl: './notification-message.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FocusDirective,
+    NgIf,
+    IconComponent,
+    TranslatePipe,
+    MockTranslatePipe,
+  ],
 })
 export class NotificationMessageComponent extends BaseMessageComponent {
   closeIcon = ICON_TYPE.CLOSE;

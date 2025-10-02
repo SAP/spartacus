@@ -11,7 +11,7 @@ import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { QuoteRequestButtonComponent } from './quote-request-button.component';
 import createSpy = jasmine.createSpy;
 
-@Pipe({ name: 'cxUrl', })
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -39,19 +39,19 @@ describe('QuoteRequestButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [I18nTestingModule, QuoteRequestButtonComponent, MockUrlPipe],
-    providers: [
+      imports: [I18nTestingModule, QuoteRequestButtonComponent, MockUrlPipe],
+      providers: [
         {
-            provide: QuoteFacade,
-            useClass: MockQuoteFacade,
+          provide: QuoteFacade,
+          useClass: MockQuoteFacade,
         },
         {
-            provide: AuthService,
-            useClass: MockAuthService,
+          provide: AuthService,
+          useClass: MockAuthService,
         },
         { provide: RoutingService, useValue: mockRoutingService },
-    ],
-}).compileComponents();
+      ],
+    }).compileComponents();
 
     quoteFacade = TestBed.inject(QuoteFacade);
   });

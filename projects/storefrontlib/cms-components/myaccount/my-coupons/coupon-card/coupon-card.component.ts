@@ -26,17 +26,17 @@ import { MockTranslatePipe } from '../../../../../core/src/i18n/testing/mock-tra
 import { MockDatePipe } from '../../../../../core/src/i18n/testing/mock-date.pipe';
 
 @Component({
-    selector: 'cx-coupon-card',
-    templateUrl: './coupon-card.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        AsyncPipe,
-        LowerCasePipe,
-        TranslatePipe,
-        CxDatePipe,
-        MockTranslatePipe,
-        MockDatePipe,
-    ],
+  selector: 'cx-coupon-card',
+  templateUrl: './coupon-card.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    AsyncPipe,
+    LowerCasePipe,
+    TranslatePipe,
+    CxDatePipe,
+    MockTranslatePipe,
+    MockDatePipe,
+  ],
 })
 export class CouponCardComponent {
   @Input() coupon: CustomerCoupon;
