@@ -18,7 +18,7 @@ import {
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { CmsService, CostCenter, Page } from '@spartacus/core';
+import { CmsService, CostCenter, normalizeEmpty, Page } from '@spartacus/core';
 import {
   OpfBaseFacade,
   OpfMetadataStoreService,
@@ -111,7 +111,7 @@ export class OpfB2bCheckoutReviewComponent
       map(([textTitle, noneTextTitle]) => {
         return {
           title: textTitle,
-          textBold: poNumber || noneTextTitle,
+          textBold: normalizeEmpty(poNumber) ?? noneTextTitle,
         };
       })
     );
