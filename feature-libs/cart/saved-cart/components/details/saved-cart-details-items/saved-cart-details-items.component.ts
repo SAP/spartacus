@@ -30,8 +30,8 @@ import { map, switchMap, take, tap } from 'rxjs/operators';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { OutletDirective } from '@spartacus/storefront';
-import { AddToCartComponent } from '../../../../base/components/add-to-cart/add-to-cart.component';
 import { SpinnerComponent } from '@spartacus/storefront';
+import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 
 @Component({
   selector: 'cx-saved-cart-details-items',
