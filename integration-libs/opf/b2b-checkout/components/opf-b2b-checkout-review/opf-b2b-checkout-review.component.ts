@@ -17,15 +17,15 @@ import {
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
+import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import { CmsService, CostCenter, Page } from '@spartacus/core';
 import {
   OpfBaseFacade,
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
 import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
-import { Observable, map, filter, combineLatest } from 'rxjs';
 import { Card } from '@spartacus/storefront';
-import { CheckoutStepType } from '@spartacus/checkout/base/root';
+import { combineLatest, filter, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-review',
@@ -111,7 +111,7 @@ export class OpfB2bCheckoutReviewComponent
       map(([textTitle, noneTextTitle]) => {
         return {
           title: textTitle,
-          textBold: poNumber ? poNumber : noneTextTitle,
+          textBold: poNumber || noneTextTitle,
         };
       })
     );

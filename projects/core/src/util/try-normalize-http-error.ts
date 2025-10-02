@@ -5,9 +5,9 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
+import { isDevMode } from '@angular/core';
 import { LoggerService } from '../logger';
 import { HttpErrorModel } from '../model';
-import { isDevMode } from '@angular/core';
 
 /**
  * Safely normalizes HttpErrorResponse to HttpErrorModel or returns the original error.
@@ -25,6 +25,7 @@ export function tryNormalizeHttpError(
   return normalizeHttpError(error, logger) ?? error;
 }
 
+// CXSPA-XXXX: Revise type in next major to remove `any` - typescript:S6571
 function normalizeHttpError(
   error: HttpErrorResponse | HttpErrorModel | any,
   logger: LoggerService
