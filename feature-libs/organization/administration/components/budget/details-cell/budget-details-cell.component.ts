@@ -11,7 +11,6 @@ import { PopoverDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-budget-details-cell',
@@ -24,7 +23,7 @@ import { MockDatePipe } from '@spartacus/core';
     CxDatePipe,
     UrlPipe,
 
-    MockDatePipe,
+    CxDatePipe,
   ],
 })
 export class BudgetDetailsCellComponent extends CellComponent {}

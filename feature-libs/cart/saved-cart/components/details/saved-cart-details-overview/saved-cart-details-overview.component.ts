@@ -27,7 +27,6 @@ import { CardComponent } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-saved-cart-details-overview',
@@ -40,7 +39,7 @@ import { MockDatePipe } from '@spartacus/core';
     TranslatePipe,
     CxDatePipe,
 
-    MockDatePipe,
+    CxDatePipe,
   ],
 })
 export class SavedCartDetailsOverviewComponent implements OnDestroy {

@@ -21,13 +21,12 @@ import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service'
 import { NgIf, AsyncPipe } from '@angular/common';
 import { CardComponent } from '@spartacus/storefront';
 import { CxDatePipe } from '@spartacus/core';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-unit-level-order-overview',
   templateUrl: './unit-level-order-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, CardComponent, AsyncPipe, CxDatePipe, MockDatePipe],
+  imports: [NgIf, CardComponent, AsyncPipe, CxDatePipe, CxDatePipe],
 })
 export class UnitLevelOrderOverviewComponent implements OnInit {
   constructor(

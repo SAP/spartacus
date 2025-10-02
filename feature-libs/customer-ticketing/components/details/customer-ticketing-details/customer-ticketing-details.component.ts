@@ -25,7 +25,6 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { CardComponent } from '@spartacus/storefront';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { CxDatePipe } from '@spartacus/core';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-ticketing-details',
@@ -37,7 +36,7 @@ import { MockDatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     CxDatePipe,
-    MockDatePipe,
+    CxDatePipe,
   ],
 })
 export class CustomerTicketingDetailsComponent implements OnDestroy {

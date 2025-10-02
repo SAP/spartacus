@@ -20,7 +20,6 @@ import { ConsignmentTrackingComponent } from '../consignment-tracking/consignmen
 import { AbstractOrderContextDirective } from '../../../../../cart/base/components/abstract-order-context/abstract-order-context.directive';
 import { AddToCartComponent } from '../../../../../cart/base/components/add-to-cart/add-to-cart.component';
 import { CxDatePipe } from '@spartacus/core';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-consigned-entries',
@@ -36,7 +35,7 @@ import { MockDatePipe } from '@spartacus/core';
     AsyncPipe,
     TitleCasePipe,
     CxDatePipe,
-    MockDatePipe,
+    CxDatePipe,
   ],
 })
 export class OrderConsignedEntriesComponent {

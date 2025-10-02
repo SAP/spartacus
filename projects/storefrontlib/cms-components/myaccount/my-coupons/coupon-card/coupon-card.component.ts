@@ -22,13 +22,12 @@ import { MyCouponsComponentService } from '../my-coupons.component.service';
 import { AsyncPipe, LowerCasePipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-coupon-card',
   templateUrl: './coupon-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AsyncPipe, LowerCasePipe, TranslatePipe, CxDatePipe, MockDatePipe],
+  imports: [AsyncPipe, LowerCasePipe, TranslatePipe, CxDatePipe, CxDatePipe],
 })
 export class CouponCardComponent {
   @Input() coupon: CustomerCoupon;

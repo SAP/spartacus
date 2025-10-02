@@ -31,7 +31,6 @@ import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-overview',
@@ -49,7 +48,7 @@ import { MockDatePipe } from '@spartacus/core';
     CxDatePipe,
     UrlPipe,
 
-    MockDatePipe,
+    CxDatePipe,
   ],
 })
 export class OrderOverviewComponent {

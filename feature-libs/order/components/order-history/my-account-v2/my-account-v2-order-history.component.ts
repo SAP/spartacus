@@ -18,7 +18,6 @@ import { SpinnerComponent } from '@spartacus/storefront';
 import { UrlPipe } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-my-account-v2-order-history',
@@ -36,7 +35,7 @@ import { MockDatePipe } from '@spartacus/core';
     TranslatePipe,
     CxDatePipe,
 
-    MockDatePipe,
+    CxDatePipe,
   ],
 })
 export class MyAccountV2OrderHistoryComponent extends OrderHistoryComponent {

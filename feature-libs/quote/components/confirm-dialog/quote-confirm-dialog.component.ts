@@ -29,7 +29,6 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe as CxDatePipe_1 } from '@spartacus/core';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-quote-confirm-dialog',
@@ -44,7 +43,7 @@ import { MockDatePipe } from '@spartacus/core';
     TranslatePipe,
     CxDatePipe_1,
 
-    MockDatePipe,
+    CxDatePipe,
   ],
 })
 export class QuoteConfirmDialogComponent implements OnInit {

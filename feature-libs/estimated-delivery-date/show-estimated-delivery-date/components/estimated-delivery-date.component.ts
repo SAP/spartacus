@@ -21,13 +21,12 @@ import { map, switchMap } from 'rxjs/operators';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe as CxDatePipe_1 } from '@spartacus/core';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-estimated-delivery-date',
   templateUrl: './estimated-delivery-date.component.html',
   providers: [CxDatePipe],
-  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, CxDatePipe_1, MockDatePipe],
+  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, CxDatePipe_1, CxDatePipe],
 })
 export class EstimatedDeliveryDateComponent {
   @Optional() protected cartItemContext = inject(CartItemContext);

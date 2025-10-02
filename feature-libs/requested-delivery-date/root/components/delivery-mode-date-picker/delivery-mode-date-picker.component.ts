@@ -32,7 +32,6 @@ import { CardComponent } from '@spartacus/storefront';
 import { DatePickerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe as CxDatePipe_1 } from '@spartacus/core';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-request-delivery-date',
@@ -48,7 +47,7 @@ import { MockDatePipe } from '@spartacus/core';
     TranslatePipe,
     CxDatePipe_1,
 
-    MockDatePipe,
+    CxDatePipe,
   ],
 })
 export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {

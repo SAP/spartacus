@@ -26,7 +26,6 @@ import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe as CxDatePipe_1 } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-quote-list',
@@ -46,7 +45,7 @@ import { MockDatePipe } from '@spartacus/core';
     CxDatePipe_1,
     UrlPipe,
 
-    MockDatePipe,
+    CxDatePipe,
   ],
 })
 export class QuoteListComponent implements OnInit {

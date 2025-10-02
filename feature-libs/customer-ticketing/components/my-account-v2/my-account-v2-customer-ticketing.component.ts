@@ -16,7 +16,6 @@ import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-my-account-v2-customer-ticketing',
@@ -31,7 +30,7 @@ import { MockDatePipe } from '@spartacus/core';
     CxDatePipe,
     UrlPipe,
 
-    MockDatePipe,
+    CxDatePipe,
   ],
 })
 export class MyAccountV2CustomerTicketingComponent {

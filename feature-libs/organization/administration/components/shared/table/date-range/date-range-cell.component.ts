@@ -10,7 +10,6 @@ import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { UrlPipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-date-range-cell',
@@ -22,7 +21,7 @@ import { MockDatePipe } from '@spartacus/core';
     NgTemplateOutlet,
     UrlPipe,
     CxDatePipe,
-    MockDatePipe,
+    CxDatePipe,
   ],
 })
 export class DateRangeCellComponent extends CellComponent {

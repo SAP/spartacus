@@ -11,13 +11,12 @@ import { EMPTY, Observable } from 'rxjs';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe as CxDatePipe_1 } from '@spartacus/core';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-schedule-lines',
   templateUrl: './schedule-lines.component.html',
   providers: [CxDatePipe],
-  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, CxDatePipe_1, MockDatePipe],
+  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, CxDatePipe_1, CxDatePipe],
 })
 export class ScheduleLinesComponent {
   constructor(

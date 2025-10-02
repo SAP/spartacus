@@ -14,12 +14,11 @@ import { DateValidationService } from '../shared/date-validation.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { CardComponent } from '@spartacus/storefront';
 import { CxDatePipe } from '@spartacus/core';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-overview-delivery-date',
   templateUrl: './order-overview-delivery-date.component.html',
-  imports: [NgIf, CardComponent, AsyncPipe, CxDatePipe, MockDatePipe],
+  imports: [NgIf, CardComponent, AsyncPipe, CxDatePipe, CxDatePipe],
 })
 export class OrderOverviewDeliveryDateComponent implements OnInit, OnDestroy {
   constructor(

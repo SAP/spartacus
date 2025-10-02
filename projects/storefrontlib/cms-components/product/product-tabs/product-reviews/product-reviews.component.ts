@@ -45,7 +45,6 @@ import { FormRequiredAsterisksComponent } from '../../../../shared/components/fo
 import { FormErrorsComponent } from '../../../../shared/components/form/form-errors/form-errors.component';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-reviews',
@@ -67,7 +66,7 @@ import { MockDatePipe } from '@spartacus/core';
     TranslatePipe,
     CxDatePipe,
 
-    MockDatePipe,
+    CxDatePipe,
   ],
 })
 export class ProductReviewsComponent {

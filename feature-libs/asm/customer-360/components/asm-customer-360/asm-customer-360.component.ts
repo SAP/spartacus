@@ -53,7 +53,6 @@ import { AsmCustomer360SectionComponent } from '../sections/asm-customer-360-sec
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';
 import { ArgsPipe } from '../../../core/utils/args/args.pipe';
-import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -73,7 +72,7 @@ import { MockDatePipe } from '@spartacus/core';
     CxDatePipe,
     ArgsPipe,
 
-    MockDatePipe,
+    CxDatePipe,
   ],
 })
 export class AsmCustomer360Component implements OnDestroy, OnInit {
