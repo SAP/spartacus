@@ -233,17 +233,19 @@ describe('ReturnOrderComponent', () => {
     expect(consignments.length).toBe(1);
     expect(consignments[0].entries?.length).toBe(2);
     expect(consignments[0]?.entries?.[0].orderEntry).toBeDefined();
-    expect(consignments[0]?.entries?.[0].orderEntry?.product?.code).toBe('prod1');
+    expect(consignments[0]?.entries?.[0].orderEntry?.product?.code).toBe(
+      'prod1'
+    );
     expect(consignments[0]?.entries?.[0].shippedQuantity).toBe(5);
   });
 
   describe('when order has new consignments', () => {
     beforeEach(waitForAsync(() => {
-      TestBed.resetTestingModule(); // Reset the existing testing module
+      TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         imports: [FormErrorsModule],
         providers: [
-          { provide: OrderAmendService, useClass: NewMockOrderAmendService }, // Use the new mock service
+          { provide: OrderAmendService, useClass: NewMockOrderAmendService },
         ],
         declarations: [
           ReturnOrderComponent,
