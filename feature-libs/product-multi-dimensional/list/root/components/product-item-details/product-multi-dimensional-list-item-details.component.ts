@@ -10,8 +10,8 @@ import { Product } from '@spartacus/core';
 import { ProductListItemContext } from '@spartacus/storefront';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { StarRatingComponent } from '../../../../../../projects/storefrontlib/shared/components/star-rating/star-rating.component';
-import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-multi-dimensional-list-item-details',

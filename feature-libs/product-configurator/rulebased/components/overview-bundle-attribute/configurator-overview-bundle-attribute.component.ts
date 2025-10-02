@@ -26,9 +26,9 @@ import {
 } from '../price/configurator-price.component';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { MediaComponent } from '../../../../../projects/storefrontlib/shared/components/media/media.component';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { CxNumericPipe } from '../../../../../projects/core/src/i18n/numeric.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { CxNumericPipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-cpq-overview-attribute',

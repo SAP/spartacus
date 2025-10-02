@@ -15,8 +15,8 @@ import { NgIf, NgTemplateOutlet, AsyncPipe } from '@angular/common';
 import { MessageComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/message/message.component';
 import { CancelOrReturnItemsComponent } from '../../amend-order-items/amend-order-items.component';
 import { AmendOrderActionsComponent } from '../../amend-order-actions/amend-order-actions.component';
-import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cancel-order',

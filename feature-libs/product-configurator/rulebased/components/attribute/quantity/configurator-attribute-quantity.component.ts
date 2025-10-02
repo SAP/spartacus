@@ -18,8 +18,8 @@ import { Observable, Subscription, timer } from 'rxjs';
 import { debounce, distinct, take } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ItemCounterComponent } from '../../../../../../projects/storefrontlib/shared/components/item-counter/item-counter.component';
-import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 export interface ConfiguratorAttributeQuantityComponentOptions {
   allowZero?: boolean;

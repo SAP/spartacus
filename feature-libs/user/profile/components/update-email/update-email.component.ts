@@ -21,9 +21,9 @@ import { FormErrorsComponent } from '../../../../../projects/storefrontlib/share
 import { PasswordVisibilityToggleDirective } from '../../../../../projects/storefrontlib/shared/components/form/password-visibility-toggle/password-visibility-toggle.directive';
 import { BtnLikeLinkDirective } from '../../../../../projects/storefrontlib/layout/a11y/btn-like-link/btn-like-link.directive';
 import { RouterLink } from '@angular/router';
-import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-update-email',

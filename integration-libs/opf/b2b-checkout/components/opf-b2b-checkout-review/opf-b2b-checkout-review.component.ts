@@ -38,9 +38,9 @@ import { RouterLink } from '@angular/router';
 import { OpfCheckoutPaymentsComponent } from '../../../checkout/components/opf-checkout-payments/opf-checkout-payments.component';
 import { OpfCheckoutReviewCartDetailsComponent } from '../../../checkout/components/opf-checkout-review-cart-details/opf-checkout-review-cart-details.component';
 import { OpfB2bCheckoutPlaceOrderComponent } from '../opf-b2b-checkout-place-order/opf-b2b-checkout-place-order.component';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { UrlPipe } from '../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-review',

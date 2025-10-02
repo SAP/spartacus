@@ -25,9 +25,9 @@ import { SpinnerComponent } from '../../../../../../projects/storefrontlib/share
 import { FormErrorsComponent } from '../../../../../../projects/storefrontlib/shared/components/form/form-errors/form-errors.component';
 import { BtnLikeLinkDirective } from '../../../../../../projects/storefrontlib/layout/a11y/btn-like-link/btn-like-link.directive';
 import { RouterLink } from '@angular/router';
-import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
-import { UrlPipe } from '../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
-import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-approval-detail-form',

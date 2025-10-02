@@ -16,8 +16,8 @@ import { VisualPickingProductListComponent } from './product-list/visual-picking
 import { VisualPickingProductListService } from './product-list/visual-picking-product-list.service';
 import { VisualPickingTabService } from './visual-picking-tab.service';
 import { VisualPickingProductFilterComponent } from './product-filter/visual-picking-product-filter.component';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-epd-visualization-visual-picking-tab',

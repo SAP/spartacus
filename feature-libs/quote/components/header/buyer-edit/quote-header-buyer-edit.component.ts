@@ -13,8 +13,8 @@ import {
 } from '@angular/forms';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 export interface SaveEvent {
   name?: string;

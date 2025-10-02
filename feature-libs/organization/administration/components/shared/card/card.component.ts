@@ -17,14 +17,14 @@ import { ItemService } from '../item.service';
 import { MessageService } from '../message/services/message.service';
 import { BaseItem } from '../organization.model';
 import { ViewComponent as ViewComponent_1 } from '../../../../../../projects/storefrontlib/shared/components/split-view/view/view.component';
-import { FeatureDirective } from '../../../../../../projects/core/src/features-config/directives/feature.directive';
+import { FeatureDirective } from '@spartacus/core';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { PopoverDirective } from '../../../../../../projects/storefrontlib/shared/components/popover/popover.directive';
 import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MessageComponent } from '../message/message.component';
-import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-card',

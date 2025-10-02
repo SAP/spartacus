@@ -20,9 +20,9 @@ import { EMPTY, Observable } from 'rxjs';
 import { SearchBoxOutletTrendingSearches, SearchPhrases } from './model';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
-import { UrlPipe } from '../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
-import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 const MAX_TRENDING_SEARCHES = 5;
 

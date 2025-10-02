@@ -23,8 +23,8 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { ItemActiveDirective } from '../item-active.directive';
 import { FocusDirective } from '../../../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
 import { RouterLink } from '@angular/router';
-import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 const DISABLED_STATUS = 'DISABLED';
 

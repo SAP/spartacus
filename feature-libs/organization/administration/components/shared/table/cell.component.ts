@@ -12,7 +12,7 @@ import {
 } from '@spartacus/storefront';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { UrlPipe } from '../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-cell',

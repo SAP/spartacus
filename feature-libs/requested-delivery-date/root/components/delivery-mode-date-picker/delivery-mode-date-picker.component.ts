@@ -30,10 +30,10 @@ import { DateValidationService } from '../shared/date-validation.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
 import { DatePickerComponent } from '../../../../../projects/storefrontlib/shared/components/form/date-picker/date-picker.component';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { CxDatePipe as CxDatePipe_1 } from '../../../../../projects/core/src/i18n/date.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
-import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { CxDatePipe as CxDatePipe_1 } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
+import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-request-delivery-date',

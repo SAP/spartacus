@@ -15,9 +15,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { VisualViewerAnimationSliderService } from './visual-viewer-animation-slider.service';
-import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
-import { CxNumericPipe } from '../../../../../../projects/core/src/i18n/numeric.pipe';
-import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { CxNumericPipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-epd-visualization-animation-slider',

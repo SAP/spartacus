@@ -16,8 +16,8 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { IconComponent } from '../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
 import { AbstractOrderContextDirective } from '../../../cart/base/components/abstract-order-context/abstract-order-context.directive';
 import { OutletDirective } from '../../../../projects/storefrontlib/cms-structure/outlet/outlet.directive';
-import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * Renders quote items. These items are either taken from the actual quote,

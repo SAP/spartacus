@@ -59,15 +59,15 @@ import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
 import { IconComponent } from '../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { FeatureDirective } from '../../../../projects/core/src/features-config/directives/feature.directive';
+import { FeatureDirective } from '@spartacus/core';
 import { AsmToggleUiComponent } from '../asm-toggle-ui/asm-toggle-ui.component';
 import { AsmSessionTimerComponent } from '../asm-session-timer/asm-session-timer.component';
 import { CustomerEmulationComponent } from '../customer-emulation/customer-emulation.component';
 import { MessageComponent } from '../../../../projects/storefrontlib/cms-components/misc/message/message.component';
 import { CustomerSelectionComponent } from '../customer-selection/customer-selection.component';
 import { CSAgentLoginFormComponent } from '../csagent-login-form/csagent-login-form.component';
-import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 interface CartTypeKey {
   [key: string]: string;

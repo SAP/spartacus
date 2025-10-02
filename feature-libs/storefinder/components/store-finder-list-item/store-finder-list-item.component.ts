@@ -12,10 +12,10 @@ import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-stor
 import { NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { OutletDirective } from '../../../../projects/storefrontlib/cms-structure/outlet/outlet.directive';
-import { FeatureDirective } from '../../../../projects/core/src/features-config/directives/feature.directive';
+import { FeatureDirective } from '@spartacus/core';
 import { BtnLikeLinkDirective } from '../../../../projects/storefrontlib/layout/a11y/btn-like-link/btn-like-link.directive';
-import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-list-item',

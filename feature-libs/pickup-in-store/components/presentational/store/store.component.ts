@@ -13,8 +13,8 @@ import { IconComponent } from '../../../../../projects/storefrontlib/cms-compone
 import { NgIf, NgClass } from '@angular/common';
 import { StoreScheduleComponent } from './store-schedule/store-schedule.component';
 import { SetPreferredStoreComponent } from '../../container/set-preferred-store/set-preferred-store.component';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * A store in the store list including address, opening times, stock level, and

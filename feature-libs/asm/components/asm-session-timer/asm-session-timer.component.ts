@@ -10,9 +10,9 @@ import { RoutingService, UserIdService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
-import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
 import { FormatTimerPipe } from './format-timer.pipe';
-import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-asm-session-timer',

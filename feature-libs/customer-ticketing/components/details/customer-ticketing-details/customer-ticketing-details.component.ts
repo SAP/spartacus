@@ -24,8 +24,8 @@ import { filter, map, take, tap } from 'rxjs/operators';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { CardComponent } from '../../../../../projects/storefrontlib/shared/components/card/card.component';
 import { SpinnerComponent } from '../../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
-import { CxDatePipe } from '../../../../../projects/core/src/i18n/date.pipe';
-import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
+import { CxDatePipe } from '@spartacus/core';
+import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-ticketing-details',

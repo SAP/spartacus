@@ -13,9 +13,9 @@ import { UnitCostCenterListService } from './unit-cost-centers.service';
 import { SubListComponent } from '../../../shared/sub-list/sub-list.component';
 import { RouterLink } from '@angular/router';
 import { DisableInfoComponent } from '../../../shared/detail/disable-info/disable-info.component';
-import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
 import { AsyncPipe } from '@angular/common';
-import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-unit-cost-centers',

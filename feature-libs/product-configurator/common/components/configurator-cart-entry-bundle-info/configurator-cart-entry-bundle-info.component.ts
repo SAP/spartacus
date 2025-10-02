@@ -16,9 +16,9 @@ import { LineItem } from './configurator-cart-entry-bundle-info.model';
 import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { CxNumericPipe } from '../../../../../projects/core/src/i18n/numeric.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { CxNumericPipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * Requires default change detection strategy, as the disabled state of the quantity from control may change,

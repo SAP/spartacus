@@ -17,8 +17,8 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { PaginationComponent } from '../../../../projects/storefrontlib/shared/components/list-navigation/pagination/pagination.component';
 import { StoreFinderListComponent } from './store-finder-list/store-finder-list.component';
 import { SpinnerComponent } from '../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
-import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-search-result',

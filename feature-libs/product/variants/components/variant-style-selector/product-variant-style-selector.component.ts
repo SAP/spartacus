@@ -18,8 +18,8 @@ import {
 } from '@spartacus/core';
 import { filter, take } from 'rxjs/operators';
 import { NgIf, NgFor, NgClass } from '@angular/common';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-variant-style-selector',

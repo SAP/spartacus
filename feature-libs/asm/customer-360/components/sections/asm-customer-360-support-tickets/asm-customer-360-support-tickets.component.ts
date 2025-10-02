@@ -17,8 +17,8 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
 import { SupportTicketEntry } from './asm-customer-360-support-tickets.model';
 import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
 import { AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

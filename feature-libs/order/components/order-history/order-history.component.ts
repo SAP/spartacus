@@ -23,11 +23,11 @@ import { NgIf, NgClass, NgFor, AsyncPipe } from '@angular/common';
 import { SortingComponent } from '../../../../projects/storefrontlib/shared/components/list-navigation/sorting/sorting.component';
 import { PaginationComponent } from '../../../../projects/storefrontlib/shared/components/list-navigation/pagination/pagination.component';
 import { BtnLikeLinkDirective } from '../../../../projects/storefrontlib/layout/a11y/btn-like-link/btn-like-link.directive';
-import { UrlPipe } from '../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
-import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
-import { CxDatePipe } from '../../../../projects/core/src/i18n/date.pipe';
-import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
-import { MockDatePipe } from '../../../../projects/core/src/i18n/testing/mock-date.pipe';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
+import { CxDatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
+import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-history',

@@ -14,8 +14,8 @@ import { ConfirmationMessageData } from '../../message/confirmation/confirmation
 import { MessageService } from '../../message/services/message.service';
 import { BaseItem } from '../../organization.model';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * Reusable component in the my-company is to delete an item (if it's possible)

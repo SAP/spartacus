@@ -8,9 +8,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CellComponent } from '../cell.component';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { UrlPipe } from '../../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
-import { CxDatePipe } from '../../../../../../../projects/core/src/i18n/date.pipe';
-import { MockDatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-date.pipe';
+import { UrlPipe } from '@spartacus/core';
+import { CxDatePipe } from '@spartacus/core';
+import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-date-range-cell',

@@ -20,10 +20,10 @@ import { map, tap } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
 import { HighlightPipe } from '../../../../projects/storefrontlib/cms-components/navigation/search-box/highlight.pipe';
-import { UrlPipe } from '../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
-import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { UrlPipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 export interface SearchBoxOutlet {
   search: string;

@@ -30,7 +30,7 @@ import { CreateButtonType, ListService } from './list.service';
 import { SplitViewComponent } from '../../../../../../projects/storefrontlib/shared/components/split-view/split/split-view.component';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { ViewComponent } from '../../../../../../projects/storefrontlib/shared/components/split-view/view/view.component';
-import { FeatureDirective } from '../../../../../../projects/core/src/features-config/directives/feature.directive';
+import { FeatureDirective } from '@spartacus/core';
 import { PopoverDirective } from '../../../../../../projects/storefrontlib/shared/components/popover/popover.directive';
 import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
 import { NgSelectComponent, NgOptionComponent } from '@ng-select/ng-select';
@@ -38,9 +38,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
 import { TableComponent } from '../../../../../../projects/storefrontlib/shared/components/table/table.component';
 import { PaginationComponent } from '../../../../../../projects/storefrontlib/shared/components/list-navigation/pagination/pagination.component';
-import { UrlPipe } from '../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
-import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-list',

@@ -51,12 +51,12 @@ import { NgTemplateOutlet, NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { SpinnerComponent } from '../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
 import { PaginationComponent } from '../../../../projects/storefrontlib/shared/components/list-navigation/pagination/pagination.component';
 import { IconComponent } from '../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
-import { FeatureDirective } from '../../../../projects/core/src/features-config/directives/feature.directive';
+import { FeatureDirective } from '@spartacus/core';
 import { SortingComponent } from '../../../../projects/storefrontlib/shared/components/list-navigation/sorting/sorting.component';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { NgSelectA11yDirective } from '../../../../projects/storefrontlib/shared/components/ng-select-a11y/ng-select-a11y.directive';
-import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-list',

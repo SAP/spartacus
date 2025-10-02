@@ -7,8 +7,8 @@
 import { Component } from '@angular/core';
 import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
 import { FocusDirective } from '../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
-import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 export enum BIND_CART_DIALOG_ACTION {
   CANCEL = 'CANCEL',

@@ -20,8 +20,8 @@ import { filter, map } from 'rxjs/operators';
 import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { CardComponent } from '../../../../../../projects/storefrontlib/shared/components/card/card.component';
-import { CxDatePipe } from '../../../../../../projects/core/src/i18n/date.pipe';
-import { MockDatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-date.pipe';
+import { CxDatePipe } from '@spartacus/core';
+import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-unit-level-order-overview',

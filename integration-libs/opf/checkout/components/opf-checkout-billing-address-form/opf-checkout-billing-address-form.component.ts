@@ -19,9 +19,9 @@ import { CardComponent } from '../../../../../projects/storefrontlib/shared/comp
 import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
 import { AddressFormComponent } from '../../../../../feature-libs/user/profile/components/address-book/address-form/address-form.component';
 import { SpinnerComponent } from '../../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
 import { GetAddressCardContent } from './get-address-card-content.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-checkout-billing-address-form',

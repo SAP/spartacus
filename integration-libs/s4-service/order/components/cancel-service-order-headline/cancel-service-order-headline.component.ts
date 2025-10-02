@@ -10,8 +10,8 @@ import { OrderDetailsService } from '@spartacus/order/components';
 import { map } from 'rxjs/operators';
 import { NgIf, AsyncPipe, DatePipe } from '@angular/common';
 import { OutletDirective } from '../../../../../projects/storefrontlib/cms-structure/outlet/outlet.directive';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cancel-service-order-headline',

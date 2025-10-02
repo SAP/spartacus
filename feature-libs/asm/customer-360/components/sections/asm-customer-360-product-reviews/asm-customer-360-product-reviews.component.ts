@@ -20,8 +20,8 @@ import { ReviewEntry } from './asm-customer-360-product-reviews.model';
 import { AsmCustomer360Config } from '../../config/asm-customer-360-config';
 import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
 import { AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -22,8 +22,8 @@ import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core
 import { ICON_TYPE } from '@spartacus/storefront';
 import { IconComponent } from '../../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
 import { NgIf } from '@angular/common';
-import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-unit-level-order-history-filter',

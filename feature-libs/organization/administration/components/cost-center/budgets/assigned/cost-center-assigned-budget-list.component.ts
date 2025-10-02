@@ -9,8 +9,8 @@ import { ListService } from '../../../shared/list/list.service';
 import { CostCenterAssignedBudgetListService } from './cost-center-assigned-budget-list.service';
 import { SubListComponent } from '../../../shared/sub-list/sub-list.component';
 import { RouterLink } from '@angular/router';
-import { TranslatePipe } from '../../../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-cost-center-assigned-budget-list',

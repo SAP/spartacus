@@ -8,9 +8,9 @@ import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Configurator } from '../../core/model/configurator.model';
 import { NgIf, NgClass } from '@angular/common';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { CxNumericPipe } from '../../../../../projects/core/src/i18n/numeric.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { CxNumericPipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 export interface ConfiguratorPriceComponentOptions {
   quantity?: number;

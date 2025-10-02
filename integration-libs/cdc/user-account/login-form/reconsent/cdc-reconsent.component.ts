@@ -30,8 +30,8 @@ import { IconComponent } from '../../../../../projects/storefrontlib/cms-compone
 import { ConsentManagementFormComponent } from '../../../../../projects/storefrontlib/cms-components/myaccount/consent-management/components/consent-form/consent-management-form.component';
 import { BtnLikeLinkDirective } from '../../../../../projects/storefrontlib/layout/a11y/btn-like-link/btn-like-link.directive';
 import { SpinnerComponent } from '../../../../../projects/storefrontlib/shared/components/spinner/spinner.component';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-anonymous-consent-dialog', //reusing existing selector

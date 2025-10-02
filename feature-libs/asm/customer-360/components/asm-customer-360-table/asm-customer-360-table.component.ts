@@ -40,11 +40,11 @@ import { AsmCustomer360Config } from '../config/asm-customer-360-config';
 import { KeyBoardEventCode } from '@spartacus/asm/customer-360/root';
 import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 import { StarRatingComponent } from '../../../../../projects/storefrontlib/shared/components/star-rating/star-rating.component';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { CxDatePipe } from '../../../../../projects/core/src/i18n/date.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { CxDatePipe } from '@spartacus/core';
 import { ArgsPipe } from '../../../core/utils/args/args.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
-import { MockDatePipe } from '../../../../../projects/core/src/i18n/testing/mock-date.pipe';
+import { MockTranslatePipe } from '@spartacus/core';
+import { MockDatePipe } from '@spartacus/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

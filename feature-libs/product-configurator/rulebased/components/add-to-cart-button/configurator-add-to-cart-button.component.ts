@@ -50,8 +50,8 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 import { NgIf, AsyncPipe } from '@angular/common';
 import { ItemCounterComponent } from '../../../../../projects/storefrontlib/shared/components/item-counter/item-counter.component';
 import { IconComponent } from '../../../../../projects/storefrontlib/cms-components/misc/icon/icon.component';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
 

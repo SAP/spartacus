@@ -18,8 +18,8 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-textfield-input-field',

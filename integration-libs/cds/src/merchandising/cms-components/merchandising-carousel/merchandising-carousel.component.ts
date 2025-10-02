@@ -26,7 +26,7 @@ import { AttributesDirective } from '../directives/attributes/attributes.directi
 import { CarouselComponent } from '../../../../../../projects/storefrontlib/shared/components/carousel/carousel.component';
 import { RouterLink } from '@angular/router';
 import { MediaComponent } from '../../../../../../projects/storefrontlib/shared/components/media/media.component';
-import { UrlPipe } from '../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-merchandising-carousel',

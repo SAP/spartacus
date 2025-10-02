@@ -14,8 +14,8 @@ import { Configurator } from '../../core/model/configurator.model';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { CarouselComponent } from '../../../../../projects/storefrontlib/shared/components/carousel/carousel.component';
 import { ProductCarouselItemComponent } from '../../../../../projects/storefrontlib/cms-components/product/carousel/product-carousel-item/product-carousel-item.component';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-variant-carousel',

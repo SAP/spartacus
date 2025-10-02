@@ -7,8 +7,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CheckoutCostCenterComponent } from '@spartacus/checkout/b2b/components';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-cost-center',

@@ -14,9 +14,9 @@ import { take } from 'rxjs/operators';
 import { FocusDirective } from '../../../../projects/storefrontlib/layout/a11y/keyboard-focus/focus.directive';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { MessageComponent } from '../../../../projects/storefrontlib/cms-components/misc/message/message.component';
-import { FeatureDirective } from '../../../../projects/core/src/features-config/directives/feature.directive';
-import { TranslatePipe } from '../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { FeatureDirective } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 export enum SAVE_CART_DIALOG_ACTION {
   CANCEL = 'CANCEL',

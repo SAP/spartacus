@@ -16,9 +16,9 @@ import { FocusDirective } from '../../../../../../projects/storefrontlib/layout/
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { DeleteItemComponent } from '../../shared/detail/delete-item-action/delete-item.component';
 import { ItemExistsDirective } from '../../shared/item-exists.directive';
-import { UrlPipe } from '../../../../../../projects/core/src/routing/configurable-routes/url-translation/url.pipe';
-import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-user-group-details',

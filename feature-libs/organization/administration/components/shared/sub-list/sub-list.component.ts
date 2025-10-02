@@ -22,8 +22,8 @@ import { FocusDirective } from '../../../../../../projects/storefrontlib/layout/
 import { NgIf, AsyncPipe } from '@angular/common';
 import { TableComponent } from '../../../../../../projects/storefrontlib/shared/components/table/table.component';
 import { PaginationComponent } from '../../../../../../projects/storefrontlib/shared/components/list-navigation/pagination/pagination.component';
-import { TranslatePipe } from '../../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-sub-list',

@@ -15,8 +15,8 @@ import { Product } from '@spartacus/core';
 import { ProductItem } from '../asm-customer-360-product-listing/product-item.model';
 import { MediaComponent } from '../../../../../projects/storefrontlib/shared/components/media/media.component';
 import { NgIf } from '@angular/common';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-asm-customer-360-product-item',

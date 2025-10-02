@@ -13,8 +13,8 @@ import {
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AtMessageDirective } from '../../../../../projects/storefrontlib/shared/components/assistive-technology-message/assistive-technology-message.directive';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-place-order',

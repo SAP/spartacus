@@ -31,11 +31,11 @@ import { PickupOption } from '@spartacus/pickup-in-store/root';
 import { Tab, TAB_MODE, TabComponent, TabConfig } from '@spartacus/storefront';
 import { Subscription, take } from 'rxjs';
 import { PickupOptionsTabs } from './pickup-options.model';
-import { FeatureDirective } from '../../../../../projects/core/src/features-config/directives/feature.directive';
+import { FeatureDirective } from '@spartacus/core';
 import { NgIf } from '@angular/common';
 import { TabComponent as TabComponent_1 } from '../../../../../projects/storefrontlib/cms-components/content/tab/tab.component';
-import { TranslatePipe } from '../../../../../projects/core/src/i18n/translate.pipe';
-import { MockTranslatePipe } from '../../../../../projects/core/src/i18n/testing/mock-translate.pipe';
+import { TranslatePipe } from '@spartacus/core';
+import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * The presentational component of a pair of radio buttons for pickup options for a product.
