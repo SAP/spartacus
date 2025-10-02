@@ -28,7 +28,6 @@ import { IconComponent } from '@spartacus/storefront';
 import { ConfiguratorShowOptionsComponent } from '../show-options/configurator-show-options.component';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-attribute-header',
@@ -41,7 +40,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ConfiguratorShowMoreComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorAttributeHeaderComponent

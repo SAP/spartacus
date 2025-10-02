@@ -43,7 +43,6 @@ import { OutletDirective } from '@spartacus/storefront';
 import { PromotionsComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-review-submit',
@@ -63,7 +62,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     TranslatePipe,
     UrlPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitComponent {

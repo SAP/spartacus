@@ -43,7 +43,6 @@ import { StoreAddressComponent } from '../../presentational/store/store-address/
 import { IconComponent } from '@spartacus/storefront';
 import { StoreScheduleComponent } from '../../presentational/store/store-schedule/store-schedule.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 const GET_DIRECTIONS_NAME = 'Get Directions';
 const CHANGE_STORE_NAME = 'Change Store';
@@ -70,7 +69,7 @@ interface PreferredStoreContent {
     StoreScheduleComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class MyPreferredStoreComponent implements OnInit {

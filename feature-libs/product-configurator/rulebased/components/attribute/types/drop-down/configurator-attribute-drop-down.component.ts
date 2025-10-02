@@ -33,7 +33,6 @@ import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configura
 import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-attribute-drop-down',
@@ -54,7 +53,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ConfiguratorAttributeInputFieldComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorAttributeDropDownComponent

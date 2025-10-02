@@ -11,7 +11,6 @@ import { QuoteSummaryPricesComponent } from './prices/quote-summary-prices.compo
 import { QuoteSummarySellerEditComponent } from './seller-edit/quote-summary-seller-edit.component';
 import { QuoteSummaryActionsComponent } from './actions/quote-summary-actions.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-quote-summary',
@@ -24,7 +23,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgFor,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class QuoteSummaryComponent {

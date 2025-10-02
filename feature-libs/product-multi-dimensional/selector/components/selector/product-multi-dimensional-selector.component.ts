@@ -36,7 +36,6 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { NgSelectA11yDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-multi-dimensional-selector',
@@ -53,7 +52,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgSelectA11yDirective,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ProductMultiDimensionalSelectorComponent {

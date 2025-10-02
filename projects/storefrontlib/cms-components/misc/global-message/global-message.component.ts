@@ -15,7 +15,6 @@ import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-global-message',
@@ -26,7 +25,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     IconComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class GlobalMessageComponent implements OnInit {

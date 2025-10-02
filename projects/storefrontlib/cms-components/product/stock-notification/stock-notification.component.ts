@@ -36,7 +36,6 @@ import { RouterLink } from '@angular/router';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-stock-notification',
@@ -49,7 +48,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     TranslatePipe,
     UrlPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class StockNotificationComponent implements OnInit, OnDestroy {

@@ -15,7 +15,6 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configurator-overview-filter.component';
 import { ConfiguratorOverviewMenuComponent } from '../overview-menu/configurator-overview-menu.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-overview-sidebar',
@@ -27,7 +26,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgFor,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorOverviewSidebarComponent {

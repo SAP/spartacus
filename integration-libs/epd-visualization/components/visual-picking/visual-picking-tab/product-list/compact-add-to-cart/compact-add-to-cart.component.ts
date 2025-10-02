@@ -10,7 +10,6 @@ import { NgIf } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-epd-visualization-compact-add-to-cart',
@@ -22,7 +21,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ReactiveFormsModule,
     IconComponent,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CompactAddToCartComponent extends AddToCartComponent {}

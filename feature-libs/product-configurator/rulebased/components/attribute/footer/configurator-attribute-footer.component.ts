@@ -16,13 +16,12 @@ import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-a
 import { NgIf, AsyncPipe } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-attribute-footer',
   templateUrl: './configurator-attribute-footer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class ConfiguratorAttributeFooterComponent
   extends ConfiguratorAttributeBaseComponent

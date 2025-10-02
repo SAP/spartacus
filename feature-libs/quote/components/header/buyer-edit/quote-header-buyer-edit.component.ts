@@ -14,7 +14,6 @@ import {
 import { ICON_TYPE } from '@spartacus/storefront';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 export interface SaveEvent {
   name?: string;
@@ -36,7 +35,7 @@ export interface EditCard {
     ReactiveFormsModule,
     NgTemplateOutlet,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class QuoteHeaderBuyerEditComponent implements OnInit {

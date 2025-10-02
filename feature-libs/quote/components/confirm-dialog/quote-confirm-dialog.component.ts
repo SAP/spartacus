@@ -29,7 +29,6 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe as CxDatePipe_1 } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 import { MockDatePipe } from '@spartacus/core';
 
 @Component({
@@ -44,7 +43,7 @@ import { MockDatePipe } from '@spartacus/core';
     AsyncPipe,
     TranslatePipe,
     CxDatePipe_1,
-    MockTranslatePipe,
+    TranslatePipe,
     MockDatePipe,
   ],
 })

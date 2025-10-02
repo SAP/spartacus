@@ -40,7 +40,6 @@ import { OutletDirective } from '@spartacus/storefront';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-reschedule-service-order',
@@ -59,7 +58,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     TranslatePipe,
     UrlPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class RescheduleServiceOrderComponent implements OnInit, OnDestroy {

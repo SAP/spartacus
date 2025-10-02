@@ -10,7 +10,6 @@ import { UserAssignedApproverListService } from './user-assigned-approver-list.s
 import { SubListComponent } from '../../../shared/sub-list/sub-list.component';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-user-assigned-approver-list',
@@ -23,6 +22,6 @@ import { MockTranslatePipe } from '@spartacus/core';
       useExisting: UserAssignedApproverListService,
     },
   ],
-  imports: [SubListComponent, RouterLink, TranslatePipe, MockTranslatePipe],
+  imports: [SubListComponent, RouterLink, TranslatePipe, TranslatePipe],
 })
 export class UserAssignedApproverListComponent {}

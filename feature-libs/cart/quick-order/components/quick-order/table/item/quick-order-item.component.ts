@@ -24,7 +24,6 @@ import { FeatureDirective } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: '[cx-quick-order-item], cx-quick-order-item',
@@ -38,7 +37,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ItemCounterComponent,
     TranslatePipe,
     UrlPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class QuickOrderItemComponent implements OnInit, OnDestroy {

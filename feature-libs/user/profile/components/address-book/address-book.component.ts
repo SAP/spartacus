@@ -20,7 +20,6 @@ import { CardComponent } from '@spartacus/storefront';
 import { AddressFormComponent } from './address-form/address-form.component';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-address-book',
@@ -33,7 +32,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AddressBookComponent implements OnInit {

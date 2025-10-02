@@ -24,7 +24,6 @@ import { startWith } from 'rxjs/operators';
 import { FeatureDirective } from '@spartacus/core';
 import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * Provides a UI to manage the count of the quantity, typically by using
@@ -40,7 +39,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     FormsModule,
     ReactiveFormsModule,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ItemCounterComponent implements OnInit, OnDestroy {

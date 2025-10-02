@@ -22,13 +22,12 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 import { PageTitleComponent } from '../page-header/page-title.component';
 import { NgFor, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgFor, RouterLink, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgFor, RouterLink, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   crumbs$: Observable<any[]>;

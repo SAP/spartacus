@@ -24,13 +24,12 @@ import { startWith } from 'rxjs/operators';
 import { FocusDirective } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-replenishment-order-cancellation-dialog',
   templateUrl: './replenishment-order-cancellation-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FocusDirective, IconComponent, TranslatePipe, MockTranslatePipe],
+  imports: [FocusDirective, IconComponent, TranslatePipe, TranslatePipe],
 })
 export class ReplenishmentOrderCancellationDialogComponent
   implements OnInit, OnDestroy

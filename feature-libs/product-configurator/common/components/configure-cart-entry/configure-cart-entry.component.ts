@@ -29,20 +29,12 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { UrlPipe } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configure-cart-entry',
   templateUrl: './configure-cart-entry.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    RouterLink,
-    AsyncPipe,
-    UrlPipe,
-    TranslatePipe,
-    MockTranslatePipe,
-  ],
+  imports: [NgIf, RouterLink, AsyncPipe, UrlPipe, TranslatePipe, TranslatePipe],
 })
 export class ConfigureCartEntryComponent {
   protected routingService = inject(RoutingService);

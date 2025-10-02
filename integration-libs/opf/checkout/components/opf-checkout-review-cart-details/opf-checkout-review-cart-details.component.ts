@@ -13,18 +13,12 @@ import {
 import { PromotionsComponent } from '@spartacus/storefront';
 import { OutletDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-checkout-review-cart-details',
   templateUrl: './opf-checkout-review-cart-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    PromotionsComponent,
-    OutletDirective,
-    TranslatePipe,
-    MockTranslatePipe,
-  ],
+  imports: [PromotionsComponent, OutletDirective, TranslatePipe, TranslatePipe],
 })
 export class OpfCheckoutReviewCartDetailsComponent {
   @Input() cart: Cart | null;

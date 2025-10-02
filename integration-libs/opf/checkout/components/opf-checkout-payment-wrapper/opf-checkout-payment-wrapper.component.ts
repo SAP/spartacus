@@ -47,7 +47,6 @@ import {
 } from '@angular/common';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-checkout-payment-wrapper',
@@ -61,7 +60,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {

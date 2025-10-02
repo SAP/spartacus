@@ -12,12 +12,11 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-bulk-pricing-table',
   templateUrl: './bulk-pricing-table.component.html',
-  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class BulkPricingTableComponent implements OnInit {
   protected readonly PRODUCT_KEY = 'productCode';

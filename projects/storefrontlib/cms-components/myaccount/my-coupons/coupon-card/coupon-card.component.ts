@@ -22,7 +22,6 @@ import { MyCouponsComponentService } from '../my-coupons.component.service';
 import { AsyncPipe, LowerCasePipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 import { MockDatePipe } from '@spartacus/core';
 
 @Component({
@@ -34,7 +33,7 @@ import { MockDatePipe } from '@spartacus/core';
     LowerCasePipe,
     TranslatePipe,
     CxDatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
     MockDatePipe,
   ],
 })

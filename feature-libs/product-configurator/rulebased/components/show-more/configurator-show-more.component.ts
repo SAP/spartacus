@@ -13,13 +13,12 @@ import {
 } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-show-more',
   templateUrl: './configurator-show-more.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, TranslatePipe, TranslatePipe],
 })
 export class ConfiguratorShowMoreComponent implements AfterViewInit {
   showMore = false;

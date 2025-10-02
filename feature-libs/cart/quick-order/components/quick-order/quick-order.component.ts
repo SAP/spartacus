@@ -34,7 +34,6 @@ import { MessageComponent } from '@spartacus/storefront';
 import { QuickOrderTableComponent } from './table/quick-order-table.component';
 import { ProgressButtonComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-quick-order',
@@ -50,7 +49,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     KeyValuePipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class QuickOrderComponent implements OnInit, OnDestroy {

@@ -25,7 +25,6 @@ import { OutletDirective } from '@spartacus/storefront';
 import { AbstractOrderContextDirective } from '../../../../cart/base/components/abstract-order-context/abstract-order-context.directive';
 import { AddToCartComponent } from '../../../../cart/base/components/add-to-cart/add-to-cart.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-details-items',
@@ -39,7 +38,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AddToCartComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class OrderDetailItemsComponent {

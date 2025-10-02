@@ -15,13 +15,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FocusDirective } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-dp-confirmation-dialog',
   templateUrl: './dp-confirmation-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FocusDirective, IconComponent, TranslatePipe, MockTranslatePipe],
+  imports: [FocusDirective, IconComponent, TranslatePipe, TranslatePipe],
 })
 export class DpConfirmationDialogComponent {
   focusConfig: FocusConfig = {

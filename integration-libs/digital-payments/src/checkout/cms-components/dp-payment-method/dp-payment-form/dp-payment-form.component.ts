@@ -14,12 +14,11 @@ import { DpCheckoutPaymentService } from '../../../facade';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-dp-payment-form',
   templateUrl: './dp-payment-form.component.html',
-  imports: [SpinnerComponent, TranslatePipe, MockTranslatePipe],
+  imports: [SpinnerComponent, TranslatePipe, TranslatePipe],
 })
 export class DpPaymentFormComponent implements OnInit {
   @Output()

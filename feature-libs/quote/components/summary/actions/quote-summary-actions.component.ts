@@ -41,12 +41,11 @@ import {
 import { ConfirmationContext } from '../../confirm-dialog/quote-confirm-dialog.model';
 import { NgIf, NgClass, NgFor, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-quote-summary-actions',
   templateUrl: './quote-summary-actions.component.html',
-  imports: [NgIf, NgClass, NgFor, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, NgClass, NgFor, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class QuoteSummaryActionsComponent
   implements AfterViewInit, OnInit, OnDestroy

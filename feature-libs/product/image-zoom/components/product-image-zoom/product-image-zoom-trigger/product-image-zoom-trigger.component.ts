@@ -28,13 +28,12 @@ import { ProductImageZoomDialogComponent } from '../product-image-zoom-dialog/pr
 import { FeatureDirective } from '@spartacus/core';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-image-zoom-trigger',
   templateUrl: 'product-image-zoom-trigger.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FeatureDirective, IconComponent, TranslatePipe, MockTranslatePipe],
+  imports: [FeatureDirective, IconComponent, TranslatePipe, TranslatePipe],
 })
 export class ProductImageZoomTriggerComponent implements OnDestroy {
   iconType = ICON_TYPE;

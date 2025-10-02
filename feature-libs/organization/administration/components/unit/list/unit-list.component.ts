@@ -9,13 +9,12 @@ import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { UnitTreeService } from '../services/unit-tree.service';
 import { ListComponent } from '../../shared/list/list.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-unit-list',
   templateUrl: './unit-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ListComponent, TranslatePipe, MockTranslatePipe],
+  imports: [ListComponent, TranslatePipe, TranslatePipe],
 })
 export class UnitListComponent {
   constructor(

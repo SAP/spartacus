@@ -18,7 +18,6 @@ import { useFeatureStyles } from '@spartacus/core';
 import { NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * Star rating component can be used to view existing ratings as well
@@ -34,7 +33,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgFor,
     IconComponent,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class StarRatingComponent {

@@ -36,7 +36,6 @@ import { AtMessageDirective } from '@spartacus/storefront';
 import { AsyncPipe } from '@angular/common';
 import { UrlPipe } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-place-order',
@@ -53,7 +52,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     UrlPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {

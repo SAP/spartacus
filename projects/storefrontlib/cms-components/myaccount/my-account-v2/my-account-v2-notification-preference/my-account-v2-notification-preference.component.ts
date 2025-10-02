@@ -9,7 +9,6 @@ import { NotificationPreferenceComponent } from '../../notification-preference/n
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-my-account-v2-notification-preference',
@@ -21,7 +20,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class MyAccountV2NotificationPreferenceComponent extends NotificationPreferenceComponent {}

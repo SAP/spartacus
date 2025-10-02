@@ -21,7 +21,6 @@ import { CartValidationWarningsComponent } from '../validation/cart-warnings/car
 import { PromotionsComponent } from '@spartacus/storefront';
 import { CartItemListComponent } from '../cart-shared/cart-item-list/cart-item-list.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-details',
@@ -34,7 +33,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     CartItemListComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CartDetailsComponent implements OnInit {

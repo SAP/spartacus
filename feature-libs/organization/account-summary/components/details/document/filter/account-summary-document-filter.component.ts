@@ -39,7 +39,6 @@ import { FormErrorsComponent } from '@spartacus/storefront';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { NgSelectA11yDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 interface ItemType {
   code: string;
@@ -66,7 +65,7 @@ interface GroupValidator {
     NgSelectA11yDirective,
     NgTemplateOutlet,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AccountSummaryDocumentFilterComponent

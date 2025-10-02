@@ -17,7 +17,6 @@ import { RouterLink } from '@angular/router';
 import { PopoverDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-user-details-cell',
@@ -30,7 +29,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     PopoverDirective,
     TranslatePipe,
     UrlPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class UserDetailsCellComponent extends CellComponent {

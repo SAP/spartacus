@@ -19,7 +19,6 @@ import { ActiveFacetsComponent } from './active-facets/active-facets.component';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { FacetListComponent } from './facet-list/facet-list.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-facet-navigation',
@@ -32,7 +31,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     FacetListComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ProductFacetNavigationComponent {

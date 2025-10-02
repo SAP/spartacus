@@ -16,19 +16,12 @@ import { FeatureConfigService, TranslationService } from '@spartacus/core';
 import { Observable, take } from 'rxjs';
 import { PromotionsComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-checkout-review-overview',
   templateUrl: './checkout-review-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    PromotionsComponent,
-    AsyncPipe,
-    TranslatePipe,
-    MockTranslatePipe,
-  ],
+  imports: [NgIf, PromotionsComponent, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class CheckoutReviewOverviewComponent implements AfterViewInit {
   protected document = inject(DOCUMENT, { optional: true });

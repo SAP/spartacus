@@ -18,7 +18,6 @@ import { ActivityEntry, TypeCodes } from './asm-customer-360-activity.model';
 import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
 import { AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,7 +27,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsmCustomer360TableComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AsmCustomer360ActivityComponent implements OnInit {

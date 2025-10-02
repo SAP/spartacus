@@ -48,7 +48,6 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { OpfCheckoutPaymentsComponent } from '../../../checkout/components/opf-checkout-payments/opf-checkout-payments.component';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-payment-type',
@@ -62,7 +61,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class OpfB2bCheckoutPaymentTypeComponent

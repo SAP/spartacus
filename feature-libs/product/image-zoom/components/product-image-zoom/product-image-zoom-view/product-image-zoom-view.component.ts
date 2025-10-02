@@ -55,7 +55,6 @@ import { FeatureDirective } from '@spartacus/core';
 import { MediaComponent } from '@spartacus/storefront';
 import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumbnails/product-image-zoom-thumbnails.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-image-zoom-view',
@@ -69,7 +68,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ProductImageZoomThumbnailsComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ProductImageZoomViewComponent implements OnInit, OnDestroy {

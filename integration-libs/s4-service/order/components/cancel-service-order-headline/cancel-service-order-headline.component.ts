@@ -11,7 +11,6 @@ import { map } from 'rxjs/operators';
 import { NgIf, AsyncPipe, DatePipe } from '@angular/common';
 import { OutletDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cancel-service-order-headline',
@@ -23,7 +22,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     DatePipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CancelServiceOrderHeadlineComponent {

@@ -14,7 +14,6 @@ import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AtMessageDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-place-order',
@@ -25,7 +24,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ReactiveFormsModule,
     AtMessageDirective,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class OpfB2bCheckoutPlaceOrderComponent

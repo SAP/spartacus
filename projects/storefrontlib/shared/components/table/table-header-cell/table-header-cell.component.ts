@@ -12,13 +12,12 @@ import {
   TableHeaderOutletContext,
 } from '../table.model';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-table-header-cell',
   template: `{{ header || (localizedHeader | cxTranslate) }}`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslatePipe, MockTranslatePipe],
+  imports: [TranslatePipe, TranslatePipe],
 })
 export class TableHeaderCellComponent {
   constructor(protected outlet: OutletContextData<TableHeaderOutletContext>) {}

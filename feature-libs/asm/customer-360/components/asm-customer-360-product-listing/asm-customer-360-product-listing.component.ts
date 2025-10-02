@@ -28,7 +28,6 @@ import {
 } from '@angular/common';
 import { AsmCustomer360ProductItemComponent } from '../asm-customer-360-product-item/asm-customer-360-product-item.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-asm-customer-360-product-listing',
@@ -42,7 +41,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsmCustomer360ProductItemComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AsmCustomer360ProductListingComponent implements OnInit {

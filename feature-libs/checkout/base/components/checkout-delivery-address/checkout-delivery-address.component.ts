@@ -48,7 +48,6 @@ import { CardComponent } from '@spartacus/storefront';
 import { AddressFormComponent } from '../../../../user/profile/components/address-book/address-form/address-form.component';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 export interface CardWithAddress {
   card: Card;
@@ -68,7 +67,7 @@ export interface CardWithAddress {
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CheckoutDeliveryAddressComponent implements OnInit {

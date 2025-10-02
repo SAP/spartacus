@@ -51,7 +51,6 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
 
@@ -65,7 +64,7 @@ const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
     IconComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {

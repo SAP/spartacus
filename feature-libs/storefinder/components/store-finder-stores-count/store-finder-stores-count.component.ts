@@ -12,7 +12,6 @@ import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-stores-count',
@@ -25,7 +24,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class StoreFinderStoresCountComponent implements OnInit {

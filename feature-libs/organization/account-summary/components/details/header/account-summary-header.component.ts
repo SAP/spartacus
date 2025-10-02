@@ -21,7 +21,6 @@ import { map, switchMap } from 'rxjs/operators';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { CardComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-account-summary-header',
@@ -33,7 +32,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgFor,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {

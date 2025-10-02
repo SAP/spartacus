@@ -12,7 +12,6 @@ import { RouterLink } from '@angular/router';
 import { BtnLikeLinkDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-details-actions',
@@ -24,7 +23,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     TranslatePipe,
     UrlPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class OrderDetailActionsComponent {

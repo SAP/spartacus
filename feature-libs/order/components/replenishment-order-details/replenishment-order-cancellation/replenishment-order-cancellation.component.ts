@@ -23,7 +23,6 @@ import { RouterLink } from '@angular/router';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-replenishment-order-cancellation',
@@ -35,7 +34,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     TranslatePipe,
     UrlPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ReplenishmentOrderCancellationComponent implements OnDestroy {

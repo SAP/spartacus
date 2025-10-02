@@ -19,12 +19,11 @@ import { take } from 'rxjs/operators';
 import { CustomerTicketingReopenComponentService } from './customer-ticketing-reopen-component.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-ticketing-reopen',
   templateUrl: './customer-ticketing-reopen.component.html',
-  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class CustomerTicketingReopenComponent implements OnDestroy {
   protected subscription = new Subscription();

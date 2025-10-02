@@ -25,7 +25,6 @@ import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
 import { PasswordVisibilityToggleDirective } from '@spartacus/storefront';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-update-password',
@@ -43,7 +42,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     FormErrorsComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class UpdatePasswordComponent {

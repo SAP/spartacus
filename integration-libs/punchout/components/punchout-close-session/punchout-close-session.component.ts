@@ -12,13 +12,12 @@ import {
 import { Observable } from 'rxjs';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-punchout-close-session',
   templateUrl: './punchout-close-session.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class PunchoutCloseSessionComponent {
   protected punchoutFacade = inject(PunchoutFacade);

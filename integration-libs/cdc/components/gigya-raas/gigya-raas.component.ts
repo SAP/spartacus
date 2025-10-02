@@ -19,7 +19,6 @@ import { Observable } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-gigya-raas',
@@ -27,7 +26,7 @@ import { MockTranslatePipe } from '@spartacus/core';
   styleUrls: ['./gigya-raas.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class GigyaRaasComponent implements OnInit {
   protected renderScreenSet = true;

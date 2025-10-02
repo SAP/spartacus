@@ -40,7 +40,6 @@ import { IconComponent } from '../../misc/icon/icon.component';
 import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
 import { FeatureDirective } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 const ARIA_EXPANDED_ATTR = 'aria-expanded';
 
@@ -57,7 +56,7 @@ const ARIA_EXPANDED_ATTR = 'aria-expanded';
     FeatureDirective,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class NavigationUIComponent implements OnInit, OnDestroy {

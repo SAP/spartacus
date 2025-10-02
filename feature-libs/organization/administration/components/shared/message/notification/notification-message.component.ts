@@ -11,19 +11,12 @@ import { FocusDirective } from '@spartacus/storefront';
 import { NgIf } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-notification',
   templateUrl: './notification-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    FocusDirective,
-    NgIf,
-    IconComponent,
-    TranslatePipe,
-    MockTranslatePipe,
-  ],
+  imports: [FocusDirective, NgIf, IconComponent, TranslatePipe, TranslatePipe],
 })
 export class NotificationMessageComponent extends BaseMessageComponent {
   closeIcon = ICON_TYPE.CLOSE;

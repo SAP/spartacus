@@ -13,13 +13,12 @@ import { MediaService } from '../../../shared/components/media/media.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { IconComponent } from '../../misc/icon/icon.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-pdf',
   templateUrl: './pdf.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class PDFComponent {
   url?: string;

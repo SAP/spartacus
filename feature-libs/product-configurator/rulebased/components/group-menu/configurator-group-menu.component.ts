@@ -37,7 +37,6 @@ import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 import { FocusDirective } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-group-menu',
@@ -51,7 +50,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgClass,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorGroupMenuComponent {

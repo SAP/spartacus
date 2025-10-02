@@ -15,7 +15,6 @@ import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { NgClass, NgIf } from '@angular/common';
 import { IconComponent } from '../../../misc/icon/icon.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 export enum ViewModes {
   Grid = 'grid',
@@ -26,7 +25,7 @@ export enum ViewModes {
   selector: 'cx-product-view',
   templateUrl: './product-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, NgIf, IconComponent, TranslatePipe, MockTranslatePipe],
+  imports: [NgClass, NgIf, IconComponent, TranslatePipe, TranslatePipe],
 })
 export class ProductViewComponent {
   iconTypes = ICON_TYPE;

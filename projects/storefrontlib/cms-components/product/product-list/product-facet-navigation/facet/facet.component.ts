@@ -32,7 +32,6 @@ import { RouterLink } from '@angular/router';
 import { FocusDirective as FocusDirective_1 } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
 import { AtMessageDirective } from '../../../../../shared/components/assistive-technology-message/assistive-technology-message.directive';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-facet',
@@ -47,7 +46,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     SlicePipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class FacetComponent implements AfterViewInit {

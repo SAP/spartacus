@@ -11,12 +11,11 @@ import { Subscription } from 'rxjs';
 import { NgIf } from '@angular/common';
 import { AppliedCouponsComponent } from '../../cart-coupon/applied-coupons/applied-coupons.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-summary',
   templateUrl: './order-summary.component.html',
-  imports: [NgIf, AppliedCouponsComponent, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, AppliedCouponsComponent, TranslatePipe, TranslatePipe],
 })
 export class OrderSummaryComponent implements OnInit, OnDestroy {
   @Input()

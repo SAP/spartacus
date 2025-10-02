@@ -11,19 +11,12 @@ import { ProductListItemContext } from '@spartacus/storefront';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { StarRatingComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-multi-dimensional-list-item-details',
   templateUrl: './product-multi-dimensional-list-item-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    StarRatingComponent,
-    TranslatePipe,
-    AsyncPipe,
-    MockTranslatePipe,
-  ],
+  imports: [NgIf, StarRatingComponent, TranslatePipe, AsyncPipe, TranslatePipe],
 })
 export class ProductMultiDimensionalListItemDetailsComponent {
   productListItemContext?: ProductListItemContext = inject(

@@ -25,7 +25,6 @@ import { NgSelectComponent, NgOptionComponent } from '@ng-select/ng-select';
 import { NgSelectA11yDirective } from '@spartacus/storefront';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-my-account-v2-profile',
@@ -43,7 +42,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     FormErrorsComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class MyAccountV2ProfileComponent implements OnInit {

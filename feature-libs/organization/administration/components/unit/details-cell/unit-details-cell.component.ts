@@ -11,7 +11,6 @@ import { NgIf } from '@angular/common';
 import { PopoverDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-unit-details-cell',
@@ -23,7 +22,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     PopoverDirective,
     TranslatePipe,
     UrlPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class UnitDetailsCellComponent extends CellComponent {}

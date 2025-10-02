@@ -26,7 +26,6 @@ import { StarRatingComponent } from '../../../../shared/components/star-rating/s
 import { InnerComponentsHostDirective } from '../../../../cms-structure/page/component/inner-components-host.directive';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-list-item',
@@ -50,7 +49,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     TranslatePipe,
     UrlPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ProductListItemComponent implements OnChanges {

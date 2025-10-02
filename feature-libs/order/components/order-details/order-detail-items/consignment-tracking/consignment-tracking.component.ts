@@ -24,13 +24,12 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { NgIf } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-consignment-tracking',
   templateUrl: './consignment-tracking.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, TranslatePipe, TranslatePipe],
 })
 export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
   consignmentStatus: string[] = [

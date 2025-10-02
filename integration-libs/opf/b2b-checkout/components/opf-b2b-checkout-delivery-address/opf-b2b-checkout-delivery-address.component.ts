@@ -12,7 +12,6 @@ import { CardComponent } from '@spartacus/storefront';
 import { AddressFormComponent } from '../../../../../feature-libs/user/profile/components/address-book/address-form/address-form.component';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-opf-b2b-checkout-delivery-address',
   templateUrl: './opf-b2b-checkout-delivery-address.component.html',
@@ -26,7 +25,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class OpfB2bCheckoutDeliveryAddressComponent extends B2BCheckoutDeliveryAddressComponent {}

@@ -13,13 +13,12 @@ import { ConfiguratorMessageConfig } from '../config/configurator-message.config
 import { SpinnerComponent } from '@spartacus/storefront';
 import { AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-update-message',
   templateUrl: './configurator-update-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SpinnerComponent, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [SpinnerComponent, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class ConfiguratorUpdateMessageComponent {
   hasPendingChanges$: Observable<boolean> = this.configRouterExtractorService

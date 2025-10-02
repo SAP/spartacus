@@ -44,7 +44,6 @@ import { CartItemComponent } from '../cart-shared/cart-item/cart-item.component'
 import { PromotionsComponent } from '@spartacus/storefront';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 export interface AddedToCartDialogComponentData {
   productCode: string;
@@ -73,7 +72,7 @@ export interface AddedToCartDialogComponentData {
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AddedToCartDialogComponent implements OnInit, OnDestroy {

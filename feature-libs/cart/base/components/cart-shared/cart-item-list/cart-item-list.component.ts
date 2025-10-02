@@ -38,7 +38,6 @@ import { OutletDirective } from '@spartacus/storefront';
 import { FeatureDirective } from '@spartacus/core';
 import { CartItemListRowComponent } from '../cart-item-list-row/cart-item-list-row.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 interface ItemListContext {
   readonly?: boolean;
@@ -62,7 +61,7 @@ interface ItemListContext {
     CartItemListRowComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CartItemListComponent implements OnInit, OnDestroy {

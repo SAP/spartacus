@@ -23,7 +23,6 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-suggested-addresses-dialog',
@@ -37,7 +36,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgFor,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class SuggestedAddressDialogComponent implements OnInit {

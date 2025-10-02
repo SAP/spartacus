@@ -37,7 +37,6 @@ import { FocusDirective } from '@spartacus/storefront';
 import { FileUploadComponent } from '@spartacus/storefront';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-import-entries-form',
@@ -52,7 +51,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     FileUploadComponent,
     FormErrorsComponent,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ImportEntriesFormComponent implements OnInit {

@@ -12,12 +12,11 @@ import { distinctUntilChanged } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
 import { TranslatePipe } from '@spartacus/core';
 import { FormatTimerPipe } from './format-timer.pipe';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-asm-session-timer',
   templateUrl: './asm-session-timer.component.html',
-  imports: [TranslatePipe, FormatTimerPipe, MockTranslatePipe],
+  imports: [TranslatePipe, FormatTimerPipe, TranslatePipe],
 })
 export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();

@@ -12,13 +12,12 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { Configurator } from '../../core/model/configurator.model';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-price-summary',
   templateUrl: './configurator-price-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class ConfiguratorPriceSummaryComponent {
   configuration$: Observable<Configurator.Configuration> =

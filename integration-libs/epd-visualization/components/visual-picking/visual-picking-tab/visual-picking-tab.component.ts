@@ -17,7 +17,6 @@ import { VisualPickingProductListService } from './product-list/visual-picking-p
 import { VisualPickingTabService } from './visual-picking-tab.service';
 import { VisualPickingProductFilterComponent } from './product-filter/visual-picking-product-filter.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-epd-visualization-visual-picking-tab',
@@ -29,7 +28,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     VisualPickingProductFilterComponent,
     VisualPickingProductListComponent,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class VisualPickingTabComponent implements AfterViewInit {

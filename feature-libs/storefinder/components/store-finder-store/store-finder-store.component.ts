@@ -15,7 +15,6 @@ import { IconComponent } from '@spartacus/storefront';
 import { StoreFinderStoreDescriptionComponent } from '../store-finder-store-description/store-finder-store-description.component';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-store',
@@ -27,7 +26,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class StoreFinderStoreComponent implements OnInit {

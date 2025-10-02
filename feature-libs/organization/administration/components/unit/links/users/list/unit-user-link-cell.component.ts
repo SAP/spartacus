@@ -18,7 +18,6 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-unit-user-link-cell',
@@ -34,14 +33,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    RouterLink,
-    AsyncPipe,
-    TranslatePipe,
-    UrlPipe,
-    MockTranslatePipe,
-  ],
+  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe, TranslatePipe],
 })
 export class UnitUserRolesCellComponent extends CellComponent {
   unitKey$: Observable<string> = this.itemService.key$;

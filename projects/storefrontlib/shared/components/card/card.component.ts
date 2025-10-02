@@ -21,7 +21,6 @@ import { AtMessageDirective } from '../assistive-technology-message/assistive-te
 import { GenericLinkComponent } from '../generic-link/generic-link.component';
 import { TruncateTextPopoverComponent } from '../truncate-text-popover/truncate-text-popover.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 export interface CardAction {
   event: string;
@@ -67,7 +66,7 @@ export interface Card {
     NgClass,
     TruncateTextPopoverComponent,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CardComponent implements OnInit {

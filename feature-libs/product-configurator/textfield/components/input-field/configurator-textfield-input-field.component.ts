@@ -19,13 +19,12 @@ import {
 } from '@angular/forms';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-textfield-input-field',
   templateUrl: './configurator-textfield-input-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, ReactiveFormsModule, TranslatePipe, MockTranslatePipe],
+  imports: [FormsModule, ReactiveFormsModule, TranslatePipe, TranslatePipe],
 })
 export class ConfiguratorTextfieldInputFieldComponent implements OnInit {
   PREFIX_TEXTFIELD = 'cx-configurator-textfield';

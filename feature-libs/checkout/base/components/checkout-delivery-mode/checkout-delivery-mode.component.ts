@@ -32,7 +32,6 @@ import { OutletDirective } from '@spartacus/storefront';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { InnerComponentsHostDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-delivery-mode',
@@ -48,7 +47,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     InnerComponentsHostDirective,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CheckoutDeliveryModeComponent {

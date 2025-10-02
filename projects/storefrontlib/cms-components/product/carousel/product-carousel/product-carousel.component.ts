@@ -29,7 +29,6 @@ import { CarouselScrollingComponent } from '../../../../shared/components/carous
 import { CarouselComponent } from '../../../../shared/components/carousel/carousel.component';
 import { ProductCarouselItemComponent } from '../product-carousel-item/product-carousel-item.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-carousel',
@@ -43,7 +42,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ProductCarouselItemComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ProductCarouselComponent {

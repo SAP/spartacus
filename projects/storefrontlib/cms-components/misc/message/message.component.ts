@@ -19,7 +19,6 @@ import { NgClass, NgIf } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 import { AtMessageDirective } from '../../../shared/components/assistive-technology-message/assistive-technology-message.directive';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-message',
   templateUrl: './message.component.html',
@@ -29,7 +28,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgIf,
     AtMessageDirective,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class MessageComponent implements AfterViewInit {

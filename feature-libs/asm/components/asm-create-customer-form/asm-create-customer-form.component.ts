@@ -36,7 +36,6 @@ import { MessageComponent } from '@spartacus/storefront';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-asm-create-customer-form',
@@ -52,7 +51,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AsmCreateCustomerFormComponent {

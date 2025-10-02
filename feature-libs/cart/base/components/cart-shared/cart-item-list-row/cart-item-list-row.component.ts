@@ -21,7 +21,6 @@ import { ItemCounterComponent } from '@spartacus/storefront';
 import { AtMessageDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: '[cx-cart-item-list-row], cx-cart-item-list-row',
@@ -44,7 +43,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AtMessageDirective,
     TranslatePipe,
     UrlPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CartItemListRowComponent extends CartItemComponent {

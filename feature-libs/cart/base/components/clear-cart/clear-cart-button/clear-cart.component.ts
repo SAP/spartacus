@@ -18,13 +18,12 @@ import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-clear-cart',
   templateUrl: './clear-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class ClearCartComponent implements OnDestroy {
   cart$: Observable<Cart> = this.activeCartFacade.getActive();

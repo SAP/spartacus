@@ -23,7 +23,6 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { OrderGuestRegisterFormComponent } from '../order-guest-register-form/order-guest-register-form.component';
 import { AddToHomeScreenBannerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-confirmation-thank-you-message',
@@ -35,7 +34,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AddToHomeScreenBannerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class OrderConfirmationThankYouMessageComponent

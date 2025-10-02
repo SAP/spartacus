@@ -20,7 +20,6 @@ import { CarouselScrollingComponent } from '@spartacus/storefront';
 import { CarouselComponent } from '@spartacus/storefront';
 import { FocusableCarouselItemDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-images',
@@ -37,7 +36,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     FocusableCarouselItemDirective,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ProductImageZoomProductImagesComponent extends ProductImagesComponent {

@@ -17,13 +17,12 @@ import { filter, take } from 'rxjs';
 import { NgIf } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-checkout-terms-and-conditions-alert',
   templateUrl: './opf-checkout-terms-and-conditions-alert.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, IconComponent, TranslatePipe, TranslatePipe],
 })
 export class OpfCheckoutTermsAndConditionsAlertComponent implements OnInit {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);

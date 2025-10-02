@@ -35,7 +35,6 @@ import { FocusDirective } from '@spartacus/storefront';
 import { PopoverDirective } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-image',
@@ -54,7 +53,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ConfiguratorPriceComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorAttributeSingleSelectionImageComponent

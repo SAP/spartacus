@@ -10,7 +10,6 @@ import { UnitApproverListService } from './unit-approver-list.service';
 import { SubListComponent } from '../../../shared/sub-list/sub-list.component';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-unit-approver-list',
@@ -23,6 +22,6 @@ import { MockTranslatePipe } from '@spartacus/core';
       useExisting: UnitApproverListService,
     },
   ],
-  imports: [SubListComponent, RouterLink, TranslatePipe, MockTranslatePipe],
+  imports: [SubListComponent, RouterLink, TranslatePipe, TranslatePipe],
 })
 export class UnitApproverListComponent {}

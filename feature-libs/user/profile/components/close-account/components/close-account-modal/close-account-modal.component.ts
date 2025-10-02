@@ -31,7 +31,6 @@ import { FocusDirective } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-close-account-modal',
@@ -44,7 +43,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CloseAccountModalComponent implements OnInit {

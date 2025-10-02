@@ -23,7 +23,6 @@ import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
 import { HighlightPipe } from '@spartacus/storefront';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 export interface SearchBoxOutlet {
   search: string;
@@ -45,7 +44,7 @@ const MAX_RECENT_SEARCHES = 5;
     TranslatePipe,
     HighlightPipe,
     UrlPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class RecentSearchesComponent implements OnInit {

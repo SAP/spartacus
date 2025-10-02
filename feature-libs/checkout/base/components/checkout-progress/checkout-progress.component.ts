@@ -20,7 +20,6 @@ import { RouterLink } from '@angular/router';
 import { UrlPipe } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
 import { MultiLinePipe } from './multiline-titles.pipe';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-checkout-progress',
@@ -34,7 +33,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     UrlPipe,
     TranslatePipe,
     MultiLinePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CheckoutProgressComponent implements OnInit {

@@ -27,7 +27,6 @@ import { CardComponent } from '../../../../shared/card/card.component';
 import { FocusDirective } from '@spartacus/storefront';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-unit-user-roles',
@@ -50,7 +49,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgFor,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class UnitUserRolesFormComponent {

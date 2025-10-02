@@ -19,13 +19,12 @@ import {
 import { filter, take } from 'rxjs/operators';
 import { NgIf, NgFor, NgClass } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-variant-style-selector',
   templateUrl: './product-variant-style-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, NgClass, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, NgFor, NgClass, TranslatePipe, TranslatePipe],
 })
 export class ProductVariantStyleSelectorComponent {
   constructor(

@@ -21,7 +21,6 @@ import { map, switchMap } from 'rxjs/operators';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe as CxDatePipe_1 } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 import { MockDatePipe } from '@spartacus/core';
 
 @Component({
@@ -34,7 +33,7 @@ import { MockDatePipe } from '@spartacus/core';
     AsyncPipe,
     TranslatePipe,
     CxDatePipe_1,
-    MockTranslatePipe,
+    TranslatePipe,
     MockDatePipe,
   ],
 })

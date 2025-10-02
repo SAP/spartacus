@@ -26,7 +26,6 @@ import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-
 import { IconComponent } from '@spartacus/storefront';
 import { AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,7 +36,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     IconComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AsmCustomer360CustomerCouponComponent

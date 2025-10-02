@@ -27,7 +27,6 @@ import { ImportToNewSavedCartFormComponent } from './import-to-new-saved-cart-fo
 import { ImportEntriesFormComponent } from './import-entries-form/import-entries-form.component';
 import { ImportEntriesSummaryComponent } from './import-entries-summary/import-entries-summary.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-import-entries-dialog',
@@ -42,7 +41,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ImportEntriesSummaryComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ImportEntriesDialogComponent {

@@ -16,13 +16,12 @@ import { switchMap } from 'rxjs/operators';
 import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-export-order-entries',
   templateUrl: './export-order-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class ExportOrderEntriesComponent {
   @HostBinding('class') styles = 'container';

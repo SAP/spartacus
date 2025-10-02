@@ -56,7 +56,6 @@ import { ItemCounterComponent } from '@spartacus/storefront';
 import { OutletDirective } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -73,7 +72,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     IconComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AddToCartComponent implements OnInit, OnDestroy {

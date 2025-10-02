@@ -22,7 +22,6 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 const MAX_TRENDING_SEARCHES = 5;
 
@@ -37,7 +36,7 @@ const MAX_TRENDING_SEARCHES = 5;
     AsyncPipe,
     TranslatePipe,
     UrlPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class TrendingSearchesComponent implements OnInit {

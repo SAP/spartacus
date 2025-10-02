@@ -33,7 +33,6 @@ import { IconComponent } from '../../../misc/icon/icon.component';
 import { FormRequiredAsterisksComponent } from '../../../../shared/components/form/form-required-asterisks/form-required-asterisks.component';
 import { FormErrorsComponent } from '../../../../shared/components/form/form-errors/form-errors.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-claim-dialog',
@@ -47,7 +46,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ClaimDialogComponent implements OnDestroy, OnInit {

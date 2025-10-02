@@ -43,7 +43,6 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
 import { DatePickerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-quote-summary-seller-edit',
@@ -56,7 +55,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     DatePickerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class QuoteSummarySellerEditComponent implements OnInit, OnDestroy {

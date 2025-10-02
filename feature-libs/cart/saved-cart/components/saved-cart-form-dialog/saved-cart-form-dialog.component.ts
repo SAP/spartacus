@@ -52,7 +52,6 @@ import { FormRequiredLegendComponent } from '@spartacus/storefront';
 import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 export interface SavedCartFormDialogOptions {
   cart: Cart;
@@ -77,7 +76,7 @@ export interface SavedCartFormDialogOptions {
     FormErrorsComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class SavedCartFormDialogComponent implements OnInit, OnDestroy {

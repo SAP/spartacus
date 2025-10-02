@@ -11,13 +11,12 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-textfield-add-to-cart-button',
   templateUrl: './configurator-textfield-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, TranslatePipe, UrlPipe, MockTranslatePipe],
+  imports: [RouterLink, TranslatePipe, UrlPipe, TranslatePipe],
 })
 export class ConfiguratorTextfieldAddToCartButtonComponent {
   @Input() configuration: ConfiguratorTextfield.Configuration;

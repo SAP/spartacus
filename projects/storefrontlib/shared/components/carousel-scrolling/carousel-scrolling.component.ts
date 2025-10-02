@@ -23,7 +23,6 @@ import { NgIf, NgFor, NgTemplateOutlet, AsyncPipe } from '@angular/common';
 import { HorizontalScrollingPositionDirective } from '../../directives/horizontal-scrolling-position/horizontal-scrolling-position.directive';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * Context passed to the `template` for each carousel item.
@@ -64,7 +63,7 @@ enum KeyboardEventKeys {
     NgTemplateOutlet,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CarouselScrollingComponent<Item = any> implements OnInit {

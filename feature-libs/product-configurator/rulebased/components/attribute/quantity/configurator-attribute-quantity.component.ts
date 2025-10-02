@@ -19,7 +19,6 @@ import { debounce, distinct, take } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 export interface ConfiguratorAttributeQuantityComponentOptions {
   allowZero?: boolean;
@@ -31,7 +30,7 @@ export interface ConfiguratorAttributeQuantityComponentOptions {
   selector: 'cx-configurator-attribute-quantity',
   templateUrl: './configurator-attribute-quantity.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ItemCounterComponent, TranslatePipe, MockTranslatePipe],
+  imports: [ItemCounterComponent, TranslatePipe, TranslatePipe],
 })
 export class ConfiguratorAttributeQuantityComponent
   implements OnDestroy, OnInit

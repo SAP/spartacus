@@ -30,7 +30,6 @@ import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-user-registration-form',
@@ -47,7 +46,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class UserRegistrationOTPFormComponent {

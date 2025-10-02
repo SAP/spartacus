@@ -51,7 +51,6 @@ import { CardComponent } from '@spartacus/storefront';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form/checkout-payment-form.component';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-payment-method',
@@ -66,7 +65,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {

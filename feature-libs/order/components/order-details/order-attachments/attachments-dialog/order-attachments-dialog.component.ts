@@ -32,7 +32,6 @@ import { IconComponent } from '@spartacus/storefront';
 import { MessageComponent } from '@spartacus/storefront';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-attachments-dialog',
@@ -48,7 +47,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class OrderAttachmentsDialogComponent {

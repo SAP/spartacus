@@ -12,7 +12,6 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-cart-entry-info',
@@ -23,7 +22,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ConfigureCartEntryComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorCartEntryInfoComponent {

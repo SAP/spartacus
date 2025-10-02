@@ -15,7 +15,6 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { CarouselComponent } from '@spartacus/storefront';
 import { ProductCarouselItemComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-variant-carousel',
@@ -27,7 +26,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ProductCarouselItemComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorVariantCarouselComponent {

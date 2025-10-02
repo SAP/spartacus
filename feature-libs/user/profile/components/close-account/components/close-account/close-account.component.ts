@@ -17,13 +17,12 @@ import { take } from 'rxjs/operators';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { RoutingService } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-close-account',
   templateUrl: './close-account.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslatePipe, MockTranslatePipe],
+  imports: [TranslatePipe, TranslatePipe],
 })
 export class CloseAccountComponent {
   @ViewChild('element') element: ElementRef;

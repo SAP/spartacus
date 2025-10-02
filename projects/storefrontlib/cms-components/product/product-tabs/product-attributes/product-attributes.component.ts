@@ -10,13 +10,12 @@ import { Observable } from 'rxjs';
 import { CurrentProductService } from '../../current-product.service';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-attributes',
   templateUrl: './product-attributes.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class ProductAttributesComponent {
   product$: Observable<Product | null> = this.currentProductService.getProduct(

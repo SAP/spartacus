@@ -23,7 +23,6 @@ import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-unit-address-form',
@@ -47,7 +46,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     FormErrorsComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class UnitAddressFormComponent implements OnInit {

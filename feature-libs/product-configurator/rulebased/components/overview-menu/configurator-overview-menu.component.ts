@@ -18,7 +18,6 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 import { NgIf, NgTemplateOutlet, NgFor, NgClass } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-overview-menu',
@@ -31,7 +30,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgClass,
     IconComponent,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorOverviewMenuComponent implements AfterViewInit {

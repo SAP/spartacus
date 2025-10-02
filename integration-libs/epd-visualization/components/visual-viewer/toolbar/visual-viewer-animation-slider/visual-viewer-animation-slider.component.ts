@@ -17,14 +17,13 @@ import {
 import { VisualViewerAnimationSliderService } from './visual-viewer-animation-slider.service';
 import { TranslatePipe } from '@spartacus/core';
 import { CxNumericPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-epd-visualization-animation-slider',
   templateUrl: './visual-viewer-animation-slider.component.html',
   providers: [VisualViewerAnimationSliderService],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslatePipe, CxNumericPipe, MockTranslatePipe],
+  imports: [TranslatePipe, CxNumericPipe, TranslatePipe],
 })
 export class VisualViewerAnimationSliderComponent implements AfterViewInit {
   constructor(

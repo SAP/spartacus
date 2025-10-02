@@ -22,20 +22,12 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-quote-links',
   templateUrl: './quote-links.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    RouterLink,
-    AsyncPipe,
-    TranslatePipe,
-    UrlPipe,
-    MockTranslatePipe,
-  ],
+  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe, TranslatePipe],
 })
 export class QuoteLinksComponent {
   protected quoteFacade = inject(QuoteFacade);

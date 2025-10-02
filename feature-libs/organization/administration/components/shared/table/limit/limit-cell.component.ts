@@ -11,7 +11,6 @@ import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { UrlPipe } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-limit-cell',
@@ -23,7 +22,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgTemplateOutlet,
     UrlPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class LimitCellComponent extends CellComponent {

@@ -35,7 +35,6 @@ import {
 import { FocusDirective } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 class DefaultSettings {
   numDecimalPlaces: number;
@@ -56,7 +55,7 @@ class DefaultSettings {
     IconComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorAttributeNumericInputFieldComponent

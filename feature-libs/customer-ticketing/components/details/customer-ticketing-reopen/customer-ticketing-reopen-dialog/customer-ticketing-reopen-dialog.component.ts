@@ -21,7 +21,6 @@ import { FileUploadComponent } from '@spartacus/storefront';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-ticketing-reopen-dialog',
@@ -37,7 +36,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CustomerTicketingReopenDialogComponent

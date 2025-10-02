@@ -33,7 +33,6 @@ import {
 } from '@angular/common';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * Generic carousel component that can be used to render any carousel items,
@@ -68,7 +67,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     SlicePipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CarouselComponent implements OnInit, OnChanges {

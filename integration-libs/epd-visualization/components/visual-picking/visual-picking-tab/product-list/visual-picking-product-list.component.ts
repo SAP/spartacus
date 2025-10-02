@@ -21,7 +21,6 @@ import { RouterLink } from '@angular/router';
 import { CompactAddToCartComponent } from './compact-add-to-cart/compact-add-to-cart.component';
 import { UrlPipe } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-epd-visualization-product-list',
@@ -37,7 +36,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     UrlPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class VisualPickingProductListComponent implements OnInit {

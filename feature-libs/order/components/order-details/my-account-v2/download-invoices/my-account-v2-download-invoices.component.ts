@@ -25,7 +25,6 @@ import { InvoicesListComponent as InvoicesListComponent_1 } from '../../../../..
 import { NgIf } from '@angular/common';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-my-account-v2-download-invoices',
@@ -38,7 +37,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgIf,
     SpinnerComponent,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class MyAccountV2DownloadInvoicesComponent implements AfterViewChecked {

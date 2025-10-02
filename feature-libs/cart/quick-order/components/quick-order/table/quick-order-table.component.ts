@@ -11,7 +11,6 @@ import { NgIf, NgFor } from '@angular/common';
 import { FeatureDirective } from '@spartacus/core';
 import { QuickOrderItemComponent } from './item/quick-order-item.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-quick-order-table',
@@ -23,7 +22,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgFor,
     QuickOrderItemComponent,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class QuickOrderTableComponent {

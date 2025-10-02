@@ -14,7 +14,6 @@ import { NgIf, NgClass } from '@angular/common';
 import { StoreScheduleComponent } from './store-schedule/store-schedule.component';
 import { SetPreferredStoreComponent } from '../../container/set-preferred-store/set-preferred-store.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * A store in the store list including address, opening times, stock level, and
@@ -31,7 +30,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SetPreferredStoreComponent,
     NgClass,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class StoreComponent implements OnInit {

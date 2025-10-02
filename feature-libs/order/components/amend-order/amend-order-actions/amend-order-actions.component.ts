@@ -17,7 +17,6 @@ import { RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { UrlPipe } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-amend-order-actions',
@@ -29,7 +28,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgIf,
     UrlPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AmendOrderActionsComponent {

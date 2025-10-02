@@ -43,7 +43,6 @@ import { StarRatingComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';
 import { ArgsPipe } from '../../../core/utils/args/args.pipe';
-import { MockTranslatePipe } from '@spartacus/core';
 import { MockDatePipe } from '@spartacus/core';
 
 @Component({
@@ -59,7 +58,7 @@ import { MockDatePipe } from '@spartacus/core';
     TranslatePipe,
     CxDatePipe,
     ArgsPipe,
-    MockTranslatePipe,
+    TranslatePipe,
     MockDatePipe,
   ],
 })

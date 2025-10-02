@@ -23,7 +23,6 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
 import { NgIf } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-unit-level-order-history-filter',
@@ -34,7 +33,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ReactiveFormsModule,
     NgIf,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class UnitLevelOrderHistoryFilterComponent {

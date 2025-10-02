@@ -14,7 +14,6 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { MediaComponent } from '@spartacus/storefront';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-amend-order-items',
@@ -27,7 +26,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ItemCounterComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CancelOrReturnItemsComponent {

@@ -25,7 +25,6 @@ import {
 } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-import-entries-summary',
@@ -39,7 +38,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     IconComponent,
     NgFor,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ImportEntriesSummaryComponent {

@@ -12,7 +12,6 @@ import { Observable } from 'rxjs';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { FeatureDirective } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-detail-permission-results',
@@ -24,7 +23,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgFor,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class OrderDetailPermissionResultsComponent {

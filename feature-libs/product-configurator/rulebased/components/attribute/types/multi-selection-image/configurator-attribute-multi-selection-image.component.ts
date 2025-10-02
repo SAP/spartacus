@@ -29,7 +29,6 @@ import { PopoverDirective } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
 import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-attribute-multi-selection-image',
@@ -48,7 +47,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ConfiguratorPriceComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorAttributeMultiSelectionImageComponent

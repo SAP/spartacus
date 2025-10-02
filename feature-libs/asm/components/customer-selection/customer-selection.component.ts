@@ -42,7 +42,6 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
 import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-selection',
@@ -59,7 +58,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     DotSpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {

@@ -20,7 +20,6 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
 import { NgIf, NgTemplateOutlet, NgFor, AsyncPipe } from '@angular/common';
 import { CardComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-asm-customer-360-profile',
@@ -32,7 +31,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     CardComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AsmCustomer360ProfileComponent implements OnInit {

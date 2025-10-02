@@ -10,12 +10,11 @@ import { ConfiguratorCommonsService } from '../../../core/facade/configurator-co
 import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-show-options',
   templateUrl: './configurator-show-options.component.html',
-  imports: [TranslatePipe, MockTranslatePipe],
+  imports: [TranslatePipe, TranslatePipe],
 })
 export class ConfiguratorShowOptionsComponent {
   protected configuratorCommonsService = inject(ConfiguratorCommonsService);

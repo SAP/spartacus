@@ -21,7 +21,6 @@ import { AddressFormComponent } from '../../../../../feature-libs/user/profile/c
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { GetAddressCardContent } from './get-address-card-content.pipe';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-checkout-billing-address-form',
@@ -36,7 +35,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     TranslatePipe,
     GetAddressCardContent,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class OpfCheckoutBillingAddressFormComponent implements OnInit {

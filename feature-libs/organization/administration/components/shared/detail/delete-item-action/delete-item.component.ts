@@ -15,7 +15,6 @@ import { MessageService } from '../../message/services/message.service';
 import { BaseItem } from '../../organization.model';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * Reusable component in the my-company is to delete an item (if it's possible)
@@ -24,7 +23,7 @@ import { MockTranslatePipe } from '@spartacus/core';
   selector: 'cx-org-delete-item',
   templateUrl: './delete-item.component.html',
   host: { class: 'content-wrapper' },
-  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
   /**

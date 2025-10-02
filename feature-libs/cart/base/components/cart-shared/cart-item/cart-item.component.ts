@@ -27,7 +27,6 @@ import { PromotionsComponent } from '@spartacus/storefront';
 import { AtMessageDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-item',
@@ -51,7 +50,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AtMessageDirective,
     TranslatePipe,
     UrlPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CartItemComponent implements OnChanges {

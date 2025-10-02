@@ -10,13 +10,12 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { NgIf, NgFor } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-applied-coupons',
   templateUrl: './applied-coupons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, IconComponent, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, NgFor, IconComponent, TranslatePipe, TranslatePipe],
 })
 export class AppliedCouponsComponent {
   @Input()

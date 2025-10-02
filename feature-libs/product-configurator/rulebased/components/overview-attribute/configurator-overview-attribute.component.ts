@@ -14,7 +14,6 @@ import {
 import { Observable } from 'rxjs';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-overview-attribute',
@@ -25,7 +24,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ConfiguratorPriceComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorOverviewAttributeComponent {

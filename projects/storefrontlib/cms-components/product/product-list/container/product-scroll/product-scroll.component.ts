@@ -16,7 +16,6 @@ import { ProductGridItemComponent } from '../../product-grid-item/product-grid-i
 import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
 import { ProductListItemComponent } from '../../product-list-item/product-list-item.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-scroll',
@@ -29,7 +28,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     ProductListItemComponent,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ProductScrollComponent implements OnDestroy {

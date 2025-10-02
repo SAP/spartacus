@@ -67,7 +67,6 @@ import { MessageComponent } from '@spartacus/storefront';
 import { CustomerSelectionComponent } from '../customer-selection/customer-selection.component';
 import { CSAgentLoginFormComponent } from '../csagent-login-form/csagent-login-form.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 interface CartTypeKey {
   [key: string]: string;
@@ -92,7 +91,7 @@ export const CART_TYPE_KEY: CartTypeKey = {
     CSAgentLoginFormComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AsmMainUiComponent implements OnInit, OnDestroy {

@@ -24,7 +24,6 @@ import { IconComponent } from '@spartacus/storefront';
 import { StoreFinderStoreDescriptionComponent } from '../../store-finder-store-description/store-finder-store-description.component';
 import { StoreFinderListItemComponent } from '../../store-finder-list-item/store-finder-list-item.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-list',
@@ -42,7 +41,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgSwitchCase,
     KeyValuePipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class StoreFinderListComponent {

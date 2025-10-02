@@ -42,7 +42,6 @@ import { IconComponent } from '@spartacus/storefront';
 import { FeatureDirective } from '@spartacus/core';
 import { MediaComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
 
@@ -60,7 +59,7 @@ const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
     MediaComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class QuickOrderFormComponent implements OnInit, OnDestroy {

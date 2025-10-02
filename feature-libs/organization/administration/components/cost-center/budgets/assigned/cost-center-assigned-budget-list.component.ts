@@ -10,7 +10,6 @@ import { CostCenterAssignedBudgetListService } from './cost-center-assigned-budg
 import { SubListComponent } from '../../../shared/sub-list/sub-list.component';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-cost-center-assigned-budget-list',
@@ -23,6 +22,6 @@ import { MockTranslatePipe } from '@spartacus/core';
       useExisting: CostCenterAssignedBudgetListService,
     },
   ],
-  imports: [SubListComponent, RouterLink, TranslatePipe, MockTranslatePipe],
+  imports: [SubListComponent, RouterLink, TranslatePipe, TranslatePipe],
 })
 export class CostCenterAssignedBudgetListComponent {}

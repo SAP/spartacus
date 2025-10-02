@@ -27,7 +27,6 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
 import { NgIf, NgClass, AsyncPipe } from '@angular/common';
 import { FocusDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-attribute-input-field',
@@ -41,7 +40,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     FocusDirective,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorAttributeInputFieldComponent

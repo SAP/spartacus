@@ -46,7 +46,6 @@ import { IconComponent } from '@spartacus/storefront';
 import { CheckoutBillingAddressFormComponent } from '../../checkout-billing-address/checkout-billing-address-form.component';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-payment-form',
@@ -66,7 +65,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CheckoutPaymentFormComponent implements OnInit {

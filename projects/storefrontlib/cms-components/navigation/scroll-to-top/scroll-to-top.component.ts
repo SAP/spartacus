@@ -24,13 +24,12 @@ import { SelectFocusUtility } from '../../../layout/a11y/index';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
 import { IconComponent } from '../../misc/icon/icon.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-scroll-to-top',
   templateUrl: './scroll-to-top.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IconComponent, TranslatePipe, MockTranslatePipe],
+  imports: [IconComponent, TranslatePipe, TranslatePipe],
 })
 export class ScrollToTopComponent implements OnInit {
   iconTypes = ICON_TYPE;

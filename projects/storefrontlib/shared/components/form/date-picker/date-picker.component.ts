@@ -14,7 +14,6 @@ import { DatePickerService } from './date-picker.service';
 import { FormErrorsComponent } from '../form-errors/form-errors.component';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 import { MockDatePipe } from '@spartacus/core';
 
 /**
@@ -36,7 +35,7 @@ import { MockDatePipe } from '@spartacus/core';
     FormErrorsComponent,
     TranslatePipe,
     CxDatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
     MockDatePipe,
   ],
 })

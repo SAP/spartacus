@@ -10,12 +10,11 @@ import { VERIFICATION_TOKEN_DIALOG_ACTION } from '@spartacus/user/account/root';
 import { FocusDirective } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-verification-token-dialog',
   templateUrl: './verification-token-dialog.component.html',
-  imports: [FocusDirective, IconComponent, TranslatePipe, MockTranslatePipe],
+  imports: [FocusDirective, IconComponent, TranslatePipe, TranslatePipe],
 })
 export class VerificationTokenDialogComponent {
   VERIFICATION_TOKEN_DIALOG_ACTION = VERIFICATION_TOKEN_DIALOG_ACTION;

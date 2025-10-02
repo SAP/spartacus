@@ -37,7 +37,6 @@ import { StoreListComponent } from '../store-list/store-list.component';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * The dialog box to select the pickup location for a product.
@@ -54,7 +53,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class PickupOptionDialogComponent implements OnInit, OnDestroy {

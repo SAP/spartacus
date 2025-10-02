@@ -18,18 +18,11 @@ import { LaunchDialogService } from '../../../layout/launch-dialog/services/laun
 import { FeatureDirective } from '@spartacus/core';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-anonymous-consent-open-dialog',
   templateUrl: './anonymous-consent-open-dialog.component.html',
-  imports: [
-    FeatureDirective,
-    NgIf,
-    AsyncPipe,
-    TranslatePipe,
-    MockTranslatePipe,
-  ],
+  imports: [FeatureDirective, NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class AnonymousConsentOpenDialogComponent {
   @ViewChild('open') openElement: ElementRef;

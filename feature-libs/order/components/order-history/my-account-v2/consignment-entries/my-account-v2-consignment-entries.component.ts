@@ -9,7 +9,6 @@ import { ConsignmentView } from '@spartacus/order/root';
 import { NgFor, NgIf } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 import { MockDatePipe } from '@spartacus/core';
 
 @Component({
@@ -21,7 +20,7 @@ import { MockDatePipe } from '@spartacus/core';
     NgIf,
     TranslatePipe,
     CxDatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
     MockDatePipe,
   ],
 })

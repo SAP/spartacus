@@ -16,7 +16,6 @@ import { CurrentUserGroupService } from '../services/current-user-group.service'
 import { UserGroupUserListService } from './user-group-user-list.service';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-user-group-user-list',
@@ -29,7 +28,7 @@ import { MockTranslatePipe } from '@spartacus/core';
       useExisting: UserGroupUserListService,
     },
   ],
-  imports: [SubListComponent, RouterLink, TranslatePipe, MockTranslatePipe],
+  imports: [SubListComponent, RouterLink, TranslatePipe, TranslatePipe],
 })
 export class UserGroupUserListComponent {
   constructor(

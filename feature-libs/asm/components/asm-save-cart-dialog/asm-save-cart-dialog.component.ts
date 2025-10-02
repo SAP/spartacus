@@ -16,7 +16,6 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { MessageComponent } from '@spartacus/storefront';
 import { FeatureDirective } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 export enum SAVE_CART_DIALOG_ACTION {
   CANCEL = 'CANCEL',
@@ -33,7 +32,7 @@ export enum SAVE_CART_DIALOG_ACTION {
     FeatureDirective,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AsmSaveCartDialogComponent implements OnInit {

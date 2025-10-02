@@ -28,7 +28,6 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { MediaComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { CxNumericPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-cpq-overview-attribute',
@@ -41,7 +40,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     TranslatePipe,
     CxNumericPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {

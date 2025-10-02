@@ -13,7 +13,6 @@ import { NavigationService } from '../navigation/navigation.service';
 import { NgIf, NgClass, AsyncPipe } from '@angular/common';
 import { NavigationUIComponent } from '../navigation/navigation-ui.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-category-navigation',
@@ -25,7 +24,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgClass,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CategoryNavigationComponent {

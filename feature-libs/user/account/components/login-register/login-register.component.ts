@@ -9,12 +9,11 @@ import { ActivatedRoute } from '@angular/router';
 import { RoutingService } from '@spartacus/core';
 import { NgClass } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login-register',
   templateUrl: './login-register.component.html',
-  imports: [NgClass, TranslatePipe, MockTranslatePipe],
+  imports: [NgClass, TranslatePipe, TranslatePipe],
 })
 export class LoginRegisterComponent implements OnInit {
   loginAsGuest = false;

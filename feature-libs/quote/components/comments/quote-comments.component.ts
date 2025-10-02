@@ -24,7 +24,6 @@ import { QuoteItemsComponentService } from '../items/quote-items.component.servi
 import { IconComponent } from '@spartacus/storefront';
 import { MessagingComponent as MessagingComponent_1 } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 const DEFAULT_COMMENT_MAX_CHARS = 1000;
 const ALL_PRODUCTS_ID = '';
@@ -38,7 +37,7 @@ const ALL_PRODUCTS_ID = '';
     MessagingComponent_1,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class QuoteCommentsComponent {

@@ -16,7 +16,6 @@ import { FeatureDirective } from '@spartacus/core';
 import { NgIf, NgClass, AsyncPipe } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-set-preferred-store',
@@ -28,7 +27,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     IconComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class SetPreferredStoreComponent implements OnInit, OnDestroy {

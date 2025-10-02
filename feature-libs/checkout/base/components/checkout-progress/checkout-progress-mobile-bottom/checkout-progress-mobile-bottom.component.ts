@@ -11,13 +11,12 @@ import { tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-checkout-progress-mobile-bottom',
   templateUrl: './checkout-progress-mobile-bottom.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class CheckoutProgressMobileBottomComponent {
   private _steps$: BehaviorSubject<CheckoutStep[]> =

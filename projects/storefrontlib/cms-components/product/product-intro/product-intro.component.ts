@@ -23,7 +23,6 @@ import { NgIf, AsyncPipe, DecimalPipe } from '@angular/common';
 import { StarRatingComponent } from '../../../shared/components/star-rating/star-rating.component';
 import { FeatureDirective } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-intro',
@@ -36,7 +35,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     DecimalPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ProductIntroComponent {

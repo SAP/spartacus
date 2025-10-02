@@ -17,7 +17,6 @@ import { SiteThemeSwitcherComponentService } from './site-theme-switcher.compone
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * Component for switching themes.
@@ -32,7 +31,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     IconComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class SiteThemeSwitcherComponent {

@@ -17,7 +17,6 @@ import { PromotionsComponent } from '@spartacus/storefront';
 import { AbstractOrderContextDirective } from '../../../../cart/base/components/abstract-order-context/abstract-order-context.directive';
 import { OutletDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-confirmation-items',
@@ -30,7 +29,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     OutletDirective,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class OrderConfirmationItemsComponent implements OnDestroy {

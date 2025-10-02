@@ -36,7 +36,6 @@ import { FeatureDirective } from '@spartacus/core';
 import { MessageComponent } from '../../../cms-components/misc/message/message.component';
 import { ConsentManagementFormComponent } from '../../../cms-components/myaccount/consent-management/components/consent-form/consent-management-form.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-anonymous-consent-dialog',
@@ -52,7 +51,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ConsentManagementFormComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {

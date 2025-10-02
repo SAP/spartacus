@@ -20,7 +20,6 @@ import { FormRequiredLegendComponent } from '@spartacus/storefront';
 import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-checkout-login',
@@ -32,7 +31,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CheckoutLoginComponent implements OnDestroy {

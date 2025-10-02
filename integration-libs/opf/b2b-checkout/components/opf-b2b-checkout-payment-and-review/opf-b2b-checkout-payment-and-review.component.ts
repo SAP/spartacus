@@ -20,7 +20,6 @@ import { OpfCheckoutPaymentsComponent } from '../../../checkout/components/opf-c
 import { OpfCheckoutReviewCartDetailsComponent } from '../../../checkout/components/opf-checkout-review-cart-details/opf-checkout-review-cart-details.component';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-payment-and-review',
@@ -40,7 +39,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     TranslatePipe,
     UrlPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class OpfB2bCheckoutPaymentAndReviewComponent

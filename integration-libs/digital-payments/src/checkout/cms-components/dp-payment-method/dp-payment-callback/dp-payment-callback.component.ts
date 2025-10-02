@@ -21,7 +21,6 @@ import { NgIf } from '@angular/common';
 import { CheckoutBillingAddressFormComponent } from '../../../../../../../feature-libs/checkout/base/components/checkout-billing-address/checkout-billing-address-form.component';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-dp-payment-callback',
@@ -31,7 +30,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     CheckoutBillingAddressFormComponent,
     SpinnerComponent,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class DpPaymentCallbackComponent implements OnInit {

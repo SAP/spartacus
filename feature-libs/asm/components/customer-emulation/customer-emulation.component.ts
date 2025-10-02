@@ -26,7 +26,6 @@ import { AsmComponentService } from '../services/asm-component.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { AsmBindCartComponent } from '../asm-bind-cart/asm-bind-cart.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-emulation',
@@ -36,7 +35,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsmBindCartComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {

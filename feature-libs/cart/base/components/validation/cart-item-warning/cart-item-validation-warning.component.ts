@@ -11,13 +11,12 @@ import { map } from 'rxjs/operators';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-item-validation-warning',
   templateUrl: './cart-item-validation-warning.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class CartItemValidationWarningComponent {
   @Input()

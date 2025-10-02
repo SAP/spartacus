@@ -26,7 +26,6 @@ import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
 import { PasswordVisibilityToggleDirective } from '@spartacus/storefront';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-guest-register-form',
@@ -40,7 +39,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     PasswordVisibilityToggleDirective,
     FormErrorsComponent,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class OrderGuestRegisterFormComponent implements OnDestroy {

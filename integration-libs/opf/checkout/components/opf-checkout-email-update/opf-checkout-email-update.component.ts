@@ -27,7 +27,6 @@ import { combineLatest, switchMap, take, tap } from 'rxjs';
 import { NgTemplateOutlet } from '@angular/common';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-checkout-email-update',
@@ -38,7 +37,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgTemplateOutlet,
     FormErrorsComponent,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class OpfCheckoutEmailUpdateComponent {

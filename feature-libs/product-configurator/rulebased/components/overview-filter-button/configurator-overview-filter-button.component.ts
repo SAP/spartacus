@@ -21,7 +21,6 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 import { NgIf, AsyncPipe } from '@angular/common';
 import { ConfiguratorOverviewFilterBarComponent } from '../overview-filter-bar/configurator-overview-filter-bar.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-overview-filter-button',
@@ -31,7 +30,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ConfiguratorOverviewFilterBarComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorOverviewFilterButtonComponent {

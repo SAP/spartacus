@@ -23,7 +23,6 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { TableComponent } from '@spartacus/storefront';
 import { PaginationComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-sub-list',
@@ -38,7 +37,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     PaginationComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class SubListComponent extends ListComponent {

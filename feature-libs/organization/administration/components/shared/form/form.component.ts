@@ -24,7 +24,6 @@ import { ItemActiveDirective } from '../item-active.directive';
 import { FocusDirective } from '@spartacus/storefront';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 const DISABLED_STATUS = 'DISABLED';
 
@@ -46,7 +45,7 @@ const DISABLED_STATUS = 'DISABLED';
     RouterLink,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class FormComponent<T> implements OnInit, OnDestroy {

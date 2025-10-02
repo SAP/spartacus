@@ -38,7 +38,6 @@ import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show
 import { FocusDirective } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 export interface ConfiguratorAttributeProductCardComponentOptions {
   /** If set to `true`, all action buttons will be disabled.  */
@@ -79,7 +78,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
     IconComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorAttributeProductCardComponent

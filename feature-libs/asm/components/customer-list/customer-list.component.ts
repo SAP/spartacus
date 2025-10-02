@@ -56,7 +56,6 @@ import { SortingComponent } from '@spartacus/storefront';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { NgSelectA11yDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-list',
@@ -77,7 +76,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgSelectA11yDirective,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CustomerListComponent implements OnInit, OnDestroy {

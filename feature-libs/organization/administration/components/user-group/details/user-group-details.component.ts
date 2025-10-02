@@ -18,7 +18,6 @@ import { DeleteItemComponent } from '../../shared/detail/delete-item-action/dele
 import { ItemExistsDirective } from '../../shared/item-exists.directive';
 import { UrlPipe } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-user-group-details',
@@ -42,7 +41,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     UrlPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class UserGroupDetailsComponent {

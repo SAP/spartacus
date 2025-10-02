@@ -17,7 +17,6 @@ import { NgIf, NgFor } from '@angular/common';
 import { MessageComponent } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-promotion-listing',
@@ -28,7 +27,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgFor,
     IconComponent,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AsmCustomer360PromotionListingComponent {

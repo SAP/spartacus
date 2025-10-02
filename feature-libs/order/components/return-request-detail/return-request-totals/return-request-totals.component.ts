@@ -10,13 +10,12 @@ import { Observable } from 'rxjs';
 import { ReturnRequestService } from '../return-request.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-return-request-totals',
   templateUrl: './return-request-totals.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class ReturnRequestTotalsComponent implements OnDestroy {
   constructor(protected returnRequestService: ReturnRequestService) {}

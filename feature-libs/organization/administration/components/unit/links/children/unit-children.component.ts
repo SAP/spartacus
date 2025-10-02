@@ -15,7 +15,6 @@ import { RouterLink } from '@angular/router';
 import { DisableInfoComponent } from '../../../shared/detail/disable-info/disable-info.component';
 import { TranslatePipe } from '@spartacus/core';
 import { AsyncPipe } from '@angular/common';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-unit-children',
@@ -34,7 +33,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     DisableInfoComponent,
     TranslatePipe,
     AsyncPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class UnitChildrenComponent {

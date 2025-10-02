@@ -20,7 +20,6 @@ import { FocusDirective } from '@spartacus/storefront';
 import { NgIf } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * Renders a confirmation message and cancel/confirm button in the message component.
@@ -29,13 +28,7 @@ import { MockTranslatePipe } from '@spartacus/core';
   selector: 'cx-org-confirmation',
   templateUrl: './confirmation-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    FocusDirective,
-    NgIf,
-    IconComponent,
-    TranslatePipe,
-    MockTranslatePipe,
-  ],
+  imports: [FocusDirective, NgIf, IconComponent, TranslatePipe, TranslatePipe],
 })
 export class ConfirmationMessageComponent
   extends BaseMessageComponent

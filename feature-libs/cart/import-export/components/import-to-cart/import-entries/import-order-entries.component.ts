@@ -22,13 +22,12 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-import-order-entries',
   templateUrl: './import-order-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class ImportOrderEntriesComponent {
   protected subscription = new Subscription();

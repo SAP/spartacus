@@ -19,7 +19,6 @@ import { DisableInfoComponent } from '../../shared/detail/disable-info/disable-i
 import { ItemExistsDirective } from '../../shared/item-exists.directive';
 import { UrlPipe } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-cost-center-details',
@@ -44,7 +43,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     UrlPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CostCenterDetailsComponent {

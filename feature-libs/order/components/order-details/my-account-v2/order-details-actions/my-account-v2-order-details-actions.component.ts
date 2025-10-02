@@ -12,12 +12,11 @@ import { NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-my-account-v2-order-details-actions',
   templateUrl: './my-account-v2-order-details-actions.component.html',
-  imports: [NgIf, RouterLink, TranslatePipe, UrlPipe, MockTranslatePipe],
+  imports: [NgIf, RouterLink, TranslatePipe, UrlPipe, TranslatePipe],
 })
 export class MyAccountV2OrderDetailsActionsComponent
   extends OrderDetailActionsComponent

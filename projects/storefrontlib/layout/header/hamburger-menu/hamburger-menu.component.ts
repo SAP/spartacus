@@ -9,13 +9,12 @@ import { Observable } from 'rxjs';
 import { HamburgerMenuService } from './hamburger-menu.service';
 import { AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-hamburger-menu',
   templateUrl: './hamburger-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class HamburgerMenuComponent {
   constructor(private hamburgerMenuService: HamburgerMenuService) {}

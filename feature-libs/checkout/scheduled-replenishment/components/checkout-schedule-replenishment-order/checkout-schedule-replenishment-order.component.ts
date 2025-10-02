@@ -28,7 +28,6 @@ import {
   KeyValuePipe,
 } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-schedule-replenishment-order',
@@ -42,7 +41,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     TitleCasePipe,
     KeyValuePipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CheckoutScheduleReplenishmentOrderComponent

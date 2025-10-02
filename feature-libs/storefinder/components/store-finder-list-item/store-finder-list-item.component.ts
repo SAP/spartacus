@@ -15,7 +15,6 @@ import { OutletDirective } from '@spartacus/storefront';
 import { FeatureDirective } from '@spartacus/core';
 import { BtnLikeLinkDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-list-item',
@@ -27,7 +26,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     FeatureDirective,
     BtnLikeLinkDirective,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class StoreFinderListItemComponent extends AbstractStoreItemComponent {

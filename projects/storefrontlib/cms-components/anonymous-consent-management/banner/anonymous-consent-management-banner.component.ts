@@ -13,7 +13,6 @@ import { LaunchDialogService } from '../../../layout/launch-dialog/services/laun
 import { NgIf, NgClass, AsyncPipe } from '@angular/common';
 import { FeatureDirective } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-anonymous-consent-management-banner',
@@ -24,7 +23,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     FeatureDirective,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AnonymousConsentManagementBannerComponent implements OnDestroy {

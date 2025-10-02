@@ -24,7 +24,6 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
 import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
 import { AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,7 +33,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsmCustomer360PromotionListingComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AsmCustomer360CouponComponent implements OnInit, OnDestroy {

@@ -40,7 +40,6 @@ import { OpfCheckoutReviewCartDetailsComponent } from '../../../checkout/compone
 import { OpfB2bCheckoutPlaceOrderComponent } from '../opf-b2b-checkout-place-order/opf-b2b-checkout-place-order.component';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-review',
@@ -60,7 +59,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     TranslatePipe,
     UrlPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class OpfB2bCheckoutReviewComponent

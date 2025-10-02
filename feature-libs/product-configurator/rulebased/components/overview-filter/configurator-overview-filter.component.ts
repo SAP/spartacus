@@ -17,7 +17,6 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { ConfiguratorOverviewFilterBarComponent } from '../overview-filter-bar/configurator-overview-filter-bar.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-overview-filter',
@@ -30,7 +29,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgFor,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorOverviewFilterComponent implements OnChanges {

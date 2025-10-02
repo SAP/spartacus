@@ -19,7 +19,6 @@ import { ConfiguratorTextfieldInputFieldComponent } from '../input-field/configu
 import { ConfiguratorTextfieldAddToCartButtonComponent } from '../add-to-cart-button/configurator-textfield-add-to-cart-button.component';
 import { ConfiguratorTextfieldInputFieldReadonlyComponent } from '../input-field-readonly/configurator-textfield-input-field-readonly.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-textfield-form',
@@ -32,7 +31,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ConfiguratorTextfieldInputFieldReadonlyComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorTextfieldFormComponent {

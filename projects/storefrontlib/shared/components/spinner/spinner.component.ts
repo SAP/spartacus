@@ -6,14 +6,13 @@
 
 import { Component } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 // TODO: Improve a11y with better text appropriate to usage (example: loading cart spinner)
 
 @Component({
   selector: 'cx-spinner',
   templateUrl: './spinner.component.html',
-  imports: [TranslatePipe, MockTranslatePipe],
+  imports: [TranslatePipe, TranslatePipe],
 })
 export class SpinnerComponent {
   constructor() {

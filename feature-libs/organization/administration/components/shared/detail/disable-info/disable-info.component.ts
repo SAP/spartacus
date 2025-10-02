@@ -13,13 +13,12 @@ import { DisableInfoService } from './disable-info.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-disable-info',
   templateUrl: './disable-info.component.html',
   host: { class: 'content-wrapper' },
-  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class DisableInfoComponent<T extends BaseItem> implements OnInit {
   /**

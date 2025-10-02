@@ -12,12 +12,11 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 import { NgFor, NgIf } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-overview-filter-bar',
   templateUrl: './configurator-overview-filter-bar.component.html',
-  imports: [NgFor, IconComponent, NgIf, TranslatePipe, MockTranslatePipe],
+  imports: [NgFor, IconComponent, NgIf, TranslatePipe, TranslatePipe],
 })
 export class ConfiguratorOverviewFilterBarComponent {
   readonly PREFIX_ID = 'cx-overview-filter-applied-';

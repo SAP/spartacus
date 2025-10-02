@@ -18,7 +18,6 @@ import { PaginationComponent } from '@spartacus/storefront';
 import { StoreFinderListComponent } from './store-finder-list/store-finder-list.component';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-search-result',
@@ -30,7 +29,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {

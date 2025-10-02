@@ -19,13 +19,12 @@ import { take } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-details-reorder',
   templateUrl: './order-detail-reorder.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class OrderDetailReorderComponent implements OnInit, OnDestroy {
   constructor(

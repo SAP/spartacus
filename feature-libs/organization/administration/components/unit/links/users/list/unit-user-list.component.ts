@@ -17,7 +17,6 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { DisableInfoComponent } from '../../../../shared/detail/disable-info/disable-info.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-unit-user-list',
@@ -37,7 +36,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     DisableInfoComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class UnitUserListComponent {

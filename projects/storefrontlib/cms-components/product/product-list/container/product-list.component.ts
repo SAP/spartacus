@@ -27,7 +27,6 @@ import { ProductGridItemComponent } from '../product-grid-item/product-grid-item
 import { ProductListItemComponent } from '../product-list-item/product-list-item.component';
 import { ProductScrollComponent } from './product-scroll/product-scroll.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-list',
@@ -43,7 +42,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     ProductScrollComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ProductListComponent implements OnInit, OnDestroy {

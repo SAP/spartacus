@@ -18,7 +18,6 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
 import { TranslatePipe } from '@spartacus/core';
 import { CxNumericPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * Requires default change detection strategy, as the disabled state of the quantity from control may change,
@@ -34,7 +33,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     TranslatePipe,
     CxNumericPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ConfiguratorCartEntryBundleInfoComponent {

@@ -40,7 +40,6 @@ import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrap
 import { PaginationComponent } from '@spartacus/storefront';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-checkout-payments',
@@ -56,7 +55,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {

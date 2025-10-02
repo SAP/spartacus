@@ -23,7 +23,6 @@ import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { FormRequiredLegendComponent } from '../../../shared/components/form/form-required-legend/form-required-legend.component';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-payment-methods',
@@ -36,7 +35,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     CardComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class PaymentMethodsComponent implements OnInit {

@@ -17,7 +17,6 @@ import { IconComponent } from '@spartacus/storefront';
 import { AbstractOrderContextDirective } from '../../../cart/base/components/abstract-order-context/abstract-order-context.directive';
 import { OutletDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 /**
  * Renders quote items. These items are either taken from the actual quote,
@@ -43,7 +42,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     NgFor,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class QuoteItemsComponent {

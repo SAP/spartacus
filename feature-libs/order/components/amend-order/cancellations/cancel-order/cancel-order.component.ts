@@ -16,7 +16,6 @@ import { MessageComponent } from '@spartacus/storefront';
 import { CancelOrReturnItemsComponent } from '../../amend-order-items/amend-order-items.component';
 import { AmendOrderActionsComponent } from '../../amend-order-actions/amend-order-actions.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cancel-order',
@@ -30,7 +29,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AmendOrderActionsComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class CancelOrderComponent {

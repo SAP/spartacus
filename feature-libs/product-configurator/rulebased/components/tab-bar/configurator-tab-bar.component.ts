@@ -25,14 +25,13 @@ import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-tab-bar',
   templateUrl: './configurator-tab-bar.component.html',
   //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
   changeDetection: ChangeDetectionStrategy.Default,
-  imports: [NgIf, AsyncPipe, TranslatePipe, MockTranslatePipe],
+  imports: [NgIf, AsyncPipe, TranslatePipe, TranslatePipe],
 })
 export class ConfiguratorTabBarComponent {
   @HostBinding('class.ghost') ghostStyle = true;

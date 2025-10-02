@@ -17,7 +17,6 @@ import {
 import { NgIf, AsyncPipe } from '@angular/common';
 import { AsmCustomer360ProductListingComponent } from '../../asm-customer-360-product-listing/asm-customer-360-product-listing.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,7 +27,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsmCustomer360ProductListingComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class AsmCustomer360ActiveCartComponent {

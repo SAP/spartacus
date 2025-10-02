@@ -18,7 +18,6 @@ import { filter, map } from 'rxjs/operators';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { CartItemListComponent } from '../cart-shared/cart-item-list/cart-item-list.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-save-for-later',
   templateUrl: './save-for-later.component.html',
@@ -27,7 +26,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     CartItemListComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class SaveForLaterComponent implements OnInit {

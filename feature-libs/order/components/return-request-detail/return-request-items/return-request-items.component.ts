@@ -11,7 +11,6 @@ import { ReturnRequestService } from '../return-request.service';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { MediaComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-return-request-items',
@@ -23,7 +22,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     MediaComponent,
     AsyncPipe,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class ReturnRequestItemsComponent {

@@ -27,7 +27,6 @@ import { BtnLikeLinkDirective } from '@spartacus/storefront';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-approval-detail-form',
@@ -44,7 +43,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     AsyncPipe,
     TranslatePipe,
     UrlPipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class OrderApprovalDetailFormComponent implements OnDestroy {

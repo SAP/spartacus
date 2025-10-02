@@ -12,7 +12,6 @@ import { AsmComponentService } from '../services';
 import { FocusDirective } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 export enum SWITCH_CUSTOMER_DIALOG_ACTION {
   CANCEL = 'CANCEL',
@@ -27,7 +26,7 @@ export interface SwitchCustomerData {
 @Component({
   selector: 'cx-asm-switch-customer-dialog',
   templateUrl: './asm-switch-customer-dialog.component.html',
-  imports: [FocusDirective, IconComponent, TranslatePipe, MockTranslatePipe],
+  imports: [FocusDirective, IconComponent, TranslatePipe, TranslatePipe],
 })
 export class AsmSwitchCustomerDialogComponent implements OnInit {
   SWITCH_CUSTOMER_DIALOG_ACTION = SWITCH_CUSTOMER_DIALOG_ACTION;

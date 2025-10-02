@@ -30,7 +30,6 @@ import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.direct
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { TranslatePipe } from '@spartacus/core';
-import { MockTranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-popover',
@@ -42,7 +41,7 @@ import { MockTranslatePipe } from '@spartacus/core';
     IconComponent,
     NgTemplateOutlet,
     TranslatePipe,
-    MockTranslatePipe,
+    TranslatePipe,
   ],
 })
 export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
