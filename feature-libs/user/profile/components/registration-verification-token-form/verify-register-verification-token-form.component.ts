@@ -66,7 +66,6 @@ import { TranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     UrlPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class RegistrationVerificationTokenFormComponent implements OnInit {

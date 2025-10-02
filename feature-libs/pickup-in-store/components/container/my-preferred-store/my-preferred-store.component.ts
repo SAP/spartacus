@@ -69,7 +69,6 @@ interface PreferredStoreContent {
     StoreScheduleComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class MyPreferredStoreComponent implements OnInit {

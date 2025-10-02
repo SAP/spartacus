@@ -39,7 +39,6 @@ import { TranslatePipe } from '@spartacus/core';
     FormsModule,
     ReactiveFormsModule,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ItemCounterComponent implements OnInit, OnDestroy {

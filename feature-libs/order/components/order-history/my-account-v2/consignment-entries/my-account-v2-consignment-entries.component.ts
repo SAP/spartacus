@@ -15,14 +15,7 @@ import { MockDatePipe } from '@spartacus/core';
   selector: 'cx-my-account-v2-consignment-entries',
   templateUrl: './my-account-v2-consignment-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgFor,
-    NgIf,
-    TranslatePipe,
-    CxDatePipe,
-    TranslatePipe,
-    MockDatePipe,
-  ],
+  imports: [NgFor, NgIf, TranslatePipe, CxDatePipe, MockDatePipe],
 })
 export class MyAccountV2ConsignmentEntriesComponent {
   @Input()

@@ -49,7 +49,6 @@ import { TranslatePipe } from '@spartacus/core';
     AsyncPipe,
     UrlPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class LoginFormComponent {

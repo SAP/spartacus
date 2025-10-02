@@ -24,7 +24,6 @@ import { TranslatePipe } from '@spartacus/core';
     ReactiveFormsModule,
     AtMessageDirective,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class OpfB2bCheckoutPlaceOrderComponent

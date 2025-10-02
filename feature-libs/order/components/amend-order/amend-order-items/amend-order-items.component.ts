@@ -26,7 +26,6 @@ import { TranslatePipe } from '@spartacus/core';
     ItemCounterComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class CancelOrReturnItemsComponent {

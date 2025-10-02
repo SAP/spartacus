@@ -15,14 +15,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-future-stock-accordion',
   templateUrl: './future-stock-accordion.component.html',
-  imports: [
-    NgIf,
-    IconComponent,
-    NgFor,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, IconComponent, NgFor, AsyncPipe, TranslatePipe],
 })
 export class FutureStockAccordionComponent {
   futureStocks$ = this.futureStockService.getFutureStock();

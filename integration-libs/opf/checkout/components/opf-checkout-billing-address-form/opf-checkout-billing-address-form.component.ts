@@ -35,7 +35,6 @@ import { GetAddressCardContent } from './get-address-card-content.pipe';
     AsyncPipe,
     TranslatePipe,
     GetAddressCardContent,
-    TranslatePipe,
   ],
 })
 export class OpfCheckoutBillingAddressFormComponent implements OnInit {

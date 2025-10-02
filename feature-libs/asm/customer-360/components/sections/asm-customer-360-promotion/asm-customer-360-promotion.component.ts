@@ -28,12 +28,7 @@ import { TranslatePipe } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-promotion',
   templateUrl: './asm-customer-360-promotion.component.html',
-  imports: [
-    AsmCustomer360PromotionListingComponent,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [AsmCustomer360PromotionListingComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
   showErrorAlert$ = new BehaviorSubject<boolean>(false);

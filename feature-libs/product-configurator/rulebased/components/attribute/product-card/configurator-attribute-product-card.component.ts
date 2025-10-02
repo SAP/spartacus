@@ -78,7 +78,6 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
     IconComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ConfiguratorAttributeProductCardComponent

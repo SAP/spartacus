@@ -43,7 +43,6 @@ import { UrlPipe } from '@spartacus/core';
     AtMessageDirective,
     TranslatePipe,
     UrlPipe,
-    TranslatePipe,
   ],
 })
 export class CartItemListRowComponent extends CartItemComponent {

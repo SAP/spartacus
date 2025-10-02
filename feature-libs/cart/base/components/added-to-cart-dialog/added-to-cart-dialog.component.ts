@@ -72,7 +72,6 @@ export interface AddedToCartDialogComponentData {
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class AddedToCartDialogComponent implements OnInit, OnDestroy {

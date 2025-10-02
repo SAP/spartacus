@@ -53,7 +53,6 @@ import { TranslatePipe } from '@spartacus/core';
     ConfiguratorAttributeInputFieldComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ConfiguratorAttributeDropDownComponent

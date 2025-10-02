@@ -31,7 +31,6 @@ import { TranslatePipe } from '@spartacus/core';
     FacetListComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ProductFacetNavigationComponent {

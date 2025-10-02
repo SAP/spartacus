@@ -27,15 +27,7 @@ import { MockDatePipe } from '@spartacus/core';
   selector: 'cx-estimated-delivery-date',
   templateUrl: './estimated-delivery-date.component.html',
   providers: [CxDatePipe],
-  imports: [
-    NgIf,
-    NgFor,
-    AsyncPipe,
-    TranslatePipe,
-    CxDatePipe_1,
-    TranslatePipe,
-    MockDatePipe,
-  ],
+  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, CxDatePipe_1, MockDatePipe],
 })
 export class EstimatedDeliveryDateComponent {
   @Optional() protected cartItemContext = inject(CartItemContext);

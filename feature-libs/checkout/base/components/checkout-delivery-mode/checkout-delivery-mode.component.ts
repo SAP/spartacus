@@ -47,7 +47,6 @@ import { TranslatePipe } from '@spartacus/core';
     InnerComponentsHostDirective,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class CheckoutDeliveryModeComponent {

@@ -21,7 +21,6 @@ import { TranslatePipe } from '@spartacus/core';
     MyAccountV2ConsentManagementFormComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class MyAccountV2ConsentManagementComponent extends ConsentManagementComponent {}

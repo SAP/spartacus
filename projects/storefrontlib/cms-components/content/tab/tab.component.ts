@@ -41,7 +41,6 @@ import { TranslatePipe } from '@spartacus/core';
     TabPanelComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class TabComponent implements OnInit, AfterViewInit, OnDestroy {

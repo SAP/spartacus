@@ -42,7 +42,6 @@ import { TranslatePipe } from '@spartacus/core';
     FormErrorsComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class MyAccountV2ProfileComponent implements OnInit {

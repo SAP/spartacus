@@ -26,7 +26,6 @@ import { TranslatePipe } from '@spartacus/core';
     FeatureDirective,
     BtnLikeLinkDirective,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class StoreFinderListItemComponent extends AbstractStoreItemComponent {

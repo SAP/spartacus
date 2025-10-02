@@ -66,7 +66,6 @@ export interface Card {
     NgClass,
     TruncateTextPopoverComponent,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class CardComponent implements OnInit {

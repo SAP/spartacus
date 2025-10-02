@@ -17,15 +17,7 @@ import { MockDatePipe } from '@spartacus/core';
   selector: 'cx-schedule-lines',
   templateUrl: './schedule-lines.component.html',
   providers: [CxDatePipe],
-  imports: [
-    NgIf,
-    NgFor,
-    AsyncPipe,
-    TranslatePipe,
-    CxDatePipe_1,
-    TranslatePipe,
-    MockDatePipe,
-  ],
+  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe, CxDatePipe_1, MockDatePipe],
 })
 export class ScheduleLinesComponent {
   constructor(

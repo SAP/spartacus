@@ -33,7 +33,6 @@ import { AsyncPipe } from '@angular/common';
     DisableInfoComponent,
     TranslatePipe,
     AsyncPipe,
-    TranslatePipe,
   ],
 })
 export class UnitCostCenterListComponent {

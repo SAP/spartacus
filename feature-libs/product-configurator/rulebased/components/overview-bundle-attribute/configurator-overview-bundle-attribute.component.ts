@@ -40,7 +40,6 @@ import { CxNumericPipe } from '@spartacus/core';
     AsyncPipe,
     TranslatePipe,
     CxNumericPipe,
-    TranslatePipe,
   ],
 })
 export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {

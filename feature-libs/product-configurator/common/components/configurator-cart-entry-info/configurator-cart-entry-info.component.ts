@@ -16,14 +16,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-configurator-cart-entry-info',
   templateUrl: './configurator-cart-entry-info.component.html',
-  imports: [
-    NgIf,
-    NgFor,
-    ConfigureCartEntryComponent,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, NgFor, ConfigureCartEntryComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorCartEntryInfoComponent {
   constructor(

@@ -55,7 +55,6 @@ class DefaultSettings {
     IconComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ConfiguratorAttributeNumericInputFieldComponent

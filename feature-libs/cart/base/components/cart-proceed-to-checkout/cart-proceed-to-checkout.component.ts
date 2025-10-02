@@ -27,13 +27,7 @@ import { UrlPipe } from '@spartacus/core';
   selector: 'cx-cart-proceed-to-checkout',
   templateUrl: './cart-proceed-to-checkout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    ProgressButtonComponent,
-    RouterLink,
-    TranslatePipe,
-    UrlPipe,
-    TranslatePipe,
-  ],
+  imports: [ProgressButtonComponent, RouterLink, TranslatePipe, UrlPipe],
 })
 export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
   cartValidationInProgress = false;

@@ -19,15 +19,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-mini-cart',
   templateUrl: './mini-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    RouterLink,
-    IconComponent,
-    AsyncPipe,
-    UrlPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, RouterLink, IconComponent, AsyncPipe, UrlPipe, TranslatePipe],
 })
 export class MiniCartComponent {
   iconTypes = ICON_TYPE;

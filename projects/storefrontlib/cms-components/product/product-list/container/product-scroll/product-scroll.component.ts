@@ -28,7 +28,6 @@ import { TranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     ProductListItemComponent,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ProductScrollComponent implements OnDestroy {

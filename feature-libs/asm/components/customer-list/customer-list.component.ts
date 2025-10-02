@@ -76,7 +76,6 @@ import { TranslatePipe } from '@spartacus/core';
     NgSelectA11yDirective,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class CustomerListComponent implements OnInit, OnDestroy {

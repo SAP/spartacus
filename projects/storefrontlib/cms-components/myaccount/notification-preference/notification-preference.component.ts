@@ -19,14 +19,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-notification-preference',
   templateUrl: './notification-preference.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NgFor,
-    SpinnerComponent,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, NgFor, SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class NotificationPreferenceComponent implements OnInit {
   preferences$: Observable<NotificationPreference[]>;

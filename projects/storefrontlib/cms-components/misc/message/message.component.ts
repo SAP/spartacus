@@ -22,14 +22,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-message',
   templateUrl: './message.component.html',
-  imports: [
-    NgClass,
-    IconComponent,
-    NgIf,
-    AtMessageDirective,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgClass, IconComponent, NgIf, AtMessageDirective, TranslatePipe],
 })
 export class MessageComponent implements AfterViewInit {
   @Input()

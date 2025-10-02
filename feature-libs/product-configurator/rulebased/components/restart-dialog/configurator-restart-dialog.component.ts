@@ -23,14 +23,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-configurator-restart-dialog',
   templateUrl: './configurator-restart-dialog.component.html',
-  imports: [
-    NgIf,
-    FocusDirective,
-    IconComponent,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, FocusDirective, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorRestartDialogComponent {
   constructor(

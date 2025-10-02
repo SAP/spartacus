@@ -61,7 +61,6 @@ interface ItemListContext {
     CartItemListRowComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class CartItemListComponent implements OnInit, OnDestroy {

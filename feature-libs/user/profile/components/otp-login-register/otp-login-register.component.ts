@@ -74,7 +74,6 @@ import { TranslatePipe } from '@spartacus/core';
     AsyncPipe,
     UrlPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {

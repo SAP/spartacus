@@ -26,14 +26,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-account-summary-header',
   templateUrl: './account-summary-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    CardComponent,
-    NgFor,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, CardComponent, NgFor, AsyncPipe, TranslatePipe],
 })
 export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {
   notApplicable: string;

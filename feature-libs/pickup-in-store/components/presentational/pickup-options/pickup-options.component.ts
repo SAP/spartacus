@@ -50,7 +50,6 @@ import { TranslatePipe } from '@spartacus/core';
     NgIf,
     TabComponent_1,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class PickupOptionsComponent

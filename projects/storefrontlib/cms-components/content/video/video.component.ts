@@ -34,14 +34,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-video',
   templateUrl: './video.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    RouterLink,
-    SpinnerComponent,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, RouterLink, SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class VideoComponent {
   @HostBinding('class') styleClasses: string | undefined;

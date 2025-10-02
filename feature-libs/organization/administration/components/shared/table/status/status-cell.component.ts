@@ -15,14 +15,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-org-status-cell',
   templateUrl: './status-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    RouterLink,
-    NgTemplateOutlet,
-    UrlPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, RouterLink, NgTemplateOutlet, UrlPipe, TranslatePipe],
 })
 export class StatusCellComponent extends CellComponent {
   get label() {

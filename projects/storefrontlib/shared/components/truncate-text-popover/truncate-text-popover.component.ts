@@ -14,14 +14,7 @@ import { TruncatePipe } from './truncate.pipe';
   selector: 'cx-truncate-text-popover',
   templateUrl: './truncate-text-popover.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgClass,
-    NgIf,
-    PopoverDirective,
-    TranslatePipe,
-    TruncatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgClass, NgIf, PopoverDirective, TranslatePipe, TruncatePipe],
 })
 export class TruncateTextPopoverComponent {
   /**

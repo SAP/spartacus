@@ -37,7 +37,6 @@ import { UrlPipe } from '@spartacus/core';
     ItemCounterComponent,
     TranslatePipe,
     UrlPipe,
-    TranslatePipe,
   ],
 })
 export class QuickOrderItemComponent implements OnInit, OnDestroy {

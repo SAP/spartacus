@@ -31,7 +31,6 @@ import { TranslatePipe } from '@spartacus/core';
     ConfiguratorTextfieldInputFieldReadonlyComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ConfiguratorTextfieldFormComponent {

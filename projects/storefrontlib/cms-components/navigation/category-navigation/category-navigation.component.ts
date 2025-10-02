@@ -18,14 +18,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-category-navigation',
   templateUrl: './category-navigation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NavigationUIComponent,
-    NgClass,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, NavigationUIComponent, NgClass, AsyncPipe, TranslatePipe],
 })
 export class CategoryNavigationComponent {
   node$: Observable<NavigationNode> = this.service.getNavigationNode(

@@ -16,14 +16,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-skip-link',
   templateUrl: './skip-link.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    FocusDirective,
-    NgFor,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, FocusDirective, NgFor, AsyncPipe, TranslatePipe],
 })
 export class SkipLinkComponent {
   skipLinks$: Observable<SkipLink[]> = this.skipLinkService.getSkipLinks();

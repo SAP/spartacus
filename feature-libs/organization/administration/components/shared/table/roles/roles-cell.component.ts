@@ -15,14 +15,6 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-org-roles-cell',
   templateUrl: './roles-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    RouterLink,
-    NgTemplateOutlet,
-    NgFor,
-    UrlPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, RouterLink, NgTemplateOutlet, NgFor, UrlPipe, TranslatePipe],
 })
 export class RolesCellComponent extends CellComponent {}

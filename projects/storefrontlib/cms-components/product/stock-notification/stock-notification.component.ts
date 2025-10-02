@@ -48,7 +48,6 @@ import { UrlPipe } from '@spartacus/core';
     AsyncPipe,
     TranslatePipe,
     UrlPipe,
-    TranslatePipe,
   ],
 })
 export class StockNotificationComponent implements OnInit, OnDestroy {

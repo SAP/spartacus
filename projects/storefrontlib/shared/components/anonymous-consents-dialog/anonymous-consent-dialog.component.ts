@@ -51,7 +51,6 @@ import { TranslatePipe } from '@spartacus/core';
     ConsentManagementFormComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {

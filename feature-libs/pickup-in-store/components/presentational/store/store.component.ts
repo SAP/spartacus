@@ -30,7 +30,6 @@ import { TranslatePipe } from '@spartacus/core';
     SetPreferredStoreComponent,
     NgClass,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class StoreComponent implements OnInit {

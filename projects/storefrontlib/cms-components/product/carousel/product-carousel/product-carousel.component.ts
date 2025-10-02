@@ -42,7 +42,6 @@ import { TranslatePipe } from '@spartacus/core';
     ProductCarouselItemComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ProductCarouselComponent {

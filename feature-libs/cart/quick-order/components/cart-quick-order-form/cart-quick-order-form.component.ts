@@ -46,7 +46,6 @@ import { TranslatePipe } from '@spartacus/core';
     FeatureDirective,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class CartQuickOrderFormComponent implements OnInit, OnDestroy {

@@ -37,7 +37,6 @@ import { TranslatePipe } from '@spartacus/core';
     PaginationComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class SubListComponent extends ListComponent {

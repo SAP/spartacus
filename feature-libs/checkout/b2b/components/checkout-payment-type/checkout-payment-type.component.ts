@@ -42,14 +42,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-payment-type',
   templateUrl: './checkout-payment-type.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NgFor,
-    SpinnerComponent,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, NgFor, SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class CheckoutPaymentTypeComponent {
   @ViewChild('poNumber', { static: false })

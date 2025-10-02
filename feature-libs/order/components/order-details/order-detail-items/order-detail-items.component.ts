@@ -38,7 +38,6 @@ import { TranslatePipe } from '@spartacus/core';
     AddToCartComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class OrderDetailItemsComponent {

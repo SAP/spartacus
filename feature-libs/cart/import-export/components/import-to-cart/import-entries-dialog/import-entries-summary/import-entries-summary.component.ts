@@ -38,7 +38,6 @@ import { TranslatePipe } from '@spartacus/core';
     IconComponent,
     NgFor,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ImportEntriesSummaryComponent {

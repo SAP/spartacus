@@ -63,7 +63,6 @@ enum KeyboardEventKeys {
     NgTemplateOutlet,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class CarouselScrollingComponent<Item = any> implements OnInit {

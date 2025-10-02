@@ -51,7 +51,6 @@ import { TranslatePipe } from '@spartacus/core';
     FileUploadComponent,
     FormErrorsComponent,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ImportEntriesFormComponent implements OnInit {

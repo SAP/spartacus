@@ -33,7 +33,6 @@ import { TranslatePipe } from '@spartacus/core';
     ReactiveFormsModule,
     NgIf,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class UnitLevelOrderHistoryFilterComponent {

@@ -41,7 +41,6 @@ import { TranslatePipe } from '@spartacus/core';
     NgSwitchCase,
     KeyValuePipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class StoreFinderListComponent {

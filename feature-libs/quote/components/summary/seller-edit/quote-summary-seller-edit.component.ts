@@ -55,7 +55,6 @@ import { TranslatePipe } from '@spartacus/core';
     DatePickerComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class QuoteSummarySellerEditComponent implements OnInit, OnDestroy {

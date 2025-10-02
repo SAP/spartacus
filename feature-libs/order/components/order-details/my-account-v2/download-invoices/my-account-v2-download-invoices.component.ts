@@ -37,7 +37,6 @@ import { TranslatePipe } from '@spartacus/core';
     NgIf,
     SpinnerComponent,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class MyAccountV2DownloadInvoicesComponent implements AfterViewChecked {

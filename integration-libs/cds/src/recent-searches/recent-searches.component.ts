@@ -44,7 +44,6 @@ const MAX_RECENT_SEARCHES = 5;
     TranslatePipe,
     HighlightPipe,
     UrlPipe,
-    TranslatePipe,
   ],
 })
 export class RecentSearchesComponent implements OnInit {

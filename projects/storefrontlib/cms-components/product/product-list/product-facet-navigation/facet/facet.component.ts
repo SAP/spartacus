@@ -46,7 +46,6 @@ import { TranslatePipe } from '@spartacus/core';
     AsyncPipe,
     SlicePipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class FacetComponent implements AfterViewInit {

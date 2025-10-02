@@ -29,7 +29,6 @@ import { TranslatePipe } from '@spartacus/core';
     AmendOrderActionsComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class CancelOrderComponent {

@@ -49,7 +49,6 @@ import { TranslatePipe } from '@spartacus/core';
     AsyncPipe,
     KeyValuePipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class QuickOrderComponent implements OnInit, OnDestroy {

@@ -31,7 +31,6 @@ import { TranslatePipe } from '@spartacus/core';
     CardComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class AsmCustomer360ProfileComponent implements OnInit {

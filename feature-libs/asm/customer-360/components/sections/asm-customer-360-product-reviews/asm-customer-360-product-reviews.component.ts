@@ -27,12 +27,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-asm-customer-360-product-reviews',
   templateUrl: './asm-customer-360-product-reviews.component.html',
   providers: [CxDatePipe],
-  imports: [
-    AsmCustomer360TableComponent,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [AsmCustomer360TableComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360ProductReviewsComponent implements OnInit {
   reviewColumns: Array<CustomerTableColumn> = [

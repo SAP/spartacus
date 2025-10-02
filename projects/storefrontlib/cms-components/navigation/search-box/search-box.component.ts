@@ -82,7 +82,6 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
     UrlPipe,
     TranslatePipe,
     HighlightPipe,
-    TranslatePipe,
   ],
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {

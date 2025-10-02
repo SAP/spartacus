@@ -66,7 +66,6 @@ import { TranslatePipe } from '@spartacus/core';
     NgSelectA11yDirective,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class UnitFormComponent implements OnInit {

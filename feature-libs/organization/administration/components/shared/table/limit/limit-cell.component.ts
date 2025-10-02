@@ -16,14 +16,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-org-limit-cell',
   templateUrl: './limit-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    RouterLink,
-    NgTemplateOutlet,
-    UrlPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, RouterLink, NgTemplateOutlet, UrlPipe, TranslatePipe],
 })
 export class LimitCellComponent extends CellComponent {
   get isTimeSpanThreshold(): boolean {

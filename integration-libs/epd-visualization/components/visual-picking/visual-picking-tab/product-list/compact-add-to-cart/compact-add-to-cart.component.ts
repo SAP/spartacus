@@ -21,7 +21,6 @@ import { TranslatePipe } from '@spartacus/core';
     ReactiveFormsModule,
     IconComponent,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class CompactAddToCartComponent extends AddToCartComponent {}

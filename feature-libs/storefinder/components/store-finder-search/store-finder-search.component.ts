@@ -30,7 +30,6 @@ import { TranslatePipe } from '@spartacus/core';
     NgClass,
     NgTemplateOutlet,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class StoreFinderSearchComponent {

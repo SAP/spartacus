@@ -41,7 +41,6 @@ import { TranslatePipe } from '@spartacus/core';
     IconComponent,
     NgTemplateOutlet,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {

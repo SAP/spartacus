@@ -25,14 +25,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-site-theme-switcher',
   templateUrl: './site-theme-switcher.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NgFor,
-    IconComponent,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, NgFor, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class SiteThemeSwitcherComponent {
   readonly translationService = inject(TranslationService);

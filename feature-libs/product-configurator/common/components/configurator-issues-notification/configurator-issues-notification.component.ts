@@ -24,7 +24,6 @@ import { TranslatePipe } from '@spartacus/core';
     ConfigureCartEntryComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ConfiguratorIssuesNotificationComponent {

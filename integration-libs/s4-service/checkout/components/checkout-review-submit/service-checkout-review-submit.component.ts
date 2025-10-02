@@ -64,7 +64,6 @@ import { UrlPipe } from '@spartacus/core';
     AsyncPipe,
     TranslatePipe,
     UrlPipe,
-    TranslatePipe,
   ],
 })
 export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmitComponent {

@@ -26,15 +26,7 @@ import { UrlPipe } from '@spartacus/core';
   selector: 'cx-configurator-overview-notification-banner',
   templateUrl: './configurator-overview-notification-banner.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    IconComponent,
-    RouterLink,
-    AsyncPipe,
-    TranslatePipe,
-    UrlPipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, IconComponent, RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
 })
 export class ConfiguratorOverviewNotificationBannerComponent {
   routerData$: Observable<ConfiguratorRouter.Data> =

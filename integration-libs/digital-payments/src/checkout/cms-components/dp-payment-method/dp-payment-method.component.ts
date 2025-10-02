@@ -42,7 +42,6 @@ import { TranslatePipe } from '@spartacus/core';
     DpPaymentCallbackComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class DpPaymentMethodComponent extends CorePaymentMethodComponent {

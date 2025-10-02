@@ -38,7 +38,6 @@ import { TranslatePipe } from '@spartacus/core';
     MediaComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ConfiguratorProductTitleComponent {

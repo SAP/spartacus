@@ -23,7 +23,6 @@ import { TranslatePipe } from '@spartacus/core';
     StoreFinderMapComponent,
     JsonPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class StoreFinderStoreDescriptionComponent extends AbstractStoreItemComponent {

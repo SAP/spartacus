@@ -46,7 +46,6 @@ import { TranslatePipe } from '@spartacus/core';
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ClaimDialogComponent implements OnDestroy, OnInit {

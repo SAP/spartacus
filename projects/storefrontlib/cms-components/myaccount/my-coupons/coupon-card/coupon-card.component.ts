@@ -28,14 +28,7 @@ import { MockDatePipe } from '@spartacus/core';
   selector: 'cx-coupon-card',
   templateUrl: './coupon-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    AsyncPipe,
-    LowerCasePipe,
-    TranslatePipe,
-    CxDatePipe,
-    TranslatePipe,
-    MockDatePipe,
-  ],
+  imports: [AsyncPipe, LowerCasePipe, TranslatePipe, CxDatePipe, MockDatePipe],
 })
 export class CouponCardComponent {
   @Input() coupon: CustomerCoupon;

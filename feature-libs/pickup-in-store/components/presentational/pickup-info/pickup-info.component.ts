@@ -13,12 +13,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-pickup-info',
   templateUrl: './pickup-info.component.html',
-  imports: [
-    StoreAddressComponent,
-    StoreScheduleComponent,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [StoreAddressComponent, StoreScheduleComponent, TranslatePipe],
 })
 export class PickupInfoComponent {
   @Input() storeDetails: PointOfService;

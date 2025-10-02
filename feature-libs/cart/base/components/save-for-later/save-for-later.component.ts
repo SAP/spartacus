@@ -21,13 +21,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-save-for-later',
   templateUrl: './save-for-later.component.html',
-  imports: [
-    NgIf,
-    CartItemListComponent,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, CartItemListComponent, AsyncPipe, TranslatePipe],
 })
 export class SaveForLaterComponent implements OnInit {
   saveForLater$: Observable<Cart>;

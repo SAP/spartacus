@@ -41,7 +41,6 @@ import { TranslatePipe } from '@spartacus/core';
     TitleCasePipe,
     KeyValuePipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class CheckoutScheduleReplenishmentOrderComponent

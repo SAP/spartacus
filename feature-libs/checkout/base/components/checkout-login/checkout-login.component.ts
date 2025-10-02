@@ -31,7 +31,6 @@ import { TranslatePipe } from '@spartacus/core';
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class CheckoutLoginComponent implements OnDestroy {

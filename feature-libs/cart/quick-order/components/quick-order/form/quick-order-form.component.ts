@@ -59,7 +59,6 @@ const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
     MediaComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class QuickOrderFormComponent implements OnInit, OnDestroy {

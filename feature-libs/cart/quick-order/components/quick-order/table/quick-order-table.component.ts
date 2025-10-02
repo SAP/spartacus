@@ -22,7 +22,6 @@ import { TranslatePipe } from '@spartacus/core';
     NgFor,
     QuickOrderItemComponent,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class QuickOrderTableComponent {

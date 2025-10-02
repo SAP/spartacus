@@ -29,7 +29,6 @@ import { TranslatePipe } from '@spartacus/core';
     NgFor,
     NgOptionComponent,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class SortingComponent {

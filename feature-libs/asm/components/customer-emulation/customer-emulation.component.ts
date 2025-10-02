@@ -30,13 +30,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-customer-emulation',
   templateUrl: './customer-emulation.component.html',
-  imports: [
-    NgIf,
-    AsmBindCartComponent,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, AsmBindCartComponent, AsyncPipe, TranslatePipe],
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;

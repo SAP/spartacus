@@ -76,7 +76,6 @@ export interface SavedCartFormDialogOptions {
     FormErrorsComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class SavedCartFormDialogComponent implements OnInit, OnDestroy {

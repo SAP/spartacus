@@ -45,7 +45,6 @@ const DISABLED_STATUS = 'DISABLED';
     RouterLink,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class FormComponent<T> implements OnInit, OnDestroy {

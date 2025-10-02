@@ -33,7 +33,6 @@ import { MultiLinePipe } from './multiline-titles.pipe';
     UrlPipe,
     TranslatePipe,
     MultiLinePipe,
-    TranslatePipe,
   ],
 })
 export class CheckoutProgressComponent implements OnInit {

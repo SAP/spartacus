@@ -14,13 +14,6 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-my-account-v2-notification-preference',
   templateUrl: './my-account-v2-notification-preference.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NgFor,
-    SpinnerComponent,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, NgFor, SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class MyAccountV2NotificationPreferenceComponent extends NotificationPreferenceComponent {}

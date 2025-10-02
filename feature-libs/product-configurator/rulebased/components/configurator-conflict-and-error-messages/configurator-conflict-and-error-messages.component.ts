@@ -19,14 +19,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-configuration-conflict-and-error-messages',
   templateUrl: './configurator-conflict-and-error-messages.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    IconComponent,
-    NgFor,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, IconComponent, NgFor, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorConflictAndErrorMessagesComponent {
   iconTypes = ICON_TYPE;

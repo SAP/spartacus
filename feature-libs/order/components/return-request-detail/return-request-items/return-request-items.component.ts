@@ -16,14 +16,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-return-request-items',
   templateUrl: './return-request-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NgFor,
-    MediaComponent,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, NgFor, MediaComponent, AsyncPipe, TranslatePipe],
 })
 export class ReturnRequestItemsComponent {
   constructor(protected returnRequestService: ReturnRequestService) {}

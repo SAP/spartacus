@@ -36,7 +36,6 @@ import { TranslatePipe } from '@spartacus/core';
     NgFor,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class SuggestedAddressDialogComponent implements OnInit {

@@ -50,7 +50,6 @@ import { TranslatePipe } from '@spartacus/core';
     NgClass,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ConfiguratorGroupMenuComponent {

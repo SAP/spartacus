@@ -27,7 +27,6 @@ import { TranslatePipe } from '@spartacus/core';
     IconComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class SetPreferredStoreComponent implements OnInit, OnDestroy {

@@ -19,13 +19,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-configurator-overview-attribute',
   templateUrl: './configurator-overview-attribute.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    ConfiguratorPriceComponent,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, ConfiguratorPriceComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorOverviewAttributeComponent {
   @Input() attributeOverview: Configurator.AttributeOverview;

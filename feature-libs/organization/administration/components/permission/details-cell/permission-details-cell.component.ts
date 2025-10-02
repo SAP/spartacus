@@ -16,13 +16,6 @@ import { UrlPipe } from '@spartacus/core';
   selector: 'cx-org-permission-details-cell',
   templateUrl: './permission-details-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    RouterLink,
-    NgIf,
-    PopoverDirective,
-    TranslatePipe,
-    UrlPipe,
-    TranslatePipe,
-  ],
+  imports: [RouterLink, NgIf, PopoverDirective, TranslatePipe, UrlPipe],
 })
 export class PermissionDetailsCellComponent extends CellComponent {}

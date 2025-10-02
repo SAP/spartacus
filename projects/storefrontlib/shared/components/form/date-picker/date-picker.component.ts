@@ -35,7 +35,7 @@ import { MockDatePipe } from '@spartacus/core';
     FormErrorsComponent,
     TranslatePipe,
     CxDatePipe,
-    TranslatePipe,
+
     MockDatePipe,
   ],
 })

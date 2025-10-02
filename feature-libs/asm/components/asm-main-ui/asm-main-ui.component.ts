@@ -91,7 +91,6 @@ export const CART_TYPE_KEY: CartTypeKey = {
     CSAgentLoginFormComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class AsmMainUiComponent implements OnInit, OnDestroy {

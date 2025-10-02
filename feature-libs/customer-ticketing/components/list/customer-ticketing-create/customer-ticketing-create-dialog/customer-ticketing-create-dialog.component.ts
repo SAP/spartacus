@@ -65,7 +65,6 @@ import { TranslatePipe } from '@spartacus/core';
     FileUploadComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class CustomerTicketingCreateDialogComponent

@@ -19,15 +19,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-checkout-progress-mobile-top',
   templateUrl: './checkout-progress-mobile-top.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NgFor,
-    RouterLink,
-    AsyncPipe,
-    UrlPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, NgFor, RouterLink, AsyncPipe, UrlPipe, TranslatePipe],
 })
 export class CheckoutProgressMobileTopComponent {
   private _steps$: BehaviorSubject<CheckoutStep[]> =

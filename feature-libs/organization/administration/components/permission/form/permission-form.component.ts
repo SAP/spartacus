@@ -62,7 +62,6 @@ import { TranslatePipe } from '@spartacus/core';
     NgSelectComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class PermissionFormComponent implements OnInit {

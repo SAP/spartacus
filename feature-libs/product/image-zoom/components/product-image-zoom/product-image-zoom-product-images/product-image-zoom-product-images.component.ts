@@ -36,7 +36,6 @@ import { TranslatePipe } from '@spartacus/core';
     FocusableCarouselItemDirective,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ProductImageZoomProductImagesComponent extends ProductImagesComponent {

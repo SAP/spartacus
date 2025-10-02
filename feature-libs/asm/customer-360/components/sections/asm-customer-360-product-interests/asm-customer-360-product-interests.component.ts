@@ -24,7 +24,6 @@ import { TranslatePipe } from '@spartacus/core';
     AsmCustomer360ProductListingComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class AsmCustomer360ProductInterestsComponent {

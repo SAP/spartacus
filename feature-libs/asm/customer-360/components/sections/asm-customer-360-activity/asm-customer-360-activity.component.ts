@@ -23,12 +23,7 @@ import { TranslatePipe } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-activity',
   templateUrl: './asm-customer-360-activity.component.html',
-  imports: [
-    AsmCustomer360TableComponent,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [AsmCustomer360TableComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360ActivityComponent implements OnInit {
   entries$: Observable<Array<ActivityEntry>>;

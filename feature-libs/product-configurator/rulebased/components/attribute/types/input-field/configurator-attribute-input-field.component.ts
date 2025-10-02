@@ -40,7 +40,6 @@ import { TranslatePipe } from '@spartacus/core';
     FocusDirective,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ConfiguratorAttributeInputFieldComponent

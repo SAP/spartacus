@@ -40,7 +40,6 @@ import { TranslatePipe } from '@spartacus/core';
     ConfiguratorShowMoreComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ConfiguratorAttributeHeaderComponent

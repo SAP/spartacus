@@ -33,7 +33,6 @@ import { TranslatePipe } from '@spartacus/core';
     CartItemListComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class CartDetailsComponent implements OnInit {

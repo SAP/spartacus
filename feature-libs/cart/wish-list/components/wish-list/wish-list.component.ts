@@ -15,14 +15,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-wish-list',
   templateUrl: './wish-list.component.html',
-  imports: [
-    NgIf,
-    NgFor,
-    WishListItemComponent,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, NgFor, WishListItemComponent, AsyncPipe, TranslatePipe],
 })
 export class WishListComponent {
   wishList$: Observable<Cart> = this.wishListFacade.getWishList();

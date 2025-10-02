@@ -73,7 +73,6 @@ import { TranslatePipe } from '@spartacus/core';
     DotSpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class AsmBindCartComponent implements OnInit, OnDestroy {

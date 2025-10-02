@@ -28,7 +28,6 @@ import { TranslatePipe } from '@spartacus/core';
     VisualPickingProductFilterComponent,
     VisualPickingProductListComponent,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class VisualPickingTabComponent implements AfterViewInit {

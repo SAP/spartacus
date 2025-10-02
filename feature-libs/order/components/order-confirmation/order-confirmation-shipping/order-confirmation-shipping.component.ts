@@ -46,7 +46,6 @@ import { TranslatePipe } from '@spartacus/core';
     OutletDirective,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {

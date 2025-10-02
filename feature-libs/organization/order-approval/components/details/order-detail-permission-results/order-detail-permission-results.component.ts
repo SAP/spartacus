@@ -17,14 +17,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-order-detail-permission-results',
   templateUrl: './order-detail-permission-results.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    FeatureDirective,
-    NgFor,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, FeatureDirective, NgFor, AsyncPipe, TranslatePipe],
 })
 export class OrderDetailPermissionResultsComponent {
   order$: Observable<Order> = this.orderDetailsService.getOrderDetails();

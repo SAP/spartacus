@@ -19,14 +19,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-global-message',
   templateUrl: './global-message.component.html',
-  imports: [
-    NgIf,
-    NgFor,
-    IconComponent,
-    AsyncPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, NgFor, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class GlobalMessageComponent implements OnInit {
   iconTypes = ICON_TYPE;

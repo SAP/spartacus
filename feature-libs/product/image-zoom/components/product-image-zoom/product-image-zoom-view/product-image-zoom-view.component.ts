@@ -68,7 +68,6 @@ import { TranslatePipe } from '@spartacus/core';
     ProductImageZoomThumbnailsComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ProductImageZoomViewComponent implements OnInit, OnDestroy {

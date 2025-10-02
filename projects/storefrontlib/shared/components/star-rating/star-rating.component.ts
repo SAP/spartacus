@@ -27,14 +27,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-star-rating',
   templateUrl: './star-rating.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NgTemplateOutlet,
-    NgFor,
-    IconComponent,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, NgTemplateOutlet, NgFor, IconComponent, TranslatePipe],
 })
 export class StarRatingComponent {
   protected initialRate = 0;

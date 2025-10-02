@@ -35,7 +35,6 @@ export interface EditCard {
     ReactiveFormsModule,
     NgTemplateOutlet,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class QuoteHeaderBuyerEditComponent implements OnInit {

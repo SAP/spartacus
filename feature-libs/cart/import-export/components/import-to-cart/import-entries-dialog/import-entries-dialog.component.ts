@@ -41,7 +41,6 @@ import { TranslatePipe } from '@spartacus/core';
     ImportEntriesSummaryComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ImportEntriesDialogComponent {

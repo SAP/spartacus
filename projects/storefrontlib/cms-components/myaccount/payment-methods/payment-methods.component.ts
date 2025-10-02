@@ -35,7 +35,6 @@ import { TranslatePipe } from '@spartacus/core';
     CardComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class PaymentMethodsComponent implements OnInit {

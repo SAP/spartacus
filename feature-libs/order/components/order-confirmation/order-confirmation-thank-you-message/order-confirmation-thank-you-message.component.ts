@@ -34,7 +34,6 @@ import { TranslatePipe } from '@spartacus/core';
     AddToHomeScreenBannerComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class OrderConfirmationThankYouMessageComponent

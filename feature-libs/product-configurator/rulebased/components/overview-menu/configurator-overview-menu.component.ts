@@ -30,7 +30,6 @@ import { TranslatePipe } from '@spartacus/core';
     NgClass,
     IconComponent,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ConfiguratorOverviewMenuComponent implements AfterViewInit {

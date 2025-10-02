@@ -53,7 +53,6 @@ import { TranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class PickupOptionDialogComponent implements OnInit, OnDestroy {

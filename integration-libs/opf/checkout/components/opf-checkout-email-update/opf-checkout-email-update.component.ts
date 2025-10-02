@@ -37,7 +37,6 @@ import { TranslatePipe } from '@spartacus/core';
     NgTemplateOutlet,
     FormErrorsComponent,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class OpfCheckoutEmailUpdateComponent {

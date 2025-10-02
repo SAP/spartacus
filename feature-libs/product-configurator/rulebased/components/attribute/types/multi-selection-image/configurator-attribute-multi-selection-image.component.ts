@@ -47,7 +47,6 @@ import { TranslatePipe } from '@spartacus/core';
     ConfiguratorPriceComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ConfiguratorAttributeMultiSelectionImageComponent

@@ -72,7 +72,7 @@ import { MockDatePipe } from '@spartacus/core';
     TranslatePipe,
     CxDatePipe,
     ArgsPipe,
-    TranslatePipe,
+
     MockDatePipe,
   ],
 })

@@ -15,12 +15,6 @@ import { UrlPipe } from '@spartacus/core';
   selector: 'cx-org-user-group-details-cell',
   templateUrl: './user-group-details-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    RouterLink,
-    PopoverDirective,
-    TranslatePipe,
-    UrlPipe,
-    TranslatePipe,
-  ],
+  imports: [RouterLink, PopoverDirective, TranslatePipe, UrlPipe],
 })
 export class UserGroupDetailsCellComponent extends CellComponent {}

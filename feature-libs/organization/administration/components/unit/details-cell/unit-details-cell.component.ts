@@ -16,13 +16,6 @@ import { UrlPipe } from '@spartacus/core';
   selector: 'cx-org-unit-details-cell',
   templateUrl: './unit-details-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    RouterLink,
-    NgIf,
-    PopoverDirective,
-    TranslatePipe,
-    UrlPipe,
-    TranslatePipe,
-  ],
+  imports: [RouterLink, NgIf, PopoverDirective, TranslatePipe, UrlPipe],
 })
 export class UnitDetailsCellComponent extends CellComponent {}

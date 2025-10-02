@@ -35,7 +35,6 @@ import { TranslatePipe } from '@spartacus/core';
     AsyncPipe,
     DecimalPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ProductIntroComponent {

@@ -36,7 +36,6 @@ import { TranslatePipe } from '@spartacus/core';
     DisableInfoComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class UnitUserListComponent {

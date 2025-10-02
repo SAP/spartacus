@@ -50,7 +50,6 @@ import { TranslatePipe } from '@spartacus/core';
     NgSwitchDefault,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class ConfiguratorOverviewFormComponent {

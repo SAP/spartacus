@@ -30,14 +30,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-org-toggle-link-cell',
   templateUrl: './toggle-link-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    RouterLink,
-    IconComponent,
-    UrlPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, RouterLink, IconComponent, UrlPipe, TranslatePipe],
 })
 export class ToggleLinkCellComponent extends CellComponent {
   @HostBinding('style.--cx-depth-level')

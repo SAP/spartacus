@@ -22,15 +22,7 @@ import { UrlPipe } from '@spartacus/core';
   selector: 'cx-org-user-details-cell',
   templateUrl: './user-details-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    RouterLink,
-    NgFor,
-    PopoverDirective,
-    TranslatePipe,
-    UrlPipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, RouterLink, NgFor, PopoverDirective, TranslatePipe, UrlPipe],
 })
 export class UserDetailsCellComponent extends CellComponent {
   b2bUserModel: B2BUser;

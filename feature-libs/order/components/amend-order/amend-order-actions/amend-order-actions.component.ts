@@ -22,14 +22,7 @@ import { TranslatePipe } from '@spartacus/core';
   selector: 'cx-amend-order-actions',
   templateUrl: './amend-order-actions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    BtnLikeLinkDirective,
-    RouterLink,
-    NgIf,
-    UrlPipe,
-    TranslatePipe,
-    TranslatePipe,
-  ],
+  imports: [BtnLikeLinkDirective, RouterLink, NgIf, UrlPipe, TranslatePipe],
 })
 export class AmendOrderActionsComponent {
   @Input() orderCode: string;

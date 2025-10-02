@@ -60,7 +60,6 @@ import { TranslatePipe } from '@spartacus/core';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
-    TranslatePipe,
   ],
 })
 export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
