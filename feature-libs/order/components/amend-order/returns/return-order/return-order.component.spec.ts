@@ -7,6 +7,7 @@ import { FormErrorsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { ReturnOrderComponent } from './return-order.component';
+import { Consignment } from '@spartacus/order/root';
 
 const mockForm = new UntypedFormGroup({
   orderCode: new UntypedFormControl('123'),
@@ -43,6 +44,28 @@ class MockOrderAmendService {
   }
   getOrder() {
     return of({ consignments: mockConsignments });
+  }
+}
+
+const expectedReturnableQuantity = 4;
+const mockConsignmentsWithPartialMatch: {
+  entries: {
+    orderEntry: { product: { code: string } };
+    shippedQuantity: number;
+  }[];
+}[] = [
+  {
+    entries: [
+      {
+        orderEntry: { product: { code: 'prod1' } },
+        shippedQuantity: expectedReturnableQuantity,
+      },
+    ],
+  },
+];
+class NewMockOrderAmendService extends MockOrderAmendService {
+  getOrder() {
+    return of({ consignments: mockConsignmentsWithPartialMatch });
   }
 }
 
@@ -116,16 +139,138 @@ describe('ReturnOrderComponent', () => {
   });
 
   it('should filter and map entries with returnable quantities', () => {
-    fixture.detectChanges(); // Ensure the component initializes properly
+    fixture.detectChanges();
 
-    let result: OrderEntry[];
+    let result: OrderEntry[] = [];
     component.entries$.subscribe((entries) => (result = entries)).unsubscribe();
 
     // Verify the filtered and mapped entries
-    expect(result.length).toBe(2); // Expect two entries with returnable quantities
-    expect(result[0].product.code).toBe('prod1');
+    expect(result.length).toBe(2);
+    expect(result[0].product?.code).toBe('prod1');
     expect(result[0].returnableQuantity).toBe(5);
-    expect(result[1].product.code).toBe('prod2');
+    expect(result[1].product?.code).toBe('prod2');
     expect(result[1].returnableQuantity).toBe(3);
+  });
+
+  it('should initialize form$ and set orderCode', () => {
+    let formValue: UntypedFormGroup = new UntypedFormGroup({});
+    component.form$.subscribe((form) => (formValue = form)).unsubscribe();
+
+    expect(formValue.value.orderCode).toEqual('123');
+    expect(component.orderCode).toEqual('123');
+  });
+
+  it('should initialize consignments$', () => {
+    let consignments: any[] = [];
+    component.consignments$
+      .subscribe((data) => (consignments = data))
+      .unsubscribe();
+
+    expect(consignments.length).toBe(1);
+    expect(consignments[0]?.entries.length).toBe(2);
+    expect(consignments[0].entries[0].orderEntry.product.code).toBe('prod1');
+    expect(consignments[0].entries[0].shippedQuantity).toBe(5);
+  });
+
+  it('should initialize entries$ with filtered and mapped entries', () => {
+    let entries: OrderEntry[] = [];
+    component.entries$.subscribe((data) => (entries = data)).unsubscribe();
+
+    expect(entries.length).toBe(2);
+    expect(entries.length).toBeGreaterThan(0);
+    expect(entries[0].product?.code).toBe('prod1');
+    expect(entries[0].returnableQuantity).toBe(5);
+    expect(entries[1].product?.code).toBe('prod2');
+    expect(entries[1].returnableQuantity).toBe(3);
+  });
+
+  it('should handle empty consignments gracefully', () => {
+    spyOn(TestBed.inject(OrderAmendService), 'getOrder').and.returnValue(
+      of({ consignments: [] })
+    );
+
+    let entries: OrderEntry[] = [];
+    component.entries$.subscribe((data) => (entries = data)).unsubscribe();
+
+    expect(entries.length).toBe(2);
+  });
+
+  it('should handle entries without matching consignment entries', () => {
+    const mockConsignmentsWithoutMatch = [
+      {
+        entries: [
+          {
+            orderEntry: { product: { code: 'prodX' } },
+            shippedQuantity: 2,
+          },
+        ],
+      },
+    ];
+    spyOn(TestBed.inject(OrderAmendService), 'getOrder').and.returnValue(
+      of({ consignments: mockConsignmentsWithoutMatch })
+    );
+
+    let entries: OrderEntry[] = [];
+    component.entries$.subscribe((data) => (entries = data)).unsubscribe();
+
+    expect(entries.length).toBe(2);
+  });
+
+  it('should set orderCode when form$ is initialized', () => {
+    let formValue: UntypedFormGroup = new UntypedFormGroup({});
+    component.form$.subscribe((form) => (formValue = form)).unsubscribe();
+
+    expect(formValue.value.orderCode).toEqual('123');
+    expect(component.orderCode).toEqual('123');
+  });
+
+  it('should initialize consignments$ with correct data', () => {
+    let consignments: Consignment[] = [];
+    component.consignments$
+      .subscribe((data) => (consignments = data))
+      .unsubscribe();
+
+    expect(consignments.length).toBe(1);
+    expect(consignments[0].entries?.length).toBe(2);
+    expect(consignments[0].entries![0].orderEntry).toBeDefined();
+    expect(consignments[0].entries![0].orderEntry?.product?.code).toBe('prod1');
+    expect(consignments[0].entries![0].shippedQuantity).toBe(5);
+  });
+
+  describe('when order has new consignments', () => {
+    beforeEach(waitForAsync(() => {
+      TestBed.resetTestingModule(); // Reset the existing testing module
+      TestBed.configureTestingModule({
+        imports: [FormErrorsModule],
+        providers: [
+          { provide: OrderAmendService, useClass: NewMockOrderAmendService }, // Use the new mock service
+        ],
+        declarations: [
+          ReturnOrderComponent,
+          MockAmendOrderActionComponent,
+          MockCancelOrReturnItemsComponent,
+        ],
+      }).compileComponents();
+    }));
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(ReturnOrderComponent);
+      component = fixture.componentInstance;
+    });
+
+    it('should update returnableQuantity based on matching entry consignment', () => {
+      let entries: OrderEntry[] = [];
+      let consignments: Consignment[] = [];
+      component.entries$.subscribe((data) => (entries = data)).unsubscribe();
+      component.consignments$
+        .subscribe((data) => (consignments = data))
+        .unsubscribe();
+
+      expect(consignments.length).toBe(1);
+      expect(consignments[0].entries?.length).toBe(1);
+      expect(entries.length).toBe(1);
+      expect(entries[0].product?.code).toBe('prod1');
+      expect(entries[0].returnableQuantity).toBe(expectedReturnableQuantity);
+    });
   });
 });

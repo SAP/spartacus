@@ -53,7 +53,7 @@ export class ReturnOrderComponent {
                   entry.returnableQuantity ??
                   0,
               }
-            : entry;
+            : null;
         })
         .filter(
           (entry): entry is OrderEntry =>
