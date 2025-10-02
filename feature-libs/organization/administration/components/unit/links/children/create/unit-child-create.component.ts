@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitItemService } from '../../../services/unit-item.service';
 import { UnitChildItemService } from './unit-child-item.service';
+import { UnitFormComponent } from '../../../form';
 
 @Component({
   selector: 'cx-org-unit-child-create',
@@ -23,6 +24,7 @@ import { UnitChildItemService } from './unit-child-item.service';
       useExisting: UnitChildItemService,
     },
   ],
+  imports: [UnitFormComponent],
 })
 export class UnitChildCreateComponent {
   unitKey$: Observable<string> = this.unitService.key$;
