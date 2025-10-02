@@ -9,8 +9,8 @@ import { Observable } from 'rxjs';
 import { CostCenterItemService } from '../../../../cost-center/services/cost-center-item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitCostCenterItemService } from './unit-cost-center-item.service';
-import { CostCenterFormComponent } from '@spartacus/organization/administration/components';
 import { AsyncPipe } from '@angular/common';
+import { CostCenterFormComponent } from '../../../../cost-center/form/cost-center-form.component';
 
 @Component({
   selector: 'cx-org-unit-cost-center-create',

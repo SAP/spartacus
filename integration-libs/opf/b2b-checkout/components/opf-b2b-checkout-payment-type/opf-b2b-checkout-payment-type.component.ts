@@ -45,7 +45,7 @@ import {
 } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { OpfCheckoutPaymentsComponent } from '../../../checkout/components/opf-checkout-payments/opf-checkout-payments.component';
+import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 

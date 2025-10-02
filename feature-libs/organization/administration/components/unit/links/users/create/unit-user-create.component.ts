@@ -9,8 +9,8 @@ import { Observable } from 'rxjs';
 import { UserItemService } from '../../../../user/services/user-item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitUserItemService } from './unit-user-item.service';
-import { UserFormComponent } from '@spartacus/organization/administration/components';
 import { AsyncPipe } from '@angular/common';
+import { UserFormComponent } from '../../../../user/form/user-form.component';
 
 @Component({
   selector: 'cx-org-unit-user-create',

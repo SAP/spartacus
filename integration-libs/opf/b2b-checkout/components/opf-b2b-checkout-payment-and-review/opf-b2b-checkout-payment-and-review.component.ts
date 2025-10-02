@@ -11,13 +11,13 @@ import { Card } from '@spartacus/storefront';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import { OpfCheckoutPaymentAndReviewComponent } from '@spartacus/opf/checkout/components';
 import { NgIf, NgClass, AsyncPipe } from '@angular/common';
-import { OpfCheckoutReviewCardComponent } from '../../../checkout/components/opf-checkout-review-card/opf-checkout-review-card.component';
-import { OpfCheckoutTermsAndConditionsAlertComponent } from '../../../checkout/components/opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.component';
+import { OpfCheckoutReviewCardComponent } from '@spartacus/opf/checkout/components';
+import { OpfCheckoutTermsAndConditionsAlertComponent } from '@spartacus/opf/checkout/components';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { OpfCheckoutBillingAddressFormComponent } from '../../../checkout/components/opf-checkout-billing-address-form/opf-checkout-billing-address-form.component';
-import { OpfCheckoutPaymentsComponent } from '../../../checkout/components/opf-checkout-payments/opf-checkout-payments.component';
-import { OpfCheckoutReviewCartDetailsComponent } from '../../../checkout/components/opf-checkout-review-cart-details/opf-checkout-review-cart-details.component';
+import { OpfCheckoutBillingAddressFormComponent } from '@spartacus/opf/checkout/components';
+import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
+import { OpfCheckoutReviewCartDetailsComponent } from '@spartacus/opf/checkout/components';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
 

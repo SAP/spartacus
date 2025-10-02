@@ -5,12 +5,14 @@
  */
 
 import { Component } from '@angular/core';
-import { UnitListComponent } from '@spartacus/organization/administration/components';
-import { ListComponent } from '../../../administration/components/shared/list/list.component';
+import {
+  ListComponent,
+  UnitListComponent,
+} from '@spartacus/organization/administration/components';
 import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-account-summary-list',
   templateUrl: './account-summary-list.component.html',
-  imports: [ListComponent, TranslatePipe, TranslatePipe],
+  imports: [ListComponent, TranslatePipe],
 })
 export class AccountSummaryListComponent extends UnitListComponent {}

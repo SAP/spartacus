@@ -52,7 +52,7 @@ import { IconComponent } from '@spartacus/storefront';
 import { AsmCustomer360SectionComponent } from '../sections/asm-customer-360-section/asm-customer-360-section.component';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';
-import { ArgsPipe } from '../../../core/utils/args/args.pipe';
+import { ArgsPipe } from '@spartacus/asm/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
