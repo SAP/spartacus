@@ -148,7 +148,6 @@ export class OpfB2bCheckoutStepsSetGuard extends CheckoutStepsSetGuard {
     );
   }
 
-  // CXSPA-XXXX: Split into multiple methods instead of using logic selector boolean - typescript:S2301
   protected isDeliveryAddressAndCostCenterSet(
     step: CheckoutStep,
     isAccountPayment: boolean

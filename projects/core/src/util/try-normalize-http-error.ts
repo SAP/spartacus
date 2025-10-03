@@ -25,7 +25,7 @@ export function tryNormalizeHttpError(
   return normalizeHttpError(error, logger) ?? error;
 }
 
-// CXSPA-XXXX: Revise type in next major to remove `any` - typescript:S6571
+// CXSPA-11104: Revise type to avoid redundant types - typescript:S6571
 function normalizeHttpError(
   error: HttpErrorResponse | HttpErrorModel | any,
   logger: LoggerService

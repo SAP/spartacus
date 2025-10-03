@@ -71,7 +71,7 @@ export abstract class CmsStructureConfigService {
   /**
    * returns an Observable components data from the static configuration.
    */
-  // CXSPA-XXXX: Revise type in next major to remove `any` - typescript:S6571
+  // CXSPA-11104: Revise type to avoid redundant types - typescript:S6571
   getComponentsFromConfig(
     ids: string[]
   ): Observable<(ContentSlotComponentData | any)[]> {
