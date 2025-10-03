@@ -31,6 +31,8 @@ export class OpfCheckoutBillingAddressFormComponent
   protected service = inject(OpfCheckoutBillingAddressFormService);
   protected userAddressService = inject(UserAddressService);
   protected activeCartFacade = inject(ActiveCartFacade);
+  protected checkoutStepService= inject(CheckoutStepService);
+  protected activatedRoute= inject(ActivatedRoute);
 
   protected cart: Cart | null = null;
 
@@ -45,11 +47,6 @@ export class OpfCheckoutBillingAddressFormComponent
   isAddingBillingAddressInProgress = false;
 
   countries$: Observable<Country[]>;
-
-  constructor(
-    protected checkoutStepService: CheckoutStepService,
-    protected activatedRoute: ActivatedRoute
-  ) {}
 
   ngOnInit() {
     this.subscription.add(

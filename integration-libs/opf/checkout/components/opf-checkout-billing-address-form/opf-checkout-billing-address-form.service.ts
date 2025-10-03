@@ -102,7 +102,7 @@ export class OpfCheckoutBillingAddressFormService {
       .hasDeliveryItems()
       .pipe(
         take(1),
-        filter((hasDeliveryItems) => !hasDeliveryItems),
+        filter((hasDeliveryItems: boolean) => !hasDeliveryItems),
         switchMap(() => this.userAddressService.getDefaultAddress()),
         tap((defaultAddress) => {
           if (!defaultAddress) {
@@ -110,7 +110,7 @@ export class OpfCheckoutBillingAddressFormService {
           }
         }),
         filter((addr): addr is Address => !!addr),
-        switchMap((defaultAddress) => {
+        switchMap((defaultAddress: Address) => {
           this.setPaymentOptionsDisabled(false);
           return this.setBillingAddress(defaultAddress);
         }),
