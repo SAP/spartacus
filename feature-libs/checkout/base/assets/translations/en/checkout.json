@@ -1,7 +1,6 @@
 {
   "checkout": {
-    "backToCart": "Back to cart",
-    "back": "Back"
+    "backToCart": "Back to cart"
   },
   "checkoutProgress": {
     "label": "Checkout Progress",

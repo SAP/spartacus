@@ -80,8 +80,8 @@ export class OpfCheckoutBillingAddressFormComponent
 
   onBackToAddress(): void {
     this.subscription.add(
-      this.service.paymentOptionsDisabled$.subscribe((disabled) =>
-        disabled ? this.back() : this.cancelAndHideForm()
+      this.service.paymentOptionsDisabled$.subscribe((isDisabled) =>
+        isDisabled ? this.back() : this.cancelAndHideForm()
       )
     );
   }
