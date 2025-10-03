@@ -36,11 +36,6 @@ export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
 @NgModule({
   imports: [SubscriptionBillingEventModule],
   providers: [
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: MockResponseInterceptor,
-    //   multi: true,
-    // },
     provideDefaultConfigFactory(defaultSubscriptionBillingComponentsConfig),
     provideDefaultConfig(defaultSubscriptionBillingRoutingConfig),
   ],
