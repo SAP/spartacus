@@ -31,8 +31,8 @@ export class OpfCheckoutBillingAddressFormComponent
   protected service = inject(OpfCheckoutBillingAddressFormService);
   protected userAddressService = inject(UserAddressService);
   protected activeCartFacade = inject(ActiveCartFacade);
-  protected checkoutStepService= inject(CheckoutStepService);
-  protected activatedRoute= inject(ActivatedRoute);
+  protected checkoutStepService = inject(CheckoutStepService);
+  protected activatedRoute = inject(ActivatedRoute);
 
   protected cart: Cart | null = null;
 
