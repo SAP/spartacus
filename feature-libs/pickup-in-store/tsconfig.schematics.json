@@ -512,6 +512,24 @@
       "@spartacus/storefinder/root": [
         "../../feature-libs/storefinder/root/public_api"
       ],
+      "@spartacus/subscription-billing/assets": [
+        "../../feature-libs/subscription-billing/assets/public_api"
+      ],
+      "@spartacus/subscription-billing/components": [
+        "../../feature-libs/subscription-billing/components/public_api"
+      ],
+      "@spartacus/subscription-billing/core": [
+        "../../feature-libs/subscription-billing/core/public_api"
+      ],
+      "@spartacus/subscription-billing": [
+        "../../feature-libs/subscription-billing/public_api"
+      ],
+      "@spartacus/subscription-billing/occ": [
+        "../../feature-libs/subscription-billing/occ/public_api"
+      ],
+      "@spartacus/subscription-billing/root": [
+        "../../feature-libs/subscription-billing/root/public_api"
+      ],
       "@spartacus/tracking": ["../../feature-libs/tracking/public_api"],
       "@spartacus/tracking/personalization/core": [
         "../../feature-libs/tracking/personalization/core/public_api"

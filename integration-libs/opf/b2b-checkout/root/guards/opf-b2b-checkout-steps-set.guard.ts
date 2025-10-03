@@ -24,9 +24,9 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import { LoggerService, RoutingConfigService } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, take, switchMap, tap } from 'rxjs/operators';
 import { OPF_CHECKOUT_FLOW_NAME } from '@spartacus/opf/checkout/root';
+import { combineLatest, Observable, of } from 'rxjs';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -93,7 +93,7 @@ export class OpfB2bCheckoutStepsSetGuard extends CheckoutStepsSetGuard {
         if (currentIndex >= 0) {
           currentStep = steps[currentIndex];
         }
-        if (Boolean(currentStep)) {
+        if (currentStep) {
           return this.isB2BStepSet(steps[currentIndex - 1], isAccount);
         } else {
           return of(this.getUrl('checkout'));
@@ -173,12 +173,10 @@ export class OpfB2bCheckoutStepsSetGuard extends CheckoutStepsSetGuard {
           } else {
             return this.getUrl(step.routeName);
           }
+        } else if (deliveryAddress && Object.keys(deliveryAddress).length) {
+          return true;
         } else {
-          if (deliveryAddress && Object.keys(deliveryAddress).length) {
-            return true;
-          } else {
-            return this.getUrl(step.routeName);
-          }
+          return this.getUrl(step.routeName);
         }
       })
     );
