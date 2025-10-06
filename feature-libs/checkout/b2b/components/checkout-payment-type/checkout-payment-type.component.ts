@@ -56,7 +56,7 @@ export class CheckoutPaymentTypeComponent {
 
   private quoteFacade = inject(QuoteFacade);
   private activeCartFacade = inject(ActiveCartFacade);
-  protected poNumberFeatureToggle = inject(FeatureToggles).enableQuotePurchaseOrderNumber;
+  poNumberFeatureToggle = inject(FeatureToggles).enableQuotePurchaseOrderNumber;
 
   isPONumberInputNonEditable: Observable<boolean> = this.activeCartFacade
     .getActive()

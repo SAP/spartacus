@@ -2,7 +2,7 @@ import { Component, DebugElement, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { PaymentType } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
@@ -16,6 +16,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
 import createSpy = jasmine.createSpy;
+import { QuoteFacade } from '@spartacus/quote/root';
 
 @Component({
   selector: 'cx-spinner',
@@ -23,6 +24,14 @@ import createSpy = jasmine.createSpy;
   standalone: false,
 })
 class MockSpinnerComponent {}
+
+class MockActiveCartFacade {
+  getActive = jasmine.createSpy();
+}
+
+class MockQuoteFacade {
+  getPurchaseOrderNumber = jasmine.createSpy();
+}
 
 class MockGlobalMessageService {
   add = createSpy();
@@ -79,6 +88,96 @@ const mockActivatedRoute = {
     url: ['checkout', 'payment-type'],
   },
 };
+
+describe('CheckoutOnePaymentTypeComponent', () => {
+  let component: CheckoutPaymentTypeComponent;
+  let fixture: ComponentFixture<CheckoutPaymentTypeComponent>;
+
+  let activeCartFacade: MockActiveCartFacade;
+  let quoteFacade: MockQuoteFacade;
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
+      declarations: [
+        CheckoutPaymentTypeComponent,
+        MockSpinnerComponent,
+        MockFeatureDirective,
+      ],
+      providers: [
+        {
+          provide: CheckoutPaymentTypeFacade,
+          useClass: MockCheckoutOnePaymentTypeService,
+        },
+        {
+          provide: CheckoutStepService,
+          useClass: MockCheckoutStepService,
+        },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
+        { provide: QuoteFacade, useClass: MockQuoteFacade },
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartFacade,// Provide the mock ActiveCartFacade
+        },
+      ],
+    }).compileComponents();
+    activeCartFacade = TestBed.inject(ActiveCartFacade) as unknown as MockActiveCartFacade;
+    quoteFacade = TestBed.inject(QuoteFacade) as unknown as MockQuoteFacade;
+  }));
+
+  it('should make PO Number field non-editable if cart has a PO Number', async () => {
+
+    activeCartFacade.getActive.and.returnValue(of({ code: 'cart-1', quoteCode: 'quote-123' }));
+
+
+    quoteFacade.getPurchaseOrderNumber.and.returnValue(of('test-po'));
+
+    fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
+    component = fixture.componentInstance;
+    component.poNumberFeatureToggle = true;
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const poNumberInput = fixture.debugElement.query(By.css('#poNumberInput')).nativeElement;
+    expect(poNumberInput.readOnly).toBe(true);
+  });
+
+  it('should make PO Number field editable if quote has no PO Number', async () => {
+
+    activeCartFacade.getActive.and.returnValue(of({ code: 'cart-1', quoteCode: 'quote-123' }));
+
+    quoteFacade.getPurchaseOrderNumber.and.returnValue(of(null));
+
+    fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
+    component = fixture.componentInstance;
+    component.poNumberFeatureToggle = true;
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const poNumberInput = fixture.debugElement.query(By.css('#poNumberInput')).nativeElement;
+    expect(poNumberInput.readOnly).toBe(false);
+  });
+
+  it('should make PO Number field editable if cart has no quoteCode', async () => {
+
+    activeCartFacade.getActive.and.returnValue(of({ code: 'cart-1' }));
+
+    fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
+    component = fixture.componentInstance;
+    component.poNumberFeatureToggle = true;
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const poNumberInput = fixture.debugElement.query(By.css('#poNumberInput')).nativeElement;
+    expect(poNumberInput.readOnly).toBe(false);
+  });
+});
 
 describe('CheckoutOnePaymentTypeComponent', () => {
   let component: CheckoutPaymentTypeComponent;
