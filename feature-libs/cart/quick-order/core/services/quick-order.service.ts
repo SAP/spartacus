@@ -83,7 +83,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
       return this.productSearchConnector
         .search(query, searchConfig)
         .pipe(
-          map((searchPage: ProductSearchPage) => searchPage.products || [])
+          map((searchPage: ProductSearchPage) => searchPage.products ?? [])
         );
     } else {
       return of([]);
@@ -131,7 +131,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    * Load a list of entries
    */
   updateEntryQuantity(entryIndex: number, quantity: number): void {
-    const entries = this.entries$.getValue() || [];
+    const entries = this.entries$.getValue() ?? [];
     entries[entryIndex].quantity = quantity;
 
     this.entries$.next(entries);
@@ -340,7 +340,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
       return;
     }
 
-    const entries = this.entries$.getValue() || [];
+    const entries = this.entries$.getValue() ?? [];
     const entryStockLevel = entry.product?.stock?.stockLevel;
 
     if (entryStockLevel && entry.quantity && entry.quantity > entryStockLevel) {
@@ -374,7 +374,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    * Verify if product is already on the list
    */
   protected isProductOnTheList(productCode: string): boolean {
-    const entries = this.entries$.getValue() || [];
+    const entries = this.entries$.getValue() ?? [];
 
     return !!entries.find(
       (item: OrderEntry) => item.product?.code === productCode
@@ -385,7 +385,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     code?: string,
     productsData?: ProductData[]
   ): boolean {
-    const entries = this.entries$.getValue() || [];
+    const entries = this.entries$.getValue() ?? [];
 
     /**
      * Used to offset the amount of existing entries with the index of the missing
@@ -417,7 +417,7 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
           !entries
             .map((entry) => entry.product?.code)
             .includes(product.productCode)
-      ) || [];
+      ) ?? [];
     return missingProducts.findIndex((product) => product.productCode === code);
   }
 

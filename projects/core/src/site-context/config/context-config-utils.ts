@@ -16,7 +16,7 @@ export function getContextParameterValues(
   config: SiteContextConfig,
   parameter: string
 ): string[] {
-  return (config.context && config.context[parameter]) || [];
+  return config.context?.[parameter] ?? [];
 }
 
 /**

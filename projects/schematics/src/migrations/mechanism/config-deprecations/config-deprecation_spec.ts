@@ -104,7 +104,7 @@ describe('config deprecations migration', () => {
       `// ${TODO_SPARTACUS} '${ANONYMOUS_CONSENTS}' has been removed, as this feature is now enabled by default.\n`,
       'g'
     );
-    const commentOccurrences = (content.match(regex) || []).length;
+    const commentOccurrences = (content.match(regex) ?? []).length;
     expect(commentOccurrences).toEqual(3);
   });
 });

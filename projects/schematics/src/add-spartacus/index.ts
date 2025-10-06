@@ -444,7 +444,7 @@ function createStylePreprocessorOptionsArray(angularJsonStylePreprocessorOptions
   const NODE_MODULES_PATH = 'node_modules/';
   const includePaths = Array.from(
     new Set([
-      ...(angularJsonStylePreprocessorOptions.includePaths || []),
+      ...(angularJsonStylePreprocessorOptions.includePaths ?? []),
       NODE_MODULES_PATH,
     ])
   );

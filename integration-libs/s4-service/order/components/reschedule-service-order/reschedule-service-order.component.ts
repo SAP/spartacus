@@ -47,7 +47,7 @@ export class RescheduleServiceOrderComponent implements OnInit, OnDestroy {
   order$ = this.orderDetailsService.getOrderDetails().pipe(
     map((order) => ({
       ...order,
-      entries: (order.entries || []).filter(
+      entries: (order.entries ?? []).filter(
         (entry) => entry.product && entry.product.productTypes === 'SERVICE'
       ),
     }))

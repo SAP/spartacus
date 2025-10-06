@@ -157,7 +157,7 @@ export class SceneNodeToProductLookupService {
     nodeIds: string[]
   ): string[] {
     return this.distinct(
-      nodeIds.flatMap((nodeId) => productCodesByNodeIdMap.get(nodeId) || [])
+      nodeIds.flatMap((nodeId) => productCodesByNodeIdMap.get(nodeId) ?? [])
     );
   }
 
@@ -195,7 +195,7 @@ export class SceneNodeToProductLookupService {
   ): string[] {
     return this.distinct(
       productCodes.flatMap(
-        (productCode) => nodeIdsByProductCodeMap.get(productCode) || []
+        (productCode) => nodeIdsByProductCodeMap.get(productCode) ?? []
       )
     );
   }

@@ -60,7 +60,7 @@ export function normalizeListPage<T>(
   list: EntitiesModel<T>,
   id: string
 ): { values: T[]; page: ListModel } {
-  const values = list.values || [];
+  const values = list.values ?? [];
   const page: ListModel = {
     ids: values.map((data) => (<any>data)[id]),
   };

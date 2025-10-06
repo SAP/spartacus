@@ -946,7 +946,7 @@ export class VisualViewerService implements OnDestroy {
     );
 
     const currentVisibleSids: string[] =
-      this.viewPriorToIsolateViewInfo.visibility.visible || [];
+      this.viewPriorToIsolateViewInfo.visibility.visible ?? [];
     const currentVisibleNodeRefs: NodeRef[] = this.persistentIdToNodeRef(
       currentVisibleSids,
       true

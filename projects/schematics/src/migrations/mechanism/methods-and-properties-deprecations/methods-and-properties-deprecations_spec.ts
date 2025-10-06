@@ -237,7 +237,7 @@ describe('updateCmsComponentState migration', () => {
       ),
       'g'
     );
-    const commentOccurrences = (content.match(regex) || []).length;
+    const commentOccurrences = (content.match(regex) ?? []).length;
     expect(commentOccurrences).toEqual(3);
   });
 
@@ -251,7 +251,7 @@ describe('updateCmsComponentState migration', () => {
       `// TODO:Spartacus - '${GET_COMPONENT_ENTITIES_OLD_API}' has been removed, please use some of the newer API methods.`,
       'g'
     );
-    const commentOccurrences = (content.match(regex) || []).length;
+    const commentOccurrences = (content.match(regex) ?? []).length;
     expect(commentOccurrences).toEqual(3);
   });
 

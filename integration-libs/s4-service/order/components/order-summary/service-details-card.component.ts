@@ -9,8 +9,8 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import {
-  ServiceDateTime,
   CheckoutServiceSchedulePickerService,
+  ServiceDateTime,
 } from '@spartacus/s4-service/root';
 import { Card, OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription, map } from 'rxjs';
@@ -44,7 +44,7 @@ export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
     const deliveryEntries: OrderEntry[] =
       this.order.entries?.filter(
         (entry) => entry.deliveryPointOfService === undefined
-      ) || [];
+      ) ?? [];
     deliveryEntries.forEach((entry) => {
       if (entry.product?.productTypes === 'SERVICE') {
         hasService = true;

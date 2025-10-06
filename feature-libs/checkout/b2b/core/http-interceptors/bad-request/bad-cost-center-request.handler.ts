@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import {
   ErrorModel,
-  GlobalMessageType,
   GlobalMessageService,
+  GlobalMessageType,
   HttpErrorHandler,
   HttpResponseStatus,
   Priority,
@@ -48,7 +48,7 @@ export class BadCostCenterRequestHandler extends HttpErrorHandler {
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
-    return (response.error?.errors || []).filter(
+    return (response.error?.errors ?? []).filter(
       (error: any) => error.type !== ResponseError.NO_LONGER_VALID
     );
   }

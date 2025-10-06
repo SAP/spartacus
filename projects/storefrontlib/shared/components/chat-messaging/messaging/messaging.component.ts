@@ -89,7 +89,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   }
 
   get allowedTypes(): Array<string> {
-    return this.messagingConfigs?.attachmentRestrictions?.allowedTypes || [];
+    return this.messagingConfigs?.attachmentRestrictions?.allowedTypes ?? [];
   }
 
   constructor(

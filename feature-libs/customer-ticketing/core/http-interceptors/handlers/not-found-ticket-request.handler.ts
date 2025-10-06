@@ -8,12 +8,12 @@ import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import {
   ErrorModel,
+  GlobalMessageService,
   GlobalMessageType,
   HttpErrorHandler,
   HttpResponseStatus,
   Priority,
   RoutingService,
-  GlobalMessageService,
   getLastValueSync,
 } from '@spartacus/core';
 import { isNotFoundError } from '../../utils/utils';
@@ -70,6 +70,6 @@ export class NotFoundTicketRequestHandler extends HttpErrorHandler {
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
-    return response.error?.errors || [];
+    return response.error?.errors ?? [];
   }
 }

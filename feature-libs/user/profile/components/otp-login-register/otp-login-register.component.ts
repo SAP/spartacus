@@ -35,14 +35,14 @@ import {
   Subscription,
 } from 'rxjs';
 
-import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
-import { RegisterComponentService } from '../register';
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   VerificationToken,
   VerificationTokenCreation,
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
-import { HttpErrorResponse } from '@angular/common/http';
+import { RegisterComponentService } from '../register';
+import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
 
 @Component({
   selector: 'cx-otp-register-form',
@@ -162,7 +162,7 @@ export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
     );
 
     this.additionalRegistrationConsents =
-      this.registerComponentService?.getAdditionalConsents() || [];
+      this.registerComponentService?.getAdditionalConsents() ?? [];
 
     this.subscription.add(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

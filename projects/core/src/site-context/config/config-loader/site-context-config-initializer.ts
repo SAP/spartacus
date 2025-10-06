@@ -82,7 +82,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
   }
 
   private isCurrentBaseSite(site: BaseSite): boolean {
-    const index = (site.urlPatterns || []).findIndex((javaRegexp: string) => {
+    const index = (site.urlPatterns ?? []).findIndex((javaRegexp: string) => {
       const jsRegexp = this.javaRegExpConverter.toJsRegExp(javaRegexp);
       if (jsRegexp) {
         const result = jsRegexp.test(this.currentUrl);
@@ -101,7 +101,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
   private getUrlParams(params: string[] | undefined): string[] {
     const STOREFRONT_PARAM = 'storefront';
 
-    return (params || []).map((param) =>
+    return (params ?? []).map((param) =>
       param === STOREFRONT_PARAM ? BASE_SITE_CONTEXT_ID : param
     );
   }

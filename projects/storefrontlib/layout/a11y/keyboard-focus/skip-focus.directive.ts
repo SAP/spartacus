@@ -58,7 +58,7 @@ export class SkipFocusDirective implements OnChanges {
     const focusableElements = this.elementRef.nativeElement.querySelectorAll(
       focusableElementsSelector
     );
-    Array.from(focusableElements || []).forEach((el) => {
+    Array.from(focusableElements ?? []).forEach((el) => {
       const element = el as HTMLElement;
       const shouldSkip = skipSelectors.some((selector) => {
         return element.matches(selector);

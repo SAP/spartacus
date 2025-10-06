@@ -28,14 +28,14 @@ export function b2bUserEntitiesReducer(
       return {
         ...state,
         selected: action.payload?.selected,
-        roles: [...(state?.roles || []), action.payload?.roleId],
+        roles: [...(state?.roles ?? []), action.payload?.roleId],
       };
     case OrgUnitActions.UNASSIGN_ROLE_SUCCESS:
     case OrgUnitActions.UNASSIGN_APPROVER_SUCCESS:
       return {
         ...state,
         selected: action.payload?.selected,
-        roles: [...(state?.roles || [])].filter(
+        roles: [...(state?.roles ?? [])].filter(
           (role) => role !== action.payload?.roleId
         ),
       };

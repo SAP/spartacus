@@ -47,7 +47,7 @@ export class OutletService<T = TemplateRef<any> | ComponentFactory<any>> {
   ): void {
     const store = this.templatesRefs[position];
     if (store) {
-      const existing = store.get(outlet) || [];
+      const existing = store.get(outlet) ?? [];
       const newValue: T[] = existing.concat([templateOrFactory]);
       store.set(outlet, newValue);
     }

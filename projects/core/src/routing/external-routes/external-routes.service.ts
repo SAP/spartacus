@@ -24,9 +24,7 @@ export class ExternalRoutesService {
   ) {}
 
   protected get internalUrlPatterns(): string[] {
-    return (
-      (this.config && this.config.routing && this.config.routing.internal) || []
-    );
+    return this.config?.routing?.internal ?? [];
   }
 
   /**

@@ -121,7 +121,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription.add(
       this.slot$.pipe(tap((slot) => this.decorate(slot))).subscribe((value) => {
-        this.components = value?.components || [];
+        this.components = value?.components ?? [];
         this.cd.markForCheck();
       })
     );

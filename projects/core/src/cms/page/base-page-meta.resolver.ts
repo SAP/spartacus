@@ -57,7 +57,7 @@ export class BasePageMetaResolver
   );
 
   protected robots$: Observable<PageRobotsMeta[]> = this.page$.pipe(
-    map((page) => page.robots || [])
+    map((page) => page.robots ?? [])
   );
 
   /**

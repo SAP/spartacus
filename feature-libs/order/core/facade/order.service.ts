@@ -142,7 +142,7 @@ export class OrderService implements OrderFacade {
         (order) =>
           order?.entries?.filter(
             (entry) => entry.deliveryPointOfService !== undefined
-          ) || []
+          ) ?? []
       )
     );
   }
@@ -153,7 +153,7 @@ export class OrderService implements OrderFacade {
         (order) =>
           order?.entries?.filter(
             (entry) => entry.deliveryPointOfService === undefined
-          ) || []
+          ) ?? []
       )
     );
   }

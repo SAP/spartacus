@@ -137,7 +137,7 @@ export class ConfigInitializerService {
 
     const asyncConfigs: Promise<void>[] = [];
 
-    for (const initializer of initializers || []) {
+    for (const initializer of initializers ?? []) {
       if (!initializer) {
         continue;
       }

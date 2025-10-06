@@ -131,7 +131,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
     cart: Cart,
     coupons: CustomerCoupon[]
   ): void {
-    this.applicableCoupons = coupons || [];
+    this.applicableCoupons = coupons ?? [];
     if (cart.appliedVouchers) {
       cart.appliedVouchers.forEach((appliedVoucher) => {
         this.applicableCoupons = this.applicableCoupons.filter(

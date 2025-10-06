@@ -196,13 +196,12 @@ export class ProfileTagEventService implements OnDestroy {
     this.profileTagWindow = <ProfileTagWindowObject>(
       (<unknown>this.winRef.nativeWindow)
     );
-    this.profileTagWindow.Y_TRACKING = this.profileTagWindow.Y_TRACKING || {};
-    this.profileTagWindow.Y_TRACKING.eventLayer =
-      this.profileTagWindow.Y_TRACKING.eventLayer || [];
+    this.profileTagWindow.Y_TRACKING = this.profileTagWindow.Y_TRACKING ?? {};
+    this.profileTagWindow.Y_TRACKING.eventLayer ??= [];
   }
 
   private exposeConfig(options: ProfileTagJsConfig): void {
-    const q = this.profileTagWindow.Y_TRACKING.q || [];
+    const q = this.profileTagWindow.Y_TRACKING.q ?? [];
     if (q.length !== 0) {
       return;
     }

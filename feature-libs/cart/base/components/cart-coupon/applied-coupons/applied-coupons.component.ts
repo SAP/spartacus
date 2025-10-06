@@ -27,7 +27,7 @@ export class AppliedCouponsComponent {
   constructor(protected cartVoucherService: CartVoucherFacade) {}
 
   public get sortedVouchers(): Voucher[] {
-    this.vouchers = this.vouchers || [];
+    this.vouchers ??= [];
     return this.vouchers.slice().sort((a, b) => {
       return a.code && b.code ? a.code.localeCompare(b.code) : 0;
     });
