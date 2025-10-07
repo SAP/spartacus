@@ -42,9 +42,9 @@ describe('QuoteHeaderBuyerEditComponent', () => {
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     component.content = mockCard;
+    component.enablePurchaseOrderNumber = true;
     fixture.detectChanges();
 
-    component.enablePurchaseOrderNumber = true;
     spyOn(component.saveCard, 'emit').and.callThrough();
     spyOn(component.cancelCard, 'emit').and.callThrough();
   });
@@ -129,9 +129,8 @@ describe('QuoteHeaderBuyerEditComponent', () => {
     CommonQuoteTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
-      '.cx-card-paragraph-title',
+      '#cx-quote-header-buyer-edit-purchase-order-number',
       'quote.header.overview.purchaseOrderNumber',
-      1
     );
 
     CommonQuoteTestUtilsService.expectElementToContainText(

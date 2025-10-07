@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { FeatureToggles } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 
 export interface SaveEvent {
@@ -38,8 +39,7 @@ export class QuoteHeaderBuyerEditComponent implements OnInit {
   @Input()
   content: EditCard;
 
-  @Input()
-  enablePurchaseOrderNumber: boolean;
+  enablePurchaseOrderNumber = inject(FeatureToggles).enableQuotePurchaseOrderNumber;
 
   /**
    * Cancels the view of the edit card tile.
