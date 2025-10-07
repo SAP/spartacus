@@ -88,7 +88,7 @@ export class QuoteHeaderBuyerEditComponent implements OnInit {
     this.defineFormControl('name', this.content.name);
     this.defineFormControl('description', this.content.description);
     if (this.enablePurchaseOrderNumber) {
-      this.defineFormControl('purchaseOrderNumber', this.content.purchaseOrderNumber || '');
+      this.defineFormControl('purchaseOrderNumber', this.content.purchaseOrderNumber ?? '');
     }
   }
 }
