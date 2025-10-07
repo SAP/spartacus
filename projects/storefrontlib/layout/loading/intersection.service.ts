@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Observable, Observer, of } from 'rxjs';
 import { distinctUntilChanged, first, map, mergeMap } from 'rxjs/operators';
 import { LayoutConfig } from '../config/layout-config';
 import { IntersectionOptions } from './intersection.model';
+import { isPlatformServer } from '@angular/common';
 
 export type IntersectingCondition = (
   entry: IntersectionObserverEntry
@@ -23,6 +24,8 @@ export type IntersectingCondition = (
   providedIn: 'root',
 })
 export class IntersectionService {
+  protected platformId = inject(PLATFORM_ID);
+
   constructor(protected config: LayoutConfig) {}
 
   /**
@@ -44,6 +47,11 @@ export class IntersectionService {
     options?: IntersectionOptions,
     intersectingCondition?: IntersectingCondition
   ): Observable<boolean> {
+    // Early return for SSR - element is never intersected on server
+    if (isPlatformServer(this.platformId)) {
+      return of(false);
+    }
+
     return this.intersects(element, options, intersectingCondition).pipe(
       first((v) => v === true)
     );
@@ -63,6 +71,11 @@ export class IntersectionService {
     options?: IntersectionOptions,
     intersectingCondition?: IntersectingCondition
   ): Observable<boolean> {
+    // Early return for SSR - element is never intersected on server
+    if (isPlatformServer(this.platformId)) {
+      return of(false);
+    }
+
     return this.intersects(element, options, intersectingCondition);
   }
 

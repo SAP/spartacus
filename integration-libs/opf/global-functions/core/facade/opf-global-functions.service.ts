@@ -15,10 +15,10 @@ import { WindowRef } from '@spartacus/core';
 import {
   OpfErrorDialogOptions,
   OpfKeyValueMap,
+  OpfMetadataModel,
+  OpfMetadataStoreService,
   OpfPage,
   defaultOpfErrorDialogOptions,
-  OpfMetadataStoreService,
-  OpfMetadataModel,
 } from '@spartacus/opf/base/root';
 import { OpfCtaFacade } from '@spartacus/opf/cta/root';
 import {
@@ -27,15 +27,15 @@ import {
   OpfRegisterGlobalFunctionsInput,
 } from '@spartacus/opf/global-functions/root';
 import {
+  OpfPaymentEventsService,
   OpfPaymentFacade,
   OpfPaymentGlobalMethods,
   OpfPaymentMerchantCallback,
   OpfPaymentMethod,
-  OpfPaymentEventsService,
 } from '@spartacus/opf/payment/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subject, lastValueFrom, of, throwError } from 'rxjs';
-import { finalize, last, take, switchMap } from 'rxjs/operators';
+import { finalize, last, switchMap, take } from 'rxjs/operators';
 
 @Injectable()
 export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
@@ -423,7 +423,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       take(1),
       switchMap((metadata: OpfMetadataModel) => {
         const storedId =
-          metadata.selectedPaymentOptionId ||
+          metadata.selectedPaymentOptionId ??
           metadata.defaultSelectedPaymentOptionId;
 
         return storedId

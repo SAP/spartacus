@@ -1,6 +1,6 @@
 /*
- * Copyright Google LLC All Rights Reserved.
  * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * Copyright Google LLC All Rights Reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
