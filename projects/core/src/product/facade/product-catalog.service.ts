@@ -10,15 +10,15 @@ import { Product } from '@spartacus/core';
 @Injectable({
   providedIn: 'root',
 })
-export class ProductCatalogueService {
+export class ProductCatalogService {
   /**
-   * Returns whether product is present in commerce product catalogue.
+   * Returns whether product is present in commerce product catalog.
    * Method is meant to be overridden by other integration specific implementations.
    *
    * @param product product to check
-   * @return true if product is present in catalogue, false otherwise
+   * @return true if product is present in catalog, false otherwise
    */
-  isProductInCatalogue(product?: Product): boolean {
+  isProductInCatalog(product?: Product): boolean {
     return !!product;
   }
 }

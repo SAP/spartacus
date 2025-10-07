@@ -33,7 +33,7 @@ import {
   FeatureToggles,
   Product,
   ProductAvailabilityService,
-  ProductCatalogueService,
+  ProductCatalogService,
   ProductScope,
   isNotNullable,
   useFeatureStyles,
@@ -99,7 +99,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   private featureConfigService = inject(FeatureConfigService);
   private featureToggles = inject(FeatureToggles);
   private productAvailabilityService = inject(ProductAvailabilityService);
-  protected productCatalogueService = inject(ProductCatalogueService);
+  protected productCatalogService = inject(ProductCatalogService);
 
   /**
    * We disable the dialog launch on quantity input,
@@ -131,7 +131,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (this.product) {
       this.productCode = this.product.code ?? '';
       this.setStockInfo(this.product);
-      this.unavailable = !this.productCatalogueService.isProductInCatalogue(
+      this.unavailable = !this.productCatalogService.isProductInCatalog(
         this.product
       );
     } else if (this.productCode) {
@@ -157,7 +157,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
           this.product = product;
           this.setStockInfo(product);
           this.unavailable =
-            !this.productCatalogueService.isProductInCatalogue(product);
+            !this.productCatalogService.isProductInCatalog(product);
         })
       );
     }

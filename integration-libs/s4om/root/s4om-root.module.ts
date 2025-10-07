@@ -11,8 +11,8 @@ import { RequestedDeliveryDateComponentsModule } from '@spartacus/requested-deli
 import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 import { ScheduleLinesComponent } from './components/schedule-lines/schedule-lines.component';
 import { ScheduleLinesModule } from './components/schedule-lines/schedule-lines.module';
-import { S4omProductCatalogueService } from './services';
-import { ProductCatalogueService } from '@spartacus/core';
+import { S4omProductCatalogService } from './services';
+import { ProductCatalogService } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -27,8 +27,8 @@ import { ProductCatalogueService } from '@spartacus/core';
       component: ScheduleLinesComponent,
     }),
     {
-      provide: ProductCatalogueService,
-      useExisting: S4omProductCatalogueService,
+      provide: ProductCatalogService,
+      useExisting: S4omProductCatalogService,
     },
   ],
 })

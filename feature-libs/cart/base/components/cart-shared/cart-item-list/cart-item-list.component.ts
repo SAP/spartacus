@@ -29,7 +29,7 @@ import {
   FeatureConfigService,
   UserIdService,
   useFeatureStyles,
-  ProductCatalogueService,
+  ProductCatalogService,
 } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -52,7 +52,7 @@ interface ItemListContext {
   standalone: false,
 })
 export class CartItemListComponent implements OnInit, OnDestroy {
-  protected productCatalogueService = inject(ProductCatalogueService);
+  protected productCatalogService = inject(ProductCatalogService);
   protected subscription = new Subscription();
   protected userId: string;
 
@@ -317,7 +317,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   }
 
   getOptions(item: OrderEntry): CartItemComponentOptions {
-    if (!this.productCatalogueService.isProductInCatalogue(item.product)) {
+    if (!this.productCatalogService.isProductInCatalog(item.product)) {
       return { ...this.options, disableItemLink: true };
     }
 

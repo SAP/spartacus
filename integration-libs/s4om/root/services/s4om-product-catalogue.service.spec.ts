@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Product } from '@spartacus/core';
-import { S4omProductCatalogueService } from '@spartacus/s4om/root';
+import { S4omProductCatalogService } from '@spartacus/s4om/root';
 
 const productWithSpecialStockLevelStatus: Product = {
   code: 'product1',
@@ -26,15 +26,15 @@ const productWithoutStockLevelStatus: Product = {
   },
 };
 
-describe('S4omProductCatalogueService', () => {
-  let service: S4omProductCatalogueService;
+describe('S4omProductCatalogService', () => {
+  let service: S4omProductCatalogService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [S4omProductCatalogueService],
+      providers: [S4omProductCatalogService],
     });
 
-    service = TestBed.inject(S4omProductCatalogueService);
+    service = TestBed.inject(S4omProductCatalogService);
   });
 
   it('should be created', () => {
@@ -42,24 +42,24 @@ describe('S4omProductCatalogueService', () => {
   });
 
   it('should return false if product is not provided', () => {
-    expect(service.isProductInCatalogue(undefined)).toBeFalsy();
+    expect(service.isProductInCatalog(undefined)).toBeFalsy();
   });
 
   it("should return false if product have 'notOrderable' stock level status", () => {
     expect(
-      service.isProductInCatalogue(productWithSpecialStockLevelStatus)
+      service.isProductInCatalog(productWithSpecialStockLevelStatus)
     ).toBeFalsy();
   });
 
   it("should return true if product have stock level status other than 'notOrderable'", () => {
     expect(
-      service.isProductInCatalogue(productWithOrdinaryStockLevelStatus)
+      service.isProductInCatalog(productWithOrdinaryStockLevelStatus)
     ).toBeTruthy();
   });
 
   it('should return true if product does not have stock level status', () => {
     expect(
-      service.isProductInCatalogue(productWithoutStockLevelStatus)
+      service.isProductInCatalog(productWithoutStockLevelStatus)
     ).toBeTruthy();
   });
 });

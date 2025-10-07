@@ -4,4 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './s4om-product-catalogue.service';
+export * from './s4om-product-catalog.service';

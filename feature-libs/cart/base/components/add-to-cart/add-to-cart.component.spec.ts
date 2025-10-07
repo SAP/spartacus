@@ -15,7 +15,7 @@ import {
   I18nTestingModule,
   Product,
   ProductAvailabilityAdapter,
-  ProductCatalogueService,
+  ProductCatalogService,
 } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -124,9 +124,9 @@ class MockEventService implements Partial<EventService> {
   dispatch<T extends object>(_event: T): void {}
 }
 
-const mockProductCatalogueService = {
+const mockProductCatalogService = {
   // @ts-ignore
-  isProductInCatalogue: (product?: Product) => false,
+  isProductInCatalog: (product?: Product) => false,
 };
 
 describe('AddToCartComponent', () => {
@@ -169,8 +169,8 @@ describe('AddToCartComponent', () => {
           useClass: MockProductAvailabilityAdapter,
         },
         {
-          provide: ProductCatalogueService,
-          useValue: mockProductCatalogueService,
+          provide: ProductCatalogService,
+          useValue: mockProductCatalogService,
         },
       ],
     });

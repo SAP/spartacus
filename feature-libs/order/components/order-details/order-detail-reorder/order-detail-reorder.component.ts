@@ -18,7 +18,7 @@ import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
-import { ProductCatalogueService } from '@spartacus/core';
+import { ProductCatalogService } from '@spartacus/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 
 @Component({
@@ -28,7 +28,7 @@ import { OrderEntry } from '@spartacus/cart/base/root';
   standalone: false,
 })
 export class OrderDetailReorderComponent implements OnInit, OnDestroy {
-  protected productCatalogueService = inject(ProductCatalogueService);
+  protected productCatalogService = inject(ProductCatalogService);
 
   constructor(
     protected orderDetailsService: OrderDetailsService,
@@ -49,7 +49,7 @@ export class OrderDetailReorderComponent implements OnInit, OnDestroy {
         (order) =>
           order &&
           !order.entries?.some((entry: OrderEntry) =>
-            this.productCatalogueService.isProductInCatalogue(entry.product)
+            this.productCatalogService.isProductInCatalog(entry.product)
           )
       )
     );

@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
   Product,
-  ProductCatalogueService,
+  ProductCatalogService,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
@@ -45,9 +45,9 @@ class MockOrderDetailsService {
   }
 }
 
-class MockProductCatalogueService {
+class MockProductCatalogService {
   // @ts-ignore
-  isProductInCatalogue(product?: Product) {
+  isProductInCatalog(product?: Product) {
     return false;
   }
 }
@@ -71,8 +71,8 @@ describe('Order detail reorder component', () => {
           useClass: MockOrderDetailsService,
         },
         {
-          provide: ProductCatalogueService,
-          useClass: MockProductCatalogueService,
+          provide: ProductCatalogService,
+          useClass: MockProductCatalogService,
         },
       ],
     }).compileComponents();

@@ -14,7 +14,7 @@ import {
   FeatureConfigService,
   I18nTestingModule,
   Product,
-  ProductCatalogueService,
+  ProductCatalogService,
   UserIdService,
 } from '@spartacus/core';
 import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
@@ -119,9 +119,9 @@ class MockFeatureConfigService {
   }
 }
 
-const mockProductCatalogueService = {
+const mockProductCatalogService = {
   // @ts-ignore
-  isProductInCatalogue: (product?: Product) => true,
+  isProductInCatalog: (product?: Product) => true,
 };
 
 describe('CartItemListComponent', () => {
@@ -146,8 +146,8 @@ describe('CartItemListComponent', () => {
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
-          provide: ProductCatalogueService,
-          useValue: mockProductCatalogueService,
+          provide: ProductCatalogService,
+          useValue: mockProductCatalogService,
         },
       ],
     });
@@ -415,7 +415,7 @@ describe('CartItemListComponent', () => {
       component.options = mockContext.options;
       expect(component.getOptions(mockItem0)).toBe(component.options);
       // @ts-ignore
-      mockProductCatalogueService.isProductInCatalogue = (product?: Product) =>
+      mockProductCatalogService.isProductInCatalog = (product?: Product) =>
         false;
       expect(component.getOptions(mockItem0)).toEqual({
         ...component.options,
