@@ -206,7 +206,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       expect(arg.name).toEqual(newTextForTitle1);
     });
 
-    fit('should emit edit event with an edited name, description and disabling edit mode', () => {
+    it('should emit edit event with an edited name, description and disabling edit mode', () => {
       const newTextForTitle1: any = 'New title for name';
       const newTextForTitle2: any = 'Here could be found a long description';
       const newPoNumber: any = 'PO67890';
