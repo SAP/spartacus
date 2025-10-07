@@ -179,7 +179,7 @@ export class OpfCheckoutPaymentWrapperService {
         .loadResources(
           config.dynamicScript.jsUrls,
           config.dynamicScript.cssUrls,
-          paymentOptionId || undefined
+          paymentOptionId
         )
         .then(() => {
           this.renderPaymentMethodEvent$.next({

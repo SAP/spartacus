@@ -7,35 +7,35 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Input,
   OnDestroy,
   OnInit,
   ViewContainerRef,
-  inject,
 } from '@angular/core';
 import {
   DomSanitizer,
   SafeHtml,
   SafeResourceUrl,
 } from '@angular/platform-browser';
-import { CurrencyService, LanguageService } from '@spartacus/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { CurrencyService, LanguageService } from '@spartacus/core';
 import {
   OpfGlobalFunctionsDomain,
   OpfGlobalFunctionsFacade,
 } from '@spartacus/opf/global-functions/root';
 import {
+  OpfPaymentEventsService,
   OpfPaymentRenderPattern,
   OpfPaymentSessionData,
-  OpfPaymentEventsService,
 } from '@spartacus/opf/payment/root';
 import { merge, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
+  filter,
   skip,
   switchMap,
   take,
-  filter,
 } from 'rxjs/operators';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 
@@ -128,14 +128,14 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   }
 
   protected handleReinitiatePayment(paymentOptionId?: number): void {
-    const idToUse = paymentOptionId || this.selectedPaymentId;
+    const idToUse = paymentOptionId ?? this.selectedPaymentId;
     if (idToUse) {
       this.initiatePaymentMode(idToUse);
     }
   }
 
   protected initiatePaymentMode(paymentOptionId?: number): void {
-    const idToUse = paymentOptionId || this.selectedPaymentId;
+    const idToUse = paymentOptionId ?? this.selectedPaymentId;
     this.sub.add(
       this.service.initiatePayment(idToUse).subscribe({
         next: (paymentSessionData) => {

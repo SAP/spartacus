@@ -18,5 +18,4 @@ import { SubscriptionListModule } from './list/subscription-list.module';
     SubscriptionProductUsageChargeModule,
   ],
 })
-export class SubscriptionBillingComponentsModule {
-}
+export class SubscriptionBillingComponentsModule {}
