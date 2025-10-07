@@ -22,7 +22,7 @@
 
 import { assign, parse, stringify } from 'comment-json';
 import fs from 'fs';
-import glob from 'glob';
+import { globSync } from 'glob';
 import path from 'path';
 import { SPARTACUS_SCHEMATICS, SPARTACUS_SCOPE } from './const';
 import {
@@ -219,7 +219,7 @@ function updateTestTsConfig(
   entryPoints: Record<string, string[]>,
   options: ProgramOptions
 ): boolean {
-  const schematicsTsConfigPaths = glob.sync(path);
+  const schematicsTsConfigPaths = globSync(path);
   if (!schematicsTsConfigPaths.length) {
     return false;
   }
@@ -242,7 +242,7 @@ function handleLibConfigs(
   }
   let showAllGood = true;
   Object.values(libraries).forEach((library) => {
-    const libraryTsConfigPaths = glob.sync(
+    const libraryTsConfigPaths = globSync(
       `${library.directory}/tsconfig.lib.json`
     );
     if (libraryTsConfigPaths.length) {

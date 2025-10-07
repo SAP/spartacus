@@ -145,7 +145,7 @@ context('Product Configuration', () => {
         );
       });
 
-      it('should support the conflict solving process', () => {
+      function prepareConflict() {
         configurationVc.clickOnNextBtnAndWait(
           PROJECTOR,
           commerceRelease.isPricingEnabled
@@ -172,7 +172,10 @@ context('Product Configuration', () => {
           1,
           commerceRelease.isPricingEnabled
         );
+      }
 
+      it('should support the conflict solving process', () => {
+        prepareConflict();
         configurationVc.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
         configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
         configurationVc.deselectConflictingValueAndWait(
@@ -195,7 +198,7 @@ context('Product Configuration', () => {
         // Navigate to a conflict group via clicking on 'Conflict Detected' link
 
         configurationVc.checkViewInConfigurationLinkDisplayed(GAMING_CONSOLE);
-        // Only perform this piece if backend allows to bavigate from attribute group to conflict group
+        // Only perform this piece if backend allows to navigate from attribute group to conflict group
         if (commerceRelease.isAtLeast2211) {
           configurationVc.clickOnConflictDetectedAndWait(GAMING_CONSOLE);
           configuration.checkCurrentGroupActive(CONFLICT_FOR_GAMING_CONSOLE);
@@ -221,32 +224,7 @@ context('Product Configuration', () => {
       });
 
       it('should display a success message on conflict resolution (CXSPA-2374)', () => {
-        configurationVc.clickOnNextBtnAndWait(
-          PROJECTOR,
-          commerceRelease.isPricingEnabled
-        );
-        configurationVc.selectAttributeAndWait(
-          PROJECTOR_TYPE,
-          radioGroup,
-          PROJECTOR_LCD,
-          commerceRelease.isPricingEnabled
-        );
-        configurationVc.clickOnPreviousBtnAndWait(
-          GENERAL,
-          commerceRelease.isPricingEnabled
-        );
-        configurationVc.clickOnGroupAndWait(
-          3,
-          commerceRelease.isPricingEnabled
-        );
-
-        configurationVc.selectConflictingValueAndWait(
-          GAMING_CONSOLE,
-          radioGroup,
-          GAMING_CONSOLE_YES,
-          1,
-          commerceRelease.isPricingEnabled
-        );
+        prepareConflict();
         configurationVc.checkGlobalMessageNotDisplayed();
         configurationVc.deselectConflictingValueAndWait(
           GAMING_CONSOLE,

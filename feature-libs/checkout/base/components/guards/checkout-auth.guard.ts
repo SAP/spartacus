@@ -67,17 +67,13 @@ export class CheckoutAuthGuard {
         );
       }
       return this.router.parseUrl(this.semanticPathService.get('login') ?? '');
+    } else if (this.checkoutConfigService.isGuestCheckout()) {
+      return this.router.createUrlTree(
+        [this.semanticPathService.get('login')],
+        { queryParams: { forced: true } }
+      );
     } else {
-      if (this.checkoutConfigService.isGuestCheckout()) {
-        return this.router.createUrlTree(
-          [this.semanticPathService.get('login')],
-          { queryParams: { forced: true } }
-        );
-      } else {
-        return this.router.parseUrl(
-          this.semanticPathService.get('login') ?? ''
-        );
-      }
+      return this.router.parseUrl(this.semanticPathService.get('login') ?? '');
     }
   }
 }

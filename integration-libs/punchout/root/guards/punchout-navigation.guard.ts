@@ -43,17 +43,19 @@ export class PunchoutNavigationGuard {
       this.routingConfigService.getRouteName(relativeUrl);
     return this.getPunchoutOperation(cxRoute).pipe(
       map((punchoutOperation: PunchOutOperation | undefined) => {
-        const canActivate =
-          !punchoutOperation ||
-          this.isAllowedCxRoute(cxRoute, punchoutOperation) ||
-          this.isAllowedUrls(route, punchoutOperation, relativeUrl);
-        if (!canActivate) {
+        if (
+          punchoutOperation &&
+          !this.isAllowedCxRoute(cxRoute, punchoutOperation) &&
+          !this.isAllowedUrls(route, punchoutOperation, relativeUrl)
+        ) {
           this.handleWarning();
           this.routingService.go(
             this.config.punchoutNavigation?.[punchoutOperation]?.redirectPage
           );
+          return false;
         }
-        return canActivate;
+
+        return true;
       })
     );
   }

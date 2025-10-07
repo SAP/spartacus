@@ -49,7 +49,7 @@ export class CmsLcpService {
    */
   getLcpPresence(componentData: CmsComponent): Observable<LcpPresence> {
     const idMarker = this.config?.lcpCmsComponents?.idMarker;
-    const ids = this.config?.lcpCmsComponents?.ids || [];
+    const ids = this.config?.lcpCmsComponents?.ids ?? [];
 
     // Check if ID contains a special marker
     if (idMarker && componentData?.uid?.includes(idMarker)) {
