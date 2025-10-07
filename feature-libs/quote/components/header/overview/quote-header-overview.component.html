@@ -19,7 +19,7 @@
         <ng-container *ngIf="!editMode">
           <cx-card
             [content]="
-              getQuoteInformation(quoteDetails.name, quoteDetails.description)
+              getQuoteInformation(quoteDetails.name, quoteDetails.description, quoteDetails.sapPurchaseOrderNumber)
                 | async
             "
             [truncateParagraphText]="true"
@@ -38,10 +38,11 @@
         <cx-quote-header-buyer-edit
           *ngIf="editMode"
           [content]="
-            getEditQuoteInformation(quoteDetails.name, quoteDetails.description)
+            getEditQuoteInformation(quoteDetails.name, quoteDetails.description, quoteDetails.sapPurchaseOrderNumber)
           "
           (saveCard)="save(quoteDetails, $event)"
           (cancelCard)="cancel()"
+          [enablePurchaseOrderNumber]="enablePurchaseOrderNumber"
         ></cx-quote-header-buyer-edit>
       </div>
       <div class="cx-summary-card">

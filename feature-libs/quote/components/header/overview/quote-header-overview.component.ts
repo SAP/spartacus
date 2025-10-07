@@ -5,7 +5,7 @@
  */
 
 import { Component, inject } from '@angular/core';
-import { EventService, TranslationService } from '@spartacus/core';
+import { EventService, FeatureToggles, TranslationService } from '@spartacus/core';
 import {
   Quote,
   QuoteAction,
@@ -33,6 +33,7 @@ export class QuoteHeaderOverviewComponent {
   protected eventService = inject(EventService);
   protected translationService = inject(TranslationService);
   protected quoteUIConfig = inject(QuoteUIConfig);
+  protected featureToggles = inject(FeatureToggles);
 
   protected static NO_DATA = '-';
   protected static CHARACTERS_LIMIT = 255;
@@ -41,16 +42,18 @@ export class QuoteHeaderOverviewComponent {
   quoteDetails$: Observable<Quote> = this.quoteFacade.getQuoteDetails();
   iconTypes = ICON_TYPE;
   editMode = false;
+  enablePurchaseOrderNumber = this.featureToggles.enableQuotePurchaseOrderNumber;
 
   protected defineQuoteMetaData(event: SaveEvent): QuoteMetadata {
     let metaData: QuoteMetadata = {};
     if (Object.getOwnPropertyNames(event).length >= 1) {
-      const [name, description] = [event.name, event.description];
+      const [name, description, purchaseOrderNumber] = [event.name, event.description, event.purchaseOrderNumber];
 
       metaData = {
         ...metaData,
         ...(event.name && { name }),
         ...{ description },
+        ...(event.purchaseOrderNumber && { sapPurchaseOrderNumber: purchaseOrderNumber }),
       };
     }
     return metaData;
@@ -107,13 +110,14 @@ export class QuoteHeaderOverviewComponent {
    * @param description - Quote description
    * @returns Observable emitting a card content
    */
-  getQuoteInformation(name?: string, description?: string): Observable<Card> {
+  getQuoteInformation(name?: string, description?: string, purchaseOrderNumber?: string): Observable<Card> {
     return combineLatest([
       this.translationService.translate('quote.header.overview.information'),
       this.translationService.translate('quote.header.overview.name'),
       this.translationService.translate('quote.header.overview.description'),
+      this.translationService.translate('quote.header.overview.purchaseOrderNumber'),
     ]).pipe(
-      map(([infoTitle, nameTitle, descriptionTitle]) => {
+      map(([infoTitle, nameTitle, descriptionTitle, purchaseOrderNumberTitle]) => {
         return {
           title: infoTitle,
           paragraphs: [
@@ -125,6 +129,10 @@ export class QuoteHeaderOverviewComponent {
               title: descriptionTitle,
               text: [description ?? QuoteHeaderOverviewComponent.NO_DATA],
             },
+            ...(this.enablePurchaseOrderNumber ? [{
+              title: purchaseOrderNumberTitle,
+              text: [purchaseOrderNumber ?? QuoteHeaderOverviewComponent.NO_DATA],
+            }] : []),
           ],
         };
       })
@@ -138,11 +146,12 @@ export class QuoteHeaderOverviewComponent {
    * @param description - Quote description
    * @returns Observable emitting an edit card content
    */
-  getEditQuoteInformation(name: string, description: string): EditCard {
+  getEditQuoteInformation(name: string, description: string, purchaseOrderNumber?: string): EditCard {
     return {
       name: name,
       description: description,
       charactersLimit: QuoteHeaderOverviewComponent.CHARACTERS_LIMIT,
+      ...(this.enablePurchaseOrderNumber && purchaseOrderNumber ? { purchaseOrderNumber } : {} ),
     };
   }
 

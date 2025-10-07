@@ -12,6 +12,7 @@ import {
 const mockCard: EditCard = {
   name: 'Quote name',
   description: 'Here you could enter a long description for the current quote',
+  purchaseOrderNumber: 'PO12345',
   charactersLimit: 255,
 };
 
@@ -43,6 +44,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
     component.content = mockCard;
     fixture.detectChanges();
 
+    component.enablePurchaseOrderNumber = true;
     spyOn(component.saveCard, 'emit').and.callThrough();
     spyOn(component.cancelCard, 'emit').and.callThrough();
   });
@@ -85,28 +87,28 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       expect,
       htmlElem,
       '.cx-card-paragraph',
-      2
+      3
     );
 
     CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
       '.cx-card-paragraph-title',
-      2
+      3
     );
 
     CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
       '.form-group',
-      2
+      3
     );
 
     CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
       expect,
       htmlElem,
       'input',
-      1
+      2
     );
 
     CommonQuoteTestUtilsService.expectNumberOfElementsPresent(
@@ -121,6 +123,14 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       htmlElem,
       '.cx-card-paragraph-title',
       'quote.header.overview.description',
+      1
+    );
+
+    CommonQuoteTestUtilsService.expectElementToContainText(
+      expect,
+      htmlElem,
+      '.cx-card-paragraph-title',
+      'quote.header.overview.purchaseOrderNumber',
       1
     );
 
@@ -196,13 +206,17 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       expect(arg.name).toEqual(newTextForTitle1);
     });
 
-    it('should emit edit event with an edited name, description and disabling edit mode', () => {
+    fit('should emit edit event with an edited name, description and disabling edit mode', () => {
       const newTextForTitle1: any = 'New title for name';
       const newTextForTitle2: any = 'Here could be found a long description';
+      const newPoNumber: any = 'PO67890';
+      component.ngOnInit();
       component.editForm.get('name')?.setValue(newTextForTitle1);
       component.editForm.get('name')?.markAsDirty();
       component.editForm.get('description')?.setValue(newTextForTitle2);
       component.editForm.get('description')?.markAsDirty();
+      component.editForm.get('purchaseOrderNumber')?.setValue(newPoNumber);
+      component.editForm.get('purchaseOrderNumber')?.markAsDirty();
       fixture.detectChanges();
       const saveButton = CommonQuoteTestUtilsService.getHTMLElement(
         htmlElem,
@@ -211,9 +225,10 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       saveButton.click();
       expect(component.saveCard.emit).toHaveBeenCalled();
       let arg: any = (component.saveCard.emit as any).calls.mostRecent()
-        .args[0];
+          .args[0];
       expect(arg.name).toEqual(newTextForTitle1);
       expect(arg.description).toEqual(newTextForTitle2);
+      expect(arg.purchaseOrderNumber).toEqual(newPoNumber);
     });
   });
 
