@@ -10,3 +10,4 @@ export * from './occ-order.adapter';
 export * from './occ-replenishment-order-history.adapter';
 export * from './occ-scheduled-replenishment-order.adapter';
 export * from './occ-order-attachments.adapter';
+export * from './occ-order-document-flow.adapter';

@@ -35,7 +35,6 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import {
-  OrderAttachmentsConfig,
   OrderDocumentFlowFacade,
   SapOrderSubsequentDocument,
   SapOrderSubsequentDocumentEntry,
@@ -49,7 +48,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   standalone: false,
 })
 export class OrderDocumentFlowDialogComponent {
-  protected config = inject(OrderAttachmentsConfig);
   protected launchDialogService = inject(LaunchDialogService);
   protected orderDocumentFlowFacade = inject(OrderDocumentFlowFacade);
   protected translation = inject(TranslationService);
