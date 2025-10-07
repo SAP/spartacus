@@ -20,10 +20,12 @@
           <input
             #poNumber
             class="form-control"
+            id="poNumberInput"
             formControlName="poNumber"
             type="text"
             placeholder="{{ 'checkoutB2B.placeholder' | cxTranslate }}"
             value="{{ cartPoNumber$ | async }}"
+            [readOnly]="poNumberFeatureToggle && (isPONumberInputNonEditable | async)"
           />
         </label>
       </div>
