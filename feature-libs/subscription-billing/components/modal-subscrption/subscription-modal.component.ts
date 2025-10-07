@@ -35,9 +35,9 @@ import { RouterModule } from '@angular/router';
 import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'cx-subscription-cancel',
+  selector: 'cx-subscription-modal',
   standalone: true,
-  templateUrl: './subscription-cancel.component.html',
+  templateUrl: './subscription-modal.component.html',
   imports: [
     CommonModule,
     CardModule,
@@ -49,7 +49,7 @@ import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
     SpinnerModule,
   ],
 })
-export class SubscriptionCancelComponent {
+export class SubscriptionModalComponent {
   // === Inject services ===
   private cancelFacade = inject(CancelSubscriptionFacade);
   private globalMessageService = inject(GlobalMessageService);

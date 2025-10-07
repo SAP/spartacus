@@ -4,7 +4,7 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { SubscriptionCancelComponent } from './subscription-cancel.component';
+import { SubscriptionModalComponent } from './subscription-modal.component';
 import { Observable, of, throwError } from 'rxjs';
 import {
   CancelSubscriptionFacade,
@@ -22,9 +22,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { signal } from '@angular/core';
 
-describe('SubscriptionCancelComponent', () => {
-  let component: SubscriptionCancelComponent;
-  let fixture: ComponentFixture<SubscriptionCancelComponent>;
+describe('SubscriptionModalComponent', () => {
+  let component: SubscriptionModalComponent;
+  let fixture: ComponentFixture<SubscriptionModalComponent>;
 
   const mockCancelData: CancelData = { subscriptionEndAt: '2025-12-31' };
 
@@ -82,7 +82,7 @@ describe('SubscriptionCancelComponent', () => {
     mockEventService = jasmine.createSpyObj('EventService', ['dispatch']);
 
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, SubscriptionCancelComponent],
+      imports: [RouterTestingModule, SubscriptionModalComponent],
       providers: [
         provideMockStore(),
         { provide: CancelSubscriptionFacade, useValue: mockCancelFacade },
@@ -94,7 +94,7 @@ describe('SubscriptionCancelComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SubscriptionCancelComponent);
+    fixture = TestBed.createComponent(SubscriptionModalComponent);
     component = fixture.componentInstance;
 
     (component as any).cancelData = signal(mockCancelData);
@@ -219,7 +219,7 @@ describe('SubscriptionCancelComponent', () => {
         throwError(() => new Error('Load Cancel Data Error'))
       );
 
-      fixture = TestBed.createComponent(SubscriptionCancelComponent);
+      fixture = TestBed.createComponent(SubscriptionModalComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
       tick();
