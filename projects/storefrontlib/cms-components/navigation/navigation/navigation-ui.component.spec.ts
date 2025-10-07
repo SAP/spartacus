@@ -341,7 +341,7 @@ describe('Navigation UI Component', () => {
       expect(element.queryAll(By.css('li.is-opened')).length).toBe(0);
 
       expect(navigationComponent.reinitializeMenu).toHaveBeenCalledWith();
-      expect(hamburgerMenuService.toggle).toHaveBeenCalledWith();
+      expect(hamburgerMenuService.toggle).toHaveBeenCalledWith(true);
     });
 
     it('should remove topmost semantic list roles for non-flyout navigation', () => {

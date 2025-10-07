@@ -9,25 +9,25 @@ import { agentLoginForJDK21, login } from '../../../helpers/auth-forms';
 import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
 import { signOutUser } from '../../../helpers/login';
 import * as savedCart from '../../../helpers/saved-cart';
-import * as sampleData from '../../../sample-data/saved-cart';
 import {
-  getB2CAgent,
   getASMB2CCustomer,
   getASMB2CCustomer2,
+  getB2CAgent,
   getProductCode,
   getTicketDetails,
 } from '../../../sample-data/asm-flow';
+import * as sampleData from '../../../sample-data/saved-cart';
 import { visitLoginPage } from '../../../support/utils/login';
 
 import {
+  doPlaceOrderForB2CCustomer,
+  doPlaceOrderForB2CCustomerForJDK21,
   emulateExistedCustomerPrepare,
   getCurrentCartIdAndAddProducts,
   getCustomerId,
   getCustomerIdForJDK21,
   getInactiveCartIdAndAddProducts,
   getInactiveCartIdAndAddProductsForJDK21,
-  doPlaceOrderForB2CCustomer,
-  doPlaceOrderForB2CCustomerForJDK21,
 } from '../../../helpers/asm';
 
 import { waitForPage } from '../../../helpers/navigation';
@@ -888,8 +888,11 @@ context('Assisted Service Module', () => {
               activeCartId
             );
 
-            cy.get('cx-asm-main-ui').should('exist');
-            cy.get('cx-asm-main-ui').should('be.visible');
+            cy.log('--> Should navigate to current cart page');
+            cy.get('.cart-details-wrapper .cx-total').should(
+              'have.text',
+              `  Cart #${activeCartId} `
+            );
 
             cy.url().should('contain', '/cart');
           });
@@ -1092,6 +1095,16 @@ context('Assisted Service Module', () => {
             ).should('have.value', inactiveCartId);
             cy.get('cx-asm-main-ui cx-message').should('exist');
 
+            cy.log(
+              '--> Should has assign inactive cart to input and display alert info'
+            );
+            cy.get('.cx-asm-assignCart', { timeout: 15000 }).should('exist');
+            cy.get('button[id=asm-save-inactive-cart-btn]').should('exist');
+            cy.get(
+              'cx-customer-emulation input[formcontrolname="cartNumber"]'
+            ).should('have.value', inactiveCartId);
+            cy.get('cx-asm-main-ui cx-message').should('exist');
+
             cy.log('--> Click save button the dialog shold display');
             cy.get('button[id=asm-save-inactive-cart-btn]').click();
             cy.get('cx-asm-save-cart-dialog').should('exist');
@@ -1105,10 +1118,6 @@ context('Assisted Service Module', () => {
             cy.get('button[id=asm-save-cart-dialog-btn]')
               .should('be.enabled')
               .click();
-
-            cy.log(
-              '--> Click save button will navigate to the cart detail page'
-            );
 
             cy.get('.cx-card-label').should('contain', inactiveCartId);
             cy.get('cx-saved-cart-details-action .btn-primary').should(

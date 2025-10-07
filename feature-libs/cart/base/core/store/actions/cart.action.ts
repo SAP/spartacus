@@ -178,7 +178,9 @@ interface MergeCartPayload {
   tempCartId: string;
 }
 /**
- * @deprecated since 2211.44. Use the new MergeCartAndIncrementProcessesCount instead.
+ * @deprecated since 221121.1
+ * Use the new MergeCartAndIncrementProcessesCount instead.
+ * @see MergeCartAndIncrementProcessesCount
  */
 export class MergeCart implements Action {
   readonly type = MERGE_CART;

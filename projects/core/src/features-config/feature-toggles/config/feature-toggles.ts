@@ -685,6 +685,15 @@ export interface FeatureTogglesInterface {
   defaultLayoutConfigWithoutPageFold?: boolean;
 
   /**
+   * When this feature toggle is enabled, the navigation menu will close when clicking on the same link.
+   *
+   * This is to improve the user experience on mobile devices, where the menu remains open
+   * after clicking on a link that navigates to the same page.
+   * Affects: `NavigationUIComponent`
+   */
+  navigationMenuCloseOnSameLinkClick?: boolean;
+  
+  /**
    * shows the Quote Purchase Order Number input field in the Quote Request form
    * and in the Quote Details page
    *
@@ -783,5 +792,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: false,
   defaultLayoutConfigWithoutPageFold: false,
+  navigationMenuCloseOnSameLinkClick: false,
   enableQuotePurchaseOrderNumber: false,
 };
