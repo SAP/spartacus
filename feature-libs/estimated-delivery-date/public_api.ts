@@ -9,4 +9,3 @@
  */
 export * from './estimated-delivery-date.module';
 export * from './show-estimated-delivery-date/public_api';
-export * from './assets/public_api';

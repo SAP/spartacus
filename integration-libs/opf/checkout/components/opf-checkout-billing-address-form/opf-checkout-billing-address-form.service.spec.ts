@@ -269,6 +269,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
 
     expect(service.setBillingAddress).not.toHaveBeenCalled();
   });
+
   it('should return an observable from pickupNoDefaultAddress$', () => {
     spyOn(mockPickupNoDefaultAddress$, 'asObservable').and.callThrough();
 
@@ -289,6 +290,7 @@ describe('OpfCheckoutBillingAddressFormService', () => {
     });
     (service as any).handleNoDefaultAddress();
   });
+
   it('should handle error when setting default billing address fails', fakeAsync(() => {
     spyOn(mockActiveCartFacade, 'hasDeliveryItems').and.returnValue(of(false));
     spyOn(mockUserAddressService, 'getDefaultAddress').and.returnValue(
