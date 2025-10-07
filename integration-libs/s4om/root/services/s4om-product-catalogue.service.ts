@@ -21,6 +21,10 @@ export class S4omProductCatalogueService extends ProductCatalogueService {
    * @return true if product is present in catalogue, false otherwise
    */
   isProductInCatalogue(product?: Product): boolean {
+    if (!product) {
+      return false;
+    }
+
     const stockLevelStatus = product?.stock?.stockLevelStatus;
 
     if (!stockLevelStatus) {
