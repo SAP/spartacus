@@ -692,7 +692,7 @@ export interface FeatureTogglesInterface {
    * Affects: `NavigationUIComponent`
    */
   navigationMenuCloseOnSameLinkClick?: boolean;
-  
+
   /**
    * shows the Quote Purchase Order Number input field in the Quote Request form
    * and in the Quote Details page
