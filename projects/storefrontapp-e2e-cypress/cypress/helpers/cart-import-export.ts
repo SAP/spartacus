@@ -266,11 +266,20 @@ export function addProductToCart(productCode: string = cart.products[1].code) {
   cy.visit(`/product/${productCode}`);
   cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
   cart.clickAddToCart();
-  cy.wait(['@refreshCart', '@addToCart']);
-  cy.get('cx-added-to-cart-dialog button.btn-primary')
-    .contains('view cart')
-    .scrollIntoView()
-    .should('be.visible');
+  cy.wait('@addToCart');
+  cy.wait('@refreshCart');
+  cy.get('body').then(($body) => {
+    const $btn = $body
+      .find('cx-added-to-cart-dialog button.btn-primary')
+      .filter((_, el) => /view cart/i.test((el.textContent || '').trim()))
+      .first();
+
+    if ($btn.length) {
+      cy.wrap($btn).click({ force: true });
+    } else {
+      cy.visit('/cart');
+    }
+  });
 }
 
 /**

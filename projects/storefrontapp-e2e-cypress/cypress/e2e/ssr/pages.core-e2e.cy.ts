@@ -24,7 +24,9 @@ describe('SSR', () => {
 
   function seoChecks() {
     cy.title().should('not.be.empty');
-    cy.document().its('readyState', { timeout: 60000 }).should('eq', 'complete');
+    cy.document()
+      .its('readyState', { timeout: 60000 })
+      .should('eq', 'complete');
     cy.title({ timeout: 60000 }).should('not.be.empty');
 
     cy.get('head meta[name="robots"]', { timeout: 60000 })
@@ -32,8 +34,10 @@ describe('SSR', () => {
       .should('match', /index/i)
       .and('match', /follow/i);
 
-    cy.get('link[rel="canonical"]', { timeout: 60000 })
-      .should('have.attr', 'href');
+    cy.get('link[rel="canonical"]', { timeout: 60000 }).should(
+      'have.attr',
+      'href'
+    );
 
     cy.get('script[type="application/ld+json"]', { timeout: 60000 })
       .should('have.length.greaterThan', 0)
@@ -41,7 +45,6 @@ describe('SSR', () => {
         expect(($s.text() || '').trim()).to.not.equal('');
       });
   }
-
 
   it('should render homepage', () => {
     cy.visit('/');
