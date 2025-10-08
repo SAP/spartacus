@@ -107,7 +107,6 @@ export class OccSubscriptionBillingAdapter
       numberOfBillingCycles: durationInMonth,
       unlimited,
     }
-    console.log('extendSubscription requestBody', requestBody, url);
     return this.http
       .post<any>(url, requestBody)
       .pipe(

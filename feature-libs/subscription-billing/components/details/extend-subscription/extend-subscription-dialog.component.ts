@@ -45,7 +45,7 @@ export class ExtendSubscriptionDialog {
     ngOnInit(): void {
         this.launchDialogService.data$.subscribe((data) => {
             this.subscriptionContractFrequency = data;
-            let maxOptions = this.extendFrequencyMaxOptions[data] + 1; // +1 to include the unlimited duration option
+            const maxOptions = this.extendFrequencyMaxOptions[data] + 1; // +1 to include the unlimited duration option
             this.extendDurationOptions = Array.from(
                 { length: maxOptions },
                 (_, i) => (i + 1 === maxOptions ? this.UNLIMITED_DURATION :
@@ -68,7 +68,7 @@ export class ExtendSubscriptionDialog {
     }
 
     onConfirmExtendSubscription(): void {
-        let confirmedExtendDuration = this.isUnlimitedDurationSelected ? UNLIMITED_EXTEND_DURATION_OPTION_VALUE : this.extendDuration;
+        const confirmedExtendDuration = this.isUnlimitedDurationSelected ? UNLIMITED_EXTEND_DURATION_OPTION_VALUE : this.extendDuration;
         this.subscriptionBillingService.extendSubscription(
             confirmedExtendDuration,
             this.isUnlimitedDurationSelected
@@ -87,12 +87,12 @@ export class ExtendSubscriptionDialog {
     }
 
     onExtendDurationChange(durationSelected: string): void {
-        let duration = durationSelected.split(' ')[0];
+        const duration = durationSelected.split(' ')[0];
         if (duration === this.UNLIMITED_DURATION) {
             this.isUnlimitedDurationSelected = true;
         } else {
             this.isUnlimitedDurationSelected = false;
-            this.extendDuration = parseInt(duration);
+            this.extendDuration = parseInt(duration, 10);
         }
     }
 

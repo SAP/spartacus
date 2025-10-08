@@ -5,7 +5,6 @@
  */
 
 import { PaginationModel, SortModel } from '@spartacus/core';
-import { LAUNCH_CALLER } from '@spartacus/storefront';
 import { PricePlan } from './subscription-product.model';
 
 export interface SubscriptionDetail {
@@ -46,10 +45,3 @@ export interface SubscriptionExtensionEffectiveDate {
 }
 
 export const UNLIMITED_EXTEND_DURATION_OPTION_VALUE = 0;
-
-declare module '@spartacus/storefront' {
-  enum LAUNCH_CALLER {
-    EXTEND_SUBSCRIPTION = 'EXTEND_SUBSCRIPTION',
-  }
-}
-(LAUNCH_CALLER as any)['EXTEND_SUBSCRIPTION'] = 'EXTEND_SUBSCRIPTION';

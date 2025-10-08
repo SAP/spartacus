@@ -45,7 +45,7 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
         }),
         tap(([subscription, _]) => {
           this.subscriptionContractFrequency =
-            subscription?.contractFrequency || '';
+            subscription?.contractFrequency ?? '';
         })
       )
       .subscribe();
