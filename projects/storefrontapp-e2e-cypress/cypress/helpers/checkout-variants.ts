@@ -164,7 +164,11 @@ export function testCheckoutVariantAsGuestAndVerifyCart() {
         .should('eq', 200);
 
       cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-      cy.get('cx-mini-cart .count').contains('1');
+      cy.get('cx-mini-cart .count', { timeout: 60000 })
+        .should('be.visible')
+        .should(($el) => {
+          expect($el.text().trim()).to.eq('1');
+        });
 
       checkout.signOut();
 
@@ -173,7 +177,11 @@ export function testCheckoutVariantAsGuestAndVerifyCart() {
       login(variantUser.email, variantUser.password);
 
       cy.get('cx-login div.cx-login-greet').should('exist');
-      cy.get('cx-mini-cart .count').contains('1');
+      cy.get('cx-mini-cart .count', { timeout: 60000 })
+        .should('be.visible')
+        .should(($el) => {
+          expect($el.text().trim()).to.eq('1');
+        });
 
       const cartPage = waitForPage('/cart', 'getCartPage');
       cy.get('cx-mini-cart').click();
