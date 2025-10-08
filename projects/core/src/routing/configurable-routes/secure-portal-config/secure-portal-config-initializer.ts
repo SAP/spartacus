@@ -6,7 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import { Observable, lastValueFrom } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
 import { ConfigInitializerService } from '../../../config/config-initializer/config-initializer.service';
 import { BaseSite } from '../../../model/misc.model';
@@ -29,20 +29,16 @@ export class SecurePortalConfigInitializer implements ConfigInitializer {
    * Completes after emitting the value.
    */
   protected resolveConfig(): Observable<RoutingConfig> {
-    return this.configInit.getStable('context').pipe(
-      switchMap((_config) => {
-        return this.baseSiteService.get().pipe(
-          tap((baseSite) => {
-            if (!baseSite) {
-              throw new Error(
-                `Error: Cannot get current base site config .`
-              );
-            }
-          }),
-          map((baseSite) => this.getRoutingConfig(baseSite)),
-          take(1)
-        );
-      })
+    return this.baseSiteService.get().pipe(
+      tap((baseSite) => {
+        if (!baseSite) {
+          throw new Error(
+            `Error: Cannot get current base site config .`
+          );
+        }
+      }),
+      map((baseSite) => this.getRoutingConfig(baseSite)),
+      take(1)
     );
   }
 
