@@ -7,11 +7,12 @@ import {
 import { SubscriptionDetailsComponent } from './subscription-details.component';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
+  EXTENDED_LAUNCH_CALLER,
   SubscriptionBillingFacade,
   SubscriptionDetail,
 } from '@spartacus/subscription-billing/root';
 import { Pipe, PipeTransform } from '@angular/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { LaunchDialogService } from '@spartacus/storefront';
 const routerParam$: BehaviorSubject<{
   [key: string]: string;
 }> = new BehaviorSubject({});
@@ -112,7 +113,7 @@ describe('SubscriptionDetailsComponent', () => {
     component.showSubscriptionDialog(mode);
 
     expect(openDialogSpy).toHaveBeenCalledWith(
-      LAUNCH_CALLER.SUBSCRIPTION_CONFIRMATION,
+      EXTENDED_LAUNCH_CALLER.SUBSCRIPTION_CONFIRMATION,
       component.cancelTriggerEl,
       {
         ...subscription,
