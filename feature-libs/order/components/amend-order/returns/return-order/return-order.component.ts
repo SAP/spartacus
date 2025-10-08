@@ -7,10 +7,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { Observable, combineLatest } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
-import { OrderAmendService } from '../../amend-order.service';
 import { Consignment } from '@spartacus/order/root';
+import { Observable, combineLatest, map, tap } from 'rxjs';
+import { OrderAmendService } from '../../amend-order.service';
 
 @Component({
   selector: 'cx-return-order',
@@ -36,7 +35,7 @@ export class ReturnOrderComponent {
     map(([entries, consignments]) => {
       // Flatten all consignment entries
       const consignmentEntries = consignments.flatMap(
-        (consignment) => consignment.entries || []
+        (consignment) => consignment.entries ?? []
       );
       return entries
         .map<OrderEntry | null>((entry) => {
