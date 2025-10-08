@@ -32,9 +32,7 @@ export class SecurePortalConfigInitializer implements ConfigInitializer {
     return this.baseSiteService.get().pipe(
       tap((baseSite) => {
         if (!baseSite) {
-          throw new Error(
-            `Error: Cannot get current base site config .`
-          );
+          throw new Error(`Error: Cannot get current base site config .`);
         }
       }),
       map((baseSite) => this.getRoutingConfig(baseSite)),
