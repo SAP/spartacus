@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Price } from '@spartacus/core';
+import { Price, ProductScope } from '@spartacus/core';
 
 export enum UsageChargeType {
   BLOCK = 'block_usage_charge',
@@ -108,3 +108,4 @@ declare module '@spartacus/core' {
     productTypes?: string;
   }
 }
+(ProductScope as any)['SUBSCRIPTION'] = 'subscription';
