@@ -9,7 +9,8 @@ import { SubscriptionBillingOccEndpoints } from '../model';
 
 const subscriptionBillingEndpoints: SubscriptionBillingOccEndpoints = {
   subscriptionList: 'users/${userId}/subscriptions',
-  subscriptionByCode: 'users/${userId}/subscriptions/${subscriptionCode}?fields=FULL',
+  subscriptionByCode:
+    'users/${userId}/subscriptions/${subscriptionCode}?fields=FULL',
   cancellationSubscriptionEffectiveDate:
     'users/${userId}/subscriptions/${subscriptionCode}/cancellationEffectiveAt',
   cancelSubscription:
