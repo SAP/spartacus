@@ -144,12 +144,7 @@
     <div class="cx-value" [class.readonly-value]="readonly">
       <cx-item-counter
         [control]="quantityControl"
-        [readonly]="
-          !item.updateable ||
-          readonly ||
-          options.isSaveForLater ||
-          item.product?.productTypes === 'SUBSCRIPTION'
-        "
+        [readonly]="!item.updateable || readonly || options.isSaveForLater"
         [max]="item.product?.stock?.stockLevel"
         [allowZero]="true"
       >
