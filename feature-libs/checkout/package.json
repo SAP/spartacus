@@ -39,6 +39,7 @@
     "@spartacus/storefront": "221121.1.0",
     "@spartacus/styles": "221121.1.0",
     "@spartacus/user": "221121.1.0",
+    "@spartacus/quote": "221121.1.0",
     "rxjs": "^7.8.0"
   },
   "engines": {
