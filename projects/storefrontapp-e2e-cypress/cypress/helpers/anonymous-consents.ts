@@ -121,7 +121,8 @@ export function clickViewDetailsFromBanner() {
 export function openAnonymousConsentsDialog() {
   cy.get('body').then(($body) => {
     const hasBannerBtn =
-      $body.find('cx-anonymous-consent-management-banner .btn-secondary').length > 0;
+      $body.find('cx-anonymous-consent-management-banner .btn-secondary')
+        .length > 0;
 
     if (hasBannerBtn) {
       cy.log('Opening dialog via banner');
@@ -331,8 +332,12 @@ export function showAnonymousConfigTest() {
 }
 
 export function stabilizeAnonymousConsentNetwork() {
-  cy.intercept('HEAD', '**/users/anonymous/consenttemplates*').as('headConsentTemplates');
-  cy.intercept('GET',  '**/users/anonymous/consenttemplates*').as('getConsentTemplates');
+  cy.intercept('HEAD', '**/users/anonymous/consenttemplates*').as(
+    'headConsentTemplates'
+  );
+  cy.intercept('GET', '**/users/anonymous/consenttemplates*').as(
+    'getConsentTemplates'
+  );
 
   cy.wait(0);
 }

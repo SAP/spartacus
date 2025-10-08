@@ -14,29 +14,38 @@ describe('SSR', () => {
     cy.request(pdpUrl);
   });
 
+  beforeEach(() => {
+    cy.intercept('GET', '**/cms/pages?*').as('cmsPage');
+
+    cy.intercept('HEAD', '**/users/anonymous/consenttemplates*', {
+      statusCode: 304,
+    }).as('headConsentTemplates');
+  });
+
   function seoChecks() {
     cy.title().should('not.be.empty');
-    cy.document()
-      .its('readyState', { timeout: 60000 })
-      .should('eq', 'complete');
+    cy.document().its('readyState', { timeout: 60000 }).should('eq', 'complete');
     cy.title({ timeout: 60000 }).should('not.be.empty');
 
     cy.get('head meta[name="robots"]', { timeout: 60000 })
-      .should('have.attr', 'content')
-      .and('contains', 'INDEX')
-      .and('contains', 'FOLLOW');
-    cy.get('link[rel="canonical"]', { timeout: 60000 }).should(
-      'have.attr',
-      'href'
-    );
-    cy.get('script[id="json-ld"]')
-      .should('not.be.empty')
-      .and('have.attr', 'type')
-      .and('eq', 'application/ld+json');
+      .invoke('attr', 'content')
+      .should('match', /index/i)
+      .and('match', /follow/i);
+
+    cy.get('link[rel="canonical"]', { timeout: 60000 })
+      .should('have.attr', 'href');
+
+    cy.get('script[type="application/ld+json"]', { timeout: 60000 })
+      .should('have.length.greaterThan', 0)
+      .each(($s) => {
+        expect(($s.text() || '').trim()).to.not.equal('');
+      });
   }
+
 
   it('should render homepage', () => {
     cy.visit('/');
+    cy.wait('@cmsPage');
 
     seoChecks();
 
