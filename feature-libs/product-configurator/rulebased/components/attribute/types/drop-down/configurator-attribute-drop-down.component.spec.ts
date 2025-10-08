@@ -214,7 +214,7 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
     );
   });
 
-  it('should render an empty component because showRequiredErrorMessage$ is `false`', () => {
+  it('should render an empty component in case showRequiredErrorMessage$ is `false`', () => {
     createComponentWithData(false);
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
       expect,
@@ -406,6 +406,19 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       component.attribute.uiType =
         Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
       component.attribute.validationType = Configurator.ValidationType.NONE;
+      fixture.detectChanges();
+      htmlElem = fixture.nativeElement;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-input-field'
+      );
+    });
+
+    it('should provide input field for date value in case additional input is allowed ', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.SAP_DATE;
       fixture.detectChanges();
       htmlElem = fixture.nativeElement;
       CommonConfiguratorTestUtilsService.expectElementPresent(
