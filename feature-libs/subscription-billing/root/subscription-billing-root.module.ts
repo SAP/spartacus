@@ -55,7 +55,4 @@ export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
   ],
 })
 export class SubscriptionBillingRootModule {
-  constructor() {
-    console.log('SubscriptionBillingRootModule loaded');
-  }
 }
