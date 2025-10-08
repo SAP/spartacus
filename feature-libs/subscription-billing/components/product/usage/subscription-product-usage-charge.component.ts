@@ -70,7 +70,7 @@ export class SubscriptionProductUsageChargeComponent {
 
   isUsageChargePresent(): boolean {
     return Boolean(
-      this.product()?.sapPricePlan?.perUnitUsageCharges ||
+      this.product()?.sapPricePlan?.perUnitUsageCharges ??
         this.product()?.sapPricePlan?.volumeUsageCharges
     );
   }

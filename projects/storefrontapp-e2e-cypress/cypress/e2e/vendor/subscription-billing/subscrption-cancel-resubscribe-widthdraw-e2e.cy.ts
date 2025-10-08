@@ -27,8 +27,10 @@ describe('Cancel Resubscribe Withdraw subscription billing Order Flow', () => {
     helper.clickViewAllSubscriptions();
     helper.clickManageServiceForCancellSubscription();
     helper.resubscribeSubscriptionIfPossible();
-  cy.visit(`${Cypress.env('BASE_SITE')}/en/USD/my-account/subscriptions`);
-  cy.get(subscrptionComponentSelector, { timeout: 10000 }).should('be.visible');
+    cy.visit(`${Cypress.env('BASE_SITE')}/en/USD/my-account/subscriptions`);
+    cy.get(subscrptionComponentSelector, { timeout: 10000 }).should(
+      'be.visible'
+    );
     helper.clickManageServiceForActiveSubscription();
     helper.widthdrawSubscriptionIfPossible();
   });

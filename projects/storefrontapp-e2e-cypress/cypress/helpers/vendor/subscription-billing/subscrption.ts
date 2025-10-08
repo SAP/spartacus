@@ -54,7 +54,10 @@ export function checkCancelButtonExists() {
   cy.log('Cancel button is present and visible.');
 }
 export function clickViewAllSubscriptions() {
-  cy.get('button').contains('View All Subscriptions').should('be.visible').click();
+  cy.get('button')
+    .contains('View All Subscriptions')
+    .should('be.visible')
+    .click();
   cy.get(subscrptionComponentSelector, { timeout: 10000 }).should('be.visible');
 }
 export function cancelSubscriptionIfPossible() {
@@ -73,7 +76,7 @@ export function cancelSubscriptionIfPossible() {
       cy.log('Cancel button is available, proceeding to click it.');
       cy.get(cancelButtonSelector).should('be.visible').click({ force: true });
 
-      cy.get(modalSelector, { timeout: 15000  }).should('be.visible');
+      cy.get(modalSelector, { timeout: 15000 }).should('be.visible');
 
       cy.get(`${modalSelector} .cx-dialog-body p`)
         .first()

@@ -4,9 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { EventService } from '@spartacus/core';
-
 import {
   GetSubscriptionByCodeReloadEvent,
   SubscriptionBillingFacade,
@@ -42,7 +48,10 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
       .pipe(
         take(1),
         tap(([subscriptionDetails, subscriptionCode]) => {
-          if (subscriptionDetails && subscriptionDetails.id !== subscriptionCode) {
+          if (
+            subscriptionDetails &&
+            subscriptionDetails.id !== subscriptionCode
+          ) {
             this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
           }
         })

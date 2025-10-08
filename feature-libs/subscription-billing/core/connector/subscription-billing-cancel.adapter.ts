@@ -17,9 +17,8 @@ export abstract class CancelSubscriptionOrderAdapter {
 
   abstract reverseCancellation(
     userId: string,
-    subscriptionCode: string
-  ) // reverseCancellation: reverseCancellation
-  : Observable<unknown>;
+    subscriptionCode: string // reverseCancellation: reverseCancellation
+  ): Observable<unknown>;
 
   abstract withdrawal(
     userId: string,

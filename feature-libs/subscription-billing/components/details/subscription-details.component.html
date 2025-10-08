@@ -108,45 +108,46 @@
       </span>
     </div>
 
-        <div class="cx-other-actions">
+    <div class="cx-other-actions">
       <span class="col-xs-12 col-md-4 col-lg-3">
         <span class="action-button-right">
           <a
-          *ngIf="subscription.isCancellationPossible"
-          #cancelTriggerEl
-          class="btn btn-block btn-secondary"
-          (click)="showSubscriptionDialog('cancel')"
-        [attr.aria-label]="'subscriptionDetails.cancelSubscription' | cxTranslate"
-
-        >
-        {{ 'subscriptionDetails.cancelSubscription' | cxTranslate }}
-        </a>
-
+            *ngIf="subscription.isCancellationPossible"
+            #cancelTriggerEl
+            class="btn btn-block btn-secondary"
+            (click)="showSubscriptionDialog('cancel')"
+            [attr.aria-label]="
+              'subscriptionDetails.cancelSubscription' | cxTranslate
+            "
+          >
+            {{ 'subscriptionDetails.cancelSubscription' | cxTranslate }}
+          </a>
         </span>
-<span class="action-button-right">
-  <a
-  *ngIf="subscription.isCancellationReversalPossible"
-    cxBtnLikeLink
-    class="btn btn-block btn-primary"
-    [attr.aria-label]="'subscriptionDetails.reSubscribe' | cxTranslate"
-    (click)="showSubscriptionDialog('resubscribe')"
-  >
-    {{ 'subscriptionDetails.reSubscribe' | cxTranslate }}
-  </a>
-</span>
-           <span class="action-button-right">
+        <span class="action-button-right">
           <a
-           *ngIf="subscription.isWithdrawalPossible"
-    [attr.aria-label]="'subscriptionDetails.withdrawSubscription' | cxTranslate"
-          (click)="showSubscriptionDialog('withdraw')"
+            *ngIf="subscription.isCancellationReversalPossible"
+            cxBtnLikeLink
+            class="btn btn-block btn-primary"
+            [attr.aria-label]="'subscriptionDetails.reSubscribe' | cxTranslate"
+            (click)="showSubscriptionDialog('resubscribe')"
+          >
+            {{ 'subscriptionDetails.reSubscribe' | cxTranslate }}
+          </a>
+        </span>
+        <span class="action-button-right">
+          <a
+            *ngIf="subscription.isWithdrawalPossible"
+            [attr.aria-label]="
+              'subscriptionDetails.withdrawSubscription' | cxTranslate
+            "
+            (click)="showSubscriptionDialog('withdraw')"
             cxBtnLikeLink
             class="btn btn-block btn-primary"
           >
-          {{ 'subscriptionDetails.withdrawSubscription' | cxTranslate }}
+            {{ 'subscriptionDetails.withdrawSubscription' | cxTranslate }}
           </a>
-
         </span>
-         <span class="action-button-right">
+        <span class="action-button-right">
           <a
             *ngIf="subscription.isExtensionPossible"
             cxBtnLikeLink
