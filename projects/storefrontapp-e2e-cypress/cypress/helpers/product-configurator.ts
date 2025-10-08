@@ -96,7 +96,6 @@ function clickOnPreviousOrNextBtn(
   btnSelector: string,
   activeGroup?: string
 ): void {
-  cy.get(btnSelector).scrollIntoView();
   cy.get(btnSelector)
     .should('be.visible')
     .click()

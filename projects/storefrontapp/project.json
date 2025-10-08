@@ -101,6 +101,10 @@
             "bundleName": "customer-ticketing"
           },
           {
+            "input": "projects/storefrontapp/src/styles/lib-subscription-billing.scss",
+            "bundleName": "subscription-billing"
+          },
+          {
             "input": "projects/storefrontapp/src/styles/lib-pickup-in-store.scss",
             "bundleName": "pickup-in-store"
           },
