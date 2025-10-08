@@ -39,7 +39,8 @@ export class QuoteHeaderBuyerEditComponent implements OnInit {
   @Input()
   content: EditCard;
 
-  enablePurchaseOrderNumber = inject(FeatureToggles).enableQuotePurchaseOrderNumber;
+  private featureToggles = inject(FeatureToggles);
+  enablePurchaseOrderNumber = this.featureToggles.enableQuotePurchaseOrderNumber;
 
   /**
    * Cancels the view of the edit card tile.

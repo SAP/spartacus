@@ -33,7 +33,7 @@ import {
         'performQuoteAction',
         'addQuoteComment',
         'addDiscount',
-        'getPurchaseOrderNumber', // Add the new method here
+        'getPurchaseOrderNumber',
       ],
     }),
 })
