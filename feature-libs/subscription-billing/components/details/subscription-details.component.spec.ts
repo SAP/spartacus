@@ -11,6 +11,7 @@ import {
   SubscriptionDetail,
 } from '@spartacus/subscription-billing/root';
 import { Pipe, PipeTransform } from '@angular/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 const routerParam$: BehaviorSubject<{
   [key: string]: string;
 }> = new BehaviorSubject({});
@@ -34,6 +35,9 @@ class MockTranslationService {
 }
 class MockEventService implements Partial<EventService> {
   dispatch<T extends object>(_event: T): void {}
+}
+class MockLaunchDialogService {
+  openDialogAndSubscribe() {}
 }
 @Pipe({
   name: 'cxUrl',
@@ -59,6 +63,7 @@ describe('SubscriptionDetailsComponent', () => {
           useClass: MockSubscriptionBillingFacade,
         },
         { provide: EventService, useClass: MockEventService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
     eventService = TestBed.inject(EventService);
@@ -84,5 +89,36 @@ describe('SubscriptionDetailsComponent', () => {
     );
     component.ngOnInit();
     expect(eventService.dispatch).not.toHaveBeenCalled();
+  });
+  it('should open dialog with correct data when showSubscriptionDialog is called', () => {
+    const launchDialogService = TestBed.inject(LaunchDialogService);
+    const subscription: SubscriptionDetail = {
+      id: 's1',
+      name: 'Test Sub',
+    };
+    const code = 's1';
+    const mode = 'cancel';
+
+    spyOn(facade, 'getSubscriptionCodeFromRoute').and.returnValue(of(code));
+    (component as any).subscriptionDetails$ = of(subscription);
+    const openDialogSpy = spyOn(launchDialogService, 'openDialogAndSubscribe');
+
+    // Create a fake element for cancelTriggerEl
+    const fakeElement = document.createElement('button');
+    (component as any).cancelTriggerEl = {
+      nativeElement: fakeElement,
+    };
+
+    component.showSubscriptionDialog(mode);
+
+    expect(openDialogSpy).toHaveBeenCalledWith(
+      LAUNCH_CALLER.SUBSCRIPTION_CONFIRMATION,
+      component.cancelTriggerEl,
+      {
+        ...subscription,
+        code,
+        mode,
+      }
+    );
   });
 });
