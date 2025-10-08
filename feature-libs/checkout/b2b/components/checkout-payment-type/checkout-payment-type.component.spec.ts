@@ -121,18 +121,20 @@ describe('CheckoutOnePaymentTypeComponent', () => {
         { provide: QuoteFacade, useClass: MockQuoteFacade },
         {
           provide: ActiveCartFacade,
-          useClass: MockActiveCartFacade,// Provide the mock ActiveCartFacade
+          useClass: MockActiveCartFacade, // Provide the mock ActiveCartFacade
         },
       ],
     }).compileComponents();
-    activeCartFacade = TestBed.inject(ActiveCartFacade) as unknown as MockActiveCartFacade;
+    activeCartFacade = TestBed.inject(
+      ActiveCartFacade
+    ) as unknown as MockActiveCartFacade;
     quoteFacade = TestBed.inject(QuoteFacade) as unknown as MockQuoteFacade;
   }));
 
   it('should make PO Number field non-editable if cart has a PO Number', async () => {
-
-    activeCartFacade.getActive.and.returnValue(of({ code: 'cart-1', quoteCode: 'quote-123' }));
-
+    activeCartFacade.getActive.and.returnValue(
+      of({ code: 'cart-1', quoteCode: 'quote-123' })
+    );
 
     quoteFacade.getPurchaseOrderNumber.and.returnValue(of('test-po'));
 
@@ -142,13 +144,16 @@ describe('CheckoutOnePaymentTypeComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const poNumberInput = fixture.debugElement.query(By.css('#poNumberInput')).nativeElement;
+    const poNumberInput = fixture.debugElement.query(
+      By.css('#poNumberInput')
+    ).nativeElement;
     expect(poNumberInput.readOnly).toBe(true);
   });
 
   it('should make PO Number field editable if quote has no PO Number', async () => {
-
-    activeCartFacade.getActive.and.returnValue(of({ code: 'cart-1', quoteCode: 'quote-123' }));
+    activeCartFacade.getActive.and.returnValue(
+      of({ code: 'cart-1', quoteCode: 'quote-123' })
+    );
 
     quoteFacade.getPurchaseOrderNumber.and.returnValue(of(null));
 
@@ -159,12 +164,13 @@ describe('CheckoutOnePaymentTypeComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const poNumberInput = fixture.debugElement.query(By.css('#poNumberInput')).nativeElement;
+    const poNumberInput = fixture.debugElement.query(
+      By.css('#poNumberInput')
+    ).nativeElement;
     expect(poNumberInput.readOnly).toBe(false);
   });
 
   it('should make PO Number field editable if cart has no quoteCode', async () => {
-
     activeCartFacade.getActive.and.returnValue(of({ code: 'cart-1' }));
 
     fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
@@ -174,7 +180,9 @@ describe('CheckoutOnePaymentTypeComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const poNumberInput = fixture.debugElement.query(By.css('#poNumberInput')).nativeElement;
+    const poNumberInput = fixture.debugElement.query(
+      By.css('#poNumberInput')
+    ).nativeElement;
     expect(poNumberInput.readOnly).toBe(false);
   });
 });

@@ -130,7 +130,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       expect,
       htmlElem,
       '#cx-quote-header-buyer-edit-purchase-order-number',
-      'quote.header.overview.purchaseOrderNumber',
+      'quote.header.overview.purchaseOrderNumber'
     );
 
     CommonQuoteTestUtilsService.expectElementToContainText(
@@ -224,7 +224,7 @@ describe('QuoteHeaderBuyerEditComponent', () => {
       saveButton.click();
       expect(component.saveCard.emit).toHaveBeenCalled();
       let arg: any = (component.saveCard.emit as any).calls.mostRecent()
-          .args[0];
+        .args[0];
       expect(arg.name).toEqual(newTextForTitle1);
       expect(arg.description).toEqual(newTextForTitle2);
       expect(arg.purchaseOrderNumber).toEqual(newPoNumber);

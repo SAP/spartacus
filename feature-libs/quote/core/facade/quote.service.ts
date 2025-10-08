@@ -575,9 +575,9 @@ export class QuoteService implements QuoteFacade {
     return this.userIdService.takeUserId().pipe(
       take(1),
       switchMap((userId) =>
-        this.quoteConnector.getQuote(userId, quoteCode).pipe(
-          map((quote: Quote) => quote.sapPurchaseOrderNumber)
-        )
+        this.quoteConnector
+          .getQuote(userId, quoteCode)
+          .pipe(map((quote: Quote) => quote.sapPurchaseOrderNumber))
       )
     );
   }

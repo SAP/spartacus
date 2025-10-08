@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FeatureToggles } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -40,7 +47,8 @@ export class QuoteHeaderBuyerEditComponent implements OnInit {
   content: EditCard;
 
   private featureToggles = inject(FeatureToggles);
-  enablePurchaseOrderNumber = this.featureToggles.enableQuotePurchaseOrderNumber;
+  enablePurchaseOrderNumber =
+    this.featureToggles.enableQuotePurchaseOrderNumber;
 
   /**
    * Cancels the view of the edit card tile.
@@ -89,7 +97,10 @@ export class QuoteHeaderBuyerEditComponent implements OnInit {
     this.defineFormControl('name', this.content.name);
     this.defineFormControl('description', this.content.description);
     if (this.enablePurchaseOrderNumber) {
-      this.defineFormControl('purchaseOrderNumber', this.content.purchaseOrderNumber ?? '');
+      this.defineFormControl(
+        'purchaseOrderNumber',
+        this.content.purchaseOrderNumber ?? ''
+      );
     }
   }
 }

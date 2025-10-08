@@ -140,5 +140,7 @@ export abstract class QuoteFacade {
    * @param quoteCode - The unique quote code
    * @returns Observable emitting the purchase order number or undefined
    */
-  abstract getPurchaseOrderNumber(quoteCode: string): Observable<string | undefined>;
+  abstract getPurchaseOrderNumber(
+    quoteCode: string
+  ): Observable<string | undefined>;
 }
