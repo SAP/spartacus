@@ -35,7 +35,7 @@
   </ng-template>
 
   <ng-template #showTerm>
-    <div class="subscription-term">
+    <div *ngIf="product.sapSubscriptionTerm" class="subscription-term">
       <div class="subscription-heading">
         {{ 'subscriptionProduct.subscriptionTerms' | cxTranslate }}
       </div>

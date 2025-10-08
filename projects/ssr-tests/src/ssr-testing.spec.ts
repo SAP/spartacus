@@ -1,4 +1,3 @@
-import { TestConfig } from '@spartacus/core';
 import { Server } from 'http';
 import * as HttpUtils from './utils/http.utils';
 import * as LogUtils from './utils/log.utils';
@@ -195,69 +194,6 @@ describe('SSR E2E', () => {
         },
         2 * SsrUtils.DEFAULT_SSR_TIMEOUT // increase timeout for this test as it calls the SSR server twice
       );
-    });
-  });
-
-  describe('WITHOUT SSR error handling', () => {
-    let testConfig: TestConfig;
-
-    beforeEach(() => {
-      testConfig = {
-        features: {
-          propagateErrorsToServer: false,
-        },
-      };
-    });
-
-    describe('Common behavior', () => {
-      beforeEach(async () => {
-        await SsrUtils.startSsrServer();
-      });
-
-      it('should receive success response with request', async () => {
-        backendProxy = await ProxyUtils.startBackendProxyServer({
-          target: BACKEND_BASE_URL,
-        });
-        const response: any = await HttpUtils.sendRequestToSsrServer({
-          path: REQUEST_PATH,
-          testConfig,
-        });
-        expect(response.statusCode).toEqual(200);
-
-        const logsMessages = LogUtils.getLogsMessages();
-        expect(logsMessages).toContain(`Rendering started (${REQUEST_PATH})`);
-        expect(logsMessages).toContain(
-          `Request is waiting for the SSR rendering to complete (${REQUEST_PATH})`
-        );
-      });
-
-      it('should receive response with 200 even when page does not exist', async () => {
-        backendProxy = await ProxyUtils.startBackendProxyServer({
-          target: BACKEND_BASE_URL,
-        });
-        const response = await HttpUtils.sendRequestToSsrServer({
-          path: REQUEST_PATH + 'not-existing-page',
-          testConfig,
-        });
-        expect(response.statusCode).toEqual(200);
-      });
-
-      it('should receive response with status 500 even if HTTP error occurred when calling backend API URL', async () => {
-        backendProxy = await ProxyUtils.startBackendProxyServer({
-          target: BACKEND_BASE_URL,
-          responseInterceptor: ({ res, req, body }) => {
-            if (req.url?.includes('cms/components')) {
-              res.statusCode = 400;
-            }
-            res.end(body);
-          },
-        });
-        const response = await HttpUtils.sendRequestToSsrServer({
-          path: REQUEST_PATH,
-          testConfig,
-        });
-        expect(response.statusCode).toEqual(200);
-      });
     });
   });
 });

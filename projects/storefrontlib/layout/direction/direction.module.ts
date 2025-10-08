@@ -11,7 +11,7 @@ import { DirectionService } from './direction.service';
 
 export function initHtmlDirAttribute(
   directionService: DirectionService
-): () => void {
+): () => Promise<any> {
   const result = () => {
     return directionService.initialize();
   };

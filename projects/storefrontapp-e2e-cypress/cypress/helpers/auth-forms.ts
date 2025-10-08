@@ -96,7 +96,9 @@ export function register(
   const pageAlias = waitForPage('/login', 'getLoginPageAfterRegister');
   cy.get('cx-register form').within(() => {
     cy.get('button[type="submit"]').click();
-    cy.wait(`@${pageAlias}`).its('response.statusCode').should('eq', 200);
+    cy.whenJDK17(() => {
+      cy.wait(`@${pageAlias}`).its('response.statusCode').should('eq', 200);
+    });
   });
 } /**
  * Starting from the registration page
@@ -132,4 +134,19 @@ export function registerWithCaptcha(
  */
 export function login(username: string, password: string) {
   fillLoginForm({ username, password });
+}
+
+export function agentLoginForJDK21(username: string, password: string) {
+  cy.origin(
+    `${Cypress.env('API_URL')}`,
+    { args: { username, password } },
+    ({ username, password }) => {
+      cy.get('form[id="loginForm"]').within(() => {
+        cy.get('input[name=username]').clear().type(username);
+        cy.get('input[name=password]').clear().type(password);
+
+        cy.get('button[type=submit]').click();
+      });
+    }
+  );
 }

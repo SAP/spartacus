@@ -5,10 +5,16 @@
  */
 
 import * as asm from '../../../helpers/asm';
-import { login } from '../../../helpers/auth-forms';
+import { agentLoginForJDK21 } from '../../../helpers/auth-forms';
 import * as checkout from '../../../helpers/checkout-flow';
+import {
+  getASMB2CCustomer,
+  getB2CAgent,
+  getProductCode,
+} from '../../../sample-data/asm-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
+const agent = getB2CAgent();
 context('Assisted Service Module', () => {
   before(() => {
     clearAllStorage();
@@ -16,22 +22,32 @@ context('Assisted Service Module', () => {
 
   describe('ASM Customer list', () => {
     it('checking custom list features (CXSPA-1595)', () => {
-      const custom = 'aaron.customer@hybris.com';
-      const pwd = 'pw4all';
-      const productCode = '479742';
-      asm.placeOrderForB2CCustomer(custom, pwd, productCode);
-      asm.addProductToB2CCart(custom, pwd, productCode);
+      const customer = getASMB2CCustomer();
+
+      const productCode = getProductCode();
+      asm.placeOrderForB2CCustomer(
+        customer.email,
+        customer.password,
+        productCode
+      );
+      cy.whenJDK17(() => {
+        asm.addProductToB2CCart(customer.email, customer.password, productCode);
+      });
+      cy.whenJDK21(() => {
+        checkout.signOutUser();
+        cy.addToCartForJDK21(productCode, 1, customer.email, customer.password);
+      });
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
       cy.whenJDK17(() => {
-        asm.agentLogin('asagent', 'pw4all');
+        asm.agentLogin(agent.userName, agent.password);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login('asagent', 'pw4all');
+        agentLoginForJDK21(agent.userName, agent.password);
       });
       asm.asmCustomerLists();
     });
@@ -42,12 +58,12 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('be.visible');
 
       cy.whenJDK17(() => {
-        asm.agentLogin('asagent', 'pw4all');
+        asm.agentLogin(agent.userName, agent.password);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login('asagent', 'pw4all');
+        agentLoginForJDK21(agent.userName, agent.password);
       });
       asm.asmCustomerListPagination();
     });
@@ -58,12 +74,12 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('be.visible');
 
       cy.whenJDK17(() => {
-        asm.agentLogin('asagent', 'pw4all');
+        asm.agentLogin(agent.userName, agent.password);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        login('asagent', 'pw4all');
+        agentLoginForJDK21(agent.userName, agent.password);
       });
       asm.asmCustomerListC360Link();
     });

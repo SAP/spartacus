@@ -1,43 +1,38 @@
-import { CommonModule } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  inject,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { RouterModule } from '@angular/router';
-import {
-  EventService,
-  I18nModule,
-  RoutingService,
-  UrlModule,
-} from '@spartacus/core';
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { EventService } from '@spartacus/core';
+
 import {
   GetSubscriptionByCodeReloadEvent,
   SubscriptionBillingFacade,
   SubscriptionDetail,
 } from '@spartacus/subscription-billing/root';
+
 import { combineLatest, Observable, Subscription, take, tap } from 'rxjs';
 
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+
 @Component({
   selector: 'cx-subscription-details',
   templateUrl: './subscription-details.component.html',
-  imports: [CommonModule, I18nModule, UrlModule, RouterModule],
+  standalone: false,
 })
 export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
   protected subscriptionFacade = inject(SubscriptionBillingFacade);
   protected eventService = inject(EventService);
+  protected launchDialogService = inject(LaunchDialogService);
+
   protected subscription = new Subscription();
-  protected routingService = inject(RoutingService);
 
   subscriptionDetails$: Observable<SubscriptionDetail | undefined> =
     this.subscriptionFacade.getSubscriptionByCode();
 
-  protected launchDialogService = inject(LaunchDialogService);
-  @ViewChild('cancelTriggerEl') cancelTriggerEl: ElementRef;
+  @ViewChild('cancelTriggerEl') cancelTriggerEl!: ElementRef;
 
   ngOnInit() {
     this.subscription = combineLatest([
@@ -47,16 +42,14 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
       .pipe(
         take(1),
         tap(([subscriptionDetails, subscriptionCode]) => {
-          if (
-            subscriptionDetails &&
-            subscriptionDetails.id !== subscriptionCode
-          ) {
+          if (subscriptionDetails && subscriptionDetails.id !== subscriptionCode) {
             this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
           }
         })
       )
       .subscribe();
   }
+
   showSubscriptionDialog(mode: 'cancel' | 'withdraw' | 'resubscribe'): void {
     combineLatest([
       this.subscriptionFacade.getSubscriptionCodeFromRoute(),

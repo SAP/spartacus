@@ -138,7 +138,7 @@ describe('SubscriptionProductUsageChargeComponent', () => {
       expect(component.tierUsageCharges()).toEqual([]);
     });
   });
-  describe('with defined product - 1', () => {
+  describe('with defined product with empty price plan', () => {
     beforeEach(() => {
       Object.defineProperty(component, 'product', {
         get: () => mockProduct1,
@@ -158,7 +158,7 @@ describe('SubscriptionProductUsageChargeComponent', () => {
       expect(component.tierUsageCharges()).toEqual(mockTier);
     });
   });
-  describe('with defined product - 2', () => {
+  describe('with defined product with non-empty price plan', () => {
     beforeEach(() => {
       Object.defineProperty(component, 'product', {
         get: () => mockProduct2,

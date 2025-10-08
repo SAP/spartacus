@@ -8,11 +8,13 @@ import { inject, Injectable, OnDestroy } from '@angular/core';
 import {
   CurrencySetEvent,
   EventService,
-  GlobalMessageService,
   LanguageSetEvent,
 } from '@spartacus/core';
 import { merge, Subscription } from 'rxjs';
-import { GetSubscriptionByCodeReloadEvent } from './subscription-billing.events';
+import {
+  GetSubscriptionByCodeReloadEvent,
+  GetSubscriptionListReloadEvent,
+} from './subscription-billing.events';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +22,6 @@ import { GetSubscriptionByCodeReloadEvent } from './subscription-billing.events'
 export class SubscriptionBillingEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
   protected eventService = inject(EventService);
-  protected globalMessageService = inject(GlobalMessageService);
 
   constructor() {
     this.onLanguageAndCurrencySetEvent();
@@ -33,6 +34,7 @@ export class SubscriptionBillingEventListener implements OnDestroy {
         this.eventService.get(CurrencySetEvent)
       ).subscribe(() => {
         this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
+        this.eventService.dispatch({}, GetSubscriptionListReloadEvent);
       })
     );
   }

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Observable } from 'rxjs';
 import { SUBSCRIPTION_BILLING_FEATURE } from '../feature-name';
 import { SubscriptionDetail, SubscriptionList } from '../model';
@@ -33,10 +39,12 @@ export abstract class SubscriptionBillingFacade {
     currentPage?: number,
     sort?: string
   ): Observable<QueryState<SubscriptionList | undefined>>;
+
   abstract getSubscriptionList(
     pageSize?: number,
     currentPage?: number,
     sort?: string
   ): Observable<SubscriptionList | undefined>;
+
   abstract getSubscriptionCodeFromRoute(): Observable<string | undefined>;
 }

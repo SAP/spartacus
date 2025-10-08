@@ -109,7 +109,6 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StoreFinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { PersonalizationFeatureModule } from './features/tracking/personalization-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
-import { SubscriptionBillingFeatureModule } from './features/subscription-billing/subscription-billing-feature.module';
 
 const featureModules = [];
 
@@ -279,7 +278,7 @@ if (environment.cpq) {
 
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
-    SubscriptionBillingFeatureModule,
+    // SubscriptionBillingFeatureModule, -> uncomment in SPA 221121.4 release (refer CXSPA-11070)
     ...featureModules,
   ],
   providers: [
@@ -296,26 +295,18 @@ if (environment.cpq) {
       const appFeatureToggles: Required<FeatureToggles> = {
         searchBoxV2: true,
         trendingSearches: true,
-        propagateErrorsToServer: true,
-        ssrStrictErrorHandlingForHttpAndNgrx: true,
         a11yUseProperTextColorForFutureStockAccordion: true,
-        a11yPreventHorizontalScroll: true,
         a11yPopoverHighContrast: true,
         a11yTabsManualActivation: true,
-        a11yCartImportConfirmationMessage: true,
         a11yAnonymousConsentMessageInDialog: true,
-        a11yMobileFocusOnFirstNavigationItem: true,
         a11yQuickOrderSearchListKeyboardNavigation: false,
         a11ySearchboxLabel: true,
         a11yStyleExternalLinksAsLinks: true,
         a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
-        a11yUseTrapTabInsteadOfTrapInDialogs: true,
         a11yKeyboardAccessibleZoom: true,
         a11yTruncatedTextStoreFinder: true,
         a11yTruncatedTextUnitLevelOrderHistory: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
-        a11yTabComponent: true,
-        a11yCarouselArrowKeysNavigation: true,
         a11yPickupOptionsTabs: true,
         a11yResetFocusAfterNavigating: true,
         headerLayoutForSmallerViewports: true,
@@ -330,11 +321,6 @@ if (environment.cpq) {
         a11yNgSelectCloseDropdownOnEscape: true,
         a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
         a11yNgSelectAriaLabelDropdownCustomized: true,
-        a11yDeliveryMethodFieldset: true,
-        a11yShowMoreReviewsBtnFocus: true,
-        a11yDialogTriggerRefocus: true,
-        a11yAddToWishlistFocus: true,
-        a11ySearchBoxFocusOnEscape: true,
         a11yUpdatingCartNoNarration: true,
         a11yPasswordVisibliltyBtnValueOverflow: true,
         a11yItemCounterFocus: true,
@@ -366,11 +352,7 @@ if (environment.cpq) {
         a11yRepeatingButtonsUniqueLabels: true,
         a11yHighContrastBorders: true,
         a11yRegionAssociatedHeaders: true,
-        useSiteThemeService: true,
-        enableConsecutiveCharactersPasswordRequirement: true,
-        enablePasswordsCannotMatchInPasswordUpdateForm: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
-        allPageMetaResolversEnabledInCsr: true,
         a11yPdpGridArrangement: true,
         a11yHamburgerMenuTrapFocus: true,
         useExtendedMediaComponentConfiguration: true,
@@ -404,6 +386,7 @@ if (environment.cpq) {
         incrementProcessesCountForMergeCart: true,
         authorizationCodeFlowByDefault: true,
         defaultLayoutConfigWithoutPageFold: true,
+        navigationMenuCloseOnSameLinkClick: true,
       };
       return appFeatureToggles;
     }),

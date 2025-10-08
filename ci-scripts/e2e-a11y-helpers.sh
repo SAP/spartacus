@@ -33,6 +33,10 @@ run_a11y_tests_with_docs_on_failure() {
     fi
 }
 
+should_use_recording() {
+    [[ "${ENABLE_A11Y_RECORDING:-false}" == "true" ]]
+}
+
 # Clean shutdown of PWA application
 stop_pwa_app() {
     pkill -f "http-server" || true
@@ -71,35 +75,49 @@ run_a11y_container_tests() {
     local container="$1"
     local total_containers="${2:-2}"
 
-    echo "Running A11Y tests: Container $container/$total_containers (Strategy: $TEST_DISTRIBUTION_STRATEGY)"
-
-    # Check if this container has any tests assigned
-    local b2c_spec=$(get_a11y_spec_pattern "b2c" "$container" "$total_containers")
-    local b2b_spec=$(get_a11y_spec_pattern "b2b" "$container" "$total_containers")
-
-    if [[ -z "$b2c_spec" && -z "$b2b_spec" ]]; then
-        echo "No tests assigned to container $container - skipping execution"
-        return 0
-    fi
-
-    # Run B2C accessibility tests if assigned to this container
-    if [[ -n "$b2c_spec" ]]; then
-        export CYPRESS_SPEC_OVERRIDE="$b2c_spec"
-
-        if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y"; then
+    if should_use_recording; then
+        echo "Running A11Y tests with Cypress Dashboard recording"
+        
+        if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y:record"; then
             return 1
         fi
-    fi
 
-
-    # Run B2B accessibility tests if assigned to this container
-    if [[ -n "$b2b_spec" ]]; then
         stop_pwa_app
         build_and_start_pwa "ci,b2b"
-        export CYPRESS_SPEC_OVERRIDE="$b2b_spec"
-
-        if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y:b2b"; then
+        
+        if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y:b2b:record"; then
             return 1
+        fi
+    else
+        echo "Running A11Y tests: Container $container/$total_containers"
+
+        # Check if this container has any tests assigned
+        local b2c_spec=$(get_a11y_spec_pattern "b2c" "$container" "$total_containers")
+        local b2b_spec=$(get_a11y_spec_pattern "b2b" "$container" "$total_containers")
+
+        if [[ -z "$b2c_spec" && -z "$b2b_spec" ]]; then
+            echo "No tests assigned to container $container - skipping execution"
+            return 0
+        fi
+
+        # Run B2C accessibility tests if assigned to this container
+        if [[ -n "$b2c_spec" ]]; then
+            export CYPRESS_SPEC_OVERRIDE="$b2c_spec"
+            
+            if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y"; then
+                return 1
+            fi
+        fi
+
+        # Run B2B accessibility tests if assigned to this container
+        if [[ -n "$b2b_spec" ]]; then
+            stop_pwa_app
+            build_and_start_pwa "ci,b2b"
+            export CYPRESS_SPEC_OVERRIDE="$b2b_spec"
+
+            if ! run_a11y_tests_with_docs_on_failure "e2e:run:ci:a11y:b2b"; then
+                return 1
+            fi
         fi
     fi
 

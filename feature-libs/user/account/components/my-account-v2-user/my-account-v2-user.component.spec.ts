@@ -18,6 +18,9 @@ class MockAuthService {
   isUserLoggedIn(): Observable<boolean> {
     return of(true);
   }
+  isUsingASMClient(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 @Pipe({

@@ -13,7 +13,7 @@ import {
   ConverterService,
   isJaloError,
   LoggerService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
   OccEndpointsService,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
@@ -37,7 +37,7 @@ export class OccCheckoutBillingAddressAdapter
       .put<unknown>(this.getSetBillingAddressEndpoint(userId, cartId), address)
       .pipe(
         catchError((error) =>
-          throwError(normalizeHttpError(error, this.logger))
+          throwError(tryNormalizeHttpError(error, this.logger))
         ),
         backOff({
           shouldRetry: isJaloError,

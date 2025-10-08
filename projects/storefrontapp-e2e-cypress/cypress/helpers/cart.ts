@@ -148,7 +148,9 @@ export function addProductFromPdp(productCode: string = products[0].code) {
 
   clickAddToCart();
 
-  cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(() => {
+    cy.wait('@refresh_cart').its('response.statusCode').should('eq', 200);
+  });
 
   closeAddedToCartDialog();
 
@@ -407,7 +409,9 @@ export function getClearCartDialog() {
 export function goToCart() {
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
-  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(() => {
+    cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+  });
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 }
 

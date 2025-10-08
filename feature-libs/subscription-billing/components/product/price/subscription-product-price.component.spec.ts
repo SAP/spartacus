@@ -2,18 +2,32 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { SubscriptionProductPriceComponent } from './subscription-product-price.component';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Pipe, PipeTransform } from '@angular/core';
-import { ProductScope, TranslationService } from '@spartacus/core';
+import { Product, TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-
 import {
   OneTimeCharge,
   RecurringCharge,
 } from '@spartacus/subscription-billing/root';
 import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
-
+const mockOneTime: OneTimeCharge[] = [{ name: 'one' }, { name: 'two' }];
+const mockRecurring: RecurringCharge[] = [{ price: { value: 1 } }];
+const mockProduct2 = {
+  sapPricePlan: {
+    oneTimeCharges: mockOneTime,
+    recurringCharges: mockRecurring,
+  },
+};
+const mockProduct1 = {
+  sapPricePlan: {},
+};
 class MockSubscriptionProductService {
   isSubscription(_product: any) {
     return true;
+  }
+  getSubscriptionData(
+    _productCode?: string
+  ): Observable<Product | null | undefined> {
+    return of(mockProduct2);
   }
 }
 class MockCurrentProductService {
@@ -40,22 +54,9 @@ class MockTranslateService implements Partial<TranslationService> {
   }
 }
 
-const mockOneTime: OneTimeCharge[] = [{ name: 'one' }, { name: 'two' }];
-const mockRecurring: RecurringCharge[] = [{ price: { value: 1 } }];
-const mockProduct2 = {
-  sapPricePlan: {
-    oneTimeCharges: mockOneTime,
-    recurringCharges: mockRecurring,
-  },
-};
-const mockProduct1 = {
-  sapPricePlan: {},
-};
-
 describe('SubscriptionProductPriceComponent', () => {
   let component: SubscriptionProductPriceComponent;
   let fixture: ComponentFixture<SubscriptionProductPriceComponent>;
-  let currentProductService: CurrentProductService;
   let productService: SubscriptionProductService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -70,14 +71,11 @@ describe('SubscriptionProductPriceComponent', () => {
         { provide: TranslationService, useClass: MockTranslateService },
       ],
     }).compileComponents();
-
     productService = TestBed.inject(SubscriptionProductService);
-    currentProductService = TestBed.inject(CurrentProductService);
   }));
-
   describe('for a null product', () => {
     beforeEach(() => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(of(null));
+      spyOn(productService, 'getSubscriptionData').and.returnValue(of(null));
       spyOn(productService, 'isSubscription').and.returnValue(true);
       fixture = TestBed.createComponent(SubscriptionProductPriceComponent);
       component = fixture.componentInstance;
@@ -85,11 +83,8 @@ describe('SubscriptionProductPriceComponent', () => {
     });
     it('should be created', () => {
       expect(component).toBeTruthy();
-      expect(currentProductService.getProduct).toHaveBeenCalledWith([
-        ProductScope.SUBSCRIPTION,
-      ]);
+      expect(productService.getSubscriptionData).toHaveBeenCalled();
     });
-
     it('should return product status', () => {
       expect(component.isCurrentProductSubscription()).toEqual(false);
       expect(productService.isSubscription).not.toHaveBeenCalled();
@@ -101,11 +96,10 @@ describe('SubscriptionProductPriceComponent', () => {
       expect(component.recurringCharges()).toEqual([]);
     });
   });
-
-  describe('for a mock product 1', () => {
+  describe('for a mock product without price plan', () => {
     beforeEach(() => {
       spyOn(productService, 'isSubscription').and.returnValue(true);
-      spyOn(currentProductService, 'getProduct').and.returnValue(
+      spyOn(productService, 'getSubscriptionData').and.returnValue(
         of(mockProduct1)
       );
       fixture = TestBed.createComponent(SubscriptionProductPriceComponent);
@@ -114,9 +108,7 @@ describe('SubscriptionProductPriceComponent', () => {
     });
     it('should be created', () => {
       expect(component).toBeTruthy();
-      expect(currentProductService.getProduct).toHaveBeenCalledWith([
-        ProductScope.SUBSCRIPTION,
-      ]);
+      expect(productService.getSubscriptionData).toHaveBeenCalled();
     });
 
     it('should return product status', () => {
@@ -130,10 +122,10 @@ describe('SubscriptionProductPriceComponent', () => {
       expect(component.recurringCharges()).toEqual([]);
     });
   });
-  describe('for a mock product 2', () => {
+  describe('for a mock product with price plan', () => {
     beforeEach(() => {
       spyOn(productService, 'isSubscription').and.returnValue(true);
-      spyOn(currentProductService, 'getProduct').and.returnValue(
+      spyOn(productService, 'getSubscriptionData').and.returnValue(
         of(mockProduct2)
       );
       fixture = TestBed.createComponent(SubscriptionProductPriceComponent);
@@ -142,9 +134,7 @@ describe('SubscriptionProductPriceComponent', () => {
     });
     it('should be created', () => {
       expect(component).toBeTruthy();
-      expect(currentProductService.getProduct).toHaveBeenCalledWith([
-        ProductScope.SUBSCRIPTION,
-      ]);
+      expect(productService.getSubscriptionData).toHaveBeenCalled();
     });
 
     it('should return product status', () => {
