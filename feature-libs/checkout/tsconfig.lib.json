@@ -84,6 +84,12 @@
       "@spartacus/user/account/core": ["dist/user/account/core"],
       "@spartacus/user/account/components": ["dist/user/account/components"],
       "@spartacus/user/account/assets": ["dist/user/account/assets"],
+      "@spartacus/pdf-invoices": ["dist/pdf-invoices"],
+      "@spartacus/pdf-invoices/root": ["dist/pdf-invoices/root"],
+      "@spartacus/pdf-invoices/occ": ["dist/pdf-invoices/occ"],
+      "@spartacus/pdf-invoices/core": ["dist/pdf-invoices/core"],
+      "@spartacus/pdf-invoices/components": ["dist/pdf-invoices/components"],
+      "@spartacus/pdf-invoices/assets": ["dist/pdf-invoices/assets"],
       "@spartacus/quote": ["dist/quote"],
       "@spartacus/quote/root": ["dist/quote/root"],
       "@spartacus/quote/occ": ["dist/quote/occ"],
@@ -95,13 +101,7 @@
       "@spartacus/quote/components/cart-guard": [
         "dist/quote/components/cart-guard"
       ],
-      "@spartacus/quote/assets": ["dist/quote/assets"],
-      "@spartacus/pdf-invoices": ["dist/pdf-invoices"],
-      "@spartacus/pdf-invoices/root": ["dist/pdf-invoices/root"],
-      "@spartacus/pdf-invoices/occ": ["dist/pdf-invoices/occ"],
-      "@spartacus/pdf-invoices/core": ["dist/pdf-invoices/core"],
-      "@spartacus/pdf-invoices/components": ["dist/pdf-invoices/components"],
-      "@spartacus/pdf-invoices/assets": ["dist/pdf-invoices/assets"]
+      "@spartacus/quote/assets": ["dist/quote/assets"]
     }
   },
   "angularCompilerOptions": {
