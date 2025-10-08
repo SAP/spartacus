@@ -25,8 +25,16 @@ import {
 } from '@spartacus/checkout/base/root';
 import { LoggerService, RoutingConfigService } from '@spartacus/core';
 import { OPF_CHECKOUT_FLOW_NAME } from '@spartacus/opf/checkout/root';
-import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  combineLatest,
+  filter,
+  map,
+  Observable,
+  of,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -148,6 +156,7 @@ export class OpfB2bCheckoutStepsSetGuard extends CheckoutStepsSetGuard {
     );
   }
 
+  // CXSPA-11111: Methods should not contain selector parameters
   protected isDeliveryAddressAndCostCenterSet(
     step: CheckoutStep,
     isAccountPayment: boolean
