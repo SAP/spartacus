@@ -16,9 +16,8 @@ export class CartItemListComponentService {
   }
 
   displayItemPriceColumn(items: OrderEntry[]): boolean {
-    let containsSubscriptionProducts = items.some(
+    return items.some(
       (item) => item.product?.productTypes === 'SUBSCRIPTION'
     );
-    return containsSubscriptionProducts;
   }
 }
