@@ -6,7 +6,7 @@
 
 import {
   CancellationDetails,
-  withdrawal,
+  Withdrawal,
 } from '@spartacus/subscription-billing/root';
 import { Observable } from 'rxjs';
 
@@ -29,6 +29,6 @@ export abstract class CancelSubscriptionOrderAdapter {
   abstract withdrawal(
     userId: string,
     subscriptionCode: string,
-    withdrawal: withdrawal
+    withdrawal: Withdrawal
   ): Observable<unknown>;
 }

@@ -8,7 +8,7 @@ import {
 import {
   CancellationDetails,
   GetSubscriptionByCodeReloadEvent,
-  withdrawal,
+  Withdrawal,
 } from '@spartacus/subscription-billing/root';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -193,7 +193,7 @@ describe('SubscriptionBillingCancelService', () => {
   });
 
   describe('withdrawal', () => {
-    const withdrawalData: withdrawal = {
+    const withdrawalData: Withdrawal = {
       subscriptionId: 'sub456',
       version: '1',
       withdrawnAt: '2025-07-01',

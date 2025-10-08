@@ -5,7 +5,7 @@
  */
 
 import { Observable } from 'rxjs';
-import { CancellationDetails, withdrawal } from '../model';
+import { CancellationDetails, Withdrawal } from '../model';
 import { Injectable } from '@angular/core';
 import { SUBSCRIPTION_BILLING_FEATURE } from '../feature-name';
 import { facadeFactory } from '@spartacus/core';
@@ -33,7 +33,7 @@ export abstract class CancelSubscriptionFacade {
 
   abstract reverseCancellation(code?: string): Observable<unknown>;
   abstract withdrawal(
-    withdrawal: withdrawal,
+    withdrawal: Withdrawal,
     code?: string
   ): Observable<unknown>;
 }

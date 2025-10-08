@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
 import {
   LoggerService,
   OccEndpointsService,
@@ -15,7 +14,7 @@ import {
 import { CancelSubscriptionOrderAdapter } from '@spartacus/subscription-billing/core';
 import {
   CancellationDetails,
-  withdrawal,
+  Withdrawal,
 } from '@spartacus/subscription-billing/root';
 import { catchError, Observable } from 'rxjs';
 
@@ -71,7 +70,7 @@ export class OccCancelSubscriptionAdapter
   withdrawal(
     userId: string,
     subscriptionCode: string,
-    withdrawal: withdrawal
+    withdrawalData: Withdrawal
   ): Observable<any> {
     const url = this.occEndpoints.buildUrl('withdrawal', {
       urlParams: {
@@ -82,7 +81,7 @@ export class OccCancelSubscriptionAdapter
     const headers = new HttpHeaders({
       ...CONTENT_TYPE_JSON_HEADER,
     });
-    return this.http.post(url, withdrawal, { headers }).pipe(
+    return this.http.post(url, withdrawalData, { headers }).pipe(
       catchError((error) => {
         throw tryNormalizeHttpError(error, this.logger);
       })

@@ -8,7 +8,7 @@ import { OccEndpointsService } from '@spartacus/core';
 // import { OccEndpointsService, LoggerService } from '@spartacus/core';
 import {
   CancellationDetails,
-  withdrawal as Withdrawal,
+  Withdrawal as Withdrawal,
 } from '@spartacus/subscription-billing/root';
 
 describe('OccCancelSubscriptionAdapter', () => {

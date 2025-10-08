@@ -9,7 +9,7 @@ import { CancelSubscriptionOrderAdapter } from './subscription-billing-cancel.ad
 import { Observable } from 'rxjs';
 import {
   CancellationDetails,
-  withdrawal,
+  Withdrawal,
 } from '@spartacus/subscription-billing/root';
 
 @Injectable({
@@ -41,15 +41,14 @@ export class CancelSubscriptionOrderConnector {
   public reversecancellation(
     userId: string,
     subscriptionCode: string
-    // reverseCancellation: reverseCancellation
   ): Observable<unknown> {
     return this.adapter.reverseCancellation(userId, subscriptionCode);
   }
   public withdrawal(
     userId: string,
     subscriptionCode: string,
-    withdrawal: withdrawal
+    withdrawalData: Withdrawal
   ): Observable<unknown> {
-    return this.adapter.withdrawal(userId, subscriptionCode, withdrawal);
+    return this.adapter.withdrawal(userId, subscriptionCode, withdrawalData);
   }
 }

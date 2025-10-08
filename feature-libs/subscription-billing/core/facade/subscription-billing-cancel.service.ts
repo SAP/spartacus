@@ -15,11 +15,13 @@ import {
   GetSubscriptionByCodeReloadEvent,
   CancelSubscriptionFacade,
   CancellationDetails,
-  withdrawal,
+  Withdrawal,
 } from '@spartacus/subscription-billing/root';
 import { Observable, switchMap, take, combineLatest, of } from 'rxjs';
-import { SubscriptionBillingConnector } from '../connector';
-import { CancelSubscriptionOrderConnector } from '../connector';
+import {
+  SubscriptionBillingConnector,
+  CancelSubscriptionOrderConnector,
+} from '../connector';
 
 @Injectable()
 export class SubscriptionBillingCancelService
@@ -107,7 +109,7 @@ export class SubscriptionBillingCancelService
   }
 
   withdrawal(
-    withdrawal: withdrawal,
+    withdrawalData: Withdrawal,
     subscriptionCode?: string
   ): Observable<unknown> {
     return combineLatest([
@@ -124,7 +126,7 @@ export class SubscriptionBillingCancelService
         return this.cancelSubscriptionOrderConnector.withdrawal(
           userId,
           code,
-          withdrawal
+          withdrawalData
         );
       })
     );

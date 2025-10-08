@@ -4,7 +4,7 @@ import { CancelSubscriptionOrderAdapter } from './subscription-billing-cancel.ad
 import { of, throwError } from 'rxjs';
 import {
   CancellationDetails,
-  withdrawal,
+  Withdrawal,
 } from '@spartacus/subscription-billing/root';
 
 describe('CancelSubscriptionOrderConnector', () => {
@@ -123,7 +123,7 @@ describe('CancelSubscriptionOrderConnector', () => {
     it('should delegate to adapter', () => {
       const userId = 'user123';
       const subscriptionCode = 'subABC';
-      const withdrawalData: withdrawal = {
+      const withdrawalData: Withdrawal = {
         subscriptionId: 'sub123',
         version: '1.0',
         withdrawnAt: '2025-08-25T10:00:00Z',

@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import {
+  EXTENDED_LAUNCH_CALLER,
   GetSubscriptionByCodeReloadEvent,
   SubscriptionBillingFacade,
   SubscriptionDetail,
@@ -21,7 +22,7 @@ import {
 
 import { combineLatest, Observable, Subscription, take, tap } from 'rxjs';
 
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { LaunchDialogService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-subscription-details',
@@ -75,7 +76,7 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
         };
 
         this.launchDialogService.openDialogAndSubscribe(
-          LAUNCH_CALLER.SUBSCRIPTION_CONFIRMATION,
+          EXTENDED_LAUNCH_CALLER.SUBSCRIPTION_CONFIRMATION,
           this.cancelTriggerEl,
           dataToPass
         );

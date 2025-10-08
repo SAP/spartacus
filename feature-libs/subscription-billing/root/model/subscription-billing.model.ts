@@ -39,11 +39,11 @@ export interface CancelData {
 export interface CancellationDetails {
   subscriptionEndAt?: string;
 }
-export interface reverseCancellation {
+export interface ReverseCancellation {
   subscriptionId?: string;
   version?: string;
 }
-export interface withdrawal {
+export interface Withdrawal {
   subscriptionId?: string;
   version?: string;
   withdrawnAt?: string;

@@ -6,11 +6,11 @@
  */
 import { LAUNCH_CALLER } from '@spartacus/storefront';
 
-declare module '@spartacus/storefront' {
-  enum LAUNCH_CALLER {
-    SUBSCRIPTION_CONFIRMATION = 'SUBSCRIPTION_CONFIRMATION',
-  }
-}
+export const EXTENDED_LAUNCH_CALLER = {
+  ...LAUNCH_CALLER,
+  SUBSCRIPTION_CONFIRMATION: 'SUBSCRIPTION_CONFIRMATION',
+  // add other new callers here
+} as const;
 
-(LAUNCH_CALLER as any)['SUBSCRIPTION_CONFIRMATION'] =
-  'SUBSCRIPTION_CONFIRMATION';
+export type ExtendedLaunchCaller =
+  (typeof EXTENDED_LAUNCH_CALLER)[keyof typeof EXTENDED_LAUNCH_CALLER];
