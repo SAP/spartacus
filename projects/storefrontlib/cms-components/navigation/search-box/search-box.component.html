@@ -123,13 +123,8 @@
   class="results"
   id="results"
   (click)="close(true)"
-  [class.no-headers]="
-    !isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) &&
-    !isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
-  "
 >
   <button
-    *ngIf="isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)"
     class="btn btn-tertiary search-panel-close-btn"
     (keydown.arrowdown)="focusPreviousGroup($any($event))"
     (click)="close()"
@@ -142,24 +137,13 @@
     class="suggestions"
     *ngIf="(searchInputEl?.nativeElement?.value ?? '').length > 0"
   >
-    <ng-container
-      *ngIf="
-        isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) ||
-        isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
-      "
-    >
-      <h3>
-        {{ 'searchBox.suggestions' | cxTranslate }}
-      </h3>
-    </ng-container>
+    <h3>
+      {{ 'searchBox.suggestions' | cxTranslate }}
+    </h3>
     <ul
       tabindex="0"
       attr.aria-label="{{ 'searchBox.ariaLabelSuggestions' | cxTranslate }}"
       role="listbox"
-      [class.no-headers]="
-        !isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) &&
-        !isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
-      "
     >
       <li *ngFor="let suggestion of result.suggestions" role="option">
         <a
@@ -200,16 +184,12 @@
     class="trending-searches-container"
     [class.d-block]="searchInputEl?.nativeElement?.value?.length === 0"
   >
-    <ng-container *ngIf="searchBoxFeatures.TRENDING_SEARCHES_FEATURE">
-      <ng-container *cxFeature="searchBoxFeatures.TRENDING_SEARCHES_FEATURE">
-        <ng-template
-          [cxOutlet]="searchBoxOutlets.TRENDING_SEARCHES"
-          [cxOutletContext]="{
-            maxTrendingSearches: config.maxTrendingSearches,
-          }"
-        ></ng-template>
-      </ng-container>
-    </ng-container>
+    <ng-template
+      [cxOutlet]="searchBoxOutlets.TRENDING_SEARCHES"
+      [cxOutletContext]="{
+        maxTrendingSearches: config.maxTrendingSearches,
+      }"
+    ></ng-template>
   </div>
 
   <!--  RECENT SEARCHES-->
@@ -224,16 +204,9 @@
   ></ng-template>
   <!--RESULT  PRODUCTS-->
   <div class="products">
-    <ng-container
-      *ngIf="
-        isEnabledFeature(searchBoxFeatures.TRENDING_SEARCHES_FEATURE) ||
-        isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)
-      "
-    >
       <h3 *ngIf="result.products?.length">
         {{ 'searchBox.products' | cxTranslate }}
       </h3>
-    </ng-container>
     <ul
       *ngIf="result.products"
       attr.aria-label="{{ 'searchBox.ariaLabelProducts' | cxTranslate }}"
@@ -329,10 +302,8 @@
   </div>
 
   <div
-    [class.d-none]="!hasSearchBoxV2"
     class="search-panel-header"
     [class.header-panel-divider]="!result.message"
-    *ngIf="isEnabledFeature(searchBoxFeatures.SEARCH_BOX_V2)"
   >
     <h3
       class="search-panel-message"

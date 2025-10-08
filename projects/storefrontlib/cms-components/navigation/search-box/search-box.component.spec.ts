@@ -309,29 +309,13 @@ describe('SearchBoxComponent', () => {
       fixture.detectChanges();
 
       expect(serviceSpy.launchSearchPage).not.toHaveBeenCalled();
-    });
+    })
 
-    it('should return true when the feature is enabled', () => {
-      spyOn(
-        searchBoxComponent.featureConfigService,
-        'isEnabled'
-      ).and.returnValue(true);
+    it('should always return true for searchBoxV2', () => {
       expect(searchBoxComponent.searchBoxV2).toBeTrue();
     });
 
-    it('should return false when the feature is disabled', function () {
-      spyOn(
-        searchBoxComponent.featureConfigService,
-        'isEnabled'
-      ).and.returnValue(false);
-      expect(searchBoxComponent.searchBoxV2).toBeFalse();
-    });
-
-    it('should bind the "search-box-v2" class when the feature is enabled', function () {
-      spyOn(
-        searchBoxComponent.featureConfigService,
-        'isEnabled'
-      ).and.returnValue(true);
+    it('should always bind the "search-box-v2" class', function () {
       expect(searchBoxComponent.searchBoxV2).toBeTrue();
     });
 
