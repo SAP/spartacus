@@ -19,7 +19,7 @@ import {
   OpfResourceLoaderService,
 } from '@spartacus/opf/base/root';
 import { Order, OrderFacade } from '@spartacus/order/root';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { OpfPaymentFacade } from '../../facade';
 import {
   OpfPaymentVerificationResponse,
@@ -321,15 +321,16 @@ describe('OpfPaymentVerificationService', () => {
         of(mockVerificationResponse)
       );
 
-      service
-        .runHostedPagePattern(mockPaymentSessionId, mockResponseMap)
-        .subscribe(
-          () => {},
-          (error) => {
+      // Test the verifyPayment method directly since runHostedPagePattern catches errors
+      (service as any)
+        .verifyPayment(mockPaymentSessionId, mockResponseMap)
+        .subscribe({
+          next: () => {},
+          error: (error: any) => {
             expect(error.message).toEqual('opfPayment.errors.cancelPayment');
             done();
-          }
-        );
+          },
+        });
     });
 
     it('should throw an error with opfDefaultPaymentError if the result is not AUTHORIZED, DELAYED, or CANCELLED', (done) => {
@@ -343,15 +344,36 @@ describe('OpfPaymentVerificationService', () => {
         of(mockVerificationResponse)
       );
 
-      service
-        .runHostedPagePattern(mockPaymentSessionId, mockResponseMap)
-        .subscribe(
-          () => {},
-          (error) => {
+      // Test the verifyPayment method directly since runHostedPagePattern catches errors
+      (service as any)
+        .verifyPayment(mockPaymentSessionId, mockResponseMap)
+        .subscribe({
+          next: () => {},
+          error: (error: any) => {
             expect(error).toEqual(service.opfDefaultPaymentError);
             done();
-          }
-        );
+          },
+        });
+    });
+
+    it('should handle 409 conflict error by navigating to cart page', (done) => {
+      const mockPaymentSessionId = 'sessionId';
+      const mockResponseMap = [{ key: 'key', value: 'value' }];
+      const mock409Error = { status: 409, message: 'Conflict' };
+
+      opfPaymentServiceMock.verifyPayment.and.returnValue(
+        throwError(() => mock409Error)
+      );
+
+      service
+        .runHostedPagePattern(mockPaymentSessionId, mockResponseMap)
+        .subscribe((result) => {
+          expect(result).toBe(false);
+          expect(routingServiceMock.go).toHaveBeenCalledWith({
+            cxRoute: 'cart',
+          });
+          done();
+        });
     });
   });
 
@@ -504,6 +526,48 @@ describe('OpfPaymentVerificationService', () => {
         { key: 'opfPayment.errors.proceedPayment' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
+    });
+  });
+
+  describe('handlePaymentVerificationError', () => {
+    it('should handle 409 conflict error by navigating to cart page', () => {
+      const mock409Error = { status: 409, message: 'Conflict' };
+
+      spyOn(service as any, 'handlePaymentAlreadyDoneError').and.returnValue(
+        throwError(() => 'Payment already done')
+      );
+
+      (service as any).handlePaymentVerificationError(mock409Error).subscribe({
+        next: () => {},
+        error: (error: any) => {
+          expect(error).toBe('Payment already done');
+        },
+      });
+    });
+
+    it('should re-throw non-409 errors', () => {
+      const mockError = { status: 500, message: 'Server Error' };
+
+      (service as any).handlePaymentVerificationError(mockError).subscribe({
+        next: () => {},
+        error: (error: any) => {
+          expect(error).toEqual(mockError);
+        },
+      });
+    });
+  });
+
+  describe('handlePaymentAlreadyDoneError', () => {
+    it('should navigate to cart page and throw error', () => {
+      (service as any).handlePaymentAlreadyDoneError().subscribe({
+        next: () => {},
+        error: (error: any) => {
+          expect(error).toBe('Payment already done');
+          expect(routingServiceMock.go).toHaveBeenCalledWith({
+            cxRoute: 'cart',
+          });
+        },
+      });
     });
   });
 
