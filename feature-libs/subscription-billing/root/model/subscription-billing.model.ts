@@ -5,6 +5,7 @@
  */
 
 import { PaginationModel, SortModel } from '@spartacus/core';
+import { LAUNCH_CALLER } from '@spartacus/storefront';
 import { PricePlan } from './subscription-product.model';
 
 export interface SubscriptionDetail {
@@ -31,3 +32,24 @@ export interface SubscriptionList {
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }
+
+//re-check if this will be needed after jdk21 upgrade
+export enum SubscriptionStatus {
+  cancelled = 'CANCELLED',
+  active = 'ACTIVE',
+  withdrawn = 'WITHDRAWN',
+  expired = 'EXPIRED',
+}
+
+export interface SubscriptionExtensionEffectiveDate {
+  subscriptionEndAt: string;
+}
+
+export const UNLIMITED_EXTEND_DURATION_OPTION_VALUE = 0;
+
+declare module '@spartacus/storefront' {
+  enum LAUNCH_CALLER {
+    EXTEND_SUBSCRIPTION = 'EXTEND_SUBSCRIPTION',
+  }
+}
+(LAUNCH_CALLER as any)['EXTEND_SUBSCRIPTION'] = 'EXTEND_SUBSCRIPTION';

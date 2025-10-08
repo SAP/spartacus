@@ -15,9 +15,9 @@ import {
 } from '@spartacus/core';
 import {
   GetSubscriptionByCodeReloadEvent,
-  GetSubscriptionListReloadEvent,
   SubscriptionBillingFacade,
   SubscriptionDetail,
+  SubscriptionExtensionEffectiveDate,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
 import { Observable, map, switchMap, take, combineLatest } from 'rxjs';
@@ -30,15 +30,19 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
   protected subscriptionBillingConnector = inject(SubscriptionBillingConnector);
   protected routingService = inject(RoutingService);
 
-  /** events */
   protected getSubscriptionByCodeReloadEvents(): QueryNotifier[] {
     return [GetSubscriptionByCodeReloadEvent];
   }
-  protected getSubscriptionListReloadEvents(): QueryNotifier[] {
-    return [GetSubscriptionListReloadEvent];
+  getSubscriptionCodeFromRoute(): Observable<string | undefined> {
+    return this.routingService.getRouterState().pipe(
+      map((route) => {
+        const guidPattern = /\/subscription\/([^/?#]+)/;
+        const match = route.state.url.match(guidPattern);
+        return match ? match[1] : undefined;
+      })
+    );
   }
 
-  /** queries */
   protected getSubscriptionByCodeQuery$: Query<SubscriptionDetail | undefined> =
     this.queryService.create<SubscriptionDetail | undefined>(
       () =>
@@ -55,48 +59,17 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
         // resetOn: this.getTicketQueryResetEvents(),
       }
     );
-  protected getSubscriptionListQuery$(
-    pageSize: number,
-    currentPage: number,
-    sort: string
-  ): Query<SubscriptionList | undefined> {
-    return this.queryService.create<SubscriptionList | undefined>(
-      () =>
-        this.subscriptionListPreConditions().pipe(
-          switchMap((customerId) =>
-            this.subscriptionBillingConnector.getSubscriptionList(
-              customerId,
-              pageSize,
-              currentPage,
-              sort
-            )
-          )
-        ),
-      {
-        reloadOn: this.getSubscriptionListReloadEvents(),
-      }
-    );
-  }
 
-  /** query states */
   getSubscriptionByCodeState(): Observable<
     QueryState<SubscriptionDetail | undefined>
   > {
     return this.getSubscriptionByCodeQuery$.getState();
   }
-  getSubscriptionListState(
-    pageSize: number,
-    currentPage: number,
-    sort: string
-  ): Observable<QueryState<SubscriptionList | undefined>> {
-    return this.getSubscriptionListQuery$(
-      pageSize,
-      currentPage,
-      sort
-    ).getState();
+
+  getSubscriptionByCode(): Observable<SubscriptionDetail | undefined> {
+    return this.getSubscriptionByCodeState().pipe(map((state) => state.data));
   }
 
-  /** pre-conditions */
   protected subscriptionListPreConditions(): Observable<string> {
     return this.userIdService.getUserId().pipe(
       take(1),
@@ -122,20 +95,42 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
       })
     );
   }
-
-  /** public methods */
-  getSubscriptionCodeFromRoute(): Observable<string | undefined> {
-    return this.routingService.getRouterState().pipe(
-      map((route) => {
-        const guidPattern = /\/subscription\/([^/?#]+)/;
-        const match = route.state.url.match(guidPattern);
-        return match ? match[1] : undefined;
-      })
+  protected getSubscriptionListQuery$(
+    pageSize: number,
+    currentPage: number,
+    sort: string
+  ): Query<SubscriptionList | undefined> {
+    return this.queryService.create<SubscriptionList | undefined>(
+      () =>
+        this.subscriptionListPreConditions().pipe(
+          switchMap((customerId) =>
+            this.subscriptionBillingConnector.getSubscriptionList(
+              customerId,
+              pageSize,
+              currentPage,
+              sort
+            )
+          )
+        )
+      // see if below is needed later
+      // {
+      // reloadOn: this.getTicketsQueryReloadEvents(),
+      // resetOn: this.getTicketsQueryResetEvents(),
+      // }
     );
   }
-  getSubscriptionByCode(): Observable<SubscriptionDetail | undefined> {
-    return this.getSubscriptionByCodeState().pipe(map((state) => state.data));
+  getSubscriptionListState(
+    pageSize: number,
+    currentPage: number,
+    sort: string
+  ): Observable<QueryState<SubscriptionList | undefined>> {
+    return this.getSubscriptionListQuery$(
+      pageSize,
+      currentPage,
+      sort
+    ).getState();
   }
+
   getSubscriptionList(
     pageSize: number,
     currentPage: number,
@@ -143,6 +138,38 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
   ): Observable<SubscriptionList | undefined> {
     return this.getSubscriptionListState(pageSize, currentPage, sort).pipe(
       map((state) => state.data)
+    );
+  }
+
+  getSubscriptionExtensionEffectiveDate(
+    extendDuration: number,
+    isUnlimitedDuration: boolean
+  ): Observable<SubscriptionExtensionEffectiveDate> {
+    return this.subscriptionDetailsPreConditions().pipe(
+      switchMap(([userId, subscriptionCode]) =>
+        this.subscriptionBillingConnector.getSubscriptionExtensionEffectiveDate(
+          userId,
+          subscriptionCode,
+          extendDuration,
+          isUnlimitedDuration
+        )
+      )
+    );
+  }
+
+  extendSubscription(
+    extendDuration: number,
+    isUnlimitedDuration: boolean
+  ): Observable<any> {
+    return this.subscriptionDetailsPreConditions().pipe(
+      switchMap(([userId, subscriptionCode]) =>
+        this.subscriptionBillingConnector.extendSubscription(
+          userId,
+          subscriptionCode,
+          extendDuration,
+          isUnlimitedDuration
+        )
+      )
     );
   }
 }
