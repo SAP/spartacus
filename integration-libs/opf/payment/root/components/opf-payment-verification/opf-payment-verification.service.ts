@@ -10,6 +10,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
+  HttpResponseStatus,
   RoutingService,
 } from '@spartacus/core';
 
@@ -27,7 +28,15 @@ import {
 } from '@spartacus/opf/global-functions/root';
 import { Order, OrderFacade } from '@spartacus/order/root';
 import { Observable, from, of, throwError } from 'rxjs';
-import { concatMap, filter, map, take, tap } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  filter,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { OpfPaymentFacade } from '../../facade';
 import {
   OpfPaymentVerificationResponse,
@@ -144,6 +153,11 @@ export class OpfPaymentVerificationService {
       .pipe(
         concatMap((response: OpfPaymentVerificationResponse) =>
           this.isPaymentSuccessful(response)
+        ),
+        catchError((err) =>
+          this.handlePaymentVerificationError(err).pipe(
+            switchMap(() => of(false))
+          )
         )
       );
   }
@@ -164,6 +178,21 @@ export class OpfPaymentVerificationService {
     } else {
       return throwError(() => this.opfDefaultPaymentError);
     }
+  }
+
+  protected handlePaymentVerificationError(
+    err: HttpErrorModel
+  ): Observable<Error> {
+    return Number(err.status) === HttpResponseStatus.CONFLICT
+      ? this.handlePaymentAlreadyDoneError()
+      : throwError(() => err);
+  }
+
+  protected handlePaymentAlreadyDoneError(): Observable<Error> {
+    // Payment already done - navigate to cart page
+    this.goToPage(OpfPage.CART_PAGE);
+
+    return throwError(() => 'Payment already done');
   }
 
   displayError(error: HttpErrorModel | undefined): void {
@@ -207,6 +236,10 @@ export class OpfPaymentVerificationService {
         if (success) {
           this.goToPage(OpfPage.CONFIRMATION_PAGE);
         }
+      }),
+      catchError(() => {
+        // Error handling is already done in verifyPayment method
+        return of(false);
       })
     );
   }
@@ -226,7 +259,7 @@ export class OpfPaymentVerificationService {
     return this.opfPaymentFacade.getAfterRedirectScripts(paymentSessionId).pipe(
       concatMap((response) => {
         if (!response?.afterRedirectScript) {
-          return throwError(this.opfDefaultPaymentError);
+          return throwError(() => this.opfDefaultPaymentError);
         }
         return from(
           this.renderAfterRedirectScripts(response.afterRedirectScript)
