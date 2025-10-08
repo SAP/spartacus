@@ -321,16 +321,15 @@ describe('OpfPaymentVerificationService', () => {
         of(mockVerificationResponse)
       );
 
-      // Test the verifyPayment method directly since runHostedPagePattern catches errors
-      (service as any)
-        .verifyPayment(mockPaymentSessionId, mockResponseMap)
-        .subscribe({
+      service['verifyPayment'](mockPaymentSessionId, mockResponseMap).subscribe(
+        {
           next: () => {},
           error: (error: any) => {
             expect(error.message).toEqual('opfPayment.errors.cancelPayment');
             done();
           },
-        });
+        }
+      );
     });
 
     it('should throw an error with opfDefaultPaymentError if the result is not AUTHORIZED, DELAYED, or CANCELLED', (done) => {
@@ -344,16 +343,15 @@ describe('OpfPaymentVerificationService', () => {
         of(mockVerificationResponse)
       );
 
-      // Test the verifyPayment method directly since runHostedPagePattern catches errors
-      (service as any)
-        .verifyPayment(mockPaymentSessionId, mockResponseMap)
-        .subscribe({
+      service['verifyPayment'](mockPaymentSessionId, mockResponseMap).subscribe(
+        {
           next: () => {},
           error: (error: any) => {
             expect(error).toEqual(service.opfDefaultPaymentError);
             done();
           },
-        });
+        }
+      );
     });
 
     it('should handle 409 conflict error by navigating to cart page', (done) => {
@@ -533,11 +531,11 @@ describe('OpfPaymentVerificationService', () => {
     it('should handle 409 conflict error by navigating to cart page', () => {
       const mock409Error = { status: 409, message: 'Conflict' };
 
-      spyOn(service as any, 'handlePaymentAlreadyDoneError').and.returnValue(
+      spyOn(service, 'handlePaymentAlreadyDoneError' as any).and.returnValue(
         throwError(() => 'Payment already done')
       );
 
-      (service as any).handlePaymentVerificationError(mock409Error).subscribe({
+      service['handlePaymentVerificationError'](mock409Error).subscribe({
         next: () => {},
         error: (error: any) => {
           expect(error).toBe('Payment already done');
@@ -548,7 +546,7 @@ describe('OpfPaymentVerificationService', () => {
     it('should re-throw non-409 errors', () => {
       const mockError = { status: 500, message: 'Server Error' };
 
-      (service as any).handlePaymentVerificationError(mockError).subscribe({
+      service['handlePaymentVerificationError'](mockError).subscribe({
         next: () => {},
         error: (error: any) => {
           expect(error).toEqual(mockError);
@@ -559,7 +557,7 @@ describe('OpfPaymentVerificationService', () => {
 
   describe('handlePaymentAlreadyDoneError', () => {
     it('should navigate to cart page and throw error', () => {
-      (service as any).handlePaymentAlreadyDoneError().subscribe({
+      service['handlePaymentAlreadyDoneError']().subscribe({
         next: () => {},
         error: (error: any) => {
           expect(error).toBe('Payment already done');
