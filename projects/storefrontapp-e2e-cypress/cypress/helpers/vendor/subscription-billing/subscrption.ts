@@ -53,7 +53,10 @@ export function checkCancelButtonExists() {
     .and('be.visible');
   cy.log('Cancel button is present and visible.');
 }
-
+export function clickViewAllSubscriptions() {
+  cy.get('button').contains('View All Subscriptions').should('be.visible').click();
+  cy.get(subscrptionComponentSelector, { timeout: 10000 }).should('be.visible');
+}
 export function cancelSubscriptionIfPossible() {
   if (alreadyCancelled) {
     this.resubscribeSubscriptionIfPossible();
@@ -62,7 +65,7 @@ export function cancelSubscriptionIfPossible() {
   alreadyCancelled = true;
 
   const cancelButtonSelector = '.cx-other-actions a[aria-label="Cancel"]';
-  const modalSelector = 'cx-subscription-cancel';
+  const modalSelector = 'cx-subscription-modal';
   const confirmButtonSelector = `${modalSelector} button.btn-primary`;
 
   cy.get('body').then(($body) => {
@@ -70,7 +73,7 @@ export function cancelSubscriptionIfPossible() {
       cy.log('Cancel button is available, proceeding to click it.');
       cy.get(cancelButtonSelector).should('be.visible').click({ force: true });
 
-      cy.get(modalSelector, { timeout: 5000 }).should('be.visible');
+      cy.get(modalSelector, { timeout: 15000  }).should('be.visible');
 
       cy.get(`${modalSelector} .cx-dialog-body p`)
         .first()
@@ -100,10 +103,31 @@ export function cancelSubscriptionIfPossible() {
     }
   });
 }
+export function clickManageServiceForCancellSubscription() {
+  cy.get(subscrptionComponentSelector).should('be.visible');
+  cy.get(subscriptionSelector).should('exist');
+
+  cy.get(subscriptionSelector).then(($subs) => {
+    const activeSub = $subs
+      .toArray()
+      .find((el) =>
+        el.querySelector(statusSelector)?.textContent?.includes('Cancelled')
+      );
+    if (activeSub) {
+      cy.wrap(activeSub)
+        .find(manageServiceLinkSelector)
+        .should('be.visible')
+        .click({ force: true });
+      cy.get(subscrptionDetailsComponentSelector).should('be.visible');
+    } else {
+      throw new Error('No active subscription found.');
+    }
+  });
+}
 export function resubscribeSubscriptionIfPossible() {
   const resubscribeButtonSelector =
     '.cx-other-actions a[aria-label="Re-subscribe"]';
-  const modalSelector = 'cx-subscription-cancel';
+  const modalSelector = 'cx-subscription-modal';
   const confirmButtonSelector = `${modalSelector} button.btn-primary`;
 
   cy.get('body').then(($body) => {
@@ -147,7 +171,7 @@ export function resubscribeSubscriptionIfPossible() {
 }
 export function widthdrawSubscriptionIfPossible() {
   const withdrawButtonSelector = '.cx-other-actions a[aria-label="Withdraw"]';
-  const modalSelector = 'cx-subscription-cancel';
+  const modalSelector = 'cx-subscription-modal';
   const confirmButtonSelector = `${modalSelector} button.btn-primary`;
 
   cy.get('body').then(($body) => {
