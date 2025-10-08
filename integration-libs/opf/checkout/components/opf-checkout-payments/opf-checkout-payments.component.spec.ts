@@ -118,7 +118,7 @@ describe('OpfCheckoutPaymentsComponent', () => {
       of(mockOpfMetadata)
     );
     mockBillingAddressFormService = {
-      paymentOptionsDisabled$: of(false), // Mock the observable
+      paymentOptionsDisabled$: of(false),
     };
 
     await TestBed.configureTestingModule({
