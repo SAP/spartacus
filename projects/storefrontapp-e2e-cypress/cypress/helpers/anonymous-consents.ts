@@ -119,10 +119,21 @@ export function clickViewDetailsFromBanner() {
 }
 
 export function openAnonymousConsentsDialog() {
-  cy.get('cx-anonymous-consent-open-dialog').within(() => {
-    const link = cy.get('button');
-    link.should('exist');
-    link.click({ force: true });
+  cy.get('body').then(($body) => {
+    const hasBannerBtn =
+      $body.find('cx-anonymous-consent-management-banner .btn-secondary').length > 0;
+
+    if (hasBannerBtn) {
+      cy.log('Opening dialog via banner');
+      cy.get('cx-anonymous-consent-management-banner .btn-secondary')
+        .should('be.visible')
+        .click({ force: true });
+    } else {
+      cy.log('Opening dialog via footer link');
+      cy.get('cx-anonymous-consent-open-dialog button', { timeout: 10000 })
+        .should('exist')
+        .click({ force: true });
+    }
   });
 }
 
@@ -319,8 +330,17 @@ export function showAnonymousConfigTest() {
   });
 }
 
+export function stabilizeAnonymousConsentNetwork() {
+  cy.intercept('HEAD', '**/users/anonymous/consenttemplates*').as('headConsentTemplates');
+  cy.intercept('GET',  '**/users/anonymous/consenttemplates*').as('getConsentTemplates');
+
+  cy.wait(0);
+}
+
 export function anonymousConfigTestFlow() {
   it('should check new register consent and personalizing not visible in consent management page', () => {
+    stabilizeAnonymousConsentNetwork();
+
     //first, check that marketing consent in the dialog is disabled
     openAnonymousConsentsDialog();
     checkInputConsentState(0, BE_DISABLED);
