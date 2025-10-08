@@ -257,7 +257,7 @@ export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
     defaultRenderingStrategyResolverOptions
   ),
   logger: new DefaultExpressServerLogger(),
-  shouldCacheRenderingResult: ({ entry }) => !Boolean(entry.err),
+  shouldCacheRenderingResult: ({ entry: { err } }) => !err,
   renderKeyResolver: getDefaultRenderKey,
   ssrFeatureToggles: {
     limitCacheByMemory: false,

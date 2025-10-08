@@ -51,7 +51,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '221121.1'
+      level: '221121.2'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -279,7 +279,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '221121.1'
+      level: '221121.2'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -507,7 +507,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '221121.1'
+      level: '221121.2'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -735,7 +735,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '221121.1'
+      level: '221121.2'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -963,7 +963,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '221121.1'
+      level: '221121.2'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })

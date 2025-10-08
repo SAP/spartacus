@@ -340,6 +340,20 @@
       "@spartacus/storefinder": ["dist/storefinder"],
       "@spartacus/storefinder/occ": ["dist/storefinder/occ"],
       "@spartacus/storefinder/root": ["dist/storefinder/root"],
+      "@spartacus/subscription-billing/assets": [
+        "dist/subscription-billing/assets"
+      ],
+      "@spartacus/subscription-billing/components": [
+        "dist/subscription-billing/components"
+      ],
+      "@spartacus/subscription-billing/core": [
+        "dist/subscription-billing/core"
+      ],
+      "@spartacus/subscription-billing": ["dist/subscription-billing"],
+      "@spartacus/subscription-billing/occ": ["dist/subscription-billing/occ"],
+      "@spartacus/subscription-billing/root": [
+        "dist/subscription-billing/root"
+      ],
       "@spartacus/tracking": ["dist/tracking"],
       "@spartacus/tracking/personalization/core": [
         "dist/tracking/personalization/core"
