@@ -59,7 +59,7 @@ class MockLanguageService {
     }
 }
 
-fdescribe('ExtendSubscriptionDialog', () => {
+describe('ExtendSubscriptionDialog', () => {
     let fixture: ComponentFixture<ExtendSubscriptionDialog>;
     let component: ExtendSubscriptionDialog;
     let subscriptionBillingService: SubscriptionBillingFacade;
