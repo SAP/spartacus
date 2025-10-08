@@ -125,9 +125,7 @@ describe('SubscriptionCartPriceBodyComponent', () => {
       const oneTimeChargesElement = compiled.querySelector(
         '.cx-one-time-charges'
       );
-      const basePriceElement = compiled.querySelector(
-        '.cx-value'
-      );
+      const basePriceElement = compiled.querySelector('.cx-value');
       expect(recurringChargesElement).toBeFalsy();
       expect(oneTimeChargesElement).toBeFalsy();
       expect(basePriceElement).toBeTruthy();

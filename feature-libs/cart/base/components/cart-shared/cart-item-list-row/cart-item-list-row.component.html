@@ -38,7 +38,9 @@
           {{ 'cartItems.id' | cxTranslate }} {{ item.product?.code }}
         </div>
         <!-- Item Price -->
-        <ng-container *ngIf="isFlagQuote && item.product?.productTypes !== 'SUBSCRIPTION'">
+        <ng-container
+          *ngIf="isFlagQuote && item.product?.productTypes !== 'SUBSCRIPTION'"
+        >
           <div *ngIf="item.basePrice" class="cx-price">
             <div *ngIf="item.basePrice" class="cx-value">
               {{ item.basePrice?.formattedValue }}
@@ -108,7 +110,7 @@
           items: item,
         }"
       >
-    </ng-template>
+      </ng-template>
     </td>
   </ng-container>
 
@@ -142,7 +144,12 @@
     <div class="cx-value" [class.readonly-value]="readonly">
       <cx-item-counter
         [control]="quantityControl"
-        [readonly]="!item.updateable || readonly || options.isSaveForLater || item.product?.productTypes === 'SUBSCRIPTION'"
+        [readonly]="
+          !item.updateable ||
+          readonly ||
+          options.isSaveForLater ||
+          item.product?.productTypes === 'SUBSCRIPTION'
+        "
         [max]="item.product?.stock?.stockLevel"
         [allowZero]="true"
       >

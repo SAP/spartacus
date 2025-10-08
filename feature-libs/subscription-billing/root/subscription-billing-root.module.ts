@@ -45,14 +45,13 @@ export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
     provideOutlet({
       id: CartOutlets.SUBSCRIPTION_PRICE_HEADING,
       position: OutletPosition.AFTER,
-      component: SubscriptionCartPriceHeadingComponent
+      component: SubscriptionCartPriceHeadingComponent,
     }),
     provideOutlet({
       id: CartOutlets.SUBSCRIPTION_PRICE_BODY,
       position: OutletPosition.AFTER,
-      component: SubscriptionCartPriceBodyComponent
+      component: SubscriptionCartPriceBodyComponent,
     }),
   ],
 })
-export class SubscriptionBillingRootModule {
-}
+export class SubscriptionBillingRootModule {}

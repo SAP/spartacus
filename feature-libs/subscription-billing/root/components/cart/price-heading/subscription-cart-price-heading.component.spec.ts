@@ -20,9 +20,10 @@ describe('SubscriptionCartPriceHeadingComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SubscriptionCartPriceHeadingComponent],
-      providers: [{ provide: TranslationService, useClass: MockTranslateService }],
-    })
-    .compileComponents();
+      providers: [
+        { provide: TranslationService, useClass: MockTranslateService },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SubscriptionCartPriceHeadingComponent);
     component = fixture.componentInstance;

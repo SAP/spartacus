@@ -17,5 +17,4 @@ export class SubscriptionCartPriceBodyComponent {
     @Inject(CartItemContext)
     protected cartItemContext: CartItemContext
   ) {}
-
 }
