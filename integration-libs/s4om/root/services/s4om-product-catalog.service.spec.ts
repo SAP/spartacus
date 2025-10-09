@@ -21,8 +21,6 @@ const productWithOrdinaryStockLevelStatus: Product = {
 const productWithoutStockLevelStatus: Product = {
   code: 'product1',
   name: 'Test Product 1',
-  stock: {
-  },
 };
 
 describe('S4omProductCatalogService', () => {
