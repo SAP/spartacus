@@ -309,7 +309,7 @@ describe('SearchBoxComponent', () => {
       fixture.detectChanges();
 
       expect(serviceSpy.launchSearchPage).not.toHaveBeenCalled();
-    })
+    });
 
     it('should always return true for searchBoxV2', () => {
       expect(searchBoxComponent.searchBoxV2).toBeTrue();

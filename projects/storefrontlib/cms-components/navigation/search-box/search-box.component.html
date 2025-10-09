@@ -204,9 +204,9 @@
   ></ng-template>
   <!--RESULT  PRODUCTS-->
   <div class="products">
-      <h3 *ngIf="result.products?.length">
-        {{ 'searchBox.products' | cxTranslate }}
-      </h3>
+    <h3 *ngIf="result.products?.length">
+      {{ 'searchBox.products' | cxTranslate }}
+    </h3>
     <ul
       *ngIf="result.products"
       attr.aria-label="{{ 'searchBox.ariaLabelProducts' | cxTranslate }}"
