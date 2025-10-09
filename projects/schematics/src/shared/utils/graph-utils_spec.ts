@@ -202,6 +202,7 @@ describe('Graph utils', () => {
           "TMS-GTM",
           "PDF-Invoices",
           "Requested-Delivery-Date",
+          "Pickup-In-Store",
           "Customer-Ticketing",
           "Organization-User-Registration",
           "Administration",
@@ -237,7 +238,6 @@ describe('Graph utils', () => {
           "Product-Variants",
           "Image-Zoom",
           "Bulk-Pricing",
-          "Pickup-In-Store",
           "Quote",
         ]
       `);
