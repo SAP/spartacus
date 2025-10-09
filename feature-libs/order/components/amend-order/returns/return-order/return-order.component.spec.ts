@@ -3,11 +3,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
+import { Consignment } from '@spartacus/order/root';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { combineLatest, of, take } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { ReturnOrderComponent } from './return-order.component';
-import { Consignment } from '@spartacus/order/root';
 
 const mockForm = new UntypedFormGroup({
   orderCode: new UntypedFormControl('123'),
@@ -117,9 +117,13 @@ describe('ReturnOrderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have an order code', () => {
-    component.form$.subscribe().unsubscribe();
-    expect(component.orderCode).toEqual('123');
+  it('should have an order code', (done) => {
+    component.form$.pipe(take(1)).subscribe(() => {
+      {
+        expect(component.orderCode).toEqual('123');
+        done();
+      }
+    });
   });
 
   it('should render two cx-amend-order-actions components', () => {
@@ -138,64 +142,66 @@ describe('ReturnOrderComponent', () => {
     ).toEqual(2);
   });
 
-  it('should filter and map entries with returnable quantities', () => {
+  it('should filter and map entries with returnable quantities', (done) => {
     fixture.detectChanges();
 
-    let result: OrderEntry[] = [];
-    component.entries$.subscribe((entries) => (result = entries)).unsubscribe();
-
-    // Verify the filtered and mapped entries
-    expect(result.length).toBe(2);
-    expect(result[0].product?.code).toBe('prod1');
-    expect(result[0].returnableQuantity).toBe(5);
-    expect(result[1].product?.code).toBe('prod2');
-    expect(result[1].returnableQuantity).toBe(3);
+    component.entries$.pipe(take(1)).subscribe((result: OrderEntry[] = []) => {
+      // Verify the filtered and mapped entries
+      expect(result.length).toBe(2);
+      expect(result[0].product?.code).toBe('prod1');
+      expect(result[0].returnableQuantity).toBe(5);
+      expect(result[1].product?.code).toBe('prod2');
+      expect(result[1].returnableQuantity).toBe(3);
+      done();
+    });
   });
 
-  it('should initialize form$ and set orderCode', () => {
-    let formValue: UntypedFormGroup = new UntypedFormGroup({});
-    component.form$.subscribe((form) => (formValue = form)).unsubscribe();
-
-    expect(formValue.value.orderCode).toEqual('123');
-    expect(component.orderCode).toEqual('123');
+  it('should initialize form$ and set orderCode', (done) => {
+    component.form$.pipe(take(1)).subscribe((form: UntypedFormGroup) => {
+      expect(form.value.orderCode).toEqual('123');
+      expect(component.orderCode).toEqual('123');
+      done();
+    });
   });
 
-  it('should initialize consignments$', () => {
-    let consignments: any[] = [];
+  it('should initialize consignments$', (done) => {
     component.consignments$
-      .subscribe((data) => (consignments = data))
-      .unsubscribe();
-
-    expect(consignments.length).toBe(1);
-    expect(consignments[0]?.entries.length).toBe(2);
-    expect(consignments[0].entries[0].orderEntry.product.code).toBe('prod1');
-    expect(consignments[0].entries[0].shippedQuantity).toBe(5);
+      .pipe(take(1))
+      .subscribe((consignments: any[] = []) => {
+        expect(consignments.length).toBe(1);
+        expect(consignments[0]?.entries.length).toBe(2);
+        expect(consignments[0].entries[0].orderEntry.product.code).toBe(
+          'prod1'
+        );
+        expect(consignments[0].entries[0].shippedQuantity).toBe(5);
+        done();
+      });
   });
 
-  it('should initialize entries$ with filtered and mapped entries', () => {
-    let entries: OrderEntry[] = [];
-    component.entries$.subscribe((data) => (entries = data)).unsubscribe();
-
-    expect(entries.length).toBe(2);
-    expect(entries.length).toBeGreaterThan(0);
-    expect(entries[0].product?.code).toBe('prod1');
-    expect(entries[0].returnableQuantity).toBe(5);
-    expect(entries[1].product?.code).toBe('prod2');
-    expect(entries[1].returnableQuantity).toBe(3);
+  it('should initialize entries$ with filtered and mapped entries', (done) => {
+    component.entries$.pipe(take(1)).subscribe((entries: OrderEntry[] = []) => {
+      expect(entries.length).toBe(2);
+      expect(entries.length).toBeGreaterThan(0);
+      expect(entries[0].product?.code).toBe('prod1');
+      expect(entries[0].returnableQuantity).toBe(5);
+      expect(entries[1].product?.code).toBe('prod2');
+      expect(entries[1].returnableQuantity).toBe(3);
+      done();
+    });
   });
 
-  it('should handle empty consignments gracefully', () => {
+  it('should handle empty consignments gracefully', (done) => {
     spyOn(TestBed.inject(OrderAmendService), 'getOrder').and.returnValue(
       of({ consignments: [] })
     );
 
-    let entries: OrderEntry[] = [];
-    component.entries$.subscribe((data) => (entries = data)).unsubscribe();
-
-    expect(entries.length).toBe(2);
+    component.entries$.pipe(take(1)).subscribe((entries: OrderEntry[] = []) => {
+      expect(entries.length).toBe(2);
+      done();
+    });
   });
 
-  it('should handle entries without matching consignment entries', () => {
+  it('should handle entries without matching consignment entries', (done) => {
     const mockConsignmentsWithoutMatch = [
       {
         entries: [
@@ -210,33 +216,33 @@ describe('ReturnOrderComponent', () => {
       of({ consignments: mockConsignmentsWithoutMatch })
     );
 
-    let entries: OrderEntry[] = [];
-    component.entries$.subscribe((data) => (entries = data)).unsubscribe();
-
-    expect(entries.length).toBe(2);
+    component.entries$.pipe(take(1)).subscribe((entries: OrderEntry[] = []) => {
+      expect(entries.length).toBe(2);
+      done();
+    });
   });
 
-  it('should set orderCode when form$ is initialized', () => {
-    let formValue: UntypedFormGroup = new UntypedFormGroup({});
-    component.form$.subscribe((form) => (formValue = form)).unsubscribe();
-
-    expect(formValue.value.orderCode).toEqual('123');
-    expect(component.orderCode).toEqual('123');
+  it('should set orderCode when form$ is initialized', (done) => {
+    component.form$.pipe(take(1)).subscribe((formValue: UntypedFormGroup) => {
+      expect(formValue.value.orderCode).toEqual('123');
+      expect(component.orderCode).toEqual('123');
+      done();
+    });
   });
 
-  it('should initialize consignments$ with correct data', () => {
-    let consignments: Consignment[] = [];
+  it('should initialize consignments$ with correct data', (done) => {
     component.consignments$
-      .subscribe((data) => (consignments = data))
-      .unsubscribe();
-
-    expect(consignments.length).toBe(1);
-    expect(consignments[0].entries?.length).toBe(2);
-    expect(consignments[0]?.entries?.[0].orderEntry).toBeDefined();
-    expect(consignments[0]?.entries?.[0].orderEntry?.product?.code).toBe(
-      'prod1'
-    );
-    expect(consignments[0]?.entries?.[0].shippedQuantity).toBe(5);
+      .pipe(take(1))
+      .subscribe((consignments: Consignment[] = []) => {
+        expect(consignments.length).toBe(1);
+        expect(consignments[0].entries?.length).toBe(2);
+        expect(consignments[0]?.entries?.[0].orderEntry).toBeDefined();
+        expect(consignments[0]?.entries?.[0].orderEntry?.product?.code).toBe(
+          'prod1'
+        );
+        expect(consignments[0]?.entries?.[0].shippedQuantity).toBe(5);
+        done();
+      });
   });
 
   describe('when order has new consignments', () => {
@@ -260,19 +266,18 @@ describe('ReturnOrderComponent', () => {
       component = fixture.componentInstance;
     });
 
-    it('should update returnableQuantity based on matching entry consignment', () => {
-      let entries: OrderEntry[] = [];
-      let consignments: Consignment[] = [];
-      component.entries$.subscribe((data) => (entries = data)).unsubscribe();
-      component.consignments$
-        .subscribe((data) => (consignments = data))
-        .unsubscribe();
-
-      expect(consignments.length).toBe(1);
-      expect(consignments[0].entries?.length).toBe(1);
-      expect(entries.length).toBe(1);
-      expect(entries[0].product?.code).toBe('prod1');
-      expect(entries[0].returnableQuantity).toBe(expectedReturnableQuantity);
+    it('should update returnableQuantity based on matching entry consignment', (done) => {
+      combineLatest([
+        component.entries$.pipe(take(1)),
+        component.consignments$.pipe(take(1)),
+      ]).subscribe(([entries, consignments]: [OrderEntry[], Consignment[]]) => {
+        expect(consignments.length).toBe(1);
+        expect(consignments[0].entries?.length).toBe(1);
+        expect(entries.length).toBe(1);
+        expect(entries[0].product?.code).toBe('prod1');
+        expect(entries[0].returnableQuantity).toBe(expectedReturnableQuantity);
+        done();
+      });
     });
   });
 });
