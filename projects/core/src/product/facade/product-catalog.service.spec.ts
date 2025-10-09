@@ -19,7 +19,7 @@ describe('ProductCatalogService', () => {
   });
 
   it('should return true if product is provided', () => {
-    expect(service.isProductInCatalog(product)).toBeTruthy();
+    expect(service.isProductInCatalog(product)).toEqual(true);
   });
 
   it('should return false if product is not provided', () => {

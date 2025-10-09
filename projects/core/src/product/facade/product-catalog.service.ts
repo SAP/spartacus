@@ -13,7 +13,6 @@ import { Product } from '@spartacus/core';
 export class ProductCatalogService {
   /**
    * Returns whether product is present in commerce product catalog.
-   * Method is meant to be overridden by other integration specific implementations.
    *
    * @param product product to check
    * @return true if product is present in catalog, false otherwise
