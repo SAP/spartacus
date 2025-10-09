@@ -35,6 +35,7 @@ SPARTACUS_PROJECTS=(
         "dist/quote:feature-libs/quote"
         "dist/smartedit:feature-libs/smartedit"
         "dist/customer-ticketing:feature-libs/customer-ticketing"
+        "dist/subscription-billing:feature-libs/subscription-billing"
         "dist/cds:integration-libs/cds"
         "dist/cdc:integration-libs/cdc"
         "dist/cdp:integration-libs/cdp"

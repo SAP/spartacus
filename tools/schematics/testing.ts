@@ -31,6 +31,7 @@ const featureLibsFolders: string[] = [
   'user',
   'quote',
   'customer-ticketing',
+  'subscription-billing',
 ];
 
 const integrationLibsFolders: string[] = [
@@ -75,6 +76,7 @@ const commands = [
   'build estimated-delivery-date/schematics',
   'build smartedit/schematics',
   'build storefinder/schematics',
+  'build subscription-billing/schematics',
   'build tracking/schematics',
   'build user/schematics',
   'build customer-ticketing/schematics',
@@ -433,6 +435,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build opps/schematics':
     case 'build smartedit/schematics':
     case 'build storefinder/schematics':
+    case 'build subscription-billing/schematics':
     case 'build tracking/schematics':
     case 'build user/schematics':
     case 'build customer-ticketing/schematics':
