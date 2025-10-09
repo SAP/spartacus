@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { Product } from '../../model';
 
 @Injectable({
   providedIn: 'root',
