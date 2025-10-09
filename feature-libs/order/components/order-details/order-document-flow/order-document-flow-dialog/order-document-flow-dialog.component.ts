@@ -91,7 +91,7 @@ export class OrderDocumentFlowDialogComponent {
     this.selectedDocumentSubject.asObservable();
 
   protected documentEntriesCache = new Map<
-    string,
+    SapOrderSubsequentDocument,
     SapOrderSubsequentDocumentEntry[]
   >();
   selectedDocumentEntries$: Observable<SapOrderSubsequentDocumentEntry[]> =
@@ -99,9 +99,7 @@ export class OrderDocumentFlowDialogComponent {
       filter(isNotNullable),
       withLatestFrom(this.orderCode$),
       switchMap(([document, orderCode]) => {
-        const cachedEntries = this.documentEntriesCache.get(
-          document.sapDocumentId ?? ''
-        );
+        const cachedEntries = this.documentEntriesCache.get(document);
         if (cachedEntries) {
           return of(cachedEntries);
         }
@@ -112,11 +110,7 @@ export class OrderDocumentFlowDialogComponent {
             document.sapDocumentCategory ?? '',
             document.sapDocumentId ?? ''
           )
-          .pipe(
-            tap((entries) =>
-              this.cacheDocumentEntries(document.sapDocumentId ?? '', entries)
-            )
-          );
+          .pipe(tap((entries) => this.cacheDocumentEntries(document, entries)));
       }),
       catchError(() => {
         this.loadError.set(true);
@@ -141,11 +135,11 @@ export class OrderDocumentFlowDialogComponent {
   }
 
   protected cacheDocumentEntries(
-    documentId: string,
+    document: SapOrderSubsequentDocument,
     entries: SapOrderSubsequentDocumentEntry[]
   ): void {
     if (entries.length > 0) {
-      this.documentEntriesCache.set(documentId, entries);
+      this.documentEntriesCache.set(document, entries);
     }
   }
 
