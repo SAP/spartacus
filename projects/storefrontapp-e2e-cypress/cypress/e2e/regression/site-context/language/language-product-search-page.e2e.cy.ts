@@ -53,7 +53,10 @@ describe('Language switch - product-search page', () => {
       );
 
       cy.get('cx-searchbox input').type('fun');
-      cy.get('cx-searchbox .products .cx-product-name').should('contain', deutschName);
+      cy.get('cx-searchbox .products .cx-product-name').should(
+        'contain',
+        deutschName
+      );
     });
   });
 });
