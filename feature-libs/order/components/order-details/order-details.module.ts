@@ -62,8 +62,8 @@ import {
   OrderDocumentFlowComponent,
   OrderDocumentFlowDialogComponent,
 } from './order-document-flow';
-import { OrderSubsequentDocumentList } from './order-document-flow/order-document-flow-dialog/order-document-flow-list/order-subsequent-document-list.component';
-import { OrderSubsequentDocumentNode } from './order-document-flow/order-document-flow-dialog/order-document-flow-list/order-subsequent-document-node.component';
+import { OrderSubsequentDocumentListComponent } from './order-document-flow/order-document-flow-dialog/order-document-flow-list/order-subsequent-document-list.component';
+import { OrderSubsequentDocumentNodeComponent } from './order-document-flow/order-document-flow-dialog/order-document-flow-list/order-subsequent-document-node.component';
 import { OrderDocumentOrderEntryListComponent } from './order-document-flow/order-document-flow-dialog/order-document-order-entry-list/order-document-order-entry-list.component';
 
 function registerOrderOutletFactory(): () => void {
@@ -111,8 +111,8 @@ const moduleComponents = [
   OrderAttachmentsDialogComponent,
   OrderDocumentFlowComponent,
   OrderDocumentFlowDialogComponent,
-  OrderSubsequentDocumentList,
-  OrderSubsequentDocumentNode,
+  OrderSubsequentDocumentListComponent,
+  OrderSubsequentDocumentNodeComponent,
   OrderDocumentOrderEntryListComponent,
 ];
 

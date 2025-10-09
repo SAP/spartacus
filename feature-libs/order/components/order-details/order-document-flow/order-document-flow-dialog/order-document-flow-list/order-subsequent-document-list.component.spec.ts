@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { SapOrderSubsequentDocument } from '@spartacus/order/root';
 
-import { OrderSubsequentDocumentList } from '@spartacus/order/components';
+import { OrderSubsequentDocumentListComponent } from '@spartacus/order/components';
 import { I18nTestingModule } from '@spartacus/core';
 
 const subsequentDocumentsData: SapOrderSubsequentDocument[] = [
@@ -31,20 +31,20 @@ const subsequentDocumentsData: SapOrderSubsequentDocument[] = [
   },
 ];
 
-describe('OrderSubsequentDocumentList', () => {
-  let component: OrderSubsequentDocumentList;
-  let fixture: ComponentFixture<OrderSubsequentDocumentList>;
+describe('OrderSubsequentDocumentListComponent', () => {
+  let component: OrderSubsequentDocumentListComponent;
+  let fixture: ComponentFixture<OrderSubsequentDocumentListComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [OrderSubsequentDocumentList],
+      declarations: [OrderSubsequentDocumentListComponent],
       providers: [],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrderSubsequentDocumentList);
+    fixture = TestBed.createComponent(OrderSubsequentDocumentListComponent);
     component = fixture.componentInstance;
   });
 

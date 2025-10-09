@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { SapOrderSubsequentDocument } from '@spartacus/order/root';
 
-import { OrderSubsequentDocumentNode } from '@spartacus/order/components';
+import { OrderSubsequentDocumentNodeComponent } from '@spartacus/order/components';
 import { I18nTestingModule } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
 
@@ -50,20 +50,20 @@ const subsequentDocumentsData: SapOrderSubsequentDocument[] = [
   },
 ];
 
-describe('OrderSubsequentDocumentNode', () => {
-  let component: OrderSubsequentDocumentNode;
-  let fixture: ComponentFixture<OrderSubsequentDocumentNode>;
+describe('OrderSubsequentDocumentNodeComponent', () => {
+  let component: OrderSubsequentDocumentNodeComponent;
+  let fixture: ComponentFixture<OrderSubsequentDocumentNodeComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [OrderSubsequentDocumentNode],
+      declarations: [OrderSubsequentDocumentNodeComponent],
       providers: [],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrderSubsequentDocumentNode);
+    fixture = TestBed.createComponent(OrderSubsequentDocumentNodeComponent);
     component = fixture.componentInstance;
   });
 

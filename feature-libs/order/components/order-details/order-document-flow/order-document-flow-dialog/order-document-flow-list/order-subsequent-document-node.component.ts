@@ -20,7 +20,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class OrderSubsequentDocumentNode {
+export class OrderSubsequentDocumentNodeComponent {
   iconTypes = ICON_TYPE;
 
   @Input() documents: SapOrderSubsequentDocument[];
