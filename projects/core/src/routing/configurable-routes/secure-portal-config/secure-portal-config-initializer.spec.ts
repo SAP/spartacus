@@ -3,8 +3,6 @@ import { Observable, of } from 'rxjs';
 import { BaseSite } from '../../../model/misc.model';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { SecurePortalConfigInitializer } from './secure-portal-config-initializer';
-import { SiteContextConfig } from '../../../site-context/config/site-context-config';
-import { ConfigInitializerService } from '../../../config';
 
 const mockBaseSites = [
   {
@@ -15,18 +13,6 @@ const mockBaseSites = [
     requiresAuthentication: true,
   },
 ];
-
-const mockSiteContextConfig: SiteContextConfig = {
-  context: {
-    baseSite: ['test'],
-  },
-};
-
-class MockConfigInitializerService
-  implements Partial<ConfigInitializerService>
-{
-  getStable = () => of(mockSiteContextConfig);
-}
 
 class MockBaseSiteService {
   get(): Observable<BaseSite> {
@@ -43,10 +29,6 @@ describe(`SecurePortalConfigInitializer`, () => {
       providers: [
         SecurePortalConfigInitializer,
         { provide: BaseSiteService, useClass: MockBaseSiteService },
-        {
-          provide: ConfigInitializerService,
-          useClass: MockConfigInitializerService,
-        },
       ],
     });
 
