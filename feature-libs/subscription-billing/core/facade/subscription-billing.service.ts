@@ -113,7 +113,7 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
       this.userIdService.getUserId(),
       this.getSubscriptionCodeFromRoute(),
     ]).pipe(
-      take(1),
+      //take(1),
       map(([userId, subscriptionCode]) => {
         if (!userId || !subscriptionCode) {
           throw new Error('Subscription details pre conditions not met');
