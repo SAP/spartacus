@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
+import { FeatureConfigService } from '@spartacus/core';
 import { Consignment } from '@spartacus/order/root';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { combineLatest, of, take } from 'rxjs';
@@ -34,6 +35,12 @@ const mockEntries = [
   { product: { code: 'prod2' }, returnableQuantity: 0 },
   { product: { code: 'prod3' }, returnableQuantity: 0 },
 ];
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled(_feature: string) {
+    return true;
+  }
+}
 
 class MockOrderAmendService {
   getForm() {
@@ -99,6 +106,10 @@ describe('ReturnOrderComponent', () => {
       imports: [FormErrorsModule],
       providers: [
         { provide: OrderAmendService, useClass: MockOrderAmendService },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
       ],
       declarations: [
         ReturnOrderComponent,
@@ -252,6 +263,10 @@ describe('ReturnOrderComponent', () => {
         imports: [FormErrorsModule],
         providers: [
           { provide: OrderAmendService, useClass: NewMockOrderAmendService },
+          {
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
+          },
         ],
         declarations: [
           ReturnOrderComponent,
@@ -278,6 +293,56 @@ describe('ReturnOrderComponent', () => {
         expect(entries[0].returnableQuantity).toBe(expectedReturnableQuantity);
         done();
       });
+    });
+  });
+
+
+  describe('when feature is disabled', () => {
+    beforeEach(waitForAsync(() => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [FormErrorsModule],
+        providers: [
+          { provide: OrderAmendService, useValue: {
+            getForm() {
+              return of(mockForm);
+            },
+            getEntries() {
+              return of(mockEntries);
+            },
+            getOrder() {
+              return of({ consignments: [] });
+            }
+          } },
+          {
+            provide: FeatureConfigService,
+            useValue: { isEnabled: () => false },
+          },
+        ],
+        declarations: [
+          ReturnOrderComponent,
+          MockAmendOrderActionComponent,
+          MockCancelOrReturnItemsComponent,
+        ],
+      }).compileComponents();
+    }));
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(ReturnOrderComponent);
+      component = fixture.componentInstance;
+    });
+
+    it('should not return entired when no matching entry consignment was found', (done) => {
+      combineLatest([
+        component.entries$.pipe(take(1)),
+        component.consignments$.pipe(take(1)),
+      ]).subscribe(
+        ([entries, consignments]: [OrderEntry[], Consignment[]]) => {
+          expect(consignments.length).toBe(0);
+          expect(entries.length).toBe(0);
+          done();
+        }
+      );
     });
   });
 });

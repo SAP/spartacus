@@ -692,6 +692,13 @@ export interface FeatureTogglesInterface {
    * Affects: `NavigationUIComponent`
    */
   navigationMenuCloseOnSameLinkClick?: boolean;
+
+  /**
+   * When enabled, fixes the issue with return order returnable quantity not being displayed correctly
+   * on the `ReturnOrderComponent` when navigating to the return request details page.
+   * Affects: `ReturnOrderComponent`
+   */
+  enableReturnOrderReturnableQuantityDisplayFix?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -784,4 +791,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   dispatchLoginActionOnlyWhenTokenReceived: false,
   defaultLayoutConfigWithoutPageFold: false,
   navigationMenuCloseOnSameLinkClick: false,
+  enableReturnOrderReturnableQuantityDisplayFix: false,
 };

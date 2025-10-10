@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Consignment } from '@spartacus/order/root';
 import { Observable, combineLatest, map, tap } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
+import { FeatureConfigService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-return-order',
@@ -19,6 +20,9 @@ import { OrderAmendService } from '../../amend-order.service';
 })
 export class ReturnOrderComponent {
   orderCode: string;
+  protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   form$: Observable<UntypedFormGroup> = this.orderAmendService
     .getForm()
@@ -49,7 +53,11 @@ export class ReturnOrderComponent {
                 ...entry,
                 returnableQuantity:
                   consignmentEntry.shippedQuantity ??
-                  entry.returnableQuantity ??
+                  (this.featureConfigService?.isEnabled(
+                    'enableReturnOrderReturnableQuantityDisplayFix'
+                  )
+                    ? entry.returnableQuantity
+                    : null) ??
                   0,
               }
             : null;
