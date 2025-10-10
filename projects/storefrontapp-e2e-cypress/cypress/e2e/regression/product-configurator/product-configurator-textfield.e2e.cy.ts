@@ -21,9 +21,7 @@ context('Textfield Configuration', () => {
   viewportContext(['desktop'], () => {
     beforeEach(() => {
       clearAllStorage();
-    });
-
-    before(() => {
+      cy.viewport(1280, 1500);
       cy.visit('/');
       clickAllowAllFromBanner();
     });
