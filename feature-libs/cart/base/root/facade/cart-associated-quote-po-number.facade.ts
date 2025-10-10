@@ -7,7 +7,7 @@
 import { Observable } from 'rxjs';
 import { facadeFactory } from '@spartacus/core';
 import { Injectable } from '@angular/core';
-import { CART_BASE_CORE_FEATURE } from '@spartacus/cart/base/root';
+import { CART_BASE_CORE_FEATURE } from '../feature-name';
 
 @Injectable({
   providedIn: 'root',
