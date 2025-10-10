@@ -12,4 +12,3 @@ export * from './product-search-by-category.service';
 export * from './product.service';
 export * from './searchbox.service';
 export * from './product-availability.service';
-export * from './product-catalog.service';

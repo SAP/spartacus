@@ -46,8 +46,7 @@ class MockOrderDetailsService {
 }
 
 class MockProductCatalogService {
-  // @ts-ignore
-  isProductInCatalog(product?: Product) {
+  isProductInCatalog(_product?: Product) {
     return false;
   }
 }

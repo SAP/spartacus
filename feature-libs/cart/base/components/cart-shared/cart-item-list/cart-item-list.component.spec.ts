@@ -120,8 +120,7 @@ class MockFeatureConfigService {
 }
 
 const mockProductCatalogService = {
-  // @ts-ignore
-  isProductInCatalog: (product?: Product) => true,
+  isProductInCatalog: (_product?: Product) => true,
 };
 
 describe('CartItemListComponent', () => {
@@ -414,8 +413,7 @@ describe('CartItemListComponent', () => {
     it('should disable item link only if product is not in catalog', () => {
       component.options = mockContext.options;
       expect(component.getOptions(mockItem0)).toBe(component.options);
-      // @ts-ignore
-      mockProductCatalogService.isProductInCatalog = (product?: Product) =>
+      mockProductCatalogService.isProductInCatalog = (_product?: Product) =>
         false;
       expect(component.getOptions(mockItem0)).toEqual({
         ...component.options,

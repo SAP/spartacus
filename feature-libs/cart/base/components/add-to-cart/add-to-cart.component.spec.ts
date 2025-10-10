@@ -125,8 +125,7 @@ class MockEventService implements Partial<EventService> {
 }
 
 const mockProductCatalogService = {
-  // @ts-ignore
-  isProductInCatalog: (product?: Product) => false,
+  isProductInCatalog: (_product?: Product) => false,
 };
 
 describe('AddToCartComponent', () => {
