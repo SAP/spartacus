@@ -19,8 +19,6 @@ import { defaultSubscriptionBillingLayoutConfig } from './default-subscription-b
     SubscriptionProductPriceModule,
     SubscriptionProductUsageChargeModule,
   ],
-  providers: [
-    provideDefaultConfig(defaultSubscriptionBillingLayoutConfig),
-  ]
+  providers: [provideDefaultConfig(defaultSubscriptionBillingLayoutConfig)],
 })
 export class SubscriptionBillingComponentsModule {}

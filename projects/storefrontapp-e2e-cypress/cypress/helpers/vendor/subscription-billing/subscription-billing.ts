@@ -131,3 +131,39 @@ export function validateSubscriptionDetailsPage() {
   });
   cy.get('cx-subscription-list', { timeout: 10000 }).should('exist');
 }
+
+export function extendSubscriptionByFrequency(extendDuration: number) {
+  cy.get('cx-subscription-details').within(() => {
+    cy.find('button.btn-primary', { timeout: 1000 }).should('be.disabled');
+    cy.find('button', { timeout: 10000 })
+      .contains('Extend Subscription')
+      .should('be.visible')
+      .click();
+    cy.get('#extendDurationDropdown').should('be.visible').click();
+    cy.wait(2000);
+
+    cy.contains(
+      `${extendDuration} ${Cypress.env('subscriptionContractFrequency')}`
+    )
+      .should('be.visible')
+      .click();
+    cy.find('button.btn-primary', { timeout: 1000 })
+      .contains('Extend')
+      .should('be.enabled')
+      .click();
+    cy.intercept('POST', '/extension').as('extendSubscription');
+    cy.find('button.btn-primary', { timeout: 1000 })
+      .contains('Confirm')
+      .click();
+    cy.wait('@extendSubscription')
+      .its('response.statusCode')
+      .should('eq', 200)
+      .then(() => {
+        cy.wait(2000);
+        cy.get('cx-global-message').should(
+          'contain.text',
+          'Your subscription has been extended successfully'
+        );
+      });
+  });
+}

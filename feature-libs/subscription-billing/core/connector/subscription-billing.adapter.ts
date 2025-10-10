@@ -29,7 +29,7 @@ export abstract class SubscriptionBillingAdapter {
     isUnlimitedDuration: boolean
   ): Observable<SubscriptionExtensionEffectiveDate>;
   abstract extendSubscription(
-    userId: string, 
+    userId: string,
     subscriptionCode: string,
     extendDuration: number,
     isUnlimitedDuration: boolean

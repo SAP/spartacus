@@ -6,7 +6,11 @@
 
 import { Observable } from 'rxjs';
 import { SUBSCRIPTION_BILLING_FEATURE } from '../feature-name';
-import { SubscriptionDetail, SubscriptionExtensionEffectiveDate, SubscriptionList } from '../model';
+import {
+  SubscriptionDetail,
+  SubscriptionExtensionEffectiveDate,
+  SubscriptionList,
+} from '../model';
 import { Injectable } from '@angular/core';
 import { facadeFactory, QueryState } from '@spartacus/core';
 
@@ -23,7 +27,7 @@ import { facadeFactory, QueryState } from '@spartacus/core';
         'getSubscriptionList',
         'getSubscriptionCodeFromRoute',
         'getSubscriptionExtensionEffectiveDate',
-        'extendSubscription'
+        'extendSubscription',
       ],
     }),
 })

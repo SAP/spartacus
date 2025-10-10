@@ -69,7 +69,7 @@ export class OccSubscriptionBillingAdapter
   getSubscriptionExtensionEffectiveDate(
     userId: string,
     subscriptionCode: string,
-    durationInMonth: number | null, 
+    durationInMonth: number | null,
     unlimited: boolean
   ): Observable<SubscriptionExtensionEffectiveDate> {
     const url = this.occEndpoints.buildUrl('extensionEffectiveDate', {
@@ -81,7 +81,7 @@ export class OccSubscriptionBillingAdapter
     const requestBody = {
       numberOfBillingCycles: durationInMonth,
       unlimited,
-    }
+    };
     return this.http
       .post<SubscriptionExtensionEffectiveDate>(url, requestBody)
       .pipe(
@@ -94,7 +94,7 @@ export class OccSubscriptionBillingAdapter
   extendSubscription(
     userId: string,
     subscriptionCode: string,
-    durationInMonth: number | null, 
+    durationInMonth: number | null,
     unlimited: boolean
   ): Observable<any> {
     const url = this.occEndpoints.buildUrl('extendSubscription', {
@@ -106,13 +106,11 @@ export class OccSubscriptionBillingAdapter
     const requestBody = {
       numberOfBillingCycles: durationInMonth,
       unlimited,
-    }
-    return this.http
-      .post<any>(url, requestBody)
-      .pipe(
-        catchError((error) => {
-          throw tryNormalizeHttpError(error, this.logger);
-        })
-      );
+    };
+    return this.http.post<any>(url, requestBody).pipe(
+      catchError((error) => {
+        throw tryNormalizeHttpError(error, this.logger);
+      })
+    );
   }
 }

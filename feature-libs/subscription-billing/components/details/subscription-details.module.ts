@@ -15,11 +15,30 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { SubscriptionDetailsComponent } from './subscription-details.component';
+import { ExtendSubscriptionDialogComponent } from './extend-subscription/extend-subscription-dialog.component';
+import {
+  FormRequiredAsterisksComponent,
+  IconModule,
+  KeyboardFocusModule,
+} from '@spartacus/storefront';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, UrlModule, RouterModule],
-  declarations: [SubscriptionDetailsComponent],
-  exports: [SubscriptionDetailsComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    UrlModule,
+    RouterModule,
+    IconModule,
+    NgSelectModule,
+    FormRequiredAsterisksComponent,
+    KeyboardFocusModule,
+  ],
+  declarations: [
+    SubscriptionDetailsComponent,
+    ExtendSubscriptionDialogComponent,
+  ],
+  exports: [SubscriptionDetailsComponent, ExtendSubscriptionDialogComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

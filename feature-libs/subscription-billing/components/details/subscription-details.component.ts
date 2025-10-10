@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { EventService } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import {
@@ -52,17 +59,18 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
   }
 
   showExtendSubscriptionDialog() {
-    this.launchDialogService
-      .openDialogAndSubscribe(
-        LAUNCH_CALLER.EXTEND_SUBSCRIPTION,
-        this.extendSubscriptionBtn,
-        this.subscriptionContractFrequency
-      );
+    this.launchDialogService.openDialogAndSubscribe(
+      LAUNCH_CALLER.EXTEND_SUBSCRIPTION,
+      this.extendSubscriptionBtn,
+      this.subscriptionContractFrequency
+    );
   }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
 
-    this.launchDialogService.closeDialog('Moved away from subscription details page');
+    this.launchDialogService.closeDialog(
+      'Moved away from subscription details page'
+    );
   }
 }

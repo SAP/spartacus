@@ -10,7 +10,8 @@ import {
   SubscriptionBillingFacade,
   SubscriptionDetail,
 } from '@spartacus/subscription-billing/root';
-import { Pipe, PipeTransform } from '@angular/core';
+import { ElementRef, Pipe, PipeTransform } from '@angular/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 const routerParam$: BehaviorSubject<{
   [key: string]: string;
 }> = new BehaviorSubject({});
@@ -43,6 +44,16 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  data$: Observable<any> = of('Months');
+  openDialogAndSubscribe(
+    _: LAUNCH_CALLER | string,
+    __?: ElementRef,
+    ___?: any
+  ): void {}
+  closeDialog(_: any) {}
+}
+
 describe('SubscriptionDetailsComponent', () => {
   let component: SubscriptionDetailsComponent;
   let fixture: ComponentFixture<SubscriptionDetailsComponent>;
@@ -59,6 +70,7 @@ describe('SubscriptionDetailsComponent', () => {
           useClass: MockSubscriptionBillingFacade,
         },
         { provide: EventService, useClass: MockEventService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
     eventService = TestBed.inject(EventService);
