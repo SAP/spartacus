@@ -11,8 +11,12 @@ import { SubscriptionProductPriceComponent } from './subscription-product-price.
 import { SubscriptionProductUsageChargeModule } from '../usage/subscription-product-usage-charge.module';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, SubscriptionProductUsageChargeModule],
-  declarations: [SubscriptionProductPriceComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    SubscriptionProductUsageChargeModule,
+    SubscriptionProductPriceComponent,
+  ],
   exports: [SubscriptionProductPriceComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{

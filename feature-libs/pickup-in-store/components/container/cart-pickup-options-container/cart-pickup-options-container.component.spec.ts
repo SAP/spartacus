@@ -148,11 +148,12 @@ describe('CartPickupOptionsContainerComponent', () => {
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
-      declarations: [
+      declarations: [PickupOptionsStubComponent],
+      imports: [
+        CommonModule,
+        I18nTestingModule,
         CartPickupOptionsContainerComponent,
-        PickupOptionsStubComponent,
       ],
-      imports: [CommonModule, I18nTestingModule],
       providers: [
         {
           provide: ActiveCartFacade,

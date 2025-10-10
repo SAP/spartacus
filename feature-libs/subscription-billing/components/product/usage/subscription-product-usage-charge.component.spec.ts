@@ -4,10 +4,7 @@ import { Pipe, PipeTransform, signal } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { UsageChargeType } from '../../../root/model';
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(_value: string): any {
     return '';
@@ -82,11 +79,7 @@ describe('SubscriptionProductUsageChargeComponent', () => {
   let fixture: ComponentFixture<SubscriptionProductUsageChargeComponent>;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [
-        MockTranslatePipe,
-        SubscriptionProductUsageChargeComponent,
-      ],
+      imports: [MockTranslatePipe, SubscriptionProductUsageChargeComponent],
       providers: [
         { provide: TranslationService, useClass: MockTranslateService },
       ],

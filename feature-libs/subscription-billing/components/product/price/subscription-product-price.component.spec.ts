@@ -35,10 +35,7 @@ class MockCurrentProductService {
     return null;
   }
 }
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(_value: string): any {
     return '';
@@ -60,8 +57,7 @@ describe('SubscriptionProductPriceComponent', () => {
   let productService: SubscriptionProductService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [MockTranslatePipe, SubscriptionProductPriceComponent],
+      imports: [MockTranslatePipe, SubscriptionProductPriceComponent],
       providers: [
         {
           provide: SubscriptionProductService,

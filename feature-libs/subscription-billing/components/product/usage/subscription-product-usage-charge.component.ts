@@ -5,18 +5,19 @@
  */
 
 import { Component, computed, Input, Signal } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { Product, TranslatePipe } from '@spartacus/core';
 import {
   PerUnitUsageCharge,
   UsageChargeType,
   VolumeUsageCharge,
   TierUsageChargeEntry,
 } from '@spartacus/subscription-billing/root';
+import { NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
 
 @Component({
   selector: 'cx-subscription-product-usage-charge',
-  standalone: false,
   templateUrl: './subscription-product-usage-charge.component.html',
+  imports: [NgIf, NgTemplateOutlet, NgFor, TranslatePipe],
 })
 export class SubscriptionProductUsageChargeComponent {
   @Input() product!: Signal<Product | undefined | null>;

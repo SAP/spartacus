@@ -78,10 +78,7 @@ class MockTranslationService {
     return of(text);
   }
 }
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -92,8 +89,7 @@ describe('SubscriptionListComponent', () => {
   let facade: SubscriptionBillingFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [SubscriptionListComponent, MockUrlPipe],
+      imports: [I18nTestingModule, SubscriptionListComponent, MockUrlPipe],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {

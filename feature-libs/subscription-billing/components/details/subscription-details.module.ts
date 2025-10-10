@@ -17,8 +17,13 @@ import {
 import { SubscriptionDetailsComponent } from './subscription-details.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, UrlModule, RouterModule],
-  declarations: [SubscriptionDetailsComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    UrlModule,
+    RouterModule,
+    SubscriptionDetailsComponent,
+  ],
   exports: [SubscriptionDetailsComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{

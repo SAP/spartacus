@@ -34,7 +34,8 @@ describe('PickupInfoContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PickupInfoContainerComponent, PickupInfoStubComponent],
+      imports: [PickupInfoContainerComponent],
+      declarations: [PickupInfoStubComponent],
       providers: [
         {
           provide: ActiveCartFacade,

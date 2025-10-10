@@ -94,11 +94,13 @@ describe('PdpPickupOptionsComponent', () => {
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
-      declarations: [
+      declarations: [PickupOptionsStubComponent],
+      imports: [
+        CommonModule,
+        I18nTestingModule,
+        ReactiveFormsModule,
         PdpPickupOptionsContainerComponent,
-        PickupOptionsStubComponent,
       ],
-      imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
       providers: [
         PdpPickupOptionsContainerComponent,
         {

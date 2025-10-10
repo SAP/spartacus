@@ -5,18 +5,25 @@
  */
 
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { EventService } from '@spartacus/core';
+import {
+  EventService,
+  TranslatePipe,
+  CxDatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   GetSubscriptionByCodeReloadEvent,
   SubscriptionBillingFacade,
   SubscriptionDetail,
 } from '@spartacus/subscription-billing/root';
 import { combineLatest, Observable, Subscription, take, tap } from 'rxjs';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'cx-subscription-details',
   templateUrl: './subscription-details.component.html',
-  standalone: false,
+  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, CxDatePipe, UrlPipe],
 })
 export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
   protected subscriptionFacade = inject(SubscriptionBillingFacade);

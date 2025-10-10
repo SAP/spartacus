@@ -11,11 +11,29 @@ import {
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
 import { switchMap } from 'rxjs';
+import { NgIf, NgFor } from '@angular/common';
+import {
+  SortingComponent,
+  PaginationComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe, CxDatePipe, UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-subscription-list',
   templateUrl: './subscription-list.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    SortingComponent,
+    NgFor,
+    RouterLink,
+    PaginationComponent,
+    SpinnerComponent,
+    TranslatePipe,
+    CxDatePipe,
+    UrlPipe,
+  ],
 })
 export class SubscriptionListComponent {
   protected subscriptionBillingFacade = inject(SubscriptionBillingFacade);
