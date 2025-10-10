@@ -194,6 +194,13 @@ export const SPARTACUS_USER_PROFILE_COMPONENTS = `@spartacus/user/profile/compon
 export const SPARTACUS_USER_PROFILE_ASSETS = `@spartacus/user/profile/assets`;
 export const SPARTACUS_USER_PROFILE_ROOT = `@spartacus/user/profile/root`;
 
+export const SPARTACUS_SUBSCRIPTION_BILLING = '@spartacus/subscription-billing';
+export const SPARTACUS_SUBSCRIPTION_BILLING_ASSETS = `@spartacus/subscription-billing/assets`;
+export const SPARTACUS_SUBSCRIPTION_BILLING_ROOT = `@spartacus/subscription-billing/root`;
+export const SPARTACUS_SUBSCRIPTION_BILLING_COMPONENTS = `@spartacus/subscription-billing/components`;
+export const SPARTACUS_SUBSCRIPTION_BILLING_CORE = `@spartacus/subscription-billing/core`;
+export const SPARTACUS_SUBSCRIPTION_BILLING_OCC = `@spartacus/subscription-billing/occ`;
+
 export const SPARTACUS_CDS = `@spartacus/cds`;
 
 export const SPARTACUS_CDS_ASSETS = `@spartacus/cds/assets`;
@@ -345,6 +352,8 @@ export const PDF_INVOICES_FEATURE_NAME = 'PDF-Invoices';
 
 export const USER_ACCOUNT_FEATURE_NAME = 'User-Account';
 export const USER_PROFILE_FEATURE_NAME = 'User-Profile';
+
+export const SUBSCRIPTION_BILLING_FEATURE_NAME = 'Subscription-Billing';
 
 export const CDC_FEATURE_NAME = 'CDC';
 export const CDC_B2B_FEATURE_NAME = 'CDC-B2B';

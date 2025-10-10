@@ -96,7 +96,6 @@ function clickOnPreviousOrNextBtn(
   btnSelector: string,
   activeGroup?: string
 ): void {
-  cy.get(btnSelector).scrollIntoView();
   cy.get(btnSelector)
     .should('be.visible')
     .click()
@@ -441,11 +440,9 @@ export function checkGroupFormDisplayed(): void {
 /**
  * Verifies whether the 'previous' and 'next' buttons are displayed.
  */
-export function checkPreviousAndNextBtnsDispalyed(): void {
+export function checkPreviousAndNextBtnsDisplayed(): void {
   checkUpdatingMessageNotDisplayed();
-  const previousNextButtonsSelector = 'cx-configurator-previous-next-buttons';
-  cy.get(previousNextButtonsSelector).scrollIntoView();
-  cy.get(previousNextButtonsSelector).should('be.visible');
+  cy.get('cx-configurator-previous-next-buttons').should('be.visible');
 }
 
 /**
