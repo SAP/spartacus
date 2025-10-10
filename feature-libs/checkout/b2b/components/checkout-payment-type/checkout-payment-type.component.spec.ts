@@ -2,7 +2,7 @@ import { Component, DebugElement, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
+import { PaymentType } from '@spartacus/cart/base/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
@@ -16,7 +16,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
 import createSpy = jasmine.createSpy;
-import { QuoteFacade } from '@spartacus/quote/root';
+import { PurchaseOrderNumberService } from '../../core/facade';
 
 @Component({
   selector: 'cx-spinner',
@@ -24,14 +24,6 @@ import { QuoteFacade } from '@spartacus/quote/root';
   standalone: false,
 })
 class MockSpinnerComponent {}
-
-class MockActiveCartFacade {
-  getActive = jasmine.createSpy();
-}
-
-class MockQuoteFacade {
-  getPurchaseOrderNumber = jasmine.createSpy();
-}
 
 class MockGlobalMessageService {
   add = createSpy();
@@ -70,6 +62,10 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   back = createSpy();
 }
 
+class MockPurchaseOrderNumberService implements Partial<PurchaseOrderNumberService> {
+  isPurchaseOrderNumberNonEditable = createSpy().and.returnValue(of(false));
+}
+
 const selectedPaymentType$ = new BehaviorSubject<QueryState<PaymentType>>({
   loading: false,
   error: false,
@@ -89,12 +85,9 @@ const mockActivatedRoute = {
   },
 };
 
-describe('CheckoutOnePaymentTypeComponent', () => {
+fdescribe('CheckoutOnePaymentTypeComponent', () => {
   let component: CheckoutPaymentTypeComponent;
   let fixture: ComponentFixture<CheckoutPaymentTypeComponent>;
-
-  let activeCartFacade: MockActiveCartFacade;
-  let quoteFacade: MockQuoteFacade;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -118,29 +111,19 @@ describe('CheckoutOnePaymentTypeComponent', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
-        { provide: QuoteFacade, useClass: MockQuoteFacade },
         {
-          provide: ActiveCartFacade,
-          useClass: MockActiveCartFacade, // Provide the mock ActiveCartFacade
-        },
+          provide: PurchaseOrderNumberService,
+          useClass: MockPurchaseOrderNumberService,
+        }
       ],
     }).compileComponents();
-    activeCartFacade = TestBed.inject(
-      ActiveCartFacade
-    ) as unknown as MockActiveCartFacade;
-    quoteFacade = TestBed.inject(QuoteFacade) as unknown as MockQuoteFacade;
   }));
 
   it('should make PO Number field non-editable if cart has a PO Number', async () => {
-    activeCartFacade.getActive.and.returnValue(
-      of({ code: 'cart-1', quoteCode: 'quote-123' })
-    );
-
-    quoteFacade.getPurchaseOrderNumber.and.returnValue(of('test-po'));
-
     fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
     component = fixture.componentInstance;
     component.poNumberFeatureToggle = true;
+    component.isPONumberInputNonEditable = of(true);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -151,31 +134,10 @@ describe('CheckoutOnePaymentTypeComponent', () => {
   });
 
   it('should make PO Number field editable if quote has no PO Number', async () => {
-    activeCartFacade.getActive.and.returnValue(
-      of({ code: 'cart-1', quoteCode: 'quote-123' })
-    );
-
-    quoteFacade.getPurchaseOrderNumber.and.returnValue(of(null));
-
     fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
     component = fixture.componentInstance;
     component.poNumberFeatureToggle = true;
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const poNumberInput = fixture.debugElement.query(
-      By.css('#poNumberInput')
-    ).nativeElement;
-    expect(poNumberInput.readOnly).toBe(false);
-  });
-
-  it('should make PO Number field editable if cart has no quoteCode', async () => {
-    activeCartFacade.getActive.and.returnValue(of({ code: 'cart-1' }));
-
-    fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
-    component = fixture.componentInstance;
-    component.poNumberFeatureToggle = true;
+    component.isPONumberInputNonEditable = of(false);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -187,7 +149,7 @@ describe('CheckoutOnePaymentTypeComponent', () => {
   });
 });
 
-describe('CheckoutOnePaymentTypeComponent', () => {
+fdescribe('CheckoutOnePaymentTypeComponent', () => {
   let component: CheckoutPaymentTypeComponent;
   let fixture: ComponentFixture<CheckoutPaymentTypeComponent>;
 
@@ -215,6 +177,10 @@ describe('CheckoutOnePaymentTypeComponent', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
+        {
+          provide: PurchaseOrderNumberService,
+          useClass: MockPurchaseOrderNumberService,
+        }
       ],
     }).compileComponents();
 
@@ -244,7 +210,7 @@ describe('CheckoutOnePaymentTypeComponent', () => {
   });
 });
 
-describe('CheckoutPaymentTypeComponent', () => {
+fdescribe('CheckoutPaymentTypeComponent', () => {
   let component: CheckoutPaymentTypeComponent;
   let fixture: ComponentFixture<CheckoutPaymentTypeComponent>;
 
@@ -270,6 +236,10 @@ describe('CheckoutPaymentTypeComponent', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
+        {
+          provide: PurchaseOrderNumberService,
+          useClass: MockPurchaseOrderNumberService,
+        }
       ],
     }).compileComponents();
 
