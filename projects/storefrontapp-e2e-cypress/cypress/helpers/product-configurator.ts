@@ -98,7 +98,8 @@ function clickOnPreviousOrNextBtn(
 ): void {
   cy.get(btnSelector)
     .should('be.visible')
-    .click()
+    .should('have.length', 1) // This waits until exactly one matching element is found. This guarantees the click happens only when a single visible element is present
+    .click() // is performed only when a single, unambiguous element is available, helping to avoid flaky tests caused by duplicate or missing elements
     .then(() => {
       checkUpdatingMessageNotDisplayed();
       if (activeGroup) {
