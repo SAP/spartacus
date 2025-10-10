@@ -118,6 +118,10 @@ export class OrderDocumentFlowDialogComponent {
       })
     );
 
+  getDocumentTitle(document: SapOrderSubsequentDocument): string {
+    return document.sapDocumentEntryIdColumnName + ' ' + document.sapDocumentId;
+  }
+
   onDocumentSelection(document: SapOrderSubsequentDocument): void {
     this.saveScrollPosition();
     this.selectedDocumentSubject.next(document);

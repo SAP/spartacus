@@ -28,7 +28,7 @@
             </button>
           </span>
           <span *ngIf="selectedDocument$ | async as document">{{
-            document.sapDocumentEntryIdColumnName + ' ' + document.sapDocumentId
+            getDocumentTitle(document)
           }}</span>
         </ng-template>
       </div>
