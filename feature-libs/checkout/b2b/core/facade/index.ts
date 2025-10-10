@@ -6,3 +6,4 @@
 
 export * from './checkout-cost-center.service';
 export * from './checkout-payment-type.service';
+export * from './purchase-order-number.service';

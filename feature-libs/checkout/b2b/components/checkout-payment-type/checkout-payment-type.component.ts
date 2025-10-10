@@ -12,7 +12,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
+import { PaymentType } from '@spartacus/cart/base/root';
 import {
   B2BPaymentTypeEnum,
   CheckoutPaymentTypeFacade,
@@ -28,16 +28,15 @@ import {
   isNotUndefined,
   OccHttpErrorType,
 } from '@spartacus/core';
-import { QuoteFacade } from '@spartacus/quote/root';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import {
   catchError,
   distinctUntilChanged,
   filter,
   map,
-  switchMap,
   tap,
 } from 'rxjs/operators';
+import { PurchaseOrderNumberService } from '../../core/facade/purchase-order-number.service';
 
 @Component({
   selector: 'cx-payment-type',
@@ -55,21 +54,9 @@ export class CheckoutPaymentTypeComponent {
   paymentTypesError = false;
 
   private featureToggles = inject(FeatureToggles);
-  private quoteFacade: QuoteFacade = inject(QuoteFacade);
-  private activeCartFacade: ActiveCartFacade = inject(ActiveCartFacade);
   poNumberFeatureToggle = this.featureToggles.enableQuotePurchaseOrderNumber;
 
-  isPONumberInputNonEditable: Observable<boolean> = this.activeCartFacade
-    .getActive()
-    .pipe(
-      switchMap((cart) => {
-        return cart.quoteCode
-          ? this.quoteFacade
-              .getPurchaseOrderNumber(cart.quoteCode)
-              .pipe(map((quotePoNumber) => !!quotePoNumber))
-          : of(false);
-      })
-    );
+  isPONumberInputNonEditable: Observable<boolean> = this.poNumberService.isPurchaseOrderNumberNonEditable();
 
   isUpdating$ = combineLatest([
     this.busy$,
@@ -159,7 +146,8 @@ export class CheckoutPaymentTypeComponent {
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
     protected activatedRoute: ActivatedRoute,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected poNumberService: PurchaseOrderNumberService
   ) {}
 
   changeType(code: string): void {

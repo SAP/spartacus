@@ -8,6 +8,7 @@ import { Provider } from '@angular/core';
 import {
   ActiveCartFacade,
   CartAccessCodeFacade,
+  CartAssociatedQuotePurchaseOrderNumberFacade,
   CartGuestUserFacade,
   CartValidationFacade,
   CartVoucherFacade,
@@ -21,6 +22,7 @@ import { CartValidationService } from './cart-validation.service';
 import { CartVoucherService } from './cart-voucher.service';
 import { MultiCartService } from './multi-cart.service';
 import { SelectiveCartService } from './selective-cart.service';
+import { CartAssociatedQuotePurchaseOrderNumberService } from './cart-associated-quote-po-number.service';
 
 export const facadeProviders: Provider[] = [
   ActiveCartService,
@@ -58,4 +60,9 @@ export const facadeProviders: Provider[] = [
     provide: CartGuestUserFacade,
     useExisting: CartGuestUserService,
   },
+  CartAssociatedQuotePurchaseOrderNumberService,
+  {
+    provide: CartAssociatedQuotePurchaseOrderNumberFacade,
+    useExisting: CartAssociatedQuotePurchaseOrderNumberService,
+  }
 ];

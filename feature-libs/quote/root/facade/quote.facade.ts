@@ -33,7 +33,6 @@ import {
         'performQuoteAction',
         'addQuoteComment',
         'addDiscount',
-        'getPurchaseOrderNumber',
       ],
     }),
 })
@@ -133,14 +132,4 @@ export abstract class QuoteFacade {
     quoteCode: string,
     attachmentId: string
   ): Observable<Blob>;
-
-  /**
-   * Retrieves the purchase order number for a given quote code.
-   *
-   * @param quoteCode - The unique quote code
-   * @returns Observable emitting the purchase order number or undefined
-   */
-  abstract getPurchaseOrderNumber(
-    quoteCode: string
-  ): Observable<string | undefined>;
 }
