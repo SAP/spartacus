@@ -909,20 +909,19 @@ context('Assisted Service Module', () => {
             b2cAgent.password,
             customer.email
           ).then((customerId) => {
-            cy.log('--> customerId====' + customerId);
             cy.visit(
               `/assisted-service/emulate?customerId=${customerId}&cartId=${activeCartId}&cartType=active`
             );
 
-              // cy.log('--> set input should be active cart id');
-              // cy.get(
-              //   'cx-customer-emulation input[formcontrolname="cartNumber"]'
-              // ).should('have.value', activeCartId);
+            // cy.log('--> set input should be active cart id');
+            // cy.get(
+            //   'cx-customer-emulation input[formcontrolname="cartNumber"]'
+            // ).should('have.value', activeCartId);
 
-              // cy.log('--> the message strip should be display');
-              // cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
-              //   .should('exist')
-              //   .click();
+            // cy.log('--> the message strip should be display');
+            // cy.get('cx-asm-save-cart-dialog .cx-message-info button cx-icon')
+            //   .should('exist')
+            //   .click();
 
             cy.log('--> Should navigate to current cart page');
             cy.get('.cart-details-wrapper .cx-total').should(

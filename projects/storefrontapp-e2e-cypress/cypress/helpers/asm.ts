@@ -1079,9 +1079,15 @@ export function emulateExistedCustomerPrepare(agentToken, agentPwd) {
   return customer;
 }
 
+export function getCustomerId(agentUserName, agentPwd, customerUid) {
+  return fetchingToken(agentUserName, agentPwd, false).then((res) => {
+    getCustomerIdWithAgentToken(res.body.access_token, customerUid);
+  });
+}
+
 export function getToken(): Promise<string> {
   return new Promise((resolve) => {
-    cy.wait(3000);
+    cy.wait(2000);
     cy.window().should('have.property', 'localStorage');
     cy.window().then((win) => {
       const spartacusAuth = win.localStorage.getItem('spartacus⚿⚿auth');
@@ -1116,12 +1122,6 @@ export function getCustomerIdWithAgentToken(
         reject(response.status);
       }
     });
-  });
-}
-
-export function getCustomerId(agentUserName, agentPwd, customerUid) {
-  return fetchingToken(agentUserName, agentPwd, false).then((res) => {
-    getCustomerIdWithAgentToken(res.body.access_token, customerUid);
   });
 }
 
@@ -1285,46 +1285,6 @@ export function getCurrentCartIdAndAddProductsForJdk21(
   });
 }
 
-export function getCurrentCartIdAndAddProductsForASMJdk21(
-  customerName,
-  customerPwd,
-  productCode?,
-  quantity?
-) {
-  return new Promise((resolve, reject) => {
-    Cypress.env('CLIENT_ID', 'mobile_android_public');
-    cy.log('CLIENT_ID ' + Cypress.env('CLIENT_ID'));
-
-    fetchingToken(customerName, customerPwd, false).then((res) => {
-      const token = res.body.access_token;
-      cy.log('get token ' + token);
-      createCart(token).then((response) => {
-        if (response.status === 201) {
-          const activeCartId = response.body.code;
-          if (!!productCode && quantity) {
-            addToCartWithProducts(
-              activeCartId,
-              productCode,
-              quantity,
-              token
-            ).then((response) => {
-              if (response.status === 200) {
-                resolve(activeCartId);
-              } else {
-                reject(response.status);
-              }
-            });
-          } else {
-            resolve(activeCartId);
-          }
-        } else {
-          reject(response.status);
-        }
-      });
-    });
-    Cypress.env('CLIENT_ID', 'asm_client');
-  });
-}
 export function registerUser() {
   clearAllStorage();
   const customer = getSampleUser();
