@@ -11,17 +11,17 @@ import {
   OccEndpointsService,
   tryNormalizeHttpError,
 } from '@spartacus/core';
-import { CancelSubscriptionOrderAdapter } from '@spartacus/subscription-billing/core';
+import { SubscriptionActionsAdapter } from '@spartacus/subscription-billing/core';
 import {
-  CancellationDetails,
-  Withdrawal,
+  SubscriptionCancellationDetails,
+  SubscriptionWithdraw,
 } from '@spartacus/subscription-billing/root';
 import { catchError, Observable } from 'rxjs';
 
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 @Injectable()
-export class OccCancelSubscriptionAdapter
-  implements CancelSubscriptionOrderAdapter
+export class OccSubscriptionActionsAdapter
+  implements SubscriptionActionsAdapter
 {
   protected logger = inject(LoggerService);
   protected http = inject(HttpClient);
@@ -30,7 +30,7 @@ export class OccCancelSubscriptionAdapter
   cancelSubscription(
     userId: string,
     subscriptionCode: string,
-    cancellationDetails: CancellationDetails
+    cancellationDetails: SubscriptionCancellationDetails
   ): Observable<any> {
     const url = this.occEndpoints.buildUrl('cancelSubscription', {
       urlParams: {
@@ -47,19 +47,16 @@ export class OccCancelSubscriptionAdapter
       })
     );
   }
-  cancellationSubscriptionEffectiveDate(
+  getEffectiveCancellationDate(
     userId: string,
     subscriptionCode: string
   ): Observable<any> {
-    const url = this.occEndpoints.buildUrl(
-      'cancellationSubscriptionEffectiveDate',
-      {
-        urlParams: {
-          userId,
-          subscriptionCode,
-        },
-      }
-    );
+    const url = this.occEndpoints.buildUrl('getEffectiveCancellationDate', {
+      urlParams: {
+        userId,
+        subscriptionCode,
+      },
+    });
     return this.http.get(url).pipe(
       catchError((error) => {
         throw tryNormalizeHttpError(error, this.logger);
@@ -70,7 +67,7 @@ export class OccCancelSubscriptionAdapter
   withdrawal(
     userId: string,
     subscriptionCode: string,
-    withdrawalData: Withdrawal
+    withdrawalData: SubscriptionWithdraw
   ): Observable<any> {
     const url = this.occEndpoints.buildUrl('withdrawal', {
       urlParams: {

@@ -3,28 +3,22 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { OccCancelSubscriptionAdapter } from './occ-subscription-billing-cancel.adapter';
+import { OccSubscriptionActionsAdapter } from './occ-subscription-billing-action.adapter';
 import { OccEndpointsService } from '@spartacus/core';
-// import { OccEndpointsService, LoggerService } from '@spartacus/core';
 import {
-  CancellationDetails,
-  Withdrawal as Withdrawal,
+  SubscriptionCancellationDetails,
+  SubscriptionWithdraw as Withdrawal,
 } from '@spartacus/subscription-billing/root';
 
-describe('OccCancelSubscriptionAdapter', () => {
-  let adapter: OccCancelSubscriptionAdapter;
+describe('OccSubscriptionActionsAdapter', () => {
+  let adapter: OccSubscriptionActionsAdapter;
   let httpMock: HttpTestingController;
   let occEndpointsService: jasmine.SpyObj<OccEndpointsService>;
-  //   let loggerService: jasmine.SpyObj<LoggerService>;
 
   const mockUserId = 'testUser';
   const mockSubscriptionCode = 'testSubscription';
 
-  const mockCancellationDetails: CancellationDetails = {
-    // subscriptionId: 'sub123',
-    // validTillDate: '2025-07-10',
-    // ratePlanId: 'ratePlan456',
-    // version: '1',
+  const mockCancellationDetails: SubscriptionCancellationDetails = {
     subscriptionEndAt: '2025-07-20',
   };
 
@@ -39,23 +33,20 @@ describe('OccCancelSubscriptionAdapter', () => {
     const occEndpointsSpy = jasmine.createSpyObj('OccEndpointsService', [
       'buildUrl',
     ]);
-    // const loggerSpy = jasmine.createSpyObj('LoggerService', ['log', 'warn', 'error']);
 
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccCancelSubscriptionAdapter,
+        OccSubscriptionActionsAdapter,
         { provide: OccEndpointsService, useValue: occEndpointsSpy },
-        // { provide: LoggerService, useValue: loggerSpy },
       ],
     });
 
-    adapter = TestBed.inject(OccCancelSubscriptionAdapter);
+    adapter = TestBed.inject(OccSubscriptionActionsAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     occEndpointsService = TestBed.inject(
       OccEndpointsService
     ) as jasmine.SpyObj<OccEndpointsService>;
-    // loggerService = TestBed.inject(LoggerService) as jasmine.SpyObj<LoggerService>;
   });
 
   afterEach(() => {
@@ -85,7 +76,7 @@ describe('OccCancelSubscriptionAdapter', () => {
     occEndpointsService.buildUrl.and.returnValue(mockUrl);
 
     adapter
-      .cancellationSubscriptionEffectiveDate(mockUserId, mockSubscriptionCode)
+      .getEffectiveCancellationDate(mockUserId, mockSubscriptionCode)
       .subscribe();
 
     const req = httpMock.expectOne(mockUrl);
@@ -142,15 +133,14 @@ describe('OccCancelSubscriptionAdapter', () => {
         next: () => fail('Expected an error, but got success'),
         error: (error) => {
           expect(error).toBeDefined();
-          expect(error.message).toContain('Http failure response'); // <-- match Angular’s default error message
-          // Optionally, check logger was called if you mock LoggerService
+          expect(error.message).toContain('Http failure response');
         },
       });
 
     const req = httpMock.expectOne(mockUrl);
     req.flush(mockErrorBody, mockHttpError);
   });
-  it('should handle error when cancellationSubscriptionEffectiveDate fails', () => {
+  it('should handle error when getEffectiveCancellationDate fails', () => {
     const mockUrl = 'mockEffectiveDateUrl';
     occEndpointsService.buildUrl.and.returnValue(mockUrl);
 
@@ -164,12 +154,12 @@ describe('OccCancelSubscriptionAdapter', () => {
     };
 
     adapter
-      .cancellationSubscriptionEffectiveDate(mockUserId, mockSubscriptionCode)
+      .getEffectiveCancellationDate(mockUserId, mockSubscriptionCode)
       .subscribe({
         next: () => fail('Expected an error, but got success'),
         error: (error) => {
           expect(error).toBeDefined();
-          expect(error.message).toContain('Http failure response'); // or test exact normalized structure if needed
+          expect(error.message).toContain('Http failure response');
         },
       });
 

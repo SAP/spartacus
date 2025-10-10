@@ -5,4 +5,4 @@
  */
 
 export * from './subscription-billing.facade';
-export * from './subscription-billing-cancel.facade';
+export * from './subscription-billing-action.facade';

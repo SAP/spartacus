@@ -6,6 +6,7 @@
 
 import { PaginationModel, SortModel } from '@spartacus/core';
 import { PricePlan } from './subscription-product.model';
+import { LAUNCH_CALLER } from '@spartacus/storefront';
 
 export interface SubscriptionDetail {
   id?: string;
@@ -33,19 +34,26 @@ export interface SubscriptionList {
 }
 
 //Cancel-widthdraw-resubscribe
-export interface CancelData {
+export interface SubscriptionCancelData {
   subscriptionEndAt?: string;
 }
-export interface CancellationDetails {
+export interface SubscriptionCancellationDetails {
   subscriptionEndAt?: string;
 }
-export interface ReverseCancellation {
+export interface SubscriptionReverseCancellation {
   subscriptionId?: string;
   version?: string;
 }
-export interface Withdrawal {
+export interface SubscriptionWithdraw {
   subscriptionId?: string;
   version?: string;
   withdrawnAt?: string;
   withdrawalPeriodEndDate?: string;
 }
+export const EXTENDED_LAUNCH_CALLER = {
+  ...LAUNCH_CALLER,
+  SUBSCRIPTION_CONFIRMATION: 'SUBSCRIPTION_CONFIRMATION',
+} as const;
+
+export type ExtendedLaunchCaller =
+  (typeof EXTENDED_LAUNCH_CALLER)[keyof typeof EXTENDED_LAUNCH_CALLER];

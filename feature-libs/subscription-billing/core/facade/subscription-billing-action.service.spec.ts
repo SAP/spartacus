@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { SubscriptionBillingCancelService } from './subscription-billing-cancel.service';
+import { SubscriptionActionService } from './subscription-billing-action.service';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import {
-  CancelSubscriptionOrderConnector,
+  SubscriptionActionsConnector,
   SubscriptionBillingConnector,
 } from '../connector';
 import {
-  CancellationDetails,
+  SubscriptionCancellationDetails,
   GetSubscriptionByCodeReloadEvent,
-  Withdrawal,
+  SubscriptionWithdraw,
 } from '@spartacus/subscription-billing/root';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -22,18 +22,18 @@ const mockStore = {
   pipe: jasmine.createSpy().and.returnValue(of({})),
 };
 
-describe('SubscriptionBillingCancelService', () => {
-  let service: SubscriptionBillingCancelService;
+describe('SubscriptionActionService', () => {
+  let service: SubscriptionActionService;
   let userIdService: jasmine.SpyObj<UserIdService>;
-  let cancelConnector: jasmine.SpyObj<CancelSubscriptionOrderConnector>;
+  let cancelConnector: jasmine.SpyObj<SubscriptionActionsConnector>;
   let subscriptionBillingConnector: jasmine.SpyObj<SubscriptionBillingConnector>;
   const userId = 'user123';
   const subscriptionCode = 'sub456';
 
   beforeEach(() => {
     userIdService = jasmine.createSpyObj('UserIdService', ['getUserId']);
-    cancelConnector = jasmine.createSpyObj('CancelSubscriptionOrderConnector', [
-      'cancellationSubscriptionEffectiveDate',
+    cancelConnector = jasmine.createSpyObj('SubscriptionActionsConnector', [
+      'getEffectiveCancellationDate',
       'cancelSubscription',
       'reversecancellation',
       'withdrawal',
@@ -44,10 +44,10 @@ describe('SubscriptionBillingCancelService', () => {
     );
     TestBed.configureTestingModule({
       providers: [
-        SubscriptionBillingCancelService,
+        SubscriptionActionService,
         { provide: UserIdService, useValue: userIdService },
         {
-          provide: CancelSubscriptionOrderConnector,
+          provide: SubscriptionActionsConnector,
           useValue: cancelConnector,
         },
         {
@@ -59,25 +59,25 @@ describe('SubscriptionBillingCancelService', () => {
       ],
     });
 
-    service = TestBed.inject(SubscriptionBillingCancelService);
+    service = TestBed.inject(SubscriptionActionService);
   });
   it('should return subscription reload events', () => {
     const events = service['getSubscriptionByCodeReloadEvents']();
     expect(events).toEqual([GetSubscriptionByCodeReloadEvent]);
   });
 
-  describe('cancellationSubscriptionEffectiveDate', () => {
+  describe('getEffectiveCancellationDate', () => {
     it('should call connector with correct params', (done) => {
       userIdService.getUserId.and.returnValue(of(userId));
-      cancelConnector.cancellationSubscriptionEffectiveDate.and.returnValue(
+      cancelConnector.getEffectiveCancellationDate.and.returnValue(
         of('mockDate')
       );
 
       service
-        .cancellationSubscriptionEffectiveDate(subscriptionCode)
+        .getEffectiveCancellationDate(subscriptionCode)
         .subscribe((res) => {
           expect(
-            cancelConnector.cancellationSubscriptionEffectiveDate
+            cancelConnector.getEffectiveCancellationDate
           ).toHaveBeenCalledWith(userId, subscriptionCode);
           expect(res).toBe('mockDate');
           done();
@@ -101,10 +101,10 @@ describe('SubscriptionBillingCancelService', () => {
           },
         });
     });
-    it('should emit error when userId or subscriptionCode is missing in cancellationSubscriptionEffectiveDate', (done) => {
+    it('should emit error when userId or subscriptionCode is missing in getEffectiveCancellationDate', (done) => {
       userIdService.getUserId.and.returnValue(of(null as any));
 
-      service.cancellationSubscriptionEffectiveDate(undefined).subscribe({
+      service.getEffectiveCancellationDate(undefined).subscribe({
         next: () => {
           fail('Expected an error, but got a value');
           done();
@@ -120,7 +120,7 @@ describe('SubscriptionBillingCancelService', () => {
   });
 
   describe('cancelSubscription', () => {
-    const cancellationDetails: CancellationDetails = {
+    const cancellationDetails: SubscriptionCancellationDetails = {
       subscriptionEndAt: '2026-01-01',
     };
 
@@ -193,7 +193,7 @@ describe('SubscriptionBillingCancelService', () => {
   });
 
   describe('withdrawal', () => {
-    const withdrawalData: Withdrawal = {
+    const withdrawalData: SubscriptionWithdraw = {
       subscriptionId: 'sub456',
       version: '1',
       withdrawnAt: '2025-07-01',

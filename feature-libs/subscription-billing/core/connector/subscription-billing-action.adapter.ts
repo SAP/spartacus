@@ -5,30 +5,30 @@
  */
 
 import {
-  CancellationDetails,
-  Withdrawal,
+  SubscriptionCancellationDetails,
+  SubscriptionWithdraw,
 } from '@spartacus/subscription-billing/root';
 import { Observable } from 'rxjs';
 
-export abstract class CancelSubscriptionOrderAdapter {
-  abstract cancellationSubscriptionEffectiveDate(
+export abstract class SubscriptionActionsAdapter {
+  abstract getEffectiveCancellationDate(
     userId: string,
     subscriptionCode: string
   ): Observable<any>;
   abstract cancelSubscription(
     userId: string,
     subscriptionCode: string,
-    cancellationDetails: CancellationDetails
+    cancellationDetails: SubscriptionCancellationDetails
   ): Observable<unknown>;
 
   abstract reverseCancellation(
     userId: string,
-    subscriptionCode: string // reverseCancellation: reverseCancellation
+    subscriptionCode: string
   ): Observable<unknown>;
 
   abstract withdrawal(
     userId: string,
     subscriptionCode: string,
-    withdrawal: Withdrawal
+    withdrawal: SubscriptionWithdraw
   ): Observable<unknown>;
 }

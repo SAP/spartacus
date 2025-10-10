@@ -7,8 +7,8 @@
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig, CmsConfig, AuthGuard } from '@spartacus/core';
 
-import { SubscriptionModalComponent } from './modal-subscrption/subscription-modal.component';
-import { subscriptionCancelPopupConfig } from './subscrption-confirm-dialog.config';
+import { SubscriptionModalComponent } from './modal-subscription/subscription-modal.component';
+import { subscriptionCancelPopupConfig } from './subscription-confirm-dialog.config';
 
 import { SubscriptionProductUsageChargeModule } from './product/usage/subscription-product-usage-charge.module';
 import { SubscriptionDetailsModule } from './details/subscription-details.module';

@@ -45,7 +45,7 @@ export function fillRegistrationForm(
  * Fill in Spartacus Login page
  */
 export function fillLoginForm(credentials: LoginUser) {
-  return fillAuthServerLoginForm(credentials);
+  return fillCustomLoginForm(credentials);
 }
 
 /** New Authorization server login */

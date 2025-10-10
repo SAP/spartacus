@@ -97,27 +97,19 @@ describe('SubscriptionDetailsComponent', () => {
       id: 's1',
       name: 'Test Sub',
     };
-    const code = 's1';
     const mode = 'cancel';
 
-    spyOn(facade, 'getSubscriptionCodeFromRoute').and.returnValue(of(code));
     (component as any).subscriptionDetails$ = of(subscription);
     const openDialogSpy = spyOn(launchDialogService, 'openDialogAndSubscribe');
-
-    // Create a fake element for cancelTriggerEl
-    const fakeElement = document.createElement('button');
-    (component as any).cancelTriggerEl = {
-      nativeElement: fakeElement,
-    };
 
     component.showSubscriptionDialog(mode);
 
     expect(openDialogSpy).toHaveBeenCalledWith(
       EXTENDED_LAUNCH_CALLER.SUBSCRIPTION_CONFIRMATION,
-      component.cancelTriggerEl,
+      undefined,
       {
         ...subscription,
-        code,
+        code: subscription.id,
         mode,
       }
     );

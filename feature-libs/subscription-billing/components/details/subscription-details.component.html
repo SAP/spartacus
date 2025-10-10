@@ -113,7 +113,7 @@
         <span class="action-button-right">
           <a
             *ngIf="subscription.isCancellationPossible"
-            #cancelTriggerEl
+            cxBtnLikeLink
             class="btn btn-block btn-secondary"
             (click)="showSubscriptionDialog('cancel')"
             [attr.aria-label]="
@@ -121,6 +121,15 @@
             "
           >
             {{ 'subscriptionDetails.cancelSubscription' | cxTranslate }}
+          </a>
+        </span>
+        <span class="action-button-right">
+          <a
+            *ngIf="subscription.isExtensionPossible"
+            cxBtnLikeLink
+            class="btn btn-block btn-secondary"
+          >
+            {{ 'subscriptionDetails.extendSubscription' | cxTranslate }}
           </a>
         </span>
         <span class="action-button-right">
@@ -145,15 +154,6 @@
             class="btn btn-block btn-primary"
           >
             {{ 'subscriptionDetails.withdrawSubscription' | cxTranslate }}
-          </a>
-        </span>
-        <span class="action-button-right">
-          <a
-            *ngIf="subscription.isExtensionPossible"
-            cxBtnLikeLink
-            class="btn btn-block btn-secondary"
-          >
-            {{ 'subscriptionDetails.extendSubscription' | cxTranslate }}
           </a>
         </span>
       </span>

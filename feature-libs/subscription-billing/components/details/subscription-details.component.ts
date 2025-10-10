@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  ElementRef,
-  inject,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import {
   EXTENDED_LAUNCH_CALLER,
@@ -38,9 +31,6 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
 
   subscriptionDetails$: Observable<SubscriptionDetail | undefined> =
     this.subscriptionFacade.getSubscriptionByCode();
-
-  @ViewChild('cancelTriggerEl') cancelTriggerEl!: ElementRef;
-
   ngOnInit() {
     this.subscription = combineLatest([
       this.subscriptionDetails$,
@@ -61,26 +51,21 @@ export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
   }
 
   showSubscriptionDialog(mode: 'cancel' | 'withdraw' | 'resubscribe'): void {
-    combineLatest([
-      this.subscriptionFacade.getSubscriptionCodeFromRoute(),
-      this.subscriptionDetails$,
-    ])
-      .pipe(take(1))
-      .subscribe(([code, subscription]) => {
-        if (!code || !subscription) return;
+    this.subscriptionDetails$.pipe(take(1)).subscribe((subscription) => {
+      if (!subscription) return;
 
-        const dataToPass = {
-          ...subscription,
-          code,
-          mode,
-        };
+      const dataToPass = {
+        ...subscription,
+        code: subscription.id,
+        mode,
+      };
 
-        this.launchDialogService.openDialogAndSubscribe(
-          EXTENDED_LAUNCH_CALLER.SUBSCRIPTION_CONFIRMATION,
-          this.cancelTriggerEl,
-          dataToPass
-        );
-      });
+      this.launchDialogService.openDialogAndSubscribe(
+        EXTENDED_LAUNCH_CALLER.SUBSCRIPTION_CONFIRMATION,
+        undefined,
+        dataToPass
+      );
+    });
   }
 
   ngOnDestroy(): void {

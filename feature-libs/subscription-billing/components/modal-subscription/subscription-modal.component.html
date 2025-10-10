@@ -13,7 +13,7 @@
         <h4>
           <strong>
             {{
-              'cancelSubscription.askConfirm'
+              'actionSubscription.askConfirm'
                 | cxTranslate
                   : {
                       action:
@@ -30,7 +30,7 @@
       <button
         type="button"
         class="close pt-0"
-        attr.aria-label="{{ 'cancelSubscription.closeModal' | cxTranslate }}"
+        attr.aria-label="{{ 'actionSubscription.closeModal' | cxTranslate }}"
         (click)="onDialogClose('Cross click')"
       >
         <span
@@ -40,7 +40,6 @@
     </div>
 
     <!-- Modal Body -->
-    <!-- Modal Body -->
     <div class="cx-dialog-body modal-body">
       <div class="row">
         <div class="col-md-12">
@@ -49,24 +48,24 @@
             <ng-container *ngIf="cancelData(); else loading">
               <p *ngIf="cancelData()?.subscriptionEndAt">
                 {{
-                  'cancelSubscription.loseSubscription'
+                  'actionSubscription.loseSubscription'
                     | cxTranslate
-                      : { date: getFormattedCancelValidTillDate(cancelData()) }
+                      : { date: (cancelData()?.subscriptionEndAt | cxDate) }
                 }}
               </p>
               <p>
-                {{ 'cancelSubscription.changeMind' | cxTranslate }}
+                {{ 'actionSubscription.changeMind' | cxTranslate }}
               </p>
             </ng-container>
           </ng-container>
 
           <!-- WITHDRAW MODE: simpler message -->
           <ng-container *ngIf="mode() === 'withdraw'">
-            <p>{{ 'cancelSubscription.withdrawConfirm' | cxTranslate }}</p>
+            <p>{{ 'actionSubscription.withdrawConfirm' | cxTranslate }}</p>
           </ng-container>
 
           <ng-container *ngIf="mode() === 'resubscribe'">
-            <p>{{ 'cancelSubscription.resubscribeConfirm' | cxTranslate }}</p>
+            <p>{{ 'actionSubscription.resubscribeConfirm' | cxTranslate }}</p>
           </ng-container>
           <!-- Common footer for both -->
           <div class="row justify-content-end mt-3">
@@ -76,7 +75,7 @@
                 class="btn btn-block btn-secondary"
                 (click)="onDialogClose('Cancel click')"
               >
-                {{ 'cancelSubscription.cancel' | cxTranslate }}
+                {{ 'actionSubscription.cancel' | cxTranslate }}
               </button>
             </div>
             <div class="cx-quote col-sm-12 col-md-6 p-1">
@@ -85,7 +84,7 @@
                 class="btn btn-primary btn-block"
                 (click)="onConfirm()"
               >
-                {{ 'cancelSubscription.confirm' | cxTranslate }}
+                {{ 'actionSubscription.confirm' | cxTranslate }}
               </button>
             </div>
           </div>

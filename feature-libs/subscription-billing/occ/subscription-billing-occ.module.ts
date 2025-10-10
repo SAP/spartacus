@@ -9,10 +9,10 @@ import { defaultOccSubscriptionBillingConfig } from './config/default-occ-subscr
 import { provideDefaultConfig } from '@spartacus/core';
 import {
   OccSubscriptionBillingAdapter,
-  OccCancelSubscriptionAdapter,
+  OccSubscriptionActionsAdapter,
 } from './adapters';
 import {
-  CancelSubscriptionOrderAdapter,
+  SubscriptionActionsAdapter,
   SubscriptionBillingAdapter,
 } from '@spartacus/subscription-billing/core';
 
@@ -24,8 +24,8 @@ import {
       useClass: OccSubscriptionBillingAdapter,
     },
     {
-      provide: CancelSubscriptionOrderAdapter,
-      useClass: OccCancelSubscriptionAdapter,
+      provide: SubscriptionActionsAdapter,
+      useClass: OccSubscriptionActionsAdapter,
     },
   ],
 })

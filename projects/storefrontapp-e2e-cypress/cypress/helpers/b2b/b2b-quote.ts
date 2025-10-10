@@ -28,7 +28,6 @@ export const STATUS_BUYER_CHECKOUT = 'status_buyer_checkout';
 export const STATUS_SALES_REPORTER_SUBMIT = 'status_sales_reporter_submit';
 const SHOP_NAME = Cypress.env('BASE_SITE'); //Powertools-spa
 const QUOTE_LIST_PATH = `${SHOP_NAME}/en/USD/my-account/quotes`;
-const SUBSCRIPTION_LIST_PATH = `${SHOP_NAME}/en/USD/my-account/subscriptions`;
 const CARD_TITLE_QUOTE_INFORMATION = 'Quote Information';
 const SUBMIT_BTN = 'Submit Quote';
 const EXPIRY_DATE: Date = createValidExpiryDate();
@@ -313,15 +312,6 @@ export function prepareSellerQuote(
 export function navigateToQuotesList() {
   cy.visit(QUOTE_LIST_PATH).then(() => {
     cy.location('pathname').should('contain', QUOTE_LIST_PATH);
-    checkQuoteListDisplayed();
-  });
-}
-/**
- * Navigates to the subscription  list.
- */
-export function subscriptionList() {
-  cy.visit(SUBSCRIPTION_LIST_PATH).then(() => {
-    cy.location('pathname').should('contain', SUBSCRIPTION_LIST_PATH);
     checkQuoteListDisplayed();
   });
 }

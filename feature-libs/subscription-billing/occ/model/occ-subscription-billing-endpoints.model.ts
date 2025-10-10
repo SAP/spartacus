@@ -25,9 +25,9 @@ export interface SubscriptionBillingOccEndpoints {
   /**
    * Cancel subscription get datw
    *
-   * @member {string} [cancellationSubscriptionEffectiveDate]
+   * @member {string} [getEffectiveCancellationDate]
    */
-  cancellationSubscriptionEffectiveDate?: string | OccEndpoint;
+  getEffectiveCancellationDate?: string | OccEndpoint;
 
   /**
    * withdrawal subscription

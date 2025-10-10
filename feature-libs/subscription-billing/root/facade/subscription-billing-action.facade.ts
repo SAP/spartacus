@@ -5,7 +5,10 @@
  */
 
 import { Observable } from 'rxjs';
-import { CancellationDetails, Withdrawal } from '../model';
+import {
+  SubscriptionCancellationDetails,
+  SubscriptionWithdraw,
+} from '../model';
 import { Injectable } from '@angular/core';
 import { SUBSCRIPTION_BILLING_FEATURE } from '../feature-name';
 import { facadeFactory } from '@spartacus/core';
@@ -14,26 +17,26 @@ import { facadeFactory } from '@spartacus/core';
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
-      facade: CancelSubscriptionFacade,
+      facade: SubscriptionActionsFacade,
       feature: SUBSCRIPTION_BILLING_FEATURE,
       methods: [
         'cancelSubscription',
-        'cancellationSubscriptionEffectiveDate',
+        'getEffectiveCancellationDate',
         'reverseCancellation',
         'withdrawal',
       ],
     }),
 })
-export abstract class CancelSubscriptionFacade {
+export abstract class SubscriptionActionsFacade {
   abstract cancelSubscription(
-    CancellationDetails: CancellationDetails,
+    CancellationDetails: SubscriptionCancellationDetails,
     code?: string
   ): Observable<unknown>;
-  abstract cancellationSubscriptionEffectiveDate(code: string): Observable<any>;
+  abstract getEffectiveCancellationDate(code: string): Observable<any>;
 
   abstract reverseCancellation(code?: string): Observable<unknown>;
   abstract withdrawal(
-    withdrawal: Withdrawal,
+    withdrawal: SubscriptionWithdraw,
     code?: string
   ): Observable<unknown>;
 }

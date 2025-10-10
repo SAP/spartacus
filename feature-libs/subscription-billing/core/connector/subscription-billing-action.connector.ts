@@ -5,31 +5,28 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { CancelSubscriptionOrderAdapter } from './subscription-billing-cancel.adapter';
+import { SubscriptionActionsAdapter } from './subscription-billing-action.adapter';
 import { Observable } from 'rxjs';
 import {
-  CancellationDetails,
-  Withdrawal,
+  SubscriptionCancellationDetails,
+  SubscriptionWithdraw,
 } from '@spartacus/subscription-billing/root';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CancelSubscriptionOrderConnector {
-  protected adapter = inject(CancelSubscriptionOrderAdapter);
-  public cancellationSubscriptionEffectiveDate(
+export class SubscriptionActionsConnector {
+  protected adapter = inject(SubscriptionActionsAdapter);
+  public getEffectiveCancellationDate(
     userId: string,
     subscriptionCode: string
   ): Observable<unknown> {
-    return this.adapter.cancellationSubscriptionEffectiveDate(
-      userId,
-      subscriptionCode
-    );
+    return this.adapter.getEffectiveCancellationDate(userId, subscriptionCode);
   }
   public cancelSubscription(
     userId: string,
     subscriptionCode: string,
-    cancellationDetails: CancellationDetails
+    cancellationDetails: SubscriptionCancellationDetails
   ): Observable<unknown> {
     return this.adapter.cancelSubscription(
       userId,
@@ -47,7 +44,7 @@ export class CancelSubscriptionOrderConnector {
   public withdrawal(
     userId: string,
     subscriptionCode: string,
-    withdrawalData: Withdrawal
+    withdrawalData: SubscriptionWithdraw
   ): Observable<unknown> {
     return this.adapter.withdrawal(userId, subscriptionCode, withdrawalData);
   }

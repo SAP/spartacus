@@ -5,14 +5,14 @@
  */
 
 import { loginUser, signOutUser } from '../../../helpers/checkout-flow';
-import * as helper from '../../../helpers/vendor/subscription-billing/subscrption';
+import * as helper from '../../../helpers/vendor/subscription-billing/subscription-billing';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
-export const subscrptionComponentSelector = 'cx-subscription-list';
+export const subscriptionComponentSelector = 'cx-subscription-list';
 describe('Cancel Resubscribe Withdraw subscription billing Order Flow', () => {
   before(() => {
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
     cy.visit('/powertools-spa/en/USD/login');
-    loginUser(helper.serviceUser);
+    loginUser(helper.subscriptionUser);
   });
 
   beforeEach(() => {
@@ -20,7 +20,7 @@ describe('Cancel Resubscribe Withdraw subscription billing Order Flow', () => {
     cy.visit(`${Cypress.env('BASE_SITE')}/en/USD/my-account/subscriptions`);
   });
 
-  it('should cancel only the first active subscription', () => {
+  it('should cancel resubscribe and widthdraw', () => {
     helper.clickManageServiceForActiveSubscription();
     helper.checkCancelButtonExists();
     helper.cancelSubscriptionIfPossible();
@@ -28,7 +28,7 @@ describe('Cancel Resubscribe Withdraw subscription billing Order Flow', () => {
     helper.clickManageServiceForCancellSubscription();
     helper.resubscribeSubscriptionIfPossible();
     cy.visit(`${Cypress.env('BASE_SITE')}/en/USD/my-account/subscriptions`);
-    cy.get(subscrptionComponentSelector, { timeout: 10000 }).should(
+    cy.get(subscriptionComponentSelector, { timeout: 10000 }).should(
       'be.visible'
     );
     helper.clickManageServiceForActiveSubscription();

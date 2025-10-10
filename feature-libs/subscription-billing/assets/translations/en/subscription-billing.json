@@ -43,12 +43,12 @@
     "withdrawalEnd": "Withdrawal Period End Date: {{ date }}",
     "orderCode": "Order Code:"
   },
-  "cancelSubscription": {
+  "actionSubscription": {
     "cancel": "Cancel",
     "confirm": "Confirm",
-    "cancelSuccess": "The subscription has been cancelled sucessfully.",
+    "cancelSuccess": "The subscription has been cancelled successfully.",
     "withdrawSuccess": "The subscription has been withdrawn successfully.",
-    "reverseCancellationSuccess": "The subscription has been Reverse sucessfully.",
+    "reverseCancellationSuccess": "The subscription has been reversed successfully.",
     "unknownError": "An unknown error occurred. Please contact support.",
     "askConfirm": "{{ action }} your subscription?",
     "closeModal": "Close modal",

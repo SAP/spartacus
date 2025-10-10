@@ -7,8 +7,8 @@ import {
 import { SubscriptionModalComponent } from './subscription-modal.component';
 import { Observable, of, throwError } from 'rxjs';
 import {
-  CancelSubscriptionFacade,
-  CancelData,
+  SubscriptionActionsFacade,
+  SubscriptionCancelData,
 } from '@spartacus/subscription-billing/root';
 import {
   TranslationService,
@@ -16,6 +16,7 @@ import {
   GlobalMessageType,
   EventService,
   RoutingService,
+  LanguageService,
 } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -26,7 +27,9 @@ describe('SubscriptionModalComponent', () => {
   let component: SubscriptionModalComponent;
   let fixture: ComponentFixture<SubscriptionModalComponent>;
 
-  const mockCancelData: CancelData = { subscriptionEndAt: '2025-12-31' };
+  const mockCancelData: SubscriptionCancelData = {
+    subscriptionEndAt: '2025-12-31',
+  };
 
   class MockTranslationService {
     translate(): Observable<string> {
@@ -36,20 +39,25 @@ describe('SubscriptionModalComponent', () => {
   const mockRoutingService = {
     go: jasmine.createSpy('go'),
   };
-  let mockCancelFacade: jasmine.SpyObj<CancelSubscriptionFacade>;
+  class MockLanguageService {
+    getActive(): Observable<string> {
+      return of('en');
+    }
+  }
+  let mockCancelFacade: jasmine.SpyObj<SubscriptionActionsFacade>;
   let mockGlobalMessageService: jasmine.SpyObj<GlobalMessageService>;
   let mockLaunchDialogService: jasmine.SpyObj<LaunchDialogService>;
   let mockEventService: jasmine.SpyObj<EventService>;
 
   beforeEach(async () => {
-    mockCancelFacade = jasmine.createSpyObj('CancelSubscriptionFacade', [
-      'cancellationSubscriptionEffectiveDate',
+    mockCancelFacade = jasmine.createSpyObj('SubscriptionActionsFacade', [
+      'getEffectiveCancellationDate',
       'cancelSubscription',
       'withdrawal',
       'reverseCancellation',
     ]);
 
-    mockCancelFacade.cancellationSubscriptionEffectiveDate.and.returnValue(
+    mockCancelFacade.getEffectiveCancellationDate.and.returnValue(
       of({ subscriptionEndAt: '2025-12-31' })
     );
     mockCancelFacade.cancelSubscription.and.returnValue(of({}));
@@ -85,12 +93,13 @@ describe('SubscriptionModalComponent', () => {
       imports: [RouterTestingModule, SubscriptionModalComponent],
       providers: [
         provideMockStore(),
-        { provide: CancelSubscriptionFacade, useValue: mockCancelFacade },
+        { provide: SubscriptionActionsFacade, useValue: mockCancelFacade },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
         { provide: LaunchDialogService, useValue: mockLaunchDialogService },
         { provide: EventService, useValue: mockEventService },
         { provide: RoutingService, useValue: mockRoutingService },
         { provide: TranslationService, useClass: MockTranslationService },
+        { provide: LanguageService, useClass: MockLanguageService },
       ],
     }).compileComponents();
 
@@ -130,7 +139,7 @@ describe('SubscriptionModalComponent', () => {
       component.onConfirm();
       tick();
       expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-        { key: 'cancelSubscription.unknownError' },
+        { key: 'actionSubscription.unknownError' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
       expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith('error');
@@ -168,7 +177,7 @@ describe('SubscriptionModalComponent', () => {
 
       expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith('error');
       expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-        { key: 'cancelSubscription.unknownError' },
+        { key: 'actionSubscription.unknownError' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }));
@@ -193,7 +202,7 @@ describe('SubscriptionModalComponent', () => {
     });
 
     it('should show error if cancelData is missing subscriptionEndAt', () => {
-      (component as any).cancelData.set({} as CancelData);
+      (component as any).cancelData.set({} as SubscriptionCancelData);
       component.onConfirm();
       expect(mockGlobalMessageService.add).toHaveBeenCalled();
     });
@@ -204,18 +213,13 @@ describe('SubscriptionModalComponent', () => {
       component.onConfirm();
 
       expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-        { key: 'cancelSubscription.unknownError' },
+        { key: 'actionSubscription.unknownError' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     });
 
-    it('should return empty string if cancelData has no subscriptionEndAt', () => {
-      const result = component.getFormattedCancelValidTillDate(undefined);
-      expect(result).toBe('');
-    });
-
-    it('should handle error from cancellationSubscriptionEffectiveDate in effect', fakeAsync(() => {
-      mockCancelFacade.cancellationSubscriptionEffectiveDate.and.returnValue(
+    it('should handle error from getEffectiveCancellationDate in effect', fakeAsync(() => {
+      mockCancelFacade.getEffectiveCancellationDate.and.returnValue(
         throwError(() => new Error('Load Cancel Data Error'))
       );
 
@@ -225,15 +229,9 @@ describe('SubscriptionModalComponent', () => {
       tick();
 
       expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-        { key: 'cancelSubscription.unknownError' },
+        { key: 'actionSubscription.unknownError' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }));
-    it('should return subscriptionEndAt string if it is an invalid date', () => {
-      const result = component.getFormattedCancelValidTillDate({
-        subscriptionEndAt: 'not-a-valid-date',
-      });
-      expect(result).toBe('not-a-valid-date');
-    });
   });
 });

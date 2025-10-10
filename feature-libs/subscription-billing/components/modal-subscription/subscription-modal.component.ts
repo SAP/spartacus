@@ -15,19 +15,12 @@ import {
 } from '@angular/core';
 import { catchError, of, Observable } from 'rxjs';
 import {
-  CancelSubscriptionFacade,
-  CancellationDetails,
+  SubscriptionActionsFacade,
+  SubscriptionCancellationDetails,
   SubscriptionDetail,
-  CancelData,
-  GetSubscriptionByCodeReloadEvent,
+  SubscriptionCancelData,
 } from '@spartacus/subscription-billing/root';
-import {
-  EventService,
-  GlobalMessageService,
-  GlobalMessageType,
-  I18nModule,
-  UrlModule,
-} from '@spartacus/core';
+import { I18nModule, UrlModule } from '@spartacus/core';
 import {
   CardModule,
   FocusConfig,
@@ -39,6 +32,7 @@ import {
 } from '@spartacus/storefront';
 import { RouterModule } from '@angular/router';
 import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActionHandlerService } from '@spartacus/subscription-billing/core';
 
 @Component({
   selector: 'cx-subscription-modal',
@@ -56,14 +50,11 @@ import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
   ],
 })
 export class SubscriptionModalComponent {
-  // === Inject services ===
-  private cancelFacade = inject(CancelSubscriptionFacade);
-  private globalMessageService = inject(GlobalMessageService);
+  private cancelFacade = inject(SubscriptionActionsFacade);
   private launchDialogService = inject(LaunchDialogService);
-  private eventService = inject(EventService);
   private destroyRef = inject(DestroyRef);
+  private actionHandler = inject(ActionHandlerService);
 
-  // === Signals ===
   private subscriptionDetailSignal = toSignal(
     this.launchDialogService.data$ as Observable<
       SubscriptionDetail & {
@@ -77,7 +68,7 @@ export class SubscriptionModalComponent {
   subscriptionCode = computed(
     () => this.subscriptionDetailSignal()?.code ?? ''
   );
-  cancelData = signal<CancelData | undefined>(undefined);
+  cancelData = signal<SubscriptionCancelData | undefined>(undefined);
 
   iconTypes = ICON_TYPE;
 
@@ -88,18 +79,17 @@ export class SubscriptionModalComponent {
     focusOnEscape: true,
   };
   constructor() {
-    // === Reactive loader for cancel data ===
     effect(() => {
       const mode = this.mode();
       const code = this.subscriptionCode();
 
       if (mode === 'cancel' && code) {
         this.cancelFacade
-          .cancellationSubscriptionEffectiveDate(code)
+          .getEffectiveCancellationDate(code)
           .pipe(
             takeUntilDestroyed(this.destroyRef),
             catchError(() => {
-              this.onError();
+              this.actionHandler.onError();
               return of(undefined);
             })
           )
@@ -109,7 +99,7 @@ export class SubscriptionModalComponent {
       }
     });
   }
-  // === Confirm button handler ===
+
   onConfirm(): void {
     const mode = this.mode();
     const code = this.subscriptionCode();
@@ -117,87 +107,68 @@ export class SubscriptionModalComponent {
     const cancelDataVal = this.cancelData();
 
     if (!code || !detail) {
-      this.onError();
+      this.actionHandler.onError();
       return;
     }
 
     const handlers: Record<string, () => void> = {
       cancel: () => {
         if (!cancelDataVal?.subscriptionEndAt) {
-          this.onError();
+          this.actionHandler.onError();
           return;
         }
 
-        const payload: CancellationDetails = {
+        const payload: SubscriptionCancellationDetails = {
           subscriptionEndAt: cancelDataVal.subscriptionEndAt,
         };
 
         this.cancelFacade
           .cancelSubscription(payload, code)
-          .pipe(takeUntilDestroyed(this.destroyRef), this.handleError())
-          .subscribe(this.handleSuccess('cancelSubscription.cancelSuccess'));
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            this.actionHandler.handleError(() => this.onDialogClose('error'))
+          )
+          .subscribe(
+            this.actionHandler.handleSuccess(
+              'actionSubscription.cancelSuccess',
+              () => this.onDialogClose('Success')
+            )
+          );
       },
 
       withdraw: () => {
         this.cancelFacade
           .withdrawal({ subscriptionId: detail.id }, code)
-          .pipe(takeUntilDestroyed(this.destroyRef), this.handleError())
-          .subscribe(this.handleSuccess('cancelSubscription.withdrawSuccess'));
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            this.actionHandler.handleError(() => this.onDialogClose('error'))
+          )
+          .subscribe(
+            this.actionHandler.handleSuccess(
+              'actionSubscription.withdrawSuccess',
+              () => this.onDialogClose('Success')
+            )
+          );
       },
 
       resubscribe: () => {
         this.cancelFacade
           .reverseCancellation(code)
-          .pipe(takeUntilDestroyed(this.destroyRef), this.handleError())
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            this.actionHandler.handleError(() => this.onDialogClose('error'))
+          )
           .subscribe(
-            this.handleSuccess('cancelSubscription.reverseCancellationSuccess')
+            this.actionHandler.handleSuccess(
+              'actionSubscription.reverseCancellationSuccess',
+              () => this.onDialogClose('Success')
+            )
           );
       },
     };
-
     handlers[mode]?.();
   }
-
-  // === Common error and success handlers ===
-  private handleError() {
-    return catchError(() => {
-      this.onDialogClose('error');
-      this.onError();
-      return of(undefined);
-    });
-  }
-
-  private handleSuccess(messageKey: string) {
-    return {
-      next: () => {
-        this.onDialogClose('Success');
-        this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
-        this.globalMessageService.add(
-          { key: messageKey },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
-      },
-    };
-  }
-
-  getFormattedCancelValidTillDate(cancelData: CancelData | undefined): string {
-    if (!cancelData?.subscriptionEndAt) return '';
-    const date = new Date(cancelData.subscriptionEndAt);
-    if (isNaN(date.getTime())) return cancelData.subscriptionEndAt;
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
-  }
-
   onDialogClose(reason: string): void {
     this.launchDialogService.closeDialog(reason);
-  }
-
-  private onError(): void {
-    this.globalMessageService.add(
-      { key: 'cancelSubscription.unknownError' },
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
   }
 }

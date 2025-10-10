@@ -109,7 +109,6 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StoreFinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { PersonalizationFeatureModule } from './features/tracking/personalization-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
-
 const featureModules = [];
 
 if (environment.b2b) {
@@ -384,7 +383,7 @@ if (environment.cpq) {
         reserveSpaceForImagesOnPdpAndPlp: true,
         lazyLoadImagesByDefault: true,
         incrementProcessesCountForMergeCart: true,
-        authorizationCodeFlowByDefault: true,
+        authorizationCodeFlowByDefault: false,
         defaultLayoutConfigWithoutPageFold: true,
         navigationMenuCloseOnSameLinkClick: true,
       };

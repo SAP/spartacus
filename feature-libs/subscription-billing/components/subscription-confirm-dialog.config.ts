@@ -6,7 +6,7 @@
  */
 
 import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
-import { SubscriptionModalComponent } from './modal-subscrption/subscription-modal.component';
+import { SubscriptionModalComponent } from './modal-subscription/subscription-modal.component';
 
 export const subscriptionCancelPopupConfig: LayoutConfig = {
   launch: {

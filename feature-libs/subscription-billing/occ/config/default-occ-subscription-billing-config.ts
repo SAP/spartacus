@@ -11,7 +11,7 @@ const subscriptionBillingEndpoints: SubscriptionBillingOccEndpoints = {
   subscriptionList: 'users/${userId}/subscriptions',
   subscriptionByCode:
     'users/${userId}/subscriptions/${subscriptionCode}?fields=FULL',
-  cancellationSubscriptionEffectiveDate:
+  getEffectiveCancellationDate:
     'users/${userId}/subscriptions/${subscriptionCode}/cancellationEffectiveAt',
   cancelSubscription:
     'users/${userId}/subscriptions/${subscriptionCode}/cancellation',
