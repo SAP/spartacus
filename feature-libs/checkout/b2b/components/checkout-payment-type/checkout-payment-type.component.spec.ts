@@ -85,7 +85,7 @@ const mockActivatedRoute = {
   },
 };
 
-fdescribe('CheckoutOnePaymentTypeComponent', () => {
+describe('CheckoutOnePaymentTypeComponent', () => {
   let component: CheckoutPaymentTypeComponent;
   let fixture: ComponentFixture<CheckoutPaymentTypeComponent>;
 
@@ -149,7 +149,7 @@ fdescribe('CheckoutOnePaymentTypeComponent', () => {
   });
 });
 
-fdescribe('CheckoutOnePaymentTypeComponent', () => {
+describe('CheckoutOnePaymentTypeComponent', () => {
   let component: CheckoutPaymentTypeComponent;
   let fixture: ComponentFixture<CheckoutPaymentTypeComponent>;
 
@@ -210,7 +210,7 @@ fdescribe('CheckoutOnePaymentTypeComponent', () => {
   });
 });
 
-fdescribe('CheckoutPaymentTypeComponent', () => {
+describe('CheckoutPaymentTypeComponent', () => {
   let component: CheckoutPaymentTypeComponent;
   let fixture: ComponentFixture<CheckoutPaymentTypeComponent>;
 
