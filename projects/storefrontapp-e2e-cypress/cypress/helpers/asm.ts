@@ -1079,11 +1079,16 @@ export function emulateExistedCustomerPrepare(agentToken, agentPwd) {
   return customer;
 }
 
-export function getCustomerId(agentUserName, agentPwd, customerUid): Promise<string> {
-   return new Promise((resolve) => {
+export function getCustomerId(
+  agentUserName,
+  agentPwd,
+  customerUid
+): Promise<string> {
+  return new Promise((resolve) => {
     fetchingToken(agentUserName, agentPwd, false).then((res) => {
-      getCustomerIdWithAgentToken(res.body.access_token, customerUid)
-        .then(resolve);
+      getCustomerIdWithAgentToken(res.body.access_token, customerUid).then(
+        resolve
+      );
     });
   });
 }
@@ -1107,6 +1112,7 @@ export function getCustomerIdForJDK21(
 
 export function getToken(): Promise<string> {
   return new Promise((resolve) => {
+    cy.wait(2000);
     cy.wait(2000);
     cy.window().should('have.property', 'localStorage');
     cy.window().then((win) => {
@@ -1144,7 +1150,6 @@ export function getCustomerIdWithAgentToken(
     });
   });
 }
-
 
 export function getInactiveCartIdAndAddProducts(
   customerEmail,

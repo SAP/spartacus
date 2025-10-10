@@ -33,6 +33,8 @@ import {
   getToken,
 } from '../../../helpers/asm';
 
+import { waitForPage } from '../../../helpers/navigation';
+
 const b2cAgent = getB2CAgent();
 const productCode = getProductCode();
 const testTicketDetails = getTicketDetails();
@@ -970,7 +972,7 @@ context('Assisted Service Module', () => {
           ).then((customerId) => {
             cy.visit(
               `/assisted-service/emulate?customerId=${customerId}&ticketId=00000008&cartId=${activeCartId}&cartType=active`
-            );          
+            );
 
             cy.log('--> Should navigate to current cart page');
             cy.get('.cart-details-wrapper .cx-total').should(
