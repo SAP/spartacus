@@ -1,11 +1,17 @@
 <div class="cx-item-list-charges">
-  @if (subscriptionItem(); as item) {
-    @if (item.product?.productTypes === 'SUBSCRIPTION') {
+  <ng-container *ngIf="subscriptionItem() as item">
+    <ng-container
+      *ngIf="
+        item.product?.productTypes === 'SUBSCRIPTION';
+        else noSubscriptions
+      "
+    >
       <div class="cx-recurring-charges">
-        @for (
-          recurringCharge of item.product?.sapPricePlan?.recurringCharges;
-          track $index
-        ) {
+        <ng-container
+          *ngFor="
+            let recurringCharge of item.product?.sapPricePlan?.recurringCharges
+          "
+        >
           <div class="cx-value">
             <span class="cx-billing-value"
               >{{ recurringCharge.price?.formattedValue }}/</span
@@ -14,13 +20,14 @@
               item.product?.sapSubscriptionTerm?.billingPlan?.billingTime?.name
             }}</span>
           </div>
-        }
+        </ng-container>
       </div>
       <div class="cx-one-time-charges">
-        @for (
-          oneTimeCharge of item.product?.sapPricePlan?.oneTimeCharges;
-          track oneTimeCharge.name
-        ) {
+        <ng-container
+          *ngFor="
+            let oneTimeCharge of item.product?.sapPricePlan?.oneTimeCharges
+          "
+        >
           <div class="cx-value">
             <span class="cx-billing-value">
               {{ oneTimeCharge.price?.formattedValue }}
@@ -29,12 +36,14 @@
               {{ oneTimeCharge.billingTime?.name | lowercase }}
             </span>
           </div>
-        }
+        </ng-container>
       </div>
-    } @else {
+    </ng-container>
+
+    <ng-template #noSubscriptions>
       <span class="cx-value">
         {{ item.basePrice?.formattedValue }}
       </span>
-    }
-  }
+    </ng-template>
+  </ng-container>
 </div>
