@@ -56,7 +56,8 @@ export class CheckoutPaymentTypeComponent {
   private featureToggles = inject(FeatureToggles);
   poNumberFeatureToggle = this.featureToggles.enableQuotePurchaseOrderNumber;
 
-  isPONumberInputNonEditable: Observable<boolean> = this.poNumberService.isPurchaseOrderNumberNonEditable();
+  isPONumberInputNonEditable: Observable<boolean> =
+    this.poNumberService.isPurchaseOrderNumberNonEditable();
 
   isUpdating$ = combineLatest([
     this.busy$,

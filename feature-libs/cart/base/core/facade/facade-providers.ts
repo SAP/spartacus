@@ -64,5 +64,5 @@ export const facadeProviders: Provider[] = [
   {
     provide: CartAssociatedQuotePurchaseOrderNumberFacade,
     useExisting: CartAssociatedQuotePurchaseOrderNumberService,
-  }
+  },
 ];
