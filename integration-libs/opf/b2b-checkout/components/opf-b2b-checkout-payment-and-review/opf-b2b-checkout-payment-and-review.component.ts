@@ -6,9 +6,8 @@
 
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
-import { Observable, take, map, filter, combineLatest } from 'rxjs';
-import { Card } from '@spartacus/storefront';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
+import { normalizeEmpty } from '@spartacus/core';
 import { OpfCheckoutPaymentAndReviewComponent } from '@spartacus/opf/checkout/components';
 import { NgIf, NgClass, AsyncPipe } from '@angular/common';
 import { OpfCheckoutReviewCardComponent } from '@spartacus/opf/checkout/components';
@@ -20,6 +19,8 @@ import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components
 import { OpfCheckoutReviewCartDetailsComponent } from '@spartacus/opf/checkout/components';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
+import { Card } from '@spartacus/storefront';
+import { combineLatest, filter, map, Observable, take } from 'rxjs';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-payment-and-review',
@@ -64,7 +65,7 @@ export class OpfB2bCheckoutPaymentAndReviewComponent
       map(([textTitle, noneTextTitle]) => {
         return {
           title: textTitle,
-          textBold: poNumber ? poNumber : noneTextTitle,
+          textBold: normalizeEmpty(poNumber) ?? noneTextTitle,
         };
       })
     );

@@ -1,4 +1,4 @@
-import { ViewContainerRef } from '@angular/core';
+import { ViewContainerRef, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CurrencyService, LanguageService } from '@spartacus/core';
@@ -343,5 +343,34 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
     expect(
       mockGlobalFunctionsService.registerGlobalFunctions
     ).not.toHaveBeenCalled();
+  });
+
+  describe('submitFormToIframe', () => {
+    let mockFormElement: jasmine.SpyObj<HTMLFormElement>;
+
+    beforeEach(() => {
+      mockFormElement = jasmine.createSpyObj('HTMLFormElement', ['submit']);
+      component.formElement = {
+        nativeElement: mockFormElement,
+      } as ElementRef<HTMLFormElement>;
+    });
+
+    it('should submit form when payment data is ready and form targets iframe', () => {
+      component['isPaymentDataReady'] = true;
+      mockFormElement.target = 'cx-payment-iframe';
+
+      component['submitFormToIframe']();
+
+      expect(mockFormElement.submit).toHaveBeenCalled();
+    });
+
+    it('should not submit form when form element is not available', () => {
+      component['isPaymentDataReady'] = true;
+      component.formElement = null as any;
+
+      component['submitFormToIframe']();
+
+      expect(mockFormElement.submit).not.toHaveBeenCalled();
+    });
   });
 });

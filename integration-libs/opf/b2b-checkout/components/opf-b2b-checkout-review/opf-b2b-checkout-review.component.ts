@@ -22,15 +22,14 @@ import {
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
-import { CmsService, CostCenter, Page } from '@spartacus/core';
+import { CheckoutStepType } from '@spartacus/checkout/base/root';
+import { CmsService, CostCenter, normalizeEmpty, Page } from '@spartacus/core';
 import {
   OpfBaseFacade,
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
 import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
-import { Observable, map, filter, combineLatest } from 'rxjs';
 import { Card } from '@spartacus/storefront';
-import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import { NgIf, NgClass, AsyncPipe } from '@angular/common';
 import { OpfCheckoutReviewCardComponent } from '@spartacus/opf/checkout/components';
 import { OpfCheckoutTermsAndConditionsAlertComponent } from '@spartacus/opf/checkout/components';
@@ -40,6 +39,7 @@ import { OpfCheckoutReviewCartDetailsComponent } from '@spartacus/opf/checkout/c
 import { OpfB2bCheckoutPlaceOrderComponent } from '../opf-b2b-checkout-place-order/opf-b2b-checkout-place-order.component';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
+import { combineLatest, filter, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-review',
@@ -139,7 +139,7 @@ export class OpfB2bCheckoutReviewComponent
       map(([textTitle, noneTextTitle]) => {
         return {
           title: textTitle,
-          textBold: poNumber ? poNumber : noneTextTitle,
+          textBold: normalizeEmpty(poNumber) ?? noneTextTitle,
         };
       })
     );

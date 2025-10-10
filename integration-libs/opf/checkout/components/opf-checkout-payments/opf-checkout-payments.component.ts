@@ -7,12 +7,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
+  inject,
   Input,
   OnDestroy,
   OnInit,
-  inject,
   Output,
-  EventEmitter,
   TemplateRef,
 } from '@angular/core';
 import {
@@ -129,7 +129,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected isStateEmpty(
     state: QueryState<OpfActiveConfigurationsResponse | undefined>
   ) {
-    return !state?.loading && !Boolean(state?.data?.value?.length);
+    return !state?.loading && !state?.data?.value?.length;
   }
 
   protected handleDefaultPaymentOptionInputSelection(

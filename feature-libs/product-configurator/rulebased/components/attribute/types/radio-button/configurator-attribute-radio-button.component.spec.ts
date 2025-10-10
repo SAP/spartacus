@@ -391,6 +391,19 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       );
     });
 
+    it('should provide input field for for an attribute of validation type "SAP_DATE" in case additional input is allowed', () => {
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.SAP_DATE;
+      fixture.detectChanges();
+      htmlElem = fixture.nativeElement;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-input-field'
+      );
+    });
+
     it('should provide input field for numeric value ', () => {
       component.attribute.uiType =
         Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;

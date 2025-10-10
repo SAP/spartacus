@@ -20,7 +20,7 @@
 
 import { execSync } from 'child_process';
 import fs, { readFileSync } from 'fs';
-import glob from 'glob';
+import { globSync } from 'glob';
 import * as path from 'path';
 import postcss from 'postcss-scss';
 import semver from 'semver';
@@ -152,7 +152,7 @@ export function manageDependencies(
       const scssImports: LibraryWithDependencies['scssImports'] = {};
 
       // Gather data about ts imports
-      const tsFilesPaths = glob.sync(`${library.directory}/**/*.ts`, {
+      const tsFilesPaths = globSync(`${library.directory}/**/*.ts`, {
         // Ignore assets json translation scripts
         // TODO: Remove when translation script will be moved to lib builder
         ignore: [`projects/assets/generate-translations-*.ts`],
@@ -186,7 +186,7 @@ export function manageDependencies(
       });
 
       // Gather data about scss imports
-      const scssFilesPaths = glob.sync(`${library.directory}/**/*.scss`);
+      const scssFilesPaths = globSync(`${library.directory}/**/*.scss`);
 
       scssFilesPaths.forEach((fileName) => {
         const ast = postcss.parse(readFileSync(fileName).toString());
@@ -1041,7 +1041,7 @@ function checkForLockFile(
     reportProgress('Checking for unnecessary `package-lock.json` files');
     let errorsFound = false;
     Object.values(libraries).forEach((lib) => {
-      const lockFile = glob.sync(`${lib.directory}/package-lock.json`);
+      const lockFile = globSync(`${lib.directory}/package-lock.json`);
       if (lockFile.length > 0) {
         errorsFound = true;
         error(

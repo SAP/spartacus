@@ -473,6 +473,24 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       component.attribute.validationType = Configurator.ValidationType.NONE;
       expect(component.isAdditionalValueAlphaNumeric).toBe(true);
     });
+    it('should include "SAP_DATE" validation type for uitypes dropdown or radio group with additional input', () => {
+      component.attribute.validationType = Configurator.ValidationType.SAP_DATE;
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      expect(component.isAdditionalValueAlphaNumeric).toBe(true);
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      expect(component.isAdditionalValueAlphaNumeric).toBe(true);
+    });
+    it('should exclude "NUMERIC" validation type for uitypes dropdown or radio group with additional input', () => {
+      component.attribute.validationType = Configurator.ValidationType.NUMERIC;
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      expect(component.isAdditionalValueAlphaNumeric).toBe(false);
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      expect(component.isAdditionalValueAlphaNumeric).toBe(false);
+    });
   });
   describe('getAriaLabel', () => {
     it('should return aria label for additional value', () => {
