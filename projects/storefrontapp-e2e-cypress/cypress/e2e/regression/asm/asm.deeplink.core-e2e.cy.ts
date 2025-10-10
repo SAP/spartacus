@@ -33,6 +33,8 @@ import {
   getToken,
 } from '../../../helpers/asm';
 
+import { waitForPage } from '../../../helpers/navigation';
+
 const b2cAgent = getB2CAgent();
 const productCode = getProductCode();
 const testTicketDetails = getTicketDetails();
@@ -891,7 +893,6 @@ context('Assisted Service Module', () => {
           '1934793',
           '2'
         ).then((activeCartId) => {
-          cy.log('--> set input should be active cart id====' + activeCartId);
           signOutUser();
 
           getCustomerIdForJDK21(
@@ -913,7 +914,6 @@ context('Assisted Service Module', () => {
             cy.get('cx-asm-main-ui').should('be.visible');
 
             cy.url().should('contain', '/cart');
-
             cy.log('--> test end');
           });
         });
@@ -970,7 +970,7 @@ context('Assisted Service Module', () => {
           ).then((customerId) => {
             cy.visit(
               `/assisted-service/emulate?customerId=${customerId}&ticketId=00000008&cartId=${activeCartId}&cartType=active`
-            );          
+            );
 
             cy.log('--> Should navigate to current cart page');
             cy.get('.cart-details-wrapper .cx-total').should(
