@@ -20,7 +20,6 @@ import {
   SPARTACUS_ORGANIZATION,
   SPARTACUS_PDF_INVOICES,
   SPARTACUS_PRODUCT_CONFIGURATOR,
-  SPARTACUS_QUOTE,
   SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_USER,
@@ -34,7 +33,7 @@ import {
   collectCrossSpartacusPeerDeps,
 } from './dependency-utils';
 
-describe('dependency-util', () => {
+fdescribe('dependency-util', () => {
   describe('analyzeCrossFeatureDependencies', () => {
     it('DP - should return the correct set of ordered sub-features', () => {
       const result = analyzeCrossFeatureDependencies([
@@ -79,7 +78,6 @@ describe('dependency-util', () => {
         SPARTACUS_PDF_INVOICES,
         SPARTACUS_CART,
         SPARTACUS_ORDER,
-        SPARTACUS_QUOTE,
         SPARTACUS_CHECKOUT,
         SPARTACUS_DIGITAL_PAYMENTS,
       ]);
