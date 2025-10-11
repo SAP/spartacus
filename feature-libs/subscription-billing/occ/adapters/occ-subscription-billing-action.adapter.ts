@@ -64,7 +64,7 @@ export class OccSubscriptionActionsAdapter
     );
   }
 
-  withdrawal(
+  withdrawSubscription(
     userId: string,
     subscriptionCode: string,
     withdrawalData: SubscriptionWithdraw

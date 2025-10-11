@@ -138,7 +138,7 @@ export class SubscriptionModalComponent {
 
       withdraw: () => {
         this.cancelFacade
-          .withdrawal({ subscriptionId: detail.id }, code)
+          .withdrawSubscription({ subscriptionId: detail.id }, code)
           .pipe(
             takeUntilDestroyed(this.destroyRef),
             this.actionHandler.handleError(() => this.onDialogClose('error'))

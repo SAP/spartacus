@@ -23,7 +23,7 @@ import { facadeFactory } from '@spartacus/core';
         'cancelSubscription',
         'getEffectiveCancellationDate',
         'reverseCancellation',
-        'withdrawal',
+        'withdrawSubscription',
       ],
     }),
 })
@@ -35,7 +35,7 @@ export abstract class SubscriptionActionsFacade {
   abstract getEffectiveCancellationDate(code: string): Observable<any>;
 
   abstract reverseCancellation(code?: string): Observable<unknown>;
-  abstract withdrawal(
+  abstract withdrawSubscription(
     withdrawal: SubscriptionWithdraw,
     code?: string
   ): Observable<unknown>;

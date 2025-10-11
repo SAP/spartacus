@@ -89,7 +89,7 @@ describe('OccSubscriptionActionsAdapter', () => {
     occEndpointsService.buildUrl.and.returnValue(mockUrl);
 
     adapter
-      .withdrawal(mockUserId, mockSubscriptionCode, mockWithdrawal)
+      .withdrawSubscription(mockUserId, mockSubscriptionCode, mockWithdrawal)
       .subscribe();
 
     const req = httpMock.expectOne(mockUrl);
@@ -180,7 +180,7 @@ describe('OccSubscriptionActionsAdapter', () => {
     };
 
     adapter
-      .withdrawal(mockUserId, mockSubscriptionCode, mockWithdrawal)
+      .withdrawSubscription(mockUserId, mockSubscriptionCode, mockWithdrawal)
       .subscribe({
         next: () => fail('Expected an error, but got success'),
         error: (error) => {

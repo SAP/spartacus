@@ -34,7 +34,7 @@ export interface SubscriptionBillingOccEndpoints {
    *
    * @member {string} [withdrawal]
    */
-  withdrawal?: string | OccEndpoint;
+  withdrawSubscription?: string | OccEndpoint;
 
   /**
    * reversecancellation subscription

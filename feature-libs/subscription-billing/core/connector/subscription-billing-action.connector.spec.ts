@@ -132,7 +132,7 @@ describe('SubscriptionActionsConnector', () => {
 
       adapter.withdrawal.and.returnValue(expectedResponse);
 
-      const result = connector.withdrawal(
+      const result = connector.withdrawSubscription(
         userId,
         subscriptionCode,
         withdrawalData

@@ -24,7 +24,7 @@ describe('My interests', () => {
       });
 
       // Core test. Retest in mobile view.
-      it('should remove the subscription in PDP', () => {
+      it('should remove the subscrption in PDP', () => {
         notification.verifyRemovingCustomerInterestInPDP();
       });
     });
