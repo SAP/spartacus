@@ -39,7 +39,7 @@ export class ExtendSubscriptionDialogComponent implements OnInit {
   isExtendSubscriptionBtnClicked: boolean = false;
   isExtensionEffectiveDateAvailable: boolean = false;
   extensionEffectiveDate: string;
-  subscriptionContractFrequency: string;
+  subscriptionContractFrequency?: string;
   extendFrequencyMaxOptions: {
     [key: string]: number;
   } = extendSubscriptionFrequencyDropdownOptions;
@@ -55,7 +55,7 @@ export class ExtendSubscriptionDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.launchDialogService.data$.subscribe((data) => {
-      this.subscriptionContractFrequency = data;
+      this.subscriptionContractFrequency = data ?? '';
       const maxOptions = this.extendFrequencyMaxOptions[data] + 1; // +1 to include the unlimited duration option
       this.extendDurationOptions = Array.from({ length: maxOptions }, (_, i) =>
         i + 1 === maxOptions
