@@ -18,6 +18,7 @@ import { QuoteCheckoutPaymentTypeComponentService } from './services';
     ...facadeProviders,
     QuoteConnector,
     provideDefaultConfig(defaultQuoteCoreConfig),
+    QuoteCheckoutPaymentTypeComponentService,
     {
       provide: CheckoutPaymentTypeComponentService,
       useExisting: QuoteCheckoutPaymentTypeComponentService,

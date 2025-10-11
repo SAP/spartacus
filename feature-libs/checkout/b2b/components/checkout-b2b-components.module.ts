@@ -16,6 +16,7 @@ import { CheckoutPaymentTypeModule } from './checkout-payment-type/checkout-paym
 import { B2BCheckoutReviewSubmitModule } from './checkout-review-submit/checkout-review-submit.module';
 import { CheckoutB2BAuthGuard } from './guards/checkout-b2b-auth.guard';
 import { CheckoutB2BStepsSetGuard } from './guards/checkout-b2b-steps-set.guard';
+import { CheckoutPaymentTypeComponentService } from './public_api';
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { CheckoutB2BStepsSetGuard } from './guards/checkout-b2b-steps-set.guard'
       provide: CheckoutStepsSetGuard,
       useExisting: CheckoutB2BStepsSetGuard,
     },
+    CheckoutPaymentTypeComponentService,
   ],
 })
 export class CheckoutB2BComponentsModule {}
