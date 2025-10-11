@@ -125,7 +125,7 @@ describe('CheckoutOnePaymentTypeComponent', () => {
     fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
     component = fixture.componentInstance;
     component.poNumberFeatureToggle = true;
-    component.isPONumberInputNonEditable = of(true);
+    component.isPONumberReadOnly = of(true);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -139,7 +139,7 @@ describe('CheckoutOnePaymentTypeComponent', () => {
     fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
     component = fixture.componentInstance;
     component.poNumberFeatureToggle = true;
-    component.isPONumberInputNonEditable = of(false);
+    component.isPONumberReadOnly = of(false);
 
     fixture.detectChanges();
     await fixture.whenStable();

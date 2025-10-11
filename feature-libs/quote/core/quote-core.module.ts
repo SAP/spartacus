@@ -10,12 +10,18 @@ import { defaultQuoteCoreConfig } from './config/default-quote.core.config';
 import { QuoteConnector } from './connectors/quote.connector';
 import { QuoteCartEventListener } from './event/quote-cart-event.listener';
 import { facadeProviders } from './facade/facade-providers';
+import { CheckoutPaymentTypeComponentService } from '@spartacus/checkout/b2b/components';
+import { QuoteCheckoutPaymentTypeComponentService } from './services';
 
 @NgModule({
   providers: [
     ...facadeProviders,
     QuoteConnector,
     provideDefaultConfig(defaultQuoteCoreConfig),
+    {
+      provide: CheckoutPaymentTypeComponentService,
+      useExisting: QuoteCheckoutPaymentTypeComponentService,
+    },
   ],
 })
 export class QuoteCoreModule {

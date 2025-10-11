@@ -7,4 +7,4 @@
 export * from './cart-utils.service';
 export * from './quote-cart.service';
 export * from './quote-storefront-utils.service';
-export * from './cart-associated-quote-po-number.service';
+export * from './quote-checkout-payment-type-component.service';
