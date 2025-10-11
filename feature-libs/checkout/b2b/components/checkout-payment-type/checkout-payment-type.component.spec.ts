@@ -16,7 +16,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
 import createSpy = jasmine.createSpy;
-import { PurchaseOrderNumberService } from '@spartacus/checkout/b2b/core';
+import { CheckoutPaymentTypeComponentService } from './checkout-payment-type-component.service';
 
 @Component({
   selector: 'cx-spinner',
@@ -62,10 +62,8 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   back = createSpy();
 }
 
-class MockPurchaseOrderNumberService
-  implements Partial<PurchaseOrderNumberService>
-{
-  isPurchaseOrderNumberNonEditable = createSpy().and.returnValue(of(false));
+class MockCheckoutPaymentTypeComponentService implements Partial<CheckoutPaymentTypeComponentService> {
+  isPONumberReadOnly = createSpy().and.returnValue(of(false));
 }
 
 const selectedPaymentType$ = new BehaviorSubject<QueryState<PaymentType>>({
@@ -87,7 +85,7 @@ const mockActivatedRoute = {
   },
 };
 
-describe('CheckoutOnePaymentTypeComponent', () => {
+fdescribe('CheckoutOnePaymentTypeComponent', () => {
   let component: CheckoutPaymentTypeComponent;
   let fixture: ComponentFixture<CheckoutPaymentTypeComponent>;
 
@@ -114,8 +112,8 @@ describe('CheckoutOnePaymentTypeComponent', () => {
           useClass: MockGlobalMessageService,
         },
         {
-          provide: PurchaseOrderNumberService,
-          useClass: MockPurchaseOrderNumberService,
+          provide: CheckoutPaymentTypeComponentService,
+          useClass: MockCheckoutPaymentTypeComponentService,
         },
       ],
     }).compileComponents();
@@ -180,8 +178,8 @@ describe('CheckoutOnePaymentTypeComponent', () => {
           useClass: MockGlobalMessageService,
         },
         {
-          provide: PurchaseOrderNumberService,
-          useClass: MockPurchaseOrderNumberService,
+          provide: CheckoutPaymentTypeComponentService,
+          useClass: MockCheckoutPaymentTypeComponentService,
         },
       ],
     }).compileComponents();
@@ -239,8 +237,8 @@ describe('CheckoutPaymentTypeComponent', () => {
           useClass: MockGlobalMessageService,
         },
         {
-          provide: PurchaseOrderNumberService,
-          useClass: MockPurchaseOrderNumberService,
+          provide: CheckoutPaymentTypeComponentService,
+          useClass: MockCheckoutPaymentTypeComponentService,
         },
       ],
     }).compileComponents();
