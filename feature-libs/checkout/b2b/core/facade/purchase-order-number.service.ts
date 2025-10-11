@@ -5,7 +5,10 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { ActiveCartFacade, CartAssociatedQuotePurchaseOrderNumberFacade } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  CartAssociatedQuotePurchaseOrderNumberFacade,
+} from '@spartacus/cart/base/root';
 import { Observable, switchMap } from 'rxjs';
 
 @Injectable()
