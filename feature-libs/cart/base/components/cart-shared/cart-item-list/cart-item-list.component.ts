@@ -33,7 +33,6 @@ import {
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
-import { CartItemListComponentService } from '../cart-item-list-row';
 
 interface ItemListContext {
   readonly?: boolean;
@@ -92,7 +91,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   }
   readonly CartOutlets = CartOutlets;
   private featureConfigService = inject(FeatureConfigService);
-  protected componentService = inject(CartItemListComponentService);
 
   constructor(
     protected activeCartService: ActiveCartFacade,

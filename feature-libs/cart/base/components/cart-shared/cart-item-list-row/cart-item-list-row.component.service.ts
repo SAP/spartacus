@@ -5,7 +5,6 @@
  */
 
 import { Injectable } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/base/root';
 
 @Injectable({
   providedIn: 'root',
@@ -13,9 +12,5 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 export class CartItemListComponentService {
   showBasePriceWithDiscount() {
     return true;
-  }
-
-  displayItemPriceColumn(items: OrderEntry[]): boolean {
-    return items.some((item) => item.product?.productTypes === 'SUBSCRIPTION');
   }
 }

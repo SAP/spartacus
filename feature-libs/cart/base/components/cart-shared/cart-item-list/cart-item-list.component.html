@@ -10,14 +10,14 @@
         {{ 'cartItems.item' | cxTranslate }}
       </th>
 
-      <ng-container *ngIf="componentService.displayItemPriceColumn(items)">
-        <th role="columnheader" scope="col" class="cx-item-list-charges">
-          <ng-template
-            role="columnheader"
-            [cxOutlet]="CartOutlets.SUBSCRIPTION_PRICE_HEADING"
-          ></ng-template>
-        </th>
-      </ng-container>
+      <ng-template
+        role="columnheader"
+        [cxOutlet]="CartOutlets.SUBSCRIPTION_PRICE_HEADING"
+        [cxOutletContext]="{
+          items,
+          parent: 'cart'
+          }"
+      ></ng-template>
 
       <ng-template
         role="columnheader"
@@ -79,17 +79,6 @@
 
 <ng-template #totalHeader>
   <th role="columnheader" scope="col" class="cx-item-list-total">
-    <span *ngIf="outlet?.context$ | async as outletContext; else dueNowHeader">
-      {{ 'cartItems.total' | cxTranslate }}
-    </span>
-  </th>
-</ng-template>
-
-<ng-template #dueNowHeader>
-  <span *ngIf="componentService.displayItemPriceColumn(items)">
-    {{ 'cartItems.dueNow' | cxTranslate }}
-  </span>
-  <span *ngIf="!componentService.displayItemPriceColumn(items)">
     {{ 'cartItems.total' | cxTranslate }}
-  </span>
+  </th>
 </ng-template>

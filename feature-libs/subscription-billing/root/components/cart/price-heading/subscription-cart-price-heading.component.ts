@@ -4,10 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/* eslint-disable linebreak-style */
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, computed, inject, Optional } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { I18nModule } from '@spartacus/core';
+import { OutletContextData } from '@spartacus/storefront';
+import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
 
 @Component({
   selector: 'cx-subscription-cart-price-heading',
@@ -15,4 +18,13 @@ import { I18nModule } from '@spartacus/core';
   imports: [CommonModule, I18nModule],
   templateUrl: './subscription-cart-price-heading.component.html',
 })
-export class SubscriptionCartPriceHeadingComponent {}
+export class SubscriptionCartPriceHeadingComponent {
+  @Optional() protected outletData = inject(OutletContextData);
+  protected productService = inject(SubscriptionProductService);
+  cartItems = toSignal(this.outletData?.context$);
+  subscriptionItem = computed(() => {
+    return this.cartItems().items?.find((item: OrderEntry) =>
+      item.product ? this.productService.isSubscription(item.product) : false
+    );
+  });
+}

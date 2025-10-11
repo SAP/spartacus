@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/* eslint-disable linebreak-style */
 import { CommonModule } from '@angular/common';
-import { Component, Inject, Optional } from '@angular/core';
+import { Component, computed, inject, Optional } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { CartItemContext } from '@spartacus/cart/base/root';
+import { OrderEntry } from '@spartacus/cart/base/root';
+import { OutletContextData } from '@spartacus/storefront';
+import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
 
 @Component({
   selector: 'cx-subscription-cart-price-body',
@@ -17,10 +18,16 @@ import { CartItemContext } from '@spartacus/cart/base/root';
   templateUrl: './subscription-cart-price-body.component.html',
 })
 export class SubscriptionCartPriceBodyComponent {
-  subscriptionItem = toSignal(this.cartItemContext?.item$);
-  constructor(
-    @Optional()
-    @Inject(CartItemContext)
-    protected cartItemContext: CartItemContext
-  ) {}
+  @Optional() protected outletContext = inject(OutletContextData);
+  protected productService = inject(SubscriptionProductService);
+  outletData = toSignal(this.outletContext?.context$);
+  parent = computed(() => this.outletData().parent);
+  subscriptionItemExists = computed(() => {
+    return this.outletData().items?.find((item: OrderEntry) =>
+      item.product ? this.productService.isSubscription(item.product) : false
+    );
+  });
+  item = computed(() => {
+    return this.outletData().item;
+  });
 }

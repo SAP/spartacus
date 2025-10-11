@@ -1,4 +1,12 @@
 %cx-subscription-cart-price-body {
+  height: 100%;
+  display: table-cell;
+  vertical-align: middle;
+
+  td {
+    padding-left: 0.3rem;
+  }
+  
   .cx-item-list-charges {
     text-align: start;
   }
