@@ -13,7 +13,6 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PaymentType } from '@spartacus/cart/base/root';
-import { PurchaseOrderNumberService } from '@spartacus/checkout/b2b/core';
 import {
   B2BPaymentTypeEnum,
   CheckoutPaymentTypeFacade,
@@ -37,6 +36,7 @@ import {
   map,
   tap,
 } from 'rxjs/operators';
+import { CheckoutPaymentTypeComponentService } from './checkout-payment-type-component.service';
 
 @Component({
   selector: 'cx-payment-type',
@@ -49,6 +49,7 @@ export class CheckoutPaymentTypeComponent {
   private poNumberInputElement: ElementRef<HTMLInputElement>;
 
   protected busy$ = new BehaviorSubject<boolean>(false);
+  protected componentService = inject(CheckoutPaymentTypeComponentService);
 
   typeSelected?: string;
   paymentTypesError = false;
@@ -56,8 +57,8 @@ export class CheckoutPaymentTypeComponent {
   private featureToggles = inject(FeatureToggles);
   poNumberFeatureToggle = this.featureToggles.enableQuotePurchaseOrderNumber;
 
-  isPONumberInputNonEditable: Observable<boolean> =
-    this.poNumberService.isPurchaseOrderNumberNonEditable();
+  isPONumberReadOnly: Observable<boolean> =
+    this.componentService.isPONumberReadOnly();
 
   isUpdating$ = combineLatest([
     this.busy$,
@@ -147,8 +148,7 @@ export class CheckoutPaymentTypeComponent {
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
     protected activatedRoute: ActivatedRoute,
-    protected globalMessageService: GlobalMessageService,
-    protected poNumberService: PurchaseOrderNumberService
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   changeType(code: string): void {

@@ -258,6 +258,7 @@
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
     "@spartacus/cart": "221121.2.0",
+    "@spartacus/checkout": "221121.2.0",
     "@spartacus/core": "221121.2.0",
     "@spartacus/order": "221121.2.0",
     "@spartacus/schematics": "221121.2.0",

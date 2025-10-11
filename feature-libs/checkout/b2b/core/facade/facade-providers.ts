@@ -11,7 +11,6 @@ import {
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutCostCenterService } from './checkout-cost-center.service';
 import { CheckoutPaymentTypeService } from './checkout-payment-type.service';
-import { PurchaseOrderNumberService } from './purchase-order-number.service';
 
 export const facadeProviders: Provider[] = [
   CheckoutCostCenterService,
@@ -24,5 +23,4 @@ export const facadeProviders: Provider[] = [
     provide: CheckoutPaymentTypeFacade,
     useExisting: CheckoutPaymentTypeService,
   },
-  PurchaseOrderNumberService,
 ];
