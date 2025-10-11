@@ -33,7 +33,7 @@ export interface SubscriptionList {
   sorts?: SortModel[];
 }
 
-//Cancel-widthdraw-resubscribe
+/** Actions related models */
 export interface SubscriptionCancelData {
   subscriptionEndAt?: string;
 }
