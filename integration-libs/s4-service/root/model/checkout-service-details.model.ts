@@ -7,7 +7,7 @@
 export type ServiceDateTime = string;
 
 export interface ServiceDetails {
-  scheduledAt?: ServiceDateTime; //name in request
+  scheduledAt?: ServiceDateTime;
 }
 
 export interface ServiceOrderConfig {
@@ -16,7 +16,7 @@ export interface ServiceOrderConfig {
 }
 
 export interface CancellationDetails {
-  cancelReason?: string; //name in request
+  cancelReason?: string;
   cancellationRequestEntryInputs: CancellationRequestEntryInputs[];
 }
 export interface CancellationRequestEntryInputs {

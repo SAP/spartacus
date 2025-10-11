@@ -3,15 +3,15 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { OccSubscriptionActionsAdapter } from './occ-subscription-billing-action.adapter';
+import { OccSubscriptionBillingActionAdapter } from './occ-subscription-billing-action.adapter';
 import { OccEndpointsService } from '@spartacus/core';
 import {
   SubscriptionCancellationDetails,
   SubscriptionWithdraw as Withdrawal,
 } from '@spartacus/subscription-billing/root';
 
-describe('OccSubscriptionActionsAdapter', () => {
-  let adapter: OccSubscriptionActionsAdapter;
+describe('OccSubscriptionBillingActionAdapter', () => {
+  let adapter: OccSubscriptionBillingActionAdapter;
   let httpMock: HttpTestingController;
   let occEndpointsService: jasmine.SpyObj<OccEndpointsService>;
 
@@ -37,12 +37,12 @@ describe('OccSubscriptionActionsAdapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccSubscriptionActionsAdapter,
+        OccSubscriptionBillingActionAdapter,
         { provide: OccEndpointsService, useValue: occEndpointsSpy },
       ],
     });
 
-    adapter = TestBed.inject(OccSubscriptionActionsAdapter);
+    adapter = TestBed.inject(OccSubscriptionBillingActionAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     occEndpointsService = TestBed.inject(
       OccEndpointsService

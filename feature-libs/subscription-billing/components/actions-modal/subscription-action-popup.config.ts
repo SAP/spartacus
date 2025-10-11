@@ -6,13 +6,13 @@
  */
 
 import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
-import { SubscriptionModalComponent } from './modal-subscription/subscription-modal.component';
+import { SubscriptionActionsModalComponent } from './subscription-actions-modal.component';
 
-export const subscriptionCancelPopupConfig: LayoutConfig = {
+export const subscriptionActionsPopupConfig: LayoutConfig = {
   launch: {
     SUBSCRIPTION_CONFIRMATION: {
       inlineRoot: true,
-      component: SubscriptionModalComponent,
+      component: SubscriptionActionsModalComponent,
       dialogType: DIALOG_TYPE.DIALOG,
     },
   },

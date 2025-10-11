@@ -43,7 +43,7 @@
     "withdrawalEnd": "Withdrawal Period End Date: {{ date }}",
     "orderCode": "Order Code:"
   },
-  "actionSubscription": {
+  "subscriptionActions": {
     "cancel": "Cancel",
     "confirm": "Confirm",
     "cancelSuccess": "The subscription has been cancelled successfully.",

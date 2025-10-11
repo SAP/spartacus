@@ -6,7 +6,7 @@
 @import './details/subscription-details';
 $subscription-billing-components-allowlist:
   cx-subscription-product-price, cx-subscription-product-usage-charge,
-  cx-subscription-list, cx-subscription-details, cx-subscription-modal !default;
+  cx-subscription-list, cx-subscription-details, cx-subscription-actions-modal !default;
 
 $skipComponentStyles: () !default;
 

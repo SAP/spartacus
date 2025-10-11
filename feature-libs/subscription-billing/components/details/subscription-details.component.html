@@ -1,4 +1,6 @@
-<ng-container *ngIf="subscriptionDetails$ | async as subscription">
+<ng-container
+  *ngIf="subscriptionDetails$ | async as subscription; else loading"
+>
   <div class="subscription">
     <div class="subscription-header">
       <div
@@ -115,7 +117,7 @@
             *ngIf="subscription.isCancellationPossible"
             cxBtnLikeLink
             class="btn btn-block btn-secondary"
-            (click)="showSubscriptionDialog('cancel')"
+            (click)="showSubscriptionActionsDialog('cancel')"
             [attr.aria-label]="
               'subscriptionDetails.cancelSubscription' | cxTranslate
             "
@@ -136,9 +138,9 @@
           <a
             *ngIf="subscription.isCancellationReversalPossible"
             cxBtnLikeLink
-            class="btn btn-block btn-primary"
+            class="btn btn-block btn-secondary"
             [attr.aria-label]="'subscriptionDetails.reSubscribe' | cxTranslate"
-            (click)="showSubscriptionDialog('resubscribe')"
+            (click)="showSubscriptionActionsDialog('resubscribe')"
           >
             {{ 'subscriptionDetails.reSubscribe' | cxTranslate }}
           </a>
@@ -149,9 +151,9 @@
             [attr.aria-label]="
               'subscriptionDetails.withdrawSubscription' | cxTranslate
             "
-            (click)="showSubscriptionDialog('withdraw')"
+            (click)="showSubscriptionActionsDialog('withdraw')"
             cxBtnLikeLink
-            class="btn btn-block btn-primary"
+            class="btn btn-block btn-secondary"
           >
             {{ 'subscriptionDetails.withdrawSubscription' | cxTranslate }}
           </a>
@@ -160,3 +162,6 @@
     </div>
   </div>
 </ng-container>
+<ng-template #loading>
+  <cx-spinner></cx-spinner>
+</ng-template>

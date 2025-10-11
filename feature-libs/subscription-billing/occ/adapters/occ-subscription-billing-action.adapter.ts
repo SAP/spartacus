@@ -11,7 +11,7 @@ import {
   OccEndpointsService,
   tryNormalizeHttpError,
 } from '@spartacus/core';
-import { SubscriptionActionsAdapter } from '@spartacus/subscription-billing/core';
+import { SubscriptionBillingActionAdapter } from '@spartacus/subscription-billing/core';
 import {
   SubscriptionCancellationDetails,
   SubscriptionWithdraw,
@@ -20,8 +20,8 @@ import { catchError, Observable } from 'rxjs';
 
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 @Injectable()
-export class OccSubscriptionActionsAdapter
-  implements SubscriptionActionsAdapter
+export class OccSubscriptionBillingActionAdapter
+  implements SubscriptionBillingActionAdapter
 {
   protected logger = inject(LoggerService);
   protected http = inject(HttpClient);

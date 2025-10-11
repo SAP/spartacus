@@ -4,10 +4,10 @@ import {
   fakeAsync,
   tick,
 } from '@angular/core/testing';
-import { SubscriptionModalComponent } from './subscription-modal.component';
+import { SubscriptionActionsModalComponent } from './subscription-actions-modal.component';
 import { Observable, of, throwError } from 'rxjs';
 import {
-  SubscriptionActionsFacade,
+  SubscriptionBillingActionsFacade,
   SubscriptionCancelData,
 } from '@spartacus/subscription-billing/root';
 import {
@@ -23,9 +23,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { signal } from '@angular/core';
 
-describe('SubscriptionModalComponent', () => {
-  let component: SubscriptionModalComponent;
-  let fixture: ComponentFixture<SubscriptionModalComponent>;
+describe('SubscriptionActionsModalComponent', () => {
+  let component: SubscriptionActionsModalComponent;
+  let fixture: ComponentFixture<SubscriptionActionsModalComponent>;
 
   const mockCancelData: SubscriptionCancelData = {
     subscriptionEndAt: '2025-12-31',
@@ -44,18 +44,21 @@ describe('SubscriptionModalComponent', () => {
       return of('en');
     }
   }
-  let mockCancelFacade: jasmine.SpyObj<SubscriptionActionsFacade>;
+  let mockCancelFacade: jasmine.SpyObj<SubscriptionBillingActionsFacade>;
   let mockGlobalMessageService: jasmine.SpyObj<GlobalMessageService>;
   let mockLaunchDialogService: jasmine.SpyObj<LaunchDialogService>;
   let mockEventService: jasmine.SpyObj<EventService>;
 
   beforeEach(async () => {
-    mockCancelFacade = jasmine.createSpyObj('SubscriptionActionsFacade', [
-      'getEffectiveCancellationDate',
-      'cancelSubscription',
-      'withdrawal',
-      'reverseCancellation',
-    ]);
+    mockCancelFacade = jasmine.createSpyObj(
+      'SubscriptionBillingActionsFacade',
+      [
+        'getEffectiveCancellationDate',
+        'cancelSubscription',
+        'withdrawal',
+        'reverseCancellation',
+      ]
+    );
 
     mockCancelFacade.getEffectiveCancellationDate.and.returnValue(
       of({ subscriptionEndAt: '2025-12-31' })
@@ -90,10 +93,13 @@ describe('SubscriptionModalComponent', () => {
     mockEventService = jasmine.createSpyObj('EventService', ['dispatch']);
 
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, SubscriptionModalComponent],
+      imports: [RouterTestingModule, SubscriptionActionsModalComponent],
       providers: [
         provideMockStore(),
-        { provide: SubscriptionActionsFacade, useValue: mockCancelFacade },
+        {
+          provide: SubscriptionBillingActionsFacade,
+          useValue: mockCancelFacade,
+        },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
         { provide: LaunchDialogService, useValue: mockLaunchDialogService },
         { provide: EventService, useValue: mockEventService },
@@ -103,7 +109,7 @@ describe('SubscriptionModalComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SubscriptionModalComponent);
+    fixture = TestBed.createComponent(SubscriptionActionsModalComponent);
     component = fixture.componentInstance;
 
     (component as any).cancelData = signal(mockCancelData);
@@ -139,7 +145,7 @@ describe('SubscriptionModalComponent', () => {
       component.onConfirm();
       tick();
       expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-        { key: 'actionSubscription.unknownError' },
+        { key: 'subscriptionActions.unknownError' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
       expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith('error');
@@ -177,7 +183,7 @@ describe('SubscriptionModalComponent', () => {
 
       expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith('error');
       expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-        { key: 'actionSubscription.unknownError' },
+        { key: 'subscriptionActions.unknownError' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }));
@@ -213,7 +219,7 @@ describe('SubscriptionModalComponent', () => {
       component.onConfirm();
 
       expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-        { key: 'actionSubscription.unknownError' },
+        { key: 'subscriptionActions.unknownError' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     });
@@ -223,13 +229,13 @@ describe('SubscriptionModalComponent', () => {
         throwError(() => new Error('Load Cancel Data Error'))
       );
 
-      fixture = TestBed.createComponent(SubscriptionModalComponent);
+      fixture = TestBed.createComponent(SubscriptionActionsModalComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
       tick();
 
       expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-        { key: 'actionSubscription.unknownError' },
+        { key: 'subscriptionActions.unknownError' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }));

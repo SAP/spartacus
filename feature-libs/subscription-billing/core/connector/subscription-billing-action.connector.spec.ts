@@ -1,35 +1,38 @@
 import { TestBed } from '@angular/core/testing';
-import { SubscriptionActionsConnector } from './subscription-billing-action.connector';
-import { SubscriptionActionsAdapter } from './subscription-billing-action.adapter';
+import { SubscriptionBillingActionsConnector } from './subscription-billing-action.connector';
+import { SubscriptionBillingActionAdapter } from './subscription-billing-action.adapter';
 import { of, throwError } from 'rxjs';
 import {
   SubscriptionCancellationDetails,
   SubscriptionWithdraw,
 } from '@spartacus/subscription-billing/root';
 
-describe('SubscriptionActionsConnector', () => {
-  let connector: SubscriptionActionsConnector;
-  let adapter: jasmine.SpyObj<SubscriptionActionsAdapter>;
+describe('SubscriptionBillingActionsConnector', () => {
+  let connector: SubscriptionBillingActionsConnector;
+  let adapter: jasmine.SpyObj<SubscriptionBillingActionAdapter>;
 
   beforeEach(() => {
-    const adapterSpy = jasmine.createSpyObj('SubscriptionActionsAdapter', [
-      'getEffectiveCancellationDate',
-      'cancelSubscription',
-      'reverseCancellation',
-      'withdrawal',
-    ]);
+    const adapterSpy = jasmine.createSpyObj(
+      'SubscriptionBillingActionAdapter',
+      [
+        'getEffectiveCancellationDate',
+        'cancelSubscription',
+        'reverseCancellation',
+        'withdrawal',
+      ]
+    );
 
     TestBed.configureTestingModule({
       providers: [
-        SubscriptionActionsConnector,
-        { provide: SubscriptionActionsAdapter, useValue: adapterSpy },
+        SubscriptionBillingActionsConnector,
+        { provide: SubscriptionBillingActionAdapter, useValue: adapterSpy },
       ],
     });
 
-    connector = TestBed.inject(SubscriptionActionsConnector);
+    connector = TestBed.inject(SubscriptionBillingActionsConnector);
     adapter = TestBed.inject(
-      SubscriptionActionsAdapter
-    ) as jasmine.SpyObj<SubscriptionActionsAdapter>;
+      SubscriptionBillingActionAdapter
+    ) as jasmine.SpyObj<SubscriptionBillingActionAdapter>;
   });
 
   it('should be created', () => {

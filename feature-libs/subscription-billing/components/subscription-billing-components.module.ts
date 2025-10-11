@@ -5,15 +5,12 @@
  */
 
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig, CmsConfig, AuthGuard } from '@spartacus/core';
-
-import { SubscriptionModalComponent } from './modal-subscription/subscription-modal.component';
-import { subscriptionCancelPopupConfig } from './subscription-confirm-dialog.config';
 
 import { SubscriptionProductUsageChargeModule } from './product/usage/subscription-product-usage-charge.module';
 import { SubscriptionDetailsModule } from './details/subscription-details.module';
 import { SubscriptionProductPriceModule } from './product/price/subscription-product-price.module';
 import { SubscriptionListModule } from './list/subscription-list.module';
+import { SubscriptionActionModalModule } from './actions-modal/subscription-actions-modal.module';
 
 @NgModule({
   imports: [
@@ -21,17 +18,7 @@ import { SubscriptionListModule } from './list/subscription-list.module';
     SubscriptionDetailsModule,
     SubscriptionProductPriceModule,
     SubscriptionProductUsageChargeModule,
-  ],
-  providers: [
-    provideDefaultConfig(subscriptionCancelPopupConfig),
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        SubscriptionCancelComponent: {
-          component: SubscriptionModalComponent,
-          guards: [AuthGuard],
-        },
-      },
-    }),
+    SubscriptionActionModalModule,
   ],
 })
 export class SubscriptionBillingComponentsModule {}

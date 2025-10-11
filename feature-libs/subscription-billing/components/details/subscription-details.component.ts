@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import {
   EXTENDED_LAUNCH_CALLER,
@@ -12,9 +12,7 @@ import {
   SubscriptionBillingFacade,
   SubscriptionDetail,
 } from '@spartacus/subscription-billing/root';
-
-import { combineLatest, Observable, Subscription, take, tap } from 'rxjs';
-
+import { Observable, of, Subscription, take } from 'rxjs';
 import { LaunchDialogService } from '@spartacus/storefront';
 
 @Component({
@@ -22,53 +20,41 @@ import { LaunchDialogService } from '@spartacus/storefront';
   templateUrl: './subscription-details.component.html',
   standalone: false,
 })
-export class SubscriptionDetailsComponent implements OnDestroy, OnInit {
+export class SubscriptionDetailsComponent implements OnInit, OnDestroy {
   protected subscriptionFacade = inject(SubscriptionBillingFacade);
   protected eventService = inject(EventService);
   protected launchDialogService = inject(LaunchDialogService);
-
-  protected subscription = new Subscription();
-
   subscriptionDetails$: Observable<SubscriptionDetail | undefined> =
-    this.subscriptionFacade.getSubscriptionByCode();
+    of(undefined);
+  protected subscription = new Subscription();
   ngOnInit() {
-    this.subscription = combineLatest([
-      this.subscriptionDetails$,
-      this.subscriptionFacade.getSubscriptionCodeFromRoute(),
-    ])
-      .pipe(
-        take(1),
-        tap(([subscriptionDetails, subscriptionCode]) => {
-          if (
-            subscriptionDetails &&
-            subscriptionDetails.id !== subscriptionCode
-          ) {
-            this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
-          }
-        })
-      )
-      .subscribe();
+    this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
+    this.subscriptionDetails$ = this.subscriptionFacade.getSubscriptionByCode();
   }
+  showSubscriptionActionsDialog(
+    mode: 'cancel' | 'withdraw' | 'resubscribe'
+  ): void {
+    const sub = this.subscriptionDetails$
+      .pipe(take(1))
+      .subscribe((subscription) => {
+        if (!subscription) return;
 
-  showSubscriptionDialog(mode: 'cancel' | 'withdraw' | 'resubscribe'): void {
-    this.subscriptionDetails$.pipe(take(1)).subscribe((subscription) => {
-      if (!subscription) return;
+        const dataToPass = {
+          ...subscription,
+          code: subscription.id,
+          mode,
+        };
 
-      const dataToPass = {
-        ...subscription,
-        code: subscription.id,
-        mode,
-      };
+        this.launchDialogService.openDialogAndSubscribe(
+          EXTENDED_LAUNCH_CALLER.SUBSCRIPTION_CONFIRMATION,
+          undefined,
+          dataToPass
+        );
+      });
 
-      this.launchDialogService.openDialogAndSubscribe(
-        EXTENDED_LAUNCH_CALLER.SUBSCRIPTION_CONFIRMATION,
-        undefined,
-        dataToPass
-      );
-    });
+    this.subscription.add(sub);
   }
-
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

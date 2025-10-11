@@ -79,19 +79,13 @@ describe('SubscriptionDetailsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('should reload data if the subscription id does not match with the subscription id in URL', () => {
-    spyOn(facade, 'getSubscriptionCodeFromRoute').and.returnValue(of('s2'));
+  it('should reload data', () => {
+    spyOn(facade, 'getSubscriptionByCode').and.callThrough();
     component.ngOnInit();
     expect(eventService.dispatch).toHaveBeenCalled();
+    expect(facade.getSubscriptionByCode).toHaveBeenCalled();
   });
-  it('should not reload data if the subscription id does match with the subscription id in URL', () => {
-    spyOn(facade, 'getSubscriptionCodeFromRoute').and.returnValue(
-      of(mockSubs.id)
-    );
-    component.ngOnInit();
-    expect(eventService.dispatch).not.toHaveBeenCalled();
-  });
-  it('should open dialog with correct data when showSubscriptionDialog is called', () => {
+  it('should open dialog with correct data when showSubscriptionActionsDialog is called', () => {
     const launchDialogService = TestBed.inject(LaunchDialogService);
     const subscription: SubscriptionDetail = {
       id: 's1',
@@ -102,7 +96,7 @@ describe('SubscriptionDetailsComponent', () => {
     (component as any).subscriptionDetails$ = of(subscription);
     const openDialogSpy = spyOn(launchDialogService, 'openDialogAndSubscribe');
 
-    component.showSubscriptionDialog(mode);
+    component.showSubscriptionActionsDialog(mode);
 
     expect(openDialogSpy).toHaveBeenCalledWith(
       EXTENDED_LAUNCH_CALLER.SUBSCRIPTION_CONFIRMATION,

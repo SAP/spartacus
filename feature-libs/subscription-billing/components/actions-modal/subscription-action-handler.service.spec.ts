@@ -6,10 +6,10 @@ import {
 } from '@spartacus/core';
 import { GetSubscriptionByCodeReloadEvent } from '@spartacus/subscription-billing/root';
 import { throwError } from 'rxjs';
-import { ActionHandlerService } from './subscription-billing-action-handler.service';
+import { SubscriptionActionHandlerService } from './subscription-action-handler.service';
 
-describe('ActionHandlerService', () => {
-  let service: ActionHandlerService;
+describe('SubscriptionActionHandlerService', () => {
+  let service: SubscriptionActionHandlerService;
   let globalMessageService: jasmine.SpyObj<GlobalMessageService>;
   let eventService: jasmine.SpyObj<EventService>;
 
@@ -21,13 +21,13 @@ describe('ActionHandlerService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        ActionHandlerService,
+        SubscriptionActionHandlerService,
         { provide: GlobalMessageService, useValue: globalMessageSpy },
         { provide: EventService, useValue: eventServiceSpy },
       ],
     });
 
-    service = TestBed.inject(ActionHandlerService);
+    service = TestBed.inject(SubscriptionActionHandlerService);
     globalMessageService = TestBed.inject(
       GlobalMessageService
     ) as jasmine.SpyObj<GlobalMessageService>;
@@ -62,7 +62,7 @@ describe('ActionHandlerService', () => {
         .subscribe({
           complete: () => {
             expect(globalMessageService.add).toHaveBeenCalledWith(
-              { key: 'actionSubscription.unknownError' },
+              { key: 'subscriptionActions.unknownError' },
               GlobalMessageType.MSG_TYPE_ERROR
             );
             done();
@@ -111,7 +111,7 @@ describe('ActionHandlerService', () => {
       service.onError();
 
       expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'actionSubscription.unknownError' },
+        { key: 'subscriptionActions.unknownError' },
         GlobalMessageType.MSG_TYPE_ERROR
       );
     });

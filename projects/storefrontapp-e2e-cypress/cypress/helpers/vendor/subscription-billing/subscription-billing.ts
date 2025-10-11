@@ -180,7 +180,7 @@ export function cancelSubscriptionIfPossible() {
 
   const cancelButtonSelector =
     '.cx-other-actions a[aria-label="Cancel Subscription"]';
-  const modalSelector = 'cx-subscription-modal';
+  const modalSelector = 'cx-subscription-actions-modal';
   const confirmButtonSelector = `${modalSelector} button.btn-primary`;
 
   cy.get('body').then(($body) => {
@@ -244,7 +244,7 @@ export function clickManageServiceForCancellSubscription() {
 export function resubscribeSubscriptionIfPossible() {
   const resubscribeButtonSelector =
     '.cx-other-actions a[aria-label="Re-subscribe"]';
-  const modalSelector = 'cx-subscription-modal';
+  const modalSelector = 'cx-subscription-actions-modal';
   const confirmButtonSelector = `${modalSelector} button.btn-primary`;
 
   cy.get('body').then(($body) => {
@@ -289,7 +289,7 @@ export function resubscribeSubscriptionIfPossible() {
 
 export function widthdrawSubscriptionIfPossible() {
   const withdrawButtonSelector = '.cx-other-actions a[aria-label="Withdraw"]';
-  const modalSelector = 'cx-subscription-modal';
+  const modalSelector = 'cx-subscription-actions-modal';
   const confirmButtonSelector = `${modalSelector} button.btn-primary`;
 
   cy.get('body').then(($body) => {

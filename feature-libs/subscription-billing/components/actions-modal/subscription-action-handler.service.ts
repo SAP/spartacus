@@ -16,13 +16,13 @@ import { GetSubscriptionByCodeReloadEvent } from '@spartacus/subscription-billin
 @Injectable({
   providedIn: 'root',
 })
-export class ActionHandlerService {
+export class SubscriptionActionHandlerService {
   private globalMessageService = inject(GlobalMessageService);
   private eventService = inject(EventService);
 
   handleError(
     onDialogClose?: (reason: string) => void,
-    errorMessageKey = 'actionSubscription.unknownError'
+    errorMessageKey = 'subscriptionActions.unknownError'
   ) {
     return catchError(() => {
       if (onDialogClose) {
@@ -60,7 +60,7 @@ export class ActionHandlerService {
   }
   onError(): void {
     this.globalMessageService.add(
-      { key: 'actionSubscription.unknownError' },
+      { key: 'subscriptionActions.unknownError' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   }

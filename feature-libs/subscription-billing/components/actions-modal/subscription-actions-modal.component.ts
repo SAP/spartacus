@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { catchError, of, Observable } from 'rxjs';
 import {
-  SubscriptionActionsFacade,
+  SubscriptionBillingActionsFacade,
   SubscriptionCancellationDetails,
   SubscriptionDetail,
   SubscriptionCancelData,
@@ -32,12 +32,12 @@ import {
 } from '@spartacus/storefront';
 import { RouterModule } from '@angular/router';
 import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActionHandlerService } from '@spartacus/subscription-billing/core';
+import { SubscriptionActionHandlerService } from './subscription-action-handler.service';
 
 @Component({
-  selector: 'cx-subscription-modal',
+  selector: 'cx-subscription-actions-modal',
   standalone: true,
-  templateUrl: './subscription-modal.component.html',
+  templateUrl: './subscription-actions-modal.component.html',
   imports: [
     CommonModule,
     CardModule,
@@ -49,11 +49,11 @@ import { ActionHandlerService } from '@spartacus/subscription-billing/core';
     SpinnerModule,
   ],
 })
-export class SubscriptionModalComponent {
-  private cancelFacade = inject(SubscriptionActionsFacade);
+export class SubscriptionActionsModalComponent {
+  private cancelFacade = inject(SubscriptionBillingActionsFacade);
   private launchDialogService = inject(LaunchDialogService);
   private destroyRef = inject(DestroyRef);
-  private actionHandler = inject(ActionHandlerService);
+  private actionHandler = inject(SubscriptionActionHandlerService);
 
   private subscriptionDetailSignal = toSignal(
     this.launchDialogService.data$ as Observable<
@@ -130,7 +130,7 @@ export class SubscriptionModalComponent {
           )
           .subscribe(
             this.actionHandler.handleSuccess(
-              'actionSubscription.cancelSuccess',
+              'subscriptionActions.cancelSuccess',
               () => this.onDialogClose('Success')
             )
           );
@@ -145,7 +145,7 @@ export class SubscriptionModalComponent {
           )
           .subscribe(
             this.actionHandler.handleSuccess(
-              'actionSubscription.withdrawSuccess',
+              'subscriptionActions.withdrawSuccess',
               () => this.onDialogClose('Success')
             )
           );
@@ -160,7 +160,7 @@ export class SubscriptionModalComponent {
           )
           .subscribe(
             this.actionHandler.handleSuccess(
-              'actionSubscription.reverseCancellationSuccess',
+              'subscriptionActions.reverseCancellationSuccess',
               () => this.onDialogClose('Success')
             )
           );
