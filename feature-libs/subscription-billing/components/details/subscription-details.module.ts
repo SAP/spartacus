@@ -20,9 +20,9 @@ import {
   FormRequiredAsterisksComponent,
   IconModule,
   KeyboardFocusModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { SpinnerModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
