@@ -38,7 +38,7 @@ export class SubscriptionDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
     this.subscriptionDetails$ = this.subscriptionFacade.getSubscriptionByCode();
-    this.subscriptionDetails$.subscribe((details) => 
+    this.subscriptionDetails$.subscribe((details) =>
       this.subscriptionContractFrequency = details?.contractFrequency
     );
   }
