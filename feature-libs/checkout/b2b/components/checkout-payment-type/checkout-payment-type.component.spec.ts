@@ -85,7 +85,7 @@ const mockActivatedRoute = {
   },
 };
 
-fdescribe('CheckoutOnePaymentTypeComponent', () => {
+describe('CheckoutOnePaymentTypeComponent', () => {
   let component: CheckoutPaymentTypeComponent;
   let fixture: ComponentFixture<CheckoutPaymentTypeComponent>;
 
