@@ -16,7 +16,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
 import createSpy = jasmine.createSpy;
-import { PurchaseOrderNumberService } from '../../core/facade';
+import { PurchaseOrderNumberService } from '@spartacus/checkout/b2b/core';
 
 @Component({
   selector: 'cx-spinner',
@@ -62,7 +62,9 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   back = createSpy();
 }
 
-class MockPurchaseOrderNumberService implements Partial<PurchaseOrderNumberService> {
+class MockPurchaseOrderNumberService
+  implements Partial<PurchaseOrderNumberService>
+{
   isPurchaseOrderNumberNonEditable = createSpy().and.returnValue(of(false));
 }
 
@@ -114,7 +116,7 @@ describe('CheckoutOnePaymentTypeComponent', () => {
         {
           provide: PurchaseOrderNumberService,
           useClass: MockPurchaseOrderNumberService,
-        }
+        },
       ],
     }).compileComponents();
   }));
@@ -180,7 +182,7 @@ describe('CheckoutOnePaymentTypeComponent', () => {
         {
           provide: PurchaseOrderNumberService,
           useClass: MockPurchaseOrderNumberService,
-        }
+        },
       ],
     }).compileComponents();
 
@@ -239,7 +241,7 @@ describe('CheckoutPaymentTypeComponent', () => {
         {
           provide: PurchaseOrderNumberService,
           useClass: MockPurchaseOrderNumberService,
-        }
+        },
       ],
     }).compileComponents();
 

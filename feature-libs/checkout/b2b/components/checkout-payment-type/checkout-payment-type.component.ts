@@ -13,6 +13,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PaymentType } from '@spartacus/cart/base/root';
+import { PurchaseOrderNumberService } from '@spartacus/checkout/b2b/core';
 import {
   B2BPaymentTypeEnum,
   CheckoutPaymentTypeFacade,
@@ -36,7 +37,6 @@ import {
   map,
   tap,
 } from 'rxjs/operators';
-import { PurchaseOrderNumberService } from '../../core/facade/purchase-order-number.service';
 
 @Component({
   selector: 'cx-payment-type',
