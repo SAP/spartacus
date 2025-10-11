@@ -22,6 +22,7 @@ import {
   KeyboardFocusModule,
 } from '@spartacus/storefront';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SpinnerModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     I18nModule,
     UrlModule,
     RouterModule,
+    SpinnerModule,
     IconModule,
     NgSelectModule,
     FormRequiredAsterisksComponent,

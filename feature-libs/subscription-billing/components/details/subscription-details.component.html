@@ -1,4 +1,6 @@
-<ng-container *ngIf="subscriptionDetails$ | async as subscription">
+<ng-container
+  *ngIf="subscriptionDetails$ | async as subscription; else loading"
+>
   <div class="subscription">
     <div class="subscription-header">
       <div
@@ -151,3 +153,6 @@
     </div>
   </div>
 </ng-container>
+<ng-template #loading>
+  <cx-spinner></cx-spinner>
+</ng-template>

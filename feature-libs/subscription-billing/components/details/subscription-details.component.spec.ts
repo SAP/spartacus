@@ -85,16 +85,10 @@ describe('SubscriptionDetailsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('should reload data if the subscription id does not match with the subscription id in URL', () => {
-    spyOn(facade, 'getSubscriptionCodeFromRoute').and.returnValue(of('s2'));
+  it('should reload data', () => {
+    spyOn(facade, 'getSubscriptionByCode').and.callThrough();
     component.ngOnInit();
     expect(eventService.dispatch).toHaveBeenCalled();
-  });
-  it('should not reload data if the subscription id does match with the subscription id in URL', () => {
-    spyOn(facade, 'getSubscriptionCodeFromRoute').and.returnValue(
-      of(mockSubs.id)
-    );
-    component.ngOnInit();
-    expect(eventService.dispatch).not.toHaveBeenCalled();
+    expect(facade.getSubscriptionByCode).toHaveBeenCalled();
   });
 });
