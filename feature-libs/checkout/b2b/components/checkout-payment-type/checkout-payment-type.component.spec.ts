@@ -62,7 +62,9 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   back = createSpy();
 }
 
-class MockCheckoutPaymentTypeComponentService implements Partial<CheckoutPaymentTypeComponentService> {
+class MockCheckoutPaymentTypeComponentService
+  implements Partial<CheckoutPaymentTypeComponentService>
+{
   isPONumberReadOnly = createSpy().and.returnValue(of(false));
 }
 
