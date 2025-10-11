@@ -207,21 +207,23 @@ describe('SubscriptionBillingActionService', () => {
       userIdService.getUserId.and.returnValue(of(userId));
       cancelConnector.withdrawal.and.returnValue(of('withdrawn'));
 
-      service.withdrawal(withdrawalData, subscriptionCode).subscribe((res) => {
-        expect(cancelConnector.withdrawal).toHaveBeenCalledWith(
-          userId,
-          subscriptionCode,
-          withdrawalData
-        );
-        expect(res).toBe('withdrawn');
-        done();
-      });
+      service
+        .withdrawSubscription(withdrawalData, subscriptionCode)
+        .subscribe((res) => {
+          expect(cancelConnector.withdrawal).toHaveBeenCalledWith(
+            userId,
+            subscriptionCode,
+            withdrawalData
+          );
+          expect(res).toBe('withdrawn');
+          done();
+        });
     });
 
     it('should emit error when userId or code is missing', (done) => {
       userIdService.getUserId.and.returnValue(of(null as any));
 
-      service.withdrawal(withdrawalData, undefined).subscribe({
+      service.withdrawSubscription(withdrawalData, undefined).subscribe({
         next: () => {
           fail('Expected an error, but got a value');
           done();

@@ -26,7 +26,7 @@ export abstract class SubscriptionBillingActionAdapter {
     subscriptionCode: string
   ): Observable<unknown>;
 
-  abstract withdrawal(
+  abstract withdrawSubscription(
     userId: string,
     subscriptionCode: string,
     withdrawal: SubscriptionWithdraw

@@ -41,11 +41,15 @@ export class SubscriptionBillingActionsConnector {
   ): Observable<unknown> {
     return this.adapter.reverseCancellation(userId, subscriptionCode);
   }
-  public withdrawal(
+  public withdrawSubscription(
     userId: string,
     subscriptionCode: string,
     withdrawalData: SubscriptionWithdraw
   ): Observable<unknown> {
-    return this.adapter.withdrawal(userId, subscriptionCode, withdrawalData);
+    return this.adapter.withdrawSubscription(
+      userId,
+      subscriptionCode,
+      withdrawalData
+    );
   }
 }

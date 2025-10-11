@@ -103,7 +103,7 @@ export class SubscriptionBillingActionService
     );
   }
 
-  withdrawal(
+  withdrawSubscription(
     withdrawalData: SubscriptionWithdraw,
     subscriptionCode?: string
   ): Observable<unknown> {
@@ -118,7 +118,7 @@ export class SubscriptionBillingActionService
             'Cannot withdraw subscription: missing user ID or subscription code.'
           );
         }
-        return this.SubscriptionBillingActionsConnector.withdrawal(
+        return this.SubscriptionBillingActionsConnector.withdrawSubscription(
           userId,
           code,
           withdrawalData

@@ -33,7 +33,7 @@ export interface SubscriptionBillingOccEndpoints {
   /**
    * Endpoint for withdrawing a previously cancelled subscription.
    */
-  withdrawal?: string | OccEndpoint;
+  withdrawSubscription?: string | OccEndpoint;
 
   /**
    * Endpoint for reversing a cancellation of a subscription.
