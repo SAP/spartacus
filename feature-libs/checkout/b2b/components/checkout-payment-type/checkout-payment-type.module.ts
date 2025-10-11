@@ -19,6 +19,7 @@ import {
 } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
 import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
+import { CheckoutPaymentTypeComponentService } from './checkout-payment-type-component.service';
 
 @NgModule({
   imports: [
@@ -37,5 +38,6 @@ import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component'
   ],
   declarations: [CheckoutPaymentTypeComponent],
   exports: [CheckoutPaymentTypeComponent],
+  providers: [CheckoutPaymentTypeComponentService],
 })
 export class CheckoutPaymentTypeModule {}
