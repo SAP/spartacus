@@ -38,7 +38,7 @@ describe('SubscriptionBillingActionService', () => {
         'getEffectiveCancellationDate',
         'cancelSubscription',
         'reversecancellation',
-        'withdrawal',
+        'withdrawSubscription',
       ]
     );
     subscriptionBillingConnector = jasmine.createSpyObj(
@@ -195,7 +195,7 @@ describe('SubscriptionBillingActionService', () => {
     });
   });
 
-  describe('withdrawal', () => {
+  describe('withdrawSubscription', () => {
     const withdrawalData: SubscriptionWithdraw = {
       subscriptionId: 'sub456',
       version: '1',
@@ -205,12 +205,12 @@ describe('SubscriptionBillingActionService', () => {
 
     it('should call connector with correct params', (done) => {
       userIdService.getUserId.and.returnValue(of(userId));
-      cancelConnector.withdrawal.and.returnValue(of('withdrawn'));
+      cancelConnector.withdrawSubscription.and.returnValue(of('withdrawn'));
 
       service
         .withdrawSubscription(withdrawalData, subscriptionCode)
         .subscribe((res) => {
-          expect(cancelConnector.withdrawal).toHaveBeenCalledWith(
+          expect(cancelConnector.withdrawSubscription).toHaveBeenCalledWith(
             userId,
             subscriptionCode,
             withdrawalData

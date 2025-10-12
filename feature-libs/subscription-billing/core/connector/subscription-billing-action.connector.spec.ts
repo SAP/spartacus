@@ -18,7 +18,7 @@ describe('SubscriptionBillingActionsConnector', () => {
         'getEffectiveCancellationDate',
         'cancelSubscription',
         'reverseCancellation',
-        'withdrawal',
+        'withdrawSubscription',
       ]
     );
 
@@ -121,7 +121,7 @@ describe('SubscriptionBillingActionsConnector', () => {
     });
   });
 
-  describe('withdrawal', () => {
+  describe('withdrawSubscription', () => {
     it('should delegate to adapter', () => {
       const userId = 'user123';
       const subscriptionCode = 'subABC';
@@ -133,14 +133,14 @@ describe('SubscriptionBillingActionsConnector', () => {
       };
       const expectedResponse = of({ withdrawn: true });
 
-      adapter.withdrawal.and.returnValue(expectedResponse);
+      adapter.withdrawSubscription.and.returnValue(expectedResponse);
 
       const result = connector.withdrawSubscription(
         userId,
         subscriptionCode,
         withdrawalData
       );
-      expect(adapter.withdrawal).toHaveBeenCalledWith(
+      expect(adapter.withdrawSubscription).toHaveBeenCalledWith(
         userId,
         subscriptionCode,
         withdrawalData

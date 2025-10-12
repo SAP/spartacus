@@ -55,7 +55,7 @@ describe('SubscriptionActionsModalComponent', () => {
       [
         'getEffectiveCancellationDate',
         'cancelSubscription',
-        'withdrawal',
+        'withdrawSubscription',
         'reverseCancellation',
       ]
     );
@@ -64,7 +64,7 @@ describe('SubscriptionActionsModalComponent', () => {
       of({ subscriptionEndAt: '2025-12-31' })
     );
     mockCancelFacade.cancelSubscription.and.returnValue(of({}));
-    mockCancelFacade.withdrawal.and.returnValue(of({}));
+    mockCancelFacade.withdrawSubscription.and.returnValue(of({}));
     mockCancelFacade.reverseCancellation.and.returnValue(of({}));
     mockGlobalMessageService = jasmine.createSpyObj('GlobalMessageService', [
       'add',
@@ -152,7 +152,7 @@ describe('SubscriptionActionsModalComponent', () => {
     }));
 
     it('should confirm withdrawal successfully', () => {
-      mockCancelFacade.withdrawal.and.returnValue(of({}));
+      mockCancelFacade.withdrawSubscription.and.returnValue(of({}));
       (component as any).subscriptionDetailSignal.set({
         id: 'subId',
         code: 'ABC123',
@@ -161,14 +161,14 @@ describe('SubscriptionActionsModalComponent', () => {
 
       component.onConfirm();
 
-      expect(mockCancelFacade.withdrawal).toHaveBeenCalled();
+      expect(mockCancelFacade.withdrawSubscription).toHaveBeenCalled();
       expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith(
         'Success'
       );
     });
 
     it('should handle withdraw API error', fakeAsync(() => {
-      mockCancelFacade.withdrawal.and.returnValue(
+      mockCancelFacade.withdrawSubscription.and.returnValue(
         throwError(() => new Error('Error'))
       );
 
