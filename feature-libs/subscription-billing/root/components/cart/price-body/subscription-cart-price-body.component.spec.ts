@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SubscriptionCartPriceBodyComponent } from './subscription-cart-price-body.component';
 import { of } from 'rxjs';
 import { OutletContextData } from '@spartacus/storefront';
-import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
 
 const mockSubscriptionProduct = {
   basePrice: { formattedValue: 'USD35.00', value: 0 },
@@ -65,7 +64,7 @@ class MockSubscriptionOutletContextData {
 class MockOutletContextData {
   contextData = {
     item: mockProduct,
-    items: [mockProduct],
+    items: [mockProduct, mockSubscriptionProduct],
     parent: 'cart',
   };
   context$ = of(this.contextData);
@@ -84,7 +83,6 @@ describe('SubscriptionCartPriceBodyComponent', () => {
             provide: OutletContextData,
             useClass: MockSubscriptionOutletContextData,
           },
-          SubscriptionProductService,
         ],
         imports: [SubscriptionCartPriceBodyComponent],
       }).compileComponents();
@@ -120,7 +118,6 @@ describe('SubscriptionCartPriceBodyComponent', () => {
             provide: OutletContextData,
             useClass: MockOutletContextData,
           },
-          SubscriptionProductService,
         ],
         imports: [SubscriptionCartPriceBodyComponent],
       }).compileComponents();
