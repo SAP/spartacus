@@ -15,7 +15,7 @@ const subscriptionBillingEndpoints: SubscriptionBillingOccEndpoints = {
     'users/${userId}/subscriptions/${subscriptionCode}/cancellationEffectiveAt',
   cancelSubscription:
     'users/${userId}/subscriptions/${subscriptionCode}/cancellation',
-  withdrawal: 'users/${userId}/subscriptions/${subscriptionCode}/withdrawal',
+  withdrawSubscription: 'users/${userId}/subscriptions/${subscriptionCode}/withdrawal',
   reverseCancellation:
     'users/${userId}/subscriptions/${subscriptionCode}/cancellationReversal',
 };

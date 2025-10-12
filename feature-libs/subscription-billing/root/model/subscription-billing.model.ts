@@ -50,10 +50,11 @@ export interface SubscriptionWithdraw {
   withdrawnAt?: string;
   withdrawalPeriodEndDate?: string;
 }
-export const EXTENDED_LAUNCH_CALLER = {
-  ...LAUNCH_CALLER,
-  SUBSCRIPTION_CONFIRMATION: 'SUBSCRIPTION_CONFIRMATION',
-} as const;
+declare module '@spartacus/storefront' {
+  enum LAUNCH_CALLER {
+    SUBSCRIPTION_ACTION_CONFIRMATION = 'SUBSCRIPTION_ACTION_CONFIRMATION',
+  }
+}
 
-export type ExtendedLaunchCaller =
-  (typeof EXTENDED_LAUNCH_CALLER)[keyof typeof EXTENDED_LAUNCH_CALLER];
+(LAUNCH_CALLER as any)['SUBSCRIPTION_ACTION_CONFIRMATION'] =
+  'SUBSCRIPTION_ACTION_CONFIRMATION';

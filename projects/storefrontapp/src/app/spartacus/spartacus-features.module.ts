@@ -275,6 +275,7 @@ if (environment.cpq) {
 
     QuoteFeatureModule,
     CustomerTicketingFeatureModule,
+
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
     // SubscriptionBillingFeatureModule, -> uncomment in SPA 221121.4 release (refer CXSPA-11070)

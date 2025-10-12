@@ -7,13 +7,12 @@
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import {
-  EXTENDED_LAUNCH_CALLER,
   GetSubscriptionByCodeReloadEvent,
   SubscriptionBillingFacade,
   SubscriptionDetail,
 } from '@spartacus/subscription-billing/root';
 import { Observable, of, Subscription, take } from 'rxjs';
-import { LaunchDialogService } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-subscription-details',
@@ -46,7 +45,7 @@ export class SubscriptionDetailsComponent implements OnInit, OnDestroy {
         };
 
         this.launchDialogService.openDialogAndSubscribe(
-          EXTENDED_LAUNCH_CALLER.SUBSCRIPTION_CONFIRMATION,
+          LAUNCH_CALLER.SUBSCRIPTION_ACTION_CONFIRMATION,
           undefined,
           dataToPass
         );

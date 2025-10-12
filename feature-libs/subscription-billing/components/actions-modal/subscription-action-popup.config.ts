@@ -10,7 +10,7 @@ import { SubscriptionActionsModalComponent } from './subscription-actions-modal.
 
 export const subscriptionActionsPopupConfig: LayoutConfig = {
   launch: {
-    SUBSCRIPTION_CONFIRMATION: {
+    SUBSCRIPTION_ACTION_CONFIRMATION: {
       inlineRoot: true,
       component: SubscriptionActionsModalComponent,
       dialogType: DIALOG_TYPE.DIALOG,

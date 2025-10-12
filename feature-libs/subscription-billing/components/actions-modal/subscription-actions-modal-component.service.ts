@@ -16,7 +16,7 @@ import { GetSubscriptionByCodeReloadEvent } from '@spartacus/subscription-billin
 @Injectable({
   providedIn: 'root',
 })
-export class SubscriptionActionHandlerService {
+export class SubscriptionActionsModalComponentService {
   private globalMessageService = inject(GlobalMessageService);
   private eventService = inject(EventService);
 

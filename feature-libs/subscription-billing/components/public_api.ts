@@ -19,5 +19,5 @@ export * from './details/subscription-details.module';
 
 export * from './actions-modal/subscription-actions-modal.component';
 export * from './actions-modal/subscription-actions-modal.module';
-export * from './actions-modal/subscription-action-handler.service';
+export * from './actions-modal/subscription-actions-modal-component.service';
 export * from './actions-modal/subscription-action-popup.config';

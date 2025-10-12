@@ -6,10 +6,10 @@ import {
 } from '@spartacus/core';
 import { GetSubscriptionByCodeReloadEvent } from '@spartacus/subscription-billing/root';
 import { throwError } from 'rxjs';
-import { SubscriptionActionHandlerService } from './subscription-action-handler.service';
+import { SubscriptionActionsModalComponentService } from './subscription-actions-modal-component.service';
 
-describe('SubscriptionActionHandlerService', () => {
-  let service: SubscriptionActionHandlerService;
+describe('SubscriptionActionsModalComponentService', () => {
+  let service: SubscriptionActionsModalComponentService;
   let globalMessageService: jasmine.SpyObj<GlobalMessageService>;
   let eventService: jasmine.SpyObj<EventService>;
 
@@ -21,13 +21,13 @@ describe('SubscriptionActionHandlerService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        SubscriptionActionHandlerService,
+        SubscriptionActionsModalComponentService,
         { provide: GlobalMessageService, useValue: globalMessageSpy },
         { provide: EventService, useValue: eventServiceSpy },
       ],
     });
 
-    service = TestBed.inject(SubscriptionActionHandlerService);
+    service = TestBed.inject(SubscriptionActionsModalComponentService);
     globalMessageService = TestBed.inject(
       GlobalMessageService
     ) as jasmine.SpyObj<GlobalMessageService>;

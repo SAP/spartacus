@@ -32,7 +32,7 @@ import {
 } from '@spartacus/storefront';
 import { RouterModule } from '@angular/router';
 import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SubscriptionActionHandlerService } from './subscription-action-handler.service';
+import { SubscriptionActionsModalComponentService } from './subscription-actions-modal-component.service';
 
 @Component({
   selector: 'cx-subscription-actions-modal',
@@ -53,7 +53,7 @@ export class SubscriptionActionsModalComponent {
   private cancelFacade = inject(SubscriptionBillingActionsFacade);
   private launchDialogService = inject(LaunchDialogService);
   private destroyRef = inject(DestroyRef);
-  private actionHandler = inject(SubscriptionActionHandlerService);
+  private actionHandler = inject(SubscriptionActionsModalComponentService);
 
   private subscriptionDetailSignal = toSignal(
     this.launchDialogService.data$ as Observable<
