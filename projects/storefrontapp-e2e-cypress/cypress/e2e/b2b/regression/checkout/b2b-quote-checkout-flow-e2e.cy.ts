@@ -1,17 +1,10 @@
 /*
  * SPDX-FileCopyrightText: 2025 SAP Spartacus team
-<<<<<<< HEAD
- * SPDX-License-Identifier: Apache-2.0
- */
-
-=======
  * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
- 
->>>>>>> d7e0d49f494f7226019c49d09e88c81b06e2e52d
+
 import * as quote from '../../../../helpers/b2b/b2b-quote';
 import * as cart from '../../../../helpers/cart';
 
