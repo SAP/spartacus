@@ -2,7 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SubscriptionCartPriceBodyComponent } from './subscription-cart-price-body.component';
 import { of } from 'rxjs';
-import { CartItemContext } from '@spartacus/cart/base/root';
+import { OutletContextData } from '@spartacus/storefront';
+import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
 
 const mockSubscriptionProduct = {
   basePrice: { formattedValue: 'USD35.00', value: 0 },
@@ -52,12 +53,22 @@ const mockProduct = {
   },
 };
 
-class MockSubscriptionCartItemContext {
-  item$ = of(mockSubscriptionProduct);
+class MockSubscriptionOutletContextData {
+  contextData = {
+    item: mockSubscriptionProduct,
+    items: [mockSubscriptionProduct],
+    parent: 'cart',
+  };
+  context$ = of(this.contextData);
 }
 
-class MockCartItemContext {
-  item$ = of(mockProduct);
+class MockOutletContextData {
+  contextData = {
+    item: mockProduct,
+    items: [mockProduct],
+    parent: 'cart',
+  };
+  context$ = of(this.contextData);
 }
 
 describe('SubscriptionCartPriceBodyComponent', () => {
@@ -70,9 +81,10 @@ describe('SubscriptionCartPriceBodyComponent', () => {
         declarations: [],
         providers: [
           {
-            provide: CartItemContext,
-            useClass: MockSubscriptionCartItemContext,
+            provide: OutletContextData,
+            useClass: MockSubscriptionOutletContextData,
           },
+          SubscriptionProductService
         ],
         imports: [SubscriptionCartPriceBodyComponent],
       }).compileComponents();
@@ -105,9 +117,10 @@ describe('SubscriptionCartPriceBodyComponent', () => {
         declarations: [],
         providers: [
           {
-            provide: CartItemContext,
-            useClass: MockCartItemContext,
+            provide: OutletContextData,
+            useClass: MockOutletContextData,
           },
+          SubscriptionProductService
         ],
         imports: [SubscriptionCartPriceBodyComponent],
       }).compileComponents();
