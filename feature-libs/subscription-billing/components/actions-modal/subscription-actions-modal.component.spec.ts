@@ -7,7 +7,7 @@ import {
 import { SubscriptionActionsModalComponent } from './subscription-actions-modal.component';
 import { Observable, of, throwError } from 'rxjs';
 import {
-  SubscriptionBillingActionsFacade,
+  SubscriptionActionsFacade,
   SubscriptionCancelData,
 } from '@spartacus/subscription-billing/root';
 import {
@@ -44,21 +44,18 @@ describe('SubscriptionActionsModalComponent', () => {
       return of('en');
     }
   }
-  let mockCancelFacade: jasmine.SpyObj<SubscriptionBillingActionsFacade>;
+  let mockCancelFacade: jasmine.SpyObj<SubscriptionActionsFacade>;
   let mockGlobalMessageService: jasmine.SpyObj<GlobalMessageService>;
   let mockLaunchDialogService: jasmine.SpyObj<LaunchDialogService>;
   let mockEventService: jasmine.SpyObj<EventService>;
 
   beforeEach(async () => {
-    mockCancelFacade = jasmine.createSpyObj(
-      'SubscriptionBillingActionsFacade',
-      [
-        'getEffectiveCancellationDate',
-        'cancelSubscription',
-        'withdrawSubscription',
-        'reverseCancellation',
-      ]
-    );
+    mockCancelFacade = jasmine.createSpyObj('SubscriptionActionsFacade', [
+      'getEffectiveCancellationDate',
+      'cancelSubscription',
+      'withdrawSubscription',
+      'reverseCancellation',
+    ]);
 
     mockCancelFacade.getEffectiveCancellationDate.and.returnValue(
       of({ subscriptionEndAt: '2025-12-31' })
@@ -97,7 +94,7 @@ describe('SubscriptionActionsModalComponent', () => {
       providers: [
         provideMockStore(),
         {
-          provide: SubscriptionBillingActionsFacade,
+          provide: SubscriptionActionsFacade,
           useValue: mockCancelFacade,
         },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },

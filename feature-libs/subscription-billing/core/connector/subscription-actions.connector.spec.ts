@@ -1,38 +1,35 @@
 import { TestBed } from '@angular/core/testing';
-import { SubscriptionBillingActionsConnector } from './subscription-billing-action.connector';
-import { SubscriptionBillingActionAdapter } from './subscription-billing-action.adapter';
+import { SubscriptionActionsConnector } from './subscription-actions.connector';
+import { SubscriptionActionsAdapter } from './subscription-actions.adapter';
 import { of, throwError } from 'rxjs';
 import {
   SubscriptionCancellationDetails,
   SubscriptionWithdraw,
 } from '@spartacus/subscription-billing/root';
 
-describe('SubscriptionBillingActionsConnector', () => {
-  let connector: SubscriptionBillingActionsConnector;
-  let adapter: jasmine.SpyObj<SubscriptionBillingActionAdapter>;
+describe('SubscriptionActionsConnector', () => {
+  let connector: SubscriptionActionsConnector;
+  let adapter: jasmine.SpyObj<SubscriptionActionsAdapter>;
 
   beforeEach(() => {
-    const adapterSpy = jasmine.createSpyObj(
-      'SubscriptionBillingActionAdapter',
-      [
-        'getEffectiveCancellationDate',
-        'cancelSubscription',
-        'reverseCancellation',
-        'withdrawSubscription',
-      ]
-    );
+    const adapterSpy = jasmine.createSpyObj('SubscriptionActionsAdapter', [
+      'getEffectiveCancellationDate',
+      'cancelSubscription',
+      'reverseCancellation',
+      'withdrawSubscription',
+    ]);
 
     TestBed.configureTestingModule({
       providers: [
-        SubscriptionBillingActionsConnector,
-        { provide: SubscriptionBillingActionAdapter, useValue: adapterSpy },
+        SubscriptionActionsConnector,
+        { provide: SubscriptionActionsAdapter, useValue: adapterSpy },
       ],
     });
 
-    connector = TestBed.inject(SubscriptionBillingActionsConnector);
+    connector = TestBed.inject(SubscriptionActionsConnector);
     adapter = TestBed.inject(
-      SubscriptionBillingActionAdapter
-    ) as jasmine.SpyObj<SubscriptionBillingActionAdapter>;
+      SubscriptionActionsAdapter
+    ) as jasmine.SpyObj<SubscriptionActionsAdapter>;
   });
 
   it('should be created', () => {

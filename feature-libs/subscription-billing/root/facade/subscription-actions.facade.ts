@@ -17,7 +17,7 @@ import { facadeFactory } from '@spartacus/core';
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
-      facade: SubscriptionBillingActionsFacade,
+      facade: SubscriptionActionsFacade,
       feature: SUBSCRIPTION_BILLING_FEATURE,
       methods: [
         'cancelSubscription',
@@ -27,7 +27,7 @@ import { facadeFactory } from '@spartacus/core';
       ],
     }),
 })
-export abstract class SubscriptionBillingActionsFacade {
+export abstract class SubscriptionActionsFacade {
   abstract cancelSubscription(
     cancellationDetails: SubscriptionCancellationDetails,
     code?: string

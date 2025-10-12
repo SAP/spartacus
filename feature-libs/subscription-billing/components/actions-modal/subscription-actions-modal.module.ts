@@ -7,11 +7,11 @@
 import { NgModule } from '@angular/core';
 import { SubscriptionActionsModalComponent } from './subscription-actions-modal.component';
 import { provideDefaultConfig } from '@spartacus/core';
-import { subscriptionActionsPopupConfig } from './subscription-action-popup.config';
+import { subscriptionActionsPopupConfig } from './subscription-actions-popup.config';
 
 @NgModule({
   imports: [SubscriptionActionsModalComponent],
   exports: [SubscriptionActionsModalComponent],
   providers: [provideDefaultConfig(subscriptionActionsPopupConfig)],
 })
-export class SubscriptionActionModalModule {}
+export class SubscriptionActionsModalModule {}

@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { catchError, of, Observable } from 'rxjs';
 import {
-  SubscriptionBillingActionsFacade,
+  SubscriptionActionsFacade,
   SubscriptionCancellationDetails,
   SubscriptionDetail,
   SubscriptionCancelData,
@@ -50,7 +50,7 @@ import { SubscriptionActionsModalComponentService } from './subscription-actions
   ],
 })
 export class SubscriptionActionsModalComponent {
-  private cancelFacade = inject(SubscriptionBillingActionsFacade);
+  private cancelFacade = inject(SubscriptionActionsFacade);
   private launchDialogService = inject(LaunchDialogService);
   private destroyRef = inject(DestroyRef);
   private actionHandler = inject(SubscriptionActionsModalComponentService);

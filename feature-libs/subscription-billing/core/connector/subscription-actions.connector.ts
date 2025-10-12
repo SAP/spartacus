@@ -5,7 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { SubscriptionBillingActionAdapter } from './subscription-billing-action.adapter';
+import { SubscriptionActionsAdapter } from './subscription-actions.adapter';
 import { Observable } from 'rxjs';
 import {
   SubscriptionCancellationDetails,
@@ -15,8 +15,8 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class SubscriptionBillingActionsConnector {
-  protected adapter = inject(SubscriptionBillingActionAdapter);
+export class SubscriptionActionsConnector {
+  protected adapter = inject(SubscriptionActionsAdapter);
   public getEffectiveCancellationDate(
     userId: string,
     subscriptionCode: string

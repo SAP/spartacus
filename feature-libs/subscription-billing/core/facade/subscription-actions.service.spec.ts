@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { SubscriptionBillingActionService } from './subscription-billing-action.service';
+import { SubscriptionActionsService } from './subscription-actions.service';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import {
-  SubscriptionBillingActionsConnector,
+  SubscriptionActionsConnector,
   SubscriptionBillingConnector,
 } from '../connector';
 import {
@@ -22,35 +22,32 @@ const mockStore = {
   pipe: jasmine.createSpy().and.returnValue(of({})),
 };
 
-describe('SubscriptionBillingActionService', () => {
-  let service: SubscriptionBillingActionService;
+describe('SubscriptionActionsService', () => {
+  let service: SubscriptionActionsService;
   let userIdService: jasmine.SpyObj<UserIdService>;
-  let cancelConnector: jasmine.SpyObj<SubscriptionBillingActionsConnector>;
+  let cancelConnector: jasmine.SpyObj<SubscriptionActionsConnector>;
   let subscriptionBillingConnector: jasmine.SpyObj<SubscriptionBillingConnector>;
   const userId = 'user123';
   const subscriptionCode = 'sub456';
 
   beforeEach(() => {
     userIdService = jasmine.createSpyObj('UserIdService', ['getUserId']);
-    cancelConnector = jasmine.createSpyObj(
-      'SubscriptionBillingActionsConnector',
-      [
-        'getEffectiveCancellationDate',
-        'cancelSubscription',
-        'reversecancellation',
-        'withdrawSubscription',
-      ]
-    );
+    cancelConnector = jasmine.createSpyObj('SubscriptionActionsConnector', [
+      'getEffectiveCancellationDate',
+      'cancelSubscription',
+      'reversecancellation',
+      'withdrawSubscription',
+    ]);
     subscriptionBillingConnector = jasmine.createSpyObj(
       'SubscriptionBillingConnector',
       ['check']
     );
     TestBed.configureTestingModule({
       providers: [
-        SubscriptionBillingActionService,
+        SubscriptionActionsService,
         { provide: UserIdService, useValue: userIdService },
         {
-          provide: SubscriptionBillingActionsConnector,
+          provide: SubscriptionActionsConnector,
           useValue: cancelConnector,
         },
         {
@@ -62,7 +59,7 @@ describe('SubscriptionBillingActionService', () => {
       ],
     });
 
-    service = TestBed.inject(SubscriptionBillingActionService);
+    service = TestBed.inject(SubscriptionActionsService);
   });
   it('should return subscription reload events', () => {
     const events = service['getSubscriptionByCodeReloadEvents']();
