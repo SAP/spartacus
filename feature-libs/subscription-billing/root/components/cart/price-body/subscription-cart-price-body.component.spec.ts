@@ -84,7 +84,7 @@ describe('SubscriptionCartPriceBodyComponent', () => {
             provide: OutletContextData,
             useClass: MockSubscriptionOutletContextData,
           },
-          SubscriptionProductService
+          SubscriptionProductService,
         ],
         imports: [SubscriptionCartPriceBodyComponent],
       }).compileComponents();
@@ -120,7 +120,7 @@ describe('SubscriptionCartPriceBodyComponent', () => {
             provide: OutletContextData,
             useClass: MockOutletContextData,
           },
-          SubscriptionProductService
+          SubscriptionProductService,
         ],
         imports: [SubscriptionCartPriceBodyComponent],
       }).compileComponents();
