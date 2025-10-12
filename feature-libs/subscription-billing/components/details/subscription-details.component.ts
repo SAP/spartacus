@@ -22,10 +22,12 @@ import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 export class SubscriptionDetailsComponent implements OnInit, OnDestroy {
   protected subscriptionFacade = inject(SubscriptionBillingFacade);
   protected eventService = inject(EventService);
+  protected subscription = new Subscription();
   protected launchDialogService = inject(LaunchDialogService);
+
   subscriptionDetails$: Observable<SubscriptionDetail | undefined> =
     of(undefined);
-  protected subscription = new Subscription();
+
   ngOnInit() {
     this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
     this.subscriptionDetails$ = this.subscriptionFacade.getSubscriptionByCode();
