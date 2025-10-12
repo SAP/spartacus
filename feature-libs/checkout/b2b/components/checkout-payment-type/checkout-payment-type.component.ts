@@ -20,7 +20,6 @@ import {
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
-  FeatureToggles,
   getLastValueSync,
   GlobalMessageService,
   GlobalMessageType,
@@ -53,9 +52,6 @@ export class CheckoutPaymentTypeComponent {
 
   typeSelected?: string;
   paymentTypesError = false;
-
-  private featureToggles = inject(FeatureToggles);
-  poNumberFeatureToggle = this.featureToggles.enableQuotePurchaseOrderNumber;
 
   isPONumberReadOnly: Observable<boolean> =
     this.componentService.isPONumberReadOnly();

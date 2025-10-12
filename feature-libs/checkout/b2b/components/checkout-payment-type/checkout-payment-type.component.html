@@ -25,7 +25,7 @@
             type="text"
             placeholder="{{ 'checkoutB2B.placeholder' | cxTranslate }}"
             value="{{ cartPoNumber$ | async }}"
-            [readOnly]="poNumberFeatureToggle && (isPONumberReadOnly | async)"
+            [readOnly]="isPONumberReadOnly | async"
           />
         </label>
       </div>

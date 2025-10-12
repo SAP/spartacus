@@ -4,30 +4,37 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { UserIdService } from '@spartacus/core';
+import { FeatureToggles, UserIdService } from '@spartacus/core';
 import { QuoteConnector } from '../connectors';
 import { inject, Injectable } from '@angular/core';
-import { combineLatest, map, Observable, switchMap } from 'rxjs';
+import { combineLatest, map, Observable, of, switchMap } from 'rxjs';
 import { Quote } from '@spartacus/quote/root';
 import { CheckoutPaymentTypeComponentService } from '@spartacus/checkout/b2b/components';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 
 @Injectable()
 export class QuoteCheckoutPaymentTypeComponentService extends CheckoutPaymentTypeComponentService {
-  private activeCartFacade: ActiveCartFacade = inject(ActiveCartFacade);
-  private userIdService: UserIdService = inject(UserIdService);
-  private quoteConnector: QuoteConnector = inject(QuoteConnector);
+  protected activeCartFacade: ActiveCartFacade = inject(ActiveCartFacade);
+  protected userIdService: UserIdService = inject(UserIdService);
+  protected quoteConnector: QuoteConnector = inject(QuoteConnector);
+  private featureToggles = inject(FeatureToggles);
 
   isPONumberReadOnly(): Observable<boolean> {
-    return combineLatest([
-      this.userIdService.getUserId(),
-      this.activeCartFacade.getActive(),
-    ]).pipe(
-      switchMap(([userId, cart]) => {
-        return this.quoteConnector
-          .getQuote(userId, cart.quoteCode ?? '')
-          .pipe(map((quote: Quote) => !!quote.sapPurchaseOrderNumber));
-      })
-    );
+    const enablePurchaseOrderNumber =
+      this.featureToggles.enableQuotePurchaseOrderNumber;
+    if (enablePurchaseOrderNumber) {
+      return combineLatest([
+        this.userIdService.getUserId(),
+        this.activeCartFacade.getActive(),
+      ]).pipe(
+        switchMap(([userId, cart]) => {
+          return this.quoteConnector
+            .getQuote(userId, cart.quoteCode ?? '')
+            .pipe(map((quote: Quote) => !!quote.sapPurchaseOrderNumber));
+        })
+      );
+    } else {
+      return of(false);
+    }
   }
 }
