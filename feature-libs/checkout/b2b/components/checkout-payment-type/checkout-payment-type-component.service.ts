@@ -7,7 +7,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CheckoutPaymentTypeComponentService {
   isPONumberReadOnly(): Observable<boolean> {
     return of(false);
