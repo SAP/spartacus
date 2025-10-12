@@ -1,7 +1,9 @@
 /*
-* SPDX-FileCopyrightText: 2025 SAP Spartacus team
-* SPDX-License-Identifier: Apache-2.0
-*/
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
  
  
 import * as quote from '../../../../helpers/b2b/b2b-quote';
