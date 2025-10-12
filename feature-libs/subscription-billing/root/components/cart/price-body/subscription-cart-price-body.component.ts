@@ -9,7 +9,6 @@ import { Component, computed, inject, Optional } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { OutletContextData } from '@spartacus/storefront';
-import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
 
 @Component({
   selector: 'cx-subscription-cart-price-body',
@@ -19,12 +18,11 @@ import { SubscriptionProductService } from '@spartacus/subscription-billing/core
 })
 export class SubscriptionCartPriceBodyComponent {
   @Optional() protected outletContext = inject(OutletContextData);
-  protected productService = inject(SubscriptionProductService);
   outletData = toSignal(this.outletContext?.context$);
   parent = computed(() => this.outletData().parent);
   subscriptionItemExists = computed(() => {
     return this.outletData().items?.find((item: OrderEntry) =>
-      item.product ? this.productService.isSubscription(item.product) : false
+      item.product ? item.product.productTypes === 'SUBSCRIPTION' : false
     );
   });
   item = computed(() => {
