@@ -157,21 +157,12 @@ describe('OrderDocumentFlowDialogComponent', () => {
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(closeReason);
   });
 
-  it('should return correct order code', (done) => {
-    expect(component.orderCode$).toBeDefined();
-    component.orderCode$
-      .subscribe((value) => {
-        expect(value).toEqual(orderCode);
-        done();
-      })
-      .unsubscribe();
-  });
   describe('subsequent documents observable', () => {
     it('should return subsequent document array', (done) => {
       orderDocumentFlowFacade.getOrderSubsequentDocuments.and.returnValue(
         of(subsequentDocumentsData)
       );
-      component.orderCode$ = of(orderCode);
+      (component as any).orderCode$ = of(orderCode);
 
       expect(component.documents$).toBeDefined();
       component.documents$
@@ -189,7 +180,7 @@ describe('OrderDocumentFlowDialogComponent', () => {
       orderDocumentFlowFacade.getOrderSubsequentDocuments.and.returnValue(
         throwError(() => 'mockError')
       );
-      component.orderCode$ = of(orderCode);
+      (component as any).orderCode$ = of(orderCode);
 
       component.documents$
         .subscribe((documents) => {
@@ -208,7 +199,7 @@ describe('OrderDocumentFlowDialogComponent', () => {
       );
       expect(component.loadError()).toBe(false);
 
-      component.orderCode$ = of(orderCode);
+      (component as any).orderCode$ = of(orderCode);
       component.documents$.subscribe(() => done()).unsubscribe();
 
       expect(component.loadError()).toBe(true);
@@ -223,7 +214,7 @@ describe('OrderDocumentFlowDialogComponent', () => {
       orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.and.returnValue(
         of(subsequentDocumentEntryData)
       );
-      component.orderCode$ = of(orderCode);
+      (component as any).orderCode$ = of(orderCode);
       fixture.detectChanges();
       component.onDocumentSelection(subsequentDocumentsData[0]);
 
@@ -243,7 +234,7 @@ describe('OrderDocumentFlowDialogComponent', () => {
       orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.and.returnValue(
         throwError(() => 'mockError')
       );
-      component.orderCode$ = of(orderCode);
+      (component as any).orderCode$ = of(orderCode);
       fixture.detectChanges();
       component.onDocumentSelection(subsequentDocumentsData[0]);
 
@@ -264,7 +255,7 @@ describe('OrderDocumentFlowDialogComponent', () => {
       );
       expect(component.loadError()).toBe(false);
 
-      component.orderCode$ = of(orderCode);
+      (component as any).orderCode$ = of(orderCode);
       fixture.detectChanges();
       component.onDocumentSelection(subsequentDocumentsData[0]);
 
@@ -281,7 +272,7 @@ describe('OrderDocumentFlowDialogComponent', () => {
         orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.and.returnValue(
           of(subsequentDocumentEntryData)
         );
-        component.orderCode$ = of(orderCode);
+        (component as any).orderCode$ = of(orderCode);
         fixture.detectChanges();
         component.onDocumentSelection(subsequentDocumentsData[0]);
 
@@ -307,7 +298,7 @@ describe('OrderDocumentFlowDialogComponent', () => {
         orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.and.returnValue(
           of([])
         );
-        component.orderCode$ = of(orderCode);
+        (component as any).orderCode$ = of(orderCode);
         fixture.detectChanges();
         component.onDocumentSelection(subsequentDocumentsData[0]);
 
@@ -327,7 +318,7 @@ describe('OrderDocumentFlowDialogComponent', () => {
         orderDocumentFlowFacade.getOrderSubsequentDocumentEntries.and.returnValue(
           throwError(() => 'mockError')
         );
-        component.orderCode$ = of(orderCode);
+        (component as any).orderCode$ = of(orderCode);
         fixture.detectChanges();
         component.onDocumentSelection(subsequentDocumentsData[0]);
 
