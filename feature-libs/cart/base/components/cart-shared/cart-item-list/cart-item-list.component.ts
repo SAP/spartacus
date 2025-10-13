@@ -91,7 +91,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   }
   readonly CartOutlets = CartOutlets;
   private featureConfigService = inject(FeatureConfigService);
-
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
