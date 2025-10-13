@@ -15,9 +15,10 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { SubscriptionDetailsComponent } from './subscription-details.component';
+import { SpinnerModule } from '@spartacus/storefront';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, UrlModule, RouterModule],
+  imports: [CommonModule, I18nModule, UrlModule, RouterModule, SpinnerModule],
   declarations: [SubscriptionDetailsComponent],
   exports: [SubscriptionDetailsComponent],
   providers: [
