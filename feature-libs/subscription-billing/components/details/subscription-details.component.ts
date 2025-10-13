@@ -4,24 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  inject,
-  OnInit,
-  OnDestroy,
-  ElementRef,
-  ViewChild,
-  DestroyRef
-} from '@angular/core';
+
+import { Component, inject, OnInit } from '@angular/core';
 import { EventService } from '@spartacus/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import {
   GetSubscriptionByCodeReloadEvent,
   SubscriptionBillingFacade,
   SubscriptionDetail,
 } from '@spartacus/subscription-billing/root';
-import { Observable, of, Subscription, take } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Observable, of, take } from 'rxjs';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-subscription-details',
@@ -32,10 +24,7 @@ export class SubscriptionDetailsComponent implements OnInit, OnDestroy {
   protected subscriptionFacade = inject(SubscriptionBillingFacade);
   protected eventService = inject(EventService);
   protected launchDialogService = inject(LaunchDialogService);
-  @ViewChild('extendSubscriptionBtn') extendSubscriptionBtn: ElementRef;
-  subscriptionContractFrequency?: string;
-  protected subscription = new Subscription();
-  protected destroyRef = inject(DestroyRef);
+
   subscriptionDetails$: Observable<SubscriptionDetail | undefined> =
     of(undefined);
 
@@ -63,22 +52,20 @@ export class SubscriptionDetailsComponent implements OnInit, OnDestroy {
   showSubscriptionActionsDialog(
     mode: 'cancel' | 'withdraw' | 'resubscribe'
   ): void {
-    this.subscriptionDetails$
-      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
-      .subscribe((subscription) => {
-        if (!subscription) return;
+    this.subscriptionDetails$.pipe(take(1)).subscribe((subscription) => {
+      if (!subscription) return;
 
-        const dataToPass = {
-          ...subscription,
-          code: subscription.id,
-          mode,
-        };
+      const dataToPass = {
+        ...subscription,
+        code: subscription.id,
+        mode,
+      };
 
-        this.launchDialogService.openDialogAndSubscribe(
-          LAUNCH_CALLER.SUBSCRIPTION_ACTION_CONFIRMATION,
-          undefined,
-          dataToPass
-        );
-      });
+      this.launchDialogService.openDialogAndSubscribe(
+        LAUNCH_CALLER.SUBSCRIPTION_ACTION_CONFIRMATION,
+        undefined,
+        dataToPass
+      );
+    });
   }
 }

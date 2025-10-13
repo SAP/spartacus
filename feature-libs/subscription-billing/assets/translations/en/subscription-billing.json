@@ -72,5 +72,9 @@
     "withdrawConfirm": "By confirming, you are ending your trial period.You will lose access to subscription features on by the end of today.No additional charges apply.",
     "resubscribeConfirm": "By confirming, you are renewing your subscription and will gain access to our subscription features. ",
     "changeMindresubscribe": "You can manage your subscription anytime later."
+  },
+  "subscriptionCartItemList": {
+    "itemPriceHeader": "Item Price",
+    "dueNowHeader": "Due Now"
   }
 }

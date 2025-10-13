@@ -56,6 +56,7 @@ export function waitForSubscriptionOrderToSyncToCommerce() {
 
 export function placeSubscriptionOrder() {
   addCheapProductToCart(subscription_product);
+  validateSubscriptionCharges();
   cy.findByText(/proceed to checkout/i).click();
   cy.get('cx-payment-type').within(() => {
     cy.findByText('Account').click({ force: true });
@@ -376,4 +377,10 @@ export function clickViewAllSubscriptions() {
   cy.get(subscriptionComponentSelector, { timeout: 10000 }).should(
     'be.visible'
   );
+}
+
+export function validateSubscriptionCharges() {
+  cy.get(`cx-subscription-cart-price-body`)
+    .should('contain.text', 'monthly payment')
+    .and('contain.text', ' pay on checkout ');
 }

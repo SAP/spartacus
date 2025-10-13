@@ -4,11 +4,12 @@
 @import './list/subscription-list';
 @import './modal/subscription-modal';
 @import './details/subscription-details';
-@import './details/extend-subscription/extend-subscription-dialog';
+@import './cart/subscription-cart-item-list';
+@import './cart/subscription-cart-price-body';
 $subscription-billing-components-allowlist:
   cx-subscription-product-price, cx-subscription-product-usage-charge,
-  cx-subscription-list, cx-subscription-details, cx-extend-subscription-dialog,
-  cx-subscription-details, cx-subscription-actions-modal !default;
+  cx-subscription-list, cx-subscription-details, cx-subscription-cart-item-list,
+  cx-subscription-cart-price-body, cx-subscription-actions-modal !default;
 
 $skipComponentStyles: () !default;
 
