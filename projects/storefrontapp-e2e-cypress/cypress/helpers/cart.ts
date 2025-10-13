@@ -117,7 +117,7 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
       .should('eq', id);
 
     cy.get('cx-searchbox')
-      .get('.results .products .name')
+      .get('.results .products .cx-product-name')
       .first()
       .click({ force: true });
   }
