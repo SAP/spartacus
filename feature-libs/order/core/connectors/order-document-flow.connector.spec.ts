@@ -7,13 +7,12 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import {
-  OrderDocumentFlowAdapter,
-  OrderDocumentFlowConnector,
-} from '@spartacus/order/core';
-import {
   SapOrderSubsequentDocument,
   SapOrderSubsequentDocumentEntry,
 } from '@spartacus/order/root';
+
+import { OrderDocumentFlowConnector } from '../connectors/order-document-flow.connector';
+import { OrderDocumentFlowAdapter } from './order-document-flow.adapter';
 
 const userId = '123';
 const orderCode = '00001004';

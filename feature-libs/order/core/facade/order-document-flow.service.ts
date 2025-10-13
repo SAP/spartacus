@@ -7,12 +7,12 @@
 import { inject, Injectable } from '@angular/core';
 import { UserIdService } from '@spartacus/core';
 import { Observable, switchMap } from 'rxjs';
-import { OrderDocumentFlowConnector } from '@spartacus/order/core';
 import {
   OrderDocumentFlowFacade,
   SapOrderSubsequentDocument,
   SapOrderSubsequentDocumentEntry,
 } from '@spartacus/order/root';
+import { OrderDocumentFlowConnector } from '../connectors';
 
 @Injectable()
 export class OrderDocumentFlowService implements OrderDocumentFlowFacade {

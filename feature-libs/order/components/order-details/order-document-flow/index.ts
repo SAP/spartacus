@@ -8,3 +8,4 @@ export * from './order-document-flow.component';
 export * from './order-document-flow-dialog/order-document-flow-dialog.component';
 export * from './order-document-flow-dialog/order-document-flow-list/order-subsequent-document-list.component';
 export * from './order-document-flow-dialog/order-document-flow-list/order-subsequent-document-node.component';
+export * from './order-document-flow-dialog/order-document-order-entry-list/order-document-order-entry-list.component';

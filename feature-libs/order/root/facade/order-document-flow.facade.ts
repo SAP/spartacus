@@ -6,11 +6,12 @@
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ORDER_CORE_FEATURE } from '../feature-name';
 import {
-  ORDER_CORE_FEATURE,
   SapOrderSubsequentDocument,
   SapOrderSubsequentDocumentEntry,
-} from '@spartacus/order/root';
+} from '../model';
+
 import { facadeFactory } from '@spartacus/core';
 
 @Injectable({
