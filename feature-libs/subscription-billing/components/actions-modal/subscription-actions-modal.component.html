@@ -112,14 +112,14 @@ aria-labelledby="dialogTitle"
         class="title modal-title"
         *ngIf="!isExtendSubscriptionBtnClicked"
       >
-        {{ 'extendSubscription.title' | cxTranslate }}
+        {{ 'subscriptionActions.title' | cxTranslate }}
       </h3>
       <h3
         id="dialogTitle"
         class="title modal-title"
         *ngIf="isExtendSubscriptionBtnClicked"
       >
-        {{ 'extendSubscription.confirmExtensionTitle' | cxTranslate }}
+        {{ 'subscriptionActions.confirmExtensionTitle' | cxTranslate }}
       </h3>
       <button
         type="button"
@@ -139,23 +139,23 @@ aria-labelledby="dialogTitle"
       <div class="cx-dialog-info">
         <p
           *ngIf="!isExtendSubscriptionBtnClicked"
-          [innerHTML]="'extendSubscription.disclaimer' | cxTranslate"
+          [innerHTML]="'subscriptionActions.disclaimer' | cxTranslate"
         ></p>
         <p
           *ngIf="isExtendSubscriptionBtnClicked"
           [innerHTML]="
-            'extendSubscription.disclaimerWithExtensionEndDate'
+            'subscriptionActions.disclaimerWithExtensionEndDate'
               | cxTranslate: { endDate: this.extensionEffectiveDate | cxDate }
           "
         ></p>
         <p *ngIf="isExtendSubscriptionBtnClicked">
-          {{ 'extendSubscription.noActionMessage' | cxTranslate }}
+          {{ 'subscriptionActions.noActionMessage' | cxTranslate }}
         </p>
       </div>
 
       <label class="form-check extend-duration-dropdown-label">
         <span class="form-check-label extend-duration-label">
-          {{ 'extendSubscription.durationInputLabel' | cxTranslate }}
+          {{ 'subscriptionActions.durationInputLabel' | cxTranslate }}
           <cx-form-required-asterisks />
         </span>
         <ng-select
@@ -166,7 +166,7 @@ aria-labelledby="dialogTitle"
           [items]="extendDurationOptions"
           [readonly]="isExtendSubscriptionBtnClicked"
           [placeholder]="
-            'extendSubscription.durationInputPlaceholder'
+            'subscriptionActions.durationInputPlaceholder'
               | cxTranslate: { frequency: subscriptionContractFrequency }
           "
           (change)="onExtendActionDurationChange($event)"
@@ -191,7 +191,7 @@ aria-labelledby="dialogTitle"
         *ngIf="!isExtendSubscriptionBtnClicked()"
         (click)="getExtensionEffectiveDate()"
       >
-        {{ 'extendSubscription.extend' | cxTranslate }}
+        {{ 'subscriptionActions.extend' | cxTranslate }}
       </button>
       <button
         class="btn btn-primary dialog-buttons"
@@ -200,7 +200,7 @@ aria-labelledby="dialogTitle"
           isExtendSubscriptionBtnClicked() && isExtensionEffectiveDateAvailable()
         "
       >
-        {{ 'extendSubscription.confirm' | cxTranslate }}
+        {{ 'subscriptionActions.confirm' | cxTranslate }}
       </button>
     </div>
   </div>
