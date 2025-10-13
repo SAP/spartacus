@@ -124,7 +124,6 @@ describe('CheckoutOnePaymentTypeComponent', () => {
   it('should make PO Number field non-editable if cart has a PO Number', async () => {
     fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
     component = fixture.componentInstance;
-    component.poNumberFeatureToggle = true;
     component.isPONumberReadOnly = of(true);
     fixture.detectChanges();
     await fixture.whenStable();
@@ -138,7 +137,6 @@ describe('CheckoutOnePaymentTypeComponent', () => {
   it('should make PO Number field editable if quote has no PO Number', async () => {
     fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
     component = fixture.componentInstance;
-    component.poNumberFeatureToggle = true;
     component.isPONumberReadOnly = of(false);
 
     fixture.detectChanges();

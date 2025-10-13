@@ -33,6 +33,6 @@
     cursor: not-allowed;
   }
   #poNumberInput:read-only:focus {
-    background-color: #e9ecef;
+    background-color: var(--cx-color-dark);
   }
 }
