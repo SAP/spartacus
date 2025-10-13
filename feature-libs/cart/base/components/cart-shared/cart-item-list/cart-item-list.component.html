@@ -12,6 +12,15 @@
 
       <ng-template
         role="columnheader"
+        [cxOutlet]="CartOutlets.SUBSCRIPTION_PRICE_HEADING"
+        [cxOutletContext]="{
+          items,
+          parent: 'cart',
+        }"
+      ></ng-template>
+
+      <ng-template
+        role="columnheader"
         [cxOutlet]="CartOutlets.CPQ_QUOTE_HEADING"
         [cxOutletContext]="items"
       ></ng-template>
@@ -55,11 +64,12 @@
           cx-cart-item-list-row
           role="row"
           class="cx-item-list-row"
+          [items]="items"
           [item]="item"
           [quantityControl]="control.get('quantity')"
           [readonly]="readonly"
           [promotionLocation]="promotionLocation"
-          [options]="options"
+          [options]="getOptions(item)"
           [attr.aria-rowindex]="i + 1"
         ></tr>
       </ng-container>
