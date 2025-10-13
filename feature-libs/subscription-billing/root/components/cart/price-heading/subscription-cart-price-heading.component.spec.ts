@@ -4,7 +4,7 @@ import { TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OutletContextData } from '@spartacus/storefront';
 
-export const mockSubscriptionProduct = {
+const mockSubscriptionProduct = {
   basePrice: { formattedValue: 'USD35.00', value: 0 },
   product: {
     code: 'Mobile_2020_Plan_cpq',
@@ -19,7 +19,7 @@ class MockTranslateService implements Partial<TranslationService> {
     _options?: any,
     _whitespaceUntilLoaded?: boolean
   ): Observable<string> {
-    return of('');
+    return of('Item Price');
   }
 }
 class MockSubscriptionOutletContextData {
@@ -30,28 +30,71 @@ class MockSubscriptionOutletContextData {
   };
   context$ = of(this.contextData);
 }
+
+class MockOutletContextData {
+  contextData = {
+    items: [{}],
+    parent: 'cart',
+  };
+  context$ = of(this.contextData);
+}
 describe('SubscriptionCartPriceHeadingComponent', () => {
   let component: SubscriptionCartPriceHeadingComponent;
   let fixture: ComponentFixture<SubscriptionCartPriceHeadingComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [SubscriptionCartPriceHeadingComponent],
-      providers: [
-        { provide: TranslationService, useClass: MockTranslateService },
-        {
-          provide: OutletContextData,
-          useClass: MockSubscriptionOutletContextData,
-        },
-      ],
-    }).compileComponents();
+  describe('with subscription product', () => {
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [SubscriptionCartPriceHeadingComponent],
+        providers: [
+          { provide: TranslationService, useClass: MockTranslateService },
+          {
+            provide: OutletContextData,
+            useClass: MockSubscriptionOutletContextData,
+          },
+        ],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(SubscriptionCartPriceHeadingComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+      fixture = TestBed.createComponent(SubscriptionCartPriceHeadingComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should render item price heading', () => {
+      const compiled = fixture.nativeElement;
+      const itemPriceHeading = compiled.querySelector('th span');
+      expect(itemPriceHeading).toBeTruthy();
+      expect(itemPriceHeading.textContent).toContain('Item Price');
+    });
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  describe('with empty cart', () => {
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [SubscriptionCartPriceHeadingComponent],
+        providers: [
+          { provide: TranslationService, useClass: MockTranslateService },
+          {
+            provide: OutletContextData,
+            useClass: MockOutletContextData,
+          },
+        ],
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(SubscriptionCartPriceHeadingComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should not render item price heading', () => {
+      const compiled = fixture.nativeElement;
+      const itemPriceHeading = compiled.querySelector('th span');
+      expect(component.subscriptionItem()).toBeUndefined();
+      expect(itemPriceHeading).toBeFalsy();
+    });
   });
 });
