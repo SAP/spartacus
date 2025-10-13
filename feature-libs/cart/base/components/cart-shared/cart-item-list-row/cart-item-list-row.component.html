@@ -98,6 +98,18 @@
     </div>
   </td>
 
+  <!-- Subscription Charges -->
+  <ng-template
+    role="cell"
+    [cxOutlet]="CartOutlets.SUBSCRIPTION_PRICE_BODY"
+    [cxOutletContext]="{
+      items,
+      item,
+      parent: 'cart',
+    }"
+  >
+  </ng-template>
+
   <!-- item price with discount -->
   <ng-template
     role="cell"
