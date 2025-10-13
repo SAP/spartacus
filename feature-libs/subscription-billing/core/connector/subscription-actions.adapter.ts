@@ -6,6 +6,7 @@
 
 import {
   SubscriptionCancellationDetails,
+  SubscriptionExtensionEffectiveDate,
   SubscriptionWithdraw,
 } from '@spartacus/subscription-billing/root';
 import { Observable } from 'rxjs';
@@ -31,4 +32,18 @@ export abstract class SubscriptionActionsAdapter {
     subscriptionCode: string,
     withdrawal: SubscriptionWithdraw
   ): Observable<unknown>;
+
+  abstract getExtensionEffectiveDate(
+    userId: string,
+    subscriptionCode: string,
+    extendDuration: number,
+    isUnlimitedDuration: boolean
+  ): Observable<SubscriptionExtensionEffectiveDate>;
+  
+  abstract extendSubscription(
+    userId: string,
+    subscriptionCode: string,
+    extendDuration: number,
+    isUnlimitedDuration: boolean
+  ): Observable<any>;
 }

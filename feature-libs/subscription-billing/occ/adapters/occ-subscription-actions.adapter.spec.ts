@@ -84,6 +84,19 @@ describe('OccSubscriptionActionsAdapter', () => {
     req.flush({});
   });
 
+  it('should fetch extension effective date', () => {
+    const mockUrl = 'mockEffectiveDateUrl';
+    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+
+    adapter
+      .getExtensionEffectiveDate(mockUserId, mockSubscriptionCode, 1, false)
+      .subscribe();
+
+    const req = httpMock.expectOne(mockUrl);
+    expect(req.request.method).toBe('GET');
+    req.flush({});
+  });
+
   it('should handle withdrawal', () => {
     const mockUrl = 'mockWithdrawalUrl';
     occEndpointsService.buildUrl.and.returnValue(mockUrl);
@@ -103,6 +116,18 @@ describe('OccSubscriptionActionsAdapter', () => {
     occEndpointsService.buildUrl.and.returnValue(mockUrl);
 
     adapter.reverseCancellation(mockUserId, mockSubscriptionCode).subscribe();
+
+    const req = httpMock.expectOne(mockUrl);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toBeNull();
+    req.flush({});
+  });
+
+  it('should extend subscription', () => {
+    const mockUrl = 'mockExtendCancellationUrl';
+    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+
+    adapter.extendSubscription(mockUserId, mockSubscriptionCode, 1, false).subscribe();
 
     const req = httpMock.expectOne(mockUrl);
     expect(req.request.method).toBe('POST');
@@ -166,6 +191,33 @@ describe('OccSubscriptionActionsAdapter', () => {
     const req = httpMock.expectOne(mockUrl);
     req.flush(mockErrorBody, mockHttpError);
   });
+
+  it('should handle error when getExtensionEffectiveDate fails', () => {
+    const mockUrl = 'mockEffectiveDateUrl';
+    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+
+    const mockHttpError = {
+      status: 404,
+      statusText: 'Not Found',
+    };
+
+    const mockErrorBody = {
+      message: 'Effective date not found',
+    };
+
+    adapter.getExtensionEffectiveDate(mockUserId, mockSubscriptionCode, 1, false)
+      .subscribe({
+        next: () => fail('Expected an error, but got success'),
+        error: (error) => {
+          expect(error).toBeDefined();
+          expect(error.message).toContain('Http failure response');
+        },
+      });
+
+    const req = httpMock.expectOne(mockUrl);
+    req.flush(mockErrorBody, mockHttpError);
+  });
+
   it('should handle error when withdrawal fails', () => {
     const mockUrl = 'mockWithdrawalUrl';
     occEndpointsService.buildUrl.and.returnValue(mockUrl);
@@ -206,6 +258,31 @@ describe('OccSubscriptionActionsAdapter', () => {
     };
 
     adapter.reverseCancellation(mockUserId, mockSubscriptionCode).subscribe({
+      next: () => fail('Expected an error, but got success'),
+      error: (error) => {
+        expect(error).toBeDefined();
+        expect(error.message).toContain('Http failure response');
+      },
+    });
+
+    const req = httpMock.expectOne(mockUrl);
+    req.flush(mockErrorBody, mockHttpError);
+  });
+
+  it('should handle error when extend subsription fails', () => {
+    const mockUrl = 'mockExtendSubscriptionUrl';
+    occEndpointsService.buildUrl.and.returnValue(mockUrl);
+
+    const mockHttpError = {
+      status: 500,
+      statusText: 'Internal Server Error',
+    };
+
+    const mockErrorBody = {
+      message: 'Unable to extend subscription',
+    };
+
+    adapter.extendSubscription(mockUserId, mockSubscriptionCode, 1, false).subscribe({
       next: () => fail('Expected an error, but got success'),
       error: (error) => {
         expect(error).toBeDefined();

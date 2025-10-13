@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
 import { SUBSCRIPTION_BILLING_FEATURE } from '../feature-name';
 import {
   SubscriptionDetail,
-  SubscriptionExtensionEffectiveDate,
   SubscriptionList,
 } from '../model';
 import { Injectable } from '@angular/core';
@@ -26,8 +25,6 @@ import { facadeFactory, QueryState } from '@spartacus/core';
         'getSubscriptionListState',
         'getSubscriptionList',
         'getSubscriptionCodeFromRoute',
-        'getSubscriptionExtensionEffectiveDate',
-        'extendSubscription',
       ],
     }),
 })
@@ -53,12 +50,4 @@ export abstract class SubscriptionBillingFacade {
   ): Observable<SubscriptionList | undefined>;
 
   abstract getSubscriptionCodeFromRoute(): Observable<string | undefined>;
-  abstract getSubscriptionExtensionEffectiveDate(
-    extendDuration: number,
-    isUnlimitedDuration: boolean
-  ): Observable<SubscriptionExtensionEffectiveDate>;
-  abstract extendSubscription(
-    extendDuration: number,
-    isUnlimitedDuration: boolean
-  ): Observable<any>;
 }

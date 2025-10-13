@@ -4,6 +4,7 @@ import { SubscriptionActionsAdapter } from './subscription-actions.adapter';
 import { of, throwError } from 'rxjs';
 import {
   SubscriptionCancellationDetails,
+  SubscriptionExtensionEffectiveDate,
   SubscriptionWithdraw,
 } from '@spartacus/subscription-billing/root';
 
@@ -56,6 +57,30 @@ describe('SubscriptionActionsConnector', () => {
     });
   });
 
+  describe('getExtensionEffectiveDate', () => {
+    it('should delegate to adapter', () => {
+      const userId = 'user123';
+      const subscriptionCode = 'subABC';
+      const expectedResponse = of({ date: '2025-01-01' });
+
+      adapter.getExtensionEffectiveDate.and.returnValue(expectedResponse);
+
+      const result = connector.getExtensionEffectiveDate(
+        userId,
+        subscriptionCode,
+        6,
+        false
+      );
+      expect(adapter.getExtensionEffectiveDate).toHaveBeenCalledWith(
+        userId,
+        subscriptionCode,
+        6,
+        false
+      );
+      expect(result).toBe(expectedResponse);
+    });
+  });
+
   describe('cancelSubscription', () => {
     it('should delegate to adapter', () => {
       const userId = 'user123';
@@ -92,6 +117,47 @@ describe('SubscriptionActionsConnector', () => {
 
       connector
         .cancelSubscription(userId, subscriptionCode, cancellationDetails)
+        .subscribe({
+          error: (e) => {
+            expect(e).toBe(error);
+            done();
+          },
+        });
+    });
+  });
+
+  describe('extendSubscription', () => {
+    it('should delegate to adapter', () => {
+      const userId = 'user123';
+      const subscriptionCode = 'subABC';
+      const expectedResponse = of({ success: true });
+
+      adapter.extendSubscription.and.returnValue(expectedResponse);
+
+      const result = connector.extendSubscription(
+        userId,
+        subscriptionCode,
+        1,
+        false
+      );
+      expect(adapter.extendSubscription).toHaveBeenCalledWith(
+        userId,
+        subscriptionCode,
+        1,
+        false
+      );
+      expect(result).toBe(expectedResponse);
+    });
+
+    it('should handle errors', (done) => {
+      const userId = 'user123';
+      const subscriptionCode = 'subABC';
+      const error = new Error('Cancel error');
+
+      adapter.extendSubscription.and.returnValue(throwError(() => error));
+
+      connector
+        .extendSubscription(userId, subscriptionCode, 1, false)
         .subscribe({
           error: (e) => {
             expect(e).toBe(error);

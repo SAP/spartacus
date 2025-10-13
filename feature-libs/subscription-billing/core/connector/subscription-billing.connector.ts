@@ -9,7 +9,6 @@ import { SubscriptionBillingAdapter } from './subscription-billing.adapter';
 import { Observable } from 'rxjs';
 import {
   SubscriptionDetail,
-  SubscriptionExtensionEffectiveDate,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
 
@@ -33,32 +32,6 @@ export class SubscriptionBillingConnector {
       pageSize,
       currentPage,
       sort
-    );
-  }
-  public getSubscriptionExtensionEffectiveDate(
-    userId: string,
-    subscriptionCode: string,
-    extendDuration: number,
-    isUnlimitedDuration: boolean
-  ): Observable<SubscriptionExtensionEffectiveDate> {
-    return this.adapter.getSubscriptionExtensionEffectiveDate(
-      userId,
-      subscriptionCode,
-      extendDuration,
-      isUnlimitedDuration
-    );
-  }
-  public extendSubscription(
-    userId: string,
-    subscriptionCode: string,
-    extendDuration: number,
-    isUnlimitedDuration: boolean
-  ): Observable<any> {
-    return this.adapter.extendSubscription(
-      userId,
-      subscriptionCode,
-      extendDuration,
-      isUnlimitedDuration
     );
   }
 }

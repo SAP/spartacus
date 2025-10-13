@@ -7,6 +7,7 @@
 import { Observable } from 'rxjs';
 import {
   SubscriptionCancellationDetails,
+  SubscriptionExtensionEffectiveDate,
   SubscriptionWithdraw,
 } from '../model';
 import { Injectable } from '@angular/core';
@@ -24,6 +25,8 @@ import { facadeFactory } from '@spartacus/core';
         'getEffectiveCancellationDate',
         'reverseCancellation',
         'withdrawSubscription',
+        'getExtensionEffectiveDate',
+        'extendSubscription',
       ],
     }),
 })
@@ -39,4 +42,15 @@ export abstract class SubscriptionActionsFacade {
     withdrawal: SubscriptionWithdraw,
     code?: string
   ): Observable<unknown>;
+  
+  abstract getExtensionEffectiveDate(
+    extendDuration: number,
+    isUnlimitedDuration: boolean,
+    code: string
+  ): Observable<SubscriptionExtensionEffectiveDate>;
+  abstract extendSubscription(
+    extendDuration: number,
+    isUnlimitedDuration: boolean,
+    code: string
+  ): Observable<any>;
 }

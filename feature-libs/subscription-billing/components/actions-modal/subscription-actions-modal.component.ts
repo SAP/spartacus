@@ -19,11 +19,14 @@ import {
   SubscriptionCancellationDetails,
   SubscriptionDetail,
   SubscriptionCancelData,
+  UNLIMITED_EXTEND_DURATION_OPTION_VALUE,
+  SubscriptionExtensionEffectiveDate,
 } from '@spartacus/subscription-billing/root';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import {
   CardModule,
   FocusConfig,
+  FormRequiredAsterisksComponent,
   ICON_TYPE,
   IconModule,
   KeyboardFocusModule,
@@ -33,6 +36,8 @@ import {
 import { RouterModule } from '@angular/router';
 import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SubscriptionActionsModalComponentService } from './subscription-actions-modal-component.service';
+import { extendSubscriptionFrequencyDropdownOptions } from './extend-subscription-frequency-dropdown-options';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'cx-subscription-actions-modal',
@@ -47,10 +52,12 @@ import { SubscriptionActionsModalComponentService } from './subscription-actions
     IconModule,
     KeyboardFocusModule,
     SpinnerModule,
+    NgSelectModule,
+    FormRequiredAsterisksComponent
   ],
 })
 export class SubscriptionActionsModalComponent {
-  private cancelFacade = inject(SubscriptionActionsFacade);
+  private actionsFacade = inject(SubscriptionActionsFacade);
   private launchDialogService = inject(LaunchDialogService);
   private destroyRef = inject(DestroyRef);
   private actionHandler = inject(SubscriptionActionsModalComponentService);
@@ -59,16 +66,29 @@ export class SubscriptionActionsModalComponent {
     this.launchDialogService.data$ as Observable<
       SubscriptionDetail & {
         code?: string;
-        mode?: 'cancel' | 'withdraw' | 'resubscribe';
+        mode?: 'cancel' | 'withdraw' | 'resubscribe' | 'extend';
       }
     >
   );
+
+  extendDuration: number;
+  isUnlimitedDurationSelected: boolean = false;
+  isExtendSubscriptionBtnClicked = signal<boolean>(false);
+  isExtensionEffectiveDateAvailable = signal<boolean>(false);
+  extensionEffectiveDate = signal<SubscriptionExtensionEffectiveDate | undefined>(undefined);
+  subscriptionContractFrequency: string = this.subscriptionDetailSignal()?.contractFrequency ?? 'Months';
+  extendFrequencyMaxOptions: {
+    [key: string]: number;
+  } = extendSubscriptionFrequencyDropdownOptions;
+  extendDurationOptions: string[];
+  UNLIMITED_DURATION = 'Unlimited';
 
   mode = computed(() => this.subscriptionDetailSignal()?.mode ?? 'cancel');
   subscriptionCode = computed(
     () => this.subscriptionDetailSignal()?.code ?? ''
   );
   cancelData = signal<SubscriptionCancelData | undefined>(undefined);
+  extensionData = signal<SubscriptionExtensionEffectiveDate | undefined>(undefined);
 
   iconTypes = ICON_TYPE;
 
@@ -80,6 +100,12 @@ export class SubscriptionActionsModalComponent {
   };
   constructor() {
     this.registerSubscriptionCancellationEffect();
+    const maxOptions = this.extendFrequencyMaxOptions[this.subscriptionContractFrequency] + 1; // +1 to include the unlimited duration option
+      this.extendDurationOptions = Array.from({ length: maxOptions }, (_, i) =>
+        i + 1 === maxOptions
+          ? this.UNLIMITED_DURATION
+          : (i + 1).toString() + ' ' + this.subscriptionContractFrequency
+      );
   }
   protected registerSubscriptionCancellationEffect(): void {
     effect(() => {
@@ -87,7 +113,7 @@ export class SubscriptionActionsModalComponent {
       const code = this.subscriptionCode();
 
       if (mode === 'cancel' && code) {
-        this.cancelFacade
+        this.actionsFacade
           .getEffectiveCancellationDate(code)
           .pipe(
             takeUntilDestroyed(this.destroyRef),
@@ -102,6 +128,29 @@ export class SubscriptionActionsModalComponent {
       }
     });
   }
+
+  getExtensionEffectiveDate(): void {
+    this.isExtendSubscriptionBtnClicked;
+    this.actionsFacade
+      .getExtensionEffectiveDate(
+        this.extendDuration,
+        this.isUnlimitedDurationSelected,
+        this.subscriptionCode()
+      )
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        catchError(() => {
+          this.actionHandler.onError();
+          return of(undefined);
+        })
+      )
+      .subscribe((extensionEffectiveDate) => {
+          this.extensionEffectiveDate.set(extensionEffectiveDate);
+          this.isExtensionEffectiveDateAvailable.set(true);
+        }
+      );
+   }
+
   onConfirm(): void {
     const mode = this.mode();
     const code = this.subscriptionCode();
@@ -124,7 +173,7 @@ export class SubscriptionActionsModalComponent {
           subscriptionEndAt: cancelDataVal.subscriptionEndAt,
         };
 
-        this.cancelFacade
+        this.actionsFacade
           .cancelSubscription(payload, code)
           .pipe(
             takeUntilDestroyed(this.destroyRef),
@@ -139,7 +188,7 @@ export class SubscriptionActionsModalComponent {
       },
 
       withdraw: () => {
-        this.cancelFacade
+        this.actionsFacade
           .withdrawSubscription({ subscriptionId: detail.id }, code)
           .pipe(
             takeUntilDestroyed(this.destroyRef),
@@ -154,7 +203,7 @@ export class SubscriptionActionsModalComponent {
       },
 
       resubscribe: () => {
-        this.cancelFacade
+        this.actionsFacade
           .reverseCancellation(code)
           .pipe(
             takeUntilDestroyed(this.destroyRef),
@@ -167,9 +216,45 @@ export class SubscriptionActionsModalComponent {
             )
           );
       },
+
+      extend: () => {
+        const confirmedExtendDuration = this.isUnlimitedDurationSelected
+          ? UNLIMITED_EXTEND_DURATION_OPTION_VALUE
+          : this.extendDuration;
+        this.actionsFacade
+          .extendSubscription(
+            confirmedExtendDuration,
+            this.isUnlimitedDurationSelected,
+            code
+          )
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            this.actionHandler.handleError(() => this.onDialogClose('error'))
+          )
+          .subscribe(
+            this.actionHandler.handleSuccess(
+              'extendSubscription.extendedSuccessfully',
+              () => {
+                this.isExtendSubscriptionBtnClicked.set(true);
+                this.onDialogClose('extendSubscription.extendedSuccessfully')
+              }
+            )
+          );
+      }
     };
     handlers[mode]?.();
   }
+
+  onExtendActionDurationChange(durationSelected: string): void {
+    const duration = durationSelected.split(' ')[0];
+    if (duration === this.UNLIMITED_DURATION) {
+      this.isUnlimitedDurationSelected = true;
+    } else {
+      this.isUnlimitedDurationSelected = false;
+      this.extendDuration = parseInt(duration, 10);
+    }
+  }
+
   onDialogClose(reason: string): void {
     this.launchDialogService.closeDialog(reason);
   }
