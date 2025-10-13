@@ -35,7 +35,7 @@ export class SubscriptionActionsConnector {
     );
   }
 
-  public reversecancellation(
+  public reverseCancellation(
     userId: string,
     subscriptionCode: string
   ): Observable<unknown> {

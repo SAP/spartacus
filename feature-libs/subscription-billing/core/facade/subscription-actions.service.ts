@@ -91,7 +91,7 @@ export class SubscriptionActionsService implements SubscriptionActionsFacade {
             'Cannot reverse cancellation: missing user ID or subscription code.'
           );
         }
-        return this.SubscriptionActionsConnector.reversecancellation(
+        return this.SubscriptionActionsConnector.reverseCancellation(
           userId,
           code
         );

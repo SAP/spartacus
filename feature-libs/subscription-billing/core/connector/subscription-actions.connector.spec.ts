@@ -101,7 +101,7 @@ describe('SubscriptionActionsConnector', () => {
     });
   });
 
-  describe('reversecancellation', () => {
+  describe('reverseCancellation', () => {
     it('should delegate to adapter', () => {
       const userId = 'user123';
       const subscriptionCode = 'subABC';
@@ -109,7 +109,7 @@ describe('SubscriptionActionsConnector', () => {
 
       adapter.reverseCancellation.and.returnValue(expectedResponse);
 
-      const result = connector.reversecancellation(userId, subscriptionCode);
+      const result = connector.reverseCancellation(userId, subscriptionCode);
       expect(adapter.reverseCancellation).toHaveBeenCalledWith(
         userId,
         subscriptionCode

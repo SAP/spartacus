@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, DestroyRef } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import {
   GetSubscriptionByCodeReloadEvent,
@@ -13,17 +13,19 @@ import {
 } from '@spartacus/subscription-billing/root';
 import { Observable, of, Subscription, take } from 'rxjs';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'cx-subscription-details',
   templateUrl: './subscription-details.component.html',
   standalone: false,
 })
-export class SubscriptionDetailsComponent implements OnInit, OnDestroy {
+export class SubscriptionDetailsComponent implements OnInit {
   protected subscriptionFacade = inject(SubscriptionBillingFacade);
   protected eventService = inject(EventService);
   protected subscription = new Subscription();
   protected launchDialogService = inject(LaunchDialogService);
+  protected destroyRef = inject(DestroyRef);
 
   subscriptionDetails$: Observable<SubscriptionDetail | undefined> =
     of(undefined);
@@ -35,8 +37,8 @@ export class SubscriptionDetailsComponent implements OnInit, OnDestroy {
   showSubscriptionActionsDialog(
     mode: 'cancel' | 'withdraw' | 'resubscribe'
   ): void {
-    const sub = this.subscriptionDetails$
-      .pipe(take(1))
+    this.subscriptionDetails$
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
       .subscribe((subscription) => {
         if (!subscription) return;
 
@@ -52,10 +54,5 @@ export class SubscriptionDetailsComponent implements OnInit, OnDestroy {
           dataToPass
         );
       });
-
-    this.subscription.add(sub);
-  }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

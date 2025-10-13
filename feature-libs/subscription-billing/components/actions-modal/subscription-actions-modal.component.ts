@@ -79,6 +79,9 @@ export class SubscriptionActionsModalComponent {
     focusOnEscape: true,
   };
   constructor() {
+    this.registerSubscriptionCancellationEffect();
+  }
+  protected registerSubscriptionCancellationEffect(): void {
     effect(() => {
       const mode = this.mode();
       const code = this.subscriptionCode();
@@ -99,7 +102,6 @@ export class SubscriptionActionsModalComponent {
       }
     });
   }
-
   onConfirm(): void {
     const mode = this.mode();
     const code = this.subscriptionCode();
