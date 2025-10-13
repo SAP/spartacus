@@ -6,7 +6,7 @@
 
 import { inject, Injectable } from '@angular/core';
 import { UserIdService } from '@spartacus/core';
-import { Observable, switchMap, take } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { OrderDocumentFlowConnector } from '@spartacus/order/core';
 import {
   OrderDocumentFlowFacade,
@@ -39,16 +39,17 @@ export class OrderDocumentFlowService implements OrderDocumentFlowFacade {
     documentCategory: string,
     documentId: string
   ): Observable<SapOrderSubsequentDocumentEntry[]> {
-    return this.userIdService.takeUserId().pipe(
-      take(1),
-      switchMap((userId) =>
-        this.orderAttachmentsConnector.getOrderSubsequentDocumentEntries(
-          userId,
-          orderId,
-          documentCategory,
-          documentId
+    return this.userIdService
+      .takeUserId()
+      .pipe(
+        switchMap((userId) =>
+          this.orderAttachmentsConnector.getOrderSubsequentDocumentEntries(
+            userId,
+            orderId,
+            documentCategory,
+            documentId
+          )
         )
-      )
-    );
+      );
   }
 }
