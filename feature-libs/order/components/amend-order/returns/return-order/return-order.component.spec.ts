@@ -296,24 +296,26 @@ describe('ReturnOrderComponent', () => {
     });
   });
 
-
   describe('when feature is disabled', () => {
     beforeEach(waitForAsync(() => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         imports: [FormErrorsModule],
         providers: [
-          { provide: OrderAmendService, useValue: {
-            getForm() {
-              return of(mockForm);
+          {
+            provide: OrderAmendService,
+            useValue: {
+              getForm() {
+                return of(mockForm);
+              },
+              getEntries() {
+                return of(mockEntries);
+              },
+              getOrder() {
+                return of({ consignments: [] });
+              },
             },
-            getEntries() {
-              return of(mockEntries);
-            },
-            getOrder() {
-              return of({ consignments: [] });
-            }
-          } },
+          },
           {
             provide: FeatureConfigService,
             useValue: { isEnabled: () => false },
@@ -336,13 +338,11 @@ describe('ReturnOrderComponent', () => {
       combineLatest([
         component.entries$.pipe(take(1)),
         component.consignments$.pipe(take(1)),
-      ]).subscribe(
-        ([entries, consignments]: [OrderEntry[], Consignment[]]) => {
-          expect(consignments.length).toBe(0);
-          expect(entries.length).toBe(0);
-          done();
-        }
-      );
+      ]).subscribe(([entries, consignments]: [OrderEntry[], Consignment[]]) => {
+        expect(consignments.length).toBe(0);
+        expect(entries.length).toBe(0);
+        done();
+      });
     });
   });
 });
