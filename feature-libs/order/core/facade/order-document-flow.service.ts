@@ -22,15 +22,16 @@ export class OrderDocumentFlowService implements OrderDocumentFlowFacade {
   getOrderSubsequentDocuments(
     orderId: string
   ): Observable<SapOrderSubsequentDocument[]> {
-    return this.userIdService.takeUserId().pipe(
-      take(1),
-      switchMap((userId) =>
-        this.orderAttachmentsConnector.getOrderSubsequentDocuments(
-          userId,
-          orderId
+    return this.userIdService
+      .takeUserId()
+      .pipe(
+        switchMap((userId) =>
+          this.orderAttachmentsConnector.getOrderSubsequentDocuments(
+            userId,
+            orderId
+          )
         )
-      )
-    );
+      );
   }
 
   getOrderSubsequentDocumentEntries(

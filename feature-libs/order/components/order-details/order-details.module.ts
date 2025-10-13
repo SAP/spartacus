@@ -134,7 +134,6 @@ const moduleComponents = [
     AbstractOrderContextModule,
     BtnLikeLinkModule,
     MessageComponentModule,
-    IconModule,
   ],
   providers: [
     OrderOverviewComponentService,

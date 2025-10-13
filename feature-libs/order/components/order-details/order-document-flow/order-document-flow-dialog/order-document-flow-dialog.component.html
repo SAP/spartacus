@@ -9,27 +9,22 @@
   <div class="cx-modal-content">
     <div class="cx-dialog-header modal-header">
       <div id="dialogTitle" class="cx-dialog-title modal-title">
-        <ng-container *ngIf="!displayDocumentEntries(); else entriesHeader">
-          <span>
-            {{ 'documentFlow.dialog.title' | cxTranslate }}
-          </span>
-        </ng-container>
-        <ng-template #entriesHeader>
+        <ng-container *ngIf="displayDocumentEntries(); else defaultTitle">
           <span>
             <button
               class="btn-tertiary back"
               title="{{ 'common.back' | cxTranslate }}"
               (click)="goBack()"
             >
-              <cx-icon
-                class="cx-icon fas"
-                [type]="iconTypes.CARET_LEFT"
-              ></cx-icon>
+              <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
             </button>
           </span>
-          <span *ngIf="selectedDocument$ | async as document">{{
-            getDocumentTitle(document)
-          }}</span>
+          <span *ngIf="selectedDocument$ | async as document">
+            {{ getDocumentTitle(document) }}
+          </span>
+        </ng-container>
+        <ng-template #defaultTitle>
+          <span>{{ 'documentFlow.dialog.title' | cxTranslate }}</span>
         </ng-template>
       </div>
       <button
@@ -47,30 +42,35 @@
 
     <!-- Modal Body -->
     <div class="cx-dialog-body modal-body" #scrollContainer>
-      <ng-container *ngIf="!loadError(); else error">
-        <ng-container *ngIf="!displayDocumentEntries(); else entries">
-          <ng-container *ngIf="documents$ | async as documents; else spinner">
-            <ng-container *ngIf="documents.length > 0; else empty">
-              <cx-order-subsequent-document-list
-                [documents]="documents"
-                [selectedDocument]="selectedDocument$ | async"
-                (documentSelected)="onDocumentSelection($event)"
-              ></cx-order-subsequent-document-list>
-            </ng-container>
-          </ng-container>
-        </ng-container>
+      <ng-container *ngIf="loadError(); else content">
+        <cx-message
+          [text]="'documentFlow.dialog.error' | cxTranslate"
+          [type]="globalMessageType.MSG_TYPE_ERROR"
+          [isVisibleCloseButton]="false"
+          class="cx-dialog-message error-message"
+        ></cx-message>
       </ng-container>
-
-      <ng-template #entries>
-        <ng-container
-          *ngIf="selectedDocumentEntries$ | async as entries; else spinner"
-        >
-          <ng-container *ngIf="entries.length > 0; else empty">
+      <ng-template #content>
+        <ng-container *ngIf="displayDocumentEntries(); else documentsView">
+          <ng-container
+            *ngIf="selectedDocumentEntries$ | async as entries; else spinner"
+          >
             <cx-order-document-order-entry-list
+              *ngIf="entries.length > 0; else empty"
               [entries]="entries"
-            ></cx-order-document-order-entry-list>
+            />
           </ng-container>
         </ng-container>
+        <ng-template #documentsView>
+          <ng-container *ngIf="documents$ | async as documents; else spinner">
+            <cx-order-subsequent-document-list
+              *ngIf="documents.length > 0; else empty"
+              [documents]="documents"
+              [selectedDocument]="selectedDocument$ | async"
+              (documentSelected)="onDocumentSelection($event)"
+            />
+          </ng-container>
+        </ng-template>
       </ng-template>
     </div>
 
@@ -88,15 +88,6 @@
   </div>
 </div>
 
-<ng-template #error>
-  <cx-message
-    [text]="'documentFlow.dialog.error' | cxTranslate"
-    [type]="globalMessageType.MSG_TYPE_ERROR"
-    [isVisibleCloseButton]="false"
-    class="cx-dialog-message error-message"
-  >
-  </cx-message>
-</ng-template>
 <ng-template #empty>
   <cx-message
     [text]="'documentFlow.dialog.empty' | cxTranslate"

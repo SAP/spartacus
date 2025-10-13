@@ -15,8 +15,6 @@ import {
 } from '@angular/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Order } from '@spartacus/order/root';
 import { OrderDetailsService } from '../order-details.service';
 import { QueryService, UserIdService } from '@spartacus/core';
@@ -39,15 +37,10 @@ export class OrderDocumentFlowComponent {
   order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
 
   onOrderDocumentFlowClick(orderCode: string): void {
-    const dialog = this.launchDialogService.openDialog(
+    this.launchDialogService.openDialogAndSubscribe(
       LAUNCH_CALLER.ORDER_DOCUMENT_FLOW,
       this.element,
-      this.vcr,
       { orderCode }
     );
-
-    if (dialog) {
-      dialog.pipe(take(1), takeUntilDestroyed(this.destroyRef)).subscribe();
-    }
   }
 }

@@ -53,6 +53,7 @@ export class OrderDocumentFlowDialogComponent {
   protected translation = inject(TranslationService);
   protected cd = inject(ChangeDetectorRef);
   protected destroyRef = inject(DestroyRef);
+
   @ViewChild('scrollContainer') scrollContainerRef: ElementRef;
   protected savedScrollPosition = 0;
 
@@ -67,9 +68,8 @@ export class OrderDocumentFlowDialogComponent {
 
   displayDocumentEntries = signal(false);
 
-  orderCode$: Observable<string> = this.launchDialogService.data$.pipe(
-    map((data) => data.orderCode)
-  );
+  protected orderCode$: Observable<string> =
+    this.launchDialogService.data$.pipe(map((data) => data.orderCode));
 
   documents$: Observable<SapOrderSubsequentDocument[]> = this.orderCode$.pipe(
     switchMap((orderId) =>

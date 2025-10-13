@@ -10,7 +10,7 @@ import { OrderDocumentFlowDialogComponent } from './order-document-flow-dialog/o
 export const defaultOrderDocumentFlowDialogLayoutConfig: LayoutConfig = {
   launch: {
     ORDER_DOCUMENT_FLOW: {
-      inline: true,
+      inlineRoot: true,
       component: OrderDocumentFlowDialogComponent,
       dialogType: DIALOG_TYPE.DIALOG,
     },

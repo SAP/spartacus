@@ -16,14 +16,14 @@ import {
 export class OrderDocumentFlowConnector {
   protected adapter = inject(OrderDocumentFlowAdapter);
 
-  public getOrderSubsequentDocuments(
+  getOrderSubsequentDocuments(
     userId: string,
     orderId: string
   ): Observable<SapOrderSubsequentDocument[]> {
     return this.adapter.getOrderSubsequentDocuments(userId, orderId);
   }
 
-  public getOrderSubsequentDocumentEntries(
+  getOrderSubsequentDocumentEntries(
     userId: string,
     orderId: string,
     documentCategory: string,
