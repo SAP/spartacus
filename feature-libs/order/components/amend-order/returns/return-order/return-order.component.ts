@@ -54,7 +54,7 @@ export class ReturnOrderComponent {
                 returnableQuantity:
                   consignmentEntry.shippedQuantity ??
                   (this.featureConfigService?.isEnabled(
-                    'enableReturnOrderReturnableQuantityDisplayFix'
+                    'enableReturnOrderReturnableQuantityConsigmentFallback'
                   )
                     ? entry.returnableQuantity
                     : null) ??

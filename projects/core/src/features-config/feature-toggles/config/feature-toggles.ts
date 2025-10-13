@@ -688,7 +688,7 @@ export interface FeatureTogglesInterface {
    * on the `ReturnOrderComponent` when navigating to the return request details page.
    * Affects: `ReturnOrderComponent`
    */
-  enableReturnOrderReturnableQuantityDisplayFix?: boolean;
+  enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -779,5 +779,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   dispatchLoginActionOnlyWhenTokenReceived: false,
   defaultLayoutConfigWithoutPageFold: false,
   navigationMenuCloseOnSameLinkClick: false,
-  enableReturnOrderReturnableQuantityDisplayFix: false,
+  enableReturnOrderReturnableQuantityConsigmentFallback: false,
 };
