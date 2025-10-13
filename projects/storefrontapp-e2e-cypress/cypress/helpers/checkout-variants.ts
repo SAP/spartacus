@@ -149,6 +149,20 @@ export function testCheckoutVariantAsGuestAndVerifyCart() {
         variantUser.email
       );
 
+      cy.intercept('**/occ/v2/**/users/current/carts?**').as('getCarts');
+      cy.intercept('**/occ/v2/**/users/current/carts/*/save?**').as('saveCart');
+
+      cy.wait('@getCarts', { timeout: 60000 });
+      cy.wait(['@saveCart', '@getCarts'], { timeout: 60000 });
+      cy.wait('@getCarts', { timeout: 60000 });
+
+      cy.get('cx-mini-cart .count:visible', { timeout: 60000 })
+        .should('be.visible')
+        .should(($el) => {
+          const count = $el.text().trim();
+          expect(count).to.match(/^1$/);
+        });
+
       const deliveryAddressPage = waitForPage(
         '/checkout/delivery-address',
         'getDeliveryAddressPage'
