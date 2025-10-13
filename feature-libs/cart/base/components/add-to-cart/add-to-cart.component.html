@@ -53,7 +53,8 @@
   >
     <span
       *ngIf="
-        options?.addToCartString === ('addToCart.buyItAgain' | cxTranslate)
+        options?.addToCartString === ('addToCart.buyItAgain' | cxTranslate) &&
+        !unavailable
       "
       class="repeat-icon"
       ><cx-icon [type]="iconTypes.REPEAT"></cx-icon
