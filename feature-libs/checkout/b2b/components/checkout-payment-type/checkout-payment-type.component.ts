@@ -178,7 +178,7 @@ export class CheckoutPaymentTypeComponent {
         // we don't call onSuccess here, because it can cause a spinner flickering
         complete: () => this.checkoutStepService.next(this.activatedRoute),
         error: (error) => {
-          if (!!error.details?.[0]?.message) {
+          if (error.details?.[0]?.message) {
             this.globalMessageService.add(
               error.details?.[0]?.message,
               GlobalMessageType.MSG_TYPE_ERROR
