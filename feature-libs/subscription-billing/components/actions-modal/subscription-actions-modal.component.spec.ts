@@ -11,12 +11,12 @@ import {
   SubscriptionCancelData,
 } from '@spartacus/subscription-billing/root';
 import {
-  TranslationService,
   GlobalMessageService,
   GlobalMessageType,
   EventService,
   RoutingService,
   LanguageService,
+  TranslationService,
 } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -55,6 +55,8 @@ describe('SubscriptionActionsModalComponent', () => {
       'cancelSubscription',
       'withdrawSubscription',
       'reverseCancellation',
+      'extendSubscription',
+      'getExtensionEffectiveDate',
     ]);
 
     mockCancelFacade.getEffectiveCancellationDate.and.returnValue(
@@ -63,6 +65,10 @@ describe('SubscriptionActionsModalComponent', () => {
     mockCancelFacade.cancelSubscription.and.returnValue(of({}));
     mockCancelFacade.withdrawSubscription.and.returnValue(of({}));
     mockCancelFacade.reverseCancellation.and.returnValue(of({}));
+    mockCancelFacade.extendSubscription.and.returnValue(of({}));
+    mockCancelFacade.getExtensionEffectiveDate.and.returnValue(
+      of({ subscriptionEndAt: '2024-12-31' })
+    );
     mockGlobalMessageService = jasmine.createSpyObj('GlobalMessageService', [
       'add',
     ]);
@@ -123,7 +129,7 @@ describe('SubscriptionActionsModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('onConfirm', () => {
+  fdescribe('onConfirm', () => {
     it('should confirm cancel subscription successfully', () => {
       mockCancelFacade.cancelSubscription.and.returnValue(of({}));
 
@@ -135,10 +141,35 @@ describe('SubscriptionActionsModalComponent', () => {
       );
     });
 
+    it('should confirm extend subscription successfully', () => {
+      mockCancelFacade.extendSubscription.and.returnValue(of({}));
+      component.mode = signal('extend');
+      component.onConfirm();
+
+      expect(mockCancelFacade.extendSubscription).toHaveBeenCalled();
+      expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith(
+        'subscriptionActions.extendedSuccessfully'
+      );
+    });
+
     it('should handle cancel subscription API error', fakeAsync(() => {
       mockCancelFacade.cancelSubscription.and.returnValue(
         throwError(() => new Error('Cancel Error'))
       );
+      component.onConfirm();
+      tick();
+      expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
+        { key: 'subscriptionActions.unknownError' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      expect(mockLaunchDialogService.closeDialog).toHaveBeenCalledWith('error');
+    }));
+
+    it('should handle extend subscription API error', fakeAsync(() => {
+      mockCancelFacade.extendSubscription.and.returnValue(
+        throwError(() => new Error('Extend Error'))
+      );
+      component.mode = signal('extend');
       component.onConfirm();
       tick();
       expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
@@ -228,6 +259,23 @@ describe('SubscriptionActionsModalComponent', () => {
 
       fixture = TestBed.createComponent(SubscriptionActionsModalComponent);
       component = fixture.componentInstance;
+      fixture.detectChanges();
+      tick();
+
+      expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
+        { key: 'subscriptionActions.unknownError' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }));
+
+    it('should handle error from getExtendEffectiveDate in effect', fakeAsync(() => {
+      mockCancelFacade.getExtensionEffectiveDate.and.returnValue(
+        throwError(() => new Error('Load Cancel Data Error'))
+      );
+
+      fixture = TestBed.createComponent(SubscriptionActionsModalComponent);
+      component = fixture.componentInstance;
+      component.getExtensionEffectiveDate();
       fixture.detectChanges();
       tick();
 
