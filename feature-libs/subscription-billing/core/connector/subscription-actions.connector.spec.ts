@@ -4,7 +4,6 @@ import { SubscriptionActionsAdapter } from './subscription-actions.adapter';
 import { of, throwError } from 'rxjs';
 import {
   SubscriptionCancellationDetails,
-  SubscriptionExtensionEffectiveDate,
   SubscriptionWithdraw,
 } from '@spartacus/subscription-billing/root';
 
@@ -18,6 +17,8 @@ describe('SubscriptionActionsConnector', () => {
       'cancelSubscription',
       'reverseCancellation',
       'withdrawSubscription',
+      'extendSubscription',
+      'getExtensionEffectiveDate',
     ]);
 
     TestBed.configureTestingModule({
@@ -61,7 +62,7 @@ describe('SubscriptionActionsConnector', () => {
     it('should delegate to adapter', () => {
       const userId = 'user123';
       const subscriptionCode = 'subABC';
-      const expectedResponse = of({ date: '2025-01-01' });
+      const expectedResponse = of({ subscriptionEndAt: '2025-01-01' });
 
       adapter.getExtensionEffectiveDate.and.returnValue(expectedResponse);
 
@@ -77,7 +78,7 @@ describe('SubscriptionActionsConnector', () => {
         6,
         false
       );
-      expect(result).toBe(expectedResponse);
+      expect(result).toEqual(expectedResponse);
     });
   });
 

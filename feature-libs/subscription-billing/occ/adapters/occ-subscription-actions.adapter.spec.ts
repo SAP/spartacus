@@ -93,7 +93,7 @@ describe('OccSubscriptionActionsAdapter', () => {
       .subscribe();
 
     const req = httpMock.expectOne(mockUrl);
-    expect(req.request.method).toBe('GET');
+    expect(req.request.method).toBe('POST');
     req.flush({});
   });
 
@@ -124,14 +124,14 @@ describe('OccSubscriptionActionsAdapter', () => {
   });
 
   it('should extend subscription', () => {
-    const mockUrl = 'mockExtendCancellationUrl';
+    const mockUrl = 'mockExtendSubscriptionUrl';
     occEndpointsService.buildUrl.and.returnValue(mockUrl);
 
     adapter.extendSubscription(mockUserId, mockSubscriptionCode, 1, false).subscribe();
 
     const req = httpMock.expectOne(mockUrl);
     expect(req.request.method).toBe('POST');
-    expect(req.request.body).toBeNull();
+    expect(req.request.body).toEqual({ numberOfBillingCycles: 1, unlimited: false });
     req.flush({});
   });
 
