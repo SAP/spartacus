@@ -293,14 +293,29 @@ export function exportCart(expectedData?: string) {
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
   cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+
+  cy.intercept('GET', '**/users/**/carts/**?fields=**').as('refreshCartFinal');
+  cy.wait('@refreshCartFinal', { timeout: 30000 })
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-cart-item-list tr[cx-cart-item-list-row]', {
+    timeout: 10000,
+  }).should('have.length.greaterThan', 0);
+
   cy.get('cx-export-order-entries button')
     .contains('Export Product to CSV')
     .click();
+
   cy.get('cx-global-message').contains(
     'CSV file will download automatically to your device'
   );
+
   if (expectedData) {
-    cy.readFile(TEST_DOWNLOAD_FILE).should('contain', expectedData);
+    cy.readFile(TEST_DOWNLOAD_FILE, { timeout: 15000 }).should(
+      'contain',
+      expectedData
+    );
   }
 }
 
