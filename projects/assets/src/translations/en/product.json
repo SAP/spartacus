@@ -94,7 +94,8 @@
     "removeFromCart": "Remove Product from Cart",
     "closeModal": "Close Modal",
     "buyItAgain": "Buy It Again",
-    "addToActiveCart": "Add To Active Cart"
+    "addToActiveCart": "Add To Active Cart",
+    "unavailable": "Not Orderable"
   },
   "TabPanelContainer": {
     "tabs": {
