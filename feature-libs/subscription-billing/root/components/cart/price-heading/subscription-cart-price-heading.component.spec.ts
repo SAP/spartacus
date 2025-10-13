@@ -38,6 +38,10 @@ class MockOutletContextData {
   };
   context$ = of(this.contextData);
 }
+
+class MockEmptyContextData {
+  context$ = undefined;
+}
 describe('SubscriptionCartPriceHeadingComponent', () => {
   let component: SubscriptionCartPriceHeadingComponent;
   let fixture: ComponentFixture<SubscriptionCartPriceHeadingComponent>;
@@ -95,6 +99,29 @@ describe('SubscriptionCartPriceHeadingComponent', () => {
       const itemPriceHeading = compiled.querySelector('th span');
       expect(component.subscriptionItem()).toBeUndefined();
       expect(itemPriceHeading).toBeFalsy();
+    });
+  });
+
+  describe('with empty context data', () => {
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [SubscriptionCartPriceHeadingComponent],
+        providers: [
+          { provide: TranslationService, useClass: MockTranslateService },
+          {
+            provide: OutletContextData,
+            useClass: MockEmptyContextData,
+          },
+        ],
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(SubscriptionCartPriceHeadingComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should not render item price heading', () => {
+      expect(component.cartItems()).toBeUndefined();
     });
   });
 });

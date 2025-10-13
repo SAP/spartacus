@@ -10,6 +10,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { I18nModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
+import { EMPTY } from 'rxjs';
 
 @Component({
   selector: 'cx-subscription-cart-price-heading',
@@ -18,10 +19,10 @@ import { OutletContextData } from '@spartacus/storefront';
   templateUrl: './subscription-cart-price-heading.component.html',
 })
 export class SubscriptionCartPriceHeadingComponent {
-  protected outletData = inject(OutletContextData);
-  cartItems = toSignal(this.outletData?.context$);
+  protected outletData = inject(OutletContextData, { optional: true });
+  cartItems = toSignal(this.outletData?.context$ ?? EMPTY);
   subscriptionItem = computed(() => {
-    return this.cartItems().items?.find((item: OrderEntry) =>
+    return this.cartItems()?.items?.find((item: OrderEntry) =>
       item.product ? item.product.productTypes === 'SUBSCRIPTION' : false
     );
   });
