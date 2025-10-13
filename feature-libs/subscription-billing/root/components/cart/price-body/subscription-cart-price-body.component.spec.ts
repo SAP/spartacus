@@ -70,6 +70,15 @@ class MockOutletContextData {
   context$ = of(this.contextData);
 }
 
+class MockEmptyContextData {
+  contextData = {
+    item: mockSubscriptionProduct,
+    items: [{}],
+    parent: 'minicart',
+  };
+  context$ = of(this.contextData);
+}
+
 describe('SubscriptionCartPriceBodyComponent', () => {
   let component: SubscriptionCartPriceBodyComponent;
   let fixture: ComponentFixture<SubscriptionCartPriceBodyComponent>;
@@ -140,6 +149,41 @@ describe('SubscriptionCartPriceBodyComponent', () => {
       expect(oneTimeChargesElement).toBeFalsy();
       expect(basePriceElement).toBeTruthy();
       expect(basePriceElement.textContent).toContain('USD45.00');
+    });
+  });
+
+  describe('with minicart', () => {
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        declarations: [],
+        providers: [
+          {
+            provide: OutletContextData,
+            useClass: MockEmptyContextData,
+          },
+        ],
+        imports: [SubscriptionCartPriceBodyComponent],
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(SubscriptionCartPriceBodyComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should render subscription charges in minicart', () => {
+      const compiled = fixture.nativeElement;
+      const cartChargesElement = compiled.querySelector(
+        'td.cx-item-list-charges'
+      );
+      const recurringChargesElement = compiled.querySelector(
+        '.cx-recurring-charges'
+      );
+      const oneTimeChargesElement = compiled.querySelector(
+        '.cx-one-time-charges'
+      );
+      expect(cartChargesElement).toBeFalsy();
+      expect(recurringChargesElement).toBeTruthy();
+      expect(oneTimeChargesElement).toBeTruthy();
     });
   });
 });

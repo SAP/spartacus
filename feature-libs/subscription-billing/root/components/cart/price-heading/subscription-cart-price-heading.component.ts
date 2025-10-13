@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, Optional } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { I18nModule } from '@spartacus/core';
@@ -18,7 +18,7 @@ import { OutletContextData } from '@spartacus/storefront';
   templateUrl: './subscription-cart-price-heading.component.html',
 })
 export class SubscriptionCartPriceHeadingComponent {
-  @Optional() protected outletData = inject(OutletContextData);
+  protected outletData = inject(OutletContextData);
   cartItems = toSignal(this.outletData?.context$);
   subscriptionItem = computed(() => {
     return this.cartItems().items?.find((item: OrderEntry) =>
