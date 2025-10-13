@@ -5,12 +5,14 @@
  */
 
 import { NgModule } from '@angular/core';
+
 import { SubscriptionProductUsageChargeModule } from './product/usage/subscription-product-usage-charge.module';
 import { SubscriptionDetailsModule } from './details/subscription-details.module';
 import { SubscriptionProductPriceModule } from './product/price/subscription-product-price.module';
 import { SubscriptionListModule } from './list/subscription-list.module';
 import { provideDefaultConfig } from '@spartacus/core';
 import { defaultSubscriptionBillingLayoutConfig } from './default-subscription-billing-layout-config';
+import { SubscriptionActionsModalModule } from './actions-modal/subscription-actions-modal.module';
 
 @NgModule({
   imports: [
@@ -18,6 +20,7 @@ import { defaultSubscriptionBillingLayoutConfig } from './default-subscription-b
     SubscriptionDetailsModule,
     SubscriptionProductPriceModule,
     SubscriptionProductUsageChargeModule,
+    SubscriptionActionsModalModule,
   ],
   providers: [provideDefaultConfig(defaultSubscriptionBillingLayoutConfig)],
 })

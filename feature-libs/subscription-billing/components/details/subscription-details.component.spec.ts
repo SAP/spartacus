@@ -91,4 +91,27 @@ describe('SubscriptionDetailsComponent', () => {
     expect(eventService.dispatch).toHaveBeenCalled();
     expect(facade.getSubscriptionByCode).toHaveBeenCalled();
   });
+  it('should open dialog with correct data when showSubscriptionActionsDialog is called', () => {
+    const launchDialogService = TestBed.inject(LaunchDialogService);
+    const subscription: SubscriptionDetail = {
+      id: 's1',
+      name: 'Test Sub',
+    };
+    const mode = 'cancel';
+
+    (component as any).subscriptionDetails$ = of(subscription);
+    const openDialogSpy = spyOn(launchDialogService, 'openDialogAndSubscribe');
+
+    component.showSubscriptionActionsDialog(mode);
+
+    expect(openDialogSpy).toHaveBeenCalledWith(
+      LAUNCH_CALLER.SUBSCRIPTION_ACTION_CONFIRMATION,
+      undefined,
+      {
+        ...subscription,
+        code: subscription.id,
+        mode,
+      }
+    );
+  });
 });

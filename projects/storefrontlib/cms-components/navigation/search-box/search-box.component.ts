@@ -33,7 +33,6 @@ import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BREAKPOINT, BreakpointService } from '../../../layout/';
 import { SearchBoxComponentService } from './search-box-component.service';
-import { SearchBoxFeatures } from './search-box-features.model';
 import { SearchBoxOutlets } from './search-box-outlets.model';
 import {
   SearchBoxProductSelectedEvent,
@@ -65,7 +64,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   private elementRef = inject(ElementRef);
   private renderer = inject(Renderer2);
   readonly searchBoxOutlets = SearchBoxOutlets;
-  readonly searchBoxFeatures = SearchBoxFeatures;
   @Input() config: SearchBoxConfig;
 
   /**
@@ -80,12 +78,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   @HostBinding('class.search-box-v2') get searchBoxV2() {
-    return this.isEnabledFeature(SearchBoxFeatures.SEARCH_BOX_V2);
-  }
-
-  get hasSearchBoxV2(): boolean {
-    const hostElement = this.elementRef.nativeElement;
-    return hostElement.classList.contains('search-box-v2');
+    return true;
   }
 
   /**
