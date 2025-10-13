@@ -34,22 +34,20 @@ export class SubscriptionDetailsComponent implements OnInit {
   showSubscriptionActionsDialog(
     mode: 'cancel' | 'withdraw' | 'resubscribe'
   ): void {
-    this.subscriptionDetails$
-      .pipe(take(1))
-      .subscribe((subscription) => {
-        if (!subscription) return;
+    this.subscriptionDetails$.pipe(take(1)).subscribe((subscription) => {
+      if (!subscription) return;
 
-        const dataToPass = {
-          ...subscription,
-          code: subscription.id,
-          mode,
-        };
+      const dataToPass = {
+        ...subscription,
+        code: subscription.id,
+        mode,
+      };
 
-        this.launchDialogService.openDialogAndSubscribe(
-          LAUNCH_CALLER.SUBSCRIPTION_ACTION_CONFIRMATION,
-          undefined,
-          dataToPass
-        );
-      });
+      this.launchDialogService.openDialogAndSubscribe(
+        LAUNCH_CALLER.SUBSCRIPTION_ACTION_CONFIRMATION,
+        undefined,
+        dataToPass
+      );
+    });
   }
 }
