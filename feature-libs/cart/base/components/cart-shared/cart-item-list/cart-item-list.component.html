@@ -69,7 +69,7 @@
           [quantityControl]="control.get('quantity')"
           [readonly]="readonly"
           [promotionLocation]="promotionLocation"
-          [options]="options"
+          [options]="getOptions(item)"
           [attr.aria-rowindex]="i + 1"
         ></tr>
       </ng-container>

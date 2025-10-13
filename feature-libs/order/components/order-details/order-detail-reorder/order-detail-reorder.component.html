@@ -5,6 +5,7 @@
         <button
           #element
           class="btn btn-primary"
+          [disabled]="disabled$ | async"
           (click)="onReorderClick(order)"
         >
           {{ 'reorder.button' | cxTranslate }}
