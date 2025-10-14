@@ -61,31 +61,6 @@
         "dist/cart/base/components/add-to-cart"
       ],
       "@spartacus/cart/base/assets": ["dist/cart/base/assets"],
-      "@spartacus/checkout": ["dist/checkout"],
-      "@spartacus/checkout/scheduled-replenishment": [
-        "dist/checkout/scheduled-replenishment"
-      ],
-      "@spartacus/checkout/scheduled-replenishment/root": [
-        "dist/checkout/scheduled-replenishment/root"
-      ],
-      "@spartacus/checkout/scheduled-replenishment/components": [
-        "dist/checkout/scheduled-replenishment/components"
-      ],
-      "@spartacus/checkout/scheduled-replenishment/assets": [
-        "dist/checkout/scheduled-replenishment/assets"
-      ],
-      "@spartacus/checkout/base": ["dist/checkout/base"],
-      "@spartacus/checkout/base/root": ["dist/checkout/base/root"],
-      "@spartacus/checkout/base/occ": ["dist/checkout/base/occ"],
-      "@spartacus/checkout/base/core": ["dist/checkout/base/core"],
-      "@spartacus/checkout/base/components": ["dist/checkout/base/components"],
-      "@spartacus/checkout/base/assets": ["dist/checkout/base/assets"],
-      "@spartacus/checkout/b2b": ["dist/checkout/b2b"],
-      "@spartacus/checkout/b2b/root": ["dist/checkout/b2b/root"],
-      "@spartacus/checkout/b2b/occ": ["dist/checkout/b2b/occ"],
-      "@spartacus/checkout/b2b/core": ["dist/checkout/b2b/core"],
-      "@spartacus/checkout/b2b/components": ["dist/checkout/b2b/components"],
-      "@spartacus/checkout/b2b/assets": ["dist/checkout/b2b/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/order": ["dist/order"],
       "@spartacus/order/root": ["dist/order/root"],
