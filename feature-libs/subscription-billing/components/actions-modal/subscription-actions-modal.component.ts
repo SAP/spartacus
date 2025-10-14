@@ -78,8 +78,10 @@ export class SubscriptionActionsModalComponent {
   isExtensionEffectiveDateAvailable = signal<boolean>(false);
   extensionEffectiveDate = signal<string | undefined>(undefined);
   subscriptionContractFrequency: keyof ExtendSubscriptionFrequencyDropdownOptionsConfig =
-    (this.subscriptionDetailSignal()?.contractFrequency as keyof ExtendSubscriptionFrequencyDropdownOptionsConfig);
-  extendFrequencyMaxOptions: ExtendSubscriptionFrequencyDropdownOptionsConfig = defaultExtendDropdownOptions;
+    this.subscriptionDetailSignal()
+      ?.contractFrequency as keyof ExtendSubscriptionFrequencyDropdownOptionsConfig;
+  extendFrequencyMaxOptions: ExtendSubscriptionFrequencyDropdownOptionsConfig =
+    defaultExtendDropdownOptions;
   extendDurationOptions: string[];
   UNLIMITED_DURATION = 'Unlimited';
 
