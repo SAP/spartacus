@@ -187,7 +187,7 @@ describe('Graph utils', () => {
           "Quick-Order",
           "Import-Export",
           "Order",
-          "OrderDocumentFlow",
+          "Order-Document-Flow",
           "Checkout",
           "Checkout-B2B",
           "Checkout-Scheduled-Replenishment",

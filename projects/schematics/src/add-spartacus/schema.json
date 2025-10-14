@@ -88,8 +88,7 @@
           "Pickup-In-Store",
           "User-Account",
           "User-Profile",
-          "Quote",
-          "OrderDocumentFlow"
+          "Quote"
         ],
         "type": "string"
       },
