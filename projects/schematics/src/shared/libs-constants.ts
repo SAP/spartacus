@@ -313,7 +313,7 @@ export const CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME =
   'Checkout-Scheduled-Replenishment';
 
 export const ORDER_FEATURE_NAME = 'Order';
-export const ORDER_DOCUMENT_FLOW_FEATURE_NAME = 'OrderDocumentFlow';
+export const ORDER_DOCUMENT_FLOW_FEATURE_NAME = 'Order-Document-Flow';
 
 export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME = 'Administration';
 export const ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME = 'Order-Approval';

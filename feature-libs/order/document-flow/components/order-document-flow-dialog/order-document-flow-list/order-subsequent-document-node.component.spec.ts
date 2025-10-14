@@ -4,6 +4,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
 import { SapOrderSubsequentDocument } from '@spartacus/order/document-flow/root';
 import { OrderSubsequentDocumentNodeComponent } from './order-subsequent-document-node.component';
+import { IconModule } from '@spartacus/storefront';
 
 const subsequentDocumentsData: SapOrderSubsequentDocument[] = [
   {
@@ -56,7 +57,7 @@ describe('OrderSubsequentDocumentNodeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, IconModule],
       declarations: [OrderSubsequentDocumentNodeComponent],
       providers: [],
     }).compileComponents();

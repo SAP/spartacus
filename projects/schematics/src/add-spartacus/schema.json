@@ -49,6 +49,7 @@
           "Checkout-B2B",
           "Checkout-Scheduled-Replenishment",
           "Order",
+          "Order-Document-Flow",
           "OPPS",
           "Digital-Payments",
           "EPD-Visualization",
@@ -166,8 +167,8 @@
             "checked": true
           },
           {
-            "value": "OrderDocumentFlow",
-            "label": "Order Document-Flow"
+            "value": "Order-Document-Flow",
+            "label": "Order Document Flow (b2b feature)"
           },
           {
             "value": "Digital-Payments",
