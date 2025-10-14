@@ -100,17 +100,12 @@ class MockAmendOrderActionComponent {
 describe('ReturnOrderComponent', () => {
   let component: ReturnOrderComponent;
   let fixture: ComponentFixture<ReturnOrderComponent>;
+  let featureConfigService: jasmine.SpyObj<FeatureConfigService>;
+  let orderAmendService: jasmine.SpyObj<OrderAmendService>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [FormErrorsModule],
-      providers: [
-        { provide: OrderAmendService, useClass: MockOrderAmendService },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
-      ],
       declarations: [
         ReturnOrderComponent,
         MockAmendOrderActionComponent,
@@ -120,6 +115,28 @@ describe('ReturnOrderComponent', () => {
   }));
 
   beforeEach(() => {
+    featureConfigService = jasmine.createSpyObj('FeatureConfigService', [
+      'isEnabled',
+    ]);
+    // Mock the isEnabled method to return true
+    featureConfigService.isEnabled.and.returnValue(true);
+    TestBed.overrideProvider(FeatureConfigService, {
+      useValue: featureConfigService,
+    });
+    orderAmendService = jasmine.createSpyObj('OrderAmendService', [
+      'getForm',
+      'getOrder',
+      'getEntries',
+    ]);
+    orderAmendService.getForm.and.returnValue(of(mockForm));
+    orderAmendService.getOrder.and.returnValue(
+      of({ consignments: mockConsignments })
+    );
+    orderAmendService.getEntries.and.returnValue(of(mockEntries));
+    TestBed.overrideProvider(OrderAmendService, {
+      useValue: orderAmendService,
+    });
+
     fixture = TestBed.createComponent(ReturnOrderComponent);
     component = fixture.componentInstance;
   });
@@ -202,9 +219,7 @@ describe('ReturnOrderComponent', () => {
   });
 
   it('should handle empty consignments gracefully', (done) => {
-    spyOn(TestBed.inject(OrderAmendService), 'getOrder').and.returnValue(
-      of({ consignments: [] })
-    );
+    orderAmendService.getOrder.and.returnValue(of({ consignments: [] }));
 
     component.entries$.pipe(take(1)).subscribe((entries: OrderEntry[] = []) => {
       expect(entries.length).toBe(2);
@@ -223,7 +238,7 @@ describe('ReturnOrderComponent', () => {
         ],
       },
     ];
-    spyOn(TestBed.inject(OrderAmendService), 'getOrder').and.returnValue(
+    orderAmendService.getOrder.and.returnValue(
       of({ consignments: mockConsignmentsWithoutMatch })
     );
 
@@ -341,6 +356,57 @@ describe('ReturnOrderComponent', () => {
       ]).subscribe(([entries, consignments]: [OrderEntry[], Consignment[]]) => {
         expect(consignments.length).toBe(0);
         expect(entries.length).toBe(0);
+        done();
+      });
+    });
+  });
+
+  describe('when feature toggle is disabled and no consignment shippedQuantity is provided', () => {
+    beforeEach(waitForAsync(() => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [FormErrorsModule],
+        declarations: [
+          ReturnOrderComponent,
+          MockAmendOrderActionComponent,
+          MockCancelOrReturnItemsComponent,
+        ],
+      }).compileComponents();
+    }));
+
+    beforeEach(() => {
+      // Mock the isEnabled method to return false
+      featureConfigService.isEnabled.and.returnValue(false);
+      TestBed.overrideProvider(FeatureConfigService, {
+        useValue: featureConfigService,
+      });
+      orderAmendService.getForm.and.returnValue(of(mockForm));
+      const expectedEntries = mockEntries.map((entry) => ({
+        ...entry,
+        returnableQuantity: 2,
+      }));
+      orderAmendService.getEntries.and.returnValue(of(expectedEntries));
+      const expectedConfigments = mockConsignments.map((consignment) => ({
+        entries: consignment.entries.map((entry) => ({
+          orderEntry: entry.orderEntry,
+          shippedQuantity: 0,
+        })),
+      }));
+      orderAmendService.getOrder.and.returnValue(
+        of({ consignments: expectedConfigments })
+      );
+      TestBed.overrideProvider(OrderAmendService, {
+        useValue: orderAmendService,
+      });
+
+      fixture = TestBed.createComponent(ReturnOrderComponent);
+      component = fixture.componentInstance;
+    });
+
+    it('should set returnableQuantity to 0 when feature toggle is disabled', (done) => {
+      component.entries$.subscribe((result) => {
+        // No entries should be returned since shippedQuantity is 0 & feature toggle is off
+        expect(result.length).toBe(0);
         done();
       });
     });
