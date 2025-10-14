@@ -6,6 +6,7 @@
 
 import { PaginationModel, SortModel } from '@spartacus/core';
 import { PricePlan } from './subscription-product.model';
+import { LAUNCH_CALLER } from '@spartacus/storefront';
 
 export interface SubscriptionDetail {
   id?: string;
@@ -31,3 +32,29 @@ export interface SubscriptionList {
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }
+
+/** Actions related models */
+export interface SubscriptionCancelData {
+  subscriptionEndAt?: string;
+}
+export interface SubscriptionCancellationDetails {
+  subscriptionEndAt?: string;
+}
+export interface SubscriptionReverseCancellation {
+  subscriptionId?: string;
+  version?: string;
+}
+export interface SubscriptionWithdraw {
+  subscriptionId?: string;
+  version?: string;
+  withdrawnAt?: string;
+  withdrawalPeriodEndDate?: string;
+}
+declare module '@spartacus/storefront' {
+  enum LAUNCH_CALLER {
+    SUBSCRIPTION_ACTION_CONFIRMATION = 'SUBSCRIPTION_ACTION_CONFIRMATION',
+  }
+}
+
+(LAUNCH_CALLER as any)['SUBSCRIPTION_ACTION_CONFIRMATION'] =
+  'SUBSCRIPTION_ACTION_CONFIRMATION';

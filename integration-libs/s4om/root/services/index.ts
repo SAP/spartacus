@@ -4,7 +4,4 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export enum SearchBoxFeatures {
-  SEARCH_BOX_V2 = 'searchBoxV2',
-  TRENDING_SEARCHES_FEATURE = 'trendingSearches',
-}
+export * from './s4om-product-catalog.service';
