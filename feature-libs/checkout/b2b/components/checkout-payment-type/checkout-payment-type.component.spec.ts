@@ -16,7 +16,6 @@ import { BehaviorSubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
 import createSpy = jasmine.createSpy;
-import { CheckoutPaymentTypeComponentService } from './checkout-payment-type-component.service';
 
 @Component({
   selector: 'cx-spinner',
@@ -60,12 +59,6 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   goToStepWithIndex = createSpy();
   next = createSpy();
   back = createSpy();
-}
-
-class MockCheckoutPaymentTypeComponentService
-  implements Partial<CheckoutPaymentTypeComponentService>
-{
-  isPONumberReadOnly = createSpy().and.returnValue(of(false));
 }
 
 const selectedPaymentType$ = new BehaviorSubject<QueryState<PaymentType>>({
@@ -113,10 +106,6 @@ describe('CheckoutOnePaymentTypeComponent', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
-        {
-          provide: CheckoutPaymentTypeComponentService,
-          useClass: MockCheckoutPaymentTypeComponentService,
-        },
       ],
     }).compileComponents();
   }));
@@ -124,7 +113,6 @@ describe('CheckoutOnePaymentTypeComponent', () => {
   it('should make PO Number field non-editable if cart has a PO Number', async () => {
     fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
     component = fixture.componentInstance;
-    component.isPONumberReadOnly = of(true);
     fixture.detectChanges();
     await fixture.whenStable();
 
@@ -137,7 +125,6 @@ describe('CheckoutOnePaymentTypeComponent', () => {
   it('should make PO Number field editable if quote has no PO Number', async () => {
     fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
     component = fixture.componentInstance;
-    component.isPONumberReadOnly = of(false);
 
     fixture.detectChanges();
     await fixture.whenStable();
@@ -176,10 +163,6 @@ describe('CheckoutOnePaymentTypeComponent', () => {
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
-        },
-        {
-          provide: CheckoutPaymentTypeComponentService,
-          useClass: MockCheckoutPaymentTypeComponentService,
         },
       ],
     }).compileComponents();
@@ -235,10 +218,6 @@ describe('CheckoutPaymentTypeComponent', () => {
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
-        },
-        {
-          provide: CheckoutPaymentTypeComponentService,
-          useClass: MockCheckoutPaymentTypeComponentService,
         },
       ],
     }).compileComponents();
