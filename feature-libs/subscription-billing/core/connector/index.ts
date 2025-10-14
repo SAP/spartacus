@@ -6,3 +6,5 @@
 
 export * from './subscription-billing.adapter';
 export * from './subscription-billing.connector';
+export * from './subscription-actions.adapter';
+export * from './subscription-actions.connector';
