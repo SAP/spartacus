@@ -13,7 +13,6 @@ import {
   ReplenishmentOrderHistoryFacade,
   ScheduledReplenishmentOrderFacade,
   OrderAttachmentsFacade,
-  OrderDocumentFlowFacade,
 } from '@spartacus/order/root';
 import { MyAccountV2OrderHistoryService } from './my-account-v2-order-history.service';
 import { OrderHistoryService } from './order-history.service';
@@ -23,7 +22,6 @@ import { ReorderOrderService } from './reorder-order.service';
 import { ReplenishmentOrderHistoryService } from './replenishment-order-history.service';
 import { ScheduledReplenishmentOrderService } from './scheduled-replenishment-order.service';
 import { OrderAttachmentsService } from './order-attachments.service';
-import { OrderDocumentFlowService } from './order-document-flow.service';
 
 export const facadeProviders: Provider[] = [
   OrderReturnRequestService,
@@ -61,10 +59,5 @@ export const facadeProviders: Provider[] = [
   {
     provide: OrderAttachmentsFacade,
     useExisting: OrderAttachmentsService,
-  },
-  OrderDocumentFlowService,
-  {
-    provide: OrderDocumentFlowFacade,
-    useExisting: OrderDocumentFlowService,
   },
 ];
