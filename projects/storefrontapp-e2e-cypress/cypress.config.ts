@@ -17,10 +17,10 @@ export default defineConfig({
   },
   videoUploadOnPasses: false,
   env: {
-    CLIENT_ID: 'mobile_android',
+    CLIENT_ID: 'mobile_android_public',
     CLIENT_SECRET: 'secret',
     API_URL:
-      'https://api.cg79x9wuu9-eccommerc1-p4-public.model-t.myhybris.cloud',
+      'https://api.c432wmya2v-teamspart3-s2-public.model-t.myhybris.cloud',
     BASE_SITE: 'electronics-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
@@ -29,7 +29,7 @@ export default defineConfig({
     OCC_PREFIX_ORDER_ENDPOINT: 'orders',
     MAIL_CCV2_URL: 'https://mailhog-poc.westeurope.cloudapp.azure.com',
     MAIL_CCV2_PREFIX: '/api/v1',
-    JDK_VERSION: 'JDK17',
+    JDK_VERSION: 'JDK21',
   },
   e2e: {
     // We've imported your old cypress plugins here.
