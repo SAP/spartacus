@@ -682,6 +682,13 @@ export interface FeatureTogglesInterface {
    * Affects: `NavigationUIComponent`
    */
   navigationMenuCloseOnSameLinkClick?: boolean;
+
+  /**
+   * When enabled, fixes the issue with return order returnable quantity not being displayed correctly
+   * on the `ReturnOrderComponent` when navigating to the return request details page.
+   * Affects: `ReturnOrderComponent`
+   */
+  enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -701,7 +708,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yResetFocusAfterNavigating: true,
   headerLayoutForSmallerViewports: true,
   a11yStoreFinderLabel: false,
-  a11yImprovedErrorMessage: false,
+  a11yImprovedErrorMessage: true,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
@@ -743,9 +750,9 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useExtendedMediaComponentConfiguration: true,
   showRealTimeStockInPDP: true,
   a11yScrollToTopPositioning: true,
-  a11yWideScreenImprovements: false,
-  a11yOptimizedMenuSpacing: false,
-  a11yNgSelectLayering: false,
+  a11yWideScreenImprovements: true,
+  a11yOptimizedMenuSpacing: true,
+  a11yNgSelectLayering: true,
   readMoreDirective: false,
   productReviewCharactersLeft: false,
   a11yNgSelectAriaControls: false,
@@ -754,7 +761,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableCarouselCategoryProducts: true,
   enableClaimCustomerCouponWithCodeInRequestBody: true,
   enableReadDomainValuesOnDemand: false,
-  opfEnablePreventingFromCheckoutWithoutEmail: false,
+  opfEnablePreventingFromCheckoutWithoutEmail: true,
   storeFinderFacadeCleanup: false,
   defaultProductPageRouteAllowsNoProductName: false,
   consistentSizeProductCards: false,
@@ -772,4 +779,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   dispatchLoginActionOnlyWhenTokenReceived: false,
   defaultLayoutConfigWithoutPageFold: false,
   navigationMenuCloseOnSameLinkClick: false,
+  enableReturnOrderReturnableQuantityConsigmentFallback: false,
 };
