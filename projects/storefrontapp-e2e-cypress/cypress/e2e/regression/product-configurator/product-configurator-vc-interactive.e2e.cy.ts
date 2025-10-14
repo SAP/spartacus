@@ -59,7 +59,6 @@ context('Product Configuration', () => {
     const commerceRelease: configurationVc.CommerceRelease = {};
 
     before(() => {
-      clearAllStorage();
       configurationVc.checkCommerceRelease(
         electronicsShop,
         testProduct,
@@ -68,9 +67,11 @@ context('Product Configuration', () => {
     });
 
     beforeEach(() => {
+      clearAllStorage();
       configurationVc.registerConfigurationRoute();
       configurationVc.registerConfigurationUpdateRoute();
       configurationOverviewVc.registerConfigurationOverviewRoute();
+      cy.viewport(1280, 1500);
       cy.visit('/');
       clickAllowAllFromBanner();
     });

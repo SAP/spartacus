@@ -42,7 +42,9 @@
         : 'btn btn-primary btn-block'
     "
     type="submit"
-    [disabled]="disabled || quantity <= 0 || quantity > maxQuantity"
+    [disabled]="
+      disabled || quantity <= 0 || quantity > maxQuantity || unavailable
+    "
     [attr.aria-label]="
       product?.name
         ? ('addToCart.addToCart' | cxTranslate) + ', ' + product?.name
@@ -51,7 +53,8 @@
   >
     <span
       *ngIf="
-        options?.addToCartString === ('addToCart.buyItAgain' | cxTranslate)
+        options?.addToCartString === ('addToCart.buyItAgain' | cxTranslate) &&
+        !unavailable
       "
       class="repeat-icon"
       ><cx-icon [type]="iconTypes.REPEAT"></cx-icon
@@ -63,7 +66,11 @@
           : ''
       "
     >
-      {{ options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate) }}
+      {{
+        unavailable
+          ? ('addToCart.unavailable' | cxTranslate)
+          : (options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate))
+      }}
     </span>
   </button>
 </form>

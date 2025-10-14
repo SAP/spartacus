@@ -278,6 +278,7 @@ if (environment.cpq) {
 
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
+    // SubscriptionBillingFeatureModule, -> uncomment in SPA 221121.4 release (refer CXSPA-11070)
     ...featureModules,
   ],
   providers: [
@@ -292,8 +293,6 @@ if (environment.cpq) {
     },
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
-        searchBoxV2: true,
-        trendingSearches: true,
         a11yUseProperTextColorForFutureStockAccordion: true,
         a11yPopoverHighContrast: true,
         a11yTabsManualActivation: true,
@@ -386,6 +385,7 @@ if (environment.cpq) {
         authorizationCodeFlowByDefault: true,
         defaultLayoutConfigWithoutPageFold: true,
         navigationMenuCloseOnSameLinkClick: true,
+        enableReturnOrderReturnableQuantityConsigmentFallback: true,
       };
       return appFeatureToggles;
     }),
