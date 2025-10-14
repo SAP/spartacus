@@ -28,7 +28,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap, first } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BREAKPOINT, BreakpointService } from '../../../layout/';
@@ -582,6 +582,48 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     }
     this.close();
     this.searchBoxComponentService.launchSearchPage(query);
+  }
+
+  /**
+   * Handler for Enter key from the input. Mirrors the previous template inline calls
+   * but checks if the query matches a category suggestion and clears input if so.
+   */
+  onEnter(value: string): void {
+    if (!value || value.trim().length === 0) {
+      return;
+    }
+
+    // Trim whitespace from the input value
+    const trimmedValue = value.trim();
+
+    // Check if the entered value matches any current suggestions (including categories)
+    // Wait for results that actually have suggestions loaded
+    this.results$
+      .pipe(
+        filter(
+          (result) =>
+            !!(result && result.suggestions && result.suggestions.length > 0)
+        ),
+        first()
+      )
+      .subscribe((result) => {
+        const suggestions = result.suggestions;
+        const isCategoryMatch = suggestions.some(
+          (suggestion) =>
+            suggestion.toLowerCase() === trimmedValue.toLowerCase()
+        );
+
+        this.close(true);
+        this.launchSearchResult(trimmedValue);
+        this.updateChosenWord(trimmedValue);
+
+        // Clear input if it matches a category suggestion
+        if (isCategoryMatch) {
+          setTimeout(() => {
+            this.updateChosenWord('');
+          }, 150);
+        }
+      });
   }
 
   /**

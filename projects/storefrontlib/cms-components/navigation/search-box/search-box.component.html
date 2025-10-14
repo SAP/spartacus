@@ -17,11 +17,7 @@
       (blur)="close()"
       (keydown.tab)="close()"
       (keydown.escape)="close()"
-      (keydown.enter)="
-        close(true);
-        launchSearchResult(searchInput.value);
-        updateChosenWord(searchInput.value)
-      "
+      (keydown.enter)="onEnter(searchInput.value)"
       (keydown.arrowup)="focusPreviousChild($any($event))"
       (keydown.arrowdown)="focusNextChild($any($event))"
       value="{{ chosenWord }}"
@@ -79,11 +75,7 @@
         (blur)="close()"
         (keydown.tab)="close()"
         (keydown.escape)="close()"
-        (keydown.enter)="
-          close(true);
-          launchSearchResult(searchInput.value);
-          updateChosenWord(searchInput.value)
-        "
+        (keydown.enter)="onEnter(searchInput.value)"
         (keydown.arrowup)="focusPreviousChild($any($event))"
         (keydown.arrowdown)="focusNextChild($any($event))"
         value="{{ chosenWord }}"
