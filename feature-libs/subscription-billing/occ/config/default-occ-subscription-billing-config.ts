@@ -11,6 +11,14 @@ const subscriptionBillingEndpoints: SubscriptionBillingOccEndpoints = {
   subscriptionList: 'users/${userId}/subscriptions',
   subscriptionByCode:
     'users/${userId}/subscriptions/${subscriptionCode}?fields=FULL',
+  getEffectiveCancellationDate:
+    'users/${userId}/subscriptions/${subscriptionCode}/cancellationEffectiveAt',
+  cancelSubscription:
+    'users/${userId}/subscriptions/${subscriptionCode}/cancellation',
+  withdrawSubscription:
+    'users/${userId}/subscriptions/${subscriptionCode}/withdrawal',
+  reverseCancellation:
+    'users/${userId}/subscriptions/${subscriptionCode}/cancellationReversal',
 };
 
 export const defaultOccSubscriptionBillingConfig: OccConfig = {

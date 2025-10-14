@@ -11,7 +11,8 @@ import {
   SubscriptionBillingFacade,
   SubscriptionDetail,
 } from '@spartacus/subscription-billing/root';
-import { Observable, of } from 'rxjs';
+import { Observable, of, take } from 'rxjs';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-subscription-details',
@@ -21,6 +22,7 @@ import { Observable, of } from 'rxjs';
 export class SubscriptionDetailsComponent implements OnInit {
   protected subscriptionFacade = inject(SubscriptionBillingFacade);
   protected eventService = inject(EventService);
+  protected launchDialogService = inject(LaunchDialogService);
 
   subscriptionDetails$: Observable<SubscriptionDetail | undefined> =
     of(undefined);
@@ -28,5 +30,24 @@ export class SubscriptionDetailsComponent implements OnInit {
   ngOnInit() {
     this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
     this.subscriptionDetails$ = this.subscriptionFacade.getSubscriptionByCode();
+  }
+  showSubscriptionActionsDialog(
+    mode: 'cancel' | 'withdraw' | 'resubscribe'
+  ): void {
+    this.subscriptionDetails$.pipe(take(1)).subscribe((subscription) => {
+      if (!subscription) return;
+
+      const dataToPass = {
+        ...subscription,
+        code: subscription.id,
+        mode,
+      };
+
+      this.launchDialogService.openDialogAndSubscribe(
+        LAUNCH_CALLER.SUBSCRIPTION_ACTION_CONFIRMATION,
+        undefined,
+        dataToPass
+      );
+    });
   }
 }
