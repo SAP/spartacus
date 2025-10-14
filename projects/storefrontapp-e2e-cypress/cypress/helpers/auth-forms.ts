@@ -141,6 +141,7 @@ export function agentLoginForJDK21(username: string, password: string) {
     `${Cypress.env('API_URL')}`,
     { args: { username, password } },
     ({ username, password }) => {
+      cy.wait(2000);
       cy.get('form[id="loginForm"]').within(() => {
         cy.get('input[name=username]').clear().type(username);
         cy.get('input[name=password]').clear().type(password);
