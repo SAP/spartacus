@@ -111,14 +111,14 @@
       <h3
         id="dialogTitle"
         class="title modal-title"
-        *ngIf="!isExtendSubscriptionBtnClicked"
+        *ngIf="!isExtendSubscriptionBtnClicked()"
       >
         {{ 'subscriptionActions.title' | cxTranslate }}
       </h3>
       <h3
         id="dialogTitle"
         class="title modal-title"
-        *ngIf="isExtendSubscriptionBtnClicked"
+        *ngIf="isExtendSubscriptionBtnClicked()"
       >
         {{ 'subscriptionActions.confirmExtensionTitle' | cxTranslate }}
       </h3>
@@ -139,17 +139,17 @@
     <div class="cx-dialog-body modal-body" ngForm>
       <div class="cx-dialog-info">
         <p
-          *ngIf="!isExtendSubscriptionBtnClicked"
+          *ngIf="!isExtendSubscriptionBtnClicked()"
           [innerHTML]="'subscriptionActions.disclaimer' | cxTranslate"
         ></p>
         <p
-          *ngIf="isExtendSubscriptionBtnClicked"
+          *ngIf="isExtendSubscriptionBtnClicked()"
           [innerHTML]="
             'subscriptionActions.disclaimerWithExtensionEndDate'
-              | cxTranslate: { endDate: this.extensionEffectiveDate | cxDate }
+              | cxTranslate: { endDate: extensionEffectiveDate() | cxDate }
           "
         ></p>
-        <p *ngIf="isExtendSubscriptionBtnClicked">
+        <p *ngIf="isExtendSubscriptionBtnClicked()">
           {{ 'subscriptionActions.noActionMessage' | cxTranslate }}
         </p>
       </div>
@@ -165,7 +165,7 @@
           [searchable]="false"
           id="extendDurationDropdown"
           [items]="extendDurationOptions"
-          [readonly]="isExtendSubscriptionBtnClicked"
+          [readonly]="isExtendSubscriptionBtnClicked()"
           [placeholder]="
             'subscriptionActions.durationInputPlaceholder'
               | cxTranslate: { frequency: subscriptionContractFrequency }

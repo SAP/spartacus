@@ -77,7 +77,7 @@ export class SubscriptionActionsModalComponent {
   isExtendSubscriptionBtnClicked = signal<boolean>(false);
   isExtensionEffectiveDateAvailable = signal<boolean>(false);
   extensionEffectiveDate = signal<
-    SubscriptionExtensionEffectiveDate | undefined
+    string | undefined
   >(undefined);
   subscriptionContractFrequency: string =
     this.subscriptionDetailSignal()?.contractFrequency ?? 'Months';
@@ -151,8 +151,8 @@ export class SubscriptionActionsModalComponent {
           return of(undefined);
         })
       )
-      .subscribe((extensionEffectiveDate) => {
-        this.extensionEffectiveDate.set(extensionEffectiveDate);
+      .subscribe((date) => {
+        this.extensionEffectiveDate.set(date?.subscriptionEndAt);
         this.isExtensionEffectiveDateAvailable.set(true);
       });
   }
