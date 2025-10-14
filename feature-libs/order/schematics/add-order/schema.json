@@ -24,15 +24,9 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": [
-        "Order",
-        "Document-Flow"
-      ],
+      "default": ["Order", "OrderDocumentFlow"],
       "items": {
-        "enum": [
-          "Order",
-          "Document-Flow"
-        ],
+        "enum": ["Order", "OrderDocumentFlow"],
         "type": "string"
       },
       "x-prompt": {
@@ -45,7 +39,7 @@
             "checked": true
           },
           {
-            "value": "Document-Flow",
+            "value": "OrderDocumentFlow",
             "label": "Document Flow",
             "checked": true
           }

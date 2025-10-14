@@ -87,7 +87,8 @@
           "Pickup-In-Store",
           "User-Account",
           "User-Profile",
-          "Quote"
+          "Quote",
+          "OrderDocumentFlow"
         ],
         "type": "string"
       },
@@ -163,6 +164,10 @@
             "value": "Order",
             "label": "Order",
             "checked": true
+          },
+          {
+            "value": "OrderDocumentFlow",
+            "label": "Order Document-Flow"
           },
           {
             "value": "Digital-Payments",
