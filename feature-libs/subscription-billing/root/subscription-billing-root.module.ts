@@ -16,6 +16,10 @@ import {
 } from './feature-name';
 import { defaultSubscriptionBillingRoutingConfig } from './config/default-subscription-billing-routing-config';
 import { SubscriptionBillingEventModule } from './events';
+import { OutletPosition, provideOutlet } from '@spartacus/storefront';
+import { CartOutlets } from '@spartacus/cart/base/root';
+import { SubscriptionCartPriceHeadingComponent } from './components/cart/price-heading/subscription-cart-price-heading.component';
+import { SubscriptionCartPriceBodyComponent } from './components/cart/price-body/subscription-cart-price-body.component';
 
 export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
@@ -38,6 +42,16 @@ export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
   providers: [
     provideDefaultConfigFactory(defaultSubscriptionBillingComponentsConfig),
     provideDefaultConfig(defaultSubscriptionBillingRoutingConfig),
+    provideOutlet({
+      id: CartOutlets.SUBSCRIPTION_PRICE_HEADING,
+      position: OutletPosition.AFTER,
+      component: SubscriptionCartPriceHeadingComponent,
+    }),
+    provideOutlet({
+      id: CartOutlets.SUBSCRIPTION_PRICE_BODY,
+      position: OutletPosition.AFTER,
+      component: SubscriptionCartPriceBodyComponent,
+    }),
   ],
 })
 export class SubscriptionBillingRootModule {}
