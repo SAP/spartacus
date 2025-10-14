@@ -65,7 +65,7 @@ context('B2B - Assisted Service Module', () => {
 
       cy.findByText(/Continue/i).click();
 
-      cy.wait('@getCostCenters');
+      cy.wait('@getCostCenters').its('response.statusCode').should('eq', 200);
     });
   });
 });
