@@ -76,9 +76,7 @@ export class SubscriptionActionsModalComponent {
   isUnlimitedDurationSelected: boolean = false;
   isExtendSubscriptionBtnClicked = signal<boolean>(false);
   isExtensionEffectiveDateAvailable = signal<boolean>(false);
-  extensionEffectiveDate = signal<
-    string | undefined
-  >(undefined);
+  extensionEffectiveDate = signal<string | undefined>(undefined);
   subscriptionContractFrequency: string =
     this.subscriptionDetailSignal()?.contractFrequency ?? 'Months';
   extendFrequencyMaxOptions: {
