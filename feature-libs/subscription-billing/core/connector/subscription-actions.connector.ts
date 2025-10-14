@@ -53,7 +53,7 @@ export class SubscriptionActionsConnector {
       withdrawalData
     );
   }
-  
+
   public getExtensionEffectiveDate(
     userId: string,
     subscriptionCode: string,

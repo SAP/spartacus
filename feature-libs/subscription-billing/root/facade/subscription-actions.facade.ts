@@ -42,7 +42,7 @@ export abstract class SubscriptionActionsFacade {
     withdrawal: SubscriptionWithdraw,
     code?: string
   ): Observable<unknown>;
-  
+
   abstract getExtensionEffectiveDate(
     extendDuration: number,
     isUnlimitedDuration: boolean,

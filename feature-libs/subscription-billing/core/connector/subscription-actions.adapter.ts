@@ -39,7 +39,7 @@ export abstract class SubscriptionActionsAdapter {
     extendDuration: number,
     isUnlimitedDuration: boolean
   ): Observable<SubscriptionExtensionEffectiveDate>;
-  
+
   abstract extendSubscription(
     userId: string,
     subscriptionCode: string,

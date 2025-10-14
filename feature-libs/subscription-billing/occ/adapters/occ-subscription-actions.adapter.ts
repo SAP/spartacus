@@ -129,7 +129,7 @@ export class OccSubscriptionActionsAdapter
         })
       );
   }
-  
+
   extendSubscription(
     userId: string,
     subscriptionCode: string,

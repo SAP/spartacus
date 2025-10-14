@@ -30,7 +30,7 @@ export class SubscriptionDetailsComponent implements OnInit, OnDestroy {
   protected subscriptionFacade = inject(SubscriptionBillingFacade);
   protected eventService = inject(EventService);
   protected launchDialogService = inject(LaunchDialogService);
-  
+
   protected subscription = new Subscription();
   protected destroyRef = inject(DestroyRef);
 
@@ -47,7 +47,7 @@ export class SubscriptionDetailsComponent implements OnInit, OnDestroy {
       'Moved away from subscription details page'
     );
   }
-  
+
   showSubscriptionActionsDialog(
     mode: SubscriptionActionMode
   ): void {

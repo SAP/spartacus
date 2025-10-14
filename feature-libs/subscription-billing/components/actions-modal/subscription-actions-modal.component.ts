@@ -237,7 +237,7 @@ export class SubscriptionActionsModalComponent {
               'subscriptionActions.extendedSuccessfully',
               () => {
                 this.isExtendSubscriptionBtnClicked.set(true);
-                this.onDialogClose('subscriptionActions.extendedSuccessfully')
+                this.onDialogClose('subscriptionActions.extendedSuccessfully');
               }
             )
           );
