@@ -21,6 +21,7 @@ import {
   SubscriptionCancelData,
   UNLIMITED_EXTEND_DURATION_OPTION_VALUE,
   SubscriptionExtensionEffectiveDate,
+  SubscriptionActionMode,
 } from '@spartacus/subscription-billing/root';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import {
@@ -66,7 +67,7 @@ export class SubscriptionActionsModalComponent {
     this.launchDialogService.data$ as Observable<
       SubscriptionDetail & {
         code?: string;
-        mode?: 'cancel' | 'withdraw' | 'resubscribe' | 'extend';
+        mode?: SubscriptionActionMode;
       }
     >
   );
@@ -130,7 +131,7 @@ export class SubscriptionActionsModalComponent {
   }
 
   getExtensionEffectiveDate(): void {
-    this.isExtendSubscriptionBtnClicked;
+    this.isExtendSubscriptionBtnClicked.set(true);
     this.actionsFacade
       .getExtensionEffectiveDate(
         this.extendDuration,

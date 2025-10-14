@@ -14,6 +14,7 @@ import {
 import { EventService } from '@spartacus/core';
 import {
   GetSubscriptionByCodeReloadEvent,
+  SubscriptionActionMode,
   SubscriptionBillingFacade,
   SubscriptionDetail,
 } from '@spartacus/subscription-billing/root';
@@ -48,7 +49,7 @@ export class SubscriptionDetailsComponent implements OnInit, OnDestroy {
   }
   
   showSubscriptionActionsDialog(
-    mode: 'cancel' | 'withdraw' | 'resubscribe' | 'extend'
+    mode: SubscriptionActionMode
   ): void {
     this.subscriptionDetails$.pipe(take(1)).subscribe((subscription) => {
       if (!subscription) return;

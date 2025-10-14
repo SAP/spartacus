@@ -63,6 +63,8 @@ export interface SubscriptionWithdraw {
   withdrawalPeriodEndDate?: string;
 }
 
+export type SubscriptionActionMode = 'cancel' | 'withdraw' | 'resubscribe' | 'extend';
+
 export const UNLIMITED_EXTEND_DURATION_OPTION_VALUE = 0;
 
 declare module '@spartacus/storefront' {
