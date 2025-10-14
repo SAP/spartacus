@@ -42,5 +42,9 @@
     "back": "View All Subscriptions",
     "withdrawalEnd": "Withdrawal Period End Date: {{ date }}",
     "orderCode": "Order Code:"
+  },
+  "subscriptionCartItemList": {
+    "itemPriceHeader": "Item Price",
+    "dueNowHeader": "Due Now"
   }
 }
