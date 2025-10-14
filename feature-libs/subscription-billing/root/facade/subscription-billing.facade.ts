@@ -6,10 +6,7 @@
 
 import { Observable } from 'rxjs';
 import { SUBSCRIPTION_BILLING_FEATURE } from '../feature-name';
-import {
-  SubscriptionDetail,
-  SubscriptionList,
-} from '../model';
+import { SubscriptionDetail, SubscriptionList } from '../model';
 import { Injectable } from '@angular/core';
 import { facadeFactory, QueryState } from '@spartacus/core';
 
