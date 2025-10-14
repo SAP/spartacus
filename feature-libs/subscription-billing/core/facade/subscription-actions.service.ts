@@ -129,10 +129,7 @@ export class SubscriptionActionsService implements SubscriptionActionsFacade {
     isUnlimitedDuration: boolean,
     code: string
   ): Observable<SubscriptionExtensionEffectiveDate> {
-    return combineLatest([
-      this.userIdService.getUserId(),
-      of(code),
-    ]).pipe(
+    return combineLatest([this.userIdService.getUserId(), of(code)]).pipe(
       switchMap(([userId, subscriptionCode]) =>
         this.SubscriptionActionsConnector.getExtensionEffectiveDate(
           userId,

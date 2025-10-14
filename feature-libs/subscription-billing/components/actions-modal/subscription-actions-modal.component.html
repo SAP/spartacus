@@ -1,8 +1,10 @@
 <div
   #modalDialog
   class="modal-dialog modal-dialog-centered"
-  [ngClass]="{ 'extend-subscription-dialog': mode() === 'extend',
-  'subscription-actions-dialog': mode() !== 'extend' }"
+  [ngClass]="{
+    'extend-subscription-dialog': mode() === 'extend',
+    'subscription-actions-dialog': mode() !== 'extend',
+  }"
   role="dialog"
   [cxFocus]="focusConfig"
   (esc)="onDialogClose('Escape pressed')"
@@ -196,7 +198,8 @@
         class="btn btn-primary dialog-buttons"
         (click)="onConfirm()"
         *ngIf="
-          isExtendSubscriptionBtnClicked() && isExtensionEffectiveDateAvailable()
+          isExtendSubscriptionBtnClicked() &&
+          isExtensionEffectiveDateAvailable()
         "
       >
         {{ 'subscriptionActions.confirm' | cxTranslate }}

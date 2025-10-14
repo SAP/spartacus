@@ -127,11 +127,16 @@ describe('OccSubscriptionActionsAdapter', () => {
     const mockUrl = 'mockExtendSubscriptionUrl';
     occEndpointsService.buildUrl.and.returnValue(mockUrl);
 
-    adapter.extendSubscription(mockUserId, mockSubscriptionCode, 1, false).subscribe();
+    adapter
+      .extendSubscription(mockUserId, mockSubscriptionCode, 1, false)
+      .subscribe();
 
     const req = httpMock.expectOne(mockUrl);
     expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual({ numberOfBillingCycles: 1, unlimited: false });
+    expect(req.request.body).toEqual({
+      numberOfBillingCycles: 1,
+      unlimited: false,
+    });
     req.flush({});
   });
 
@@ -205,7 +210,8 @@ describe('OccSubscriptionActionsAdapter', () => {
       message: 'Effective date not found',
     };
 
-    adapter.getExtensionEffectiveDate(mockUserId, mockSubscriptionCode, 1, false)
+    adapter
+      .getExtensionEffectiveDate(mockUserId, mockSubscriptionCode, 1, false)
       .subscribe({
         next: () => fail('Expected an error, but got success'),
         error: (error) => {
@@ -282,13 +288,15 @@ describe('OccSubscriptionActionsAdapter', () => {
       message: 'Unable to extend subscription',
     };
 
-    adapter.extendSubscription(mockUserId, mockSubscriptionCode, 1, false).subscribe({
-      next: () => fail('Expected an error, but got success'),
-      error: (error) => {
-        expect(error).toBeDefined();
-        expect(error.message).toContain('Http failure response');
-      },
-    });
+    adapter
+      .extendSubscription(mockUserId, mockSubscriptionCode, 1, false)
+      .subscribe({
+        next: () => fail('Expected an error, but got success'),
+        error: (error) => {
+          expect(error).toBeDefined();
+          expect(error.message).toContain('Http failure response');
+        },
+      });
 
     const req = httpMock.expectOne(mockUrl);
     req.flush(mockErrorBody, mockHttpError);

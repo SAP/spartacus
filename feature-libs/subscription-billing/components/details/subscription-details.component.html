@@ -128,7 +128,9 @@
           <a
             #extendSubscriptionBtn
             *ngIf="subscription.isExtensionPossible"
-            [attr.aria-label]="'subscriptionDetails.extendSubscription' | cxTranslate"
+            [attr.aria-label]="
+              'subscriptionDetails.extendSubscription' | cxTranslate
+            "
             cxBtnLikeLink
             class="btn btn-block btn-secondary"
             (click)="showSubscriptionActionsDialog('extend')"

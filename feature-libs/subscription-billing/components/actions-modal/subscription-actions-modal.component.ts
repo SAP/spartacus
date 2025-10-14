@@ -54,7 +54,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     KeyboardFocusModule,
     SpinnerModule,
     NgSelectModule,
-    FormRequiredAsterisksComponent
+    FormRequiredAsterisksComponent,
   ],
 })
 export class SubscriptionActionsModalComponent {
@@ -76,8 +76,11 @@ export class SubscriptionActionsModalComponent {
   isUnlimitedDurationSelected: boolean = false;
   isExtendSubscriptionBtnClicked = signal<boolean>(false);
   isExtensionEffectiveDateAvailable = signal<boolean>(false);
-  extensionEffectiveDate = signal<SubscriptionExtensionEffectiveDate | undefined>(undefined);
-  subscriptionContractFrequency: string = this.subscriptionDetailSignal()?.contractFrequency ?? 'Months';
+  extensionEffectiveDate = signal<
+    SubscriptionExtensionEffectiveDate | undefined
+  >(undefined);
+  subscriptionContractFrequency: string =
+    this.subscriptionDetailSignal()?.contractFrequency ?? 'Months';
   extendFrequencyMaxOptions: {
     [key: string]: number;
   } = extendSubscriptionFrequencyDropdownOptions;
@@ -89,7 +92,9 @@ export class SubscriptionActionsModalComponent {
     () => this.subscriptionDetailSignal()?.code ?? ''
   );
   cancelData = signal<SubscriptionCancelData | undefined>(undefined);
-  extensionData = signal<SubscriptionExtensionEffectiveDate | undefined>(undefined);
+  extensionData = signal<SubscriptionExtensionEffectiveDate | undefined>(
+    undefined
+  );
 
   iconTypes = ICON_TYPE;
 
@@ -101,12 +106,13 @@ export class SubscriptionActionsModalComponent {
   };
   constructor() {
     this.registerSubscriptionCancellationEffect();
-    const maxOptions = this.extendFrequencyMaxOptions[this.subscriptionContractFrequency] + 1; // +1 to include the unlimited duration option
-      this.extendDurationOptions = Array.from({ length: maxOptions }, (_, i) =>
-        i + 1 === maxOptions
-          ? this.UNLIMITED_DURATION
-          : (i + 1).toString() + ' ' + this.subscriptionContractFrequency
-      );
+    const maxOptions =
+      this.extendFrequencyMaxOptions[this.subscriptionContractFrequency] + 1; // +1 to include the unlimited duration option
+    this.extendDurationOptions = Array.from({ length: maxOptions }, (_, i) =>
+      i + 1 === maxOptions
+        ? this.UNLIMITED_DURATION
+        : (i + 1).toString() + ' ' + this.subscriptionContractFrequency
+    );
   }
   protected registerSubscriptionCancellationEffect(): void {
     effect(() => {
@@ -146,11 +152,10 @@ export class SubscriptionActionsModalComponent {
         })
       )
       .subscribe((extensionEffectiveDate) => {
-          this.extensionEffectiveDate.set(extensionEffectiveDate);
-          this.isExtensionEffectiveDateAvailable.set(true);
-        }
-      );
-   }
+        this.extensionEffectiveDate.set(extensionEffectiveDate);
+        this.isExtensionEffectiveDateAvailable.set(true);
+      });
+  }
 
   onConfirm(): void {
     const mode = this.mode();
@@ -241,7 +246,7 @@ export class SubscriptionActionsModalComponent {
               }
             )
           );
-      }
+      },
     };
     handlers[mode]?.();
   }

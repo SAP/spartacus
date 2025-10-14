@@ -15,10 +15,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { SubscriptionDetailsComponent } from './subscription-details.component';
-import {
-  IconModule,
-  SpinnerModule,
-} from '@spartacus/storefront';
+import { IconModule, SpinnerModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
@@ -29,9 +26,7 @@ import {
     SpinnerModule,
     IconModule,
   ],
-  declarations: [
-    SubscriptionDetailsComponent,
-  ],
+  declarations: [SubscriptionDetailsComponent],
   exports: [SubscriptionDetailsComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{

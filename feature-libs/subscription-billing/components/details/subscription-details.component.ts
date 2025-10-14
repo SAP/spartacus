@@ -9,7 +9,7 @@ import {
   inject,
   OnInit,
   OnDestroy,
-  DestroyRef
+  DestroyRef,
 } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import {
@@ -48,9 +48,7 @@ export class SubscriptionDetailsComponent implements OnInit, OnDestroy {
     );
   }
 
-  showSubscriptionActionsDialog(
-    mode: SubscriptionActionMode
-  ): void {
+  showSubscriptionActionsDialog(mode: SubscriptionActionMode): void {
     this.subscriptionDetails$.pipe(take(1)).subscribe((subscription) => {
       if (!subscription) return;
 
