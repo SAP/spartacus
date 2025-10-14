@@ -1,0 +1,125 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { inject, Injectable } from '@angular/core';
+import {
+  QueryNotifier,
+  QueryService,
+  RoutingService,
+  UserIdService,
+} from '@spartacus/core';
+import {
+  GetSubscriptionByCodeReloadEvent,
+  SubscriptionActionsFacade,
+  SubscriptionCancellationDetails,
+  SubscriptionWithdraw,
+} from '@spartacus/subscription-billing/root';
+import { Observable, switchMap, take, combineLatest, of } from 'rxjs';
+import {
+  SubscriptionBillingConnector,
+  SubscriptionActionsConnector,
+} from '../connector';
+
+@Injectable()
+export class SubscriptionActionsService implements SubscriptionActionsFacade {
+  protected queryService = inject(QueryService);
+  protected userIdService = inject(UserIdService);
+  protected subscriptionBillingConnector = inject(SubscriptionBillingConnector);
+  protected SubscriptionActionsConnector = inject(SubscriptionActionsConnector);
+  protected routingService = inject(RoutingService);
+
+  protected getSubscriptionByCodeReloadEvents(): QueryNotifier[] {
+    return [GetSubscriptionByCodeReloadEvent];
+  }
+
+  getEffectiveCancellationDate(subscriptionCode?: string): Observable<unknown> {
+    return combineLatest([
+      this.userIdService.getUserId(),
+      of(subscriptionCode),
+    ]).pipe(
+      take(1),
+      switchMap(([userId, code]) => {
+        if (!userId || !code) {
+          throw new Error(
+            'Cannot fetch cancellation effective date: missing user ID or subscription code.'
+          );
+        }
+        return this.SubscriptionActionsConnector.getEffectiveCancellationDate(
+          userId,
+          code
+        );
+      })
+    );
+  }
+
+  cancelSubscription(
+    cancellationDetails: SubscriptionCancellationDetails,
+    subscriptionCode?: string
+  ): Observable<unknown> {
+    return combineLatest([
+      this.userIdService.getUserId(),
+      of(subscriptionCode),
+    ]).pipe(
+      take(1),
+      switchMap(([userId, code]) => {
+        if (!userId || !code) {
+          throw new Error(
+            'Cannot cancel subscription: missing user ID or subscription code.'
+          );
+        }
+        return this.SubscriptionActionsConnector.cancelSubscription(
+          userId,
+          code,
+          cancellationDetails
+        );
+      })
+    );
+  }
+
+  reverseCancellation(subscriptionCode?: string): Observable<unknown> {
+    return combineLatest([
+      this.userIdService.getUserId(),
+      of(subscriptionCode),
+    ]).pipe(
+      take(1),
+      switchMap(([userId, code]) => {
+        if (!userId || !code) {
+          throw new Error(
+            'Cannot reverse cancellation: missing user ID or subscription code.'
+          );
+        }
+        return this.SubscriptionActionsConnector.reverseCancellation(
+          userId,
+          code
+        );
+      })
+    );
+  }
+
+  withdrawSubscription(
+    withdrawalData: SubscriptionWithdraw,
+    subscriptionCode?: string
+  ): Observable<unknown> {
+    return combineLatest([
+      this.userIdService.getUserId(),
+      of(subscriptionCode),
+    ]).pipe(
+      take(1),
+      switchMap(([userId, code]) => {
+        if (!userId || !code) {
+          throw new Error(
+            'Cannot withdraw subscription: missing user ID or subscription code.'
+          );
+        }
+        return this.SubscriptionActionsConnector.withdrawSubscription(
+          userId,
+          code,
+          withdrawalData
+        );
+      })
+    );
+  }
+}
