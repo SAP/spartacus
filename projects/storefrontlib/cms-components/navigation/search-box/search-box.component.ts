@@ -607,7 +607,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         first()
       )
       .subscribe((result) => {
-        const suggestions = result.suggestions;
+        const suggestions = result.suggestions ?? [];
         const isCategoryMatch = suggestions.some(
           (suggestion) =>
             suggestion.toLowerCase() === trimmedValue.toLowerCase()
