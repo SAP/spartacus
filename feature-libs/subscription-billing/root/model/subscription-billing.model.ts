@@ -33,14 +33,6 @@ export interface SubscriptionList {
   sorts?: SortModel[];
 }
 
-//re-check if this will be needed after jdk21 upgrade
-export enum SubscriptionStatus {
-  cancelled = 'CANCELLED',
-  active = 'ACTIVE',
-  withdrawn = 'WITHDRAWN',
-  expired = 'EXPIRED',
-}
-
 export interface SubscriptionExtensionEffectiveDate {
   subscriptionEndAt: string;
 }
@@ -68,8 +60,6 @@ export type SubscriptionActionMode =
   | 'withdraw'
   | 'resubscribe'
   | 'extend';
-
-export const UNLIMITED_EXTEND_DURATION_OPTION_VALUE = 0;
 
 declare module '@spartacus/storefront' {
   enum LAUNCH_CALLER {

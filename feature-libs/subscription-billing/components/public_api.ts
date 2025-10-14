@@ -13,8 +13,10 @@ export * from './product/price/subscription-product-price.component';
 export * from './product/price/subscription-product-price.module';
 export * from './product/usage/subscription-product-usage-charge.component';
 export * from './product/usage/subscription-product-usage-charge.module';
+
 export * from './details/subscription-details.component';
 export * from './details/subscription-details.module';
+
 export * from './actions-modal/subscription-actions-modal.component';
 export * from './actions-modal/subscription-actions-modal.module';
 export * from './actions-modal/subscription-actions-modal-component.service';

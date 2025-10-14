@@ -19,9 +19,10 @@ import {
   SubscriptionCancellationDetails,
   SubscriptionDetail,
   SubscriptionCancelData,
-  UNLIMITED_EXTEND_DURATION_OPTION_VALUE,
   SubscriptionExtensionEffectiveDate,
   SubscriptionActionMode,
+  ExtendSubscriptionFrequencyDropdownOptionsConfig,
+  defaultExtendDropdownOptions,
 } from '@spartacus/subscription-billing/root';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import {
@@ -37,7 +38,6 @@ import {
 import { RouterModule } from '@angular/router';
 import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SubscriptionActionsModalComponentService } from './subscription-actions-modal-component.service';
-import { extendSubscriptionFrequencyDropdownOptions } from './extend-subscription-frequency-dropdown-options';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
@@ -77,11 +77,9 @@ export class SubscriptionActionsModalComponent {
   isExtendSubscriptionBtnClicked = signal<boolean>(false);
   isExtensionEffectiveDateAvailable = signal<boolean>(false);
   extensionEffectiveDate = signal<string | undefined>(undefined);
-  subscriptionContractFrequency: string =
-    this.subscriptionDetailSignal()?.contractFrequency ?? 'Months';
-  extendFrequencyMaxOptions: {
-    [key: string]: number;
-  } = extendSubscriptionFrequencyDropdownOptions;
+  subscriptionContractFrequency: keyof ExtendSubscriptionFrequencyDropdownOptionsConfig =
+    (this.subscriptionDetailSignal()?.contractFrequency as keyof ExtendSubscriptionFrequencyDropdownOptionsConfig);
+  extendFrequencyMaxOptions: ExtendSubscriptionFrequencyDropdownOptionsConfig = defaultExtendDropdownOptions;
   extendDurationOptions: string[];
   UNLIMITED_DURATION = 'Unlimited';
 
@@ -104,8 +102,9 @@ export class SubscriptionActionsModalComponent {
   };
   constructor() {
     this.registerSubscriptionCancellationEffect();
-    const maxOptions =
-      this.extendFrequencyMaxOptions[this.subscriptionContractFrequency] + 1; // +1 to include the unlimited duration option
+    const frequency = this.subscriptionContractFrequency;
+    const maxOptions: number =
+      (this.extendFrequencyMaxOptions[frequency] ?? 0) + 1; // +1 to include the unlimited duration option
     this.extendDurationOptions = Array.from({ length: maxOptions }, (_, i) =>
       i + 1 === maxOptions
         ? this.UNLIMITED_DURATION
@@ -223,7 +222,7 @@ export class SubscriptionActionsModalComponent {
 
       extend: () => {
         const confirmedExtendDuration = this.isUnlimitedDurationSelected
-          ? UNLIMITED_EXTEND_DURATION_OPTION_VALUE
+          ? 0
           : this.extendDuration;
         this.actionsFacade
           .extendSubscription(

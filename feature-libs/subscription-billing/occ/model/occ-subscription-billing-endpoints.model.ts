@@ -19,6 +19,7 @@ export interface SubscriptionBillingOccEndpoints {
    * @member {string}
    */
   subscriptionByCode?: string | OccEndpoint;
+  
   /**
    * Endpoint for the extension validity date of one user's subscription
    *

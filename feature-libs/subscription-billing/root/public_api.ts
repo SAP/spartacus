@@ -10,3 +10,5 @@ export * from './model/index';
 export * from './facade/index';
 export * from './events/index';
 export * from './components/index';
+export * from './config/default-extend-subscription-dropdown-options-config';
+export * from './config/extend-subscription-dropdown-options-config';
