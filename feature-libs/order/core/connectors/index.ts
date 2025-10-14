@@ -16,5 +16,3 @@ export * from './scheduled-replenishment-order.adapter';
 export * from './scheduled-replenishment-order.connector';
 export * from './order-attachments.adapter';
 export * from './order-attachments.connector';
-export * from './order-document-flow.adapter';
-export * from './order-document-flow.connector';

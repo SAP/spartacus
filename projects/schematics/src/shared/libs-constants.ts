@@ -95,6 +95,9 @@ export const SPARTACUS_ORDER = `@spartacus/order`;
 export const SPARTACUS_ORDER_ROOT = `@spartacus/order/root`;
 export const SPARTACUS_ORDER_ASSETS = `@spartacus/order/assets`;
 export const SPARTACUS_ORDER_COMPONENTS = `@spartacus/order/components`;
+export const SPARTACUS_ORDER_DOCUMENT_FLOW = `@spartacus/order/document-flow`;
+export const SPARTACUS_ORDER_DOCUMENT_FLOW_ROOT = `@spartacus/order/document-flow/root`;
+export const SPARTACUS_ORDER_DOCUMENT_FLOW_ASSETS = `@spartacus/order/document-flow/assets`;
 
 export const SPARTACUS_ORGANIZATION = `@spartacus/organization`;
 export const SPARTACUS_ADMINISTRATION = `@spartacus/organization/administration`;
@@ -310,6 +313,7 @@ export const CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME =
   'Checkout-Scheduled-Replenishment';
 
 export const ORDER_FEATURE_NAME = 'Order';
+export const ORDER_DOCUMENT_FLOW_FEATURE_NAME = 'OrderDocumentFlow';
 
 export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME = 'Administration';
 export const ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME = 'Order-Approval';

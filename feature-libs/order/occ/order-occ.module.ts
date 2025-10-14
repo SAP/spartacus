@@ -14,7 +14,6 @@ import {
   ReplenishmentOrderHistoryAdapter,
   ScheduledReplenishmentOrderAdapter,
   OrderAttachmentsAdapter,
-  OrderDocumentFlowAdapter,
 } from '@spartacus/order/core';
 import {
   ORDER_NORMALIZER,
@@ -35,7 +34,6 @@ import { OccReplenishmentOrderHistoryAdapter } from './adapters/occ-replenishmen
 import { OccScheduledReplenishmentOrderAdapter } from './adapters/occ-scheduled-replenishment-order.adapter';
 import { defaultOccOrderConfig } from './config/default-occ-order-config';
 import { OccOrderAttachmentsAdapter } from './adapters/occ-order-attachments.adapter';
-import { OccOrderDocumentFlowAdapter } from './adapters/occ-order-document-flow.adapter';
 
 @NgModule({
   imports: [CommonModule],
@@ -61,10 +59,6 @@ import { OccOrderDocumentFlowAdapter } from './adapters/occ-order-document-flow.
     {
       provide: OrderAttachmentsAdapter,
       useClass: OccOrderAttachmentsAdapter,
-    },
-    {
-      provide: OrderDocumentFlowAdapter,
-      useClass: OccOrderDocumentFlowAdapter,
     },
     {
       provide: ORDER_RETURN_REQUEST_NORMALIZER,

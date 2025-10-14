@@ -12,10 +12,7 @@ import { ReplenishmentOrderHistoryConnector } from './connectors/replenishment-o
 import { ScheduledReplenishmentOrderConnector } from './connectors/scheduled-replenishment-order.connector';
 import { facadeProviders } from './facade/facade-providers';
 import { OrderStoreModule } from './store/order-store.module';
-import {
-  OrderAttachmentsConnector,
-  OrderDocumentFlowConnector,
-} from './connectors';
+import { OrderAttachmentsConnector } from './connectors';
 
 @NgModule({
   imports: [OrderStoreModule],
@@ -27,7 +24,6 @@ import {
     ScheduledReplenishmentOrderConnector,
     ReorderOrderConnector,
     OrderAttachmentsConnector,
-    OrderDocumentFlowConnector,
   ],
 })
 export class OrderCoreModule {}

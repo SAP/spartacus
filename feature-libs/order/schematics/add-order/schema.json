@@ -24,7 +24,33 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["Order"]
+      "default": [
+        "Order",
+        "Document-Flow"
+      ],
+      "items": {
+        "enum": [
+          "Order",
+          "Document-Flow"
+        ],
+        "type": "string"
+      },
+      "x-prompt": {
+        "message": "Which Order features would you like to set up?",
+        "type": "list",
+        "items": [
+          {
+            "value": "Order",
+            "label": "Order",
+            "checked": true
+          },
+          {
+            "value": "Document-Flow",
+            "label": "Document Flow",
+            "checked": true
+          }
+        ]
+      }
     }
   },
   "required": []

@@ -62,7 +62,6 @@ export const ORDER_CMS_COMPONENTS: string[] = [
   'ReplenishmentConfirmationTotalsComponent',
   'MyAccountViewOrderComponent',
   'AccountOrderAttachmentsComponent',
-  'AccountOrderDocumentFlowComponent',
 ];
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
