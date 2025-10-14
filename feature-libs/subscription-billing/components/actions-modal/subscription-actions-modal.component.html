@@ -1,14 +1,13 @@
 <div
-#modalDialog
-class="modal-dialog modal-dialog-centered"
-[ngClass]="{ 'extend-subscription-dialog': mode() === 'extend',
-'subscription-actions-dialog': mode() !== 'extend' }"
-role="dialog"
-[cxFocus]="focusConfig"
-(esc)="onDialogClose('Escape pressed')"
-aria-labelledby="dialogTitle"
+  #modalDialog
+  class="modal-dialog modal-dialog-centered"
+  [ngClass]="{ 'extend-subscription-dialog': mode() === 'extend',
+  'subscription-actions-dialog': mode() !== 'extend' }"
+  role="dialog"
+  [cxFocus]="focusConfig"
+  (esc)="onDialogClose('Escape pressed')"
+  aria-labelledby="dialogTitle"
 >
-
   <div class="cx-modal-content" *ngIf="mode() !== 'extend'">
     <!-- Modal Header -->
     <div class="cx-dialog-header modal-header cx-dialog-header-cancel">
@@ -204,5 +203,4 @@ aria-labelledby="dialogTitle"
       </button>
     </div>
   </div>
-
 </div>

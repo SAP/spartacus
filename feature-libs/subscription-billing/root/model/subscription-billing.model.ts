@@ -45,7 +45,6 @@ export interface SubscriptionExtensionEffectiveDate {
   subscriptionEndAt: string;
 }
 
-export const UNLIMITED_EXTEND_DURATION_OPTION_VALUE = 0;
 /** Actions related models */
 export interface SubscriptionCancelData {
   subscriptionEndAt?: string;
@@ -62,6 +61,14 @@ export interface SubscriptionWithdraw {
   version?: string;
   withdrawnAt?: string;
   withdrawalPeriodEndDate?: string;
+}
+
+export const UNLIMITED_EXTEND_DURATION_OPTION_VALUE = 0;
+
+declare module '@spartacus/storefront' {
+  enum LAUNCH_CALLER {
+    SUBSCRIPTION_ACTION_CONFIRMATION = 'SUBSCRIPTION_ACTION_CONFIRMATION',
+  }
 }
 
 (LAUNCH_CALLER as any)['SUBSCRIPTION_ACTION_CONFIRMATION'] =

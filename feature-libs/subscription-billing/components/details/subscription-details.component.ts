@@ -32,6 +32,7 @@ export class SubscriptionDetailsComponent implements OnInit, OnDestroy {
   
   protected subscription = new Subscription();
   protected destroyRef = inject(DestroyRef);
+
   subscriptionDetails$: Observable<SubscriptionDetail | undefined> =
     of(undefined);
 

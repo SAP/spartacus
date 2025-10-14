@@ -129,7 +129,7 @@ describe('SubscriptionActionsModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fdescribe('onConfirm', () => {
+  describe('onConfirm', () => {
     it('should confirm cancel subscription successfully', () => {
       mockCancelFacade.cancelSubscription.and.returnValue(of({}));
 

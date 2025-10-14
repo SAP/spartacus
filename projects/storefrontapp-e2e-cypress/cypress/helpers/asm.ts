@@ -23,6 +23,7 @@ import {
 } from '../support/utils/cart';
 import { login as fetchingToken, visitLoginPage } from '../support/utils/login';
 
+import { clearAllStorage } from '../support/utils/clear-all-storage';
 import {
   interceptGet,
   interceptPatch,
@@ -693,13 +694,8 @@ export function startCustomerEmulation(customer, b2b = false): void {
   cy.get('cx-customer-emulation').should('be.visible');
 }
 
-export function startCustomerEmulationWithOrderID(
-  order,
-  customer,
-  b2b = false
-): void {
+export function startCustomerEmulationWithOrderID(order, customer): void {
   const customerSearchRequestAlias = listenForCustomerSearchRequest();
-  const userDetailsRequestAlias = listenForUserDetailsRequest(b2b);
 
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('exist');
@@ -717,7 +713,6 @@ export function startCustomerEmulationWithOrderID(
   cy.get('cx-customer-selection div.asm-results button').click();
   cy.get('cx-customer-selection button[type="submit"]').click();
 
-  cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
   cy.get('cx-customer-emulation .cx-asm-customerInfo label.cx-asm-name').should(
     'contain',
     customer.fullName
@@ -732,6 +727,15 @@ export function loginCustomerInStorefront(customer) {
   const authRequest = listenForAuthenticationRequest();
 
   login(customer.email, customer.password);
+  cy.wait(authRequest).its('response.statusCode').should('eq', 200);
+}
+
+export function loginCustomerWithNameAndPassword(
+  name: string,
+  password: string
+) {
+  const authRequest = listenForAuthenticationRequest();
+  login(name, password);
   cy.wait(authRequest).its('response.statusCode').should('eq', 200);
 }
 
@@ -1075,66 +1079,74 @@ export function emulateExistedCustomerPrepare(agentToken, agentPwd) {
   return customer;
 }
 
-export function getCustomerId(agentUserName, agentPwd, customerUid) {
-  return new Promise((resolve, reject) => {
+export function getCustomerId(
+  agentUserName,
+  agentPwd,
+  customerUid
+): Promise<string> {
+  return new Promise((resolve) => {
     fetchingToken(agentUserName, agentPwd, false).then((res) => {
-      // get customerId of it
-      cy.request({
-        method: 'get',
-        url:
-          `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
-          )}/users/` + customerUid,
-        headers: {
-          Authorization: `bearer ${res.body.access_token}`,
-        },
-      }).then((response) => {
-        if (response.status === 200) {
-          resolve(response.body.customerId);
-        } else {
-          reject(response.status);
-        }
-      });
+      getCustomerIdWithAgentToken(res.body.access_token, customerUid).then(
+        resolve
+      );
     });
   });
 }
 
-export function getCustomerIdForJDK21(agentUserName, agentPwd, customerUid) {
-  return new Promise((resolve, reject) => {
-    let token;
-    cy.visit('/?asm=true');
-    cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-    agentLoginForJDK21(agentUserName, agentPwd);
-    cy.get('button.logout')
-      .should('exist')
-      .and('be.visible')
-      .and('have.attr', 'title', 'Sign Out');
-    cy.window().should('have.property', 'localStorage');
+export function getCustomerIdForJDK21(
+  agentUserName,
+  agentPwd,
+  customerUid
+): Promise<string> {
+  cy.visit('/?asm=true');
+  cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+  agentLoginForJDK21(agentUserName, agentPwd);
+  cy.get('button.logout')
+    .should('exist')
+    .and('be.visible')
+    .and('have.attr', 'title', 'Sign Out');
+  return getToken().then((token) => {
+    return getCustomerIdWithAgentToken(token, customerUid);
+  });
+}
 
+export function getToken(): Promise<string> {
+  return new Promise((resolve) => {
+    cy.wait(2000);
+    cy.wait(2000);
+    cy.window().should('have.property', 'localStorage');
     cy.window().then((win) => {
       const spartacusAuth = win.localStorage.getItem('spartacus⚿⚿auth');
       if (spartacusAuth) {
         const authObj = JSON.parse(spartacusAuth);
-
-        token = authObj.token.access_token;
+        const token = authObj.token.access_token;
+        cy.log('--> get token: ' + token);
+        resolve(token);
       }
-      // get customerId of it
-      cy.request({
-        method: 'get',
-        url:
-          `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
-          )}/users/` + customerUid,
-        headers: {
-          Authorization: `bearer ${token}`,
-        },
-      }).then((response) => {
-        if (response.status === 200) {
-          resolve(response.body.customerId);
-        } else {
-          reject(response.status);
-        }
-      });
+    });
+  });
+}
+
+export function getCustomerIdWithAgentToken(
+  token,
+  customerUid
+): Promise<string> {
+  return new Promise((resolve, reject) => {
+    cy.request({
+      method: 'get',
+      url:
+        `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/users/` + customerUid,
+      headers: {
+        Authorization: `bearer ${token}`,
+      },
+    }).then((response) => {
+      if (response.status === 200) {
+        resolve(response.body.customerId);
+      } else {
+        reject(response.status);
+      }
     });
   });
 }
@@ -1179,29 +1191,11 @@ export function getInactiveCartIdAndAddProductsForJDK21(
   productCode?,
   quantity?
 ) {
-  let token = null;
   return new Promise((resolve, reject) => {
-    cy.get('button.logout').should('exist').and('be.visible').click();
-    cy.get('button.close[title="Close ASM"]').should('be.visible').click();
-    cy.visit('/');
-    cy.log('Customer login in');
-    cy.contains('a[role="link"]', 'Sign In / Register').click();
-
-    cy.get('input[name="username"]').clear().type(customerEmail);
-    cy.get('input[name="password"]').clear().type(customerPwd);
-    cy.contains('button.btn-primary', 'Sign In').should('be.visible').click();
-
-    cy.get('cx-login .cx-login-greet').should('be.visible');
-
-    cy.window().should('have.property', 'localStorage');
-
-    cy.window().then((win) => {
-      const spartacusAuth = win.localStorage.getItem('spartacus⚿⚿auth');
-      if (spartacusAuth) {
-        const authObj = JSON.parse(spartacusAuth);
-
-        token = authObj.token.access_token;
-      }
+    checkout.visitHomePage();
+    cy.getLoginRegisterLink({ clickAndWait: true });
+    loginCustomerWithNameAndPassword(customerEmail, customerPwd);
+    getToken().then((token) => {
       createInactiveCart(token)
         .then((inactiveCartId) => {
           if (!!productCode && quantity) {
@@ -1260,4 +1254,50 @@ export function getCurrentCartIdAndAddProducts(
       });
     });
   });
+}
+
+export function getCurrentCartIdAndAddProductsForJdk21(
+  customerName,
+  customerPwd,
+  productCode?,
+  quantity?
+) {
+  return new Promise((resolve, reject) => {
+    checkout.visitHomePage();
+    cy.getLoginRegisterLink({ clickAndWait: true });
+    loginCustomerWithNameAndPassword(customerName, customerPwd);
+    getToken().then((token) => {
+      createCart(token).then((response) => {
+        if (response.status === 201) {
+          const activeCartId = response.body.code;
+          if (!!productCode && quantity) {
+            addToCartWithProducts(
+              activeCartId,
+              productCode,
+              quantity,
+              token
+            ).then((response) => {
+              if (response.status === 200) {
+                resolve(activeCartId);
+              } else {
+                reject(response.status);
+              }
+            });
+          } else {
+            resolve(activeCartId);
+          }
+        } else {
+          reject(response.status);
+        }
+      });
+    });
+  });
+}
+
+export function registerUser() {
+  clearAllStorage();
+  const customer = getSampleUser();
+  checkout.visitHomePage();
+  checkout.registerUser(false, customer);
+  return customer;
 }
