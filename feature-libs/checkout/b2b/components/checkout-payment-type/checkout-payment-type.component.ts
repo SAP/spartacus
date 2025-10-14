@@ -8,7 +8,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  inject,
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -35,7 +34,6 @@ import {
   map,
   tap,
 } from 'rxjs/operators';
-import { CheckoutPaymentTypeComponentService } from './checkout-payment-type-component.service';
 
 @Component({
   selector: 'cx-payment-type',
@@ -48,13 +46,9 @@ export class CheckoutPaymentTypeComponent {
   private poNumberInputElement: ElementRef<HTMLInputElement>;
 
   protected busy$ = new BehaviorSubject<boolean>(false);
-  protected componentService = inject(CheckoutPaymentTypeComponentService);
 
   typeSelected?: string;
   paymentTypesError = false;
-
-  isPONumberReadOnly: Observable<boolean> =
-    this.componentService.isPONumberReadOnly();
 
   isUpdating$ = combineLatest([
     this.busy$,
