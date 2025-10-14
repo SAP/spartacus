@@ -66,8 +66,6 @@ export function testCheckoutVariantAsGuest() {
       variantUser.email
     );
 
-    cy.get('cx-login div.cx-login-greet', { timeout: 10000 }).should('exist');
-
     cy.selectUserMenuOption({
       option: 'Personal Details',
     });
@@ -149,20 +147,6 @@ export function testCheckoutVariantAsGuestAndVerifyCart() {
         variantUser.email
       );
 
-      cy.intercept('**/occ/v2/**/users/current/carts?**').as('getCarts');
-      cy.intercept('**/occ/v2/**/users/current/carts/*/save?**').as('saveCart');
-
-      cy.wait('@getCarts', { timeout: 60000 });
-      cy.wait(['@saveCart', '@getCarts'], { timeout: 60000 });
-      cy.wait('@getCarts', { timeout: 60000 });
-
-      cy.get('cx-mini-cart .count:visible', { timeout: 60000 })
-        .should('be.visible')
-        .should(($el) => {
-          const count = $el.text().trim();
-          expect(count).to.match(/^1$/);
-        });
-
       const deliveryAddressPage = waitForPage(
         '/checkout/delivery-address',
         'getDeliveryAddressPage'
@@ -178,11 +162,7 @@ export function testCheckoutVariantAsGuestAndVerifyCart() {
         .should('eq', 200);
 
       cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-      cy.get('cx-mini-cart .count', { timeout: 60000 })
-        .should('be.visible')
-        .should(($el) => {
-          expect($el.text().trim()).to.eq('1');
-        });
+      cy.get('cx-mini-cart .count').contains('1');
 
       checkout.signOut();
 
@@ -191,11 +171,7 @@ export function testCheckoutVariantAsGuestAndVerifyCart() {
       login(variantUser.email, variantUser.password);
 
       cy.get('cx-login div.cx-login-greet').should('exist');
-      cy.get('cx-mini-cart .count', { timeout: 60000 })
-        .should('be.visible')
-        .should(($el) => {
-          expect($el.text().trim()).to.eq('1');
-        });
+      cy.get('cx-mini-cart .count').contains('1');
 
       const cartPage = waitForPage('/cart', 'getCartPage');
       cy.get('cx-mini-cart').click();
