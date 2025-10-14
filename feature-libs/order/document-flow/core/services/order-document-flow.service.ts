@@ -9,8 +9,8 @@ import { UserIdService } from '@spartacus/core';
 import { Observable, switchMap } from 'rxjs';
 
 import { OrderDocumentFlowConnector } from '../connectors';
-import { OrderDocumentFlowFacade } from '@spartacus/order/document-flow/root';
 import {
+  OrderDocumentFlowFacade,
   SapOrderSubsequentDocument,
   SapOrderSubsequentDocumentEntry,
 } from '@spartacus/order/document-flow/root';
