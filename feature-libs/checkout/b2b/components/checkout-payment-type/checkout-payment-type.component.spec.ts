@@ -84,62 +84,6 @@ describe('CheckoutOnePaymentTypeComponent', () => {
   let component: CheckoutPaymentTypeComponent;
   let fixture: ComponentFixture<CheckoutPaymentTypeComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CheckoutPaymentTypeComponent,
-        MockSpinnerComponent,
-        MockFeatureDirective,
-      ],
-      providers: [
-        {
-          provide: CheckoutPaymentTypeFacade,
-          useClass: MockCheckoutOnePaymentTypeService,
-        },
-        {
-          provide: CheckoutStepService,
-          useClass: MockCheckoutStepService,
-        },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
-        },
-      ],
-    }).compileComponents();
-  }));
-
-  it('should make PO Number field non-editable if cart has a PO Number', async () => {
-    fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const poNumberInput = fixture.debugElement.query(
-      By.css('#poNumberInput')
-    ).nativeElement;
-    expect(poNumberInput.readOnly).toBe(true);
-  });
-
-  it('should make PO Number field editable if quote has no PO Number', async () => {
-    fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
-    component = fixture.componentInstance;
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    const poNumberInput = fixture.debugElement.query(
-      By.css('#poNumberInput')
-    ).nativeElement;
-    expect(poNumberInput.readOnly).toBe(false);
-  });
-});
-
-describe('CheckoutOnePaymentTypeComponent', () => {
-  let component: CheckoutPaymentTypeComponent;
-  let fixture: ComponentFixture<CheckoutPaymentTypeComponent>;
-
   let checkoutStepService: CheckoutStepService;
 
   beforeEach(waitForAsync(() => {
