@@ -12,9 +12,9 @@ export default defineConfig({
   ...baseConfig,
   env: {
     ...baseConfig.env,
-    CLIENT_ID: 'mobile_android_public',
+    CLIENT_ID: 'asm_client',
     API_URL:
-      'https://api.c432wmya2v-teamspart3-s2-public.model-t.myhybris.cloud',
+      'https://api.c432wmya2v-teamspart3-s1-public.model-t.myhybris.cloud',
     JDK_VERSION: 'JDK21',
   },
 });

@@ -6,6 +6,15 @@
 
 import { defineConfig } from 'cypress';
 
+const JDK_VERSION: string = 'JDK21';
+const CLIENT_ID =
+  JDK_VERSION === 'JDK21' ? 'mobile_android_public' : 'mobile_android';
+
+const API_URL =
+  JDK_VERSION === 'JDK21'
+    ? 'https://api.c432wmya2v-teamspart3-s4-public.model-t.myhybris.cloud'
+    : 'https://api.c432wmya2v-teamspart3-s3-public.model-t.myhybris.cloud';
+
 export default defineConfig({
   defaultCommandTimeout: 30000,
   requestTimeout: 30000,
@@ -18,19 +27,18 @@ export default defineConfig({
   },
   videoUploadOnPasses: false,
   env: {
-    API_URL:
-      'https://api.c432wmya2v-teamspart3-s2-public.model-t.myhybris.cloud',
+    API_URL,
     BASE_SITE: 'electronics-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
-    CLIENT_ID: 'mobile_android_public',
+    CLIENT_ID,
     CLIENT_SECRET: 'secret',
     OCC_PREFIX: '/occ/v2',
     OCC_PREFIX_USER_ENDPOINT: 'users',
     OCC_PREFIX_ORDER_ENDPOINT: 'orders',
     MAIL_CCV2_URL: 'https://mailhog-poc.westeurope.cloudapp.azure.com',
     MAIL_CCV2_PREFIX: '/api/v1',
-    JDK_VERSION: 'JDK21',
+    JDK_VERSION,
   },
   e2e: {
     // We've imported your old cypress plugins here.
