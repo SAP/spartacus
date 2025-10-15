@@ -12,7 +12,7 @@ import {
   Output,
 } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { SapOrderSubsequentDocument } from '@spartacus/order/document-flow/root';
+import { OrderSubsequentDocument } from '@spartacus/order/document-flow/root';
 
 @Component({
   selector: 'cx-order-subsequent-document-node',
@@ -23,19 +23,19 @@ import { SapOrderSubsequentDocument } from '@spartacus/order/document-flow/root'
 export class OrderSubsequentDocumentNodeComponent {
   iconTypes = ICON_TYPE;
 
-  @Input() documents: SapOrderSubsequentDocument[];
-  @Input() selectedDocument?: SapOrderSubsequentDocument;
+  @Input() documents: OrderSubsequentDocument[];
+  @Input() selectedDocument?: OrderSubsequentDocument;
   @Input() depth: number = 0;
-  @Output() documentSelected = new EventEmitter<SapOrderSubsequentDocument>();
+  @Output() documentSelected = new EventEmitter<OrderSubsequentDocument>();
 
-  haveSubNodes(document: SapOrderSubsequentDocument): boolean {
+  haveSubNodes(document: OrderSubsequentDocument): boolean {
     return (
       !!document.sapSubsequentDocuments &&
       document.sapSubsequentDocuments.length > 0
     );
   }
 
-  onDocumentSelection(document: SapOrderSubsequentDocument): void {
+  onDocumentSelection(document: OrderSubsequentDocument): void {
     this.documentSelected.emit(document);
   }
 }

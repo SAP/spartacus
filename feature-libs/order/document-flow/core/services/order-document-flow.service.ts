@@ -11,8 +11,8 @@ import { Observable, switchMap } from 'rxjs';
 import { OrderDocumentFlowConnector } from '../connectors';
 import {
   OrderDocumentFlowFacade,
-  SapOrderSubsequentDocument,
-  SapOrderSubsequentDocumentEntry,
+  OrderSubsequentDocument,
+  OrderSubsequentDocumentEntry,
 } from '@spartacus/order/document-flow/root';
 
 @Injectable()
@@ -22,7 +22,7 @@ export class OrderDocumentFlowService implements OrderDocumentFlowFacade {
 
   getOrderSubsequentDocuments(
     orderId: string
-  ): Observable<SapOrderSubsequentDocument[]> {
+  ): Observable<OrderSubsequentDocument[]> {
     return this.userIdService
       .takeUserId()
       .pipe(
@@ -39,7 +39,7 @@ export class OrderDocumentFlowService implements OrderDocumentFlowFacade {
     orderId: string,
     documentCategory: string,
     documentId: string
-  ): Observable<SapOrderSubsequentDocumentEntry[]> {
+  ): Observable<OrderSubsequentDocumentEntry[]> {
     return this.userIdService
       .takeUserId()
       .pipe(

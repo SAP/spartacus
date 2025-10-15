@@ -8,8 +8,8 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OrderDocumentFlowAdapter } from './order-document-flow.adapter';
 import {
-  SapOrderSubsequentDocument,
-  SapOrderSubsequentDocumentEntry,
+  OrderSubsequentDocument,
+  OrderSubsequentDocumentEntry,
 } from '@spartacus/order/document-flow/root';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class OrderDocumentFlowConnector {
   getOrderSubsequentDocuments(
     userId: string,
     orderId: string
-  ): Observable<SapOrderSubsequentDocument[]> {
+  ): Observable<OrderSubsequentDocument[]> {
     return this.adapter.getOrderSubsequentDocuments(userId, orderId);
   }
 
@@ -28,7 +28,7 @@ export class OrderDocumentFlowConnector {
     orderId: string,
     documentCategory: string,
     documentId: string
-  ): Observable<SapOrderSubsequentDocumentEntry[]> {
+  ): Observable<OrderSubsequentDocumentEntry[]> {
     return this.adapter.getOrderSubsequentDocumentEntries(
       userId,
       orderId,

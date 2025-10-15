@@ -11,8 +11,8 @@ import { UserIdService } from '@spartacus/core';
 import { OrderDocumentFlowService } from './order-document-flow.service';
 import { OrderDocumentFlowConnector } from '../connectors/order-document-flow.connector';
 import {
-  SapOrderSubsequentDocument,
-  SapOrderSubsequentDocumentEntry,
+  OrderSubsequentDocument,
+  OrderSubsequentDocumentEntry,
 } from '@spartacus/order/document-flow/root';
 
 const userId = '123';
@@ -20,7 +20,7 @@ const orderCode = '00001004';
 const documentCategory = 'category1';
 const documentId = 'doc_id1';
 
-const subsequentDocumentsData: SapOrderSubsequentDocument[] = [
+const subsequentDocumentsData: OrderSubsequentDocument[] = [
   {
     sapDocumentId: 'doc_id1',
     sapDocumentCategory: 'category1',
@@ -65,7 +65,7 @@ const subsequentDocumentsData: SapOrderSubsequentDocument[] = [
   },
 ];
 
-const subsequentDocumentEntryData: SapOrderSubsequentDocumentEntry[] = [
+const subsequentDocumentEntryData: OrderSubsequentDocumentEntry[] = [
   {
     sapSubsequentDocumentEntryNumber: '1',
     sapOrderEntryNumber: '1',

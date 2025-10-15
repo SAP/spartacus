@@ -14,15 +14,15 @@ import { Observable, of, throwError } from 'rxjs';
 import createSpy = jasmine.createSpy;
 import { By } from '@angular/platform-browser';
 import {
-  SapOrderSubsequentDocument,
-  SapOrderSubsequentDocumentEntry,
+  OrderSubsequentDocument,
+  OrderSubsequentDocumentEntry,
 } from '@spartacus/order/document-flow/root';
 import { OrderDocumentFlowDialogComponent } from './order-document-flow-dialog.component';
 import { OrderDocumentFlowFacade } from '@spartacus/order/document-flow/root';
 
 const orderCode = '00001004';
 
-const subsequentDocumentsData: SapOrderSubsequentDocument[] = [
+const subsequentDocumentsData: OrderSubsequentDocument[] = [
   {
     sapDocumentId: 'doc_id1',
     sapDocumentCategory: 'category1',
@@ -67,7 +67,7 @@ const subsequentDocumentsData: SapOrderSubsequentDocument[] = [
   },
 ];
 
-const subsequentDocumentEntryData: SapOrderSubsequentDocumentEntry[] = [
+const subsequentDocumentEntryData: OrderSubsequentDocumentEntry[] = [
   {
     sapSubsequentDocumentEntryNumber: '1',
     sapOrderEntryNumber: '1',

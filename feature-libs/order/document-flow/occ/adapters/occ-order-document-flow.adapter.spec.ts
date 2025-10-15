@@ -16,8 +16,8 @@ import {
 
 import { OccOrderDocumentFlowAdapter } from '@spartacus/order/document-flow/occ';
 import {
-  SapOrderSubsequentDocument,
-  SapOrderSubsequentDocumentEntry,
+  OrderSubsequentDocument,
+  OrderSubsequentDocumentEntry,
 } from '@spartacus/order/document-flow/root';
 
 const userId = '123';
@@ -25,7 +25,7 @@ const orderId = '00001004';
 const documentCategory = 'category1';
 const documentId = 'doc_id1';
 
-const subsequentDocumentsData: SapOrderSubsequentDocument[] = [
+const subsequentDocumentsData: OrderSubsequentDocument[] = [
   {
     sapDocumentId: 'doc_id1',
     sapDocumentCategory: 'category1',
@@ -70,7 +70,7 @@ const subsequentDocumentsData: SapOrderSubsequentDocument[] = [
   },
 ];
 
-const subsequentDocumentEntryData: SapOrderSubsequentDocumentEntry[] = [
+const subsequentDocumentEntryData: OrderSubsequentDocumentEntry[] = [
   {
     sapSubsequentDocumentEntryNumber: '1',
     sapOrderEntryNumber: '1',

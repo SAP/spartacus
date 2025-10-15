@@ -5,6 +5,5 @@
  */
 
 export * from './order-document-flow-dialog.component';
-export * from './order-document-flow-list/order-subsequent-document-list.component';
-export * from './order-document-flow-list/order-subsequent-document-node.component';
-export * from './order-document-order-entry-list/order-document-order-entry-list.component';
+export * from './order-document-flow-list/index';
+export * from './order-document-order-entry-list/index';

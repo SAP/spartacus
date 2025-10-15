@@ -5,7 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { SapOrderSubsequentDocumentEntry } from '@spartacus/order/document-flow/root';
+import { OrderSubsequentDocumentEntry } from '@spartacus/order/document-flow/root';
 
 @Component({
   selector: 'cx-order-document-order-entry-list',
@@ -14,5 +14,5 @@ import { SapOrderSubsequentDocumentEntry } from '@spartacus/order/document-flow/
   standalone: false,
 })
 export class OrderDocumentOrderEntryListComponent {
-  @Input() entries?: SapOrderSubsequentDocumentEntry[];
+  @Input() entries?: OrderSubsequentDocumentEntry[];
 }

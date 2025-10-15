@@ -3,9 +3,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { OrderDocumentOrderEntryListComponent } from './order-document-order-entry-list.component';
 import { By } from '@angular/platform-browser';
-import { SapOrderSubsequentDocumentEntry } from '@spartacus/order/document-flow/root';
+import { OrderSubsequentDocumentEntry } from '@spartacus/order/document-flow/root';
 
-const subsequentDocumentEntryData: SapOrderSubsequentDocumentEntry[] = [
+const subsequentDocumentEntryData: OrderSubsequentDocumentEntry[] = [
   {
     sapSubsequentDocumentEntryNumber: '1',
     sapOrderEntryNumber: '1',

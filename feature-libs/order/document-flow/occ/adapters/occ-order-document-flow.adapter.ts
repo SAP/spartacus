@@ -20,8 +20,8 @@ import { Observable } from 'rxjs';
 import { OrderDocumentFlowAdapter } from '@spartacus/order/document-flow/core';
 import { catchError } from 'rxjs/operators';
 import {
-  SapOrderSubsequentDocument,
-  SapOrderSubsequentDocumentEntry,
+  OrderSubsequentDocument,
+  OrderSubsequentDocumentEntry,
 } from '@spartacus/order/document-flow/root';
 
 @Injectable()
@@ -34,12 +34,12 @@ export class OccOrderDocumentFlowAdapter implements OrderDocumentFlowAdapter {
   getOrderSubsequentDocuments(
     userId: string,
     orderId: string
-  ): Observable<SapOrderSubsequentDocument[]> {
+  ): Observable<OrderSubsequentDocument[]> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http
       .get<
-        SapOrderSubsequentDocument[]
+        OrderSubsequentDocument[]
       >(this.getSubsequentDocumentsUrl(orderId, userId), { headers })
       .pipe(
         catchError((error: HttpErrorResponse) => {
@@ -53,12 +53,12 @@ export class OccOrderDocumentFlowAdapter implements OrderDocumentFlowAdapter {
     orderId: string,
     documentCategory: string,
     documentId: string
-  ): Observable<SapOrderSubsequentDocumentEntry[]> {
+  ): Observable<OrderSubsequentDocumentEntry[]> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http
       .get<
-        SapOrderSubsequentDocumentEntry[]
+        OrderSubsequentDocumentEntry[]
       >(this.getSubsequentDocumentsEntriesUrl(orderId, userId, documentCategory, documentId), { headers })
       .pipe(
         catchError((error: HttpErrorResponse) => {

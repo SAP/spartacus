@@ -37,8 +37,8 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   OrderDocumentFlowFacade,
-  SapOrderSubsequentDocument,
-  SapOrderSubsequentDocumentEntry,
+  OrderSubsequentDocument,
+  OrderSubsequentDocumentEntry,
 } from '@spartacus/order/document-flow/root';
 
 @Component({
@@ -71,7 +71,7 @@ export class OrderDocumentFlowDialogComponent {
   protected orderCode$: Observable<string> =
     this.launchDialogService.data$.pipe(map((data) => data.orderCode));
 
-  documents$: Observable<SapOrderSubsequentDocument[]> = this.orderCode$.pipe(
+  documents$: Observable<OrderSubsequentDocument[]> = this.orderCode$.pipe(
     switchMap((orderId) => {
       return this.orderDocumentFlowFacade.getOrderSubsequentDocuments(orderId);
     }),
@@ -85,16 +85,16 @@ export class OrderDocumentFlowDialogComponent {
   loadError = signal(false);
 
   protected selectedDocumentSubject = new BehaviorSubject<
-    SapOrderSubsequentDocument | undefined
+    OrderSubsequentDocument | undefined
   >(undefined);
-  selectedDocument$: Observable<SapOrderSubsequentDocument | undefined> =
+  selectedDocument$: Observable<OrderSubsequentDocument | undefined> =
     this.selectedDocumentSubject.asObservable();
 
   protected documentEntriesCache = new Map<
-    SapOrderSubsequentDocument,
-    SapOrderSubsequentDocumentEntry[]
+    OrderSubsequentDocument,
+    OrderSubsequentDocumentEntry[]
   >();
-  selectedDocumentEntries$: Observable<SapOrderSubsequentDocumentEntry[]> =
+  selectedDocumentEntries$: Observable<OrderSubsequentDocumentEntry[]> =
     this.selectedDocument$.pipe(
       filter(isNotNullable),
       withLatestFrom(this.orderCode$),
@@ -118,11 +118,11 @@ export class OrderDocumentFlowDialogComponent {
       })
     );
 
-  getDocumentTitle(document: SapOrderSubsequentDocument): string {
+  getDocumentTitle(document: OrderSubsequentDocument): string {
     return document.sapDocumentEntryIdColumnName + ' ' + document.sapDocumentId;
   }
 
-  onDocumentSelection(document: SapOrderSubsequentDocument): void {
+  onDocumentSelection(document: OrderSubsequentDocument): void {
     this.saveScrollPosition();
     this.selectedDocumentSubject.next(document);
     this.displayDocumentEntries.set(true);
@@ -139,8 +139,8 @@ export class OrderDocumentFlowDialogComponent {
   }
 
   protected cacheDocumentEntries(
-    document: SapOrderSubsequentDocument,
-    entries: SapOrderSubsequentDocumentEntry[]
+    document: OrderSubsequentDocument,
+    entries: OrderSubsequentDocumentEntry[]
   ): void {
     if (entries.length > 0) {
       this.documentEntriesCache.set(document, entries);

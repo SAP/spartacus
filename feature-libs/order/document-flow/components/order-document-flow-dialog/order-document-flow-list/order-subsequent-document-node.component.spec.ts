@@ -2,11 +2,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { I18nTestingModule } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
-import { SapOrderSubsequentDocument } from '@spartacus/order/document-flow/root';
+import { OrderSubsequentDocument } from '@spartacus/order/document-flow/root';
 import { OrderSubsequentDocumentNodeComponent } from './order-subsequent-document-node.component';
 import { IconModule } from '@spartacus/storefront';
 
-const subsequentDocumentsData: SapOrderSubsequentDocument[] = [
+const subsequentDocumentsData: OrderSubsequentDocument[] = [
   {
     sapDocumentId: 'doc_id1',
     sapDocumentCategory: 'category1',

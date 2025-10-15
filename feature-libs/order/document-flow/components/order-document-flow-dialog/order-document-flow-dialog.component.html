@@ -42,14 +42,13 @@
 
     <!-- Modal Body -->
     <div class="cx-dialog-body modal-body" #scrollContainer>
-      <ng-container *ngIf="loadError(); else content">
-        <cx-message
-          [text]="'documentFlow.dialog.error' | cxTranslate"
-          [type]="globalMessageType.MSG_TYPE_ERROR"
-          [isVisibleCloseButton]="false"
-          class="cx-dialog-message error-message"
-        ></cx-message>
-      </ng-container>
+      <cx-message
+        *ngIf="loadError(); else content"
+        [text]="'documentFlow.dialog.error' | cxTranslate"
+        [type]="globalMessageType.MSG_TYPE_ERROR"
+        [isVisibleCloseButton]="false"
+        class="cx-dialog-message error-message"
+      ></cx-message>
       <ng-template #content>
         <ng-container *ngIf="displayDocumentEntries(); else documentsView">
           <ng-container
