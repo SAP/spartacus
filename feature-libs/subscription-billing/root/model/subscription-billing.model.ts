@@ -33,10 +33,6 @@ export interface SubscriptionList {
   sorts?: SortModel[];
 }
 
-export interface SubscriptionExtensionEffectiveDate {
-  subscriptionEndAt: string;
-}
-
 /** Actions related models */
 export interface SubscriptionCancelData {
   subscriptionEndAt?: string;
@@ -69,3 +65,7 @@ declare module '@spartacus/storefront' {
 
 (LAUNCH_CALLER as any)['SUBSCRIPTION_ACTION_CONFIRMATION'] =
   'SUBSCRIPTION_ACTION_CONFIRMATION';
+
+export interface SubscriptionExtensionEffectiveDate {
+  subscriptionEndAt: string;
+}
