@@ -34,6 +34,7 @@ export interface OccQuote {
   updatedTime?: Date;
   version?: number;
   sapOrderCode?: string;
+  sapPurchaseOrderNumber?: string;
 }
 
 export type Quote = Omit<OccQuote, 'allowedActions'> & {
@@ -122,6 +123,7 @@ export interface QuoteMetadata {
   // 2023-08-26T09:13:00+02:00
   expirationTime?: string;
   name?: string;
+  purchaseOrderNumber?: string;
 }
 
 export interface QuoteStarter {
