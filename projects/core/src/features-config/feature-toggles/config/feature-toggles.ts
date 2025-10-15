@@ -10,16 +10,6 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
-   * New REDESIGNED search-box component
-   */
-  searchBoxV2?: boolean;
-
-  /**
-   * In `SearchBoxComponent` it shows the trending searches.
-   */
-  trendingSearches?: boolean;
-
-  /**
    * In `FutureStockAccordionComponent` use `cx-color-text` for button color
    */
   a11yUseProperTextColorForFutureStockAccordion?: boolean;
@@ -692,11 +682,24 @@ export interface FeatureTogglesInterface {
    * Affects: `NavigationUIComponent`
    */
   navigationMenuCloseOnSameLinkClick?: boolean;
+
+  /**
+   * shows the Quote Purchase Order Number input field in the Quote Request form
+   * and in the Quote Details page
+   *
+   * when set to `true`, the user will be able to enter a Purchase Order Number
+   * when requesting a quote and see it in the quote details
+   */
+  enableQuotePurchaseOrderNumber?: boolean;
+  /**
+   * When enabled, fixes the issue with return order returnable quantity not being displayed correctly
+   * on the `ReturnOrderComponent` when navigating to the return request details page.
+   * Affects: `ReturnOrderComponent`
+   */
+  enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  searchBoxV2: true,
-  trendingSearches: true,
   a11yUseProperTextColorForFutureStockAccordion: true,
   a11yPopoverHighContrast: true,
   a11yTabsManualActivation: true,
@@ -713,7 +716,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yResetFocusAfterNavigating: true,
   headerLayoutForSmallerViewports: true,
   a11yStoreFinderLabel: false,
-  a11yImprovedErrorMessage: false,
+  a11yImprovedErrorMessage: true,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
@@ -755,9 +758,9 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   useExtendedMediaComponentConfiguration: true,
   showRealTimeStockInPDP: true,
   a11yScrollToTopPositioning: true,
-  a11yWideScreenImprovements: false,
-  a11yOptimizedMenuSpacing: false,
-  a11yNgSelectLayering: false,
+  a11yWideScreenImprovements: true,
+  a11yOptimizedMenuSpacing: true,
+  a11yNgSelectLayering: true,
   readMoreDirective: false,
   productReviewCharactersLeft: false,
   a11yNgSelectAriaControls: false,
@@ -766,7 +769,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableCarouselCategoryProducts: true,
   enableClaimCustomerCouponWithCodeInRequestBody: true,
   enableReadDomainValuesOnDemand: false,
-  opfEnablePreventingFromCheckoutWithoutEmail: false,
+  opfEnablePreventingFromCheckoutWithoutEmail: true,
   storeFinderFacadeCleanup: false,
   defaultProductPageRouteAllowsNoProductName: false,
   consistentSizeProductCards: false,
@@ -784,4 +787,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   dispatchLoginActionOnlyWhenTokenReceived: false,
   defaultLayoutConfigWithoutPageFold: false,
   navigationMenuCloseOnSameLinkClick: false,
+  enableQuotePurchaseOrderNumber: false,
+  enableReturnOrderReturnableQuantityConsigmentFallback: false,
 };

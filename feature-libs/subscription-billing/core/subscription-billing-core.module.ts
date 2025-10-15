@@ -6,10 +6,17 @@
 
 import { NgModule } from '@angular/core';
 import { facadeProviders } from './facade';
-import { SubscriptionBillingConnector } from './connector';
+import {
+  SubscriptionBillingConnector,
+  SubscriptionActionsConnector,
+} from './connector';
 
 @NgModule({
   imports: [],
-  providers: [...facadeProviders, SubscriptionBillingConnector],
+  providers: [
+    ...facadeProviders,
+    SubscriptionBillingConnector,
+    SubscriptionActionsConnector,
+  ],
 })
 export class SubscriptionBillingCoreModule {}

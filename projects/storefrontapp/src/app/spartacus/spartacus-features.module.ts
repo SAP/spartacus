@@ -293,8 +293,6 @@ if (environment.cpq) {
     },
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
-        searchBoxV2: true,
-        trendingSearches: true,
         a11yUseProperTextColorForFutureStockAccordion: true,
         a11yPopoverHighContrast: true,
         a11yTabsManualActivation: true,
@@ -387,6 +385,8 @@ if (environment.cpq) {
         authorizationCodeFlowByDefault: false,
         defaultLayoutConfigWithoutPageFold: true,
         navigationMenuCloseOnSameLinkClick: true,
+        enableQuotePurchaseOrderNumber: false,
+        enableReturnOrderReturnableQuantityConsigmentFallback: true,
       };
       return appFeatureToggles;
     }),

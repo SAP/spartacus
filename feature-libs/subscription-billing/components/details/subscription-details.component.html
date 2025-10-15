@@ -1,4 +1,6 @@
-<ng-container *ngIf="subscriptionDetails$ | async as subscription">
+<ng-container
+  *ngIf="subscriptionDetails$ | async as subscription; else loading"
+>
   <div class="subscription">
     <div class="subscription-header">
       <div
@@ -114,15 +116,24 @@
             *ngIf="subscription.isCancellationPossible"
             cxBtnLikeLink
             class="btn btn-block btn-secondary"
+            (click)="showSubscriptionActionsDialog('cancel')"
+            [attr.aria-label]="
+              'subscriptionDetails.cancelSubscription' | cxTranslate
+            "
           >
             {{ 'subscriptionDetails.cancelSubscription' | cxTranslate }}
           </a>
         </span>
         <span class="action-button-right">
           <a
+            #extendSubscriptionBtn
             *ngIf="subscription.isExtensionPossible"
+            [attr.aria-label]="
+              'subscriptionDetails.extendSubscription' | cxTranslate
+            "
             cxBtnLikeLink
             class="btn btn-block btn-secondary"
+            (click)="showSubscriptionActionsDialog('extend')"
           >
             {{ 'subscriptionDetails.extendSubscription' | cxTranslate }}
           </a>
@@ -132,6 +143,8 @@
             *ngIf="subscription.isCancellationReversalPossible"
             cxBtnLikeLink
             class="btn btn-block btn-secondary"
+            [attr.aria-label]="'subscriptionDetails.reSubscribe' | cxTranslate"
+            (click)="showSubscriptionActionsDialog('resubscribe')"
           >
             {{ 'subscriptionDetails.reSubscribe' | cxTranslate }}
           </a>
@@ -139,6 +152,10 @@
         <span class="action-button-right">
           <a
             *ngIf="subscription.isWithdrawalPossible"
+            [attr.aria-label]="
+              'subscriptionDetails.withdrawSubscription' | cxTranslate
+            "
+            (click)="showSubscriptionActionsDialog('withdraw')"
             cxBtnLikeLink
             class="btn btn-block btn-secondary"
           >
@@ -149,3 +166,6 @@
     </div>
   </div>
 </ng-container>
+<ng-template #loading>
+  <cx-spinner></cx-spinner>
+</ng-template>

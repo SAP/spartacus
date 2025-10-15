@@ -56,6 +56,7 @@ export function waitForSubscriptionOrderToSyncToCommerce() {
 
 export function placeSubscriptionOrder() {
   addCheapProductToCart(subscription_product);
+  validateSubscriptionCharges();
   cy.findByText(/proceed to checkout/i).click();
   cy.get('cx-payment-type').within(() => {
     cy.findByText('Account').click({ force: true });
@@ -130,4 +131,256 @@ export function validateSubscriptionDetailsPage() {
     cy.contains('button', 'View All Subscriptions').click();
   });
   cy.get('cx-subscription-list', { timeout: 10000 }).should('exist');
+}
+
+export function extendSubscriptionByFrequency(extendDuration: number) {
+  cy.get('cx-subscription-details').within(() => {
+    cy.find('button.btn-primary', { timeout: 1000 }).should('be.disabled');
+    cy.find('button', { timeout: 10000 })
+      .contains('Extend Subscription')
+      .should('be.visible')
+      .click();
+    cy.get('#extendDurationDropdown').should('be.visible').click();
+    cy.wait(2000);
+
+    cy.contains(
+      `${extendDuration} ${Cypress.env('subscriptionContractFrequency')}`
+    )
+      .should('be.visible')
+      .click();
+    cy.find('button.btn-primary', { timeout: 1000 })
+      .contains('Extend')
+      .should('be.enabled')
+      .click();
+    cy.intercept('POST', '/extension').as('extendSubscription');
+    cy.find('button.btn-primary', { timeout: 1000 })
+      .contains('Confirm')
+      .click();
+    cy.wait('@extendSubscription')
+      .its('response.statusCode')
+      .should('eq', 200)
+      .then(() => {
+        cy.wait(2000);
+        cy.get('cx-global-message').should(
+          'contain.text',
+          'Your subscription has been extended successfully'
+        );
+      });
+  });
+}
+
+const subscriptionSelector = '.subscription';
+const statusSelector = '.subscription-status';
+const manageServiceLinkSelector = '.subscription-column-2 a.cx-action-link';
+const subscriptionComponentSelector = 'cx-subscription-list';
+const subscriptionDetailsComponentSelector = 'cx-subscription-details';
+
+let alreadyCancelled = false;
+
+export function clickManageServiceForActiveSubscription() {
+  cy.get(subscriptionComponentSelector).should('be.visible');
+  cy.get(subscriptionSelector).should('exist');
+
+  cy.get(subscriptionSelector).then(($subs) => {
+    const activeSub = $subs
+      .toArray()
+      .find((el) =>
+        el.querySelector(statusSelector)?.textContent?.includes('Active')
+      );
+    if (activeSub) {
+      cy.wrap(activeSub)
+        .find(manageServiceLinkSelector)
+        .should('be.visible')
+        .click({ force: true });
+      cy.get(subscriptionDetailsComponentSelector).should('be.visible');
+    } else {
+      throw new Error('No active subscription found.');
+    }
+  });
+}
+
+export function checkCancelButtonExists() {
+  const cancelButtonSelector = `cx-subscription-details .cx-other-actions a[aria-label="Cancel Subscription"]`;
+  cy.get('cx-subscription-details', { timeout: 10000 }).should('be.visible');
+  cy.get(cancelButtonSelector, { timeout: 5000 })
+    .should('exist')
+    .and('be.visible');
+  cy.log('Cancel button is present and visible.');
+}
+
+export function cancelSubscriptionIfPossible() {
+  if (alreadyCancelled) {
+    resubscribeSubscriptionIfPossible();
+    return;
+  }
+  alreadyCancelled = true;
+
+  const cancelButtonSelector =
+    '.cx-other-actions a[aria-label="Cancel Subscription"]';
+  const modalSelector = 'cx-subscription-actions-modal';
+  const confirmButtonSelector = `${modalSelector} button.btn-primary`;
+
+  cy.get('body').then(($body) => {
+    if ($body.find(cancelButtonSelector).length > 0) {
+      cy.log('Cancel button is available, proceeding to click it.');
+      cy.get(cancelButtonSelector).should('be.visible').click({ force: true });
+
+      cy.get(modalSelector, { timeout: 15000 }).should('be.visible');
+
+      cy.get(`${modalSelector} .cx-dialog-body p`)
+        .first()
+        .invoke('text')
+        .then((text) => {
+          cy.log(`Modal message: ${text}`);
+        });
+
+      cy.intercept('POST', '**/cancellationEffectiveAt?**').as('cancelCall');
+
+      cy.get(confirmButtonSelector).should('be.visible').click({ force: true });
+
+      cy.get(modalSelector, { timeout: 10000 }).should('not.exist');
+
+      cy.get(`${subscriptionDetailsComponentSelector} .subscription-status`, {
+        timeout: 15000,
+      })
+        .should(($el) => {
+          const text = $el.text().toLowerCase();
+          expect(text).to.include('cancelled');
+        })
+        .then(($el) => {
+          cy.log(`Subscription status after cancellation: ${$el.text()}`);
+        });
+    } else {
+      cy.log('No cancel button available — skipping cancellation.');
+    }
+  });
+}
+
+export function clickManageServiceForCancellSubscription() {
+  cy.get(subscriptionComponentSelector).should('be.visible');
+  cy.get(subscriptionSelector).should('exist');
+
+  cy.get(subscriptionSelector).then(($subs) => {
+    const cancelledSub = $subs
+      .toArray()
+      .find((el) =>
+        el.querySelector(statusSelector)?.textContent?.includes('Cancelled')
+      );
+    if (cancelledSub) {
+      cy.wrap(cancelledSub)
+        .find(manageServiceLinkSelector)
+        .should('be.visible')
+        .click({ force: true });
+      cy.get(subscriptionDetailsComponentSelector).should('be.visible');
+    } else {
+      throw new Error('No cancelled subscription found.');
+    }
+  });
+}
+
+export function resubscribeSubscriptionIfPossible() {
+  const resubscribeButtonSelector =
+    '.cx-other-actions a[aria-label="Re-subscribe"]';
+  const modalSelector = 'cx-subscription-actions-modal';
+  const confirmButtonSelector = `${modalSelector} button.btn-primary`;
+
+  cy.get('body').then(($body) => {
+    if ($body.find(resubscribeButtonSelector).length > 0) {
+      cy.log('Re-subscribe button is available, proceeding to click it.');
+
+      cy.intercept('POST', '**/subscriptions/**/cancellationReversal?**').as(
+        'resubscribeCall'
+      );
+
+      cy.get(resubscribeButtonSelector)
+        .should('be.visible')
+        .click({ force: true });
+
+      cy.get(modalSelector, { timeout: 5000 }).should('be.visible');
+      cy.get(`${modalSelector} .cx-dialog-header h4 strong`).should(
+        'contain.text',
+        'Resubscribe your subscription?'
+      );
+
+      cy.get(`${modalSelector} .cx-dialog-body p`).should(
+        'contain.text',
+        'By confirming, you are renewing your subscription'
+      );
+
+      cy.get(confirmButtonSelector).should('be.visible').click({ force: true });
+
+      cy.wait('@resubscribeCall', { timeout: 10000 });
+
+      cy.get(modalSelector, { timeout: 10000 }).should('not.exist');
+
+      cy.get(`${subscriptionDetailsComponentSelector} .subscription-status`)
+        .invoke('text')
+        .then((statusText) => {
+          cy.log(`Subscription status after resubscribe: ${statusText}`);
+        });
+    } else {
+      cy.log('No Re-subscribe button available — skipping resubscribe.');
+    }
+  });
+}
+
+export function widthdrawSubscriptionIfPossible() {
+  const withdrawButtonSelector = '.cx-other-actions a[aria-label="Withdraw"]';
+  const modalSelector = 'cx-subscription-actions-modal';
+  const confirmButtonSelector = `${modalSelector} button.btn-primary`;
+
+  cy.get('body').then(($body) => {
+    if ($body.find(withdrawButtonSelector).length > 0) {
+      cy.log('Withdraw button is available, proceeding to click it.');
+
+      cy.get(withdrawButtonSelector)
+        .should('be.visible')
+        .click({ force: true });
+
+      cy.get(modalSelector, { timeout: 5000 }).should('be.visible');
+
+      cy.get(`${modalSelector} .cx-dialog-header h4 strong`).should(
+        'contain.text',
+        'Withdraw your subscription?'
+      );
+
+      cy.intercept('POST', '**/subscriptions/**/withdrawal?**').as(
+        'withdrawCall'
+      );
+      cy.get(confirmButtonSelector).should('be.visible').click({ force: true });
+
+      cy.wait('@withdrawCall', { timeout: 10000 });
+
+      cy.get(modalSelector, { timeout: 10000 }).should('not.exist');
+
+      cy.get(`${subscriptionDetailsComponentSelector} .subscription-status`, {
+        timeout: 15000,
+      })
+        .should(($el) => {
+          const text = $el.text().toLowerCase();
+          expect(text).to.include('withdrawn');
+        })
+        .then(($el) => {
+          cy.log(`Subscription status after Withdrawn: ${$el.text()}`);
+        });
+    } else {
+      cy.log('No Withdraw button available.');
+    }
+  });
+}
+
+export function clickViewAllSubscriptions() {
+  cy.get('button')
+    .contains('View All Subscriptions')
+    .should('be.visible')
+    .click();
+  cy.get(subscriptionComponentSelector, { timeout: 10000 }).should(
+    'be.visible'
+  );
+}
+
+export function validateSubscriptionCharges() {
+  cy.get(`cx-subscription-cart-price-body`)
+    .should('contain.text', 'monthly payment')
+    .and('contain.text', ' pay on checkout ');
 }
