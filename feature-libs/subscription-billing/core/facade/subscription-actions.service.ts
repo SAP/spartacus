@@ -15,6 +15,7 @@ import {
   GetSubscriptionByCodeReloadEvent,
   SubscriptionActionsFacade,
   SubscriptionCancellationDetails,
+  SubscriptionExtensionEffectiveDate,
   SubscriptionWithdraw,
 } from '@spartacus/subscription-billing/root';
 import { Observable, switchMap, take, combineLatest, of } from 'rxjs';
@@ -120,6 +121,44 @@ export class SubscriptionActionsService implements SubscriptionActionsFacade {
           withdrawalData
         );
       })
+    );
+  }
+
+  getExtensionEffectiveDate(
+    extendDuration: number,
+    isUnlimitedDuration: boolean,
+    code: string
+  ): Observable<SubscriptionExtensionEffectiveDate> {
+    return combineLatest([this.userIdService.getUserId(), of(code)]).pipe(
+      switchMap(([userId, subscriptionCode]) =>
+        this.SubscriptionActionsConnector.getExtensionEffectiveDate(
+          userId,
+          subscriptionCode,
+          extendDuration,
+          isUnlimitedDuration
+        )
+      )
+    );
+  }
+
+  extendSubscription(
+    extendDuration: number,
+    isUnlimitedDuration: boolean,
+    subscriptionCode: string
+  ): Observable<any> {
+    return combineLatest([
+      this.userIdService.getUserId(),
+      of(subscriptionCode),
+    ]).pipe(
+      take(1),
+      switchMap(([userId, code]) =>
+        this.SubscriptionActionsConnector.extendSubscription(
+          userId,
+          code,
+          extendDuration,
+          isUnlimitedDuration
+        )
+      )
     );
   }
 }
