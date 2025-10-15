@@ -385,6 +385,7 @@ if (environment.cpq) {
         authorizationCodeFlowByDefault: true,
         defaultLayoutConfigWithoutPageFold: true,
         navigationMenuCloseOnSameLinkClick: true,
+        enableQuotePurchaseOrderNumber: false,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
       };
       return appFeatureToggles;
