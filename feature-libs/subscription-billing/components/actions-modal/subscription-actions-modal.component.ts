@@ -58,12 +58,12 @@ import { NgSelectModule } from '@ng-select/ng-select';
   ],
 })
 export class SubscriptionActionsModalComponent {
-  private actionsFacade = inject(SubscriptionActionsFacade);
-  private launchDialogService = inject(LaunchDialogService);
-  private destroyRef = inject(DestroyRef);
-  private actionHandler = inject(SubscriptionActionsModalComponentService);
+  protected actionsFacade = inject(SubscriptionActionsFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected destroyRef = inject(DestroyRef);
+  protected actionHandler = inject(SubscriptionActionsModalComponentService);
 
-  private subscriptionDetailSignal = toSignal(
+  protected subscriptionDetailSignal = toSignal(
     this.launchDialogService.data$ as Observable<
       SubscriptionDetail & {
         code?: string;
@@ -104,6 +104,9 @@ export class SubscriptionActionsModalComponent {
   };
   constructor() {
     this.registerSubscriptionCancellationEffect();
+    this.initExtendDurationOptions();
+  }
+  protected initExtendDurationOptions(): void {
     const frequency = this.subscriptionContractFrequency;
     const maxOptions: number =
       (this.extendFrequencyMaxOptions[frequency] ?? 0) + 1; // +1 to include the unlimited duration option

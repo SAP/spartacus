@@ -12,7 +12,7 @@ import {
   SubscriptionBillingFacade,
   SubscriptionDetail,
 } from '@spartacus/subscription-billing/root';
-import { Observable, of, Subscription, take } from 'rxjs';
+import { Observable, of, take } from 'rxjs';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 
 @Component({
@@ -24,8 +24,6 @@ export class SubscriptionDetailsComponent implements OnInit {
   protected subscriptionFacade = inject(SubscriptionBillingFacade);
   protected eventService = inject(EventService);
   protected launchDialogService = inject(LaunchDialogService);
-
-  protected subscription = new Subscription();
 
   subscriptionDetails$: Observable<SubscriptionDetail | undefined> =
     of(undefined);
