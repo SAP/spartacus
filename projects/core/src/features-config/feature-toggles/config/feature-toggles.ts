@@ -119,12 +119,6 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * `StoreComponent and MyPreferredStoreComponent` an icon in a button that triggers showing
-   * store's opening hours has an acceptable contrast ratio in a default theme
-   */
-  a11yViewHoursButtonIconContrast?: boolean;
-
-  /**
    * `StoreComponent` `In Stock` icon has an acceptable contrast ratio in a default theme
    */
   a11yStoreInStockIconContrast?: boolean;
@@ -683,7 +677,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yViewHoursButtonIconContrast: true,
   a11yStoreInStockIconContrast: true,
   a11yCheckoutStepsLandmarks: true,
   a11yQTY2Quantity: true,
