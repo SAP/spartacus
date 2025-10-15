@@ -10,7 +10,7 @@ import {
   SubscriptionBillingFacade,
   SubscriptionDetail,
 } from '@spartacus/subscription-billing/root';
-import { Pipe, PipeTransform } from '@angular/core';
+import { ElementRef, Pipe, PipeTransform } from '@angular/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 const routerParam$: BehaviorSubject<{
   [key: string]: string;
@@ -36,15 +36,22 @@ class MockTranslationService {
 class MockEventService implements Partial<EventService> {
   dispatch<T extends object>(_event: T): void {}
 }
-class MockLaunchDialogService {
-  openDialogAndSubscribe() {}
-}
 @Pipe({
   name: 'cxUrl',
   standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
+}
+
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  data$: Observable<any> = of('Months');
+  openDialogAndSubscribe(
+    _: LAUNCH_CALLER | string,
+    __?: ElementRef,
+    ___?: any
+  ): void {}
+  closeDialog(_: any) {}
 }
 
 describe('SubscriptionDetailsComponent', () => {
