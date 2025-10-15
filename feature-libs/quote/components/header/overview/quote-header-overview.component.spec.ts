@@ -389,6 +389,35 @@ describe('QuoteHeaderOverviewComponent', () => {
         });
     });
 
+    it('should retrieve the card content that represents the quote information with empty name, description and purchaseOrderNumber', () => {
+      fixture.detectChanges();
+
+      const expected = {
+        title: 'quote.header.overview.information',
+        paragraphs: [
+          {
+            title: 'quote.header.overview.name',
+            text: ['-'],
+          },
+          {
+            title: 'quote.header.overview.description',
+            text: ['-'],
+          },
+          {
+            title: 'quote.header.overview.purchaseOrderNumber',
+            text: ['-'],
+          },
+        ],
+      };
+
+      component.enablePurchaseOrderNumber = true;
+      component
+        .getQuoteInformation(undefined, undefined, undefined)
+        .subscribe((result) => {
+          expect(result).toEqual(expected);
+        });
+    });
+
     it('should retrieve the edit card content that represents the edit quote information with its name and description', () => {
       const name = 'Updated name';
       const description = 'Updated description';
@@ -401,6 +430,24 @@ describe('QuoteHeaderOverviewComponent', () => {
 
       const result = component.getEditQuoteInformation(name, description);
       expect(result).toEqual(expected);
+    });
+
+    it('should retrieve the edit card content that represents the edit quote information with its name, description and purchaseOrderNumber', () => {
+      const name = 'Updated name';
+      const description = 'Updated description';
+      const purchaseOrderNumber = 'PO12345';
+
+      component.enablePurchaseOrderNumber = true;
+
+      const expected = {
+        name: 'Updated name',
+        description: 'Updated description',
+        charactersLimit: 255,
+        purchaseOrderNumber
+      };
+
+      const result = component.getEditQuoteInformation(name, description, purchaseOrderNumber);
+      expect(result).toEqual(expected); 
     });
 
     it('should retrieve the card content that represents an empty estimated total and expiry date information', () => {
