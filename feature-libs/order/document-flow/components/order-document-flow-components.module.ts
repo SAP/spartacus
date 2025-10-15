@@ -14,7 +14,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { OrderDocumentFlowComponent } from './order-document-flow';
-import { defaultOrderDocumentFlowDialogLayoutConfig } from './order-document-flow/default-order-document-flow-dialog-layout.config';
+import { defaultOrderDocumentFlowDialogLayoutConfig } from './default-order-document-flow-dialog-layout.config';
 import {
   OrderDocumentFlowDialogComponent,
   OrderDocumentOrderEntryListComponent,

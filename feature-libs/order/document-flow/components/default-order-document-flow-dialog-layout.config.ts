@@ -5,7 +5,7 @@
  */
 
 import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
-import { OrderDocumentFlowDialogComponent } from '../order-document-flow-dialog';
+import { OrderDocumentFlowDialogComponent } from './order-document-flow-dialog';
 
 export const defaultOrderDocumentFlowDialogLayoutConfig: LayoutConfig = {
   launch: {
