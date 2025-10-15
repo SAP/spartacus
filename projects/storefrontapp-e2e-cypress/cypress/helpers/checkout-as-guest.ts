@@ -58,6 +58,17 @@ export function testCheckoutAsGuest() {
 
     createAccountFromGuest(guestUser.password);
 
+    cy.get('cx-login-form.user-form').within(() => {
+      cy.get('[formcontrolname="userId"]').clear().type(guestUser.email);
+      cy.get('[formcontrolname="password"]').clear().type(guestUser.password);
+      cy.get('button[type=submit]').click();
+    });
+
+    cy.get('cx-login div.cx-login-greet', { timeout: 30000 }).should(
+      'contain',
+      guestUser.firstName
+    );
+
     cy.selectUserMenuOption({
       option: 'Address Book',
     });
@@ -91,14 +102,20 @@ export function testCheckoutAsGuest() {
 
 export function createAccountFromGuest(password: string) {
   const homePage = waitForPage('homepage', 'getHomePage');
-  cy.intercept('GET', '**/users/current/carts**').as('getCartsAfterRegister');
+
   cy.get('cx-guest-register-form').within(() => {
     cy.get('[formcontrolname="password"]').clear().type(password);
     cy.get('[formcontrolname="passwordconf"]').clear().type(password);
     cy.get('button[type=submit]').click();
   });
 
-  cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
-  cy.wait('@getCartsAfterRegister');
-  cy.get('cx-page-slot.Section1 cx-banner');
+  cy.wait(`@${homePage}`, { timeout: 30000 })
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.location('pathname', { timeout: 30000 }).should('include', '/login');
+
+  cy.get('cx-login-form.user-form', { timeout: 30000 }).should('be.visible');
+
+  cy.wait(1000);
 }
