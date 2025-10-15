@@ -35,11 +35,6 @@ export interface FeatureTogglesInterface {
   a11yQuickOrderSearchListKeyboardNavigation?: boolean;
 
   /**
-   * Adds label to the `SearchBoxComponent` search input
-   */
-  a11ySearchboxLabel?: boolean;
-
-  /**
    * When set to `true`, external links in `StoreFinderListItemComponent`
    * adopt a more link-like style, appearing more like links instead of buttons. This is semantically more correct since they open content in a new window,
    * providing a more intuitive user experience.
@@ -706,7 +701,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAnonymousConsentMessageInDialog: true,
   a11yQuickOrderSearchListKeyboardNavigation: true,
   a11yStyleExternalLinksAsLinks: true,
-  a11ySearchboxLabel: true,
   a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
   a11yKeyboardAccessibleZoom: false,
   a11yTruncatedTextStoreFinder: true,

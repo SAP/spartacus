@@ -298,7 +298,6 @@ if (environment.cpq) {
         a11yTabsManualActivation: true,
         a11yAnonymousConsentMessageInDialog: true,
         a11yQuickOrderSearchListKeyboardNavigation: false,
-        a11ySearchboxLabel: true,
         a11yStyleExternalLinksAsLinks: true,
         a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
         a11yKeyboardAccessibleZoom: true,
