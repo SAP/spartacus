@@ -9,10 +9,7 @@
     border-bottom: none;
 
     .cx-item-list-qty {
-      text-transform: uppercase;
-      @include forFeature('a11yQTY2Quantity') {
-        text-transform: none;
-      }
+      text-transform: none;
     }
   }
 

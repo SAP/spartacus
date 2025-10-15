@@ -124,11 +124,6 @@ export interface FeatureTogglesInterface {
   a11yStoreInStockIconContrast?: boolean;
 
   /**
-   * In `CartItemListComponent`, change QTY into Quantity.
-   */
-  a11yQTY2Quantity?: boolean;
-
-  /**
    * In `Card component`, replace button classes to .btn .btn-tertiary and use cx-generic link
    * instead of regular <a> tag.
    * In `My Preferred Store component`, replace a `Get directions` action from CardAction to CardLinkAction
@@ -673,7 +668,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
   a11yStoreInStockIconContrast: true,
-  a11yQTY2Quantity: true,
   a11yImproveButtonsInCardComponent: true,
   a11yMiniCartFocusOnMobile: true,
   a11yWrapReviewOrderInSection: true,
