@@ -13,7 +13,7 @@ const BUYER_PASSWORD = 'welcome';
 const BUYER_USER = 'James Weber';
 const PRODUCT_AMOUNT_30 = 3000;
 
-context('Checkout - PO Number field behavior (CXSPA-XXXX)', () => {
+context('Checkout - PO Number field behavior (CXSPA-10956)', () => {
   before(() => {
     cy.visit('/');
     quote.login(BUYER_EMAIL, BUYER_PASSWORD, BUYER_USER);

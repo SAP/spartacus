@@ -52,11 +52,7 @@ export class QuoteHeaderOverviewComponent {
   protected defineQuoteMetaData(event: SaveEvent): QuoteMetadata {
     let metaData: QuoteMetadata = {};
     if (Object.getOwnPropertyNames(event).length >= 1) {
-      const [name, description, purchaseOrderNumber] = [
-        event.name,
-        event.description,
-        event.purchaseOrderNumber,
-      ];
+      const { name, description, purchaseOrderNumber } = event;
 
       metaData = {
         ...metaData,
