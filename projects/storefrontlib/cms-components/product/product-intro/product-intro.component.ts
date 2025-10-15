@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   EventService,
-  FeatureConfigService,
   Product,
   TranslationService,
   WindowRef,
@@ -29,8 +28,6 @@ import { CurrentProductService } from '../current-product.service';
 export class ProductIntroComponent {
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
-
-  private featureConfigService = inject(FeatureConfigService);
 
   /**
    * Observable that checks the reviews component availability on the page.
