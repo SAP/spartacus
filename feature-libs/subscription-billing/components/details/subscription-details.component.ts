@@ -8,6 +8,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import {
   GetSubscriptionByCodeReloadEvent,
+  SubscriptionActionMode,
   SubscriptionBillingFacade,
   SubscriptionDetail,
 } from '@spartacus/subscription-billing/root';
@@ -31,9 +32,8 @@ export class SubscriptionDetailsComponent implements OnInit {
     this.eventService.dispatch({}, GetSubscriptionByCodeReloadEvent);
     this.subscriptionDetails$ = this.subscriptionFacade.getSubscriptionByCode();
   }
-  showSubscriptionActionsDialog(
-    mode: 'cancel' | 'withdraw' | 'resubscribe'
-  ): void {
+
+  showSubscriptionActionsDialog(mode: SubscriptionActionMode): void {
     this.subscriptionDetails$.pipe(take(1)).subscribe((subscription) => {
       if (!subscription) return;
 
