@@ -322,7 +322,6 @@ if (environment.cpq) {
         a11yMiniCartFocusOnMobile: true,
         a11yApprovalProcessWithNoClearable: true,
         a11yPostRegisterSuccessMessage: true,
-        a11yDeleteButton2First: true,
         a11yShowLabelOfSelect: true,
         a11yShowDownArrowOnFocusedSelectMenu: true,
         a11yCroppedFocusRing: true,

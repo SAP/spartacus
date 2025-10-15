@@ -147,11 +147,6 @@ export interface FeatureTogglesInterface {
   a11yPostRegisterSuccessMessage?: boolean;
 
   /**
-   * In `CardComponent`, place `Delete` button before `Cancel` button.
-   */
-  a11yDeleteButton2First?: boolean;
-
-  /**
    * In `CustomerListComponent`, `OrderApprovalListComponent`, and `ConfiguratorAttriuteSingleSelectionBundleDropdownComponent`, show label of every `ng-select` and `select`.
    */
   a11yShowLabelOfSelect?: boolean;
@@ -673,7 +668,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yWrapReviewOrderInSection: true,
   a11yApprovalProcessWithNoClearable: true,
   a11yPostRegisterSuccessMessage: true,
-  a11yDeleteButton2First: true,
   a11yShowLabelOfSelect: true,
   a11yShowDownArrowOnFocusedSelectMenu: true,
   a11yCroppedFocusRing: true,
