@@ -29,7 +29,6 @@ import {
 import {
   CmsAddToCartComponent,
   EventService,
-  FeatureConfigService,
   FeatureToggles,
   Product,
   ProductAvailabilityService,
@@ -96,7 +95,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   iconTypes = ICON_TYPE;
 
-  private featureConfigService = inject(FeatureConfigService);
   private featureToggles = inject(FeatureToggles);
   private productAvailabilityService = inject(ProductAvailabilityService);
   protected productCatalogService = inject(ProductCatalogService);
@@ -285,10 +283,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   }
 
   onPickupOptionsCompLoaded() {
-    if (
-      this.featureConfigService.isEnabled('a11yPickupOptionsTabs') &&
-      this.pickupOptionCompRef instanceof ComponentRef
-    ) {
+    if (this.pickupOptionCompRef instanceof ComponentRef) {
       this.subscription.add(
         this.pickupOptionCompRef.instance.intendedPickupChange.subscribe(
           (
