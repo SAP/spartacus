@@ -386,6 +386,7 @@ if (environment.cpq) {
         defaultLayoutConfigWithoutPageFold: true,
         navigationMenuCloseOnSameLinkClick: true,
         enableQuotePurchaseOrderNumber: false,
+        enableReturnOrderReturnableQuantityConsigmentFallback: true,
       };
       return appFeatureToggles;
     }),
