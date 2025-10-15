@@ -79,22 +79,13 @@ export class ProductIntroComponent {
         if (reviewsTab) {
           this.clickTabIfInactive(reviewsTab);
           setTimeout(() => {
-            if (
-              this.featureConfigService?.isEnabled(
-                'a11yScrollToReviewByShowReview'
-              )
-            ) {
-              requestAnimationFrame(() => {
-                reviewsTab.scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'start',
-                });
-                reviewsTab.focus({ preventScroll: true });
+            requestAnimationFrame(() => {
+              reviewsTab.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
               });
-            } else {
-              reviewsTab.scrollIntoView({ behavior: 'smooth', block: 'start' });
               reviewsTab.focus({ preventScroll: true });
-            }
+            });
           });
         }
       })

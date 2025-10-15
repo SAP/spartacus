@@ -317,7 +317,6 @@ if (environment.cpq) {
         a11yNgSelectCloseDropdownOnEscape: true,
         a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
         a11yNgSelectAriaLabelDropdownCustomized: true,
-        a11yScrollToReviewByShowReview: true,
         a11yViewHoursButtonIconContrast: true,
         a11yStoreInStockIconContrast: true,
         a11yCheckoutStepsLandmarks: true,
