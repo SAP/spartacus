@@ -119,11 +119,6 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * Stops the inputs value from obstructing the 'PasswordVisibilityToggleComponent'.
-   */
-  a11yPasswordVisibliltyBtnValueOverflow?: boolean;
-
-  /**
    * In `ItemCounterComponenet`, Remove button no longer lose focus after activating when count is 2.
    * Add button no longer lose focus after activating when count is `max - 1`.
    */
@@ -699,7 +694,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yPasswordVisibliltyBtnValueOverflow: true,
   a11yItemCounterFocus: true,
   a11yScrollToReviewByShowReview: true,
   a11yViewHoursButtonIconContrast: true,
