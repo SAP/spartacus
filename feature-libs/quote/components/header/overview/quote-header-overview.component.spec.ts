@@ -443,11 +443,15 @@ describe('QuoteHeaderOverviewComponent', () => {
         name: 'Updated name',
         description: 'Updated description',
         charactersLimit: 255,
-        purchaseOrderNumber
+        purchaseOrderNumber,
       };
 
-      const result = component.getEditQuoteInformation(name, description, purchaseOrderNumber);
-      expect(result).toEqual(expected); 
+      const result = component.getEditQuoteInformation(
+        name,
+        description,
+        purchaseOrderNumber
+      );
+      expect(result).toEqual(expected);
     });
 
     it('should retrieve the card content that represents an empty estimated total and expiry date information', () => {
