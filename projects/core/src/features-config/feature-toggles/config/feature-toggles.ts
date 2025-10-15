@@ -119,11 +119,6 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * In `AddedToCartDialogComponent`, `Updating cart...` should no longer read by a screen reader.
-   */
-  a11yUpdatingCartNoNarration?: boolean;
-
-  /**
    * Stops the inputs value from obstructing the 'PasswordVisibilityToggleComponent'.
    */
   a11yPasswordVisibliltyBtnValueOverflow?: boolean;
@@ -704,7 +699,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yUpdatingCartNoNarration: true,
   a11yPasswordVisibliltyBtnValueOverflow: true,
   a11yItemCounterFocus: true,
   a11yScrollToReviewByShowReview: true,
