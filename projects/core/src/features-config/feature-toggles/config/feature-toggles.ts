@@ -124,11 +124,6 @@ export interface FeatureTogglesInterface {
   a11yStoreInStockIconContrast?: boolean;
 
   /**
-   * `Checkout` add a landmarks to content representing steps
-   */
-  a11yCheckoutStepsLandmarks?: boolean;
-
-  /**
    * In `CartItemListComponent`, change QTY into Quantity.
    */
   a11yQTY2Quantity?: boolean;
@@ -678,7 +673,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
   a11yStoreInStockIconContrast: true,
-  a11yCheckoutStepsLandmarks: true,
   a11yQTY2Quantity: true,
   a11yImproveButtonsInCardComponent: true,
   a11yMiniCartFocusOnMobile: true,

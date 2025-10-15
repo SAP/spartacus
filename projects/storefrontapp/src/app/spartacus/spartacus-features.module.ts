@@ -318,7 +318,6 @@ if (environment.cpq) {
         a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
         a11yNgSelectAriaLabelDropdownCustomized: true,
         a11yStoreInStockIconContrast: true,
-        a11yCheckoutStepsLandmarks: true,
         a11yQTY2Quantity: true,
         a11yImproveButtonsInCardComponent: true,
         a11yMiniCartFocusOnMobile: true,
