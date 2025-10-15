@@ -353,7 +353,6 @@ if (environment.cpq) {
         dispatchLoginActionOnlyWhenTokenReceived: true,
         a11yPdpGridArrangement: true,
         a11yHamburgerMenuTrapFocus: true,
-        useExtendedMediaComponentConfiguration: true,
         showRealTimeStockInPDP: true,
         a11yScrollToTopPositioning: true,
         a11yWideScreenImprovements: true,

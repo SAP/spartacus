@@ -341,28 +341,6 @@ export interface FeatureTogglesInterface {
   a11yRegionAssociatedHeaders?: boolean;
 
   /**
-   * When enabled, allows to provide extended formats and media queries for <picture> element if used in MediaComponent.
-   *
-   * Important: After activation default HTML element in MediaComponent will be `<img>`
-   * Only BannerComponent has passed `'picture'` value. If you need to use `<picture>` HTML element
-   * you need to pass `[elementType]="'picture'"` to `<cx-media>`
-   *
-   * For proper work requires `pictureElementFormats`  provided in media config:
-   *  ```ts
-   * provideConfig({
-   *   pictureElementFormats: {
-   *    mediaQueries: '(max-width: 480px)',
-   *   },
-   * })
-   * ```
-   *
-   * Toggle activates `@Input() elementType: 'img' | 'picture' = 'img'`
-   * and `@Input() sizesForImgElement: string` in `MediaComponent`
-   *
-   */
-  useExtendedMediaComponentConfiguration?: boolean;
-
-  /**
    * Enables Real time stock display in the PDP page.
    * when set to `true`, the user will be able to see the real time stock in PDP
    */
@@ -755,7 +733,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRegionAssociatedHeaders: true,
   a11yPdpGridArrangement: true,
   a11yHamburgerMenuTrapFocus: true,
-  useExtendedMediaComponentConfiguration: true,
   showRealTimeStockInPDP: true,
   a11yScrollToTopPositioning: true,
   a11yWideScreenImprovements: true,
