@@ -24,7 +24,7 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["Order", "Order-Document-Flow"],
+      "default": ["Order"],
       "items": {
         "enum": ["Order", "Order-Document-Flow"],
         "type": "string"
@@ -40,8 +40,7 @@
           },
           {
             "value": "Order-Document-Flow",
-            "label": "Order Document Flow (b2b feature)",
-            "checked": true
+            "label": "Order Document Flow (b2b feature)"
           }
         ]
       }
