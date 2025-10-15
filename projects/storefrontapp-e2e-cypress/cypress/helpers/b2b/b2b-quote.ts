@@ -693,8 +693,10 @@ export function editQuoteInformationCard(
         if (newQuoteDescription) {
           cy.get('textarea').clear().type(newQuoteDescription);
         }
-        if(quotePONumber) {
-          cy.get('input[name="purchaseOrderNumber"]').clear().type(quotePONumber);
+        if (quotePONumber) {
+          cy.get('input[name="purchaseOrderNumber"]')
+            .clear()
+            .type(quotePONumber);
         }
       });
   });

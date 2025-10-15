@@ -59,7 +59,11 @@ context('Quote Checkout - PO Number field behavior (CXSPA-10956)', () => {
       const QUOTE_PO_NUMBER = 'PO-12345';
       quote.checkQuoteHeaderOverviewCardState(false);
       quote.clickEditPencil();
-      quote.editQuoteInformationCard(QUOTE_NAME, QUOTE_DESCRIPTION, QUOTE_PO_NUMBER);
+      quote.editQuoteInformationCard(
+        QUOTE_NAME,
+        QUOTE_DESCRIPTION,
+        QUOTE_PO_NUMBER
+      );
       quote.saveEditedData();
       quote.checkQuoteHeaderOverviewCardState(false);
       quote.checkQuoteHeaderOverviewCardContent(QUOTE_NAME);
