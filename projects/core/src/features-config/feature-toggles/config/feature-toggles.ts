@@ -119,12 +119,6 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * In `ItemCounterComponenet`, Remove button no longer lose focus after activating when count is 2.
-   * Add button no longer lose focus after activating when count is `max - 1`.
-   */
-  a11yItemCounterFocus?: boolean;
-
-  /**
    * `ProductIntroComponent` should now scroll to the Review tab on the first click of the 'Show Review' button.
    */
   a11yScrollToReviewByShowReview?: boolean;
@@ -694,7 +688,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yItemCounterFocus: true,
   a11yScrollToReviewByShowReview: true,
   a11yViewHoursButtonIconContrast: true,
   a11yStoreInStockIconContrast: true,
