@@ -15,19 +15,58 @@
           role="row"
           class="cx-saved-cart-list-thead-mobile"
         >
-          <thead role="row" class="cx-saved-cart-list-thead-mobile">
-            <th role="columnheader" scope="col">
+          <th role="columnheader" scope="col">
+            {{ 'savedCartList.cartName' | cxTranslate }}
+          </th>
+          <th role="columnheader" scope="col">
+            {{ 'savedCartList.cartId' | cxTranslate }}
+          </th>
+          <th role="columnheader" scope="col">
+            {{ 'savedCartList.dateSaved' | cxTranslate }}
+          </th>
+          <th
+            *cxFeature="'a11yQTY2Quantity'"
+            role="columnheader"
+            scope="col"
+            class="cx-saved-cart-list-th-qty"
+          >
+            {{ 'savedCartList.quantityFull' | cxTranslate }}
+          </th>
+          <th
+            *cxFeature="'!a11yQTY2Quantity'"
+            role="columnheader"
+            scope="col"
+            class="cx-saved-cart-list-th-qty"
+          >
+            {{ 'savedCartList.quantity' | cxTranslate }}
+          </th>
+          <th
+            role="columnheader"
+            scope="col"
+            class="cx-saved-cart-list-th-total"
+          >
+            {{ 'savedCartList.total' | cxTranslate }}
+          </th>
+          <th role="columnheader" scope="col">
+            {{ 'savedCartList.actions' | cxTranslate }}
+          </th>
+        </thead>
+        <thead
+          *cxFeature="'a11yTableHeaderReadout'"
+          class="cx-saved-cart-list-thead-mobile"
+        >
+          <tr>
+            <th scope="col">
               {{ 'savedCartList.cartName' | cxTranslate }}
             </th>
-            <th role="columnheader" scope="col">
+            <th scope="col">
               {{ 'savedCartList.cartId' | cxTranslate }}
             </th>
-            <th role="columnheader" scope="col">
+            <th scope="col">
               {{ 'savedCartList.dateSaved' | cxTranslate }}
             </th>
             <th
               *cxFeature="'a11yQTY2Quantity'"
-              role="columnheader"
               scope="col"
               class="cx-saved-cart-list-th-qty"
             >
@@ -35,59 +74,18 @@
             </th>
             <th
               *cxFeature="'!a11yQTY2Quantity'"
-              role="columnheader"
               scope="col"
               class="cx-saved-cart-list-th-qty"
             >
               {{ 'savedCartList.quantity' | cxTranslate }}
             </th>
-            <th
-              role="columnheader"
-              scope="col"
-              class="cx-saved-cart-list-th-total"
-            >
+            <th scope="col" class="cx-saved-cart-list-th-total">
               {{ 'savedCartList.total' | cxTranslate }}
             </th>
-            <th role="columnheader" scope="col">
+            <th scope="col">
               {{ 'savedCartList.actions' | cxTranslate }}
             </th>
-          </thead>
-          <thead
-            *cxFeature="'a11yTableHeaderReadout'"
-            class="cx-saved-cart-list-thead-mobile"
-          >
-            <tr>
-              <th scope="col">
-                {{ 'savedCartList.cartName' | cxTranslate }}
-              </th>
-              <th scope="col">
-                {{ 'savedCartList.cartId' | cxTranslate }}
-              </th>
-              <th scope="col">
-                {{ 'savedCartList.dateSaved' | cxTranslate }}
-              </th>
-              <th
-                *cxFeature="'a11yQTY2Quantity'"
-                scope="col"
-                class="cx-saved-cart-list-th-qty"
-              >
-                {{ 'savedCartList.quantityFull' | cxTranslate }}
-              </th>
-              <th
-                *cxFeature="'!a11yQTY2Quantity'"
-                scope="col"
-                class="cx-saved-cart-list-th-qty"
-              >
-                {{ 'savedCartList.quantity' | cxTranslate }}
-              </th>
-              <th scope="col" class="cx-saved-cart-list-th-total">
-                {{ 'savedCartList.total' | cxTranslate }}
-              </th>
-              <th scope="col">
-                {{ 'savedCartList.actions' | cxTranslate }}
-              </th>
-            </tr>
-          </thead>
+          </tr>
         </thead>
         <tbody>
           <tr
