@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { inject } from '@angular/core';
 import { FeatureToggles } from '@spartacus/core';
 import { defaultOccConfig } from './default-occ-config';
