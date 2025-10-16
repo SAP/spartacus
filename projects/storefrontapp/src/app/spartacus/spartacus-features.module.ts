@@ -307,7 +307,6 @@ if (environment.cpq) {
         a11yPreventCartItemsFormRedundantRecreation: true,
         a11yPickupOptionsTabs: true,
         a11yResetFocusAfterNavigating: true,
-        headerLayoutForSmallerViewports: true,
         a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
         a11yLinkBtnsToTertiaryBtns: true,
