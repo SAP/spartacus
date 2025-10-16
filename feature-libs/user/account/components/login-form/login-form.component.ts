@@ -12,7 +12,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 
@@ -33,7 +32,6 @@ export class LoginFormComponent {
   method = this.service.method;
 
   constructor(protected service: LoginFormComponentService) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
     this.service.handleCustomLoginError();
   }
 
