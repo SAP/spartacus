@@ -37,7 +37,7 @@ export class QuoteHeaderOverviewComponent {
   protected eventService = inject(EventService);
   protected translationService = inject(TranslationService);
   protected quoteUIConfig = inject(QuoteUIConfig);
-  protected featureToggles = inject(FeatureToggles);
+  private featureToggles = inject(FeatureToggles);
 
   protected static NO_DATA = '-';
   protected static CHARACTERS_LIMIT = 255;
