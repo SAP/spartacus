@@ -10,7 +10,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { CmsPickupItemDetails, useFeatureStyles } from '@spartacus/core';
+import { CmsPickupItemDetails } from '@spartacus/core';
 import { DeliveryPointOfService } from '@spartacus/pickup-in-store/root';
 import { CmsComponentData, ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -33,9 +33,7 @@ export class PickUpItemsDetailsComponent implements OnInit {
   constructor(
     protected component: CmsComponentData<CmsPickupItemDetails>,
     protected deliveryPointsService: DeliveryPointsService
-  ) {
-    useFeatureStyles('a11yQTY2Quantity');
-  }
+  ) {}
   ngOnInit() {
     this.component.data$
       .pipe(

@@ -1,70 +1,9 @@
 <div
-  *cxFeature="'!a11ySearchboxLabel'"
-  [attr.aria-label]="'searchBox.productSearch' | cxTranslate"
-  role="search"
->
-  <label class="searchbox" [class.dirty]="!!searchInput.value">
-    <input
-      #searchInput
-      [placeholder]="'searchBox.placeholder' | cxTranslate"
-      autocomplete="off"
-      aria-describedby="initialDescription"
-      aria-controls="results"
-      [attr.tabindex]="getTabIndex(isMobile | async)"
-      [attr.aria-label]="'searchBox.placeholder' | cxTranslate"
-      (click)="search(searchInput.value)"
-      (input)="search(searchInput.value)"
-      (blur)="close()"
-      (keydown.tab)="close()"
-      (keydown.escape)="close()"
-      (keydown.enter)="
-        close(true);
-        launchSearchResult(searchInput.value);
-        updateChosenWord(searchInput.value)
-      "
-      (keydown.arrowup)="focusPreviousChild($any($event))"
-      (keydown.arrowdown)="focusNextChild($any($event))"
-      value="{{ chosenWord }}"
-    />
-
-    <button
-      [attr.aria-label]="'common.reset' | cxTranslate"
-      [title]="'common.reset' | cxTranslate"
-      (click)="clear(searchInput)"
-      class="reset"
-    >
-      <cx-icon [type]="iconTypes.RESET"></cx-icon>
-    </button>
-
-    <div
-      role="presentation"
-      class="search-icon"
-      [title]="'common.search' | cxTranslate"
-    >
-      <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
-    </div>
-
-    <button
-      #searchButton
-      [attr.aria-label]="'common.search' | cxTranslate"
-      [title]="'common.search' | cxTranslate"
-      class="search"
-      (click)="open()"
-    >
-      <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
-    </button>
-  </label>
-</div>
-<div
-  *cxFeature="'a11ySearchboxLabel'"
   [attr.aria-label]="'searchBox.productSearch' | cxTranslate"
   role="search"
   class="cx-searchbox-container"
 >
-  <label
-    class="searchbox cxFeat_a11ySearchboxLabel"
-    [class.dirty]="!!searchInput?.value"
-  >
+  <label class="searchbox" [class.dirty]="!!searchInput?.value">
     <span class="cx-input-label">{{ 'common.search' | cxTranslate }}</span>
     <div class="cx-label-inner-container">
       <input

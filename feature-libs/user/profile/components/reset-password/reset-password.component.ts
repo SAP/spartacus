@@ -6,7 +6,6 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ResetPasswordComponentService } from './reset-password-component.service';
 
@@ -23,9 +22,7 @@ export class ResetPasswordComponent {
 
   token$: Observable<string> = this.service.resetToken$;
 
-  constructor(protected service: ResetPasswordComponentService) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
+  constructor(protected service: ResetPasswordComponentService) {}
 
   onSubmit(token: string) {
     this.service.resetPassword(token);
