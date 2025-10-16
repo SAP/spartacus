@@ -13,7 +13,8 @@ $order-details-allowlist:
   cx-order-details-reorder, cx-order-detail-billing,
   cx-my-account-v2-consignment-tracking, cx-my-account-v2-download-invoices,
   cx-my-account-v2-order-details-actions, cx-order-attachments,
-  cx-order-attachments-dialog !default;
+  cx-order-attachments-dialog, cx-order-document-flow,
+  cx-order-document-flow-dialog !default;
 
 $skipComponentStyles: () !default;
 

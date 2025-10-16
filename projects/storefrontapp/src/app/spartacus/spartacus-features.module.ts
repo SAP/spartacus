@@ -109,6 +109,7 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StoreFinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { PersonalizationFeatureModule } from './features/tracking/personalization-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { OrderDocumentFlowFeatureModule } from './features/order/order-document-flow-feature.module';
 
 const featureModules = [];
 
@@ -254,6 +255,7 @@ if (environment.cpq) {
     CartImportExportFeatureModule,
 
     OrderFeatureModule,
+    OrderDocumentFlowFeatureModule,
 
     CheckoutFeatureModule,
 
