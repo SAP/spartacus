@@ -5,9 +5,8 @@
  */
 
 import * as alerts from '../../../helpers/global-message';
-import { signOutUser } from '../../../helpers/login';
-import * as loginHelper from '../../../helpers/my-account-v2/my-account-v2-login-helper';
 import * as helper from '../../../helpers/login';
+import * as loginHelper from '../../../helpers/my-account-v2/my-account-v2-login-helper';
 import { generateMail, randomString } from '../../../helpers/user';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
@@ -43,7 +42,7 @@ describe('My Account V2 - Update Password (CXSPA-10780)', () => {
       { testIsolation: false },
       () => {
         isolateTests();
-        before(() => {
+        beforeEach(() => {
           standardUser.registrationData.email = generateMail(
             randomString(),
             true
@@ -53,11 +52,7 @@ describe('My Account V2 - Update Password (CXSPA-10780)', () => {
             standardUser.registrationData.password
           );
 
-          cy.visit('/');
-        });
-
-        beforeEach(() => {
-          cy.restoreLocalStorage();
+          cy.wait(2000);
           cy.selectUserMenuOption({
             option: 'Password',
           });
@@ -113,14 +108,6 @@ describe('My Account V2 - Update Password (CXSPA-10780)', () => {
             4
           );
           cy.get(helper.userGreetSelector).should('exist');
-        });
-
-        afterEach(() => {
-          cy.saveLocalStorage();
-        });
-
-        after(() => {
-          signOutUser();
         });
       }
     );

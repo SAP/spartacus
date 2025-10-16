@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import * as login from '../../../helpers/login';
+import * as loginHelper from '../../../helpers/my-account-v2/my-account-v2-login-helper';
 import {
   testEnableDisableMyAccountV2NotificationPreference,
   updateEmailV2,
@@ -13,7 +15,6 @@ import { generateMail, randomString } from '../../../helpers/user';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 import { isolateTests } from '../../../support/utils/test-isolation';
-import * as loginHelper from '../../../helpers/my-account-v2/my-account-v2-login-helper';
 
 describe('My Account V2 Notification preference (CXSPA-10780)', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -26,7 +27,7 @@ describe('My Account V2 Notification preference (CXSPA-10780)', () => {
 
     describe('Logged in user (CXSPA-10780)', { testIsolation: false }, () => {
       isolateTests();
-      before(() => {
+      beforeEach(() => {
         standardUser.registrationData.email = generateMail(
           randomString(),
           true
@@ -36,7 +37,7 @@ describe('My Account V2 Notification preference (CXSPA-10780)', () => {
           standardUser.registrationData.password
         );
 
-        cy.visit('/');
+        cy.wait(2000);
       });
 
       it('should show correct email channel after update email address', () => {
@@ -49,7 +50,7 @@ describe('My Account V2 Notification preference (CXSPA-10780)', () => {
 
   viewportContext(['desktop'], () => {
     describe('Logged in user (CXSPA-10780)', () => {
-      before(() => {
+      beforeEach(() => {
         standardUser.registrationData.email = generateMail(
           randomString(),
           true
@@ -58,8 +59,7 @@ describe('My Account V2 Notification preference (CXSPA-10780)', () => {
           standardUser.registrationData.email,
           standardUser.registrationData.password
         );
-
-        cy.visit('/');
+        cy.wait(2000);
       });
 
       // Core test. Run in mobile view as well.
