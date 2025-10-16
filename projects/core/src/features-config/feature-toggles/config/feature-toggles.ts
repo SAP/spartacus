@@ -669,6 +669,14 @@ export interface FeatureTogglesInterface {
    * Affects: `ReturnOrderComponent`
    */
   enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
+  /**
+   * When enabled, all cross-site requests will include credentials (cookies, HTTP authentication entries, and client-side SSL certificates).
+   * This is needed to support scenarios where the backend services are hosted on a different domain than the Spartacus storefront,
+   * and the authentication cookies need to be sent with the requests to maintain the user session.
+   *
+   * Affects: `WithCredentialsInterceptor`
+   */
+  enableWithCredentialsByDefault?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -759,4 +767,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   navigationMenuCloseOnSameLinkClick: false,
   enableQuotePurchaseOrderNumber: false,
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
+  enableWithCredentialsByDefault: true,
 };
