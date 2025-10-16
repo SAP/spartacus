@@ -3,26 +3,6 @@
     value: explicitTermsAndConditions$ | async,
   } as explicitTermsAndConditions"
 >
-  <div class="cx-opf-review-card-wrapper">
-    <cx-opf-checkout-review-card
-      *ngIf="deliveryAddress$ | async as deliveryAddress"
-      [cardContent$]="getDeliveryAddressCard(deliveryAddress)"
-      [editConfig]="{
-        route: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
-        ariaLabelKey: 'checkoutReview.editDeliveryAddressDetails',
-      }"
-    ></cx-opf-checkout-review-card>
-
-    <cx-opf-checkout-review-card
-      *ngIf="deliveryMode$ | async as deliveryMode"
-      [cardContent$]="getDeliveryModeCard(deliveryMode)"
-      [editConfig]="{
-        route: getCheckoutStepUrl(checkoutStepTypeDeliveryMode),
-        ariaLabelKey: 'checkoutReview.editDeliveryMode',
-      }"
-    ></cx-opf-checkout-review-card>
-  </div>
-
   <cx-opf-checkout-terms-and-conditions-alert
     *ngIf="!explicitTermsAndConditions.value"
     [isVisible]="termsAndConditionInvalid"
@@ -85,5 +65,6 @@
   <cx-opf-checkout-review-cart-details
     [cart]="cart$ | async"
     [entries]="entries$ | async"
+    [isAddressCardVisible]="true"
   ></cx-opf-checkout-review-cart-details>
 </ng-container>
