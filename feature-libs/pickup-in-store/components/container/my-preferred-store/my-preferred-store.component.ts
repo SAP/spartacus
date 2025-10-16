@@ -13,8 +13,8 @@ import {
 } from '@angular/core';
 import {
   CmsService,
-  Page,
   FeatureConfigService,
+  Page,
   PointOfService,
   RoutingService,
   useFeatureStyles,
@@ -29,13 +29,13 @@ import { StoreFinderFacade } from '@spartacus/storefinder/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
+  distinctUntilChanged,
   filter,
   map,
   shareReplay,
   switchMap,
   take,
   tap,
-  distinctUntilChanged,
 } from 'rxjs/operators';
 
 const GET_DIRECTIONS_NAME = 'Get Directions';
@@ -107,7 +107,6 @@ export class MyPreferredStoreComponent implements OnInit {
           })
         );
     }
-    useFeatureStyles('a11yViewHoursButtonIconContrast');
     useFeatureStyles('a11yImproveButtonsInCardComponent');
   }
 

@@ -35,11 +35,6 @@ export interface FeatureTogglesInterface {
   a11yQuickOrderSearchListKeyboardNavigation?: boolean;
 
   /**
-   * Adds label to the `SearchBoxComponent` search input
-   */
-  a11ySearchboxLabel?: boolean;
-
-  /**
    * When set to `true`, external links in `StoreFinderListItemComponent`
    * adopt a more link-like style, appearing more like links instead of buttons. This is semantically more correct since they open content in a new window,
    * providing a more intuitive user experience.
@@ -74,16 +69,6 @@ export interface FeatureTogglesInterface {
    * prevents the form from being recreated when neither the items nor other dependent properties (e.g., readonly) have changed.
    */
   a11yPreventCartItemsFormRedundantRecreation?: boolean;
-
-  /**
-   * Use tabs instead of radio group for pickup options. Improves SR narration and keyboard navigation pattern.
-   * Modified components:
-   *  - `PickupOptionsComponent`
-   *  - `PdpPickupOptionsContainerComponent`
-   *  - `CartPickupOptionsContainerComponent`
-   *  - `AddToCartComponent`
-   */
-  a11yPickupOptionsTabs?: boolean;
 
   /**
    * Resets the focus after navigating to a new page.
@@ -128,46 +113,9 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * In `AddedToCartDialogComponent`, `Updating cart...` should no longer read by a screen reader.
-   */
-  a11yUpdatingCartNoNarration?: boolean;
-
-  /**
-   * Stops the inputs value from obstructing the 'PasswordVisibilityToggleComponent'.
-   */
-  a11yPasswordVisibliltyBtnValueOverflow?: boolean;
-
-  /**
-   * In `ItemCounterComponenet`, Remove button no longer lose focus after activating when count is 2.
-   * Add button no longer lose focus after activating when count is `max - 1`.
-   */
-  a11yItemCounterFocus?: boolean;
-
-  /**
-   * `ProductIntroComponent` should now scroll to the Review tab on the first click of the 'Show Review' button.
-   */
-  a11yScrollToReviewByShowReview?: boolean;
-
-  /**
-   * `StoreComponent and MyPreferredStoreComponent` an icon in a button that triggers showing
-   * store's opening hours has an acceptable contrast ratio in a default theme
-   */
-  a11yViewHoursButtonIconContrast?: boolean;
-
-  /**
    * `StoreComponent` `In Stock` icon has an acceptable contrast ratio in a default theme
    */
   a11yStoreInStockIconContrast?: boolean;
-
-  /**
-   * `Checkout` add a landmarks to content representing steps
-   */
-  a11yCheckoutStepsLandmarks?: boolean;
-
-  /**
-   * In `CartItemListComponent`, change QTY into Quantity.
-   */
-  a11yQTY2Quantity?: boolean;
 
   /**
    * In `Card component`, replace button classes to .btn .btn-tertiary and use cx-generic link
@@ -191,11 +139,6 @@ export interface FeatureTogglesInterface {
    * Changes the success message of successful registration to be more informative. Affects `RegisterComponentService`.
    */
   a11yPostRegisterSuccessMessage?: boolean;
-
-  /**
-   * In `CardComponent`, place `Delete` button before `Cancel` button.
-   */
-  a11yDeleteButton2First?: boolean;
 
   /**
    * In `CustomerListComponent`, `OrderApprovalListComponent`, and `ConfiguratorAttriuteSingleSelectionBundleDropdownComponent`, show label of every `ng-select` and `select`.
@@ -678,13 +621,11 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAnonymousConsentMessageInDialog: true,
   a11yQuickOrderSearchListKeyboardNavigation: true,
   a11yStyleExternalLinksAsLinks: true,
-  a11ySearchboxLabel: true,
   a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
   a11yKeyboardAccessibleZoom: false,
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yPickupOptionsTabs: true,
   a11yResetFocusAfterNavigating: true,
   a11yStoreFinderLabel: false,
   a11yImprovedErrorMessage: true,
@@ -692,20 +633,12 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yUpdatingCartNoNarration: true,
-  a11yPasswordVisibliltyBtnValueOverflow: true,
-  a11yItemCounterFocus: true,
-  a11yScrollToReviewByShowReview: true,
-  a11yViewHoursButtonIconContrast: true,
   a11yStoreInStockIconContrast: true,
-  a11yCheckoutStepsLandmarks: true,
-  a11yQTY2Quantity: true,
   a11yImproveButtonsInCardComponent: true,
   a11yMiniCartFocusOnMobile: true,
   a11yWrapReviewOrderInSection: true,
   a11yApprovalProcessWithNoClearable: true,
   a11yPostRegisterSuccessMessage: true,
-  a11yDeleteButton2First: true,
   a11yShowLabelOfSelect: true,
   a11yShowDownArrowOnFocusedSelectMenu: true,
   a11yCroppedFocusRing: true,

@@ -1,11 +1,6 @@
 <form *ngIf="productCode" [formGroup]="addToCartForm" (submit)="addToCart()">
   <div class="quantity" *ngIf="showQuantity">
-    <label *cxFeature="'a11yQTY2Quantity'">{{
-      'addToCart.quantityFull' | cxTranslate
-    }}</label>
-    <label *cxFeature="'!a11yQTY2Quantity'">{{
-      'addToCart.quantity' | cxTranslate
-    }}</label>
+    <label>{{ 'addToCart.quantityFull' | cxTranslate }}</label>
     <div class="cx-counter-stock">
       <cx-item-counter
         *ngIf="hasStock"

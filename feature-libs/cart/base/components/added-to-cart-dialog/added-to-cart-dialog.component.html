@@ -12,26 +12,8 @@
       aria-atomic="true"
       class="cx-dialog-header modal-header"
     >
-      <div
-        *cxFeature="'a11yUpdatingCartNoNarration'"
-        id="dialogTitle"
-        class="cx-dialog-title modal-title"
-        role="none"
-      >
+      <div id="dialogTitle" class="cx-dialog-title modal-title" role="none">
         {{ 'addToCart.itemAddedToYourCart' | cxTranslate }}
-      </div>
-      <div
-        *cxFeature="'!a11yUpdatingCartNoNarration'"
-        id="dialogTitle"
-        class="cx-dialog-title modal-title"
-      >
-        {{
-          (loaded$ | async)
-            ? (addedEntryWasMerged$ | async)
-              ? ('addToCart.itemsIncrementedInYourCart' | cxTranslate)
-              : ('addToCart.itemsAddedToYourCart' | cxTranslate)
-            : ('addToCart.updatingCart' | cxTranslate)
-        }}
       </div>
       <button
         type="button"
