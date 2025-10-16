@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   ConfigModule,
+  FeaturesConfigModule,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
@@ -28,6 +29,7 @@ import { PickUpItemsDetailsComponent } from './pickup-items-details.component';
     StoreModule,
     CardModule,
     MediaModule,
+    FeaturesConfigModule,
     ConfigModule.withConfig({
       cmsComponents: {
         OrderConfirmationPickUpComponent: {

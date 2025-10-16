@@ -91,12 +91,6 @@ export interface FeatureTogglesInterface {
   a11yResetFocusAfterNavigating?: boolean;
 
   /**
-   * `StorefrontComponent`: Prevents header links from wrapping on smaller screen sizes.
-   * Enables support for increased letter-spacing up to 0.12em for header layout
-   */
-  headerLayoutForSmallerViewports?: boolean;
-
-  /**
    * Adds label to 'StoreFinderSearchComponent' store search input field.
    */
   a11yStoreFinderLabel?: boolean;
@@ -692,7 +686,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yPickupOptionsTabs: true,
   a11yResetFocusAfterNavigating: true,
-  headerLayoutForSmallerViewports: true,
   a11yStoreFinderLabel: false,
   a11yImprovedErrorMessage: true,
   a11yLinkBtnsToTertiaryBtns: false,

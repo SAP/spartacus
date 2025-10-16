@@ -97,11 +97,7 @@ $space: 0.5rem;
     --cx-display: block;
     cx-link {
       display: block;
-      padding-inline-end: 10px;
-
-      @include forFeature('headerLayoutForSmallerViewports') {
-        padding-inline-end: 0;
-      }
+      padding-inline-end: 0;
     }
   }
 
@@ -180,13 +176,11 @@ $space: 0.5rem;
       padding: $space $space * 2 $space / 2;
     }
 
-    @include forFeature('headerLayoutForSmallerViewports') {
-      .SiteLinks {
-        flex-direction: column;
-        a {
-          padding: $space / 2 $space * 2 $space;
-          line-height: 48px;
-        }
+    .SiteLinks {
+      flex-direction: column;
+      a {
+        padding: $space / 2 $space * 2 $space;
+        line-height: 48px;
       }
     }
   }
@@ -226,10 +220,7 @@ $space: 0.5rem;
     .SiteLinks {
       justify-content: flex-end;
       color: var(--cx-color-primary);
-
-      @include forFeature('headerLayoutForSmallerViewports') {
-        flex-wrap: nowrap;
-      }
+      flex-wrap: nowrap;
     }
 
     .SiteLogin {
