@@ -40,9 +40,6 @@ function waitForInterceptionWithResponse(
 ): Cypress.Chainable<Cypress.Interception> {
   return cy.wait(`@${alias}`, { timeout }).then((i: Cypress.Interception) => {
     if (!i.response) {
-      cy.log(
-        `Retry @${alias}: prima intercepție nu are response (probabil abort la navigare)`
-      );
       return cy.wait(`@${alias}`, { timeout });
     }
     return i;
@@ -435,8 +432,6 @@ export function checkSummaryAmount(
 export function fillAddressFormWithCheapProduct(
   shippingAddressData: Partial<AddressData> = user
 ) {
-  cy.log('🛒 Filling shipping address form');
-
   /**
    * Delivery mode PUT intercept is not in verifyDeliveryOptions()
    * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
@@ -453,7 +448,15 @@ export function fillAddressFormWithCheapProduct(
     '/checkout/delivery-mode',
     'getDeliveryModePage'
   );
+
+  cy.intercept('GET', '**/countries?type=SHIPPING**').as('getCountries');
+  cy.intercept('GET', '**/countries/**/regions**').as('getRegions');
+
+  cy.wait('@getCountries', { timeout: 30000 });
+
   fillShippingAddress(shippingAddressData);
+
+  cy.wait('@getRegions', { timeout: 30000 });
 
   cy.whenJDK17(() => {
     cy.wait(`@${deliveryModePage}`)
