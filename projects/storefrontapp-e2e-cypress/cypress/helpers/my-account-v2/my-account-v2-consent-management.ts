@@ -44,16 +44,10 @@ export function verifyAsAnonymous() {
 }
 
 export function myAccountV2consentManagementTest() {
-  it('should be able to go to Consent Management Page', () => {
+  it('should be able to update Consent Management Page', () => {
     verifyConsentManagementPage();
-  });
-
-  it('should successfully give a consent and show give data', () => {
     giveConsent();
     checkConsentGivenDate();
-  });
-
-  it('should successfully withdraw a consent', () => {
     withdrawConsentV2();
   });
 }
