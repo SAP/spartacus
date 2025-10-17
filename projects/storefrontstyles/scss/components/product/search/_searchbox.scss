@@ -70,33 +70,15 @@
     @include media-breakpoint-down(sm) {
       // hide the input on mobile when there's no interaction with searchbox
       cx-searchbox {
-        // cxFeat_a11ySearchboxLabel class is only applied if a11ySearchboxLabel flag is true
-        // Needed to add this class manually since:
-        // 1. %cx-searchbox__body can't be styled with `@include forFeature('...')`
-        // 2. We can't apply changes for when feature flag is NOT enabled and it would be
-        // complicated to achieve desired behaviour without this possibility.
-        // TODO: When removing feature flag `a11ySearchboxLabel` next major release remove also cxFeat_a11ySearchboxLabe class
-        // and all styles for label:not(.cxFeat_a11ySearchboxLabel)
-        label:not(.cxFeat_a11ySearchboxLabel) {
-          input {
-            // we cannot use display:none, visible:hidden or opacity: 0
-            // as this will no longer emit a focus event to the controller logic
-            width: 0;
-            padding: 0;
-          }
+        .cx-label-inner-container,
+        input {
+          width: 0;
+          padding: 0;
+          border: none;
         }
 
-        .cxFeat_a11ySearchboxLabel {
-          .cx-label-inner-container,
-          input {
-            width: 0;
-            padding: 0;
-            border: none;
-          }
-
-          .cx-input-label {
-            display: none;
-          }
+        .cx-input-label {
+          display: none;
         }
 
         button.reset {
@@ -127,12 +109,10 @@
     }
   }
 
-  @include forFeature('a11ySearchboxLabel') {
-    > .cx-searchbox-container {
-      @include media-breakpoint-up(md) {
-        background-color: unset;
-        position: unset;
-      }
+  > .cx-searchbox-container {
+    @include media-breakpoint-up(md) {
+      background-color: unset;
+      position: unset;
     }
   }
 
@@ -143,101 +123,18 @@
     user-select: none;
   }
 
-  @include forFeature('a11ySearchboxLabel') {
-    .cx-input-label {
-      color: var(--cx-color-text);
+  .cx-input-label {
+    color: var(--cx-color-text);
 
-      @include media-breakpoint-down(sm) {
-        position: absolute;
-        top: var(--cx-mobile-header-height);
-        left: 10px;
-        z-index: 30;
-      }
+    @include media-breakpoint-down(sm) {
+      position: absolute;
+      top: var(--cx-mobile-header-height);
+      left: 10px;
+      z-index: 30;
     }
   }
 
-  label:not(.cxFeat_a11ySearchboxLabel) {
-    display: flex;
-    align-content: stretch;
-    margin: 0;
-    padding-top: 6px;
-    padding-inline-end: 6px;
-    padding-bottom: 6px;
-    padding-inline-start: 10px;
-
-    @include media-breakpoint-up(md) {
-      border: 1px solid var(--cx-color-medium);
-      width: 27vw;
-      min-width: 300px;
-      max-width: 550px;
-      // hide search icon when the input is dirty
-      &.dirty div.search-icon {
-        display: none;
-      }
-    }
-
-    input {
-      background: none;
-      border: none;
-      outline: none;
-      display: block;
-
-      @include media-breakpoint-down(sm) {
-        position: absolute;
-        left: 0;
-        top: 72px;
-        width: 100%;
-        background-color: var(--cx-color-light);
-        padding: 6px 16px;
-        height: 48px;
-        border-bottom: 1px solid var(--cx-color-light);
-      }
-
-      flex-basis: 100%;
-      height: 35px;
-      color: var(--cx-color-text);
-      z-index: 20;
-
-      @include placeholder {
-        color: var(--cx-color-secondary);
-      }
-    }
-
-    // hide reset icon when the input is empty
-    &:not(.dirty) button.reset {
-      display: none;
-    }
-
-    button,
-    div.search-icon {
-      flex-basis: 48px;
-      text-align: center;
-      background: none;
-      border: none;
-      padding: 6px;
-      color: var(--cx-color-secondary);
-
-      @include media-breakpoint-down(sm) {
-        color: var(--cx-color-primary);
-        font-size: var(--cx-font-size, 1.563rem);
-      }
-
-      &.reset {
-        &:before {
-          font-size: 1.4rem;
-        }
-        @include media-breakpoint-down(sm) {
-          position: relative;
-          left: 120px;
-          z-index: 1001;
-          top: 59px;
-          margin-top: 0;
-        }
-      }
-    }
-  }
-
-  label.cxFeat_a11ySearchboxLabel {
+  label {
     display: flex;
     align-content: stretch;
     align-items: center;
@@ -385,11 +282,7 @@
     }
 
     @include media-breakpoint-down(sm) {
-      top: 120px;
-
-      @include forFeature('a11ySearchboxLabel') {
-        top: calc(var(--cx-mobile-header-height) + 79px);
-      }
+      top: calc(var(--cx-mobile-header-height) + 79px);
       z-index: 10;
     }
 
@@ -885,6 +778,10 @@
         outline-style: none;
         box-shadow: none;
       }
+      .cx-label-inner-container {
+        background-color: var(--cx-color-background);
+        border: 1px solid var(--cx-color-text);
+      }
     }
     .suggestions {
       background-color: var(--cx-color-background);
@@ -905,13 +802,6 @@
     .products {
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
-    }
-
-    label.cxFeat_a11ySearchboxLabel {
-      .cx-label-inner-container {
-        background-color: var(--cx-color-background);
-        border: 1px solid var(--cx-color-text);
-      }
     }
   }
 }

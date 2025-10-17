@@ -10,7 +10,8 @@ import {
   SubscriptionBillingFacade,
   SubscriptionDetail,
 } from '@spartacus/subscription-billing/root';
-import { Pipe, PipeTransform } from '@angular/core';
+import { ElementRef, Pipe, PipeTransform } from '@angular/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 const routerParam$: BehaviorSubject<{
   [key: string]: string;
 }> = new BehaviorSubject({});
@@ -43,6 +44,16 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  data$: Observable<any> = of('Months');
+  openDialogAndSubscribe(
+    _: LAUNCH_CALLER | string,
+    __?: ElementRef,
+    ___?: any
+  ): void {}
+  closeDialog(_: any) {}
+}
+
 describe('SubscriptionDetailsComponent', () => {
   let component: SubscriptionDetailsComponent;
   let fixture: ComponentFixture<SubscriptionDetailsComponent>;
@@ -59,6 +70,7 @@ describe('SubscriptionDetailsComponent', () => {
           useClass: MockSubscriptionBillingFacade,
         },
         { provide: EventService, useClass: MockEventService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
     eventService = TestBed.inject(EventService);
@@ -78,5 +90,28 @@ describe('SubscriptionDetailsComponent', () => {
     component.ngOnInit();
     expect(eventService.dispatch).toHaveBeenCalled();
     expect(facade.getSubscriptionByCode).toHaveBeenCalled();
+  });
+  it('should open dialog with correct data when showSubscriptionActionsDialog is called', () => {
+    const launchDialogService = TestBed.inject(LaunchDialogService);
+    const subscription: SubscriptionDetail = {
+      id: 's1',
+      name: 'Test Sub',
+    };
+    const mode = 'cancel';
+
+    (component as any).subscriptionDetails$ = of(subscription);
+    const openDialogSpy = spyOn(launchDialogService, 'openDialogAndSubscribe');
+
+    component.showSubscriptionActionsDialog(mode);
+
+    expect(openDialogSpy).toHaveBeenCalledWith(
+      LAUNCH_CALLER.SUBSCRIPTION_ACTION_CONFIRMATION,
+      undefined,
+      {
+        ...subscription,
+        code: subscription.id,
+        mode,
+      }
+    );
   });
 });

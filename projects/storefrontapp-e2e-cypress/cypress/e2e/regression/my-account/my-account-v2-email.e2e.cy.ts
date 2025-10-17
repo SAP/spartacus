@@ -36,7 +36,7 @@ describe('My Account - Update Email (CXSPA-10780)', () => {
       { testIsolation: false },
       () => {
         isolateTests();
-        before(() => {
+        beforeEach(() => {
           standardUser.registrationData.email = generateMail(
             randomString(),
             true
@@ -46,11 +46,7 @@ describe('My Account - Update Email (CXSPA-10780)', () => {
             standardUser.registrationData.password
           );
 
-          cy.visit('/');
-        });
-
-        beforeEach(() => {
-          cy.restoreLocalStorage();
+          cy.wait(2000);
           cy.selectUserMenuOption({
             option: 'Email Address',
           });
@@ -82,6 +78,7 @@ describe('My Account - Update Email (CXSPA-10780)', () => {
         // Core e2e test. Check with different view port.
 
         it('should update the email address and login successfully (CXSPA-10780)', () => {
+          cy.get('.editButton').click();
           const newUid = generateMail(randomString(), true);
           cy.get('cx-update-email, cx-my-account-v2-email').within(() => {
             cy.get('[formcontrolname="email"]').type(newUid);
@@ -104,10 +101,6 @@ describe('My Account - Update Email (CXSPA-10780)', () => {
             1
           );
           cy.get('cx-login .cx-login-greet').should('exist');
-        });
-
-        afterEach(() => {
-          cy.saveLocalStorage();
         });
       }
     );

@@ -45,7 +45,6 @@ export class CartItemComponent implements OnChanges {
   readonly CartOutlets = CartOutlets;
 
   constructor(protected cartItemContextSource: CartItemContextSource) {
-    useFeatureStyles('a11yQTY2Quantity');
     useFeatureStyles('a11yCroppedFocusRing');
   }
 
