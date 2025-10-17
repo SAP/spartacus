@@ -382,5 +382,4 @@ if (environment.cpq) {
     }),
   ],
 })
-
 export class SpartacusFeaturesModule {}

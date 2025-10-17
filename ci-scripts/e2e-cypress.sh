@@ -172,5 +172,5 @@ else
 
     echo '-----'
     echo "Running ASM JDK21 Cypress end to end tests"
-    rrun_asm_tests
+    run_asm_tests
 fi

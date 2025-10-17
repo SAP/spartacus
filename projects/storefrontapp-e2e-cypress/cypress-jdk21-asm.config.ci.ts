@@ -18,6 +18,7 @@ export default defineConfig({
   },
   e2e: {
     ...baseConfig.e2e,
-    baseUrl: 'https://spartacusstore.cg79x9wuu9-ecdhcomme2-s2-public.model-t.myhybris.cloud',
+    baseUrl:
+      'https://spartacusstore.cg79x9wuu9-ecdhcomme2-s2-public.model-t.myhybris.cloud',
   },
 });
