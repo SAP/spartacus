@@ -14,6 +14,7 @@ import {
 import { SubscriptionActionsAdapter } from '@spartacus/subscription-billing/core';
 import {
   SubscriptionCancellationDetails,
+  SubscriptionExtensionEffectiveDate,
   SubscriptionWithdraw,
 } from '@spartacus/subscription-billing/root';
 import { catchError, Observable } from 'rxjs';
@@ -98,6 +99,54 @@ export class OccSubscriptionActionsAdapter
       ...CONTENT_TYPE_JSON_HEADER,
     });
     return this.http.post(url, null, { headers }).pipe(
+      catchError((error) => {
+        throw tryNormalizeHttpError(error, this.logger);
+      })
+    );
+  }
+
+  getExtensionEffectiveDate(
+    userId: string,
+    subscriptionCode: string,
+    durationInMonth: number | null,
+    unlimited: boolean
+  ): Observable<SubscriptionExtensionEffectiveDate> {
+    const url = this.occEndpoints.buildUrl('extensionEffectiveDate', {
+      urlParams: {
+        userId,
+        subscriptionCode,
+      },
+    });
+    const requestBody = {
+      numberOfBillingCycles: durationInMonth,
+      unlimited,
+    };
+    return this.http
+      .post<SubscriptionExtensionEffectiveDate>(url, requestBody)
+      .pipe(
+        catchError((error) => {
+          throw tryNormalizeHttpError(error, this.logger);
+        })
+      );
+  }
+
+  extendSubscription(
+    userId: string,
+    subscriptionCode: string,
+    durationInMonth: number | null,
+    unlimited: boolean
+  ): Observable<any> {
+    const url = this.occEndpoints.buildUrl('extendSubscription', {
+      urlParams: {
+        userId,
+        subscriptionCode,
+      },
+    });
+    const requestBody = {
+      numberOfBillingCycles: durationInMonth,
+      unlimited,
+    };
+    return this.http.post<any>(url, requestBody).pipe(
       catchError((error) => {
         throw tryNormalizeHttpError(error, this.logger);
       })

@@ -11,7 +11,7 @@ import {
   inject,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { RoutingService, useFeatureStyles } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 
@@ -27,9 +27,7 @@ export class UpdatePasswordComponent {
     optional: true,
   });
 
-  constructor(protected service: UpdatePasswordComponentService) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
+  constructor(protected service: UpdatePasswordComponentService) {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;

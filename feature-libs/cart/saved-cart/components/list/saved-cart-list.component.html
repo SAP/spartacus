@@ -26,20 +26,11 @@
               {{ 'savedCartList.dateSaved' | cxTranslate }}
             </th>
             <th
-              *cxFeature="'a11yQTY2Quantity'"
               role="columnheader"
               scope="col"
               class="cx-saved-cart-list-th-qty"
             >
               {{ 'savedCartList.quantityFull' | cxTranslate }}
-            </th>
-            <th
-              *cxFeature="'!a11yQTY2Quantity'"
-              role="columnheader"
-              scope="col"
-              class="cx-saved-cart-list-th-qty"
-            >
-              {{ 'savedCartList.quantity' | cxTranslate }}
             </th>
             <th
               role="columnheader"
@@ -66,19 +57,8 @@
               <th scope="col">
                 {{ 'savedCartList.dateSaved' | cxTranslate }}
               </th>
-              <th
-                *cxFeature="'a11yQTY2Quantity'"
-                scope="col"
-                class="cx-saved-cart-list-th-qty"
-              >
+              <th scope="col" class="cx-saved-cart-list-th-qty">
                 {{ 'savedCartList.quantityFull' | cxTranslate }}
-              </th>
-              <th
-                *cxFeature="'!a11yQTY2Quantity'"
-                scope="col"
-                class="cx-saved-cart-list-th-qty"
-              >
-                {{ 'savedCartList.quantity' | cxTranslate }}
               </th>
               <th scope="col" class="cx-saved-cart-list-th-total">
                 {{ 'savedCartList.total' | cxTranslate }}
@@ -142,17 +122,8 @@
               >
             </td>
             <td class="cx-saved-cart-list-quantity">
-              <div
-                *cxFeature="'a11yQTY2Quantity'"
-                class="cx-table-label-mobile cx-saved-cart-list-label"
-              >
+              <div class="cx-table-label-mobile cx-saved-cart-list-label">
                 {{ 'savedCartList.quantityFull' | cxTranslate }}
-              </div>
-              <div
-                *cxFeature="'!a11yQTY2Quantity'"
-                class="cx-table-label-mobile cx-saved-cart-list-label"
-              >
-                {{ 'savedCartList.quantity' | cxTranslate }}
               </div>
               <a
                 [routerLink]="
