@@ -56,7 +56,6 @@ describe('My Account V2 - Update Password (CXSPA-10780)', () => {
           cy.selectUserMenuOption({
             option: 'Password',
           });
-
         });
 
         it('should be able to cancel the input in password columns', () => {

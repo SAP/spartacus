@@ -83,8 +83,8 @@ export function updateEmailV2(): String {
   cy.get('[formcontrolname="confirmEmail"]').type(newUid);
   cy.get('[formcontrolname="password"]').type(password);
   cy.get('button').contains('Save').click();
-  
-  cy.wait(2000)
+
+  cy.wait(2000);
   loginWithOTP(newUid, password, 1);
 
   return newUid;

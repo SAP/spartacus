@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import * as alerts from '../../../helpers/global-message';
 import { checkBanner } from '../../../helpers/homepage';
 import { generateMail, randomString } from '../../../helpers/user';
@@ -14,8 +13,8 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { isolateTests } from '../../../support/utils/test-isolation';
 
 export const newTitle = 'Mr.';
-export const newFirstName = 'N';
-export const newLastName = 'Z';
+export const newFirstName = 'Cypress';
+export const newLastName = 'User';
 export const UPDATE_PROFILE_URL = '/my-account/update-profile';
 
 describe('My Account - Update Profile (CXSPA-10780)', () => {
