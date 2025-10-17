@@ -385,7 +385,7 @@ if (environment.cpq) {
         navigationMenuCloseOnSameLinkClick: true,
         enableQuotePurchaseOrderNumber: false,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
-        enableWithCredentialsByDefault: true,
+        occWithCredentialsByDefault: false,
       };
       return appFeatureToggles;
     }),

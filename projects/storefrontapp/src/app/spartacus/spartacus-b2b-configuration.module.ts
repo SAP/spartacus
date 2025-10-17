@@ -18,7 +18,6 @@ import {
   mediaConfig,
   PWAModuleConfig,
 } from '@spartacus/storefront';
-import { defaultOccConfigFactory } from 'projects/core/src/occ/config/default-occ-config-factory';
 import { environment } from '../../environments/environment';
 
 let baseSite = ['powertools-spa', 'powertools-standalone'];
@@ -48,7 +47,6 @@ if (environment.epdVisualization) {
         addToHomeScreen: true,
       },
     }),
-    provideConfigFactory(defaultOccConfigFactory),
   ],
 })
 export class SpartacusB2bConfigurationModule {}

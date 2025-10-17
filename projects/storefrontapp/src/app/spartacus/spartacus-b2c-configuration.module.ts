@@ -17,7 +17,6 @@ import {
   mediaConfig,
   PWAModuleConfig,
 } from '@spartacus/storefront';
-import { defaultOccConfigFactory } from 'projects/core/src/occ/config/default-occ-config-factory';
 import { environment } from '../../environments/environment';
 
 const defaultBaseSite = [
@@ -58,7 +57,6 @@ const baseSite = environment.epdVisualization
         },
       },
     }),
-    provideConfigFactory(defaultOccConfigFactory),
   ],
 })
 export class SpartacusB2cConfigurationModule {}

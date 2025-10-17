@@ -670,13 +670,14 @@ export interface FeatureTogglesInterface {
    */
   enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
   /**
-   * When enabled, all cross-site requests will include credentials (cookies, HTTP authentication entries, and client-side SSL certificates).
-   * This is needed to support scenarios where the backend services are hosted on a different domain than the Spartacus storefront,
-   * and the authentication cookies need to be sent with the requests to maintain the user session.
+   * Enables the `withCredentials` flag for OCC requests.
+   *
+   * When enabled, each request will include authentication cookies (such as the `ROUTE` cookie), ensuring session stickiness between the client and the same backend node.
+   * This is critical for maintaining performance and consistency under load-balanced environments.
    *
    * Affects: `WithCredentialsInterceptor`
    */
-  enableWithCredentialsByDefault?: boolean;
+  occWithCredentialsByDefault?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -767,5 +768,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   navigationMenuCloseOnSameLinkClick: false,
   enableQuotePurchaseOrderNumber: false,
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
-  enableWithCredentialsByDefault: true,
+  occWithCredentialsByDefault: false,
 };

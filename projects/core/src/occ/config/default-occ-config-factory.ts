@@ -10,10 +10,10 @@ import { defaultOccConfig } from './default-occ-config';
 import { OccConfig } from './occ-config';
 
 export function defaultOccConfigFactory(): OccConfig {
-  const featureToggles = inject(FeatureToggles);
+  const { occWithCredentialsByDefault } = inject(FeatureToggles);
   const config = { ...defaultOccConfig };
 
-  if (featureToggles.enableWithCredentialsByDefault) {
+  if (occWithCredentialsByDefault) {
     if (config.backend?.occ) {
       config.backend.occ.useWithCredentials = true;
     }
