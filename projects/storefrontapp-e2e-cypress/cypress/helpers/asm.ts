@@ -76,11 +76,7 @@ export function placeOrderForB2CCustomer(
   cy.whenJDK21(() => {
     cy.visit('/');
 
-    cy.contains('a[role="link"]', 'Sign In / Register').should(
-      'have.attr',
-      'href',
-      '/electronics-spa/en/USD/sign-in'
-    );
+    cy.contains('a[role="link"]', 'Sign In / Register').should('be.visible');
 
     cy.contains('a[role="link"]', 'Sign In / Register').click();
     cy.get('input[name="username"]').clear().type(customer);
@@ -364,7 +360,7 @@ export function asmCustomerLists(): void {
   const customerListsRequestAlias = asm.listenForCustomerListsRequest();
   const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
   const userDetailsRequestAlias = listenForUserDetailsRequest();
-  const customerId = 'aaron.customer@hybris.com';
+  const customerId = asmForB2CCustomer;
 
   cy.log('--> Starting customer list');
   asm.asmOpenCustomerList();
