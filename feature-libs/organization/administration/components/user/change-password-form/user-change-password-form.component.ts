@@ -6,7 +6,7 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { useFeatureStyles, User } from '@spartacus/core';
+import { User } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
@@ -30,9 +30,7 @@ export class UserChangePasswordFormComponent {
     protected itemService: UserItemService,
     protected formService: UserChangePasswordFormService,
     protected messageService: MessageService
-  ) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
+  ) {}
 
   save(form: UntypedFormGroup): void {
     this.itemService.current$

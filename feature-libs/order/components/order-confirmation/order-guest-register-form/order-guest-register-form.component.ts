@@ -14,7 +14,6 @@ import {
   AuthService,
   FeatureConfigService,
   RoutingService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
@@ -60,9 +59,7 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
     protected routingService: RoutingService,
     protected authService: AuthService,
     protected fb: UntypedFormBuilder
-  ) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
+  ) {}
 
   submit() {
     if (this.guestRegisterForm.valid) {
