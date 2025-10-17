@@ -14,7 +14,7 @@ export function defaultOccConfigFactory(): OccConfig {
   const config = { ...defaultOccConfig };
 
   if (featureToggles.enableWithCredentialsByDefault) {
-    if (config.backend && config.backend.occ) {
+    if (config.backend?.occ) {
       config.backend.occ.useWithCredentials = true;
     }
   }
