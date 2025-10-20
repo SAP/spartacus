@@ -6,7 +6,6 @@
 
 import { Component, inject, Input, Optional } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { useFeatureStyles } from '@spartacus/core';
 import { CartItemComponent } from '../cart-item/cart-item.component';
 import { CartItemContextSource } from '../cart-item/model/cart-item-context-source.model';
 import { CartItemListComponentService } from './cart-item-list-row.component.service';
@@ -26,6 +25,5 @@ export class CartItemListRowComponent extends CartItemComponent {
   isFlagQuote = this.componentService.showBasePriceWithDiscount();
   constructor(cartItemContextSource: CartItemContextSource) {
     super(cartItemContextSource);
-    useFeatureStyles('a11yQTY2Quantity');
   }
 }

@@ -65,6 +65,16 @@
       "@spartacus/order": ["dist/order"],
       "@spartacus/order/root": ["dist/order/root"],
       "@spartacus/order/occ": ["dist/order/occ"],
+      "@spartacus/order/document-flow": ["dist/order/document-flow"],
+      "@spartacus/order/document-flow/root": ["dist/order/document-flow/root"],
+      "@spartacus/order/document-flow/occ": ["dist/order/document-flow/occ"],
+      "@spartacus/order/document-flow/core": ["dist/order/document-flow/core"],
+      "@spartacus/order/document-flow/components": [
+        "dist/order/document-flow/components"
+      ],
+      "@spartacus/order/document-flow/assets": [
+        "dist/order/document-flow/assets"
+      ],
       "@spartacus/order/core": ["dist/order/core"],
       "@spartacus/order/components": ["dist/order/components"],
       "@spartacus/order/assets": ["dist/order/assets"],

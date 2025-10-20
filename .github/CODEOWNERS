@@ -69,6 +69,11 @@
 /feature-libs/quote/          @SAP/spartacus-codeowners @SAP/spartacus-mooncake
 
 # ================================================
+#  Order Document Flow
+# ================================================
+/feature-libs/order/document-flow          @SAP/spartacus-codeowners @SAP/spartacus-albatross
+
+# ================================================
 #  Intelligent services (ISS)
 # ================================================
 /integration-libs/cds/          @SAP/spartacus-codeowners @SAP/spartacus-CDS

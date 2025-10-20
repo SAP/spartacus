@@ -27,9 +27,9 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   FeatureConfigService,
+  ProductCatalogService,
   UserIdService,
   useFeatureStyles,
-  ProductCatalogService,
 } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -101,8 +101,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef,
     @Optional() protected outlet?: OutletContextData<ItemListContext>
   ) {
-    useFeatureStyles('a11yQTY2Quantity');
-    useFeatureStyles('a11yPickupOptionsTabs');
     useFeatureStyles('a11yCroppedFocusRing');
   }
 
