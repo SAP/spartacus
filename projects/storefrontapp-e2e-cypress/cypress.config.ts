@@ -12,8 +12,8 @@ const CLIENT_ID =
 
 const API_URL =
   JDK_VERSION === 'JDK21'
-    ? 'https://api.c432wmya2v-teamspart3-s4-public.model-t.myhybris.cloud'
-    : 'https://api.c432wmya2v-teamspart3-s3-public.model-t.myhybris.cloud';
+    ? 'https://spartacus-devci7677.eastus.cloudapp.azure.com:8443'
+    : 'https://40.76.109.9:9002';
 
 export default defineConfig({
   defaultCommandTimeout: 30000,
