@@ -319,7 +319,14 @@ export function selectAttribute(
     case 'checkBoxList':
     case 'multi_selection_image':
       cy.get(`#${valueId}`).scrollIntoView();
-      cy.get(`#${valueId}`).should('be.visible').click();
+      cy.get(`#${valueId}`)
+        .should('be.visible')
+        .click()
+        .then(() => {
+          if (waitForUpdateMsg) {
+            checkUpdatingMessageNotDisplayed();
+          }
+        });
       break;
     case 'single_selection_image':
       const labelId = `cx-configurator--label--${attributeName}--${valueName}`;

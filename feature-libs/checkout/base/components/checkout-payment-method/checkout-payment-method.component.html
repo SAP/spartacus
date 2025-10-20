@@ -1,14 +1,4 @@
-<section
-  *ngIf="
-    featureConfigService?.isEnabled('a11yCheckoutStepsLandmarks');
-    else content
-  "
-  [attr.aria-label]="'paymentForm.payment' | cxTranslate"
->
-  <ng-template [ngTemplateOutlet]="content"></ng-template>
-</section>
-
-<ng-template #content>
+<section [attr.aria-label]="'paymentForm.payment' | cxTranslate">
   <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'paymentForm.payment' | cxTranslate }}
   </h2>
@@ -97,7 +87,7 @@
       ></cx-payment-form>
     </ng-template>
   </ng-container>
-</ng-template>
+</section>
 
 <ng-template #loading>
   <div class="cx-spinner">

@@ -18,6 +18,9 @@ import {
 context('Assisted Service Module', () => {
   before(() => {
     clearAllStorage();
+  });
+
+  it('should prapare customer cart/order/interest', () => {
     asmCustomer360.setup();
     cy.saveLocalStorage();
   });
