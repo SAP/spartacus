@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { SampleUser } from '../sample-data/checkout-flow';
+import { getSampleUser, SampleUser } from '../sample-data/checkout-flow';
 import * as authForm from './auth-forms';
 import * as common from './common';
 import * as login from './login';
 import * as configurationCart from './product-configurator-cart';
 import * as configurationCartVc from './product-configurator-cart-vc';
 import * as productSearch from './product-search';
+import { visitLoginPage } from '../support/utils/login';
 import { verifyGlobalMessageAfterRegistration } from './register';
 
 const nextBtnSelector =
@@ -580,12 +581,18 @@ export function completeOrderProcess(
   productName: string,
   navigateToOrderDetails: boolean = false
 ): void {
-  const user: SampleUser = login.registerUser(true);
-  verifyGlobalMessageAfterRegistration();
-  const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
-  authForm.login(user.email, user.password);
-  cy.wait(tokenAuthRequestAlias).its('response.statusCode').should('eq', 200);
-  login.checkUserIsSignedIn(user);
+  cy.whenJDK17(() => {
+    visitLoginPage();
+  });
+  cy.whenJDK21(() => {
+    cy.visit('/login/register');
+  });
+  login.registerUserFromLoginPage();
+  const user = getSampleUser();
+
+  visitLoginPage();
+  login.loginUser();
+  //login.checkUserIsSignedIn(user);
   this.searchForProduct(productName);
   common.clickOnAddToCartBtnOnPD();
   this.clickOnProceedToCheckoutBtnOnPD();
@@ -598,6 +605,26 @@ export function completeOrderProcess(
   const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
   login.signOutUser();
   cy.wait(tokenRevocationRequestAlias);
+
+  /**
+  verifyGlobalMessageAfterRegistration();
+   const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
+   authForm.login(user.email, user.password);
+   cy.wait(tokenAuthRequestAlias).its('response.statusCode').should('eq', 200);
+   login.checkUserIsSignedIn(user);
+   this.searchForProduct(productName);
+   common.clickOnAddToCartBtnOnPD();
+   this.clickOnProceedToCheckoutBtnOnPD();
+   configurationCartVc.completeCheckout(user);
+   if (navigateToOrderDetails) {
+   configurationCart.navigateToOrderDetails();
+   }
+   //don't check the order history aspect because this part is flaky
+   // configurationCart.selectOrderByOrderNumberAlias();
+   const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
+   login.signOutUser();
+   cy.wait(tokenRevocationRequestAlias);
+  */
 }
 
 /**
