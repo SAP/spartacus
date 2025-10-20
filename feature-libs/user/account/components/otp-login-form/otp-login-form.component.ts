@@ -15,17 +15,17 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { RoutingService, useFeatureStyles, WindowRef } from '@spartacus/core';
+import { RoutingService, WindowRef } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   VerificationToken,
   VerificationTokenCreation,
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'cx-otp-login-form',
@@ -60,10 +60,6 @@ export class OneTimePasswordLoginFormComponent {
   });
 
   @HostBinding('class.user-form') style = true;
-
-  constructor() {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
 
   onSubmit(): void {
     if (!this.form.valid) {

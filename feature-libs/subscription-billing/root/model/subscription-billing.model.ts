@@ -50,6 +50,13 @@ export interface SubscriptionWithdraw {
   withdrawnAt?: string;
   withdrawalPeriodEndDate?: string;
 }
+
+export type SubscriptionActionMode =
+  | 'cancel'
+  | 'withdraw'
+  | 'resubscribe'
+  | 'extend';
+
 declare module '@spartacus/storefront' {
   enum LAUNCH_CALLER {
     SUBSCRIPTION_ACTION_CONFIRMATION = 'SUBSCRIPTION_ACTION_CONFIRMATION',
@@ -58,3 +65,7 @@ declare module '@spartacus/storefront' {
 
 (LAUNCH_CALLER as any)['SUBSCRIPTION_ACTION_CONFIRMATION'] =
   'SUBSCRIPTION_ACTION_CONFIRMATION';
+
+export interface SubscriptionExtensionEffectiveDate {
+  subscriptionEndAt: string;
+}

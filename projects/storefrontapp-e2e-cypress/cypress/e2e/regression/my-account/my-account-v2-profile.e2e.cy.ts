@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as login from '../../../helpers/login';
 import * as alerts from '../../../helpers/global-message';
 import { checkBanner } from '../../../helpers/homepage';
 import { generateMail, randomString } from '../../../helpers/user';
@@ -13,9 +12,9 @@ import { standardUser } from '../../../sample-data/shared-users';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { isolateTests } from '../../../support/utils/test-isolation';
 
-export const newTitle = 'Dr.';
-export const newFirstName = 'N';
-export const newLastName = 'Z';
+export const newTitle = 'Mr.';
+export const newFirstName = 'Cypress';
+export const newLastName = 'User';
 export const UPDATE_PROFILE_URL = '/my-account/update-profile';
 
 describe('My Account - Update Profile (CXSPA-10780)', () => {
@@ -38,7 +37,7 @@ describe('My Account - Update Profile (CXSPA-10780)', () => {
       { testIsolation: false },
       () => {
         isolateTests();
-        before(() => {
+        beforeEach(() => {
           standardUser.registrationData.email = generateMail(
             randomString(),
             true
@@ -47,11 +46,7 @@ describe('My Account - Update Profile (CXSPA-10780)', () => {
             standardUser.registrationData.email,
             standardUser.registrationData.password
           );
-          cy.visit('/');
-        });
-
-        beforeEach(() => {
-          cy.restoreLocalStorage();
+          cy.wait(2000);
           cy.selectUserMenuOption({
             option: 'Personal Details',
           });
@@ -103,14 +98,6 @@ describe('My Account - Update Profile (CXSPA-10780)', () => {
             cy.log('--> should show email content');
             cy.get('.value').should('exist');
           });
-        });
-
-        afterEach(() => {
-          cy.saveLocalStorage();
-        });
-
-        after(() => {
-          login.signOutUser();
         });
       }
     );

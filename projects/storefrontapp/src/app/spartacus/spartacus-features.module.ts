@@ -109,6 +109,7 @@ import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.m
 import { StoreFinderFeatureModule } from './features/storefinder/storefinder-feature.module';
 import { PersonalizationFeatureModule } from './features/tracking/personalization-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
+import { OrderDocumentFlowFeatureModule } from './features/order/order-document-flow-feature.module';
 
 const featureModules = [];
 
@@ -254,6 +255,7 @@ if (environment.cpq) {
     CartImportExportFeatureModule,
 
     OrderFeatureModule,
+    OrderDocumentFlowFeatureModule,
 
     CheckoutFeatureModule,
 
@@ -298,16 +300,13 @@ if (environment.cpq) {
         a11yTabsManualActivation: true,
         a11yAnonymousConsentMessageInDialog: true,
         a11yQuickOrderSearchListKeyboardNavigation: false,
-        a11ySearchboxLabel: true,
         a11yStyleExternalLinksAsLinks: true,
         a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
         a11yKeyboardAccessibleZoom: true,
         a11yTruncatedTextStoreFinder: true,
         a11yTruncatedTextUnitLevelOrderHistory: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
-        a11yPickupOptionsTabs: true,
         a11yResetFocusAfterNavigating: true,
-        headerLayoutForSmallerViewports: true,
         a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
         a11yLinkBtnsToTertiaryBtns: true,
@@ -319,19 +318,11 @@ if (environment.cpq) {
         a11yNgSelectCloseDropdownOnEscape: true,
         a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
         a11yNgSelectAriaLabelDropdownCustomized: true,
-        a11yUpdatingCartNoNarration: true,
-        a11yPasswordVisibliltyBtnValueOverflow: true,
-        a11yItemCounterFocus: true,
-        a11yScrollToReviewByShowReview: true,
-        a11yViewHoursButtonIconContrast: true,
         a11yStoreInStockIconContrast: true,
-        a11yCheckoutStepsLandmarks: true,
-        a11yQTY2Quantity: true,
         a11yImproveButtonsInCardComponent: true,
         a11yMiniCartFocusOnMobile: true,
         a11yApprovalProcessWithNoClearable: true,
         a11yPostRegisterSuccessMessage: true,
-        a11yDeleteButton2First: true,
         a11yShowLabelOfSelect: true,
         a11yShowDownArrowOnFocusedSelectMenu: true,
         a11yCroppedFocusRing: true,
@@ -353,7 +344,6 @@ if (environment.cpq) {
         dispatchLoginActionOnlyWhenTokenReceived: true,
         a11yPdpGridArrangement: true,
         a11yHamburgerMenuTrapFocus: true,
-        useExtendedMediaComponentConfiguration: true,
         showRealTimeStockInPDP: true,
         a11yScrollToTopPositioning: true,
         a11yWideScreenImprovements: true,
@@ -385,6 +375,7 @@ if (environment.cpq) {
         authorizationCodeFlowByDefault: true,
         defaultLayoutConfigWithoutPageFold: true,
         navigationMenuCloseOnSameLinkClick: true,
+        enableQuotePurchaseOrderNumber: false,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
       };
       return appFeatureToggles;

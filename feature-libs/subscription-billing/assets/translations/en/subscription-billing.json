@@ -56,7 +56,15 @@
     "changeMind": "If you change your mind, you can reactivate your subscription before the end of the billing period.",
     "withdrawConfirm": "By confirming, you are ending your trial period.You will lose access to subscription features on by the end of today.No additional charges apply.",
     "resubscribeConfirm": "By confirming, you are renewing your subscription and will gain access to our subscription features. ",
-    "changeMindresubscribe": "You can manage your subscription anytime later."
+    "changeMindresubscribe": "You can manage your subscription anytime later.",
+    "extend": "Extend",
+    "durationInputLabel": "Extend Subscription By",
+    "durationInputPlaceholder": "Enter duration in {{ frequency }}",
+    "disclaimer": "You are about to extend your subscription under the same Terms & Conditions and Cancellation Policy.",
+    "disclaimerWithExtensionEndDate": "You are about to extend your subscription until {{ endDate }} under the same Terms & Conditions and Cancellation Policy.",
+    "noActionMessage": "No further action is required unless, you wish to make changes to your subscription.",
+    "confirmExtensionTitle": "Confirm Extension Period",
+    "extendedSuccessfully": "Your subscription has been extended successfully"
   },
   "subscriptionCartItemList": {
     "itemPriceHeader": "Item Price",

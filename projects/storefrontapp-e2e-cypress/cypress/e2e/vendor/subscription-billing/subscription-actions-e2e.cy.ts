@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { login } from '../../../helpers/b2b/b2b-quote';
 import { loginUser, signOutUser } from '../../../helpers/checkout-flow';
 import * as helper from '../../../helpers/vendor/subscription-billing/subscription-billing';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
@@ -33,6 +34,51 @@ describe('Subscription Billing - Cancel, Withdraw, Resubscribe', () => {
     );
     helper.clickManageServiceForActiveSubscription();
     helper.widthdrawSubscriptionIfPossible();
+  });
+  it('should extend subscription by particular frequency', () => {
+    cy.restoreLocalStorage();
+    Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
+
+    cy.visit('/powertools-spa/en/USD/login');
+    login(
+      helper.subscriptionUser.email,
+      helper.subscriptionUser.password,
+      helper.subscriptionUser.fullName
+    );
+
+    helper.lookForSubscriptionProduct();
+    helper.placeSubscriptionOrder();
+
+    cy.get('cx-order-confirmation-thank-you-message .cx-page-title')
+      .invoke('text')
+      .then((text) => {
+        const match = text.match(/Confirmation of Order:\s*(\d+)/);
+        if (match) {
+          const orderNumber = match[1].trim();
+          Cypress.env('subscriptionOrderNumber', orderNumber);
+        } else {
+          throw new Error('Order number not found in confirmation message');
+        }
+      });
+
+    helper.waitForSubscriptionOrderToSyncToCommerce();
+    helper.validateSubscriptionList();
+    cy.intercept('GET', '**/users/*/subscriptions*').as('getSubscriptions');
+    cy.contains('div', 'Subscription Service (Product) Code:')
+      .find('a')
+      .click();
+    cy.wait('@getSubscriptions')
+      .its('response.statusCode')
+      .should('eq', 200)
+      .then((interception) => {
+        expect(interception.response.body['contractFrequency']).to.not
+          .undefined;
+        Cypress.env(
+          'subscriptionContractFrequency',
+          interception.response.body['contractFrequency']
+        );
+      });
+    helper.extendSubscriptionByFrequency(1);
   });
   afterEach(() => {
     signOutUser();
