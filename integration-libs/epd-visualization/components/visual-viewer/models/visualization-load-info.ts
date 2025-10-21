@@ -6,6 +6,9 @@
 
 import { VisualizationInfo } from '@spartacus/epd-visualization/root';
 
+/**
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ */
 export enum VisualizationLookupResult {
   UniqueMatchFound = 'UniqueMatchFound',
   NoMatchFound = 'NoMatchFound',
@@ -13,6 +16,9 @@ export enum VisualizationLookupResult {
   UnexpectedError = 'UnexpectedError',
 }
 
+/**
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ */
 export enum VisualizationLoadStatus {
   NotStarted = 'NotStarted',
   Loading = 'Loading',
@@ -21,7 +27,7 @@ export enum VisualizationLoadStatus {
 }
 
 /**
- * Information relating to an attempt to resolve and load a visualization.
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
  */
 export interface VisualizationLoadInfo {
   lookupResult: VisualizationLookupResult;

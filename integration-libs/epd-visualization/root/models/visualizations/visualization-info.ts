@@ -7,7 +7,7 @@
 import { ContentType } from './content-type';
 
 /**
- * Information about a visualization stored in an EPD Visualization service.
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
  */
 export interface VisualizationInfo {
   /**

@@ -7,7 +7,7 @@
 import { Product } from '@spartacus/core';
 
 /**
- * A model object representing a product item in the visual picking product list.
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
  */
 export interface VisualPickingProductListItem {
   /**

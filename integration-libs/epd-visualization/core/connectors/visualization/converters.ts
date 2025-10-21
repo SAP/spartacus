@@ -8,6 +8,9 @@ import { InjectionToken } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import { LookupVisualizationsResponse } from './lookup-visualizations-response';
 
+/**
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ */
 export const LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER = new InjectionToken<
   Converter<any, LookupVisualizationsResponse>
 >('LookupVisualizationsResponseNormalizer');
