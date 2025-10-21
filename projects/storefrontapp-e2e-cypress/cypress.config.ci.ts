@@ -46,7 +46,7 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       return require('./cypress/plugins/index.js')(on, config);
     },
-    baseUrl: 'http://localhost:4200',
+    baseUrl: 'https://localhost:4200',
     excludeSpecPattern: '**/*.example-e2e.cy.ts',
     screenshotOnRunFailure: process.env.CYPRESS_ENABLE_SCREENSHOTS === 'true',
   },
