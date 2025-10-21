@@ -6,7 +6,6 @@
 
 import epdVisualization from './epdVisualization.json';
 
-
 /**
  * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
  */
