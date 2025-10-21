@@ -1,0 +1,5 @@
+npm error Missing script: "build:libs"
+npm error
+npm error To see a list of scripts, run:
+npm error   npm run
+npm error A complete log of this run can be found in: /Users/I845016/.npm/_logs/2025-10-21T17_29_02_907Z-debug-0.log
