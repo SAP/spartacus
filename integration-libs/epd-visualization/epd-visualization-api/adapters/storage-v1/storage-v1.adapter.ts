@@ -25,6 +25,11 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 /**
+ * This adapter references an API that is expected to be deprecated and relocated
+ * since multiple microservice APIs are being combined into a single namespace.
+ * A new adapter implementation will be added and this one will be deprecated
+ * when the new endpoint is available.
+ *
  * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
  */
 @Injectable()

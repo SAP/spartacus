@@ -27,6 +27,8 @@ export enum VisualizationLoadStatus {
 }
 
 /**
+ * Information relating to an attempt to resolve and load a visualization.
+ *
  * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
  */
 export interface VisualizationLoadInfo {
