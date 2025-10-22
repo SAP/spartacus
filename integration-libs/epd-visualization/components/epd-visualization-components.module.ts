@@ -8,6 +8,9 @@ import { NgModule } from '@angular/core';
 import { VisualPickingTabModule } from './visual-picking/visual-picking-tab/visual-picking-tab.module';
 import { VisualViewerModule } from './visual-viewer/visual-viewer.module';
 
+/**
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ */
 @NgModule({
   declarations: [],
   imports: [VisualPickingTabModule, VisualViewerModule],

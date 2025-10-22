@@ -6,6 +6,9 @@
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
+/**
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Component({
   selector: 'cx-epd-visualization-viewer-toolbar-button',
   templateUrl: './visual-viewer-toolbar-button.component.html',
