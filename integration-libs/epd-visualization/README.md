@@ -1,4 +1,6 @@
-# SAP Enterprise Product Development Visualization integration
+# DEPRECATED - SAP Enterprise Product Development Visualization integration
+
+This library is deprecated and will be removed in the future.
 
 This library provides capabilities for viewing 2D and 3D content served from the SAP Enterprise Product Development Visualization services:
 <https://www.sap.com/sea/products/enterprise-product-development.html>.
