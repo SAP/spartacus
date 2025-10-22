@@ -8,6 +8,8 @@
  * A subset of the content types that may be returned by the EPD Visualization service.
  * We use filtering to ensure that we only get visualizations of the types below returned.
  * Some values start with numbers, so the identifiers do not match the values
+ *
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
  */
 export enum ContentType {
   /**
