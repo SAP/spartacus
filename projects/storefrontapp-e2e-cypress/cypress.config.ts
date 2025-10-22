@@ -12,7 +12,7 @@ const CLIENT_ID =
 
 const API_URL =
   JDK_VERSION === 'JDK21'
-    ? 'https://api.c432wmya2v-teamspart3-s5-public.model-t.myhybris.cloud'
+    ? 'https://spartacus-devci7677.eastus.cloudapp.azure.com:8443'
     : 'https://api.c432wmya2v-teamspart3-s3-public.model-t.myhybris.cloud';
 
 export default defineConfig({
@@ -46,6 +46,6 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       return require('./cypress/plugins/index.js')(on, config);
     },
-    baseUrl: 'http://localhost:4200',
+    baseUrl: 'https://localhost:4200',
   },
 });

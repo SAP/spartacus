@@ -18,6 +18,6 @@ export default defineConfig({
   },
   e2e: {
     ...baseConfig.e2e,
-    baseUrl: 'http://localhost:5200',
+    baseUrl: 'https://localhost:5200',
   },
 });
