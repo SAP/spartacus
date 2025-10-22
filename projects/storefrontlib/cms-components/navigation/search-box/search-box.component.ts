@@ -28,7 +28,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
-import { filter, map, switchMap, tap, first } from 'rxjs/operators';
+import { filter, map, switchMap, tap, first, timeout, catchError } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BREAKPOINT, BreakpointService } from '../../../layout/';
@@ -596,14 +596,16 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     const trimmedValue = value.trim();
 
     // Check if the entered value matches any current suggestions (including categories)
-    // Wait for results that actually have suggestions loaded
+    // Wait for results that actually have suggestions loaded with timeout and fallback
     const enterSubscription = this.results$
       .pipe(
         filter(
           (result) =>
             !!(result && result.suggestions && result.suggestions.length > 0)
         ),
-        first()
+        first(),
+        timeout(1000), // 1 second timeout to prevent hanging
+        catchError(() => of({ suggestions: [] })),
       )
       .subscribe((result) => {
         const suggestions = result.suggestions ?? [];
