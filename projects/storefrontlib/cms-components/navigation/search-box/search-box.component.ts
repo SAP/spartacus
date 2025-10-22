@@ -592,7 +592,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // Trim whitespace from the input value
     const trimmedValue = value.trim();
 
     // Check if the entered value matches any current suggestions (including categories)
