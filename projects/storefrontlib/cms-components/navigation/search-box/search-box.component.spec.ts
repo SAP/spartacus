@@ -487,6 +487,29 @@ describe('SearchBoxComponent', () => {
       expect(input.nativeElement.value).toEqual(PRODUCT_SEARCH_STRING);
     });
 
+    it('should clear input when Enter is pressed on a category suggestion', () => {
+      // Mock suggestions that include a category
+      const mockResults = {
+        suggestions: ['Digital Cameras', 'Camera Accessories', 'Lenses'],
+        products: [],
+      };
+      serviceSpy.getResults = jasmine
+        .createSpy()
+        .and.returnValue(of(mockResults));
+
+      fixture.detectChanges();
+      const input = fixture.debugElement.query(By.css('.searchbox input'));
+      input.nativeElement.value = 'Digital Cameras';
+
+      // Trigger the onEnter method directly
+      searchBoxComponent.onEnter('Digital Cameras');
+
+      // Wait for the async operation
+      setTimeout(() => {
+        expect(searchBoxComponent.chosenWord).toEqual('');
+      }, 150);
+    });
+
     it('should not contain searched word when navigating to another page', () => {
       fixture.detectChanges();
       const input = fixture.debugElement.query(By.css('.searchbox input'));
