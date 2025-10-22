@@ -597,7 +597,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
     // Check if the entered value matches any current suggestions (including categories)
     // Wait for results that actually have suggestions loaded
-    this.results$
+    const enterSubscription = this.results$
       .pipe(
         filter(
           (result) =>
@@ -623,6 +623,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
           }, 150);
         }
       });
+
+    this.subscriptions.add(enterSubscription);
   }
 
   /**
