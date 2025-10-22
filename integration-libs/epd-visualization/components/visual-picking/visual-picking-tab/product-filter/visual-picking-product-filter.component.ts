@@ -8,6 +8,9 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { VisualPickingProductFilterService } from './visual-picking-product-filter.service';
 
+/**
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Component({
   selector: 'cx-epd-visualization-product-filter',
   templateUrl: './visual-picking-product-filter.component.html',

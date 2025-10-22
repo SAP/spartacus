@@ -17,11 +17,17 @@ import { first, map } from 'rxjs/operators';
 import { NodesResponse, TreeNode } from '../../connectors/scene/nodes-response';
 import { SceneConnector } from '../../connectors/scene/scene.connector';
 
+/**
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ */
 export interface NodeIdProductCodes {
   nodeId: string;
   productCodes: string[];
 }
 
+/**
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Injectable({
   providedIn: 'root',
 })
