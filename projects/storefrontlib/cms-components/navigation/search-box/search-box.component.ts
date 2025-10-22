@@ -28,7 +28,15 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
-import { filter, map, switchMap, tap, first, timeout, catchError } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  switchMap,
+  tap,
+  first,
+  timeout,
+  catchError,
+} from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BREAKPOINT, BreakpointService } from '../../../layout/';
@@ -604,7 +612,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         ),
         first(),
         timeout(1000), // 1 second timeout to prevent hanging
-        catchError(() => of({ suggestions: [] })),
+        catchError(() => of({ suggestions: [] }))
       )
       .subscribe((result) => {
         const suggestions = result.suggestions ?? [];
