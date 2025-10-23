@@ -18,6 +18,7 @@ import {
 import { LoggerService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+
 /**
  * Generic in-memory paged list component that can be used to render arbitrary items in
  * a vertical orientation.
@@ -25,6 +26,8 @@ import { Observable } from 'rxjs';
  *
  * To allow for flexible rendering of items, the rendering is delegated to the
  * given `template` and `headerTemplate`.
+ *
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
  */
 @Component({
   selector: 'cx-epd-visualization-paged-list',
