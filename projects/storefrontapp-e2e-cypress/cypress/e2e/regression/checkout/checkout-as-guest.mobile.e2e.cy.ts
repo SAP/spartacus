@@ -23,10 +23,9 @@ context('Checkout as guest (mobile)', { testIsolation: true }, () => {
     cy.viewport('iphone-6');
     cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
 
-     cy.intercept('GET', '**/cms/pages?lang=*&curr=*').as('getHomePage');
+    cy.intercept('GET', '**/cms/pages?lang=*&curr=*').as('getHomePage');
 
     cy.intercept('GET', '**/users/current/carts**').as('getCartsAfterLogin');
-  
   });
 
   guestCheckout.testCheckoutAsGuest();
