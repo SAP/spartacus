@@ -165,11 +165,11 @@ if [[ "${SSR}" = true ]]; then
     fi
 else
     if [[ "$SUITE" == *"b2b"* ]]; then
-        #npm run start:pwa:b2b &
-        npm run start:ci:b2b &
+        npm run start:pwa:b2b &
+        #npm run start:ci:b2b &
     else
-        #npm run start:pwa &
-        npm run start:ci &
+        npm run start:pwa &
+        #npm run start:ci &
     fi
 
     echo '-----'
