@@ -11,6 +11,9 @@ import { UrlModule } from '@spartacus/core';
 import { IconModule, MediaModule } from '@spartacus/storefront';
 import { PagedListComponent } from './paged-list.component';
 
+/**
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ */
 @NgModule({
   imports: [CommonModule, RouterModule, IconModule, MediaModule, UrlModule],
   declarations: [PagedListComponent],
