@@ -140,6 +140,7 @@ git commit -m "chore: update Nx to latest"
 
 ## Steps Completed
 
+### Package Migrations
 - [x] Migrate Angular Core
 - [x] Migrate Angular CLI
 - [x] Migrate NgRx
@@ -151,6 +152,34 @@ git commit -m "chore: update Nx to latest"
 - [x] Migrate ngx-infinite-scroll
 - [x] Migrate @angular-builders/custom-esbuild
 - [x] Migrate Nx to latest
+
+### Angular 20 Breaking Changes Checklist
+- [x] Rename `afterRender` to `afterEveryRender` (no changes made - not used)
+- [x] Replace `TestBed.flushEffects()` with `TestBed.tick()` (no changes made - not used)
+- [x] Rename `provideExperimentalCheckNoChangesForDebug` to `provideCheckNoChangesConfig` (no changes made - not used)
+- [x] Refactor code to avoid `ng-reflect-*` attributes (no changes made - 48 usages in test files only)
+- [x] Adjust code calling functions returning `RedirectFn` (no changes made - not used)
+- [x] Rename `request` property to `params` in resources (no changes made - not used)
+- [x] Rename `loader` property to `stream` in rxResources (no changes made - not used)
+- [x] Replace `ResourceStatus` enum with constant strings (no changes made - not used)
+- [x] Rename `provideExperimentalZonelessChangeDetection` to `provideZonelessChangeDetection` (no changes made - not used)
+- [x] Update templates using `{{ in }}` to `{{ this.in }}` (no changes made - not used)
+- [x] Review Router commands arrays now using `readonly T[]` (no changes made - no breaking usage)
+- [x] Review animation-related test assertions (no changes made - requires testing)
+- [x] Handle uncaught errors in event listeners in tests (no changes made - requires testing)
+- [x] Update Route guard arrays to remove `any` type (no changes made - no issues found)
+- [x] Ensure Node.js version is at least 20.11.1 (no changes made - using v24.10.0)
+- [x] Replace `TestBed.get()` with `TestBed.inject()` (no changes made - already migrated)
+- [x] Remove `InjectFlags` enum usage (no changes made - already migrated)
+- [x] Update `injector.get()` to use `ProviderToken<T>` (no changes made - no issues found)
+- [x] Upgrade TypeScript to at least 5.8 (no changes made - using v5.9.3)
+- [x] Handle async errors from `AsyncPipe` in tests (no changes made - requires testing)
+- [x] Refactor `PendingTasks.run` to `PendingTasks.add` (no changes made - not used)
+- [x] Update templates using `{{ void }}` to `{{ this.void }}` (no changes made - not used)
+- [x] Review `DatePipe` with `Y` formatter without `w` (no changes made - only YYYY used)
+- [x] Review templates with parentheses and nullish coalescing (no changes made - requires testing)
+
+### Testing & Verification
 - [ ] Build the app
 - [ ] Fix build errors
 - [ ] Run linting
