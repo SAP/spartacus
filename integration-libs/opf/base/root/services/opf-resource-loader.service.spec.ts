@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
+
+import { PLATFORM_ID, DOCUMENT } from '@angular/core';
 import { TestBed, fakeAsync } from '@angular/core/testing';
 import { Config, ScriptLoader } from '@spartacus/core';
 import { OpfDynamicScriptResourceType } from '../model';
