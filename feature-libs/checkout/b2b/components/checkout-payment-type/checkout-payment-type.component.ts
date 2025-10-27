@@ -156,7 +156,7 @@ export class CheckoutPaymentTypeComponent {
               GlobalMessageType.MSG_TYPE_ERROR
             );
           }
-          this.onError()
+          this.onError();
         },
       });
   }
