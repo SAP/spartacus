@@ -180,7 +180,7 @@
     "@angular/ssr": "20.3.7",
     "@fontsource/open-sans": "^5.1.0",
     "@fortawesome/fontawesome-free": "6.7.2",
-    "@ng-select/ng-select": "^14.1.0",
+    "@ng-select/ng-select": "20.4.3",
     "@ngrx/effects": "20.1.0",
     "@ngrx/operators": "20.1.0",
     "@ngrx/router-store": "20.1.0",
