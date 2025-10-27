@@ -140,17 +140,17 @@ git commit -m "chore: update Nx to latest"
 
 ## Steps Completed
 
-- [ ] Migrate Angular Core
-- [ ] Migrate Angular CLI
-- [ ] Migrate NgRx
-- [ ] Migrate Angular ESLint
-- [ ] Migrate Jest Preset Angular
-- [ ] Migrate ng-packagr
-- [ ] Migrate @ng-select/ng-select
-- [ ] Migrate angular-oauth2-oidc
-- [ ] Migrate ngx-infinite-scroll
-- [ ] Migrate @angular-builders/custom-esbuild
-- [ ] Migrate Nx to latest
+- [x] Migrate Angular Core
+- [x] Migrate Angular CLI
+- [x] Migrate NgRx
+- [x] Migrate Angular ESLint
+- [x] Migrate Jest Preset Angular
+- [x] Migrate ng-packagr
+- [x] Migrate @ng-select/ng-select
+- [x] Migrate angular-oauth2-oidc
+- [x] Migrate ngx-infinite-scroll
+- [x] Migrate @angular-builders/custom-esbuild
+- [x] Migrate Nx to latest
 - [ ] Build the app
 - [ ] Fix build errors
 - [ ] Run linting
