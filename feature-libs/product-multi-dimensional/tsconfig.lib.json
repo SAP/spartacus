@@ -4,7 +4,7 @@
     "outDir": "../../out-tsc/lib",
     "forceConsistentCasingInFileNames": true,
     "module": "es2022",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
@@ -12,10 +12,17 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "types": [],
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "paths": {
-      "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/core": [
+        "dist/core"
+      ],
+      "@spartacus/storefront": [
+        "dist/storefrontlib"
+      ]
     }
   },
   "angularCompilerOptions": {
