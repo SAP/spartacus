@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { Inject, Injectable, RendererFactory2, DOCUMENT } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { LaunchRoute, LAUNCH_CALLER } from '../config/index';

@@ -4,13 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   inject,
-  DOCUMENT
+  DOCUMENT,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { FeatureConfigService, TranslationService } from '@spartacus/core';

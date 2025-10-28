@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import {
   ComponentRef,
   Inject,
   Renderer2,
   RendererFactory2,
   ViewContainerRef,
-  DOCUMENT
+  DOCUMENT,
 } from '@angular/core';
 import { Applicable, Priority } from '@spartacus/core';
 import { Observable } from 'rxjs';

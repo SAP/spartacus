@@ -1,4 +1,3 @@
-
 import { Component, Input, DOCUMENT } from '@angular/core';
 import {
   ComponentFixture,

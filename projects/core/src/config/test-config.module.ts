@@ -11,7 +11,7 @@ import {
   NgModule,
   PLATFORM_ID,
   inject,
-  DOCUMENT
+  DOCUMENT,
 } from '@angular/core';
 import { provideFeatureTogglesFactory } from '../features-config';
 import { FeatureTogglesInterface } from '../features-config/feature-toggles/config/feature-toggles';

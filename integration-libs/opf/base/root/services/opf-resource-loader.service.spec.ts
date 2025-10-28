@@ -1,4 +1,3 @@
-
 import { PLATFORM_ID, DOCUMENT } from '@angular/core';
 import { TestBed, fakeAsync } from '@angular/core/testing';
 import { Config, ScriptLoader } from '@spartacus/core';

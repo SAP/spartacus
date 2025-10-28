@@ -12,17 +12,10 @@
     "importHelpers": true,
     "strict": false,
     "types": [],
-    "lib": [
-      "es2022",
-      "dom"
-    ],
+    "lib": ["es2022", "dom"],
     "paths": {
-      "@spartacus/core": [
-        "dist/core"
-      ],
-      "@spartacus/storefront": [
-        "dist/storefrontlib"
-      ]
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/storefront": ["dist/storefrontlib"]
     }
   },
   "angularCompilerOptions": {

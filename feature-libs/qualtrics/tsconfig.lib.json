@@ -11,14 +11,9 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "types": [],
-    "lib": [
-      "es2022",
-      "dom"
-    ],
+    "lib": ["es2022", "dom"],
     "paths": {
-      "@spartacus/core": [
-        "dist/core"
-      ]
+      "@spartacus/core": ["dist/core"]
     }
   },
   "angularCompilerOptions": {

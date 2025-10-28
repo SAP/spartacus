@@ -14,18 +14,11 @@
     "emitDecoratorMetadata": true,
     "importHelpers": true,
     "types": [],
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "strict": true,
     "paths": {
-      "@spartacus/core": [
-        "dist/core"
-      ],
-      "@spartacus/storefront": [
-        "dist/storefrontlib"
-      ]
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/storefront": ["dist/storefrontlib"]
     }
   },
   "angularCompilerOptions": {
