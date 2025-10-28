@@ -179,6 +179,24 @@ git commit -m "chore: update Nx to latest"
 - [x] Review `DatePipe` with `Y` formatter without `w` (no changes made - only YYYY used)
 - [x] Review templates with parentheses and nullish coalescing (no changes made - requires testing)
 
+### Update Internal Library Dependencies
+- [x] Run `npm run config:update -- --bump-versions` to update dependencies in internal libraries
+- [x] Run `npm run generate:deps` to regenerate dependencies.json
+
+## Issues Encountered
+
+### Peer Dependency Conflicts
+
+**ESLint Issue:**
+- After migrations, `npm install` failed with peer dependency conflict
+- Problem: `eslint-plugin-deprecation@3.0.0` requires `eslint@^8.0.0`, but migrations updated ESLint to `9.28.0`
+- Solution: Removed `eslint-plugin-deprecation` (deprecated package) and used `typescript-eslint`'s built-in deprecation rule instead
+
+**Jest Issue:**
+- After fixing ESLint, `npm install` still failed with another peer dependency conflict
+- Problem: `jest-preset-angular@15.0.3` requires `jest@^30.0.0`, but we have `jest@29.7.0`
+- Workaround: Use `npm install --legacy-peer-deps` to bypass peer dependency checks
+
 ### Testing & Verification
 - [ ] Build the app
 - [ ] Fix build errors
