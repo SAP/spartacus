@@ -6,6 +6,8 @@
 
 /**
  * The way that selections are displayed in 3D content.
+ *
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
  */
 export enum SelectionDisplayMode {
   /**

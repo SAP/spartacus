@@ -6,9 +6,9 @@
 
 const delay = 3000;
 
-// 1 min in milliseconds
-const timerTimeout = 180000;
-const consignmentTimerTimeout = 180000;
+// 5 min in milliseconds
+const timerTimeout = 300000;
+const consignmentTimerTimeout = 300000;
 
 // start time
 let startTime = 0;

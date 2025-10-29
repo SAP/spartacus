@@ -53,21 +53,28 @@ export class OpfApiPaymentAdapter implements OpfPaymentAdapter {
   );
   protected logger = inject(LoggerService);
 
-  protected headerWithNoLanguage: { [name: string]: string } = {
-    accept: 'application/json',
-    'Content-Type': 'application/json',
-  };
-  protected header: { [name: string]: string } = {
-    ...this.headerWithNoLanguage,
-    'Accept-Language':
-      this.opfMetadataStatePersistanceService.getActiveLanguage(),
-  };
+  protected get headerWithNoLanguage(): { [name: string]: string } {
+    return {
+      accept: 'application/json',
+      'Content-Type': 'application/json',
+    };
+  }
 
-  protected headerWithContentLanguage: { [name: string]: string } = {
-    ...this.headerWithNoLanguage,
-    'Content-Language':
-      this.opfMetadataStatePersistanceService.getActiveLanguage(),
-  };
+  protected get header(): { [name: string]: string } {
+    return {
+      ...this.headerWithNoLanguage,
+      'Accept-Language':
+        this.opfMetadataStatePersistanceService.getActiveLanguage(),
+    };
+  }
+
+  protected get headerWithContentLanguage(): { [name: string]: string } {
+    return {
+      ...this.headerWithNoLanguage,
+      'Content-Language':
+        this.opfMetadataStatePersistanceService.getActiveLanguage(),
+    };
+  }
 
   verifyPayment(
     paymentSessionId: string,

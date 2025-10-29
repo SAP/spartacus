@@ -33,6 +33,7 @@ import {
   SPARTACUS_STOREFINDER,
   SPARTACUS_TRACKING,
   SPARTACUS_USER,
+  SPARTACUS_SUBSCRIPTION_BILLING,
 } from '../libs-constants';
 import {
   Graph,
@@ -144,6 +145,7 @@ describe('Graph utils', () => {
         SPARTACUS_CHECKOUT,
         SPARTACUS_STOREFINDER,
         SPARTACUS_REQUESTED_DELIVERY_DATE,
+        SPARTACUS_PICKUP_IN_STORE,
         SPARTACUS_TRACKING,
         SPARTACUS_CUSTOMER_TICKETING,
         SPARTACUS_ORGANIZATION,
@@ -161,13 +163,13 @@ describe('Graph utils', () => {
         SPARTACUS_CDS,
         SPARTACUS_CDP,
         SPARTACUS_CDC,
+        SPARTACUS_SUBSCRIPTION_BILLING,
         SPARTACUS_SMARTEDIT,
         SPARTACUS_QUOTE,
         SPARTACUS_QUALTRICS,
         SPARTACUS_PRODUCT_MULTI_DIMENSIONAL,
         SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_PRODUCT,
-        SPARTACUS_PICKUP_IN_STORE,
         SPARTACUS_ESTIMATED_DELIVERY_DATE,
       ]);
     });
@@ -185,6 +187,7 @@ describe('Graph utils', () => {
           "Quick-Order",
           "Import-Export",
           "Order",
+          "Order-Document-Flow",
           "Checkout",
           "Checkout-B2B",
           "Checkout-Scheduled-Replenishment",
@@ -225,6 +228,7 @@ describe('Graph utils', () => {
           "CDP",
           "CDC-B2B",
           "CDC",
+          "Subscription-Billing",
           "SmartEdit",
           "Estimated-Delivery-Date",
           "Qualtrics",

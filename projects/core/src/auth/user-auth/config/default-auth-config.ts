@@ -5,8 +5,13 @@
  */
 
 import { inject, InjectionToken, ValueProvider } from '@angular/core';
+import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { AuthConfig } from './auth-config';
 
+/**
+ * @deprecated since 221121.1
+ * Please use the `authorizationCodeFlowByDefault` feature toggle instead.
+ */
 export const USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT =
   new InjectionToken<boolean>('USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT', {
     factory: () => false,
@@ -14,7 +19,7 @@ export const USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT =
   });
 
 /**
- * When enabled, sets the default oAuth configuration to use authorization
+ * When `authorizationCodeFlowByDefault` feature toggle is enabled, it sets the default oAuth configuration to use authorization.
  * code flow with PKCE. This results in a more secure authorization scheme
  * as the default configuration.
  *
@@ -32,9 +37,11 @@ export const USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT =
 export function provideAuthorizationCodeFlowByDefault(
   enable = true
 ): ValueProvider {
+  const authorizationCodeFlowByDefault =
+    inject(FeatureToggles).authorizationCodeFlowByDefault;
   return {
     provide: USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT,
-    useValue: enable,
+    useValue: authorizationCodeFlowByDefault ?? enable,
   };
 }
 
@@ -54,15 +61,17 @@ export const defaultAuthConfig: AuthConfig = {
       clearHashAfterLogin: false,
       responseType: 'code',
     },
+    customLoginPage: {
+      csrfEndpoint: '/csrf',
+      loginFormEndpoint: '/login',
+    },
   },
 };
 
 export function defaultAuthConfigFactory(): AuthConfig {
-  const useAuthorizationCodeFlowByDefault = inject(
-    USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT
-  );
+  const { authorizationCodeFlowByDefault } = inject(FeatureToggles);
 
-  if (useAuthorizationCodeFlowByDefault) {
+  if (authorizationCodeFlowByDefault) {
     return defaultAuthConfig;
   } else {
     const config = {
@@ -80,7 +89,7 @@ export function defaultAuthConfigFactory(): AuthConfig {
     } satisfies AuthConfig;
 
     delete config.authentication.OAuthLibConfig.responseType;
-
+    delete config.authentication.customLoginPage;
     return config;
   }
 }

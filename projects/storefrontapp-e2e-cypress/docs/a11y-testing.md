@@ -8,6 +8,14 @@ Access Continuum is integrated into our Cypress E2E testing framework to automat
 
 ## Setup
 
+### Installing the Access Continuum package
+
+**Attention: The package hosted by Level Access which gets installed by this option is currently out of date due to security concerns. For this reason, we are using `COMMON_SAP_ARTIFACTORY_TOKEN` to install a secure version of Continuum from the SAP Repository. This token can be obtained at "https://common.repositories.cloud.sap/ui/packages" by going to Set Me Up -> NPM -> acservices -> generate token. Installation steps for `COMMON_SAP_ARTIFACTORY_TOKEN` are the same as `CONTINUUM_REGISTRY_TOKEN` and can be replicated as described below. Note that we intend to return to using the Level Access owned package once it has been patched and this notice will be removed.**
+
+We need to set the `CONTINUUM_REGISTRY_TOKEN` (see https://wiki.one.int.sap/wiki/display/spar/Spartacus+Accessibility+Feature+Compliance#SpartacusAccessibilityFeatureCompliance-AccessContinuum to acquire this) by using the command `export CONTINUUM_REGISTRY_TOKEN=XXXXXXXXXXXXXXXX` in the terminal. Then we need to install the packages in the `storefrontapp-e2e` directory as usual with `npm ci`. 
+
+*Note that running `npm ci` without setting the registry token will still install the packages to run e2e tests successfully. But any test using continuum libraries (ie. a11y tests) will not perform any accessibity checks.*
+
 The Access Continuum integration is set up in `cypress/support/continuum.commands.ts`. This file provides custom Cypress commands for running accessibility tests.
 
 ## Usage
@@ -89,4 +97,4 @@ to the JSDoc for more details.
 
 ## Example
 
-See `/cypress/e2e/accessibility/continuum.example-e2e.cy.ts` for an example of how to use Access Continuum for testing. 
+See `/cypress/e2e/accessibility/continuum.example-e2e.cy.ts` for an example of how to use Access Continuum for testing. Accessibility concerns will be shown in the log during assertations when running Cypress.

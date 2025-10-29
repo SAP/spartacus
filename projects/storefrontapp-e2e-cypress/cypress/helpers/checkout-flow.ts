@@ -121,9 +121,7 @@ export function registerUser(
 
   register(sampleUser, giveRegistrationConsent);
 
-  cy.whenJDK17(() => {
-    cy.get('cx-breadcrumb').contains('Login');
-  });
+  cy.get('cx-breadcrumb').contains('Login');
   return sampleUser;
 }
 
@@ -223,7 +221,9 @@ export function verifyDeliveryOptions() {
   cy.get('.cx-checkout-btns button.btn-primary')
     .should('be.enabled')
     .click({ force: true });
-  cy.wait(`@${paymentPage}`).its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(() => {
+    cy.wait(`@${paymentPage}`).its('response.statusCode').should('eq', 200);
+  });
 }
 
 export function fillPaymentForm(
@@ -319,7 +319,9 @@ export function clickCheapProductDetailsFromHomePage(
 ) {
   const productPage = waitForProductPage(sampleProduct.code, 'getProductPage');
   cy.get('.Section4 cx-banner').first().find('a').click({ force: true });
-  cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(() => {
+    cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+  });
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', sampleProduct.code);
   });
@@ -378,9 +380,11 @@ export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
     'getDeliveryAddressPage'
   );
   clickCheckoutButton();
-  cy.wait(`@${deliveryAddressPage}`)
-    .its('response.statusCode')
-    .should('eq', 200);
+  cy.whenJDK17(() => {
+    cy.wait(`@${deliveryAddressPage}`)
+      .its('response.statusCode')
+      .should('eq', 200);
+  });
 }
 
 export function addCheapProductToCart(
@@ -438,7 +442,12 @@ export function fillAddressFormWithCheapProduct(
     'getDeliveryModePage'
   );
   fillShippingAddress(shippingAddressData);
-  cy.wait(`@${deliveryModePage}`).its('response.statusCode').should('eq', 200);
+
+  cy.whenJDK17(() => {
+    cy.wait(`@${deliveryModePage}`)
+      .its('response.statusCode')
+      .should('eq', 200);
+  });
 
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
   cy.wait(`@${getCheckoutDetailsAlias}`);
@@ -551,9 +560,11 @@ export function placeOrderWithCheapProduct(
     'getOrderConfirmationPage'
   );
   cy.get('cx-place-order button.btn-primary').should('be.enabled').click();
-  cy.wait(`@${orderConfirmationPage}`)
-    .its('response.statusCode')
-    .should('eq', 200);
+  cy.whenJDK17(() => {
+    cy.wait(`@${orderConfirmationPage}`)
+      .its('response.statusCode')
+      .should('eq', 200);
+  });
 }
 
 export function verifyOrderConfirmationPageWithCheapProduct(

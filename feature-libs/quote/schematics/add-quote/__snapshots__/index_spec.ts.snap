@@ -55,7 +55,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '2211.42'
+      level: '221121.2'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })

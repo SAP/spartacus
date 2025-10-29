@@ -178,8 +178,7 @@ export interface SsrOptimizationOptions {
    * When caching is enabled, this function tells whether the given rendering result
    * (html or error) should be cached.
    *
-   * By default, all html rendering results are cached. By default, also all errors are cached
-   * unless the separate option `avoidCachingErrors` is enabled.
+   * By default, all html rendering results are cached. By default, errors are not cached.
    */
   shouldCacheRenderingResult?: ({
     options,
@@ -198,17 +197,6 @@ export interface SsrOptimizationOptions {
    * are different from Spartacus's regular feature toggles provided in the Angular app.
    */
   ssrFeatureToggles?: {
-    /**
-     * Determines if rendering errors should be skipped from caching.
-     *
-     * It's recommended to set to `true` (i.e. errors are skipped from caching),
-     * which will become the default behavior, when this feature toggle is removed.
-     *
-     * It only affects the default `shouldCacheRenderingResult`.
-     * Custom implementations of `shouldCacheRenderingResult` may ignore this setting.
-     */
-    avoidCachingErrors?: boolean;
-
     /**
      * When true, the cache size will be limited by memory defined via the `cacheSizeMemory` option.
      * When false, the cache size will be limited by number of entries defined via the deprecated `cacheSize` option.
@@ -269,14 +257,9 @@ export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
     defaultRenderingStrategyResolverOptions
   ),
   logger: new DefaultExpressServerLogger(),
-  shouldCacheRenderingResult: ({ options, entry }) =>
-    !(
-      options.ssrFeatureToggles?.avoidCachingErrors === true &&
-      Boolean(entry.err)
-    ),
+  shouldCacheRenderingResult: ({ entry: { err } }) => !err,
   renderKeyResolver: getDefaultRenderKey,
   ssrFeatureToggles: {
-    avoidCachingErrors: true,
     limitCacheByMemory: false,
   },
 };

@@ -18,12 +18,15 @@ import {
   GlobalMessageType,
   HttpErrorModel,
   UserPaymentService,
+  UserAddressService,
 } from '@spartacus/core';
 import {
   BehaviorSubject,
   EMPTY,
   Observable,
+  Subject,
   combineLatest,
+  of,
   throwError,
 } from 'rxjs';
 import {
@@ -37,6 +40,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { OpfCheckoutPaymentWrapperService } from '../opf-checkout-payment-wrapper';
+import { PickupOptionFacade } from '@spartacus/pickup-in-store/root';
 
 @Injectable()
 export class OpfCheckoutBillingAddressFormService {
@@ -51,6 +55,9 @@ export class OpfCheckoutBillingAddressFormService {
   protected opfCheckoutPaymentWrapperService = inject(
     OpfCheckoutPaymentWrapperService
   );
+  protected userAddressService = inject(UserAddressService);
+  protected _noDefaultAddressFoundForPickupMode$ = new Subject<void>();
+  protected pickupOptionFacade = inject(PickupOptionFacade);
 
   protected readonly _$billingAddressSub = new BehaviorSubject<
     Address | undefined
@@ -62,6 +69,21 @@ export class OpfCheckoutBillingAddressFormService {
   billingAddress$ = this._$billingAddressSub.asObservable();
   isLoadingAddress$ = this._$isLoadingAddress.asObservable();
   isSameAsDelivery$ = this._$isSameAsDelivery.asObservable();
+  protected readonly _$paymentOptionsDisabled = new BehaviorSubject(false);
+  paymentOptionsDisabled$ = this._$paymentOptionsDisabled.asObservable();
+
+  get pickupNoDefaultAddress$(): Observable<void> {
+    return this._noDefaultAddressFoundForPickupMode$.asObservable();
+  }
+
+  setPaymentOptionsDisabled(value: boolean): void {
+    this._$paymentOptionsDisabled.next(value);
+  }
+  protected handleNoDefaultAddress(): void {
+    this.setIsSameAsDeliveryValue(false);
+    this._noDefaultAddressFoundForPickupMode$.next();
+    this.setPaymentOptionsDisabled(true);
+  }
 
   getCountries(): Observable<Country[]> {
     return this.userPaymentService.getAllBillingCountries().pipe(
@@ -73,6 +95,35 @@ export class OpfCheckoutBillingAddressFormService {
       // we want to share data with the address form and prevent loading data twice
       shareReplay(1)
     );
+  }
+  setDefaultBillingAddress(): void {
+    this._$isLoadingAddress.next(true);
+    this.activeCartService
+      .hasDeliveryItems()
+      .pipe(
+        take(1),
+        filter((hasDeliveryItems: boolean) => !hasDeliveryItems),
+        switchMap(() => this.userAddressService.getDefaultAddress()),
+        tap((defaultAddress) => {
+          if (!defaultAddress) {
+            this.handleNoDefaultAddress();
+          }
+        }),
+        filter((addr): addr is Address => !!addr),
+        switchMap((defaultAddress: Address) => {
+          this.setPaymentOptionsDisabled(false);
+          return this.setBillingAddress(defaultAddress);
+        }),
+        catchError(() => {
+          this.globalMessageService.add(
+            { key: 'opfCheckout.errors.loadDefaultAddress' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+          return of(undefined);
+        })
+      )
+      .subscribe();
+    this._$isLoadingAddress.next(false);
   }
 
   getAddresses(): void {
@@ -145,7 +196,7 @@ export class OpfCheckoutBillingAddressFormService {
             { key: 'opfCheckout.errors.updateBillingAddress' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
-          return throwError(error);
+          return throwError(() => error);
         }),
         finalize(() => {
           this._$isLoadingAddress.next(false);

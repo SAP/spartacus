@@ -5,31 +5,35 @@
  */
 
 import * as asm from '../../../helpers/asm';
-import { login } from '../../../helpers/auth-forms';
+import { agentLoginForJDK21, login } from '../../../helpers/auth-forms';
 import * as checkout from '../../../helpers/checkout-flow';
 import { ELECTRONICS_BASESITE } from '../../../helpers/checkout-flow';
 import { getErrorAlert } from '../../../helpers/global-message';
 import { navigateToCategory, waitForPage } from '../../../helpers/navigation';
 import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
-import { getSampleUser } from '../../../sample-data/checkout-flow';
-import { clearAllStorage } from '../../../support/utils/clear-all-storage';
+import { getB2CAgent } from '../../../sample-data/asm-flow';
+import { visitLoginPage } from '../../../support/utils/login';
 
+const b2cAgent = getB2CAgent();
 context('Assisted Service Module', () => {
   describe('Customer Support Agent - Emulation', () => {
     asm.testCustomerEmulation();
 
     it('should checkout as customer (CXSPA-7026)', () => {
-      const customer = getSampleUser();
-
+      const customer = asm.registerUser();
       cy.log('--> Agent logging in');
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
-      cy.log('--> Register user');
-      checkout.registerUser(false, customer);
+      cy.whenJDK17(() => {
+        asm.agentLogin(b2cAgent.userName, b2cAgent.password);
+      });
 
-      asm.agentLogin('asagent', 'pw4all');
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
+      });
 
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customer);
@@ -60,7 +64,9 @@ context('Assisted Service Module', () => {
           .findByText(/End Session/i)
           .click();
         // Make sure homepage is visible
-        cy.wait(`@getHomePage`).its('response.statusCode').should('eq', 200);
+        cy.whenJDK17(() => {
+          cy.wait(`@getHomePage`).its('response.statusCode').should('eq', 200);
+        });
         cy.get('cx-global-message div').should(
           'contain',
           'You have successfully signed out.'
@@ -72,57 +78,78 @@ context('Assisted Service Module', () => {
   });
 
   describe('When a customer session and an asm agent session are both active', () => {
-    let customer;
+    it('Customer should not be able to login when there is an active CS agent session (CXSPA-10932)', () => {
+      const customer = asm.registerUser();
+      cy.whenJDK17(() => {
+        const loginPage = waitForPage('/login', 'getLoginPage');
+        cy.visit('/login?asm=true');
+        cy.wait(`@${loginPage}`);
+        asm.agentLogin(b2cAgent.userName, b2cAgent.password);
+        login(customer.email, customer.password);
+        getErrorAlert().should(
+          'contain',
+          'Cannot login as user when there is an active CS agent session. Please either emulate user or logout CS agent.'
+        );
+      });
 
-    before(() => {
-      clearAllStorage();
-
-      cy.visit('/', { qs: { asm: true } });
-
-      customer = getSampleUser();
-      checkout.registerUser(false, customer);
-    });
-
-    it('Customer should not be able to login when there is an active CS agent session.', () => {
-      const loginPage = waitForPage('/login', 'getLoginPage');
-      cy.visit('/login?asm=true');
-      cy.wait(`@${loginPage}`);
-
-      asm.agentLogin('asagent', 'pw4all');
-      login(customer.email, customer.password);
-      getErrorAlert().should(
-        'contain',
-        'Cannot login as user when there is an active CS agent session. Please either emulate user or logout CS agent.'
-      );
+      cy.whenJDK21(() => {
+        checkout.visitHomePage('asm=true');
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
+        cy.get('cx-login').find('a[role="link"]').should('not.exist');
+      });
     });
 
     // TODO(#3974): fix the bug to enable e2e test for this scenario
-    it.skip('agent login when user is logged in should start this user emulation', () => {
-      cy.visit('/login');
+    it('agent login when user is logged in should start this user emulation', () => {
+      const customer = asm.registerUser();
+      cy.whenJDK17(() => {
+        visitLoginPage();
+      });
+      cy.whenJDK21(() => {
+        checkout.visitHomePage('asm=true');
+        cy.get('button.close[title="Close ASM"]').click();
+        cy.get('a[role="link"]').contains('Sign In / Register').click();
+      });
       login(customer.email, customer.password);
-
+      cy.get('cx-login .cx-login-greet').should('be.visible');
       checkout.visitHomePage('asm=true');
 
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
       cy.log('--> Agent logging in');
-      asm.agentLogin('asagent', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin(b2cAgent.userName, b2cAgent.password);
+        cy.get('cx-customer-emulation').should('be.visible');
+      });
+
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
+      });
 
       cy.get('cx-csagent-login-form').should('not.exist');
       cy.get('cx-customer-selection').should('not.exist');
-      cy.get('cx-customer-emulation').should('be.visible');
     });
 
     // TODO(#7221): enable this case
-    it.skip('agent logout when user was logged and emulated should restore the session', () => {
+    it('agent logout when user was logged and emulated should restore the session', () => {
+      const customer = asm.registerUser();
       checkout.visitHomePage('asm=true');
 
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
       cy.log('--> Agent logging in');
-      asm.agentLogin('asagent', 'pw4all');
+      cy.whenJDK17(() => {
+        asm.agentLogin(b2cAgent.userName, b2cAgent.password);
+      });
+
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
+      });
 
       cy.log('--> Starting customer emulation');
       asm.startCustomerEmulation(customer);
@@ -130,7 +157,14 @@ context('Assisted Service Module', () => {
       cy.log('--> Agent sign out');
       asm.agentSignOut();
 
-      cy.get('cx-csagent-login-form').should('exist');
+      cy.whenJDK17(() => {
+        cy.get('cx-csagent-login-form').should('exist');
+      });
+      cy.whenJDK21(() => {
+        cy.contains('a.cx-asm-customer-list-link', 'Sign In as Agent').should(
+          'exist'
+        );
+      });
       cy.get('cx-customer-emulation').should('not.exist');
     });
   });
@@ -152,13 +186,18 @@ context('Assisted Service Module', () => {
         },
       });
 
+      const customer = asm.registerUser();
+
       cy.visit('/', { qs: { asm: true } });
 
-      const customer = getSampleUser();
-      checkout.registerUser(false, customer);
+      cy.whenJDK17(() => {
+        asm.agentLogin(b2cAgent.userName, b2cAgent.password);
+      });
 
-      asm.agentLogin('asagent', 'pw4all');
-
+      cy.whenJDK21(() => {
+        cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+        agentLoginForJDK21(b2cAgent.userName, b2cAgent.password);
+      });
       asm.startCustomerEmulation(customer);
 
       navigateToCategory('Brands', 'brands', true);

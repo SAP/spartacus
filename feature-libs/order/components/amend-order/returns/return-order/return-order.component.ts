@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { Observable, combineLatest } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
-import { OrderAmendService } from '../../amend-order.service';
 import { Consignment } from '@spartacus/order/root';
+import { Observable, combineLatest, map, tap } from 'rxjs';
+import { OrderAmendService } from '../../amend-order.service';
+import { FeatureConfigService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-return-order',
@@ -20,6 +20,9 @@ import { Consignment } from '@spartacus/order/root';
 })
 export class ReturnOrderComponent {
   orderCode: string;
+  protected featureConfigService = inject(FeatureConfigService, {
+    optional: true,
+  });
 
   form$: Observable<UntypedFormGroup> = this.orderAmendService
     .getForm()
@@ -36,7 +39,7 @@ export class ReturnOrderComponent {
     map(([entries, consignments]) => {
       // Flatten all consignment entries
       const consignmentEntries = consignments.flatMap(
-        (consignment) => consignment.entries || []
+        (consignment) => consignment.entries ?? []
       );
       return entries
         .map<OrderEntry | null>((entry) => {
@@ -48,7 +51,14 @@ export class ReturnOrderComponent {
           return consignmentEntry
             ? {
                 ...entry,
-                returnableQuantity: consignmentEntry.shippedQuantity ?? 0,
+                returnableQuantity:
+                  consignmentEntry.shippedQuantity ??
+                  (this.featureConfigService?.isEnabled(
+                    'enableReturnOrderReturnableQuantityConsigmentFallback'
+                  )
+                    ? entry.returnableQuantity
+                    : null) ??
+                  0,
               }
             : null;
         })

@@ -8,7 +8,6 @@ import {
   Component,
   ElementRef,
   HostBinding,
-  Inject,
   inject,
   OnDestroy,
   OnInit,
@@ -30,8 +29,8 @@ import {
   GlobalMessageType,
   HttpErrorModel,
   HttpResponseStatus,
+  OAuthLibWrapperService,
   RoutingService,
-  USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT,
   User,
 } from '@spartacus/core';
 import {
@@ -48,6 +47,7 @@ import {
   Subscription,
 } from 'rxjs';
 import {
+  debounceTime,
   distinctUntilChanged,
   filter,
   map,
@@ -78,7 +78,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
   forbiddenResponseStatus = HttpResponseStatus.FORBIDDEN;
-  isShowOauth2AsmloginPage: boolean;
 
   showDeeplinkCartInfoAlert$: Observable<boolean> =
     this.asmComponentService.shouldShowDeeplinkCartInfoAlert();
@@ -102,6 +101,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isAsmCustomer360Loaded$ = new BehaviorSubject<boolean>(false);
   protected featureModules = inject(FeatureModulesService);
 
+  protected oAuthLibWrapperService = inject(OAuthLibWrapperService);
+
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
@@ -110,12 +111,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     protected routingService: RoutingService,
     protected asmService: AsmService,
     protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService: LaunchDialogService,
-    @Inject(USE_AUTHORIZATION_CODE_FLOW_BY_DEFAULT)
-    private useAuthCodeFlow: boolean
-  ) {
-    this.isShowOauth2AsmloginPage = this.useAuthCodeFlow;
-  }
+    protected launchDialogService: LaunchDialogService
+  ) {}
 
   ngOnInit(): void {
     this.isAsmCustomer360Configured =
@@ -208,6 +205,25 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           }
         })
     );
+
+    this.subscription.add(
+      combineLatest([
+        this.customerSupportAgentLoggedIn$,
+        this.asmComponentService.isCustomerEmulationSessionInProgress(),
+      ])
+        .pipe(
+          debounceTime(500),
+          distinctUntilChanged(),
+          filter(([agentLoggedIn]) => Boolean(agentLoggedIn))
+        )
+        .subscribe(() => {
+          this.asmService.customerSearch({
+            query: 'autoSearchToAvoidUnauthorizedLogin',
+            pageSize: 1,
+          });
+        })
+    );
+
     this.subscribeForDeeplink();
   }
 
@@ -375,6 +391,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   hideUi(): void {
     this.disabled = true;
     this.asmComponentService.unload();
+    this.oAuthLibWrapperService.refreshAuthConfig();
+    this.authService.updateIsUsingASMClient(false);
   }
 
   showCustomList(): void {

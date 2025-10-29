@@ -7,12 +7,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
+  inject,
   Input,
   OnDestroy,
   OnInit,
-  inject,
   Output,
-  EventEmitter,
   TemplateRef,
 } from '@angular/core';
 import {
@@ -34,6 +34,7 @@ import {
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 
 @Component({
   selector: 'cx-opf-checkout-payments',
@@ -47,6 +48,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected translation = inject(TranslationService);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected globalMessageService = inject(GlobalMessageService);
+  protected opfCheckoutBillingAddressFormService = inject(
+    OpfCheckoutBillingAddressFormService
+  );
 
   protected subscription = new Subscription();
 
@@ -88,6 +92,12 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   @Input()
   forceDefaultPaymentOptionInputSelection? = false;
 
+  @Input()
+  renderPaymentWrapper? = true;
+
+  @Input()
+  noRenderPaymentWrapperMessage?: string;
+
   selectedPaymentId?: number;
 
   isOnlyOnePaymentOptionAvailable = false;
@@ -103,11 +113,13 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   @Output() selectedPaymentProviderName = new EventEmitter<string>();
 
   protected paginationModel: PaginationModel | undefined;
+  protected paymentDisabled$ =
+    this.opfCheckoutBillingAddressFormService.paymentOptionsDisabled$;
 
   protected isStateEmpty(
     state: QueryState<OpfActiveConfigurationsResponse | undefined>
   ) {
-    return !state?.loading && !Boolean(state?.data?.value?.length);
+    return !state?.loading && !state?.data?.value?.length;
   }
 
   protected handleDefaultPaymentOptionInputSelection(

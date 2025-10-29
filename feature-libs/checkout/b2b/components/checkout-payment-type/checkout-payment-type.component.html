@@ -11,11 +11,6 @@
       else loading
     "
   >
-    <div
-      *cxFeature="'!a11yRemoveStatusLoadedRole'"
-      role="status"
-      [attr.aria-label]="'common.loaded' | cxTranslate"
-    ></div>
     <div class="row">
       <div class="col-md-12 col-lg-6">
         <label>
@@ -25,6 +20,7 @@
           <input
             #poNumber
             class="form-control"
+            id="poNumberInput"
             formControlName="poNumber"
             type="text"
             placeholder="{{ 'checkoutB2B.placeholder' | cxTranslate }}"

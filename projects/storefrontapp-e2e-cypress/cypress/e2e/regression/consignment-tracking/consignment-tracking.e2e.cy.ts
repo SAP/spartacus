@@ -17,7 +17,11 @@ describe('consignment tracking', () => {
     it('should see tracking package button and tracking events when consignment is shipped', () => {
       cy.visit('/my-account/order/100000');
       cy.get('.cx-list').should('have.length', 3);
+
       cy.get('.cx-list')
+        .filter(
+          ':has(span:contains("Shipped")):has(.cx-code:contains("300938"))'
+        )
         .first()
         .within(() => {
           cy.get('.cx-code').should('contain', '300938');
@@ -26,8 +30,11 @@ describe('consignment tracking', () => {
       cy.get('.cx-tracking-event-body').should('have.length', 3);
 
       cy.get('cx-tracking-events .close').click();
+
       cy.get('.cx-list')
-        .next()
+        .filter(
+          ':has(span:contains("Shipped")):has(.cx-code:contains("1992693"))'
+        )
         .first()
         .within(() => {
           cy.get('.cx-code').should('contain', '1992693');
@@ -36,7 +43,8 @@ describe('consignment tracking', () => {
       cy.get('.cx-no-tracking-heading').should('have.length', 1);
       cy.get('cx-tracking-events .close').click();
       cy.get('.cx-list')
-        .last()
+        .filter(':has(span:contains("Waiting"))')
+        .first()
         .within(() => {
           cy.get('.cx-code').should('contain', '1377492');
           cy.get('.btn-track').should('have.length', 0);

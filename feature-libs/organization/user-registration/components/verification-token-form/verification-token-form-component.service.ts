@@ -13,6 +13,7 @@ import {
 } from '@angular/forms';
 import {
   AuthConfigService,
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   OAuthFlow,
@@ -31,6 +32,7 @@ const globalMsgShowTime: number = 10000;
   providedIn: 'root',
 })
 export class RegisterVerificationTokenFormComponentService {
+  private featureConfigService = inject(FeatureConfigService);
   protected globalMessage: GlobalMessageService = inject(GlobalMessageService);
   protected formBuilder = inject(FormBuilder);
   protected organizationUserRegistrationFacade: UserRegistrationFacade = inject(
@@ -67,12 +69,13 @@ export class RegisterVerificationTokenFormComponentService {
   /**
    * Redirects the user back to the login page.
    *
-   * This only happens in case of the `ResourceOwnerPasswordFlow` OAuth flow.
+   * This only happens in case of the `ResourceOwnerPasswordFlow` OAuth flow and authorizationCodeFlowByDefault.
    */
   protected redirectToLogin(): void {
     if (
       this.authConfigService.getOAuthFlow() ===
-      OAuthFlow.ResourceOwnerPasswordFlow
+        OAuthFlow.ResourceOwnerPasswordFlow ||
+      this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
     ) {
       this.routingService.go({ cxRoute: 'login' });
     }

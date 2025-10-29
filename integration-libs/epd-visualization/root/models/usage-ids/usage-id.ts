@@ -4,11 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/**
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ */
 export interface UsageId {
   name: string;
   keys: UsageIdKey[];
 }
 
+/**
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ */
 export interface UsageIdKey {
   name: string;
   value: string;

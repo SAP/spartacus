@@ -151,7 +151,15 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       this.winRef.nativeWindow?.location.href.includes(navNode.url)
     ) {
       this.reinitializeMenu();
-      this.hamburgerMenuService.toggle();
+      if (
+        this.featureConfigService?.isEnabled(
+          'navigationMenuCloseOnSameLinkClick'
+        )
+      ) {
+        this.hamburgerMenuService.toggle(true);
+      } else {
+        this.hamburgerMenuService.toggle();
+      }
     }
   }
 
@@ -159,22 +167,17 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * This method performs the actions required to reset the state of the menu and reset any visual components.
    */
   reinitializeMenu(): void {
-    const a11yNavMenuExpandStateReadout = this.featureConfigService?.isEnabled(
-      'a11yNavMenuExpandStateReadout'
-    );
     const listItems = this.elemRef.nativeElement.querySelectorAll(
       'li.is-open:not(.back), li.is-opened'
     );
 
-    if (a11yNavMenuExpandStateReadout) {
-      listItems.forEach((el: HTMLElement) => {
-        Array.from(el.children)
-          .filter((childNode) => childNode?.tagName === 'BUTTON')
-          .forEach((childNode) => {
-            this.renderer.setAttribute(childNode, ARIA_EXPANDED_ATTR, 'false');
-          });
-      });
-    }
+    listItems.forEach((el: HTMLElement) => {
+      Array.from(el.children)
+        .filter((childNode) => childNode?.tagName === 'BUTTON')
+        .forEach((childNode) => {
+          this.renderer.setAttribute(childNode, ARIA_EXPANDED_ATTR, 'false');
+        });
+    });
     listItems.forEach((el: HTMLElement) => {
       this.renderer.removeClass(el, 'is-open');
       this.renderer.removeClass(el, 'is-opened');

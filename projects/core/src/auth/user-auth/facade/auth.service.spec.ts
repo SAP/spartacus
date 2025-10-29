@@ -1,5 +1,10 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import {
+  CrossSiteRequestForgeryService,
+  FeatureConfigService,
+  FeatureToggles,
+} from '@spartacus/core';
 import { OAuthEvent, TokenResponse } from 'angular-oauth2-oidc';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -13,8 +18,8 @@ import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions';
 import { AuthService } from './auth.service';
 import { UserIdService } from './user-id.service';
-import createSpy = jasmine.createSpy;
 
+const createSpy = jasmine.createSpy;
 class MockUserIdService implements Partial<UserIdService> {
   getUserId(): Observable<string> {
     return of('');
@@ -42,6 +47,8 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   }
   events$ = oauthLibEvents;
   refreshAuthConfig = createSpy().and.stub();
+
+  changeAuthConfigClientId = createSpy().and.stub();
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
@@ -61,6 +68,18 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
+class MockCrossSiteRequestForgeryService
+  implements Partial<CrossSiteRequestForgeryService>
+{
+  getCsrfToken() {
+    return of({
+      headerName: 'CSFR',
+      parameterName: '_csfr',
+      token: 'token',
+    });
+  }
+}
+
 class MockAuthMultisiteIsolationService {
   getBaseSiteDecorator(): Observable<string> {
     return of('');
@@ -68,6 +87,13 @@ class MockAuthMultisiteIsolationService {
   decorateUserId(): Observable<string> {
     return of('username');
   }
+}
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isEnabled = createSpy().and.returnValue(false);
+}
+class MockFeatureToggles implements FeatureToggles {
+  authorizationCodeFlowByDefault: false;
 }
 
 describe('AuthService', () => {
@@ -78,6 +104,8 @@ describe('AuthService', () => {
   let oAuthLibWrapperService: OAuthLibWrapperService;
   let authRedirectService: AuthRedirectService;
   let authMultisiteIsolationService: AuthMultisiteIsolationService;
+  let featureConfigService: FeatureConfigService;
+  let featureToggles: FeatureToggles;
   let store: Store;
 
   beforeEach(() => {
@@ -100,6 +128,15 @@ describe('AuthService', () => {
           provide: AuthMultisiteIsolationService,
           useClass: MockAuthMultisiteIsolationService,
         },
+        {
+          provide: CrossSiteRequestForgeryService,
+          useClass: MockCrossSiteRequestForgeryService,
+        },
+        {
+          provide: FeatureConfigService,
+          useClass: MockFeatureConfigService,
+        },
+        { provide: FeatureToggles, useClass: MockFeatureToggles },
       ],
     });
 
@@ -112,6 +149,8 @@ describe('AuthService', () => {
     authMultisiteIsolationService = TestBed.inject(
       AuthMultisiteIsolationService
     );
+    featureConfigService = TestBed.inject(FeatureConfigService);
+    featureToggles = TestBed.inject(FeatureToggles);
     store = TestBed.inject(Store);
   });
 
@@ -120,54 +159,155 @@ describe('AuthService', () => {
   });
 
   describe('checkOAuthParamsInUrl()', () => {
-    it('should login user when token is present', async () => {
-      spyOn(oAuthLibWrapperService, 'tryLogin').and.callThrough();
-      spyOn(userIdService, 'setUserId').and.callThrough();
-      spyOn(store, 'dispatch').and.callThrough();
-      spyOn(authStorageService, 'getItem').and.returnValue('token');
-      spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
+    describe('when dispatchLoginActionOnlyWhenTokenReceived feature flag is DISABLED', () => {
+      beforeEach(() => {
+        (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+      });
 
-      await service.checkOAuthParamsInUrl();
-
-      expect(oAuthLibWrapperService.tryLogin).toHaveBeenCalled();
-      expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
-      expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
-    });
-
-    it('when customer emulated in asm page', async () => {
-      spyOn(authStorageService, 'getItem').and.returnValue('token');
-      spyOn(userIdService, 'setUserId').and.callThrough();
-
-      spyOn(userIdService, 'isEmulated').and.returnValue(of(true));
-
-      await service.checkOAuthParamsInUrl();
-
-      expect(userIdService.setUserId).not.toHaveBeenCalledWith(
-        OCC_USER_ID_CURRENT
-      );
-    });
-
-    describe('when the token is received', () => {
-      it('should redirect', async () => {
-        spyOn(authRedirectService, 'redirect').and.callThrough();
+      it('should login user when token is present and dispatch login action', async () => {
+        spyOn(oAuthLibWrapperService, 'tryLogin').and.callThrough();
+        spyOn(userIdService, 'setUserId').and.callThrough();
+        spyOn(store, 'dispatch').and.callThrough();
+        spyOn(authStorageService, 'getItem').and.returnValue('token');
         spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
 
         await service.checkOAuthParamsInUrl();
 
-        expect(authRedirectService.redirect).toHaveBeenCalled();
-      });
-    });
-
-    describe('when the token is NOT received', () => {
-      it('should NOT redirect', async () => {
-        spyOn(oAuthLibWrapperService, 'tryLogin').and.returnValue(
-          Promise.resolve({ result: true, tokenReceived: false })
+        expect(oAuthLibWrapperService.tryLogin).toHaveBeenCalled();
+        expect(userIdService.setUserId).toHaveBeenCalledWith(
+          OCC_USER_ID_CURRENT
         );
-        spyOn(authRedirectService, 'redirect').and.stub();
+        expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+      });
+
+      it('when customer emulated in asm page', async () => {
+        spyOn(authStorageService, 'getItem').and.returnValue('token');
+        spyOn(userIdService, 'setUserId').and.callThrough();
+
+        spyOn(userIdService, 'isEmulated').and.returnValue(of(true));
 
         await service.checkOAuthParamsInUrl();
 
-        expect(authRedirectService.redirect).not.toHaveBeenCalled();
+        expect(userIdService.setUserId).not.toHaveBeenCalledWith(
+          OCC_USER_ID_CURRENT
+        );
+      });
+
+      describe('when the token is received', () => {
+        it('should redirect', async () => {
+          spyOn(authRedirectService, 'redirect').and.callThrough();
+          spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
+
+          await service.checkOAuthParamsInUrl();
+
+          expect(authRedirectService.redirect).toHaveBeenCalled();
+        });
+
+        it('should dispatch login action', async () => {
+          spyOn(store, 'dispatch').and.callThrough();
+          spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
+
+          await service.checkOAuthParamsInUrl();
+
+          expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+        });
+      });
+
+      describe('when the token is NOT received', () => {
+        beforeEach(() => {
+          spyOn(oAuthLibWrapperService, 'tryLogin').and.returnValue(
+            Promise.resolve({ result: true, tokenReceived: false })
+          );
+          spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
+        });
+
+        it('should NOT redirect', async () => {
+          spyOn(authRedirectService, 'redirect').and.stub();
+
+          await service.checkOAuthParamsInUrl();
+
+          expect(authRedirectService.redirect).not.toHaveBeenCalled();
+        });
+
+        it('should dispatch login action', async () => {
+          spyOn(store, 'dispatch').and.callThrough();
+
+          await service.checkOAuthParamsInUrl();
+
+          expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+        });
+      });
+    });
+
+    describe('when dispatchLoginActionOnlyWhenTokenReceived feature flag is ENABLED', () => {
+      beforeEach(() => {
+        (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);
+      });
+
+      it('when customer emulated in asm page', async () => {
+        spyOn(authStorageService, 'getItem').and.returnValue('token');
+        spyOn(userIdService, 'setUserId').and.callThrough();
+
+        spyOn(userIdService, 'isEmulated').and.returnValue(of(true));
+
+        await service.checkOAuthParamsInUrl();
+
+        expect(userIdService.setUserId).not.toHaveBeenCalledWith(
+          OCC_USER_ID_CURRENT
+        );
+      });
+
+      describe('when the token is received', () => {
+        beforeEach(() => {
+          spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
+        });
+
+        it('should login user and dispatch login action', async () => {
+          spyOn(oAuthLibWrapperService, 'tryLogin').and.callThrough();
+          spyOn(userIdService, 'setUserId').and.callThrough();
+          spyOn(store, 'dispatch').and.callThrough();
+          spyOn(authStorageService, 'getItem').and.returnValue('token');
+
+          await service.checkOAuthParamsInUrl();
+
+          expect(oAuthLibWrapperService.tryLogin).toHaveBeenCalled();
+          expect(userIdService.setUserId).toHaveBeenCalledWith(
+            OCC_USER_ID_CURRENT
+          );
+          expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
+        });
+
+        it('should redirect', async () => {
+          spyOn(authRedirectService, 'redirect').and.callThrough();
+
+          await service.checkOAuthParamsInUrl();
+
+          expect(authRedirectService.redirect).toHaveBeenCalled();
+        });
+      });
+
+      describe('when the token is NOT received', () => {
+        beforeEach(() => {
+          spyOn(oAuthLibWrapperService, 'tryLogin').and.returnValue(
+            Promise.resolve({ result: true, tokenReceived: false })
+          );
+        });
+
+        it('should NOT redirect', async () => {
+          spyOn(authRedirectService, 'redirect').and.stub();
+
+          await service.checkOAuthParamsInUrl();
+
+          expect(authRedirectService.redirect).not.toHaveBeenCalled();
+        });
+
+        it('should NOT dispatch login action', async () => {
+          spyOn(store, 'dispatch').and.callThrough();
+
+          await service.checkOAuthParamsInUrl();
+
+          expect(store.dispatch).not.toHaveBeenCalled();
+        });
       });
     });
   });
@@ -294,8 +434,42 @@ describe('AuthService', () => {
 
   describe('refreshAuthConfig()', () => {
     it('should call refreshAuthConfig method', () => {
+      (service as any).isAsmEnabled = () => false;
       service.refreshAuthConfig();
       expect(oAuthLibWrapperService.refreshAuthConfig).toHaveBeenCalled();
+    });
+
+    describe('authorizationCodeFlowByDefault is enabled', () => {
+      beforeEach(() => {
+        featureToggles.authorizationCodeFlowByDefault = true;
+      });
+
+      it('should call refreshAuthConfig method when asm mode enabled', () => {
+        (service as any).isAsmEnabled = () => true;
+        service.refreshAuthConfig();
+        expect(
+          oAuthLibWrapperService.changeAuthConfigClientId
+        ).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('isUsingASMClient()', () => {
+    it('should return isUsingASMClient$ observable', () => {
+      expect(service.isUsingASMClient()).toBe(service['isUsingASMClient$']);
+    });
+  });
+
+  describe('updateIsUsingASMClient()', () => {
+    it('should update isUsingASMClient$ observable value', (done) => {
+      service.updateIsUsingASMClient(true);
+      service
+        .isUsingASMClient()
+        .pipe(take(1))
+        .subscribe((value) => {
+          expect(value).toBe(true);
+          done();
+        });
     });
   });
 });

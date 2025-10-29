@@ -24,7 +24,6 @@ import {
   GlobalMessageType,
   OAuthFlow,
   RoutingService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
@@ -36,23 +35,20 @@ import { RegisterComponentService } from './register-component.service';
   selector: 'cx-register',
   templateUrl: './register.component.html',
   standalone: false,
+  host: { ngSkipHydration: 'true' },
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  // TODO: (CXSPA-8550) Remove feature toggle
+  // CXSPA-10916: Remove service with toggle
   private featureConfigService = inject(FeatureConfigService);
 
   protected passwordValidators = this.featureConfigService.isEnabled(
     'enableSecurePasswordValidation'
   )
     ? CustomFormValidators.securePasswordValidators
-    : this.featureConfigService.isEnabled(
-          'enableConsecutiveCharactersPasswordRequirement'
-        )
-      ? [
-          ...CustomFormValidators.passwordValidators,
-          CustomFormValidators.noConsecutiveCharacters,
-        ]
-      : CustomFormValidators.passwordValidators;
+    : [
+        ...CustomFormValidators.passwordValidators,
+        CustomFormValidators.noConsecutiveCharacters,
+      ];
 
   titles$: Observable<Title[]>;
 
@@ -114,9 +110,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
     protected authConfigService: AuthConfigService,
     protected registerComponentService: RegisterComponentService
-  ) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
+  ) {}
 
   ngOnInit() {
     this.titles$ = this.registerComponentService.getTitles().pipe(
@@ -229,14 +223,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   protected onRegisterUserSuccess(): void {
-    if (
+    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
+      this.router.go({ cxRoute: 'login' });
+    } else if (
       this.authConfigService.getOAuthFlow() ===
       OAuthFlow.ResourceOwnerPasswordFlow
     ) {
       this.router.go('login');
-    }
-    if (this.authConfigService.getOAuthFlow() === OAuthFlow.AuthorizationCode) {
-      this.router.go('homepage');
     }
     this.registerComponentService.postRegisterMessage();
   }
