@@ -34,6 +34,8 @@ describe('Consignment Tracking Accessibility', { testIsolation: false }, () => {
           ' Track package '
         ).click();
       });
+    cy.get('.modal-dialog .cx-tracking-event-body');
+    cy.get('cx-tracking-events').a11yRunContinuumTest();
   });
 
   it('Amend Items', () => {
