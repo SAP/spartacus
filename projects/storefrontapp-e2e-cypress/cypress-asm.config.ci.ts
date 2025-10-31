@@ -13,8 +13,7 @@ export default defineConfig({
   env: {
     ...baseConfig.env,
     CLIENT_ID: 'asm_client',
-    API_URL:
-      'https://api.c432wmya2v-teamspart3-s4-public.model-t.myhybris.cloud',
+    API_URL: 'https://spartacus-devci7677.eastus.cloudapp.azure.com:8443',
     JDK_VERSION: 'JDK21',
   },
 });
