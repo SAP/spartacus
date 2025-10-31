@@ -23,9 +23,6 @@ describe('Navigation Login', () => {
     cy.whenJDK17(() => {
       visitLoginPage();
     });
-    cy.whenJDK21(() => {
-      cy.visit('/login/register');
-    });
     user = login.registerUserFromLoginPage();
     login.loginUser();
 
