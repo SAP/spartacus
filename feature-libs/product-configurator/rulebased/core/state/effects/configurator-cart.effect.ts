@@ -39,6 +39,13 @@ export const ERROR_MESSAGE_NO_ENTRY_NUMBER_FOUND =
  * Common configurator effects related to cart handling
  */
 export class ConfiguratorCartEffects {
+  protected actions$ = inject(Actions);
+  protected configuratorCommonsConnector = inject(RulebasedConfiguratorConnector);
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
+  protected configuratorGroupUtilsService = inject(ConfiguratorUtilsService);
+  protected store = inject<Store<StateWithConfigurator>>(Store);
+  protected configuratorBasicEffectService = inject(ConfiguratorBasicEffectService);
+
   protected logger = inject(LoggerService);
 
   addToCart$: Observable<
@@ -275,13 +282,4 @@ export class ConfiguratorCartEffects {
       })
     )
   );
-
-  constructor(
-    protected actions$: Actions,
-    protected configuratorCommonsConnector: RulebasedConfiguratorConnector,
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected configuratorGroupUtilsService: ConfiguratorUtilsService,
-    protected store: Store<StateWithConfigurator>,
-    protected configuratorBasicEffectService: ConfiguratorBasicEffectService
-  ) {}
 }

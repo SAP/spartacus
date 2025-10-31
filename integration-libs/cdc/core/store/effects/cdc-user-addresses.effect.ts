@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
@@ -22,6 +22,13 @@ import { mergeMap, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CdcUserAddressesEffects {
+  protected actions$ = inject(Actions);
+  protected userIdService = inject(UserIdService);
+  protected userAddressConnector = inject(UserAddressConnector);
+  protected userAddressService = inject(UserAddressService);
+  protected messageService = inject(GlobalMessageService);
+  protected cdcJsService = inject(CdcJsService);
+
   addressFieldKeys = ['line1', 'line2', 'region.name', 'town', 'postalCode'];
 
   cdcAddUserAddress$ = createEffect(
@@ -109,13 +116,4 @@ export class CdcUserAddressesEffects {
     const errorMessage = error?.errorMessage || ' ';
     this.messageService.add(errorMessage, GlobalMessageType.MSG_TYPE_ERROR);
   }
-
-  constructor(
-    protected actions$: Actions,
-    protected userIdService: UserIdService,
-    protected userAddressConnector: UserAddressConnector,
-    protected userAddressService: UserAddressService,
-    protected messageService: GlobalMessageService,
-    protected cdcJsService: CdcJsService
-  ) {}
 }

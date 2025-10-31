@@ -14,14 +14,10 @@ import { StockLevelActions } from '../actions/index';
 
 @Injectable()
 export class StockEffect {
-  protected logger = inject(LoggerService);
+  private actions$ = inject(Actions);
+  private stockConnector = inject(StockConnector);
 
-  constructor(
-    private actions$: Actions,
-    private stockConnector: StockConnector
-  ) {
-    // Intentional empty constructor
-  }
+  protected logger = inject(LoggerService);
 
   loadStockLevels$ = createEffect(() =>
     this.actions$.pipe(

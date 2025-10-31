@@ -20,6 +20,9 @@ import { CartActions } from '../actions/index';
 
 @Injectable()
 export class CartEntryEffects {
+  private actions$ = inject(Actions);
+  private cartEntryConnector = inject(CartEntryConnector);
+
   private contextChange$ = this.actions$.pipe(
     ofType(
       SiteContextActions.CURRENCY_CHANGE,
@@ -148,9 +151,4 @@ export class CartEntryEffects {
       withdrawOn(this.contextChange$)
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private cartEntryConnector: CartEntryConnector
-  ) {}
 }

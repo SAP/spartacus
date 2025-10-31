@@ -20,6 +20,9 @@ import {
 
 @Injectable()
 export class ProductsSearchEffects {
+  private actions$ = inject(Actions);
+  private productSearchConnector = inject(ProductSearchConnector);
+
   protected logger = inject(LoggerService);
   protected globalMessageService = inject(GlobalMessageService);
 
@@ -99,9 +102,4 @@ export class ProductsSearchEffects {
       })
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private productSearchConnector: ProductSearchConnector
-  ) {}
 }

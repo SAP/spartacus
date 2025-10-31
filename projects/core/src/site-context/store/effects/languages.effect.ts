@@ -24,6 +24,10 @@ import { StateWithSiteContext } from '../state';
 
 @Injectable()
 export class LanguagesEffects {
+  private actions$ = inject(Actions);
+  private siteConnector = inject(SiteConnector);
+  private state = inject<Store<StateWithSiteContext>>(Store);
+
   protected logger = inject(LoggerService);
 
   loadLanguages$: Observable<
@@ -63,10 +67,4 @@ export class LanguagesEffects {
         )
       )
     );
-
-  constructor(
-    private actions$: Actions,
-    private siteConnector: SiteConnector,
-    private state: Store<StateWithSiteContext>
-  ) {}
 }

@@ -35,6 +35,10 @@ import { getCartHasPendingProcessesSelectorFactory } from '../selectors/multi-ca
 
 @Injectable()
 export class CartEffects {
+  private actions$ = inject(Actions);
+  private cartConnector = inject(CartConnector);
+  private store = inject<Store<StateWithMultiCart>>(Store);
+
   private contextChange$ = this.actions$.pipe(
     ofType(
       SiteContextActions.CURRENCY_CHANGE,
@@ -383,10 +387,4 @@ export class CartEffects {
       )
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private cartConnector: CartConnector,
-    private store: Store<StateWithMultiCart>
-  ) {}
 }

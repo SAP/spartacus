@@ -22,6 +22,9 @@ import { OrderApprovalActions } from '../actions/index';
 
 @Injectable()
 export class OrderApprovalEffects {
+  private actions$ = inject(Actions);
+  private orderApprovalConnector = inject(OrderApprovalConnector);
+
   protected logger = inject(LoggerService);
 
   loadOrderApproval$: Observable<
@@ -124,9 +127,4 @@ export class OrderApprovalEffects {
       )
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private orderApprovalConnector: OrderApprovalConnector
-  ) {}
 }

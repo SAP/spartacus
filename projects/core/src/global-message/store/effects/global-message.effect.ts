@@ -5,7 +5,7 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -28,6 +28,11 @@ import { GlobalMessageSelectors } from '../selectors/index';
 
 @Injectable()
 export class GlobalMessageEffect {
+  private actions$ = inject(Actions);
+  private store = inject<Store<StateWithGlobalMessage>>(Store);
+  private config = inject(GlobalMessageConfig);
+  private platformId = inject(PLATFORM_ID);
+
   removeDuplicated$: Observable<GlobalMessageActions.RemoveMessage> =
     createEffect(() =>
       this.actions$.pipe(
@@ -104,11 +109,4 @@ export class GlobalMessageEffect {
         // effect registered on the same observable twice
         () => EMPTY
   );
-
-  constructor(
-    private actions$: Actions,
-    private store: Store<StateWithGlobalMessage>,
-    private config: GlobalMessageConfig,
-    @Inject(PLATFORM_ID) private platformId: any
-  ) {}
 }

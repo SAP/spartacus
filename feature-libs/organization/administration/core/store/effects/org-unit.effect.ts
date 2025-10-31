@@ -29,6 +29,9 @@ import {
 
 @Injectable()
 export class OrgUnitEffects {
+  private actions$ = inject(Actions);
+  private orgUnitConnector = inject(OrgUnitConnector);
+
   protected logger = inject(LoggerService);
 
   // TODO (CXSPA-5630): Remove service in next major.
@@ -479,9 +482,4 @@ export class OrgUnitEffects {
       )
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private orgUnitConnector: OrgUnitConnector
-  ) {}
 }

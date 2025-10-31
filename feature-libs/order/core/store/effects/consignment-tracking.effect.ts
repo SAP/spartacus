@@ -15,6 +15,9 @@ import { OrderActions } from '../actions/index';
 
 @Injectable()
 export class ConsignmentTrackingEffects {
+  private actions$ = inject(Actions);
+  private orderConnector = inject(OrderHistoryConnector);
+
   protected logger = inject(LoggerService);
 
   loadConsignmentTracking$: Observable<OrderActions.ConsignmentTrackingAction> =
@@ -45,9 +48,4 @@ export class ConsignmentTrackingEffects {
         })
       )
     );
-
-  constructor(
-    private actions$: Actions,
-    private orderConnector: OrderHistoryConnector
-  ) {}
 }
