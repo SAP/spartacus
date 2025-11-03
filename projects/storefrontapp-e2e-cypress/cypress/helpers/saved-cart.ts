@@ -250,6 +250,7 @@ export function saveActiveCart(verify = true) {
       // open modal to save the cart
 
       cy.get('cx-saved-cart-form-dialog').within(() => {
+        cy.wait(100);
         cy.get('[formcontrolname="name"]')
           .clear()
           .type(sampleData.savedActiveCartForm[0].name);
@@ -269,7 +270,10 @@ export function saveActiveCart(verify = true) {
           `Your cart items have been successfully saved for later in the "${sampleData.savedActiveCartForm[0].name}" cart`
         );
 
-      cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
+      cy.get('.cx-empty-cart-info h2').should(
+        'contain',
+        'Your shopping cart is empty'
+      );
 
       // assert the cart was saved in the listing page
       if (verify) {
