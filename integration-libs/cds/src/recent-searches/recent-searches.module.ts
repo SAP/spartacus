@@ -12,8 +12,8 @@ import {
   provideOutlet,
   SearchBoxModule,
   SearchBoxOutlets,
+  IconModule,
 } from '@spartacus/storefront';
-import { IconModule } from '@spartacus/storefront';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { RecentSearchesComponent } from './recent-searches.component';
 
