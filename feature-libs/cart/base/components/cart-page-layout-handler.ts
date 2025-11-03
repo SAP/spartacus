@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CartConfigService, isEmpty } from '@spartacus/cart/base/core';
 import {
   ActiveCartFacade,
@@ -19,11 +19,14 @@ import { map, startWith } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CartPageLayoutHandler implements PageLayoutHandler {
-  constructor(
-    protected activeCartService: ActiveCartFacade,
-    protected selectiveCartService: SelectiveCartFacade,
-    protected cartConfig: CartConfigService
-  ) {}
+  protected activeCartService = inject(ActiveCartFacade);
+  protected selectiveCartService = inject(SelectiveCartFacade);
+  protected cartConfig = inject(CartConfigService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   handle(
     slots$: Observable<string[]>,

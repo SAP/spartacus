@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -19,7 +19,12 @@ import { FormService } from '../../shared/form/form.service';
   providedIn: 'root',
 })
 export class BudgetFormService extends FormService<Budget> {
-  constructor(protected datePickerService: DatePickerService) {
+  protected datePickerService = inject(DatePickerService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     super();
   }
 

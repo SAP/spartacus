@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CxEvent, WindowRef } from '@spartacus/core';
 import {
   TmsCollector,
@@ -18,7 +18,12 @@ import { GtmCollectorConfig } from '../config/default-gtm.config';
  */
 @Injectable({ providedIn: 'root' })
 export class GtmCollectorService implements TmsCollector {
-  constructor(protected winRef: WindowRef) {}
+  protected winRef = inject(WindowRef);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
   /**
    * If the `TmsCollectorConfig.dataLayerProperty` is not specified, it uses the default `dataLayer`
    */

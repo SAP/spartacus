@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewContainerRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewContainerRef, inject } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
 import { RoutingService } from '@spartacus/core';
@@ -35,6 +29,14 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
   extends CheckoutPlaceOrderComponent
   implements OnInit, OnDestroy
 {
+  protected orderFacade: OrderFacade;
+  protected routingService: RoutingService;
+  protected fb: UntypedFormBuilder;
+  protected launchDialogService: LaunchDialogService;
+  protected vcr: ViewContainerRef;
+  protected checkoutReplenishmentFormService = inject(CheckoutReplenishmentFormService);
+  protected scheduledReplenishmentOrderFacade = inject(ScheduledReplenishmentOrderFacade);
+
   protected subscriptions = new Subscription();
 
   currentOrderType: ORDER_TYPE;
@@ -42,16 +44,23 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
 
   daysOfWeekNotChecked$ = new BehaviorSubject<boolean>(false);
 
-  constructor(
-    protected orderFacade: OrderFacade,
-    protected routingService: RoutingService,
-    protected fb: UntypedFormBuilder,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef,
-    protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
-    protected scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const orderFacade = inject(OrderFacade);
+    const routingService = inject(RoutingService);
+    const fb = inject(UntypedFormBuilder);
+    const launchDialogService = inject(LaunchDialogService);
+    const vcr = inject(ViewContainerRef);
+
     super(orderFacade, routingService, fb, launchDialogService, vcr);
+  
+    this.orderFacade = orderFacade;
+    this.routingService = routingService;
+    this.fb = fb;
+    this.launchDialogService = launchDialogService;
+    this.vcr = vcr;
   }
 
   submitForm(): void {

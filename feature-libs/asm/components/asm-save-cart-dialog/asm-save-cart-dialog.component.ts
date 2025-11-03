@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { GlobalMessageType } from '@spartacus/core';
@@ -23,6 +23,9 @@ export enum SAVE_CART_DIALOG_ACTION {
   standalone: false,
 })
 export class AsmSaveCartDialogComponent implements OnInit {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected savedCartFacade = inject(SavedCartFacade);
+
   BIND_CART_ACTION = SAVE_CART_DIALOG_ACTION;
   showDialogAlert$: BehaviorSubject<boolean> = new BehaviorSubject(true);
   globalMessageType = GlobalMessageType;
@@ -36,10 +39,10 @@ export class AsmSaveCartDialogComponent implements OnInit {
     focusOnEscape: true,
   };
 
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected savedCartFacade: SavedCartFacade
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.launchDialogService.data$.pipe(take(1)).subscribe((data: Cart) => {

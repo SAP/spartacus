@@ -5,7 +5,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   CART_MODIFICATION_NORMALIZER,
   CartModification,
@@ -29,11 +29,14 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorOccService {
-  constructor(
-    protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService
-  ) {}
+  protected http = inject(HttpClient);
+  protected occEndpointsService = inject(OccEndpointsService);
+  protected converterService = inject(ConverterService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   addToCart(
     parameters: Configurator.AddToCartParameters

@@ -28,6 +28,9 @@ import { UnitTreeService } from '../../services/unit-tree.service';
   standalone: false,
 })
 export class ToggleLinkCellComponent extends CellComponent {
+  protected outlet: OutletContextData<TableDataOutletContext>;
+  protected unitTreeService = inject(UnitTreeService);
+
   @HostBinding('style.--cx-depth-level')
   get depthLevel() {
     return this.model.depthLevel;
@@ -36,11 +39,15 @@ export class ToggleLinkCellComponent extends CellComponent {
   protected elementRef = inject(ElementRef);
   protected routingService = inject(RoutingService);
 
-  constructor(
-    protected outlet: OutletContextData<TableDataOutletContext>,
-    protected unitTreeService: UnitTreeService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const outlet = inject<OutletContextData<TableDataOutletContext>>(OutletContextData);
+
     super(outlet);
+  
+    this.outlet = outlet;
   }
 
   get combinedName() {

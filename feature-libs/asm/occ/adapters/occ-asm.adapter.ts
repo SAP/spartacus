@@ -43,17 +43,20 @@ interface CustomerSearchParams {
 
 @Injectable()
 export class OccAsmAdapter implements AsmAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpointsService = inject(OccEndpointsService);
+  protected converterService = inject(ConverterService);
+  protected config = inject(AsmConfig);
+  protected baseSiteService = inject(BaseSiteService);
+
   private activeBaseSite: string;
 
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService,
-    protected config: AsmConfig,
-    protected baseSiteService: BaseSiteService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.baseSiteService
       .getActive()
       .subscribe((value) => (this.activeBaseSite = value));

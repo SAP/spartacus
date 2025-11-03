@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   EntitiesModel,
   SearchConfig,
@@ -18,7 +18,12 @@ import { PermissionAdapter } from './permission.adapter';
   providedIn: 'root',
 })
 export class PermissionConnector {
-  constructor(protected adapter: PermissionAdapter) {}
+  protected adapter = inject(PermissionAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   get(userId: string, permissionCode: string): Observable<Permission> {
     return this.adapter.load(userId, permissionCode);

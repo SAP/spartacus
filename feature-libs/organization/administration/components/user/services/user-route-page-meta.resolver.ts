@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   B2BUser,
   DefaultRoutePageMetaResolver,
@@ -15,10 +15,14 @@ import { CurrentUserService } from './current-user.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserRoutePageMetaResolver extends DefaultRoutePageMetaResolver {
-  constructor(
-    translation: TranslationService,
-    protected currentItemService: CurrentUserService
-  ) {
+  protected currentItemService = inject(CurrentUserService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const translation = inject(TranslationService);
+
     super(translation);
   }
 

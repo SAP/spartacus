@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject as inject_1 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
@@ -70,13 +70,22 @@ class MockConfiguratorCommonsService {
   standalone: false,
 })
 class ExampleConfiguratorAttributeSingleSelectionComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
-  constructor(
-    protected quantityService: ConfiguratorAttributeQuantityService,
-    protected translation: TranslationService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configUtils: ConfiguratorStorefrontUtilsService
-  ) {
+  protected quantityService: ConfiguratorAttributeQuantityService;
+  protected translation: TranslationService;
+  protected attributeComponentContext: ConfiguratorAttributeCompositionContext;
+  protected configuratorCommonsService: ConfiguratorCommonsService;
+  protected configUtils: ConfiguratorStorefrontUtilsService;
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const quantityService = inject_1(ConfiguratorAttributeQuantityService);
+    const translation = inject_1(TranslationService);
+    const attributeComponentContext = inject_1(ConfiguratorAttributeCompositionContext);
+    const configuratorCommonsService = inject_1(ConfiguratorCommonsService);
+    const configUtils = inject_1(ConfiguratorStorefrontUtilsService);
+
     super(
       quantityService,
       translation,
@@ -84,6 +93,12 @@ class ExampleConfiguratorAttributeSingleSelectionComponent extends ConfiguratorA
       configuratorCommonsService,
       configUtils
     );
+  
+    this.quantityService = quantityService;
+    this.translation = translation;
+    this.attributeComponentContext = attributeComponentContext;
+    this.configuratorCommonsService = configuratorCommonsService;
+    this.configUtils = configUtils;
   }
 }
 

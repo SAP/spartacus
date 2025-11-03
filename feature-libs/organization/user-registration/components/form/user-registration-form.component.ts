@@ -28,6 +28,8 @@ import { UserRegistrationFormService } from './user-registration-form.service';
   standalone: false,
 })
 export class UserRegistrationFormComponent implements OnDestroy {
+  protected userRegistrationFormService = inject(UserRegistrationFormService);
+
   titles$: Observable<Title[]> = this.userRegistrationFormService.getTitles();
 
   countries$: Observable<Country[]> =
@@ -46,9 +48,10 @@ export class UserRegistrationFormComponent implements OnDestroy {
     optional: true,
   });
 
-  constructor(
-    protected userRegistrationFormService: UserRegistrationFormService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   submit(): void {
     if (this.registerForm.valid) {

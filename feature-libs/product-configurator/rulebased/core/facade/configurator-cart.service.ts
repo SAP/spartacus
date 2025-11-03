@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
@@ -23,14 +23,17 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCartService {
-  constructor(
-    protected store: Store<StateWithConfigurator>,
-    protected activeCartService: ActiveCartFacade,
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected checkoutQueryFacade: CheckoutQueryFacade,
-    protected userIdService: UserIdService,
-    protected configuratorUtilsService: ConfiguratorUtilsService
-  ) {}
+  protected store = inject<Store<StateWithConfigurator>>(Store);
+  protected activeCartService = inject(ActiveCartFacade);
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
+  protected checkoutQueryFacade = inject(CheckoutQueryFacade);
+  protected userIdService = inject(UserIdService);
+  protected configuratorUtilsService = inject(ConfiguratorUtilsService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Reads a configuration that is attached to a cart entry, dispatching the respective action.

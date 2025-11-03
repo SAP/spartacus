@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewChild, inject } from '@angular/core';
 import { ICON_TYPE, ViewComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -26,6 +21,9 @@ import { BaseItem } from '../organization.model';
   standalone: false,
 })
 export class CardComponent<T extends BaseItem> {
+  protected itemService = inject<ItemService<T>>(ItemService);
+  protected messageService = inject(MessageService);
+
   @Input() i18nRoot: string;
   @Input() previous: boolean | string = true;
   @Input() subtitle?: string;
@@ -41,10 +39,10 @@ export class CardComponent<T extends BaseItem> {
 
   @ViewChild(ViewComponent, { read: ViewComponent }) view: ViewComponent;
 
-  constructor(
-    protected itemService: ItemService<T>,
-    protected messageService: MessageService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * The views are router based, which means if we close a view, the router outlet is

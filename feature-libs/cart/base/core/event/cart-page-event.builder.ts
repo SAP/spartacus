@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CartPageEvent } from '@spartacus/cart/base/root';
 import { createFrom, EventService } from '@spartacus/core';
 import { NavigationEvent } from '@spartacus/storefront';
@@ -15,7 +15,12 @@ import { filter, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CartPageEventBuilder {
-  constructor(protected eventService: EventService) {
+  protected eventService = inject(EventService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.register();
   }
 

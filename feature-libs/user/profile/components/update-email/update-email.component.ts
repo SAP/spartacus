@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { UpdateEmailComponentService } from './update-email-component.service';
@@ -17,7 +17,12 @@ import { UpdateEmailComponentService } from './update-email-component.service';
   standalone: false,
 })
 export class UpdateEmailComponent {
-  constructor(protected service: UpdateEmailComponentService) {}
+  protected service = inject(UpdateEmailComponentService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;

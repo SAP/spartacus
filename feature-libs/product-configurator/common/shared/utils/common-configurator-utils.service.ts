@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Cart,
   CartItemContext,
@@ -33,7 +33,12 @@ import { ConfiguratorModelUtils } from './configurator-model-utils';
  */
 @Injectable({ providedIn: 'root' })
 export class CommonConfiguratorUtilsService {
-  constructor(protected userIdService: UserIdService) {}
+  protected userIdService = inject(UserIdService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
   /**
    * Compiles a unique key for a configuration owner and sets it into the 'key'
    * attribute

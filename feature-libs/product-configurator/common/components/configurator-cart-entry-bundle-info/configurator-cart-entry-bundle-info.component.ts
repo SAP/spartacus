@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Optional } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
@@ -25,13 +25,18 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
   standalone: false,
 })
 export class ConfiguratorCartEntryBundleInfoComponent {
-  constructor(
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService,
-    protected breakpointService: BreakpointService,
-    protected translation: TranslationService,
-    @Optional() protected cartItemContext?: CartItemContext
-  ) {}
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
+  protected configCartEntryBundleInfoService = inject(
+    ConfiguratorCartEntryBundleInfoService
+  );
+  protected breakpointService = inject(BreakpointService);
+  protected translation = inject(TranslationService);
+  protected cartItemContext? = inject(CartItemContext, { optional: true });
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;
@@ -78,7 +83,9 @@ export class ConfiguratorCartEntryBundleInfoComponent {
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
   readonly shouldShowButton$: Observable<boolean> =
-    this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext);
+    this.commonConfigUtilsService.isActiveCartContext(
+      this.cartItemContext ?? undefined
+    );
 
   getButtonText(translatedText?: string): string {
     if (!translatedText) {

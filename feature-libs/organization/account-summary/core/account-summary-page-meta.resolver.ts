@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   BreadcrumbMeta,
   ContentPageMetaResolver,
@@ -29,13 +29,26 @@ export const ACCOUNT_SUMMARY_LIST_TRANSLATION_KEY =
   providedIn: 'root',
 })
 export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver {
-  constructor(
-    protected contentPageMetaResolver: ContentPageMetaResolver,
-    protected translation: TranslationService,
-    protected semanticPath: SemanticPathService,
-    protected routingService: RoutingService
-  ) {
+  protected contentPageMetaResolver: ContentPageMetaResolver;
+  protected translation: TranslationService;
+  protected semanticPath: SemanticPathService;
+  protected routingService: RoutingService;
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const contentPageMetaResolver = inject(ContentPageMetaResolver);
+    const translation = inject(TranslationService);
+    const semanticPath = inject(SemanticPathService);
+    const routingService = inject(RoutingService);
+
     super(contentPageMetaResolver, translation, semanticPath, routingService);
+  
+    this.contentPageMetaResolver = contentPageMetaResolver;
+    this.translation = translation;
+    this.semanticPath = semanticPath;
+    this.routingService = routingService;
   }
 
   protected readonly ACCOUNT_SUMMARY_SEMANTIC_ROUTE = 'orgAccountSummary';

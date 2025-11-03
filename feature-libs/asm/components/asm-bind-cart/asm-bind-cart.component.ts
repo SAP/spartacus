@@ -59,6 +59,15 @@ import { AsmComponentService } from '../services/asm-component.service';
   standalone: false,
 })
 export class AsmBindCartComponent implements OnInit, OnDestroy {
+  protected globalMessageService = inject(GlobalMessageService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected multiCartFacade = inject(MultiCartFacade);
+  protected asmBindCartFacade = inject(AsmBindCartFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected savedCartFacade = inject(SavedCartFacade);
+  protected asmComponentService? = inject(AsmComponentService);
+  protected routing? = inject(RoutingService);
+
   activeCartValidator: ValidatorFn = (control) => {
     if (control.value === this.activeCartId) {
       return { activeCartError: true };
@@ -97,16 +106,10 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
 
   protected featureConfig = inject(FeatureConfigService);
 
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected multiCartFacade: MultiCartFacade,
-    protected asmBindCartFacade: AsmBindCartFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected savedCartFacade: SavedCartFacade,
-    protected asmComponentService?: AsmComponentService,
-    protected routing?: RoutingService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.subscribeForDeeplinkCart();

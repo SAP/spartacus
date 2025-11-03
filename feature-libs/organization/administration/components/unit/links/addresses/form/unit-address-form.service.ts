@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -26,10 +26,13 @@ import { FormService } from '../../../../shared/form/form.service';
   providedIn: 'root',
 })
 export class UnitAddressFormService extends FormService<Address> {
-  constructor(
-    protected userAddressService: UserAddressService,
-    protected userProfileFacade: UserProfileFacade
-  ) {
+  protected userAddressService = inject(UserAddressService);
+  protected userProfileFacade = inject(UserProfileFacade);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     super();
   }
 

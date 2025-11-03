@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {
   CurrentProductService,
@@ -19,13 +19,22 @@ import { Product } from '@spartacus/core';
   standalone: false,
 })
 export class ProductImageZoomProductImagesComponent extends ProductImagesComponent {
+  protected currentProductService: CurrentProductService;
+
   expandImage = new BehaviorSubject(false);
   selectedIndex: number | undefined;
 
   product$: Observable<Product> = this.product$;
 
-  constructor(protected currentProductService: CurrentProductService) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const currentProductService = inject(CurrentProductService);
+
     super(currentProductService);
+  
+    this.currentProductService = currentProductService;
   }
 
   openImage(item: any): void {

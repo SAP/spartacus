@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StateWithMultiCart } from '@spartacus/cart/base/core';
 import {
@@ -31,12 +31,15 @@ import { getWishlistName } from '../utils/utils';
 
 @Injectable()
 export class WishListService implements WishListFacade {
-  constructor(
-    protected store: Store<StateWithMultiCart>,
-    protected userAccountFacade: UserAccountFacade,
-    protected multiCartFacade: MultiCartFacade,
-    protected userIdService: UserIdService
-  ) {}
+  protected store = inject<Store<StateWithMultiCart>>(Store);
+  protected userAccountFacade = inject(UserAccountFacade);
+  protected multiCartFacade = inject(MultiCartFacade);
+  protected userIdService = inject(UserIdService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   createWishList(userId: string, name?: string, description?: string): void {
     this.store.dispatch(

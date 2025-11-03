@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   AsmUi,
@@ -20,7 +20,12 @@ import { AsmSelectors } from '../store/index';
   providedIn: 'root',
 })
 export class AsmService {
-  constructor(protected store: Store<StateWithAsm>) {}
+  protected store = inject<Store<StateWithAsm>>(Store);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Search for customers

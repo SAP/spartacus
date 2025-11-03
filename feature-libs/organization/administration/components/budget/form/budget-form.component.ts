@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 import { Currency, CurrencyService } from '@spartacus/core';
 import {
@@ -38,6 +38,10 @@ import { CurrentBudgetService } from '../services/current-budget.service';
   standalone: false,
 })
 export class BudgetFormComponent implements OnInit {
+  protected itemService = inject<ItemService<Budget>>(ItemService);
+  protected unitService = inject(OrgUnitService);
+  protected currencyService = inject(CurrencyService);
+
   form: UntypedFormGroup | null = this.itemService.getForm();
 
   units$: Observable<B2BUnitNode[] | undefined> = this.unitService
@@ -58,11 +62,10 @@ export class BudgetFormComponent implements OnInit {
     })
   );
 
-  constructor(
-    protected itemService: ItemService<Budget>,
-    protected unitService: OrgUnitService,
-    protected currencyService: CurrencyService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.unitService.loadList();

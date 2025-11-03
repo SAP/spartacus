@@ -1,14 +1,4 @@
-import {
-  Component,
-  DebugElement,
-  Directive,
-  EventEmitter,
-  Injectable,
-  Input,
-  Output,
-  TemplateRef,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, DebugElement, Directive, EventEmitter, Injectable, Input, Output, TemplateRef, ViewContainerRef, inject as inject_1 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
@@ -197,10 +187,13 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   standalone: false,
 })
 export class MockRevertedFeatureDirective {
-  constructor(
-    protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef
-  ) {}
+  protected templateRef = inject_1<TemplateRef<any>>(TemplateRef);
+  protected viewContainer = inject_1(ViewContainerRef);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   @Input() set cxFeature(_feature: string) {
     if (_feature.toString().includes('!')) {

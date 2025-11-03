@@ -5,7 +5,7 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
+import { Injectable, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
 import { Action, select, Store } from '@ngrx/store';
 import {
   GeoPoint,
@@ -27,16 +27,19 @@ import { StateWithStoreFinder } from '../store/store-finder-state';
   providedIn: 'root',
 })
 export class StoreFinderService implements OnDestroy {
+  protected store = inject<Store<StateWithStoreFinder>>(Store);
+  protected winRef = inject(WindowRef);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected routingService = inject(RoutingService);
+  protected platformId = inject(PLATFORM_ID);
+
   private geolocationWatchId: number | null = null;
   protected subscription = new Subscription();
 
-  constructor(
-    protected store: Store<StateWithStoreFinder>,
-    protected winRef: WindowRef,
-    protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService,
-    @Inject(PLATFORM_ID) protected platformId: any
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.reloadStoreEntitiesOnContextChange();
   }
 

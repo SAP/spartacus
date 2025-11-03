@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { isSelectiveCart, StateWithMultiCart } from '@spartacus/cart/base/core';
 import {
@@ -42,13 +42,16 @@ import {
 
 @Injectable()
 export class SavedCartService implements SavedCartFacade {
-  constructor(
-    protected store: Store<StateWithMultiCart | StateWithProcess<void>>,
-    protected userIdService: UserIdService,
-    protected userAccountFacade: UserAccountFacade,
-    protected multiCartService: MultiCartFacade,
-    protected eventService: EventService
-  ) {}
+  protected store = inject<Store<StateWithMultiCart | StateWithProcess<void>>>(Store);
+  protected userIdService = inject(UserIdService);
+  protected userAccountFacade = inject(UserAccountFacade);
+  protected multiCartService = inject(MultiCartFacade);
+  protected eventService = inject(EventService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Loads a single saved cart

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   B2BUser,
   B2BUserRole,
@@ -21,14 +21,21 @@ import { SubListService } from '../../../../shared/sub-list/sub-list.service';
   providedIn: 'root',
 })
 export class UnitUserListService extends SubListService<B2BUser> {
+  protected tableService: TableService;
+  protected unitService = inject(OrgUnitService);
+
   protected tableType = OrganizationTableType.UNIT_USERS;
   protected _domainType = OrganizationTableType.USER;
 
-  constructor(
-    protected tableService: TableService,
-    protected unitService: OrgUnitService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const tableService = inject(TableService);
+
     super(tableService);
+  
+    this.tableService = tableService;
   }
 
   protected load(

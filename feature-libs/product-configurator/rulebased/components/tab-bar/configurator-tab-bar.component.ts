@@ -32,6 +32,9 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   standalone: false,
 })
 export class ConfiguratorTabBarComponent {
+  protected configRouterExtractorService = inject(ConfiguratorRouterExtractorService);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+
   @HostBinding('class.ghost') ghostStyle = true;
   @ViewChild('configTab') configTab: ElementRef<HTMLElement>;
   @ViewChild('overviewTab') overviewTab: ElementRef<HTMLElement>;
@@ -204,8 +207,8 @@ export class ConfiguratorTabBarComponent {
     }
   }
 
-  constructor(
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 }

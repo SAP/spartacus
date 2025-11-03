@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CxEvent, ScriptLoader } from '@spartacus/core';
 import {
   TmsCollector,
@@ -18,7 +18,12 @@ import { AepCollectorConfig } from '../config/default-aep.config';
  */
 @Injectable({ providedIn: 'root' })
 export class AepCollectorService implements TmsCollector {
-  constructor(protected scriptLoader: ScriptLoader) {}
+  protected scriptLoader = inject(ScriptLoader);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
   /**
    * If the `TmsCollectorConfig.dataLayerProperty` is not specified, it uses the default `digitalData`
    */

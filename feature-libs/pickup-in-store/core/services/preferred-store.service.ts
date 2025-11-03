@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { WindowRef } from '@spartacus/core';
 import {
@@ -31,12 +31,15 @@ import { isInStock } from '../utils';
  */
 @Injectable()
 export class PreferredStoreService implements PreferredStoreFacade {
-  constructor(
-    protected config: PickupInStoreConfig,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected winRef: WindowRef,
-    protected store: Store<StateWithPickupLocations>
-  ) {
+  protected config = inject(PickupInStoreConfig);
+  protected pickupLocationsSearchService = inject(PickupLocationsSearchFacade);
+  protected winRef = inject(WindowRef);
+  protected store = inject<Store<StateWithPickupLocations>>(Store);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.store.dispatch(LoadDefaultPointOfService());
   }
 

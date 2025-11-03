@@ -5,7 +5,7 @@
  */
 
 import { Location } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { FeatureModulesService, WindowRef } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
@@ -19,12 +19,15 @@ import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
   providedIn: 'root',
 })
 export class AsmEnablerService {
-  constructor(
-    protected location: Location,
-    protected winRef: WindowRef,
-    protected launchDialogService: LaunchDialogService,
-    protected featureModules: FeatureModulesService
-  ) {}
+  protected location = inject(Location);
+  protected winRef = inject(WindowRef);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected featureModules = inject(FeatureModulesService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Loads the ASM UI if needed. The ASM UI will be added based on the

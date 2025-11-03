@@ -14,13 +14,18 @@ import { RoutingService } from '@spartacus/core';
   standalone: false,
 })
 export class LoginRegisterComponent implements OnInit {
+  protected activatedRoute = inject(ActivatedRoute);
+
   loginAsGuest = false;
 
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
 
-  constructor(protected activatedRoute: ActivatedRoute) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];

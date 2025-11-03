@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { GlobalMessageType } from '@spartacus/core';
@@ -19,6 +19,8 @@ import { OrderAmendService } from '../../amend-order.service';
   standalone: false,
 })
 export class CancelOrderComponent {
+  protected orderAmendService = inject(OrderAmendService);
+
   orderCode: string;
   globalMessageType = GlobalMessageType;
 
@@ -28,5 +30,8 @@ export class CancelOrderComponent {
 
   entries$: Observable<OrderEntry[]> = this.orderAmendService.getEntries();
 
-  constructor(protected orderAmendService: OrderAmendService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 }

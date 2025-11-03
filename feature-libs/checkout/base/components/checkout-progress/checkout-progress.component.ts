@@ -23,13 +23,18 @@ import { CurrencyService, LanguageService } from '@spartacus/core';
   standalone: false,
 })
 export class CheckoutProgressComponent implements OnInit {
+  protected checkoutStepService = inject(CheckoutStepService);
+
   params$ = new Observable<string[]>();
   private _steps$: BehaviorSubject<CheckoutStep[]> =
     this.checkoutStepService.steps$;
   private currencyService = inject(CurrencyService);
   private languageService = inject(LanguageService);
 
-  constructor(protected checkoutStepService: CheckoutStepService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   activeStepIndex: number;
   activeStepIndex$: Observable<number> =

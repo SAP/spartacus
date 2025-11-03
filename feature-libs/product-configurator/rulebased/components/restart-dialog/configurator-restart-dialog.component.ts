@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Product, ProductService, RoutingService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import {
@@ -22,12 +22,15 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
   standalone: false,
 })
 export class ConfiguratorRestartDialogComponent {
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected routingService: RoutingService,
-    protected productService: ProductService
-  ) {}
+  protected launchDialogService = inject(LaunchDialogService);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected routingService = inject(RoutingService);
+  protected productService = inject(ProductService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   dialogData$: Observable<{ owner: CommonConfigurator.Owner }> =
     this.launchDialogService.data$.pipe(

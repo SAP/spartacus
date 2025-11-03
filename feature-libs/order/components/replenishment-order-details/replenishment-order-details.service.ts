@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import {
   ReplenishmentOrder,
@@ -23,6 +23,9 @@ import {
   providedIn: 'root',
 })
 export class ReplenishmentOrderDetailsService {
+  protected routingService = inject(RoutingService);
+  protected replenishmentOrderHistoryFacade = inject(ReplenishmentOrderHistoryFacade);
+
   protected replenishmentOrderCode$ = this.routingService.getRouterState().pipe(
     map((routingData) => routingData.state.params.replenishmentOrderCode),
     distinctUntilChanged()
@@ -41,10 +44,10 @@ export class ReplenishmentOrderDetailsService {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
-  constructor(
-    protected routingService: RoutingService,
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   getOrderDetails(): Observable<ReplenishmentOrder> {
     return this.replenishmentOrderLoad$.pipe(

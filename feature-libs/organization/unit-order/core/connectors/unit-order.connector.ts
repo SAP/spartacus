@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { UnitOrderAdapter } from './unit-order.adapter';
@@ -13,7 +13,12 @@ import { UnitOrderAdapter } from './unit-order.adapter';
   providedIn: 'root',
 })
 export class UnitOrderConnector {
-  constructor(protected adapter: UnitOrderAdapter) {}
+  protected adapter = inject(UnitOrderAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   public getUnitOrderHistory(
     userId: string,

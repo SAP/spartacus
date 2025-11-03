@@ -23,18 +23,21 @@ import { CheckoutConfigService } from '../services/checkout-config.service';
   providedIn: 'root',
 })
 export class CheckoutAuthGuard {
+  protected authService = inject(AuthService);
+  protected authRedirectService = inject(AuthRedirectService);
+  protected checkoutConfigService = inject(CheckoutConfigService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected semanticPathService = inject(SemanticPathService);
+  protected router = inject(Router);
+
   // Name `featureConfig` instead of `featureConfigService` to avoid clash with `FeatureConfigService` in `OpfCheckoutAuthGuard`
   private featureConfig = inject(FeatureConfigService);
   protected windowRef = inject(WindowRef);
 
-  constructor(
-    protected authService: AuthService,
-    protected authRedirectService: AuthRedirectService,
-    protected checkoutConfigService: CheckoutConfigService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected semanticPathService: SemanticPathService,
-    protected router: Router
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   canActivate(): Observable<GuardResult> {
     return combineLatest([

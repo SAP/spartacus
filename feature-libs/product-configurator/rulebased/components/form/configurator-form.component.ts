@@ -42,6 +42,13 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
   standalone: false,
 })
 export class ConfiguratorFormComponent implements OnInit, OnDestroy {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configuratorGroupsService = inject(ConfiguratorGroupsService);
+  protected configRouterExtractorService = inject(ConfiguratorRouterExtractorService);
+  protected configExpertModeService = inject(ConfiguratorExpertModeService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected globalMessageService = inject(GlobalMessageService);
+
   protected subscription = new Subscription();
 
   protected keyboardFocusService = inject(KeyboardFocusService);
@@ -68,14 +75,10 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
     )
   );
 
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configExpertModeService: ConfiguratorExpertModeService,
-    protected launchDialogService: LaunchDialogService,
-    protected globalMessageService: GlobalMessageService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

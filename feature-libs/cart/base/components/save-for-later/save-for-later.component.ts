@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -21,6 +21,10 @@ import { filter, map } from 'rxjs/operators';
   standalone: false,
 })
 export class SaveForLaterComponent implements OnInit {
+  protected cmsService = inject(CmsService);
+  protected cartService = inject(ActiveCartFacade);
+  protected selectiveCartService = inject(SelectiveCartFacade);
+
   saveForLater$: Observable<Cart>;
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
@@ -29,11 +33,10 @@ export class SaveForLaterComponent implements OnInit {
   isCartEmpty$: Observable<boolean>;
   CartLocation = PromotionLocation;
 
-  constructor(
-    protected cmsService: CmsService,
-    protected cartService: ActiveCartFacade,
-    protected selectiveCartService: SelectiveCartFacade
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     this.isCartEmpty$ = this.cartService

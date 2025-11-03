@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import {
   Currency,
@@ -43,6 +43,11 @@ import { PermissionItemService } from '../services/permission-item.service';
   standalone: false,
 })
 export class PermissionFormComponent implements OnInit {
+  protected itemService = inject<ItemService<Permission>>(ItemService);
+  protected unitService = inject(OrgUnitService);
+  protected currencyService = inject(CurrencyService);
+  protected permissionService = inject(PermissionService);
+
   form: UntypedFormGroup | null = this.itemService.getForm();
 
   units$: Observable<B2BUnitNode[] | undefined> = this.unitService
@@ -68,12 +73,10 @@ export class PermissionFormComponent implements OnInit {
 
   periods = Object.keys(Period);
 
-  constructor(
-    protected itemService: ItemService<Permission>,
-    protected unitService: OrgUnitService,
-    protected currencyService: CurrencyService,
-    protected permissionService: PermissionService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.unitService.loadList();

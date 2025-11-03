@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Command, CommandService, UserIdService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
@@ -13,6 +13,10 @@ import { UserProfileConnector } from '../connectors/user-profile.connector';
 
 @Injectable()
 export class UserPasswordService implements UserPasswordFacade {
+  protected userProfileConnector = inject(UserProfileConnector);
+  protected userIdService = inject(UserIdService);
+  protected command = inject(CommandService);
+
   protected updateCommand: Command<{
     oldPassword: string;
     newPassword: string;
@@ -42,11 +46,10 @@ export class UserPasswordService implements UserPasswordFacade {
     this.userProfileConnector.requestForgotPasswordEmail(payload.email)
   );
 
-  constructor(
-    protected userProfileConnector: UserProfileConnector,
-    protected userIdService: UserIdService,
-    protected command: CommandService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Updates the password for the user

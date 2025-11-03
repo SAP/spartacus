@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -23,6 +23,9 @@ export class ConfiguratorAttributeCheckBoxComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
+  protected attributeComponentContext = inject(ConfiguratorAttributeCompositionContext);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+
   attribute: Configurator.Attribute;
   group: string;
   ownerKey: string;
@@ -31,11 +34,13 @@ export class ConfiguratorAttributeCheckBoxComponent
 
   attributeCheckBoxForm = new UntypedFormControl('');
 
-  constructor(
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     super();
+    const attributeComponentContext = this.attributeComponentContext;
+
     this.attribute = attributeComponentContext.attribute;
     this.group = attributeComponentContext.group.id;
     this.ownerKey = attributeComponentContext.owner.key;

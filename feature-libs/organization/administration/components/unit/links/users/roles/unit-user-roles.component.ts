@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { B2BUser, B2BUserRole, B2BUserRight } from '@spartacus/core';
 import {
@@ -33,6 +33,11 @@ import { UnitUserRolesItemService } from './unit-user-roles-item.service';
   standalone: false,
 })
 export class UnitUserRolesFormComponent {
+  protected itemService = inject<ItemService<B2BUser>>(ItemService);
+  protected formService = inject(UnitUserRolesFormService);
+  protected userService = inject(B2BUserService);
+  protected userItemService = inject(UserItemService);
+
   protected item: B2BUser | undefined;
 
   @ViewChild(MessageService, { read: MessageService })
@@ -53,12 +58,10 @@ export class UnitUserRolesFormComponent {
   availableRoles: B2BUserRole[] = this.userService.getAllRoles();
   availableRights: B2BUserRight[] = this.userService.getAllRights();
 
-  constructor(
-    protected itemService: ItemService<B2BUser>,
-    protected formService: UnitUserRolesFormService,
-    protected userService: B2BUserService,
-    protected userItemService: UserItemService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   save(form: UntypedFormGroup) {
     form.disable();

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitItemService } from '../../../services/unit-item.service';
@@ -26,6 +26,11 @@ import { UnitChildItemService } from './unit-child-item.service';
   standalone: false,
 })
 export class UnitChildCreateComponent {
+  protected unitService = inject(CurrentUnitService);
+
   unitKey$: Observable<string> = this.unitService.key$;
-  constructor(protected unitService: CurrentUnitService) {}
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {}
 }

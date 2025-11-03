@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   CommonConfigurator,
   ConfiguratorRouterExtractorService,
@@ -23,6 +23,11 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   standalone: false,
 })
 export class ConfiguratorPreviousNextButtonsComponent {
+  protected configuratorGroupsService = inject(ConfiguratorGroupsService);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(ConfiguratorRouterExtractorService);
+  protected configUtils = inject(ConfiguratorStorefrontUtilsService);
+
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService
       .extractRouterData()
@@ -32,12 +37,10 @@ export class ConfiguratorPreviousNextButtonsComponent {
         )
       );
 
-  constructor(
-    protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configUtils: ConfiguratorStorefrontUtilsService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   onPrevious(configuration: Configurator.Configuration): void {
     this.configuratorGroupsService

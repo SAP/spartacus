@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import {
   UntypedFormArray,
   UntypedFormControl,
@@ -47,6 +42,11 @@ import { UserItemService } from '../services/user-item.service';
   standalone: false,
 })
 export class UserFormComponent implements OnInit {
+  protected itemService = inject<ItemService<B2BUser>>(ItemService);
+  protected unitService = inject(OrgUnitService);
+  protected userProfileFacade = inject(UserProfileFacade);
+  protected b2bUserService = inject(B2BUserService);
+
   form: UntypedFormGroup | null = this.itemService.getForm();
 
   /**
@@ -76,12 +76,10 @@ export class UserFormComponent implements OnInit {
   availableRoles: B2BUserRole[] = this.b2bUserService.getAllRoles();
   availableRights: B2BUserRight[] = this.b2bUserService.getAllRights();
 
-  constructor(
-    protected itemService: ItemService<B2BUser>,
-    protected unitService: OrgUnitService,
-    protected userProfileFacade: UserProfileFacade,
-    protected b2bUserService: B2BUserService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.unitService.loadList();

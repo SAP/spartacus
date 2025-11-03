@@ -19,11 +19,20 @@ import {
   providedIn: 'root',
 })
 export class QuoteNotFoundHandler extends HttpErrorHandler {
+  protected globalMessageService: GlobalMessageService;
+
   protected routingService = inject(RoutingService);
   responseStatus = HttpResponseStatus.NOT_FOUND;
 
-  constructor(protected globalMessageService: GlobalMessageService) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const globalMessageService = inject(GlobalMessageService);
+
     super(globalMessageService);
+  
+    this.globalMessageService = globalMessageService;
   }
 
   hasMatch(errorResponse: HttpErrorResponse): boolean {

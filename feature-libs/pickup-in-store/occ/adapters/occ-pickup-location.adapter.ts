@@ -18,12 +18,15 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccPickupLocationAdapter implements PickupLocationAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpointsService = inject(OccEndpointsService);
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     // Intentional empty constructor
   }
 

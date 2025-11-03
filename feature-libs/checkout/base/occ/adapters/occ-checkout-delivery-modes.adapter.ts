@@ -27,13 +27,16 @@ import { catchError, map } from 'rxjs/operators';
 export class OccCheckoutDeliveryModesAdapter
   implements CheckoutDeliveryModesAdapter
 {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   public setMode(
     userId: string,

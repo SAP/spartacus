@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import {
   CurrencySetEvent,
   EventService,
@@ -29,12 +29,15 @@ import {
   providedIn: 'root',
 })
 export class CheckoutPaymentEventListener implements OnDestroy {
+  protected eventService = inject(EventService);
+  protected globalMessageService = inject(GlobalMessageService);
+
   protected subscriptions = new Subscription();
 
-  constructor(
-    protected eventService: EventService,
-    protected globalMessageService: GlobalMessageService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.onPaymentCreated();
     this.onPaymentSet();
 

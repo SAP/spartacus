@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import {
   CartItemComponentOptions,
@@ -27,6 +27,8 @@ import { CartItemContextSource } from './model/cart-item-context-source.model';
   standalone: false,
 })
 export class CartItemComponent implements OnChanges {
+  protected cartItemContextSource = inject(CartItemContextSource);
+
   @Input() compact = false;
   @Input() item: OrderEntry;
   @Input() readonly = false;
@@ -44,7 +46,10 @@ export class CartItemComponent implements OnChanges {
   iconTypes = ICON_TYPE;
   readonly CartOutlets = CartOutlets;
 
-  constructor(protected cartItemContextSource: CartItemContextSource) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     useFeatureStyles('a11yCroppedFocusRing');
   }
 

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   LoadStatus,
   OrganizationItemStatus,
@@ -33,13 +33,20 @@ import { SubListService } from './sub-list.service';
   standalone: false,
 })
 export class AssignCellComponent<T extends BaseItem> extends CellComponent {
-  constructor(
-    protected outlet: OutletContextData<TableDataOutletContext>,
-    protected organizationItemService: ItemService<T>,
-    protected messageService: MessageService,
-    protected organizationSubListService: ListService<T>
-  ) {
+  protected outlet: OutletContextData<TableDataOutletContext>;
+  protected organizationItemService = inject<ItemService<T>>(ItemService);
+  protected messageService = inject(MessageService);
+  protected organizationSubListService = inject<ListService<T>>(ListService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const outlet = inject<OutletContextData<TableDataOutletContext>>(OutletContextData);
+
     super(outlet);
+  
+    this.outlet = outlet;
   }
 
   get isAssigned(): boolean {

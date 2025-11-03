@@ -24,6 +24,10 @@ import { CustomerTicketingReopenComponentService } from './customer-ticketing-re
   standalone: false,
 })
 export class CustomerTicketingReopenComponent implements OnDestroy {
+  protected customerTicketingFacade = inject(CustomerTicketingFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+
   protected subscription = new Subscription();
   protected CustomerTicketingReopenComponentService = inject(
     CustomerTicketingReopenComponentService
@@ -34,11 +38,10 @@ export class CustomerTicketingReopenComponent implements OnDestroy {
   enableReopenButton$: Observable<boolean | undefined> =
     this.CustomerTicketingReopenComponentService.enableReopenButton();
 
-  constructor(
-    protected customerTicketingFacade: CustomerTicketingFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   openDialog() {
     const dialog = this.launchDialogService.openDialog(

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Type } from '@angular/core';
+import { Injectable, Type, inject } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import {
@@ -45,12 +45,15 @@ import { CartActions } from '../store/index';
  */
 @Injectable({ providedIn: 'root' })
 export class CartEventBuilder {
-  constructor(
-    protected actionsSubject: ActionsSubject,
-    protected event: EventService,
-    protected activeCartService: ActiveCartFacade,
-    protected stateEventService: StateEventService
-  ) {
+  protected actionsSubject = inject(ActionsSubject);
+  protected event = inject(EventService);
+  protected activeCartService = inject(ActiveCartFacade);
+  protected stateEventService = inject(StateEventService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.register();
   }
 

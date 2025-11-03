@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -29,16 +23,19 @@ import { filter, take, tap, withLatestFrom } from 'rxjs/operators';
 export class OrderConfirmationThankYouMessageComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
+  protected orderFacade = inject(OrderFacade);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected translationService = inject(TranslationService);
+
   order$: Observable<Order | undefined>;
 
   isGuestCustomer = false;
   orderGuid: string | undefined;
 
-  constructor(
-    protected orderFacade: OrderFacade,
-    protected globalMessageService: GlobalMessageService,
-    protected translationService: TranslationService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.order$ = this.orderFacade.getOrderDetails().pipe(

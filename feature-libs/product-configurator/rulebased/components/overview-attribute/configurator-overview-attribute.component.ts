@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
@@ -17,9 +17,14 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class ConfiguratorOverviewAttributeComponent {
+  protected breakpointService = inject(BreakpointService);
+
   @Input() attributeOverview: Configurator.AttributeOverview;
 
-  constructor(protected breakpointService: BreakpointService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
     return {

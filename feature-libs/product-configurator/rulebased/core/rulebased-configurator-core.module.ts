@@ -8,10 +8,10 @@ import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { defaultConfiguratorCoreConfig } from './config/default-configurator-core.config';
 import { RulebasedConfiguratorConnector } from './connectors/rulebased-configurator.connector';
+import { ConfiguratorLanguageSetEventListener } from './events/configurator-language-set-event.listener';
+import { ConfiguratorLogoutEventListener } from './events/configurator-logout-event.listener';
 import { ConfiguratorRouterModule } from './facade/routing/configurator-router.module';
 import { RulebasedConfiguratorStateModule } from './state/rulebased-configurator-state.module';
-import { ConfiguratorLogoutEventListener } from './events/configurator-logout-event.listener';
-import { ConfiguratorLanguageSetEventListener } from './events/configurator-language-set-event.listener';
 
 /**
  * Exposes the rulebased configurator core entities.

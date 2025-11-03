@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { B2BUser, EntitiesModel, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { Permission } from '../../model/permission.model';
@@ -15,7 +15,12 @@ import { B2BUserAdapter } from './b2b-user.adapter';
   providedIn: 'root',
 })
 export class B2BUserConnector {
-  constructor(protected adapter: B2BUserAdapter) {}
+  protected adapter = inject(B2BUserAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   get(userId: string, orgUnitCustomerId: string): Observable<B2BUser> {
     return this.adapter.load(userId, orgUnitCustomerId);

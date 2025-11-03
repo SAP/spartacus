@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { PointOfService, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -17,6 +17,10 @@ import { StoreFinderService } from '@spartacus/storefinder/core';
   standalone: false,
 })
 export class StoreFinderStoreComponent implements OnInit {
+  private storeFinderService = inject(StoreFinderService);
+  private route = inject(ActivatedRoute);
+  private routingService = inject(RoutingService);
+
   location$: Observable<any>;
   isLoading$: Observable<any>;
   iconTypes = ICON_TYPE;
@@ -24,11 +28,10 @@ export class StoreFinderStoreComponent implements OnInit {
   @Input() location: PointOfService;
   @Input() disableMap: boolean;
 
-  constructor(
-    private storeFinderService: StoreFinderService,
-    private route: ActivatedRoute,
-    private routingService: RoutingService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     if (!this.location) {

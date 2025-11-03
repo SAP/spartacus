@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -34,6 +34,13 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   standalone: false,
 })
 export class CheckoutReviewSubmitComponent {
+  protected checkoutDeliveryAddressFacade = inject(CheckoutDeliveryAddressFacade);
+  protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected translationService = inject(TranslationService);
+  protected checkoutStepService = inject(CheckoutStepService);
+  protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
+
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
 
@@ -43,14 +50,10 @@ export class CheckoutReviewSubmitComponent {
 
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
-  constructor(
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected activeCartFacade: ActiveCartFacade,
-    protected translationService: TranslationService,
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   get cart$(): Observable<Cart> {
     return this.activeCartFacade.getActive();

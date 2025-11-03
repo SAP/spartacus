@@ -5,7 +5,7 @@
  */
 
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   Product,
   ProductService,
@@ -29,6 +29,14 @@ import { Configurator } from '../../core/model/configurator.model';
   standalone: false,
 })
 export class ConfiguratorExitButtonComponent {
+  protected productService = inject(ProductService);
+  protected routingService = inject(RoutingService);
+  protected configRouterExtractorService = inject(ConfiguratorRouterExtractorService);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected breakpointService = inject(BreakpointService);
+  protected windowRef = inject(WindowRef);
+  protected location = inject(Location);
+
   container$: Observable<{
     routerData: ConfiguratorRouter.Data;
     configuration: Configurator.Configuration;
@@ -52,15 +60,10 @@ export class ConfiguratorExitButtonComponent {
     )
   );
 
-  constructor(
-    protected productService: ProductService,
-    protected routingService: RoutingService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected breakpointService: BreakpointService,
-    protected windowRef: WindowRef,
-    protected location: Location
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected navigateToCart(): void {
     this.routingService.go('cart');

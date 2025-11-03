@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { B2BUser, EntitiesModel, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { Permission } from '../../model/permission.model';
@@ -15,7 +15,12 @@ import { UserGroupAdapter } from './user-group.adapter';
   providedIn: 'root',
 })
 export class UserGroupConnector {
-  constructor(protected adapter: UserGroupAdapter) {}
+  protected adapter = inject(UserGroupAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   get(userId: string, userGroupId: string): Observable<UserGroup> {
     return this.adapter.load(userId, userGroupId);

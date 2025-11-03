@@ -20,12 +20,15 @@ import { PersonalizationContext } from '../model/personalization-context.model';
   providedIn: 'root',
 })
 export class PersonalizationContextService {
+  protected config = inject(PersonalizationConfig);
+  protected cmsService = inject(CmsService);
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected config: PersonalizationConfig,
-    protected cmsService: CmsService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   getPersonalizationContext(): Observable<PersonalizationContext | undefined> {
     if (!this.config.personalization?.context) {

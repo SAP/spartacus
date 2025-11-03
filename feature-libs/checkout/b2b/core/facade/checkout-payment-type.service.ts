@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import {
   B2BPaymentTypeEnum,
@@ -33,6 +33,14 @@ import { CheckoutPaymentTypeConnector } from '../connectors/checkout-payment-typ
 
 @Injectable()
 export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected userIdService = inject(UserIdService);
+  protected queryService = inject(QueryService);
+  protected commandService = inject(CommandService);
+  protected paymentTypeConnector = inject(CheckoutPaymentTypeConnector);
+  protected eventService = inject(EventService);
+  protected checkoutQueryFacade = inject(CheckoutQueryFacade);
+
   protected getCheckoutPaymentTypesQueryReloadEvents(): QueryNotifier[] {
     return [CheckoutPaymentTypesQueryReloadEvent];
   }
@@ -85,15 +93,10 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
     }
   );
 
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected userIdService: UserIdService,
-    protected queryService: QueryService,
-    protected commandService: CommandService,
-    protected paymentTypeConnector: CheckoutPaymentTypeConnector,
-    protected eventService: EventService,
-    protected checkoutQueryFacade: CheckoutQueryFacade
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([

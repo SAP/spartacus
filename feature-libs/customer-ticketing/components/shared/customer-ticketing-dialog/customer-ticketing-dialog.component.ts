@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import {
@@ -25,6 +25,13 @@ import { BehaviorSubject } from 'rxjs';
 
 @Directive()
 export abstract class CustomerTicketingDialogComponent {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected el = inject(ElementRef);
+  protected customerTicketingConfig = inject(CustomerTicketingConfig);
+  protected filesFormValidators = inject(FilesFormValidators);
+  protected customerTicketingFacade = inject(CustomerTicketingFacade);
+  protected routingService = inject(RoutingService);
+
   iconTypes = ICON_TYPE;
   form: FormGroup;
   inputCharactersLimit: number = this.getInputCharactersLimit;
@@ -86,14 +93,10 @@ export abstract class CustomerTicketingDialogComponent {
     }
   }
 
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef,
-    protected customerTicketingConfig: CustomerTicketingConfig,
-    protected filesFormValidators: FilesFormValidators,
-    protected customerTicketingFacade: CustomerTicketingFacade,
-    protected routingService: RoutingService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected buildForm(): void {
     const form = new FormGroup({});

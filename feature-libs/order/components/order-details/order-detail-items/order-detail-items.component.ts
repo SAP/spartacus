@@ -25,6 +25,9 @@ import { OrderDetailsService } from '../order-details.service';
   standalone: false,
 })
 export class OrderDetailItemsComponent {
+  protected orderDetailsService = inject(OrderDetailsService);
+  protected component = inject<CmsComponentData<CmsOrderDetailItemsComponent>>(CmsComponentData);
+
   protected orderConsignmentsService = inject(
     MyAccountV2OrderConsignmentsService
   );
@@ -66,10 +69,10 @@ export class OrderDetailItemsComponent {
     map((data) => data.groupCartItems)
   );
 
-  constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected component: CmsComponentData<CmsOrderDetailItemsComponent>
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected getGroupedConsignments(
     order: Order,

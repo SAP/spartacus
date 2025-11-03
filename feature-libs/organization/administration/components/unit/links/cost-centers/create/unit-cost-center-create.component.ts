@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CostCenterItemService } from '../../../../cost-center/services/cost-center-item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
@@ -26,6 +26,11 @@ import { UnitCostCenterItemService } from './unit-cost-center-item.service';
   standalone: false,
 })
 export class UnitCostCenterCreateComponent {
+  protected unitService = inject(CurrentUnitService);
+
   unitKey$: Observable<string> = this.unitService.key$;
-  constructor(protected unitService: CurrentUnitService) {}
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {}
 }

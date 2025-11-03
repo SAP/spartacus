@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnInit, Optional } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { PointOfService } from '@spartacus/core';
 import { Consignment } from '@spartacus/order/root';
 import { OutletContextData } from '@spartacus/storefront';
@@ -22,9 +22,12 @@ export type IOutletContextData = { item: Consignment };
   standalone: false,
 })
 export class PickupInStoreOrderConsignmentContainerComponent implements OnInit {
-  constructor(
-    @Optional() protected outlet: OutletContextData<IOutletContextData>
-  ) {}
+  protected outlet = inject<OutletContextData<IOutletContextData>>(OutletContextData, { optional: true });
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   @Input() pointOfService$: Observable<PointOfService> | undefined;
 

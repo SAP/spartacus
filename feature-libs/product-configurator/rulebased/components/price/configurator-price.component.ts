@@ -5,7 +5,7 @@
  */
 
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { Configurator } from '../../core/model/configurator.model';
 
 export interface ConfiguratorPriceComponentOptions {
@@ -22,9 +22,14 @@ export interface ConfiguratorPriceComponentOptions {
   standalone: false,
 })
 export class ConfiguratorPriceComponent {
+  protected directionService = inject(DirectionService);
+
   @Input() formula: ConfiguratorPriceComponentOptions;
 
-  constructor(protected directionService: DirectionService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected isRTLDirection(): boolean {
     return this.directionService.getDirection() === DirectionMode.RTL;

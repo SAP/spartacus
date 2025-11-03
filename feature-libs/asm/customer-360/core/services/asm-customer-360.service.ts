@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   AsmCustomer360Facade,
   AsmCustomer360Query,
@@ -20,16 +20,19 @@ import { AsmCustomer360Connector } from '../connectors/asm-customer-360.connecto
 
 @Injectable()
 export class AsmCustomer360Service implements AsmCustomer360Facade {
+  protected commandService = inject(CommandService);
+  protected asmCustomer360Connector = inject(AsmCustomer360Connector);
+  protected userAccountFacade = inject(UserAccountFacade);
+
   protected asmCustomer360Command$: Command<
     Array<AsmCustomer360TabComponent>,
     AsmCustomer360Response
   >;
 
-  constructor(
-    protected commandService: CommandService,
-    protected asmCustomer360Connector: AsmCustomer360Connector,
-    protected userAccountFacade: UserAccountFacade
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.asmCustomer360Command$ = this.commandService.create(
       (tabComponents) => {
         return this.userAccountFacade.get().pipe(

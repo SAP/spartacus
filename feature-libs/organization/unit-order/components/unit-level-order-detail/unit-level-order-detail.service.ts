@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
@@ -21,13 +21,16 @@ import { UnitOrderFacade } from '@spartacus/organization/unit-order/root';
   providedIn: 'root',
 })
 export class UnitLevelOrderDetailService {
+  private unitOrderFacade = inject(UnitOrderFacade);
+  private routingService = inject(RoutingService);
+
   orderCode$: Observable<string>;
   orderLoad$: Observable<string>;
 
-  constructor(
-    private unitOrderFacade: UnitOrderFacade,
-    private routingService: RoutingService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.orderCode$ = this.routingService.getRouterState().pipe(
       map((routingData) => routingData.state.params.orderCode),
       distinctUntilChanged()

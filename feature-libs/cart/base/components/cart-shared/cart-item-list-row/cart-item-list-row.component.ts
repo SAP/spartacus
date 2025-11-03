@@ -23,7 +23,12 @@ export class CartItemListRowComponent extends CartItemComponent {
   @Optional() @Input() items: OrderEntry[];
   protected componentService = inject(CartItemListComponentService);
   isFlagQuote = this.componentService.showBasePriceWithDiscount();
-  constructor(cartItemContextSource: CartItemContextSource) {
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {
+    const cartItemContextSource = inject(CartItemContextSource);
+
     super(cartItemContextSource);
   }
 }

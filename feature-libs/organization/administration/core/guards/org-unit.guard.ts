@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
 import {
   GlobalMessageService,
@@ -15,12 +15,15 @@ import { OrgUnitService } from '../services';
 
 @Injectable()
 export class OrgUnitGuard {
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    protected orgUnitService: OrgUnitService,
-    protected semanticPathService: SemanticPathService,
-    protected router: Router
-  ) {}
+  protected globalMessageService = inject(GlobalMessageService);
+  protected orgUnitService = inject(OrgUnitService);
+  protected semanticPathService = inject(SemanticPathService);
+  protected router = inject(Router);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   canActivate(): boolean | UrlTree {
     const isUpdatingUnitAllowed = this.orgUnitService.isUpdatingUnitAllowed();

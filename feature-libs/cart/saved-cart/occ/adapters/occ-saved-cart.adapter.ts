@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Cart,
   CART_NORMALIZER,
@@ -18,11 +18,14 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OccSavedCartAdapter implements SavedCartAdapter {
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   load(userId: string, cartId: string): Observable<Cart> {
     return this.http

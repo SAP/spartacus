@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   AsmCustomer360Facade,
   AsmCustomer360PromotionList,
@@ -28,16 +23,19 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
   standalone: false,
 })
 export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
+  protected context = inject<AsmCustomer360SectionContext<AsmCustomer360PromotionList>>(AsmCustomer360SectionContext);
+  protected asmCustomer360Facade = inject(AsmCustomer360Facade);
+  protected activeCartFacade = inject(ActiveCartFacade);
+
   showErrorAlert$ = new BehaviorSubject<boolean>(false);
   entries$ = new BehaviorSubject<Array<AsmCustomer360Promotion>>([]);
   subscription = new Subscription();
   userId: string;
 
-  constructor(
-    protected context: AsmCustomer360SectionContext<AsmCustomer360PromotionList>,
-    protected asmCustomer360Facade: AsmCustomer360Facade,
-    protected activeCartFacade: ActiveCartFacade
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.showErrorAlert$.next(false);

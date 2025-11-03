@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Optional } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { EMPTY, Observable } from 'rxjs';
@@ -16,10 +16,13 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   standalone: false,
 })
 export class ConfiguratorCartEntryInfoComponent {
-  constructor(
-    @Optional() protected cartItemContext: CartItemContext,
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService
-  ) {}
+  protected cartItemContext = inject(CartItemContext, { optional: true });
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;
@@ -32,7 +35,9 @@ export class ConfiguratorCartEntryInfoComponent {
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
   readonly shouldShowButton$: Observable<boolean> =
-    this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext);
+    this.commonConfigUtilsService.isActiveCartContext(
+      this.cartItemContext ?? undefined
+    );
 
   /**
    * Verifies whether the configuration infos have any entries and the first entry has a status.

@@ -31,12 +31,15 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class ProductVariantSizeSelectorComponent {
+  private productService = inject(ProductService);
+  private routingService = inject(RoutingService);
+
   protected translationService = inject(TranslationService);
 
-  constructor(
-    private productService: ProductService,
-    private routingService: RoutingService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   @Input()
   product: Product;

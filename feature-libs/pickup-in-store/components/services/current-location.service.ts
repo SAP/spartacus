@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 
 /**
@@ -14,7 +14,12 @@ import { WindowRef } from '@spartacus/core';
   providedIn: 'root',
 })
 export class CurrentLocationService {
-  constructor(protected windowRef: WindowRef) {
+  protected windowRef = inject(WindowRef);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     // Intentional empty constructor
   }
 

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { User } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
@@ -22,15 +22,18 @@ import { UserChangePasswordFormService } from './user-change-password-form.servi
   standalone: false,
 })
 export class UserChangePasswordFormComponent {
+  protected itemService = inject(UserItemService);
+  protected formService = inject(UserChangePasswordFormService);
+  protected messageService = inject(MessageService);
+
   form$: Observable<UntypedFormGroup | null> = this.itemService.current$.pipe(
     map((item) => this.formService.getForm(item))
   );
 
-  constructor(
-    protected itemService: UserItemService,
-    protected formService: UserChangePasswordFormService,
-    protected messageService: MessageService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   save(form: UntypedFormGroup): void {
     this.itemService.current$

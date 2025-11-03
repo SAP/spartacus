@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFormType } from '@spartacus/cart/saved-cart/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
@@ -24,6 +18,10 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
   standalone: false,
 })
 export class SavedCartDetailsActionComponent implements OnDestroy {
+  protected savedCartDetailsService = inject(SavedCartDetailsService);
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   private subscription = new Subscription();
   savedCartFormType = SavedCartFormType;
 
@@ -31,11 +29,10 @@ export class SavedCartDetailsActionComponent implements OnDestroy {
   savedCart$: Observable<Cart | undefined> =
     this.savedCartDetailsService.getCartDetails();
 
-  constructor(
-    protected savedCartDetailsService: SavedCartDetailsService,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   openDialog(cart: Cart, type: SavedCartFormType): void {
     const dialog = this.launchDialogService.openDialog(

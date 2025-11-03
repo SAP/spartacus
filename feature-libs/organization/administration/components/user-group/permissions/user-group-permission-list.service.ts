@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import {
   OrganizationItemStatus,
@@ -22,15 +22,22 @@ import { SubListService } from '../../shared/sub-list/sub-list.service';
   providedIn: 'root',
 })
 export class UserGroupPermissionListService extends SubListService<Permission> {
+  protected tableService: TableService;
+  protected userGroupService = inject(UserGroupService);
+  protected permissionService = inject(PermissionService);
+
   protected tableType = OrganizationTableType.USER_GROUP_PERMISSIONS;
   protected _domainType = OrganizationTableType.PERMISSION;
 
-  constructor(
-    protected tableService: TableService,
-    protected userGroupService: UserGroupService,
-    protected permissionService: PermissionService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const tableService = inject(TableService);
+
     super(tableService);
+  
+    this.tableService = tableService;
   }
 
   /**

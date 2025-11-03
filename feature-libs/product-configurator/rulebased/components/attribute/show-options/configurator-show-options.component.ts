@@ -16,13 +16,16 @@ import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-s
   standalone: false,
 })
 export class ConfiguratorShowOptionsComponent {
+  protected configuratorStorefrontUtilsService = inject(ConfiguratorStorefrontUtilsService);
+
   protected configuratorCommonsService = inject(ConfiguratorCommonsService);
 
   @Input() attributeComponentContext: ConfiguratorAttributeCompositionContext;
 
-  constructor(
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * fires a request to read the attribute domain,

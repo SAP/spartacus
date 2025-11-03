@@ -28,6 +28,10 @@ import { tap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class LoginFormComponentService {
+  protected auth = inject(AuthService);
+  protected globalMessage = inject(GlobalMessageService);
+  protected winRef = inject(WindowRef);
+
   protected authConfigService = inject(AuthConfigService);
   private featureConfigService = inject(FeatureConfigService);
   protected csrfStateService = inject(CsrfStateService);
@@ -63,11 +67,10 @@ export class LoginFormComponentService {
     password: new UntypedFormControl('', Validators.required),
   });
 
-  constructor(
-    protected auth: AuthService,
-    protected globalMessage: GlobalMessageService,
-    protected winRef: WindowRef
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
       this.initCustomLogin();
     }

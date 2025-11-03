@@ -32,23 +32,34 @@ export class ConfiguratorAttributeCheckBoxListComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent
   implements OnInit
 {
+  protected configUtilsService = inject(ConfiguratorStorefrontUtilsService);
+  protected quantityService: ConfiguratorAttributeQuantityService;
+  protected attributeComponentContext: ConfiguratorAttributeCompositionContext;
+  protected configuratorCommonsService: ConfiguratorCommonsService;
+
   attributeCheckBoxForms = new Array<UntypedFormControl>();
 
   group: string;
 
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected configUtilsService: ConfiguratorStorefrontUtilsService,
-    protected quantityService: ConfiguratorAttributeQuantityService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const quantityService = inject(ConfiguratorAttributeQuantityService);
+    const attributeComponentContext = inject(ConfiguratorAttributeCompositionContext);
+    const configuratorCommonsService = inject(ConfiguratorCommonsService);
+
     super(
       quantityService,
       attributeComponentContext,
       configuratorCommonsService
     );
+    this.quantityService = quantityService;
+    this.attributeComponentContext = attributeComponentContext;
+    this.configuratorCommonsService = configuratorCommonsService;
+
     this.group = attributeComponentContext.group.id;
   }
 

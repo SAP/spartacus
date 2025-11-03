@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { PointOfService } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
@@ -15,10 +15,19 @@ import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-stor
   standalone: false,
 })
 export class StoreFinderStoreDescriptionComponent extends AbstractStoreItemComponent {
+  protected storeFinderService: StoreFinderService;
+
   @Input() location: PointOfService;
   @Input() disableMap: boolean;
 
-  constructor(protected storeFinderService: StoreFinderService) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const storeFinderService = inject(StoreFinderService);
+
     super(storeFinderService);
+  
+    this.storeFinderService = storeFinderService;
   }
 }

@@ -4,14 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CartConfig } from '@spartacus/cart/base/root';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartConfigService {
-  constructor(protected config: CartConfig) {}
+  protected config = inject(CartConfig);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   isSelectiveCartEnabled(): boolean {
     return Boolean(this.config?.cart?.selectiveCart?.enabled);

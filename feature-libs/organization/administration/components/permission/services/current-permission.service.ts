@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import {
   Permission,
@@ -18,11 +18,18 @@ import { CurrentItemService } from '../../shared/current-item.service';
   providedIn: 'root',
 })
 export class CurrentPermissionService extends CurrentItemService<Permission> {
-  constructor(
-    protected routingService: RoutingService,
-    protected permissionService: PermissionService
-  ) {
+  protected routingService: RoutingService;
+  protected permissionService = inject(PermissionService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const routingService = inject(RoutingService);
+
     super(routingService);
+  
+    this.routingService = routingService;
   }
 
   protected getParamKey() {

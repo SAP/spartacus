@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ComponentFactory,
-  ComponentFactoryResolver,
-  Injectable,
-  Injector,
-} from '@angular/core';
+import { ComponentFactory, ComponentFactoryResolver, Injectable, Injector, inject } from '@angular/core';
 import { MessageData } from '../message.model';
 import { NotificationMessageComponent } from '../notification/notification-message.component';
 
@@ -17,7 +12,12 @@ import { NotificationMessageComponent } from '../notification/notification-messa
   providedIn: 'root',
 })
 export class MessageRenderService {
-  constructor(protected componentFactoryResolver: ComponentFactoryResolver) {}
+  protected componentFactoryResolver = inject(ComponentFactoryResolver);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   getComponent(msg: MessageData): ComponentFactory<any> {
     return this.componentFactoryResolver.resolveComponentFactory(

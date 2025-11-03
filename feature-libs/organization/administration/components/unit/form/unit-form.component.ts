@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 import { B2BApprovalProcess, B2BUnit, isNotUndefined } from '@spartacus/core';
 import {
@@ -42,6 +37,9 @@ import { UnitItemService } from '../services/unit-item.service';
   standalone: false,
 })
 export class UnitFormComponent implements OnInit {
+  protected itemService = inject<ItemService<B2BUnit>>(ItemService);
+  protected unitService = inject(OrgUnitService);
+
   @Input() i18nRoot = 'orgUnit';
 
   @Input() createChildUnit = false;
@@ -76,10 +74,10 @@ export class UnitFormComponent implements OnInit {
       filter((items) => items.length > 0)
     );
 
-  constructor(
-    protected itemService: ItemService<B2BUnit>,
-    protected unitService: OrgUnitService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.unitService.loadList();

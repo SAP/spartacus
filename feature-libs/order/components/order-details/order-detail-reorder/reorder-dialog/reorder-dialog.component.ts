@@ -33,6 +33,10 @@ import { BehaviorSubject } from 'rxjs';
   standalone: false,
 })
 export class ReorderDialogComponent {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected reorderOrderFacade = inject(ReorderOrderFacade);
+  protected multiCartFacade = inject(MultiCartFacade);
+
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
@@ -50,11 +54,10 @@ export class ReorderDialogComponent {
   selectFocusUtility = inject(SelectFocusUtility);
   elementRef = inject(ElementRef, { optional: true });
 
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected reorderOrderFacade: ReorderOrderFacade,
-    protected multiCartFacade: MultiCartFacade
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   createCartFromOrder(orderCode: string): void {
     this.showDecisionPrompt$.next(false);

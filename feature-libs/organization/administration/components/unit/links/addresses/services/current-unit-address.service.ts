@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Address, RoutingService } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
@@ -16,6 +16,9 @@ import { CurrentItemService } from '../../../../shared/current-item.service';
   providedIn: 'root',
 })
 export class CurrentUnitAddressService extends CurrentItemService<Address> {
+  protected routingService: RoutingService;
+  protected unitService = inject(OrgUnitService);
+
   // override item$ as we need to use the unit code as well
   readonly item$: Observable<Address | undefined> = this.b2bUnit$.pipe(
     filter((unitUid) => Boolean(unitUid)),
@@ -24,11 +27,15 @@ export class CurrentUnitAddressService extends CurrentItemService<Address> {
     )
   );
 
-  constructor(
-    protected routingService: RoutingService,
-    protected unitService: OrgUnitService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const routingService = inject(RoutingService);
+
     super(routingService);
+  
+    this.routingService = routingService;
   }
 
   getDetailsRoute(): string {

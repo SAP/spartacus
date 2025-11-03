@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   DefaultRoutePageMetaResolver,
   TranslationService,
@@ -15,10 +15,14 @@ import { CurrentBudgetService } from './current-budget.service';
 
 @Injectable({ providedIn: 'root' })
 export class BudgetRoutePageMetaResolver extends DefaultRoutePageMetaResolver {
-  constructor(
-    translation: TranslationService,
-    protected currentItemService: CurrentBudgetService
-  ) {
+  protected currentItemService = inject(CurrentBudgetService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const translation = inject(TranslationService);
+
     super(translation);
   }
 

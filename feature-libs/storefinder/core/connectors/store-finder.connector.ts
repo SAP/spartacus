@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { StoreFinderAdapter } from './store-finder.adapter';
 import { GeoPoint, PointOfService, SearchConfig } from '@spartacus/core';
@@ -12,7 +12,12 @@ import { StoreCount, StoreFinderSearchPage } from '../model/store-finder.model';
 
 @Injectable({ providedIn: 'root' })
 export class StoreFinderConnector {
-  constructor(protected adapter: StoreFinderAdapter) {}
+  protected adapter = inject(StoreFinderAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   search(
     query: string,

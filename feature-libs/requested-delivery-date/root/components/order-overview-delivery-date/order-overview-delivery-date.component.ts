@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Card, OutletContextData } from '@spartacus/storefront';
@@ -18,11 +18,14 @@ import { DateValidationService } from '../shared/date-validation.service';
   standalone: false,
 })
 export class OrderOverviewDeliveryDateComponent implements OnInit, OnDestroy {
-  constructor(
-    protected dateValidationService: DateValidationService,
-    protected translation: TranslationService,
-    @Optional() protected orderOutlet?: OutletContextData
-  ) {}
+  protected dateValidationService = inject(DateValidationService);
+  protected translation = inject(TranslationService);
+  protected orderOutlet? = inject(OutletContextData, { optional: true });
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected subscription = new Subscription();
   order: Order;

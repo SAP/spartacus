@@ -5,7 +5,7 @@
  */
 
 import { HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   AuthHttpHeaderService,
   AuthRedirectService,
@@ -31,16 +31,27 @@ import { CsAgentAuthService } from './csagent-auth.service';
   providedIn: 'root',
 })
 export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
-  constructor(
-    protected authService: AuthService,
-    protected authStorageService: AuthStorageService,
-    protected csAgentAuthService: CsAgentAuthService,
-    protected oAuthLibWrapperService: OAuthLibWrapperService,
-    protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService,
-    protected occEndpointsService: OccEndpointsService,
-    protected authRedirectService: AuthRedirectService
-  ) {
+  protected authService: AuthService;
+  protected authStorageService: AuthStorageService;
+  protected csAgentAuthService = inject(CsAgentAuthService);
+  protected oAuthLibWrapperService: OAuthLibWrapperService;
+  protected routingService: RoutingService;
+  protected globalMessageService: GlobalMessageService;
+  protected occEndpointsService: OccEndpointsService;
+  protected authRedirectService: AuthRedirectService;
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const authService = inject(AuthService);
+    const authStorageService = inject(AuthStorageService);
+    const oAuthLibWrapperService = inject(OAuthLibWrapperService);
+    const routingService = inject(RoutingService);
+    const globalMessageService = inject(GlobalMessageService);
+    const occEndpointsService = inject(OccEndpointsService);
+    const authRedirectService = inject(AuthRedirectService);
+
     super(
       authService,
       authStorageService,
@@ -50,6 +61,14 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
       globalMessageService,
       authRedirectService
     );
+  
+    this.authService = authService;
+    this.authStorageService = authStorageService;
+    this.oAuthLibWrapperService = oAuthLibWrapperService;
+    this.routingService = routingService;
+    this.globalMessageService = globalMessageService;
+    this.occEndpointsService = occEndpointsService;
+    this.authRedirectService = authRedirectService;
   }
 
   /**

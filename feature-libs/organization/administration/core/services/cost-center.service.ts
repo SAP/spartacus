@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   CostCenter,
@@ -30,10 +30,13 @@ import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class CostCenterService {
-  constructor(
-    protected store: Store<StateWithOrganization>,
-    protected userIdService: UserIdService
-  ) {}
+  protected store = inject<Store<StateWithOrganization>>(Store);
+  protected userIdService = inject(UserIdService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   load(costCenterCode: string): void {
     this.userIdService.takeUserId(true).subscribe({

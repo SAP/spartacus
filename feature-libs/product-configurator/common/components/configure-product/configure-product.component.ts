@@ -30,6 +30,9 @@ import { ConfiguratorProductScope } from '../../core/model/configurator-product-
   standalone: false,
 })
 export class ConfigureProductComponent {
+  protected productListItemContext = inject(ProductListItemContext, { optional: true });
+  protected currentProductService = inject(CurrentProductService, { optional: true });
+
   nonConfigurable: Product = { configurable: false };
   product$: Observable<Product> = this.getProduct().pipe(
     //needed because also currentProductService might return null
@@ -147,8 +150,8 @@ export class ConfigureProductComponent {
     );
   }
 
-  constructor(
-    @Optional() protected productListItemContext: ProductListItemContext, // when on PLP
-    @Optional() protected currentProductService: CurrentProductService // when on PDP
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 }

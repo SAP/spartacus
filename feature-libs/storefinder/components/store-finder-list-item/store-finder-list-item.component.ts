@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { useFeatureStyles } from '@spartacus/core';
 import { StoreFinderOutlets } from '@spartacus/storefinder/root';
@@ -16,6 +16,8 @@ import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-stor
   standalone: false,
 })
 export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
+  protected storeFinderService: StoreFinderService;
+
   @Input()
   locationIndex: number | null = null;
   @Input()
@@ -29,8 +31,15 @@ export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
 
   readonly StoreFinderOutlets = StoreFinderOutlets;
 
-  constructor(protected storeFinderService: StoreFinderService) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const storeFinderService = inject(StoreFinderService);
+
     super(storeFinderService);
+    this.storeFinderService = storeFinderService;
+
     useFeatureStyles('a11yTruncatedTextStoreFinder');
   }
 

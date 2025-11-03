@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AsmBindCartFacade } from '@spartacus/asm/root';
 import { Command, CommandService } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
@@ -14,11 +14,14 @@ import { AsmConnector } from '../connectors';
 
 @Injectable()
 export class AsmBindCartService implements AsmBindCartFacade {
-  constructor(
-    protected commandService: CommandService,
-    protected asmConnector: AsmConnector,
-    protected userAccountFacade: UserAccountFacade
-  ) {}
+  protected commandService = inject(CommandService);
+  protected asmConnector = inject(AsmConnector);
+  protected userAccountFacade = inject(UserAccountFacade);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected bindCartCommand$: Command<string, unknown> =
     this.commandService.create((cartId) =>

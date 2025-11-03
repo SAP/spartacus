@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CellComponent } from '../../shared';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 import { B2BUser, B2BUserRole, B2BUserRight } from '@spartacus/core';
@@ -20,6 +20,9 @@ import {
   standalone: false,
 })
 export class UserDetailsCellComponent extends CellComponent {
+  protected b2bUserService = inject(B2BUserService);
+  protected outlet: OutletContextData<TableDataOutletContext>;
+
   b2bUserModel: B2BUser;
 
   availableRoles: string[] = this.b2bUserService
@@ -29,11 +32,15 @@ export class UserDetailsCellComponent extends CellComponent {
     .getAllRights()
     .map((right: B2BUserRight) => right.toString());
 
-  constructor(
-    protected b2bUserService: B2BUserService,
-    protected outlet: OutletContextData<TableDataOutletContext>
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const outlet = inject<OutletContextData<TableDataOutletContext>>(OutletContextData);
+
     super(outlet);
+    this.outlet = outlet;
+
     this.b2bUserModel = super.model as B2BUser;
   }
 

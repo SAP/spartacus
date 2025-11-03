@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -24,6 +24,10 @@ import { Configurator } from '../../core/model/configurator.model';
   standalone: false,
 })
 export class ConfiguratorOverviewNotificationBannerComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(ConfiguratorRouterExtractorService);
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
+
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
@@ -74,9 +78,8 @@ export class ConfiguratorOverviewNotificationBannerComponent {
 
   iconTypes = ICON_TYPE;
 
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 }

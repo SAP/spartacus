@@ -4,14 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Address } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CheckoutDeliveryAddressAdapter } from './checkout-delivery-address.adapter';
 
 @Injectable()
 export class CheckoutDeliveryAddressConnector {
-  constructor(protected adapter: CheckoutDeliveryAddressAdapter) {}
+  protected adapter = inject(CheckoutDeliveryAddressAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   public createAddress(
     userId: string,

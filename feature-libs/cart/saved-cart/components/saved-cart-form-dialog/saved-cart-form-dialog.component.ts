@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -54,6 +47,13 @@ export interface SavedCartFormDialogOptions {
   standalone: false,
 })
 export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected el = inject(ElementRef);
+  protected savedCartService = inject(SavedCartFacade);
+  protected eventService = inject(EventService);
+  protected routingService = inject(RoutingService);
+  protected globalMessageService = inject(GlobalMessageService);
+
   private subscription = new Subscription();
   savedCartFormType = SavedCartFormType;
   form: UntypedFormGroup;
@@ -91,14 +91,10 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef,
-    protected savedCartService: SavedCartFacade,
-    protected eventService: EventService,
-    protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.resetSavedCartStates();

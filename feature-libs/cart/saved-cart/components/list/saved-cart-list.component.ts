@@ -36,6 +36,11 @@ import { map, skip, take } from 'rxjs/operators';
   standalone: false,
 })
 export class SavedCartListComponent implements OnInit, OnDestroy {
+  protected routing = inject(RoutingService);
+  protected savedCartService = inject(SavedCartFacade);
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   private subscription = new Subscription();
   protected readonly siteContextService = inject(SiteContextComponentService, {
     optional: true,
@@ -58,12 +63,10 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     )
   );
 
-  constructor(
-    protected routing: RoutingService,
-    protected savedCartService: SavedCartFacade,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     useFeatureStyles('a11yHighContrastBorders');
   }
 

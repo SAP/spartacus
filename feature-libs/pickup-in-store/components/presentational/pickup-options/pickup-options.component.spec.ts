@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  Directive,
-  Input,
-  TemplateRef,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, Directive, Input, TemplateRef, ViewContainerRef, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -24,10 +18,13 @@ import { PickupOptionsTabs } from './pickup-options.model';
   standalone: false,
 })
 export class MockRevertedFeatureDirective {
-  constructor(
-    protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef
-  ) {}
+  protected templateRef = inject<TemplateRef<any>>(TemplateRef);
+  protected viewContainer = inject(ViewContainerRef);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   @Input() set cxFeature(_feature: string) {
     // ensure the deprecated DOM changes are not rendered during tests

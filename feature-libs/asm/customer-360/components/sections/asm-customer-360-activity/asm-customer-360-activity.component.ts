@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { AsmCustomer360ActivityList } from '@spartacus/asm/customer-360/root';
 import { UrlCommand } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
@@ -23,6 +23,8 @@ import { ActivityEntry, TypeCodes } from './asm-customer-360-activity.model';
   standalone: false,
 })
 export class AsmCustomer360ActivityComponent implements OnInit {
+  protected context = inject<AsmCustomer360SectionContext<AsmCustomer360ActivityList>>(AsmCustomer360SectionContext);
+
   entries$: Observable<Array<ActivityEntry>>;
   columns: Array<CustomerTableColumn> = [
     {
@@ -64,9 +66,10 @@ export class AsmCustomer360ActivityComponent implements OnInit {
     },
   ];
 
-  constructor(
-    protected context: AsmCustomer360SectionContext<AsmCustomer360ActivityList>
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     let entries: Array<ActivityEntry> = [];

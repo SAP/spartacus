@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   B2BUser,
   B2BUserRole,
@@ -38,13 +38,20 @@ export interface UserModel {
   providedIn: 'root',
 })
 export class UserListService extends ListService<UserModel> {
+  protected tableService: TableService;
+  protected userService = inject(B2BUserService);
+
   protected tableType = OrganizationTableType.USER;
 
-  constructor(
-    protected tableService: TableService,
-    protected userService: B2BUserService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const tableService = inject(TableService);
+
     super(tableService);
+  
+    this.tableService = tableService;
   }
 
   key(): string {
