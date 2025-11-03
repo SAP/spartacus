@@ -28,7 +28,6 @@ import { By } from '@angular/platform-browser';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-and-conditions-alert';
 import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
-import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 
 @Component({
   template: '',
@@ -106,7 +105,6 @@ describe('OpfCheckoutPaymentsComponent', () => {
   let globalMessageService: GlobalMessageService;
   let opfMetadataStoreServiceMock: jasmine.SpyObj<OpfMetadataStoreService>;
   let el: DebugElement;
-  let mockBillingAddressFormService: Partial<OpfCheckoutBillingAddressFormService>;
 
   beforeEach(async () => {
     opfMetadataStoreServiceMock = jasmine.createSpyObj(
@@ -117,10 +115,6 @@ describe('OpfCheckoutPaymentsComponent', () => {
     opfMetadataStoreServiceMock.getOpfMetadataState.and.returnValue(
       of(mockOpfMetadata)
     );
-    mockBillingAddressFormService = {
-      paymentOptionsDisabled$: of(false),
-    };
-
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule, OpfCheckoutTermsAndConditionsAlertModule],
       declarations: [
@@ -137,10 +131,6 @@ describe('OpfCheckoutPaymentsComponent', () => {
         {
           provide: OpfMetadataStoreService,
           useValue: opfMetadataStoreServiceMock,
-        },
-        {
-          provide: OpfCheckoutBillingAddressFormService,
-          useValue: mockBillingAddressFormService,
         },
       ],
     }).compileComponents();

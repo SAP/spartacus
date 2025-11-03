@@ -8,7 +8,7 @@
       } as addressData"
     >
       <div class="form-group">
-        <div class="form-check" *ngIf="cart?.deliveryItemsQuantity">
+        <div class="form-check">
           <label>
             <input
               type="checkbox"
@@ -50,13 +50,9 @@
           [showTitleCode]="true"
           [showCancelBtn]="true"
           actionBtnLabel="{{ 'common.save' | cxTranslate }}"
-          [cancelBtnLabel]="
-            (service.paymentOptionsDisabled$ | async)
-              ? ('common.back' | cxTranslate)
-              : ('common.cancel' | cxTranslate)
-          "
+          cancelBtnLabel="{{ 'common.cancel' | cxTranslate }}"
           (submitAddress)="onSubmitAddress($event)"
-          (backToAddress)="onBackToAddress()"
+          (backToAddress)="cancelAndHideForm()"
           [setAsDefaultField]="false"
           [countries]="countries$"
         ></cx-address-form>

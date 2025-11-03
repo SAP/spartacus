@@ -108,15 +108,6 @@ export class UserAddressService {
   }
 
   /**
-   * Returns the default address
-   */
-  getDefaultAddress(): Observable<Address | undefined> {
-    return this.getAddresses().pipe(
-      map((addresses) => addresses?.find((address) => address.defaultAddress))
-    );
-  }
-
-  /**
    * Returns addresses
    */
   getAddresses(): Observable<Address[]> {

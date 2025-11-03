@@ -15,10 +15,8 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
-import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import { CmsService, Page } from '@spartacus/core';
 import {
   OpfBaseFacade,
@@ -42,8 +40,6 @@ export class OpfCheckoutPaymentAndReviewComponent
   protected cmsService = inject(CmsService);
   protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
   protected opfBaseFacade = inject(OpfBaseFacade);
-  protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
-  protected activeCartFacade = inject(ActiveCartFacade);
 
   protected defaultTermsAndConditionsFieldValue = false;
 
@@ -104,20 +100,7 @@ export class OpfCheckoutPaymentAndReviewComponent
     this.selectedPaymentProviderName$.next(providerName);
   }
 
-  setPickupDeliveryMode(): void {
-    this.activeCartFacade
-      .hasDeliveryItems()
-      .pipe(take(1))
-      .subscribe((hasDeliveryItems) => {
-        if (!hasDeliveryItems) {
-          this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress();
-          this.checkoutDeliveryModesFacade.setDeliveryMode('pickup');
-        }
-      });
-  }
-
   ngOnInit() {
     this.updateTermsAndConditionsState();
-    this.setPickupDeliveryMode();
   }
 }

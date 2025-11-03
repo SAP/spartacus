@@ -5,25 +5,15 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  Address,
-  Country,
-  BaseSiteService,
-  UserAddressAdapter,
-} from '@spartacus/core';
-import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
+import { Address, Country } from '@spartacus/core';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-address-form.component';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
-import { Store } from '@ngrx/store';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import { ActivatedRoute } from '@angular/router';
 
 class Service {
   billingAddress$ = new BehaviorSubject<Address | undefined>(undefined);
   isLoadingAddress$ = new BehaviorSubject<boolean>(false);
   isSameAsDelivery$ = new BehaviorSubject<boolean>(true);
-  pickupNoDefaultAddress$ = new Subject<void>();
 
   getCountries(): Observable<Country[]> {
     return EMPTY;
@@ -48,7 +38,6 @@ class Service {
   setIsSameAsDeliveryValue(value: boolean): void {
     this.isSameAsDelivery$.next(value);
   }
-  setDefaultBillingAddress(): void {}
 }
 
 @Pipe({
@@ -72,17 +61,6 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
           provide: OpfCheckoutBillingAddressFormService,
           useClass: Service,
         },
-        {
-          provide: ActiveCartFacade,
-          useValue: {
-            getActive: () => of({ code: '123', totalItems: 2 }),
-          },
-        },
-        { provide: Store, useValue: {} },
-        { provide: UserAddressAdapter, useValue: {} },
-        { provide: CheckoutStepService, useValue: {} },
-        { provide: BaseSiteService, useValue: {} },
-        { provide: ActivatedRoute, useValue: { params: of({}) } },
       ],
     }).compileComponents();
 
@@ -100,14 +78,12 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
     const countries = [{ id: '1', name: 'Country 1' }];
     spyOn(service, 'getCountries').and.returnValue(of(countries));
     spyOn(service, 'getAddresses');
-    spyOn(service, 'setDefaultBillingAddress');
 
     component.ngOnInit();
 
     expect(component.countries$).toBeDefined();
     expect(service.getCountries).toHaveBeenCalled();
     expect(service.getAddresses).toHaveBeenCalled();
-    expect(service.setDefaultBillingAddress).toHaveBeenCalled();
   });
 
   it('should cancel and hide form on cancelAndHideForm', () => {

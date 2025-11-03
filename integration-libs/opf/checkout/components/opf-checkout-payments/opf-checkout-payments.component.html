@@ -31,21 +31,12 @@
                   class="form-check-input"
                   role="radio"
                   type="radio"
-                  [attr.aria-checked]="
-                    (paymentDisabled$ | async) &&
-                    configuration.id === selectedPaymentId
-                  "
+                  [attr.aria-checked]="configuration.id === selectedPaymentId"
                   (change)="changePayment(configuration)"
                   [value]="configuration.id"
-                  [checked]="
-                    !(paymentDisabled$ | async) &&
-                    configuration.id === selectedPaymentId
-                  "
+                  [checked]="configuration.id === selectedPaymentId"
                   formControlName="paymentId"
-                  [disabled]="
-                    (paymentDisabled$ | async) ||
-                    (disabled && explicitTermsAndConditions)
-                  "
+                  [disabled]="disabled && explicitTermsAndConditions"
                 />
                 <label
                   class="cx-payment-type-label form-check-label form-radio-label"
@@ -64,9 +55,7 @@
               </div>
             </ng-container>
           </ng-container>
-          <ng-container
-            *ngIf="!renderPaymentWrapper && !(paymentDisabled$ | async)"
-          >
+          <ng-container *ngIf="!renderPaymentWrapper">
             <div class="cx-payment-info-box">
               <span class="alert-icon" aria-hidden="true">
                 <cx-icon [type]="iconTypes.INFO"></cx-icon>
@@ -81,9 +70,7 @@
               </p>
             </div>
           </ng-container>
-          <ng-container
-            *ngIf="renderPaymentWrapper && !(paymentDisabled$ | async)"
-          >
+          <ng-container *ngIf="renderPaymentWrapper">
             <ng-container *ngIf="isPaymentInfoMessageVisible">
               <ng-container
                 *ngIf="

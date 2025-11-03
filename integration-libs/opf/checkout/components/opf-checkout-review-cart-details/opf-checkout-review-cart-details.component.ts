@@ -10,7 +10,6 @@ import {
   CartOutlets,
   Cart,
 } from '@spartacus/cart/base/root';
-import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 
 @Component({
   selector: 'cx-opf-checkout-review-cart-details',
@@ -18,11 +17,12 @@ import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/componen
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class OpfCheckoutReviewCartDetailsComponent extends CheckoutReviewSubmitComponent {
+export class OpfCheckoutReviewCartDetailsComponent {
   @Input() cart: Cart | null;
 
   @Input() entries: any[] | null;
-  @Input() isAddressCardVisible = false;
+
   readonly promotionLocation: PromotionLocation = PromotionLocation.Checkout;
+
   cartOutlets = CartOutlets;
 }
