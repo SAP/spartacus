@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
   AuthService,
@@ -20,13 +20,24 @@ export class CdcLoginFormComponentService
   extends LoginFormComponentService
   implements OnDestroy
 {
-  constructor(
-    protected auth: AuthService,
-    protected globalMessageService: GlobalMessageService,
-    protected winRef: WindowRef,
-    protected cdcJsService: CdcJsService
-  ) {
+  protected auth: AuthService;
+  protected globalMessageService: GlobalMessageService;
+  protected winRef: WindowRef;
+  protected cdcJsService = inject(CdcJsService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const auth = inject(AuthService);
+    const globalMessageService = inject(GlobalMessageService);
+    const winRef = inject(WindowRef);
+
     super(auth, globalMessageService, winRef);
+  
+    this.auth = auth;
+    this.globalMessageService = globalMessageService;
+    this.winRef = winRef;
   }
 
   protected subscription: Subscription = new Subscription();

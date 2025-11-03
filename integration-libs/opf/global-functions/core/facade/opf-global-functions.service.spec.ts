@@ -3,13 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  ComponentRef,
-  ElementRef,
-  InjectionToken,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, ComponentRef, ElementRef, InjectionToken, ViewContainerRef, inject as inject_1 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { defaultOpfErrorDialogOptions } from '@spartacus/opf/base/root';
@@ -26,7 +20,12 @@ export const WINDOW = new InjectionToken<Window>('window');
   standalone: false,
 })
 class TestContainerComponent {
-  constructor(public vcr: ViewContainerRef) {}
+  vcr = inject_1(ViewContainerRef);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 }
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: any) {}

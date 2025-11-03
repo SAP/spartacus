@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   CartAddEntrySuccessEvent,
@@ -69,6 +69,10 @@ import {
   providedIn: 'root',
 })
 export class ProfileTagPushEventsService {
+  protected eventService = inject(EventService);
+  protected personalizationContextService = inject(PersonalizationContextService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+
   private pushEvents$: Observable<ProfileTagPushEvent> = merge(
     this.categoryPageVisited(),
     this.productDetailsPageView(),
@@ -83,11 +87,10 @@ export class ProfileTagPushEventsService {
     this.cartChangedEvent()
   );
 
-  constructor(
-    protected eventService: EventService,
-    protected personalizationContextService: PersonalizationContextService,
-    protected activeCartFacade: ActiveCartFacade
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Returns a push event emitting observable that emits all converted events emitted by the event or the active cart service.

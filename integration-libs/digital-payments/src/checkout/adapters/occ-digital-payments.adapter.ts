@@ -24,14 +24,17 @@ import { DigitalPaymentsConfig } from './config';
 
 @Injectable()
 export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
   private readonly paramEncoder = new HttpParamsURIEncoder();
   protected config = inject(DigitalPaymentsConfig);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   createPaymentRequest(
     userId: string,

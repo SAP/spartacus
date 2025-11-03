@@ -4,19 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Directive,
-  ElementRef,
-  Input,
-  OnChanges,
-  Renderer2,
-} from '@angular/core';
+import { Directive, ElementRef, Input, OnChanges, Renderer2, inject } from '@angular/core';
 
 @Directive({
   selector: '[cxAttributes]',
   standalone: false,
 })
 export class AttributesDirective implements OnChanges {
+  private renderer = inject(Renderer2);
+  private elementRef = inject(ElementRef);
+
   @Input() cxAttributes: { [attribute: string]: any };
 
   private _attributesNamePrefix: string;
@@ -24,10 +21,10 @@ export class AttributesDirective implements OnChanges {
     this._attributesNamePrefix = attributesNamePrefix;
   }
 
-  constructor(
-    private renderer: Renderer2,
-    private elementRef: ElementRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnChanges(): void {
     if (this.cxAttributes) {

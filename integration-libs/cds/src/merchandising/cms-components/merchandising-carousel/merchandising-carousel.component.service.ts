@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ProductService, ProductScope } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
@@ -34,12 +34,15 @@ const DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD = 80;
   providedIn: 'root',
 })
 export class MerchandisingCarouselComponentService {
-  constructor(
-    protected cdsMerchandisingProductService: CdsMerchandisingProductService,
-    protected productService: ProductService,
-    protected profileTagEventService: ProfileTagEventService,
-    protected cdsConfig: CdsConfig
-  ) {}
+  protected cdsMerchandisingProductService = inject(CdsMerchandisingProductService);
+  protected productService = inject(ProductService);
+  protected profileTagEventService = inject(ProfileTagEventService);
+  protected cdsConfig = inject(CdsConfig);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   getMerchandisingCaourselViewportThreshold(
     cmsComponent: CmsMerchandisingCarouselComponent

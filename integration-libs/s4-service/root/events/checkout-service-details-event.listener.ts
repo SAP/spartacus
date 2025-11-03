@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CheckoutServiceDetailsSetEvent } from './checkout-service-details.events';
@@ -14,9 +14,14 @@ import { CheckoutQueryResetEvent } from '@spartacus/checkout/base/root';
   providedIn: 'root',
 })
 export class CheckoutServiceDetailsEventListener implements OnDestroy {
+  protected eventService = inject(EventService);
+
   protected subscriptions = new Subscription();
 
-  constructor(protected eventService: EventService) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.onServiceDetailsSet();
   }
 

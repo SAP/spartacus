@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
 import { EMPTY, Observable, using } from 'rxjs';
@@ -29,15 +29,18 @@ import { MerchandisingCarouselModel } from './model/index';
   standalone: false,
 })
 export class MerchandisingCarouselComponent {
+  protected componentData = inject<CmsComponentData<model>>(CmsComponentData);
+  protected merchandisingCarouselComponentService = inject(MerchandisingCarouselComponentService);
+  protected routingService = inject(RoutingService);
+  protected intersectionService = inject(IntersectionService);
+  protected el = inject(ElementRef);
+
   protected lastEventModelId: string;
 
-  constructor(
-    protected componentData: CmsComponentData<model>,
-    protected merchandisingCarouselComponentService: MerchandisingCarouselComponentService,
-    protected routingService: RoutingService,
-    protected intersectionService: IntersectionService,
-    protected el: ElementRef
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.lastEventModelId = '';
   }
 

@@ -11,7 +11,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { DpCheckoutPaymentService } from '../../../facade';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, inject } from '@angular/core';
 
 @Component({
   selector: 'cx-dp-payment-form',
@@ -19,15 +19,18 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   standalone: false,
 })
 export class DpPaymentFormComponent implements OnInit {
+  private dpPaymentService = inject(DpCheckoutPaymentService);
+  private dpStorageService = inject(DpLocalStorageService);
+  private globalMsgService = inject(GlobalMessageService);
+  private winRef = inject(WindowRef);
+
   @Output()
   closeForm = new EventEmitter<any>();
 
-  constructor(
-    private dpPaymentService: DpCheckoutPaymentService,
-    private dpStorageService: DpLocalStorageService,
-    private globalMsgService: GlobalMessageService,
-    private winRef: WindowRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.dpPaymentService

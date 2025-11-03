@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Optional, OnDestroy, OnInit, Inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 
-import { Observable, Subscription } from 'rxjs';
-import { CpqQuoteService } from '../../cpq-qute.service';
 import { CpqDiscounts } from '@spartacus/cpq-quote/root';
+import { EMPTY, Observable, Subscription } from 'rxjs';
+import { CpqQuoteService } from '../../cpq-qute.service';
 interface ExtendedOrderEntry extends OrderEntry {
   cpqDiscounts?: CpqDiscounts[];
 }
@@ -20,17 +20,20 @@ interface ExtendedOrderEntry extends OrderEntry {
   standalone: false,
 })
 export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
+  protected cartItemContext = inject<CartItemContext>(CartItemContext, {
+    optional: true,
+  });
+  private cpqQuoteService = inject(CpqQuoteService);
+
   quoteDiscountData: ExtendedOrderEntry | null;
   private subscription: Subscription;
   readonly orderEntry$: Observable<ExtendedOrderEntry> =
-    this.cartItemContext?.item$;
+    this.cartItemContext?.item$ ?? EMPTY;
   isFlagQuote = true;
-  constructor(
-    @Optional()
-    @Inject(CartItemContext)
-    protected cartItemContext: CartItemContext,
-    private cpqQuoteService: CpqQuoteService
-  ) {
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {
     this.subscription = this.cpqQuoteService.isFlag$.subscribe((isFlag) => {
       this.isFlagQuote = isFlag;
     });

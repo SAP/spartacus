@@ -32,6 +32,10 @@ import { CdcReconsentComponentService } from './cdc-reconsent-component.service'
   standalone: false,
 })
 export class CdcReconsentComponent implements OnInit, OnDestroy {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected anonymousConsentsService = inject(AnonymousConsentsService);
+  protected cdcReconsentService = inject(CdcReconsentComponentService);
+
   protected subscription = new Subscription();
   protected cdcConsentManagementComponentService = inject(
     CdcConsentManagementComponentService
@@ -57,11 +61,10 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
     focusOnEscape: true,
   };
 
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected anonymousConsentsService: AnonymousConsentsService,
-    protected cdcReconsentService: CdcReconsentComponentService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.subscription.add(

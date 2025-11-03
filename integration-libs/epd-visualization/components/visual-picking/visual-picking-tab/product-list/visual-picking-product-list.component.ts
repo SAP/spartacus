@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, Output, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
 import { VisualPickingProductListService } from './visual-picking-product-list.service';
@@ -26,9 +20,12 @@ import { VisualPickingProductListService } from './visual-picking-product-list.s
   standalone: false,
 })
 export class VisualPickingProductListComponent implements OnInit {
-  constructor(
-    protected visualPickingProductListService: VisualPickingProductListService
-  ) {}
+  protected visualPickingProductListService = inject(VisualPickingProductListService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   @Input() title: string;
   @Input() singleSelection = true;

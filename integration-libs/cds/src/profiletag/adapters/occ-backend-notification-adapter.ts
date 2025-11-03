@@ -5,7 +5,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { OccEndpointsService } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -13,10 +13,13 @@ import { CdsBackendNotificationAdapter } from './cds-backend-notification-adapte
 
 @Injectable()
 export class OccBackendNotification implements CdsBackendNotificationAdapter {
-  constructor(
-    private http: HttpClient,
-    private occEndpoints: OccEndpointsService
-  ) {}
+  private http = inject(HttpClient);
+  private occEndpoints = inject(OccEndpointsService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
   notifySuccessfulLogin(): Observable<void> {
     return this.http
       .post<{}>(

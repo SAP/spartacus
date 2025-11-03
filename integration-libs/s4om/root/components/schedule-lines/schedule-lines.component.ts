@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Optional } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { CxDatePipe, TranslationService } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
@@ -16,11 +16,14 @@ import { EMPTY, Observable } from 'rxjs';
   standalone: false,
 })
 export class ScheduleLinesComponent {
-  constructor(
-    @Optional() protected cartItemContext: CartItemContext,
-    protected translationService: TranslationService,
-    protected datePipe: CxDatePipe
-  ) {}
+  protected cartItemContext = inject(CartItemContext, { optional: true });
+  protected translationService = inject(TranslationService);
+  protected datePipe = inject(CxDatePipe);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;

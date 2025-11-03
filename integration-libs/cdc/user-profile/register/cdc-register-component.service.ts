@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   UntypedFormArray,
   UntypedFormBuilder,
@@ -41,6 +41,19 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CDCRegisterComponentService extends RegisterComponentService {
+  protected userRegisterFacade: UserRegisterFacade;
+  protected command = inject(CommandService);
+  protected store = inject(Store);
+  protected cdcJSService = inject(CdcJsService);
+  protected globalMessageService: GlobalMessageService;
+  protected authService = inject(AuthService);
+  protected eventService = inject(EventService);
+  protected userProfileFacade = inject(UserProfileFacade);
+  protected cdcConsentManagementService = inject(CdcConsentManagementComponentService);
+  protected converter = inject(ConverterService);
+  protected fb: UntypedFormBuilder;
+  protected anonymousConsentsService = inject(AnonymousConsentsService);
+
   protected registerCommand: Command<{ user: UserSignUp }, User> =
     this.command.create(
       ({ user }) =>
@@ -65,21 +78,19 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     .isUserLoggedIn()
     .pipe(filter((loggedIn) => loggedIn));
 
-  constructor(
-    protected userRegisterFacade: UserRegisterFacade,
-    protected command: CommandService,
-    protected store: Store,
-    protected cdcJSService: CdcJsService,
-    protected globalMessageService: GlobalMessageService,
-    protected authService: AuthService,
-    protected eventService: EventService,
-    protected userProfileFacade: UserProfileFacade,
-    protected cdcConsentManagementService: CdcConsentManagementComponentService,
-    protected converter: ConverterService,
-    protected fb: UntypedFormBuilder,
-    protected anonymousConsentsService: AnonymousConsentsService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const userRegisterFacade = inject(UserRegisterFacade);
+    const globalMessageService = inject(GlobalMessageService);
+    const fb = inject(UntypedFormBuilder);
+
     super(userRegisterFacade, globalMessageService, fb);
+  
+    this.userRegisterFacade = userRegisterFacade;
+    this.globalMessageService = globalMessageService;
+    this.fb = fb;
   }
 
   /**

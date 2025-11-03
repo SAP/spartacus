@@ -25,12 +25,15 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
   providedIn: 'root',
 })
 export class DpCheckoutPaymentService {
-  constructor(
-    protected dpAdapter: DigitalPaymentsAdapter,
-    protected command: CommandService,
-    protected query: QueryService,
-    protected userIdService: UserIdService
-  ) {}
+  protected dpAdapter = inject(DigitalPaymentsAdapter);
+  protected command = inject(CommandService);
+  protected query = inject(QueryService);
+  protected userIdService = inject(UserIdService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
   protected activeCartFacade = inject(ActiveCartFacade);
 
   protected RequestUrlQuery: Query<DpPaymentRequest> = this.query.create(() => {
