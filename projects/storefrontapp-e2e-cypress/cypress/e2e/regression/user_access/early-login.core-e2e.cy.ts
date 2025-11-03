@@ -50,11 +50,6 @@ context('Early login', () => {
       it('should redirect to login page and redirect back after sign in', () => {
         cy.url().should('contain', '/login');
 
-        cy.whenJDK21(() => {
-          // Conflict with JDK21 behavior: cannot access register from auth server login page
-          cy.visit('/login/register');
-        });
-
         login.registerUserFromLoginPage();
         cy.whenJDK21(() => {
           visitLoginPage();
