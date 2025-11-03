@@ -50,4 +50,16 @@ export class RecentSearchesService {
         }
       });
   }
+
+  removePhrase(phrase: string): void {
+    const recentSearches = (this.winRef.nativeWindow as any)?.Y_TRACKING
+      ?.recentSearches;
+    if (!recentSearches || !phrase) {
+      return;
+    }
+
+    if (typeof recentSearches.removePhrase === 'function') {
+      recentSearches.removePhrase(phrase);
+    }
+  }
 }

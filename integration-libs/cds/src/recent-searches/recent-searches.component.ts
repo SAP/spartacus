@@ -12,6 +12,7 @@ import {
   Optional,
 } from '@angular/core';
 import {
+  ICON_TYPE,
   OutletContextData,
   SearchBoxComponentService,
 } from '@spartacus/storefront';
@@ -78,4 +79,13 @@ export class RecentSearchesComponent implements OnInit {
     }
     this.searchBoxComponentService.shareEvent(event);
   }
+
+  removeFromRecentSearch(phrase?: string) {
+    if (!phrase) {
+      return;
+    }
+    this.recentSearchesService.removePhrase(phrase);
+  }
+
+  protected readonly iconTypes = ICON_TYPE;
 }

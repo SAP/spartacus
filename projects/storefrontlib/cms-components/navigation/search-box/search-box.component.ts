@@ -334,7 +334,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   protected getResultElements(): HTMLElement[] {
     return Array.from(
       this.winRef.document.querySelectorAll(
-        '.products ul:not(.hidden) > li a, .suggestions ul  > li a, .recent-searches ul > li a,.trending-searches ul > li a, .carousel-panel .item.active > a, .products .carousel-panel > button:not([disabled])'
+        '.products ul:not(.hidden) > li a, .suggestions ul  > li a, .recent-searches ul > li a, .recent-searches ul > li button.close, .trending-searches ul > li a, .carousel-panel .item.active > a, .products .carousel-panel > button:not([disabled])'
       )
     );
   }
@@ -363,7 +363,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     );
     groups.push(
       Array.from(
-        this.winRef.document.querySelectorAll('.recent-searches ul > li a')
+        this.winRef.document.querySelectorAll(
+          '.recent-searches ul > li a, .recent-searches ul > li button.close'
+        )
       )
     );
 

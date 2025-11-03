@@ -13,13 +13,21 @@ import {
   SearchBoxModule,
   SearchBoxOutlets,
 } from '@spartacus/storefront';
+import { IconModule } from '@spartacus/storefront';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { RecentSearchesComponent } from './recent-searches.component';
 
 @NgModule({
   exports: [RecentSearchesComponent],
   declarations: [RecentSearchesComponent],
-  imports: [CommonModule, I18nModule, SearchBoxModule, UrlModule, RouterModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    SearchBoxModule,
+    UrlModule,
+    RouterModule,
+    IconModule,
+  ],
   providers: [
     provideOutlet({
       id: SearchBoxOutlets.RECENT_SEARCHES,

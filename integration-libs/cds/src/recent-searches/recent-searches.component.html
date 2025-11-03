@@ -33,6 +33,29 @@
             (click)="updateChosenWord(recentSearch)"
           >
           </a>
+
+          <button
+            class="close"
+            type="button"
+            [attr.aria-label]="'common.remove' | cxTranslate"
+            (mousedown)="$event.preventDefault(); $event.stopPropagation()"
+            (keydown.arrowup)="shareEvent($any($event))"
+            (keydown.arrowdown)="shareEvent($any($event))"
+            (keydown.arrowleft)="shareEvent($any($event))"
+            (keydown.arrowright)="shareEvent($any($event))"
+            (keydown.enter)="shareEvent($any($event))"
+            (keydown.escape)="shareEvent($any($event))"
+            (blur)="shareEvent($any($event))"
+            (click)="
+              $event.stopPropagation();
+              $event.preventDefault();
+              removeFromRecentSearch(recentSearch)
+            "
+          >
+            <span aria-hidden="true">
+              <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+            </span>
+          </button>
         </li>
       </ul>
     </div>

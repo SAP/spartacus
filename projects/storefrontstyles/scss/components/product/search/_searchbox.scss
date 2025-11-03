@@ -618,9 +618,13 @@
         ul {
           border-top: none;
           li {
+            display: flex;
             padding: 0 40px 0 0;
             @include media-breakpoint-down(sm) {
               padding: 0;
+            }
+            .close {
+              font-size: 16px;
             }
           }
         }
