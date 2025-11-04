@@ -16,7 +16,7 @@ import {
 import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 import { FeatureToggles } from '../../../features-config/feature-toggles';
 import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
-import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
+import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { WindowRef } from '../../../window';
 import { CrossSiteRequestForgeryService } from '../../client-auth';
@@ -162,6 +162,31 @@ export class AuthService {
   getCsrfToken() {
     return this.csrfToken$;
   }
+
+
+  loginWithToken(token: any): void {
+      this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
+
+      this.authStorageService.setItem('access_token', token.access_token);
+
+      this.authStorageService.setItem('access_token_stored_at', '' + Date.now());
+      this.authStorageService.setToken(token);
+
+      if (token.expires_in) {
+        const expiresInMilliseconds = token.expires_in * 1000;
+        const now = new Date();
+        const expiresAt = now.getTime() + expiresInMilliseconds;
+        this.authStorageService.setItem('expires_at', '' + expiresAt);
+      }
+
+      if (token.refresh_token) {
+        this.authStorageService.setItem('refresh_token', token.refresh_token)
+      }
+
+      this.store.dispatch(new AuthActions.Login());
+
+      this.authRedirectService.redirect();
+    }
 
   /**
    * Loads a new user token with otp tokenCode and otp tokenId.

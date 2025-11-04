@@ -358,7 +358,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   }
 
   loginCustomerSupportAgentWithAuthorizationCodeFlow(): void {
-    this.csAgentAuthService.authorizeCustomerSupportAgentWhenUseCodeFlow();
+    this.csAgentAuthService.authorizeCustomerSupportAgentWhenUseToken();
+    window.location.href = 'https://localhost:9002/samlsinglesignon/saml/login';
   }
 
   logout(): void {
