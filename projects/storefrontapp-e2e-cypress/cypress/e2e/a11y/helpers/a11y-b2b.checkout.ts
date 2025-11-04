@@ -4,15 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { getSampleUser } from '../../../sample-data/checkout-flow';
-import { login } from '../../../support/utils/login';
-import { myCompanyAdminUser } from '../../../sample-data/shared-users';
-import { addB2bUser, setB2bPassword } from '../../../helpers/b2b/b2b-checkout';
+import {
+  addB2bUser,
+  interceptCostCenterEndpoint,
+  setB2bPassword,
+} from '../../../helpers/b2b/b2b-checkout';
 import {
   b2bUser,
   POWERTOOLS_BASESITE,
   products,
 } from '../../../sample-data/b2b-checkout';
+import { getSampleUser } from '../../../sample-data/checkout-flow';
+import { myCompanyAdminUser } from '../../../sample-data/shared-users';
+import { login } from '../../../support/utils/login';
 
 export function loginB2bUser() {
   let adminToken;
@@ -41,6 +45,7 @@ export function navigateToReviewOrderPage(productCode = products[0].code) {
 
   cy.get('button').contains(' Add to cart ').click();
   cy.get('button').contains(' proceed to checkout ').click();
+  interceptCostCenterEndpoint();
   cy.get('cx-payment-type').within(() => {
     cy.findByText('Account').click();
   });
