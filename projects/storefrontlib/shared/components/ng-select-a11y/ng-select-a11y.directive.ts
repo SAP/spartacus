@@ -19,7 +19,10 @@ import {
   Renderer2,
   SecurityContext,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  outputToObservable,
+  takeUntilDestroyed,
+} from '@angular/core/rxjs-interop';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { FeatureConfigService, TranslationService } from '@spartacus/core';
@@ -101,8 +104,12 @@ export class NgSelectA11yDirective implements AfterViewInit {
       this.customizeNgSelectAriaLabelDropdown();
     }
 
-    const isOpened$ = this.selectComponent.openEvent.pipe(map(() => 'true'));
-    const isClosed$ = this.selectComponent.closeEvent.pipe(map(() => 'false'));
+    const isOpened$ = outputToObservable(this.selectComponent.openEvent).pipe(
+      map(() => 'true')
+    );
+    const isClosed$ = outputToObservable(this.selectComponent.closeEvent).pipe(
+      map(() => 'false')
+    );
     merge(isOpened$, isClosed$)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((state) => {
