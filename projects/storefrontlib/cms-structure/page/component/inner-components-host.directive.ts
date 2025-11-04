@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Directive,
-  Injector,
-  OnDestroy,
-  OnInit,
-  Renderer2,
-  ViewContainerRef,
-} from '@angular/core';
+import { Directive, Injector, OnDestroy, OnInit, Renderer2, ViewContainerRef, inject } from '@angular/core';
 import {
   CmsComponent,
   DynamicAttributeService,
@@ -30,6 +23,16 @@ import { ComponentHandlerService } from './services/component-handler.service';
   standalone: false,
 })
 export class InnerComponentsHostDirective implements OnInit, OnDestroy {
+  protected data = inject<CmsComponentData<CmsComponent>>(CmsComponentData);
+  protected vcr = inject(ViewContainerRef);
+  protected cmsComponentsService = inject(CmsComponentsService);
+  protected injector = inject(Injector);
+  protected dynamicAttributeService = inject(DynamicAttributeService);
+  protected renderer = inject(Renderer2);
+  protected componentHandler = inject(ComponentHandlerService);
+  protected cmsInjector = inject(CmsInjectorService);
+  protected eventService = inject(EventService);
+
   protected innerComponents$ = this.data.data$.pipe(
     map((data) => data?.composition?.inner ?? []),
     distinctUntilChanged()
@@ -38,18 +41,10 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
   protected componentWrappers: any[] = [];
   protected subscription?: Subscription;
 
-  constructor(
-    protected data: CmsComponentData<CmsComponent>,
-    protected vcr: ViewContainerRef,
-    // dependencies required for ComponentWrapper directive
-    protected cmsComponentsService: CmsComponentsService,
-    protected injector: Injector,
-    protected dynamicAttributeService: DynamicAttributeService,
-    protected renderer: Renderer2,
-    protected componentHandler: ComponentHandlerService,
-    protected cmsInjector: CmsInjectorService,
-    protected eventService: EventService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.subscription = this.innerComponents$.subscribe((x) => {

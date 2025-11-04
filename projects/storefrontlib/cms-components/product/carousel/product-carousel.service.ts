@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   isNotUndefined,
   Product,
@@ -19,10 +19,13 @@ import { ProductCarouselItem } from './product-carousel.model';
   providedIn: 'root',
 })
 export class ProductCarouselService {
-  constructor(
-    protected productService: ProductService,
-    protected semanticPathService: SemanticPathService
-  ) {}
+  protected productService = inject(ProductService);
+  protected semanticPathService = inject(SemanticPathService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Loads the product data and converts it `CarouselItem`.

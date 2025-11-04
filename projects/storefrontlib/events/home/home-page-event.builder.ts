@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { createFrom, EventService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -15,7 +15,12 @@ import { HomePageEvent } from './home-page.events';
   providedIn: 'root',
 })
 export class HomePageEventBuilder {
-  constructor(protected eventService: EventService) {
+  protected eventService = inject(EventService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.register();
   }
 

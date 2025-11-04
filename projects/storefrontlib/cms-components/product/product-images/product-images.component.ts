@@ -4,11 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  TrackByFunction,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, TrackByFunction, inject } from '@angular/core';
 import {
   ImageGroup,
   Product,
@@ -26,6 +22,8 @@ import { CurrentProductService } from '../current-product.service';
   standalone: false,
 })
 export class ProductImagesComponent {
+  protected currentProductService = inject(CurrentProductService);
+
   protected mainMediaContainer = new BehaviorSubject<any>(null);
 
   protected product$: Observable<Product> = this.currentProductService
@@ -47,7 +45,10 @@ export class ProductImagesComponent {
     this.mainMediaContainer,
   ]).pipe(map(([, container]) => container));
 
-  constructor(protected currentProductService: CurrentProductService) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     useFeatureStyles('a11yDifferentiateFocusedAndSelected');
     useFeatureStyles('reserveSpaceForImagesOnPdpAndPlp');
     useFeatureStyles('productCarouselScrolling');

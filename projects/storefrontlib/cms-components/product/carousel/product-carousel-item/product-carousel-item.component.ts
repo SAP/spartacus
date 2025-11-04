@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { Product } from '@spartacus/core';
 import {
   ProductListItemContext,
@@ -31,6 +25,8 @@ import {
   standalone: false,
 })
 export class ProductCarouselItemComponent implements OnChanges {
+  protected productListItemContextSource = inject(ProductListItemContextSource);
+
   /**
    * The product item to be displayed in the carousel.
    */
@@ -41,9 +37,10 @@ export class ProductCarouselItemComponent implements OnChanges {
    */
   @Input() itemIndex: number;
 
-  constructor(
-    protected productListItemContextSource: ProductListItemContextSource
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.item) {

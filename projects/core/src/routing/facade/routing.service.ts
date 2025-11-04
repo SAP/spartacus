@@ -5,7 +5,7 @@
  */
 
 import { Location } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   NavigationBehaviorOptions,
   NavigationExtras,
@@ -26,14 +26,17 @@ import { RoutingParamsService } from './routing-params.service';
   providedIn: 'root',
 })
 export class RoutingService {
-  constructor(
-    protected store: Store<RouterState>,
-    protected winRef: WindowRef,
-    protected semanticPathService: SemanticPathService,
-    protected routingParamsService: RoutingParamsService,
-    protected router: Router,
-    protected location: Location
-  ) {}
+  protected store = inject<Store<RouterState>>(Store);
+  protected winRef = inject(WindowRef);
+  protected semanticPathService = inject(SemanticPathService);
+  protected routingParamsService = inject(RoutingParamsService);
+  protected router = inject(Router);
+  protected location = inject(Location);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Get the list of all parameters of the full route. This includes

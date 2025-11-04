@@ -5,19 +5,28 @@
  */
 
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable, RendererFactory2 } from '@angular/core';
+import { Injectable, RendererFactory2, inject } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { LaunchRoute, LAUNCH_CALLER } from '../config/index';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class RoutingRenderStrategy extends LaunchRenderStrategy {
-  constructor(
-    @Inject(DOCUMENT) protected document: any,
-    protected rendererFactory: RendererFactory2,
-    protected routingService: RoutingService
-  ) {
+  protected document: any;
+  protected rendererFactory: RendererFactory2;
+  protected routingService = inject(RoutingService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const document = inject(DOCUMENT);
+    const rendererFactory = inject(RendererFactory2);
+
     super(document, rendererFactory);
+  
+    this.document = document;
+    this.rendererFactory = rendererFactory;
   }
   /**
    * Navigates to the route configured for the caller

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -15,7 +15,12 @@ import { CsvFileValidationErrors } from './csv-file-validation-errors';
   providedIn: 'root',
 })
 export class ImportCsvFileService {
-  constructor(protected fileReaderService: FileReaderService) {}
+  protected fileReaderService = inject(FileReaderService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
   /**
    * Load CSV file.
    *

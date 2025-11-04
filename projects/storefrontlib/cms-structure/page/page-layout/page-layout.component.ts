@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { PageLayoutService } from './page-layout.service';
@@ -17,6 +17,8 @@ import { useFeatureStyles } from '@spartacus/core';
   standalone: false,
 })
 export class PageLayoutComponent {
+  protected pageLayoutService = inject(PageLayoutService);
+
   @Input() set section(value: string) {
     this.section$.next(value);
   }
@@ -41,7 +43,10 @@ export class PageLayoutComponent {
       distinctUntilChanged()
     );
 
-  constructor(protected pageLayoutService: PageLayoutService) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     useFeatureStyles('disableCxPageSlotMarginAnimation');
   }
 }

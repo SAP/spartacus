@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, Optional } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import type { InitOptions } from 'i18next';
 import { resolveApplicable } from '../../../util';
 import { I18nextBackendInitializer } from './i18next-backend.initializer';
@@ -19,11 +19,14 @@ import { I18nextBackendInitializer } from './i18next-backend.initializer';
  */
 @Injectable({ providedIn: 'root' })
 export class I18nextBackendService {
-  constructor(
-    @Optional()
-    @Inject(I18nextBackendInitializer)
-    protected backendInitializers: I18nextBackendInitializer[] | null
-  ) {}
+  protected backendInitializers = inject(I18nextBackendInitializer, {
+    optional: true,
+  }) as unknown as I18nextBackendInitializer[] | null;
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Configures an i18next backend plugin, to allow for loading translations from external resources.

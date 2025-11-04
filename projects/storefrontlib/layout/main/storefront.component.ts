@@ -40,6 +40,11 @@ import { StorefrontOutlets } from './storefront-outlets.model';
   standalone: false,
 })
 export class StorefrontComponent implements OnInit, OnDestroy {
+  private hamburgerMenuService = inject(HamburgerMenuService);
+  private routingService = inject(RoutingService);
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected keyboardFocusService = inject(KeyboardFocusService);
+
   navigateSubscription: Subscription;
   focusConfig: FocusConfig = { disableMouseFocus: true, trap: false };
   skipFocusConfig: SkipFocusConfig = {
@@ -81,12 +86,10 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     );
   }
 
-  constructor(
-    private hamburgerMenuService: HamburgerMenuService,
-    private routingService: RoutingService,
-    protected elementRef: ElementRef<HTMLElement>,
-    protected keyboardFocusService: KeyboardFocusService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     useFeatureStyles('a11yPdpGridArrangement');
     useFeatureStyles('a11yKeyboardFocusInSearchBox');
     useFeatureStyles('a11yNgSelectLayering');

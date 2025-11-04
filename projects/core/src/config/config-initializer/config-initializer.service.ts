@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Inject, Injectable, isDevMode, Optional } from '@angular/core';
+import { inject, Injectable, isDevMode } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { LoggerService } from '../../logger';
@@ -22,15 +22,18 @@ import {
   providedIn: 'root',
 })
 export class ConfigInitializerService {
+  protected config = inject(Config);
+  protected initializerGuard = inject(CONFIG_INITIALIZER_FORROOT_GUARD, {
+    optional: true,
+  });
+  protected rootConfig = inject<Config>(RootConfig);
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected config: Config,
-    @Optional()
-    @Inject(CONFIG_INITIALIZER_FORROOT_GUARD)
-    protected initializerGuard: any,
-    @Inject(RootConfig) protected rootConfig: Config
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected ongoingScopes$ = new BehaviorSubject<string[] | undefined>(
     undefined

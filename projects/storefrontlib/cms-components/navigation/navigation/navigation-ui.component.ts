@@ -4,20 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  HostListener,
-  inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  Optional,
-  Renderer2,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, HostListener, inject, Input, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import {
   FeatureConfigService,
@@ -45,6 +32,13 @@ const ARIA_EXPANDED_ATTR = 'aria-expanded';
   standalone: false,
 })
 export class NavigationUIComponent implements OnInit, OnDestroy {
+  private router = inject(Router);
+  private renderer = inject(Renderer2);
+  private elemRef = inject(ElementRef);
+  protected hamburgerMenuService = inject(HamburgerMenuService);
+  protected winRef = inject(WindowRef);
+  protected featureConfigService? = inject(FeatureConfigService, { optional: true });
+
   /**
    * The navigation node to render.
    */
@@ -100,14 +94,10 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   protected breakpointService = inject(BreakpointService);
   isDesktop$ = this.breakpointService.isUp(BREAKPOINT.lg);
 
-  constructor(
-    private router: Router,
-    private renderer: Renderer2,
-    private elemRef: ElementRef,
-    protected hamburgerMenuService: HamburgerMenuService,
-    protected winRef: WindowRef,
-    @Optional() protected featureConfigService?: FeatureConfigService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.subscriptions.add(
       this.router.events
         .pipe(filter((event) => event instanceof NavigationEnd))

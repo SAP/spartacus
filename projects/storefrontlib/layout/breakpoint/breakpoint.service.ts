@@ -5,7 +5,7 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
@@ -35,6 +35,10 @@ import {
   providedIn: 'root',
 })
 export class BreakpointService {
+  protected winRef = inject(WindowRef);
+  protected layoutConfig = inject(LayoutConfig);
+  protected platform = inject(PLATFORM_ID);
+
   private _breakpoints: BREAKPOINT[];
 
   breakpoint$: Observable<BREAKPOINT> = isPlatformBrowser(this.platform)
@@ -45,11 +49,10 @@ export class BreakpointService {
       )
     : of(this.fallbackBreakpoint);
 
-  constructor(
-    protected winRef: WindowRef,
-    protected layoutConfig: LayoutConfig,
-    @Inject(PLATFORM_ID) protected platform: any
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Returns the breakpoints for the storefront layout.

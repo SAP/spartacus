@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Pipe, PipeTransform, Renderer2 } from '@angular/core';
+import { Pipe, PipeTransform, Renderer2, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 
 /*
@@ -23,10 +23,13 @@ import { WindowRef } from '@spartacus/core';
   standalone: false,
 })
 export class SupplementHashAnchorsPipe implements PipeTransform {
-  constructor(
-    protected renderer: Renderer2,
-    protected winRef: WindowRef
-  ) {}
+  protected renderer = inject(Renderer2);
+  protected winRef = inject(WindowRef);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected getPath(anchorId: string): string {
     const currentUrlWithoutFragment = this.winRef.location.href?.replace(

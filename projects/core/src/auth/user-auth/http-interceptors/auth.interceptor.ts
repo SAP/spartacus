@@ -11,7 +11,7 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { AuthConfigService } from '../services/auth-config.service';
@@ -23,10 +23,13 @@ import { AuthHttpHeaderService } from '../services/auth-http-header.service';
  */
 @Injectable({ providedIn: 'root' })
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(
-    protected authHttpHeaderService: AuthHttpHeaderService,
-    protected authConfigService: AuthConfigService
-  ) {}
+  protected authHttpHeaderService = inject(AuthHttpHeaderService);
+  protected authConfigService = inject(AuthConfigService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   intercept(
     httpRequest: HttpRequest<any>,

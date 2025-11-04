@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SkipLink } from '../config/skip-link.config';
 import { SkipLinkService } from '../service/skip-link.service';
@@ -16,9 +16,14 @@ import { SkipLinkService } from '../service/skip-link.service';
   standalone: false,
 })
 export class SkipLinkComponent {
+  private skipLinkService = inject(SkipLinkService);
+
   skipLinks$: Observable<SkipLink[]> = this.skipLinkService.getSkipLinks();
 
-  constructor(private skipLinkService: SkipLinkService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   scrollToTarget(skipLink: SkipLink): void {
     this.skipLinkService.scrollToTarget(skipLink);

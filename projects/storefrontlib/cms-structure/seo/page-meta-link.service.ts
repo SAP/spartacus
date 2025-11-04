@@ -12,12 +12,15 @@ import { DOCUMENT } from '@angular/common';
   providedIn: 'root',
 })
 export class PageMetaLinkService {
+  protected winRef = inject(WindowRef);
+  protected rendererFactory = inject(RendererFactory2);
+
   protected document: Document = inject(DOCUMENT);
 
-  constructor(
-    protected winRef: WindowRef,
-    protected rendererFactory: RendererFactory2
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Adds a canonical link element to the document head.

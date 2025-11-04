@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ProductReference } from '../../model/product.model';
@@ -16,7 +16,12 @@ import { StateWithProduct } from '../store/product-state';
   providedIn: 'root',
 })
 export class ProductReferenceService {
-  constructor(protected store: Store<StateWithProduct>) {}
+  protected store = inject<Store<StateWithProduct>>(Store);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   loadProductReferences(
     productCode: string,

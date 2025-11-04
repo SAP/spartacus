@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  ElementRef,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { AnonymousConsentsService, useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -22,15 +17,18 @@ import { LaunchDialogService } from '../../../layout/launch-dialog/services/laun
   standalone: false,
 })
 export class AnonymousConsentOpenDialogComponent {
+  protected vcr = inject(ViewContainerRef);
+  protected anonymousConsentsService = inject(AnonymousConsentsService);
+  protected launchDialogService = inject(LaunchDialogService);
+
   @ViewChild('open') openElement: ElementRef;
   bannerVisible$: Observable<boolean> =
     this.anonymousConsentsService.isBannerVisible();
 
-  constructor(
-    protected vcr: ViewContainerRef,
-    protected anonymousConsentsService: AnonymousConsentsService,
-    protected launchDialogService: LaunchDialogService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     useFeatureStyles('a11yHideConsentButtonWhenBannerVisible');
   }
 

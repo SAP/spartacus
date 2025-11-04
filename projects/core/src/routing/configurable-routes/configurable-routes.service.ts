@@ -20,13 +20,16 @@ import { RoutingConfigService } from './routing-config.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigurableRoutesService {
+  protected injector = inject(Injector);
+  protected routingConfigService = inject(RoutingConfigService);
+  protected urlMatcherService = inject(UrlMatcherService);
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected injector: Injector,
-    protected routingConfigService: RoutingConfigService,
-    protected urlMatcherService: UrlMatcherService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected initCalled = false; // guard not to call init() more than once
 

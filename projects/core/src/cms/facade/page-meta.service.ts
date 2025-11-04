@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { defer, Observable, of } from 'rxjs';
 import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
@@ -22,12 +22,15 @@ import { CmsService } from './cms.service';
   providedIn: 'root',
 })
 export class PageMetaService {
-  constructor(
-    protected cms: CmsService,
-    protected unifiedInjector: UnifiedInjector,
-    protected pageMetaConfig: PageMetaConfig,
-    @Inject(PLATFORM_ID) protected platformId: string
-  ) {}
+  protected cms = inject(CmsService);
+  protected unifiedInjector = inject(UnifiedInjector);
+  protected pageMetaConfig = inject(PageMetaConfig);
+  protected platformId = inject(PLATFORM_ID);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected resolvers$: Observable<PageMetaResolver[]> = this.unifiedInjector
     .getMulti(PageMetaResolver)

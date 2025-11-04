@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, iif, Observable } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
@@ -20,10 +20,13 @@ import { AnonymousConsentsSelectors } from '../store/selectors/index';
 
 @Injectable({ providedIn: 'root' })
 export class AnonymousConsentsService {
-  constructor(
-    protected store: Store<StateWithAnonymousConsents>,
-    protected authService: AuthService
-  ) {}
+  protected store = inject<Store<StateWithAnonymousConsents>>(Store);
+  protected authService = inject(AuthService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Retrieves the anonymous consent templates.

@@ -30,6 +30,9 @@ import { PaginationItem, PaginationItemType } from './pagination.model';
   standalone: false,
 })
 export class PaginationComponent {
+  private paginationBuilder = inject(PaginationBuilder);
+  private activatedRoute = inject(ActivatedRoute);
+
   /** The (optional) pageRoute used for the anchor links created in the pagination   */
   @Input() pageRoute: string = '.';
 
@@ -64,10 +67,10 @@ export class PaginationComponent {
 
   translationService = inject(TranslationService);
 
-  constructor(
-    private paginationBuilder: PaginationBuilder,
-    private activatedRoute: ActivatedRoute
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected render(pagination: PaginationModel): void {
     if (!pagination) {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, mergeMap, switchMap } from 'rxjs/operators';
 import { PageRobotsMeta } from '../../cms/model/page.model';
@@ -32,6 +32,11 @@ export class SearchPageMetaResolver
   extends PageMetaResolver
   implements PageMetaResolver, PageTitleResolver, PageRobotsResolver
 {
+  protected routingService = inject(RoutingService);
+  protected productSearchService = inject(ProductSearchService);
+  protected translation = inject(TranslationService);
+  protected basePageMetaResolver = inject(BasePageMetaResolver);
+
   protected total$: Observable<number | undefined> = this.productSearchService
     .getResults()
     .pipe(
@@ -43,12 +48,10 @@ export class SearchPageMetaResolver
     .getRouterState()
     .pipe(map((state) => state.state.params['query']));
 
-  constructor(
-    protected routingService: RoutingService,
-    protected productSearchService: ProductSearchService,
-    protected translation: TranslationService,
-    protected basePageMetaResolver: BasePageMetaResolver
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     super();
     this.pageType = PageType.CONTENT_PAGE;
     this.pageTemplate = 'SearchResultsListPageTemplate';

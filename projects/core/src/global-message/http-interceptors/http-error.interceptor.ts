@@ -11,7 +11,7 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { shareReplay, tap } from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
@@ -21,7 +21,12 @@ import { HttpErrorHandler } from './handlers/http-error.handler';
 
 @Injectable({ providedIn: 'root' })
 export class HttpErrorInterceptor implements HttpInterceptor {
-  constructor(protected unifiedInjector: UnifiedInjector) {}
+  protected unifiedInjector = inject(UnifiedInjector);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected handlers$: Observable<HttpErrorHandler[]> = this.unifiedInjector
     .getMulti(HttpErrorHandler)

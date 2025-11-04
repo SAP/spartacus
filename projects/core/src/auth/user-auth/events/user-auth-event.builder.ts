@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, pairwise } from 'rxjs/operators';
 import { EventService } from '../../../event/event.service';
@@ -18,11 +18,14 @@ import { LoginEvent, LogoutEvent } from './user-auth.events';
   providedIn: 'root',
 })
 export class UserAuthEventBuilder {
-  constructor(
-    protected stateEventService: StateEventService,
-    protected eventService: EventService,
-    protected authService: AuthService
-  ) {
+  protected stateEventService = inject(StateEventService);
+  protected eventService = inject(EventService);
+  protected authService = inject(AuthService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.register();
   }
 

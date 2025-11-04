@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map, shareReplay, startWith } from 'rxjs/operators';
@@ -14,7 +14,12 @@ import { filter, map, shareReplay, startWith } from 'rxjs/operators';
  */
 @Injectable({ providedIn: 'root' })
 export class ActivatedRoutesService {
-  constructor(protected router: Router) {}
+  protected router = inject(Router);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Array of currently activated routes (from the root route to the leaf route).

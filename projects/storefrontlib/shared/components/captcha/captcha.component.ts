@@ -5,17 +5,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Injector,
-  OnDestroy,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Injector, OnDestroy, Output, ViewChild, inject } from '@angular/core';
 import { of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
@@ -29,6 +19,9 @@ import { CaptchaRenderer } from './captcha.renderer';
   standalone: false,
 })
 export class CaptchaComponent implements AfterViewInit, OnDestroy {
+  protected config = inject(CaptchaApiConfig);
+  protected injector = inject(Injector);
+
   // Emits true if user confirms captcha
   @Output() confirmed = new EventEmitter<boolean>();
 
@@ -36,10 +29,10 @@ export class CaptchaComponent implements AfterViewInit, OnDestroy {
 
   protected subscription = new Subscription();
 
-  constructor(
-    protected config: CaptchaApiConfig,
-    protected injector: Injector
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Add fields from CaptchaApiConfig. Call backend to get captcha

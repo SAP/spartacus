@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, inject } from '@angular/core';
 import { Breadcrumb } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
@@ -27,6 +22,8 @@ import { FacetService } from '../services/facet.service';
   standalone: false,
 })
 export class ActiveFacetsComponent {
+  protected facetService = inject(FacetService);
+
   @HostBinding('attr.role') role = 'group';
   @HostBinding('attr.aria-labelledby') labelledby =
     'cx-active-facets-groupName';
@@ -37,7 +34,10 @@ export class ActiveFacetsComponent {
   /** Configurable icon which is used for the active facet close button */
   @Input() closeIcon = ICON_TYPE.CLOSE;
 
-  constructor(protected facetService: FacetService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   getLinkParams(facet: Breadcrumb) {
     return this.facetService.getLinkParams(

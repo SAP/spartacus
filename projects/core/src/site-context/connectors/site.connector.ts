@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Country, CountryType, Region } from '../../model/address.model';
 import { BaseSite, Currency, Language } from '../../model/misc.model';
@@ -14,7 +14,12 @@ import { SiteAdapter } from './site.adapter';
   providedIn: 'root',
 })
 export class SiteConnector {
-  constructor(protected adapter: SiteAdapter) {}
+  protected adapter = inject(SiteAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   getLanguages(): Observable<Language[]> {
     return this.adapter.loadLanguages();

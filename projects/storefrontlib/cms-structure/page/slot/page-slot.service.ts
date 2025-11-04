@@ -5,7 +5,7 @@
  */
 
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { DeferLoadingStrategy } from '@spartacus/core';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 import { CmsComponentsService } from '../../services/cms-components.service';
@@ -14,13 +14,16 @@ import { CmsComponentsService } from '../../services/cms-components.service';
   providedIn: 'root',
 })
 export class PageSlotService {
+  protected cmsComponentsService = inject(CmsComponentsService);
+  protected platformId = inject(PLATFORM_ID);
+  protected document = inject<Document>(DOCUMENT);
+
   protected prerenderedSlots: (string | null)[] | undefined;
 
-  constructor(
-    protected cmsComponentsService: CmsComponentsService,
-    @Inject(PLATFORM_ID) protected platformId: any,
-    @Inject(DOCUMENT) protected document: Document
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.resolvePrerenderedSlots();
   }
 

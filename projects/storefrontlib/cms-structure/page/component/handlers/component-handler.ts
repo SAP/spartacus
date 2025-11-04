@@ -11,8 +11,8 @@ import {
   NgModuleRef,
   ViewContainerRef,
 } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Applicable, CmsComponentMapping, Priority } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 /**
  * ComponentHandler implementations can be used for instantiating and launching

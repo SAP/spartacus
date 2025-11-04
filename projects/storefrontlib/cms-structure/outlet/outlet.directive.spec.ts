@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ComponentFactoryResolver,
-  Inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ComponentFactoryResolver, inject as inject_1 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { getLastValueSync } from '@spartacus/core';
@@ -345,9 +340,12 @@ describe('OutletDirective', () => {
       standalone: false,
     })
     class MockTemplateComponent {
-      constructor(
-        @Inject('mockContext') public mockContext$: Observable<string>
-      ) {}
+      mockContext$ = inject_1<Observable<string>>('mockContext' as any);
+
+      /** Inserted by Angular inject() migration for backwards compatibility */
+      constructor(...args: unknown[]);
+
+      constructor() {}
     }
 
     @Component({
@@ -356,7 +354,12 @@ describe('OutletDirective', () => {
       standalone: false,
     })
     class MockOutletComponent {
-      constructor(public outlet: OutletContextData) {}
+      outlet = inject_1(OutletContextData);
+
+      /** Inserted by Angular inject() migration for backwards compatibility */
+      constructor(...args: unknown[]);
+
+      constructor() {}
     }
 
     beforeEach(waitForAsync(() => {

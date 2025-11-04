@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { combineLatest, defer, Observable } from 'rxjs';
 import { filter, map, shareReplay, startWith } from 'rxjs/operators';
@@ -33,13 +33,16 @@ export class BasePageMetaResolver
     PageRobotsResolver,
     CanonicalPageResolver
 {
-  constructor(
-    protected cmsService: CmsService,
-    protected translation: TranslationService,
-    protected routingPageMetaResolver: RoutingPageMetaResolver,
-    protected router: Router,
-    protected pageLinkService: PageLinkService
-  ) {}
+  protected cmsService = inject(CmsService);
+  protected translation = inject(TranslationService);
+  protected routingPageMetaResolver = inject(RoutingPageMetaResolver);
+  protected router = inject(Router);
+  protected pageLinkService = inject(PageLinkService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Helper to provide access to the current CMS page

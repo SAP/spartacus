@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AbstractType, Injectable, Injector } from '@angular/core';
+import { AbstractType, Injectable, Injector, inject } from '@angular/core';
 import {
   EMPTY,
   Observable,
@@ -30,10 +30,13 @@ const PROXY_FACADE_INSTANCE_PROP = 'proxyFacadeInstance';
   providedIn: 'root',
 })
 export class FacadeFactoryService {
-  constructor(
-    protected featureModules: FeatureModulesService,
-    protected injector: Injector
-  ) {}
+  protected featureModules = inject(FeatureModulesService);
+  protected injector = inject(Injector);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected getResolver<T>(
     feature: string,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GuardResult, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -19,11 +19,14 @@ import { AuthService } from '../facade/auth.service';
   providedIn: 'root',
 })
 export class NotAuthGuard {
-  constructor(
-    protected authService: AuthService,
-    protected semanticPathService: SemanticPathService,
-    protected router: Router
-  ) {}
+  protected authService = inject(AuthService);
+  protected semanticPathService = inject(SemanticPathService);
+  protected router = inject(Router);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   canActivate(): Observable<GuardResult> {
     // redirect, if user is already logged in:

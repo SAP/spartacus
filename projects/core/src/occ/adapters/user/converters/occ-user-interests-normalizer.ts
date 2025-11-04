@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ProductInterestSearchResult } from '../../../../model/product-interest.model';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import {
@@ -18,7 +18,12 @@ export class OccUserInterestsNormalizer
   implements
     Converter<Occ.ProductInterestSearchResult, ProductInterestSearchResult>
 {
-  constructor(private converter: ConverterService) {}
+  private converter = inject(ConverterService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   convert(
     source: Occ.ProductInterestSearchResult,

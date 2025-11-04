@@ -4,21 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ComponentFactory,
-  ComponentRef,
-  Directive,
-  EmbeddedViewRef,
-  EventEmitter,
-  Injector,
-  Input,
-  OnChanges,
-  OnDestroy,
-  Output,
-  SimpleChanges,
-  TemplateRef,
-  ViewContainerRef,
-} from '@angular/core';
+import { ComponentFactory, ComponentRef, Directive, EmbeddedViewRef, EventEmitter, Injector, Input, OnChanges, OnDestroy, Output, SimpleChanges, TemplateRef, ViewContainerRef, inject } from '@angular/core';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
 import { IntersectionOptions } from '../../layout/loading/intersection.model';
@@ -35,6 +21,12 @@ import { OutletService } from './outlet.service';
   standalone: false,
 })
 export class OutletDirective<T = any> implements OnDestroy, OnChanges {
+  private vcr = inject(ViewContainerRef);
+  private templateRef = inject<TemplateRef<any>>(TemplateRef);
+  private outletService = inject(OutletService);
+  private deferLoaderService = inject(DeferLoaderService);
+  private outletRendererService = inject(OutletRendererService);
+
   private renderedTemplate: any[] = [];
   public renderedComponents = new Map<
     OutletPosition,
@@ -67,13 +59,10 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
 
   subscription = new Subscription();
 
-  constructor(
-    private vcr: ViewContainerRef,
-    private templateRef: TemplateRef<any>,
-    private outletService: OutletService,
-    private deferLoaderService: DeferLoaderService,
-    private outletRendererService: OutletRendererService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Renders view for outlet or defers it, depending on the input `cxOutletDefer`

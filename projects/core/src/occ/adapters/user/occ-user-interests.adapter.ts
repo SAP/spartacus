@@ -27,14 +27,17 @@ const headers = new HttpHeaders({
 
 @Injectable()
 export class OccUserInterestsAdapter implements UserInterestsAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected config = inject(OccConfig);
+  protected converter = inject(ConverterService);
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected config: OccConfig,
-    protected converter: ConverterService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   public getInterests(
     userId: string,

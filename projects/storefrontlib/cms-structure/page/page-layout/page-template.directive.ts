@@ -4,16 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectorRef,
-  Directive,
-  ElementRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  Optional,
-  TemplateRef,
-} from '@angular/core';
+import { ChangeDetectorRef, Directive, ElementRef, Input, OnDestroy, OnInit, TemplateRef, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { PageLayoutService } from './page-layout.service';
 
@@ -46,6 +37,11 @@ import { PageLayoutService } from './page-layout.service';
   standalone: false,
 })
 export class PageTemplateDirective implements OnInit, OnDestroy {
+  protected pageLayoutService = inject(PageLayoutService);
+  protected elementRef = inject(ElementRef);
+  protected templateRef = inject<TemplateRef<HTMLElement>>(TemplateRef, { optional: true });
+  protected cd = inject(ChangeDetectorRef);
+
   /**
    * Indicates whether this component is driven by an input template or should
    * observe the CMS driven page layout template.
@@ -78,12 +74,10 @@ export class PageTemplateDirective implements OnInit, OnDestroy {
    */
   protected currentTemplate: string;
 
-  constructor(
-    protected pageLayoutService: PageLayoutService,
-    protected elementRef: ElementRef,
-    @Optional() protected templateRef: TemplateRef<HTMLElement>,
-    protected cd: ChangeDetectorRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     if (!this.useTemplateFromInput) {

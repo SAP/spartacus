@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Params } from '@angular/router';
 import {
   ActivatedRouterStateSnapshot,
@@ -25,10 +25,13 @@ import { FacetList } from '../facet.model';
   providedIn: 'root',
 })
 export class ProductFacetService {
-  constructor(
-    protected routing: RoutingService,
-    protected productListComponentService: ProductListComponentService
-  ) {}
+  protected routing = inject(RoutingService);
+  protected productListComponentService = inject(ProductListComponentService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected readonly routeState$ = this.routing
     .getRouterState()

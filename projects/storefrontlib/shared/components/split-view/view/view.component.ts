@@ -38,6 +38,10 @@ import { SplitViewService } from '../split-view.service';
   standalone: false,
 })
 export class ViewComponent implements OnInit, OnDestroy {
+  protected splitService = inject(SplitViewService);
+  protected elementRef = inject(ElementRef);
+  protected cd = inject(ChangeDetectorRef);
+
   protected _hidden: boolean | undefined;
 
   @Input()
@@ -75,11 +79,10 @@ export class ViewComponent implements OnInit, OnDestroy {
 
   protected subscription: Subscription;
 
-  constructor(
-    protected splitService: SplitViewService,
-    protected elementRef: ElementRef,
-    protected cd: ChangeDetectorRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     const hidden = this._hidden ? { hidden: this._hidden } : {};

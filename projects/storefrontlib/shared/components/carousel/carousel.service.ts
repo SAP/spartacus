@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -13,7 +13,12 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CarouselService {
-  constructor(private winRef: WindowRef) {}
+  private winRef = inject(WindowRef);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * The number of items per slide is calculated by the help of

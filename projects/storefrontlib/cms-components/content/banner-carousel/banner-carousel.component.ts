@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import {
   CmsBannerCarouselComponent as model,
   CmsService,
@@ -24,6 +24,9 @@ import { CmsComponentData } from '../../../cms-structure/index';
   standalone: false,
 })
 export class BannerCarouselComponent {
+  private componentData = inject<CmsComponentData<model>>(CmsComponentData);
+  private cmsService = inject(CmsService);
+
   private componentData$: Observable<model> = this.componentData.data$.pipe(
     filter((data) => Boolean(data)),
     tap((d: model) => (this.theme = `${d.effect}-theme`))
@@ -43,10 +46,10 @@ export class BannerCarouselComponent {
    */
   @HostBinding('class') theme = '';
 
-  constructor(
-    private componentData: CmsComponentData<model>,
-    private cmsService: CmsService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Returns an Obervable with an Array of Observables. This is done, so that

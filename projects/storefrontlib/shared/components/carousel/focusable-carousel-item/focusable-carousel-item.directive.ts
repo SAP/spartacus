@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, ElementRef, isDevMode } from '@angular/core';
+import { Directive, ElementRef, isDevMode, inject } from '@angular/core';
 import { LoggerService } from '@spartacus/core';
 
 /**
@@ -36,10 +36,13 @@ import { LoggerService } from '@spartacus/core';
   standalone: false,
 })
 export class FocusableCarouselItemDirective {
-  constructor(
-    protected logger: LoggerService,
-    protected el: ElementRef
-  ) {
+  protected logger = inject(LoggerService);
+  protected el = inject(ElementRef);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     if (isDevMode() && !this.canElementReceiveFocus()) {
       this.logger.warn(
         `cxFocusableCarouselItem: Element cannot receive focus: ${this.el.nativeElement.tagName}. Either use one of the focusable elements, or add a non-negative tabindex.`

@@ -4,15 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Directive,
-  ElementRef,
-  HostBinding,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Directive, ElementRef, HostBinding, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import { BaseFocusConfig } from '../keyboard-focus.model';
 import { BaseFocusService } from './base-focus.service';
 
@@ -28,6 +20,9 @@ import { BaseFocusService } from './base-focus.service';
  */
 @Directive()
 export abstract class BaseFocusDirective implements OnInit, OnChanges {
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected service = inject(BaseFocusService);
+
   /**
    * Optional configuration for the focus directive drives the behaviour of the keyboard
    * focus directive.
@@ -42,10 +37,10 @@ export abstract class BaseFocusDirective implements OnInit, OnChanges {
 
   @Input() @HostBinding('attr.tabindex') tabindex: number;
 
-  constructor(
-    protected elementRef: ElementRef<HTMLElement>,
-    protected service: BaseFocusService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.setDefaultConfiguration();

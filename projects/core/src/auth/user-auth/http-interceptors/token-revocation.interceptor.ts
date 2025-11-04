@@ -10,7 +10,7 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { AuthConfigService } from '../services/auth-config.service';
@@ -21,10 +21,13 @@ import { AuthStorageService } from '../services/auth-storage.service';
  */
 @Injectable({ providedIn: 'root' })
 export class TokenRevocationInterceptor implements HttpInterceptor {
-  constructor(
-    protected authStorageService: AuthStorageService,
-    protected authConfigService: AuthConfigService
-  ) {}
+  protected authStorageService = inject(AuthStorageService);
+  protected authConfigService = inject(AuthConfigService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   intercept(
     request: HttpRequest<any>,

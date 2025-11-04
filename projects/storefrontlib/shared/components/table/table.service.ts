@@ -32,12 +32,15 @@ import { TableStructure, TableStructureConfiguration } from './table.model';
   providedIn: 'root',
 })
 export class TableService {
+  protected breakpointService = inject(BreakpointService);
+  protected config = inject(TableConfig);
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected breakpointService: BreakpointService,
-    protected config: TableConfig
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Builds the table structure.

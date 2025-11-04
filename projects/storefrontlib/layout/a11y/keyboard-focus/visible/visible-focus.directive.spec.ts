@@ -1,10 +1,4 @@
-import {
-  Component,
-  DebugElement,
-  Directive,
-  ElementRef,
-  Input,
-} from '@angular/core';
+import { Component, DebugElement, Directive, ElementRef, Input, inject } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BaseFocusService } from '../base/base-focus.service';
@@ -16,13 +10,22 @@ import { VisibleFocusDirective } from './visible-focus.directive';
   standalone: false,
 })
 class CustomFocusDirective extends VisibleFocusDirective {
+  protected elementRef: ElementRef<HTMLElement>;
+  protected service: BaseFocusService;
+
   @Input('cxVisibleFocus') protected config: VisibleFocusConfig;
 
-  constructor(
-    protected elementRef: ElementRef<HTMLElement>,
-    protected service: BaseFocusService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+    const service = inject(BaseFocusService);
+
     super(elementRef, service);
+  
+    this.elementRef = elementRef;
+    this.service = service;
   }
 }
 
@@ -31,13 +34,22 @@ class CustomFocusDirective extends VisibleFocusDirective {
   standalone: false,
 })
 class CustomFakeFocusDirective extends VisibleFocusDirective {
+  protected elementRef: ElementRef<HTMLElement>;
+  protected service: BaseFocusService;
+
   protected defaultConfig = {};
 
-  constructor(
-    protected elementRef: ElementRef<HTMLElement>,
-    protected service: BaseFocusService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+    const service = inject(BaseFocusService);
+
     super(elementRef, service);
+  
+    this.elementRef = elementRef;
+    this.service = service;
   }
 }
 

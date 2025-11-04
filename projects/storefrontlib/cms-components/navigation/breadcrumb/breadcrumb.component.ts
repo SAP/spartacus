@@ -28,6 +28,10 @@ import { PageTitleComponent } from '../page-header/page-title.component';
   standalone: false,
 })
 export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
+  component: CmsComponentData<CmsBreadcrumbsComponent>;
+  protected pageMetaService: PageMetaService;
+  private translation = inject(TranslationService);
+
   crumbs$: Observable<any[]>;
 
   protected router = inject(Router);
@@ -39,12 +43,17 @@ export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
     })
   );
 
-  constructor(
-    public component: CmsComponentData<CmsBreadcrumbsComponent>,
-    protected pageMetaService: PageMetaService,
-    private translation: TranslationService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const component = inject<CmsComponentData<CmsBreadcrumbsComponent>>(CmsComponentData);
+    const pageMetaService = inject(PageMetaService);
+
     super(component, pageMetaService);
+  
+    this.component = component;
+    this.pageMetaService = pageMetaService;
   }
 
   ngOnInit(): void {

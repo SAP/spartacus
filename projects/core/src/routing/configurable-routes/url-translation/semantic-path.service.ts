@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ParamsMapping, RouteConfig } from '../routes-config';
 import { RoutingConfigService } from '../routing-config.service';
 import { getParamName, isParam } from './path-utils';
@@ -13,12 +13,15 @@ import { UrlParsingService } from './url-parsing.service';
 
 @Injectable({ providedIn: 'root' })
 export class SemanticPathService {
+  protected routingConfigService = inject(RoutingConfigService);
+  protected urlParser = inject(UrlParsingService);
+
   readonly ROOT_URL = ['/'];
 
-  constructor(
-    protected routingConfigService: RoutingConfigService,
-    protected urlParser: UrlParsingService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Returns the first path alias configured for a given route name. It adds `/` at the beginning.

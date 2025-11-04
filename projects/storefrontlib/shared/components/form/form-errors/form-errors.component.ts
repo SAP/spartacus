@@ -36,6 +36,8 @@ import { map, startWith } from 'rxjs/operators';
   standalone: false,
 })
 export class FormErrorsComponent implements DoCheck {
+  protected ChangeDetectionRef = inject(ChangeDetectorRef);
+
   private featureConfigService = inject(FeatureConfigService);
 
   protected elementRef = inject(ElementRef, { optional: true });
@@ -43,7 +45,10 @@ export class FormErrorsComponent implements DoCheck {
     optional: true,
   });
 
-  constructor(protected ChangeDetectionRef: ChangeDetectorRef) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   _control: UntypedFormControl | AbstractControl;
 

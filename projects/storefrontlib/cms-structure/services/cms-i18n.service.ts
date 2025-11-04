@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TranslationChunkService, TranslationService } from '@spartacus/core';
 import { CmsComponentsService } from './cms-components.service';
 
@@ -12,11 +12,14 @@ import { CmsComponentsService } from './cms-components.service';
   providedIn: 'root',
 })
 export class CmsI18nService {
-  constructor(
-    protected cmsComponentsService: CmsComponentsService,
-    protected translation: TranslationService,
-    protected translationChunk: TranslationChunkService
-  ) {}
+  protected cmsComponentsService = inject(CmsComponentsService);
+  protected translation = inject(TranslationService);
+  protected translationChunk = inject(TranslationChunkService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   loadForComponents(componentTypes: string[]) {
     const i18nKeys = this.cmsComponentsService.getI18nKeys(componentTypes);

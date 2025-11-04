@@ -5,7 +5,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Product } from '../../../model/product.model';
 import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
@@ -19,12 +19,15 @@ import { OccRequestsOptimizerService } from '../../services/occ-requests-optimiz
 
 @Injectable()
 export class OccProductAdapter implements ProductAdapter {
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService,
-    protected requestsOptimizer: OccRequestsOptimizerService
-  ) {}
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+  protected requestsOptimizer = inject(OccRequestsOptimizerService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   load(productCode: string, scope?: string): Observable<Product> {
     return this.http

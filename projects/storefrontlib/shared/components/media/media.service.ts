@@ -31,6 +31,8 @@ import {
   providedIn: 'root',
 })
 export class MediaService {
+  protected config = inject(Config);
+
   /**
    * The media formats sorted by size. The media format representing the smallest
    * size is sorted on top.
@@ -41,7 +43,10 @@ export class MediaService {
 
   private readonly featureConfigService = inject(FeatureConfigService);
 
-  constructor(protected config: Config) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   getMediaBasedOnHTMLElementType(
     elementType: 'img' | 'picture',
@@ -177,7 +182,7 @@ export class MediaService {
    * benefits.
    */
   protected get sortedFormats(): { code: string; size: MediaFormatSize }[] {
-    const mediaFormats = this.config?.mediaFormats;
+    const mediaFormats = (this.config as MediaConfig)?.mediaFormats;
 
     if (!this._sortedFormats && mediaFormats) {
       this._sortedFormats = Object.keys(mediaFormats)
@@ -202,9 +207,10 @@ export class MediaService {
     code: string;
     mediaQuery: string;
   }[] {
-    const pictureElementMediaFormats =
-      this.config?.media?.pictureElementFormats;
-    const pictureFormatsOrder = this.config?.media?.pictureFormatsOrder;
+    const pictureElementMediaFormats = (this.config as MediaConfig)?.media
+      ?.pictureElementFormats;
+    const pictureFormatsOrder = (this.config as MediaConfig)?.media
+      ?.pictureFormatsOrder;
 
     if (!pictureElementMediaFormats) {
       return [];

@@ -4,16 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { CustomerCoupon } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
 import { Observable } from 'rxjs';
@@ -27,6 +18,10 @@ import { MyCouponsComponentService } from '../my-coupons.component.service';
   standalone: false,
 })
 export class CouponCardComponent {
+  protected myCouponsComponentService = inject(MyCouponsComponentService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+
   @Input() coupon: CustomerCoupon;
   @Input() couponSubscriptionLoading$: Observable<boolean>;
 
@@ -38,11 +33,10 @@ export class CouponCardComponent {
 
   @ViewChild('element') element: ElementRef;
 
-  constructor(
-    protected myCouponsComponentService: MyCouponsComponentService,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   onSubscriptionChange(): void {
     this.notificationChanged.emit({

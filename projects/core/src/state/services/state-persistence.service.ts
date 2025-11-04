@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { map, tap, withLatestFrom } from 'rxjs/operators';
 import { StorageSyncType } from '../../state/config/state-config';
@@ -19,7 +19,12 @@ import {
   providedIn: 'root',
 })
 export class StatePersistenceService {
-  constructor(protected winRef: WindowRef) {}
+  protected winRef = inject(WindowRef);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Helper to synchronize state to more persistent storage (localStorage, sessionStorage).

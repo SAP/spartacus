@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Directive,
-  Input,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-} from '@angular/core';
+import { Directive, Input, OnDestroy, OnInit, TemplateRef, inject } from '@angular/core';
 import { OutletPosition } from '../outlet.model';
 import { OutletService } from '../outlet.service';
 
@@ -19,15 +13,18 @@ import { OutletService } from '../outlet.service';
   standalone: false,
 })
 export class OutletRefDirective implements OnInit, OnDestroy {
+  private tpl = inject<TemplateRef<any>>(TemplateRef);
+  private outletService = inject(OutletService);
+
   @Input()
   cxOutletRef: string;
   @Input()
   cxOutletPos: OutletPosition;
 
-  constructor(
-    private tpl: TemplateRef<any>,
-    private outletService: OutletService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     this.outletService.add(this.cxOutletRef, this.tpl, this.cxOutletPos);
