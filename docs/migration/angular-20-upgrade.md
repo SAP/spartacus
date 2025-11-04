@@ -183,6 +183,20 @@ git commit -m "chore: update Nx to latest"
 - [x] Run `npm run config:update -- --bump-versions` to update dependencies in internal libraries
 - [x] Run `npm run generate:deps` to regenerate dependencies.json
 
+### Build Issues
+
+- [x] Fix router.reducer.ts (canActivate is now typed in Angular)
+- [ ] Fix Config type compatibility issues - Config types (CmsConfig, RoutingConfig, I18nConfig, SiteContextConfig) have no properties in common with base Config type
+- [ ] Fix ConfigInitializer type mismatches in SecurePortalConfigInitializer, I18nConfigInitializer, and SiteContextConfigInitializer
+- [ ] Fix Config['features'] property access error
+- [ ] Fix provideDefaultConfig type errors in 20+ module files where CmsConfig is not assignable to Config
+- [ ] Fix Config.subscribe() type errors in cms-features.service.ts and cms-components.service.ts
+- [ ] Fix provideDefaultConfigFactory error in routing.module.ts line 25
+- [ ] Fix Config.backend property access errors in media.service.ts lines 405-406
+- [x] Fix ng-select compatibility issues - OutputEmitterRef doesn't have pipe() method (ng-select-a11y.directive.ts lines 109-110)
+- [ ] Fix ng-select ariaLabelDropdown read-only property assignment (ng-select-a11y.directive.ts line 220)
+- [ ] Fix router guard type error in cms-routes-impl.service.ts line 139 - DeprecatedGuard | CanActivateFn not assignable to Type<any>
+
 ## Issues Encountered
 
 ### Peer Dependency Conflicts
@@ -195,7 +209,7 @@ git commit -m "chore: update Nx to latest"
 **Jest Issue:**
 - After fixing ESLint, `npm install` still failed with another peer dependency conflict
 - Problem: `jest-preset-angular@15.0.3` requires `jest@^30.0.0`, but we have `jest@29.7.0`
-- Workaround: Use `npm install --legacy-peer-deps` to bypass peer dependency checks
+- Temporary workaround: use `jest-preset-angular@14.6.0`
 
 ### Testing & Verification
 - [ ] Build the app
