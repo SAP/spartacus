@@ -4,11 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  addB2bUser,
-  selectAccountPayment,
-  setB2bPassword,
-} from '../../../helpers/b2b/b2b-checkout';
+import * as b2bCheckout from '../../../helpers/b2b/b2b-checkout';
 import {
   b2bUser,
   POWERTOOLS_BASESITE,
@@ -28,10 +24,14 @@ export function loginB2bUser() {
   )
     .then((result) => {
       adminToken = result?.body?.access_token;
-      return addB2bUser(adminToken, user);
+      return b2bCheckout.addB2bUser(adminToken, user);
     })
     .then((result) => {
-      return setB2bPassword(result.body.customerId, user.password, adminToken);
+      return b2bCheckout.setB2bPassword(
+        result.body.customerId,
+        user.password,
+        adminToken
+      );
     })
     .then((result: any) => {
       b2bUser.registrationData.email = user.email;
@@ -45,7 +45,7 @@ export function navigateToReviewOrderPage(productCode = products[0].code) {
 
   cy.get('button').contains(' Add to cart ').click();
   cy.get('button').contains(' proceed to checkout ').click();
-  selectAccountPayment();
+  b2bCheckout.selectAccountPayment();
   cy.get('button.btn-primary').contains(' Continue ').click();
   cy.get('cx-delivery-address button.btn-primary')
     .contains(' Continue ')
