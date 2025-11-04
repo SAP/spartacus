@@ -6,7 +6,7 @@
 
 import {
   addB2bUser,
-  interceptCostCenterEndpoint,
+  selectAccountPayment,
   setB2bPassword,
 } from '../../../helpers/b2b/b2b-checkout';
 import {
@@ -45,10 +45,7 @@ export function navigateToReviewOrderPage(productCode = products[0].code) {
 
   cy.get('button').contains(' Add to cart ').click();
   cy.get('button').contains(' proceed to checkout ').click();
-  interceptCostCenterEndpoint();
-  cy.get('cx-payment-type').within(() => {
-    cy.findByText('Account').click();
-  });
+  selectAccountPayment();
   cy.get('button.btn-primary').contains(' Continue ').click();
   cy.get('cx-delivery-address button.btn-primary')
     .contains(' Continue ')
