@@ -45,7 +45,9 @@ export function navigateToReviewOrderPage(productCode = products[0].code) {
 
   cy.get('button').contains(' Add to cart ').click();
   cy.get('button').contains(' proceed to checkout ').click();
-  b2bCheckout.selectAccountPayment();
+  cy.get('cx-payment-type').within(() => {
+    cy.findByText('Account').click();
+  });
   cy.get('button.btn-primary').contains(' Continue ').click();
   cy.get('cx-delivery-address button.btn-primary')
     .contains(' Continue ')
