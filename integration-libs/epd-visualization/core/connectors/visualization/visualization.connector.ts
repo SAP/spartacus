@@ -11,7 +11,7 @@ import { LookupVisualizationsResponse } from './lookup-visualizations-response';
 import { VisualizationAdapter } from './visualization.adapter';
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 @Injectable({
   providedIn: 'root',
