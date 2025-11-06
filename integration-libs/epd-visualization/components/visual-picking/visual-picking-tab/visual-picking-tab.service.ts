@@ -25,7 +25,7 @@ import { VisualViewerService } from '../../visual-viewer/visual-viewer.service';
 import { VisualPickingProductListService } from './product-list/visual-picking-product-list.service';
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 @Injectable({
   providedIn: 'root',

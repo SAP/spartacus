@@ -10,7 +10,7 @@ import { UsageId } from '../models/usage-ids/usage-id';
 import { UsageIdDefinition } from '../models/usage-ids/usage-id-definition';
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 @Injectable({
   providedIn: 'root',
@@ -24,7 +24,7 @@ export abstract class EpdVisualizationConfig implements Config {
 }
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 export interface EpdVisualizationInnerConfig {
   /**
@@ -46,7 +46,7 @@ export interface EpdVisualizationInnerConfig {
 }
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 export interface Ui5Config {
   /**
@@ -60,7 +60,7 @@ export interface Ui5Config {
 }
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 export interface VisualizationApiConfig {
   /**
@@ -72,7 +72,7 @@ export interface VisualizationApiConfig {
 }
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 export interface UsageIdConfig {
   /**
@@ -94,7 +94,7 @@ export interface UsageIdConfig {
 }
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 export interface VisualPickingConfig {
   /**
@@ -104,7 +104,7 @@ export interface VisualPickingConfig {
 }
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 declare module '@spartacus/core' {
   interface Config extends EpdVisualizationConfig {}
