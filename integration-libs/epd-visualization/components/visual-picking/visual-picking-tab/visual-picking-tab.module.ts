@@ -14,7 +14,7 @@ import { VisualPickingProductListModule } from './product-list/visual-picking-pr
 import { VisualPickingTabComponent } from './visual-picking-tab.component';
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 @NgModule({
   imports: [
