@@ -32,7 +32,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import {
   FocusConfig,
@@ -99,9 +98,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     protected eventService: EventService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService
-  ) {
-    useFeatureStyles('a11yQTY2Quantity');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.resetSavedCartStates();

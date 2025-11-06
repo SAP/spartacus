@@ -33,7 +33,7 @@ export abstract class CmsStructureConfigService {
   /**
    * Merge the cms structure to the pageStructure. The page structure
    * can either hold complete page structures or global structures that
-   * might apply to all pages (such has header coponents).
+   * might apply to all pages (such has header components).
    */
   mergePageStructure(
     pageId: string,
@@ -55,7 +55,7 @@ export abstract class CmsStructureConfigService {
    */
   shouldIgnoreBackend(pageId: string): Observable<boolean> {
     return this.getPageFromConfig(pageId).pipe(
-      map((page) => !!page && !!page.ignoreBackend)
+      map((page) => !!page?.ignoreBackend)
     );
   }
 
@@ -71,6 +71,7 @@ export abstract class CmsStructureConfigService {
   /**
    * returns an Observable components data from the static configuration.
    */
+  // CXSPA-11104: Revise type to avoid redundant types - typescript:S6571
   getComponentsFromConfig(
     ids: string[]
   ): Observable<(ContentSlotComponentData | any)[]> {
@@ -84,7 +85,7 @@ export abstract class CmsStructureConfigService {
     pageId: string
   ): Observable<CmsPageConfig | undefined> {
     return of(
-      this.cmsDataConfig.cmsStructure && this.cmsDataConfig.cmsStructure.pages
+      this.cmsDataConfig.cmsStructure?.pages
         ? this.cmsDataConfig.cmsStructure.pages.find((p) => p.pageId === pageId)
         : undefined
     );
@@ -122,8 +123,8 @@ export abstract class CmsStructureConfigService {
 
   /**
    * Adds any pre-configured slots for pages that do not use them.
-   * If pages have a slot for the given position, the configiuration
-   * is ingored. Even if the slot does not have inner structure (such as
+   * If pages have a slot for the given position, the configuration
+   * is ignored. Even if the slot does not have inner structure (such as
    * components), so that the cms structure is able to override the (static)
    * configuration.
    */
@@ -149,17 +150,14 @@ export abstract class CmsStructureConfigService {
         pageStructure.page.slots[position] = {};
 
         for (const component of this.getComponentsByPosition(slots, position)) {
-          pageStructure.page.slots[position].components =
-            pageStructure.page.slots[position].components ?? [];
-
-          pageStructure.page.slots[position].components?.push({
+          pageStructure.page.slots[position].components ??= [];
+          pageStructure.page.slots[position].components.push({
             uid: component.uid,
             flexType: component.flexType,
             typeCode: component.typeCode,
           });
 
-          pageStructure.components = pageStructure.components ?? [];
-
+          pageStructure.components ??= [];
           pageStructure.components.push(component);
         }
       }
@@ -172,13 +170,10 @@ export abstract class CmsStructureConfigService {
     slots: CmsPageSlotsConfig,
     position: string
   ): ContentSlotComponentData[] {
-    const components = [];
-    if (slots[position] && slots[position].componentIds) {
+    const components: ContentSlotComponentData[] = [];
+    if (slots[position]?.componentIds) {
       for (const componentId of slots[position].componentIds ?? []) {
-        if (
-          this.cmsDataConfig.cmsStructure &&
-          this.cmsDataConfig.cmsStructure.components
-        ) {
+        if (this.cmsDataConfig.cmsStructure?.components) {
           const component =
             this.cmsDataConfig.cmsStructure.components[componentId];
           if (component) {
@@ -193,9 +188,6 @@ export abstract class CmsStructureConfigService {
   protected getComponentById(
     componentId: string
   ): ContentSlotComponentData | undefined {
-    return this.cmsDataConfig.cmsStructure &&
-      this.cmsDataConfig.cmsStructure.components
-      ? this.cmsDataConfig.cmsStructure.components[componentId]
-      : undefined;
+    return this.cmsDataConfig.cmsStructure?.components?.[componentId];
   }
 }

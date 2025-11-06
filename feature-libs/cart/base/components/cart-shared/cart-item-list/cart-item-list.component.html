@@ -12,24 +12,20 @@
 
       <ng-template
         role="columnheader"
+        [cxOutlet]="CartOutlets.SUBSCRIPTION_PRICE_HEADING"
+        [cxOutletContext]="{
+          items,
+          parent: 'cart',
+        }"
+      ></ng-template>
+
+      <ng-template
+        role="columnheader"
         [cxOutlet]="CartOutlets.CPQ_QUOTE_HEADING"
         [cxOutletContext]="items"
       ></ng-template>
-      <th
-        *cxFeature="'a11yQTY2Quantity'"
-        role="columnheader"
-        scope="col"
-        class="cx-item-list-qty"
-      >
+      <th role="columnheader" scope="col" class="cx-item-list-qty">
         {{ 'cartItems.quantityFull' | cxTranslate }}
-      </th>
-      <th
-        *cxFeature="'!a11yQTY2Quantity'"
-        role="columnheader"
-        scope="col"
-        class="cx-item-list-qty"
-      >
-        {{ 'cartItems.quantity' | cxTranslate }}
       </th>
       <ng-container *ngIf="options.isSaveForLater; else totalHeader">
         <th role="columnheader" scope="col" class="cx-item-list-total">
@@ -55,11 +51,12 @@
           cx-cart-item-list-row
           role="row"
           class="cx-item-list-row"
+          [items]="items"
           [item]="item"
           [quantityControl]="control.get('quantity')"
           [readonly]="readonly"
           [promotionLocation]="promotionLocation"
-          [options]="options"
+          [options]="getOptions(item)"
           [attr.aria-rowindex]="i + 1"
         ></tr>
       </ng-container>

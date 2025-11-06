@@ -1,14 +1,15 @@
 %cx-cart-item-list {
   @extend .cx-agnostic-table;
 
+  .cx-item-list-charges {
+    text-align: start;
+  }
+
   .cx-item-list-header {
     border-bottom: none;
 
     .cx-item-list-qty {
-      text-transform: uppercase;
-      @include forFeature('a11yQTY2Quantity') {
-        text-transform: none;
-      }
+      text-transform: none;
     }
   }
 
@@ -93,35 +94,33 @@
     cx-cart-pickup-options-container {
       margin-inline-start: 6rem;
 
-      @include forFeature('a11yPickupOptionsTabs') {
-        cx-pickup-options {
-          &,
-          & button {
-            @include type('7');
-          }
+      cx-pickup-options {
+        &,
+        & button {
+          @include type('7');
+        }
 
-          .cx-pickup-options-legend {
-            @include type('8');
-          }
+        .cx-pickup-options-legend {
+          @include type('8');
+        }
 
-          .cx-pickup-options-container {
-            padding: 0.5rem;
-          }
+        .cx-pickup-options-container {
+          padding: 0.5rem;
+        }
 
-          .cx-pickup-options {
-            width: 75%;
-          }
+        .cx-pickup-options {
+          width: 75%;
+        }
 
-          cx-tab {
-            --cx-tab-panel-bg: var(--cx-color-inverse);
-            --cx-tab-panel-padding: 0.5rem 1rem;
-            --cx-tab-gap: 0.5rem;
-            --cx-tab-btn-bg-color: var(--cx-color-inverse);
-            --cx-tab-panel-margin-top: 0.5rem;
+        cx-tab {
+          --cx-tab-panel-bg: var(--cx-color-inverse);
+          --cx-tab-panel-padding: 0.5rem 1rem;
+          --cx-tab-gap: 0.5rem;
+          --cx-tab-btn-bg-color: var(--cx-color-inverse);
+          --cx-tab-panel-margin-top: 0.5rem;
 
-            .tab-btn:after {
-              margin-top: 5px;
-            }
+          .tab-btn:after {
+            margin-top: 5px;
           }
         }
       }

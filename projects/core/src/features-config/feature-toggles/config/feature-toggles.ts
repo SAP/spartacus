@@ -10,16 +10,6 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
-   * New REDESIGNED search-box component
-   */
-  searchBoxV2?: boolean;
-
-  /**
-   * In `SearchBoxComponent` it shows the trending searches.
-   */
-  trendingSearches?: boolean;
-
-  /**
    * In `FutureStockAccordionComponent` use `cx-color-text` for button color
    */
   a11yUseProperTextColorForFutureStockAccordion?: boolean;
@@ -43,11 +33,6 @@ export interface FeatureTogglesInterface {
    * `QuickOrderFormComponent` - disable navigation with Tab/Shift+Tab for search results list
    */
   a11yQuickOrderSearchListKeyboardNavigation?: boolean;
-
-  /**
-   * Adds label to the `SearchBoxComponent` search input
-   */
-  a11ySearchboxLabel?: boolean;
 
   /**
    * When set to `true`, external links in `StoreFinderListItemComponent`
@@ -86,25 +71,9 @@ export interface FeatureTogglesInterface {
   a11yPreventCartItemsFormRedundantRecreation?: boolean;
 
   /**
-   * Use tabs instead of radio group for pickup options. Improves SR narration and keyboard navigation pattern.
-   * Modified components:
-   *  - `PickupOptionsComponent`
-   *  - `PdpPickupOptionsContainerComponent`
-   *  - `CartPickupOptionsContainerComponent`
-   *  - `AddToCartComponent`
-   */
-  a11yPickupOptionsTabs?: boolean;
-
-  /**
    * Resets the focus after navigating to a new page.
    */
   a11yResetFocusAfterNavigating?: boolean;
-
-  /**
-   * `StorefrontComponent`: Prevents header links from wrapping on smaller screen sizes.
-   * Enables support for increased letter-spacing up to 0.12em for header layout
-   */
-  headerLayoutForSmallerViewports?: boolean;
 
   /**
    * Adds label to 'StoreFinderSearchComponent' store search input field.
@@ -144,46 +113,9 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * In `AddedToCartDialogComponent`, `Updating cart...` should no longer read by a screen reader.
-   */
-  a11yUpdatingCartNoNarration?: boolean;
-
-  /**
-   * Stops the inputs value from obstructing the 'PasswordVisibilityToggleComponent'.
-   */
-  a11yPasswordVisibliltyBtnValueOverflow?: boolean;
-
-  /**
-   * In `ItemCounterComponenet`, Remove button no longer lose focus after activating when count is 2.
-   * Add button no longer lose focus after activating when count is `max - 1`.
-   */
-  a11yItemCounterFocus?: boolean;
-
-  /**
-   * `ProductIntroComponent` should now scroll to the Review tab on the first click of the 'Show Review' button.
-   */
-  a11yScrollToReviewByShowReview?: boolean;
-
-  /**
-   * `StoreComponent and MyPreferredStoreComponent` an icon in a button that triggers showing
-   * store's opening hours has an acceptable contrast ratio in a default theme
-   */
-  a11yViewHoursButtonIconContrast?: boolean;
-
-  /**
    * `StoreComponent` `In Stock` icon has an acceptable contrast ratio in a default theme
    */
   a11yStoreInStockIconContrast?: boolean;
-
-  /**
-   * `Checkout` add a landmarks to content representing steps
-   */
-  a11yCheckoutStepsLandmarks?: boolean;
-
-  /**
-   * In `CartItemListComponent`, change QTY into Quantity.
-   */
-  a11yQTY2Quantity?: boolean;
 
   /**
    * In `Card component`, replace button classes to .btn .btn-tertiary and use cx-generic link
@@ -207,11 +139,6 @@ export interface FeatureTogglesInterface {
    * Changes the success message of successful registration to be more informative. Affects `RegisterComponentService`.
    */
   a11yPostRegisterSuccessMessage?: boolean;
-
-  /**
-   * In `CardComponent`, place `Delete` button before `Cancel` button.
-   */
-  a11yDeleteButton2First?: boolean;
 
   /**
    * In `CustomerListComponent`, `OrderApprovalListComponent`, and `ConfiguratorAttriuteSingleSelectionBundleDropdownComponent`, show label of every `ng-select` and `select`.
@@ -349,28 +276,6 @@ export interface FeatureTogglesInterface {
    * Affects: CardComponent, AccountSummaryDocumentComponent, ListComponent
    */
   a11yRegionAssociatedHeaders?: boolean;
-
-  /**
-   * When enabled, allows to provide extended formats and media queries for <picture> element if used in MediaComponent.
-   *
-   * Important: After activation default HTML element in MediaComponent will be `<img>`
-   * Only BannerComponent has passed `'picture'` value. If you need to use `<picture>` HTML element
-   * you need to pass `[elementType]="'picture'"` to `<cx-media>`
-   *
-   * For proper work requires `pictureElementFormats`  provided in media config:
-   *  ```ts
-   * provideConfig({
-   *   pictureElementFormats: {
-   *    mediaQueries: '(max-width: 480px)',
-   *   },
-   * })
-   * ```
-   *
-   * Toggle activates `@Input() elementType: 'img' | 'picture' = 'img'`
-   * and `@Input() sizesForImgElement: string` in `MediaComponent`
-   *
-   */
-  useExtendedMediaComponentConfiguration?: boolean;
 
   /**
    * Enables Real time stock display in the PDP page.
@@ -699,46 +604,49 @@ export interface FeatureTogglesInterface {
    * Affects: `LoginComponent`
    */
   enablePasswordExpiredErrorTranslation?: boolean;
+  
+  /**
+   * shows the Quote Purchase Order Number input field in the Quote Request form
+   * and in the Quote Details page
+   *
+   * when set to `true`, the user will be able to enter a Purchase Order Number
+   * when requesting a quote and see it in the quote details
+   */
+  enableQuotePurchaseOrderNumber?: boolean;
+  
+  /**
+   * When enabled, fixes the issue with return order returnable quantity not being displayed correctly
+   * on the `ReturnOrderComponent` when navigating to the return request details page.
+   * Affects: `ReturnOrderComponent`
+   */
+  enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  searchBoxV2: true,
-  trendingSearches: true,
   a11yUseProperTextColorForFutureStockAccordion: true,
   a11yPopoverHighContrast: true,
   a11yTabsManualActivation: true,
   a11yAnonymousConsentMessageInDialog: true,
   a11yQuickOrderSearchListKeyboardNavigation: true,
   a11yStyleExternalLinksAsLinks: true,
-  a11ySearchboxLabel: true,
   a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
   a11yKeyboardAccessibleZoom: false,
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yPickupOptionsTabs: true,
   a11yResetFocusAfterNavigating: true,
-  headerLayoutForSmallerViewports: true,
   a11yStoreFinderLabel: false,
-  a11yImprovedErrorMessage: false,
+  a11yImprovedErrorMessage: true,
   a11yLinkBtnsToTertiaryBtns: false,
   a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yUpdatingCartNoNarration: true,
-  a11yPasswordVisibliltyBtnValueOverflow: true,
-  a11yItemCounterFocus: true,
-  a11yScrollToReviewByShowReview: true,
-  a11yViewHoursButtonIconContrast: true,
   a11yStoreInStockIconContrast: true,
-  a11yCheckoutStepsLandmarks: true,
-  a11yQTY2Quantity: true,
   a11yImproveButtonsInCardComponent: true,
   a11yMiniCartFocusOnMobile: true,
   a11yWrapReviewOrderInSection: true,
   a11yApprovalProcessWithNoClearable: true,
   a11yPostRegisterSuccessMessage: true,
-  a11yDeleteButton2First: true,
   a11yShowLabelOfSelect: true,
   a11yShowDownArrowOnFocusedSelectMenu: true,
   a11yCroppedFocusRing: true,
@@ -759,12 +667,11 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRegionAssociatedHeaders: true,
   a11yPdpGridArrangement: true,
   a11yHamburgerMenuTrapFocus: true,
-  useExtendedMediaComponentConfiguration: true,
   showRealTimeStockInPDP: true,
   a11yScrollToTopPositioning: true,
-  a11yWideScreenImprovements: false,
-  a11yOptimizedMenuSpacing: false,
-  a11yNgSelectLayering: false,
+  a11yWideScreenImprovements: true,
+  a11yOptimizedMenuSpacing: true,
+  a11yNgSelectLayering: true,
   readMoreDirective: false,
   productReviewCharactersLeft: false,
   a11yNgSelectAriaControls: false,
@@ -773,7 +680,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enableCarouselCategoryProducts: true,
   enableClaimCustomerCouponWithCodeInRequestBody: true,
   enableReadDomainValuesOnDemand: false,
-  opfEnablePreventingFromCheckoutWithoutEmail: false,
+  opfEnablePreventingFromCheckoutWithoutEmail: true,
   storeFinderFacadeCleanup: false,
   defaultProductPageRouteAllowsNoProductName: false,
   consistentSizeProductCards: false,
@@ -792,4 +699,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   defaultLayoutConfigWithoutPageFold: false,
   navigationMenuCloseOnSameLinkClick: false,
   enablePasswordExpiredErrorTranslation: false,
+  enableQuotePurchaseOrderNumber: false,
+  enableReturnOrderReturnableQuantityConsigmentFallback: false,
 };
