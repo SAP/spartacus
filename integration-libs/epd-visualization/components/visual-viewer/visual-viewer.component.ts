@@ -17,7 +17,7 @@ import { VisualizationLoadInfo } from './models/visualization-load-info';
 import { VisualViewerService } from './visual-viewer.service';
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 @Component({
   selector: 'cx-epd-visualization-viewer',
