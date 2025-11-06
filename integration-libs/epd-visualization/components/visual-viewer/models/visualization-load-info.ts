@@ -7,7 +7,7 @@
 import { VisualizationInfo } from '@spartacus/epd-visualization/root';
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 export enum VisualizationLookupResult {
   UniqueMatchFound = 'UniqueMatchFound',
@@ -17,7 +17,7 @@ export enum VisualizationLookupResult {
 }
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 export enum VisualizationLoadStatus {
   NotStarted = 'NotStarted',
@@ -29,7 +29,7 @@ export enum VisualizationLoadStatus {
 /**
  * Information relating to an attempt to resolve and load a visualization.
  *
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 export interface VisualizationLoadInfo {
   lookupResult: VisualizationLookupResult;
