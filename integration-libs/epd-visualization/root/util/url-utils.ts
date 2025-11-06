@@ -5,7 +5,7 @@
  */
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 export function getUrl(urlString: string): URL | null {
   try {
@@ -16,7 +16,7 @@ export function getUrl(urlString: string): URL | null {
 }
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 export function isHttpOrHttps(url: URL) {
   return url.protocol === 'http:' || url.protocol === 'https:';
