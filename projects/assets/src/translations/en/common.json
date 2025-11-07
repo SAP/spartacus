@@ -113,6 +113,7 @@
   "httpHandlers": {
     "badRequest": {
       "bad_credentials": "{{ errorMessage }}. Please login again.",
+      "password_expired": "{{ errorMessage }}. Please change your password.",
       "user_is_disabled": "{{ errorMessage }}. Please contact administration."
     },
     "badGateway": "A server error occurred. Please try again later.",
