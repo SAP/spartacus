@@ -7,7 +7,7 @@
 import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
-  SubscriptionBillingFacade,
+  SubscriptionFacade,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
 import { switchMap } from 'rxjs';
@@ -18,7 +18,7 @@ import { switchMap } from 'rxjs';
   standalone: false,
 })
 export class SubscriptionListComponent {
-  protected subscriptionBillingFacade = inject(SubscriptionBillingFacade);
+  protected SubscriptionFacade = inject(SubscriptionFacade);
 
   PAGE_SIZE = 5;
 
@@ -32,7 +32,7 @@ export class SubscriptionListComponent {
 
   subscriptions$ = toObservable(this.listParams).pipe(
     switchMap((params) =>
-      this.subscriptionBillingFacade.getSubscriptionList(
+      this.SubscriptionFacade.getSubscriptionList(
         this.PAGE_SIZE,
         params.currentPage,
         params.sortCode

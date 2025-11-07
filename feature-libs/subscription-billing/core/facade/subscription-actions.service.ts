@@ -20,7 +20,7 @@ import {
 } from '@spartacus/subscription-billing/root';
 import { Observable, switchMap, take, combineLatest, of } from 'rxjs';
 import {
-  SubscriptionBillingConnector,
+  SubscriptionConnector,
   SubscriptionActionsConnector,
 } from '../connector';
 
@@ -28,7 +28,7 @@ import {
 export class SubscriptionActionsService implements SubscriptionActionsFacade {
   protected queryService = inject(QueryService);
   protected userIdService = inject(UserIdService);
-  protected subscriptionBillingConnector = inject(SubscriptionBillingConnector);
+  protected SubscriptionConnector = inject(SubscriptionConnector);
   protected SubscriptionActionsConnector = inject(SubscriptionActionsConnector);
   protected routingService = inject(RoutingService);
 
