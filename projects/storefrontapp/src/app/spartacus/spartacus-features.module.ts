@@ -375,6 +375,7 @@ if (environment.cpq) {
         authorizationCodeFlowByDefault: true,
         defaultLayoutConfigWithoutPageFold: true,
         navigationMenuCloseOnSameLinkClick: true,
+        enablePasswordExpiredErrorTranslation: true,
         enableQuotePurchaseOrderNumber: false,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
       };
