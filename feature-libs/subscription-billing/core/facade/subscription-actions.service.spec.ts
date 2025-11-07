@@ -26,7 +26,7 @@ describe('SubscriptionActionsService', () => {
   let service: SubscriptionActionsService;
   let userIdService: jasmine.SpyObj<UserIdService>;
   let cancelConnector: jasmine.SpyObj<SubscriptionActionsConnector>;
-  let SubscriptionConnector: jasmine.SpyObj<SubscriptionConnector>;
+  let subscriptionConnector: jasmine.SpyObj<SubscriptionConnector>;
   const userId = 'user123';
   const subscriptionCode = 'sub456';
 
@@ -38,7 +38,7 @@ describe('SubscriptionActionsService', () => {
       'reverseCancellation',
       'withdrawSubscription',
     ]);
-    SubscriptionConnector = jasmine.createSpyObj('SubscriptionConnector', [
+    subscriptionConnector = jasmine.createSpyObj('SubscriptionConnector', [
       'check',
     ]);
     TestBed.configureTestingModule({
@@ -51,7 +51,7 @@ describe('SubscriptionActionsService', () => {
         },
         {
           provide: SubscriptionConnector,
-          useValue: SubscriptionConnector,
+          useValue: subscriptionConnector,
         },
         { provide: RoutingService, useValue: mockRoutingService },
         { provide: Store, useValue: mockStore },
