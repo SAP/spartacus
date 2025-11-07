@@ -18,7 +18,7 @@ import { NodesResponse, TreeNode } from '../../connectors/scene/nodes-response';
 import { SceneConnector } from '../../connectors/scene/scene.connector';
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 export interface NodeIdProductCodes {
   nodeId: string;
@@ -26,7 +26,7 @@ export interface NodeIdProductCodes {
 }
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 @Injectable({
   providedIn: 'root',
