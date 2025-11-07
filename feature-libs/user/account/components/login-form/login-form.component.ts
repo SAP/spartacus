@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostBinding,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, ViewChild, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
@@ -23,6 +17,8 @@ import { LoginFormComponentService } from './login-form-component.service';
   host: { ngSkipHydration: 'true' },
 })
 export class LoginFormComponent {
+  protected service = inject(LoginFormComponentService);
+
   @ViewChild('loginForm') loginForm: ElementRef<HTMLElementTagNameMap['form']>;
   @HostBinding('class.user-form') style = true;
   form: UntypedFormGroup = this.service.form;
@@ -31,7 +27,7 @@ export class LoginFormComponent {
   action = this.service.action;
   method = this.service.method;
 
-  constructor(protected service: LoginFormComponentService) {
+  constructor() {
     this.service.handleCustomLoginError();
   }
 

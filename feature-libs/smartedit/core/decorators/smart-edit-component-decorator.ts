@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2, inject } from '@angular/core';
 import { ComponentDecorator, ContentSlotComponentData } from '@spartacus/core';
 import { SmartEditService } from '../services/smart-edit.service';
 
@@ -12,9 +12,8 @@ import { SmartEditService } from '../services/smart-edit.service';
   providedIn: 'root',
 })
 export class SmartEditComponentDecorator extends ComponentDecorator {
-  constructor(protected smartEditService: SmartEditService) {
-    super();
-  }
+  protected smartEditService = inject(SmartEditService);
+
 
   decorate(
     element: Element,

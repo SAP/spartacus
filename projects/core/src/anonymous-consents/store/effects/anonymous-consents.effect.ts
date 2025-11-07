@@ -31,6 +31,14 @@ import { AnonymousConsentsActions } from '../actions/index';
 
 @Injectable()
 export class AnonymousConsentsEffects {
+  private actions$ = inject(Actions);
+  private anonymousConsentTemplatesConnector = inject(AnonymousConsentTemplatesConnector);
+  private authService = inject(AuthService);
+  private anonymousConsentsConfig = inject(AnonymousConsentsConfig);
+  private anonymousConsentService = inject(AnonymousConsentsService);
+  private userConsentService = inject(UserConsentService);
+  private userIdService = inject(UserIdService);
+
   protected logger = inject(LoggerService);
 
   checkConsentVersions$: Observable<
@@ -245,16 +253,6 @@ export class AnonymousConsentsEffects {
       )
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private anonymousConsentTemplatesConnector: AnonymousConsentTemplatesConnector,
-    private authService: AuthService,
-    private anonymousConsentsConfig: AnonymousConsentsConfig,
-    private anonymousConsentService: AnonymousConsentsService,
-    private userConsentService: UserConsentService,
-    private userIdService: UserIdService
-  ) {}
 
   /**
    * Compares the given versions and determines if there's a mismatch,

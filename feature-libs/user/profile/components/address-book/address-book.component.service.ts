@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Address, UserAddressService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
@@ -12,7 +12,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AddressBookComponentService {
-  constructor(protected userAddressService: UserAddressService) {}
+  protected userAddressService = inject(UserAddressService);
+
 
   getAddresses(): Observable<Address[]> {
     return this.userAddressService.getAddresses();

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { CartEntryAdapter } from './cart-entry.adapter';
@@ -13,7 +13,8 @@ import { CartEntryAdapter } from './cart-entry.adapter';
   providedIn: 'root',
 })
 export class CartEntryConnector {
-  constructor(protected adapter: CartEntryAdapter) {}
+  protected adapter = inject(CartEntryAdapter);
+
 
   public add(
     userId: string,

@@ -4,20 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AfterViewChecked,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ComponentRef,
-  ElementRef,
-  HostBinding,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  Renderer2,
-  TemplateRef,
-} from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, ElementRef, HostBinding, HostListener, OnDestroy, OnInit, Renderer2, TemplateRef, inject } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { WindowRef } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
@@ -34,6 +21,12 @@ import { PopoverEvent, PopoverPosition } from './popover.model';
   standalone: false,
 })
 export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
+  protected positioningService = inject(PositioningService);
+  protected winRef = inject(WindowRef);
+  protected changeDetectionRef = inject(ChangeDetectorRef);
+  protected renderer = inject(Renderer2);
+  protected router = inject(Router);
+
   /**
    * String or template to be rendered inside popover wrapper component.
    */
@@ -270,12 +263,4 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.scrollEventUnlistener();
     }
   }
-
-  constructor(
-    protected positioningService: PositioningService,
-    protected winRef: WindowRef,
-    protected changeDetectionRef: ChangeDetectorRef,
-    protected renderer: Renderer2,
-    protected router: Router
-  ) {}
 }

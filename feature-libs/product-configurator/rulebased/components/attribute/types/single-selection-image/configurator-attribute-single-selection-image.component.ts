@@ -35,6 +35,9 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
+  protected attributeComponentContext = inject(ConfiguratorAttributeCompositionContext);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+
   attributeRadioButtonForm = new UntypedFormControl('');
 
   attribute: Configurator.Attribute;
@@ -45,13 +48,12 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   protected config = inject(Config);
   protected featureConfigService = inject(FeatureConfigService);
 
-  constructor(
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {
+  constructor() {
     useFeatureStyles('a11yDifferentiateFocusedAndSelected');
 
     super();
+    const attributeComponentContext = this.attributeComponentContext;
+
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
     this.expMode = attributeComponentContext.expMode;

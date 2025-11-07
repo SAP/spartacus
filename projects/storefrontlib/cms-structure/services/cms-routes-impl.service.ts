@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Type } from '@angular/core';
+import { Injectable, Type, inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   GuardResult,
@@ -27,11 +27,10 @@ import { CmsGuardsService } from './cms-guards.service';
 // This service should be exposed in public API only after the refactor planned in https://github.com/SAP/spartacus/issues/7070
 @Injectable({ providedIn: 'root' })
 export class CmsRoutesImplService {
-  constructor(
-    private router: Router,
-    private cmsComponentsService: CmsComponentsService,
-    private cmsGuardsService: CmsGuardsService
-  ) {}
+  private router = inject(Router);
+  private cmsComponentsService = inject(CmsComponentsService);
+  private cmsGuardsService = inject(CmsGuardsService);
+
 
   private cmsRouteExists(url: string): boolean {
     const isCmsDrivenRoute = url.startsWith('/');

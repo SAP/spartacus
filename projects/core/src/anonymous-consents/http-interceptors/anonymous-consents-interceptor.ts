@@ -11,7 +11,7 @@ import {
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
@@ -26,12 +26,11 @@ import { AnonymousConsentsService } from '../facade/anonymous-consents.service';
 
 @Injectable({ providedIn: 'root' })
 export class AnonymousConsentsInterceptor implements HttpInterceptor {
-  constructor(
-    private anonymousConsentsService: AnonymousConsentsService,
-    private authService: AuthService,
-    private occEndpoints: OccEndpointsService,
-    private config: AnonymousConsentsConfig
-  ) {}
+  private anonymousConsentsService = inject(AnonymousConsentsService);
+  private authService = inject(AuthService);
+  private occEndpoints = inject(OccEndpointsService);
+  private config = inject(AnonymousConsentsConfig);
+
 
   intercept(
     request: HttpRequest<any>,

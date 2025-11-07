@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { Budget } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
@@ -25,6 +25,8 @@ import { BudgetItemService } from '../services/budget-item.service';
   standalone: false,
 })
 export class BudgetDetailsComponent implements OnInit {
+  protected itemService = inject<ItemService<Budget>>(ItemService);
+
   model$: Observable<Budget>;
   isInEditMode$ = this.itemService.isInEditMode$;
 
@@ -34,6 +36,4 @@ export class BudgetDetailsComponent implements OnInit {
       startWith({})
     );
   }
-
-  constructor(protected itemService: ItemService<Budget>) {}
 }

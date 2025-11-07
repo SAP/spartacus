@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import {
   PopoverPosition,
@@ -25,7 +25,8 @@ export interface UIPositionRectangle {
   providedIn: 'root',
 })
 export class PositioningService {
-  constructor(protected winRef: WindowRef) {}
+  protected winRef = inject(WindowRef);
+
 
   protected get allowedPlacements(): Array<PopoverPositionArray> {
     return [

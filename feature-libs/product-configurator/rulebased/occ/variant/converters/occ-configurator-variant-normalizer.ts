@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Converter, OccConfig, TranslationService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { take } from 'rxjs/operators';
@@ -17,11 +17,10 @@ export class OccConfiguratorVariantNormalizer
   implements
     Converter<OccConfigurator.Configuration, Configurator.Configuration>
 {
-  constructor(
-    protected config: OccConfig,
-    protected translation: TranslationService,
-    protected uiSettingsConfig: ConfiguratorUISettingsConfig
-  ) {}
+  protected config = inject(OccConfig);
+  protected translation = inject(TranslationService);
+  protected uiSettingsConfig = inject(ConfiguratorUISettingsConfig);
+
 
   convert(
     source: OccConfigurator.Configuration,

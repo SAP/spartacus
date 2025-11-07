@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   ProcessSelectors,
@@ -26,11 +26,10 @@ import { OrderSelectors } from '../store/selectors/index';
 
 @Injectable()
 export class OrderReturnRequestService implements OrderReturnRequestFacade {
-  constructor(
-    protected store: Store<StateWithOrder>,
-    protected processStateStore: Store<StateWithProcess<void>>,
-    protected userIdService: UserIdService
-  ) {}
+  protected store = inject<Store<StateWithOrder>>(Store);
+  protected processStateStore = inject<Store<StateWithProcess<void>>>(Store);
+  protected userIdService = inject(UserIdService);
+
 
   /**
    * Create order return request

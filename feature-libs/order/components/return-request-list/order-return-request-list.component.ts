@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
 import { isNotUndefined, TranslationService } from '@spartacus/core';
 import {
   OrderReturnRequestFacade,
@@ -20,10 +20,9 @@ import { filter, map, take, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class OrderReturnRequestListComponent implements OnDestroy {
-  constructor(
-    private returnRequestService: OrderReturnRequestFacade,
-    private translation: TranslationService
-  ) {}
+  private returnRequestService = inject(OrderReturnRequestFacade);
+  private translation = inject(TranslationService);
+
 
   private PAGE_SIZE = 5;
   sortType: string;

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 import { CostCenter, Currency, CurrencyService } from '@spartacus/core';
 import {
@@ -37,6 +37,10 @@ import { CurrentCostCenterService } from '../services/current-cost-center.servic
   standalone: false,
 })
 export class CostCenterFormComponent {
+  protected itemService = inject<ItemService<CostCenter>>(ItemService);
+  protected unitService = inject(OrgUnitService);
+  protected currencyService = inject(CurrencyService);
+
   form: UntypedFormGroup | null = this.itemService.getForm();
   /**
    * Initialize the business unit for the cost center.
@@ -67,12 +71,6 @@ export class CostCenterFormComponent {
       }
     })
   );
-
-  constructor(
-    protected itemService: ItemService<CostCenter>,
-    protected unitService: OrgUnitService,
-    protected currencyService: CurrencyService
-  ) {}
 
   createCodeWithName(
     name: AbstractControl | null,

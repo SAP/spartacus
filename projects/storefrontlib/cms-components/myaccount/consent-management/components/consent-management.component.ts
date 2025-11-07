@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   AnonymousConsentsConfig,
   AnonymousConsentsService,
@@ -38,6 +38,13 @@ import { ConsentManagementComponentService } from '../consent-management-compone
   standalone: false,
 })
 export class ConsentManagementComponent implements OnInit, OnDestroy {
+  protected userConsentService = inject(UserConsentService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected anonymousConsentsConfig = inject(AnonymousConsentsConfig);
+  protected anonymousConsentsService = inject(AnonymousConsentsService);
+  protected authService = inject(AuthService);
+  protected consentManagementComponentService? = inject(ConsentManagementComponentService);
+
   private subscriptions = new Subscription();
   private allConsentsLoading = new BehaviorSubject<boolean>(false);
 
@@ -49,15 +56,6 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   get allConsentsLoading$() {
     return this.allConsentsLoading.asObservable();
   }
-
-  constructor(
-    protected userConsentService: UserConsentService,
-    protected globalMessageService: GlobalMessageService,
-    protected anonymousConsentsConfig: AnonymousConsentsConfig,
-    protected anonymousConsentsService: AnonymousConsentsService,
-    protected authService: AuthService,
-    protected consentManagementComponentService?: ConsentManagementComponentService
-  ) {}
 
   ngOnInit(): void {
     this.loading$ = combineLatest([

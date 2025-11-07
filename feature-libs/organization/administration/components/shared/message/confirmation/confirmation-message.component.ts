@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnInit,
-  PLATFORM_ID,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { Translatable } from '@spartacus/core';
 import { BaseMessageComponent } from '../base-message.component';
 import { MessageData } from '../message.model';
@@ -30,6 +24,10 @@ export class ConfirmationMessageComponent
   extends BaseMessageComponent
   implements OnInit
 {
+  protected data: MessageData<ConfirmationMessageData>;
+  protected platformId: any;
+  protected messageService = inject(MessageService);
+
   cancelText: Translatable = {
     key: 'organization.confirmation.cancel',
   };
@@ -37,12 +35,14 @@ export class ConfirmationMessageComponent
     key: 'organization.confirmation.confirm',
   };
 
-  constructor(
-    protected data: MessageData<ConfirmationMessageData>,
-    @Inject(PLATFORM_ID) protected platformId: any,
-    protected messageService: MessageService
-  ) {
+  constructor() {
+    const data = inject<MessageData<ConfirmationMessageData>>(MessageData);
+    const platformId = inject(PLATFORM_ID);
+
     super(data, platformId);
+  
+    this.data = data;
+    this.platformId = platformId;
   }
 
   ngOnInit() {

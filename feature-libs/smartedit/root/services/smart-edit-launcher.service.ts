@@ -18,18 +18,16 @@ import { SMART_EDIT_FEATURE } from '../feature-name';
   providedIn: 'root',
 })
 export class SmartEditLauncherService {
+  protected config = inject(SmartEditConfig);
+  protected location = inject(Location);
+  protected scriptLoader = inject(ScriptLoader);
+
   protected readonly featureModulesService = inject(FeatureModulesService);
   private _cmsTicketId: string | undefined;
 
   get cmsTicketId(): string | undefined {
     return this._cmsTicketId;
   }
-
-  constructor(
-    protected config: SmartEditConfig,
-    protected location: Location,
-    protected scriptLoader: ScriptLoader
-  ) {}
 
   /**
    * load webApplicationInjector.js first when Spartacus launched inside SmartEdit

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { CheckoutStep } from '@spartacus/checkout/base/root';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -18,14 +18,12 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   standalone: false,
 })
 export class CheckoutProgressMobileTopComponent {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected checkoutStepService = inject(CheckoutStepService);
+
   private _steps$: BehaviorSubject<CheckoutStep[]> =
     this.checkoutStepService.steps$;
   cart$: Observable<Cart> = this.activeCartFacade.getActive();
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService
-  ) {}
 
   activeStepIndex: number;
   activeStepIndex$: Observable<number> =

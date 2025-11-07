@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProfileTagInjectorService } from '../services/profile-tag.injector.service';
 
@@ -17,6 +17,7 @@ import { ProfileTagInjectorService } from '../services/profile-tag.injector.serv
   standalone: false,
 })
 export class ProfileTagComponent {
+  private profileTagInjector = inject(ProfileTagInjectorService);
+
   profileTagEnabled$: Observable<boolean> = this.profileTagInjector.track();
-  constructor(private profileTagInjector: ProfileTagInjectorService) {}
 }

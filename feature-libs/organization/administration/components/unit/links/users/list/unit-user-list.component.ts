@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { Observable, of } from 'rxjs';
@@ -27,6 +27,9 @@ import { B2BUserService } from '@spartacus/organization/administration/core';
   standalone: false,
 })
 export class UnitUserListComponent {
+  protected currentUnitService = inject(CurrentUnitService);
+  protected b2bUserService = inject(B2BUserService);
+
   routerKey = ROUTE_PARAMS.userCode;
 
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService
@@ -34,9 +37,4 @@ export class UnitUserListComponent {
     : of({ active: true });
 
   isUpdatingUserAllowed = this.b2bUserService.isUpdatingUserAllowed();
-
-  constructor(
-    protected currentUnitService: CurrentUnitService,
-    protected b2bUserService: B2BUserService
-  ) {}
 }

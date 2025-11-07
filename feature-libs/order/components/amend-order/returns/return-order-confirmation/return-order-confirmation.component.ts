@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
@@ -18,6 +18,8 @@ import { OrderAmendService } from '../../amend-order.service';
   standalone: false,
 })
 export class ReturnOrderConfirmationComponent {
+  protected orderAmendService = inject(OrderAmendService);
+
   orderCode: string;
 
   form$ = this.orderAmendService
@@ -26,8 +28,6 @@ export class ReturnOrderConfirmationComponent {
 
   entries$: Observable<OrderEntry[]> =
     this.orderAmendService.getAmendedEntries();
-
-  constructor(protected orderAmendService: OrderAmendService) {}
 
   submit(form: UntypedFormGroup): void {
     form.disable();

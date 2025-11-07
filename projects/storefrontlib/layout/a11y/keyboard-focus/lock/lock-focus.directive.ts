@@ -4,17 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AfterViewInit,
-  Directive,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  HostListener,
-  OnInit,
-  Output,
-  Renderer2,
-} from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, EventEmitter, HostBinding, HostListener, OnInit, Output, Renderer2, inject } from '@angular/core';
 import { FOCUS_GROUP_ATTR, LockFocusConfig } from '../keyboard-focus.model';
 import { TrapFocusDirective } from '../trap/trap-focus.directive';
 import { LockFocusService } from './lock-focus.service';
@@ -34,6 +24,10 @@ export class LockFocusDirective
   extends TrapFocusDirective
   implements OnInit, AfterViewInit
 {
+  protected elementRef: ElementRef;
+  protected service: LockFocusService;
+  protected renderer = inject(Renderer2);
+
   protected defaultConfig: LockFocusConfig = { lock: true };
 
   // @Input('cxLockFocus')
@@ -81,12 +75,14 @@ export class LockFocusDirective
     }
   }
 
-  constructor(
-    protected elementRef: ElementRef,
-    protected service: LockFocusService,
-    protected renderer: Renderer2
-  ) {
+  constructor() {
+    const elementRef = inject(ElementRef);
+    const service = inject(LockFocusService);
+
     super(elementRef, service);
+  
+    this.elementRef = elementRef;
+    this.service = service;
   }
 
   protected lockFocus() {

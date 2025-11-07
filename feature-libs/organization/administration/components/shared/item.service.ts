@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
@@ -22,11 +22,10 @@ import { FormService } from './form/form.service';
  */
 @Injectable()
 export abstract class ItemService<T> {
-  constructor(
-    protected currentItemService: CurrentItemService<T>,
-    protected routingService: RoutingService,
-    protected formService: FormService<T>
-  ) {}
+  protected currentItemService = inject<CurrentItemService<T>>(CurrentItemService);
+  protected routingService = inject(RoutingService);
+  protected formService = inject<FormService<T>>(FormService);
+
 
   key$ = this.currentItemService.key$;
   current$ = this.currentItemService.item$;

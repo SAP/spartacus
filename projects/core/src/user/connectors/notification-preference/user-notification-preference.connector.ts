@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserNotificationPreferenceAdapter } from './user-notification-preference.adapter';
 import { NotificationPreference } from '../../../model/notification-preference.model';
@@ -13,7 +13,8 @@ import { NotificationPreference } from '../../../model/notification-preference.m
   providedIn: 'root',
 })
 export class UserNotificationPreferenceConnector {
-  constructor(protected adapter: UserNotificationPreferenceAdapter) {}
+  protected adapter = inject(UserNotificationPreferenceAdapter);
+
 
   loadAll(userId: string): Observable<NotificationPreference[]> {
     return this.adapter.loadAll(userId);

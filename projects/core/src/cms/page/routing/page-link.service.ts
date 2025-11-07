@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WindowRef } from '../../../window/window-ref';
 import {
   CanonicalUrlOptions,
@@ -16,10 +16,9 @@ import {
  */
 @Injectable({ providedIn: 'root' })
 export class PageLinkService {
-  constructor(
-    protected pageMetaConfig: PageMetaConfig,
-    protected winRef: WindowRef
-  ) {}
+  protected pageMetaConfig = inject(PageMetaConfig);
+  protected winRef = inject(WindowRef);
+
 
   /**
    * Returns the canonical for the page.

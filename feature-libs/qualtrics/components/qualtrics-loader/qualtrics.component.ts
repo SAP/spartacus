@@ -18,12 +18,12 @@ import { QualtricsLoaderService } from './qualtrics-loader.service';
   standalone: false,
 })
 export class QualtricsComponent {
+  protected qualtricsLoader = inject(QualtricsLoaderService);
+  protected config = inject(QualtricsConfig);
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected qualtricsLoader: QualtricsLoaderService,
-    protected config: QualtricsConfig
-  ) {
+  constructor() {
     if (this.config.qualtrics?.scriptSource) {
       this.qualtricsLoader.addScript(this.config.qualtrics.scriptSource);
     } else if (isDevMode()) {

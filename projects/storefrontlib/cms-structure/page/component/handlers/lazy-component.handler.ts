@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ComponentRef,
-  ElementRef,
-  Injectable,
-  Injector,
-  NgModuleRef,
-  ViewContainerRef,
-} from '@angular/core';
+import { ComponentRef, ElementRef, Injectable, Injector, NgModuleRef, ViewContainerRef, inject } from '@angular/core';
 import { CmsComponentMapping, Priority } from '@spartacus/core';
 import { from, Observable } from 'rxjs';
 import { DefaultComponentHandler } from './default-component.handler';
@@ -26,7 +19,8 @@ import { ComponentHandler } from './component-handler';
   providedIn: 'root',
 })
 export class LazyComponentHandler implements ComponentHandler {
-  constructor(protected defaultHandler: DefaultComponentHandler) {}
+  protected defaultHandler = inject(DefaultComponentHandler);
+
 
   /**
    * We want to mach dynamic import signature () => import('')

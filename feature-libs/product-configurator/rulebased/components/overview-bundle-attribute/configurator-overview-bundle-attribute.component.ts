@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import {
   ImageGroup,
   Product,
@@ -29,14 +24,12 @@ import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.c
   standalone: false,
 })
 export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
+  protected productService = inject(ProductService);
+  protected translation = inject(TranslationService);
+
   product$: Observable<Product>;
 
   @Input() attributeOverview: Configurator.AttributeOverview;
-
-  constructor(
-    protected productService: ProductService,
-    protected translation: TranslationService
-  ) {}
 
   ngOnInit() {
     const noCommerceProduct: Product = { images: {} };

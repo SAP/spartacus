@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, inject } from '@angular/core';
 import { ProductSearchPage } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { ViewConfig } from '../../../../../shared/config/view-config';
@@ -17,6 +17,9 @@ import { ProductListComponentService } from '../product-list-component.service';
   standalone: false,
 })
 export class ProductScrollComponent implements OnDestroy {
+  private productListComponentService = inject(ProductListComponentService);
+  private ref = inject(ChangeDetectorRef);
+
   private subscription = new Subscription();
 
   @Input('scrollConfig')
@@ -55,11 +58,6 @@ export class ProductScrollComponent implements OnDestroy {
   isMaxProducts = false;
   isLastPage = false;
   isEmpty = false;
-
-  constructor(
-    private productListComponentService: ProductListComponentService,
-    private ref: ChangeDetectorRef
-  ) {}
 
   scrollPage(pageNumber: number): void {
     this.appendProducts = true;

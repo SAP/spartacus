@@ -34,13 +34,11 @@ import {
 export class QuickOrderOrderEntriesContext
   implements AddOrderEntriesContext, GetOrderEntriesContext
 {
+  protected quickOrderService = inject(QuickOrderFacade);
+  protected productConnector = inject(ProductConnector);
+
   readonly type = OrderEntriesSource.QUICK_ORDER;
   protected logger = inject(LoggerService);
-
-  constructor(
-    protected quickOrderService: QuickOrderFacade,
-    protected productConnector: ProductConnector
-  ) {}
 
   getEntries(): Observable<OrderEntry[]> {
     return this.quickOrderService.getEntries();

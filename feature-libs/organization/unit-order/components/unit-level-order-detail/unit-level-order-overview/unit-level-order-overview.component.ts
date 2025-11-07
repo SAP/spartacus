@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
@@ -26,10 +26,9 @@ import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service'
   standalone: false,
 })
 export class UnitLevelOrderOverviewComponent implements OnInit {
-  constructor(
-    protected translation: TranslationService,
-    protected unitLevelOrderDetailsService: UnitLevelOrderDetailService
-  ) {}
+  protected translation = inject(TranslationService);
+  protected unitLevelOrderDetailsService = inject(UnitLevelOrderDetailService);
+
 
   order$: Observable<Order>;
 

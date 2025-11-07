@@ -35,6 +35,10 @@ import { FacetService } from '../services/facet.service';
   standalone: false,
 })
 export class FacetComponent implements AfterViewInit {
+  protected facetService = inject(FacetService);
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected cd = inject(ChangeDetectorRef);
+
   protected _facet: Facet;
 
   state$: Observable<FacetCollapseState>;
@@ -64,12 +68,6 @@ export class FacetComponent implements AfterViewInit {
   @Optional() featureConfigService = inject(FeatureConfigService, {
     optional: true,
   });
-
-  constructor(
-    protected facetService: FacetService,
-    protected elementRef: ElementRef<HTMLElement>,
-    protected cd: ChangeDetectorRef
-  ) {}
 
   ngAfterViewInit(): void {
     // Update the value of `this.isExpanded` after `this.values` was initialized

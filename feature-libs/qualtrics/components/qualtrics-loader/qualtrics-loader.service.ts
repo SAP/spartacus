@@ -5,14 +5,7 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import {
-  inject,
-  Inject,
-  Injectable,
-  isDevMode,
-  OnDestroy,
-  PLATFORM_ID,
-} from '@angular/core';
+import { inject, Injectable, isDevMode, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { LoggerService, ScriptLoader, WindowRef } from '@spartacus/core';
 import { EMPTY, fromEvent, Observable, of, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -40,6 +33,10 @@ interface QualtricsWindow extends Window {
   providedIn: 'root',
 })
 export class QualtricsLoaderService implements OnDestroy {
+  protected winRef = inject(WindowRef);
+  protected platformId = inject(PLATFORM_ID);
+  protected scriptLoader = inject(ScriptLoader);
+
   protected subscription = new Subscription();
 
   protected logger = inject(LoggerService);
@@ -74,11 +71,7 @@ export class QualtricsLoaderService implements OnDestroy {
     return this.winRef.nativeWindow;
   }
 
-  constructor(
-    protected winRef: WindowRef,
-    @Inject(PLATFORM_ID) protected platformId: any,
-    protected scriptLoader: ScriptLoader
-  ) {
+  constructor() {
     this.initialize();
   }
 

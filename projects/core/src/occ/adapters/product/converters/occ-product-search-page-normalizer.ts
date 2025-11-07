@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Facet,
   ProductSearchPage,
@@ -20,7 +20,8 @@ import { Occ } from '../../../occ-models/occ.models';
 export class OccProductSearchPageNormalizer
   implements Converter<Occ.ProductSearchPage, ProductSearchPage>
 {
-  constructor(private converterService: ConverterService) {}
+  private converterService = inject(ConverterService);
+
 
   /**
    * Specifies the minimal number of top values in case

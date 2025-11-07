@@ -42,6 +42,11 @@ const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
   standalone: false,
 })
 export class QuickOrderFormComponent implements OnInit, OnDestroy {
+  config = inject(Config);
+  protected cd = inject(ChangeDetectorRef);
+  protected quickOrderService = inject(QuickOrderFacade);
+  protected winRef = inject(WindowRef);
+
   form: UntypedFormGroup;
   iconTypes = ICON_TYPE;
   isSearching: boolean = false;
@@ -55,13 +60,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   private featureConfigService = inject(FeatureConfigService);
   protected subscription = new Subscription();
   protected searchSubscription = new Subscription();
-
-  constructor(
-    public config: Config,
-    protected cd: ChangeDetectorRef,
-    protected quickOrderService: QuickOrderFacade,
-    protected winRef: WindowRef
-  ) {}
 
   ngOnInit(): void {
     this.buildForm();

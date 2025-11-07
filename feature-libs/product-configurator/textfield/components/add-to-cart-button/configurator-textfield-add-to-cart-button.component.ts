@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
@@ -16,12 +16,10 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
   standalone: false,
 })
 export class ConfiguratorTextfieldAddToCartButtonComponent {
+  protected configuratorTextfieldService = inject(ConfiguratorTextfieldService);
+
   @Input() configuration: ConfiguratorTextfield.Configuration;
   @Input() productCode: string;
-
-  constructor(
-    protected configuratorTextfieldService: ConfiguratorTextfieldService
-  ) {}
 
   /**
    * Adds the textfield configuration to the cart or updates it

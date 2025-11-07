@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import {
   B2BUserRight,
@@ -21,11 +21,10 @@ import { filter, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class UnitLevelOrdersViewerGuard {
-  constructor(
-    protected userAccountFacade: UserAccountFacade,
-    protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
-  ) {}
+  protected userAccountFacade = inject(UserAccountFacade);
+  protected routingService = inject(RoutingService);
+  protected globalMessageService = inject(GlobalMessageService);
+
 
   canActivate(): Observable<boolean> {
     return this.userAccountFacade.get().pipe(

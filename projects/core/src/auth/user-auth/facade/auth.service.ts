@@ -37,6 +37,14 @@ import { UserIdService } from './user-id.service';
   providedIn: 'root',
 })
 export class AuthService {
+  protected store = inject<Store<StateWithClientAuth>>(Store);
+  protected userIdService = inject(UserIdService);
+  protected oAuthLibWrapperService = inject(OAuthLibWrapperService);
+  protected authStorageService = inject(AuthStorageService);
+  protected authRedirectService = inject(AuthRedirectService);
+  protected routingService = inject(RoutingService);
+  protected authMultisiteIsolationService? = inject(AuthMultisiteIsolationService);
+
   protected crossSiteRequestForgeryService = inject(
     CrossSiteRequestForgeryService
   );
@@ -62,16 +70,6 @@ export class AuthService {
 
   private featureConfigService = inject(FeatureConfigService);
   protected featureToggles = inject(FeatureToggles);
-
-  constructor(
-    protected store: Store<StateWithClientAuth>,
-    protected userIdService: UserIdService,
-    protected oAuthLibWrapperService: OAuthLibWrapperService,
-    protected authStorageService: AuthStorageService,
-    protected authRedirectService: AuthRedirectService,
-    protected routingService: RoutingService,
-    protected authMultisiteIsolationService?: AuthMultisiteIsolationService
-  ) {}
 
   /**
    * Check params in url and if there is an code/token then try to login with those.

@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, inject } from '@angular/core';
 import {
   EntitiesModel,
   PaginationModel,
@@ -35,14 +30,14 @@ import { CreateButtonType, ListService } from './list.service';
   standalone: false,
 })
 export class ListComponent<T = any, P = PaginationModel> {
+  protected service = inject<ListService<T, P>>(ListService);
+  protected organizationItemService = inject<ItemService<T>>(ItemService);
+
   readonly trapFocus = TrapFocus;
 
   @HostBinding('class.ghost') hasGhostData = false;
 
-  constructor(
-    protected service: ListService<T, P>,
-    protected organizationItemService: ItemService<T>
-  ) {
+  constructor() {
     useFeatureStyles('a11yTextSpacingAdjustments');
     useFeatureStyles('a11yCroppedFocusRing');
   }

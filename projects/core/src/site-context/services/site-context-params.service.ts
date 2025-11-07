@@ -18,13 +18,11 @@ import { ContextServiceMap } from '../providers/context-service-map';
 
 @Injectable()
 export class SiteContextParamsService {
-  protected logger = inject(LoggerService);
+  private config = inject(SiteContextConfig);
+  private injector = inject(Injector);
+  private serviceMap = inject(ContextServiceMap);
 
-  constructor(
-    private config: SiteContextConfig,
-    private injector: Injector,
-    private serviceMap: ContextServiceMap
-  ) {}
+  protected logger = inject(LoggerService);
 
   getContextParameters(): string[] {
     if (this.config.context) {

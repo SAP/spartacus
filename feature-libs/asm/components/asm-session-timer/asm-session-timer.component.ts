@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AsmConfig } from '@spartacus/asm/root';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
@@ -17,19 +17,17 @@ import { AsmComponentService } from '../services/asm-component.service';
   standalone: false,
 })
 export class AsmSessionTimerComponent implements OnInit, OnDestroy {
+  protected config = inject(AsmConfig);
+  protected asmComponentService = inject(AsmComponentService);
+  protected routingService = inject(RoutingService);
+  protected changeDetectorRef = inject(ChangeDetectorRef);
+  protected userIdService = inject(UserIdService);
+
   protected subscriptions = new Subscription();
   protected interval: any;
   protected maxStartDelayInSeconds = 60000;
   timeLeft: number;
   expiredTime: number;
-
-  constructor(
-    protected config: AsmConfig,
-    protected asmComponentService: AsmComponentService,
-    protected routingService: RoutingService,
-    protected changeDetectorRef: ChangeDetectorRef,
-    protected userIdService: UserIdService
-  ) {}
 
   ngOnInit(): void {
     this.initTimer();

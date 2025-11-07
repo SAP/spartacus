@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GuardResult, Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
@@ -19,6 +19,13 @@ import { ExpressCheckoutService } from '../services/express-checkout.service';
   providedIn: 'root',
 })
 export class CheckoutGuard {
+  protected router = inject(Router);
+  protected routingConfigService = inject(RoutingConfigService);
+  protected checkoutConfigService = inject(CheckoutConfigService);
+  protected expressCheckoutService = inject(ExpressCheckoutService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected checkoutStepService = inject(CheckoutStepService);
+
   private readonly firstStep$: Observable<UrlTree> =
     this.checkoutStepService.steps$.pipe(
       map((steps) => {
@@ -28,15 +35,6 @@ export class CheckoutGuard {
         );
       })
     );
-
-  constructor(
-    protected router: Router,
-    protected routingConfigService: RoutingConfigService,
-    protected checkoutConfigService: CheckoutConfigService,
-    protected expressCheckoutService: ExpressCheckoutService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService
-  ) {}
 
   canActivate(): Observable<GuardResult> {
     const expressCheckout$ = this.expressCheckoutService

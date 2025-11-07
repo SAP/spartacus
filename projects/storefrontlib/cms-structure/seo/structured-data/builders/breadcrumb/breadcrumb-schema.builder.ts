@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { PageMeta, PageMetaService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -14,7 +14,8 @@ import { SchemaBuilder } from '../schema.interface';
   providedIn: 'root',
 })
 export class BreadcrumbSchemaBuilder implements SchemaBuilder {
-  constructor(protected pageMetaService: PageMetaService) {}
+  protected pageMetaService = inject(PageMetaService);
+
 
   build(): Observable<any> {
     return this.pageMetaService

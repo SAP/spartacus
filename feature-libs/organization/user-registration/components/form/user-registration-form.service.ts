@@ -36,6 +36,15 @@ import { filter, switchMap, take, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class UserRegistrationFormService {
+  protected userRegisterFacade = inject(UserRegisterFacade);
+  protected userAddressService = inject(UserAddressService);
+  protected organizationUserRegistrationFacade = inject(UserRegistrationFacade);
+  protected translationService = inject(TranslationService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected authConfigService = inject(AuthConfigService);
+  protected routingService = inject(RoutingService);
+  protected formBuilder = inject(FormBuilder);
+
   private _form: FormGroup = this.buildForm();
   private featureConfigService = inject(FeatureConfigService);
 
@@ -84,17 +93,6 @@ export class UserRegistrationFormService {
   public get regionControl(): AbstractControl | null {
     return this.form.get('region.isocode');
   }
-
-  constructor(
-    protected userRegisterFacade: UserRegisterFacade,
-    protected userAddressService: UserAddressService,
-    protected organizationUserRegistrationFacade: UserRegistrationFacade,
-    protected translationService: TranslationService,
-    protected globalMessageService: GlobalMessageService,
-    protected authConfigService: AuthConfigService,
-    protected routingService: RoutingService,
-    protected formBuilder: FormBuilder
-  ) {}
 
   /**
    * Gets all title codes.

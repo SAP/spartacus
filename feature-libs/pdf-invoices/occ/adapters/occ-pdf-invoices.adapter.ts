@@ -25,13 +25,11 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccPDFInvoicesAdapter implements PDFInvoicesAdapter {
-  protected logger = inject(LoggerService);
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected logger = inject(LoggerService);
 
   getInvoicesForOrder(
     userId: string,

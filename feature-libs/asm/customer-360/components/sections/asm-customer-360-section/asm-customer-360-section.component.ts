@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  Output,
-  Type,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output, Type, inject } from '@angular/core';
 import { AsmCustomer360SectionConfig } from '@spartacus/asm/customer-360/root';
 import { UrlCommand, User } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
@@ -32,6 +25,8 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
   standalone: false,
 })
 export class AsmCustomer360SectionComponent implements OnDestroy {
+  protected source = inject<AsmCustomer360SectionContextSource<unknown>>(AsmCustomer360SectionContextSource);
+
   @Input()
   component: Type<unknown>;
 
@@ -55,7 +50,9 @@ export class AsmCustomer360SectionComponent implements OnDestroy {
 
   protected subscription = new Subscription();
 
-  constructor(protected source: AsmCustomer360SectionContextSource<unknown>) {
+  constructor() {
+    const source = this.source;
+
     this.subscription.add(
       source.navigate$.subscribe((urlCommand) => this.navigate.emit(urlCommand))
     );

@@ -5,16 +5,15 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { WindowRef } from '../../window/window-ref';
 
 @Injectable({ providedIn: 'root' })
 export class ExternalRoutesGuard {
-  constructor(
-    protected winRef: WindowRef,
-    @Inject(PLATFORM_ID) protected platformId: Object
-  ) {}
+  protected winRef = inject(WindowRef);
+  protected platformId = inject<Object>(PLATFORM_ID);
+
 
   /**
    * Redirects to different storefront system for anticipated URL

@@ -6,7 +6,7 @@
 
 // cpq-quote-status.service.ts
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CartItemListComponentService } from '@spartacus/cart/base/components';
 import { CpqQuoteService } from './cpq-qute.service';
 
@@ -14,9 +14,8 @@ import { CpqQuoteService } from './cpq-qute.service';
   providedIn: 'root',
 })
 export class CpqQuoteSharedService extends CartItemListComponentService {
-  constructor(private flagService: CpqQuoteService) {
-    super();
-  }
+  private flagService = inject(CpqQuoteService);
+
 
   showBasePriceWithDiscount(): boolean {
     return this.flagService.getFlag$();

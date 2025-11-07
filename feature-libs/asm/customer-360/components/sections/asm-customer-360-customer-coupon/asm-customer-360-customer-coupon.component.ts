@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   AsmCustomer360CustomerCouponList,
   AsmCustomer360Facade,
@@ -32,6 +27,10 @@ import { ICON_TYPE } from '@spartacus/storefront';
 export class AsmCustomer360CustomerCouponComponent
   implements OnInit, OnDestroy
 {
+  protected context = inject<AsmCustomer360SectionContext<AsmCustomer360CustomerCouponList>>(AsmCustomer360SectionContext);
+  protected asmCustomer360Facade = inject(AsmCustomer360Facade);
+  protected customerCouponService = inject(CustomerCouponService);
+
   showErrorAlert$ = new BehaviorSubject<boolean>(false);
   showErrorAlertForApplyAction$ = new BehaviorSubject<boolean>(false);
   entries$: Observable<Array<CustomerCouponEntry>>;
@@ -39,12 +38,6 @@ export class AsmCustomer360CustomerCouponComponent
   currentTabIsAssignable = true;
   iconTypes = ICON_TYPE;
   activeTab = 0;
-
-  constructor(
-    protected context: AsmCustomer360SectionContext<AsmCustomer360CustomerCouponList>,
-    protected asmCustomer360Facade: AsmCustomer360Facade,
-    protected customerCouponService: CustomerCouponService
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

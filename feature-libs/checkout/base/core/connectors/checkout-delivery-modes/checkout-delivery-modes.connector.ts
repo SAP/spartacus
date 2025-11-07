@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { CheckoutDeliveryModesAdapter } from './checkout-delivery-modes.adapter';
 
 @Injectable()
 export class CheckoutDeliveryModesConnector {
-  constructor(protected adapter: CheckoutDeliveryModesAdapter) {}
+  protected adapter = inject(CheckoutDeliveryModesAdapter);
+
 
   public setMode(
     userId: string,

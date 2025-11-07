@@ -5,7 +5,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
   GeoPoint,
@@ -27,11 +27,10 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OccStoreFinderAdapter implements StoreFinderAdapter {
-  constructor(
-    protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService
-  ) {}
+  protected http = inject(HttpClient);
+  protected occEndpointsService = inject(OccEndpointsService);
+  protected converterService = inject(ConverterService);
+
 
   search(
     query: string,

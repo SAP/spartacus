@@ -33,6 +33,8 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   standalone: false,
 })
 export class ConfigureCartEntryComponent {
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
+
   protected routingService = inject(RoutingService);
 
   @Input() cartEntry: OrderEntry;
@@ -165,8 +167,4 @@ export class ConfigureCartEntryComponent {
       })
     );
   }
-
-  constructor(
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService
-  ) {}
 }

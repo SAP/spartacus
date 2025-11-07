@@ -28,17 +28,15 @@ import { TranslationService } from './translation.service';
   standalone: false,
 })
 export class TranslatePipe implements PipeTransform, OnDestroy {
+  protected service = inject(TranslationService);
+  protected cd = inject(ChangeDetectorRef);
+
   private lastKey: string;
   private lastOptions: object;
   private translatedValue: string;
   private sub: Subscription;
 
   protected logger = inject(LoggerService);
-
-  constructor(
-    protected service: TranslationService,
-    protected cd: ChangeDetectorRef
-  ) {}
 
   transform(
     input: Translatable | string | string[],

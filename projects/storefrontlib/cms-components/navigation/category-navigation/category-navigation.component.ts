@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CmsNavigationComponent } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -18,14 +18,12 @@ import { NavigationService } from '../navigation/navigation.service';
   standalone: false,
 })
 export class CategoryNavigationComponent {
+  protected componentData = inject<CmsComponentData<CmsNavigationComponent>>(CmsComponentData);
+  protected service = inject(NavigationService);
+
   node$: Observable<NavigationNode> = this.service.getNavigationNode(
     this.componentData.data$
   );
 
   data$: Observable<CmsNavigationComponent> = this.componentData.data$;
-
-  constructor(
-    protected componentData: CmsComponentData<CmsNavigationComponent>,
-    protected service: NavigationService
-  ) {}
 }

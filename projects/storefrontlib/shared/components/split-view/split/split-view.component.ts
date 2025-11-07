@@ -4,15 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostBinding,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 import { SplitViewService } from '../split-view.service';
@@ -47,6 +39,10 @@ import { SplitViewService } from '../split-view.service';
   standalone: false,
 })
 export class SplitViewComponent implements OnInit, OnDestroy {
+  protected splitService = inject(SplitViewService);
+  protected breakpointService = inject(BreakpointService);
+  protected elementRef = inject(ElementRef);
+
   private subscription = new Subscription();
 
   /**
@@ -68,12 +64,6 @@ export class SplitViewComponent implements OnInit, OnDestroy {
   @HostBinding('style.--cx-active-view')
   @HostBinding('attr.active-view')
   lastVisibleView = 1;
-
-  constructor(
-    protected splitService: SplitViewService,
-    protected breakpointService: BreakpointService,
-    protected elementRef: ElementRef
-  ) {}
 
   ngOnInit() {
     this.subscription.add(

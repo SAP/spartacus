@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutPaymentCardTypesQueryReloadEvent,
@@ -34,6 +34,14 @@ import { CheckoutPaymentConnector } from '../connectors/checkout-payment/checkou
 
 @Injectable()
 export class CheckoutPaymentService implements CheckoutPaymentFacade {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected userIdService = inject(UserIdService);
+  protected queryService = inject(QueryService);
+  protected commandService = inject(CommandService);
+  protected eventService = inject(EventService);
+  protected checkoutPaymentConnector = inject(CheckoutPaymentConnector);
+  protected checkoutQueryFacade = inject(CheckoutQueryFacade);
+
   /**
    * Returns the reload events for the cardTypes query
    */
@@ -107,16 +115,6 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
         strategy: CommandStrategy.CancelPrevious,
       }
     );
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected userIdService: UserIdService,
-    protected queryService: QueryService,
-    protected commandService: CommandService,
-    protected eventService: EventService,
-    protected checkoutPaymentConnector: CheckoutPaymentConnector,
-    protected checkoutQueryFacade: CheckoutQueryFacade
-  ) {}
 
   /**
    * Performs the necessary checkout preconditions.

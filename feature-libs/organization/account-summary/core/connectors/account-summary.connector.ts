@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   AccountSummaryDetails,
   AccountSummaryList,
@@ -15,7 +15,8 @@ import { AccountSummaryAdapter } from './account-summary.adapter';
 
 @Injectable()
 export class AccountSummaryConnector {
-  constructor(protected accountSummaryAdapter: AccountSummaryAdapter) {}
+  protected accountSummaryAdapter = inject(AccountSummaryAdapter);
+
 
   getAccountSummary(
     userId: string,

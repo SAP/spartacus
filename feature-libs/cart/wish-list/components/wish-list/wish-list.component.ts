@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import { Observable } from 'rxjs';
@@ -15,10 +15,10 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class WishListComponent {
+  protected wishListFacade = inject(WishListFacade);
+
   wishList$: Observable<Cart> = this.wishListFacade.getWishList();
   loading$: Observable<boolean> = this.wishListFacade.getWishListLoading();
-
-  constructor(protected wishListFacade: WishListFacade) {}
 
   removeEntry(item: OrderEntry) {
     this.wishListFacade.removeEntry(item);

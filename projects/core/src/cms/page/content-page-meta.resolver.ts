@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PageType } from '../../model/cms.model';
 import { BreadcrumbMeta, PageRobotsMeta } from '../model/page.model';
@@ -38,7 +38,9 @@ export class ContentPageMetaResolver
     PageRobotsResolver,
     CanonicalPageResolver
 {
-  constructor(protected basePageMetaResolver: BasePageMetaResolver) {
+  protected basePageMetaResolver = inject(BasePageMetaResolver);
+
+  constructor() {
     super();
     this.pageType = PageType.CONTENT_PAGE;
   }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, ViewContainerRef } from '@angular/core';
+import { Component, OnDestroy, ViewContainerRef, inject } from '@angular/core';
 import { AnonymousConsentsService, useFeatureStyles } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -17,16 +17,16 @@ import { LaunchDialogService } from '../../../layout/launch-dialog/services/laun
   standalone: false,
 })
 export class AnonymousConsentManagementBannerComponent implements OnDestroy {
+  protected anonymousConsentsService = inject(AnonymousConsentsService);
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   private subscriptions = new Subscription();
 
   bannerVisible$: Observable<boolean> =
     this.anonymousConsentsService.isBannerVisible();
 
-  constructor(
-    protected anonymousConsentsService: AnonymousConsentsService,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {
+  constructor() {
     useFeatureStyles('a11yScrollToTopPositioning');
   }
 

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Address,
   B2BApprovalProcess,
@@ -21,7 +21,8 @@ import { OrgUnitAdapter } from './org-unit.adapter';
   providedIn: 'root',
 })
 export class OrgUnitConnector {
-  constructor(protected adapter: OrgUnitAdapter) {}
+  protected adapter = inject(OrgUnitAdapter);
+
 
   get(userId: string, orgUnitId: string): Observable<B2BUnit> {
     return this.adapter.load(userId, orgUnitId);

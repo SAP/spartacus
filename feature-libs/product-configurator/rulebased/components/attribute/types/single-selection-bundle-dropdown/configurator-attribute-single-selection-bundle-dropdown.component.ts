@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -26,18 +26,24 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit
 {
+  protected quantityService: ConfiguratorAttributeQuantityService;
+  protected translation: TranslationService;
+  protected attributeComponentContext: ConfiguratorAttributeCompositionContext;
+  protected configuratorCommonsService: ConfiguratorCommonsService;
+  protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
+
   readonly RETRACT_VALUE_CODE = Configurator.RetractValueCode;
   attributeDropDownForm = new UntypedFormControl('');
   selectionValue?: Configurator.Value;
   group: string;
 
-  constructor(
-    protected quantityService: ConfiguratorAttributeQuantityService,
-    protected translation: TranslationService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {
+  constructor() {
+    const quantityService = inject(ConfiguratorAttributeQuantityService);
+    const translation = inject(TranslationService);
+    const attributeComponentContext = inject(ConfiguratorAttributeCompositionContext);
+    const configuratorCommonsService = inject(ConfiguratorCommonsService);
+    const configuratorStorefrontUtilsService = inject(ConfiguratorStorefrontUtilsService);
+
     super(
       quantityService,
       translation,
@@ -45,6 +51,12 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
       configuratorCommonsService,
       configuratorStorefrontUtilsService
     );
+    this.quantityService = quantityService;
+    this.translation = translation;
+    this.attributeComponentContext = attributeComponentContext;
+    this.configuratorCommonsService = configuratorCommonsService;
+    this.configuratorStorefrontUtilsService = configuratorStorefrontUtilsService;
+
 
     this.group = attributeComponentContext.group.id;
   }

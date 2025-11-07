@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ConsentTemplate,
   ConverterService,
@@ -23,13 +23,12 @@ import { CdcConsent } from '../model';
 
 @Injectable({ providedIn: 'root' })
 export class CdcUserConsentService {
-  constructor(
-    protected languageService: LanguageService,
-    protected userProfileFacade: UserProfileFacade,
-    protected cdcJsService: CdcJsService,
-    protected converter: ConverterService,
-    protected cdcConsentsStorage: CdcConsentsLocalStorageService
-  ) {}
+  protected languageService = inject(LanguageService);
+  protected userProfileFacade = inject(UserProfileFacade);
+  protected cdcJsService = inject(CdcJsService);
+  protected converter = inject(ConverterService);
+  protected cdcConsentsStorage = inject(CdcConsentsLocalStorageService);
+
 
   /**
    *

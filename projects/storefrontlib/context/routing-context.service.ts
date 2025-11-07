@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { ActivatedRoutesService, UnifiedInjector } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -17,10 +17,9 @@ import { ContextToken } from './context.model';
  */
 @Injectable({ providedIn: 'root' })
 export class RoutingContextService {
-  constructor(
-    protected activatedRoutesService: ActivatedRoutesService,
-    protected injector: UnifiedInjector
-  ) {}
+  protected activatedRoutesService = inject(ActivatedRoutesService);
+  protected injector = inject(UnifiedInjector);
+
 
   /**
    * Combined context token mapping consisting of all mappings defined in currently

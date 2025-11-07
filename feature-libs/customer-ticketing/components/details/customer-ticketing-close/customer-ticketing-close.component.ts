@@ -24,6 +24,10 @@ import { CustomerTicketingCloseComponentService } from './customer-ticketing-clo
   standalone: false,
 })
 export class CustomerTicketingCloseComponent implements OnDestroy {
+  protected customerTicketingFacade = inject(CustomerTicketingFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+
   protected subscription = new Subscription();
   protected customerTicketingCloseComponentService = inject(
     CustomerTicketingCloseComponentService
@@ -33,12 +37,6 @@ export class CustomerTicketingCloseComponent implements OnDestroy {
 
   enableCloseButton$: Observable<boolean | undefined> =
     this.customerTicketingCloseComponentService.enableCloseButton();
-
-  constructor(
-    protected customerTicketingFacade: CustomerTicketingFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
 
   openDialog() {
     const dialog = this.launchDialogService.openDialog(

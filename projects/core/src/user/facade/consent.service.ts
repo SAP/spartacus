@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { merge, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { AnonymousConsentsService } from '../../anonymous-consents/index';
@@ -16,10 +16,9 @@ import { UserConsentService } from './user-consent.service';
  */
 @Injectable({ providedIn: 'root' })
 export class ConsentService {
-  constructor(
-    protected anonymousConsentsService: AnonymousConsentsService,
-    protected userConsentService: UserConsentService
-  ) {}
+  protected anonymousConsentsService = inject(AnonymousConsentsService);
+  protected userConsentService = inject(UserConsentService);
+
 
   /**
    * Returns either anonymous consent or registered consent as they are emitted.

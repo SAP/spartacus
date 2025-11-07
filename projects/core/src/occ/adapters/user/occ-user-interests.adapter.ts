@@ -27,14 +27,12 @@ const headers = new HttpHeaders({
 
 @Injectable()
 export class OccUserInterestsAdapter implements UserInterestsAdapter {
-  protected logger = inject(LoggerService);
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected config = inject(OccConfig);
+  protected converter = inject(ConverterService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected config: OccConfig,
-    protected converter: ConverterService
-  ) {}
+  protected logger = inject(LoggerService);
 
   public getInterests(
     userId: string,

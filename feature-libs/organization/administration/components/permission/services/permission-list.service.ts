@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   EntitiesModel,
   isNotUndefined,
@@ -41,13 +41,17 @@ export interface PermissionModel {
   providedIn: 'root',
 })
 export class PermissionListService extends ListService<PermissionModel> {
+  protected tableService: TableService;
+  protected permissionsService = inject(PermissionService);
+
   protected tableType = OrganizationTableType.PERMISSION;
 
-  constructor(
-    protected tableService: TableService,
-    protected permissionsService: PermissionService
-  ) {
+  constructor() {
+    const tableService = inject(TableService);
+
     super(tableService);
+  
+    this.tableService = tableService;
   }
 
   protected load(

@@ -5,7 +5,7 @@
  */
 
 import { DOCUMENT, isPlatformServer } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 
 export enum ScriptPlacement {
   HEAD = 'head',
@@ -16,10 +16,9 @@ export enum ScriptPlacement {
   providedIn: 'root',
 })
 export class ScriptLoader {
-  constructor(
-    @Inject(DOCUMENT) protected document: any,
-    @Inject(PLATFORM_ID) protected platformId: Object
-  ) {}
+  protected document = inject(DOCUMENT);
+  protected platformId = inject<Object>(PLATFORM_ID);
+
 
   /**
    * Embeds a javascript from an external URL.

@@ -44,15 +44,13 @@ const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 
 @Injectable()
 export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
   protected logger = inject(LoggerService);
   private occFieldsService = inject(OccFieldsService);
   protected orderConfig = inject(OrderConfig);
-
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
 
   public load(userId: string, orderCode: string): Observable<Order> {
     const url = this.orderConfig.showOrderQuoteLink

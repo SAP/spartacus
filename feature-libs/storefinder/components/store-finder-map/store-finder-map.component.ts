@@ -4,16 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { GoogleMapRendererService } from '@spartacus/storefinder/core';
 
 @Component({
@@ -22,14 +13,14 @@ import { GoogleMapRendererService } from '@spartacus/storefinder/core';
   standalone: false,
 })
 export class StoreFinderMapComponent implements OnChanges {
+  private googleMapRendererService = inject(GoogleMapRendererService);
+
   @ViewChild('mapElement', { static: true })
   mapElement: ElementRef;
   @Input()
   locations: any[];
   @Output()
   selectedStoreItem: EventEmitter<number> = new EventEmitter();
-
-  constructor(private googleMapRendererService: GoogleMapRendererService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.locations && this.locations) {

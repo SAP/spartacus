@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GuardResult, Router, UrlTree } from '@angular/router';
 import {
   AuthService,
@@ -27,13 +27,12 @@ import { map, switchMap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class LogoutGuard {
-  constructor(
-    protected auth: AuthService,
-    protected cms: CmsService,
-    protected semanticPathService: SemanticPathService,
-    protected protectedRoutes: ProtectedRoutesService,
-    protected router: Router
-  ) {}
+  protected auth = inject(AuthService);
+  protected cms = inject(CmsService);
+  protected semanticPathService = inject(SemanticPathService);
+  protected protectedRoutes = inject(ProtectedRoutesService);
+  protected router = inject(Router);
+
 
   canActivate(): Observable<GuardResult> {
     /**

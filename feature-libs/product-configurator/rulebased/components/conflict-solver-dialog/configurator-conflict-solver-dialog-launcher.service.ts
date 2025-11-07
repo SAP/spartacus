@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import {
@@ -34,6 +34,10 @@ type ConflictGroupAndRouterData = {
 export class ConfiguratorConflictSolverDialogLauncherService
   implements OnDestroy
 {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected configRouterExtractorService = inject(ConfiguratorRouterExtractorService);
+  protected configuratorGroupsService = inject(ConfiguratorGroupsService);
+
   protected subscription = new Subscription();
 
   routerData$: Observable<ConfiguratorRouter.Data> =
@@ -55,11 +59,7 @@ export class ConfiguratorConflictSolverDialogLauncherService
       delay(0)
     );
 
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorGroupsService: ConfiguratorGroupsService
-  ) {
+  constructor() {
     this.controlDialog();
   }
 

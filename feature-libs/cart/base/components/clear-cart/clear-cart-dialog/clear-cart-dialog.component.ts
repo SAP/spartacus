@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, inject } from '@angular/core';
 import { FocusConfig, ICON_TYPE } from '@spartacus/storefront';
 import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
 
@@ -21,6 +15,9 @@ import { ClearCartDialogComponentService } from './clear-cart-dialog-component.s
   standalone: false,
 })
 export class ClearCartDialogComponent implements OnDestroy {
+  protected el = inject(ElementRef);
+  protected clearCartDialogComponentService = inject(ClearCartDialogComponentService);
+
   focusConfig: FocusConfig = {
     trap: true,
     block: true,
@@ -39,11 +36,6 @@ export class ClearCartDialogComponent implements OnDestroy {
       this.close('Cross click');
     }
   }
-
-  constructor(
-    protected el: ElementRef,
-    protected clearCartDialogComponentService: ClearCartDialogComponentService
-  ) {}
 
   clearCart(): void {
     this.isClearing = true;

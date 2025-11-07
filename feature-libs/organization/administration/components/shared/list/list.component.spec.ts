@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  DebugElement,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, DebugElement, EventEmitter, Input, Output, inject as inject_1 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -108,11 +102,17 @@ class MockTableComponent {
   standalone: false,
 })
 class MockListComponent extends ListComponent<Mock> {
-  constructor(
-    protected baseListService: ListService<Mock>,
-    protected organizationItemService: ItemService<Mock>
-  ) {
+  protected baseListService: ListService<Mock>;
+  protected organizationItemService: ItemService<Mock>;
+
+  constructor() {
+    const baseListService = inject_1<ListService<Mock>>(ListService);
+    const organizationItemService = inject_1<ItemService<Mock>>(ItemService);
+
     super(baseListService, organizationItemService);
+  
+    this.baseListService = baseListService;
+    this.organizationItemService = organizationItemService;
   }
   viewType = OrganizationTableType.BUDGET;
 }

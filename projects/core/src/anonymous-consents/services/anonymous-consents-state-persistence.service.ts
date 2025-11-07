@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { StatePersistenceService } from '../../state/index';
@@ -28,13 +28,11 @@ export type SyncedAnonymousConsentsState = Partial<AnonymousConsentsState>;
   providedIn: 'root',
 })
 export class AnonymousConsentsStatePersistenceService implements OnDestroy {
-  protected subscription = new Subscription();
+  protected statePersistenceService = inject(StatePersistenceService);
+  protected store = inject<Store<StateWithAnonymousConsents>>(Store);
+  protected anonymousConsentsService = inject(AnonymousConsentsService);
 
-  constructor(
-    protected statePersistenceService: StatePersistenceService,
-    protected store: Store<StateWithAnonymousConsents>,
-    protected anonymousConsentsService: AnonymousConsentsService
-  ) {}
+  protected subscription = new Subscription();
 
   /**
    * Identifier used for storage key.

@@ -4,16 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostBinding,
-  OnDestroy,
-  OnInit,
-  QueryList,
-  ViewChildren,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, OnDestroy, OnInit, QueryList, ViewChildren, inject } from '@angular/core';
 import { getAsmDialogActionEvent } from '@spartacus/asm/customer-360/core';
 import {
   AsmDialogActionEvent,
@@ -52,6 +43,12 @@ import { AsmCustomer360Config } from '../config/asm-customer-360-config';
   standalone: false,
 })
 export class AsmCustomer360Component implements OnDestroy, OnInit {
+  protected asmCustomer360Config = inject(AsmCustomer360Config);
+  protected asmCustomer360Facade = inject(AsmCustomer360Facade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected csAgentAuthService = inject(CsAgentAuthService);
+  protected directionService = inject(DirectionService);
+
   @HostBinding('attr.role') role = 'dialog';
   @HostBinding('attr.aria-modal') modal = true;
   @HostBinding('attr.aria-labelledby') labelledby = 'asm-customer-360-title';
@@ -91,13 +88,9 @@ export class AsmCustomer360Component implements OnDestroy, OnInit {
 
   protected showErrorTab$ = new BehaviorSubject<boolean>(false);
 
-  constructor(
-    protected asmCustomer360Config: AsmCustomer360Config,
-    protected asmCustomer360Facade: AsmCustomer360Facade,
-    protected launchDialogService: LaunchDialogService,
-    protected csAgentAuthService: CsAgentAuthService,
-    protected directionService: DirectionService
-  ) {
+  constructor() {
+    const asmCustomer360Config = this.asmCustomer360Config;
+
     this.customerOverview$ = this.asmCustomer360Facade
       .get360Data([
         {

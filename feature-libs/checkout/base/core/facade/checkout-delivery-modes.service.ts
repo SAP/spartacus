@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryModeClearedErrorEvent,
@@ -35,6 +35,14 @@ import { CheckoutDeliveryModesConnector } from '../connectors/checkout-delivery-
 export class CheckoutDeliveryModesService
   implements CheckoutDeliveryModesFacade
 {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected userIdService = inject(UserIdService);
+  protected eventService = inject(EventService);
+  protected queryService = inject(QueryService);
+  protected commandService = inject(CommandService);
+  protected checkoutDeliveryModesConnector = inject(CheckoutDeliveryModesConnector);
+  protected checkoutQueryFacade = inject(CheckoutQueryFacade);
+
   /**
    * Returns the reload events for the supportedDeliveryModes query
    */
@@ -132,16 +140,6 @@ export class CheckoutDeliveryModesService
         strategy: CommandStrategy.CancelPrevious,
       }
     );
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected userIdService: UserIdService,
-    protected eventService: EventService,
-    protected queryService: QueryService,
-    protected commandService: CommandService,
-    protected checkoutDeliveryModesConnector: CheckoutDeliveryModesConnector,
-    protected checkoutQueryFacade: CheckoutQueryFacade
-  ) {}
 
   /**
    * Performs the necessary checkout preconditions.

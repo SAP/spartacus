@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CheckoutState } from '@spartacus/checkout/base/root';
 import { Observable } from 'rxjs';
 import { CheckoutAdapter } from './checkout.adapter';
 
 @Injectable()
 export class CheckoutConnector {
-  constructor(protected adapter: CheckoutAdapter) {}
+  protected adapter = inject(CheckoutAdapter);
+
 
   public getCheckoutDetails(
     userId: string,

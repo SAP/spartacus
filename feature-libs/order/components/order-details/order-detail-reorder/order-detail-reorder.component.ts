@@ -28,13 +28,11 @@ import { OrderEntry } from '@spartacus/cart/base/root';
   standalone: false,
 })
 export class OrderDetailReorderComponent implements OnInit, OnDestroy {
-  protected productCatalogService = inject(ProductCatalogService);
+  protected orderDetailsService = inject(OrderDetailsService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
 
-  constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
+  protected productCatalogService = inject(ProductCatalogService);
 
   @ViewChild('element') element: ElementRef;
   protected subscription = new Subscription();

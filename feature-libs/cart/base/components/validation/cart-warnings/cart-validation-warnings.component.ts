@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   CartModification,
   CartValidationFacade,
@@ -20,6 +20,8 @@ import { map } from 'rxjs/operators';
   standalone: false,
 })
 export class CartValidationWarningsComponent {
+  protected cartValidationFacade = inject(CartValidationFacade);
+
   iconTypes = ICON_TYPE;
   visibleWarnings: Record<string, boolean> = {};
 
@@ -38,8 +40,6 @@ export class CartValidationWarningsComponent {
       return result;
     })
   );
-
-  constructor(protected cartValidationFacade: CartValidationFacade) {}
 
   removeMessage(cartModification: CartModification) {
     if (cartModification.entry?.product?.code) {

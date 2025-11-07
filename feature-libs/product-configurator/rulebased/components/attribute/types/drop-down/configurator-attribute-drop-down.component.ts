@@ -33,18 +33,24 @@ export class ConfiguratorAttributeDropDownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit
 {
+  protected quantityService: ConfiguratorAttributeQuantityService;
+  protected translation: TranslationService;
+  protected attributeComponentContext: ConfiguratorAttributeCompositionContext;
+  protected configuratorCommonsService: ConfiguratorCommonsService;
+  protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
+
   attributeDropDownForm = new UntypedFormControl('');
   group: string;
 
   protected config = inject(Config);
 
-  constructor(
-    protected quantityService: ConfiguratorAttributeQuantityService,
-    protected translation: TranslationService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {
+  constructor() {
+    const quantityService = inject(ConfiguratorAttributeQuantityService);
+    const translation = inject(TranslationService);
+    const attributeComponentContext = inject(ConfiguratorAttributeCompositionContext);
+    const configuratorCommonsService = inject(ConfiguratorCommonsService);
+    const configuratorStorefrontUtilsService = inject(ConfiguratorStorefrontUtilsService);
+
     super(
       quantityService,
       translation,
@@ -52,6 +58,12 @@ export class ConfiguratorAttributeDropDownComponent
       configuratorCommonsService,
       configuratorStorefrontUtilsService
     );
+    this.quantityService = quantityService;
+    this.translation = translation;
+    this.attributeComponentContext = attributeComponentContext;
+    this.configuratorCommonsService = configuratorCommonsService;
+    this.configuratorStorefrontUtilsService = configuratorStorefrontUtilsService;
+
 
     this.group = attributeComponentContext.group.id;
   }

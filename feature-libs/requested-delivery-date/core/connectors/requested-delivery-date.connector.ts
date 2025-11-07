@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RequestedDeliveryDateAdapter } from './requested-delivery-date.adapter';
 
@@ -12,7 +12,8 @@ import { RequestedDeliveryDateAdapter } from './requested-delivery-date.adapter'
   providedIn: 'root',
 })
 export class RequestedDeliveryDateConnector {
-  constructor(protected adapter: RequestedDeliveryDateAdapter) {}
+  protected adapter = inject(RequestedDeliveryDateAdapter);
+
 
   public setRequestedDeliveryDate(
     userId: string,

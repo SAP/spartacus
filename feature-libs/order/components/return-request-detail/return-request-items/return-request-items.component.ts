@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ReturnRequest } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { ReturnRequestService } from '../return-request.service';
@@ -16,7 +16,8 @@ import { ReturnRequestService } from '../return-request.service';
   standalone: false,
 })
 export class ReturnRequestItemsComponent {
-  constructor(protected returnRequestService: ReturnRequestService) {}
+  protected returnRequestService = inject(ReturnRequestService);
+
 
   returnRequest$: Observable<ReturnRequest> =
     this.returnRequestService.getReturnRequest();

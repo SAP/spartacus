@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, NgZone, Renderer2, RendererFactory2 } from '@angular/core';
+import { Injectable, NgZone, Renderer2, RendererFactory2, inject } from '@angular/core';
 import {
   BaseSiteService,
   CmsService,
@@ -20,21 +20,23 @@ import { SmartEditConfig } from '@spartacus/smartedit/root';
   providedIn: 'root',
 })
 export class SmartEditService {
+  protected cmsService = inject(CmsService);
+  protected routingService = inject(RoutingService);
+  protected baseSiteService = inject(BaseSiteService);
+  protected zone = inject(NgZone);
+  protected winRef = inject(WindowRef);
+  protected rendererFactory = inject(RendererFactory2);
+  protected config = inject(SmartEditConfig);
+
   private isPreviewPage = false;
   private _currentPageId: string | undefined;
 
   private defaultPreviewProductCode: string | undefined;
   private defaultPreviewCategoryCode: string | undefined;
 
-  constructor(
-    protected cmsService: CmsService,
-    protected routingService: RoutingService,
-    protected baseSiteService: BaseSiteService,
-    protected zone: NgZone,
-    protected winRef: WindowRef,
-    protected rendererFactory: RendererFactory2,
-    protected config: SmartEditConfig
-  ) {
+  constructor() {
+    const winRef = this.winRef;
+
     if (winRef.nativeWindow) {
       const window = winRef.nativeWindow as any;
       // rerender components and slots after editing

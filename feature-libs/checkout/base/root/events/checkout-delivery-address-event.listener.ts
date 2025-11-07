@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { ActiveCartFacade, DeleteCartEvent } from '@spartacus/cart/base/root';
 import {
   DeleteUserAddressEvent,
@@ -34,14 +34,14 @@ import {
   providedIn: 'root',
 })
 export class CheckoutDeliveryAddressEventListener implements OnDestroy {
+  protected checkoutDeliveryAddressFacade = inject(CheckoutDeliveryAddressFacade);
+  protected eventService = inject(EventService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+
   protected subscriptions = new Subscription();
 
-  constructor(
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected eventService: EventService,
-    protected globalMessageService: GlobalMessageService,
-    protected activeCartFacade: ActiveCartFacade
-  ) {
+  constructor() {
     this.onDeliveryAddressCreated();
     this.onDeliveryAddressSet();
     this.onDeliveryAddressCleared();

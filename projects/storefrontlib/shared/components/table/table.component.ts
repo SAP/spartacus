@@ -4,15 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  HostBinding,
-  Input,
-  isDevMode,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, isDevMode, Output, inject } from '@angular/core';
 import { TableRendererService } from './table-renderer.service';
 import {
   TableDataOutletContext,
@@ -53,6 +45,8 @@ import {
   standalone: false,
 })
 export class TableComponent<T> {
+  protected rendererService = inject(TableRendererService);
+
   @HostBinding('attr.__cx-table-type') tableType: string;
   @HostBinding('class.horizontal') horizontalLayout: boolean;
   @HostBinding('class.vertical') verticalLayout: boolean;
@@ -84,8 +78,6 @@ export class TableComponent<T> {
   @Input() currentItem: { value: any; property: string };
 
   @Output() launch = new EventEmitter();
-
-  constructor(protected rendererService: TableRendererService) {}
 
   init() {
     this.verticalLayout = !this.layout || this.layout === TableLayout.VERTICAL;

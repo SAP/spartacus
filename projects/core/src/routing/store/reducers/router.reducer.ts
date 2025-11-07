@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, InjectionToken, Provider } from '@angular/core';
+import { Injectable, InjectionToken, Provider, inject } from '@angular/core';
 import { RouterStateSnapshot } from '@angular/router';
 import * as fromNgrxRouter from '@ngrx/router-store';
 import { ActionReducerMap } from '@ngrx/store';
@@ -109,6 +109,8 @@ and to reduce the amount of properties to be passed to the reducer.
 export class CustomSerializer
   implements fromNgrxRouter.RouterStateSerializer<ActivatedRouterStateSnapshot>
 {
+  private routingConfig = inject(RoutingConfigService);
+
   serialize(routerState: RouterStateSnapshot): ActivatedRouterStateSnapshot {
     let state: CmsActivatedRouteSnapshot =
       routerState.root as CmsActivatedRouteSnapshot;
@@ -231,6 +233,4 @@ export class CustomSerializer
     // don't start with slash. So we remove the leading slash:
     return this.routingConfig.getRouteName(path.substr(1));
   }
-
-  constructor(private routingConfig: RoutingConfigService) {}
 }

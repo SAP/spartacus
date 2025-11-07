@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Directive,
-  ElementRef,
-  AfterViewInit,
-  ViewContainerRef,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Directive, ElementRef, AfterViewInit, ViewContainerRef, ChangeDetectorRef, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { FormConfig } from '../../../config/form-config';
 import { PasswordVisibilityToggleComponent } from './password-visibility-toggle.component';
@@ -24,15 +18,13 @@ import { PasswordVisibilityToggleComponent } from './password-visibility-toggle.
   standalone: false,
 })
 export class PasswordVisibilityToggleDirective implements AfterViewInit {
-  protected inputWrapper: HTMLElement | null;
+  protected winRef = inject(WindowRef);
+  protected config = inject(FormConfig);
+  protected elementRef = inject(ElementRef);
+  protected viewContainerRef = inject(ViewContainerRef);
+  protected changeDetectorRef = inject(ChangeDetectorRef);
 
-  constructor(
-    protected winRef: WindowRef,
-    protected config: FormConfig,
-    protected elementRef: ElementRef,
-    protected viewContainerRef: ViewContainerRef,
-    protected changeDetectorRef: ChangeDetectorRef
-  ) {}
+  protected inputWrapper: HTMLElement | null;
 
   ngAfterViewInit(): void {
     if (this.config.form?.passwordVisibilityToggle) {

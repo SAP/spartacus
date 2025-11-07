@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { SiteContextConfig } from '../config/site-context-config';
@@ -13,11 +13,10 @@ import { CURRENCY_CONTEXT_ID } from '../providers/context-ids';
 
 @Injectable({ providedIn: 'root' })
 export class CurrencyStatePersistenceService {
-  constructor(
-    protected statePersistenceService: StatePersistenceService,
-    protected currencyService: CurrencyService,
-    protected config: SiteContextConfig
-  ) {}
+  protected statePersistenceService = inject(StatePersistenceService);
+  protected currencyService = inject(CurrencyService);
+  protected config = inject(SiteContextConfig);
+
 
   protected initialized$ = new ReplaySubject<unknown>(1);
 

@@ -54,6 +54,8 @@ import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
   standalone: false,
 })
 export class MediaComponent implements OnChanges {
+  protected mediaService = inject(MediaService);
+
   /**
    * The media container can hold multiple media items, so that
    * a specific media (by format) can be used or multiple media
@@ -161,8 +163,6 @@ export class MediaComponent implements OnChanges {
     inject(USE_LEGACY_MEDIA_COMPONENT, { optional: true }) ||
     (inject(Config) as any)['useLegacyMediaComponent'] ||
     false;
-
-  constructor(protected mediaService: MediaService) {}
 
   ngOnChanges(): void {
     this.create();

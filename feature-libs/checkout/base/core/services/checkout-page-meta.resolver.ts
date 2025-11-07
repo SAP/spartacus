@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   PageHeadingResolver,
@@ -37,11 +37,11 @@ export class CheckoutPageMetaResolver
     PageDescriptionResolver,
     PageRobotsResolver
 {
-  constructor(
-    protected translationService: TranslationService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected basePageMetaResolver: BasePageMetaResolver
-  ) {
+  protected translationService = inject(TranslationService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected basePageMetaResolver = inject(BasePageMetaResolver);
+
+  constructor() {
     super();
     this.pageType = PageType.CONTENT_PAGE;
     this.pageTemplate = 'MultiStepCheckoutSummaryPageTemplate';

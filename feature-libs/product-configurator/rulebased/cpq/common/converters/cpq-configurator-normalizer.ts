@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Converter, TranslationService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
@@ -16,10 +16,9 @@ import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normal
 export class CpqConfiguratorNormalizer
   implements Converter<Cpq.Configuration, Configurator.Configuration>
 {
-  constructor(
-    protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
-    protected translation: TranslationService
-  ) {}
+  protected cpqConfiguratorNormalizerUtilsService = inject(CpqConfiguratorNormalizerUtilsService);
+  protected translation = inject(TranslationService);
+
 
   convert(
     source: Cpq.Configuration,

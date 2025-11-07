@@ -4,18 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ComponentRef,
-  ElementRef,
-  inject,
-  Inject,
-  Injectable,
-  Injector,
-  isDevMode,
-  NgModuleRef,
-  Optional,
-  ViewContainerRef,
-} from '@angular/core';
+import { ComponentRef, ElementRef, inject, Injectable, Injector, isDevMode, NgModuleRef, ViewContainerRef } from '@angular/core';
 import {
   CmsComponentMapping,
   LoggerService,
@@ -31,13 +20,9 @@ import { ComponentHandler } from '../handlers/component-handler';
   providedIn: 'root',
 })
 export class ComponentHandlerService {
-  protected logger = inject(LoggerService);
+  protected handlers = inject(ComponentHandler, { optional: true });
 
-  constructor(
-    @Optional()
-    @Inject(ComponentHandler)
-    protected handlers: ComponentHandler[]
-  ) {}
+  protected logger = inject(LoggerService);
 
   protected invalidMappings = new Set<CmsComponentMapping<any>>();
 

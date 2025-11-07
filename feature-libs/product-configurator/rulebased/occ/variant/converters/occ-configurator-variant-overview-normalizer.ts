@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Converter,
   ConverterService,
@@ -19,10 +19,9 @@ import { VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER } from './../variant-conf
 export class OccConfiguratorVariantOverviewNormalizer
   implements Converter<OccConfigurator.Overview, Configurator.Overview>
 {
-  constructor(
-    protected translation: TranslationService,
-    protected converterService: ConverterService
-  ) {}
+  protected translation = inject(TranslationService);
+  protected converterService = inject(ConverterService);
+
 
   convert(
     source: OccConfigurator.Overview,

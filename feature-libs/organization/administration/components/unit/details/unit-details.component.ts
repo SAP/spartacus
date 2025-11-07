@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
@@ -26,6 +26,9 @@ import { UnitItemService } from '../services/unit-item.service';
   standalone: false,
 })
 export class UnitDetailsComponent {
+  protected itemService = inject<ItemService<B2BUnit>>(ItemService);
+  protected orgUnitService? = inject(OrgUnitService);
+
   model$: Observable<B2BUnit> = this.itemService.key$.pipe(
     switchMap((code) => this.itemService.load(code)),
     startWith({})
@@ -35,9 +38,4 @@ export class UnitDetailsComponent {
   readonly isUpdatingUnitAllowed = this.orgUnitService
     ? this.orgUnitService.isUpdatingUnitAllowed()
     : true;
-
-  constructor(
-    protected itemService: ItemService<B2BUnit>,
-    protected orgUnitService?: OrgUnitService
-  ) {}
 }

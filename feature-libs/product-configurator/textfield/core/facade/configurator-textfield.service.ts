@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
@@ -24,12 +24,11 @@ import { ConfiguratorTextFieldSelectors } from '../state/selectors/index';
   providedIn: 'root',
 })
 export class ConfiguratorTextfieldService {
-  constructor(
-    protected store: Store<StateWithConfigurationTextfield>,
-    protected activeCartService: ActiveCartFacade,
-    protected configuratorUtils: CommonConfiguratorUtilsService,
-    protected userIdService: UserIdService
-  ) {}
+  protected store = inject<Store<StateWithConfigurationTextfield>>(Store);
+  protected activeCartService = inject(ActiveCartFacade);
+  protected configuratorUtils = inject(CommonConfiguratorUtilsService);
+  protected userIdService = inject(UserIdService);
+
 
   protected ensureConfigurationDefined: (
     value?: ConfiguratorTextfield.Configuration

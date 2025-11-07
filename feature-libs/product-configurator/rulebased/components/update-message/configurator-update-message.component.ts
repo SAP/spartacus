@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { delay, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -18,6 +18,10 @@ import { ConfiguratorMessageConfig } from '../config/configurator-message.config
   standalone: false,
 })
 export class ConfiguratorUpdateMessageComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(ConfiguratorRouterExtractorService);
+  protected config = inject(ConfiguratorMessageConfig);
+
   hasPendingChanges$: Observable<boolean> = this.configRouterExtractorService
     .extractRouterData()
     .pipe(
@@ -37,10 +41,4 @@ export class ConfiguratorUpdateMessageComponent {
             : of(isLoading) // inform immediately if it's not loading anymore
       )
     );
-
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected config: ConfiguratorMessageConfig
-  ) {}
 }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   CheckoutPaymentFacade,
   CheckoutStepType,
@@ -27,17 +27,17 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   standalone: false,
 })
 export class CheckoutReviewPaymentComponent {
+  protected checkoutStepService = inject(CheckoutStepService);
+  protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+  protected translationService = inject(TranslationService);
+
   iconTypes = ICON_TYPE;
 
   paymentDetailsStepRoute = this.checkoutStepService.getCheckoutStepRoute(
     CheckoutStepType.PAYMENT_DETAILS
   );
 
-  constructor(
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected translationService: TranslationService
-  ) {
+  constructor() {
     useFeatureStyles('a11yHighContrastBorders');
   }
 

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UserGroup } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
@@ -25,11 +25,11 @@ import { UserGroupItemService } from '../services/user-group-item.service';
   standalone: false,
 })
 export class UserGroupDetailsComponent {
+  protected itemService = inject<ItemService<UserGroup>>(ItemService);
+
   model$: Observable<UserGroup> = this.itemService.key$.pipe(
     switchMap((code) => this.itemService.load(code)),
     startWith({})
   );
   isInEditMode$ = this.itemService.isInEditMode$;
-
-  constructor(protected itemService: ItemService<UserGroup>) {}
 }

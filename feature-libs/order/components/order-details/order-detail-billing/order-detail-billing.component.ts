@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { PaymentDetails, TranslationService } from '@spartacus/core';
 import {
   Order,
@@ -23,13 +23,11 @@ import { OrderDetailsService } from '../order-details.service';
   standalone: false,
 })
 export class OrderDetailBillingComponent {
+  protected orderDetailsService = inject(OrderDetailsService);
+  protected translationService = inject(TranslationService);
+
   order$: Observable<Order | undefined> =
     this.orderDetailsService.getOrderDetails();
-
-  constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected translationService: TranslationService
-  ) {}
 
   getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {
     return combineLatest([

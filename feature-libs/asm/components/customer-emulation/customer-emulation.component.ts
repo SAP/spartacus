@@ -30,6 +30,11 @@ import { AsmComponentService } from '../services/asm-component.service';
   standalone: false,
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
+  protected asmComponentService = inject(AsmComponentService);
+  protected userAccountFacade = inject(UserAccountFacade);
+  protected launchDialogService? = inject(LaunchDialogService);
+  protected featureModules? = inject(FeatureModulesService);
+
   customer: User;
   isCustomerEmulationSessionInProgress$: Observable<boolean>;
 
@@ -42,13 +47,6 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   protected featureConfig = inject(FeatureConfigService);
-
-  constructor(
-    protected asmComponentService: AsmComponentService,
-    protected userAccountFacade: UserAccountFacade,
-    protected launchDialogService?: LaunchDialogService,
-    protected featureModules?: FeatureModulesService
-  ) {}
 
   ngOnInit() {
     this.isAsmCustomer360Configured =

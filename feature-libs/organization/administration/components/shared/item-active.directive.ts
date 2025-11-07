@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, OnDestroy, OnInit } from '@angular/core';
+import { Directive, OnDestroy, OnInit, inject } from '@angular/core';
 import { GlobalMessageType, isNotNullable } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
@@ -19,12 +19,10 @@ import { BaseItem } from './organization.model';
 export class ItemActiveDirective<T extends BaseItem = BaseItem>
   implements OnInit, OnDestroy
 {
-  protected subscription: Subscription;
+  protected itemService = inject<ItemService<T>>(ItemService);
+  protected messageService = inject(MessageService);
 
-  constructor(
-    protected itemService: ItemService<T>,
-    protected messageService: MessageService
-  ) {}
+  protected subscription: Subscription;
 
   ngOnInit() {
     this.subscription = this.itemService.current$

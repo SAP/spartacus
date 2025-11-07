@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -19,6 +19,8 @@ import { useFeatureStyles } from '@spartacus/core';
   host: { ngSkipHydration: 'true' },
 })
 export class CSAgentLoginFormComponent implements OnInit {
+  protected fb = inject(UntypedFormBuilder);
+
   csAgentLoginForm: UntypedFormGroup;
 
   @Input()
@@ -27,7 +29,7 @@ export class CSAgentLoginFormComponent implements OnInit {
   @Output()
   submitEvent = new EventEmitter<{ userId: string; password: string }>();
 
-  constructor(protected fb: UntypedFormBuilder) {
+  constructor() {
     useFeatureStyles('a11yTextSpacingAdjustments');
   }
 

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   DeleteCartFailEvent,
@@ -25,14 +25,13 @@ import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ClearCartDialogComponentService {
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected globalMessageService: GlobalMessageService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected multiCartFacade: MultiCartFacade,
-    protected userIdService: UserIdService,
-    protected eventService: EventService
-  ) {}
+  protected launchDialogService = inject(LaunchDialogService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected multiCartFacade = inject(MultiCartFacade);
+  protected userIdService = inject(UserIdService);
+  protected eventService = inject(EventService);
+
 
   /**
    * Clear the cart by deleting the active cart.

@@ -4,15 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AfterViewChecked,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewChecked, Component, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -35,6 +27,9 @@ import {
   standalone: false,
 })
 export class MessagingComponent implements OnInit, AfterViewChecked {
+  protected windowRef = inject(WindowRef);
+  protected filesFormValidators = inject(FilesFormValidators);
+
   // can be undefined if you press add message button very fast on slow network
   @ViewChild(FileUploadComponent) fileUploadComponent?: FileUploadComponent;
 
@@ -92,10 +87,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
     return this.messagingConfigs?.attachmentRestrictions?.allowedTypes || [];
   }
 
-  constructor(
-    protected windowRef: WindowRef,
-    protected filesFormValidators: FilesFormValidators
-  ) {
+  constructor() {
     useFeatureStyles('a11yCroppedFocusRing');
   }
 

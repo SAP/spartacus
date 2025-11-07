@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   ExportColumn,
@@ -24,12 +24,11 @@ import { map, take } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ExportOrderEntriesToCsvService {
-  constructor(
-    protected exportCsvFileService: ExportCsvFileService,
-    protected importExportConfig: ImportExportConfig,
-    protected globalMessageService: GlobalMessageService,
-    protected translationService: TranslationService
-  ) {}
+  protected exportCsvFileService = inject(ExportCsvFileService);
+  protected importExportConfig = inject(ImportExportConfig);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected translationService = inject(TranslationService);
+
 
   protected get exportConfig(): ExportConfig | undefined {
     return this.importExportConfig.cartImportExport?.export;

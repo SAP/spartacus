@@ -17,13 +17,11 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   standalone: false,
 })
 export class ConfiguratorOverviewFilterComponent implements OnChanges {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+
   protected configuratorStorefrontUtilsService = inject(
     ConfiguratorStorefrontUtilsService
   );
-
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {}
 
   @Input() showFilterBar: boolean = true;
   @Input() config: Configurator.ConfigurationWithOverview;

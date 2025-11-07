@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Converter,
   ConverterService,
@@ -20,7 +20,8 @@ import { OrderApproval } from '../../core/model/order-approval.model';
 export class OccOrderApprovalListNormalizer
   implements Converter<Occ.OrderApprovalsList, EntitiesModel<OrderApproval>>
 {
-  constructor(private converter: ConverterService) {}
+  private converter = inject(ConverterService);
+
 
   convert(
     source: Occ.OrderApprovalsList,

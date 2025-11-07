@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Optional } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -17,12 +17,10 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   standalone: false,
 })
 export class ConfiguratorIssuesNotificationComponent {
-  iconTypes = ICON_TYPE;
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
+  protected cartItemContext = inject(CartItemContext, { optional: true });
 
-  constructor(
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    @Optional() protected cartItemContext: CartItemContext
-  ) {}
+  iconTypes = ICON_TYPE;
 
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;

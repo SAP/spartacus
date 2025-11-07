@@ -38,6 +38,14 @@ import { RegisterComponentService } from './register-component.service';
   host: { ngSkipHydration: 'true' },
 })
 export class RegisterComponent implements OnInit, OnDestroy {
+  protected globalMessageService = inject(GlobalMessageService);
+  protected fb = inject(UntypedFormBuilder);
+  protected router = inject(RoutingService);
+  protected anonymousConsentsService = inject(AnonymousConsentsService);
+  protected anonymousConsentsConfig = inject(AnonymousConsentsConfig);
+  protected authConfigService = inject(AuthConfigService);
+  protected registerComponentService = inject(RegisterComponentService);
+
   // CXSPA-10916: Remove service with toggle
   private featureConfigService = inject(FeatureConfigService);
 
@@ -101,16 +109,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.registerForm.value.additionalConsents[index].isConsentGranted =
       checked;
   }
-
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    protected fb: UntypedFormBuilder,
-    protected router: RoutingService,
-    protected anonymousConsentsService: AnonymousConsentsService,
-    protected anonymousConsentsConfig: AnonymousConsentsConfig,
-    protected authConfigService: AuthConfigService,
-    protected registerComponentService: RegisterComponentService
-  ) {}
 
   ngOnInit() {
     this.titles$ = this.registerComponentService.getTitles().pipe(

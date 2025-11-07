@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import {
   EntitiesModel,
   RoutingService,
@@ -24,11 +24,11 @@ import { OrderApprovalService } from '../../core/services/order-approval.service
   standalone: false,
 })
 export class OrderApprovalListComponent implements OnInit {
-  constructor(
-    protected routing: RoutingService,
-    protected orderApprovalService: OrderApprovalService,
-    protected translation: TranslationService
-  ) {
+  protected routing = inject(RoutingService);
+  protected orderApprovalService = inject(OrderApprovalService);
+  protected translation = inject(TranslationService);
+
+  constructor() {
     useFeatureStyles('a11yShowLabelOfSelect');
   }
 

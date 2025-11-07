@@ -25,15 +25,13 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   standalone: false,
 })
 export class ConfiguratorOverviewFilterButtonComponent {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(ConfiguratorRouterExtractorService);
+
   protected configuratorStorefrontUtilsService = inject(
     ConfiguratorStorefrontUtilsService
   );
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
-  ) {}
 
   @ViewChild('filterButton') filterButton: ElementRef;
   @HostBinding('class.ghost') ghostStyle = true;

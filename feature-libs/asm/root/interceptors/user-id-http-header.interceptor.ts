@@ -10,7 +10,7 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Config,
   OCC_HTTP_TOKEN,
@@ -28,16 +28,19 @@ import { AsmConfig } from '../config/asm-config';
  */
 @Injectable({ providedIn: 'root' })
 export class UserIdHttpHeaderInterceptor implements HttpInterceptor {
+  protected config = inject(Config);
+  protected userIdService = inject(UserIdService);
+  protected userIdConstants = inject<{
+    [identifier: string]: string;
+}>(OCC_USER_ID_CONSTANTS);
+
   protected readonly userIdHeader = 'sap-commerce-cloud-user-id';
 
   protected readonly uniqueUserIdConstants: Set<string>;
 
-  constructor(
-    protected config: Config,
-    protected userIdService: UserIdService,
-    @Inject(OCC_USER_ID_CONSTANTS)
-    protected userIdConstants: { [identifier: string]: string }
-  ) {
+  constructor() {
+    const userIdConstants = this.userIdConstants;
+
     this.uniqueUserIdConstants = new Set(Object.values(userIdConstants));
   }
 

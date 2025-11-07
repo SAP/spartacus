@@ -4,17 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -48,6 +38,13 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
+  protected fb = inject(UntypedFormBuilder);
+  protected userAddressService = inject(UserAddressService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected translation = inject(TranslationService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected userProfileFacade = inject(UserProfileFacade);
+
   countries$: Observable<Country[]>;
   titles$: Observable<Title[]>;
   regions$: Observable<Region[]>;
@@ -103,15 +100,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     cellphone: '',
     defaultAddress: [false],
   });
-
-  constructor(
-    protected fb: UntypedFormBuilder,
-    protected userAddressService: UserAddressService,
-    protected globalMessageService: GlobalMessageService,
-    protected translation: TranslationService,
-    protected launchDialogService: LaunchDialogService,
-    protected userProfileFacade: UserProfileFacade
-  ) {}
 
   ngOnInit() {
     // Fetching countries if no data stream was provided

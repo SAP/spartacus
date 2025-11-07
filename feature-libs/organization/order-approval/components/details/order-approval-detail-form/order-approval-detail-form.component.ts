@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -26,6 +26,10 @@ import { OrderApprovalDetailService } from '../order-approval-detail.service';
   standalone: false,
 })
 export class OrderApprovalDetailFormComponent implements OnDestroy {
+  protected orderApprovalDetailService = inject(OrderApprovalDetailService);
+  protected orderApprovalService = inject(OrderApprovalService);
+  private fb = inject(UntypedFormBuilder);
+
   approvalDecisionValue = OrderApprovalDecisionValue;
   approvalDecision: OrderApprovalDecisionValue;
   approvalFormVisible = false;
@@ -58,11 +62,7 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
   orderApproval$: Observable<OrderApproval | undefined> =
     this.orderApprovalDetailService.getOrderApproval();
 
-  constructor(
-    protected orderApprovalDetailService: OrderApprovalDetailService,
-    protected orderApprovalService: OrderApprovalService,
-    private fb: UntypedFormBuilder
-  ) {
+  constructor() {
     this.orderApprovalService.resetMakeDecisionProcessState();
   }
 

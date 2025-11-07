@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   GlobalMessageEntities,
   GlobalMessageService,
@@ -19,12 +19,12 @@ import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
   standalone: false,
 })
 export class GlobalMessageComponent implements OnInit {
+  protected globalMessageService = inject(GlobalMessageService);
+
   iconTypes = ICON_TYPE;
 
   messages$: Observable<GlobalMessageEntities>;
   messageType: typeof GlobalMessageType = GlobalMessageType;
-
-  constructor(protected globalMessageService: GlobalMessageService) {}
 
   ngOnInit(): void {
     this.messages$ = this.globalMessageService.get();

@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnInit, inject } from '@angular/core';
 import { Address } from '@spartacus/core';
 import {
   FocusConfig,
@@ -26,6 +20,9 @@ import { take } from 'rxjs/operators';
   standalone: false,
 })
 export class SuggestedAddressDialogComponent implements OnInit {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected el = inject(ElementRef);
+
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
@@ -44,11 +41,6 @@ export class SuggestedAddressDialogComponent implements OnInit {
       this.closeModal('Cross click');
     }
   }
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
-  ) {}
 
   ngOnInit(): void {
     this.data$.pipe(take(1)).subscribe((data) => this.setSelectedAddress(data));

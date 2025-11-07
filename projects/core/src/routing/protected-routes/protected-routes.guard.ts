@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, GuardResult } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AuthGuard } from '../../auth/user-auth/guards/auth.guard';
@@ -12,10 +12,9 @@ import { ProtectedRoutesService } from './protected-routes.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProtectedRoutesGuard {
-  constructor(
-    protected service: ProtectedRoutesService,
-    protected authGuard: AuthGuard
-  ) {}
+  protected service = inject(ProtectedRoutesService);
+  protected authGuard = inject(AuthGuard);
+
 
   /**
    * When the anticipated url is protected, it switches to the AuthGuard. Otherwise emits true.

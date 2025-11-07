@@ -69,6 +69,11 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
   standalone: false,
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
+  protected searchBoxComponentService = inject(SearchBoxComponentService);
+  protected componentData = inject<CmsComponentData<CmsSearchBoxComponent>>(CmsComponentData, { optional: true });
+  protected winRef = inject(WindowRef);
+  protected routingService = inject(RoutingService);
+
   private elementRef = inject(ElementRef);
   private renderer = inject(Renderer2);
   readonly searchBoxOutlets = SearchBoxOutlets;
@@ -143,13 +148,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     optional: true,
   });
 
-  constructor(
-    protected searchBoxComponentService: SearchBoxComponentService,
-    @Optional()
-    protected componentData: CmsComponentData<CmsSearchBoxComponent>,
-    protected winRef: WindowRef,
-    protected routingService: RoutingService
-  ) {
+  constructor() {
     useFeatureStyles('a11yKeyboardFocusInSearchBox');
   }
 

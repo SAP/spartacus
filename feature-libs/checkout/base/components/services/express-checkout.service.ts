@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -28,18 +28,18 @@ import { CheckoutConfigService } from '../services/checkout-config.service';
   providedIn: 'root',
 })
 export class ExpressCheckoutService {
+  protected userAddressService = inject(UserAddressService);
+  protected userPaymentService = inject(UserPaymentService);
+  protected checkoutDeliveryAddressFacade = inject(CheckoutDeliveryAddressFacade);
+  protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+  protected checkoutConfigService = inject(CheckoutConfigService);
+  protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
+
   private deliveryAddressSet$: Observable<boolean>;
   private deliveryModeSet$: Observable<boolean>;
   private paymentMethodSet$: Observable<boolean>;
 
-  constructor(
-    protected userAddressService: UserAddressService,
-    protected userPaymentService: UserPaymentService,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected checkoutConfigService: CheckoutConfigService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
-  ) {
+  constructor() {
     this.setDeliveryAddress();
     this.setDeliveryMode();
     this.setPaymentMethod();

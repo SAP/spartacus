@@ -4,16 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  Optional,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
@@ -52,6 +43,13 @@ interface ItemListContext {
   standalone: false,
 })
 export class CartItemListComponent implements OnInit, OnDestroy {
+  protected activeCartService = inject(ActiveCartFacade);
+  protected selectiveCartService = inject(SelectiveCartFacade);
+  protected userIdService = inject(UserIdService);
+  protected multiCartService = inject(MultiCartFacade);
+  protected cd = inject(ChangeDetectorRef);
+  protected outlet? = inject<OutletContextData<ItemListContext>>(OutletContextData, { optional: true });
+
   protected productCatalogService = inject(ProductCatalogService);
   protected subscription = new Subscription();
   protected userId: string;
@@ -93,14 +91,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   }
   readonly CartOutlets = CartOutlets;
   private featureConfigService = inject(FeatureConfigService);
-  constructor(
-    protected activeCartService: ActiveCartFacade,
-    protected selectiveCartService: SelectiveCartFacade,
-    protected userIdService: UserIdService,
-    protected multiCartService: MultiCartFacade,
-    protected cd: ChangeDetectorRef,
-    @Optional() protected outlet?: OutletContextData<ItemListContext>
-  ) {
+  constructor() {
     useFeatureStyles('a11yCroppedFocusRing');
   }
 

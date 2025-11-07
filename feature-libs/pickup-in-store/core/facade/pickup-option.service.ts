@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   PickupOption,
@@ -22,9 +22,8 @@ import {
  */
 @Injectable()
 export class PickupOptionService implements PickupOptionFacade {
-  constructor(protected store: Store<StateWithPickupOption>) {
-    // Intentional empty constructor
-  }
+  protected store = inject<Store<StateWithPickupOption>>(Store);
+
 
   setPageContext(pageContext: string): void {
     this.store.dispatch(

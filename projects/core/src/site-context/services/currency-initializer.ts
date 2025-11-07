@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config';
@@ -16,13 +16,11 @@ import { CurrencyStatePersistenceService } from './currency-state-persistence.se
 
 @Injectable({ providedIn: 'root' })
 export class CurrencyInitializer implements OnDestroy {
-  protected subscription: Subscription;
+  protected currencyService = inject(CurrencyService);
+  protected currencyStatePersistenceService = inject(CurrencyStatePersistenceService);
+  protected configInit = inject(ConfigInitializerService);
 
-  constructor(
-    protected currencyService: CurrencyService,
-    protected currencyStatePersistenceService: CurrencyStatePersistenceService,
-    protected configInit: ConfigInitializerService
-  ) {}
+  protected subscription: Subscription;
 
   /**
    * Initializes the value of the active currency.

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Address,
   DefaultRoutePageMetaResolver,
@@ -15,10 +15,11 @@ import { CurrentUnitAddressService } from '../links/addresses/services/current-u
 
 @Injectable({ providedIn: 'root' })
 export class UnitAddressRoutePageMetaResolver extends DefaultRoutePageMetaResolver {
-  constructor(
-    translation: TranslationService,
-    protected currentItemService: CurrentUnitAddressService
-  ) {
+  protected currentItemService = inject(CurrentUnitAddressService);
+
+  constructor() {
+    const translation = inject(TranslationService);
+
     super(translation);
   }
 

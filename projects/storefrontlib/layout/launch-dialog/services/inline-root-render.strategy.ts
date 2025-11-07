@@ -5,28 +5,26 @@
  */
 
 import { DOCUMENT } from '@angular/common';
-import {
-  ApplicationRef,
-  ComponentFactoryResolver,
-  ComponentRef,
-  Inject,
-  Injectable,
-  Injector,
-  RendererFactory2,
-} from '@angular/core';
+import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Injectable, Injector, RendererFactory2, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { LaunchInlineRootDialog, LAUNCH_CALLER } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class InlineRootRenderStrategy extends LaunchRenderStrategy {
-  constructor(
-    @Inject(DOCUMENT) protected document: any,
-    protected rendererFactory: RendererFactory2,
-    protected componentFactoryResolver: ComponentFactoryResolver,
-    protected injector: Injector
-  ) {
+  protected document: any;
+  protected rendererFactory: RendererFactory2;
+  protected componentFactoryResolver = inject(ComponentFactoryResolver);
+  protected injector = inject(Injector);
+
+  constructor() {
+    const document = inject(DOCUMENT);
+    const rendererFactory = inject(RendererFactory2);
+
     super(document, rendererFactory);
+  
+    this.document = document;
+    this.rendererFactory = rendererFactory;
   }
 
   get hostComponent() {

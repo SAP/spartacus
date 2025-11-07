@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Output,
-  Renderer2,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, Renderer2, ViewChild, inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -22,6 +15,8 @@ import { ICON_TYPE } from '@spartacus/storefront';
   standalone: false,
 })
 export class UnitLevelOrderHistoryFilterComponent {
+  protected renderer = inject(Renderer2);
+
   iconTypes = ICON_TYPE;
   encodedFilter: string;
 
@@ -52,8 +47,6 @@ export class UnitLevelOrderHistoryFilterComponent {
 
   unitFilterMobileValue: string | null;
   buyerFilterMobileValue: string | null;
-
-  constructor(protected renderer: Renderer2) {}
 
   searchUnitLevelOrders(): void {
     const buyer = this.filterForm.get('buyerFilter')?.value;

@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Directive,
-  ElementRef,
-  HostListener,
-  Input,
-  Optional,
-  TemplateRef,
-} from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, TemplateRef, inject } from '@angular/core';
 import {
   GlobalMessageEntities,
   GlobalMessageService,
@@ -24,16 +17,14 @@ import { take } from 'rxjs/operators';
   standalone: false,
 })
 export class AtMessageDirective {
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected templateRef = inject<TemplateRef<HTMLElement>>(TemplateRef, { optional: true });
+  protected globalMessageService = inject(GlobalMessageService);
+
   /**
    * Usage [cxAtMessage]="'translatableKey' | cxTranslate"
    */
   @Input() cxAtMessage: string | string[] | undefined;
-
-  constructor(
-    protected elementRef: ElementRef<HTMLElement>,
-    @Optional() protected templateRef: TemplateRef<HTMLElement>,
-    protected globalMessageService: GlobalMessageService
-  ) {}
 
   protected get host(): HTMLElement {
     return !!this.templateRef

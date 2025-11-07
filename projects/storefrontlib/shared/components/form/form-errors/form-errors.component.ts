@@ -36,14 +36,14 @@ import { map, startWith } from 'rxjs/operators';
   standalone: false,
 })
 export class FormErrorsComponent implements DoCheck {
+  protected ChangeDetectionRef = inject(ChangeDetectorRef);
+
   private featureConfigService = inject(FeatureConfigService);
 
   protected elementRef = inject(ElementRef, { optional: true });
   protected ariaLiveToken = inject(new HostAttributeToken('aria-live'), {
     optional: true,
   });
-
-  constructor(protected ChangeDetectionRef: ChangeDetectorRef) {}
 
   _control: UntypedFormControl | AbstractControl;
 

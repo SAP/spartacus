@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
@@ -22,10 +22,9 @@ import {
   providedIn: 'root',
 })
 export class UserNotificationPreferenceService {
-  constructor(
-    protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected userIdService: UserIdService
-  ) {}
+  protected store = inject<Store<StateWithUser | StateWithProcess<void>>>(Store);
+  protected userIdService = inject(UserIdService);
+
 
   /**
    * Returns all notification preferences.

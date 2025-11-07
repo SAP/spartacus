@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
   AuthRedirectService,
@@ -18,14 +18,20 @@ import { UserEmailFacade } from '@spartacus/user/profile/root';
 
 @Injectable()
 export class CDCUpdateEmailComponentService extends UpdateEmailComponentService {
-  constructor(
-    protected userEmail: UserEmailFacade,
-    protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService,
-    protected authService: AuthService,
-    protected authRedirectService: AuthRedirectService,
-    protected cdcJsService: CdcJsService
-  ) {
+  protected userEmail: UserEmailFacade;
+  protected routingService: RoutingService;
+  protected globalMessageService: GlobalMessageService;
+  protected authService: AuthService;
+  protected authRedirectService: AuthRedirectService;
+  protected cdcJsService = inject(CdcJsService);
+
+  constructor() {
+    const userEmail = inject(UserEmailFacade);
+    const routingService = inject(RoutingService);
+    const globalMessageService = inject(GlobalMessageService);
+    const authService = inject(AuthService);
+    const authRedirectService = inject(AuthRedirectService);
+
     super(
       userEmail,
       routingService,
@@ -33,6 +39,12 @@ export class CDCUpdateEmailComponentService extends UpdateEmailComponentService 
       authService,
       authRedirectService
     );
+  
+    this.userEmail = userEmail;
+    this.routingService = routingService;
+    this.globalMessageService = globalMessageService;
+    this.authService = authService;
+    this.authRedirectService = authRedirectService;
   }
 
   save(): void {

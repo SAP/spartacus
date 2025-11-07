@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -24,13 +24,12 @@ import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class UpdateEmailComponentService {
-  constructor(
-    protected userEmail: UserEmailFacade,
-    protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService,
-    protected authService: AuthService,
-    protected authRedirectService: AuthRedirectService
-  ) {}
+  protected userEmail = inject(UserEmailFacade);
+  protected routingService = inject(RoutingService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected authService = inject(AuthService);
+  protected authRedirectService = inject(AuthRedirectService);
+
 
   protected busy$ = new BehaviorSubject(false);
 

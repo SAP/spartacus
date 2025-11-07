@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -15,10 +15,10 @@ import { ICON_TYPE } from '@spartacus/storefront';
   standalone: false,
 })
 export class StoreFinderSearchComponent {
+  private routingService = inject(RoutingService);
+
   searchBox: UntypedFormControl = new UntypedFormControl();
   iconTypes = ICON_TYPE;
-
-  constructor(private routingService: RoutingService) {}
 
   findStores(address: string) {
     this.routingService.go(['store-finder/find'], {

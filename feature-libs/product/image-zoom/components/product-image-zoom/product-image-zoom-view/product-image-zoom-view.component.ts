@@ -57,6 +57,11 @@ import {
   standalone: false,
 })
 export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
+  protected currentProductService = inject(CurrentProductService);
+  protected renderer = inject(Renderer2);
+  protected cdRef = inject(ChangeDetectorRef);
+  protected breakpointService = inject(BreakpointService);
+
   iconType = ICON_TYPE;
 
   @Input() galleryIndex: number;
@@ -164,12 +169,7 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     this.mainMediaContainer$,
   ]).pipe(map(([, container]) => container));
 
-  constructor(
-    protected currentProductService: CurrentProductService,
-    protected renderer: Renderer2,
-    protected cdRef: ChangeDetectorRef,
-    protected breakpointService: BreakpointService
-  ) {
+  constructor() {
     useFeatureStyles('a11yKeyboardAccessibleZoom');
     useFeatureStyles('a11yCroppedFocusRing');
   }

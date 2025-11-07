@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -19,6 +19,9 @@ import { Configurator } from '../../core/model/configurator.model';
   standalone: false,
 })
 export class ConfiguratorConflictAndErrorMessagesComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(ConfiguratorRouterExtractorService);
+
   iconTypes = ICON_TYPE;
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService
@@ -40,9 +43,4 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
   toggleErrors(): void {
     this.showErrors = !this.showErrors;
   }
-
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
-  ) {}
 }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GuardResult, Router } from '@angular/router';
 import { SemanticPathService } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
@@ -15,11 +15,10 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class OrderConfirmationGuard {
-  constructor(
-    protected orderFacade: OrderFacade,
-    protected router: Router,
-    protected semanticPathService: SemanticPathService
-  ) {}
+  protected orderFacade = inject(OrderFacade);
+  protected router = inject(Router);
+  protected semanticPathService = inject(SemanticPathService);
+
 
   canActivate(): Observable<GuardResult> {
     return this.orderFacade.getOrderDetails().pipe(

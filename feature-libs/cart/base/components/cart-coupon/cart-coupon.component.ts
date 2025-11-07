@@ -30,6 +30,11 @@ import { map, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
+  protected cartVoucherService = inject(CartVoucherFacade);
+  protected formBuilder = inject(UntypedFormBuilder);
+  protected customerCouponService = inject(CustomerCouponService);
+  protected activeCartService = inject(ActiveCartFacade);
+
   MAX_CUSTOMER_COUPON_PAGE = 100;
   couponForm: UntypedFormGroup;
   cartIsLoading$: Observable<boolean>;
@@ -46,13 +51,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   @Optional() protected featureConfigService = inject(FeatureConfigService, {
     optional: true,
   });
-
-  constructor(
-    protected cartVoucherService: CartVoucherFacade,
-    protected formBuilder: UntypedFormBuilder,
-    protected customerCouponService: CustomerCouponService,
-    protected activeCartService: ActiveCartFacade
-  ) {}
 
   ngOnInit() {
     if (this.customerCouponService) {

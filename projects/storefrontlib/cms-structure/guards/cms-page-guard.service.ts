@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GuardResult, RouterStateSnapshot } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
@@ -36,15 +36,14 @@ import { CmsRoutesService } from '../services/cms-routes.service';
   providedIn: 'root',
 })
 export class CmsPageGuardService {
-  constructor(
-    protected semanticPathService: SemanticPathService,
-    protected cmsService: CmsService,
-    protected cmsRoutes: CmsRoutesService,
-    protected cmsI18n: CmsI18nService,
-    protected cmsGuards: CmsGuardsService,
-    protected cmsComponentsService: CmsComponentsService,
-    protected routing: RoutingService
-  ) {}
+  protected semanticPathService = inject(SemanticPathService);
+  protected cmsService = inject(CmsService);
+  protected cmsRoutes = inject(CmsRoutesService);
+  protected cmsI18n = inject(CmsI18nService);
+  protected cmsGuards = inject(CmsGuardsService);
+  protected cmsComponentsService = inject(CmsComponentsService);
+  protected routing = inject(RoutingService);
+
 
   /**
    * Takes CMS components types in the current CMS page, triggers (configurable) side effects and returns a boolean - whether the route can be activated.

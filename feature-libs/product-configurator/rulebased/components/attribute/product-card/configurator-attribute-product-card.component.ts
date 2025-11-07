@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { Product, ProductService, TranslationService } from '@spartacus/core';
 import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import {
@@ -61,6 +54,10 @@ export class ConfiguratorAttributeProductCardComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
+  protected productService = inject(ProductService);
+  protected keyBoardFocus = inject(KeyboardFocusService);
+  protected translation = inject(TranslationService);
+
   product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(true);
   showDeselectionNotPossible = false;
@@ -71,14 +68,6 @@ export class ConfiguratorAttributeProductCardComponent
   @Output() handleDeselect = new EventEmitter<string>();
   @Output() handleQuantity = new EventEmitter<QuantityUpdateEvent>();
   @Output() handleSelect = new EventEmitter<string>();
-
-  constructor(
-    protected productService: ProductService,
-    protected keyBoardFocus: KeyboardFocusService,
-    protected translation: TranslationService
-  ) {
-    super();
-  }
   iconType = ICON_TYPE;
 
   ngOnInit() {

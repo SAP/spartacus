@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { TranslationService } from '../../../i18n/translation.service';
@@ -22,7 +22,8 @@ import {
 export abstract class DefaultRoutePageMetaResolver
   implements RouteBreadcrumbResolver
 {
-  constructor(protected translation: TranslationService) {}
+  protected translation = inject(TranslationService);
+
 
   /**
    * Resolves breadcrumb based on the given url and the breadcrumb config.

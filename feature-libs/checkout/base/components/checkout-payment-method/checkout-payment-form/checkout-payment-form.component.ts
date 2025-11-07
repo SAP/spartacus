@@ -42,6 +42,15 @@ import { CheckoutBillingAddressFormService } from '../../checkout-billing-addres
   standalone: false,
 })
 export class CheckoutPaymentFormComponent implements OnInit {
+  protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+  protected checkoutDeliveryAddressFacade = inject(CheckoutDeliveryAddressFacade);
+  protected userPaymentService = inject(UserPaymentService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected fb = inject(UntypedFormBuilder);
+  protected userAddressService = inject(UserAddressService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected translationService = inject(TranslationService);
+
   iconTypes = ICON_TYPE;
 
   months: string[] = [];
@@ -83,16 +92,6 @@ export class CheckoutPaymentFormComponent implements OnInit {
   });
 
   protected billingAddressService = inject(CheckoutBillingAddressFormService);
-  constructor(
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected userPaymentService: UserPaymentService,
-    protected globalMessageService: GlobalMessageService,
-    protected fb: UntypedFormBuilder,
-    protected userAddressService: UserAddressService,
-    protected launchDialogService: LaunchDialogService,
-    protected translationService: TranslationService
-  ) {}
   /**
    * @deprecated  This property is obsolete since 2211.42
    */

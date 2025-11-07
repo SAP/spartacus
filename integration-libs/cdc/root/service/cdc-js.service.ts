@@ -6,13 +6,7 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import {
-  Inject,
-  Injectable,
-  NgZone,
-  OnDestroy,
-  PLATFORM_ID,
-} from '@angular/core';
+import { Injectable, NgZone, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
 import {
   AuthService,
   BaseSiteService,
@@ -47,26 +41,24 @@ const setAccountInfoAPI = 'accounts.setAccountInfo';
   providedIn: 'root',
 })
 export class CdcJsService implements OnDestroy {
+  protected cdcConfig = inject(CdcConfig);
+  protected baseSiteService = inject(BaseSiteService);
+  protected languageService = inject(LanguageService);
+  protected scriptLoader = inject(ScriptLoader);
+  protected winRef = inject(WindowRef);
+  protected cdcAuth = inject(CdcAuthFacade);
+  protected auth = inject(AuthService);
+  protected zone = inject(NgZone);
+  protected userProfileFacade = inject(UserProfileFacade);
+  protected platform = inject(PLATFORM_ID);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected eventService = inject(EventService);
+  protected consentStore = inject(CdcConsentsLocalStorageService);
+
   protected loaded$ = new ReplaySubject<boolean>(1);
   protected errorLoading$ = new ReplaySubject<boolean>(1);
   protected subscription: Subscription = new Subscription();
   protected gigyaSDK: { [key: string]: any };
-
-  constructor(
-    protected cdcConfig: CdcConfig,
-    protected baseSiteService: BaseSiteService,
-    protected languageService: LanguageService,
-    protected scriptLoader: ScriptLoader,
-    protected winRef: WindowRef,
-    protected cdcAuth: CdcAuthFacade,
-    protected auth: AuthService,
-    protected zone: NgZone,
-    protected userProfileFacade: UserProfileFacade,
-    @Inject(PLATFORM_ID) protected platform: any,
-    protected globalMessageService: GlobalMessageService,
-    protected eventService: EventService,
-    protected consentStore: CdcConsentsLocalStorageService
-  ) {}
 
   /**
    * Initialize CDC script

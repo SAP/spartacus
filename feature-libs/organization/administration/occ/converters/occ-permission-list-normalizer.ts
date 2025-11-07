@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Converter,
   ConverterService,
@@ -22,7 +22,8 @@ import {
 export class OccPermissionListNormalizer
   implements Converter<Occ.PermissionsList, EntitiesModel<Permission>>
 {
-  constructor(private converter: ConverterService) {}
+  private converter = inject(ConverterService);
+
 
   convert(
     source: Occ.PermissionsList,

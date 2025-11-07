@@ -19,14 +19,12 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class RegisterComponentService {
+  protected userRegisterFacade = inject(UserRegisterFacade);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected fb? = inject(UntypedFormBuilder);
+
   private featureConfigService: FeatureConfigService =
     inject(FeatureConfigService);
-
-  constructor(
-    protected userRegisterFacade: UserRegisterFacade,
-    protected globalMessageService: GlobalMessageService,
-    protected fb?: UntypedFormBuilder
-  ) {}
 
   /**
    * Register a new user.

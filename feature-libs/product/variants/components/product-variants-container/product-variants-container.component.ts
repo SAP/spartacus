@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import {
   BaseOption,
   isNotNullable,
@@ -23,7 +23,8 @@ import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class ProductVariantsContainerComponent implements OnInit {
-  constructor(private currentProductService: CurrentProductService) {}
+  private currentProductService = inject(CurrentProductService);
+
 
   variants: { [key: string]: BaseOption } = {};
   variantType = VariantType;

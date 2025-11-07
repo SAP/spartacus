@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProductAvailabilities } from '../../../model/product.model';
 import { ProductAvailabilityAdapter } from './prduct-availability.adapter';
@@ -13,7 +13,8 @@ import { ProductAvailabilityAdapter } from './prduct-availability.adapter';
   providedIn: 'root',
 })
 export class ProductAvailabilityConnector {
-  constructor(protected adapter: ProductAvailabilityAdapter) {}
+  protected adapter = inject(ProductAvailabilityAdapter);
+
 
   getRealTimeStock(
     productCode: string,

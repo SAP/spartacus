@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { B2BUser, RoutingService } from '@spartacus/core';
 import {
   B2BUserService,
@@ -19,13 +19,21 @@ import { CurrentUserService } from './current-user.service';
   providedIn: 'root',
 })
 export class UserItemService extends ItemService<B2BUser> {
-  constructor(
-    protected currentItemService: CurrentUserService,
-    protected routingService: RoutingService,
-    protected formService: UserFormService,
-    protected userService: B2BUserService
-  ) {
+  protected currentItemService: CurrentUserService;
+  protected routingService: RoutingService;
+  protected formService: UserFormService;
+  protected userService = inject(B2BUserService);
+
+  constructor() {
+    const currentItemService = inject(CurrentUserService);
+    const routingService = inject(RoutingService);
+    const formService = inject(UserFormService);
+
     super(currentItemService, routingService, formService);
+  
+    this.currentItemService = currentItemService;
+    this.routingService = routingService;
+    this.formService = formService;
   }
 
   load(code: string): Observable<B2BUser> {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Product, ProductScope } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../../current-product.service';
@@ -16,9 +16,9 @@ import { CurrentProductService } from '../../current-product.service';
   standalone: false,
 })
 export class ProductAttributesComponent {
+  protected currentProductService = inject(CurrentProductService);
+
   product$: Observable<Product | null> = this.currentProductService.getProduct(
     ProductScope.ATTRIBUTES
   );
-
-  constructor(protected currentProductService: CurrentProductService) {}
 }

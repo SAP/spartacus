@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { merge, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CdsBackendConnector } from '../connectors/cds-backend-connector';
@@ -15,11 +15,10 @@ import { ProfileTagEventService } from './profiletag-event.service';
   providedIn: 'root',
 })
 export class ProfileTagInjectorService {
-  constructor(
-    private profileTagEventTracker: ProfileTagEventService,
-    private cdsBackendConnector: CdsBackendConnector,
-    private profileTagLifecycleService: ProfileTagLifecycleService
-  ) {}
+  private profileTagEventTracker = inject(ProfileTagEventService);
+  private cdsBackendConnector = inject(CdsBackendConnector);
+  private profileTagLifecycleService = inject(ProfileTagLifecycleService);
+
 
   track(): Observable<boolean> {
     return this.profileTagEventTracker

@@ -4,15 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Product } from '@spartacus/core';
 import {
@@ -34,16 +26,14 @@ import {
   standalone: false,
 })
 export class WishListItemComponent implements OnChanges {
+  protected productListItemContextSource = inject(ProductListItemContextSource);
+
   @Input()
   isLoading = false;
   @Input() cartEntry: OrderEntry;
 
   @Output()
   remove = new EventEmitter<OrderEntry>();
-
-  constructor(
-    protected productListItemContextSource: ProductListItemContextSource
-  ) {}
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.cartEntry) {

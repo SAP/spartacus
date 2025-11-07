@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   AddOrderEntriesContext,
   OrderEntriesSource,
@@ -28,6 +28,8 @@ import { finalize, map } from 'rxjs/operators';
   standalone: false,
 })
 export class ImportEntriesDialogComponent {
+  protected launchDialogService = inject(LaunchDialogService);
+
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
@@ -51,8 +53,6 @@ export class ImportEntriesDialogComponent {
     this.launchDialogService.data$.pipe(
       map((data) => data.orderEntriesContext)
     );
-
-  constructor(protected launchDialogService: LaunchDialogService) {}
 
   isNewCartForm(context: AddOrderEntriesContext) {
     return context.type === OrderEntriesSource.NEW_SAVED_CART;

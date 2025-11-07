@@ -24,11 +24,11 @@ import { RoutingService } from '@spartacus/core';
   standalone: false,
 })
 export class UpdateProfileComponent {
+  protected service = inject(UpdateProfileComponentService);
+
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
-
-  constructor(protected service: UpdateProfileComponentService) {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$ = this.service.isUpdating$;

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   AuthActions,
@@ -29,14 +29,13 @@ import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
   providedIn: 'root',
 })
 export class CsAgentAuthService {
-  constructor(
-    protected authService: AuthService,
-    protected authStorageService: AsmAuthStorageService,
-    protected userIdService: UserIdService,
-    protected oAuthLibWrapperService: OAuthLibWrapperService,
-    protected store: Store,
-    protected userAccountFacade: UserAccountFacade
-  ) {}
+  protected authService = inject(AuthService);
+  protected authStorageService = inject(AsmAuthStorageService);
+  protected userIdService = inject(UserIdService);
+  protected oAuthLibWrapperService = inject(OAuthLibWrapperService);
+  protected store = inject(Store);
+  protected userAccountFacade = inject(UserAccountFacade);
+
 
   /**
    * Loads access token for a customer support agent.

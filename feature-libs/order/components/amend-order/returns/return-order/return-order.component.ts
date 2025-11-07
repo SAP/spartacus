@@ -19,6 +19,8 @@ import { FeatureConfigService } from '@spartacus/core';
   standalone: false,
 })
 export class ReturnOrderComponent {
+  protected orderAmendService = inject(OrderAmendService);
+
   orderCode: string;
   protected featureConfigService = inject(FeatureConfigService, {
     optional: true,
@@ -68,6 +70,4 @@ export class ReturnOrderComponent {
         );
     })
   );
-
-  constructor(protected orderAmendService: OrderAmendService) {}
 }

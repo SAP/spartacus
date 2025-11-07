@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, inject } from '@angular/core';
 
 @Component({
   selector: 'cx-configurator-show-more',
@@ -19,6 +13,8 @@ import {
   standalone: false,
 })
 export class ConfiguratorShowMoreComponent implements AfterViewInit {
+  protected cdRef = inject(ChangeDetectorRef);
+
   showMore = false;
   showHiddenText = false;
   textToShow: string;
@@ -28,8 +24,6 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
   @Input() textSize = 60;
   @Input() productName: string;
   @Input() tabIndex = -1;
-
-  constructor(protected cdRef: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     this.textNormalized = this.normalize(this.text);

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of, zip } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CmsComponent } from '../../../model/cms.model';
@@ -17,11 +17,10 @@ import { CmsComponentAdapter } from './cms-component.adapter';
   providedIn: 'root',
 })
 export class CmsComponentConnector {
-  constructor(
-    protected cmsStructureConfigService: CmsStructureConfigService,
-    protected cmsComponentAdapter: CmsComponentAdapter,
-    protected config: CmsConfig
-  ) {}
+  protected cmsStructureConfigService = inject(CmsStructureConfigService);
+  protected cmsComponentAdapter = inject(CmsComponentAdapter);
+  protected config = inject(CmsConfig);
+
 
   get<T extends CmsComponent>(
     id: string,

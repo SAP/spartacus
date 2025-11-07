@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Inject,
-  InjectionToken,
-  Optional,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { InjectionToken, Pipe, PipeTransform, inject } from '@angular/core';
 import { UrlCommand, UrlCommands } from '../url-command';
 
 export const URL_TESTING_ALLOWLISTED_PARAMS = new InjectionToken<string[]>(
@@ -42,11 +36,8 @@ export const URL_TESTING_ALLOWLISTED_PARAMS = new InjectionToken<string[]>(
   standalone: false,
 })
 export class MockUrlPipe implements PipeTransform {
-  constructor(
-    @Inject(URL_TESTING_ALLOWLISTED_PARAMS)
-    @Optional()
-    private readonly allowlistedParams
-  ) {}
+  private readonly allowlistedParams = inject(URL_TESTING_ALLOWLISTED_PARAMS, { optional: true });
+
   transform(commands: UrlCommands) {
     if (!Array.isArray(commands)) {
       commands = [commands];

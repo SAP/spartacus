@@ -4,11 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  TrackByFunction,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, TrackByFunction, inject } from '@angular/core';
 import {
   CmsProductReferencesComponent,
   isNotNullable,
@@ -29,11 +25,11 @@ import { CurrentProductService } from '../../current-product.service';
   standalone: false,
 })
 export class ProductReferencesComponent {
-  constructor(
-    protected cmsComponentData: CmsComponentData<CmsProductReferencesComponent>,
-    protected currentProductService: CurrentProductService,
-    protected productReferenceService: ProductReferenceService
-  ) {
+  protected cmsComponentData = inject<CmsComponentData<CmsProductReferencesComponent>>(CmsComponentData);
+  protected currentProductService = inject(CurrentProductService);
+  protected productReferenceService = inject(ProductReferenceService);
+
+  constructor() {
     useFeatureStyles('productCarouselScrolling');
   }
 

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, Input, TemplateRef, ViewContainerRef, inject } from '@angular/core';
 import { FeatureConfigService } from '../services/feature-config.service';
 
 @Directive({
@@ -12,11 +12,10 @@ import { FeatureConfigService } from '../services/feature-config.service';
   standalone: false,
 })
 export class FeatureLevelDirective {
-  constructor(
-    protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef,
-    protected featureConfig: FeatureConfigService
-  ) {}
+  protected templateRef = inject<TemplateRef<any>>(TemplateRef);
+  protected viewContainer = inject(ViewContainerRef);
+  protected featureConfig = inject(FeatureConfigService);
+
 
   private hasView = false;
 

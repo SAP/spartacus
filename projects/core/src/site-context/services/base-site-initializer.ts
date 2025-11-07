@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
@@ -15,10 +15,9 @@ import { BASE_SITE_CONTEXT_ID } from '../providers/context-ids';
 
 @Injectable({ providedIn: 'root' })
 export class BaseSiteInitializer implements OnDestroy {
-  constructor(
-    protected baseSiteService: BaseSiteService,
-    protected configInit: ConfigInitializerService
-  ) {}
+  protected baseSiteService = inject(BaseSiteService);
+  protected configInit = inject(ConfigInitializerService);
+
 
   protected subscription: Subscription;
 

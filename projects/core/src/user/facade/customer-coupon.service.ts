@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
@@ -31,10 +31,9 @@ import {
   providedIn: 'root',
 })
 export class CustomerCouponService {
-  constructor(
-    protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected userIdService: UserIdService
-  ) {}
+  protected store = inject<Store<StateWithUser | StateWithProcess<void>>>(Store);
+  protected userIdService = inject(UserIdService);
+
 
   /**
    * Retrieves customer's coupons

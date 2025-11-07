@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   CommonConfiguratorUtilsService,
   ConfiguratorRouterExtractorService,
@@ -21,14 +21,13 @@ import { map, switchMap, take } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class VariantConfiguratorPageLayoutHandler implements PageLayoutHandler {
+  protected configuratorRouterExtractorService = inject(ConfiguratorRouterExtractorService);
+  protected breakpointService = inject(BreakpointService);
+  protected layoutConfig = inject(LayoutConfig);
+  protected commonConfiguratorUtilsService = inject(CommonConfiguratorUtilsService);
+
   protected static templateName = 'VariantConfigurationOverviewTemplate';
   protected static sectionDisplayOnlyName = 'headerDisplayOnly';
-  constructor(
-    protected configuratorRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected breakpointService: BreakpointService,
-    protected layoutConfig: LayoutConfig,
-    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService
-  ) {}
   handle(
     slots$: Observable<string[]>,
     pageTemplate?: string,

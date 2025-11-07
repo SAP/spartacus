@@ -29,6 +29,9 @@ import { Configurator } from '../../../core/model/configurator.model';
 export class ConfiguratorAttributeCompositionDirective
   implements OnInit, OnChanges
 {
+  protected vcr = inject(ViewContainerRef);
+  protected configuratorAttributeCompositionConfig = inject(ConfiguratorAttributeCompositionConfig);
+
   @Input('cxConfiguratorAttributeComponent')
   context: ConfiguratorAttributeCompositionContext;
 
@@ -40,11 +43,6 @@ export class ConfiguratorAttributeCompositionDirective
   protected readonly attrComponentAssignment: AttributeComponentAssignment =
     this.configuratorAttributeCompositionConfig.productConfigurator
       ?.assignment ?? [];
-
-  constructor(
-    protected vcr: ViewContainerRef,
-    protected configuratorAttributeCompositionConfig: ConfiguratorAttributeCompositionConfig
-  ) {}
 
   ngOnInit(): void {
     //We don't need this method but cannot remove it due to backward compatibility.

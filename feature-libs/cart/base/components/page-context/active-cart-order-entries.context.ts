@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ProductImportInfoService } from '@spartacus/cart/base/core';
 import {
   ActiveCartFacade,
@@ -24,12 +24,10 @@ import { switchMap, take } from 'rxjs/operators';
 export class ActiveCartOrderEntriesContext
   implements AddOrderEntriesContext, GetOrderEntriesContext
 {
-  readonly type = OrderEntriesSource.ACTIVE_CART;
+  protected importInfoService = inject(ProductImportInfoService);
+  protected activeCartFacade = inject(ActiveCartFacade);
 
-  constructor(
-    protected importInfoService: ProductImportInfoService,
-    protected activeCartFacade: ActiveCartFacade
-  ) {}
+  readonly type = OrderEntriesSource.ACTIVE_CART;
 
   addEntries(products: ProductData[]): Observable<ProductImportInfo> {
     return this.add(products).pipe(

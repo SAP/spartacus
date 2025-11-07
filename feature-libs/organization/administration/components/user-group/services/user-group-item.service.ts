@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import {
   OrganizationItemStatus,
@@ -20,13 +20,21 @@ import { CurrentUserGroupService } from './current-user-group.service';
   providedIn: 'root',
 })
 export class UserGroupItemService extends ItemService<UserGroup> {
-  constructor(
-    protected currentItemService: CurrentUserGroupService,
-    protected routingService: RoutingService,
-    protected formService: UserGroupFormService,
-    protected userGroupService: UserGroupService
-  ) {
+  protected currentItemService: CurrentUserGroupService;
+  protected routingService: RoutingService;
+  protected formService: UserGroupFormService;
+  protected userGroupService = inject(UserGroupService);
+
+  constructor() {
+    const currentItemService = inject(CurrentUserGroupService);
+    const routingService = inject(RoutingService);
+    const formService = inject(UserGroupFormService);
+
     super(currentItemService, routingService, formService);
+  
+    this.currentItemService = currentItemService;
+    this.routingService = routingService;
+    this.formService = formService;
   }
 
   load(code: string): Observable<UserGroup> {

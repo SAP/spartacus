@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { CartValidationFacade } from '@spartacus/cart/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { map } from 'rxjs/operators';
@@ -16,6 +16,8 @@ import { map } from 'rxjs/operators';
   standalone: false,
 })
 export class CartItemValidationWarningComponent {
+  protected cartValidationFacade = inject(CartValidationFacade);
+
   @Input()
   code: string;
 
@@ -31,6 +33,4 @@ export class CartItemValidationWarningComponent {
         )
       )
     );
-
-  constructor(protected cartValidationFacade: CartValidationFacade) {}
 }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CdcJsService, CdcLoadUserTokenFailEvent } from '@spartacus/cdc/root';
 import {
@@ -30,6 +30,19 @@ import { map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CDCB2BRegisterComponentService extends UserRegistrationFormService {
+  protected command = inject(CommandService);
+  protected cdcJSService = inject(CdcJsService);
+  protected authService = inject(AuthService);
+  protected eventService = inject(EventService);
+  protected userRegisterFacade: UserRegisterFacade;
+  protected userAddressService: UserAddressService;
+  protected organizationUserRegistrationFacade: UserRegistrationFacade;
+  protected translationService: TranslationService;
+  protected globalMessageService: GlobalMessageService;
+  protected authConfigService: AuthConfigService;
+  protected routingService: RoutingService;
+  protected formBuilder: FormBuilder;
+
   protected registerCommand: Command<
     { orgInfo: OrganizationUserRegistrationForm },
     OrganizationUserRegistrationForm
@@ -52,20 +65,16 @@ export class CDCB2BRegisterComponentService extends UserRegistrationFormService 
       })
     );
 
-  constructor(
-    protected command: CommandService,
-    protected cdcJSService: CdcJsService,
-    protected authService: AuthService,
-    protected eventService: EventService,
-    protected userRegisterFacade: UserRegisterFacade,
-    protected userAddressService: UserAddressService,
-    protected organizationUserRegistrationFacade: UserRegistrationFacade,
-    protected translationService: TranslationService,
-    protected globalMessageService: GlobalMessageService,
-    protected authConfigService: AuthConfigService,
-    protected routingService: RoutingService,
-    protected formBuilder: FormBuilder
-  ) {
+  constructor() {
+    const userRegisterFacade = inject(UserRegisterFacade);
+    const userAddressService = inject(UserAddressService);
+    const organizationUserRegistrationFacade = inject(UserRegistrationFacade);
+    const translationService = inject(TranslationService);
+    const globalMessageService = inject(GlobalMessageService);
+    const authConfigService = inject(AuthConfigService);
+    const routingService = inject(RoutingService);
+    const formBuilder = inject(FormBuilder);
+
     super(
       userRegisterFacade,
       userAddressService,
@@ -76,6 +85,15 @@ export class CDCB2BRegisterComponentService extends UserRegistrationFormService 
       routingService,
       formBuilder
     );
+  
+    this.userRegisterFacade = userRegisterFacade;
+    this.userAddressService = userAddressService;
+    this.organizationUserRegistrationFacade = organizationUserRegistrationFacade;
+    this.translationService = translationService;
+    this.globalMessageService = globalMessageService;
+    this.authConfigService = authConfigService;
+    this.routingService = routingService;
+    this.formBuilder = formBuilder;
   }
 
   /**

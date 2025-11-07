@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProductReference } from '../../../model/product.model';
 import { ProductReferencesAdapter } from './product-references.adapter';
@@ -13,7 +13,8 @@ import { ProductReferencesAdapter } from './product-references.adapter';
   providedIn: 'root',
 })
 export class ProductReferencesConnector {
-  constructor(protected adapter: ProductReferencesAdapter) {}
+  protected adapter = inject(ProductReferencesAdapter);
+
 
   get(
     productCode: string,

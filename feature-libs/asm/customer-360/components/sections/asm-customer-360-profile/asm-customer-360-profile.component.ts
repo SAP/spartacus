@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { Card, FocusConfig, ICON_TYPE } from '@spartacus/storefront';
 
@@ -24,6 +24,9 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
   standalone: false,
 })
 export class AsmCustomer360ProfileComponent implements OnInit {
+  sectionContext = inject<AsmCustomer360SectionContext<AsmCustomer360CustomerProfile>>(AsmCustomer360SectionContext);
+  protected translation = inject(TranslationService);
+
   focusConfig: FocusConfig = {
     trap: true,
     block: true,
@@ -34,11 +37,6 @@ export class AsmCustomer360ProfileComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
   customerProfileData$: Observable<AsmCustomer360Profile | undefined>;
-
-  constructor(
-    public sectionContext: AsmCustomer360SectionContext<AsmCustomer360CustomerProfile>,
-    protected translation: TranslationService
-  ) {}
 
   ngOnInit(): void {
     this.customerProfileData$ = this.sectionContext.data$.pipe(

@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Address, LanguageService, TranslationService } from '@spartacus/core';
 import {
   AccountSummaryDetails,
@@ -26,18 +21,16 @@ import { map, switchMap } from 'rxjs/operators';
   standalone: false,
 })
 export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {
+  protected accountSummaryFacade = inject(AccountSummaryFacade);
+  protected languageService = inject(LanguageService);
+  protected translation = inject(TranslationService);
+
   notApplicable: string;
   headerDetails$: Observable<AccountSummaryDetails> = this.languageService
     .getActive()
     .pipe(switchMap(() => this.accountSummaryFacade.getAccountSummary()));
 
   protected subscriptions = new Subscription();
-
-  constructor(
-    protected accountSummaryFacade: AccountSummaryFacade,
-    protected languageService: LanguageService,
-    protected translation: TranslationService
-  ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(

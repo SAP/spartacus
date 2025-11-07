@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import type { i18n, InitOptions } from 'i18next';
 import i18nextHttpBackend, { HttpBackendOptions } from 'i18next-http-backend';
 import { WindowRef } from '../../../window/window-ref';
@@ -24,13 +24,11 @@ import {
 export class I18nextHttpBackendInitializer
   implements I18nextBackendInitializer
 {
-  constructor(
-    @Inject(I18NEXT_INSTANCE) protected i18next: i18n,
-    @Inject(I18NEXT_HTTP_BACKEND_CLIENT)
-    protected i18nextHttpClient: I18nextHttpBackendClient,
-    protected config: I18nConfig,
-    protected windowRef: WindowRef
-  ) {}
+  protected i18next = inject<i18n>(I18NEXT_INSTANCE);
+  protected i18nextHttpClient = inject<I18nextHttpBackendClient>(I18NEXT_HTTP_BACKEND_CLIENT);
+  protected config = inject(I18nConfig);
+  protected windowRef = inject(WindowRef);
+
 
   /**
    * Tells whether this i18next backend is applicable, based on the configuration.

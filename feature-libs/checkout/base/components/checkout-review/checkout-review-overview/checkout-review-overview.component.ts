@@ -22,6 +22,8 @@ import { Observable, take } from 'rxjs';
   standalone: false,
 })
 export class CheckoutReviewOverviewComponent implements AfterViewInit {
+  protected activeCartFacade = inject(ActiveCartFacade);
+
   protected document = inject(DOCUMENT, { optional: true });
   protected translationService = inject(TranslationService, { optional: true });
   private featureService = inject(FeatureConfigService, { optional: true });
@@ -32,8 +34,6 @@ export class CheckoutReviewOverviewComponent implements AfterViewInit {
     'cx-checkout-review-overview',
     'cx-checkout-review-shipping',
   ];
-
-  constructor(protected activeCartFacade: ActiveCartFacade) {}
 
   ngAfterViewInit(): void {
     this.wrapComponentsWithSectionEl();

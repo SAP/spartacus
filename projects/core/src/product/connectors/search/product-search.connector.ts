@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ProductSearchAdapter } from './product-search.adapter';
 import { SearchConfig } from '../../model/search-config';
 import { Observable } from 'rxjs';
@@ -18,7 +18,8 @@ import { Product } from '../../../model';
   providedIn: 'root',
 })
 export class ProductSearchConnector {
-  constructor(protected adapter: ProductSearchAdapter) {}
+  protected adapter = inject(ProductSearchAdapter);
+
 
   search(
     query: string,

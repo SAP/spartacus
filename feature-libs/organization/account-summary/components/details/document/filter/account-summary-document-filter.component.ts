@@ -4,15 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import {
   AccountSummaryDocumentType,
@@ -52,6 +44,9 @@ interface GroupValidator {
 export class AccountSummaryDocumentFilterComponent
   implements OnInit, OnDestroy
 {
+  protected translation = inject(TranslationService);
+  protected fb = inject(FormBuilder);
+
   @Input()
   cxNgSelectA11yAriaControls?: string;
 
@@ -75,11 +70,6 @@ export class AccountSummaryDocumentFilterComponent
 
   statusOptions: ItemType[];
   filterByOptions: ItemType[];
-
-  constructor(
-    protected translation: TranslationService,
-    protected fb: FormBuilder
-  ) {}
 
   ngOnInit() {
     this.subscription.add(

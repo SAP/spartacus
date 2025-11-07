@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { OrderAdapter } from './order.adapter';
 
 @Injectable()
 export class OrderConnector {
-  constructor(protected adapter: OrderAdapter) {}
+  protected adapter = inject(OrderAdapter);
+
 
   public placeOrder(
     userId: string,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BaseSiteService, LanguageService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -14,10 +14,9 @@ import { MerchandisingSiteContext } from '../model/merchandising-site-context.mo
   providedIn: 'root',
 })
 export class CdsMerchandisingSiteContextService {
-  constructor(
-    protected baseSiteService: BaseSiteService,
-    protected languageService: LanguageService
-  ) {}
+  protected baseSiteService = inject(BaseSiteService);
+  protected languageService = inject(LanguageService);
+
 
   getSiteContext(): Observable<MerchandisingSiteContext> {
     return combineLatest([

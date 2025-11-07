@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   OrderHistoryList,
   ReplenishmentOrder,
@@ -14,7 +14,8 @@ import { Observable } from 'rxjs';
 import { ReplenishmentOrderHistoryAdapter } from './replenishment-order-history.adapter';
 @Injectable()
 export class ReplenishmentOrderHistoryConnector {
-  constructor(protected adapter: ReplenishmentOrderHistoryAdapter) {}
+  protected adapter = inject(ReplenishmentOrderHistoryAdapter);
+
 
   public load(
     userId: string,

@@ -5,7 +5,7 @@
  */
 
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ErrorModel,
   GlobalMessageService,
@@ -19,10 +19,16 @@ import {
   providedIn: 'root',
 })
 export class ConfiguratorBadRequestHandler extends HttpErrorHandler {
+  protected globalMessageService: GlobalMessageService;
+
   responseStatus = HttpResponseStatus.BAD_REQUEST;
 
-  constructor(protected globalMessageService: GlobalMessageService) {
+  constructor() {
+    const globalMessageService = inject(GlobalMessageService);
+
     super(globalMessageService);
+  
+    this.globalMessageService = globalMessageService;
   }
 
   getPriority(): Priority {

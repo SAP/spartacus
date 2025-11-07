@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -28,12 +28,11 @@ import { StateWithUser } from '../store/user-state';
   providedIn: 'root',
 })
 export class UserAddressService {
-  constructor(
-    protected store: Store<StateWithUser>,
-    protected userIdService: UserIdService,
-    protected userAddressConnector: UserAddressConnector,
-    protected command: CommandService
-  ) {}
+  protected store = inject<Store<StateWithUser>>(Store);
+  protected userIdService = inject(UserIdService);
+  protected userAddressConnector = inject(UserAddressConnector);
+  protected command = inject(CommandService);
+
 
   /**
    * Retrieves user's addresses

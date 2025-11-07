@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import {
   Budget,
@@ -21,15 +21,19 @@ import { SubListService } from '../../shared/sub-list/sub-list.service';
   providedIn: 'root',
 })
 export class CostCenterBudgetListService extends SubListService<Budget> {
+  protected tableService: TableService;
+  protected costCenterService = inject(CostCenterService);
+  protected budgetService = inject(BudgetService);
+
   protected tableType = OrganizationTableType.COST_CENTER_BUDGETS;
   protected _domainType = OrganizationTableType.BUDGET;
 
-  constructor(
-    protected tableService: TableService,
-    protected costCenterService: CostCenterService,
-    protected budgetService: BudgetService
-  ) {
+  constructor() {
+    const tableService = inject(TableService);
+
     super(tableService);
+  
+    this.tableService = tableService;
   }
 
   protected load(

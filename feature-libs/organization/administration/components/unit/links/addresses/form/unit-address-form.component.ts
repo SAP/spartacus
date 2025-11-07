@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { Address, B2BUnit, Country, Region, Title } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -27,6 +27,10 @@ import { UnitAddressFormService } from './unit-address-form.service';
   standalone: false,
 })
 export class UnitAddressFormComponent implements OnInit {
+  protected itemService = inject<ItemService<Address>>(ItemService);
+  protected formService = inject(UnitAddressFormService);
+  protected currentUnitService = inject(CurrentUnitService);
+
   form: UntypedFormGroup | null = this.itemService.getForm();
 
   key$ = this.itemService.key$;
@@ -35,12 +39,6 @@ export class UnitAddressFormComponent implements OnInit {
   regions$: Observable<Region[]> = this.formService.getRegions();
 
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService.item$;
-
-  constructor(
-    protected itemService: ItemService<Address>,
-    protected formService: UnitAddressFormService,
-    protected currentUnitService: CurrentUnitService
-  ) {}
 
   /* eslint @angular-eslint/no-empty-lifecycle-method: 1 */
   ngOnInit(): void {

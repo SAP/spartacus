@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
@@ -24,6 +17,9 @@ import { Subscription } from 'rxjs';
   standalone: false,
 })
 export class QuickOrderItemComponent implements OnInit, OnDestroy {
+  protected cd = inject(ChangeDetectorRef);
+  protected quickOrderService = inject(QuickOrderFacade);
+
   quantityControl: UntypedFormControl;
 
   get entry(): OrderEntry {
@@ -45,11 +41,6 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
 
   protected _entry: OrderEntry;
   protected subscription = new Subscription();
-
-  constructor(
-    protected cd: ChangeDetectorRef,
-    protected quickOrderService: QuickOrderFacade
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

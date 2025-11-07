@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ContentType,
   EpdVisualizationConfig,
@@ -25,10 +25,9 @@ import { VisualizationConnector } from '../../connectors/visualization/visualiza
   providedIn: 'root',
 })
 export class VisualizationLookupService {
-  constructor(
-    protected epdVisualizationConfig: EpdVisualizationConfig,
-    protected visualizationConnector: VisualizationConnector
-  ) {}
+  protected epdVisualizationConfig = inject(EpdVisualizationConfig);
+  protected visualizationConnector = inject(VisualizationConnector);
+
 
   /**
    * Finds visualizations by usage id containing product code values.

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Product, ProductReviewService, Review } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -19,10 +19,9 @@ import { JsonLdBuilder } from '../schema.interface';
   providedIn: 'root',
 })
 export class JsonLdProductReviewBuilder implements JsonLdBuilder<Product> {
-  constructor(
-    protected reviewService: ProductReviewService,
-    protected config: SeoConfig
-  ) {}
+  protected reviewService = inject(ProductReviewService);
+  protected config = inject(SeoConfig);
+
 
   build(product: Product): Observable<any> {
     return this.reviewService.getByProductCode(product.code ?? '').pipe(

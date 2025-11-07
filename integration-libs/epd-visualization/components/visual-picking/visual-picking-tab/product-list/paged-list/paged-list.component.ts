@@ -36,6 +36,8 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class PagedListComponent implements OnInit {
+  protected el = inject(ElementRef);
+
   /**
    * The title is rendered as the carousel heading.
    */
@@ -80,8 +82,6 @@ export class PagedListComponent implements OnInit {
   }
 
   protected logger = inject(LoggerService);
-
-  constructor(protected el: ElementRef) {}
 
   ngOnInit() {
     if (!this.headerTemplate) {

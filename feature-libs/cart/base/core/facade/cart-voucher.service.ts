@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/base/root';
 import {
@@ -19,11 +19,10 @@ import { ADD_VOUCHER_PROCESS_ID } from '../store/multi-cart-state';
 
 @Injectable()
 export class CartVoucherService implements CartVoucherFacade {
-  constructor(
-    protected store: Store<StateWithProcess<void>>,
-    protected activeCartFacade: ActiveCartFacade,
-    protected userIdService: UserIdService
-  ) {}
+  protected store = inject<Store<StateWithProcess<void>>>(Store);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected userIdService = inject(UserIdService);
+
 
   addVoucher(voucherId: string, cartId?: string): void {
     this.combineUserAndCartId(cartId).subscribe(([occUserId, cartIdentifier]) =>

@@ -42,6 +42,11 @@ import { CurrentProductService } from '../../current-product.service';
   standalone: false,
 })
 export class ProductReviewsComponent {
+  protected reviewService = inject(ProductReviewService);
+  protected currentProductService = inject(CurrentProductService);
+  private fb = inject(UntypedFormBuilder);
+  protected cd = inject(ChangeDetectorRef);
+
   @ViewChild('titleInput', { static: false }) titleInput: ElementRef;
   @ViewChild('writeReviewButton', { static: false })
   writeReviewButton: ElementRef;
@@ -72,13 +77,6 @@ export class ProductReviewsComponent {
       this.maxListItems = this.initialMaxListItems;
     })
   );
-
-  constructor(
-    protected reviewService: ProductReviewService,
-    protected currentProductService: CurrentProductService,
-    private fb: UntypedFormBuilder,
-    protected cd: ChangeDetectorRef
-  ) {}
 
   initiateWriteReview(): void {
     this.isWritingReview = true;

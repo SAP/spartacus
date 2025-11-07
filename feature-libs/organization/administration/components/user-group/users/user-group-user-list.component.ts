@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, inject } from '@angular/core';
 import {
   LoadStatus,
   UserGroup,
@@ -29,10 +29,9 @@ import { UserGroupUserListService } from './user-group-user-list.service';
   standalone: false,
 })
 export class UserGroupUserListComponent {
-  constructor(
-    protected currentUserGroupService: CurrentUserGroupService,
-    protected userGroupUserListService: UserGroupUserListService
-  ) {}
+  protected currentUserGroupService = inject(CurrentUserGroupService);
+  protected userGroupUserListService = inject(UserGroupUserListService);
+
 
   @ViewChild('subList')
   subList: SubListComponent;

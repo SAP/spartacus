@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -38,6 +33,11 @@ interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   standalone: false,
 })
 export class MyInterestsComponent implements OnInit, OnDestroy {
+  private productInterestService = inject(UserInterestsService);
+  private translationService = inject(TranslationService);
+  private productService = inject(ProductService);
+  private globalMessageService = inject(GlobalMessageService);
+
   private DEFAULT_PAGE_SIZE = 10;
   private sortMapping: { [key: string]: string } = {
     byNameAsc: 'name:asc',
@@ -62,13 +62,6 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   isRemoveDisabled$: Observable<boolean>;
   getInterestsloading$: Observable<boolean>;
   sortLabels: Observable<{ byNameAsc: string; byNameDesc: string }>;
-
-  constructor(
-    private productInterestService: UserInterestsService,
-    private translationService: TranslationService,
-    private productService: ProductService,
-    private globalMessageService: GlobalMessageService
-  ) {}
 
   ngOnInit() {
     this.interests$ = this.productInterestService

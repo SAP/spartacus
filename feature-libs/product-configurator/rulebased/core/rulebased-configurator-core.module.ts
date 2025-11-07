@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { defaultConfiguratorCoreConfig } from './config/default-configurator-core.config';
 import { RulebasedConfiguratorConnector } from './connectors/rulebased-configurator.connector';
@@ -25,10 +25,4 @@ import { ConfiguratorLanguageSetEventListener } from './events/configurator-lang
   ],
 })
 export class RulebasedConfiguratorCoreModule {
-  constructor(
-    _configuratorLogoutEventListener: ConfiguratorLogoutEventListener,
-    _configuratorLanguageSetEventListener: ConfiguratorLanguageSetEventListener
-  ) {
-    // Intentional empty constructor
-  }
 }

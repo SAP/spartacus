@@ -24,15 +24,13 @@ import { RoutingService } from '@spartacus/core';
   standalone: false,
 })
 export class CloseAccountComponent {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+
   @ViewChild('element') element: ElementRef;
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
 
   openModal(): void {
     const dialog = this.launchDialogService.openDialog(

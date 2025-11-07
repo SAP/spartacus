@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AnonymousConsent, ConsentTemplate } from '../../model/consent.model';
 import { AnonymousConsentTemplatesAdapter } from './anonymous-consent-templates.adapter';
@@ -13,7 +13,8 @@ import { AnonymousConsentTemplatesAdapter } from './anonymous-consent-templates.
   providedIn: 'root',
 })
 export class AnonymousConsentTemplatesConnector {
-  constructor(protected adapter: AnonymousConsentTemplatesAdapter) {}
+  protected adapter = inject(AnonymousConsentTemplatesAdapter);
+
 
   loadAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
     return this.adapter.loadAnonymousConsentTemplates();

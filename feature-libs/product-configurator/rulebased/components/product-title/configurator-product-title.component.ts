@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import {
   Product,
   ProductScope,
@@ -29,6 +29,11 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
   standalone: false,
 })
 export class ConfiguratorProductTitleComponent {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configRouterExtractorService = inject(ConfiguratorRouterExtractorService);
+  protected productService = inject(ProductService);
+  protected configExpertModeService = inject(ConfiguratorExpertModeService);
+
   @HostBinding('class.ghost') ghostStyle = true;
 
   routerData$: Observable<ConfiguratorRouter.Data> =
@@ -80,12 +85,7 @@ export class ConfiguratorProductTitleComponent {
   showMore = false;
   iconTypes = ICON_TYPE;
 
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected productService: ProductService,
-    protected configExpertModeService: ConfiguratorExpertModeService
-  ) {
+  constructor() {
     useFeatureStyles('a11yWideScreenImprovements');
   }
 

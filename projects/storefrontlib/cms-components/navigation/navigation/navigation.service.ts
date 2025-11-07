@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   CmsNavigationComponent,
   CmsNavigationNode,
@@ -19,10 +19,9 @@ import { NavigationNode } from './navigation-node.model';
   providedIn: 'root',
 })
 export class NavigationService {
-  constructor(
-    protected cmsService: CmsService,
-    protected semanticPathService: SemanticPathService
-  ) {}
+  protected cmsService = inject(CmsService);
+  protected semanticPathService = inject(SemanticPathService);
+
 
   public createNavigation(
     data$: Observable<CmsNavigationComponent>

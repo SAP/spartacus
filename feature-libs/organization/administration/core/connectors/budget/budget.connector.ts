@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EntitiesModel, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { Budget } from '../../model/budget.model';
@@ -14,7 +14,8 @@ import { BudgetAdapter } from './budget.adapter';
   providedIn: 'root',
 })
 export class BudgetConnector {
-  constructor(protected adapter: BudgetAdapter) {}
+  protected adapter = inject(BudgetAdapter);
+
 
   get(userId: string, budgetCode: string): Observable<Budget> {
     return this.adapter.load(userId, budgetCode);

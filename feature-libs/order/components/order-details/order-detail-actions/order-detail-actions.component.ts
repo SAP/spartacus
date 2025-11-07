@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 
@@ -14,7 +14,8 @@ import { OrderDetailsService } from '../order-details.service';
   standalone: false,
 })
 export class OrderDetailActionsComponent {
-  constructor(protected orderDetailsService: OrderDetailsService) {}
+  protected orderDetailsService = inject(OrderDetailsService);
+
 
   order$: Observable<any> = this.orderDetailsService.getOrderDetails();
 }

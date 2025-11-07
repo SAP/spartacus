@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import { map } from 'rxjs/operators';
@@ -20,10 +20,10 @@ import { CurrencySetEvent, LanguageSetEvent } from './site-context.events';
   providedIn: 'root',
 })
 export class SiteContextEventBuilder {
-  constructor(
-    protected actionsSubject: ActionsSubject,
-    protected eventService: EventService
-  ) {
+  protected actionsSubject = inject(ActionsSubject);
+  protected eventService = inject(EventService);
+
+  constructor() {
     this.register();
   }
 

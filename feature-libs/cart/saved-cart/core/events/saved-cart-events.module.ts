@@ -4,12 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { SavedCartEventBuilder } from './saved-cart-event.builder';
 
 @NgModule({})
 export class SavedCartEventsModule {
-  constructor(_savedCartEventBuilder: SavedCartEventBuilder) {
-    // Intentional empty constructor
-  }
 }

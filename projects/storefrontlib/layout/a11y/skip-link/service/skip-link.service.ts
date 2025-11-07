@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { KeyboardFocusService } from '../../keyboard-focus/services/keyboard-focus.service';
 import { SkipLink, SkipLinkConfig } from '../config/skip-link.config';
@@ -13,12 +13,10 @@ import { SkipLink, SkipLinkConfig } from '../config/skip-link.config';
   providedIn: 'root',
 })
 export class SkipLinkService {
-  private skipLinks$ = new BehaviorSubject<SkipLink[]>([]);
+  protected config = inject(SkipLinkConfig);
+  protected keyboardFocusService = inject(KeyboardFocusService);
 
-  constructor(
-    protected config: SkipLinkConfig,
-    protected keyboardFocusService: KeyboardFocusService
-  ) {}
+  private skipLinks$ = new BehaviorSubject<SkipLink[]>([]);
 
   getSkipLinks(): Observable<SkipLink[]> {
     return this.skipLinks$;

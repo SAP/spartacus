@@ -5,16 +5,7 @@
  */
 
 import { DOCUMENT } from '@angular/common';
-import {
-  ComponentFactoryResolver,
-  ComponentRef,
-  inject,
-  Inject,
-  Injectable,
-  isDevMode,
-  RendererFactory2,
-  ViewContainerRef,
-} from '@angular/core';
+import { ComponentFactoryResolver, ComponentRef, inject, Injectable, isDevMode, RendererFactory2, ViewContainerRef } from '@angular/core';
 import { LoggerService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LAUNCH_CALLER, LaunchInlineDialog } from '../config/index';
@@ -22,14 +13,20 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class InlineRenderStrategy extends LaunchRenderStrategy {
+  protected document: any;
+  protected rendererFactory: RendererFactory2;
+  protected componentFactoryResolver = inject(ComponentFactoryResolver);
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    @Inject(DOCUMENT) protected document: any,
-    protected rendererFactory: RendererFactory2,
-    protected componentFactoryResolver: ComponentFactoryResolver
-  ) {
+  constructor() {
+    const document = inject(DOCUMENT);
+    const rendererFactory = inject(RendererFactory2);
+
     super(document, rendererFactory);
+  
+    this.document = document;
+    this.rendererFactory = rendererFactory;
   }
 
   /**

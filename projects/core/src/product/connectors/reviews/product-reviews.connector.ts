@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProductReviewsAdapter } from './product-reviews.adapter';
 import { Review } from '../../../model/product.model';
@@ -13,7 +13,8 @@ import { Review } from '../../../model/product.model';
   providedIn: 'root',
 })
 export class ProductReviewsConnector {
-  constructor(protected adapter: ProductReviewsAdapter) {}
+  protected adapter = inject(ProductReviewsAdapter);
+
 
   get(productCode: string, maxCount?: number): Observable<Review[]> {
     return this.adapter.load(productCode, maxCount);

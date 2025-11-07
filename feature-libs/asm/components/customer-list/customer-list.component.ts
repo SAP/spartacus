@@ -49,6 +49,13 @@ import { CustomerListAction } from './customer-list.model';
   standalone: false,
 })
 export class CustomerListComponent implements OnInit, OnDestroy {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected breakpointService = inject(BreakpointService);
+  protected asmConfig = inject(AsmConfig);
+  protected translation = inject(TranslationService);
+  protected asmCustomerListFacade = inject(AsmCustomerListFacade);
+  protected occConfig? = inject(OccConfig);
+
   protected DEFAULT_PAGE_SIZE = 5;
 
   focusConfig: FocusConfig = {
@@ -109,14 +116,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   isAsmCustomer360Configured: boolean | undefined = false;
   protected featureModules = inject(FeatureModulesService);
 
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected breakpointService: BreakpointService,
-    protected asmConfig: AsmConfig,
-    protected translation: TranslationService,
-    protected asmCustomerListFacade: AsmCustomerListFacade,
-    protected occConfig?: OccConfig
-  ) {
+  constructor() {
     useFeatureStyles('a11yShowLabelOfSelect');
     this.breakpoint$ = this.getBreakpoint();
   }

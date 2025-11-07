@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
@@ -50,6 +45,18 @@ export class B2BCheckoutDeliveryAddressComponent
   extends CheckoutDeliveryAddressComponent
   implements OnInit, OnDestroy
 {
+  protected userAddressService: UserAddressService;
+  protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
+  protected activatedRoute: ActivatedRoute;
+  protected translationService: TranslationService;
+  protected activeCartFacade: ActiveCartFacade;
+  protected checkoutStepService: CheckoutStepService;
+  protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
+  protected globalMessageService: GlobalMessageService;
+  protected checkoutCostCenterFacade = inject(CheckoutCostCenterFacade);
+  protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+  protected userCostCenterService = inject(UserCostCenterService);
+
   protected subscriptions = new Subscription();
 
   protected isAccountPayment$: Observable<boolean> =
@@ -88,19 +95,16 @@ export class B2BCheckoutDeliveryAddressComponent
 
   isAccountPayment = false;
 
-  constructor(
-    protected userAddressService: UserAddressService,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected activatedRoute: ActivatedRoute,
-    protected translationService: TranslationService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected globalMessageService: GlobalMessageService,
-    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    protected userCostCenterService: UserCostCenterService
-  ) {
+  constructor() {
+    const userAddressService = inject(UserAddressService);
+    const checkoutDeliveryAddressFacade = inject(CheckoutDeliveryAddressFacade);
+    const activatedRoute = inject(ActivatedRoute);
+    const translationService = inject(TranslationService);
+    const activeCartFacade = inject(ActiveCartFacade);
+    const checkoutStepService = inject(CheckoutStepService);
+    const checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
+    const globalMessageService = inject(GlobalMessageService);
+
     super(
       userAddressService,
       checkoutDeliveryAddressFacade,
@@ -111,6 +115,15 @@ export class B2BCheckoutDeliveryAddressComponent
       checkoutDeliveryModesFacade,
       globalMessageService
     );
+  
+    this.userAddressService = userAddressService;
+    this.checkoutDeliveryAddressFacade = checkoutDeliveryAddressFacade;
+    this.activatedRoute = activatedRoute;
+    this.translationService = translationService;
+    this.activeCartFacade = activeCartFacade;
+    this.checkoutStepService = checkoutStepService;
+    this.checkoutDeliveryModesFacade = checkoutDeliveryModesFacade;
+    this.globalMessageService = globalMessageService;
   }
 
   ngOnInit(): void {

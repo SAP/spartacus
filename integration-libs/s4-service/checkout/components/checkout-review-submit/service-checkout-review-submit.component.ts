@@ -36,6 +36,16 @@ import {
   standalone: false,
 })
 export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmitComponent {
+  protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
+  protected checkoutPaymentFacade: CheckoutPaymentFacade;
+  protected activeCartFacade: ActiveCartFacade;
+  protected translationService: TranslationService;
+  protected checkoutStepService: CheckoutStepService;
+  protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
+  protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
+  protected checkoutCostCenterFacade: CheckoutCostCenterFacade;
+  protected userCostCenterService: UserCostCenterService;
+
   checkoutStepTypeServiceDetails = CheckoutStepType.SERVICE_DETAILS;
   protected checkoutServiceDetailsFacade = inject(CheckoutServiceDetailsFacade);
   protected checkoutServiceSchedulePickerService = inject(
@@ -43,17 +53,17 @@ export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmi
   );
   protected config = inject(S4ServiceDeliveryModeConfig);
 
-  constructor(
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected activeCartFacade: ActiveCartFacade,
-    protected translationService: TranslationService,
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected userCostCenterService: UserCostCenterService
-  ) {
+  constructor() {
+    const checkoutDeliveryAddressFacade = inject(CheckoutDeliveryAddressFacade);
+    const checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+    const activeCartFacade = inject(ActiveCartFacade);
+    const translationService = inject(TranslationService);
+    const checkoutStepService = inject(CheckoutStepService);
+    const checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
+    const checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+    const checkoutCostCenterFacade = inject(CheckoutCostCenterFacade);
+    const userCostCenterService = inject(UserCostCenterService);
+
     super(
       checkoutDeliveryAddressFacade,
       checkoutPaymentFacade,
@@ -65,6 +75,16 @@ export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmi
       checkoutCostCenterFacade,
       userCostCenterService
     );
+  
+    this.checkoutDeliveryAddressFacade = checkoutDeliveryAddressFacade;
+    this.checkoutPaymentFacade = checkoutPaymentFacade;
+    this.activeCartFacade = activeCartFacade;
+    this.translationService = translationService;
+    this.checkoutStepService = checkoutStepService;
+    this.checkoutDeliveryModesFacade = checkoutDeliveryModesFacade;
+    this.checkoutPaymentTypeFacade = checkoutPaymentTypeFacade;
+    this.checkoutCostCenterFacade = checkoutCostCenterFacade;
+    this.userCostCenterService = userCostCenterService;
   }
 
   get scheduledAt$(): Observable<string | undefined> {

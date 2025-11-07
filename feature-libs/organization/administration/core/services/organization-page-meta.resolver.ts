@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   BreadcrumbMeta,
   ContentPageMetaResolver,
@@ -46,6 +46,11 @@ export class OrganizationPageMetaResolver
     PageDescriptionResolver,
     PageRobotsResolver
 {
+  protected contentPageMetaResolver = inject(ContentPageMetaResolver);
+  protected translation = inject(TranslationService);
+  protected semanticPath = inject(SemanticPathService);
+  protected routingService = inject(RoutingService);
+
   pageTemplate = 'CompanyPageTemplate';
   pageType = PageType.CONTENT_PAGE;
 
@@ -59,15 +64,6 @@ export class OrganizationPageMetaResolver
    * we are on this page. In such a case we avoid showing the breadcrumb for this page.
    */
   protected readonly ORGANIZATION_SEMANTIC_ROUTE = 'organization';
-
-  constructor(
-    protected contentPageMetaResolver: ContentPageMetaResolver,
-    protected translation: TranslationService,
-    protected semanticPath: SemanticPathService,
-    protected routingService: RoutingService
-  ) {
-    super();
-  }
 
   resolveTitle(): Observable<string | undefined> {
     return this.contentPageMetaResolver.resolveTitle();

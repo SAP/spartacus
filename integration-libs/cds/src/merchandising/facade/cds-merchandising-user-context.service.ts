@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   PageType,
   ProductSearchService,
@@ -29,13 +29,12 @@ import { MerchandisingUserContext } from '../model';
   providedIn: 'root',
 })
 export class CdsMerchandisingUserContextService {
-  constructor(
-    private routingService: RoutingService,
-    private productSearchService: ProductSearchService,
-    private profileTagEventService: ProfileTagEventService,
-    private profileTagLifecycleService: ProfileTagLifecycleService,
-    private facetService: FacetService
-  ) {}
+  private routingService = inject(RoutingService);
+  private productSearchService = inject(ProductSearchService);
+  private profileTagEventService = inject(ProfileTagEventService);
+  private profileTagLifecycleService = inject(ProfileTagLifecycleService);
+  private facetService = inject(FacetService);
+
 
   getUserContext(): Observable<MerchandisingUserContext> {
     return combineLatest([

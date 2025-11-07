@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   LaunchDialogService,
   ICON_TYPE,
@@ -32,6 +27,11 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 export class ConfiguratorConflictSolverDialogComponent
   implements OnInit, OnDestroy
 {
+  protected configuratorStorefrontUtilsService = inject(ConfiguratorStorefrontUtilsService);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected focusService = inject(KeyboardFocusService);
+
   iconTypes = ICON_TYPE;
   uiType = Configurator.UiType;
 
@@ -46,13 +46,6 @@ export class ConfiguratorConflictSolverDialogComponent
 
   routerData$: Observable<ConfiguratorRouter.Data>;
   conflictGroup$: Observable<Configurator.Group>;
-
-  constructor(
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected launchDialogService: LaunchDialogService,
-    protected focusService: KeyboardFocusService
-  ) {}
 
   init(
     conflictGroup: Observable<Configurator.Group>,

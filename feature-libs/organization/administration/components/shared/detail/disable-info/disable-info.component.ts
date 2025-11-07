@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { ItemService } from '../../item.service';
@@ -18,6 +18,9 @@ import { DisableInfoService } from './disable-info.service';
   standalone: false,
 })
 export class DisableInfoComponent<T extends BaseItem> implements OnInit {
+  protected itemService = inject<ItemService<T>>(ItemService);
+  protected disableInfoService = inject<DisableInfoService<T>>(DisableInfoService);
+
   /**
    * The localization of messages is based on the i18n root. Messages are
    * concatenated to the root, such as:
@@ -47,11 +50,6 @@ export class DisableInfoComponent<T extends BaseItem> implements OnInit {
   current$: Observable<T | undefined> = this.itemService.current$;
 
   iconTypes = ICON_TYPE;
-
-  constructor(
-    protected itemService: ItemService<T>,
-    protected disableInfoService: DisableInfoService<T>
-  ) {}
 
   protected get defaultInfoConfig() {
     return {

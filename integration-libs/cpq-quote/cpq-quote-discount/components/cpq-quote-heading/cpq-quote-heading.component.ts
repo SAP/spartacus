@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  Optional,
-  Inject,
-} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
@@ -24,20 +17,15 @@ import { CpqQuoteService } from '../../cpq-qute.service';
   standalone: false,
 })
 export class CpqQuoteHeadingComponent implements OnInit, OnDestroy {
+  protected outlet = inject<OutletContextData>(OutletContextData, { optional: true });
+  protected translationService = inject(TranslationService);
+  private cpqQuoteService = inject(CpqQuoteService);
+
   @Input()
   quoteDiscountData: OrderEntry;
   protected subscription = new Subscription();
   discountLabel: string;
   datacheck: any;
-
-  constructor(
-    // Inject OutletContextData dependency
-    @Optional()
-    @Inject(OutletContextData)
-    protected outlet: OutletContextData,
-    protected translationService: TranslationService,
-    private cpqQuoteService: CpqQuoteService
-  ) {}
 
   // discountLabel: string = 'Discount Percentage';
   dataAvailable: boolean = false;

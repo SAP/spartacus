@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { DefaultComponentHandler } from './default-component.handler';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 import { Priority } from '@spartacus/core';
-import { Component, ViewContainerRef } from '@angular/core';
+import { Component, ViewContainerRef, inject as inject_1 } from '@angular/core';
 import { take } from 'rxjs/operators';
 
 const mockCmsMappingService = {
@@ -14,7 +14,7 @@ const mockCmsMappingService = {
   standalone: false,
 })
 class WrapperComponent {
-  constructor(public vcr: ViewContainerRef) {}
+  vcr = inject_1(ViewContainerRef);
 }
 
 @Component({

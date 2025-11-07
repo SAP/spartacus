@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   RoutingService,
   TranslationService,
@@ -27,12 +27,12 @@ import { map, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class CustomerTicketingListComponent {
-  constructor(
-    protected customerTicketingFacade: CustomerTicketingFacade,
-    protected routingService: RoutingService,
-    protected translationService: TranslationService,
-    protected customerTicketingConfig: CustomerTicketingConfig
-  ) {
+  protected customerTicketingFacade = inject(CustomerTicketingFacade);
+  protected routingService = inject(RoutingService);
+  protected translationService = inject(TranslationService);
+  protected customerTicketingConfig = inject(CustomerTicketingConfig);
+
+  constructor() {
     useFeatureStyles('a11yHighContrastBorders');
   }
   PAGE_SIZE =

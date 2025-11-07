@@ -5,7 +5,7 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { PageContext } from '../../../routing/models/page-context.model';
@@ -17,10 +17,9 @@ import { CmsPageAdapter } from './cms-page.adapter';
   providedIn: 'root',
 })
 export class CmsPageConnector {
-  constructor(
-    protected cmsPageAdapter: CmsPageAdapter,
-    protected cmsStructureConfigService: CmsStructureConfigService
-  ) {}
+  protected cmsPageAdapter = inject(CmsPageAdapter);
+  protected cmsStructureConfigService = inject(CmsStructureConfigService);
+
 
   /**
    * Returns an observable with the page structure. The page structure is

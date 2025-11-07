@@ -5,7 +5,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
   CostCenter,
@@ -26,11 +26,10 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class OccCostCenterAdapter implements CostCenterAdapter {
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
 
   load(userId: string, costCenterCode: string): Observable<CostCenter> {
     return this.http

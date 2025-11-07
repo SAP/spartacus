@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Converter, ConverterService, Occ } from '@spartacus/core';
 import { ORDER_NORMALIZER } from '@spartacus/order/root';
 import { OrderApproval } from '../../core/model/order-approval.model';
@@ -15,7 +15,8 @@ import { OrderApproval } from '../../core/model/order-approval.model';
 export class OccOrderApprovalNormalizer
   implements Converter<Occ.OrderApproval, OrderApproval>
 {
-  constructor(private converter: ConverterService) {}
+  private converter = inject(ConverterService);
+
 
   convert(source: Occ.OrderApproval, target?: OrderApproval): OrderApproval {
     if (target === undefined) {

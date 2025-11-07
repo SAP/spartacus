@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   EntitiesModel,
   isNotUndefined,
@@ -28,13 +28,17 @@ import { OrganizationTableType } from '../../shared/organization.model';
   providedIn: 'root',
 })
 export class BudgetListService extends ListService<Budget> {
+  protected tableService: TableService;
+  protected budgetService = inject(BudgetService);
+
   protected tableType = OrganizationTableType.BUDGET;
 
-  constructor(
-    protected tableService: TableService,
-    protected budgetService: BudgetService
-  ) {
+  constructor() {
+    const tableService = inject(TableService);
+
     super(tableService);
+  
+    this.tableService = tableService;
   }
 
   protected load(

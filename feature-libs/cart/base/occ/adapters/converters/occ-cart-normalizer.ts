@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Cart,
   ORDER_ENTRY_PROMOTIONS_NORMALIZER,
@@ -18,7 +18,8 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
-  constructor(private converter: ConverterService) {}
+  private converter = inject(ConverterService);
+
 
   convert(source: Occ.Cart, target?: Cart): Cart {
     if (target === undefined) {

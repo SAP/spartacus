@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   CostCenter,
   DefaultRoutePageMetaResolver,
@@ -15,10 +15,11 @@ import { CurrentCostCenterService } from './current-cost-center.service';
 
 @Injectable({ providedIn: 'root' })
 export class CostCenterRoutePageMetaResolver extends DefaultRoutePageMetaResolver {
-  constructor(
-    translation: TranslationService,
-    protected currentItemService: CurrentCostCenterService
-  ) {
+  protected currentItemService = inject(CurrentCostCenterService);
+
+  constructor() {
+    const translation = inject(TranslationService);
+
     super(translation);
   }
 

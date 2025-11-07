@@ -1,9 +1,4 @@
-import {
-  Component,
-  ComponentRef,
-  Injectable,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, ComponentRef, Injectable, ViewContainerRef, inject as inject_1 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { LayoutConfig } from '../../config/layout-config';
@@ -76,7 +71,7 @@ class MockInlineRenderStrategy {
   standalone: false,
 })
 class TestContainerComponent {
-  constructor(public vcr: ViewContainerRef) {}
+  vcr = inject_1(ViewContainerRef);
 }
 
 describe('LaunchDialogService', () => {

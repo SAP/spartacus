@@ -4,15 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { AuthService, RoutingService } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
@@ -26,6 +18,12 @@ import { distinctUntilChanged, filter, map, take, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class AddToSavedCartComponent implements OnInit, OnDestroy {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected authService = inject(AuthService);
+  protected routingService = inject(RoutingService);
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   protected subscription = new Subscription();
   protected loggedIn = false;
 
@@ -37,14 +35,6 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
    * Whether to show the "Save cart for later" button. Contingent on whether there are actual entries to save.
    */
   disableSaveCartForLater$: Observable<boolean>;
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected authService: AuthService,
-    protected routingService: RoutingService,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
 
   ngOnInit(): void {
     this.cart$ = combineLatest([

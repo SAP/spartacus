@@ -21,16 +21,14 @@ import { Subscription } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService implements OnDestroy {
+  protected config = inject(SiteContextConfig);
+  protected rendererFactory = inject(RendererFactory2);
+
   protected siteThemeService = inject(SiteThemeService);
   protected featureConfigService = inject(FeatureConfigService);
   protected rootComponent: ComponentRef<any>;
   protected renderer: Renderer2;
   protected existingTheme: string;
-
-  constructor(
-    protected config: SiteContextConfig,
-    protected rendererFactory: RendererFactory2
-  ) {}
   protected subscription = new Subscription();
 
   /**

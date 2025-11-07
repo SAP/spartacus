@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, inject } from '@angular/core';
 import { SemanticPathService } from './semantic-path.service';
 import { Product } from '../../../model/product.model';
 @Pipe({
@@ -12,7 +12,8 @@ import { Product } from '../../../model/product.model';
   standalone: false,
 })
 export class ProductURLPipe implements PipeTransform {
-  constructor(private semanticPath: SemanticPathService) {}
+  private semanticPath = inject(SemanticPathService);
+
   transform(product: Product) {
     return this.semanticPath.transform({ cxRoute: 'product', params: product });
   }

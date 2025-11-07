@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Product, ProductService, TranslationService } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
@@ -19,6 +19,11 @@ import { Configurator } from '../../core/model/configurator.model';
   standalone: false,
 })
 export class ConfiguratorVariantCarouselComponent {
+  protected productService = inject(ProductService);
+  protected translationService = inject(TranslationService);
+  protected configuratorRouterExtractorService = inject(ConfiguratorRouterExtractorService);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+
   configuration$: Observable<Configurator.Configuration> =
     this.configuratorRouterExtractorService
       .extractRouterData()
@@ -43,11 +48,4 @@ export class ConfiguratorVariantCarouselComponent {
         );
       })
     );
-
-  constructor(
-    protected productService: ProductService,
-    protected translationService: TranslationService,
-    protected configuratorRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {}
 }

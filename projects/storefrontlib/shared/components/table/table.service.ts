@@ -32,12 +32,10 @@ import { TableStructure, TableStructureConfiguration } from './table.model';
   providedIn: 'root',
 })
 export class TableService {
-  protected logger = inject(LoggerService);
+  protected breakpointService = inject(BreakpointService);
+  protected config = inject(TableConfig);
 
-  constructor(
-    protected breakpointService: BreakpointService,
-    protected config: TableConfig
-  ) {}
+  protected logger = inject(LoggerService);
 
   /**
    * Builds the table structure.

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
@@ -16,11 +16,10 @@ import { LanguageStatePersistenceService } from './language-state-persistence.se
 
 @Injectable({ providedIn: 'root' })
 export class LanguageInitializer implements OnDestroy {
-  constructor(
-    protected languageService: LanguageService,
-    protected languageStatePersistenceService: LanguageStatePersistenceService,
-    protected configInit: ConfigInitializerService
-  ) {}
+  protected languageService = inject(LanguageService);
+  protected languageStatePersistenceService = inject(LanguageStatePersistenceService);
+  protected configInit = inject(ConfigInitializerService);
+
 
   protected subscription: Subscription;
 

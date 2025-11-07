@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   CancellationRequestEntryInputList,
   ConsignmentTracking,
@@ -20,7 +20,8 @@ import { OrderHistoryAdapter } from './order-history.adapter';
 
 @Injectable()
 export class OrderHistoryConnector {
-  constructor(protected adapter: OrderHistoryAdapter) {}
+  protected adapter = inject(OrderHistoryAdapter);
+
 
   public get(userId: string, orderCode: string): Observable<Order> {
     return this.adapter.load(userId, orderCode);

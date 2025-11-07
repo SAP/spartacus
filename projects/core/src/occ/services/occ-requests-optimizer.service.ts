@@ -5,7 +5,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { ScopedData } from '../../model/scoped-data';
@@ -20,10 +20,9 @@ import {
   providedIn: 'root',
 })
 export class OccRequestsOptimizerService {
-  constructor(
-    protected http: HttpClient,
-    protected occFields: OccFieldsService
-  ) {}
+  protected http = inject(HttpClient);
+  protected occFields = inject(OccFieldsService);
+
 
   /**
    * Optimize occ endpoint calls merging requests to the same url by merging field parameters

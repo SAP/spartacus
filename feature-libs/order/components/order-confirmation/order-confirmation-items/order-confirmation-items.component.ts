@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
 import {
   AbstractOrderType,
   CartOutlets,
@@ -20,12 +20,12 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class OrderConfirmationItemsComponent implements OnDestroy {
+  protected orderFacade = inject(OrderFacade);
+
   readonly cartOutlets = CartOutlets;
   readonly abstractOrderType = AbstractOrderType;
   promotionLocation: PromotionLocation = PromotionLocation.Checkout;
   order$: Observable<Order | undefined> = this.orderFacade.getOrderDetails();
-
-  constructor(protected orderFacade: OrderFacade) {}
 
   ngOnDestroy() {
     this.orderFacade.clearPlacedOrder();

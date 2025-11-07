@@ -4,16 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RoutingConfig } from '../../../routing/configurable-routes/config/routing-config';
 import { UrlParsingService } from '../../../routing/configurable-routes/url-translation/url-parsing.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthFlowRoutesService {
-  constructor(
-    protected config: RoutingConfig,
-    protected urlParsingService: UrlParsingService
-  ) {}
+  protected config = inject(RoutingConfig);
+  protected urlParsingService = inject(UrlParsingService);
+
 
   protected _authFlowPaths: string[];
 

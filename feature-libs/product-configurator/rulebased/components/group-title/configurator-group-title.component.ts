@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  OnDestroy,
-  OnInit,
-  AfterContentChecked,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit, AfterContentChecked, inject } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import {
   ICON_TYPE,
@@ -36,6 +29,14 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 export class ConfiguratorGroupTitleComponent
   implements OnInit, OnDestroy, AfterContentChecked
 {
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configuratorGroupsService = inject(ConfiguratorGroupsService);
+  protected configRouterExtractorService = inject(ConfiguratorRouterExtractorService);
+  protected configExpertModeService = inject(ConfiguratorExpertModeService);
+  protected breakpointService = inject(BreakpointService);
+  protected configuratorStorefrontUtilsService = inject(ConfiguratorStorefrontUtilsService);
+  protected hamburgerMenuService = inject(HamburgerMenuService);
+
   @HostBinding('class.ghost') ghostStyle = true;
   protected subscription = new Subscription();
   protected readonly PRE_HEADER = '.PreHeader';
@@ -53,16 +54,6 @@ export class ConfiguratorGroupTitleComponent
       )
     );
   iconTypes = ICON_TYPE;
-
-  constructor(
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configExpertModeService: ConfiguratorExpertModeService,
-    protected breakpointService: BreakpointService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
-    protected hamburgerMenuService: HamburgerMenuService
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

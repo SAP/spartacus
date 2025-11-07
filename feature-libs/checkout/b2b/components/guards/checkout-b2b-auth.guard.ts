@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GuardResult, Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
@@ -28,16 +28,23 @@ import { filter, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CheckoutB2BAuthGuard extends CheckoutAuthGuard {
-  constructor(
-    protected authService: AuthService,
-    protected authRedirectService: AuthRedirectService,
-    protected checkoutConfigService: CheckoutConfigService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected semanticPathService: SemanticPathService,
-    protected router: Router,
-    protected userAccountFacade: UserAccountFacade,
-    protected globalMessageService: GlobalMessageService
-  ) {
+  protected authService: AuthService;
+  protected authRedirectService: AuthRedirectService;
+  protected checkoutConfigService: CheckoutConfigService;
+  protected activeCartFacade: ActiveCartFacade;
+  protected semanticPathService: SemanticPathService;
+  protected router: Router;
+  protected userAccountFacade = inject(UserAccountFacade);
+  protected globalMessageService = inject(GlobalMessageService);
+
+  constructor() {
+    const authService = inject(AuthService);
+    const authRedirectService = inject(AuthRedirectService);
+    const checkoutConfigService = inject(CheckoutConfigService);
+    const activeCartFacade = inject(ActiveCartFacade);
+    const semanticPathService = inject(SemanticPathService);
+    const router = inject(Router);
+
     super(
       authService,
       authRedirectService,
@@ -46,6 +53,13 @@ export class CheckoutB2BAuthGuard extends CheckoutAuthGuard {
       semanticPathService,
       router
     );
+  
+    this.authService = authService;
+    this.authRedirectService = authRedirectService;
+    this.checkoutConfigService = checkoutConfigService;
+    this.activeCartFacade = activeCartFacade;
+    this.semanticPathService = semanticPathService;
+    this.router = router;
   }
 
   canActivate(): Observable<GuardResult> {

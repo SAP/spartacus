@@ -30,19 +30,27 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
+  protected checkoutStepService: CheckoutStepService;
+  protected routingConfigService: RoutingConfigService;
+  protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
+  protected checkoutPaymentFacade: CheckoutPaymentFacade;
+  protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
+  protected router: Router;
+  protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+  protected checkoutCostCenterFacade = inject(CheckoutCostCenterFacade);
+  protected activeCartFacade: ActiveCartFacade;
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected checkoutStepService: CheckoutStepService,
-    protected routingConfigService: RoutingConfigService,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected router: Router,
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected activeCartFacade: ActiveCartFacade
-  ) {
+  constructor() {
+    const checkoutStepService = inject(CheckoutStepService);
+    const routingConfigService = inject(RoutingConfigService);
+    const checkoutDeliveryAddressFacade = inject(CheckoutDeliveryAddressFacade);
+    const checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+    const checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
+    const router = inject(Router);
+    const activeCartFacade = inject(ActiveCartFacade);
+
     super(
       checkoutStepService,
       routingConfigService,
@@ -52,6 +60,14 @@ export class CheckoutB2BStepsSetGuard extends CheckoutStepsSetGuard {
       router,
       activeCartFacade
     );
+  
+    this.checkoutStepService = checkoutStepService;
+    this.routingConfigService = routingConfigService;
+    this.checkoutDeliveryAddressFacade = checkoutDeliveryAddressFacade;
+    this.checkoutPaymentFacade = checkoutPaymentFacade;
+    this.checkoutDeliveryModesFacade = checkoutDeliveryModesFacade;
+    this.router = router;
+    this.activeCartFacade = activeCartFacade;
   }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<GuardResult> {

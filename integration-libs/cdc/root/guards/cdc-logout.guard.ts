@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   AuthService,
@@ -24,15 +24,27 @@ import { LogoutGuard } from '@spartacus/storefront';
   providedIn: 'root',
 })
 export class CdcLogoutGuard extends LogoutGuard {
-  constructor(
-    protected auth: AuthService,
-    protected cms: CmsService,
-    protected semanticPathService: SemanticPathService,
-    protected protectedRoutes: ProtectedRoutesService,
-    protected router: Router,
-    protected winRef: WindowRef
-  ) {
+  protected auth: AuthService;
+  protected cms: CmsService;
+  protected semanticPathService: SemanticPathService;
+  protected protectedRoutes: ProtectedRoutesService;
+  protected router: Router;
+  protected winRef = inject(WindowRef);
+
+  constructor() {
+    const auth = inject(AuthService);
+    const cms = inject(CmsService);
+    const semanticPathService = inject(SemanticPathService);
+    const protectedRoutes = inject(ProtectedRoutesService);
+    const router = inject(Router);
+
     super(auth, cms, semanticPathService, protectedRoutes, router);
+  
+    this.auth = auth;
+    this.cms = cms;
+    this.semanticPathService = semanticPathService;
+    this.protectedRoutes = protectedRoutes;
+    this.router = router;
   }
 
   /**

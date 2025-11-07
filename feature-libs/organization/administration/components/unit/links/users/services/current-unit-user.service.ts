@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { B2BUser, RoutingService } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
@@ -15,11 +15,15 @@ import { CurrentItemService } from '../../../../shared/current-item.service';
   providedIn: 'root',
 })
 export class CurrentUnitUserService extends CurrentItemService<B2BUser> {
-  constructor(
-    protected routingService: RoutingService,
-    protected b2bUserService: B2BUserService
-  ) {
+  protected routingService: RoutingService;
+  protected b2bUserService = inject(B2BUserService);
+
+  constructor() {
+    const routingService = inject(RoutingService);
+
     super(routingService);
+  
+    this.routingService = routingService;
   }
 
   getDetailsRoute(): string {

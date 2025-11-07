@@ -15,16 +15,14 @@ import { StoreFinderService } from '../facade/store-finder.service';
   providedIn: 'root',
 })
 export class GoogleMapRendererService {
+  protected config = inject(StoreFinderConfig);
+  protected storeFinderService = inject(StoreFinderService);
+  protected scriptLoader = inject(ScriptLoader);
+
   private googleMap: google.maps.Map = null;
   private markers: google.maps.Marker[];
 
   protected logger = inject(LoggerService);
-
-  constructor(
-    protected config: StoreFinderConfig,
-    protected storeFinderService: StoreFinderService,
-    protected scriptLoader: ScriptLoader
-  ) {}
 
   /**
    * Renders google map on the given element and draws markers on it.

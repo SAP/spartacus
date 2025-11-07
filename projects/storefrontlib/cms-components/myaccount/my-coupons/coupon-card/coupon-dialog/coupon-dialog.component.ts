@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, inject } from '@angular/core';
 import { CustomerCoupon } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
@@ -24,6 +17,9 @@ import { FocusConfig, LaunchDialogService } from '../../../../../layout/index';
   standalone: false,
 })
 export class CouponDialogComponent implements OnDestroy, OnInit {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected el = inject(ElementRef);
+
   private subscription = new Subscription();
   iconTypes = ICON_TYPE;
   coupon: CustomerCoupon;
@@ -41,11 +37,6 @@ export class CouponDialogComponent implements OnDestroy, OnInit {
       this.close('Cross click');
     }
   }
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

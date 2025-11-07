@@ -5,7 +5,7 @@
  */
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Cart } from '@spartacus/cart/base/root';
 import { CheckoutSupportedDeliveryModesQueryReloadEvent } from '@spartacus/checkout/base/root';
@@ -30,15 +30,14 @@ import { DateValidationService } from '../shared/date-validation.service';
   standalone: false,
 })
 export class DeliveryModeDatePickerComponent implements OnInit, OnDestroy {
-  constructor(
-    protected datePipe: CxDatePipe,
-    protected requestedDelDateFacade: RequestedDeliveryDateFacade,
-    protected dateValidationService: DateValidationService,
-    protected eventService: EventService,
-    protected translation: TranslationService,
-    protected globalMessageService: GlobalMessageService,
-    @Optional() protected deliveryOutlet?: OutletContextData
-  ) {}
+  protected datePipe = inject(CxDatePipe);
+  protected requestedDelDateFacade = inject(RequestedDeliveryDateFacade);
+  protected dateValidationService = inject(DateValidationService);
+  protected eventService = inject(EventService);
+  protected translation = inject(TranslationService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected deliveryOutlet? = inject(OutletContextData, { optional: true });
+
 
   protected cartEntry: Cart = {};
   protected subscription = new Subscription();

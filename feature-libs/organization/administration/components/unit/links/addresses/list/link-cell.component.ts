@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
 import {
   OutletContextData,
@@ -35,12 +35,16 @@ import { CellComponent } from '../../../../shared/table/cell.component';
   standalone: false,
 })
 export class LinkCellComponent extends CellComponent {
+  protected outlet: OutletContextData<TableDataOutletContext>;
+  protected itemService = inject<ItemService<B2BUnit>>(ItemService);
+
   unitKey$: Observable<string> = this.itemService.key$;
-  constructor(
-    protected outlet: OutletContextData<TableDataOutletContext>,
-    protected itemService: ItemService<B2BUnit>
-  ) {
+  constructor() {
+    const outlet = inject<OutletContextData<TableDataOutletContext>>(OutletContextData);
+
     super(outlet);
+  
+    this.outlet = outlet;
   }
 
   get tabIndex() {

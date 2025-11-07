@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
@@ -12,7 +12,8 @@ import { UserProfileAdapter } from './user-profile.adapter';
 
 @Injectable()
 export class UserProfileConnector {
-  constructor(protected userProfileAdapter: UserProfileAdapter) {}
+  protected userProfileAdapter = inject(UserProfileAdapter);
+
 
   update(username: string, user: User): Observable<unknown> {
     return this.userProfileAdapter.update(username, user);

@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -37,6 +30,12 @@ import { GlobalMessageType } from '@spartacus/core';
   standalone: false,
 })
 export class ImportEntriesFormComponent implements OnInit {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected importToCartService = inject(ImportProductsFromCsvService);
+  protected importCsvService = inject(ImportCsvFileService);
+  protected filesFormValidators = inject(FilesFormValidators);
+  protected importExportConfig = inject(ImportExportConfig);
+
   form: UntypedFormGroup;
   loadedFile: string[][] | null;
   formSubmitSubject$ = new Subject();
@@ -49,14 +48,6 @@ export class ImportEntriesFormComponent implements OnInit {
 
   @Input()
   type: OrderEntriesSource;
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected importToCartService: ImportProductsFromCsvService,
-    protected importCsvService: ImportCsvFileService,
-    protected filesFormValidators: FilesFormValidators,
-    protected importExportConfig: ImportExportConfig
-  ) {}
 
   ngOnInit() {
     this.form = this.buildForm();

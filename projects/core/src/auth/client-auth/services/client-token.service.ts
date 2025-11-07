@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn } from 'rxjs/operators';
@@ -22,7 +22,8 @@ import { ClientAuthSelectors } from '../store/selectors/index';
   providedIn: 'root',
 })
 export class ClientTokenService {
-  constructor(protected store: Store<StateWithClientAuth>) {}
+  protected store = inject<Store<StateWithClientAuth>>(Store);
+
 
   /**
    * Returns a client token. The client token from the store is returned if there is one.

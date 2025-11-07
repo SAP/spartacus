@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UserAddressAdapter } from './user-address.adapter';
 import { Observable } from 'rxjs';
 import { Address, AddressValidation } from '../../../model/address.model';
@@ -13,7 +13,8 @@ import { Address, AddressValidation } from '../../../model/address.model';
   providedIn: 'root',
 })
 export class UserAddressConnector {
-  constructor(protected adapter: UserAddressAdapter) {}
+  protected adapter = inject(UserAddressAdapter);
+
 
   getAll(userId: string): Observable<Address[]> {
     return this.adapter.loadAll(userId);

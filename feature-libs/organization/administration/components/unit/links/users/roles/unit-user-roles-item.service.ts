@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { B2BUser, RoutingService } from '@spartacus/core';
 import {
@@ -20,14 +20,22 @@ import { UnitUserRolesFormService } from './unit-user-roles-form.service';
   providedIn: 'root',
 })
 export class UnitUserRolesItemService extends ItemService<B2BUser> {
-  constructor(
-    protected currentItemService: CurrentUnitUserService,
-    protected routingService: RoutingService,
-    protected formService: UnitUserRolesFormService,
-    protected unitService: OrgUnitService,
-    protected b2bUserService: B2BUserService
-  ) {
+  protected currentItemService: CurrentUnitUserService;
+  protected routingService: RoutingService;
+  protected formService: UnitUserRolesFormService;
+  protected unitService = inject(OrgUnitService);
+  protected b2bUserService = inject(B2BUserService);
+
+  constructor() {
+    const currentItemService = inject(CurrentUnitUserService);
+    const routingService = inject(RoutingService);
+    const formService = inject(UnitUserRolesFormService);
+
     super(currentItemService, routingService, formService);
+  
+    this.currentItemService = currentItemService;
+    this.routingService = routingService;
+    this.formService = formService;
   }
 
   save(

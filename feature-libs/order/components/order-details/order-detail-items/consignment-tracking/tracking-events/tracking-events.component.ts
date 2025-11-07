@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, inject } from '@angular/core';
 import { ConsignmentTracking, OrderHistoryFacade } from '@spartacus/order/root';
 import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -23,6 +16,10 @@ import { Observable, Subscription } from 'rxjs';
   standalone: false,
 })
 export class TrackingEventsComponent implements OnDestroy, OnInit {
+  protected orderHistoryFacade = inject(OrderHistoryFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected el = inject(ElementRef);
+
   private subscription = new Subscription();
   tracking$: Observable<ConsignmentTracking>;
   shipDate: Date;
@@ -40,12 +37,6 @@ export class TrackingEventsComponent implements OnDestroy, OnInit {
       this.close('Cross click');
     }
   }
-
-  constructor(
-    protected orderHistoryFacade: OrderHistoryFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

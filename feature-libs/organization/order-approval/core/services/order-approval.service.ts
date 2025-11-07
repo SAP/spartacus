@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   EntitiesModel,
@@ -29,10 +29,9 @@ import { OrderApprovalSelectors } from '../store/selectors';
 
 @Injectable({ providedIn: 'root' })
 export class OrderApprovalService {
-  constructor(
-    protected store: Store<OrderApprovalState | StateWithProcess<void>>,
-    protected userIdService: UserIdService
-  ) {}
+  protected store = inject<Store<OrderApprovalState | StateWithProcess<void>>>(Store);
+  protected userIdService = inject(UserIdService);
+
 
   loadOrderApproval(orderApprovalCode: string): void {
     this.userIdService.takeUserId().subscribe((userId) =>

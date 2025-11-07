@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   LanguageService,
   SortModel,
@@ -35,6 +30,11 @@ import { skip, switchMap, take, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
+  protected accountSummaryFacade = inject(AccountSummaryFacade);
+  protected translation = inject(TranslationService);
+  protected downloadService = inject(FileDownloadService);
+  protected languageService = inject(LanguageService);
+
   /* For Enum use in HTML */
   ICON_TYPE = ICON_TYPE;
 
@@ -66,13 +66,6 @@ export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
   );
 
   private subscription = new Subscription();
-
-  constructor(
-    protected accountSummaryFacade: AccountSummaryFacade,
-    protected translation: TranslationService,
-    protected downloadService: FileDownloadService,
-    protected languageService: LanguageService
-  ) {}
 
   ngOnInit() {
     this.subscription.add(

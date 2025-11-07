@@ -4,15 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ComponentRef,
-  ElementRef,
-  inject,
-  Inject,
-  Injectable,
-  isDevMode,
-  ViewContainerRef,
-} from '@angular/core';
+import { ComponentRef, ElementRef, inject, Injectable, isDevMode, ViewContainerRef } from '@angular/core';
 import { LoggerService, resolveApplicable } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
@@ -22,6 +14,9 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class LaunchDialogService {
+  protected renderStrategies = inject(LaunchRenderStrategy);
+  protected layoutConfig = inject(LayoutConfig);
+
   private _dialogClose = new BehaviorSubject<any | undefined>(undefined);
   private _dataSubject = new BehaviorSubject<any>(undefined);
 
@@ -31,11 +26,7 @@ export class LaunchDialogService {
     return this._dataSubject.asObservable();
   }
 
-  constructor(
-    @Inject(LaunchRenderStrategy)
-    protected renderStrategies: LaunchRenderStrategy[],
-    protected layoutConfig: LayoutConfig
-  ) {
+  constructor() {
     this.renderStrategies = this.renderStrategies || [];
   }
 

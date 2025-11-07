@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { GeoPoint, SearchConfig } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
@@ -20,6 +20,10 @@ import {
   standalone: false,
 })
 export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
+  private storeFinderService = inject(StoreFinderService);
+  private route = inject(ActivatedRoute);
+  protected config = inject(StoreFinderConfig);
+
   locations: any;
   subscription: Subscription;
   useMyLocation: boolean;
@@ -32,12 +36,6 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   geolocation: GeoPoint;
   locations$: Observable<any>;
   isLoading$: Observable<any>;
-
-  constructor(
-    private storeFinderService: StoreFinderService,
-    private route: ActivatedRoute,
-    protected config: StoreFinderConfig
-  ) {}
 
   ngOnInit() {
     this.subscription = this.route.queryParams.subscribe((params) =>

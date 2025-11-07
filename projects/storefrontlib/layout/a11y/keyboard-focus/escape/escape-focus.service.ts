@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EscapeFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusService } from '../persist/persist-focus.service';
 import { SelectFocusUtility } from '../services/select-focus.util';
@@ -13,9 +13,8 @@ import { SelectFocusUtility } from '../services/select-focus.util';
   providedIn: 'root',
 })
 export class EscapeFocusService extends PersistFocusService {
-  constructor(protected selectFocusUtil: SelectFocusUtility) {
-    super();
-  }
+  protected selectFocusUtil = inject(SelectFocusUtility);
+
 
   shouldFocus(config: EscapeFocusConfig): boolean {
     return !!config?.focusOnEscape;

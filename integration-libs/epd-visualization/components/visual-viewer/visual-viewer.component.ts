@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NavigationMode } from './models/navigation-mode';
 import { SelectionMode } from './models/selection-mode';
@@ -27,7 +22,8 @@ import { VisualViewerService } from './visual-viewer.service';
   standalone: false,
 })
 export class VisualViewerComponent {
-  constructor(protected visualViewerService: VisualViewerService) {}
+  protected visualViewerService = inject(VisualViewerService);
+
 
   /**
    * The top colour of the background gradient.

@@ -22,6 +22,9 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   standalone: false,
 })
 export class ParagraphComponent {
+  component = inject<CmsComponentData<CmsParagraphComponent>>(CmsComponentData);
+  protected router = inject(Router);
+
   protected sanitizer = inject(DomSanitizer);
 
   @HostListener('click', ['$event'])
@@ -38,11 +41,6 @@ export class ParagraphComponent {
       }
     }
   }
-
-  constructor(
-    public component: CmsComponentData<CmsParagraphComponent>,
-    protected router: Router
-  ) {}
 
   public bypassSecurityTrustHtml(html: string = ''): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);

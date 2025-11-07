@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { PaymentType } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { CheckoutPaymentTypeAdapter } from './checkout-payment-type.adapter';
 
 @Injectable()
 export class CheckoutPaymentTypeConnector {
-  constructor(protected adapter: CheckoutPaymentTypeAdapter) {}
+  protected adapter = inject(CheckoutPaymentTypeAdapter);
+
 
   getPaymentTypes(): Observable<PaymentType[]> {
     return this.adapter.getPaymentTypes();

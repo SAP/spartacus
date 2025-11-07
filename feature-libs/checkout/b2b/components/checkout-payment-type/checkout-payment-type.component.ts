@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PaymentType } from '@spartacus/cart/base/root';
 import {
@@ -42,6 +37,11 @@ import {
   standalone: false,
 })
 export class CheckoutPaymentTypeComponent {
+  protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+  protected checkoutStepService = inject(CheckoutStepService);
+  protected activatedRoute = inject(ActivatedRoute);
+  protected globalMessageService = inject(GlobalMessageService);
+
   @ViewChild('poNumber', { static: false })
   private poNumberInputElement: ElementRef<HTMLInputElement>;
 
@@ -133,13 +133,6 @@ export class CheckoutPaymentTypeComponent {
       filter(isNotUndefined),
       distinctUntilChanged()
     );
-
-  constructor(
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    protected checkoutStepService: CheckoutStepService,
-    protected activatedRoute: ActivatedRoute,
-    protected globalMessageService: GlobalMessageService
-  ) {}
 
   changeType(code: string): void {
     this.busy$.next(true);

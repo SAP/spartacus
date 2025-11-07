@@ -28,16 +28,16 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccAsmCustomer360Adapter implements AsmCustomer360Adapter {
+  protected http = inject(HttpClient);
+  protected occEndpointsService = inject(OccEndpointsService);
+  protected converterService = inject(ConverterService);
+  protected baseSiteService = inject(BaseSiteService);
+
   protected logger = inject(LoggerService);
 
   private activeBaseSite: string;
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService,
-    protected baseSiteService: BaseSiteService
-  ) {
+  constructor() {
     this.baseSiteService
       .getActive()
       .subscribe((value) => (this.activeBaseSite = value));

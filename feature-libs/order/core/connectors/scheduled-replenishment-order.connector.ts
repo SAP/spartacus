@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ReplenishmentOrder,
   ScheduleReplenishmentForm,
@@ -14,7 +14,8 @@ import { ScheduledReplenishmentOrderAdapter } from './scheduled-replenishment-or
 
 @Injectable()
 export class ScheduledReplenishmentOrderConnector {
-  constructor(protected adapter: ScheduledReplenishmentOrderAdapter) {}
+  protected adapter = inject(ScheduledReplenishmentOrderAdapter);
+
 
   public scheduleReplenishmentOrder(
     cartId: string,

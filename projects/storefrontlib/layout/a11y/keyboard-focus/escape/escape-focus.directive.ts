@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Directive,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Directive, ElementRef, EventEmitter, HostListener, OnInit, Output, inject } from '@angular/core';
 import { EscapeFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusDirective } from '../persist/persist-focus.directive';
 import { EscapeFocusService } from './escape-focus.service';
@@ -28,6 +21,9 @@ export class EscapeFocusDirective
   extends PersistFocusDirective
   implements OnInit
 {
+  protected elementRef: ElementRef;
+  protected service: EscapeFocusService;
+
   protected defaultConfig: EscapeFocusConfig = { focusOnEscape: true };
 
   // @Input('cxEscFocus')
@@ -47,11 +43,14 @@ export class EscapeFocusDirective
     this.esc.emit(this.service.shouldFocus(this.config));
   }
 
-  constructor(
-    protected elementRef: ElementRef,
-    protected service: EscapeFocusService
-  ) {
+  constructor() {
+    const elementRef = inject(ElementRef);
+    const service = inject(EscapeFocusService);
+
     super(elementRef, service);
+  
+    this.elementRef = elementRef;
+    this.service = service;
   }
 
   ngOnInit() {

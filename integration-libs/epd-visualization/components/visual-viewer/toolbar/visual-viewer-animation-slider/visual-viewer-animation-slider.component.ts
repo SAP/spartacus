@@ -4,16 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
 import { VisualViewerAnimationSliderService } from './visual-viewer-animation-slider.service';
 
 /**
@@ -27,9 +18,8 @@ import { VisualViewerAnimationSliderService } from './visual-viewer-animation-sl
   standalone: false,
 })
 export class VisualViewerAnimationSliderComponent implements AfterViewInit {
-  constructor(
-    protected visualViewerAnimationSliderService: VisualViewerAnimationSliderService
-  ) {}
+  protected visualViewerAnimationSliderService = inject(VisualViewerAnimationSliderService);
+
 
   ngAfterViewInit(): void {
     this.visualViewerAnimationSliderService.initialize();

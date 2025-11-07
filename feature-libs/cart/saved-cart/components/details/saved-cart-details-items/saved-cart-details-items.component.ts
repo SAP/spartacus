@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   Cart,
   CartOutlets,
@@ -36,6 +31,13 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
   standalone: false,
 })
 export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
+  protected savedCartDetailsService = inject(SavedCartDetailsService);
+  protected savedCartService = inject(SavedCartFacade);
+  protected eventSercvice = inject(EventService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected routingService = inject(RoutingService);
+  protected translation = inject(TranslationService);
+
   private subscription = new Subscription();
 
   readonly CartOutlets = CartOutlets;
@@ -57,15 +59,6 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
         }
       })
     );
-
-  constructor(
-    protected savedCartDetailsService: SavedCartDetailsService,
-    protected savedCartService: SavedCartFacade,
-    protected eventSercvice: EventService,
-    protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService,
-    protected translation: TranslationService
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

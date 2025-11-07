@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { PRIMARY_OUTLET, Router, UrlSegmentGroup } from '@angular/router';
 import { isParam } from './path-utils';
 
 @Injectable({ providedIn: 'root' })
 export class UrlParsingService {
-  constructor(private router: Router) {}
+  private router = inject(Router);
+
 
   getPrimarySegments(url: string): string[] {
     const urlTree = this.router.parseUrl(url);

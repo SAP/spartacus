@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  OnDestroy,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { Observable, Subscription } from 'rxjs';
@@ -24,17 +17,15 @@ import { take } from 'rxjs/operators';
   standalone: false,
 })
 export class ClearCartComponent implements OnDestroy {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   cart$: Observable<Cart> = this.activeCartFacade.getActive();
 
   protected subscription = new Subscription();
 
   @ViewChild('element') element: ElementRef;
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
 
   openDialog(event: Event): void {
     const dialog = this.launchDialogService.openDialog(

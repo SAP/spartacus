@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   AugmentedPointOfService,
@@ -23,9 +23,8 @@ import { StateWithPickupLocations } from '../store/pickup-location-state';
 export class IntendedPickupLocationService
   implements IntendedPickupLocationFacade
 {
-  constructor(protected store: Store<StateWithPickupLocations>) {
-    // Intentional empty constructor
-  }
+  protected store = inject<Store<StateWithPickupLocations>>(Store);
+
 
   getIntendedLocation(
     productCode: string

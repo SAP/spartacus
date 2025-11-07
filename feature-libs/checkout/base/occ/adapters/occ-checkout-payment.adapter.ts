@@ -29,13 +29,13 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {
+  constructor() {
     if (typeof DOMParser !== 'undefined') {
       this.domparser = new DOMParser();
     }

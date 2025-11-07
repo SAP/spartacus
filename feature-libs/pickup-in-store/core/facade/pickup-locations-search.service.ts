@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { PointOfService, PointOfServiceStock, Stock } from '@spartacus/core';
 import {
@@ -29,12 +29,9 @@ import {
 export class PickupLocationsSearchService
   implements PickupLocationsSearchFacade, OnDestroy
 {
+  protected store = inject<Store<StateWithStock & StateWithPickupLocations>>(Store);
+
   subscription: Subscription = new Subscription();
-  constructor(
-    protected store: Store<StateWithStock & StateWithPickupLocations>
-  ) {
-    // Intentional empty constructor
-  }
 
   stockLevelAtStore(productCode: string, storeName: string): void {
     this.store.dispatch(

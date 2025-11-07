@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   ProductFutureStock,
@@ -14,7 +14,8 @@ import { FutureStockAdapter } from './future-stock.adapter';
 
 @Injectable()
 export class FutureStockConnector {
-  constructor(protected adapter: FutureStockAdapter) {}
+  protected adapter = inject(FutureStockAdapter);
+
 
   public getFutureStock(
     userId: string,

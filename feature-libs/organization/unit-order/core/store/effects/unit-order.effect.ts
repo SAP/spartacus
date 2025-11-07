@@ -19,12 +19,10 @@ import { UnitOrderActions } from '../actions';
 
 @Injectable()
 export class UnitOrderEffect {
-  protected logger = inject(LoggerService);
+  private actions$ = inject(Actions);
+  private orderConnector = inject(UnitOrderConnector);
 
-  constructor(
-    private actions$: Actions,
-    private orderConnector: UnitOrderConnector
-  ) {}
+  protected logger = inject(LoggerService);
 
   loadUnitOrders$: Observable<UnitOrderActions.UnitOrdersAction> = createEffect(
     () =>

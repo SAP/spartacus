@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
@@ -23,10 +23,9 @@ import { SiteContext } from './site-context.interface';
  */
 @Injectable()
 export class LanguageService implements SiteContext<Language> {
-  constructor(
-    protected store: Store<StateWithSiteContext>,
-    protected config: SiteContextConfig
-  ) {}
+  protected store = inject<Store<StateWithSiteContext>>(Store);
+  protected config = inject(SiteContextConfig);
+
 
   /**
    * Represents all the languages supported by the current store.

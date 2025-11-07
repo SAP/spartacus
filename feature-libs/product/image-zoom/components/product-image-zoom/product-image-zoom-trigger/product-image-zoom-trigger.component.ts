@@ -4,18 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ComponentRef,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  Output,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ComponentRef, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { useFeatureStyles } from '@spartacus/core';
 import {
   ICON_TYPE,
@@ -33,6 +22,9 @@ import { ProductImageZoomDialogComponent } from '../product-image-zoom-dialog/pr
   standalone: false,
 })
 export class ProductImageZoomTriggerComponent implements OnDestroy {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+
   iconType = ICON_TYPE;
   protected subscriptions = new Subscription();
 
@@ -48,10 +40,7 @@ export class ProductImageZoomTriggerComponent implements OnDestroy {
 
   @Output() dialogClose = new EventEmitter<void>();
 
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {
+  constructor() {
     useFeatureStyles('a11yLinkBtnsToTertiaryBtns');
   }
 

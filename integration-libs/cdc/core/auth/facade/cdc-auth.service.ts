@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
 import { CdcAuthFacade } from '@spartacus/cdc/root';
@@ -27,13 +27,12 @@ import { CdcAuthActions } from '../../store/actions';
  */
 @Injectable()
 export class CdcAuthService implements CdcAuthFacade {
-  constructor(
-    protected store: Store,
-    protected authStorageService: AuthStorageService,
-    protected userIdService: UserIdService,
-    protected globalMessageService: GlobalMessageService,
-    protected authRedirectService: AuthRedirectService
-  ) {}
+  protected store = inject(Store);
+  protected authStorageService = inject(AuthStorageService);
+  protected userIdService = inject(UserIdService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected authRedirectService = inject(AuthRedirectService);
+
 
   /**
    * Loads a new user token using custom oauth flow

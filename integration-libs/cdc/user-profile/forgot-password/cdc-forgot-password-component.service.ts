@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { CdcJsService } from '@spartacus/cdc/root';
 import {
   AuthConfigService,
@@ -21,21 +21,31 @@ export class CDCForgotPasswordComponentService
   extends ForgotPasswordComponentService
   implements OnDestroy
 {
+  protected userPasswordService: UserPasswordFacade;
+  protected routingService: RoutingService;
+  protected authConfigService: AuthConfigService;
+  protected globalMessage: GlobalMessageService;
+  protected cdcJsService = inject(CdcJsService);
+
   protected subscription = new Subscription();
 
-  constructor(
-    protected userPasswordService: UserPasswordFacade,
-    protected routingService: RoutingService,
-    protected authConfigService: AuthConfigService,
-    protected globalMessage: GlobalMessageService,
-    protected cdcJsService: CdcJsService
-  ) {
+  constructor() {
+    const userPasswordService = inject(UserPasswordFacade);
+    const routingService = inject(RoutingService);
+    const authConfigService = inject(AuthConfigService);
+    const globalMessage = inject(GlobalMessageService);
+
     super(
       userPasswordService,
       routingService,
       authConfigService,
       globalMessage
     );
+  
+    this.userPasswordService = userPasswordService;
+    this.routingService = routingService;
+    this.authConfigService = authConfigService;
+    this.globalMessage = globalMessage;
   }
 
   /**

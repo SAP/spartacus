@@ -5,7 +5,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Address,
   ADDRESS_LIST_NORMALIZER,
@@ -34,11 +34,10 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class OccOrgUnitAdapter implements OrgUnitAdapter {
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
 
   load(userId: string, orgUnitId: string): Observable<B2BUnit> {
     return this.http

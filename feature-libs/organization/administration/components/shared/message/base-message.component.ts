@@ -5,13 +5,7 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import {
-  Directive,
-  HostBinding,
-  Inject,
-  OnInit,
-  PLATFORM_ID,
-} from '@angular/core';
+import { Directive, HostBinding, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { GlobalMessageType, Translatable } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { MessageData } from './message.model';
@@ -19,6 +13,9 @@ import { MessageData } from './message.model';
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class BaseMessageComponent implements OnInit {
+  protected messageData = inject(MessageData);
+  protected platformId = inject(PLATFORM_ID);
+
   @HostBinding('class') type: string | undefined;
   @HostBinding('class.terminated') terminated = false;
 
@@ -29,11 +26,6 @@ export abstract class BaseMessageComponent implements OnInit {
    * Icon used to display next to the message.
    */
   messageIcon: ICON_TYPE | undefined;
-
-  constructor(
-    protected messageData: MessageData,
-    @Inject(PLATFORM_ID) protected platformId: any
-  ) {}
 
   ngOnInit() {
     this.message = this.messageData.message ?? {};

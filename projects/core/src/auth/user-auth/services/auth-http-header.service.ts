@@ -5,7 +5,7 @@
  */
 
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import {
   EMPTY,
   Observable,
@@ -45,6 +45,14 @@ import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
   providedIn: 'root',
 })
 export class AuthHttpHeaderService implements OnDestroy {
+  protected authService = inject(AuthService);
+  protected authStorageService = inject(AuthStorageService);
+  protected oAuthLibWrapperService = inject(OAuthLibWrapperService);
+  protected routingService = inject(RoutingService);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected authRedirectService = inject(AuthRedirectService);
+
   /**
    * Starts the refresh of the access token
    */
@@ -107,15 +115,7 @@ export class AuthHttpHeaderService implements OnDestroy {
 
   protected subscriptions = new Subscription();
 
-  constructor(
-    protected authService: AuthService,
-    protected authStorageService: AuthStorageService,
-    protected oAuthLibWrapperService: OAuthLibWrapperService,
-    protected routingService: RoutingService,
-    protected occEndpoints: OccEndpointsService,
-    protected globalMessageService: GlobalMessageService,
-    protected authRedirectService: AuthRedirectService
-  ) {
+  constructor() {
     // We need to have stopProgress$ stream active for the whole time,
     // so when the logout finishes we finish it's process.
     // It could happen when retryToken$ is not active.

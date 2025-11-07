@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output, inject } from '@angular/core';
 import {
   AbstractControl,
   UntypedFormControl,
@@ -40,6 +35,13 @@ import { ImportEntriesFormComponent } from '../import-entries-form/import-entrie
   standalone: false,
 })
 export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponent {
+  protected launchDialogService: LaunchDialogService;
+  protected importToCartService: ImportProductsFromCsvService;
+  protected importCsvService: ImportCsvFileService;
+  protected filesFormValidators: FilesFormValidators;
+  protected importExportConfig: ImportExportConfig;
+  protected datePipe = inject(CxDatePipe);
+
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
 
@@ -59,14 +61,13 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
     );
   }
 
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected importToCartService: ImportProductsFromCsvService,
-    protected importCsvService: ImportCsvFileService,
-    protected filesFormValidators: FilesFormValidators,
-    protected importExportConfig: ImportExportConfig,
-    protected datePipe: CxDatePipe
-  ) {
+  constructor() {
+    const launchDialogService = inject(LaunchDialogService);
+    const importToCartService = inject(ImportProductsFromCsvService);
+    const importCsvService = inject(ImportCsvFileService);
+    const filesFormValidators = inject(FilesFormValidators);
+    const importExportConfig = inject(ImportExportConfig);
+
     super(
       launchDialogService,
       importToCartService,
@@ -74,6 +75,12 @@ export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponen
       filesFormValidators,
       importExportConfig
     );
+  
+    this.launchDialogService = launchDialogService;
+    this.importToCartService = importToCartService;
+    this.importCsvService = importCsvService;
+    this.filesFormValidators = filesFormValidators;
+    this.importExportConfig = importExportConfig;
   }
 
   save(): void {

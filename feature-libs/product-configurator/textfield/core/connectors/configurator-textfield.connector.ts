@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
@@ -13,7 +13,8 @@ import { ConfiguratorTextfieldAdapter } from './configurator-textfield.adapter';
 
 @Injectable()
 export class ConfiguratorTextfieldConnector {
-  constructor(protected adapter: ConfiguratorTextfieldAdapter) {}
+  protected adapter = inject(ConfiguratorTextfieldAdapter);
+
 
   /**
    * Creates default configuration for a product that is textfield-configurable

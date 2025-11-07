@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 
@@ -15,9 +15,9 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class CartTotalsComponent implements OnInit {
-  cart$: Observable<Cart>;
+  protected activeCartService = inject(ActiveCartFacade);
 
-  constructor(protected activeCartService: ActiveCartFacade) {}
+  cart$: Observable<Cart>;
 
   ngOnInit() {
     this.cart$ = this.activeCartService.getActive();

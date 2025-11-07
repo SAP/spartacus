@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
@@ -36,10 +36,9 @@ export interface RoutingResolveBreadcrumbsOptions {
  */
 @Injectable({ providedIn: 'root' })
 export class RoutingPageMetaResolver {
-  constructor(
-    protected activatedRoutesService: ActivatedRoutesService,
-    protected injector: Injector
-  ) {}
+  protected activatedRoutesService = inject(ActivatedRoutesService);
+  protected injector = inject(Injector);
+
 
   /**
    * Array of activated routes, excluding the special Angular `root` route.

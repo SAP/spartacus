@@ -18,8 +18,9 @@ import { FeatureConfigService } from '../../../features-config/services/feature-
   providedIn: 'root',
 })
 export class CustomerCouponConnector {
+  protected adapter = inject(CustomerCouponAdapter);
+
   private featureConfigService = inject(FeatureConfigService);
-  constructor(protected adapter: CustomerCouponAdapter) {}
 
   getCustomerCoupons(
     userId: string,

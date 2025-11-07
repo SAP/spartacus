@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Injector, NgModuleRef } from '@angular/core';
+import { Injectable, Injector, NgModuleRef, inject } from '@angular/core';
 import {
   CMSComponentConfig,
   CmsComponentMapping,
@@ -31,6 +31,9 @@ interface FeatureInstance extends FeatureModuleConfig {
   providedIn: 'root',
 })
 export class CmsFeaturesService {
+  protected configInitializer = inject(ConfigInitializerService);
+  protected featureModules = inject(FeatureModulesService);
+
   // feature modules configuration
   private featureModulesConfig?: {
     [featureName: string]: FeatureModuleConfig | string;
@@ -46,10 +49,7 @@ export class CmsFeaturesService {
   private featureInstances: Map<string, Observable<FeatureInstance>> =
     new Map();
 
-  constructor(
-    protected configInitializer: ConfigInitializerService,
-    protected featureModules: FeatureModulesService
-  ) {
+  constructor() {
     this.initFeatureMap();
   }
 

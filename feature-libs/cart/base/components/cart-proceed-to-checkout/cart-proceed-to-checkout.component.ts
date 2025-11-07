@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   Event,
   NavigationCancel,
@@ -26,23 +20,12 @@ import { Subscription } from 'rxjs';
   standalone: false,
 })
 export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
+  protected router = inject(Router);
+  protected cd? = inject(ChangeDetectorRef);
+
   cartValidationInProgress = false;
 
   protected subscription = new Subscription();
-
-  constructor(
-    router: Router,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    cd?: ChangeDetectorRef
-  );
-  /**
-   * @deprecated since 5.2
-   */
-  constructor(router: Router);
-  constructor(
-    protected router: Router,
-    protected cd?: ChangeDetectorRef
-  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

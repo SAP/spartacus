@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Optional } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
@@ -25,13 +25,12 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
   standalone: false,
 })
 export class ConfiguratorCartEntryBundleInfoComponent {
-  constructor(
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService,
-    protected breakpointService: BreakpointService,
-    protected translation: TranslationService,
-    @Optional() protected cartItemContext?: CartItemContext
-  ) {}
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
+  protected configCartEntryBundleInfoService = inject(ConfiguratorCartEntryBundleInfoService);
+  protected breakpointService = inject(BreakpointService);
+  protected translation = inject(TranslationService);
+  protected cartItemContext? = inject(CartItemContext, { optional: true });
+
 
   readonly orderEntry$: Observable<OrderEntry> =
     this.cartItemContext?.item$ ?? EMPTY;

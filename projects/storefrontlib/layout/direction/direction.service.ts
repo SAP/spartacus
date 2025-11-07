@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import {
   ConfigInitializerService,
   LanguageService,
@@ -29,16 +29,14 @@ import { Direction, DirectionMode } from './config/direction.model';
   providedIn: 'root',
 })
 export class DirectionService implements OnDestroy {
+  protected configInit = inject(ConfigInitializerService);
+  protected languageService = inject(LanguageService);
+  protected winRef = inject(WindowRef);
+
   protected config: Direction | undefined;
   protected startsDetecting = false;
 
   protected subscription = new Subscription();
-
-  constructor(
-    protected configInit: ConfigInitializerService,
-    protected languageService: LanguageService,
-    protected winRef: WindowRef
-  ) {}
 
   /**
    * Initializes the layout direction for the storefront.

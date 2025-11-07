@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AfterViewInit,
-  Directive,
-  ElementRef,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { EscapeFocusDirective } from '../escape/escape-focus.directive';
 import { AutoFocusConfig } from '../keyboard-focus.model';
 import { AutoFocusService } from './auto-focus.service';
@@ -42,17 +36,23 @@ export class AutoFocusDirective
   extends EscapeFocusDirective
   implements AfterViewInit, OnChanges
 {
+  protected elementRef: ElementRef;
+  protected service: AutoFocusService;
+
   /** The AutoFocusDirective will be using autofocus by default  */
   protected defaultConfig: AutoFocusConfig = { autofocus: true };
 
   // @Input('cxAutoFocus')
   protected config: AutoFocusConfig;
 
-  constructor(
-    protected elementRef: ElementRef,
-    protected service: AutoFocusService
-  ) {
+  constructor() {
+    const elementRef = inject(ElementRef);
+    const service = inject(AutoFocusService);
+
     super(elementRef, service);
+  
+    this.elementRef = elementRef;
+    this.service = service;
   }
 
   /**

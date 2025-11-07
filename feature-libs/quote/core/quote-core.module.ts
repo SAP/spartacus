@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { defaultQuoteCoreConfig } from './config/default-quote.core.config';
 import { QuoteConnector } from './connectors/quote.connector';
@@ -19,7 +19,4 @@ import { facadeProviders } from './facade/facade-providers';
   ],
 })
 export class QuoteCoreModule {
-  constructor(_quoteAddedToCartEventListener: QuoteCartEventListener) {
-    // Intentional empty constructor
-  }
 }

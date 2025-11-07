@@ -31,12 +31,10 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class ProductVariantSizeSelectorComponent {
-  protected translationService = inject(TranslationService);
+  private productService = inject(ProductService);
+  private routingService = inject(RoutingService);
 
-  constructor(
-    private productService: ProductService,
-    private routingService: RoutingService
-  ) {}
+  protected translationService = inject(TranslationService);
 
   @Input()
   product: Product;

@@ -4,15 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -39,6 +31,15 @@ import { take } from 'rxjs/operators';
   standalone: false,
 })
 export class StockNotificationComponent implements OnInit, OnDestroy {
+  private currentProductService = inject(CurrentProductService);
+  private globalMessageService = inject(GlobalMessageService);
+  private translationService = inject(TranslationService);
+  private interestsService = inject(UserInterestsService);
+  private notificationPrefService = inject(UserNotificationPreferenceService);
+  private userIdService = inject(UserIdService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+
   hasProductInterests$: Observable<boolean>;
   prefsEnabled$: Observable<boolean>;
   outOfStock$: Observable<boolean>;
@@ -51,17 +52,6 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
 
   @ViewChild('element') element: ElementRef;
-
-  constructor(
-    private currentProductService: CurrentProductService,
-    private globalMessageService: GlobalMessageService,
-    private translationService: TranslationService,
-    private interestsService: UserInterestsService,
-    private notificationPrefService: UserNotificationPreferenceService,
-    private userIdService: UserIdService,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
 
   ngOnInit() {
     this.outOfStock$ = combineLatest([

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EntitiesModel, PaginationModel } from '@spartacus/core';
 import {
   B2BUserService,
@@ -21,15 +21,19 @@ import { SubListService } from '../../shared/sub-list/sub-list.service';
   providedIn: 'root',
 })
 export class UserUserGroupListService extends SubListService<UserGroup> {
+  protected tableService: TableService;
+  protected userService = inject(B2BUserService);
+  protected userGroupService = inject(UserGroupService);
+
   protected tableType = OrganizationTableType.USER_USER_GROUPS;
   protected _domainType = OrganizationTableType.USER_GROUP;
 
-  constructor(
-    protected tableService: TableService,
-    protected userService: B2BUserService,
-    protected userGroupService: UserGroupService
-  ) {
+  constructor() {
+    const tableService = inject(TableService);
+
     super(tableService);
+  
+    this.tableService = tableService;
   }
 
   protected load(

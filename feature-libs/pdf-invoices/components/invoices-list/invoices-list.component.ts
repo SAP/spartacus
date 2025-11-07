@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   ErrorModel,
   GlobalMessageService,
@@ -43,6 +38,12 @@ import { catchError, skip, switchMap, take, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class InvoicesListComponent implements OnInit, OnDestroy {
+  protected pdfInvoicesFacade = inject(PDFInvoicesFacade);
+  protected translationService = inject(TranslationService);
+  protected downloadService = inject(FileDownloadService);
+  protected languageService = inject(LanguageService);
+  protected globalMessageService = inject(GlobalMessageService);
+
   /* For Enum use in HTML */
   ICON_TYPE = ICON_TYPE;
 
@@ -99,14 +100,6 @@ export class InvoicesListComponent implements OnInit, OnDestroy {
   );
 
   protected subscription = new Subscription();
-
-  constructor(
-    protected pdfInvoicesFacade: PDFInvoicesFacade,
-    protected translationService: TranslationService,
-    protected downloadService: FileDownloadService,
-    protected languageService: LanguageService,
-    protected globalMessageService: GlobalMessageService
-  ) {}
 
   ngOnInit() {
     this.subscription.add(

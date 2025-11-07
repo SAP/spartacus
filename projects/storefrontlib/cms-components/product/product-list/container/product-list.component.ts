@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -24,6 +24,11 @@ import { ProductListComponentService } from './product-list-component.service';
   standalone: false,
 })
 export class ProductListComponent implements OnInit, OnDestroy {
+  private pageLayoutService = inject(PageLayoutService);
+  private productListComponentService = inject(ProductListComponentService);
+  private globalMessageService = inject(GlobalMessageService);
+  scrollConfig = inject(ViewConfig);
+
   private subscription = new Subscription();
 
   isInfiniteScroll: boolean | undefined;
@@ -34,12 +39,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   viewMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
   ViewModes = ViewModes;
 
-  constructor(
-    private pageLayoutService: PageLayoutService,
-    private productListComponentService: ProductListComponentService,
-    private globalMessageService: GlobalMessageService,
-    public scrollConfig: ViewConfig
-  ) {
+  constructor() {
     useFeatureStyles('reserveSpaceForImagesOnPdpAndPlp');
   }
 

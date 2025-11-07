@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import { RoutingService } from '@spartacus/core';
 import { Observable, ReplaySubject, Subscription } from 'rxjs';
@@ -14,6 +14,8 @@ import { take, tap, withLatestFrom } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CartValidationStateService implements OnDestroy {
+  protected routingService = inject(RoutingService);
+
   protected NAVIGATION_SKIPS = 2;
   protected navigationIdCount = 0;
 
@@ -22,7 +24,7 @@ export class CartValidationStateService implements OnDestroy {
     CartModification[]
   >(1) as Observable<CartModification[]>;
 
-  constructor(protected routingService: RoutingService) {
+  constructor() {
     this.setInitialState();
   }
 

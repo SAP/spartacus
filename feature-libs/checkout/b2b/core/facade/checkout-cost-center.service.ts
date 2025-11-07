@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
@@ -27,6 +27,13 @@ import { CheckoutCostCenterConnector } from '../connectors/checkout-cost-center/
 
 @Injectable()
 export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected userIdService = inject(UserIdService);
+  protected commandService = inject(CommandService);
+  protected checkoutCostCenterConnector = inject(CheckoutCostCenterConnector);
+  protected checkoutQueryFacade = inject(CheckoutQueryFacade);
+  protected eventService = inject(EventService);
+
   protected setCostCenterCommand: Command<string, Cart> =
     this.commandService.create<string, Cart>(
       (payload) =>
@@ -52,15 +59,6 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
         strategy: CommandStrategy.CancelPrevious,
       }
     );
-
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected userIdService: UserIdService,
-    protected commandService: CommandService,
-    protected checkoutCostCenterConnector: CheckoutCostCenterConnector,
-    protected checkoutQueryFacade: CheckoutQueryFacade,
-    protected eventService: EventService
-  ) {}
 
   protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([

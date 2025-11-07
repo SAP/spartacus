@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  AfterViewInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, AfterViewInit, inject } from '@angular/core';
 import {
   CmsPageTitleComponent,
   isNotNullable,
@@ -26,13 +21,11 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   standalone: false,
 })
 export class PageTitleComponent implements OnInit, AfterViewInit {
+  component = inject<CmsComponentData<CmsPageTitleComponent>>(CmsComponentData);
+  protected pageMetaService = inject(PageMetaService);
+
   title$: Observable<string>;
   lastestTitle$: Observable<string>;
-
-  constructor(
-    public component: CmsComponentData<CmsPageTitleComponent>,
-    protected pageMetaService: PageMetaService
-  ) {}
 
   ngOnInit(): void {
     this.setTitle();

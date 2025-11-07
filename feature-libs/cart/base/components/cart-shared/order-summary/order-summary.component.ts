@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { OutletContextData } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
@@ -15,12 +15,12 @@ import { Subscription } from 'rxjs';
   standalone: false,
 })
 export class OrderSummaryComponent implements OnInit, OnDestroy {
+  protected outlet? = inject<OutletContextData<any>>(OutletContextData, { optional: true });
+
   @Input()
   cart: Cart;
 
   protected subscription = new Subscription();
-
-  constructor(@Optional() protected outlet?: OutletContextData<any>) {}
 
   ngOnInit(): void {
     if (this.outlet?.context$) {

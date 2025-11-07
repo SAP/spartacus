@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   Converter,
@@ -18,7 +18,8 @@ import { ReturnRequest } from '@spartacus/order/root';
 export class OccReturnRequestNormalizer
   implements Converter<Occ.ReturnRequest, ReturnRequest>
 {
-  constructor(private converter: ConverterService) {}
+  private converter = inject(ConverterService);
+
 
   convert(source: Occ.ReturnRequest, target?: ReturnRequest): ReturnRequest {
     if (target === undefined) {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   OutletContextData,
   TableDataOutletContext,
@@ -18,7 +18,8 @@ import {
   standalone: false,
 })
 export class CellComponent {
-  constructor(protected outlet: OutletContextData<TableDataOutletContext>) {}
+  protected outlet = inject<OutletContextData<TableDataOutletContext>>(OutletContextData);
+
 
   get tabIndex(): number {
     return -1;

@@ -5,7 +5,7 @@
  */
 
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
   BtnLikeLinkModule,
@@ -33,9 +33,4 @@ import { defaultCdcReconsentLayoutConfig } from './default-cdc-reconsent-layout.
   ],
 })
 export class CdcReconsentModule {
-  constructor(
-    _cdcReconsentDialogEventListener: CdcReconsentDialogEventListener
-  ) {
-    // Intentional empty constructor
-  }
 }

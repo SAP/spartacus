@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject as inject_1 } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { AddToHomeScreenService } from '../services/add-to-home-screen.service';
@@ -11,8 +11,14 @@ import createSpy = jasmine.createSpy;
   standalone: false,
 })
 class ExampleAddToHomeScreenComponent extends AddToHomeScreenComponent {
-  constructor(protected addToHomeScreenService: AddToHomeScreenService) {
+  protected addToHomeScreenService: AddToHomeScreenService;
+
+  constructor() {
+    const addToHomeScreenService = inject_1(AddToHomeScreenService);
+
     super(addToHomeScreenService);
+  
+    this.addToHomeScreenService = addToHomeScreenService;
   }
 }
 

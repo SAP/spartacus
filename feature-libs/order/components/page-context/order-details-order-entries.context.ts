@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   GetOrderEntriesContext,
   OrderEntriesSource,
@@ -18,9 +18,9 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class OrderDetailsOrderEntriesContext implements GetOrderEntriesContext {
-  readonly type = OrderEntriesSource.ORDER_DETAILS;
+  protected orderHistoryFacade = inject(OrderHistoryFacade);
 
-  constructor(protected orderHistoryFacade: OrderHistoryFacade) {}
+  readonly type = OrderEntriesSource.ORDER_DETAILS;
 
   getEntries(): Observable<OrderEntry[]> {
     return this.orderHistoryFacade

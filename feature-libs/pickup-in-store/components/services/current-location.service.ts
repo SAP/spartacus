@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 
 /**
@@ -14,9 +14,8 @@ import { WindowRef } from '@spartacus/core';
   providedIn: 'root',
 })
 export class CurrentLocationService {
-  constructor(protected windowRef: WindowRef) {
-    // Intentional empty constructor
-  }
+  protected windowRef = inject(WindowRef);
+
 
   /**
    * Obtains the user's current position for the browser and calls the provided callback with it.

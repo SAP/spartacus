@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -21,14 +15,12 @@ import { take } from 'rxjs/operators';
   standalone: false,
 })
 export class CustomerTicketingCreateComponent implements OnDestroy {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+
   protected subscription = new Subscription();
 
   @ViewChild('element') element: ElementRef;
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
 
   openCreateNewTicketDialog() {
     const dialog = this.launchDialogService.openDialog(

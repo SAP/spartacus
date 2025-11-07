@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, inject } from '@angular/core';
 import { SemanticPathService } from './semantic-path.service';
 import { UrlCommands } from './url-command';
 
@@ -13,7 +13,8 @@ import { UrlCommands } from './url-command';
   standalone: false,
 })
 export class UrlPipe implements PipeTransform {
-  constructor(private urlService: SemanticPathService) {}
+  private urlService = inject(SemanticPathService);
+
 
   transform(commands: UrlCommands): any[] {
     return this.urlService.transform(commands);

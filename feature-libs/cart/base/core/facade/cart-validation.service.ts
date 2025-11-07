@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   CartModification,
@@ -24,6 +24,12 @@ import { CartValidationStateService } from '../services/cart-validation-state.se
 
 @Injectable()
 export class CartValidationService implements CartValidationFacade {
+  protected cartValidationConnector = inject(CartValidationConnector);
+  protected command = inject(CommandService);
+  protected userIdService = inject(UserIdService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected cartValidationStateService = inject(CartValidationStateService);
+
   protected validateCartCommand: Command<void, CartModificationList> =
     this.command.create(
       () =>
@@ -42,14 +48,6 @@ export class CartValidationService implements CartValidationFacade {
         strategy: CommandStrategy.CancelPrevious,
       }
     );
-
-  constructor(
-    protected cartValidationConnector: CartValidationConnector,
-    protected command: CommandService,
-    protected userIdService: UserIdService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected cartValidationStateService: CartValidationStateService
-  ) {}
 
   /**
    * Validates cart and returns cart modification list.

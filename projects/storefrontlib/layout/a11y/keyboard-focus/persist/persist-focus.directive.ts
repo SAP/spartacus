@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AfterViewInit,
-  Directive,
-  ElementRef,
-  HostBinding,
-  HostListener,
-  OnInit,
-} from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, HostBinding, HostListener, OnInit, inject } from '@angular/core';
 import { BlockFocusDirective } from '../block/block-focus.directive';
 import { FOCUS_ATTR, PersistFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusService } from './persist-focus.service';
@@ -47,6 +40,9 @@ export class PersistFocusDirective
   extends BlockFocusDirective
   implements OnInit, AfterViewInit
 {
+  protected elementRef: ElementRef;
+  protected service: PersistFocusService;
+
   protected defaultConfig: PersistFocusConfig = {};
 
   /**
@@ -72,11 +68,14 @@ export class PersistFocusDirective
     event?.stopPropagation();
   }
 
-  constructor(
-    protected elementRef: ElementRef,
-    protected service: PersistFocusService
-  ) {
+  constructor() {
+    const elementRef = inject(ElementRef);
+    const service = inject(PersistFocusService);
+
     super(elementRef, service);
+  
+    this.elementRef = elementRef;
+    this.service = service;
   }
 
   ngOnInit() {

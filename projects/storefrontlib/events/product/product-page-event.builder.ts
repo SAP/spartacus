@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   createFrom,
   EventService,
@@ -24,11 +24,11 @@ import {
   providedIn: 'root',
 })
 export class ProductPageEventBuilder {
-  constructor(
-    protected eventService: EventService,
-    protected productService: ProductService,
-    protected productSearchService: ProductSearchService
-  ) {
+  protected eventService = inject(EventService);
+  protected productService = inject(ProductService);
+  protected productSearchService = inject(ProductSearchService);
+
+  constructor() {
     this.register();
   }
 

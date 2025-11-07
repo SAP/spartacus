@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Optional, OnDestroy, OnInit, Inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 
 import { Observable, Subscription } from 'rxjs';
@@ -20,17 +20,15 @@ interface ExtendedOrderEntry extends OrderEntry {
   standalone: false,
 })
 export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
+  protected cartItemContext = inject<CartItemContext>(CartItemContext, { optional: true });
+  private cpqQuoteService = inject(CpqQuoteService);
+
   quoteDiscountData: ExtendedOrderEntry | null;
   private subscription: Subscription;
   readonly orderEntry$: Observable<ExtendedOrderEntry> =
     this.cartItemContext?.item$;
   isFlagQuote = true;
-  constructor(
-    @Optional()
-    @Inject(CartItemContext)
-    protected cartItemContext: CartItemContext,
-    private cpqQuoteService: CpqQuoteService
-  ) {
+  constructor() {
     this.subscription = this.cpqQuoteService.isFlag$.subscribe((isFlag) => {
       this.isFlagQuote = isFlag;
     });

@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthConfigService } from '../../user-auth/services/auth-config.service';
 import { ClientToken } from '../models/client-token.model';
@@ -18,10 +18,9 @@ import { ClientToken } from '../models/client-token.model';
   providedIn: 'root',
 })
 export class ClientAuthenticationTokenService {
-  constructor(
-    protected http: HttpClient,
-    protected authConfigService: AuthConfigService
-  ) {}
+  protected http = inject(HttpClient);
+  protected authConfigService = inject(AuthConfigService);
+
 
   /**
    * Loads token with client authentication flow.

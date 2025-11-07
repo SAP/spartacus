@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Type } from '@angular/core';
+import { Injectable, Type, inject } from '@angular/core';
 import { CxEvent } from '../../event/cx-event';
 import { OccConfig } from '../config/occ-config';
 
@@ -12,7 +12,8 @@ import { OccConfig } from '../config/occ-config';
   providedIn: 'root',
 })
 export class LoadingScopesService {
-  constructor(protected config: OccConfig) {}
+  protected config = inject(OccConfig);
+
 
   /**
    * Aims to expand scopes based on loading scopes config.

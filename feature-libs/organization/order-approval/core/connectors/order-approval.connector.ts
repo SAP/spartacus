@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EntitiesModel, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -17,7 +17,8 @@ import { OrderApprovalAdapter } from './order-approval.adapter';
   providedIn: 'root',
 })
 export class OrderApprovalConnector {
-  constructor(protected adapter: OrderApprovalAdapter) {}
+  protected adapter = inject(OrderApprovalAdapter);
+
 
   get(userId: string, orderApprovalCode: string): Observable<OrderApproval> {
     return this.adapter.load(userId, orderApprovalCode);

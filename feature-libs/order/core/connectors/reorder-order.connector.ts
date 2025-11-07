@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ReorderOrderAdapter } from './reorder-order.adapter';
 import { CartModificationList } from '@spartacus/cart/base/root';
 
 @Injectable()
 export class ReorderOrderConnector {
-  constructor(protected adapter: ReorderOrderAdapter) {}
+  protected adapter = inject(ReorderOrderAdapter);
+
 
   public reorder(
     orderId: string,

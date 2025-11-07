@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade, CreateCartEvent } from '@spartacus/cart/base/root';
 import {
   AuthService,
@@ -27,13 +27,12 @@ import {
   providedIn: 'root',
 })
 export class MiniCartComponentService {
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected authService: AuthService,
-    protected statePersistenceService: StatePersistenceService,
-    protected siteContextParamsService: SiteContextParamsService,
-    protected eventService: EventService
-  ) {}
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected authService = inject(AuthService);
+  protected statePersistenceService = inject(StatePersistenceService);
+  protected siteContextParamsService = inject(SiteContextParamsService);
+  protected eventService = inject(EventService);
+
 
   /**
    * This function supports lazy loading of the cart functionality's code. We only call

@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, Input, inject } from '@angular/core';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -24,6 +18,9 @@ import {
   standalone: false,
 })
 export class ProductImageZoomDialogComponent {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected el = inject(ElementRef);
+
   iconType = ICON_TYPE;
 
   focusConfig: FocusConfig = {
@@ -42,11 +39,6 @@ export class ProductImageZoomDialogComponent {
       this.close('Cross click');
     }
   }
-
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
-  ) {}
 
   close(reason = ''): void {
     this.launchDialogService.closeDialog(reason);

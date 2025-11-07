@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   DefaultRoutePageMetaResolver,
   TranslationService,
@@ -15,10 +15,11 @@ import { CurrentUserGroupService } from './current-user-group.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserGroupRoutePageMetaResolver extends DefaultRoutePageMetaResolver {
-  constructor(
-    translation: TranslationService,
-    protected currentItemService: CurrentUserGroupService
-  ) {
+  protected currentItemService = inject(CurrentUserGroupService);
+
+  constructor() {
+    const translation = inject(TranslationService);
+
     super(translation);
   }
 

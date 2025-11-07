@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { VisualPickingProductFilterService } from './visual-picking-product-filter.service';
 
@@ -18,9 +18,8 @@ import { VisualPickingProductFilterService } from './visual-picking-product-filt
   standalone: false,
 })
 export class VisualPickingProductFilterComponent {
-  constructor(
-    protected visualPickingProductFilterService: VisualPickingProductFilterService
-  ) {}
+  protected visualPickingProductFilterService = inject(VisualPickingProductFilterService);
+
 
   /**
    * The filter input value.

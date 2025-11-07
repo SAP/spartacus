@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Converter, ConverterService } from '@spartacus/core';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from '../../../core/model/configurator.model';
@@ -13,7 +13,8 @@ import { Configurator } from '../../../core/model/configurator.model';
 export class OccConfiguratorVariantOverviewSerializer
   implements Converter<Configurator.Overview, OccConfigurator.Overview>
 {
-  constructor(protected converterService: ConverterService) {}
+  protected converterService = inject(ConverterService);
+
 
   convert(
     source: Configurator.Overview,

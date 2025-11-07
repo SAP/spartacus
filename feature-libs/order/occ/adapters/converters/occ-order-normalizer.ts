@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   OrderEntry,
   ORDER_ENTRY_PROMOTIONS_NORMALIZER,
@@ -20,7 +20,8 @@ import { Order } from '@spartacus/order/root';
 
 @Injectable({ providedIn: 'root' })
 export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
-  constructor(private converter: ConverterService) {}
+  private converter = inject(ConverterService);
+
 
   convert(source: Occ.Order, target?: Order): Order {
     if (target === undefined) {

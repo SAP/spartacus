@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
@@ -34,16 +34,24 @@ const createTestValue = (
   standalone: false,
 })
 class ExampleConfiguratorAttributeMultiSelectionComponent extends ConfiguratorAttributeMultiSelectionBaseComponent {
-  constructor(
-    protected quantityService: ConfiguratorAttributeQuantityService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {
+  protected quantityService: ConfiguratorAttributeQuantityService;
+  protected attributeComponentContext: ConfiguratorAttributeCompositionContext;
+  protected configuratorCommonsService: ConfiguratorCommonsService;
+
+  constructor() {
+    const quantityService = inject(ConfiguratorAttributeQuantityService);
+    const attributeComponentContext = inject(ConfiguratorAttributeCompositionContext);
+    const configuratorCommonsService = inject(ConfiguratorCommonsService);
+
     super(
       quantityService,
       attributeComponentContext,
       configuratorCommonsService
     );
+  
+    this.quantityService = quantityService;
+    this.attributeComponentContext = attributeComponentContext;
+    this.configuratorCommonsService = configuratorCommonsService;
   }
 }
 class MockConfiguratorCommonsService {

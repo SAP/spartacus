@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   EntitiesModel,
@@ -30,10 +30,9 @@ import { getItemStatus } from '../utils/get-item-status';
 
 @Injectable({ providedIn: 'root' })
 export class PermissionService {
-  constructor(
-    protected store: Store<StateWithOrganization>,
-    protected userIdService: UserIdService
-  ) {}
+  protected store = inject<Store<StateWithOrganization>>(Store);
+  protected userIdService = inject(UserIdService);
+
 
   loadPermission(permissionCode: string): void {
     this.userIdService.takeUserId(true).subscribe({
