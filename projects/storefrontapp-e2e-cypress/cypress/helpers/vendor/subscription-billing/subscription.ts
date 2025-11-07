@@ -5,10 +5,10 @@
  */
 
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
-import { login } from '../../../helpers/b2b/b2b-quote';
+import { login } from '../../b2b/b2b-quote';
 import { signOutUser, waitForProductPage } from '../../checkout-flow';
-import { addCheapProductToCart } from '../../../helpers/checkout-flow';
-import { placeOrder } from '../../../helpers/b2b/b2b-checkout';
+import { addCheapProductToCart } from '../../checkout-flow';
+import { placeOrder } from '../../b2b/b2b-checkout';
 import { navigateToAMyAccountPage } from '../../navigation';
 
 export const subscriptionUser = {
