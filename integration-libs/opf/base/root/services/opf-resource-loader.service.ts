@@ -9,8 +9,10 @@ import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { Config, ScriptLoader } from '@spartacus/core';
 
 import {
+  OpfDynamicScript,
   OpfDynamicScriptResource,
   OpfDynamicScriptResourceType,
+  OpfHtmlContentMode,
   OpfKeyValueMap,
 } from '../model';
 
@@ -178,6 +180,85 @@ export class OpfResourceLoaderService {
   }
 
   /**
+   * Parses jsContext JSON string and nested JSON strings (e.g., responseBody)
+   */
+  protected parseContext(jsContext?: string): any {
+    if (!jsContext) {
+      return {};
+    }
+
+    try {
+      const parsed = JSON.parse(jsContext);
+      // Parse nested JSON strings like responseBody
+      if (parsed.responseBody && typeof parsed.responseBody === 'string') {
+        try {
+          parsed.responseBody = JSON.parse(parsed.responseBody);
+        } catch (_) {
+          // Keep as string if parsing fails
+        }
+      }
+      return parsed;
+    } catch (_) {
+      return {};
+    }
+  }
+
+  /**
+   * Creates session-scoped script with isolated context
+   * PSP scripts can use OpfContext.orderId, OpfContext.amount, etc. without modifications
+   */
+  protected createSessionScopedScript(
+    originalScript: string,
+    contextData: any,
+    sessionId: string
+  ): string {
+    return `
+      (function() {
+        'use strict';
+        
+        // Session-isolated context (no global pollution)
+        const OpfContext = ${JSON.stringify(contextData)};
+        const SessionId = '${sessionId}';
+        
+        // Original PSP script runs with context available immediately
+        ${originalScript}
+        
+      })();
+    `;
+  }
+
+  /**
+   * Generate unique session ID
+   */
+  protected generateSessionId(): string {
+    const timestamp = Date.now();
+    const random = Math.random().toString(36).substring(2);
+    return `opf-session-${timestamp}-${random}`;
+  }
+
+  /**
+   * Execute script with session isolation
+   */
+  protected executeScriptWithSession(
+    scriptContent: string,
+    sessionId: string
+  ): void {
+    const scriptElement = this.document.createElement('script');
+    scriptElement.type = 'text/javascript';
+    scriptElement.textContent = scriptContent;
+    scriptElement.setAttribute('data-session-id', sessionId);
+    scriptElement.setAttribute('data-opf-script', 'true');
+    this.document.head.appendChild(scriptElement);
+
+    // Clean up after execution
+    setTimeout(() => {
+      if (scriptElement.parentNode) {
+        scriptElement.parentNode.removeChild(scriptElement);
+      }
+    }, 100);
+  }
+
+  /**
    * Checks if local PSP resources are available from the storefront configuration
    */
   hasLocalPspResources(paymentOptionId?: number): boolean {
@@ -195,17 +276,55 @@ export class OpfResourceLoaderService {
    * If localPspResources are present, the method uses local resources.
    * If localPspResources are not present, the method uses external resources.
    *
+   * When htmlContentMode is SEPARATE, the method uses jsContent/jsHash and cssUrl/cssHash properties
+   * to load resources with specific URLs and SRI hashes.
+   *
    * The returned Promise is resolved when all resources are loaded.
    * The returned Promise is also resolved (not rejected!) immediately when any loading error occurs.
    */
   loadResources(
     scripts: OpfDynamicScriptResource[] = [],
     styles: OpfDynamicScriptResource[] = [],
-    paymentOptionId?: number
+    paymentOptionId?: number,
+    dynamicScript?: OpfDynamicScript
   ): Promise<void> {
     // SSR mode not supported for security concerns
     if (isPlatformServer(this.platformId)) {
       return Promise.resolve();
+    }
+
+    // Prepare scoped script for SEPARATE mode (will execute after resources load)
+    let wrappedScript: string | undefined;
+    let sessionId: string | undefined;
+
+    if (
+      dynamicScript?.htmlContentMode === OpfHtmlContentMode.SEPARATE &&
+      dynamicScript.jsContent
+    ) {
+      try {
+        sessionId = this.generateSessionId();
+        const parsedContext = this.parseContext(dynamicScript.jsContext);
+        wrappedScript = this.createSessionScopedScript(
+          dynamicScript.jsContent,
+          parsedContext,
+          sessionId
+        );
+      } catch (_) {
+        // Intentionally swallow errors to align with existing load behavior (resolve on errors)
+      }
+    }
+
+    // Add CSS from cssUrl/cssHash to styles array if in SEPARATE mode
+    if (
+      dynamicScript?.htmlContentMode === OpfHtmlContentMode.SEPARATE &&
+      dynamicScript.cssUrl &&
+      dynamicScript.cssHash
+    ) {
+      styles.push({
+        url: dynamicScript.cssUrl,
+        sri: dynamicScript.cssHash,
+        type: OpfDynamicScriptResourceType.STYLES,
+      });
     }
 
     const resources: OpfDynamicScriptResource[] = [];
@@ -247,6 +366,10 @@ export class OpfResourceLoaderService {
     }
 
     if (!resources.length) {
+      // No resources to load, execute script immediately if available
+      if (wrappedScript && sessionId) {
+        this.executeScriptWithSession(wrappedScript, sessionId);
+      }
       return Promise.resolve();
     }
 
@@ -267,6 +390,11 @@ export class OpfResourceLoaderService {
       }
     );
 
-    return Promise.all(resourcesPromises).then(() => {});
+    // Wait for all resources to load, then execute scoped script
+    return Promise.all(resourcesPromises).then(() => {
+      if (wrappedScript && sessionId) {
+        this.executeScriptWithSession(wrappedScript, sessionId);
+      }
+    });
   }
 }

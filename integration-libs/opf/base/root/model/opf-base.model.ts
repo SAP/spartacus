@@ -19,6 +19,7 @@ export interface OpfActiveConfiguration {
   acquirerCountryCode?: string;
   logoUrl?: string;
   code?: string;
+  dynamicScript?: OpfDynamicScript;
 }
 
 export interface OpfActiveConfigurationsPagination {
@@ -38,10 +39,21 @@ export interface OpfActiveConfigurationsQuery {
    */
   pageSize?: number;
 }
+export enum OpfHtmlContentMode {
+  SEPARATE = 'SEPARATE',
+  MIX = 'MIXED',
+}
+
 export interface OpfDynamicScript {
   cssUrls?: OpfDynamicScriptResource[];
   jsUrls?: OpfDynamicScriptResource[];
   html?: string;
+  htmlContentMode?: OpfHtmlContentMode;
+  jsContent?: string;
+  jsHash?: string;
+  jsContext?: string;
+  cssUrl?: string;
+  cssHash?: string;
 }
 
 export interface OpfKeyValueMap {
