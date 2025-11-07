@@ -599,6 +599,13 @@ export interface FeatureTogglesInterface {
   navigationMenuCloseOnSameLinkClick?: boolean;
 
   /**
+   * When enabled, translates the "Password expired" error message
+   * to the user's selected language using Spartacus i18n.
+   * Affects: `LoginComponent`
+   */
+  enablePasswordExpiredErrorTranslation?: boolean;
+
+  /**
    * shows the Quote Purchase Order Number input field in the Quote Request form
    * and in the Quote Details page
    *
@@ -606,6 +613,7 @@ export interface FeatureTogglesInterface {
    * when requesting a quote and see it in the quote details
    */
   enableQuotePurchaseOrderNumber?: boolean;
+
   /**
    * When enabled, fixes the issue with return order returnable quantity not being displayed correctly
    * on the `ReturnOrderComponent` when navigating to the return request details page.
@@ -690,6 +698,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   dispatchLoginActionOnlyWhenTokenReceived: false,
   defaultLayoutConfigWithoutPageFold: false,
   navigationMenuCloseOnSameLinkClick: false,
+  enablePasswordExpiredErrorTranslation: false,
   enableQuotePurchaseOrderNumber: false,
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
 };
