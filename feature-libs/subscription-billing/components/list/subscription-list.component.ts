@@ -18,7 +18,7 @@ import { switchMap } from 'rxjs';
   standalone: false,
 })
 export class SubscriptionListComponent {
-  protected SubscriptionFacade = inject(SubscriptionFacade);
+  protected subscriptionFacade = inject(SubscriptionFacade);
 
   PAGE_SIZE = 5;
 
@@ -32,7 +32,7 @@ export class SubscriptionListComponent {
 
   subscriptions$ = toObservable(this.listParams).pipe(
     switchMap((params) =>
-      this.SubscriptionFacade.getSubscriptionList(
+      this.subscriptionFacade.getSubscriptionList(
         this.PAGE_SIZE,
         params.currentPage,
         params.sortCode

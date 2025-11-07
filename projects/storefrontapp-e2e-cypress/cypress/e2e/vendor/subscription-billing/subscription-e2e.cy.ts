@@ -9,7 +9,7 @@ import * as helper from '../../../helpers/vendor/subscription-billing/subscripti
 import { login } from '../../../helpers/b2b/b2b-quote';
 import { signOutUser } from '../../../helpers/checkout-flow';
 
-describe('Subscription Billing - PDP, Order Placement, List, Details', () => {
+describe('Subscription - PDP, Order Placement, List, Details', () => {
   it('place subscription order and validate it under my-account', () => {
     cy.restoreLocalStorage();
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);

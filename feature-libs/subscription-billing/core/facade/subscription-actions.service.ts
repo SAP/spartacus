@@ -19,17 +19,13 @@ import {
   SubscriptionWithdraw,
 } from '@spartacus/subscription-billing/root';
 import { Observable, switchMap, take, combineLatest, of } from 'rxjs';
-import {
-  SubscriptionConnector,
-  SubscriptionActionsConnector,
-} from '../connector';
+import { SubscriptionActionsConnector } from '../connector';
 
 @Injectable()
 export class SubscriptionActionsService implements SubscriptionActionsFacade {
   protected queryService = inject(QueryService);
   protected userIdService = inject(UserIdService);
-  protected SubscriptionConnector = inject(SubscriptionConnector);
-  protected SubscriptionActionsConnector = inject(SubscriptionActionsConnector);
+  protected subscriptionActionsConnector = inject(SubscriptionActionsConnector);
   protected routingService = inject(RoutingService);
 
   protected getSubscriptionByCodeReloadEvents(): QueryNotifier[] {
@@ -48,7 +44,7 @@ export class SubscriptionActionsService implements SubscriptionActionsFacade {
             'Cannot fetch cancellation effective date: missing user ID or subscription code.'
           );
         }
-        return this.SubscriptionActionsConnector.getEffectiveCancellationDate(
+        return this.subscriptionActionsConnector.getEffectiveCancellationDate(
           userId,
           code
         );
@@ -71,7 +67,7 @@ export class SubscriptionActionsService implements SubscriptionActionsFacade {
             'Cannot cancel subscription: missing user ID or subscription code.'
           );
         }
-        return this.SubscriptionActionsConnector.cancelSubscription(
+        return this.subscriptionActionsConnector.cancelSubscription(
           userId,
           code,
           cancellationDetails
@@ -92,7 +88,7 @@ export class SubscriptionActionsService implements SubscriptionActionsFacade {
             'Cannot reverse cancellation: missing user ID or subscription code.'
           );
         }
-        return this.SubscriptionActionsConnector.reverseCancellation(
+        return this.subscriptionActionsConnector.reverseCancellation(
           userId,
           code
         );
@@ -115,7 +111,7 @@ export class SubscriptionActionsService implements SubscriptionActionsFacade {
             'Cannot withdraw subscription: missing user ID or subscription code.'
           );
         }
-        return this.SubscriptionActionsConnector.withdrawSubscription(
+        return this.subscriptionActionsConnector.withdrawSubscription(
           userId,
           code,
           withdrawalData
@@ -131,7 +127,7 @@ export class SubscriptionActionsService implements SubscriptionActionsFacade {
   ): Observable<SubscriptionExtensionEffectiveDate> {
     return combineLatest([this.userIdService.getUserId(), of(code)]).pipe(
       switchMap(([userId, subscriptionCode]) =>
-        this.SubscriptionActionsConnector.getExtensionEffectiveDate(
+        this.subscriptionActionsConnector.getExtensionEffectiveDate(
           userId,
           subscriptionCode,
           extendDuration,
@@ -152,7 +148,7 @@ export class SubscriptionActionsService implements SubscriptionActionsFacade {
     ]).pipe(
       take(1),
       switchMap(([userId, code]) =>
-        this.SubscriptionActionsConnector.extendSubscription(
+        this.subscriptionActionsConnector.extendSubscription(
           userId,
           code,
           extendDuration,

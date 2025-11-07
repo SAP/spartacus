@@ -27,7 +27,7 @@ import { SubscriptionConnector } from '../connector';
 export class SubscriptionService implements SubscriptionFacade {
   protected queryService = inject(QueryService);
   protected userIdService = inject(UserIdService);
-  protected SubscriptionConnector = inject(SubscriptionConnector);
+  protected subscriptionConnector = inject(SubscriptionConnector);
   protected routingService = inject(RoutingService);
 
   /** events */
@@ -44,7 +44,7 @@ export class SubscriptionService implements SubscriptionFacade {
       () =>
         this.subscriptionDetailsPreConditions().pipe(
           switchMap(([customerId, subscriptionCode]) =>
-            this.SubscriptionConnector.getSubscriptionByCode(
+            this.subscriptionConnector.getSubscriptionByCode(
               customerId,
               subscriptionCode
             )
@@ -64,7 +64,7 @@ export class SubscriptionService implements SubscriptionFacade {
       () =>
         this.subscriptionListPreConditions().pipe(
           switchMap((customerId) =>
-            this.SubscriptionConnector.getSubscriptionList(
+            this.subscriptionConnector.getSubscriptionList(
               customerId,
               pageSize,
               currentPage,
