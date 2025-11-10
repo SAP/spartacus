@@ -19,7 +19,7 @@ import { PagedListModule } from './paged-list/paged-list.module';
 import { VisualPickingProductListComponent } from './visual-picking-product-list.component';
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 @NgModule({
   imports: [
