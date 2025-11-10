@@ -57,7 +57,7 @@
   *ngIf="results$ | async as result"
   class="results"
   id="results"
-  (click)="close(true)"
+  (click)="handleResultsClick($any($event))"
 >
   <button
     class="btn btn-tertiary search-panel-close-btn"

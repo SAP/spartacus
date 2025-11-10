@@ -99,6 +99,24 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Handler for clicks on the results div
+   * Closes the search box, but ignores clicks on close buttons
+   */
+  handleResultsClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+
+    // Don't close if clicking on a close button in recent-searches
+    const closeButton = target?.closest?.('button.close') as HTMLElement;
+    if (closeButton) {
+      event.stopPropagation();
+      event.preventDefault();
+      return;
+    }
+
+    this.close(true);
+  }
+
   @ViewChild('searchInput') searchInputEl: any;
 
   @ViewChild('searchButton') searchButton: ElementRef<HTMLElement>;
@@ -412,6 +430,14 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       switch (event.code) {
         case 'Escape':
         case 'Enter':
+          // Don't close search box if Enter is pressed on the recent searches close button
+          if (event.code === 'Enter') {
+            const target = event.target as HTMLElement;
+            const closeButton = target?.closest?.('button.close');
+            if (closeButton) {
+              return;
+            }
+          }
           this.close(true);
           return;
         case 'ArrowUp':

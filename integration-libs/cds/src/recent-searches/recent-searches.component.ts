@@ -39,6 +39,7 @@ export class RecentSearchesComponent implements OnInit {
   public outletContext$: Observable<SearchBoxOutlet>;
   protected recentSearchesService = inject(RecentSearchesService);
   protected searchBoxComponentService = inject(SearchBoxComponentService);
+  private enterKeyPressedOnCloseButton = false;
 
   constructor(
     @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>
@@ -73,11 +74,35 @@ export class RecentSearchesComponent implements OnInit {
     this.searchBoxComponentService.changeSelectedWord(chosenWord);
   }
 
-  shareEvent(event: KeyboardEvent) {
+  shareEvent(event: KeyboardEvent | FocusEvent) {
     if (!event) {
       throw new Error('Missing Event');
     }
-    this.searchBoxComponentService.shareEvent(event);
+
+    // Don't share blur events from close buttons when Enter was just pressed
+    if (event.type === 'blur') {
+      const target = event.target as HTMLElement;
+      const closeButton = target?.closest?.('button.close');
+      if (closeButton && this.enterKeyPressedOnCloseButton) {
+        return;
+      }
+    }
+
+    // Don't share Enter events from close buttons
+    if (event.type === 'keydown' && (event as KeyboardEvent).code === 'Enter') {
+      const target = event.target as HTMLElement;
+      if (
+        target &&
+        (target.classList?.contains('close') ||
+          target.closest?.('button.close'))
+      ) {
+        return;
+      }
+    }
+    // Only share keyboard events, not blur events (blur events are handled separately)
+    if (event.type === 'keydown' || event.type === 'keyup') {
+      this.searchBoxComponentService.shareEvent(event as KeyboardEvent);
+    }
   }
 
   removeFromRecentSearch(phrase?: string) {
@@ -85,6 +110,43 @@ export class RecentSearchesComponent implements OnInit {
       return;
     }
     this.recentSearchesService.removePhrase(phrase);
+  }
+
+  handleCloseButtonEnter(event: KeyboardEvent, phrase: string): void {
+    this.enterKeyPressedOnCloseButton = true;
+
+    event.stopPropagation();
+    event.preventDefault();
+    event.stopImmediatePropagation?.();
+
+    const button = (event.target as HTMLElement)?.closest?.(
+      'button.close'
+    ) as HTMLButtonElement;
+    if (button) {
+      // Add capture-phase listener to prevent click from bubbling to results div
+      const stopClick = (e: MouseEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+        e.stopImmediatePropagation?.();
+        button.removeEventListener('click', stopClick, true);
+      };
+      button.addEventListener('click', stopClick, true);
+
+      // Remove listener after a delay
+      setTimeout(() => {
+        button.removeEventListener('click', stopClick, true);
+      }, 200);
+    }
+
+    this.removeFromRecentSearch(phrase);
+
+    setTimeout(() => {
+      this.enterKeyPressedOnCloseButton = false;
+    }, 200);
+  }
+
+  handleCloseButtonClick(phrase: string): void {
+    this.removeFromRecentSearch(phrase);
   }
 
   protected readonly iconTypes = ICON_TYPE;
