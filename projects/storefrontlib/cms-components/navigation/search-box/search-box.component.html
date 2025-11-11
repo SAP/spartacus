@@ -214,7 +214,16 @@
         {{ 'searchBox.trendingSearches' | cxTranslate }}
       </h3>
       <h3 class="recentSearches-header">
-        {{ 'searchBox.recentSearches' | cxTranslate }}
+        <div>
+          {{ 'searchBox.recentSearches' | cxTranslate }}
+        </div>
+        <button
+          class="btn btn-tertiary clear-recent-searches-btn"
+          (click)="clearRecentSearches($event)"
+          (keydown.arrowdown)="focusPreviousGroup($any($event))"
+        >
+          {{ 'common.clear' | cxTranslate }}
+        </button>
       </h3>
       <h3 class="products-header" *ngIf="result.products?.length">
         {{ 'searchBox.products' | cxTranslate }}

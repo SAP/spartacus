@@ -61,6 +61,9 @@ const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   maxTrendingSearches: 5,
 };
 const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
+const CLOSE_BUTTON_SELECTOR = 'button.close';
+const CLEAR_RECENT_SEARCHES_BUTTON_SELECTOR =
+  'button.clear-recent-searches-btn';
 
 @Component({
   selector: 'cx-searchbox',
@@ -107,8 +110,20 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     const target = event.target as HTMLElement;
 
     // Don't close if clicking on a close button in recent-searches
-    const closeButton = target?.closest?.('button.close') as HTMLElement;
+    const closeButton = target?.closest?.(CLOSE_BUTTON_SELECTOR) as HTMLElement;
     if (closeButton) {
+      event.stopPropagation();
+      event.preventDefault();
+      return;
+    }
+
+    // Don't close if clicking on the clear recent searches button
+    // Check both the target itself and closest parent button
+    const clearRecentSearchesButton =
+      (target?.classList?.contains('clear-recent-searches-btn') &&
+        target.tagName === 'BUTTON') ||
+      (target?.closest?.(CLEAR_RECENT_SEARCHES_BUTTON_SELECTOR) as HTMLElement);
+    if (clearRecentSearchesButton) {
       event.stopPropagation();
       event.preventDefault();
       return;
@@ -433,7 +448,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
           // Don't close search box if Enter is pressed on the recent searches close button
           if (event.code === 'Enter') {
             const target = event.target as HTMLElement;
-            const closeButton = target?.closest?.('button.close');
+            const closeButton = target?.closest?.(CLOSE_BUTTON_SELECTOR);
             if (closeButton) {
               return;
             }
@@ -689,6 +704,25 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       el.focus();
       this.ignoreCloseEvent = false;
     });
+  }
+
+  /**
+   * Clears all recent search phrases from Profile Tag
+   */
+  clearRecentSearches(event: MouseEvent): void {
+    if (event) {
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+    }
+    const recentSearches = (this.winRef.nativeWindow as any)?.Y_TRACKING
+      ?.recentSearches;
+    if (!recentSearches) {
+      return;
+    }
+
+    if (typeof recentSearches.clearPhrases === 'function') {
+      recentSearches.clearPhrases();
+    }
   }
 
   isEnabledFeature(feature: string) {

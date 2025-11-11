@@ -62,4 +62,16 @@ export class RecentSearchesService {
       recentSearches.removePhrase(phrase);
     }
   }
+
+  clearPhrases(): void {
+    const recentSearches = (this.winRef.nativeWindow as any)?.Y_TRACKING
+      ?.recentSearches;
+    if (!recentSearches) {
+      return;
+    }
+
+    if (typeof recentSearches.clearPhrases === 'function') {
+      recentSearches.clearPhrases();
+    }
+  }
 }

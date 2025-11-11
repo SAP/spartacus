@@ -27,6 +27,7 @@ export interface SearchBoxOutlet {
 }
 
 const MAX_RECENT_SEARCHES = 5;
+const CLOSE_BUTTON_SELECTOR = 'button.close';
 
 @Component({
   selector: 'cx-recent-searches',
@@ -82,7 +83,7 @@ export class RecentSearchesComponent implements OnInit {
     // Don't share blur events from close buttons when Enter was just pressed
     if (event.type === 'blur') {
       const target = event.target as HTMLElement;
-      const closeButton = target?.closest?.('button.close');
+      const closeButton = target?.closest?.(CLOSE_BUTTON_SELECTOR);
       if (closeButton && this.enterKeyPressedOnCloseButton) {
         return;
       }
@@ -94,7 +95,7 @@ export class RecentSearchesComponent implements OnInit {
       if (
         target &&
         (target.classList?.contains('close') ||
-          target.closest?.('button.close'))
+          target.closest?.(CLOSE_BUTTON_SELECTOR))
       ) {
         return;
       }
@@ -120,7 +121,7 @@ export class RecentSearchesComponent implements OnInit {
     event.stopImmediatePropagation?.();
 
     const button = (event.target as HTMLElement)?.closest?.(
-      'button.close'
+      CLOSE_BUTTON_SELECTOR
     ) as HTMLButtonElement;
     if (button) {
       // Add capture-phase listener to prevent click from bubbling to results div

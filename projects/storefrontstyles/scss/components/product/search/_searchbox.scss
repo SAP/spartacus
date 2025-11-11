@@ -456,14 +456,18 @@
           width: 20%;
         }
         .recentSearches-header {
-          width: 20%;
+          width: 24%;
           display: none;
+          button {
+            min-height: 20px;
+            padding: 0 30px;
+          }
         }
       }
       cx-recent-searches:has(.recent-searches)
         ~ .search-panel-header
         .recentSearches-header {
-        display: inline-block;
+        display: flex;
       }
 
       .trending-searches-container:has(.trending-searches)
@@ -481,7 +485,7 @@
         ~ .search-panel-header {
         .products-header {
           display: inline-block;
-          flex-basis: 60%;
+          flex-basis: 56%;
           @include media-breakpoint-down(sm) {
             width: 100%;
           }
@@ -493,7 +497,7 @@
         ~ .search-panel-header {
         .products-header {
           display: inline-block;
-          flex-basis: 60%;
+          flex-basis: 56%;
           @include media-breakpoint-down(sm) {
             width: 100%;
           }
@@ -619,7 +623,7 @@
           border-top: none;
           li {
             display: flex;
-            padding: 0 40px 0 0;
+            padding: 0 30px 0 0;
             @include media-breakpoint-down(sm) {
               padding: 0;
             }
@@ -718,7 +722,7 @@
         }
       }
       .suggestions ~ cx-recent-searches:has(.recent-searches) ~ .products {
-        flex-basis: 60%;
+        flex-basis: 56%;
         @include media-breakpoint-down(sm) {
           width: 100%;
         }
@@ -727,7 +731,7 @@
       .trending-searches-container:has(.trending-searches)
         ~ cx-recent-searches:has(.recent-searches)
         ~ .products {
-        flex-basis: 60%;
+        flex-basis: 56%;
         @include media-breakpoint-down(sm) {
           width: 100%;
         }
