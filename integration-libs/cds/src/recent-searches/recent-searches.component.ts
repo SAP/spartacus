@@ -80,30 +80,43 @@ export class RecentSearchesComponent implements OnInit {
       throw new Error('Missing Event');
     }
 
-    // Don't share blur events from close buttons when Enter was just pressed
-    if (event.type === 'blur') {
-      const target = event.target as HTMLElement;
-      const closeButton = target?.closest?.(CLOSE_BUTTON_SELECTOR);
-      if (closeButton && this.enterKeyPressedOnCloseButton) {
-        return;
-      }
+    if (this.shouldSkipBlurEvent(event)) {
+      return;
     }
 
-    // Don't share Enter events from close buttons
-    if (event.type === 'keydown' && (event as KeyboardEvent).code === 'Enter') {
-      const target = event.target as HTMLElement;
-      if (
-        target &&
-        (target.classList?.contains('close') ||
-          target.closest?.(CLOSE_BUTTON_SELECTOR))
-      ) {
-        return;
-      }
+    if (this.shouldSkipEnterEvent(event)) {
+      return;
     }
+
     // Only share keyboard events, not blur events (blur events are handled separately)
     if (event.type === 'keydown' || event.type === 'keyup') {
       this.searchBoxComponentService.shareEvent(event as KeyboardEvent);
     }
+  }
+
+  private shouldSkipBlurEvent(event: KeyboardEvent | FocusEvent): boolean {
+    if (event.type !== 'blur') {
+      return false;
+    }
+    const target = event.target as HTMLElement;
+    const closeButton = target?.closest?.(CLOSE_BUTTON_SELECTOR);
+    return !!(closeButton && this.enterKeyPressedOnCloseButton);
+  }
+
+  private shouldSkipEnterEvent(event: KeyboardEvent | FocusEvent): boolean {
+    if (event.type !== 'keydown') {
+      return false;
+    }
+    const keyboardEvent = event as KeyboardEvent;
+    if (keyboardEvent.code !== 'Enter') {
+      return false;
+    }
+    const target = event.target as HTMLElement;
+    return !!(
+      target &&
+      (target.classList?.contains('close') ||
+        target.closest?.(CLOSE_BUTTON_SELECTOR))
+    );
   }
 
   removeFromRecentSearch(phrase?: string) {

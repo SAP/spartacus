@@ -441,38 +441,49 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   protected propagateEvent(event: KeyboardEvent) {
-    if (event.code) {
-      switch (event.code) {
-        case 'Escape':
-        case 'Enter':
-          // Don't close search box if Enter is pressed on the recent searches close button
-          if (event.code === 'Enter') {
-            const target = event.target as HTMLElement;
-            const closeButton = target?.closest?.(CLOSE_BUTTON_SELECTOR);
-            if (closeButton) {
-              return;
-            }
-          }
-          this.close(true);
-          return;
-        case 'ArrowUp':
-          this.focusPreviousChild(event);
-          return;
-        case 'ArrowDown':
-          this.focusNextChild(event);
-          return;
-        case 'ArrowLeft':
-          this.focusPreviousGroup(event);
-          return;
-        case 'ArrowRight':
-          this.focusNextGroup(event);
-          return;
-        default:
-          return;
-      }
-    } else if (event.type === 'blur') {
+    if (event.type === 'blur') {
       this.close();
+      return;
     }
+
+    if (!event.code) {
+      return;
+    }
+
+    this.handleKeyboardEvent(event);
+  }
+
+  private handleKeyboardEvent(event: KeyboardEvent): void {
+    switch (event.code) {
+      case 'Escape':
+        this.close(true);
+        break;
+      case 'Enter':
+        if (!this.shouldSkipEnterOnCloseButton(event)) {
+          this.close(true);
+        }
+        break;
+      case 'ArrowUp':
+        this.focusPreviousChild(event);
+        break;
+      case 'ArrowDown':
+        this.focusNextChild(event);
+        break;
+      case 'ArrowLeft':
+        this.focusPreviousGroup(event);
+        break;
+      case 'ArrowRight':
+        this.focusNextGroup(event);
+        break;
+      default:
+        break;
+    }
+  }
+
+  private shouldSkipEnterOnCloseButton(event: KeyboardEvent): boolean {
+    const target = event.target as HTMLElement;
+    const closeButton = target?.closest?.(CLOSE_BUTTON_SELECTOR);
+    return !!closeButton;
   }
 
   // Focus on previous item in results list
