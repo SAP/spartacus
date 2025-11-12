@@ -17,7 +17,6 @@ import {
   Page,
   PointOfService,
   RoutingService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
