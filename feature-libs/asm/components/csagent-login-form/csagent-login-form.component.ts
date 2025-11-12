@@ -10,7 +10,6 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { useFeatureStyles } from '@spartacus/core';
 
 @Component({
   selector: 'cx-csagent-login-form',

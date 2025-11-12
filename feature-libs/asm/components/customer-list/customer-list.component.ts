@@ -28,7 +28,6 @@ import {
   OccConfig,
   SortModel,
   TranslationService,
-  useFeatureStyles,
   User,
 } from '@spartacus/core';
 import {
