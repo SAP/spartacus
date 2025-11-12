@@ -74,12 +74,6 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
-   * 'NgSelectA11yDirective' will close a dropdown with options on Escape key press
-   * when a screen reader is used.
-   */
-  a11yNgSelectCloseDropdownOnEscape?: boolean;
-
-  /**
    * 'NgSelectA11yDirective' will customize a ng-select dropdowns by setting custom
    * ariaLabelDropdown ng-select attribute value to provided common.ngSelectDropdownOptionsList translation
    */
@@ -616,7 +610,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yStoreFinderLabel: false,
   a11yImprovedErrorMessage: true,
   a11yLinkBtnsToTertiaryBtns: false,
-  a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
   a11yStoreInStockIconContrast: true,

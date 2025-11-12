@@ -308,12 +308,6 @@ if (environment.cpq) {
         a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
         a11yLinkBtnsToTertiaryBtns: true,
-        /**
-         * Defaults to false cause ng-select options ariaLabels are working as expected
-         * since Spartacus 2211.33
-         * TODO: CXSPA-9005: Remove this flag and related code in next major release
-         */
-        a11yNgSelectCloseDropdownOnEscape: true,
         a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
         a11yNgSelectAriaLabelDropdownCustomized: true,
         a11yStoreInStockIconContrast: true,
