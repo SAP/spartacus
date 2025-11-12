@@ -279,7 +279,7 @@ describe('CheckoutPaymentTypeComponent', () => {
       })
     );
     expect(
-      el.query(By.css('#poNumberInput')).nativeElement.readOnly
+      el.query(By.css('#poNumberInput')).nativeElement.disabled
     ).toBeTruthy();
   });
 
@@ -297,7 +297,7 @@ describe('CheckoutPaymentTypeComponent', () => {
       });
 
       expect(
-        el.query(By.css('#poNumberInput')).nativeElement.readOnly
+        el.query(By.css('#poNumberInput')).nativeElement.disabled
       ).toBeFalsy();
     });
   });
