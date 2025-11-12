@@ -93,11 +93,6 @@ export interface FeatureTogglesInterface {
   a11yMiniCartFocusOnMobile?: boolean;
 
   /**
-   * Changes the success message of successful registration to be more informative. Affects `RegisterComponentService`.
-   */
-  a11yPostRegisterSuccessMessage?: boolean;
-
-  /**
    * In `CustomerListComponent`, `OrderApprovalListComponent`, and `ConfiguratorAttriuteSingleSelectionBundleDropdownComponent`, show label of every `ng-select` and `select`.
    */
   a11yShowLabelOfSelect?: boolean;
@@ -589,7 +584,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
   a11yMiniCartFocusOnMobile: true,
-  a11yPostRegisterSuccessMessage: true,
   a11yShowLabelOfSelect: true,
   a11yShowDownArrowOnFocusedSelectMenu: true,
   a11yCroppedFocusRing: true,

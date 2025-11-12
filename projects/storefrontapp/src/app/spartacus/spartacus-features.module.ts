@@ -311,7 +311,6 @@ if (environment.cpq) {
         a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
         a11yNgSelectAriaLabelDropdownCustomized: true,
         a11yMiniCartFocusOnMobile: true,
-        a11yPostRegisterSuccessMessage: true,
         a11yShowLabelOfSelect: true,
         a11yShowDownArrowOnFocusedSelectMenu: true,
         a11yCroppedFocusRing: true,

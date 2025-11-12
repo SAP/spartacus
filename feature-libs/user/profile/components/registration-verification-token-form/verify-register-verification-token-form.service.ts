@@ -38,16 +38,9 @@ export class RegistrationVerificationTokenFormComponentService {
   }
 
   postRegisterMessage(): void {
-    if (this.featureConfigService.isEnabled('a11yPostRegisterSuccessMessage')) {
-      this.displayMessage(
-        'register.postRegisterSuccessMessage',
-        globalMsgShowTime
-      );
-    } else {
-      this.globalMessageService.add(
-        { key: 'register.postRegisterMessage' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-    }
+    this.displayMessage(
+      'register.postRegisterSuccessMessage',
+      globalMsgShowTime
+    );
   }
 }

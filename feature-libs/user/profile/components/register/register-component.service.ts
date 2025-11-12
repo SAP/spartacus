@@ -48,17 +48,10 @@ export class RegisterComponentService {
    * Show the message after successful registration.
    */
   postRegisterMessage(): void {
-    if (this.featureConfigService.isEnabled('a11yPostRegisterSuccessMessage')) {
-      this.globalMessageService.add(
-        { key: 'register.postRegisterSuccessMessage' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-    } else {
-      this.globalMessageService.add(
-        { key: 'register.postRegisterMessage' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-    }
+    this.globalMessageService.add(
+      { key: 'register.postRegisterSuccessMessage' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   /**
