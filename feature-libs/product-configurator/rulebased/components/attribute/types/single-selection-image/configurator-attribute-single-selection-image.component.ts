@@ -14,7 +14,6 @@ import { UntypedFormControl } from '@angular/forms';
 import {
   Config,
   FeatureConfigService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
