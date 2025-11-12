@@ -93,11 +93,6 @@ export interface FeatureTogglesInterface {
   a11yMiniCartFocusOnMobile?: boolean;
 
   /**
-   * In `UnitFormComponent`, set 'clearable' as false for select of `ApprovalProcess`.
-   */
-  a11yApprovalProcessWithNoClearable?: boolean;
-
-  /**
    * Changes the success message of successful registration to be more informative. Affects `RegisterComponentService`.
    */
   a11yPostRegisterSuccessMessage?: boolean;
@@ -594,7 +589,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
   a11yMiniCartFocusOnMobile: true,
-  a11yApprovalProcessWithNoClearable: true,
   a11yPostRegisterSuccessMessage: true,
   a11yShowLabelOfSelect: true,
   a11yShowDownArrowOnFocusedSelectMenu: true,
