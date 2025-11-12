@@ -110,6 +110,7 @@ import { StoreFinderFeatureModule } from './features/storefinder/storefinder-fea
 import { PersonalizationFeatureModule } from './features/tracking/personalization-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
 import { OrderDocumentFlowFeatureModule } from './features/order/order-document-flow-feature.module';
+import { SubscriptionBillingFeatureModule } from './features/subscription-billing/subscription-billing-feature.module';
 
 const featureModules = [];
 
@@ -280,7 +281,7 @@ if (environment.cpq) {
 
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
-    // SubscriptionBillingFeatureModule, -> uncomment in SPA 221121.4 release (refer CXSPA-11070)
+    SubscriptionBillingFeatureModule,
     ...featureModules,
   ],
   providers: [
@@ -375,6 +376,7 @@ if (environment.cpq) {
         authorizationCodeFlowByDefault: true,
         defaultLayoutConfigWithoutPageFold: true,
         navigationMenuCloseOnSameLinkClick: true,
+        enablePasswordExpiredErrorTranslation: true,
         enableQuotePurchaseOrderNumber: false,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
       };

@@ -16,18 +16,18 @@ import {
 import {
   GetSubscriptionByCodeReloadEvent,
   GetSubscriptionListReloadEvent,
-  SubscriptionBillingFacade,
+  SubscriptionFacade,
   SubscriptionDetail,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
 import { Observable, map, switchMap, take, combineLatest } from 'rxjs';
-import { SubscriptionBillingConnector } from '../connector';
+import { SubscriptionConnector } from '../connector';
 
 @Injectable()
-export class SubscriptionBillingService implements SubscriptionBillingFacade {
+export class SubscriptionService implements SubscriptionFacade {
   protected queryService = inject(QueryService);
   protected userIdService = inject(UserIdService);
-  protected subscriptionBillingConnector = inject(SubscriptionBillingConnector);
+  protected subscriptionConnector = inject(SubscriptionConnector);
   protected routingService = inject(RoutingService);
 
   /** events */
@@ -44,7 +44,7 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
       () =>
         this.subscriptionDetailsPreConditions().pipe(
           switchMap(([customerId, subscriptionCode]) =>
-            this.subscriptionBillingConnector.getSubscriptionByCode(
+            this.subscriptionConnector.getSubscriptionByCode(
               customerId,
               subscriptionCode
             )
@@ -64,7 +64,7 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
       () =>
         this.subscriptionListPreConditions().pipe(
           switchMap((customerId) =>
-            this.subscriptionBillingConnector.getSubscriptionList(
+            this.subscriptionConnector.getSubscriptionList(
               customerId,
               pageSize,
               currentPage,

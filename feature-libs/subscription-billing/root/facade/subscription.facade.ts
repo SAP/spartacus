@@ -14,7 +14,7 @@ import { facadeFactory, QueryState } from '@spartacus/core';
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
-      facade: SubscriptionBillingFacade,
+      facade: SubscriptionFacade,
       feature: SUBSCRIPTION_BILLING_FEATURE,
       methods: [
         'getSubscriptionByCodeState',
@@ -25,7 +25,7 @@ import { facadeFactory, QueryState } from '@spartacus/core';
       ],
     }),
 })
-export abstract class SubscriptionBillingFacade {
+export abstract class SubscriptionFacade {
   abstract getSubscriptionByCodeState(): Observable<
     QueryState<SubscriptionDetail | undefined>
   >;

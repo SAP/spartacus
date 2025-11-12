@@ -10,7 +10,7 @@ import {
 } from '@spartacus/subscription-billing/root';
 import { Observable } from 'rxjs';
 
-export abstract class SubscriptionBillingAdapter {
+export abstract class SubscriptionAdapter {
   abstract getSubscriptionByCode(
     userId: string,
     subscriptionCode: string

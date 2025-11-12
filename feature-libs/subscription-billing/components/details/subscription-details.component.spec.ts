@@ -7,7 +7,7 @@ import {
 import { SubscriptionDetailsComponent } from './subscription-details.component';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
-  SubscriptionBillingFacade,
+  SubscriptionFacade,
   SubscriptionDetail,
 } from '@spartacus/subscription-billing/root';
 import { ElementRef, Pipe, PipeTransform } from '@angular/core';
@@ -18,9 +18,7 @@ const routerParam$: BehaviorSubject<{
 const mockSubs: SubscriptionDetail = {
   id: 's1',
 };
-class MockSubscriptionBillingFacade
-  implements Partial<SubscriptionBillingFacade>
-{
+class MockSubscriptionFacade implements Partial<SubscriptionFacade> {
   getSubscriptionByCode(): Observable<SubscriptionDetail | undefined> {
     return of(mockSubs);
   }
@@ -58,7 +56,7 @@ describe('SubscriptionDetailsComponent', () => {
   let component: SubscriptionDetailsComponent;
   let fixture: ComponentFixture<SubscriptionDetailsComponent>;
   let eventService: EventService;
-  let facade: SubscriptionBillingFacade;
+  let facade: SubscriptionFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
@@ -66,15 +64,15 @@ describe('SubscriptionDetailsComponent', () => {
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {
-          provide: SubscriptionBillingFacade,
-          useClass: MockSubscriptionBillingFacade,
+          provide: SubscriptionFacade,
+          useClass: MockSubscriptionFacade,
         },
         { provide: EventService, useClass: MockEventService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
     eventService = TestBed.inject(EventService);
-    facade = TestBed.inject(SubscriptionBillingFacade);
+    facade = TestBed.inject(SubscriptionFacade);
     spyOn(eventService, 'dispatch').and.callThrough();
     routerParam$.next({ ticketCode: 's1' });
     fixture = TestBed.createComponent(SubscriptionDetailsComponent);

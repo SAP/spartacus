@@ -7,7 +7,7 @@
 import { NgModule } from '@angular/core';
 import { facadeProviders } from './facade';
 import {
-  SubscriptionBillingConnector,
+  SubscriptionConnector,
   SubscriptionActionsConnector,
 } from './connector';
 
@@ -15,7 +15,7 @@ import {
   imports: [],
   providers: [
     ...facadeProviders,
-    SubscriptionBillingConnector,
+    SubscriptionConnector,
     SubscriptionActionsConnector,
   ],
 })
