@@ -252,12 +252,6 @@ export interface FeatureTogglesInterface {
   a11yScrollToTopPositioning?: boolean;
 
   /**
-   * Creates a section element with applied aria-label in "Review Order" page of the checkout.
-   * Moves components to be children of this section element.
-   */
-  a11yWrapReviewOrderInSection?: boolean;
-
-  /**
    * Improves wide viewport layout issues.
    * Affects the styles of: Order confirmation page, product configurator.
    */
@@ -600,7 +594,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
   a11yMiniCartFocusOnMobile: true,
-  a11yWrapReviewOrderInSection: true,
   a11yApprovalProcessWithNoClearable: true,
   a11yPostRegisterSuccessMessage: true,
   a11yShowLabelOfSelect: true,

@@ -54,8 +54,7 @@ export class CheckoutReviewOverviewComponent implements AfterViewInit {
   protected wrapComponentsWithSectionEl() {
     if (
       this.document &&
-      this.translationService &&
-      this.featureService?.isEnabled('a11yWrapReviewOrderInSection')
+      this.translationService
     ) {
       this.translationService
         .translate('checkoutReview.reviewOrder')

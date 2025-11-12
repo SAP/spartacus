@@ -337,7 +337,6 @@ if (environment.cpq) {
         showRealTimeStockInPDP: true,
         a11yScrollToTopPositioning: true,
         a11yWideScreenImprovements: true,
-        a11yWrapReviewOrderInSection: true,
         a11yOptimizedMenuSpacing: true,
         a11yNgSelectLayering: true,
         readMoreDirective: true,
