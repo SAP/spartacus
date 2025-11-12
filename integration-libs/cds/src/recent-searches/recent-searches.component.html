@@ -4,6 +4,13 @@
       <h3>
         {{ 'searchBox.recentSearches' | cxTranslate }}
       </h3>
+      <button
+        (click)="clearPhrases($event)"
+        (mousedown)="$event.stopPropagation()"
+        class="recent-searches-btn btn btn-tertiary"
+      >
+        {{ 'common.clear' | cxTranslate }}
+      </button>
       <ul
         tabindex="0"
         [ariaLabel]="'cdsRecentSearches.ariaRecentSearches' | cxTranslate"

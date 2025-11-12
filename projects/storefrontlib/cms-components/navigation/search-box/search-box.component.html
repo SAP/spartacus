@@ -15,7 +15,7 @@
         [attr.tabindex]="getTabIndex(isMobile | async)"
         (click)="open()"
         (input)="search(searchInput.value)"
-        (blur)="close()"
+        (blur)="handleInputBlur($event)"
         (keydown.tab)="close()"
         (keydown.escape)="close()"
         (keydown.enter)="onEnter(searchInput.value)"
@@ -98,7 +98,7 @@
           (keydown.arrowright)="focusNextGroup($any($event))"
           (keydown.enter)="close(true)"
           (keydown.escape)="close(true)"
-          (blur)="close()"
+          (blur)="handleInputBlur($event)"
           (mousedown)="preventDefault($event)"
           (click)="
             dispatchSuggestionEvent({

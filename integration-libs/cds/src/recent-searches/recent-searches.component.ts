@@ -126,6 +126,15 @@ export class RecentSearchesComponent implements OnInit {
     this.recentSearchesService.removePhrase(phrase);
   }
 
+  clearPhrases(event?: MouseEvent) {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+      event.stopImmediatePropagation?.();
+    }
+    this.recentSearchesService.clearPhrases();
+  }
+
   handleCloseButtonEnter(event: KeyboardEvent, phrase: string): void {
     this.enterKeyPressedOnCloseButton = true;
 

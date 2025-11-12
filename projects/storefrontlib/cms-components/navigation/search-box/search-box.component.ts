@@ -64,6 +64,7 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
 const CLOSE_BUTTON_SELECTOR = 'button.close';
 const CLEAR_RECENT_SEARCHES_BUTTON_SELECTOR =
   'button.clear-recent-searches-btn';
+const RECENT_SEARCHES_BUTTON_SELECTOR = '.recent-searches-btn';
 
 @Component({
   selector: 'cx-searchbox',
@@ -93,11 +94,33 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Checks if the given element is a clear recent searches button
+   */
+  private isClearRecentSearchesButton(element: HTMLElement | null): boolean {
+    if (!element) {
+      return false;
+    }
+    return (
+      element.classList?.contains('clear-recent-searches-btn') ||
+      element.classList?.contains('recent-searches-btn') ||
+      !!element.closest?.(CLEAR_RECENT_SEARCHES_BUTTON_SELECTOR) ||
+      !!element.closest?.(RECENT_SEARCHES_BUTTON_SELECTOR)
+    );
+  }
+
+  /**
    * Listener for clickout out of searchInput and searchPanel
    * */
   @HostListener('document:click', ['$event'])
   clickout(event: UIEvent) {
-    if (!this.elementRef.nativeElement.contains(event.target)) {
+    const target = event.target as HTMLElement;
+    const contains = this.elementRef.nativeElement.contains(target);
+
+    if (this.isClearRecentSearchesButton(target)) {
+      return;
+    }
+
+    if (!contains) {
       this.softClose();
     }
   }
@@ -118,12 +141,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     }
 
     // Don't close if clicking on the clear recent searches button
-    // Check both the target itself and closest parent button
-    const clearRecentSearchesButton =
-      (target?.classList?.contains('clear-recent-searches-btn') &&
-        target.tagName === 'BUTTON') ||
-      (target?.closest?.(CLEAR_RECENT_SEARCHES_BUTTON_SELECTOR) as HTMLElement);
-    if (clearRecentSearchesButton) {
+    if (this.isClearRecentSearchesButton(target)) {
       event.stopPropagation();
       event.preventDefault();
       return;
@@ -303,6 +321,28 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    */
   dispatchProductEvent(eventData: SearchBoxProductSelectedEvent): void {
     this.searchBoxComponentService.dispatchProductSelectedEvent(eventData);
+  }
+
+  /**
+   * Handles blur event on the search input
+   * Prevents closing if the blur is caused by clicking the clear recent searches button
+   */
+  handleInputBlur(event: FocusEvent): void {
+    const relatedTarget = event.relatedTarget as HTMLElement;
+    const activeElement = this.winRef.document.activeElement as HTMLElement;
+
+    // Check if the blur is caused by clicking the clear recent searches button
+    // Check both relatedTarget (where focus is going) and activeElement (current focus)
+    if (
+      this.isClearRecentSearchesButton(relatedTarget) ||
+      this.isClearRecentSearchesButton(activeElement)
+    ) {
+      // Don't close when clicking clear buttons - let the button click handler manage the state
+      // The search box should remain open after clearing recent searches
+      return;
+    }
+
+    this.close();
   }
 
   /**
@@ -724,6 +764,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     if (event) {
       event.stopPropagation();
       event.stopImmediatePropagation();
+      event.preventDefault();
     }
     const recentSearches = (this.winRef.nativeWindow as any)?.Y_TRACKING
       ?.recentSearches;
