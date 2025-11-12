@@ -167,13 +167,6 @@ export interface FeatureTogglesInterface {
   enableClaimCustomerCouponWithCodeInRequestBody?: boolean;
 
   /**
-   * Modifies grid arrangement in Product Details Page for better accessibility:
-   * - add to cart button should be last step
-   * - future stock accordion is moved before add to cart button
-   */
-  a11yPdpGridArrangement?: boolean;
-
-  /**
    * Header. Fixes trapping focus on menu items on mobile when the menu is expanded.
    * Sets `tabindex` attribute  to `-1` for all visible focusable elements in the header section to exclude them from
    * keyboard navigation
@@ -552,7 +545,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRepeatingButtonsUniqueLabels: true,
   a11yHighContrastBorders: true,
   a11yRegionAssociatedHeaders: true,
-  a11yPdpGridArrangement: true,
   a11yHamburgerMenuTrapFocus: true,
   showRealTimeStockInPDP: true,
   a11yScrollToTopPositioning: true,

@@ -323,7 +323,6 @@ if (environment.cpq) {
         a11yHighContrastBorders: true,
         a11yRegionAssociatedHeaders: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
-        a11yPdpGridArrangement: true,
         a11yHamburgerMenuTrapFocus: true,
         showRealTimeStockInPDP: true,
         a11yScrollToTopPositioning: true,
