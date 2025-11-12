@@ -9,7 +9,7 @@ import { EventService } from '@spartacus/core';
 import {
   GetSubscriptionByCodeReloadEvent,
   SubscriptionActionMode,
-  SubscriptionBillingFacade,
+  SubscriptionFacade,
   SubscriptionDetail,
 } from '@spartacus/subscription-billing/root';
 import { Observable, of, take } from 'rxjs';
@@ -21,7 +21,7 @@ import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
   standalone: false,
 })
 export class SubscriptionDetailsComponent implements OnInit {
-  protected subscriptionFacade = inject(SubscriptionBillingFacade);
+  protected subscriptionFacade = inject(SubscriptionFacade);
   protected eventService = inject(EventService);
   protected launchDialogService = inject(LaunchDialogService);
 
