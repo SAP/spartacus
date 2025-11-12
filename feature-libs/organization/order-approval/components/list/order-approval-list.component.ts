@@ -29,7 +29,6 @@ export class OrderApprovalListComponent implements OnInit {
     protected orderApprovalService: OrderApprovalService,
     protected translation: TranslationService
   ) {
-    useFeatureStyles('a11yShowLabelOfSelect');
   }
 
   sortLabels$: Observable<{ byDate: string; byOrderNumber: string }>;

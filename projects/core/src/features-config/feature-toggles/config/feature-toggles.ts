@@ -93,11 +93,6 @@ export interface FeatureTogglesInterface {
   a11yMiniCartFocusOnMobile?: boolean;
 
   /**
-   * In `CustomerListComponent`, `OrderApprovalListComponent`, and `ConfiguratorAttriuteSingleSelectionBundleDropdownComponent`, show label of every `ng-select` and `select`.
-   */
-  a11yShowLabelOfSelect?: boolean;
-
-  /**
    * In `SiteContextSelectComponent` and `SiteThemeSwitcherComponent`, update style of caret.
    */
   a11yShowDownArrowOnFocusedSelectMenu?: boolean;
@@ -584,7 +579,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
   a11yMiniCartFocusOnMobile: true,
-  a11yShowLabelOfSelect: true,
   a11yShowDownArrowOnFocusedSelectMenu: true,
   a11yCroppedFocusRing: true,
   a11yTextSpacingAdjustments: true,
