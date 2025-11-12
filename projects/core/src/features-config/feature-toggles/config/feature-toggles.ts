@@ -40,11 +40,6 @@ export interface FeatureTogglesInterface {
   a11yKeyboardAccessibleZoom?: boolean;
 
   /**
-   * `StoreFinderListItemComponent` street name is not truncated
-   */
-  a11yTruncatedTextStoreFinder?: boolean;
-
-  /**
    * `UnitLevelOrderHistoryComponent` filter input label and table email address
    * are not truncated
    */
@@ -615,7 +610,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yAnonymousConsentMessageInDialog: true,
   a11yQuickOrderSearchListKeyboardNavigation: true,
   a11yKeyboardAccessibleZoom: false,
-  a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
   a11yResetFocusAfterNavigating: true,

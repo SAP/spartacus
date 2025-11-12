@@ -29,10 +29,7 @@
     font-weight: var(--cx-font-weight-normal);
   }
   .cx-store-address-street {
-    white-space: nowrap;
-    @include forFeature('a11yTruncatedTextStoreFinder') {
       white-space: unset;
-    }
     overflow: hidden;
     text-overflow: ellipsis;
 

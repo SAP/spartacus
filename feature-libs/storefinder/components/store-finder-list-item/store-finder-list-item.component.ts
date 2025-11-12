@@ -31,7 +31,6 @@ export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
 
   constructor(protected storeFinderService: StoreFinderService) {
     super(storeFinderService);
-    useFeatureStyles('a11yTruncatedTextStoreFinder');
   }
 
   handleStoreItemClick() {

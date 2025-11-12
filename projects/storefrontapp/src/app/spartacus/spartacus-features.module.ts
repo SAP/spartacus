@@ -302,7 +302,6 @@ if (environment.cpq) {
         a11yAnonymousConsentMessageInDialog: true,
         a11yQuickOrderSearchListKeyboardNavigation: false,
         a11yKeyboardAccessibleZoom: true,
-        a11yTruncatedTextStoreFinder: true,
         a11yTruncatedTextUnitLevelOrderHistory: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
         a11yResetFocusAfterNavigating: true,
