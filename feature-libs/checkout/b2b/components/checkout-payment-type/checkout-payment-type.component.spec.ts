@@ -2,7 +2,7 @@ import { Component, DebugElement, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { PaymentType } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
@@ -13,7 +13,7 @@ import {
 } from '@spartacus/core';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
 import createSpy = jasmine.createSpy;
 
@@ -59,6 +59,12 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   goToStepWithIndex = createSpy();
   next = createSpy();
   back = createSpy();
+}
+
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
+  getActive = createSpy().and.returnValue(
+    of({ quotePurchaseOrderNumber: 'quote-po-number' })
+  );
 }
 
 const selectedPaymentType$ = new BehaviorSubject<QueryState<PaymentType>>({
@@ -143,6 +149,7 @@ describe('CheckoutPaymentTypeComponent', () => {
 
   let checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
   let checkoutStepService: CheckoutStepService;
+  let activeCartFacade: ActiveCartFacade;
   let el: DebugElement;
 
   beforeEach(waitForAsync(() => {
@@ -163,6 +170,10 @@ describe('CheckoutPaymentTypeComponent', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartFacade,
+        },
       ],
     }).compileComponents();
 
@@ -172,6 +183,7 @@ describe('CheckoutPaymentTypeComponent', () => {
     checkoutStepService = TestBed.inject(
       CheckoutStepService as Type<CheckoutStepService>
     );
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
   }));
 
   beforeEach(() => {
@@ -254,6 +266,36 @@ describe('CheckoutPaymentTypeComponent', () => {
     expect(checkoutStepService.back).toHaveBeenCalledWith(
       <any>mockActivatedRoute
     );
+  });
+
+  it('should make the po number input read-only when the cart has a quote PO number', () => {
+    component.isPONumberEditable$.pipe(
+      tap((isEditable) => {
+        expect(isEditable).toBeFalsy();
+      })
+    );
+    expect(
+      el.query(By.css('#poNumberInput')).nativeElement.readOnly
+    ).toBeTruthy();
+  });
+
+  describe('should make the po number input editable', () => {
+    it('when the cart does not have quote PO number', () => {
+      activeCartFacade.getActive = createSpy().and.returnValue(of({}));
+
+      fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
+      component = fixture.componentInstance;
+      el = fixture.debugElement;
+      fixture.detectChanges();
+
+      component.isPONumberEditable$.pipe(take(1)).subscribe((isEditable) => {
+        expect(isEditable).toBeTruthy();
+      });
+
+      expect(
+        el.query(By.css('#poNumberInput')).nativeElement.readOnly
+      ).toBeFalsy();
+    });
   });
 
   describe('UI spinner when changing payment type', () => {
