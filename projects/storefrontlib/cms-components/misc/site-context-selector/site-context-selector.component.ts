@@ -41,7 +41,6 @@ export class SiteContextSelectorComponent {
   protected translationService = inject(TranslationService);
 
   constructor(private componentService: SiteContextComponentService) {
-    useFeatureStyles('a11yShowDownArrowOnFocusedSelectMenu');
   }
 
   get items$(): Observable<any> {

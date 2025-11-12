@@ -29,7 +29,6 @@ export class SiteThemeSwitcherComponent {
   iconTypes = ICON_TYPE;
 
   constructor() {
-    useFeatureStyles('a11yShowDownArrowOnFocusedSelectMenu');
   }
 
   protected themeSwitcherComponentService = inject(

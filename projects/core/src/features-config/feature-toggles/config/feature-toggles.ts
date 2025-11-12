@@ -93,11 +93,6 @@ export interface FeatureTogglesInterface {
   a11yMiniCartFocusOnMobile?: boolean;
 
   /**
-   * In `SiteContextSelectComponent` and `SiteThemeSwitcherComponent`, update style of caret.
-   */
-  a11yShowDownArrowOnFocusedSelectMenu?: boolean;
-
-  /**
    * Fixes various instances of the focus ring being cropped in the UI.
    * The focus ring on interactive elements should have all its sides visible and not include any extra padding.
    * Affects styles of: 'CartItemListComponent, CartItemComponent, ListComponent, FutureStockAccordionComponent,
@@ -579,7 +574,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
   a11yMiniCartFocusOnMobile: true,
-  a11yShowDownArrowOnFocusedSelectMenu: true,
   a11yCroppedFocusRing: true,
   a11yTextSpacingAdjustments: true,
   a11yTableHeaderReadout: true,
