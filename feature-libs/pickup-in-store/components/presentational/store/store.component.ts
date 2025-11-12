@@ -30,8 +30,7 @@ export class StoreComponent implements OnInit {
   openHoursOpen = false;
   readonly ICON_TYPE = ICON_TYPE;
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.isInStock = storeHasStock(this.storeDetails);

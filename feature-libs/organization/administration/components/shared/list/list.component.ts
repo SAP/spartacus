@@ -10,11 +10,7 @@ import {
   HostBinding,
   Input,
 } from '@angular/core';
-import {
-  EntitiesModel,
-  PaginationModel,
-  Translatable,
-} from '@spartacus/core';
+import { EntitiesModel, PaginationModel, Translatable } from '@spartacus/core';
 import {
   ICON_TYPE,
   Table,
@@ -41,8 +37,7 @@ export class ListComponent<T = any, P = PaginationModel> {
   constructor(
     protected service: ListService<T, P>,
     protected organizationItemService: ItemService<T>
-  ) {
-  }
+  ) {}
 
   @HostBinding('class')
   viewType: OrganizationTableType = this.service.viewType;

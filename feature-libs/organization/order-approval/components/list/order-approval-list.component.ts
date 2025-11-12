@@ -27,8 +27,7 @@ export class OrderApprovalListComponent implements OnInit {
     protected routing: RoutingService,
     protected orderApprovalService: OrderApprovalService,
     protected translation: TranslationService
-  ) {
-  }
+  ) {}
 
   sortLabels$: Observable<{ byDate: string; byOrderNumber: string }>;
   protected PAGE_SIZE = 5;

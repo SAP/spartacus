@@ -99,8 +99,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     protected multiCartService: MultiCartFacade,
     protected cd: ChangeDetectorRef,
     @Optional() protected outlet?: OutletContextData<ItemListContext>
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.subscription.add(this.getInputsFromContext());

@@ -95,8 +95,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   constructor(
     protected windowRef: WindowRef,
     protected filesFormValidators: FilesFormValidators
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.buildForm();

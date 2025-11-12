@@ -111,10 +111,7 @@
     <div *ngIf="content.actions && !editMode" class="cx-card-actions">
       <div *ngFor="let action of content.actions" class="cx-card-action-item">
         <div>
-          <ng-container
-            *ngIf="isCardAction(action)"
-            [ngSwitch]="action.event"
-          >
+          <ng-container *ngIf="isCardAction(action)" [ngSwitch]="action.event">
             <button
               type="button"
               *ngSwitchCase="'delete'"

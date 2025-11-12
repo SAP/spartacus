@@ -370,7 +370,9 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   }
 
   protected getCardRole(isCardSelected: boolean): 'button' | 'application' {
-    const role: 'button' | 'application' = !isCardSelected ? 'button' : 'application';
+    const role: 'button' | 'application' = !isCardSelected
+      ? 'button'
+      : 'application';
     return role;
   }
 }

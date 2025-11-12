@@ -18,6 +18,5 @@ import { Observable } from 'rxjs';
 export class OrderDetailPermissionResultsComponent {
   order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
 
-  constructor(protected orderDetailsService: OrderDetailsService) {
-  }
+  constructor(protected orderDetailsService: OrderDetailsService) {}
 }

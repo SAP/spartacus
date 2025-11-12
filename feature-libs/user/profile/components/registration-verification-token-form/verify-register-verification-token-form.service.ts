@@ -5,11 +5,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  User,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType, User } from '@spartacus/core';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 

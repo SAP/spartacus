@@ -51,10 +51,7 @@ export class CheckoutReviewOverviewComponent implements AfterViewInit {
    * CMS-driven (ie. by page slot).
    */
   protected wrapComponentsWithSectionEl() {
-    if (
-      this.document &&
-      this.translationService
-    ) {
+    if (this.document && this.translationService) {
       this.translationService
         .translate('checkoutReview.reviewOrder')
         .pipe(take(1))
