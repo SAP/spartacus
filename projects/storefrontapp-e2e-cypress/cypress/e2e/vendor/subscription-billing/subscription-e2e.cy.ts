@@ -5,11 +5,11 @@
  */
 
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
-import * as helper from '../../../helpers/vendor/subscription-billing/subscription-billing';
+import * as helper from '../../../helpers/vendor/subscription-billing/subscription';
 import { login } from '../../../helpers/b2b/b2b-quote';
 import { signOutUser } from '../../../helpers/checkout-flow';
 
-describe('Subscription Billing - PDP, Order Placement, List, Details', () => {
+describe('Subscription - PDP, Order Placement, List, Details', () => {
   it('place subscription order and validate it under my-account', () => {
     cy.restoreLocalStorage();
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
