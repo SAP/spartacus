@@ -25,7 +25,8 @@ describe('ASM Continuum tests', { testIsolation: false }, () => {
     });
 
     cy.whenJDK17(() => {
-      asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
+      cy.get('input').first().type('brandon.leclair@acme.com');
+      cy.get('input[type="password"').type('pw4all{enter}');
     });
 
     cy.get('.searchLabel').should('be.visible');
