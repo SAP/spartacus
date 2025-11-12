@@ -92,7 +92,12 @@ describe('OccCartNormalizer', () => {
   describe('handleQuoteCode', () => {
     const quoteCode = '00100092';
     const quotePurchaseOrderNumber = 'PO12345';
-    const source: Occ.Cart = { sapQuote: { code: quoteCode, sapPurchaseOrderNumber: quotePurchaseOrderNumber } };
+    const source: Occ.Cart = {
+      sapQuote: {
+        code: quoteCode,
+        sapPurchaseOrderNumber: quotePurchaseOrderNumber,
+      },
+    };
 
     it('should set quote code if sapQuote is present in OCC response', () => {
       const target: Cart = {};

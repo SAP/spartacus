@@ -114,6 +114,10 @@ describe('CheckoutOnePaymentTypeComponent', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartFacade,
+        },
       ],
     }).compileComponents();
 
