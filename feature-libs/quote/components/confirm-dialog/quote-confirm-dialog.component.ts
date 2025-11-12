@@ -13,7 +13,6 @@ import {
 import {
   CxDatePipe,
   TranslationService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { QuoteCoreConfig } from '@spartacus/quote/core';
 import {
