@@ -35,13 +35,6 @@ export interface FeatureTogglesInterface {
   a11yQuickOrderSearchListKeyboardNavigation?: boolean;
 
   /**
-   * When set to `true`, external links in `StoreFinderListItemComponent`
-   * adopt a more link-like style, appearing more like links instead of buttons. This is semantically more correct since they open content in a new window,
-   * providing a more intuitive user experience.
-   */
-  a11yStyleExternalLinksAsLinks?: boolean;
-
-  /**
    * If enabled, the "Checkout Shipping address/Payment" views
    * will have a more a11y friendly selected label, including the context
    * indicating weather the user is on a selected Address or Payment regsion.
@@ -628,7 +621,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTabsManualActivation: true,
   a11yAnonymousConsentMessageInDialog: true,
   a11yQuickOrderSearchListKeyboardNavigation: true,
-  a11yStyleExternalLinksAsLinks: true,
   a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
   a11yKeyboardAccessibleZoom: false,
   a11yTruncatedTextStoreFinder: true,
