@@ -31,7 +31,6 @@ export class StoreComponent implements OnInit {
   readonly ICON_TYPE = ICON_TYPE;
 
   constructor() {
-    
   }
 
   ngOnInit(): void {
