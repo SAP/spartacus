@@ -23,7 +23,6 @@ import { Tab, TabConfig, TAB_MODE } from './tab.model';
 import { wrapIntoBounds } from './tab.utils';
 import {
   TranslationService,
-  useFeatureStyles,
   FeatureConfigService,
 } from '@spartacus/core';
 

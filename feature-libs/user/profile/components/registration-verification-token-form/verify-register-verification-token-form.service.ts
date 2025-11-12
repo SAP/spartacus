@@ -6,7 +6,6 @@
 
 import { Injectable, inject } from '@angular/core';
 import {
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   User,
@@ -19,8 +18,6 @@ const globalMsgShowTime: number = 10000;
 export class RegistrationVerificationTokenFormComponentService {
   protected globalMessageService = inject(GlobalMessageService);
   protected userRegisterFacade = inject(UserRegisterFacade);
-  private featureConfigService: FeatureConfigService =
-    inject(FeatureConfigService);
 
   displayMessage(key: string, params: Object) {
     this.globalMessageService.add(

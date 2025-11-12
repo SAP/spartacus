@@ -13,7 +13,6 @@ import {
 import {
   SiteContext,
   TranslationService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { map, Observable } from 'rxjs';
 import { ICON_TYPE } from '../icon/icon.model';

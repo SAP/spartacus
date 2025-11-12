@@ -4,11 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { UntypedFormArray, UntypedFormBuilder } from '@angular/forms';
 import {
   ConsentTemplate,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   Title,
@@ -19,9 +18,6 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class RegisterComponentService {
-  private featureConfigService: FeatureConfigService =
-    inject(FeatureConfigService);
-
   constructor(
     protected userRegisterFacade: UserRegisterFacade,
     protected globalMessageService: GlobalMessageService,

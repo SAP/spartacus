@@ -8,7 +8,6 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   SiteTheme,
   TranslationService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
