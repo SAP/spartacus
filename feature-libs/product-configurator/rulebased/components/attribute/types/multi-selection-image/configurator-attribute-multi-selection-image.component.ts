@@ -52,8 +52,6 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
       attributeComponentContext.isPricingAsync,
       attributeComponentContext.attribute.key
     );
-
-    useFeatureStyles('a11yDifferentiateFocusedAndSelected');
   }
 
   attributeCheckBoxForms = new Array<UntypedFormControl>();

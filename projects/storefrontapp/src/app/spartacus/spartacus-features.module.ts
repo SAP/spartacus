@@ -312,7 +312,6 @@ if (environment.cpq) {
         a11yNgSelectAriaLabelDropdownCustomized: true,
         a11yMiniCartFocusOnMobile: true,
         updateConsentGivenInOnChanges: true,
-        a11yDifferentiateFocusedAndSelected: true,
         a11yQuickOrderSearchBoxRefocusOnClose: true,
         a11yKeyboardFocusInSearchBox: true,
         a11yAddPaddingToCarouselPanel: true,

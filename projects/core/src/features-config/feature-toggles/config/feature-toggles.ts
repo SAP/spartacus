@@ -102,12 +102,6 @@ export interface FeatureTogglesInterface {
   updateConsentGivenInOnChanges?: boolean;
 
   /**
-   * Adds additional styling to help differentiate between focused and selected items in the list.
-   * Affects: ConfiguratorAttributeSingleSelectionImageComponent, ProductImagesComponent
-   */
-  a11yDifferentiateFocusedAndSelected?: boolean;
-
-  /**
    * When enabled the input element in `QuickOrderFormComponent' will regain its focus after the dropdown is closed.
    */
   a11yQuickOrderSearchBoxRefocusOnClose?: boolean;
@@ -548,7 +542,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectAriaLabelDropdownCustomized: true,
   a11yMiniCartFocusOnMobile: true,
   updateConsentGivenInOnChanges: true,
-  a11yDifferentiateFocusedAndSelected: true,
   a11yQuickOrderSearchBoxRefocusOnClose: true,
   a11yKeyboardFocusInSearchBox: true,
   a11yAddPaddingToCarouselPanel: false,

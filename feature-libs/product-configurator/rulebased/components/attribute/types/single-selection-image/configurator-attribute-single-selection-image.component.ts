@@ -49,8 +49,6 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
-    useFeatureStyles('a11yDifferentiateFocusedAndSelected');
-
     super();
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;
