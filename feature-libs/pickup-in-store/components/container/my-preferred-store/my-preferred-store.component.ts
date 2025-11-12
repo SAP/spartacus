@@ -107,7 +107,6 @@ export class MyPreferredStoreComponent implements OnInit {
           })
         );
     }
-    useFeatureStyles('a11yImproveButtonsInCardComponent');
   }
 
   ngOnInit(): void {
@@ -178,9 +177,7 @@ export class MyPreferredStoreComponent implements OnInit {
           )
         )
         .subscribe();
-    } else if (
-      this.featureConfigService.isEnabled('a11yImproveButtonsInCardComponent')
-    ) {
+    } else {
       this.cmsService
         .getCurrentPage()
         .pipe(
@@ -223,25 +220,6 @@ export class MyPreferredStoreComponent implements OnInit {
           }
           this.cdr?.detectChanges();
         });
-    } else {
-      this.cmsService
-        .getCurrentPage()
-        .pipe(
-          filter<Page>(Boolean),
-          take(1),
-          tap(
-            (cmsPage) =>
-              (this.isStoreFinder = cmsPage.pageId === 'storefinderPage')
-          ),
-          filter(() => this.isStoreFinder),
-          tap(() => {
-            this.content = {
-              header: '',
-              actions: [{ event: 'send', name: GET_DIRECTIONS_NAME }],
-            };
-          })
-        )
-        .subscribe();
     }
   }
 

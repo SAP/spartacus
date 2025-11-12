@@ -310,7 +310,6 @@ if (environment.cpq) {
         a11yLinkBtnsToTertiaryBtns: true,
         a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
         a11yNgSelectAriaLabelDropdownCustomized: true,
-        a11yImproveButtonsInCardComponent: true,
         a11yMiniCartFocusOnMobile: true,
         a11yApprovalProcessWithNoClearable: true,
         a11yPostRegisterSuccessMessage: true,

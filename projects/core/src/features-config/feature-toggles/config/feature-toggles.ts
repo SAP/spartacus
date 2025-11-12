@@ -88,14 +88,6 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * In `Card component`, replace button classes to .btn .btn-tertiary and use cx-generic link
-   * instead of regular <a> tag.
-   * In `My Preferred Store component`, replace a `Get directions` action from CardAction to CardLinkAction
-   * to so that Card component perceive it as a link;
-   */
-  a11yImproveButtonsInCardComponent?: boolean;
-
-  /**
    * In `MiniCart component`, improve visible focus contrast on mobile.
    */
   a11yMiniCartFocusOnMobile?: boolean;
@@ -607,7 +599,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yLinkBtnsToTertiaryBtns: false,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yImproveButtonsInCardComponent: true,
   a11yMiniCartFocusOnMobile: true,
   a11yWrapReviewOrderInSection: true,
   a11yApprovalProcessWithNoClearable: true,
