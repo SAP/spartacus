@@ -350,14 +350,6 @@ export interface FeatureTogglesInterface {
   enableCarouselCategoryProducts?: boolean;
 
   /**
-   * When enabled, enforces stronger password validation rules,
-   * including requirements for a mix of uppercase letters, lowercase letters,
-   * special characters, digits, and no consecutive characters,
-   * as well as enforcing both a minimum and maximum password length.
-   */
-  enableSecurePasswordValidation?: boolean;
-
-  /**
    * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
    * a `ConfiguratorShowOptionsComponent` component underneath the attribute name.
    * The `ConfiguratorShowOptionsComponent` component allows to load the domain values
@@ -676,7 +668,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   productReviewCharactersLeft: false,
   a11yNgSelectAriaControls: false,
   a11yConfiguratorOverviewHeaderVPC: false,
-  enableSecurePasswordValidation: true,
   enableCarouselCategoryProducts: true,
   enableClaimCustomerCouponWithCodeInRequestBody: true,
   enableReadDomainValuesOnDemand: false,

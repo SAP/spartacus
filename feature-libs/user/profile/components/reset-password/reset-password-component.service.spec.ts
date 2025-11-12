@@ -237,18 +237,12 @@ describe('ResetPasswordComponentService', () => {
   });
 
   describe('password validators', () => {
-    let passwordControl: UntypedFormControl;
-
-    describe('when enableSecurePasswordValidation is enabled', () => {
-      beforePasswordValidatorCase(['enableSecurePasswordValidation']);
-
-      it('should use securePasswordValidator', () => {
-        expect(passwordControl).toBeTruthy();
+      it('should use securePasswordValidator', () => {       
         expect((service as any).passwordValidators).toEqual(
           CustomFormValidators.securePasswordValidators
         );
       });
-    });
+  })
 
     describe('when enableConsecutiveCharactersPasswordRequirement is enabled', () => {
       beforePasswordValidatorCase([
