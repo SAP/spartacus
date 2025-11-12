@@ -14,7 +14,6 @@ import {
   EntitiesModel,
   PaginationModel,
   Translatable,
-  useFeatureStyles,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
