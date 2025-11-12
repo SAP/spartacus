@@ -93,14 +93,6 @@ export interface FeatureTogglesInterface {
   a11yMiniCartFocusOnMobile?: boolean;
 
   /**
-   * Ensures the table column header gets properly narrated by the screen readers.
-   * Affects tables in the following components: SavedCartListComponent, ReplenishmentOrderHistoryComponent, OrderReturnRequestListComponent,
-   * AccountSummaryDocumentComponent, OrderDetailPermissionResultsComponent, OrderApprovalListComponent, UnitLevelOrderHistoryComponent,
-   * InvoicesListComponent, MyInterestsComponent
-   */
-  a11yTableHeaderReadout?: boolean;
-
-  /**
    * Removes the repetition of assistive message after the results are provided to the `SearchBoxComponent`.
    */
   a11ySearchboxAssistiveMessage?: boolean;
@@ -560,7 +552,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
   a11yMiniCartFocusOnMobile: true,
-  a11yTableHeaderReadout: true,
   a11ySearchboxAssistiveMessage: true,
   updateConsentGivenInOnChanges: true,
   a11yDifferentiateFocusedAndSelected: true,

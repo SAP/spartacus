@@ -63,42 +63,6 @@
           class="table cx-account-summary-document-table"
         >
           <thead
-            *cxFeature="'!a11yTableHeaderReadout'"
-            class="cx-account-summary-document-thead-mobile"
-          >
-            <th scope="col">
-              {{ 'orgAccountSummary.document.id' | cxTranslate }}
-            </th>
-            <th scope="col">
-              {{ 'orgAccountSummary.document.type' | cxTranslate }}
-            </th>
-            <th scope="col">
-              {{ 'orgAccountSummary.document.date' | cxTranslate }}
-            </th>
-            <th scope="col">
-              {{ 'orgAccountSummary.document.dueDate' | cxTranslate }}
-            </th>
-            <th scope="col">
-              {{ 'orgAccountSummary.document.originalAmount' | cxTranslate }}
-            </th>
-            <th scope="col">
-              {{ 'orgAccountSummary.document.openAmount' | cxTranslate }}
-            </th>
-            <th scope="col">
-              {{ 'orgAccountSummary.document.status' | cxTranslate }}
-            </th>
-            <th scope="col">
-              <cx-icon
-                [type]="ICON_TYPE.DOWNLOAD"
-                class="cx-account-summary-document-attachment-icon"
-                title="{{
-                  'orgAccountSummary.document.attachment' | cxTranslate
-                }}"
-              ></cx-icon>
-            </th>
-          </thead>
-          <thead
-            *cxFeature="'a11yTableHeaderReadout'"
             class="cx-account-summary-document-thead-mobile"
           >
             <tr>

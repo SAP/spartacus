@@ -20,6 +20,5 @@ export class OrderDetailPermissionResultsComponent {
   order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
 
   constructor(protected orderDetailsService: OrderDetailsService) {
-    useFeatureStyles('a11yTableHeaderReadout');
   }
 }
