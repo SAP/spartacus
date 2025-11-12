@@ -96,7 +96,6 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
     protected windowRef: WindowRef,
     protected filesFormValidators: FilesFormValidators
   ) {
-    useFeatureStyles('a11yCroppedFocusRing');
   }
 
   ngOnInit(): void {

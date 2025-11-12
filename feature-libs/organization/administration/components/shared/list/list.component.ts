@@ -44,7 +44,6 @@ export class ListComponent<T = any, P = PaginationModel> {
     protected organizationItemService: ItemService<T>
   ) {
     useFeatureStyles('a11yTextSpacingAdjustments');
-    useFeatureStyles('a11yCroppedFocusRing');
   }
 
   @HostBinding('class')

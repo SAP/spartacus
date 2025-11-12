@@ -62,7 +62,6 @@ export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
   protected subscriptions = new Subscription();
 
   constructor() {
-    useFeatureStyles('a11yCroppedFocusRing');
   }
 
   ngOnInit(): void {

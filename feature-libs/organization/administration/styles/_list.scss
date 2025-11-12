@@ -74,10 +74,8 @@
 }
 
 %organizationTitle {
-  @include forFeature('a11yCroppedFocusRing') {
-    .header h2 button {
-      outline-offset: -2px;
-    }
+  .header h2 button {
+    outline-offset: -2px;
   }
   .title {
     h2,

@@ -50,7 +50,6 @@ export class QuoteConfirmDialogComponent implements OnInit {
   confirmationContext$: Observable<ConfirmationContext>;
 
   constructor() {
-    useFeatureStyles('a11yCroppedFocusRing');
   }
 
   ngOnInit(): void {

@@ -101,7 +101,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef,
     @Optional() protected outlet?: OutletContextData<ItemListContext>
   ) {
-    useFeatureStyles('a11yCroppedFocusRing');
   }
 
   ngOnInit(): void {
