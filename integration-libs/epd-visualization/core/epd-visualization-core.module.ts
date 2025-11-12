@@ -10,7 +10,7 @@ import { SceneNodeToProductLookupService } from './services/scene-node-to-produc
 import { VisualizationLookupService } from './services/visualization-lookup/visualization-lookup.service';
 
 /**
- * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 @NgModule({
   providers: [
