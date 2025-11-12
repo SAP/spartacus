@@ -10,7 +10,6 @@ import {
   RoutingService,
   SearchConfig,
   TranslationService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';

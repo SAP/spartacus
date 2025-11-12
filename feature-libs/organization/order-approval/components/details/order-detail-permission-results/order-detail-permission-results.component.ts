@@ -5,7 +5,6 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
