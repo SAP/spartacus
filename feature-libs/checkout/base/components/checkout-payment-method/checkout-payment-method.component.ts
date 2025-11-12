@@ -155,11 +155,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       this.selectedMethod$,
       this.translationService.translate('paymentForm.useThisPayment'),
       this.translationService.translate('paymentCard.defaultPaymentMethod'),
-      this.featureConfigService?.isEnabled(
-        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
-      )
-        ? this.translationService.translate('paymentCard.selectedPayment')
-        : this.translationService.translate('paymentCard.selected'),
+      this.translationService.translate('paymentCard.selectedPayment')
     ]).pipe(
       tap(([paymentMethods, selectedMethod]) =>
         this.selectDefaultPaymentMethod(paymentMethods, selectedMethod)
@@ -335,11 +331,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     selected: PaymentDetails | undefined
   ): Card {
     const isSelected = selected?.id === paymentDetails.id;
-    const isButtonRole =
-      this.featureConfigService?.isEnabled(
-        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
-      ) && !isSelected;
-    const role = isButtonRole ? 'button' : 'application';
+    const role = !isSelected ? 'button' : 'application';
 
     return {
       role,

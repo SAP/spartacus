@@ -35,13 +35,6 @@ export interface FeatureTogglesInterface {
   a11yQuickOrderSearchListKeyboardNavigation?: boolean;
 
   /**
-   * If enabled, the "Checkout Shipping address/Payment" views
-   * will have a more a11y friendly selected label, including the context
-   * indicating weather the user is on a selected Address or Payment regsion.
-   */
-  a11ySelectLabelWithContextForSelectedAddrOrPayment?: boolean;
-
-  /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
    */
   a11yKeyboardAccessibleZoom?: boolean;
@@ -621,7 +614,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yTabsManualActivation: true,
   a11yAnonymousConsentMessageInDialog: true,
   a11yQuickOrderSearchListKeyboardNavigation: true,
-  a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
   a11yKeyboardAccessibleZoom: false,
   a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: true,

@@ -301,7 +301,6 @@ if (environment.cpq) {
         a11yTabsManualActivation: true,
         a11yAnonymousConsentMessageInDialog: true,
         a11yQuickOrderSearchListKeyboardNavigation: false,
-        a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
         a11yKeyboardAccessibleZoom: true,
         a11yTruncatedTextStoreFinder: true,
         a11yTruncatedTextUnitLevelOrderHistory: true,
