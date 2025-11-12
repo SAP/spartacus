@@ -290,8 +290,13 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.searchBoxComponentService.search(query, this.config);
 
     this.checkOuterResults();
-    // force the searchBox to open
-    this.open();
+    // Close search box if query is empty, otherwise open it
+    if (!query || query.trim().length === 0) {
+      this.close(true);
+    } else {
+      // force the searchBox to open
+      this.open();
+    }
   }
 
   /**
@@ -299,6 +304,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    */
   open(): void {
     if (!this.searchBoxActive) {
+      // Check if input has text before opening
+      const inputValue = this.searchInputEl?.nativeElement?.value || '';
+      if (!inputValue || inputValue.trim().length === 0) {
+        return; // Don't open if input is empty
+      }
       this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
       this.searchBoxActive = true;
       this.searchInputEl?.nativeElement.focus();
