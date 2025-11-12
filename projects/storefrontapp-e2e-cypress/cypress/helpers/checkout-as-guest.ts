@@ -89,16 +89,33 @@ export function testCheckoutAsGuest() {
   });
 }
 
-export function createAccountFromGuest(password: string) {
-  const homePage = waitForPage('homepage', 'getHomePage');
-  cy.intercept('GET', '**/users/current/carts**').as('getCartsAfterRegister');
+function fillGuestRegistrationForm(password: string) {
   cy.get('cx-guest-register-form').within(() => {
     cy.get('[formcontrolname="password"]').clear().type(password);
     cy.get('[formcontrolname="passwordconf"]').clear().type(password);
     cy.get('button[type=submit]').click();
   });
+}
 
-  cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
-  cy.wait('@getCartsAfterRegister');
-  cy.get('cx-page-slot.Section1 cx-banner');
+export function createAccountFromGuest(password: string, email?: string) {
+  cy.whenJDK17(() => {
+    const homePage = waitForPage('homepage', 'getHomePage');
+    fillGuestRegistrationForm(password);
+    cy.wait(`@${homePage}`);
+    cy.get('cx-page-slot.Section1 cx-banner');
+  });
+
+  cy.whenJDK21(() => {
+    const loginPage = waitForPage('/login', 'getLoginPage');
+    fillGuestRegistrationForm(password);
+    cy.wait(`@${loginPage}`);
+    cy.location('pathname').should('include', '/login');
+    cy.get('cx-login-form').within(() => {
+      cy.get('input[name="username"]')
+        .clear()
+        .type(guestUser?.email ?? email);
+      cy.get('input[name="password"]').clear().type(password);
+      cy.get('button[type="submit"]').click();
+    });
+  });
 }

@@ -164,10 +164,14 @@ if [[ "${SSR}" = true ]]; then
         npm run e2e:run:ci:ssr
     fi
 else
-    npm run start:pwa &
+    if [[ "$SUITE" == *"b2b"* ]]; then
+        npm run start:pwa:b2b &
+    else
+        npm run start:pwa &
+    fi
 
     echo '-----'
-    echo "Running Cypress end to end tests"
+    echo "Running All Cypress end to end tests"
     run_tests_for_suite "${SUITE}" "full"
 
 #    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
@@ -181,7 +185,7 @@ else
 #            run_tests_for_suite "${SUITE}" "core"
 #        fi
 #
-#   elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
+#    elif [ "${GITHUB_EVENT_NAME}" == "push" ]; then
 #        echo "Running Cypress end-to-end tests for push event"
 #
 #        if is_bot_commit; then

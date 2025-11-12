@@ -12,6 +12,9 @@ import {
 import { StorageV1Adapter } from './adapters/storage-v1/storage-v1.adapter';
 import { VisualizationV1Adapter } from './adapters/visualization-v1/visualization-v1.adapter';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @NgModule({
   providers: [
     { provide: SceneAdapter, useClass: StorageV1Adapter },

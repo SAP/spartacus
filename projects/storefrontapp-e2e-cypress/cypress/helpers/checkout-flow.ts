@@ -34,21 +34,6 @@ export const ELECTRONICS_CURRENCY = 'USD';
 export const GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS = 'GET_CHECKOUT_DETAILS';
 export const firstAddToCartSelector = `${productItemSelector} cx-add-to-cart:first`;
 
-function waitForInterceptionWithResponse(
-  alias: string,
-  timeout = 30000
-): Cypress.Chainable<Cypress.Interception> {
-  return cy.wait(`@${alias}`, { timeout }).then((i: Cypress.Interception) => {
-    if (!i.response) {
-      cy.log(
-        `Retry @${alias}: prima intercepție nu are response (probabil abort la navigare)`
-      );
-      return cy.wait(`@${alias}`, { timeout });
-    }
-    return i;
-  });
-}
-
 export function interceptCheckoutB2CDetailsEndpoint(newAlias?: string) {
   cy.intercept(
     'GET',
@@ -198,21 +183,24 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
     .find('.cx-summary-amount')
     .should('contain', cart.total);
 
+  fillShippingAddress(shippingAddressData);
+
+  const deliveryPage = waitForPage(
+    '/checkout/delivery-mode',
+    'getDeliveryPage'
+  );
+  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
+
+  /**
+   * Delivery mode PUT intercept is not in verifyDeliveryOptions()
+   * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
+   */
   cy.intercept({
     method: 'PUT',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/**/deliverymode?deliveryModeId=*`,
   }).as('putDeliveryMode');
-
-  const deliveryPage = waitForPage(
-    '/checkout/delivery-mode',
-    'getDeliveryPage'
-  );
-
-  fillShippingAddress(shippingAddressData);
-
-  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
 
   const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
@@ -510,21 +498,22 @@ export function fillPaymentFormWithCheapProduct(
 
   if (isExpressCheckout) return;
 
-  waitForInterceptionWithResponse(getCheckoutDetailsAlias, 30000).then(
-    ({ response }) => {
-      const { statusCode, body } = response!;
+  cy.wait(`@${getCheckoutDetailsAlias}`).then((xhr) => {
+    const response = xhr.response;
+    cy.log(
+      `Checkout details after payment step: ${JSON.stringify(
+        response.body,
+        null,
+        2
+      )}`
+    );
 
-      cy.log(
-        `Checkout details after payment step: ${JSON.stringify(body ?? {}, null, 2)}`
-      );
+    expect(response.statusCode).to.equal(200);
 
-      expect(statusCode).to.equal(200);
-      expect(body, 'checkout details body').to.be.an('object');
-      expect(body).to.have.property('deliveryAddress');
-      expect(body).to.have.property('deliveryMode');
-      expect(body).to.have.property('paymentInfo');
-    }
-  );
+    expect(response.body).to.have.property('deliveryAddress');
+    expect(response.body).to.have.property('deliveryMode');
+    expect(response.body).to.have.property('paymentInfo');
+  });
 }
 
 export function placeOrderWithCheapProduct(

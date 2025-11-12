@@ -27,12 +27,14 @@ context('Checkout as guest (desktop)', { testIsolation: true }, () => {
   beforeEach(() => {
     cy.viewport('macbook-16');
     cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
+
+    cy.intercept('GET', '**/cms/pages?lang=*&curr=*').as('getHomePage');
+
+    cy.intercept('GET', '**/users/current/carts**').as('getCartsAfterLogin');
   });
 
-  // flow-ul complet de checkout + crearea contului din guest
   guestCheckout.testCheckoutAsGuest();
 
-  // testul care verifică păstrarea produselor în cart după login
   it('should keep products in guest cart and restart checkout', () => {
     cy.whenJDK21(() => {
       cy.log('skip for JDK21, will be fix by CXSPA-10758');

@@ -149,7 +149,15 @@ export class CheckoutPaymentTypeComponent {
       .setPaymentType(code, this.poNumberInputElement.nativeElement.value)
       .subscribe({
         complete: () => this.onSuccess(),
-        error: () => this.onError(),
+        error: (error) => {
+          if (error.details?.[0]?.message) {
+            this.globalMessageService.add(
+              error.details?.[0]?.message,
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
+          }
+          this.onError();
+        },
       });
   }
 
