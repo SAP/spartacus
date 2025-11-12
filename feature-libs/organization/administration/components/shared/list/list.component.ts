@@ -43,7 +43,6 @@ export class ListComponent<T = any, P = PaginationModel> {
     protected service: ListService<T, P>,
     protected organizationItemService: ItemService<T>
   ) {
-    useFeatureStyles('a11yTextSpacingAdjustments');
   }
 
   @HostBinding('class')

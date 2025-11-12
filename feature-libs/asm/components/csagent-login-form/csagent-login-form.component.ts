@@ -28,7 +28,6 @@ export class CSAgentLoginFormComponent implements OnInit {
   submitEvent = new EventEmitter<{ userId: string; password: string }>();
 
   constructor(protected fb: UntypedFormBuilder) {
-    useFeatureStyles('a11yTextSpacingAdjustments');
   }
 
   ngOnInit(): void {

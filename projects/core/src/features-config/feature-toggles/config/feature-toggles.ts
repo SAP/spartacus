@@ -93,12 +93,6 @@ export interface FeatureTogglesInterface {
   a11yMiniCartFocusOnMobile?: boolean;
 
   /**
-   * Fixes text formatting issues while a11y text spacing is enabled.
-   * Affects: ListComponent, CSAgentLoginFormComponent
-   */
-  a11yTextSpacingAdjustments?: boolean;
-
-  /**
    * Ensures the table column header gets properly narrated by the screen readers.
    * Affects tables in the following components: SavedCartListComponent, ReplenishmentOrderHistoryComponent, OrderReturnRequestListComponent,
    * AccountSummaryDocumentComponent, OrderDetailPermissionResultsComponent, OrderApprovalListComponent, UnitLevelOrderHistoryComponent,
@@ -566,7 +560,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
   a11yMiniCartFocusOnMobile: true,
-  a11yTextSpacingAdjustments: true,
   a11yTableHeaderReadout: true,
   a11ySearchboxAssistiveMessage: true,
   updateConsentGivenInOnChanges: true,
