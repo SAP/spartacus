@@ -93,11 +93,6 @@ export interface FeatureTogglesInterface {
   a11yMiniCartFocusOnMobile?: boolean;
 
   /**
-   * Removes the repetition of assistive message after the results are provided to the `SearchBoxComponent`.
-   */
-  a11ySearchboxAssistiveMessage?: boolean;
-
-  /**
    * Updates the derivative `consentGiven` state when `consent` is updated.
    *
    * Components affected:
@@ -552,7 +547,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
   a11yMiniCartFocusOnMobile: true,
-  a11ySearchboxAssistiveMessage: true,
   updateConsentGivenInOnChanges: true,
   a11yDifferentiateFocusedAndSelected: true,
   a11yQuickOrderSearchBoxRefocusOnClose: true,
