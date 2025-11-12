@@ -5,4 +5,4 @@
  */
 
 export * from './subscription-product.model';
-export * from './subscription-billing.model';
+export * from './subscription.model';
