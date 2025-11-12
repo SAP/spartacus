@@ -29,7 +29,6 @@ import {
   FeatureConfigService,
   ProductCatalogService,
   UserIdService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
