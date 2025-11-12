@@ -1,11 +1,11 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { SubscriptionBillingService } from './subscription-billing.service';
+import { SubscriptionService } from './subscription.service';
 import {
   UserIdService,
   RoutingService,
   OCC_USER_ID_CURRENT,
 } from '@spartacus/core';
-import { SubscriptionBillingConnector } from '../connector';
+import { SubscriptionConnector } from '../connector';
 import createSpy = jasmine.createSpy;
 import { of, take } from 'rxjs';
 import {
@@ -82,33 +82,31 @@ class MockUserIdService implements Partial<UserIdService> {
 class MockRoutingService implements Partial<RoutingService> {
   getRouterState = createSpy().and.returnValue(of(mockRouteState));
 }
-class MockSubscriptionBillingConnector
-  implements Partial<SubscriptionBillingConnector>
-{
+class MockSubscriptionConnector implements Partial<SubscriptionConnector> {
   getSubscriptionByCode = createSpy().and.returnValue(of(mockDetail));
   getSubscriptionList = createSpy().and.returnValue(of(mockList));
 }
-describe('SubscriptionBillingService', () => {
-  let service: SubscriptionBillingService;
-  let connector: SubscriptionBillingConnector;
+describe('SubscriptionService', () => {
+  let service: SubscriptionService;
+  let connector: SubscriptionConnector;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        SubscriptionBillingService,
+        SubscriptionService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: RoutingService, useClass: MockRoutingService },
         {
-          provide: SubscriptionBillingConnector,
-          useClass: MockSubscriptionBillingConnector,
+          provide: SubscriptionConnector,
+          useClass: MockSubscriptionConnector,
         },
       ],
     });
-    service = TestBed.inject(SubscriptionBillingService);
-    connector = TestBed.inject(SubscriptionBillingConnector);
+    service = TestBed.inject(SubscriptionService);
+    connector = TestBed.inject(SubscriptionConnector);
   });
-  it('should inject SubscriptionBillingService', inject(
-    [SubscriptionBillingService],
-    (service: SubscriptionBillingService) => {
+  it('should inject SubscriptionService', inject(
+    [SubscriptionService],
+    (service: SubscriptionService) => {
       expect(service).toBeTruthy();
     }
   ));

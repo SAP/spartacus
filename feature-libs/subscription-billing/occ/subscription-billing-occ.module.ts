@@ -8,20 +8,20 @@ import { NgModule } from '@angular/core';
 import { defaultOccSubscriptionBillingConfig } from './config/default-occ-subscription-billing-config';
 import { provideDefaultConfig } from '@spartacus/core';
 import {
-  OccSubscriptionBillingAdapter,
+  OccSubscriptionAdapter,
   OccSubscriptionActionsAdapter,
 } from './adapters';
 import {
   SubscriptionActionsAdapter,
-  SubscriptionBillingAdapter,
+  SubscriptionAdapter,
 } from '@spartacus/subscription-billing/core';
 
 @NgModule({
   providers: [
     provideDefaultConfig(defaultOccSubscriptionBillingConfig),
     {
-      provide: SubscriptionBillingAdapter,
-      useClass: OccSubscriptionBillingAdapter,
+      provide: SubscriptionAdapter,
+      useClass: OccSubscriptionAdapter,
     },
     {
       provide: SubscriptionActionsAdapter,
