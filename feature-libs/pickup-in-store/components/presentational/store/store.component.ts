@@ -31,7 +31,7 @@ export class StoreComponent implements OnInit {
   readonly ICON_TYPE = ICON_TYPE;
 
   constructor() {
-    useFeatureStyles('a11yStoreInStockIconContrast');
+    
   }
 
   ngOnInit(): void {

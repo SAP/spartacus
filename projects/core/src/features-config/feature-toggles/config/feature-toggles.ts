@@ -88,11 +88,6 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * `StoreComponent` `In Stock` icon has an acceptable contrast ratio in a default theme
-   */
-  a11yStoreInStockIconContrast?: boolean;
-
-  /**
    * In `Card component`, replace button classes to .btn .btn-tertiary and use cx-generic link
    * instead of regular <a> tag.
    * In `My Preferred Store component`, replace a `Get directions` action from CardAction to CardLinkAction
@@ -612,7 +607,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yLinkBtnsToTertiaryBtns: false,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yStoreInStockIconContrast: true,
   a11yImproveButtonsInCardComponent: true,
   a11yMiniCartFocusOnMobile: true,
   a11yWrapReviewOrderInSection: true,
