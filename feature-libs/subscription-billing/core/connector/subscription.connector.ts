@@ -5,7 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { SubscriptionBillingAdapter } from './subscription-billing.adapter';
+import { SubscriptionAdapter } from './subscription.adapter';
 import { Observable } from 'rxjs';
 import {
   SubscriptionDetail,
@@ -13,8 +13,8 @@ import {
 } from '@spartacus/subscription-billing/root';
 
 @Injectable()
-export class SubscriptionBillingConnector {
-  protected adapter = inject(SubscriptionBillingAdapter);
+export class SubscriptionConnector {
+  protected adapter = inject(SubscriptionAdapter);
   public getSubscriptionByCode(
     userId: string,
     subscriptionCode: string

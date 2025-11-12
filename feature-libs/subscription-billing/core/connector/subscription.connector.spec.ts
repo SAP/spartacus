@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { SubscriptionBillingAdapter } from './subscription-billing.adapter';
-import { SubscriptionBillingConnector } from './subscription-billing.connector';
+import { SubscriptionAdapter } from './subscription.adapter';
+import { SubscriptionConnector } from './subscription.connector';
 import createSpy = jasmine.createSpy;
 import {
   SubscriptionDetail,
@@ -56,27 +56,25 @@ const mockList: SubscriptionList = {
     { code: 'byDateAsc', name: 'Date (asc)', selected: false },
   ],
 };
-class MockSubscriptionBillingAdapter
-  implements Partial<SubscriptionBillingAdapter>
-{
+class MockSubscriptionAdapter implements Partial<SubscriptionAdapter> {
   getSubscriptionByCode = createSpy().and.returnValue(of(mockDetail));
   getSubscriptionList = createSpy().and.returnValue(of(mockList));
 }
-describe('SubscriptionBillingConnector', () => {
-  let service: SubscriptionBillingConnector;
-  let adapter: SubscriptionBillingAdapter;
+describe('SubscriptionConnector', () => {
+  let service: SubscriptionConnector;
+  let adapter: SubscriptionAdapter;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        SubscriptionBillingConnector,
+        SubscriptionConnector,
         {
-          provide: SubscriptionBillingAdapter,
-          useClass: MockSubscriptionBillingAdapter,
+          provide: SubscriptionAdapter,
+          useClass: MockSubscriptionAdapter,
         },
       ],
     });
-    adapter = TestBed.inject(SubscriptionBillingAdapter);
-    service = TestBed.inject(SubscriptionBillingConnector);
+    adapter = TestBed.inject(SubscriptionAdapter);
+    service = TestBed.inject(SubscriptionConnector);
   });
   it('should create', () => {
     expect(service).toBeTruthy();

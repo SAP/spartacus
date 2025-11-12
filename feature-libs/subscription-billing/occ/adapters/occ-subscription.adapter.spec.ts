@@ -13,7 +13,7 @@ import {
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
 import { take } from 'rxjs';
-import { OccSubscriptionBillingAdapter } from './occ-subscription-billing.adapter';
+import { OccSubscriptionAdapter } from './occ-subscription.adapter';
 const mockDetail: SubscriptionDetail = {
   id: '01',
   documentNumber: '2081',
@@ -70,21 +70,21 @@ const MockOccModuleConfig: OccConfig = {
 const mockCustomerId = 'current';
 const mockSubscriptionId = '1';
 
-describe('OccSubscriptionBillingAdapter', () => {
-  let service: OccSubscriptionBillingAdapter;
+describe('OccSubscriptionAdapter', () => {
+  let service: OccSubscriptionAdapter;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        OccSubscriptionBillingAdapter,
+        OccSubscriptionAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });
-    service = TestBed.inject(OccSubscriptionBillingAdapter);
+    service = TestBed.inject(OccSubscriptionAdapter);
     httpMock = TestBed.inject(HttpTestingController);
   });
 
