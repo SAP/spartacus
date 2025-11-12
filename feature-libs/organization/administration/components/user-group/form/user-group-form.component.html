@@ -60,7 +60,7 @@
         formControlName="uid"
         [searchable]="true"
         [clearable]="false"
-        [items]="(units$ | async) ?? null"
+        [items]="(units$ | async) ?? []"
         bindLabel="name"
         bindValue="id"
         [readonly]="form.get('orgUnit.uid')?.disabled ?? false"
