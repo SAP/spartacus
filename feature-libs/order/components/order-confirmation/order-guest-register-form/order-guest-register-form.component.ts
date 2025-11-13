@@ -27,15 +27,7 @@ import { Subscription } from 'rxjs';
 })
 export class OrderGuestRegisterFormComponent implements OnDestroy {
   private featureConfigService = inject(FeatureConfigService);
-
-  protected passwordValidators = this.featureConfigService.isEnabled(
-    'enableSecurePasswordValidation'
-  )
-    ? CustomFormValidators.securePasswordValidators
-    : [
-        ...CustomFormValidators.passwordValidators,
-        CustomFormValidators.noConsecutiveCharacters,
-      ];
+  protected passwordValidators = CustomFormValidators.securePasswordValidators;
 
   @Input() guid: string;
   @Input() email: string;

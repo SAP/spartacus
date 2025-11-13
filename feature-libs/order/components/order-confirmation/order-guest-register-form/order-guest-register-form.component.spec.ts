@@ -35,15 +35,15 @@ class MockRoutingService implements Partial<RoutingService> {
 /** Mock control for FeatureConfigService.isEnabled() */
 const mockFeatureConfigServiceController: Pick<
   FeatureToggles,
-  'authorizationCodeFlowByDefault' | 'enableSecurePasswordValidation'
+  'authorizationCodeFlowByDefault'
 > = {
   authorizationCodeFlowByDefault: false,
-  enableSecurePasswordValidation: false,
 };
 
 class MockFeatureConfigService implements Partial<FeatureConfigService> {
   isEnabled = createSpy().and.callFake(
-    (flag) => mockFeatureConfigServiceController[flag] ?? false
+    () =>
+      mockFeatureConfigServiceController.authorizationCodeFlowByDefault ?? false
   );
 }
 
@@ -129,9 +129,7 @@ describe('OrderGuestRegisterFormComponent', () => {
   });
 
   describe('password validators', () => {
-    it('should have new validators when feature flag is enabled', () => {
-      mockFeatureConfigServiceController.enableSecurePasswordValidation = true;
-
+    it('should have secure password validators', () => {
       fixture = TestBed.createComponent(OrderGuestRegisterFormComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
