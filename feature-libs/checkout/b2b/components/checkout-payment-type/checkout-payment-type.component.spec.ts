@@ -273,11 +273,13 @@ describe('CheckoutPaymentTypeComponent', () => {
   });
 
   it('should make the po number input read-only when the cart has a quote PO number', () => {
-    component.isPONumberEditable$.pipe(
-      tap((isEditable) => {
-        expect(isEditable).toBeFalsy();
-      })
-    ).subscribe();
+    component.isPONumberEditable$
+      .pipe(
+        tap((isEditable) => {
+          expect(isEditable).toBeFalsy();
+        })
+      )
+      .subscribe();
     expect(
       el.query(By.css('#poNumberInput')).nativeElement.disabled
     ).toBeTruthy();
