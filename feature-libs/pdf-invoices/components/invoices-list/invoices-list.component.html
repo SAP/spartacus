@@ -54,36 +54,7 @@
             'pdfInvoices.invoicesTable.label' | cxTranslate
           }}"
         >
-          <thead
-            *cxFeature="'!a11yTableHeaderReadout'"
-            class="cx-invoices-list-thead-mobile"
-          >
-            <th scope="col">
-              {{ 'pdfInvoices.invoicesTable.invoiceId' | cxTranslate }}
-            </th>
-            <th scope="col">
-              {{ 'pdfInvoices.invoicesTable.createdAt' | cxTranslate }}
-            </th>
-            <th scope="col">
-              {{ 'pdfInvoices.invoicesTable.netAmount' | cxTranslate }}
-            </th>
-            <th scope="col">
-              {{ 'pdfInvoices.invoicesTable.totalAmount' | cxTranslate }}
-            </th>
-            <th scope="col">
-              <cx-icon
-                [type]="ICON_TYPE.DOWNLOAD"
-                class="cx-invoices-list-attachment-icon"
-                title="{{
-                  'pdfInvoices.invoicesTable.attachment' | cxTranslate
-                }}"
-              ></cx-icon>
-            </th>
-          </thead>
-          <thead
-            *cxFeature="'a11yTableHeaderReadout'"
-            class="cx-invoices-list-thead-mobile"
-          >
+          <thead class="cx-invoices-list-thead-mobile">
             <tr>
               <th scope="col">
                 {{ 'pdfInvoices.invoicesTable.invoiceId' | cxTranslate }}
