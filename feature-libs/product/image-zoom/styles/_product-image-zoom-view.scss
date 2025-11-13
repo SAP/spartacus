@@ -30,9 +30,7 @@ cx-product-image-zoom-view {
       .btn:focus,
       .btn:active {
         box-shadow: none;
-        @include forFeature('a11yCroppedFocusRing') {
-          outline-offset: -2px;
-        }
+        outline-offset: -2px;
       }
     }
     // TODO: (CXSPA-7492) - Remove feature flag next major release.
