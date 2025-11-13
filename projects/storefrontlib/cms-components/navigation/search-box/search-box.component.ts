@@ -306,7 +306,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     if (!this.searchBoxActive) {
       // Check if input has text before opening
       const inputValue = this.searchInputEl?.nativeElement?.value ?? '';
-      if (!inputValue || inputValue.trim().length === 0) {
+      if (!this.isMobile && (!inputValue || inputValue.trim().length === 0)) {
         return; // Don't open if input is empty
       }
       this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
