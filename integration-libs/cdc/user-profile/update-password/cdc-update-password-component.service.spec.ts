@@ -84,9 +84,9 @@ describe('CDCUpdatePasswordComponentService', () => {
   describe('save', () => {
     describe('success', () => {
       beforeEach(() => {
-        oldPassword.setValue('Old123!');
-        newPassword.setValue('New123!');
-        newPasswordConfirm.setValue('New123!');
+        oldPassword.setValue('Old1234!');
+        newPassword.setValue('New1234!');
+        newPasswordConfirm.setValue('New1234!');
         cdcJsService.updateUserPasswordWithoutScreenSet =
           createSpy().and.returnValue(of({ status: 'OK' }));
         TestBed.compileComponents();
@@ -97,7 +97,7 @@ describe('CDCUpdatePasswordComponentService', () => {
         expect(userService.update).not.toHaveBeenCalled();
         expect(
           cdcJsService.updateUserPasswordWithoutScreenSet
-        ).toHaveBeenCalledWith('Old123!', 'New123!');
+        ).toHaveBeenCalledWith('Old1234!', 'New1234!');
       });
 
       it('should show message', () => {
@@ -147,9 +147,9 @@ describe('CDCUpdatePasswordComponentService', () => {
       });
 
       it('should not update the password or logout the user if CDC invocation fails', (done) => {
-        oldPassword.setValue('Old123!');
-        newPassword.setValue('New123!');
-        newPasswordConfirm.setValue('New123!');
+        oldPassword.setValue('Old1234!');
+        newPassword.setValue('New1234!');
+        newPasswordConfirm.setValue('New1234!');
 
         service.updatePassword();
         expect(userService.update).not.toHaveBeenCalled();

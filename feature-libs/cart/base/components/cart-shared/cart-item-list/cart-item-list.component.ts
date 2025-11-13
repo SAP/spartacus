@@ -29,7 +29,6 @@ import {
   FeatureConfigService,
   ProductCatalogService,
   UserIdService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -100,9 +99,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     protected multiCartService: MultiCartFacade,
     protected cd: ChangeDetectorRef,
     @Optional() protected outlet?: OutletContextData<ItemListContext>
-  ) {
-    useFeatureStyles('a11yCroppedFocusRing');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.subscription.add(this.getInputsFromContext());
