@@ -82,6 +82,7 @@ import { EstimatedDeliveryDateFeatureModule } from './features/estimated-deliver
 import { OmfFeatureModule } from './features/omf/omf-feature.module';
 import { OpfFeatureModule } from './features/opf/opf-feature.module';
 import { OppsFeatureModule } from './features/opps/opps-feature.module';
+import { OrderDocumentFlowFeatureModule } from './features/order/order-document-flow-feature.module';
 import { OrderFeatureModule } from './features/order/order-feature.module';
 import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
 import { AdministrationFeatureModule } from './features/organization/organization-administration-feature.module';
@@ -107,10 +108,9 @@ import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 import { SegmentRefsFeatureModule } from './features/segment-refs/segment-refs-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StoreFinderFeatureModule } from './features/storefinder/storefinder-feature.module';
+import { SubscriptionBillingFeatureModule } from './features/subscription-billing/subscription-billing-feature.module';
 import { PersonalizationFeatureModule } from './features/tracking/personalization-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
-import { OrderDocumentFlowFeatureModule } from './features/order/order-document-flow-feature.module';
-import { SubscriptionBillingFeatureModule } from './features/subscription-billing/subscription-billing-feature.module';
 
 const featureModules = [];
 
@@ -356,7 +356,6 @@ if (environment.cpq) {
         a11yNgSelectAriaControls: true,
         a11yConfiguratorOverviewHeaderVPC: true,
         enableCarouselCategoryProducts: true,
-        enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
         enableReadDomainValuesOnDemand: true,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
