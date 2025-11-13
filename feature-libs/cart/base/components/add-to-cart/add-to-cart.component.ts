@@ -168,7 +168,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.showQuantity = false;
     }
 
-    
     if (this.realTimeStockEnabled && product.sapUnit?.sapCode) {
       this.productAvailabilityService
         .getRealTimeStock(this.productCode, product.sapUnit?.sapCode)
