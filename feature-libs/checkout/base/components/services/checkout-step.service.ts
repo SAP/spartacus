@@ -20,6 +20,10 @@ import { CheckoutFlowOrchestratorService } from './checkout-flow-orchestrator.se
   providedIn: 'root',
 })
 export class CheckoutStepService {
+  protected routingService = inject(RoutingService);
+  protected checkoutConfig = inject(CheckoutConfig);
+  protected routingConfigService = inject(RoutingConfigService);
+
   protected checkoutFlowOrchestratorService = inject(
     CheckoutFlowOrchestratorService
   );
@@ -54,11 +58,10 @@ export class CheckoutStepService {
       })
     );
 
-  constructor(
-    protected routingService: RoutingService,
-    protected checkoutConfig: CheckoutConfig,
-    protected routingConfigService: RoutingConfigService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.resetSteps();
   }
 

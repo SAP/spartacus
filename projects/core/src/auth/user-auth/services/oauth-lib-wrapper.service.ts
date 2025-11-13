@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
 import { Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
@@ -22,16 +22,19 @@ import { AuthConfigService } from './auth-config.service';
   providedIn: 'root',
 })
 export class OAuthLibWrapperService {
+  protected oAuthService = inject(OAuthService);
+  protected authConfigService = inject(AuthConfigService);
+  protected platformId = inject<Object>(PLATFORM_ID);
+  protected winRef = inject(WindowRef);
+
   private featureConfigService = inject(FeatureConfigService);
   events$: Observable<OAuthEvent> = this.oAuthService.events;
 
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
   // TODO: Remove platformId dependency in 4.0
-  constructor(
-    protected oAuthService: OAuthService,
-    protected authConfigService: AuthConfigService,
-    @Inject(PLATFORM_ID) protected platformId: Object,
-    protected winRef: WindowRef
-  ) {
+  constructor() {
     this.initialize();
   }
 

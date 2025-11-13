@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EntitiesModel } from '@spartacus/core';
 import {
   B2BUnitNode,
@@ -27,15 +27,22 @@ import { UnitTreeService } from './unit-tree.service';
   providedIn: 'root',
 })
 export class UnitListService extends ListService<B2BUnitTreeNode> {
+  protected tableService: TableService;
+  protected unitService = inject(OrgUnitService);
+  protected unitItemService = inject(UnitItemService);
+  protected unitTreeService = inject(UnitTreeService);
+
   protected tableType = OrganizationTableType.UNIT;
 
-  constructor(
-    protected tableService: TableService,
-    protected unitService: OrgUnitService,
-    protected unitItemService: UnitItemService,
-    protected unitTreeService: UnitTreeService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const tableService = inject(TableService);
+
     super(tableService);
+  
+    this.tableService = tableService;
   }
 
   protected load(): Observable<EntitiesModel<B2BUnitTreeNode> | undefined> {

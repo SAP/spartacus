@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   User,
   VerificationToken,
@@ -15,7 +15,12 @@ import { UserAccountAdapter } from './user-account.adapter';
 
 @Injectable()
 export class UserAccountConnector {
-  constructor(protected adapter: UserAccountAdapter) {}
+  protected adapter = inject(UserAccountAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   get(userId: string): Observable<User> {
     return this.adapter.load(userId);

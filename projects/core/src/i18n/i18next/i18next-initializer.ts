@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, OnDestroy, inject } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import type { InitOptions, i18n } from 'i18next';
 import { Subscription } from 'rxjs';
 import { LanguageService } from '../../site-context/facade/language.service';
@@ -19,14 +19,17 @@ import { I18NEXT_LOGGER_PLUGIN } from './i18next-plugins/i18next-logger-plugin';
  */
 @Injectable({ providedIn: 'root' })
 export class I18nextInitializer implements OnDestroy {
+  protected i18next = inject<i18n>(I18NEXT_INSTANCE);
+  protected config = inject(I18nConfig);
+  protected languageService = inject(LanguageService);
+  protected i18nextBackendService = inject(I18nextBackendService);
+
   loggerPlugin = inject(I18NEXT_LOGGER_PLUGIN);
 
-  constructor(
-    @Inject(I18NEXT_INSTANCE) protected i18next: i18n,
-    protected config: I18nConfig,
-    protected languageService: LanguageService,
-    protected i18nextBackendService: I18nextBackendService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Initializes the i18next instance.

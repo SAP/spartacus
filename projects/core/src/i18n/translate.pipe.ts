@@ -28,6 +28,9 @@ import { TranslationService } from './translation.service';
   standalone: false,
 })
 export class TranslatePipe implements PipeTransform, OnDestroy {
+  protected service = inject(TranslationService);
+  protected cd = inject(ChangeDetectorRef);
+
   private lastKey: string;
   private lastOptions: object;
   private translatedValue: string;
@@ -35,10 +38,10 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
 
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected service: TranslationService,
-    protected cd: ChangeDetectorRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   transform(
     input: Translatable | string | string[],

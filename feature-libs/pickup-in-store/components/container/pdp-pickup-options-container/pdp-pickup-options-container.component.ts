@@ -4,15 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewContainerRef, inject } from '@angular/core';
 import { Product } from '@spartacus/core';
 
 import {
@@ -57,6 +49,14 @@ function isProductWithCode(
   standalone: false,
 })
 export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
+  protected currentProductService = inject(CurrentProductService);
+  protected intendedPickupLocationService = inject(IntendedPickupLocationFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected pickupOptionFacade = inject(PickupOptionFacade);
+  protected preferredStoreFacade = inject(PreferredStoreFacade);
+  protected pickupLocationsSearchService = inject(PickupLocationsSearchFacade);
+  protected vcr = inject(ViewContainerRef);
+
   @Output() intendedPickupChange = new EventEmitter<
     AugmentedPointOfService | undefined
   >();
@@ -68,15 +68,10 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
   intendedPickupLocation$: Observable<AugmentedPointOfService | undefined>;
   private productCode: string;
 
-  constructor(
-    protected currentProductService: CurrentProductService,
-    protected intendedPickupLocationService: IntendedPickupLocationFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected pickupOptionFacade: PickupOptionFacade,
-    protected preferredStoreFacade: PreferredStoreFacade,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected vcr: ViewContainerRef
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     // Intentional empty constructor
   }
 

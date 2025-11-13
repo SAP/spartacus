@@ -31,6 +31,10 @@ import { OrderOverviewComponentService } from './order-overview-component.servic
   standalone: false,
 })
 export class OrderOverviewComponent {
+  protected translation = inject(TranslationService);
+  protected orderDetailsService = inject(OrderDetailsService);
+  protected component = inject<CmsComponentData<CmsOrderDetailOverviewComponent>>(CmsComponentData);
+
   protected orderOverviewComponentService = inject(
     OrderOverviewComponentService
   );
@@ -48,11 +52,10 @@ export class OrderOverviewComponent {
     map((data) => data.simple)
   );
 
-  constructor(
-    protected translation: TranslationService,
-    protected orderDetailsService: OrderDetailsService,
-    protected component: CmsComponentData<CmsOrderDetailOverviewComponent>
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
     return this.translation.translate('orderDetails.replenishmentId').pipe(

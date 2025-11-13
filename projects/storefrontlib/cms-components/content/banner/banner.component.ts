@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import {
   CmsBannerComponent,
   CmsService,
@@ -24,6 +24,10 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   standalone: false,
 })
 export class BannerComponent {
+  protected component = inject<CmsComponentData<CmsBannerComponent>>(CmsComponentData);
+  protected urlService = inject(SemanticPathService);
+  protected cmsService = inject(CmsService);
+
   routerLink: string | any[] | undefined;
 
   @HostBinding('class') styleClasses: string | undefined;
@@ -35,11 +39,10 @@ export class BannerComponent {
     })
   );
 
-  constructor(
-    protected component: CmsComponentData<CmsBannerComponent>,
-    protected urlService: SemanticPathService,
-    protected cmsService: CmsService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Returns `_blank` to force opening the link in a new window whenever the

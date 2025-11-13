@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ExportFileOptions } from '../export-file-options';
 import { FileDownloadService } from '../file-download.service';
 
@@ -12,7 +12,12 @@ import { FileDownloadService } from '../file-download.service';
   providedIn: 'root',
 })
 export class ExportCsvFileService {
-  constructor(protected fileDownloadService: FileDownloadService) {}
+  protected fileDownloadService = inject(FileDownloadService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
   /**
    * Converts array of objects into CSV data structure.
    *

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import {
   Budget,
@@ -18,11 +18,18 @@ import { CurrentItemService } from '../../shared/current-item.service';
   providedIn: 'root',
 })
 export class CurrentBudgetService extends CurrentItemService<Budget> {
-  constructor(
-    protected routingService: RoutingService,
-    protected budgetService: BudgetService
-  ) {
+  protected routingService: RoutingService;
+  protected budgetService = inject(BudgetService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const routingService = inject(RoutingService);
+
     super(routingService);
+  
+    this.routingService = routingService;
   }
 
   protected getDetailsRoute(): string {

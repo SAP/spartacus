@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, shareReplay } from 'rxjs/operators';
 import { ContextToken } from './context.model';
@@ -15,7 +15,12 @@ import { RoutingContextService } from './routing-context.service';
  */
 @Injectable({ providedIn: 'root' })
 export class ContextService {
-  constructor(protected routingContextService: RoutingContextService) {}
+  protected routingContextService = inject(RoutingContextService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Returns the context for the given token.

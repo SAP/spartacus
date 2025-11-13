@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Injector, Optional } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import {
   CmsSiteContextSelectorComponent,
   ContextServiceMap,
@@ -25,12 +25,14 @@ const LABELS: { [key: string]: string } = {
 
 @Injectable()
 export class SiteContextComponentService {
-  constructor(
-    @Optional()
-    protected componentData: CmsComponentData<CmsSiteContextSelectorComponent>,
-    private contextServiceMap: ContextServiceMap,
-    protected injector: Injector
-  ) {}
+  protected componentData = inject<CmsComponentData<CmsSiteContextSelectorComponent>>(CmsComponentData, { optional: true });
+  private contextServiceMap = inject(ContextServiceMap);
+  protected injector = inject(Injector);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   getItems(context?: SiteContextType): Observable<any> {
     return this.getService(context).pipe(

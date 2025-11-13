@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import { AuthService, Product, isNotNullable } from '@spartacus/core';
@@ -24,6 +19,10 @@ import { filter, map, take, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class AddToWishListComponent {
+  protected wishListFacade = inject(WishListFacade);
+  protected currentProductService = inject(CurrentProductService);
+  protected authService = inject(AuthService);
+
   product$: Observable<Product> = this.currentProductService.getProduct().pipe(
     filter(isNotNullable),
     tap((product) => this.setStockInfo(product))
@@ -47,11 +46,10 @@ export class AddToWishListComponent {
   hasStock = false;
   iconTypes = ICON_TYPE;
 
-  constructor(
-    protected wishListFacade: WishListFacade,
-    protected currentProductService: CurrentProductService,
-    protected authService: AuthService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   add(product: Product): void {
     if (product.code) {

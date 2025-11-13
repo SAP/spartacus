@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { PaginationConfig } from './config/pagination.config';
 import {
   PaginationItem,
@@ -50,7 +50,12 @@ const FALLBACK_PAGINATION_OPTIONS: PaginationOptions = {
   providedIn: 'root',
 })
 export class PaginationBuilder {
-  constructor(protected paginationConfig: PaginationConfig) {}
+  protected paginationConfig = inject(PaginationConfig);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Builds a list of `PaginationItem`. The give pageCount and current are used

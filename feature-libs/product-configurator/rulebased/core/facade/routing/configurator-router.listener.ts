@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { ConfiguratorQuantityService } from '../../services/configurator-quantity.service';
@@ -12,13 +12,16 @@ import { ConfiguratorCartService } from '../configurator-cart.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorRouterListener implements OnDestroy {
+  protected configuratorCartService = inject(ConfiguratorCartService);
+  protected routingService = inject(RoutingService);
+  protected configuratorQuantityService = inject(ConfiguratorQuantityService);
+
   protected subscription = new Subscription();
 
-  constructor(
-    protected configuratorCartService: ConfiguratorCartService,
-    protected routingService: RoutingService,
-    protected configuratorQuantityService: ConfiguratorQuantityService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.observeRouterChanges();
   }
 

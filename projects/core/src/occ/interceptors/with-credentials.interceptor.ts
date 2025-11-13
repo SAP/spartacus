@@ -10,7 +10,7 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OccConfig } from '../config/occ-config';
 
@@ -19,7 +19,12 @@ import { OccConfig } from '../config/occ-config';
  */
 @Injectable({ providedIn: 'root' })
 export class WithCredentialsInterceptor implements HttpInterceptor {
-  constructor(protected config: OccConfig) {}
+  protected config = inject(OccConfig);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Intercepts each request and adds the `withCredential` flag to it

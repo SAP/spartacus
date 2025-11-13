@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UserPaymentAdapter } from './user-payment.adapter';
 import { Observable } from 'rxjs';
 import { PaymentDetails } from '../../../model/payment.model';
@@ -13,7 +13,12 @@ import { PaymentDetails } from '../../../model/payment.model';
   providedIn: 'root',
 })
 export class UserPaymentConnector {
-  constructor(protected adapter: UserPaymentAdapter) {}
+  protected adapter = inject(UserPaymentAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   getAll(userId: string): Observable<PaymentDetails[]> {
     return this.adapter.loadAll(userId);

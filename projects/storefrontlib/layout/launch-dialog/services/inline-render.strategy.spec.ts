@@ -1,9 +1,4 @@
-import {
-  Component,
-  ComponentFactory,
-  ComponentFactoryResolver,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, ComponentFactory, ComponentFactoryResolver, ViewContainerRef, inject as inject_1 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LayoutConfig } from '../../config/layout-config';
 import { LaunchInlineDialog, LAUNCH_CALLER } from '../config';
@@ -16,7 +11,12 @@ const testTemplate = {} as ComponentFactory<any>;
   standalone: false,
 })
 class TestContainerComponent {
-  constructor(public vcr: ViewContainerRef) {}
+  vcr = inject_1(ViewContainerRef);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 }
 
 const mockLaunchConfig: LayoutConfig = {

@@ -34,6 +34,12 @@ import { combineLatest, map, Observable } from 'rxjs';
   standalone: false,
 })
 export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
+  protected orderFacade = inject(OrderFacade);
+  protected routingService = inject(RoutingService);
+  protected fb = inject(UntypedFormBuilder);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+
   placedOrder: void | Observable<ComponentRef<any> | undefined>;
   params$ = new Observable<string[]>();
   checkoutSubmitForm: UntypedFormGroup = this.fb.group({
@@ -47,13 +53,10 @@ export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
     return this.checkoutSubmitForm.invalid;
   }
 
-  constructor(
-    protected orderFacade: OrderFacade,
-    protected routingService: RoutingService,
-    protected fb: UntypedFormBuilder,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     this.params$ = combineLatest([

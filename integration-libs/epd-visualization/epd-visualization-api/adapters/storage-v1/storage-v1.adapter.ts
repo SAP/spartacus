@@ -34,13 +34,16 @@ import { catchError } from 'rxjs/operators';
  */
 @Injectable()
 export class StorageV1Adapter implements SceneAdapter {
+  protected http = inject(HttpClient);
+  protected epdVisualizationConfig = inject(EpdVisualizationConfig);
+  protected converter = inject(ConverterService);
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected http: HttpClient,
-    protected epdVisualizationConfig: EpdVisualizationConfig,
-    protected converter: ConverterService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.baseUrl = this.getBaseUrl();
   }
 

@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit, inject } from '@angular/core';
 import { CmsLinkComponent } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -22,13 +16,18 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   standalone: false,
 })
 export class LinkComponent implements OnDestroy, OnInit {
+  protected component = inject<CmsComponentData<CmsLinkComponent>>(CmsComponentData);
+
   @HostBinding('class') styleClasses: string | undefined;
 
   data$: Observable<CmsLinkComponent> = this.component.data$;
 
   protected subscriptions: Subscription = new Subscription();
 
-  constructor(protected component: CmsComponentData<CmsLinkComponent>) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.subscriptions.add(

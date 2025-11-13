@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Observable, forkJoin, of } from 'rxjs';
 import { concatMap, filter, map, take } from 'rxjs/operators';
 
@@ -23,13 +23,16 @@ import { Product, ProductScope, ProductService } from '@spartacus/core';
   standalone: false,
 })
 export class AsmCustomer360SavedCartComponent {
+  protected sectionContext = inject<AsmCustomer360SectionContext<AsmCustomer360SavedCart>>(AsmCustomer360SectionContext);
+  protected productService = inject(ProductService);
+
   savedCart$: Observable<CustomerCart | undefined>;
   productItems$: Observable<Array<ProductItem>>;
 
-  constructor(
-    protected sectionContext: AsmCustomer360SectionContext<AsmCustomer360SavedCart>,
-    protected productService: ProductService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.savedCart$ = this.sectionContext.data$.pipe(
       map((cart) => {
         return cart.savedCart;

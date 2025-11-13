@@ -43,6 +43,12 @@ import { debounceTime } from 'rxjs/operators';
   standalone: false,
 })
 export class CustomerSelectionComponent implements OnInit, OnDestroy {
+  protected fb = inject(UntypedFormBuilder);
+  protected asmService = inject(AsmService);
+  protected config = inject(AsmConfig);
+  protected directionService = inject(DirectionService);
+  protected launchDialogService = inject(LaunchDialogService);
+
   customerSelectionForm: UntypedFormGroup;
   protected subscription = new Subscription();
   searchResultsLoading$: Observable<boolean>;
@@ -71,13 +77,10 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     ElementRef<HTMLElement>
   >;
 
-  constructor(
-    protected fb: UntypedFormBuilder,
-    protected asmService: AsmService,
-    protected config: AsmConfig,
-    protected directionService: DirectionService,
-    protected launchDialogService: LaunchDialogService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.customerSelectionForm = this.fb.group({

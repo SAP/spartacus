@@ -12,12 +12,19 @@ import { I18nConfig } from './config/i18n-config';
   providedIn: 'root',
 })
 export class TranslationChunkService {
+  protected config = inject(I18nConfig);
+
   protected duplicates: { [key: string]: string[] } = {};
   protected chunks: { [key: string]: string } = {};
 
   protected logger = inject(LoggerService);
 
-  constructor(protected config: I18nConfig) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const config = this.config;
+
     const chunks = (config.i18n && config.i18n.chunks) || {};
     Object.keys(chunks).forEach((chunk) => {
       chunks[chunk].forEach((key) => {

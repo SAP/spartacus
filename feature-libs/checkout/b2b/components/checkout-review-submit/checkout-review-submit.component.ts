@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
@@ -36,19 +36,29 @@ import { filter, map } from 'rxjs/operators';
   standalone: false,
 })
 export class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitComponent {
+  protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
+  protected checkoutPaymentFacade: CheckoutPaymentFacade;
+  protected activeCartFacade: ActiveCartFacade;
+  protected translationService: TranslationService;
+  protected checkoutStepService: CheckoutStepService;
+  protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
+  protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+  protected checkoutCostCenterFacade = inject(CheckoutCostCenterFacade);
+  protected userCostCenterService = inject(UserCostCenterService);
+
   checkoutStepTypePaymentType = CheckoutStepType.PAYMENT_TYPE;
 
-  constructor(
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected activeCartFacade: ActiveCartFacade,
-    protected translationService: TranslationService,
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected userCostCenterService: UserCostCenterService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const checkoutDeliveryAddressFacade = inject(CheckoutDeliveryAddressFacade);
+    const checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+    const activeCartFacade = inject(ActiveCartFacade);
+    const translationService = inject(TranslationService);
+    const checkoutStepService = inject(CheckoutStepService);
+    const checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
+
     super(
       checkoutDeliveryAddressFacade,
       checkoutPaymentFacade,
@@ -57,6 +67,13 @@ export class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitCompon
       checkoutStepService,
       checkoutDeliveryModesFacade
     );
+  
+    this.checkoutDeliveryAddressFacade = checkoutDeliveryAddressFacade;
+    this.checkoutPaymentFacade = checkoutPaymentFacade;
+    this.activeCartFacade = activeCartFacade;
+    this.translationService = translationService;
+    this.checkoutStepService = checkoutStepService;
+    this.checkoutDeliveryModesFacade = checkoutDeliveryModesFacade;
   }
 
   get poNumber$(): Observable<string | undefined> {

@@ -22,11 +22,16 @@ import { RoutingService } from '@spartacus/core';
   standalone: false,
 })
 export class ForgotPasswordComponent {
+  protected service = inject(ForgotPasswordComponentService);
+
   @Optional() protected routingService = inject(RoutingService, {
     optional: true,
   });
 
-  constructor(protected service: ForgotPasswordComponentService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;

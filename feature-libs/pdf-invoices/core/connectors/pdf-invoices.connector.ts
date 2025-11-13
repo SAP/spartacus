@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   InvoiceQueryParams,
   OrderInvoiceList,
@@ -16,7 +16,12 @@ import { PDFInvoicesAdapter } from './pdf-invoices.adapter';
   providedIn: 'root',
 })
 export class PDFInvoicesConnector {
-  constructor(protected adapter: PDFInvoicesAdapter) {}
+  protected adapter = inject(PDFInvoicesAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   public getInvoicesForOrder(
     userId: string,

@@ -22,17 +22,28 @@ import { PunchoutDetectionService } from './punchout-detection.service';
   providedIn: 'root',
 })
 export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
+  protected authService: AuthService;
+  protected authStorageService: AuthStorageService;
+  protected oAuthLibWrapperService: OAuthLibWrapperService;
+  protected routingService: RoutingService;
+  protected globalMessageService: GlobalMessageService;
+  protected occEndpointsService: OccEndpointsService;
+  protected authRedirectService: AuthRedirectService;
+
   protected punchoutDetectionService = inject(PunchoutDetectionService);
   protected punchoutFacade = inject(PunchoutFacade);
-  constructor(
-    protected authService: AuthService,
-    protected authStorageService: AuthStorageService,
-    protected oAuthLibWrapperService: OAuthLibWrapperService,
-    protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService,
-    protected occEndpointsService: OccEndpointsService,
-    protected authRedirectService: AuthRedirectService
-  ) {
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {
+    const authService = inject(AuthService);
+    const authStorageService = inject(AuthStorageService);
+    const oAuthLibWrapperService = inject(OAuthLibWrapperService);
+    const routingService = inject(RoutingService);
+    const globalMessageService = inject(GlobalMessageService);
+    const occEndpointsService = inject(OccEndpointsService);
+    const authRedirectService = inject(AuthRedirectService);
+
     super(
       authService,
       authStorageService,
@@ -42,6 +53,14 @@ export class PunchoutAuthHttpHeaderService extends AuthHttpHeaderService {
       globalMessageService,
       authRedirectService
     );
+  
+    this.authService = authService;
+    this.authStorageService = authStorageService;
+    this.oAuthLibWrapperService = oAuthLibWrapperService;
+    this.routingService = routingService;
+    this.globalMessageService = globalMessageService;
+    this.occEndpointsService = occEndpointsService;
+    this.authRedirectService = authRedirectService;
   }
 
   /**

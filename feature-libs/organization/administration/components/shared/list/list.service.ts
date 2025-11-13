@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EntitiesModel, PaginationModel, Translatable } from '@spartacus/core';
 import {
   ResponsiveTableConfiguration,
@@ -33,6 +33,8 @@ export enum CreateButtonType {
 
 @Injectable()
 export abstract class ListService<T, P = PaginationModel> {
+  protected tableService = inject(TableService);
+
   /**
    * The default table structure is used to add the default configuration for all
    * organization list related tables. This avoids a lot of boilerplate configuration.
@@ -84,7 +86,10 @@ export abstract class ListService<T, P = PaginationModel> {
     pageSize: 10,
   } as any as P);
 
-  constructor(protected tableService: TableService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Indicates the unique key for the item model. The key is different for various

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { useFeatureStyles } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
@@ -17,9 +17,14 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class OrderDetailPermissionResultsComponent {
+  protected orderDetailsService = inject(OrderDetailsService);
+
   order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
 
-  constructor(protected orderDetailsService: OrderDetailsService) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     useFeatureStyles('a11yTableHeaderReadout');
   }
 }

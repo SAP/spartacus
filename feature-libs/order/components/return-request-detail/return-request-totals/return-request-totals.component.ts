@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
 import { ReturnRequest } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { ReturnRequestService } from '../return-request.service';
@@ -16,7 +16,12 @@ import { ReturnRequestService } from '../return-request.service';
   standalone: false,
 })
 export class ReturnRequestTotalsComponent implements OnDestroy {
-  constructor(protected returnRequestService: ReturnRequestService) {}
+  protected returnRequestService = inject(ReturnRequestService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   returnRequest$: Observable<ReturnRequest> =
     this.returnRequestService.getReturnRequest();

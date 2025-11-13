@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { B2BUser, EntitiesModel, PaginationModel } from '@spartacus/core';
 import {
   B2BUserService,
@@ -21,15 +21,22 @@ import { SubListService } from '../../shared/sub-list/sub-list.service';
   providedIn: 'root',
 })
 export class UserPermissionListService extends SubListService<Permission> {
+  protected tableService: TableService;
+  protected userService = inject(B2BUserService);
+  protected permissionService = inject(PermissionService);
+
   protected tableType = OrganizationTableType.USER_PERMISSIONS;
   protected _domainType = OrganizationTableType.PERMISSION;
 
-  constructor(
-    protected tableService: TableService,
-    protected userService: B2BUserService,
-    protected permissionService: PermissionService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const tableService = inject(TableService);
+
     super(tableService);
+  
+    this.tableService = tableService;
   }
 
   protected load(

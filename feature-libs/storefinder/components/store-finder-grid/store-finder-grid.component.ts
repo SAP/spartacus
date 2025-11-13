@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GeoPoint } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
@@ -17,16 +17,19 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class StoreFinderGridComponent implements OnInit {
+  private storeFinderService = inject(StoreFinderService);
+  private route = inject(ActivatedRoute);
+
   defaultLocation: GeoPoint;
   country: string;
   region: string;
   locations$: any;
   isLoading$: Observable<boolean>;
 
-  constructor(
-    private storeFinderService: StoreFinderService,
-    private route: ActivatedRoute
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     this.isLoading$ = this.storeFinderService.getStoresLoading();

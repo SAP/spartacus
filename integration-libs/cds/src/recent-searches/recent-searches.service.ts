@@ -4,16 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { interval, last, of, ReplaySubject } from 'rxjs';
 import { concatMap, map, take, takeWhile } from 'rxjs/operators';
 import { WindowRef } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class RecentSearchesService {
+  protected winRef = inject(WindowRef);
+
   private readonly recentSearchesSource = new ReplaySubject<string[]>();
   public recentSearches$ = this.recentSearchesSource.asObservable();
-  constructor(protected winRef: WindowRef) {
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {
     if (this.winRef.isBrowser()) {
       this.addRecentSearchesListener();
     }

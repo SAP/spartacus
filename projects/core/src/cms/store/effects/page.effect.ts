@@ -29,6 +29,10 @@ import { CmsActions } from '../actions/index';
 
 @Injectable()
 export class PageEffects {
+  private actions$ = inject(Actions);
+  private cmsPageConnector = inject(CmsPageConnector);
+  private routingService = inject(RoutingService);
+
   protected logger = inject(LoggerService);
 
   refreshPage$: Observable<Action> = createEffect(() =>
@@ -106,10 +110,4 @@ export class PageEffects {
       )
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private cmsPageConnector: CmsPageConnector,
-    private routingService: RoutingService
-  ) {}
 }

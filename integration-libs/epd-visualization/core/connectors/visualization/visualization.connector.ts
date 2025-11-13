@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UsageId } from '@spartacus/epd-visualization/root';
 import { Observable } from 'rxjs';
 import { LookupVisualizationsResponse } from './lookup-visualizations-response';
@@ -17,7 +17,12 @@ import { VisualizationAdapter } from './visualization.adapter';
   providedIn: 'root',
 })
 export class VisualizationConnector {
-  constructor(protected visualizationAdapter: VisualizationAdapter) {}
+  protected visualizationAdapter = inject(VisualizationAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Used for finding a visualization by Usage ID that has anonymous (unauthenticated) read access enabled.

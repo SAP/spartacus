@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   AsmCustomer360Request,
   AsmCustomer360Response,
@@ -17,7 +17,12 @@ import { AsmCustomer360Adapter } from './asm-customer-360.adapter';
   providedIn: 'root',
 })
 export class AsmCustomer360Connector {
-  constructor(protected asmCustomer360Adapter: AsmCustomer360Adapter) {}
+  protected asmCustomer360Adapter = inject(AsmCustomer360Adapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   getAsmCustomer360Data(
     request: AsmCustomer360Request

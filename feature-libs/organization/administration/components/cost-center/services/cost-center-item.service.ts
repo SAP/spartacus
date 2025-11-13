@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CostCenter, RoutingService } from '@spartacus/core';
 import {
   CostCenterService,
@@ -19,13 +19,24 @@ import { CurrentCostCenterService } from './current-cost-center.service';
   providedIn: 'root',
 })
 export class CostCenterItemService extends ItemService<CostCenter> {
-  constructor(
-    protected currentItemService: CurrentCostCenterService,
-    protected routingService: RoutingService,
-    protected formService: CostCenterFormService,
-    protected costCenterService: CostCenterService
-  ) {
+  protected currentItemService: CurrentCostCenterService;
+  protected routingService: RoutingService;
+  protected formService: CostCenterFormService;
+  protected costCenterService = inject(CostCenterService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const currentItemService = inject(CurrentCostCenterService);
+    const routingService = inject(RoutingService);
+    const formService = inject(CostCenterFormService);
+
     super(currentItemService, routingService, formService);
+  
+    this.currentItemService = currentItemService;
+    this.routingService = routingService;
+    this.formService = formService;
   }
 
   load(code: string): Observable<CostCenter> {

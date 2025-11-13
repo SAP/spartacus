@@ -34,6 +34,12 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   standalone: false,
 })
 export class CheckoutReviewShippingComponent {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
+  protected checkoutDeliveryAddressFacade = inject(CheckoutDeliveryAddressFacade);
+  protected translationService = inject(TranslationService);
+  protected checkoutStepService = inject(CheckoutStepService);
+
   protected featureConfig = inject(FeatureConfigService);
 
   readonly cartOutlets = CartOutlets;
@@ -46,13 +52,10 @@ export class CheckoutReviewShippingComponent {
     CheckoutStepType.DELIVERY_MODE
   );
 
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected translationService: TranslationService,
-    protected checkoutStepService: CheckoutStepService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   entries$: Observable<OrderEntry[]> =
     this.activeCartFacade.getDeliveryEntries();

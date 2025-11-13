@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Directive, ElementRef, HostListener, OnInit, inject } from '@angular/core';
 import { MOVE_FOCUS, TrapFocusConfig } from '../keyboard-focus.model';
 import { TabFocusDirective } from '../tab/tab-focus.directive';
 import { TrapFocusService } from './trap-focus.service';
@@ -15,6 +15,9 @@ import { TrapFocusService } from './trap-focus.service';
  */
 @Directive() // selector: '[cxTrapFocus]'
 export class TrapFocusDirective extends TabFocusDirective implements OnInit {
+  protected elementRef: ElementRef;
+  protected service: TrapFocusService;
+
   protected defaultConfig: TrapFocusConfig = { trap: true };
 
   // @Input('cxTrapFocus')
@@ -38,11 +41,17 @@ export class TrapFocusDirective extends TabFocusDirective implements OnInit {
     }
   };
 
-  constructor(
-    protected elementRef: ElementRef,
-    protected service: TrapFocusService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const elementRef = inject(ElementRef);
+    const service = inject(TrapFocusService);
+
     super(elementRef, service);
+  
+    this.elementRef = elementRef;
+    this.service = service;
   }
 
   /**

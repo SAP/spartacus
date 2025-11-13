@@ -24,16 +24,18 @@ import { CmsPageGuardService } from './cms-page-guard.service';
   providedIn: 'root',
 })
 export class CmsPageGuard {
+  protected routingService = inject(RoutingService);
+  protected cmsService = inject(CmsService);
+  protected protectedRoutesGuard = inject(ProtectedRoutesGuard);
+  protected service = inject(CmsPageGuardService);
+  protected routingConfig = inject(RoutingConfigService);
+
   static guardName = 'CmsPageGuard';
 
-  constructor(
-    protected routingService: RoutingService,
-    protected cmsService: CmsService,
-    /** since 2211.24 not used anymore, but called indirectly via {@link BeforeCmsPageGuardService} */
-    protected protectedRoutesGuard: ProtectedRoutesGuard,
-    protected service: CmsPageGuardService,
-    protected routingConfig: RoutingConfigService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected beforeCmsPageGuardService = inject(BeforeCmsPageGuardService);
 

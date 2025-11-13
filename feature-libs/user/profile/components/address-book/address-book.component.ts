@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   Address,
   GlobalMessageService,
@@ -22,6 +22,10 @@ import { Card, getAddressNumbers } from '@spartacus/storefront';
   standalone: false,
 })
 export class AddressBookComponent implements OnInit {
+  service = inject(AddressBookComponentService);
+  protected translation = inject(TranslationService);
+  protected globalMessageService = inject(GlobalMessageService);
+
   addresses$: Observable<Address[]>;
   cards$: Observable<Card[]>;
   addressesStateLoading$: Observable<boolean>;
@@ -31,11 +35,10 @@ export class AddressBookComponent implements OnInit {
   showEditAddressForm = false;
   editCard: string | null;
 
-  constructor(
-    public service: AddressBookComponentService,
-    protected translation: TranslationService,
-    protected globalMessageService: GlobalMessageService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.addresses$ = this.service.getAddresses();

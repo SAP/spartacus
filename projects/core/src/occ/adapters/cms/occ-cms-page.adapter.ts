@@ -33,15 +33,18 @@ export interface OccCmsPageRequest {
   providedIn: 'root',
 })
 export class OccCmsPageAdapter implements CmsPageAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
   protected readonly userIdService = inject(UserIdService);
   protected readonly featureConfigService = inject(FeatureConfigService);
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * @override returns the OCC CMS page data for the given context and converts

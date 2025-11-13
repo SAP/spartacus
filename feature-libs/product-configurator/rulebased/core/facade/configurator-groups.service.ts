@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
@@ -21,12 +21,15 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
  */
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorGroupsService {
-  constructor(
-    protected store: Store<StateWithConfigurator>,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorUtilsService: ConfiguratorUtilsService,
-    protected configuratorGroupStatusService: ConfiguratorGroupStatusService
-  ) {}
+  protected store = inject<Store<StateWithConfigurator>>(Store);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configuratorUtilsService = inject(ConfiguratorUtilsService);
+  protected configuratorGroupStatusService = inject(ConfiguratorGroupStatusService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Returns the current group Id.

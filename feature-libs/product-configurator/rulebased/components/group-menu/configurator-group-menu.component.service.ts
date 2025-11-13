@@ -4,12 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ElementRef, Injectable, QueryList } from '@angular/core';
+import { ElementRef, Injectable, QueryList, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorGroupMenuService {
-  constructor(protected windowRef: WindowRef) {}
+  protected windowRef = inject(WindowRef);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Retrieves the focused group index.

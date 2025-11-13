@@ -17,12 +17,10 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class ProductInterestsEffect {
-  protected logger = inject(LoggerService);
+  private actions$ = inject(Actions);
+  private userInterestsConnector = inject(UserInterestsConnector);
 
-  constructor(
-    private actions$: Actions,
-    private userInterestsConnector: UserInterestsConnector
-  ) {}
+  protected logger = inject(LoggerService);
 
   loadProductInteres$: Observable<UserActions.ProductInterestsAction> =
     createEffect(() =>

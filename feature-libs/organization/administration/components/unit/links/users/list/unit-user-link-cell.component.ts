@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 import {
@@ -32,13 +32,20 @@ import { CellComponent } from '../../../../shared/table/cell.component';
   standalone: false,
 })
 export class UnitUserRolesCellComponent extends CellComponent {
+  protected outlet: OutletContextData<TableDataOutletContext>;
+  protected itemService = inject<ItemService<B2BUnit>>(ItemService);
+  protected b2bUserService = inject(B2BUserService);
+
   unitKey$: Observable<string> = this.itemService.key$;
-  constructor(
-    protected outlet: OutletContextData<TableDataOutletContext>,
-    protected itemService: ItemService<B2BUnit>,
-    protected b2bUserService: B2BUserService
-  ) {
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {
+    const outlet = inject<OutletContextData<TableDataOutletContext>>(OutletContextData);
+
     super(outlet);
+  
+    this.outlet = outlet;
   }
   isUpdatingUserAllowed = this.b2bUserService.isUpdatingUserAllowed();
   getRouterModel(uid: string): any {

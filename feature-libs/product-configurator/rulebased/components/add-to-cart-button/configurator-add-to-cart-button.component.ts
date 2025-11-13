@@ -57,6 +57,18 @@ const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
   standalone: false,
 })
 export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
+  protected routingService = inject(RoutingService);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+  protected configuratorCartService = inject(ConfiguratorCartService);
+  protected configuratorGroupsService = inject(ConfiguratorGroupsService);
+  protected configRouterExtractorService = inject(ConfiguratorRouterExtractorService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected orderHistoryFacade = inject(OrderHistoryFacade);
+  protected commonConfiguratorUtilsService = inject(CommonConfiguratorUtilsService);
+  protected configUtils = inject(ConfiguratorStorefrontUtilsService);
+  protected intersectionService = inject(IntersectionService);
+  protected configuratorQuantityService = inject(ConfiguratorQuantityService);
+
   protected subscription = new Subscription();
   protected multiCartFacade = inject(MultiCartFacade);
   protected focusService = inject(KeyboardFocusService);
@@ -90,19 +102,10 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     )
   );
 
-  constructor(
-    protected routingService: RoutingService,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorCartService: ConfiguratorCartService,
-    protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected globalMessageService: GlobalMessageService,
-    protected orderHistoryFacade: OrderHistoryFacade,
-    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
-    protected configUtils: ConfiguratorStorefrontUtilsService,
-    protected intersectionService: IntersectionService,
-    protected configuratorQuantityService: ConfiguratorQuantityService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.makeAddToCartButtonSticky();

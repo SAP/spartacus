@@ -42,6 +42,14 @@ type updateConfigurationSuccessResultType =
  * and CPQ
  */
 export class ConfiguratorBasicEffects {
+  protected actions$ = inject(Actions);
+  protected configuratorCommonsConnector = inject(RulebasedConfiguratorConnector);
+  protected commonConfigUtilsService = inject(CommonConfiguratorUtilsService);
+  protected configuratorGroupUtilsService = inject(ConfiguratorUtilsService);
+  protected configuratorGroupStatusService = inject(ConfiguratorGroupStatusService);
+  protected store = inject<Store<StateWithConfigurator>>(Store);
+  protected configuratorBasicEffectService = inject(ConfiguratorBasicEffectService);
+
   protected logger = inject(LoggerService);
 
   createConfiguration$: Observable<
@@ -511,14 +519,4 @@ export class ConfiguratorBasicEffects {
         })
       )
     );
-
-  constructor(
-    protected actions$: Actions,
-    protected configuratorCommonsConnector: RulebasedConfiguratorConnector,
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected configuratorGroupUtilsService: ConfiguratorUtilsService,
-    protected configuratorGroupStatusService: ConfiguratorGroupStatusService,
-    protected store: Store<StateWithConfigurator>,
-    protected configuratorBasicEffectService: ConfiguratorBasicEffectService
-  ) {}
 }

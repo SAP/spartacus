@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  OnDestroy,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { RoutingService, TranslationService } from '@spartacus/core';
 import {
   ReplenishmentOrder,
@@ -29,6 +22,12 @@ import { map, take, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class ReplenishmentOrderHistoryComponent implements OnDestroy {
+  protected routing = inject(RoutingService);
+  protected replenishmentOrderHistoryFacade = inject(ReplenishmentOrderHistoryFacade);
+  protected translation = inject(TranslationService);
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   @ViewChild('element') element: ElementRef;
 
   private subscription = new Subscription();
@@ -50,13 +49,10 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   isLoaded$: Observable<boolean> =
     this.replenishmentOrderHistoryFacade.getReplenishmentOrderHistoryListSuccess();
 
-  constructor(
-    protected routing: RoutingService,
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
-    protected translation: TranslationService,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   changeSortCode(sortCode: string): void {
     const event: { sortCode: string; currentPage: number } = {

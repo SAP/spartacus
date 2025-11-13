@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AddToHomeScreenService } from '../../services/add-to-home-screen.service';
 import { AddToHomeScreenComponent } from '../add-to-home-screen.component';
 
@@ -14,7 +14,16 @@ import { AddToHomeScreenComponent } from '../add-to-home-screen.component';
   standalone: false,
 })
 export class AddToHomeScreenBannerComponent extends AddToHomeScreenComponent {
-  constructor(protected addToHomeScreenService: AddToHomeScreenService) {
+  protected addToHomeScreenService: AddToHomeScreenService;
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const addToHomeScreenService = inject(AddToHomeScreenService);
+
     super(addToHomeScreenService);
+  
+    this.addToHomeScreenService = addToHomeScreenService;
   }
 }

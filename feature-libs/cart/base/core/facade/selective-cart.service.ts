@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Cart,
   CartType,
@@ -31,14 +31,17 @@ import {
 
 @Injectable()
 export class SelectiveCartService implements SelectiveCartFacade {
+  protected userProfileFacade = inject(UserProfileFacade);
+  protected multiCartFacade = inject(MultiCartFacade);
+  protected baseSiteService = inject(BaseSiteService);
+  protected userIdService = inject(UserIdService);
+
   protected selectiveCart$: Observable<Cart>;
 
-  constructor(
-    protected userProfileFacade: UserProfileFacade,
-    protected multiCartFacade: MultiCartFacade,
-    protected baseSiteService: BaseSiteService,
-    protected userIdService: UserIdService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Initialize the stream when first call this function

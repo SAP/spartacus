@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NodesResponse } from './nodes-response';
 import { SceneAdapter } from './scene.adapter';
@@ -16,7 +16,12 @@ import { SceneAdapter } from './scene.adapter';
   providedIn: 'root',
 })
 export class SceneConnector {
-  constructor(protected sceneAdapter: SceneAdapter) {}
+  protected sceneAdapter = inject(SceneAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Used for invoking the EPD Visualization API for retrieving scene node information.

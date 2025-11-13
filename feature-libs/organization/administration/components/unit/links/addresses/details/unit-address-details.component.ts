@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Address, B2BUnit, Country, UserAddressService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -32,6 +32,10 @@ import { UnitAddressItemService } from '../services/unit-address-item.service';
   standalone: false,
 })
 export class UnitAddressDetailsComponent {
+  protected itemService = inject<ItemService<Address>>(ItemService);
+  protected currentUnitService = inject(CurrentUnitService);
+  protected userAddressService = inject(UserAddressService);
+
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService.item$;
 
   model$: Observable<Address> = this.itemService.key$.pipe(
@@ -53,9 +57,8 @@ export class UnitAddressDetailsComponent {
     );
   }
 
-  constructor(
-    protected itemService: ItemService<Address>,
-    protected currentUnitService: CurrentUnitService,
-    protected userAddressService: UserAddressService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 }

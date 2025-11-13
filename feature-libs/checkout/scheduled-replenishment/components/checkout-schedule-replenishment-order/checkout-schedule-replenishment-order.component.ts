@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   DaysOfWeek,
   ORDER_TYPE,
@@ -29,6 +24,8 @@ import { CheckoutReplenishmentFormService } from '../services/checkout-replenish
 export class CheckoutScheduleReplenishmentOrderComponent
   implements OnInit, OnDestroy
 {
+  protected checkoutReplenishmentFormService = inject(CheckoutReplenishmentFormService);
+
   protected subscription = new Subscription();
 
   iconTypes = ICON_TYPE;
@@ -47,9 +44,10 @@ export class CheckoutScheduleReplenishmentOrderComponent
   currentDate: string | undefined;
   scheduleReplenishmentFormData: ScheduleReplenishmentForm;
 
-  constructor(
-    protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.subscription.add(

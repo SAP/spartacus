@@ -26,13 +26,16 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 export class OccAnonymousConsentTemplatesAdapter
   implements AnonymousConsentTemplatesAdapter
 {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   loadAnonymousConsentTemplates(): Observable<ConsentTemplate[]> {
     const url = this.occEndpoints.buildUrl('anonymousConsentTemplates');

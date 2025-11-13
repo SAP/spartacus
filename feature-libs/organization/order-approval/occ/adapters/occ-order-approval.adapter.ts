@@ -5,7 +5,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
   EntitiesModel,
@@ -27,11 +27,14 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class OccOrderApprovalAdapter implements OrderApprovalAdapter {
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   load(userId: string, orderApprovalCode: string): Observable<OrderApproval> {
     return this.http

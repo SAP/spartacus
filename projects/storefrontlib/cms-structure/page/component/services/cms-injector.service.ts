@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { provideLcpPresenceForCmsComponent } from '../../../cms-lcp-context/provide-lcp-presence-for-cms-component';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 import { CmsComponentData } from '../../model/cms-component-data';
@@ -20,10 +20,13 @@ import { ComponentDataProvider } from './component-data.provider';
   providedIn: 'root',
 })
 export class CmsInjectorService {
-  constructor(
-    protected cmsComponentsService: CmsComponentsService,
-    protected injector: Injector
-  ) {}
+  protected cmsComponentsService = inject(CmsComponentsService);
+  protected injector = inject(Injector);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   public getInjector(
     type: string,

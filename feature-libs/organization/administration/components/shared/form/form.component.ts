@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  Optional,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { EMPTY, Observable } from 'rxjs';
@@ -34,6 +27,9 @@ const DISABLED_STATUS = 'DISABLED';
   standalone: false,
 })
 export class FormComponent<T> implements OnInit, OnDestroy {
+  protected itemService = inject<ItemService<T>>(ItemService);
+  protected messageService = inject(MessageService, { optional: true });
+
   /**
    * i18n root for all localizations. The i18n root key is suffixed with
    * either `.edit` or `.create`, depending on the usage of the component.
@@ -68,10 +64,10 @@ export class FormComponent<T> implements OnInit, OnDestroy {
     map((status) => status === DISABLED_STATUS)
   );
 
-  constructor(
-    protected itemService: ItemService<T>,
-    @Optional() protected messageService: MessageService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   save(form: UntypedFormGroup): void {
     this.itemService.key$

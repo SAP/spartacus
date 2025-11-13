@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
@@ -23,11 +23,14 @@ import { filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class DeliveryPointsService {
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected pickupLocationsSearchFacade: PickupLocationsSearchFacade,
-    protected orderFacade: OrderFacade
-  ) {}
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected pickupLocationsSearchFacade = inject(PickupLocationsSearchFacade);
+  protected orderFacade = inject(OrderFacade);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /*
    * deliveryPointsOfService$ comprises arrays within an array.

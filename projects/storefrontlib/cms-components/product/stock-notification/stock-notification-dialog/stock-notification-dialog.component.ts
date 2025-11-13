@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, inject } from '@angular/core';
 import { NotificationPreference, UserInterestsService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { FocusConfig } from '../../../../layout/a11y/keyboard-focus/keyboard-focus.model';
@@ -24,6 +17,10 @@ import { LaunchDialogService } from '../../../../layout/index';
   standalone: false,
 })
 export class StockNotificationDialogComponent implements OnInit, OnDestroy {
+  private interestsService = inject(UserInterestsService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected el = inject(ElementRef);
+
   private subscription = new Subscription();
 
   subscribeSuccess$: Observable<boolean>;
@@ -43,11 +40,10 @@ export class StockNotificationDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(
-    private interestsService: UserInterestsService,
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   close(reason?: any) {
     this.launchDialogService.closeDialog(reason);

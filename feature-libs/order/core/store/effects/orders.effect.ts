@@ -22,13 +22,11 @@ import { OrderActions } from '../actions/index';
 
 @Injectable()
 export class OrdersEffect {
-  protected logger = inject(LoggerService);
+  private actions$ = inject(Actions);
+  private orderConnector = inject(OrderHistoryConnector);
+  private replenishmentOrderConnector = inject(ReplenishmentOrderHistoryConnector);
 
-  constructor(
-    private actions$: Actions,
-    private orderConnector: OrderHistoryConnector,
-    private replenishmentOrderConnector: ReplenishmentOrderHistoryConnector
-  ) {}
+  protected logger = inject(LoggerService);
 
   loadUserOrders$: Observable<OrderActions.UserOrdersAction> = createEffect(
     () =>

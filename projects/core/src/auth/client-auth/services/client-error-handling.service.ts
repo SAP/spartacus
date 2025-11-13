@@ -5,7 +5,7 @@
  */
 
 import { HttpHandler, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { ClientToken } from '../models/client-token.model';
@@ -19,7 +19,12 @@ import { ClientTokenService } from './client-token.service';
   providedIn: 'root',
 })
 export class ClientErrorHandlingService {
-  constructor(protected clientTokenService: ClientTokenService) {}
+  protected clientTokenService = inject(ClientTokenService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Refreshes client token and retries the request with the new token.

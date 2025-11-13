@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { MultiCartFacade } from '../facade/multi-cart.facade';
@@ -14,12 +14,15 @@ import { LoadCartEvent, RemoveCartEvent } from './cart.events';
   providedIn: 'root',
 })
 export class MultiCartEventListener implements OnDestroy {
+  protected eventService = inject(EventService);
+  protected multiCartFacade = inject(MultiCartFacade);
+
   protected subscriptions = new Subscription();
 
-  constructor(
-    protected eventService: EventService,
-    protected multiCartFacade: MultiCartFacade
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.onCartBaseAction();
   }
 

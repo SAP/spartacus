@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { User } from '@spartacus/core';
 import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
@@ -26,6 +26,9 @@ export interface SwitchCustomerData {
   standalone: false,
 })
 export class AsmSwitchCustomerDialogComponent implements OnInit {
+  protected launchDialogService = inject(LaunchDialogService);
+  protected asmComponentService = inject(AsmComponentService);
+
   SWITCH_CUSTOMER_DIALOG_ACTION = SWITCH_CUSTOMER_DIALOG_ACTION;
 
   focusConfig: FocusConfig = {
@@ -39,10 +42,10 @@ export class AsmSwitchCustomerDialogComponent implements OnInit {
   switchCustomerName: string;
   iconTypes: any;
 
-  constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected asmComponentService: AsmComponentService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.launchDialogService.data$

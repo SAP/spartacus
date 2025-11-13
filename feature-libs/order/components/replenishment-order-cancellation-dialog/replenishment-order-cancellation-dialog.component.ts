@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, inject } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { ReplenishmentOrderHistoryFacade } from '@spartacus/order/root';
 import {
@@ -31,6 +24,11 @@ import { startWith } from 'rxjs/operators';
 export class ReplenishmentOrderCancellationDialogComponent
   implements OnInit, OnDestroy
 {
+  protected replenishmentOrderHistoryFacade = inject(ReplenishmentOrderHistoryFacade);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected el = inject(ElementRef);
+
   private subscription = new Subscription();
 
   iconTypes = ICON_TYPE;
@@ -52,12 +50,10 @@ export class ReplenishmentOrderCancellationDialogComponent
     }
   }
 
-  constructor(
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
-    protected globalMessageService: GlobalMessageService,
-    protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.subscription.add(

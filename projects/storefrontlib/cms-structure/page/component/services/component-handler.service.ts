@@ -8,12 +8,10 @@ import {
   ComponentRef,
   ElementRef,
   inject,
-  Inject,
   Injectable,
   Injector,
   isDevMode,
   NgModuleRef,
-  Optional,
   ViewContainerRef,
 } from '@angular/core';
 import {
@@ -31,13 +29,16 @@ import { ComponentHandler } from '../handlers/component-handler';
   providedIn: 'root',
 })
 export class ComponentHandlerService {
+  protected handlers = inject(ComponentHandler, {
+    optional: true,
+  }) as unknown as ComponentHandler[] | null;
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    @Optional()
-    @Inject(ComponentHandler)
-    protected handlers: ComponentHandler[]
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected invalidMappings = new Set<CmsComponentMapping<any>>();
 
@@ -49,7 +50,7 @@ export class ComponentHandlerService {
   protected resolve(
     componentMapping: CmsComponentMapping
   ): ComponentHandler | undefined {
-    const handler = resolveApplicable(this.handlers, [componentMapping]);
+    const handler = resolveApplicable(this.handlers ?? [], [componentMapping]);
 
     if (isDevMode() && !handler) {
       if (!this.invalidMappings.has(componentMapping)) {

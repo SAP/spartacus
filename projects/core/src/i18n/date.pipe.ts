@@ -15,9 +15,14 @@ import { LanguageService } from '../site-context/facade/language.service';
   standalone: false,
 })
 export class CxDatePipe extends DatePipe implements PipeTransform {
+  protected language = inject(LanguageService);
+
   protected logger = inject(LoggerService);
 
-  constructor(protected language: LanguageService) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     super('');
   }
 

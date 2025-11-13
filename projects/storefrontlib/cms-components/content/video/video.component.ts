@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  HostBinding,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, inject } from '@angular/core';
 import {
   CmsService,
   CmsVideoComponent,
@@ -33,6 +28,12 @@ import { MediaService } from '../../../shared/components/media/media.service';
   standalone: false,
 })
 export class VideoComponent {
+  protected component = inject<CmsComponentData<CmsVideoComponent>>(CmsComponentData);
+  protected mediaService = inject(MediaService);
+  protected urlService = inject(SemanticPathService);
+  protected cmsService = inject(CmsService);
+  protected cd = inject(ChangeDetectorRef);
+
   @HostBinding('class') styleClasses: string | undefined;
 
   source: string | undefined;
@@ -52,13 +53,10 @@ export class VideoComponent {
     })
   );
 
-  constructor(
-    protected component: CmsComponentData<CmsVideoComponent>,
-    protected mediaService: MediaService,
-    protected urlService: SemanticPathService,
-    protected cmsService: CmsService,
-    protected cd: ChangeDetectorRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected setMedia(data: CmsVideoComponent) {
     if (data.video) {

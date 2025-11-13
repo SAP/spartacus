@@ -36,6 +36,11 @@ import { WishListActions } from '../actions';
 
 @Injectable()
 export class WishListEffects {
+  private actions$ = inject(Actions);
+  private cartConnector = inject(CartConnector);
+  private userIdService = inject(UserIdService);
+  private store = inject<Store<StateWithMultiCart>>(Store);
+
   protected logger = inject(LoggerService);
 
   createWishList$: Observable<
@@ -201,11 +206,4 @@ export class WishListEffects {
       filter(isNotUndefined)
     )
   );
-
-  constructor(
-    private actions$: Actions,
-    private cartConnector: CartConnector,
-    private userIdService: UserIdService,
-    private store: Store<StateWithMultiCart>
-  ) {}
 }

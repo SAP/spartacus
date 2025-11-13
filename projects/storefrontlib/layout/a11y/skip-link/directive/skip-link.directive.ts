@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { Directive, ElementRef, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { SkipLinkService } from '../service/skip-link.service';
 
 @Directive({
@@ -12,12 +12,15 @@ import { SkipLinkService } from '../service/skip-link.service';
   standalone: false,
 })
 export class SkipLinkDirective implements OnInit, OnDestroy {
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected skipLinkService = inject(SkipLinkService);
+
   @Input() cxSkipLink: string;
 
-  constructor(
-    protected elementRef: ElementRef<HTMLElement>,
-    protected skipLinkService: SkipLinkService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.skipLinkService.add(this.cxSkipLink, this.elementRef.nativeElement);

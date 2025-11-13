@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
 import {
   RoutingService,
   TranslationService,
@@ -23,6 +23,10 @@ import { map, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class UnitLevelOrderHistoryComponent implements OnDestroy {
+  protected routing = inject(RoutingService);
+  protected unitOrdersFacade = inject(UnitOrderFacade);
+  protected translation = inject(TranslationService);
+
   private PAGE_SIZE = 5;
   sortType: string;
 
@@ -33,11 +37,10 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
     filters: '',
   };
 
-  constructor(
-    protected routing: RoutingService,
-    protected unitOrdersFacade: UnitOrderFacade,
-    protected translation: TranslationService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     useFeatureStyles('a11yTruncatedTextUnitLevelOrderHistory');
   }
 

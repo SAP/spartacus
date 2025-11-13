@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, inject } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   AugmentedPointOfService,
@@ -38,6 +32,13 @@ import { filter, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class PickupOptionDialogComponent implements OnInit, OnDestroy {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected elementRef = inject(ElementRef);
+  protected intendedPickupLocationService = inject(IntendedPickupLocationFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected pickupLocationsSearchService = inject(PickupLocationsSearchFacade);
+  protected pickupOptionFacade = inject(PickupOptionFacade);
+
   productCode: string;
   entryNumber: number;
   quantity: number;
@@ -64,14 +65,10 @@ export class PickupOptionDialogComponent implements OnInit, OnDestroy {
     };
   }
 
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected elementRef: ElementRef,
-    protected intendedPickupLocationService: IntendedPickupLocationFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected pickupOptionFacade: PickupOptionFacade
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     // Intentional empty constructor
   }
 

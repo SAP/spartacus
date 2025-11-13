@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { AsmCustomer360ReviewList } from '@spartacus/asm/customer-360/root';
 import { CxDatePipe, Product, TranslationService } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
@@ -27,6 +27,11 @@ import { AsmCustomer360Config } from '../../config/asm-customer-360-config';
   standalone: false,
 })
 export class AsmCustomer360ProductReviewsComponent implements OnInit {
+  protected asmCustomer360Config = inject(AsmCustomer360Config);
+  protected context = inject<AsmCustomer360SectionContext<AsmCustomer360ReviewList>>(AsmCustomer360SectionContext);
+  protected datePipe = inject(CxDatePipe);
+  protected translation = inject(TranslationService);
+
   reviewColumns: Array<CustomerTableColumn> = [
     {
       property: 'item',
@@ -56,12 +61,10 @@ export class AsmCustomer360ProductReviewsComponent implements OnInit {
 
   protected subscription = new Subscription();
 
-  constructor(
-    protected asmCustomer360Config: AsmCustomer360Config,
-    protected context: AsmCustomer360SectionContext<AsmCustomer360ReviewList>,
-    protected datePipe: CxDatePipe,
-    protected translation: TranslationService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.reviewEntries$ = combineLatest([

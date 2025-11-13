@@ -30,13 +30,16 @@ const headers = new HttpHeaders({
 export class OccUserNotificationPreferenceAdapter
   implements UserNotificationPreferenceAdapter
 {
+  protected http = inject(HttpClient);
+  protected converter = inject(ConverterService);
+  protected occEndpoints = inject(OccEndpointsService);
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected http: HttpClient,
-    protected converter: ConverterService,
-    protected occEndpoints: OccEndpointsService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   loadAll(userId: string): Observable<NotificationPreference[]> {
     return this.http

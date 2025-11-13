@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {
@@ -28,7 +28,12 @@ import { CmsStructureModel } from '../model/page.model';
   providedIn: 'root',
 })
 export abstract class CmsStructureConfigService {
-  constructor(protected cmsDataConfig: CmsStructureConfig) {}
+  protected cmsDataConfig = inject(CmsStructureConfig);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Merge the cms structure to the pageStructure. The page structure

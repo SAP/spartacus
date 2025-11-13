@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Price, Product, ProductScope, ProductService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -14,9 +14,14 @@ import { BulkPrice } from '../model/bulk-price.model';
   providedIn: 'root',
 })
 export class BulkPricingService {
+  protected productService = inject(ProductService);
+
   protected readonly PRODUCT_SCOPE = ProductScope.BULK_PRICES;
 
-  constructor(protected productService: ProductService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   getBulkPrices(productCode: string): Observable<BulkPrice[] | undefined> {
     return this.productService.get(productCode, this.PRODUCT_SCOPE).pipe(

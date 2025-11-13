@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
@@ -16,6 +16,9 @@ import { OrderApprovalService } from '../../core/services/order-approval.service
   providedIn: 'root',
 })
 export class OrderApprovalDetailService {
+  protected routingService = inject(RoutingService);
+  protected orderApprovalService = inject(OrderApprovalService);
+
   protected approvalCode$ = this.routingService
     .getRouterState()
     .pipe(map((routingData) => routingData.state.params.approvalCode));
@@ -35,10 +38,10 @@ export class OrderApprovalDetailService {
     map((orderApproval) => orderApproval?.order as Order)
   );
 
-  constructor(
-    protected routingService: RoutingService,
-    protected orderApprovalService: OrderApprovalService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Returns a string that represents the approval code

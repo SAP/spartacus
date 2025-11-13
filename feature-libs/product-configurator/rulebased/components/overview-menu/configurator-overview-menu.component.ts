@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  HostListener,
-  Input,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, HostBinding, HostListener, Input, inject } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
@@ -23,6 +16,8 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   standalone: false,
 })
 export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
+  protected configuratorStorefrontUtilsService = inject(ConfiguratorStorefrontUtilsService);
+
   @HostBinding('style.height') height = this.getHeight();
 
   @Input() config: Configurator.ConfigurationWithOverview;
@@ -54,9 +49,10 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
     ['top', '0'],
   ];
 
-  constructor(
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngAfterViewInit(): void {
     this.amount = this.getAmount(this.config);

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ActivatedRouterStateSnapshot,
@@ -38,16 +38,19 @@ import { ProductListRouteParams, SearchCriteria } from './product-list.model';
  */
 @Injectable({ providedIn: 'root' })
 export class ProductListComponentService {
+  protected productSearchService = inject(ProductSearchService);
+  protected routing = inject(RoutingService);
+  protected activatedRoute = inject(ActivatedRoute);
+  protected currencyService = inject(CurrencyService);
+  protected languageService = inject(LanguageService);
+  protected router = inject(Router);
+  protected config = inject(ViewConfig);
+
   protected readonly RELEVANCE_ALLCATEGORIES = ':relevance:allCategories:';
-  constructor(
-    protected productSearchService: ProductSearchService,
-    protected routing: RoutingService,
-    protected activatedRoute: ActivatedRoute,
-    protected currencyService: CurrencyService,
-    protected languageService: LanguageService,
-    protected router: Router,
-    protected config: ViewConfig
-  ) {}
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {}
 
   /**
    * Emits the search results for the current search query.

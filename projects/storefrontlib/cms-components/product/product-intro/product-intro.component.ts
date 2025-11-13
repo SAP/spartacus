@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   EventService,
   Product,
@@ -26,6 +26,11 @@ import { CurrentProductService } from '../current-product.service';
   standalone: false,
 })
 export class ProductIntroComponent {
+  protected currentProductService = inject(CurrentProductService);
+  protected translationService = inject(TranslationService);
+  protected winRef = inject(WindowRef);
+  protected eventService = inject(EventService);
+
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
 
@@ -55,12 +60,10 @@ export class ProductIntroComponent {
 
   protected reviewsTranslationKey = `TabPanelContainer.tabs.${this.reviewsComponentId}`;
 
-  constructor(
-    protected currentProductService: CurrentProductService,
-    protected translationService: TranslationService,
-    protected winRef: WindowRef,
-    protected eventService: EventService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Scroll to views component on page and click "Reviews" tab

@@ -4,15 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { Observable, Subscription, timer } from 'rxjs';
 import { debounce, distinct, take } from 'rxjs/operators';
@@ -33,13 +25,18 @@ export interface ConfiguratorAttributeQuantityComponentOptions {
 export class ConfiguratorAttributeQuantityComponent
   implements OnDestroy, OnInit
 {
+  protected config = inject(ConfiguratorUISettingsConfig);
+
   quantity = new UntypedFormControl(1);
   optionsChangeSub: Subscription = new Subscription();
   quantityChangeSub: Subscription = new Subscription();
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
   @Output() changeQuantity = new EventEmitter<number>();
 
-  constructor(protected config: ConfiguratorUISettingsConfig) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.quantity.setValue(this.quantityOptions?.initialQuantity);

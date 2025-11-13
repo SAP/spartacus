@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Converter, TranslationService } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { take } from 'rxjs/operators';
@@ -17,12 +17,15 @@ const INITIAL_OV_VALUE_ATTRIBUTE_NAME = '';
 export class CpqConfiguratorOverviewNormalizer
   implements Converter<Cpq.Configuration, Configurator.Overview>
 {
+  protected cpqConfiguratorNormalizerUtilsService = inject(CpqConfiguratorNormalizerUtilsService);
+  protected translation = inject(TranslationService);
+
   protected readonly NO_OPTION_SELECTED = 0;
 
-  constructor(
-    protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
-    protected translation: TranslationService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   convert(
     source: Cpq.Configuration,

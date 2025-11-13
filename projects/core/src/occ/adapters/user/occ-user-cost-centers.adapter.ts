@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { COST_CENTERS_NORMALIZER } from '../../../cost-center/connectors/cost-center/converters';
 import { EntitiesModel } from '../../../model/misc.model';
@@ -19,11 +19,14 @@ import { OCC_HTTP_TOKEN } from '../../utils';
 
 @Injectable()
 export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   loadActiveList(userId: string): Observable<EntitiesModel<CostCenter>> {
     const context = new HttpContext().set(OCC_HTTP_TOKEN, {

@@ -1,11 +1,4 @@
-import {
-  Component,
-  Inject,
-  NgModule,
-  PLATFORM_ID,
-  Renderer2,
-  Type,
-} from '@angular/core';
+import { Component, NgModule, PLATFORM_ID, Renderer2, Type, inject as inject_1 } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -43,10 +36,13 @@ const testText = 'test text';
   standalone: false,
 })
 class TestComponent {
-  constructor(
-    public cmsData: CmsComponentData<CmsComponent>,
-    @Inject('testService') public testService
-  ) {}
+  cmsData = inject_1<CmsComponentData<CmsComponent>>(CmsComponentData);
+  testService = inject_1<any>('testService' as any);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 }
 
 @NgModule({

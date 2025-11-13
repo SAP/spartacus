@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
@@ -25,6 +19,10 @@ import { take } from 'rxjs/operators';
   standalone: false,
 })
 export class ReplenishmentOrderCancellationComponent implements OnDestroy {
+  protected replenishmentOrderHistoryFacade = inject(ReplenishmentOrderHistoryFacade);
+  protected vcr = inject(ViewContainerRef);
+  protected launchDialogService = inject(LaunchDialogService);
+
   @ViewChild('element') element: ElementRef;
 
   private subscription = new Subscription();
@@ -32,11 +30,10 @@ export class ReplenishmentOrderCancellationComponent implements OnDestroy {
   replenishmentOrder$: Observable<ReplenishmentOrder> =
     this.replenishmentOrderHistoryFacade.getReplenishmentOrderDetails();
 
-  constructor(
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
-    protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   openDialog() {
     const dialog = this.launchDialogService.openDialog(

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
 import { Params } from '@angular/router';
 import {
   RoutingService,
@@ -27,12 +27,15 @@ import { filter, map, take, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class OrderHistoryComponent implements OnDestroy {
-  constructor(
-    protected routing: RoutingService,
-    protected orderHistoryFacade: OrderHistoryFacade,
-    protected translation: TranslationService,
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
-  ) {}
+  protected routing = inject(RoutingService);
+  protected orderHistoryFacade = inject(OrderHistoryFacade);
+  protected translation = inject(TranslationService);
+  protected replenishmentOrderHistoryFacade = inject(ReplenishmentOrderHistoryFacade);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   private PAGE_SIZE = 5;
   sortType: string;

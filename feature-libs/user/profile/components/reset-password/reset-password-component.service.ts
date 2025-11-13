@@ -25,6 +25,10 @@ import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class ResetPasswordComponentService {
+  protected userPasswordService = inject(UserPasswordFacade);
+  protected routingService = inject(RoutingService);
+  protected globalMessage = inject(GlobalMessageService);
+
   // CXSPA-10916: Remove service with toggle
   private featureConfigService = inject(FeatureConfigService);
 
@@ -37,11 +41,10 @@ export class ResetPasswordComponentService {
         CustomFormValidators.noConsecutiveCharacters,
       ];
 
-  constructor(
-    protected userPasswordService: UserPasswordFacade,
-    protected routingService: RoutingService,
-    protected globalMessage: GlobalMessageService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected busy$ = new BehaviorSubject(false);
 

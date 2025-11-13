@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, inject } from '@angular/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
@@ -24,6 +24,9 @@ import { BaseItem } from '../../organization.model';
   standalone: false,
 })
 export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
+  protected itemService = inject<ItemService<T>>(ItemService);
+  protected messageService = inject<MessageService<ConfirmationMessageData>>(MessageService);
+
   /**
    * The localization of messages is based on the i18n root. Messages are
    * concatenated to the root, such as:
@@ -58,10 +61,10 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
   protected subscription = new Subscription();
   protected confirmation: Subject<ConfirmationMessageData> | null;
 
-  constructor(
-    protected itemService: ItemService<T>,
-    protected messageService: MessageService<ConfirmationMessageData>
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   delete(item: T) {
     if (!this.confirmation) {

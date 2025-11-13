@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RequestedDeliveryDateFacade } from '@spartacus/requested-delivery-date/root';
 import { Observable } from 'rxjs';
 import { RequestedDeliveryDateConnector } from '../connectors/requested-delivery-date.connector';
@@ -13,6 +13,8 @@ import { RequestedDeliveryDateConnector } from '../connectors/requested-delivery
 export class RequestedDeliveryDateService
   implements RequestedDeliveryDateFacade
 {
+  protected requestedDeliveryDateConnector = inject(RequestedDeliveryDateConnector);
+
   /**
    * Set requested delivery date
    */
@@ -28,7 +30,8 @@ export class RequestedDeliveryDateService
     );
   }
 
-  constructor(
-    protected requestedDeliveryDateConnector: RequestedDeliveryDateConnector
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 }

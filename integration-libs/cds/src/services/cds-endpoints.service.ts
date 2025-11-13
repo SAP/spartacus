@@ -5,7 +5,7 @@
  */
 
 import { HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CdsConfig } from '../config/cds-config';
 import { DynamicTemplate } from '../utils/dynamic-template';
 
@@ -13,7 +13,12 @@ import { DynamicTemplate } from '../utils/dynamic-template';
   providedIn: 'root',
 })
 export class CdsEndpointsService {
-  constructor(private cdsConfig: CdsConfig) {}
+  private cdsConfig = inject(CdsConfig);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   getUrl(
     endpoint: string,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { filter, tap, withLatestFrom } from 'rxjs/operators';
 import { ProfileTagLifecycleService } from '../services/profile-tag-lifecycle.service';
 import { ProfileTagPushEventsService } from '../services/profile-tag-push-events.service';
@@ -14,11 +14,14 @@ import { ProfileTagEventService } from '../services/profiletag-event.service';
   providedIn: 'root',
 })
 export class TrackingService {
-  constructor(
-    protected profileTagLifecycleService: ProfileTagLifecycleService,
-    protected profileTagPushEventsService: ProfileTagPushEventsService,
-    private profileTagEventTracker: ProfileTagEventService
-  ) {}
+  protected profileTagLifecycleService = inject(ProfileTagLifecycleService);
+  protected profileTagPushEventsService = inject(ProfileTagPushEventsService);
+  private profileTagEventTracker = inject(ProfileTagEventService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
   static factory(trackingService: TrackingService): () => void {
     const factoryFunction = () => {
       trackingService.trackEvents();

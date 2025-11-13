@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CostCenter } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
@@ -25,11 +25,16 @@ import { CostCenterItemService } from '../services/cost-center-item.service';
   standalone: false,
 })
 export class CostCenterDetailsComponent {
+  protected itemService = inject<ItemService<CostCenter>>(ItemService);
+
   model$: Observable<CostCenter> = this.itemService.key$.pipe(
     switchMap((code) => this.itemService.load(code)),
     startWith({})
   );
   isInEditMode$ = this.itemService.isInEditMode$;
 
-  constructor(protected itemService: ItemService<CostCenter>) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { BreadcrumbMeta, PageRobotsMeta } from '../../cms/model/page.model';
@@ -47,13 +47,16 @@ export class ProductPageMetaResolver
     PageImageResolver,
     PageRobotsResolver
 {
-  constructor(
-    protected routingService: RoutingService,
-    protected productService: ProductService,
-    protected translation: TranslationService,
-    protected basePageMetaResolver: BasePageMetaResolver,
-    protected pageLinkService: PageLinkService
-  ) {
+  protected routingService = inject(RoutingService);
+  protected productService = inject(ProductService);
+  protected translation = inject(TranslationService);
+  protected basePageMetaResolver = inject(BasePageMetaResolver);
+  protected pageLinkService = inject(PageLinkService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     super();
     this.pageType = PageType.PRODUCT_PAGE;
   }

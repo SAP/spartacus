@@ -5,14 +5,7 @@
  */
 
 import { isPlatformServer } from '@angular/common';
-import {
-  inject,
-  Inject,
-  Injectable,
-  isDevMode,
-  NgModuleRef,
-  PLATFORM_ID,
-} from '@angular/core';
+import { inject, Injectable, isDevMode, NgModuleRef, PLATFORM_ID } from '@angular/core';
 import { Route } from '@angular/router';
 import {
   CmsComponent,
@@ -37,6 +30,11 @@ import { CmsFeaturesService } from './cms-features.service';
   providedIn: 'root',
 })
 export class CmsComponentsService {
+  protected config = inject(CmsConfig);
+  protected platformId = inject<Object>(PLATFORM_ID);
+  protected featureModules = inject(CmsFeaturesService);
+  protected configInitializer = inject(ConfigInitializerService);
+
   // Component mappings that were identified as missing
   protected missingComponents: string[] = [];
 
@@ -52,12 +50,10 @@ export class CmsComponentsService {
 
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected config: CmsConfig,
-    @Inject(PLATFORM_ID) protected platformId: Object,
-    protected featureModules: CmsFeaturesService,
-    protected configInitializer: ConfigInitializerService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.configInitializer
       .getStable('cmsComponents')
       .subscribe((cmsConfig: CmsConfig) => {

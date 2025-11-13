@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, Input, Renderer2, inject } from '@angular/core';
 import { JsonLdScriptFactory } from './json-ld-script.factory';
 
 /**
@@ -23,6 +23,10 @@ import { JsonLdScriptFactory } from './json-ld-script.factory';
   standalone: false,
 })
 export class JsonLdDirective {
+  protected renderer = inject(Renderer2);
+  protected jsonLdScriptFactory = inject(JsonLdScriptFactory);
+  protected element = inject(ElementRef);
+
   /**
    * Writes the schema data to a json-ld script element.
    */
@@ -30,11 +34,10 @@ export class JsonLdDirective {
     this.generateJsonLdScript(schema);
   }
 
-  constructor(
-    protected renderer: Renderer2,
-    protected jsonLdScriptFactory: JsonLdScriptFactory,
-    protected element: ElementRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * attach the json-ld script tag to DOM with the schema data secured by encoding html tags (aka escaping)

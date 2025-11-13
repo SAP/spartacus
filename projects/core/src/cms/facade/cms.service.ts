@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, of, queueScheduler, using } from 'rxjs';
 import {
@@ -34,16 +34,19 @@ import { serializePageContext } from '../utils/cms-utils';
   providedIn: 'root',
 })
 export class CmsService {
+  protected store = inject<Store<StateWithCms>>(Store);
+  protected routingService = inject(RoutingService);
+
   private components: {
     [uid: string]: {
       [pageContext: string]: Observable<CmsComponent>;
     };
   } = {};
 
-  constructor(
-    protected store: Store<StateWithCms>,
-    protected routingService: RoutingService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Get current CMS page data

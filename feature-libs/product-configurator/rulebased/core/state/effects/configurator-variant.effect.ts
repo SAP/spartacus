@@ -20,6 +20,10 @@ import { ConfiguratorActions } from '../actions/index';
  * Rulebased configurator effects related to variant search
  */
 export class ConfiguratorVariantEffects {
+  protected actions$ = inject(Actions);
+  protected configuratorCommonsConnector = inject(RulebasedConfiguratorConnector);
+  protected configuratorCoreConfig = inject(ConfiguratorCoreConfig);
+
   protected logger = inject(LoggerService);
 
   searchVariants$: Observable<
@@ -80,10 +84,4 @@ export class ConfiguratorVariantEffects {
         )
       )
     );
-
-  constructor(
-    protected actions$: Actions,
-    protected configuratorCommonsConnector: RulebasedConfiguratorConnector,
-    protected configuratorCoreConfig: ConfiguratorCoreConfig
-  ) {}
 }

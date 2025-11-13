@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 
 import {
   PointOfServiceNames,
@@ -19,6 +19,9 @@ import { Observable, Subscription } from 'rxjs';
   standalone: false,
 })
 export class SetPreferredStoreComponent implements OnInit, OnDestroy {
+  protected preferredStoreFacade = inject(PreferredStoreFacade);
+  protected outlet = inject<OutletContextData<PointOfServiceNames>>(OutletContextData, { optional: true });
+
   readonly ICON_TYPE = ICON_TYPE;
   @Input() pointOfServiceName: PointOfServiceNames;
 
@@ -26,10 +29,10 @@ export class SetPreferredStoreComponent implements OnInit, OnDestroy {
     this.preferredStoreFacade.getPreferredStore$();
   subscription: Subscription = new Subscription();
 
-  constructor(
-    protected preferredStoreFacade: PreferredStoreFacade,
-    @Optional() protected outlet: OutletContextData<PointOfServiceNames>
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     this.subscription.add(

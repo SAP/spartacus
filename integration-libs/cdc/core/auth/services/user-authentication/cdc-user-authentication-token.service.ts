@@ -17,12 +17,15 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class CdcUserAuthenticationTokenService {
+  protected http = inject(HttpClient);
+  protected authConfigService = inject(AuthConfigService);
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected http: HttpClient,
-    protected authConfigService: AuthConfigService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Load User token using custom oauth flow

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CheckoutStep } from '@spartacus/checkout/base/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -17,10 +17,15 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   standalone: false,
 })
 export class CheckoutProgressMobileBottomComponent {
+  protected checkoutStepService = inject(CheckoutStepService);
+
   private _steps$: BehaviorSubject<CheckoutStep[]> =
     this.checkoutStepService.steps$;
 
-  constructor(protected checkoutStepService: CheckoutStepService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   activeStepIndex: number;
   activeStepIndex$: Observable<number> =

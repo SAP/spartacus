@@ -1,10 +1,4 @@
-import {
-  Component,
-  ComponentRef,
-  CUSTOM_ELEMENTS_SCHEMA,
-  Input,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, ComponentRef, CUSTOM_ELEMENTS_SCHEMA, Input, ViewContainerRef, inject as inject_1 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
@@ -17,8 +11,13 @@ import { ProductImageZoomTriggerComponent } from './product-image-zoom-trigger.c
   standalone: false,
 })
 class TestDialogComponent {
+  vcr = inject_1(ViewContainerRef);
+
   @Input() galleryItem: number;
-  constructor(public vcr: ViewContainerRef) {}
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {}
 }
 
 class MockLaunchDialogService {

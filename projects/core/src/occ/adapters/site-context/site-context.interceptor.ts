@@ -10,7 +10,7 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { getContextParameterDefault } from '../../../site-context/config/context-config-utils';
 import { SiteContextConfig } from '../../../site-context/config/site-context-config';
@@ -24,15 +24,18 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable({ providedIn: 'root' })
 export class SiteContextInterceptor implements HttpInterceptor {
+  private languageService = inject(LanguageService);
+  private currencyService = inject(CurrencyService);
+  private occEndpoints = inject(OccEndpointsService);
+  private config = inject(SiteContextConfig);
+
   activeLang: string | undefined;
   activeCurr: string | undefined;
 
-  constructor(
-    private languageService: LanguageService,
-    private currencyService: CurrencyService,
-    private occEndpoints: OccEndpointsService,
-    private config: SiteContextConfig
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.activeLang = getContextParameterDefault(
       this.config,
       LANGUAGE_CONTEXT_ID

@@ -45,6 +45,13 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   extends ConfiguratorAttributeInputFieldComponent
   implements OnInit, OnDestroy
 {
+  protected configAttributeNumericInputFieldService = inject(ConfiguratorAttributeNumericInputFieldService);
+  protected config: ConfiguratorUISettingsConfig;
+  protected translation = inject(TranslationService);
+  protected attributeComponentContext: ConfiguratorAttributeCompositionContext;
+  protected configuratorCommonsService: ConfiguratorCommonsService;
+  protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
+
   numericFormatPattern: string;
   locale: string;
   iconType = ICON_TYPE;
@@ -53,20 +60,26 @@ export class ConfiguratorAttributeNumericInputFieldComponent
 
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    protected config: ConfiguratorUISettingsConfig,
-    protected translation: TranslationService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
-    protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const config = inject(ConfiguratorUISettingsConfig);
+    const attributeComponentContext = inject(ConfiguratorAttributeCompositionContext);
+    const configuratorCommonsService = inject(ConfiguratorCommonsService);
+    const configuratorStorefrontUtilsService = inject(ConfiguratorStorefrontUtilsService);
+
     super(
       config,
       attributeComponentContext,
       configuratorCommonsService,
       configuratorStorefrontUtilsService
     );
+    this.config = config;
+    this.attributeComponentContext = attributeComponentContext;
+    this.configuratorCommonsService = configuratorCommonsService;
+    this.configuratorStorefrontUtilsService = configuratorStorefrontUtilsService;
+
     this.language = attributeComponentContext.language;
   }
 

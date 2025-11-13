@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CmsComponent, CmsService } from '@spartacus/core';
 import { defer, EMPTY, Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -20,10 +20,13 @@ import { CmsComponentsService } from '../../../services/cms-components.service';
   providedIn: 'root',
 })
 export class ComponentDataProvider {
-  constructor(
-    protected componentsService: CmsComponentsService,
-    protected cmsService: CmsService
-  ) {}
+  protected componentsService = inject(CmsComponentsService);
+  protected cmsService = inject(CmsService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Return the component data for a component given by the `uid`.

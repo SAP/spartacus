@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { OutletContextData } from '../../../../cms-structure/outlet/outlet.model';
 import {
   TableFieldOptions,
@@ -19,7 +19,12 @@ import {
   standalone: false,
 })
 export class TableHeaderCellComponent {
-  constructor(protected outlet: OutletContextData<TableHeaderOutletContext>) {}
+  protected outlet = inject<OutletContextData<TableHeaderOutletContext>>(OutletContextData);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Returns the static label for the given field, if available.

@@ -24,6 +24,6 @@ export interface ConfigInitializer {
   configFactory: () => Promise<Config>;
 }
 
-export const CONFIG_INITIALIZER_FORROOT_GUARD = new InjectionToken<void>(
+export const CONFIG_INITIALIZER_FORROOT_GUARD = new InjectionToken<boolean>(
   'CONFIG_INITIALIZER_FORROOT_GUARD'
 );

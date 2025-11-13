@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   Command,
   CommandService,
@@ -18,11 +18,14 @@ import { UserProfileConnector } from '../connectors/user-profile.connector';
 
 @Injectable()
 export class UserEmailService implements UserEmailFacade {
-  constructor(
-    protected userIdService: UserIdService,
-    protected userProfileConnector: UserProfileConnector,
-    protected command: CommandService
-  ) {}
+  protected userIdService = inject(UserIdService);
+  protected userProfileConnector = inject(UserProfileConnector);
+  protected command = inject(CommandService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected updateCommand: Command<{
     password: string;

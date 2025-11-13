@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  Optional,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewContainerRef, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   CartType,
@@ -79,6 +72,19 @@ export function orderEntryWithRequiredFields(
   standalone: false,
 })
 export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected pickupLocationsSearchService = inject(PickupLocationsSearchFacade);
+  protected pickupOptionFacade = inject(PickupOptionFacade);
+  protected preferredStoreFacade = inject(PreferredStoreFacade);
+  protected vcr = inject(ViewContainerRef);
+  protected cmsService = inject(CmsService);
+  protected intendedPickupLocationService = inject(IntendedPickupLocationFacade);
+  protected outlet = inject<OutletContextData<{
+    item: OrderEntry;
+    cartType: CartType;
+}>>(OutletContextData, { optional: true });
+
   pickupOption$: Observable<PickupOption | undefined>;
   disableControls$: Observable<boolean>;
   storeDetails$: Observable<{
@@ -95,21 +101,10 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
   userId: string;
   page?: string;
   readonly CartType = CartType;
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
-    protected pickupOptionFacade: PickupOptionFacade,
-    protected preferredStoreFacade: PreferredStoreFacade,
-    protected vcr: ViewContainerRef,
-    protected cmsService: CmsService,
-    protected intendedPickupLocationService: IntendedPickupLocationFacade,
-    @Optional()
-    protected outlet: OutletContextData<{
-      item: OrderEntry;
-      cartType: CartType;
-    }>
-  ) {
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {
     // Intentional empty constructor
   }
 

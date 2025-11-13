@@ -15,6 +15,9 @@ import { AsmActions } from '../actions/index';
 
 @Injectable()
 export class CustomerEffects {
+  private actions$ = inject(Actions);
+  private asmConnector = inject(AsmConnector);
+
   protected logger = inject(LoggerService);
 
   customerSearch$: Observable<AsmActions.CustomerAction> = createEffect(() =>
@@ -67,9 +70,4 @@ export class CustomerEffects {
         )
       )
     );
-
-  constructor(
-    private actions$: Actions,
-    private asmConnector: AsmConnector
-  ) {}
 }

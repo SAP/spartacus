@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
@@ -31,6 +26,11 @@ import { first, map } from 'rxjs/operators';
   standalone: false,
 })
 export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
+  protected activeCartService = inject(ActiveCartFacade);
+  protected eventService = inject(EventService);
+  protected formBuilder = inject(UntypedFormBuilder);
+  protected globalMessageService = inject(GlobalMessageService);
+
   quickOrderForm: UntypedFormGroup;
   cartIsLoading$: Observable<boolean> = this.activeCartService
     .isStable()
@@ -42,12 +42,10 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   protected cartEventsSubscription: Subscription = new Subscription();
   protected minQuantityValue: number = 1;
 
-  constructor(
-    protected activeCartService: ActiveCartFacade,
-    protected eventService: EventService,
-    protected formBuilder: UntypedFormBuilder,
-    protected globalMessageService: GlobalMessageService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.buildForm();

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { PointOfServiceStock } from '@spartacus/core';
 import {
   IntendedPickupLocationFacade,
@@ -22,6 +22,9 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class StoreListComponent implements OnInit {
+  protected intendedPickupLocationService = inject(IntendedPickupLocationFacade);
+  protected pickupLocationsSearchService = inject(PickupLocationsSearchFacade);
+
   /** The product code for the stock levels at each location */
   @Input() productCode: string;
   /** Event emitter triggered when a store is selected for pickup */
@@ -31,10 +34,10 @@ export class StoreListComponent implements OnInit {
   hasSearchStarted$: Observable<boolean>;
   isSearchRunning$: Observable<boolean>;
 
-  constructor(
-    protected intendedPickupLocationService: IntendedPickupLocationFacade,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     // Intentional empty constructor
   }
 

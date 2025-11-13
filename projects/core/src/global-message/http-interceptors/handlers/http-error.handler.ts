@@ -6,17 +6,20 @@
 
 import { isPlatformBrowser } from '@angular/common';
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { Applicable, Priority } from '../../../util/applicable';
 import { GlobalMessageService } from '../../facade/global-message.service';
 @Injectable({
   providedIn: 'root',
 })
 export abstract class HttpErrorHandler implements Applicable {
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    @Inject(PLATFORM_ID) protected platformId?: Object
-  ) {}
+  protected globalMessageService = inject(GlobalMessageService);
+  protected platformId? = inject<Object>(PLATFORM_ID);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * The http response status number which is handled by this handler.

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -45,6 +45,10 @@ import {
 
 @Injectable()
 export class ActiveCartService implements ActiveCartFacade, OnDestroy {
+  protected multiCartFacade = inject(MultiCartFacade);
+  protected userIdService = inject(UserIdService);
+  protected winRef = inject(WindowRef);
+
   protected activeCart$: Observable<Cart>;
   protected subscription = new Subscription();
 
@@ -69,11 +73,10 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   // Instead of loading cart will run loadOrMerge method
   protected shouldLoadCartOnCodeFlow = true;
 
-  constructor(
-    protected multiCartFacade: MultiCartFacade,
-    protected userIdService: UserIdService,
-    protected winRef: WindowRef
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.initActiveCart();
     this.detectUserChange();
   }

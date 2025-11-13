@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Optional, OnDestroy, OnInit, Inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { CpqDiscounts } from '@spartacus/cpq-quote/root';
-import { Observable, Subscription } from 'rxjs';
+import { EMPTY, Observable, Subscription } from 'rxjs';
 
 // Extend the OrderEntry interface to include cpqDiscounts property
 interface ExtendedOrderEntry extends OrderEntry {
@@ -20,16 +20,19 @@ interface ExtendedOrderEntry extends OrderEntry {
   standalone: false,
 })
 export class CpqQuoteOfferComponent implements OnInit, OnDestroy {
+  protected cartItemContext = inject<CartItemContext>(CartItemContext, {
+    optional: true,
+  });
+
   quoteDiscountData: ExtendedOrderEntry | null;
   private subscription: Subscription;
   readonly orderEntry$: Observable<ExtendedOrderEntry> =
-    this.cartItemContext?.item$;
+    this.cartItemContext?.item$ ?? EMPTY;
 
-  constructor(
-    @Optional()
-    @Inject(CartItemContext)
-    protected cartItemContext: CartItemContext
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     if (this.cartItemContext) {

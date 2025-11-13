@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
@@ -19,11 +19,14 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class UnitOrderService implements UnitOrderFacade {
-  constructor(
-    protected store: Store<StateWithUnitOrder>,
-    protected userIdService: UserIdService,
-    protected routingService: RoutingService
-  ) {}
+  protected store = inject<Store<StateWithUnitOrder>>(Store);
+  protected userIdService = inject(UserIdService);
+  protected routingService = inject(RoutingService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Returns order history list

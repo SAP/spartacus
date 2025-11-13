@@ -4,18 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AfterViewChecked,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, inject } from '@angular/core';
 import {
   byBoolean,
   byComparison,
@@ -48,6 +37,9 @@ import { KeyBoardEventCode } from '@spartacus/asm/customer-360/root';
 export class AsmCustomer360TableComponent
   implements OnChanges, AfterViewChecked
 {
+  protected asmCustomer360Config = inject(AsmCustomer360Config);
+  protected directionService = inject(DirectionService);
+
   @ViewChild('table') table: ElementRef;
 
   @Input() columns: Array<CustomerTableColumn>;
@@ -82,10 +74,10 @@ export class AsmCustomer360TableComponent
 
   setFocusOnStartTableItem = false;
 
-  constructor(
-    protected asmCustomer360Config: AsmCustomer360Config,
-    protected directionService: DirectionService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnChanges(changes?: SimpleChanges): void {
     if (changes?.entries) {

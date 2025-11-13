@@ -28,6 +28,11 @@ import { OnNavigateConfig } from './config';
   providedIn: 'root',
 })
 export class OnNavigateService {
+  protected config = inject(OnNavigateConfig);
+  protected router = inject(Router);
+  protected viewportScroller = inject(ViewportScroller);
+  protected injector = inject(Injector);
+
   protected readonly routerConfiguration =
     inject(ROUTER_CONFIGURATION, { optional: true }) || {};
 
@@ -47,12 +52,10 @@ export class OnNavigateService {
       : undefined;
   }
 
-  constructor(
-    protected config: OnNavigateConfig,
-    protected router: Router,
-    protected viewportScroller: ViewportScroller,
-    protected injector: Injector
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Reads configuration and enables features based on flags set.

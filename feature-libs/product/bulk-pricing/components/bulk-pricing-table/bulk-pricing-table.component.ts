@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { BulkPricingService } from '@spartacus/product/bulk-pricing/core';
 import { RoutingService } from '@spartacus/core';
 import { BulkPrice } from '@spartacus/product/bulk-pricing/core';
@@ -17,14 +17,17 @@ import { switchMap } from 'rxjs/operators';
   standalone: false,
 })
 export class BulkPricingTableComponent implements OnInit {
+  protected routingService = inject(RoutingService);
+  protected bulkPricingService = inject(BulkPricingService);
+
   protected readonly PRODUCT_KEY = 'productCode';
 
   priceTiers$: Observable<BulkPrice[] | undefined>;
 
-  constructor(
-    protected routingService: RoutingService,
-    protected bulkPricingService: BulkPricingService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     this.priceTiers$ = this.getPrices();

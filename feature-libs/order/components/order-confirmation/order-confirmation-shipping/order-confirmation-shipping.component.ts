@@ -4,15 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  Optional,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   AbstractOrderType,
   CartOutlets,
@@ -37,6 +29,14 @@ import { map, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
+  protected orderFacade = inject(OrderFacade);
+  protected translationService = inject(TranslationService);
+  protected cd = inject(ChangeDetectorRef);
+  protected outlet? = inject<OutletContextData<{
+    showItemList?: boolean;
+    order?: any;
+}>>(OutletContextData, { optional: true });
+
   @Input() showItemList: boolean = true;
 
   readonly cartOutlets = CartOutlets;
@@ -56,16 +56,10 @@ export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
 
   protected subscription = new Subscription();
 
-  constructor(
-    protected orderFacade: OrderFacade,
-    protected translationService: TranslationService,
-    protected cd: ChangeDetectorRef,
-    @Optional()
-    protected outlet?: OutletContextData<{
-      showItemList?: boolean;
-      order?: any;
-    }>
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.subscription.add(

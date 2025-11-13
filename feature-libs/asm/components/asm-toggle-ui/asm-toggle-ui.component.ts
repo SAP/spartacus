@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
 import { AsmUi } from '@spartacus/asm/root';
 import { Subscription } from 'rxjs';
@@ -15,10 +15,15 @@ import { Subscription } from 'rxjs';
   standalone: false,
 })
 export class AsmToggleUiComponent implements OnInit, OnDestroy {
+  protected asmService = inject(AsmService);
+
   protected subscription = new Subscription();
   isCollapsed: boolean;
 
-  constructor(protected asmService: AsmService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.subscription.add(

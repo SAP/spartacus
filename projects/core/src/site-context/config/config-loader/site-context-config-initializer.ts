@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { lastValueFrom, Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
@@ -22,14 +22,17 @@ import { SiteContextConfig } from '../site-context-config';
 
 @Injectable({ providedIn: 'root' })
 export class SiteContextConfigInitializer implements ConfigInitializer {
+  protected baseSiteService = inject(BaseSiteService);
+  protected javaRegExpConverter = inject(JavaRegExpConverter);
+  protected winRef = inject(WindowRef);
+
   readonly scopes = ['context'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
 
-  constructor(
-    protected baseSiteService: BaseSiteService,
-    protected javaRegExpConverter: JavaRegExpConverter,
-    protected winRef: WindowRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   private get currentUrl(): string {
     return this.winRef.location.href as string;

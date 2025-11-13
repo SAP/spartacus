@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { asapScheduler, BehaviorSubject, interval, Observable, of } from 'rxjs';
 import { delayWhen, observeOn, switchMap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
@@ -22,6 +17,8 @@ import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.serv
   standalone: false,
 })
 export class ProductFacetNavigationComponent {
+  protected breakpointService = inject(BreakpointService);
+
   iconTypes = ICON_TYPE;
 
   /**
@@ -69,7 +66,10 @@ export class ProductFacetNavigationComponent {
     observeOn(asapScheduler)
   );
 
-  constructor(protected breakpointService: BreakpointService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   launch() {
     this.open$.next(true);

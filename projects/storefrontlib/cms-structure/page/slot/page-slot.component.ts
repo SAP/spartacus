@@ -4,17 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostBinding,
-  Input,
-  OnDestroy,
-  OnInit,
-  Renderer2,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnDestroy, OnInit, Renderer2, inject } from '@angular/core';
 import {
   CmsService,
   ContentSlotComponentData,
@@ -49,6 +39,13 @@ import { PageSlotService } from './page-slot.service';
   standalone: false,
 })
 export class PageSlotComponent implements OnInit, OnDestroy {
+  protected cmsService = inject(CmsService);
+  protected dynamicAttributeService = inject(DynamicAttributeService);
+  protected renderer = inject(Renderer2);
+  protected elementRef = inject(ElementRef);
+  protected cd = inject(ChangeDetectorRef);
+  protected pageSlotService = inject(PageSlotService);
+
   /**
    * The position represents the unique key for a page slot on a single page, but can
    * be reused cross pages.
@@ -109,14 +106,10 @@ export class PageSlotComponent implements OnInit, OnDestroy {
 
   /** Tracks the last used position, in case the page slot is used dynamically */
   private lastPosition: string;
-  constructor(
-    protected cmsService: CmsService,
-    protected dynamicAttributeService: DynamicAttributeService,
-    protected renderer: Renderer2,
-    protected elementRef: ElementRef,
-    protected cd: ChangeDetectorRef,
-    protected pageSlotService: PageSlotService
-  ) {}
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {}
 
   ngOnInit() {
     this.subscription.add(

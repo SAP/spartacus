@@ -11,7 +11,7 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MultiCartFacade } from '@spartacus/cart/base/root';
 import { RouterState, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -25,10 +25,13 @@ import { switchMap, take, tap } from 'rxjs/operators';
  */
 @Injectable({ providedIn: 'root' })
 export class CheckoutCartInterceptor implements HttpInterceptor {
-  constructor(
-    protected routingService: RoutingService,
-    protected multiCartFacade: MultiCartFacade
-  ) {}
+  protected routingService = inject(RoutingService);
+  protected multiCartFacade = inject(MultiCartFacade);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   intercept(
     request: HttpRequest<unknown>,

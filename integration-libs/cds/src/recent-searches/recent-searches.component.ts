@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnInit,
-  Optional,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import {
   OutletContextData,
   SearchBoxComponentService,
@@ -34,14 +28,17 @@ const MAX_RECENT_SEARCHES = 5;
   standalone: false,
 })
 export class RecentSearchesComponent implements OnInit {
+  protected outletContext = inject<OutletContextData<SearchBoxOutlet>>(OutletContextData, { optional: true });
+
   public result$: Observable<string[]>;
   public outletContext$: Observable<SearchBoxOutlet>;
   protected recentSearchesService = inject(RecentSearchesService);
   protected searchBoxComponentService = inject(SearchBoxComponentService);
 
-  constructor(
-    @Optional() protected outletContext: OutletContextData<SearchBoxOutlet>
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     this.result$ = combineLatest([

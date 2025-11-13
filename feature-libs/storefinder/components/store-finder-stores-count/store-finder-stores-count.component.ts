@@ -15,6 +15,8 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class StoreFinderStoresCountComponent implements OnInit {
+  private storeFinderService = inject(StoreFinderService);
+
   // TODO: CXSPA-6884 Make service required in next major.
   @Optional() protected routingService? = inject(RoutingService, {
     optional: true,
@@ -22,7 +24,10 @@ export class StoreFinderStoresCountComponent implements OnInit {
   locations$: Observable<any>;
   isLoading$: Observable<boolean>;
 
-  constructor(private storeFinderService: StoreFinderService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     this.storeFinderService.viewAllStores();

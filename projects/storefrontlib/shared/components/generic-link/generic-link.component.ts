@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { GenericLinkComponentService } from './generic-link-component.service';
 
@@ -29,10 +29,13 @@ interface RouteParts {
   standalone: false,
 })
 export class GenericLinkComponent implements OnChanges {
-  constructor(
-    protected router: Router,
-    protected service: GenericLinkComponentService
-  ) {}
+  protected router = inject(Router);
+  protected service = inject(GenericLinkComponentService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Used to split url into 2 parts:

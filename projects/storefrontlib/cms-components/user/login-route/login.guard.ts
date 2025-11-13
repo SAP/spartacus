@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   GuardResult,
@@ -25,11 +25,14 @@ import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
   providedIn: 'root',
 })
 export class LoginGuard {
-  constructor(
-    protected authService: AuthService,
-    protected authConfigService: AuthConfigService,
-    protected cmsPageGuard: CmsPageGuard
-  ) {}
+  protected authService = inject(AuthService);
+  protected authConfigService = inject(AuthConfigService);
+  protected cmsPageGuard = inject(CmsPageGuard);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   canActivate(
     route: ActivatedRouteSnapshot,

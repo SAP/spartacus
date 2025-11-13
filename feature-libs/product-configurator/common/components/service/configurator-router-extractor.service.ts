@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RouterState, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -18,12 +18,15 @@ import { ConfiguratorRouter } from './configurator-router-data';
  */
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorRouterExtractorService {
+  protected configUtilsService = inject(CommonConfiguratorUtilsService);
+  protected routingService = inject(RoutingService);
+
   protected readonly ROUTE_FRAGMENT_CONFIGURE = 'configure';
   protected readonly ROUTE_FRAGMENT_OVERVIEW = 'configureOverview';
-  constructor(
-    protected configUtilsService: CommonConfiguratorUtilsService,
-    protected routingService: RoutingService
-  ) {}
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {}
 
   extractRouterData(): Observable<ConfiguratorRouter.Data> {
     return this.routingService.getRouterState().pipe(

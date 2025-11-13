@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
@@ -18,10 +18,13 @@ import { StateWithUser } from '../store/user-state';
   providedIn: 'root',
 })
 export class UserPaymentService {
-  constructor(
-    protected store: Store<StateWithUser>,
-    protected userIdService: UserIdService
-  ) {}
+  protected store = inject<Store<StateWithUser>>(Store);
+  protected userIdService = inject(UserIdService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Loads all user's payment methods.

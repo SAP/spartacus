@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   PageHeadingResolver,
@@ -36,19 +36,22 @@ export class CustomerTicketingPageMetaResolver
     PageDescriptionResolver,
     PageRobotsResolver
 {
+  protected translationService = inject(TranslationService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected basePageMetaResolver = inject(BasePageMetaResolver);
+  protected customerTicketingFacade = inject(CustomerTicketingFacade);
+  protected translation = inject(TranslationService);
+  protected semanticPath = inject(SemanticPathService);
+
   protected readonly CUSTOMER_SERVICE_TRANSLATION_KEY =
     'customerTicketing.customerService';
 
   protected readonly CUSTOMER_SERVICE_SEMANTIC_ROUTE = 'supportTickets';
 
-  constructor(
-    protected translationService: TranslationService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected basePageMetaResolver: BasePageMetaResolver,
-    protected customerTicketingFacade: CustomerTicketingFacade,
-    protected translation: TranslationService,
-    protected semanticPath: SemanticPathService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     super();
     this.pageType = PageType.CONTENT_PAGE;
     this.pageUid = 'support-ticket-details';

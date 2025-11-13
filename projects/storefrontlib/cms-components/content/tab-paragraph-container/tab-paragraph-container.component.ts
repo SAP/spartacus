@@ -45,6 +45,10 @@ const defaultTabConfig = {
   standalone: false,
 })
 export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
+  componentData = inject<CmsComponentData<CMSTabParagraphContainer>>(CmsComponentData);
+  protected cmsService = inject(CmsService);
+  protected winRef = inject(WindowRef);
+
   protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   /**
    * @deprecated This method will be removed.
@@ -80,11 +84,10 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     Map<string, Observable<any> | null>
   >(new Map());
 
-  constructor(
-    public componentData: CmsComponentData<CMSTabParagraphContainer>,
-    protected cmsService: CmsService,
-    protected winRef: WindowRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
     distinctUntilChanged((x, y) => x?.components === y?.components),

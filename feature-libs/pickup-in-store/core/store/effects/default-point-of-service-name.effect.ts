@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { WindowRef } from '@spartacus/core';
@@ -29,12 +29,11 @@ import { StateWithPickupLocations } from '../pickup-location-state';
 
 @Injectable()
 export class DefaultPointOfServiceEffect {
-  constructor(
-    private actions$: Actions,
-    protected store: Store<StateWithPickupLocations>,
-    protected userProfileService: UserProfileFacade,
-    protected winRef: WindowRef
-  ) {}
+  private actions$ = inject(Actions);
+  protected store = inject<Store<StateWithPickupLocations>>(Store);
+  protected userProfileService = inject(UserProfileFacade);
+  protected winRef = inject(WindowRef);
+
 
   loadDefaultPointOfService$ = createEffect(() =>
     this.actions$.pipe(

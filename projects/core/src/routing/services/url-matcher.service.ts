@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, isDevMode } from '@angular/core';
+import { Injectable, isDevMode, inject } from '@angular/core';
 import {
   Route,
   UrlMatcher,
@@ -16,7 +16,12 @@ import { GlobService } from '../../util/glob.service';
 
 @Injectable({ providedIn: 'root' })
 export class UrlMatcherService {
-  constructor(protected globService: GlobService) {}
+  protected globService = inject(GlobService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Returns a matcher that is always fails

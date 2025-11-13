@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   AuthActions,
@@ -31,16 +31,27 @@ import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
   providedIn: 'root',
 })
 export class AsmAuthService extends AuthService {
-  constructor(
-    protected store: Store<StateWithClientAuth>,
-    protected userIdService: UserIdService,
-    protected oAuthLibWrapperService: OAuthLibWrapperService,
-    protected authStorageService: AsmAuthStorageService,
-    protected authRedirectService: AuthRedirectService,
-    protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService,
-    protected authMultisiteIsolationService?: AuthMultisiteIsolationService
-  ) {
+  protected store: Store<StateWithClientAuth>;
+  protected userIdService: UserIdService;
+  protected oAuthLibWrapperService: OAuthLibWrapperService;
+  protected authStorageService: AsmAuthStorageService;
+  protected authRedirectService: AuthRedirectService;
+  protected globalMessageService = inject(GlobalMessageService);
+  protected routingService: RoutingService;
+  protected authMultisiteIsolationService?: AuthMultisiteIsolationService;
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const store = inject<Store<StateWithClientAuth>>(Store);
+    const userIdService = inject(UserIdService);
+    const oAuthLibWrapperService = inject(OAuthLibWrapperService);
+    const authStorageService = inject(AsmAuthStorageService);
+    const authRedirectService = inject(AuthRedirectService);
+    const routingService = inject(RoutingService);
+    const authMultisiteIsolationService = inject(AuthMultisiteIsolationService);
+
     super(
       store,
       userIdService,
@@ -50,6 +61,14 @@ export class AsmAuthService extends AuthService {
       routingService,
       authMultisiteIsolationService
     );
+  
+    this.store = store;
+    this.userIdService = userIdService;
+    this.oAuthLibWrapperService = oAuthLibWrapperService;
+    this.authStorageService = authStorageService;
+    this.authRedirectService = authRedirectService;
+    this.routingService = routingService;
+    this.authMultisiteIsolationService = authMultisiteIsolationService;
   }
 
   protected canUserLogin(): boolean {

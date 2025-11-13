@@ -5,7 +5,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ScopedData } from '../../model/scoped-data';
 import { mergeFields, parseFields } from '../utils/occ-fields';
 
@@ -43,7 +43,12 @@ export interface OccOptimimalUrlGroups {
   providedIn: 'root',
 })
 export class OccFieldsService {
-  constructor(protected http: HttpClient) {}
+  protected http = inject(HttpClient);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected FIELDS_PARAM = 'fields';
 

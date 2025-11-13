@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
+import { EventEmitter, Injectable, OnDestroy, inject } from '@angular/core';
 import {
   Product,
   ProductReference,
@@ -35,12 +35,15 @@ import { VisualPickingProductListItem } from './model/visual-picking-product-lis
   providedIn: 'root',
 })
 export class VisualPickingProductListService implements OnDestroy {
-  constructor(
-    protected currentProductService: CurrentProductService,
-    protected productReferenceService: ProductReferenceService,
-    protected visualPickingProductFilterService: VisualPickingProductFilterService,
-    protected epdVisualizationConfig: EpdVisualizationConfig
-  ) {}
+  protected currentProductService = inject(CurrentProductService);
+  protected productReferenceService = inject(ProductReferenceService);
+  protected visualPickingProductFilterService = inject(VisualPickingProductFilterService);
+  protected epdVisualizationConfig = inject(EpdVisualizationConfig);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected readonly DEFAULT_ITEMS_PER_SLIDE = 7;
 

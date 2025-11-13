@@ -5,14 +5,7 @@
  */
 
 import { isPlatformBrowser } from '@angular/common';
-import {
-  Inject,
-  Injectable,
-  isDevMode,
-  PLATFORM_ID,
-  Renderer2,
-  RendererFactory2,
-} from '@angular/core';
+import { Injectable, isDevMode, PLATFORM_ID, Renderer2, RendererFactory2, inject } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { SeoConfig } from '../config';
 
@@ -20,17 +13,20 @@ import { SeoConfig } from '../config';
   providedIn: 'root',
 })
 export class JsonLdScriptFactory {
+  protected platformId = inject(PLATFORM_ID);
+  protected winRef = inject(WindowRef);
+  protected rendererFactory = inject(RendererFactory2);
+  protected config = inject(SeoConfig);
+
   protected renderer: Renderer2 = this.rendererFactory.createRenderer(
     null,
     null
   );
 
-  constructor(
-    @Inject(PLATFORM_ID) protected platformId: string,
-    protected winRef: WindowRef,
-    protected rendererFactory: RendererFactory2,
-    protected config: SeoConfig
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   build(schema: {}[]): void {
     if (schema && this.isJsonLdRequired()) {

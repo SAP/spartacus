@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -22,7 +22,12 @@ import { GlobalMessageSelectors } from '../store/selectors/index';
   providedIn: 'root',
 })
 export class GlobalMessageService {
-  constructor(protected store: Store<StateWithGlobalMessage>) {}
+  protected store = inject<Store<StateWithGlobalMessage>>(Store);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Get all global messages

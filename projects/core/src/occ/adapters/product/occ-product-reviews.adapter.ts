@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Review } from '../../../model/product.model';
@@ -20,11 +20,14 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
 export class OccProductReviewsAdapter implements ProductReviewsAdapter {
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   load(productCode: string, maxCount?: number): Observable<Review[]> {
     return this.http

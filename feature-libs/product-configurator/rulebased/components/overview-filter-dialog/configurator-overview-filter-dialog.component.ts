@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -17,7 +17,12 @@ import {
   standalone: false,
 })
 export class ConfiguratorOverviewFilterDialogComponent {
-  constructor(protected launchDialogService: LaunchDialogService) {}
+  protected launchDialogService = inject(LaunchDialogService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   config$ = this.launchDialogService.data$;
 

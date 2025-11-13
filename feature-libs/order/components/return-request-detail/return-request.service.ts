@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -18,11 +18,14 @@ import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ReturnRequestService {
-  constructor(
-    protected routingService: RoutingService,
-    protected returnRequestService: OrderReturnRequestFacade,
-    protected globalMessageService: GlobalMessageService
-  ) {}
+  protected routingService = inject(RoutingService);
+  protected returnRequestService = inject(OrderReturnRequestFacade);
+  protected globalMessageService = inject(GlobalMessageService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   get isCancelling$(): Observable<boolean> {
     return this.returnRequestService.getCancelReturnRequestLoading();

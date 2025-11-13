@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, inject } from '@angular/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
@@ -26,6 +26,10 @@ import { DisableInfoService } from '../disable-info/disable-info.service';
   standalone: false,
 })
 export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
+  protected itemService = inject<ItemService<T>>(ItemService);
+  protected messageService = inject<MessageService<ConfirmationMessageData>>(MessageService);
+  protected disableInfoService = inject<DisableInfoService<T>>(DisableInfoService);
+
   /**
    * The localization of messages is based on the i18n root. Messages are
    * concatenated to the root, such as:
@@ -59,11 +63,10 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   protected subscription = new Subscription();
   protected confirmation: Subject<ConfirmationMessageData> | null;
 
-  constructor(
-    protected itemService: ItemService<T>,
-    protected messageService: MessageService<ConfirmationMessageData>,
-    protected disableInfoService: DisableInfoService<T>
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   toggle(item: T) {
     if (!item.active) {

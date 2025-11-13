@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GuardResult, Router } from '@angular/router';
 import { SemanticPathService } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -15,11 +15,14 @@ import { OrderCancellationService } from './order-cancellation.service';
   providedIn: 'root',
 })
 export class OrderCancellationGuard {
-  constructor(
-    protected orderAmendService: OrderCancellationService,
-    protected semanticPathService: SemanticPathService,
-    protected router: Router
-  ) {}
+  protected orderAmendService = inject(OrderCancellationService);
+  protected semanticPathService = inject(SemanticPathService);
+  protected router = inject(Router);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   canActivate(): Observable<GuardResult> {
     return this.orderAmendService.getForm().pipe(

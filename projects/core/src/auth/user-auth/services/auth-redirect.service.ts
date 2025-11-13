@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -19,6 +19,14 @@ import { AuthRedirectStorageService } from './auth-redirect-storage.service';
   providedIn: 'root',
 })
 export class AuthRedirectService implements OnDestroy {
+  protected routing = inject(RoutingService);
+  protected router = inject(Router);
+  protected authRedirectStorageService = inject(AuthRedirectStorageService);
+  protected authFlowRoutesService = inject(AuthFlowRoutesService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
   /**
    * This service is responsible for remembering the last page before the authentication. "The last page" can be:
    * 1. Just the previously opened page; or
@@ -33,12 +41,7 @@ export class AuthRedirectService implements OnDestroy {
    *    but is automatically redirected to the login page by the AuthGuard, and he signs in
    *    -> Then we should redirect to the my-account page, not the product page
    */
-  constructor(
-    protected routing: RoutingService,
-    protected router: Router,
-    protected authRedirectStorageService: AuthRedirectStorageService,
-    protected authFlowRoutesService: AuthFlowRoutesService
-  ) {
+  constructor() {
     this.init();
   }
 

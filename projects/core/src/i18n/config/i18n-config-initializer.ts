@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, lastValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ConfigInitializer } from '../../config/config-initializer/config-initializer';
@@ -13,10 +13,15 @@ import { I18nConfig } from './i18n-config';
 
 @Injectable({ providedIn: 'root' })
 export class I18nConfigInitializer implements ConfigInitializer {
+  protected configInit = inject(ConfigInitializerService);
+
   readonly scopes = ['i18n.fallbackLang'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
 
-  constructor(protected configInit: ConfigInitializerService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Resolves the `fallbackLang` based on the default language from config `context.language` .

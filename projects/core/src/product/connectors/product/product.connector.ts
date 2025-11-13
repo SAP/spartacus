@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Product } from '../../../model/product.model';
 import { ProductAdapter } from './product.adapter';
@@ -14,7 +14,12 @@ import { ScopedProductData } from './scoped-product-data';
   providedIn: 'root',
 })
 export class ProductConnector {
-  constructor(protected adapter: ProductAdapter) {}
+  protected adapter = inject(ProductAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   get(productCode: string, scope = ''): Observable<Product> {
     return this.adapter.load(productCode, scope);

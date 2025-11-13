@@ -5,7 +5,7 @@
  */
 
 import { HttpClient, HttpContext, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   CART_MODIFICATION_NORMALIZER,
   CartModification,
@@ -40,12 +40,15 @@ import { OccConfigurator } from './variant-configurator-occ.models';
 export class VariantConfiguratorOccAdapter
   implements RulebasedConfiguratorAdapter
 {
-  constructor(
-    protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService,
-    protected configExpertModeService: ConfiguratorExpertModeService
-  ) {}
+  protected http = inject(HttpClient);
+  protected occEndpointsService = inject(OccEndpointsService);
+  protected converterService = inject(ConverterService);
+  protected configExpertModeService = inject(ConfiguratorExpertModeService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   getConfiguratorType(): string {
     return ConfiguratorType.VARIANT;

@@ -34,18 +34,21 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   providedIn: 'root',
 })
 export class CheckoutStepsSetGuard implements OnDestroy {
+  protected checkoutStepService = inject(CheckoutStepService);
+  protected routingConfigService = inject(RoutingConfigService);
+  protected checkoutDeliveryAddressFacade = inject(CheckoutDeliveryAddressFacade);
+  protected checkoutPaymentFacade = inject(CheckoutPaymentFacade);
+  protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
+  protected router = inject(Router);
+  protected activeCartFacade = inject(ActiveCartFacade);
+
   protected subscription: Subscription;
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected checkoutStepService: CheckoutStepService,
-    protected routingConfigService: RoutingConfigService,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected router: Router,
-    protected activeCartFacade: ActiveCartFacade
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.subscription = this.activeCartFacade
       .hasDeliveryItems()
       .pipe(distinctUntilChanged())

@@ -5,7 +5,7 @@
  */
 
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import {
   ErrorModel,
   GlobalMessageType,
@@ -21,14 +21,23 @@ import { isNotFoundError } from '../../utils/utils';
   providedIn: 'root',
 })
 export class NotFoundTicketRequestHandler extends HttpErrorHandler {
+  protected globalMessageService: GlobalMessageService;
+  protected routingService = inject(RoutingService);
+  protected platformId?: Object;
+
   responseStatus = HttpResponseStatus.NOT_FOUND;
 
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    protected routingService: RoutingService,
-    @Inject(PLATFORM_ID) protected platformId?: Object
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const globalMessageService = inject(GlobalMessageService);
+    const platformId = inject<Object>(PLATFORM_ID);
+
     super(globalMessageService, platformId);
+  
+    this.globalMessageService = globalMessageService;
+    this.platformId = platformId;
   }
 
   getPriority(): Priority {

@@ -4,15 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  TemplateRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, TemplateRef, inject } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -27,6 +19,8 @@ import { ProductItem } from './product-item.model';
   standalone: false,
 })
 export class AsmCustomer360ProductListingComponent implements OnInit {
+  protected breakpointService = inject(BreakpointService);
+
   @Input()
   emptyResultDescription: string;
 
@@ -52,7 +46,10 @@ export class AsmCustomer360ProductListingComponent implements OnInit {
 
   showMore: boolean;
 
-  constructor(protected breakpointService: BreakpointService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.numberofColumns$ = this.getNumberofColumns();

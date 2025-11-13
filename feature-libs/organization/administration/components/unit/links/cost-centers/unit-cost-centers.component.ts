@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ListService } from '../../../shared/list/list.service';
@@ -25,9 +25,14 @@ import { UnitCostCenterListService } from './unit-cost-centers.service';
   standalone: false,
 })
 export class UnitCostCenterListComponent {
+  protected currentUnitService = inject(CurrentUnitService);
+
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService
     ? this.currentUnitService.item$
     : of({ active: true });
 
-  constructor(protected currentUnitService: CurrentUnitService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 }

@@ -4,16 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import {
   Consignment,
   ConsignmentTracking,
@@ -30,6 +21,10 @@ import { take } from 'rxjs/operators';
   standalone: false,
 })
 export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
+  protected orderHistoryFacade = inject(OrderHistoryFacade);
+  protected launchDialogService = inject(LaunchDialogService);
+  protected vcr = inject(ViewContainerRef);
+
   consignmentStatus: string[] = [
     'SHIPPED',
     'IN_TRANSIT',
@@ -45,11 +40,10 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
   orderCode: string;
   consignmentTracking$: Observable<ConsignmentTracking>;
 
-  constructor(
-    protected orderHistoryFacade: OrderHistoryFacade,
-    protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     this.consignmentTracking$ =

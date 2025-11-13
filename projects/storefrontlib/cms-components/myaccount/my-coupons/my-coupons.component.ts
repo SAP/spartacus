@@ -22,6 +22,9 @@ import { MyCouponsComponentService } from './my-coupons.component.service';
   standalone: false,
 })
 export class MyCouponsComponent implements OnInit, OnDestroy {
+  protected couponService = inject(CustomerCouponService);
+  protected myCouponsComponentService = inject(MyCouponsComponentService);
+
   couponResult$: Observable<CustomerCouponSearchResult>;
   couponsLoading$: Observable<boolean>;
   couponSubscriptionLoading$: Observable<boolean>;
@@ -68,10 +71,10 @@ export class MyCouponsComponent implements OnInit, OnDestroy {
 
   protected launchDialogService = inject(LaunchDialogService);
 
-  constructor(
-    protected couponService: CustomerCouponService,
-    protected myCouponsComponentService: MyCouponsComponentService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.couponResult$ = this.couponService

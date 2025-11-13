@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   CommonConfiguratorUtilsService,
   ConfiguratorRouter,
@@ -28,17 +28,20 @@ interface RouterResolution {
   providedIn: 'root',
 })
 export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
+  protected configuratorRouterExtractorService = inject(ConfiguratorRouterExtractorService);
+  protected breakpointService = inject(BreakpointService);
+  protected layoutConfig = inject(LayoutConfig);
+  protected commonConfiguratorUtilsService = inject(CommonConfiguratorUtilsService);
+
   protected static templateName = 'CpqConfigurationTemplate';
   protected static sectionHeaderDisplayOnly = 'headerDisplayOnly';
   protected static sectionNavigationDisplayOnly = 'navigationDisplayOnly';
   protected static sectionHeader = 'header';
   protected static sectionNavigation = 'navigation';
-  constructor(
-    protected configuratorRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected breakpointService: BreakpointService,
-    protected layoutConfig: LayoutConfig,
-    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService
-  ) {}
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {}
 
   handle(
     slots$: Observable<string[]>,

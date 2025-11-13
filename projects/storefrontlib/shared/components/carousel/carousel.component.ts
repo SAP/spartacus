@@ -51,6 +51,9 @@ import { CarouselService } from './carousel.service';
   standalone: false,
 })
 export class CarouselComponent implements OnInit, OnChanges {
+  protected el = inject(ElementRef);
+  protected service = inject(CarouselService);
+
   @Output() keybordEvent = new BehaviorSubject<KeyboardEvent | null>(null);
   /**
    * The title is rendered as the carousel heading.
@@ -110,10 +113,10 @@ export class CarouselComponent implements OnInit, OnChanges {
 
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected el: ElementRef,
-    protected service: CarouselService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     useFeatureStyles('a11yAddPaddingToCarouselPanel');
   }
 

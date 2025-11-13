@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserConsentAdapter } from './user-consent.adapter';
 import { ConsentTemplate } from '../../../model/consent.model';
@@ -13,7 +13,12 @@ import { ConsentTemplate } from '../../../model/consent.model';
   providedIn: 'root',
 })
 export class UserConsentConnector {
-  constructor(protected adapter: UserConsentAdapter) {}
+  protected adapter = inject(UserConsentAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   loadConsents(userId: string): Observable<ConsentTemplate[]> {
     return this.adapter.loadConsents(userId);

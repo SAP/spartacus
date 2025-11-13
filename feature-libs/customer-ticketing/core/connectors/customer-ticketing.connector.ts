@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   AssociatedObject,
   Category,
@@ -18,7 +18,12 @@ import { CustomerTicketingAdapter } from './customer-ticketing.adapter';
 
 @Injectable()
 export class CustomerTicketingConnector {
-  constructor(protected adapter: CustomerTicketingAdapter) {}
+  protected adapter = inject(CustomerTicketingAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   public getTicket(
     customerId: string,

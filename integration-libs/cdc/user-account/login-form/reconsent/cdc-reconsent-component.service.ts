@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { LaunchDialogService } from '@spartacus/storefront';
@@ -16,12 +16,15 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class CdcReconsentComponentService implements OnDestroy {
-  constructor(
-    protected cdcUserConsentService: CdcUserConsentService,
-    protected cdcJsService: CdcJsService,
-    protected globalMessageService: GlobalMessageService,
-    protected launchDialogService: LaunchDialogService
-  ) {}
+  protected cdcUserConsentService = inject(CdcUserConsentService);
+  protected cdcJsService = inject(CdcJsService);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected launchDialogService = inject(LaunchDialogService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
   protected subscription: Subscription = new Subscription();
 
   /**

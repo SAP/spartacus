@@ -5,14 +5,7 @@
  */
 
 import { DOCUMENT } from '@angular/common';
-import {
-  ComponentFactory,
-  ComponentFactoryResolver,
-  ComponentRef,
-  Inject,
-  Injectable,
-  RendererFactory2,
-} from '@angular/core';
+import { ComponentFactory, ComponentFactoryResolver, ComponentRef, Injectable, RendererFactory2, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import {
@@ -25,14 +18,23 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class OutletRenderStrategy extends LaunchRenderStrategy {
-  constructor(
-    @Inject(DOCUMENT) protected document: any,
-    protected rendererFactory: RendererFactory2,
-    protected outletService: OutletService<ComponentFactory<any>>,
-    protected componentFactoryResolver: ComponentFactoryResolver,
-    protected outletRendererService: OutletRendererService
-  ) {
+  protected document: any;
+  protected rendererFactory: RendererFactory2;
+  protected outletService = inject<OutletService<ComponentFactory<any>>>(OutletService);
+  protected componentFactoryResolver = inject(ComponentFactoryResolver);
+  protected outletRendererService = inject(OutletRendererService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const document = inject(DOCUMENT);
+    const rendererFactory = inject(RendererFactory2);
+
     super(document, rendererFactory);
+  
+    this.document = document;
+    this.rendererFactory = rendererFactory;
   }
 
   /**

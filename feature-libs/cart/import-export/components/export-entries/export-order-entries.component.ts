@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import {
   OrderEntriesContext,
   OrderEntry,
@@ -22,12 +22,15 @@ import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.se
   standalone: false,
 })
 export class ExportOrderEntriesComponent {
+  protected exportEntriesService = inject(ExportOrderEntriesToCsvService);
+  protected contextService = inject(ContextService);
+
   @HostBinding('class') styles = 'container';
 
-  constructor(
-    protected exportEntriesService: ExportOrderEntriesToCsvService,
-    protected contextService: ContextService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected orderEntriesContext$: Observable<OrderEntriesContext | undefined> =
     this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);

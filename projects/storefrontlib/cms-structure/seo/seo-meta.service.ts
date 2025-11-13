@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
 import {
   isNotNullable,
@@ -20,12 +20,15 @@ import { PageMetaLinkService } from './page-meta-link.service';
   providedIn: 'root',
 })
 export class SeoMetaService implements OnDestroy {
-  constructor(
-    protected ngTitle: Title,
-    protected ngMeta: Meta,
-    protected pageMetaService: PageMetaService,
-    protected pageMetaLinkService?: PageMetaLinkService
-  ) {}
+  protected ngTitle = inject(Title);
+  protected ngMeta = inject(Meta);
+  protected pageMetaService = inject(PageMetaService);
+  protected pageMetaLinkService? = inject(PageMetaLinkService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   private subscription: Subscription;
 

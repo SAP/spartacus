@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
 import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
@@ -17,12 +17,15 @@ import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class PickupInfoContainerComponent implements OnInit {
+  protected activeCartService = inject(ActiveCartFacade);
+  protected storeDetails = inject(PickupLocationsSearchFacade);
+
   storesDetailsData: Partial<PointOfService>[];
 
-  constructor(
-    protected activeCartService: ActiveCartFacade,
-    protected storeDetails: PickupLocationsSearchFacade
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.activeCartService

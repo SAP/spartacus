@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -24,15 +24,20 @@ export class ConfiguratorAttributeFooterComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit
 {
+  protected configUtils = inject(ConfiguratorStorefrontUtilsService);
+  protected attributeComponentContext = inject(ConfiguratorAttributeCompositionContext);
+
   attribute: Configurator.Attribute;
   owner: CommonConfigurator.Owner;
   groupId: string;
 
-  constructor(
-    protected configUtils: ConfiguratorStorefrontUtilsService,
-    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     super();
+    const attributeComponentContext = this.attributeComponentContext;
+
     this.attribute = attributeComponentContext.attribute;
     this.owner = attributeComponentContext.owner;
     this.groupId = attributeComponentContext.group.id;

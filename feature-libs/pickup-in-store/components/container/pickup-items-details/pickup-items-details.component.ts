@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { CmsPickupItemDetails } from '@spartacus/core';
 import { DeliveryPointOfService } from '@spartacus/pickup-in-store/root';
 import { CmsComponentData, ICON_TYPE } from '@spartacus/storefront';
@@ -24,16 +19,19 @@ import { DeliveryPointsService } from '../../services/delivery-points.service';
   standalone: false,
 })
 export class PickUpItemsDetailsComponent implements OnInit {
+  protected component = inject<CmsComponentData<CmsPickupItemDetails>>(CmsComponentData);
+  protected deliveryPointsService = inject(DeliveryPointsService);
+
   @Input() showEdit: boolean;
   @Input() itemsDetails: Observable<Array<DeliveryPointOfService>>;
   readonly ICON_TYPE = ICON_TYPE;
 
   protected context: string;
 
-  constructor(
-    protected component: CmsComponentData<CmsPickupItemDetails>,
-    protected deliveryPointsService: DeliveryPointsService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
   ngOnInit() {
     this.component.data$
       .pipe(

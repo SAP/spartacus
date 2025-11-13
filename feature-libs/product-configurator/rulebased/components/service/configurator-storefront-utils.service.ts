@@ -24,6 +24,10 @@ import { Configurator } from '../../core/model/configurator.model';
   providedIn: 'root',
 })
 export class ConfiguratorStorefrontUtilsService {
+  protected configuratorGroupsService = inject(ConfiguratorGroupsService);
+  protected windowRef = inject(WindowRef);
+  protected keyboardFocusService = inject(KeyboardFocusService);
+
   protected productService = inject(ProductService);
   protected routingService = inject(RoutingService);
 
@@ -46,11 +50,10 @@ export class ConfiguratorStorefrontUtilsService {
    * Needed for accessibility of checkboxes for delta rendering
    */
   protected lastSelected?: { attributeName: string; valueCode: string };
-  constructor(
-    protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected windowRef: WindowRef,
-    protected keyboardFocusService: KeyboardFocusService
-  ) {}
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {}
 
   /**
    * Does the configuration belong to a cart entry, or has the group been visited already?

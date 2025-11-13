@@ -16,7 +16,10 @@ import {
   ViewChild,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import {
+  QuickOrderConfig,
+  QuickOrderFacade,
+} from '@spartacus/cart/quick-order/root';
 import {
   Config,
   FeatureConfigService,
@@ -42,6 +45,11 @@ const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
   standalone: false,
 })
 export class QuickOrderFormComponent implements OnInit, OnDestroy {
+  config = inject(Config) as QuickOrderConfig;
+  protected cd = inject(ChangeDetectorRef);
+  protected quickOrderService = inject(QuickOrderFacade);
+  protected winRef = inject(WindowRef);
+
   form: UntypedFormGroup;
   iconTypes = ICON_TYPE;
   isSearching: boolean = false;
@@ -56,12 +64,10 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
   protected searchSubscription = new Subscription();
 
-  constructor(
-    public config: Config,
-    protected cd: ChangeDetectorRef,
-    protected quickOrderService: QuickOrderFacade,
-    protected winRef: WindowRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.buildForm();

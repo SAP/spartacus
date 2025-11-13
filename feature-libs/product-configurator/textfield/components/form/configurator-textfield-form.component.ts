@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   CommonConfigurator,
   ConfiguratorRouter,
@@ -21,6 +21,9 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
   standalone: false,
 })
 export class ConfiguratorTextfieldFormComponent {
+  protected configuratorTextfieldService = inject(ConfiguratorTextfieldService);
+  protected configRouterExtractorService = inject(ConfiguratorRouterExtractorService);
+
   configuration$: Observable<ConfiguratorTextfield.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) => {
@@ -53,10 +56,10 @@ export class ConfiguratorTextfieldFormComponent {
       )
     );
 
-  constructor(
-    protected configuratorTextfieldService: ConfiguratorTextfieldService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Updates a configuration attribute

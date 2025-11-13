@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -17,17 +17,20 @@ import { PWAModuleConfig } from '../pwa.module-config';
   providedIn: 'root',
 })
 export class AddToHomeScreenService {
+  protected config = inject(PWAModuleConfig);
+  protected globalMessageService = inject(GlobalMessageService);
+  protected winRef = inject(WindowRef);
+
   protected deferredEvent: any;
 
   protected canPrompt = new BehaviorSubject<boolean>(false);
 
   canPrompt$: Observable<boolean> = this.canPrompt.asObservable();
 
-  constructor(
-    protected config: PWAModuleConfig,
-    protected globalMessageService: GlobalMessageService,
-    protected winRef: WindowRef
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     if (this.config.pwa?.addToHomeScreen) {
       this.init();
     }

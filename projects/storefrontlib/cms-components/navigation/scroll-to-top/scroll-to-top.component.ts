@@ -4,15 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostBinding,
-  HostListener,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, HostListener, OnInit, ViewChild, inject } from '@angular/core';
 import {
   CmsScrollToTopComponent,
   ScrollBehavior,
@@ -30,6 +22,10 @@ import { ICON_TYPE } from '../../misc/icon/icon.model';
   standalone: false,
 })
 export class ScrollToTopComponent implements OnInit {
+  protected winRef = inject(WindowRef);
+  protected componentData = inject<CmsComponentData<CmsScrollToTopComponent>>(CmsComponentData);
+  protected selectFocusUtility = inject(SelectFocusUtility);
+
   iconTypes = ICON_TYPE;
 
   @HostBinding('class.display')
@@ -43,11 +39,10 @@ export class ScrollToTopComponent implements OnInit {
   @ViewChild('button')
   button: ElementRef;
 
-  constructor(
-    protected winRef: WindowRef,
-    protected componentData: CmsComponentData<CmsScrollToTopComponent>,
-    protected selectFocusUtility: SelectFocusUtility
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.setConfig();

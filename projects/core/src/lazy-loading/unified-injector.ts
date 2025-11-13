@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AbstractType,
-  Injectable,
-  InjectionToken,
-  Injector,
-  Type,
-} from '@angular/core';
+import { AbstractType, Injectable, InjectionToken, Injector, Type, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, scan, startWith } from 'rxjs/operators';
 import { LazyModulesService } from './lazy-modules.service';
@@ -25,6 +19,9 @@ const NOT_FOUND_SYMBOL: any = {};
   providedIn: 'root',
 })
 export class UnifiedInjector {
+  protected rootInjector = inject(Injector);
+  protected lazyModules = inject(LazyModulesService);
+
   /**
    * Gather all the injectors, with the root injector as a first one
    *
@@ -34,10 +31,10 @@ export class UnifiedInjector {
     startWith(this.rootInjector)
   );
 
-  constructor(
-    protected rootInjector: Injector,
-    protected lazyModules: LazyModulesService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Gen instances for specified tokens.

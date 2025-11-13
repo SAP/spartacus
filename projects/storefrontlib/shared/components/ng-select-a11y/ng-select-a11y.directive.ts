@@ -34,6 +34,9 @@ const ARIA_LABEL = 'aria-label';
   standalone: false,
 })
 export class NgSelectA11yDirective implements AfterViewInit {
+  private renderer = inject(Renderer2);
+  private elementRef = inject(ElementRef);
+
   /**
    * Use directive to bind aria attribute to inner element of ng-select
    * Angular component for accessibility compliance. If ng-select controls itself
@@ -87,10 +90,10 @@ export class NgSelectA11yDirective implements AfterViewInit {
 
   @Inject(PLATFORM_ID) protected platformId: Object;
 
-  constructor(
-    private renderer: Renderer2,
-    private elementRef: ElementRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngAfterViewInit(): void {
     const inputCombobox =

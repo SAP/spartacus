@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CartVoucherAdapter } from './cart-voucher.adapter';
 
@@ -12,7 +12,12 @@ import { CartVoucherAdapter } from './cart-voucher.adapter';
   providedIn: 'root',
 })
 export class CartVoucherConnector {
-  constructor(protected adapter: CartVoucherAdapter) {}
+  protected adapter = inject(CartVoucherAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   public add(
     userId: string,

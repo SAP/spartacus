@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
@@ -30,6 +30,15 @@ import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
   standalone: false,
 })
 export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
+  protected userPaymentService: UserPaymentService;
+  protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressService;
+  protected checkoutPaymentFacade: CheckoutPaymentService;
+  protected activatedRoute: ActivatedRoute;
+  protected translationService: TranslationService;
+  protected activeCartFacade: ActiveCartFacade;
+  protected checkoutStepService: CheckoutStepService;
+  protected globalMessageService: GlobalMessageService;
+
   showCallbackScreen = false;
 
   isDpCallback(): boolean {
@@ -53,17 +62,20 @@ export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
     this.next();
   }
 
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
   // TODO:#checkout - handle breaking changes
-  constructor(
-    protected userPaymentService: UserPaymentService,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressService,
-    protected checkoutPaymentFacade: CheckoutPaymentService,
-    protected activatedRoute: ActivatedRoute,
-    protected translationService: TranslationService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService,
-    protected globalMessageService: GlobalMessageService
-  ) {
+  constructor() {
+    const userPaymentService = inject(UserPaymentService);
+    const checkoutDeliveryAddressFacade = inject(CheckoutDeliveryAddressService);
+    const checkoutPaymentFacade = inject(CheckoutPaymentService);
+    const activatedRoute = inject(ActivatedRoute);
+    const translationService = inject(TranslationService);
+    const activeCartFacade = inject(ActiveCartFacade);
+    const checkoutStepService = inject(CheckoutStepService);
+    const globalMessageService = inject(GlobalMessageService);
+
     super(
       userPaymentService,
       checkoutDeliveryAddressFacade,
@@ -74,6 +86,15 @@ export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
       checkoutStepService,
       globalMessageService
     );
+    this.userPaymentService = userPaymentService;
+    this.checkoutDeliveryAddressFacade = checkoutDeliveryAddressFacade;
+    this.checkoutPaymentFacade = checkoutPaymentFacade;
+    this.activatedRoute = activatedRoute;
+    this.translationService = translationService;
+    this.activeCartFacade = activeCartFacade;
+    this.checkoutStepService = checkoutStepService;
+    this.globalMessageService = globalMessageService;
+
 
     this.showCallbackScreen = this.isDpCallback();
   }

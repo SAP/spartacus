@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CostCenter, EntitiesModel, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { Budget } from '../../model/budget.model';
@@ -14,7 +14,12 @@ import { CostCenterAdapter } from './cost-center.adapter';
   providedIn: 'root',
 })
 export class CostCenterConnector {
-  constructor(protected adapter: CostCenterAdapter) {}
+  protected adapter = inject(CostCenterAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   get(userId: string, costCenterCode: string): Observable<CostCenter> {
     return this.adapter.load(userId, costCenterCode);

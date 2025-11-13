@@ -5,7 +5,7 @@
  */
 
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   B2BUser,
   ConverterService,
@@ -28,11 +28,14 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class OccUserGroupAdapter implements UserGroupAdapter {
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   load(userId: string, userGroupId: string): Observable<UserGroup> {
     return this.http

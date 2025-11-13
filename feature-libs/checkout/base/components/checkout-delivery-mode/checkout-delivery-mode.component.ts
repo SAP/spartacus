@@ -33,6 +33,13 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   standalone: false,
 })
 export class CheckoutDeliveryModeComponent {
+  protected fb = inject(UntypedFormBuilder);
+  protected checkoutConfigService = inject(CheckoutConfigService);
+  protected activatedRoute = inject(ActivatedRoute);
+  protected checkoutStepService = inject(CheckoutStepService);
+  protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
+  protected activeCartFacade = inject(ActiveCartFacade);
+
   protected globalMessageService = inject(GlobalMessageService);
   protected busy$ = new BehaviorSubject(false);
   protected readonly isSetDeliveryModeHttpErrorSub = new BehaviorSubject(false);
@@ -93,14 +100,10 @@ export class CheckoutDeliveryModeComponent {
     return this.mode.controls['deliveryModeId'].invalid;
   }
 
-  constructor(
-    protected fb: UntypedFormBuilder,
-    protected checkoutConfigService: CheckoutConfigService,
-    protected activatedRoute: ActivatedRoute,
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected activeCartFacade: ActiveCartFacade
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   changeMode(code: string | undefined, event?: Event): void {
     if (!code) {

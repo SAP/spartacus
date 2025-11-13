@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, SecurityContext } from '@angular/core';
+import { Injectable, SecurityContext, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
@@ -20,12 +20,15 @@ import {
   providedIn: 'root',
 })
 export class IconLoaderService {
+  protected winRef = inject(WindowRef);
+  protected iconConfig = inject(IconConfig);
+  protected sanitizer = inject(DomSanitizer);
+
   private loadedResources: string[] = [];
-  constructor(
-    protected winRef: WindowRef,
-    protected iconConfig: IconConfig,
-    protected sanitizer: DomSanitizer
-  ) {}
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {}
 
   /**
    * Returns an html fragment which can be added to the DOM in a safe way.

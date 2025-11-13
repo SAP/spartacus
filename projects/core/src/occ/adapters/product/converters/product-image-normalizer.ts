@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ImageGroup, Images } from '../../../../model/image.model';
 import { Product } from '../../../../model/product.model';
 import { Converter } from '../../../../util/converter.service';
@@ -13,7 +13,12 @@ import { Occ } from '../../../occ-models/occ.models';
 
 @Injectable({ providedIn: 'root' })
 export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
-  constructor(protected config: OccConfig) {}
+  protected config = inject(OccConfig);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   convert(source: Occ.Product, target?: Product): Product {
     if (target === undefined) {

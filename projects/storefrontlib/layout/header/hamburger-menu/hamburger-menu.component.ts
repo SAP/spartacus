@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HamburgerMenuService } from './hamburger-menu.service';
 
@@ -15,7 +15,12 @@ import { HamburgerMenuService } from './hamburger-menu.service';
   standalone: false,
 })
 export class HamburgerMenuComponent {
-  constructor(private hamburgerMenuService: HamburgerMenuService) {}
+  private hamburgerMenuService = inject(HamburgerMenuService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   toggle(): void {
     this.hamburgerMenuService.toggle();

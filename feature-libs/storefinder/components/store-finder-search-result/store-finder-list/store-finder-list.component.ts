@@ -5,7 +5,7 @@
  */
 
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, inject } from '@angular/core';
 import { PointOfService } from '@spartacus/core';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -18,6 +18,9 @@ import { LocationDisplayMode } from './store-finder-list.model';
   standalone: false,
 })
 export class StoreFinderListComponent {
+  private storeFinderService = inject(StoreFinderService);
+  private document = inject(DOCUMENT);
+
   @Input()
   locations: any;
   @Input()
@@ -33,10 +36,10 @@ export class StoreFinderListComponent {
   displayModes = LocationDisplayMode;
   activeDisplayMode = LocationDisplayMode.LIST_VIEW;
 
-  constructor(
-    private storeFinderService: StoreFinderService,
-    @Inject(DOCUMENT) private document: any
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.isDetailsModeVisible = false;
   }
 

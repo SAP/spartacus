@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, OnDestroy, Optional } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { SchemaBuilder } from './builders/schema.interface';
 import { SCHEMA_BUILDER } from './builders/tokens';
@@ -18,12 +18,15 @@ import { JsonLdScriptFactory } from './json-ld-script.factory';
   providedIn: 'root',
 })
 export class StructuredDataFactory implements OnDestroy {
-  constructor(
-    private scriptBuilder: JsonLdScriptFactory,
-    @Optional()
-    @Inject(SCHEMA_BUILDER)
-    private builders: SchemaBuilder[]
-  ) {}
+  private scriptBuilder = inject(JsonLdScriptFactory);
+  private builders = inject(SCHEMA_BUILDER, { optional: true }) as
+    | SchemaBuilder[]
+    | null;
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected subscription: Subscription = new Subscription();
 
@@ -45,7 +48,9 @@ export class StructuredDataFactory implements OnDestroy {
    * Collects all schema builders and observe their structured data.
    */
   protected collectSchemas(): Observable<any[]> {
-    return combineLatest(this.builders.map((builder) => builder.build()));
+    return combineLatest(
+      this.builders?.map((builder) => builder.build()) ?? []
+    );
   }
 
   ngOnDestroy(): void {

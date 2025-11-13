@@ -27,17 +27,20 @@ import { PAGE_LAYOUT_HANDLER, PageLayoutHandler } from './page-layout-handler';
   providedIn: 'root',
 })
 export class PageLayoutService implements OnDestroy {
+  private cms = inject(CmsService);
+  private config = inject(LayoutConfig);
+  private breakpointService = inject(BreakpointService);
+  private unifiedInjector = inject(UnifiedInjector);
+
   protected handlers: PageLayoutHandler[];
   protected subscription = new Subscription();
 
   protected logger = inject(LoggerService);
 
-  constructor(
-    private cms: CmsService,
-    private config: LayoutConfig,
-    private breakpointService: BreakpointService,
-    private unifiedInjector: UnifiedInjector
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.subscription.add(
       this.unifiedInjector
         .getMulti(PAGE_LAYOUT_HANDLER)

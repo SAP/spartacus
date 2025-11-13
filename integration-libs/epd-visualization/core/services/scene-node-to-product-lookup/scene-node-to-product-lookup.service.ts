@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   EpdVisualizationConfig,
   EpdVisualizationInnerConfig,
@@ -32,10 +32,13 @@ export interface NodeIdProductCodes {
   providedIn: 'root',
 })
 export class SceneNodeToProductLookupService {
-  constructor(
-    protected epdVisualizationConfig: EpdVisualizationConfig,
-    protected sceneConnector: SceneConnector
-  ) {
+  protected epdVisualizationConfig = inject(EpdVisualizationConfig);
+  protected sceneConnector = inject(SceneConnector);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     const epdVisualization = this.epdVisualizationConfig
       .epdVisualization as EpdVisualizationInnerConfig;
     const usageIdConfig = epdVisualization.usageIds as UsageIdConfig;

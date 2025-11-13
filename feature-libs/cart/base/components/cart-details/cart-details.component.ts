@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { CartConfigService } from '@spartacus/cart/base/core';
 import {
   ActiveCartFacade,
@@ -24,6 +24,12 @@ import { filter, map, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class CartDetailsComponent implements OnInit {
+  protected activeCartService = inject(ActiveCartFacade);
+  protected selectiveCartService = inject(SelectiveCartFacade);
+  protected authService = inject(AuthService);
+  protected routingService = inject(RoutingService);
+  protected cartConfig = inject(CartConfigService);
+
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
   cartLoaded$: Observable<boolean>;
@@ -31,13 +37,10 @@ export class CartDetailsComponent implements OnInit {
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   selectiveCartEnabled: boolean;
 
-  constructor(
-    protected activeCartService: ActiveCartFacade,
-    protected selectiveCartService: SelectiveCartFacade,
-    protected authService: AuthService,
-    protected routingService: RoutingService,
-    protected cartConfig: CartConfigService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit() {
     this.cart$ = this.activeCartService.getActive();

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { useFeatureStyles } from '@spartacus/core';
 import { Order, OrderFacade } from '@spartacus/order/root';
@@ -17,10 +17,15 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class OrderConfirmationTotalsComponent implements OnDestroy {
+  protected orderFacade = inject(OrderFacade);
+
   readonly cartOutlets = CartOutlets;
   order$: Observable<Order | undefined> = this.orderFacade.getOrderDetails();
 
-  constructor(protected orderFacade: OrderFacade) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     useFeatureStyles('a11yWideScreenImprovements');
   }
 

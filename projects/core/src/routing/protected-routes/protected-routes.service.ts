@@ -4,12 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RoutingConfig } from '../configurable-routes/config/routing-config';
 import { UrlParsingService } from '../configurable-routes/url-translation/url-parsing.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProtectedRoutesService {
+  protected config = inject(RoutingConfig);
+  protected urlParsingService = inject(UrlParsingService);
+
   private nonProtectedPaths: string[][] = []; // arrays of paths' segments list
 
   protected get routingConfig(): RoutingConfig['routing'] {
@@ -25,10 +28,10 @@ export class ProtectedRoutesService {
     return !!this.routingConfig?.protected;
   }
 
-  constructor(
-    protected config: RoutingConfig,
-    protected urlParsingService: UrlParsingService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     if (this.shouldProtect) {
       // pre-process config for performance:
       this.nonProtectedPaths = this.getNonProtectedPaths().map((path) =>

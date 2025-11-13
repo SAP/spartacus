@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CdcLoadUserTokenFailEvent } from '@spartacus/cdc/root';
 import { EventService, StateEventService } from '@spartacus/core';
 import { CdcAuthActions } from '../store/actions';
@@ -13,10 +13,13 @@ import { CdcAuthActions } from '../store/actions';
   providedIn: 'root',
 })
 export class CdcEventBuilder {
-  constructor(
-    protected stateEventService: StateEventService,
-    protected eventService: EventService
-  ) {
+  protected stateEventService = inject(StateEventService);
+  protected eventService = inject(EventService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.register();
   }
 

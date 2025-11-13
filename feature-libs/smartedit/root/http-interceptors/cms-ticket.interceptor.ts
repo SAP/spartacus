@@ -18,9 +18,14 @@ import { SmartEditLauncherService } from '../services/smart-edit-launcher.servic
 
 @Injectable({ providedIn: 'root' })
 export class CmsTicketInterceptor implements HttpInterceptor {
+  protected service = inject(SmartEditLauncherService);
+
   routingService = inject(RoutingService);
 
-  constructor(protected service: SmartEditLauncherService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   intercept(
     request: HttpRequest<any>,

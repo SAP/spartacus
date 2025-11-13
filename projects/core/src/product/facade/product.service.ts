@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { Product } from '../../model/product.model';
@@ -18,10 +18,13 @@ import { ProductSelectors } from '../store/selectors/index';
   providedIn: 'root',
 })
 export class ProductService {
-  constructor(
-    protected store: Store<StateWithProduct>,
-    protected productLoading: ProductLoadingService
-  ) {}
+  protected store = inject<Store<StateWithProduct>>(Store);
+  protected productLoading = inject(ProductLoadingService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Returns the product observable. The product will be loaded

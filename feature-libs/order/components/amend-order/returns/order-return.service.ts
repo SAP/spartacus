@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
@@ -25,15 +25,22 @@ import { OrderAmendService } from '../amend-order.service';
   providedIn: 'root',
 })
 export class OrderReturnService extends OrderAmendService {
+  protected orderDetailsService: OrderDetailsService;
+  protected returnRequestService = inject(OrderReturnRequestFacade);
+  protected routing = inject(RoutingService);
+  protected globalMessageService = inject(GlobalMessageService);
+
   amendType = AmendOrderType.RETURN;
 
-  constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected returnRequestService: OrderReturnRequestFacade,
-    protected routing: RoutingService,
-    protected globalMessageService: GlobalMessageService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const orderDetailsService = inject(OrderDetailsService);
+
     super(orderDetailsService);
+  
+    this.orderDetailsService = orderDetailsService;
   }
 
   getEntries(): Observable<OrderEntry[]> {

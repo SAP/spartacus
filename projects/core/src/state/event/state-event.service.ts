@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Type } from '@angular/core';
+import { Injectable, Type, inject } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -20,10 +20,13 @@ import { ActionToEventMapping } from './action-to-event-mapping';
   providedIn: 'root',
 })
 export class StateEventService {
-  constructor(
-    protected actionsSubject: ActionsSubject,
-    protected eventService: EventService
-  ) {}
+  protected actionsSubject = inject(ActionsSubject);
+  protected eventService = inject(EventService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Registers an event source stream of specific events

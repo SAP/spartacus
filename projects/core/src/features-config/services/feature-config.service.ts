@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { FeaturesConfig } from '../config/features-config';
 import {
   isFeatureEnabled,
@@ -15,7 +15,12 @@ import {
   providedIn: 'root',
 })
 export class FeatureConfigService {
-  constructor(protected config: FeaturesConfig) {}
+  protected config = inject(FeaturesConfig);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   isLevel(version: string): boolean {
     return isFeatureLevel(this.config, version);

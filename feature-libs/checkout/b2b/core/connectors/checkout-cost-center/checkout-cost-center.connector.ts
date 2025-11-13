@@ -4,14 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { CheckoutCostCenterAdapter } from './checkout-cost-center.adapter';
 
 @Injectable()
 export class CheckoutCostCenterConnector {
-  constructor(protected adapter: CheckoutCostCenterAdapter) {}
+  protected adapter = inject(CheckoutCostCenterAdapter);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   setCostCenter(
     userId: string,

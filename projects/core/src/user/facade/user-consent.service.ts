@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, iif, Observable } from 'rxjs';
 import {
@@ -38,11 +38,14 @@ import {
   providedIn: 'root',
 })
 export class UserConsentService {
-  constructor(
-    protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService: AuthService,
-    protected userIdService: UserIdService
-  ) {}
+  protected store = inject<Store<StateWithUser | StateWithProcess<void>>>(Store);
+  protected authService = inject(AuthService);
+  protected userIdService = inject(UserIdService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Retrieves all consents.

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GuardResult, Router } from '@angular/router';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { SemanticPathService } from '@spartacus/core';
@@ -15,11 +15,14 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CartNotEmptyGuard {
-  constructor(
-    protected activeCartFacade: ActiveCartFacade,
-    protected semanticPathService: SemanticPathService,
-    protected router: Router
-  ) {}
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected semanticPathService = inject(SemanticPathService);
+  protected router = inject(Router);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   canActivate(): Observable<GuardResult> {
     return this.activeCartFacade.takeActive().pipe(

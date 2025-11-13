@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, Optional } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Product } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -21,12 +21,15 @@ import { JSONLD_PRODUCT_BUILDER } from '../tokens';
   providedIn: 'root',
 })
 export class ProductSchemaBuilder implements SchemaBuilder {
-  constructor(
-    private currentProduct: CurrentProductService,
-    @Optional()
-    @Inject(JSONLD_PRODUCT_BUILDER)
-    protected builders: JsonLdBuilder<Product>[]
-  ) {}
+  private currentProduct = inject(CurrentProductService);
+  protected builders = inject(JSONLD_PRODUCT_BUILDER, {
+    optional: true,
+  }) as JsonLdBuilder<Product>[] | null;
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   build(): Observable<any> {
     return this.currentProduct.getProduct().pipe(

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
@@ -20,10 +20,13 @@ import { SiteContext } from './site-context.interface';
 
 @Injectable()
 export class BaseSiteService implements SiteContext<BaseSite> {
-  constructor(
-    protected store: Store<StateWithSiteContext>,
-    protected config: SiteContextConfig
-  ) {}
+  protected store = inject<Store<StateWithSiteContext>>(Store);
+  protected config = inject(SiteContextConfig);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Represents the current baseSite uid.

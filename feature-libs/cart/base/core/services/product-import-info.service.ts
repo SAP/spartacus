@@ -20,8 +20,13 @@ import { CartActions } from '../store/actions';
   providedIn: 'root',
 })
 export class ProductImportInfoService {
+  protected actionsSubject = inject(ActionsSubject);
+
   protected logger = inject(LoggerService);
-  protected constructor(protected actionsSubject: ActionsSubject) {}
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+  constructor() {}
 
   /**
    * Get emission of add entry results from actions subject

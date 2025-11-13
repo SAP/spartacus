@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild, inject } from '@angular/core';
 import { VisualViewerComponent } from '../../visual-viewer/visual-viewer.component';
 import { VisualViewerService } from '../../visual-viewer/visual-viewer.service';
 import { VisualPickingProductListComponent } from './product-list/visual-picking-product-list.component';
@@ -27,7 +22,12 @@ import { VisualPickingTabService } from './visual-picking-tab.service';
   standalone: false,
 })
 export class VisualPickingTabComponent implements AfterViewInit {
-  constructor(protected visualPickingTabService: VisualPickingTabService) {}
+  protected visualPickingTabService = inject(VisualPickingTabService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngAfterViewInit(): void {
     this.visualPickingTabService.initialize(

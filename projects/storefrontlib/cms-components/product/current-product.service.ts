@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   isNotUndefined,
   Product,
@@ -19,10 +19,13 @@ import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CurrentProductService {
-  constructor(
-    private routingService: RoutingService,
-    private productService: ProductService
-  ) {}
+  private routingService = inject(RoutingService);
+  private productService = inject(ProductService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected readonly DEFAULT_PRODUCT_SCOPE = ProductScope.DETAILS;
 

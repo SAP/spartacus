@@ -5,7 +5,7 @@
  */
 
 import { Location } from '@angular/common';
-import { Injectable, Injector, OnDestroy } from '@angular/core';
+import { Injectable, Injector, OnDestroy, inject } from '@angular/core';
 import {
   NavigationCancel,
   NavigationEnd,
@@ -23,11 +23,14 @@ import { SiteContextUrlSerializer } from './site-context-url-serializer';
   providedIn: 'root',
 })
 export class SiteContextRoutesHandler implements OnDestroy {
-  constructor(
-    private siteContextParams: SiteContextParamsService,
-    private serializer: SiteContextUrlSerializer,
-    private injector: Injector
-  ) {}
+  private siteContextParams = inject(SiteContextParamsService);
+  private serializer = inject(SiteContextUrlSerializer);
+  private injector = inject(Injector);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   private subscription = new Subscription();
 

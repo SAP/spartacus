@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Inject, Injectable, InjectionToken } from '@angular/core';
+import { Injectable, InjectionToken, inject } from '@angular/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
@@ -18,16 +18,18 @@ import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
 //Not provided in root, as this would break lazy loading
 @Injectable()
 export class RulebasedConfiguratorConnector {
+  protected adapters = inject(RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST);
+  protected configUtilsService = inject(CommonConfiguratorUtilsService);
+  protected config = inject(ConfiguratorCoreConfig);
+
   static CONFIGURATOR_ADAPTER_LIST = new InjectionToken<
     RulebasedConfiguratorAdapter[]
   >('ConfiguratorAdapterList');
 
-  constructor(
-    @Inject(RulebasedConfiguratorConnector.CONFIGURATOR_ADAPTER_LIST)
-    protected adapters: RulebasedConfiguratorAdapter[],
-    protected configUtilsService: CommonConfiguratorUtilsService,
-    protected config: ConfiguratorCoreConfig
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   createConfiguration(
     owner: CommonConfigurator.Owner,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import {
   AccountSummaryDetails,
@@ -19,16 +19,19 @@ import { AccountSummaryConnector } from '../connectors/account-summary.connector
   providedIn: 'root',
 })
 export class AccountSummaryService implements AccountSummaryFacade, OnDestroy {
+  private routingService = inject(RoutingService);
+  private userIdService = inject(UserIdService);
+  private accountSummaryConnector = inject(AccountSummaryConnector);
+
   protected subscriptions = new Subscription();
 
   userId: string;
   orgUnitId: string;
 
-  constructor(
-    private routingService: RoutingService,
-    private userIdService: UserIdService,
-    private accountSummaryConnector: AccountSummaryConnector
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.subscriptions.add(
       this.userIdService
         .takeUserId()

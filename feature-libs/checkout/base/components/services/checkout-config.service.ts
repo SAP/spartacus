@@ -16,6 +16,8 @@ import { CheckoutFlowOrchestratorService } from './checkout-flow-orchestrator.se
   providedIn: 'root',
 })
 export class CheckoutConfigService {
+  private checkoutConfig = inject(CheckoutConfig);
+
   protected checkoutFlowOrchestratorService = inject(
     CheckoutFlowOrchestratorService
   );
@@ -28,7 +30,10 @@ export class CheckoutConfigService {
   protected checkoutFlow =
     this.checkoutFlowOrchestratorService?.getCheckoutFlow();
 
-  constructor(private checkoutConfig: CheckoutConfig) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     if (this.checkoutFlowOrchestratorService) {
       this.express = this.checkoutFlow?.express ?? false;
       this.guest = this.checkoutFlow?.guest ?? false;

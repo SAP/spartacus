@@ -30,13 +30,16 @@ const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 
 @Injectable()
 export class OccUserAddressAdapter implements UserAddressAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   loadAll(userId: string): Observable<Address[]> {
     const url = this.occEndpoints.buildUrl('addresses', {

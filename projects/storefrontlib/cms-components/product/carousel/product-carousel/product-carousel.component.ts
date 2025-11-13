@@ -31,6 +31,9 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
   standalone: false,
 })
 export class ProductCarouselComponent {
+  protected componentData = inject<CmsComponentData<model>>(CmsComponentData);
+  protected productService = inject(ProductService);
+
   private featureConfigService: FeatureConfigService =
     inject(FeatureConfigService);
   protected productSearchByCodeService: ProductSearchByCodeService = inject(
@@ -79,10 +82,10 @@ export class ProductCarouselComponent {
   trackByFn: TrackByFunction<Product> = (_index: number, item: Product) =>
     item?.code;
 
-  constructor(
-    protected componentData: CmsComponentData<model>,
-    protected productService: ProductService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     useFeatureStyles('productCarouselScrolling');
   }
 

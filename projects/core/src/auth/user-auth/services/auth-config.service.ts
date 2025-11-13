@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { AuthConfig, AuthLibConfig } from '../config/auth-config';
 import { OAuthFlow } from '../models/oauth-flow';
@@ -18,10 +18,13 @@ import { OAuthFlow } from '../models/oauth-flow';
   providedIn: 'root',
 })
 export class AuthConfigService {
-  constructor(
-    protected authConfig: AuthConfig,
-    protected occConfig: OccConfig
-  ) {}
+  protected authConfig = inject(AuthConfig);
+  protected occConfig = inject(OccConfig);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Utility to make access to authentication config easier.

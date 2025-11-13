@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
@@ -15,7 +15,12 @@ import { OrderDetailsService } from '../order-details.service';
   standalone: false,
 })
 export class OrderDetailTotalsComponent implements OnInit {
-  constructor(protected orderDetailsService: OrderDetailsService) {}
+  protected orderDetailsService = inject(OrderDetailsService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   order$: Observable<any>;
 

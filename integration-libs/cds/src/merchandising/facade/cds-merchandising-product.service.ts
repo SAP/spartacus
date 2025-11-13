@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { debounceTime, map, mergeMap } from 'rxjs/operators';
 import {
@@ -20,11 +20,14 @@ import { CdsMerchandisingUserContextService } from './cds-merchandising-user-con
   providedIn: 'root',
 })
 export class CdsMerchandisingProductService {
-  constructor(
-    protected strategyConnector: MerchandisingStrategyConnector,
-    protected merchandisingUserContextService: CdsMerchandisingUserContextService,
-    protected merchandisingSiteContextService: CdsMerchandisingSiteContextService
-  ) {}
+  protected strategyConnector = inject(MerchandisingStrategyConnector);
+  protected merchandisingUserContextService = inject(CdsMerchandisingUserContextService);
+  protected merchandisingSiteContextService = inject(CdsMerchandisingSiteContextService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   loadProductsForStrategy(
     strategyId: string,

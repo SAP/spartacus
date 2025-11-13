@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -24,12 +24,15 @@ import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class ForgotPasswordComponentService {
-  constructor(
-    protected userPasswordService: UserPasswordFacade,
-    protected routingService: RoutingService,
-    protected authConfigService: AuthConfigService,
-    protected globalMessage: GlobalMessageService
-  ) {}
+  protected userPasswordService = inject(UserPasswordFacade);
+  protected routingService = inject(RoutingService);
+  protected authConfigService = inject(AuthConfigService);
+  protected globalMessage = inject(GlobalMessageService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected busy$ = new BehaviorSubject(false);
 

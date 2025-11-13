@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
@@ -19,13 +19,16 @@ import { Subscription } from 'rxjs';
   providedIn: 'root',
 })
 export class QuickOrderStatePersistenceService implements OnDestroy {
+  protected quickOrderService = inject(QuickOrderFacade);
+  protected siteContextParamsService = inject(SiteContextParamsService);
+  protected statePersistenceService = inject(StatePersistenceService);
+
   protected subscription = new Subscription();
 
-  constructor(
-    protected quickOrderService: QuickOrderFacade,
-    protected siteContextParamsService: SiteContextParamsService,
-    protected statePersistenceService: StatePersistenceService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   /**
    * Identifier used for storage key.

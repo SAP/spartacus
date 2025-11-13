@@ -26,18 +26,29 @@ import { CurrentUnitAddressService } from './current-unit-address.service';
   providedIn: 'root',
 })
 export class UnitAddressItemService extends ItemService<Address> {
+  protected currentItemService: CurrentUnitAddressService;
+  protected routingService: RoutingService;
+  protected formService: UnitAddressFormService;
+  protected unitService = inject(OrgUnitService);
+
   // TODO (CXSPA-5630): Remove service in next major.
   protected featureConfigService = inject(FeatureConfigService, {
     optional: true,
   });
 
-  constructor(
-    protected currentItemService: CurrentUnitAddressService,
-    protected routingService: RoutingService,
-    protected formService: UnitAddressFormService,
-    protected unitService: OrgUnitService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const currentItemService = inject(CurrentUnitAddressService);
+    const routingService = inject(RoutingService);
+    const formService = inject(UnitAddressFormService);
+
     super(currentItemService, routingService, formService);
+  
+    this.currentItemService = currentItemService;
+    this.routingService = routingService;
+    this.formService = formService;
   }
 
   protected unitRouteParam$ = this.routingService.getParams().pipe(

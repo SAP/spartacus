@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   CostCenter,
   EntitiesModel,
@@ -38,13 +38,20 @@ export interface CostCenterModel {
   providedIn: 'root',
 })
 export class CostCenterListService extends ListService<CostCenterModel> {
+  protected tableService: TableService;
+  protected costCenterService = inject(CostCenterService);
+
   protected tableType = OrganizationTableType.COST_CENTER;
 
-  constructor(
-    protected tableService: TableService,
-    protected costCenterService: CostCenterService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
+    const tableService = inject(TableService);
+
     super(tableService);
+  
+    this.tableService = tableService;
   }
 
   protected load(

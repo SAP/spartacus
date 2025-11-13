@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { Router, Routes, UrlMatcher } from '@angular/router';
 import { UrlMatcherService } from '../services/url-matcher.service';
 import { ExternalRoutesConfig } from './external-routes-config';
@@ -17,11 +17,14 @@ import { ExternalRoutesGuard } from './external-routes.guard';
   providedIn: 'root',
 })
 export class ExternalRoutesService {
-  constructor(
-    protected config: ExternalRoutesConfig,
-    protected urlMatcherService: UrlMatcherService,
-    protected injector: Injector
-  ) {}
+  protected config = inject(ExternalRoutesConfig);
+  protected urlMatcherService = inject(UrlMatcherService);
+  protected injector = inject(Injector);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected get internalUrlPatterns(): string[] {
     return (

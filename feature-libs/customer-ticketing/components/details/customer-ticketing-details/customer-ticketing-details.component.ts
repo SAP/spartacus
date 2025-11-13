@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
 import {
   EventService,
   RoutingService,
@@ -29,17 +29,20 @@ import { filter, map, take, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class CustomerTicketingDetailsComponent implements OnDestroy {
+  protected translation = inject(TranslationService);
+  protected customerTicketingFacade = inject(CustomerTicketingFacade);
+  protected routingService = inject(RoutingService);
+  protected eventService = inject(EventService);
+
   dateFormat = DATE_FORMAT;
   subscription = new Subscription();
   ticketDetails$: Observable<TicketDetails | undefined> =
     this.customerTicketingFacade.getTicket();
 
-  constructor(
-    protected translation: TranslationService,
-    protected customerTicketingFacade: CustomerTicketingFacade,
-    protected routingService: RoutingService,
-    protected eventService: EventService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.reloadOnRedirection();
   }
 

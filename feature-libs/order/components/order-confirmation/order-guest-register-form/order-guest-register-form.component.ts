@@ -26,6 +26,11 @@ import { Subscription } from 'rxjs';
   host: { ngSkipHydration: 'true' },
 })
 export class OrderGuestRegisterFormComponent implements OnDestroy {
+  protected userRegisterFacade = inject(UserRegisterFacade);
+  protected routingService = inject(RoutingService);
+  protected authService = inject(AuthService);
+  protected fb = inject(UntypedFormBuilder);
+
   private featureConfigService = inject(FeatureConfigService);
 
   protected passwordValidators = this.featureConfigService.isEnabled(
@@ -54,12 +59,10 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
     }
   );
 
-  constructor(
-    protected userRegisterFacade: UserRegisterFacade,
-    protected routingService: RoutingService,
-    protected authService: AuthService,
-    protected fb: UntypedFormBuilder
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   submit() {
     if (this.guestRegisterForm.valid) {

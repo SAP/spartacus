@@ -37,13 +37,16 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class OccCustomerTicketingAdapter implements CustomerTicketingAdapter {
+  protected http = inject(HttpClient);
+  protected occEndpoints = inject(OccEndpointsService);
+  protected converter = inject(ConverterService);
+
   protected logger = inject(LoggerService);
 
-  constructor(
-    protected http: HttpClient,
-    protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
   getTicketAssociatedObjects(
     customerId: string
   ): Observable<AssociatedObject[]> {

@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   AsmCustomer360Coupon,
   AsmCustomer360CouponList,
@@ -29,6 +24,12 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
   standalone: false,
 })
 export class AsmCustomer360CouponComponent implements OnInit, OnDestroy {
+  protected context = inject<AsmCustomer360SectionContext<AsmCustomer360CouponList>>(AsmCustomer360SectionContext);
+  protected cartVoucherService = inject(CartVoucherFacade);
+  protected userIdService = inject(UserIdService);
+  protected activeCartFacade = inject(ActiveCartFacade);
+  protected asmCustomer360Facade = inject(AsmCustomer360Facade);
+
   showErrorAlert$ = new BehaviorSubject<boolean>(false);
   showErrorAlertForApplyAction$ = new BehaviorSubject<boolean>(false);
   currentCartId: string | undefined;
@@ -36,13 +37,10 @@ export class AsmCustomer360CouponComponent implements OnInit, OnDestroy {
   entries$: Observable<Array<AsmCustomer360Coupon>>;
   subscription = new Subscription();
 
-  constructor(
-    protected context: AsmCustomer360SectionContext<AsmCustomer360CouponList>,
-    protected cartVoucherService: CartVoucherFacade,
-    protected userIdService: UserIdService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected asmCustomer360Facade: AsmCustomer360Facade
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.subscription.add(

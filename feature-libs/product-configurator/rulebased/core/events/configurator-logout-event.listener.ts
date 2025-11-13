@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { EventService, LogoutEvent } from '@spartacus/core';
 import { merge, Subscription } from 'rxjs';
 import { ConfiguratorExpertModeService } from '../services/configurator-expert-mode.service';
@@ -14,13 +14,16 @@ import { ConfiguratorCommonsService } from '../facade/configurator-commons.servi
   providedIn: 'root',
 })
 export class ConfiguratorLogoutEventListener implements OnDestroy {
+  protected eventService = inject(EventService);
+  protected configExpertModeService = inject(ConfiguratorExpertModeService);
+  protected configuratorCommonsService = inject(ConfiguratorCommonsService);
+
   protected subscription = new Subscription();
 
-  constructor(
-    protected eventService: EventService,
-    protected configExpertModeService: ConfiguratorExpertModeService,
-    protected configuratorCommonsService: ConfiguratorCommonsService
-  ) {
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {
     this.onLogout();
   }
 

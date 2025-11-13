@@ -42,6 +42,11 @@ import { CurrentProductService } from '../../current-product.service';
   standalone: false,
 })
 export class ProductReviewsComponent {
+  protected reviewService = inject(ProductReviewService);
+  protected currentProductService = inject(CurrentProductService);
+  private fb = inject(UntypedFormBuilder);
+  protected cd = inject(ChangeDetectorRef);
+
   @ViewChild('titleInput', { static: false }) titleInput: ElementRef;
   @ViewChild('writeReviewButton', { static: false })
   writeReviewButton: ElementRef;
@@ -73,12 +78,10 @@ export class ProductReviewsComponent {
     })
   );
 
-  constructor(
-    protected reviewService: ProductReviewService,
-    protected currentProductService: CurrentProductService,
-    private fb: UntypedFormBuilder,
-    protected cd: ChangeDetectorRef
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   initiateWriteReview(): void {
     this.isWritingReview = true;

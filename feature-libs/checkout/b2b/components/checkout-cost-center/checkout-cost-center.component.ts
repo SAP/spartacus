@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
@@ -26,6 +20,10 @@ import { distinctUntilChanged, filter, map, take, tap } from 'rxjs/operators';
   standalone: false,
 })
 export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
+  protected userCostCenterService = inject(UserCostCenterService);
+  protected checkoutCostCenterFacade = inject(CheckoutCostCenterFacade);
+  protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+
   protected subscription = new Subscription();
   protected userCostCenters$: Observable<CostCenter[]> =
     this.userCostCenterService
@@ -41,11 +39,10 @@ export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
     return !this.isAccountPayment;
   }
 
-  constructor(
-    protected userCostCenterService: UserCostCenterService,
-    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade
-  ) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.subscription.add(

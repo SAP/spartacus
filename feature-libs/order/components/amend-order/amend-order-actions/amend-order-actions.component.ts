@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, inject } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { UntypedFormGroup } from '@angular/forms';
 
@@ -20,6 +15,8 @@ import { UntypedFormGroup } from '@angular/forms';
   standalone: false,
 })
 export class AmendOrderActionsComponent {
+  protected routingService = inject(RoutingService);
+
   @Input() orderCode: string;
   @Input() amendOrderForm: UntypedFormGroup;
   @Input() backRoute: string;
@@ -27,7 +24,10 @@ export class AmendOrderActionsComponent {
 
   @HostBinding('class') styles = 'row';
 
-  constructor(protected routingService: RoutingService) {}
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   continue(event: Event): void {
     if (this.amendOrderForm.valid) {

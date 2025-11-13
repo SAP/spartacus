@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -18,10 +18,13 @@ import { filter, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class UpdateProfileComponentService {
-  constructor(
-    protected userProfile: UserProfileFacade,
-    protected globalMessageService: GlobalMessageService
-  ) {}
+  protected userProfile = inject(UserProfileFacade);
+  protected globalMessageService = inject(GlobalMessageService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   user$ = this.userProfile
     .get()

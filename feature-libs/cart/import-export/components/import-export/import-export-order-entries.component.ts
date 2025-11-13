@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   OrderEntriesContext,
   ORDER_ENTRIES_CONTEXT,
@@ -20,7 +20,12 @@ import { map, switchMap } from 'rxjs/operators';
   standalone: false,
 })
 export class ImportExportOrderEntriesComponent {
-  constructor(protected contextService: ContextService) {}
+  protected contextService = inject(ContextService);
+
+  /** Inserted by Angular inject() migration for backwards compatibility */
+  constructor(...args: unknown[]);
+
+  constructor() {}
 
   protected context$: Observable<OrderEntriesContext | undefined> =
     this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
