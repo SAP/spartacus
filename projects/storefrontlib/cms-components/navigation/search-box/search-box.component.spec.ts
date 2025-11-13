@@ -166,6 +166,7 @@ describe('SearchBoxComponent', () => {
   {
     chosenWord = new ReplaySubject<string>();
     sharedEvent = new ReplaySubject<KeyboardEvent>();
+    searchCompleted = new BehaviorSubject<boolean>(true);
 
     launchSearchPage = jasmine.createSpy('launchSearchPage');
     getResults = jasmine.createSpy('search').and.callFake(() => {
@@ -269,7 +270,7 @@ describe('SearchBoxComponent', () => {
       expect(routingService.getRouterState).toHaveBeenCalled();
       expect(serviceSpy.chosenWord.subscribe).toHaveBeenCalled();
       expect(serviceSpy.sharedEvent.subscribe).toHaveBeenCalled();
-      expect(searchBoxComponent['subscriptions'].add).toHaveBeenCalledTimes(3);
+      expect(searchBoxComponent['subscriptions'].add).toHaveBeenCalledTimes(4);
     });
 
     it('should dispatch new results when search is executed', () => {
@@ -290,16 +291,22 @@ describe('SearchBoxComponent', () => {
       expect(searchBoxComponent.search).toHaveBeenCalledWith('test input');
     });
 
-    it('should launch the search page, given it is not an empty search', () => {
+    it('should launch the search page, given it is not an empty search', fakeAsync(() => {
       fixture.detectChanges();
       const input = fixture.debugElement.query(By.css('.searchbox input'));
       input.nativeElement.value = PRODUCT_SEARCH_STRING;
+
       input.triggerEventHandler('keydown.enter', {});
 
       fixture.detectChanges();
 
+      // Simulate search completion - onEnter sets it to false, then we set it to true
+      serviceSpy.searchCompleted.next(true);
+      // Advance time enough for all async operations: debounceTime(50), timeout(1000)
+      tick(1100);
+
       expect(serviceSpy.launchSearchPage).toHaveBeenCalled();
-    });
+    }));
 
     it('should not launch search page on empty search', () => {
       fixture.detectChanges();
@@ -472,7 +479,7 @@ describe('SearchBoxComponent', () => {
       ).toEqual(1);
     });
 
-    it('should contain chosen word from the dropdown', () => {
+    it('should contain chosen word from the dropdown', fakeAsync(() => {
       fixture.detectChanges();
       const input = fixture.debugElement.query(By.css('.searchbox input'));
       mockRouterState.state.context = {
@@ -480,14 +487,21 @@ describe('SearchBoxComponent', () => {
         type: PageType.CONTENT_PAGE,
       };
       input.nativeElement.value = PRODUCT_SEARCH_STRING;
+
       input.triggerEventHandler('keydown.enter', {});
       routerState$.next(mockRouterState);
       fixture.detectChanges();
+
+      // Simulate search completion - onEnter sets it to false, then we set it to true
+      serviceSpy.searchCompleted.next(true);
+      // Advance time enough for all async operations: debounceTime(50), timeout(1000)
+      tick(1100);
+
       expect(searchBoxComponent.chosenWord).toEqual(PRODUCT_SEARCH_STRING);
       expect(input.nativeElement.value).toEqual(PRODUCT_SEARCH_STRING);
-    });
+    }));
 
-    it('should clear input when Enter is pressed on a category suggestion', () => {
+    it('should clear input when Enter is pressed on a category suggestion', fakeAsync(() => {
       // Mock suggestions that include a category
       const mockResults = {
         suggestions: ['Digital Cameras', 'Camera Accessories', 'Lenses'],
@@ -504,11 +518,13 @@ describe('SearchBoxComponent', () => {
       // Trigger the onEnter method directly
       searchBoxComponent.onEnter('Digital Cameras');
 
-      // Wait for the async operation
-      setTimeout(() => {
-        expect(searchBoxComponent.chosenWord).toEqual('');
-      }, 150);
-    });
+      // Simulate search completion - onEnter sets it to false, then we set it to true
+      serviceSpy.searchCompleted.next(true);
+      // Advance time enough for all async operations: debounceTime(50), timeout(1000), setTimeout(150)
+      tick(1200);
+
+      expect(searchBoxComponent.chosenWord).toEqual('');
+    }));
 
     it('should not contain searched word when navigating to another page', () => {
       fixture.detectChanges();
