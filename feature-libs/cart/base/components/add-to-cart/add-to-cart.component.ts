@@ -168,10 +168,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.showQuantity = false;
     }
 
-    /**
-     * When removing the feature toggle in the future, let's leave the if-else block.
-     * In case of absent sapUnit we want to fallback to the stock info from the product object.
-     */
+    
     if (this.realTimeStockEnabled && product.sapUnit?.sapCode) {
       this.productAvailabilityService
         .getRealTimeStock(this.productCode, product.sapUnit?.sapCode)
