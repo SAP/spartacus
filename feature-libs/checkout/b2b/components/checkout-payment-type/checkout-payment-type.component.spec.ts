@@ -277,7 +277,7 @@ describe('CheckoutPaymentTypeComponent', () => {
       tap((isEditable) => {
         expect(isEditable).toBeFalsy();
       })
-    );
+    ).subscribe();
     expect(
       el.query(By.css('#poNumberInput')).nativeElement.disabled
     ).toBeTruthy();
