@@ -28,7 +28,6 @@ import {
   OccConfig,
   SortModel,
   TranslationService,
-  useFeatureStyles,
   User,
 } from '@spartacus/core';
 import {
@@ -117,7 +116,6 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     protected asmCustomerListFacade: AsmCustomerListFacade,
     protected occConfig?: OccConfig
   ) {
-    useFeatureStyles('a11yShowLabelOfSelect');
     this.breakpoint$ = this.getBreakpoint();
   }
 
