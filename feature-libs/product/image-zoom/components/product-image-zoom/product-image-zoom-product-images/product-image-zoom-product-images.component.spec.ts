@@ -2,23 +2,31 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  CxDatePipe,
   FeatureConfigService,
   FeaturesConfigModule,
   FeatureToggles,
-  I18nTestingModule,
   ImageGroup,
+  MockDatePipe,
+  MockTranslatePipe,
   Product,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
+  CarouselComponent,
+  CarouselScrollingComponent,
   CurrentProductService,
   ImageFetchPriority,
   LCP_PRESENCE,
   LcpContextDirectiveModule,
   LcpPresence,
+  MediaComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
+import { NgFor, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { ProductImageZoomTriggerComponent } from '../product-image-zoom-trigger/product-image-zoom-trigger.component';
 
 const firstImage = {
   zoom: {
@@ -79,7 +87,6 @@ class MockCurrentProductService {
 @Component({
   selector: 'cx-media',
   template: '',
-  imports: [I18nTestingModule, LcpContextDirectiveModule, FeaturesConfigModule],
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -96,7 +103,7 @@ class MockMediaComponent {
       ></ng-container>
     </ng-container>
   `,
-  imports: [I18nTestingModule, LcpContextDirectiveModule, FeaturesConfigModule],
+  imports: [NgFor, NgTemplateOutlet, AsyncPipe],
 })
 class MockCarouselComponent {
   @Input() items: any;
@@ -115,7 +122,7 @@ class MockCarouselComponent {
       ></ng-container>
     </ng-container>
   `,
-  imports: [I18nTestingModule, LcpContextDirectiveModule, FeaturesConfigModule],
+  imports: [NgFor, NgTemplateOutlet, AsyncPipe],
 })
 class MockCarouselScrollingComponent {
   @Input() items: any;
@@ -127,7 +134,6 @@ class MockCarouselScrollingComponent {
 @Component({
   selector: 'cx-product-image-zoom-trigger',
   template: ``,
-  imports: [I18nTestingModule, LcpContextDirectiveModule, FeaturesConfigModule],
 })
 class MockProductImageZoomTriggerComponent {
   @Input() expandImage: any;
@@ -166,14 +172,9 @@ describe('ProductImageZoomProductImagesComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         LcpContextDirectiveModule,
         FeaturesConfigModule,
         ProductImageZoomProductImagesComponent,
-        MockMediaComponent,
-        MockCarouselComponent,
-        MockCarouselScrollingComponent,
-        MockProductImageZoomTriggerComponent,
       ],
       providers: [
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
@@ -186,7 +187,30 @@ describe('ProductImageZoomProductImagesComponent', () => {
           useClass: MockCurrentProductService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductImageZoomProductImagesComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            MediaComponent,
+            CarouselComponent,
+            CarouselScrollingComponent,
+            ProductImageZoomTriggerComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockMediaComponent,
+            MockCarouselComponent,
+            MockCarouselScrollingComponent,
+            MockProductImageZoomTriggerComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     currentProductService = TestBed.inject(CurrentProductService);
   }));

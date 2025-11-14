@@ -6,7 +6,14 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
@@ -37,12 +44,7 @@ describe('ProductImageZoomTriggerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        ProductImageZoomTriggerComponent,
-        TestDialogComponent,
-        MockFeatureDirective,
-      ],
+      imports: [ProductImageZoomTriggerComponent, TestDialogComponent],
       providers: [
         {
           provide: LaunchDialogService,
@@ -50,7 +52,16 @@ describe('ProductImageZoomTriggerComponent', () => {
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductImageZoomTriggerComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, FeatureDirective],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockFeatureDirective],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(ProductImageZoomTriggerComponent);
     component = fixture.componentInstance;

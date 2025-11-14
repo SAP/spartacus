@@ -14,21 +14,28 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  CxDatePipe,
   FeatureConfigService,
   FeaturesConfigModule,
   I18nTestingModule,
   ImageGroup,
+  MockDatePipe,
+  MockTranslatePipe,
   Product,
+  TranslatePipe,
 } from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
 import {
   BREAKPOINT,
   BreakpointService,
   CurrentProductService,
+  IconComponent,
+  MediaComponent,
 } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 
 import { ProductImageZoomViewComponent } from './product-image-zoom-view.component';
+import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumbnails/product-image-zoom-thumbnails.component';
 
 const firstImage = {
   zoom: {
@@ -99,15 +106,6 @@ class MockMediaComponent {
 }
 
 @Component({
-  selector: 'cx-product-thumbnails',
-  template: '',
-  imports: [I18nTestingModule, FeaturesConfigModule],
-})
-class MockProductThumbnailsComponent {
-  @Input() thumbs$;
-}
-
-@Component({
   selector: 'cx-icon',
   template: '',
   imports: [I18nTestingModule, FeaturesConfigModule],
@@ -140,21 +138,34 @@ describe('ProductImageZoomViewComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        FeaturesConfigModule,
-        ProductImageZoomViewComponent,
-        MockIconComponent,
-        MockMediaComponent,
-        MockProductThumbnailsComponent,
-        MockProductImageZoomThumbnailsComponent,
-      ],
+      imports: [FeaturesConfigModule, ProductImageZoomViewComponent],
       providers: [
         { provide: CurrentProductService, useClass: MockCurrentProductService },
         { provide: BreakpointService, useClass: MockBreakpointService },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductImageZoomViewComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            MediaComponent,
+            ProductImageZoomThumbnailsComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockIconComponent,
+            MockMediaComponent,
+            MockProductImageZoomThumbnailsComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     currentProductService = TestBed.inject(CurrentProductService);
   });

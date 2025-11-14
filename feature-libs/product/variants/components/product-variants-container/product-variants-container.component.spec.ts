@@ -3,16 +3,26 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NavigationExtras } from '@angular/router';
 import {
   BaseOption,
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Product,
   RoutingService,
+  TranslatePipe,
   UrlCommandRoute,
   UrlCommands,
+  UrlPipe,
   VariantType,
 } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ProductVariantsContainerComponent } from './product-variants-container.component';
+import {
+  ProductVariantStyleSelectorComponent,
+  ProductVariantSizeSelectorComponent,
+  ProductVariantColorSelectorComponent,
+} from '../public_api';
 
 const mockProduct: Product = {
   name: 'mockProduct',
@@ -90,14 +100,7 @@ describe('ProductVariantsContainerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        ProductVariantsContainerComponent,
-        MockUrlPipe,
-        MockCxProductStyleSelectorComponent,
-        MockCxProductSizeSelectorComponent,
-        MockCxProductColorSelectorComponent,
-      ],
+      imports: [ProductVariantsContainerComponent],
       providers: [
         {
           provide: RoutingService,
@@ -108,7 +111,30 @@ describe('ProductVariantsContainerComponent', () => {
           useClass: MockCurrentProductService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductVariantsContainerComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            ProductVariantStyleSelectorComponent,
+            ProductVariantSizeSelectorComponent,
+            ProductVariantColorSelectorComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockCxProductStyleSelectorComponent,
+            MockCxProductSizeSelectorComponent,
+            MockCxProductColorSelectorComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

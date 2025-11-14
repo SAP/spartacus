@@ -1,12 +1,19 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   ICON_TYPE,
+  IconComponent,
   KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { ProductImageZoomDialogComponent } from './product-image-zoom-dialog.component';
+import { ProductImageZoomViewComponent } from '../product-image-zoom-view/product-image-zoom-view.component';
 
 class MockLaunchDialogService {
   closeDialog() {}
@@ -15,7 +22,6 @@ class MockLaunchDialogService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -24,7 +30,6 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-product-image-zoom-view',
   template: '',
-  imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockProductImageZoomViewComponent {
   @Input() galleryIndex: number;
@@ -37,20 +42,33 @@ describe('ProductImageZoomDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        KeyboardFocusTestingModule,
-        ProductImageZoomDialogComponent,
-        MockCxIconComponent,
-        MockProductImageZoomViewComponent,
-      ],
+      imports: [KeyboardFocusTestingModule, ProductImageZoomDialogComponent],
       providers: [
         {
           provide: LaunchDialogService,
           useClass: MockLaunchDialogService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductImageZoomDialogComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            ProductImageZoomViewComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockProductImageZoomViewComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(ProductImageZoomDialogComponent);
     component = fixture.componentInstance;
