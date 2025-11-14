@@ -29,10 +29,4 @@
   @include cx-highContrastTheme {
     border-color: var(--cx-color-dark);
   }
-  #poNumberInput:read-only {
-    cursor: not-allowed;
-  }
-  #poNumberInput:read-only:focus {
-    background-color: var(--cx-color-secondary);
-  }
 }
