@@ -9,6 +9,9 @@ import { lastValueFrom } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { Config } from '../../config/config-tokens';
+import { BaseSiteService } from '../facade/base-site.service';
+import { CurrencyService } from '../facade/currency.service';
+import { LanguageService } from '../facade/language.service';
 import { SiteContextRoutesHandler } from '../services/site-context-routes-handler';
 
 export function initializeContext(
@@ -32,6 +35,9 @@ export function initializeContext(
 }
 
 export const contextServiceProviders: Provider[] = [
+  BaseSiteService,
+  LanguageService,
+  CurrencyService,
   {
     provide: APP_INITIALIZER,
     useFactory: initializeContext,

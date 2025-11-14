@@ -21,7 +21,7 @@ import { SiteContext } from './site-context.interface';
 /**
  * Facade that provides easy access to currency state, actions and selectors.
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class CurrencyService implements SiteContext<Currency> {
   constructor(
     protected store: Store<StateWithSiteContext>,
