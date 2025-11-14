@@ -3,17 +3,19 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import {
+  FeatureDirective,
   I18nTestingModule,
   NotificationPreference,
+  TranslatePipe,
+  UrlPipe,
   UserInterestsService,
 } from '@spartacus/core';
-import { FocusDirective } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { LaunchDialogService } from '../../../../layout/launch-dialog/services/index';
-import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { StockNotificationDialogComponent } from './stock-notification-dialog.component';
+import { RouterModule } from '@angular/router';
 
 describe('StockNotificationDialogComponent', () => {
   let component: StockNotificationDialogComponent;
@@ -44,19 +46,19 @@ describe('StockNotificationDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        SpinnerModule,
-        UrlTestingModule,
-        StockNotificationDialogComponent,
-        FocusDirective,
-        MockFeatureDirective,
-      ],
+      imports: [RouterModule.forRoot([])],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: UserInterestsService, useValue: interestsService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(StockNotificationDialogComponent, {
+        remove: { imports: [FeatureDirective, UrlPipe, TranslatePipe] },
+        add: {
+          imports: [MockFeatureDirective, I18nTestingModule, UrlTestingModule],
+        },
+      })
+      .compileComponents();
 
     launchDialogService = TestBed.inject(LaunchDialogService);
   }));

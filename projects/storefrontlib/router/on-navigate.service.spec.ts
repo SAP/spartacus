@@ -7,7 +7,7 @@ import {
   Router,
   Scroll,
 } from '@angular/router';
-import { OnNavigateConfig } from '@spartacus/storefront';
+import { OnNavigateConfig, StorefrontComponent } from '@spartacus/storefront';
 import { Subject } from 'rxjs';
 import { OnNavigateService } from './on-navigate.service';
 
@@ -21,7 +21,7 @@ const mockOnNavigateConfig: OnNavigateConfig = {
 
 @Component({
   template: ` <cx-storefront tabindex="0"></cx-storefront> `,
-  standalone: false,
+  imports: [StorefrontComponent],
 })
 class MockComponent {}
 

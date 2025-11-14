@@ -2,9 +2,10 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { DatePickerComponent } from './date-picker.component';
+import { FormErrorsComponent } from '../form-errors';
 
 @Component({
   selector: 'cx-form-errors',
@@ -36,7 +37,12 @@ describe('DatePickerComponent', () => {
         MockFormErrorComponent,
         MockFeatureDirective,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(DatePickerComponent, {
+        remove: { imports: [FormErrorsComponent, CxDatePipe, TranslatePipe] },
+        add: { imports: [MockFormErrorComponent, I18nTestingModule] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

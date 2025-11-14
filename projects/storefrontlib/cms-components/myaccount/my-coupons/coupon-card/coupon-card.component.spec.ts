@@ -10,8 +10,13 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CustomerCoupon,
+  CxDatePipe,
   FeaturesConfig,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import { BehaviorSubject, EMPTY, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -48,7 +53,7 @@ class MockUrlPipe implements PipeTransform {
     >
     </cx-coupon-card>
   `,
-  imports: [I18nTestingModule],
+  imports: [I18nTestingModule, CouponCardComponent],
 })
 class MyCouponsComponent {
   eventObj: {
@@ -88,12 +93,7 @@ describe('CouponCardComponent', () => {
   );
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        CouponCardComponent,
-        MyCouponsComponent,
-        MockUrlPipe,
-      ],
+      imports: [CouponCardComponent, MyCouponsComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
@@ -107,7 +107,16 @@ describe('CouponCardComponent', () => {
           },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CouponCardComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockDatePipe, MockTranslatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

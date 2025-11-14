@@ -1,12 +1,22 @@
 import { Component, DebugElement, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FeatureConfigService, RoutingService } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  FeatureDirective,
+  RoutingService,
+} from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
-import { OutletDirective } from '../../cms-structure';
+import {
+  OutletDirective,
+  PageLayoutComponent,
+  PageSlotComponent,
+  PageTemplateDirective,
+} from '../../cms-structure';
 import { MockFeatureDirective } from '../../shared/test/mock-feature-directive';
 import { SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontComponent } from './storefront.component';
+import { GlobalMessageComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-header',
@@ -60,6 +70,9 @@ class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
 }
 
+@Directive({ selector: '[cxPageTemplateStyle]' })
+class MockPageTemplateDirective implements Partial<PageTemplateDirective> {}
+
 class MockSkipLinkService implements Partial<SkipLinkService> {
   getSkipLinks() {
     return of([
@@ -82,17 +95,6 @@ describe('StorefrontComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StorefrontComponent,
-        MockHeaderComponent,
-        MockGlobalMessageComponent,
-        MockFooterComponent,
-        DynamicSlotComponent,
-        MockPageLayoutComponent,
-        MockFeatureDirective,
-        MockSchemaComponent,
-        MockOutletDirective,
-      ],
       providers: [
         {
           provide: RoutingService,
@@ -113,7 +115,34 @@ describe('StorefrontComponent', () => {
           },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(StorefrontComponent, {
+        add: {
+          imports: [
+            MockHeaderComponent,
+            MockGlobalMessageComponent,
+            MockFooterComponent,
+            MockPageLayoutComponent,
+            MockFeatureDirective,
+            MockSchemaComponent,
+            MockOutletDirective,
+            DynamicSlotComponent,
+            MockPageTemplateDirective,
+          ],
+        },
+        remove: {
+          imports: [
+            GlobalMessageComponent,
+            PageLayoutComponent,
+            FeatureDirective,
+            OutletDirective,
+            PageSlotComponent,
+            PageLayoutComponent,
+            PageTemplateDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

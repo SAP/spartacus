@@ -17,6 +17,7 @@ class CustomFocusDirective extends BlockFocusDirective {
     <div id="c" [cxBlockFocus]="{ block: false }" tabindex="0">block</div>
     <div id="d" [cxBlockFocus]="{ otherConfig: true }" tabindex="0">block</div>
   `,
+  imports: [CustomFocusDirective],
 })
 class MockComponent {}
 

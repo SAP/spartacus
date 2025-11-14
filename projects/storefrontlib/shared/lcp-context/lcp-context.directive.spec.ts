@@ -7,6 +7,7 @@ import { LcpContextDirective } from './lcp-context.directive';
 import { LcpPresenceMappingService } from './lcp-presence-mapping.service';
 import { LcpPresence } from './lcp-presence.model';
 import { LCP_PRESENCE } from './lcp-presence.token';
+import { AsyncPipe } from '@angular/common';
 
 class MockLcpPresenceMappingService {
   getFetchPriority(lcpPresence: LcpPresence): ImageFetchPriority | undefined {
@@ -28,6 +29,7 @@ class MockLcpPresenceMappingService {
       </div>
     </ng-container>
   `,
+  imports: [LcpContextDirective, AsyncPipe],
 })
 class TestHostComponent {}
 

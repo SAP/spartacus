@@ -2,13 +2,18 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
+  CxDatePipe,
   I18nTestingModule,
   Product,
   ProductReviewService,
+  TranslatePipe,
 } from '@spartacus/core';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
-import { FormErrorsModule, ItemCounterModule } from '../../../../shared/index';
+import {
+  FormErrorsModule,
+  ItemCounterModule,
+  StarRatingComponent,
+} from '../../../../shared/index';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductReviewsComponent } from './product-reviews.component';
 
@@ -55,15 +60,6 @@ describe('ProductReviewsComponent in product', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        ItemCounterModule,
-        I18nTestingModule,
-        FormErrorsModule,
-        MockStarRatingComponent,
-        ProductReviewsComponent,
-        MockFeatureDirective,
-      ],
       providers: [
         {
           provide: ProductReviewService,
@@ -74,7 +70,14 @@ describe('ProductReviewsComponent in product', () => {
           useClass: MockCurrentProductService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductReviewsComponent, {
+        add: {
+          imports: [MockStarRatingComponent, I18nTestingModule],
+        },
+        remove: { imports: [StarRatingComponent, TranslatePipe, CxDatePipe] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

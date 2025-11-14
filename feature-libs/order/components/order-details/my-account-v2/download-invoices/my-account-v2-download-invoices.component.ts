@@ -32,7 +32,7 @@ import { TranslatePipe } from '@spartacus/core';
   imports: [
     FocusDirective,
     IconComponent,
-    InvoicesListComponent,
+    InvoicesListComponent,SectionLayoutComponent
     NgIf,
     SpinnerComponent,
     TranslatePipe,

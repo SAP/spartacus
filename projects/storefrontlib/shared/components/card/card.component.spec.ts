@@ -8,10 +8,20 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
-import { FocusDirective } from '@spartacus/storefront';
-import { ICON_TYPE } from '../../../cms-components/misc/index';
+import {
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  AtMessageDirective,
+  FocusDirective,
+  TruncateTextPopoverComponent,
+} from '@spartacus/storefront';
+import { ICON_TYPE, IconComponent } from '../../../cms-components/misc/index';
 import { Card, CardComponent, CardLinkAction } from './card.component';
+import { RouterModule } from '@angular/router';
 
 @Directive({ selector: '[cxAtMessage]' })
 export class MockAtMessageDirective {
@@ -67,16 +77,29 @@ describe('CardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        CardComponent,
-        MockCxIconComponent,
-        MockAtMessageDirective,
-        FocusDirective,
-        MockCxTruncateTextPopoverComponent,
-        MockFeatureDirective,
-      ],
-    }).compileComponents();
+      imports: [CardComponent, FocusDirective, RouterModule.forRoot([])],
+    })
+      .overrideComponent(CardComponent, {
+        remove: {
+          imports: [
+            IconComponent,
+            TruncateTextPopoverComponent,
+            TranslatePipe,
+            AtMessageDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockAtMessageDirective,
+            MockCxTruncateTextPopoverComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

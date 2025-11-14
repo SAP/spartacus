@@ -37,6 +37,7 @@ import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-fe
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { skip, take } from 'rxjs/operators';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
+import { RouterModule } from '@angular/router';
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   updateEntry(_entryNumber: number, _quantity: number): void {}
@@ -169,6 +170,7 @@ describe('AddedToCartDialogComponent', () => {
         MockUrlPipe,
         MockCxIconComponent,
         MockFeatureDirective,
+        RouterModule,
       ],
       providers: [
         {

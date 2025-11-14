@@ -33,6 +33,7 @@ class CustomFocusDirective extends AutoFocusDirective {
       <button id="d2"></button>
     </div>
   `,
+  imports: [CustomFocusDirective],
 })
 class MockComponent {}
 

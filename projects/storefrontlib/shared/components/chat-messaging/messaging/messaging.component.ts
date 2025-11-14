@@ -33,7 +33,6 @@ import {
 import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 import { AvatarComponent } from '../avatar/avatar.component';
 import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
-import { FileUploadComponent as FileUploadComponent_1 } from '../../form/file-upload/file-upload.component';
 import { FormErrorsComponent } from '../../form/form-errors/form-errors.component';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';
@@ -49,12 +48,10 @@ import { CxDatePipe } from '@spartacus/core';
     IconComponent,
     FormsModule,
     ReactiveFormsModule,
-    FileUploadComponent_1,
+    FileUploadComponent,
     FormErrorsComponent,
     AsyncPipe,
     TranslatePipe,
-    CxDatePipe,
-
     CxDatePipe,
   ],
 })

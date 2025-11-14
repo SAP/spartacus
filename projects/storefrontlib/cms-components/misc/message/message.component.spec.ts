@@ -1,14 +1,25 @@
 import { Component, DebugElement, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { GlobalMessageType, I18nTestingModule } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  GlobalMessageType,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  AtMessageDirective,
+  ICON_TYPE,
+  IconComponent,
+} from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { MessageComponent } from './message.component';
 
 @Component({
   template: `<cx-message>Test</cx-message>`,
-  standalone: false,
 })
 class TestHostComponent {}
 
@@ -40,14 +51,29 @@ describe('MessageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        MessageComponent,
-        MockCxIconComponent,
-        MockAtMessageDirective,
-        MockFeatureDirective,
-      ],
-    }).compileComponents();
+      imports: [MessageComponent],
+    })
+      .overrideComponent(MessageComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            AtMessageDirective,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockAtMessageDirective,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

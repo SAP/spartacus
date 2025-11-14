@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { BehaviorSubject, filter } from 'rxjs';
 import { HorizontalScrollingPositionDirective } from './horizontal-scrolling-position.directive';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'cx-test-component',
@@ -28,6 +29,7 @@ import { HorizontalScrollingPositionDirective } from './horizontal-scrolling-pos
       </div>
     </ng-container>
   `,
+  imports: [HorizontalScrollingPositionDirective, NgFor],
 })
 export class TestComponent {
   items = [1, 2, 3, 4, 5];

@@ -4,9 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import {
+  CxDatePipe,
+  FeatureLevelDirective,
   GlobalMessageService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   ProductSearchPage,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -15,6 +21,7 @@ import {
   ListNavigationModule,
   MediaComponent,
   SpinnerModule,
+  StarRatingComponent,
 } from '../../../../shared';
 import { ViewConfig } from '../../../../shared/config/view-config';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
@@ -25,6 +32,13 @@ import {
 } from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
+import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
+import {
+  ProductListItemComponent,
+  ProductGridItemComponent,
+  ProductScrollComponent,
+  IconComponent,
+} from '@spartacus/storefront';
 import createSpy = jasmine.createSpy;
 
 const mockProducts = [
@@ -175,21 +189,12 @@ describe('ProductListComponent', () => {
       imports: [
         ListNavigationModule,
         FormsModule,
-        I18nTestingModule,
         InfiniteScrollModule,
         SpinnerModule,
         ProductListComponent,
         ProductFacetNavigationComponent,
-        MockStarRatingComponent,
-        MockAddToCartComponent,
         MediaComponent,
         ProductViewComponent,
-        MockProductListItemComponent,
-        MockProductGridItemComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-        MockFeatureLevelDirective,
-        MockProductScrollComponent,
       ],
       providers: [
         provideRouter([]),
@@ -210,7 +215,38 @@ describe('ProductListComponent', () => {
           useClass: MockGlobalMessageService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductListComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            StarRatingComponent,
+            AddToCartComponent,
+            ProductListItemComponent,
+            ProductGridItemComponent,
+            IconComponent,
+            FeatureLevelDirective,
+            ProductScrollComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockStarRatingComponent,
+            MockAddToCartComponent,
+            MockProductListItemComponent,
+            MockProductGridItemComponent,
+            MockCxIconComponent,
+            MockFeatureLevelDirective,
+            MockProductScrollComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

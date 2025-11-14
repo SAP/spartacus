@@ -18,7 +18,7 @@ import { SiteContextSelectors } from '../store/selectors/index';
 import { StateWithSiteContext } from '../store/state';
 import { SiteContext } from './site-context.interface';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class BaseSiteService implements SiteContext<BaseSite> {
   constructor(
     protected store: Store<StateWithSiteContext>,

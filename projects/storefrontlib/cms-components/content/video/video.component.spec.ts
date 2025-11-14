@@ -10,6 +10,7 @@ import {
   Page,
   PageContext,
   SemanticPathService,
+  TranslatePipe,
   UrlCommand,
 } from '@spartacus/core';
 import { CmsComponentData, Media } from '@spartacus/storefront';
@@ -86,7 +87,12 @@ describe('VideoComponent', () => {
         { provide: SemanticPathService, useClass: MockSemanticPathService },
         { provide: MediaService, useClass: MockMediaService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(VideoComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
   });
   beforeEach(() => {
     fixture = TestBed.createComponent(VideoComponent);

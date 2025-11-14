@@ -26,6 +26,7 @@ class CustomFocusDirective extends BaseFocusDirective {}
     <a id="inactive" cxCustomFocus>inactive link</a>
     <a id="routerlink" routerlink="/link" cxCustomFocus>router link</a>
   `,
+  imports: [CustomFocusDirective],
 })
 class MockComponent {}
 

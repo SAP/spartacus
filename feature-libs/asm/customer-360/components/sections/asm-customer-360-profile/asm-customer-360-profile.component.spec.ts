@@ -23,7 +23,6 @@ import { By } from '@angular/platform-browser';
 
 @Directive({
   selector: '[cxFocus]',
-  standalone: false,
 })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};

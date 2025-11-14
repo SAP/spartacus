@@ -27,7 +27,7 @@ const OUTLET_NAME_4 = 'OUTLET.4';
     <ng-template cxOutletRef="${OUTLET_NAME_4}" cxOutletPos="before">
     </ng-template>
   `,
-  imports: [AnyModule],
+  imports: [OutletRefDirective],
 })
 class TestContainerComponent {}
 

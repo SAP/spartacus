@@ -12,6 +12,7 @@ import { DeferLoaderService } from '../../../layout/loading/defer-loader.service
 import { OutletDirective } from '../../outlet/index';
 import { PageSlotComponent } from './page-slot.component';
 import { PageSlotService } from './page-slot.service';
+import { ComponentWrapperDirective } from '../component';
 
 const slotWithOneComp = {
   components: [
@@ -56,6 +57,7 @@ class MockDynamicAttributeService {
       class="existing-style and-more"
     ></cx-page-slot>
   `,
+  imports: [PageSlotComponent],
 })
 class MockHostComponent {}
 
@@ -63,6 +65,7 @@ class MockHostComponent {}
   template: `
     <div cx-page-slot position="Section2" class="existing-style and-more"></div>
   `,
+  imports: [PageSlotComponent],
 })
 class MockHostWithDivComponent {}
 
@@ -109,16 +112,14 @@ describe('PageSlotComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        PageSlotComponent,
-        OutletDirective,
-        SkipLinkDirective,
-        MockHostComponent,
-        MockHostWithDivComponent,
-        MockComponentWrapperDirective,
-      ],
+      imports: [PageSlotComponent, OutletDirective, SkipLinkDirective],
       providers,
-    }).compileComponents();
+    })
+      .overrideComponent(PageSlotComponent, {
+        remove: { imports: [ComponentWrapperDirective] },
+        add: { imports: [MockComponentWrapperDirective] },
+      })
+      .compileComponents();
 
     cmsService = TestBed.inject(CmsService);
     pageSlotService = TestBed.inject(PageSlotService);

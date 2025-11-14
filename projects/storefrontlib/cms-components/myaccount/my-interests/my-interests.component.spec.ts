@@ -11,15 +11,22 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  CxDatePipe,
+  FeatureDirective,
+  FeatureLevelDirective,
   GlobalMessageService,
   I18nTestingModule,
   ImageType,
+  MockDatePipe,
+  MockTranslatePipe,
   NotificationType,
   OccConfig,
   Product,
   ProductInterestEntryRelation,
   ProductInterestSearchResult,
   ProductService,
+  TranslatePipe,
+  UrlPipe,
   UserInterestsService,
 } from '@spartacus/core';
 import { cold, getTestScheduler } from 'jasmine-marbles';
@@ -28,6 +35,14 @@ import { Observable, of } from 'rxjs';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { MockFeatureLevelDirective } from '../../../shared/test/mock-feature-level-directive';
 import { MyInterestsComponent } from './my-interests.component';
+import { RouterModule } from '@angular/router';
+import {
+  MediaComponent,
+  SpinnerComponent,
+  PaginationComponent,
+  SortingComponent,
+  AtMessageDirective,
+} from '@spartacus/storefront';
 
 @Component({
   template: '',
@@ -212,18 +227,7 @@ describe('MyInterestsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        MyInterestsComponent,
-        MockUrlPipe,
-        MockMediaComponent,
-        MockSpinnerComponent,
-        MockPaginationComponent,
-        MockSortingComponent,
-        MockFeatureLevelDirective,
-        MockAtMessageDirective,
-        MockFeatureDirective,
-      ],
+      imports: [RouterModule.forRoot([]), MyInterestsComponent],
       providers: [
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: LayoutConfig, useValue: MockLayoutConfig },
@@ -231,7 +235,38 @@ describe('MyInterestsComponent', () => {
         { provide: ProductService, useValue: productService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MyInterestsComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            MediaComponent,
+            SpinnerComponent,
+            PaginationComponent,
+            SortingComponent,
+            FeatureLevelDirective,
+            AtMessageDirective,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockMediaComponent,
+            MockSpinnerComponent,
+            MockPaginationComponent,
+            MockSortingComponent,
+            MockFeatureLevelDirective,
+            MockAtMessageDirective,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

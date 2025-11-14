@@ -2,6 +2,7 @@ import { SimpleChange, SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { GenericLinkComponent } from './generic-link.component';
+import { RouterModule } from '@angular/router';
 
 /**
  * Helper function to produce simple change for the `url` `@Input`
@@ -18,7 +19,7 @@ describe('GenericLinkComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [GenericLinkComponent],
+      imports: [GenericLinkComponent, RouterModule.forRoot([])],
     }).compileComponents();
   });
 

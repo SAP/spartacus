@@ -11,23 +11,29 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  FeatureLevelDirective,
   I18nTestingModule,
   ProductService,
   RoutingService,
+  UrlPipe,
 } from '@spartacus/core';
 import {
+  IconComponent,
   ImageFetchPriority,
   LCP_PRESENCE,
   LcpContextDirectiveModule,
   LcpPresence,
+  MediaComponent,
   OutletDirective,
   OutletModule,
+  StarRatingComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
 import { ProductGridItemComponent } from './product-grid-item.component';
+import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -138,6 +144,30 @@ describe('ProductGridItemComponent in product-list', () => {
     })
       .overrideComponent(ProductGridItemComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
+        add: {
+          imports: [
+            MockMediaComponent,
+            MockAddToCartComponent,
+            MockStarRatingComponent,
+            MockUrlPipe,
+            MockCxIconComponent,
+            MockFeatureLevelDirective,
+            MockOutletDirective,
+          ],
+        },
+        remove: {
+          imports: [
+            OutletModule,
+            LcpContextDirectiveModule,
+            MediaComponent,
+            AddToCartComponent,
+            StarRatingComponent,
+            UrlPipe,
+            IconComponent,
+            FeatureLevelDirective,
+            OutletDirective,
+          ],
+        },
       })
       .compileComponents();
   }));

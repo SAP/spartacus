@@ -10,7 +10,6 @@ import { InlineRootRenderStrategy } from './inline-root-render.strategy';
 
 @Component({
   template: '',
-  standalone: false,
 })
 class TestComponent {}
 

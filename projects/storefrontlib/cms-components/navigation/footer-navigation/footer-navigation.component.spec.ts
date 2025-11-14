@@ -4,7 +4,11 @@ import { By } from '@angular/platform-browser';
 import {
   AnonymousConsentsConfig,
   CmsNavigationComponent,
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -12,6 +16,11 @@ import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { NavigationService } from '../navigation/navigation.service';
 import { FooterNavigationComponent } from './footer-navigation.component';
+import { RouterModule } from '@angular/router';
+import {
+  NavigationUIComponent,
+  GenericLinkComponent,
+} from '@spartacus/storefront';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -74,11 +83,9 @@ describe('FooterNavigationComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         FooterNavigationComponent,
         NavigationComponent,
-        MockNavigationUIComponent,
-        MockGenericLinkComponent,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -94,7 +101,26 @@ describe('FooterNavigationComponent', () => {
           useValue: mockAnonymousConsentsConfig,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(FooterNavigationComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            NavigationUIComponent,
+            GenericLinkComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockNavigationUIComponent,
+            MockGenericLinkComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

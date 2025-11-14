@@ -47,6 +47,7 @@ class CustomFocusDirective extends LockFocusDirective {
       <button id="e3"></button>
     </div>
   `,
+  imports: [CustomFocusDirective],
 })
 class MockComponent {}
 

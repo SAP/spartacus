@@ -3,8 +3,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CmsBannerComponentMedia,
   CmsPDFDocumentComponent,
+  TranslatePipe,
 } from '@spartacus/core';
-import { CmsComponentData, Media, MediaService } from '@spartacus/storefront';
+import {
+  CmsComponentData,
+  IconComponent,
+  Media,
+  MediaService,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PDFComponent } from './pdf.component';
 
@@ -63,7 +69,7 @@ describe('PdfComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PDFComponent, MockTranslatePipe, MockCxIconComponent],
+      imports: [PDFComponent],
       providers: [
         {
           provide: CmsComponentData,
@@ -71,7 +77,12 @@ describe('PdfComponent', () => {
         },
         { provide: MediaService, useClass: MockMediaService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PDFComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: { imports: [MockTranslatePipe, MockCxIconComponent] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

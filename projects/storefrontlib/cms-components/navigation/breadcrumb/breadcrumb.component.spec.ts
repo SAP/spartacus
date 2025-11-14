@@ -1,9 +1,17 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule, PageMeta, PageMetaService } from '@spartacus/core';
+import {
+  FeatureDirective,
+  I18nTestingModule,
+  MockTranslatePipe,
+  PageMeta,
+  PageMetaService,
+  TranslatePipe,
+} from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { BreadcrumbComponent } from './breadcrumb.component';
+import { RouterModule } from '@angular/router';
 
 class MockPageMetaService {
   getMeta(): Observable<PageMeta> {
@@ -20,7 +28,11 @@ describe('BreadcrumbComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, BreadcrumbComponent, MockFeatureDirective],
+      imports: [
+        BreadcrumbComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         { provide: PageMetaService, useClass: MockPageMetaService },
         {
@@ -30,7 +42,12 @@ describe('BreadcrumbComponent', () => {
           },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(BreadcrumbComponent, {
+        add: { imports: [MockFeatureDirective, MockTranslatePipe] },
+        remove: { imports: [TranslatePipe, FeatureDirective] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

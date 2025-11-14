@@ -13,6 +13,7 @@ import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';
 import { OutletDirective } from './outlet.directive';
 import { OutletContextData, OutletPosition } from './outlet.model';
+import { AsyncPipe } from '@angular/common';
 
 const keptOutlet = 'keptOutlet';
 const replacedOutlet = 'replacedOutlet';
@@ -42,6 +43,7 @@ describe('OutletDirective', () => {
           </ng-container>
         </div>
       `,
+      imports: [OutletDirective, OutletRefDirective],
     })
     class MockTemplateComponent {}
 
@@ -60,6 +62,7 @@ describe('OutletDirective', () => {
           </ng-container>
         </div>
       `,
+      imports: [OutletDirective, OutletRefDirective],
     })
     class MockOutletBeforeComponent {}
 
@@ -75,6 +78,7 @@ describe('OutletDirective', () => {
           </ng-container>
         </div>
       `,
+      imports: [OutletDirective, OutletRefDirective],
     })
     class MockOutletAfterComponent {}
 
@@ -145,6 +149,7 @@ describe('OutletDirective', () => {
           </ng-container>
         </div>
       `,
+      imports: [OutletDirective, OutletRefDirective],
     })
     class MockStackedReplaceOutletComponent {}
 
@@ -170,6 +175,7 @@ describe('OutletDirective', () => {
           </ng-container>
         </div>
       `,
+      imports: [OutletDirective, OutletRefDirective],
     })
     class MockStackedBeforeOutletComponent {}
 
@@ -220,6 +226,7 @@ describe('OutletDirective', () => {
           <div id="first">instant</div>
         </ng-template>
       `,
+      imports: [OutletDirective],
     })
     class MockInstantOutletComponent {}
 
@@ -233,6 +240,7 @@ describe('OutletDirective', () => {
           <div id="first">deferred</div>
         </ng-template>
       `,
+      imports: [OutletDirective],
     })
     class MockDeferredOutletComponent {
       load(_eventValue: boolean) {}
@@ -280,6 +288,7 @@ describe('OutletDirective', () => {
         <ng-template cxOutletRef="B">B</ng-template>
         <ng-container *cxOutlet="outletName"> </ng-container>
       `,
+      imports: [OutletDirective, OutletRefDirective],
     })
     class HostComponent {
       outletName = 'A';
@@ -330,6 +339,7 @@ describe('OutletDirective', () => {
           </ng-template>
         </div>
       `,
+      imports: [OutletDirective, AsyncPipe],
     })
     class MockTemplateComponent {
       constructor(
@@ -470,6 +480,7 @@ describe('OutletDirective', () => {
         >
         </ng-template>
       `,
+      imports: [OutletDirective],
       changeDetection: ChangeDetectionStrategy.OnPush,
     })
     class MockTestOutletComponent {

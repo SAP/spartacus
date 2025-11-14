@@ -12,14 +12,24 @@ import {
   FeatureConfigService,
   FeaturesConfigModule,
   FeatureToggles,
+  MockTranslatePipe,
   Product,
   ProductReference,
   ProductReferenceService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductReferencesComponent } from './product-references.component';
+import { NgTemplateOutlet } from '@angular/common';
+import { MediaComponent } from 'projects/storefrontlib/shared/components/media/media.component';
+import {
+  CarouselComponent,
+  CarouselScrollingComponent,
+} from '@spartacus/storefront';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'cx-carousel',
@@ -49,7 +59,7 @@ class MockCarouselComponent {
       ></ng-container>
     </ng-container>
   `,
-  imports: [FeaturesConfigModule],
+  imports: [FeaturesConfigModule, NgTemplateOutlet],
 })
 class MockCarouselScrollingComponent {
   @Input() title: string;
@@ -136,7 +146,7 @@ class MockProductReferenceService {
 
   cleanReferences(): void {}
 }
-
+RouterModule.forRoot([]);
 let mockFeatureToggles: FeatureToggles;
 
 class MockFeatureConfigService {
@@ -161,14 +171,7 @@ describe('ProductReferencesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        FeaturesConfigModule,
-        ProductReferencesComponent,
-        MockCarouselComponent,
-        MockCarouselScrollingComponent,
-        MockMediaComponent,
-        MockUrlPipe,
-      ],
+      imports: [FeaturesConfigModule],
       providers: [
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
@@ -184,7 +187,28 @@ describe('ProductReferencesComponent', () => {
           useClass: MockProductReferenceService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductReferencesComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            UrlPipe,
+            MediaComponent,
+            CarouselScrollingComponent,
+            CarouselComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockUrlPipe,
+            MockMediaComponent,
+            MockCarouselScrollingComponent,
+            MockCarouselComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(waitForAsync(() => {

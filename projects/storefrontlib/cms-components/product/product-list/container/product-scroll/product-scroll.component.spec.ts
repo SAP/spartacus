@@ -7,8 +7,12 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, ProductSearchPage } from '@spartacus/core';
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import {
+  I18nTestingModule,
+  ProductSearchPage,
+  TranslatePipe,
+} from '@spartacus/core';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { MediaComponent } from '../../../../../shared/components/media';
 import { SpinnerModule } from '../../../../../shared/components/spinner/spinner.module';
 import { ViewConfig } from '../../../../../shared/config/view-config';
@@ -16,6 +20,10 @@ import { MockFeatureLevelDirective } from '../../../../../shared/test/mock-featu
 import { ViewModes } from '../../product-view/product-view.component';
 import { ProductListComponentService } from '../product-list-component.service';
 import { ProductScrollComponent } from './product-scroll.component';
+import { ProductGridItemComponent } from '../../product-grid-item/product-grid-item.component';
+import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
+import { ProductListItemComponent } from '../../product-list-item/product-list-item.component';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const mockModel1: ProductSearchPage = {
@@ -127,7 +135,7 @@ const showMoreBtn = 'productList.showMoreBtn';
 @Component({
   selector: 'cx-star-rating',
   template: '',
-  imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule],
+  imports: [InfiniteScrollDirective, I18nTestingModule, SpinnerModule],
 })
 class MockStarRatingComponent {
   @Input() rating: number;
@@ -137,7 +145,7 @@ class MockStarRatingComponent {
 @Component({
   template: '',
   selector: 'cx-product-list-item',
-  imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule],
+  imports: [InfiniteScrollDirective, I18nTestingModule, SpinnerModule],
 })
 class MockProductListItemComponent {
   @Input() product: any;
@@ -147,7 +155,7 @@ class MockProductListItemComponent {
 @Component({
   template: '',
   selector: 'cx-product-grid-item',
-  imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule],
+  imports: [InfiniteScrollDirective, I18nTestingModule, SpinnerModule],
 })
 class MockProductGridItemComponent {
   @Input() product: any;
@@ -162,7 +170,7 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
-  imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule],
+  imports: [InfiniteScrollDirective, I18nTestingModule, SpinnerModule],
 })
 class MockAddToCartComponent {
   @Input() product: string;
@@ -181,7 +189,7 @@ class MockProductListComponentService {
 @Component({
   selector: 'cx-variant-style-icons',
   template: 'test',
-  imports: [InfiniteScrollModule, I18nTestingModule, SpinnerModule],
+  imports: [InfiniteScrollDirective, I18nTestingModule, SpinnerModule],
 })
 class MockStyleIconsComponent {
   @Input() variants: any[];
@@ -195,18 +203,10 @@ describe('ProductScrollComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        InfiniteScrollModule,
-        I18nTestingModule,
+        InfiniteScrollDirective,
         SpinnerModule,
         ProductScrollComponent,
-        MockProductGridItemComponent,
-        MockProductListItemComponent,
-        MockUrlPipe,
-        MediaComponent,
-        MockStarRatingComponent,
-        MockAddToCartComponent,
-        MockStyleIconsComponent,
-        MockFeatureLevelDirective,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -214,7 +214,31 @@ describe('ProductScrollComponent', () => {
           useClass: MockProductListComponentService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductScrollComponent, {
+        remove: {
+          imports: [
+            ProductGridItemComponent,
+            SpinnerComponent,
+            ProductListItemComponent,
+            TranslatePipe,
+          ],
+        },
+        add: {
+          imports: [
+            MockProductGridItemComponent,
+            MockProductListItemComponent,
+            MockUrlPipe,
+            MediaComponent,
+            MockStarRatingComponent,
+            MockAddToCartComponent,
+            MockStyleIconsComponent,
+            MockFeatureLevelDirective,
+            I18nTestingModule,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

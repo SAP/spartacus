@@ -12,6 +12,9 @@ import { of } from 'rxjs';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
+import { IconComponent } from '@spartacus/storefront';
+import { ActiveFacetsComponent } from './active-facets';
+import { FacetListComponent } from './facet-list';
 
 @Component({
   selector: 'cx-icon',
@@ -52,20 +55,27 @@ describe('ProductFacetNavigationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        ProductFacetNavigationComponent,
-        MockActiveFacetsComponent,
-        MockFacetListComponent,
-        MockCxIconComponent,
-      ],
+      imports: [I18nTestingModule],
       providers: [
         {
           provide: BreakpointService,
           useClass: MockBreakpointService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductFacetNavigationComponent, {
+        add: {
+          imports: [
+            MockActiveFacetsComponent,
+            MockFacetListComponent,
+            MockCxIconComponent,
+          ],
+        },
+        remove: {
+          imports: [ActiveFacetsComponent, FacetListComponent, IconComponent],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

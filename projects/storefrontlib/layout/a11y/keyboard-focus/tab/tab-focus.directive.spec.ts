@@ -17,6 +17,7 @@ class CustomFocusDirective extends TabFocusDirective {
     <div [cxTabFocus]="{ tab: true }" id="b"></div>
     <div [cxTabFocus]="{ tab: false }" id="c"></div>
   `,
+  imports: [CustomFocusDirective],
 })
 class MockComponent {}
 

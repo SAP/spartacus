@@ -17,6 +17,7 @@ class CustomFocusDirective extends PersistFocusDirective {
     <div id="c" [cxPersistFocus]="{ key: 'key-c' }"></div>
     <div id="d" [cxPersistFocus]="{ key: 'key-d' }"></div>
   `,
+  imports: [CustomFocusDirective],
 })
 class MockComponent {}
 

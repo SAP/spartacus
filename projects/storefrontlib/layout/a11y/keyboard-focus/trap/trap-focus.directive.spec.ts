@@ -17,6 +17,7 @@ class CustomFocusDirective extends TrapFocusDirective {
     <div [cxTrapFocus]="{ trap: true }" id="b"></div>
     <div [cxTrapFocus]="{ trap: false }" id="c"></div>
   `,
+  imports: [CustomFocusDirective],
 })
 class MockComponent {}
 

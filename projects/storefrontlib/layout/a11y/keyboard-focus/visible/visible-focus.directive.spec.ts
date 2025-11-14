@@ -42,6 +42,7 @@ class CustomFakeFocusDirective extends VisibleFocusDirective {
     <div id="b" [cxVisibleFocus]="{ disableMouseFocus: false }"></div>
     <div id="c" cxCustomFocus></div>
   `,
+  imports: [VisibleFocusDirective, CustomFakeFocusDirective],
 })
 class MockComponent {}
 
@@ -88,14 +89,19 @@ describe('VisibleFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [MockComponent, CustomFocusDirective, CustomFakeFocusDirective],
+      imports: [CustomFocusDirective, CustomFakeFocusDirective],
       providers: [
         {
           provide: BaseFocusService,
           useClass: MockVisibleFocusService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MockComponent, {
+        remove: { imports: [VisibleFocusDirective, CustomFakeFocusDirective] },
+        add: { imports: [CustomFocusDirective, CustomFakeFocusDirective] },
+      })
+      .compileComponents();
     fixture = TestBed.createComponent(MockComponent);
   }));
 

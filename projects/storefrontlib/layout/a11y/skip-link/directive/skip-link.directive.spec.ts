@@ -11,6 +11,7 @@ const SKIP_KEY_2 = 'Key2';
     <ng-container [cxSkipLink]="'${SKIP_KEY_1}'"></ng-container>
     <div [cxSkipLink]="'${SKIP_KEY_2}'"></div>
   `,
+  imports: [SkipLinkDirective],
 })
 class TestContainerComponent {}
 
@@ -20,7 +21,7 @@ describe('SkipLinkDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TestContainerComponent, SkipLinkDirective],
+      imports: [TestContainerComponent],
       providers: [
         SkipLinkService,
         {

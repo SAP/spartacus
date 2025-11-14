@@ -7,8 +7,14 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, LoggerService, Product } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  I18nTestingModule,
+  LoggerService,
+  MockTranslatePipe,
+  Product,
+  TranslatePipe,
+} from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CarouselComponent } from './carousel.component';
 import { CarouselService } from './carousel.service';
@@ -57,14 +63,18 @@ describe('Carousel Component', () => {
   let template: TemplateRef<any>;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        CarouselComponent,
-        MockCxIconComponent,
-        MockTemplateComponent,
-      ],
+      imports: [CarouselComponent, MockTemplateComponent],
       providers: [{ provide: CarouselService, useClass: MockCarouselService }],
-    }).compileComponents();
+    })
+      .overrideComponent(CarouselComponent, {
+        add: {
+          imports: [MockCxIconComponent, MockTranslatePipe],
+        },
+        remove: {
+          imports: [IconComponent, TranslatePipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -685,7 +695,7 @@ class TestChildComponent implements OnDestroy {
       <cx-test-child [item]="item" [itemIndex]="itemIndex"></cx-test-child>
     </ng-template>
   `,
-  imports: [I18nTestingModule],
+  imports: [TestChildComponent, CarouselComponent, I18nTestingModule],
 })
 class TestParentComponent {
   mockTitle = 'Test Carousel';

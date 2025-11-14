@@ -28,7 +28,6 @@ import { ngExpressEngine } from './ng-express-engine';
 @Component({
   selector: 'cx-mock',
   template: 'some template',
-  standalone: false,
 })
 export class MockComponent {}
 
@@ -64,7 +63,6 @@ export class MockServerModule {}
 @Component({
   selector: 'cx-request',
   template: `url:{{ _req.url }}`,
-  standalone: false,
 })
 export class RequestComponent {
   constructor(@Inject(REQUEST) public readonly _req: any) {}
@@ -102,7 +100,6 @@ export class RequestServerModule {}
 @Component({
   selector: 'cx-response',
   template: `statusCode:{{ _res.statusCode }}`,
-  standalone: false,
 })
 export class ResponseComponent {
   constructor(@Inject(RESPONSE) public readonly _res: any) {}
@@ -153,7 +150,6 @@ export const SOME_TOKEN = new InjectionToken<string>('SOME_TOKEN');
 @Component({
   selector: 'cx-token',
   template: `message:{{ _someToken.message }}`,
-  standalone: false,
 })
 export class TokenComponent {
   constructor(@Inject(SOME_TOKEN) public readonly _someToken: any) {}

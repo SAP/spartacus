@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Injectable, Input, NgModule } from '@angular/core';
+import { Component, Injectable, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CmsService, ContentSlotData, Page } from '@spartacus/core';
@@ -9,6 +9,8 @@ import { OutletDirective } from '../../outlet';
 import { PageLayoutComponent } from './page-layout.component';
 import { PageLayoutService } from './page-layout.service';
 import { PageTemplateDirective } from './page-template.directive';
+import { TestModule } from 'projects/core/src/config/services/configuration.service.spec';
+import { PageSlotComponent } from '../slot';
 
 const slots = {
   Section1: {
@@ -24,12 +26,14 @@ const slots = {
       <div class="content">content projection</div>
     </cx-page-layout>
   `,
+  imports: [PageLayoutComponent, PageTemplateDirective],
 })
 class MockPageTemplateComponent {}
 
 @Component({
   selector: 'cx-page-header-test',
   template: ` <cx-page-layout section="header"> </cx-page-layout> `,
+  imports: [PageLayoutComponent],
 })
 class MockHeaderComponent {}
 
@@ -88,35 +92,35 @@ class MockDeferLoaderService {
   }
 }
 
-@NgModule({
-  imports: [
-    CommonModule,
-    PageLayoutComponent,
-    MockDynamicSlotComponent,
-    MockPageTemplateComponent,
-    MockHeaderComponent,
-    OutletDirective,
-    PageTemplateDirective,
-  ],
-  providers: [
-    {
-      provide: CmsService,
-      useClass: MockCmsService,
-    },
-    { provide: PageLayoutService, useClass: MockPageLayoutService },
-    { provide: DeferLoaderService, useClass: MockDeferLoaderService },
-  ],
-})
-class TestModule {}
-
 describe('PageLayoutComponent', () => {
   let pageLayoutComponent: MockPageTemplateComponent;
   let fixture: ComponentFixture<MockPageTemplateComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TestModule, PageTemplateDirective],
-    }).compileComponents();
+      imports: [
+        PageTemplateDirective,
+        CommonModule,
+        OutletDirective,
+        MockPageTemplateComponent,
+        MockHeaderComponent,
+      ],
+      providers: [
+        {
+          provide: CmsService,
+          useClass: MockCmsService,
+        },
+        { provide: PageLayoutService, useClass: MockPageLayoutService },
+        { provide: DeferLoaderService, useClass: MockDeferLoaderService },
+      ],
+    })
+      .overrideComponent(MockPageTemplateComponent, {
+        remove: { imports: [PageSlotComponent] },
+        add: {
+          imports: [MockDynamicSlotComponent, MockPageTemplateComponent],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -158,6 +162,14 @@ describe('SectionLayoutComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
+      providers: [
+        {
+          provide: CmsService,
+          useClass: MockCmsService,
+        },
+        { provide: PageLayoutService, useClass: MockPageLayoutService },
+        { provide: DeferLoaderService, useClass: MockDeferLoaderService },
+      ],
     }).compileComponents();
   }));
 

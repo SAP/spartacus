@@ -17,6 +17,7 @@ import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetCollapseState } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 import { FacetComponent } from './facet.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'cx-icon',
@@ -71,6 +72,7 @@ describe('FacetComponent', () => {
         FacetComponent,
         MockCxIconComponent,
         MockKeyboadFocusDirective,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: FacetService, useClass: MockFacetService },

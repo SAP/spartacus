@@ -8,15 +8,20 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  CxDatePipe,
+  FeatureDirective,
   GlobalMessageService,
-  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   NotificationPreference,
   NotificationType,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   Product,
   ProductInterestSearchResult,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
   UserIdService,
   UserInterestsService,
   UserNotificationPreferenceService,
@@ -31,6 +36,7 @@ import { FocusDirective } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/index';
 import { LaunchDialogService } from '../../../layout/launch-dialog/services/index';
+import { RouterModule } from '@angular/router';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
@@ -119,13 +125,11 @@ describe('StockNotificationComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         SpinnerModule,
         StockNotificationComponent,
         StockNotificationDialogComponent,
-        MockUrlPipe,
         FocusDirective,
-        MockFeatureDirective,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: UserIdService, useValue: userIdService },
@@ -143,7 +147,21 @@ describe('StockNotificationComponent', () => {
         },
         { provide: UserInterestsService, useValue: interestsService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(StockNotificationComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, FeatureDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

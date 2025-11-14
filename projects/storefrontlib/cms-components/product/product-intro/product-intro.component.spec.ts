@@ -1,12 +1,20 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
+  CxDatePipe,
   EventService,
+  FeatureDirective,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Product,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
-import { ComponentCreateEvent } from '@spartacus/storefront';
+import {
+  ComponentCreateEvent,
+  StarRatingComponent,
+} from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
@@ -48,12 +56,7 @@ describe('ProductIntroComponent in product', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        ProductIntroComponent,
-        MockStarRatingComponent,
-        MockFeatureDirective,
-      ],
+      imports: [ProductIntroComponent],
       providers: [
         {
           provide: CurrentProductService,
@@ -68,7 +71,26 @@ describe('ProductIntroComponent in product', () => {
           useClass: MockEventService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductIntroComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            StarRatingComponent,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockStarRatingComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

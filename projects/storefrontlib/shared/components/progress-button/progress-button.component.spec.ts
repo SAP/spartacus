@@ -6,7 +6,7 @@ import { ProgressButtonComponent } from './progress-button.component';
 
 @Component({
   template: `<cx-progress-button>Test</cx-progress-button>`,
-  imports: [I18nTestingModule],
+  imports: [I18nTestingModule, ProgressButtonComponent],
 })
 class TestHostComponent {}
 

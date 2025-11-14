@@ -7,8 +7,13 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  CxDatePipe,
   FeatureConfigService,
+  FeatureDirective,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
   WindowRef,
 } from '@spartacus/core';
 import { BreakpointService } from 'projects/storefrontlib/layout';
@@ -17,6 +22,8 @@ import { of } from 'rxjs';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
+import { RouterModule } from '@angular/router';
+import { IconComponent, GenericLinkComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-icon',
@@ -118,14 +125,7 @@ describe('Navigation UI Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        NavigationUIComponent,
-        MockIconComponent,
-        MockGenericLinkComponent,
-        // TODO: (CXSPA-5919) Remove feature directive next major
-        MockFeatureDirective,
-      ],
+      imports: [NavigationUIComponent, RouterModule.forRoot([])],
       providers: [
         {
           provide: HamburgerMenuService,
@@ -144,7 +144,28 @@ describe('Navigation UI Component', () => {
           useClass: MockBreakpointService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(NavigationUIComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            GenericLinkComponent,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockIconComponent,
+            MockGenericLinkComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

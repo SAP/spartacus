@@ -26,7 +26,6 @@ class MockMediaComponent {
 
 @Directive({
   selector: '[cxFocus]',
-  standalone: false,
 })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};

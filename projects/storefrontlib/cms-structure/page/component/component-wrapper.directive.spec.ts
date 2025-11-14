@@ -83,7 +83,7 @@ class MockDynamicAttributeService {
   >
     +
   </ng-container>`,
-  standalone: false,
+  imports: [ComponentWrapperDirective],
 })
 class TestWrapperComponent {
   component: ContentSlotComponentData = {
@@ -117,7 +117,6 @@ describe('ComponentWrapperDirective', () => {
   beforeEach(() => {
     testBedConfig = {
       imports: [PageComponentModule.forRoot(), TestModule],
-      declarations: [TestWrapperComponent, ComponentWrapperDirective],
       providers: [
         Renderer2,
         { provide: CmsConfig, useValue: MockCmsModuleConfig },

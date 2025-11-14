@@ -11,23 +11,29 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  FeatureDirective,
   I18nTestingModule,
   ProductService,
   RoutingService,
+  UrlPipe,
 } from '@spartacus/core';
 import {
+  IconComponent,
   ImageFetchPriority,
   LCP_PRESENCE,
   LcpContextDirectiveModule,
   LcpPresence,
+  MediaComponent,
   OutletDirective,
   OutletModule,
+  StarRatingComponent,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
 import { ProductListItemComponent } from './product-list-item.component';
+import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
@@ -108,19 +114,6 @@ describe('ProductListItemComponent in product-list', () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        OutletModule,
-        LcpContextDirectiveModule,
-        ProductListItemComponent,
-        MockMediaComponent,
-        MockAddToCartComponent,
-        MockStarRatingComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-        MockFeatureDirective,
-        MockOutletDirective,
-      ],
       providers: [
         {
           provide: LCP_PRESENCE,
@@ -138,6 +131,28 @@ describe('ProductListItemComponent in product-list', () => {
     })
       .overrideComponent(ProductListItemComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
+        add: {
+          imports: [
+            MockMediaComponent,
+            MockAddToCartComponent,
+            MockStarRatingComponent,
+            MockUrlPipe,
+            MockCxIconComponent,
+            MockFeatureDirective,
+            MockOutletDirective,
+          ],
+        },
+        remove: {
+          imports: [
+            MediaComponent,
+            AddToCartComponent,
+            StarRatingComponent,
+            UrlPipe,
+            IconComponent,
+            FeatureDirective,
+            OutletDirective,
+          ],
+        },
       })
       .compileComponents();
   }));

@@ -8,14 +8,18 @@ import {
   Product,
 } from '@spartacus/core';
 import {
+  CarouselComponent,
+  CarouselScrollingComponent,
   ImageFetchPriority,
   LCP_PRESENCE,
   LcpContextDirectiveModule,
   LcpPresence,
+  MediaComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductImagesComponent } from './product-images.component';
+import { NgTemplateOutlet } from '@angular/common';
 
 const firstImage = {
   zoom: {
@@ -83,7 +87,7 @@ class MockMediaComponent {
       ></ng-container>
     </ng-container>
   `,
-  imports: [LcpContextDirectiveModule, FeaturesConfigModule],
+  imports: [LcpContextDirectiveModule, FeaturesConfigModule, NgTemplateOutlet],
 })
 class MockCarouselComponent {
   @Input() items;
@@ -102,7 +106,7 @@ class MockCarouselComponent {
       ></ng-container>
     </ng-container>
   `,
-  imports: [LcpContextDirectiveModule, FeaturesConfigModule],
+  imports: [LcpContextDirectiveModule, FeaturesConfigModule, NgTemplateOutlet],
 })
 class MockCarouselScrollingComponent {
   @Input() items;
@@ -144,9 +148,6 @@ describe('ProductImagesComponent', () => {
         LcpContextDirectiveModule,
         FeaturesConfigModule,
         ProductImagesComponent,
-        MockMediaComponent,
-        MockCarouselComponent,
-        MockCarouselScrollingComponent,
       ],
       providers: [
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
@@ -159,7 +160,24 @@ describe('ProductImagesComponent', () => {
           useClass: MockCurrentProductService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductImagesComponent, {
+        remove: {
+          imports: [
+            MediaComponent,
+            CarouselComponent,
+            CarouselScrollingComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockMediaComponent,
+            MockCarouselComponent,
+            MockCarouselScrollingComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     currentProductService = TestBed.inject(CurrentProductService);
   }));

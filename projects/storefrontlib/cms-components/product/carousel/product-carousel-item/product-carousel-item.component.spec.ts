@@ -14,12 +14,14 @@ import {
   I18nTestingModule,
   ProductService,
   RoutingService,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   ImageFetchPriority,
   LCP_PRESENCE,
   LcpContextDirectiveModule,
   LcpPresence,
+  MediaComponent,
   OutletDirective,
   OutletModule,
   ProductListItemContext,
@@ -27,6 +29,7 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { ProductCarouselItemComponent } from './product-carousel-item.component';
+import { RouterModule } from '@angular/router';
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
@@ -80,15 +83,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        OutletModule,
-        LcpContextDirectiveModule,
-        ProductCarouselItemComponent,
-        MockUrlPipe,
-        MockOutletDirective,
-        MockMediaComponent,
-      ],
+      imports: [RouterModule.forRoot([])],
       providers: [
         {
           provide: LCP_PRESENCE,
@@ -107,6 +102,10 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
       .overrideComponent(ProductCarouselItemComponent, {
         set: {
           changeDetection: ChangeDetectionStrategy.Default,
+        },
+        remove: { imports: [UrlPipe, OutletDirective, MediaComponent] },
+        add: {
+          imports: [MockUrlPipe, MockOutletDirective, MockMediaComponent],
         },
       })
       .compileComponents();

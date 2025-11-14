@@ -21,7 +21,7 @@ import { SiteContext } from './site-context.interface';
 /**
  * Facade that provides easy access to language state, actions and selectors.
  */
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class LanguageService implements SiteContext<Language> {
   constructor(
     protected store: Store<StateWithSiteContext>,

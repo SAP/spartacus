@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import {
   CmsBannerComponent,
   CmsService,
+  FeatureDirective,
   FeaturesConfig,
   FeaturesConfigModule,
   Page,
@@ -16,12 +17,13 @@ import {
   LCP_PRESENCE,
   LcpContextDirectiveModule,
   LcpPresence,
+  MediaComponent,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
 import { BannerComponent } from './banner.component';
+import { RouterModule } from '@angular/router';
 
 const media = {
   code: '/images/theme/logo_hybris.jpg',
@@ -92,14 +94,7 @@ describe('BannerComponent', () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
-      imports: [
-        FeaturesConfigModule,
-        LcpContextDirectiveModule,
-        BannerComponent,
-        MockMediaComponent,
-        GenericLinkComponent,
-        MockFeatureDirective,
-      ],
+      imports: [RouterModule.forRoot([])],
       providers: [
         {
           provide: LCP_PRESENCE,
@@ -118,7 +113,14 @@ describe('BannerComponent', () => {
           },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(BannerComponent, {
+        add: {
+          imports: [MockMediaComponent, MockFeatureDirective],
+        },
+        remove: { imports: [MediaComponent, FeatureDirective] },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(BannerComponent);
     bannerComponent = fixture.componentInstance;

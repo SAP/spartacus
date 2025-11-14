@@ -35,6 +35,7 @@ class MockPageLayoutService {
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [PageTemplateDirective],
 })
 class MockTemplateComponent {}
 

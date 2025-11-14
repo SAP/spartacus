@@ -13,12 +13,10 @@ class MockOutletService {
 
 @Component({
   template: '',
-  standalone: false,
 })
 class MockGlobalDataComponent {}
 @Component({
   template: '',
-  standalone: false,
 })
 class MockGlobalHeaderComponent {}
 @Component({ template: '' })
