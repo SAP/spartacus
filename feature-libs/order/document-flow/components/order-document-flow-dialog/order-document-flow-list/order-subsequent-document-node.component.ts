@@ -11,14 +11,25 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { OrderSubsequentDocument } from '@spartacus/order/document-flow/root';
+import { NgFor, NgClass, NgIf } from '@angular/common';
+import { OrderDocumentFlowComponentsModule } from '../../order-document-flow-components.module';
+import { TranslatePipe, CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-subsequent-document-node',
   templateUrl: './order-subsequent-document-node.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgFor,
+    NgClass,
+    NgIf,
+    IconComponent,
+    OrderDocumentFlowComponentsModule,
+    TranslatePipe,
+    CxDatePipe,
+  ],
 })
 export class OrderSubsequentDocumentNodeComponent {
   iconTypes = ICON_TYPE;

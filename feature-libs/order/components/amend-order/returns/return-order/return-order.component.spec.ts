@@ -278,18 +278,18 @@ describe('ReturnOrderComponent', () => {
     beforeEach(waitForAsync(() => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
-        imports: [FormErrorsModule],
+        imports: [
+          FormErrorsModule,
+          ReturnOrderComponent,
+          MockAmendOrderActionComponent,
+          MockCancelOrReturnItemsComponent,
+        ],
         providers: [
           { provide: OrderAmendService, useClass: NewMockOrderAmendService },
           {
             provide: FeatureConfigService,
             useClass: MockFeatureConfigService,
           },
-        ],
-        declarations: [
-          ReturnOrderComponent,
-          MockAmendOrderActionComponent,
-          MockCancelOrReturnItemsComponent,
         ],
       }).compileComponents();
     }));
@@ -318,7 +318,12 @@ describe('ReturnOrderComponent', () => {
     beforeEach(waitForAsync(() => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
-        imports: [FormErrorsModule],
+        imports: [
+          FormErrorsModule,
+          ReturnOrderComponent,
+          MockAmendOrderActionComponent,
+          MockCancelOrReturnItemsComponent,
+        ],
         providers: [
           {
             provide: OrderAmendService,
@@ -338,11 +343,6 @@ describe('ReturnOrderComponent', () => {
             provide: FeatureConfigService,
             useValue: { isEnabled: () => false },
           },
-        ],
-        declarations: [
-          ReturnOrderComponent,
-          MockAmendOrderActionComponent,
-          MockCancelOrReturnItemsComponent,
         ],
       }).compileComponents();
     }));
@@ -368,8 +368,8 @@ describe('ReturnOrderComponent', () => {
     beforeEach(waitForAsync(() => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
-        imports: [FormErrorsModule],
-        declarations: [
+        imports: [
+          FormErrorsModule,
           ReturnOrderComponent,
           MockAmendOrderActionComponent,
           MockCancelOrReturnItemsComponent,

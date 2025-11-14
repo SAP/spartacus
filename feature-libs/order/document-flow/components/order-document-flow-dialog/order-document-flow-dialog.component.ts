@@ -18,11 +18,16 @@ import {
   GlobalMessageType,
   TranslationService,
   isNotNullable,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
+  FocusDirective,
+  IconComponent,
+  MessageComponent,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
@@ -40,12 +45,25 @@ import {
   OrderSubsequentDocument,
   OrderSubsequentDocumentEntry,
 } from '@spartacus/order/document-flow/root';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { OrderDocumentOrderEntryListComponent } from './order-document-order-entry-list/order-document-order-entry-list.component';
+import { OrderSubsequentDocumentListComponent } from './order-document-flow-list/order-subsequent-document-list.component';
 
 @Component({
   selector: 'cx-order-document-flow-dialog',
   templateUrl: './order-document-flow-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FocusDirective,
+    NgIf,
+    IconComponent,
+    MessageComponent,
+    OrderDocumentOrderEntryListComponent,
+    OrderSubsequentDocumentListComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class OrderDocumentFlowDialogComponent {
   protected launchDialogService = inject(LaunchDialogService);

@@ -16,14 +16,15 @@ import {
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { Order } from '@spartacus/order/root';
-import { QueryService, UserIdService } from '@spartacus/core';
+import { QueryService, UserIdService, TranslatePipe } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'cx-order-document-flow',
   templateUrl: './order-document-flow.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class OrderDocumentFlowComponent {
   protected orderDetailsService = inject(OrderDetailsService);

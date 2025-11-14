@@ -57,8 +57,11 @@ describe('OrderSubsequentDocumentNodeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconModule],
-      declarations: [OrderSubsequentDocumentNodeComponent],
+      imports: [
+        I18nTestingModule,
+        IconModule,
+        OrderSubsequentDocumentNodeComponent,
+      ],
       providers: [],
     }).compileComponents();
   }));

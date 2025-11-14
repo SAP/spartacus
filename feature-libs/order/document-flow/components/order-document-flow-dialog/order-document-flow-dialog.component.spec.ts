@@ -110,8 +110,8 @@ describe('OrderDocumentFlowDialogComponent', () => {
         KeyboardFocusModule,
         MessageComponentModule,
         StoreModule.forRoot({}),
+        OrderDocumentFlowDialogComponent,
       ],
-      declarations: [OrderDocumentFlowDialogComponent],
       providers: [
         {
           provide: OrderDocumentFlowFacade,

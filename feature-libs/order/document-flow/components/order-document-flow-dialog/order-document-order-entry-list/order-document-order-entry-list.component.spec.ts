@@ -32,8 +32,7 @@ describe('OrderDocumentOrderEntryListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OrderDocumentOrderEntryListComponent],
+      imports: [I18nTestingModule, OrderDocumentOrderEntryListComponent],
       providers: [],
     }).compileComponents();
   }));

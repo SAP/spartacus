@@ -24,8 +24,7 @@ describe('OrderDocumentFlowComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OrderDocumentFlowComponent],
+      imports: [I18nTestingModule, OrderDocumentFlowComponent],
       providers: [
         {
           provide: LaunchDialogService,

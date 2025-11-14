@@ -39,6 +39,11 @@ import {
     KeyboardFocusModule,
     IconModule,
     MessageComponentModule,
+    OrderDocumentFlowComponent,
+    OrderDocumentFlowDialogComponent,
+    OrderSubsequentDocumentListComponent,
+    OrderSubsequentDocumentNodeComponent,
+    OrderDocumentOrderEntryListComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -50,13 +55,6 @@ import {
       },
     }),
     provideDefaultConfig(defaultOrderDocumentFlowDialogLayoutConfig),
-  ],
-  declarations: [
-    OrderDocumentFlowComponent,
-    OrderDocumentFlowDialogComponent,
-    OrderSubsequentDocumentListComponent,
-    OrderSubsequentDocumentNodeComponent,
-    OrderDocumentOrderEntryListComponent,
   ],
   exports: [
     OrderDocumentFlowComponent,
