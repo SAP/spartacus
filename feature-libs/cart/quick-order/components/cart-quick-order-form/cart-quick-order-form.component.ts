@@ -30,7 +30,6 @@ import { Observable, Subscription } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
 
 @Component({
@@ -42,7 +41,6 @@ import { TranslatePipe } from '@spartacus/core';
     FormsModule,
     ReactiveFormsModule,
     FormRequiredAsterisksComponent,
-    FeatureDirective,
     AsyncPipe,
     TranslatePipe,
   ],

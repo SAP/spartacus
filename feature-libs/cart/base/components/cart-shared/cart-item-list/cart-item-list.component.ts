@@ -35,7 +35,6 @@ import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { OutletDirective } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
 import { CartItemListRowComponent } from '../cart-item-list-row/cart-item-list-row.component';
 import { TranslatePipe } from '@spartacus/core';
 
@@ -56,7 +55,6 @@ interface ItemListContext {
   imports: [
     NgIf,
     OutletDirective,
-    FeatureDirective,
     NgFor,
     CartItemListRowComponent,
     AsyncPipe,

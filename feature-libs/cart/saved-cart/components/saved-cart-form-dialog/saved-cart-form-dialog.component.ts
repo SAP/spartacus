@@ -46,7 +46,6 @@ import { map, take } from 'rxjs/operators';
 import { NgIf, NgSwitch, NgSwitchCase, AsyncPipe } from '@angular/common';
 import { FocusDirective } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
 import { FormRequiredLegendComponent } from '@spartacus/storefront';
 import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
 import { FormErrorsComponent } from '@spartacus/storefront';
@@ -69,7 +68,6 @@ export interface SavedCartFormDialogOptions {
     NgSwitch,
     NgSwitchCase,
     IconComponent,
-    FeatureDirective,
     FormRequiredLegendComponent,
     FormRequiredAsterisksComponent,
     FormErrorsComponent,

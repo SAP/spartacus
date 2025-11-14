@@ -16,7 +16,6 @@ import { map } from 'rxjs/operators';
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../core/services/order-approval.service';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { FeatureDirective } from '@spartacus/core';
 import { SortingComponent } from '@spartacus/storefront';
 import { PaginationComponent } from '@spartacus/storefront';
 import { RouterLink } from '@angular/router';
@@ -30,7 +29,6 @@ import { CxDatePipe } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
-    FeatureDirective,
     SortingComponent,
     PaginationComponent,
     NgFor,

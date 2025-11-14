@@ -37,7 +37,6 @@ import {
   tap,
 } from 'rxjs/operators';
 import { FocusDirective } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
 import { IconComponent } from '@spartacus/storefront';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { CartItemComponent } from '../cart-shared/cart-item/cart-item.component';
@@ -64,7 +63,6 @@ export interface AddedToCartDialogComponentData {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FocusDirective,
-    FeatureDirective,
     IconComponent,
     NgIf,
     CartItemComponent,

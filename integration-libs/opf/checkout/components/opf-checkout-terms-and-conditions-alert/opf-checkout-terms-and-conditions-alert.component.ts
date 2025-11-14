@@ -14,7 +14,7 @@ import {
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { filter, take } from 'rxjs';
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
@@ -23,7 +23,7 @@ import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-ad
   selector: 'cx-opf-checkout-terms-and-conditions-alert',
   templateUrl: './opf-checkout-terms-and-conditions-alert.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, TranslatePipe],
+  imports: [NgIf, IconComponent, TranslatePipe, AsyncPipe],
 })
 export class OpfCheckoutTermsAndConditionsAlertComponent implements OnInit {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);

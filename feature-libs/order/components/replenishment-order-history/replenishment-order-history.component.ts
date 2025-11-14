@@ -24,7 +24,6 @@ import { map, take, tap } from 'rxjs/operators';
 import { NgIf, NgFor, AsyncPipe, SlicePipe } from '@angular/common';
 import { SortingComponent } from '@spartacus/storefront';
 import { PaginationComponent } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { BtnLikeLinkDirective } from '@spartacus/storefront';
 import { UrlPipe } from '@spartacus/core';
@@ -39,7 +38,6 @@ import { CxDatePipe } from '@spartacus/core';
     NgIf,
     SortingComponent,
     PaginationComponent,
-    FeatureDirective,
     NgFor,
     RouterLink,
     BtnLikeLinkDirective,

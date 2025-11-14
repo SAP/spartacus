@@ -19,7 +19,6 @@ import { Subscription } from 'rxjs';
 import { NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MediaComponent } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
@@ -32,7 +31,6 @@ import { UrlPipe } from '@spartacus/core';
     NgClass,
     RouterLink,
     MediaComponent,
-    FeatureDirective,
     ItemCounterComponent,
     TranslatePipe,
     UrlPipe,

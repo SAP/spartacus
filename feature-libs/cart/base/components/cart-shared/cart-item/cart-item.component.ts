@@ -20,7 +20,6 @@ import { CartItemValidationWarningComponent } from '../../validation/cart-item-w
 import { NgClass, NgIf, NgFor, NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MediaComponent } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { PromotionsComponent } from '@spartacus/storefront';
 import { AtMessageDirective } from '@spartacus/storefront';
@@ -42,7 +41,6 @@ import { UrlPipe } from '@spartacus/core';
     MediaComponent,
     NgIf,
     NgFor,
-    FeatureDirective,
     ItemCounterComponent,
     PromotionsComponent,
     NgTemplateOutlet,

@@ -14,7 +14,6 @@ import { take } from 'rxjs/operators';
 import { FocusDirective } from '@spartacus/storefront';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { MessageComponent } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
 
 export enum SAVE_CART_DIALOG_ACTION {
@@ -25,14 +24,7 @@ export enum SAVE_CART_DIALOG_ACTION {
 @Component({
   selector: 'cx-asm-save-cart-dialog',
   templateUrl: './asm-save-cart-dialog.component.html',
-  imports: [
-    FocusDirective,
-    NgIf,
-    MessageComponent,
-    FeatureDirective,
-    AsyncPipe,
-    TranslatePipe,
-  ],
+  imports: [FocusDirective, NgIf, MessageComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmSaveCartDialogComponent implements OnInit {
   BIND_CART_ACTION = SAVE_CART_DIALOG_ACTION;

@@ -50,7 +50,6 @@ import { NgTemplateOutlet, NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { PaginationComponent } from '@spartacus/storefront';
 import { IconComponent } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
 import { SortingComponent } from '@spartacus/storefront';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { NgSelectA11yDirective } from '@spartacus/storefront';
@@ -69,7 +68,6 @@ import { TranslatePipe } from '@spartacus/core';
     IconComponent,
     FormsModule,
     ReactiveFormsModule,
-    FeatureDirective,
     SortingComponent,
     NgSelectComponent,
     NgSelectA11yDirective,

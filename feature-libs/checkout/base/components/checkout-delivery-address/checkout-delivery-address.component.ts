@@ -43,7 +43,7 @@ import {
 } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services';
 import { CheckoutStepService } from '../services/checkout-step.service';
-import { NgIf, NgTemplateOutlet, NgFor, AsyncPipe } from '@angular/common';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { CardComponent } from '@spartacus/storefront';
 import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { SpinnerComponent } from '@spartacus/storefront';
@@ -60,7 +60,6 @@ export interface CardWithAddress {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
-    NgTemplateOutlet,
     NgFor,
     CardComponent,
     AddressFormComponent,

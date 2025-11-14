@@ -27,7 +27,6 @@ import { map, tap } from 'rxjs/operators';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { SortingComponent } from '../../../shared/components/list-navigation/sorting/sorting.component';
 import { PaginationComponent } from '../../../shared/components/list-navigation/pagination/pagination.component';
-import { FeatureDirective } from '@spartacus/core';
 import { RouterLink } from '@angular/router';
 import { MediaComponent } from '../../../shared/components/media/media.component';
 import { AtMessageDirective } from '../../../shared/components/assistive-technology-message/assistive-technology-message.directive';
@@ -50,7 +49,6 @@ interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
     NgIf,
     SortingComponent,
     PaginationComponent,
-    FeatureDirective,
     NgFor,
     RouterLink,
     MediaComponent,

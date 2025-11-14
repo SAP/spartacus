@@ -15,7 +15,6 @@ import { filter, map, take, tap } from 'rxjs/operators';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { SortingComponent } from '@spartacus/storefront';
 import { PaginationComponent } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
 import { RouterLink } from '@angular/router';
 import { UrlPipe } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
@@ -29,7 +28,6 @@ import { CxDatePipe } from '@spartacus/core';
     NgIf,
     SortingComponent,
     PaginationComponent,
-    FeatureDirective,
     NgFor,
     RouterLink,
     AsyncPipe,

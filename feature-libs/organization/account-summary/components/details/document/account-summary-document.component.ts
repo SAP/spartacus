@@ -31,7 +31,6 @@ import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 import { AccountSummaryDocumentFilterComponent } from './filter/account-summary-document-filter.component';
 import { SortingComponent } from '@spartacus/storefront';
 import { PaginationComponent } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 import { CxDatePipe } from '@spartacus/core';
@@ -45,7 +44,6 @@ import { CxDatePipe } from '@spartacus/core';
     AccountSummaryDocumentFilterComponent,
     SortingComponent,
     PaginationComponent,
-    FeatureDirective,
     IconComponent,
     NgFor,
     NgClass,

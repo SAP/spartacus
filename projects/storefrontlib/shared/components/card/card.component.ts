@@ -15,7 +15,6 @@ import {
   NgClass,
 } from '@angular/common';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
-import { FeatureDirective } from '@spartacus/core';
 import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
 import { AtMessageDirective } from '../assistive-technology-message/assistive-technology-message.directive';
 import { GenericLinkComponent } from '../generic-link/generic-link.component';
@@ -57,7 +56,6 @@ export interface Card {
     NgFor,
     NgTemplateOutlet,
     IconComponent,
-    FeatureDirective,
     FocusDirective,
     AtMessageDirective,
     NgSwitch,

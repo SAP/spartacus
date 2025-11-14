@@ -33,7 +33,6 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { FormRequiredLegendComponent } from '@spartacus/storefront';
 import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
 import { FormErrorsComponent } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { NgSelectA11yDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
@@ -61,7 +60,6 @@ import { TranslatePipe } from '@spartacus/core';
     FormRequiredLegendComponent,
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
-    FeatureDirective,
     NgSelectComponent,
     NgSelectA11yDirective,
     AsyncPipe,

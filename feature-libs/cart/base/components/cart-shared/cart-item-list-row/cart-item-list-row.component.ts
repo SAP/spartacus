@@ -15,7 +15,6 @@ import { NgIf, NgFor, NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MediaComponent } from '@spartacus/storefront';
 import { PromotionsComponent } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { AtMessageDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
@@ -36,7 +35,6 @@ import { UrlPipe } from '@spartacus/core';
     MediaComponent,
     PromotionsComponent,
     NgFor,
-    FeatureDirective,
     ItemCounterComponent,
     NgTemplateOutlet,
     AtMessageDirective,

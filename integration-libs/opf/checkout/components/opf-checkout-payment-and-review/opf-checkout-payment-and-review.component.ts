@@ -29,14 +29,16 @@ import {
 import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
 import { Observable, take, map, BehaviorSubject } from 'rxjs';
 import { NgIf, NgClass, AsyncPipe } from '@angular/common';
-import { OpfCheckoutReviewCardComponent } from '../opf-checkout-review-card/opf-checkout-review-card.component';
 import { OpfCheckoutTermsAndConditionsAlertComponent } from '../opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.component';
 import { RouterLink } from '@angular/router';
 import { OpfCheckoutBillingAddressFormComponent } from '../opf-checkout-billing-address-form/opf-checkout-billing-address-form.component';
 import { OpfCheckoutPaymentsComponent } from '../opf-checkout-payments/opf-checkout-payments.component';
-import { OpfCheckoutReviewCartDetailsComponent } from '../opf-checkout-review-cart-details/opf-checkout-review-cart-details.component';
 import { TranslatePipe } from '@spartacus/core';
 import { UrlPipe } from '@spartacus/core';
+import {
+  OpfCheckoutReviewCartDetailsComponent,
+  OpfCheckoutReviewCartDetailsModule,
+} from '../opf-checkout-review-cart-details';
 
 @Component({
   selector: 'cx-opf-checkout-payment-and-review',
@@ -44,7 +46,7 @@ import { UrlPipe } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
-    OpfCheckoutReviewCardComponent,
+    OpfCheckoutReviewCartDetailsModule,
     OpfCheckoutTermsAndConditionsAlertComponent,
     NgClass,
     FormsModule,
@@ -52,10 +54,10 @@ import { UrlPipe } from '@spartacus/core';
     RouterLink,
     OpfCheckoutBillingAddressFormComponent,
     OpfCheckoutPaymentsComponent,
-    OpfCheckoutReviewCartDetailsComponent,
     AsyncPipe,
     TranslatePipe,
     UrlPipe,
+    OpfCheckoutReviewCartDetailsComponent,
   ],
 })
 export class OpfCheckoutPaymentAndReviewComponent

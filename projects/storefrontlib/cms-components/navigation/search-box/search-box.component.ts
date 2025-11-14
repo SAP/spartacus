@@ -47,7 +47,6 @@ import {
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
-import { FeatureDirective } from '@spartacus/core';
 import { IconComponent } from '../../misc/icon/icon.component';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -77,7 +76,6 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
   templateUrl: './search-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    FeatureDirective,
     IconComponent,
     NgIf,
     NgFor,

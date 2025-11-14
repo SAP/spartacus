@@ -21,12 +21,24 @@ import { Observable, take } from 'rxjs';
 import { NgIf, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { of } from 'rxjs';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import {
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-subscription-details',
   templateUrl: './subscription-details.component.html',
-  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, CxDatePipe, UrlPipe],
+  imports: [
+    NgIf,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    UrlPipe,
+    SpinnerComponent,
+  ],
 })
 export class SubscriptionDetailsComponent implements OnInit {
   protected subscriptionFacade = inject(SubscriptionFacade);
