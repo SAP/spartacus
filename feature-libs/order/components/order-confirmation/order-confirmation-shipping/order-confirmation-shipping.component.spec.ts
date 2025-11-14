@@ -1,10 +1,19 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeliveryMode } from '@spartacus/cart/base/root';
-import { Address, Country, I18nTestingModule } from '@spartacus/core';
+import {
+  Address,
+  Country,
+  TranslatePipe,
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+} from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import {
   Card,
+  CardComponent,
   OutletContextData,
   OutletModule,
   PromotionsModule,
@@ -12,6 +21,8 @@ import {
 import { of } from 'rxjs';
 import { OrderConfirmationShippingComponent } from './order-confirmation-shipping.component';
 import createSpy = jasmine.createSpy;
+
+// Mock pipes
 
 const mockCountry: Country = {
   isocode: 'JP',
@@ -66,14 +77,15 @@ describe('OrderConfirmationShippingComponent', () => {
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        PromotionsModule,
-        OutletModule,
-        OrderConfirmationShippingComponent,
-        MockCardComponent,
-      ],
+      imports: [],
       providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
+    }).overrideComponent(OrderConfirmationShippingComponent, {
+      remove: {
+        imports: [TranslatePipe, CxDatePipe, CardComponent],
+      },
+      add: {
+        imports: [MockTranslatePipe, MockDatePipe, MockCardComponent],
+      },
     });
   }
 
@@ -150,13 +162,18 @@ describe('OrderConfirmationShippingComponent', () => {
     function configureTestingModule(): TestBed {
       return TestBed.configureTestingModule({
         imports: [
-          I18nTestingModule,
           PromotionsModule,
           OutletModule,
           OrderConfirmationShippingComponent,
-          MockCardComponent,
         ],
         providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
+      }).overrideComponent(OrderConfirmationShippingComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, CardComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockCardComponent],
+        },
       });
     }
     beforeEach(() => {
@@ -176,9 +193,18 @@ describe('OrderConfirmationShippingComponent', () => {
     });
 
     beforeEach(() => {
-      configureTestingModule().overrideProvider(OutletContextData, {
-        useValue: { context$ },
-      });
+      configureTestingModule()
+        .overrideComponent(OrderConfirmationShippingComponent, {
+          remove: {
+            imports: [TranslatePipe, CxDatePipe, CardComponent],
+          },
+          add: {
+            imports: [MockTranslatePipe, MockDatePipe, MockCardComponent],
+          },
+        })
+        .overrideProvider(OutletContextData, {
+          useValue: { context$ },
+        });
       TestBed.compileComponents();
       stubSeviceAndCreateComponent();
     });

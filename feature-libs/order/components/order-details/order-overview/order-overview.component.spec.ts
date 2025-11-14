@@ -4,21 +4,25 @@ import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   CmsOrderDetailOverviewComponent,
-  I18nTestingModule,
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
   PaymentDetails,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import { Order, OrderConfig, ReplenishmentOrder } from '@spartacus/order/root';
-import { Card, CmsComponentData } from '@spartacus/storefront';
+import { Card, CardComponent, CmsComponentData } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderOverviewComponent } from './order-overview.component';
 import { OrderOverviewComponentService } from './order-overview-component.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'cx-card',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCardComponent {
   @Input()
@@ -160,12 +164,7 @@ describe('OrderOverviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        OrderOverviewComponent,
-        MockCardComponent,
-        MockUrlPipe,
-      ],
+      imports: [OrderOverviewComponent, RouterModule.forRoot([])],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {
@@ -176,7 +175,21 @@ describe('OrderOverviewComponent', () => {
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: OrderConfig, useValue: mockOrderConfig },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderOverviewComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, CardComponent, UrlPipe],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCardComponent,
+            MockUrlPipe,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

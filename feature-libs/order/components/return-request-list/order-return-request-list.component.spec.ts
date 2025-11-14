@@ -2,7 +2,14 @@ import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { I18nTestingModule, TranslationService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   OrderReturnRequestFacade,
   ReturnRequestList,
@@ -65,12 +72,7 @@ describe('OrderReturnRequestListComponent', () => {
   let el: DebugElement;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ListNavigationModule,
-        I18nTestingModule,
-        OrderReturnRequestListComponent,
-        MockUrlPipe,
-      ],
+      imports: [ListNavigationModule, OrderReturnRequestListComponent],
       providers: [
         {
           provide: ActivatedRoute,
@@ -85,7 +87,16 @@ describe('OrderReturnRequestListComponent', () => {
           useClass: MockTranslationService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderReturnRequestListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
 
     returnService = TestBed.inject(OrderReturnRequestFacade);
   }));

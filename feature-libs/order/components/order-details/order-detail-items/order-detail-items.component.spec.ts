@@ -3,19 +3,20 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CmsOrderDetailItemsComponent,
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
 } from '@spartacus/core';
 import { Consignment, Order, ReplenishmentOrder } from '@spartacus/order/root';
-import {
-  CardModule,
-  CmsComponentData,
-  OutletModule,
-  PromotionsModule,
-} from '@spartacus/storefront';
+import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
-import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
+import { RouterModule } from '@angular/router';
+import { ConsignmentTrackingComponent } from './consignment-tracking/consignment-tracking.component';
+import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
 
 const mockProduct = { product: { code: 'test' } };
 
@@ -134,7 +135,6 @@ const MockCmsComponentData = <CmsComponentData<any>>{
 @Component({
   selector: 'cx-consignment-tracking',
   template: '',
-  imports: [CardModule, I18nTestingModule, PromotionsModule, OutletModule],
 })
 class MockConsignmentTrackingComponent {
   @Input()
@@ -160,20 +160,33 @@ describe('OrderDetailItemsComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [
-        CardModule,
-        I18nTestingModule,
-        PromotionsModule,
-        OutletModule,
-        OrderDetailItemsComponent,
-        MockConsignmentTrackingComponent,
-        OrderConsignedEntriesComponent,
-      ],
+      imports: [RouterModule.forRoot([]), I18nTestingModule],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
         { provide: CmsComponentData, useValue: MockCmsComponentData },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderDetailItemsComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, ConsignmentTrackingComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockConsignmentTrackingComponent,
+          ],
+        },
+      })
+      .overrideComponent(OrderConsignedEntriesComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

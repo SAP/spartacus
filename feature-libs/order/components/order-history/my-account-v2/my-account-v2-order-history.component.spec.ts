@@ -8,11 +8,16 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Params } from '@angular/router';
+import { Params, RouterModule } from '@angular/router';
 import {
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import { MyAccountV2OrderHistoryService } from '@spartacus/order/core';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
@@ -22,6 +27,8 @@ import {
 } from '../../../root/facade';
 import { Order, OrderHistoryList, OrderHistoryView } from '../../../root/model';
 import { MyAccountV2OrderHistoryComponent } from './my-account-v2-order-history.component';
+import { PaginationComponent, SpinnerComponent } from '@spartacus/storefront';
+import { MyAccountV2OrderConsolidatedInformationComponent } from './consolidated-information/my-account-v2-order-consolidated-information.component';
 
 const mockOrders: OrderHistoryList = {
   orders: [
@@ -131,14 +138,7 @@ describe('MyAccountV2OrderHistoryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        MyAccountV2OrderHistoryComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
-        MockMyAccountV2OrderConsolidatedInformationComponent,
-        MockSpinnerComponent,
-      ],
+      imports: [MyAccountV2OrderHistoryComponent, RouterModule.forRoot([])],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
@@ -152,7 +152,30 @@ describe('MyAccountV2OrderHistoryComponent', () => {
           useClass: MockReplenishmentOrderHistoryFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MyAccountV2OrderHistoryComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            PaginationComponent,
+            MyAccountV2OrderConsolidatedInformationComponent,
+            SpinnerComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockPaginationComponent,
+            MockMyAccountV2OrderConsolidatedInformationComponent,
+            MockSpinnerComponent,
+          ],
+        },
+      })
+      .compileComponents();
     routingService = TestBed.inject(RoutingService);
   }));
 

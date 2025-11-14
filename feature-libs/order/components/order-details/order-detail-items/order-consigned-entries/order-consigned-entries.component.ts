@@ -35,7 +35,6 @@ import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart'
     AsyncPipe,
     TitleCasePipe,
     CxDatePipe,
-    CxDatePipe,
   ],
 })
 export class OrderConsignedEntriesComponent {

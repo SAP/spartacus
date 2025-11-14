@@ -8,11 +8,16 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Params } from '@angular/router';
+import { Params, RouterModule } from '@angular/router';
 import {
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   Order,
@@ -23,6 +28,7 @@ import {
 } from '@spartacus/order/root';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
+import { PaginationComponent, SortingComponent } from '@spartacus/storefront';
 
 const mockOrders: OrderHistoryList = {
   orders: [
@@ -157,13 +163,7 @@ describe('OrderHistoryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        OrderHistoryComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
-        MockSortingComponent,
-      ],
+      imports: [RouterModule.forRoot([]), OrderHistoryComponent],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrderHistoryFacade, useClass: MockOrderHistoryFacade },
@@ -173,7 +173,28 @@ describe('OrderHistoryComponent', () => {
           useClass: MockReplenishmentOrderHistoryFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderHistoryComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            PaginationComponent,
+            SortingComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockPaginationComponent,
+            MockSortingComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
     routingService = TestBed.inject(RoutingService);
