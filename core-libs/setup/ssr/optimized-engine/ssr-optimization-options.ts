@@ -42,7 +42,7 @@ export interface SsrOptimizationOptions {
    *
    * Default value is set to 3000.
    *
-   * @deprecated since v2211.42. Use `cacheSizeBytes` option instead.
+   * @deprecated since v2211.42. Use `cacheSizeMemory` option instead.
    *             The `cacheSize` option will be removed eventually together with the feature toggle `ssrFeatureToggles.limitCacheByMemory`.
    */
   cacheSize?: number;
