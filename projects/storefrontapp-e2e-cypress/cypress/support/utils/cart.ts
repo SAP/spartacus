@@ -64,7 +64,7 @@ export function addToCartWithProducts(
   quantity: string,
   accessToken: string
 ) {
-  const addToCartUrl = `${Cypress.env('API_URL')}/${Cypress.env(
+  const addToCartUrl = `${Cypress.env('API_URL')}${Cypress.env(
     'OCC_PREFIX'
   )}/${Cypress.env('BASE_SITE')}/users/current/carts/${cartCode}/entries`;
 

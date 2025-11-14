@@ -24,7 +24,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
 import { Title } from '@spartacus/user/profile/root';
@@ -37,14 +36,12 @@ import {
   Subscription,
 } from 'rxjs';
 
-import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
-import { RegisterComponentService } from '../register';
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   VerificationToken,
   VerificationTokenCreation,
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
-import { HttpErrorResponse } from '@angular/common/http';
 import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { NgSelectA11yDirective } from '@spartacus/storefront';
@@ -55,6 +52,8 @@ import { CaptchaComponent } from '@spartacus/storefront';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { UrlPipe } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
+import { RegisterComponentService } from '../register';
+import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
 
 @Component({
   selector: 'cx-otp-register-form',
@@ -130,10 +129,6 @@ export class OneTimePasswordRegisterComponent implements OnInit, OnDestroy {
   updateAdditionalConsents(event: MouseEvent, index: number) {
     const { checked } = event.target as HTMLInputElement;
     this.registerForm.value.additionalConsents[index] = checked;
-  }
-
-  constructor() {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
   }
 
   ngOnInit() {

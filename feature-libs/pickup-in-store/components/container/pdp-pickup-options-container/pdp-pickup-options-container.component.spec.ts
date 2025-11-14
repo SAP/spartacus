@@ -162,37 +162,8 @@ describe('PdpPickupOptionsComponent', () => {
       expect(component).toBeDefined();
     });
 
-    it('should not open dialog when feature flag is enabled', () => {
-      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
-        true
-      );
+    it('should not open dialog', () => {
       spyOn(component, 'openDialog');
-      component['displayNameIsSet'] = false;
-      component.onPickupOptionChange({
-        option: 'pickup',
-        triggerElement: {} as ElementRef,
-      });
-      expect(component.openDialog).not.toHaveBeenCalled();
-    });
-
-    it('should not open dialog when option is delivery and feature flag is disabled', () => {
-      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
-        false
-      );
-      spyOn(component, 'openDialog');
-      component.onPickupOptionChange({
-        option: 'delivery',
-        triggerElement: {} as ElementRef,
-      });
-      expect(component.openDialog).not.toHaveBeenCalled();
-    });
-
-    it('should not open dialog when displayName is set', () => {
-      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
-        false
-      );
-      spyOn(component, 'openDialog');
-      component['displayNameIsSet'] = true;
       component.onPickupOptionChange({
         option: 'pickup',
         triggerElement: {} as ElementRef,
@@ -283,31 +254,6 @@ describe('PdpPickupOptionsComponent', () => {
         intendedPickupLocationService.getIntendedLocation
       ).not.toHaveBeenCalled();
       expect(component.availableForPickup).toBe(false);
-    });
-
-    it('should not open dialog when option is delivery and feature flag is disabled', () => {
-      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
-        false
-      );
-      spyOn(component, 'openDialog');
-      component.onPickupOptionChange({
-        option: 'delivery',
-        triggerElement: {} as ElementRef,
-      });
-      expect(component.openDialog).not.toHaveBeenCalled();
-    });
-
-    it('should not open dialog when displayName is set', () => {
-      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
-        false
-      );
-      spyOn(component, 'openDialog');
-      component['displayNameIsSet'] = true;
-      component.onPickupOptionChange({
-        option: 'pickup',
-        triggerElement: {} as ElementRef,
-      });
-      expect(component.openDialog).not.toHaveBeenCalled();
     });
 
     it('should not display the form', () => {

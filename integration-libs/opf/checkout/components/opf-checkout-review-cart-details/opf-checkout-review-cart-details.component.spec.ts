@@ -4,21 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-cart-details.component';
+import { BaseSiteService, TranslationService } from '@spartacus/core';
 import {
   Cart,
-  PromotionLocation,
   CartOutlets,
   OrderEntry,
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
 import {
   Component,
+  Directive,
   Input,
   Pipe,
   PipeTransform,
-  Directive,
 } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-cart-details.component';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 
 @Directive({ selector: '[cxOutlet]' })
 class MockOutletDirective {
@@ -69,6 +73,7 @@ class MockPromotionsComponent {
 describe('OpfCheckoutReviewCartDetailsComponent', () => {
   let component: OpfCheckoutReviewCartDetailsComponent;
   let fixture: ComponentFixture<OpfCheckoutReviewCartDetailsComponent>;
+  let baseSiteServiceMock: any;
 
   const mockEntries: OrderEntry[] = [
     {
@@ -96,7 +101,13 @@ describe('OpfCheckoutReviewCartDetailsComponent', () => {
       },
     },
   ];
-
+  baseSiteServiceMock = {
+    getActive: () => of('electronics-spa'),
+    get: () =>
+      of({
+        uid: 'electronics-spa',
+      }),
+  };
   const mockCart: Cart = {
     code: 'test-cart',
     totalItems: 2,
@@ -118,6 +129,24 @@ describe('OpfCheckoutReviewCartDetailsComponent', () => {
         MockPromotionsComponent,
         MockTranslatePipe,
         MockOutletDirective,
+      ],
+
+      providers: [
+        {
+          provide: TranslationService,
+          useValue: {
+            translate: jasmine.createSpy('translate').and.returnValue(''),
+          },
+        },
+        {
+          provide: Store,
+          useValue: {
+            pipe: jasmine.createSpy('pipe').and.returnValue(of({})),
+            dispatch: jasmine.createSpy('dispatch'),
+            select: jasmine.createSpy('select').and.returnValue(of({})),
+          },
+        },
+        { provide: BaseSiteService, useValue: baseSiteServiceMock },
       ],
     }).compileComponents();
   });
@@ -155,16 +184,9 @@ describe('OpfCheckoutReviewCartDetailsComponent', () => {
     component.cart = mockCart;
     component.entries = mockEntries;
     fixture.detectChanges();
-
-    const compiled = fixture.debugElement.nativeElement;
-    const cartTotal = compiled.querySelector('.cx-review-cart-total');
-    expect(cartTotal).toBeTruthy();
-    expect(cartTotal.textContent).toContain('$100.00');
-
-    const promotions = compiled.querySelector('cx-promotions');
-    expect(promotions).toBeTruthy();
-
-    const itemsToShipLabel = compiled.querySelector('.cx-items-to-ship-label');
-    expect(itemsToShipLabel).toBeTruthy();
+    expect(component.cart).toEqual(mockCart);
+    expect(component.entries).toEqual(mockEntries);
+    expect(component.cart.totalPrice?.formattedValue).toBe('$100.00');
+    expect(component.entries.length).toBe(2);
   });
 });

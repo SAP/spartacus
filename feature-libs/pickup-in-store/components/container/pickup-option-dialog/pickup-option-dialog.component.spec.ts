@@ -1,4 +1,8 @@
 import { CommonModule } from '@angular/common';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -28,10 +32,6 @@ import { MockPreferredStoreService } from '../../../core/services/preferred-stor
 import { StoreListStubComponent } from '../store-list/store-list.component.spec';
 import { StoreSearchStubComponent } from '../store-search/store-search.component.spec';
 import { PickupOptionDialogComponent } from './pickup-option-dialog.component';
-import {
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from '@angular/common/http';
 
 export class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
@@ -214,15 +214,15 @@ describe('PickupOptionDialogComponent', () => {
       'getIntendedLocation'
     ).and.callThrough();
     spyOn(intendedPickupLocationFacade, 'setPickupOption').and.callThrough();
+
     component.close(mockCloseReason);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
       mockCloseReason
     );
-
     expect(
       intendedPickupLocationFacade.getIntendedLocation
-    ).toHaveBeenCalledWith('productCode');
+    ).not.toHaveBeenCalled();
   });
 
   it('should set loading when showSpinner is called', () => {

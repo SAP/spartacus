@@ -10,7 +10,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { GlobalMessageType, useFeatureStyles } from '@spartacus/core';
+import { GlobalMessageType } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { NgIf, AsyncPipe } from '@angular/common';
@@ -47,10 +47,6 @@ export class MyAccountV2PasswordComponent {
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;
-
-  constructor() {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
 
   onSubmit(): void {
     this.service.updatePassword();

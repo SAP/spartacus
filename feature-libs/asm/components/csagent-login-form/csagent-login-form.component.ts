@@ -12,7 +12,6 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { useFeatureStyles } from '@spartacus/core';
 import { NgIf } from '@angular/common';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { PasswordVisibilityToggleDirective } from '@spartacus/storefront';
@@ -42,10 +41,7 @@ export class CSAgentLoginFormComponent implements OnInit {
   @Output()
   submitEvent = new EventEmitter<{ userId: string; password: string }>();
 
-  constructor(protected fb: UntypedFormBuilder) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-    useFeatureStyles('a11yTextSpacingAdjustments');
-  }
+  constructor(protected fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.csAgentLoginForm = this.fb.group({

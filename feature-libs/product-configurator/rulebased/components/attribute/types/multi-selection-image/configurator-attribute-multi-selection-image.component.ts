@@ -15,7 +15,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Config, useFeatureStyles } from '@spartacus/core';
+import { Config } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -74,8 +74,6 @@ export class ConfiguratorAttributeMultiSelectionImageComponent
       attributeComponentContext.isPricingAsync,
       attributeComponentContext.attribute.key
     );
-
-    useFeatureStyles('a11yDifferentiateFocusedAndSelected');
   }
 
   attributeCheckBoxForms = new Array<UntypedFormControl>();

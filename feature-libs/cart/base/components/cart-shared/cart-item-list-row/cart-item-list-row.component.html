@@ -98,6 +98,18 @@
     </div>
   </td>
 
+  <!-- Subscription Charges -->
+  <ng-template
+    role="cell"
+    [cxOutlet]="CartOutlets.SUBSCRIPTION_PRICE_BODY"
+    [cxOutletContext]="{
+      items,
+      item,
+      parent: 'cart',
+    }"
+  >
+  </ng-template>
+
   <!-- item price with discount -->
   <ng-template
     role="cell"
@@ -110,20 +122,11 @@
   <!-- Item Quantity -->
   <td role="cell" class="cx-quantity">
     <div
-      *cxFeature="'a11yQTY2Quantity'"
       class="cx-mobile-header"
       placement="left"
       title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
     >
       {{ 'cartItems.quantityFull' | cxTranslate }}
-    </div>
-    <div
-      *cxFeature="'!a11yQTY2Quantity'"
-      class="cx-mobile-header"
-      placement="left"
-      title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
-    >
-      {{ 'cartItems.quantity' | cxTranslate }}
     </div>
     <div class="cx-value" [class.readonly-value]="readonly">
       <cx-item-counter

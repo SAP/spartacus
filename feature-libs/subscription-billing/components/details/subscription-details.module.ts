@@ -15,6 +15,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { SubscriptionDetailsComponent } from './subscription-details.component';
+import { IconModule, SpinnerModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
@@ -22,9 +23,10 @@ import { SubscriptionDetailsComponent } from './subscription-details.component';
     I18nModule,
     UrlModule,
     RouterModule,
+    SpinnerModule,
+    IconModule,
     SubscriptionDetailsComponent,
   ],
-  exports: [SubscriptionDetailsComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

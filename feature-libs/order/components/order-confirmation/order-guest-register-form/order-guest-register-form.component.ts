@@ -16,7 +16,6 @@ import {
   AuthService,
   FeatureConfigService,
   RoutingService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
@@ -43,15 +42,7 @@ import { TranslatePipe } from '@spartacus/core';
 })
 export class OrderGuestRegisterFormComponent implements OnDestroy {
   private featureConfigService = inject(FeatureConfigService);
-
-  protected passwordValidators = this.featureConfigService.isEnabled(
-    'enableSecurePasswordValidation'
-  )
-    ? CustomFormValidators.securePasswordValidators
-    : [
-        ...CustomFormValidators.passwordValidators,
-        CustomFormValidators.noConsecutiveCharacters,
-      ];
+  protected passwordValidators = CustomFormValidators.securePasswordValidators;
 
   @Input() guid: string;
   @Input() email: string;
@@ -75,9 +66,7 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
     protected routingService: RoutingService,
     protected authService: AuthService,
     protected fb: UntypedFormBuilder
-  ) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
+  ) {}
 
   submit() {
     if (this.guestRegisterForm.valid) {

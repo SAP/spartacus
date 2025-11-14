@@ -8,6 +8,9 @@ import { UsageId } from '@spartacus/epd-visualization/root';
 import { Observable } from 'rxjs';
 import { LookupVisualizationsResponse } from './lookup-visualizations-response';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 export abstract class VisualizationAdapter {
   /**
    * Used for finding a visualization by Usage ID that has anonymous (unauthenticated) read access enabled.

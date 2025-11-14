@@ -40,6 +40,7 @@ import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrap
 import { PaginationComponent } from '@spartacus/storefront';
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
+import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 
 @Component({
   selector: 'cx-opf-checkout-payments',
@@ -63,6 +64,9 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected translation = inject(TranslationService);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected globalMessageService = inject(GlobalMessageService);
+  protected opfCheckoutBillingAddressFormService = inject(
+    OpfCheckoutBillingAddressFormService
+  );
 
   protected subscription = new Subscription();
 
@@ -125,6 +129,8 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   @Output() selectedPaymentProviderName = new EventEmitter<string>();
 
   protected paginationModel: PaginationModel | undefined;
+  protected paymentDisabled$ =
+    this.opfCheckoutBillingAddressFormService.paymentOptionsDisabled$;
 
   protected isStateEmpty(
     state: QueryState<OpfActiveConfigurationsResponse | undefined>

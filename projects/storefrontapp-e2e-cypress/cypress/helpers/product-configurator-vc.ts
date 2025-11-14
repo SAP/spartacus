@@ -14,7 +14,10 @@ const addToCartButtonSelector =
 const conflictDetectedMsgSelector = '.cx-conflict-msg';
 const conflictHeaderGroupSelector =
   'cx-configurator-group-menu .cx-menu-conflict';
-
+/**
+ * Alias used for reading CMS pages
+ */
+export const CMS_PAGES_ALIAS = '@cmsPages';
 /**
  * Alias used for updating the config
  */
@@ -47,9 +50,11 @@ export function goToConfigurationPage(
   productId: string,
   isPricingEnabled?: boolean
 ) {
+  registerCMSPagesRoute();
   registerCreateConfigurationRoute();
   const location = `/${shopName}/en/USD/configure/vc/product/entityKey/${productId}`;
   cy.visit(location);
+  waitForRequest(CMS_PAGES_ALIAS);
   waitForRequest(CREATE_CONFIG_ALIAS, isPricingEnabled);
   this.checkConfigPageDisplayed();
 }
@@ -69,6 +74,18 @@ export function navigateToOverviewPage() {
         );
       });
   });
+}
+
+/**
+ * Register CMS pages route.
+ */
+export function registerCMSPagesRoute() {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}//cms/pages*`,
+  }).as(CMS_PAGES_ALIAS.substring(1)); // strip the '@'
 }
 
 /**
@@ -688,7 +705,7 @@ export function selectAttributeAndWait(
   valueName: string,
   isPricingEnabled: boolean = true
 ): void {
-  configuration.selectAttribute(attributeName, uiType, valueName, false);
+  configuration.selectAttribute(attributeName, uiType, valueName, true);
   waitForRequest(UPDATE_CONFIG_ALIAS, isPricingEnabled);
   checkGhostAnimationNotDisplayed();
 }

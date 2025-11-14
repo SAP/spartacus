@@ -10,7 +10,6 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { UpdateEmailComponentService } from './update-email-component.service';
 import { NgIf, AsyncPipe } from '@angular/common';
@@ -46,9 +45,7 @@ import { TranslatePipe } from '@spartacus/core';
   ],
 })
 export class UpdateEmailComponent {
-  constructor(protected service: UpdateEmailComponentService) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
+  constructor(protected service: UpdateEmailComponentService) {}
 
   form: UntypedFormGroup = this.service.form;
   isUpdating$: Observable<boolean> = this.service.isUpdating$;

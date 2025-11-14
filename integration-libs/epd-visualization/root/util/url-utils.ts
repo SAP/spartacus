@@ -4,6 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 export function getUrl(urlString: string): URL | null {
   try {
     return new URL(urlString);
@@ -12,6 +15,9 @@ export function getUrl(urlString: string): URL | null {
   }
 }
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 export function isHttpOrHttps(url: URL) {
   return url.protocol === 'http:' || url.protocol === 'https:';
 }

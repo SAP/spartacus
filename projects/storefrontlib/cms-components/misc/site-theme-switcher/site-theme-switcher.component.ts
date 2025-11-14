@@ -5,11 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import {
-  SiteTheme,
-  TranslationService,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { SiteTheme, TranslationService } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ICON_TYPE } from '../icon/icon.model';
@@ -31,9 +27,7 @@ export class SiteThemeSwitcherComponent {
   readonly translationService = inject(TranslationService);
   iconTypes = ICON_TYPE;
 
-  constructor() {
-    useFeatureStyles('a11yShowDownArrowOnFocusedSelectMenu');
-  }
+  constructor() {}
 
   protected themeSwitcherComponentService = inject(
     SiteThemeSwitcherComponentService

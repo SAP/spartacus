@@ -16,7 +16,6 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 import { NgIf, AsyncPipe } from '@angular/common';
@@ -61,7 +60,6 @@ export class LoginFormComponent {
   method = this.service.method;
 
   constructor(protected service: LoginFormComponentService) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
     this.service.handleCustomLoginError();
   }
 

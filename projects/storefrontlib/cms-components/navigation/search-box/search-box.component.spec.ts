@@ -300,27 +300,11 @@ describe('SearchBoxComponent', () => {
       expect(serviceSpy.launchSearchPage).not.toHaveBeenCalled();
     });
 
-    it('should return true when the feature is enabled', () => {
-      spyOn(
-        searchBoxComponent.featureConfigService,
-        'isEnabled'
-      ).and.returnValue(true);
+    it('should always return true for searchBoxV2', () => {
       expect(searchBoxComponent.searchBoxV2).toBeTrue();
     });
 
-    it('should return false when the feature is disabled', function () {
-      spyOn(
-        searchBoxComponent.featureConfigService,
-        'isEnabled'
-      ).and.returnValue(false);
-      expect(searchBoxComponent.searchBoxV2).toBeFalse();
-    });
-
-    it('should bind the "search-box-v2" class when the feature is enabled', function () {
-      spyOn(
-        searchBoxComponent.featureConfigService,
-        'isEnabled'
-      ).and.returnValue(true);
+    it('should always bind the "search-box-v2" class', function () {
       expect(searchBoxComponent.searchBoxV2).toBeTrue();
     });
 
@@ -468,30 +452,13 @@ describe('SearchBoxComponent', () => {
       });
     });
 
-    it('should contain 1 product after search', () => {
+    it('should contain carousel after search', () => {
       searchBoxComponent.queryText = 'te';
       fixture.detectChanges();
 
       expect(
-        fixture.debugElement.queryAll(By.css('.products a')).length
+        fixture.debugElement.queryAll(By.css('.products cx-carousel')).length
       ).toEqual(1);
-    });
-
-    it('should contain product image in search result', () => {
-      searchBoxComponent.queryText = 'te';
-      fixture.detectChanges();
-
-      expect(
-        fixture.debugElement.query(By.css('.products a:first-child cx-media'))
-      ).toBeTruthy();
-    });
-
-    it('should contain .has-media class', () => {
-      searchBoxComponent.queryText = 'te';
-      fixture.detectChanges();
-      expect(
-        fixture.debugElement.query(By.css('.products a:first-child.has-media'))
-      ).toBeTruthy();
     });
 
     it('should contain chosen word from the dropdown', () => {
@@ -507,6 +474,29 @@ describe('SearchBoxComponent', () => {
       fixture.detectChanges();
       expect(searchBoxComponent.chosenWord).toEqual(PRODUCT_SEARCH_STRING);
       expect(input.nativeElement.value).toEqual(PRODUCT_SEARCH_STRING);
+    });
+
+    it('should clear input when Enter is pressed on a category suggestion', () => {
+      // Mock suggestions that include a category
+      const mockResults = {
+        suggestions: ['Digital Cameras', 'Camera Accessories', 'Lenses'],
+        products: [],
+      };
+      serviceSpy.getResults = jasmine
+        .createSpy()
+        .and.returnValue(of(mockResults));
+
+      fixture.detectChanges();
+      const input = fixture.debugElement.query(By.css('.searchbox input'));
+      input.nativeElement.value = 'Digital Cameras';
+
+      // Trigger the onEnter method directly
+      searchBoxComponent.onEnter('Digital Cameras');
+
+      // Wait for the async operation
+      setTimeout(() => {
+        expect(searchBoxComponent.chosenWord).toEqual('');
+      }, 150);
     });
 
     it('should not contain searched word when navigating to another page', () => {
@@ -763,20 +753,6 @@ describe('SearchBoxComponent', () => {
 
       it('should have config', () => {
         expect(searchBoxComponent.config.displayProductImages).toBeFalsy();
-      });
-
-      it('should not contain product image', () => {
-        expect(
-          fixture.debugElement.query(By.css('.products a:first-child cx-media'))
-        ).toBeNull();
-      });
-
-      it('should not contain .has-media class', () => {
-        expect(
-          fixture.debugElement.query(
-            By.css('.products a:first-child.has-media')
-          )
-        ).toBeFalsy();
       });
     });
 

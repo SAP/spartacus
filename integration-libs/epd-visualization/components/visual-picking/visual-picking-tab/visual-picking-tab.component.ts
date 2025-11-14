@@ -18,6 +18,9 @@ import { VisualPickingTabService } from './visual-picking-tab.service';
 import { VisualPickingProductFilterComponent } from './product-filter/visual-picking-product-filter.component';
 import { TranslatePipe } from '@spartacus/core';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Component({
   selector: 'cx-epd-visualization-visual-picking-tab',
   templateUrl: './visual-picking-tab.component.html',

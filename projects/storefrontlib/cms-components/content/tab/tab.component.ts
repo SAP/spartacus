@@ -21,11 +21,7 @@ import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Tab, TabConfig, TAB_MODE } from './tab.model';
 import { wrapIntoBounds } from './tab.utils';
-import {
-  TranslationService,
-  useFeatureStyles,
-  FeatureConfigService,
-} from '@spartacus/core';
+import { TranslationService, FeatureConfigService } from '@spartacus/core';
 import { NgIf, NgFor, NgTemplateOutlet, AsyncPipe } from '@angular/common';
 import { TabPanelComponent } from './panel/tab-panel.component';
 import { TranslatePipe } from '@spartacus/core';
@@ -71,9 +67,7 @@ export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
   mode$: Observable<TAB_MODE>;
   protected subscriptions = new Subscription();
 
-  constructor() {
-    useFeatureStyles('a11yCroppedFocusRing');
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.openTabs$ = new BehaviorSubject<number[]>(this.config?.openTabs ?? []);

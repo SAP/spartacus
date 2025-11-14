@@ -9,6 +9,9 @@ import { EpdVisualizationComponentsModule } from '@spartacus/epd-visualization/c
 import { EpdVisualizationCoreModule } from '@spartacus/epd-visualization/core';
 import { EpdVisualizationApiModule } from '@spartacus/epd-visualization/epd-visualization-api';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @NgModule({
   imports: [
     EpdVisualizationComponentsModule,

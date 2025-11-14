@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './subscription-billing.service';
+export * from './subscription.service';
 export * from './facade-provider';
 export * from './subscription-product.service';
+export * from './subscription-actions.service';

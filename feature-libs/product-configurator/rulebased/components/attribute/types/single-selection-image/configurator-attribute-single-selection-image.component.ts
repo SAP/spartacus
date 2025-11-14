@@ -15,11 +15,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import {
-  Config,
-  FeatureConfigService,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { Config, FeatureConfigService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -73,8 +69,6 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
     protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
-    useFeatureStyles('a11yDifferentiateFocusedAndSelected');
-
     super();
     this.attribute = attributeComponentContext.attribute;
     this.ownerKey = attributeComponentContext.owner.key;

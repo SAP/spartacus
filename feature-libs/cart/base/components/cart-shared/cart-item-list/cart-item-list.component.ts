@@ -27,8 +27,8 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   FeatureConfigService,
+  ProductCatalogService,
   UserIdService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -64,6 +64,7 @@ interface ItemListContext {
   ],
 })
 export class CartItemListComponent implements OnInit, OnDestroy {
+  protected productCatalogService = inject(ProductCatalogService);
   protected subscription = new Subscription();
   protected userId: string;
 
@@ -111,11 +112,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     protected multiCartService: MultiCartFacade,
     protected cd: ChangeDetectorRef,
     @Optional() protected outlet?: OutletContextData<ItemListContext>
-  ) {
-    useFeatureStyles('a11yQTY2Quantity');
-    useFeatureStyles('a11yPickupOptionsTabs');
-    useFeatureStyles('a11yCroppedFocusRing');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.subscription.add(this.getInputsFromContext());
@@ -325,6 +322,14 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       }),
       map(() => <UntypedFormGroup>this.form.get(this.getControlName(item)))
     );
+  }
+
+  getOptions(item: OrderEntry): CartItemComponentOptions {
+    if (!this.productCatalogService.isProductInCatalog(item.product)) {
+      return { ...this.options, disableItemLink: true };
+    }
+
+    return this.options;
   }
 
   ngOnDestroy(): void {

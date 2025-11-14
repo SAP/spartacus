@@ -13,6 +13,9 @@ import { VisualViewerAnimationSliderModule } from './toolbar/visual-viewer-anima
 import { VisualViewerToolbarButtonModule } from './toolbar/visual-viewer-toolbar-button/visual-viewer-toolbar-button.module';
 import { VisualViewerComponent } from './visual-viewer.component';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @NgModule({
   imports: [
     CommonModule,

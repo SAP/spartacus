@@ -22,6 +22,9 @@ import { CompactAddToCartComponent } from './compact-add-to-cart/compact-add-to-
 import { UrlPipe } from '@spartacus/core';
 import { TranslatePipe } from '@spartacus/core';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Component({
   selector: 'cx-epd-visualization-product-list',
   templateUrl: './visual-picking-product-list.component.html',

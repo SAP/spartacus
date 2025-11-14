@@ -145,6 +145,8 @@
         "information": "Quote Information",
         "name": "Name",
         "description": "Description",
+        "purchaseOrderNumber": "Purchase order number",
+        "optional": "optional",
         "charactersLeft": "characters left: {{count}}",
         "priceAndExpiry": "Price & Expiry",
         "estimatedTotal": "Estimated Total",

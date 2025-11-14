@@ -18,10 +18,8 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { useFeatureStyles } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
-import { FeatureDirective } from '@spartacus/core';
 import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
 import { TranslatePipe } from '@spartacus/core';
 
@@ -33,13 +31,7 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-item-counter',
   templateUrl: './item-counter.component.html',
-  imports: [
-    FeatureDirective,
-    FocusDirective,
-    FormsModule,
-    ReactiveFormsModule,
-    TranslatePipe,
-  ],
+  imports: [FocusDirective, FormsModule, ReactiveFormsModule, TranslatePipe],
 })
 export class ItemCounterComponent implements OnInit, OnDestroy {
   /**
@@ -93,10 +85,6 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
    * Subscription responsible for auto-correcting control's value when it's invalid.
    */
   private sub: Subscription;
-
-  constructor() {
-    useFeatureStyles('a11yItemCounterFocus');
-  }
 
   ngOnInit() {
     this.sub = this.control.valueChanges

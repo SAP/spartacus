@@ -26,7 +26,6 @@ import {
   GlobalMessageType,
   OAuthFlow,
   RoutingService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
@@ -72,15 +71,7 @@ import { TranslatePipe } from '@spartacus/core';
 export class RegisterComponent implements OnInit, OnDestroy {
   // CXSPA-10916: Remove service with toggle
   private featureConfigService = inject(FeatureConfigService);
-
-  protected passwordValidators = this.featureConfigService.isEnabled(
-    'enableSecurePasswordValidation'
-  )
-    ? CustomFormValidators.securePasswordValidators
-    : [
-        ...CustomFormValidators.passwordValidators,
-        CustomFormValidators.noConsecutiveCharacters,
-      ];
+  protected passwordValidators = CustomFormValidators.securePasswordValidators;
 
   titles$: Observable<Title[]>;
 
@@ -142,9 +133,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
     protected authConfigService: AuthConfigService,
     protected registerComponentService: RegisterComponentService
-  ) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
+  ) {}
 
   ngOnInit() {
     this.titles$ = this.registerComponentService.getTitles().pipe(

@@ -10,7 +10,6 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ResetPasswordComponentService } from './reset-password-component.service';
 import { NgIf, AsyncPipe } from '@angular/common';
@@ -45,9 +44,7 @@ export class ResetPasswordComponent {
 
   token$: Observable<string> = this.service.resetToken$;
 
-  constructor(protected service: ResetPasswordComponentService) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
+  constructor(protected service: ResetPasswordComponentService) {}
 
   onSubmit(token: string) {
     this.service.resetPassword(token);
