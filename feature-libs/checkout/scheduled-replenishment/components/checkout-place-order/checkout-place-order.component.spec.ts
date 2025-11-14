@@ -3,10 +3,14 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import {
   CurrencyService,
+  CxDatePipe,
   GlobalMessageService,
-  I18nTestingModule,
   LanguageService,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   DaysOfWeek,
@@ -24,6 +28,7 @@ import {
 import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 import { CheckoutScheduledReplenishmentPlaceOrderComponent } from './checkout-place-order.component';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
@@ -98,10 +103,9 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
     };
     TestBed.configureTestingModule({
       imports: [
+        RouterModule.forRoot([]),
         ReactiveFormsModule,
-        I18nTestingModule,
         AtMessageModule,
-        MockUrlPipe,
         CheckoutScheduledReplenishmentPlaceOrderComponent,
       ],
       providers: [
@@ -123,7 +127,16 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
         { provide: CurrencyService, useValue: mockCurrencyService },
         { provide: LanguageService, useValue: mockLanguageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CheckoutScheduledReplenishmentPlaceOrderComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

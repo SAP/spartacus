@@ -5,8 +5,11 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { Address, Country, I18nTestingModule } from '@spartacus/core';
-import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
+import { Address, Country, I18nTestingModule, UrlPipe } from '@spartacus/core';
+import {
+  IconTestingModule,
+  MockIconComponent,
+} from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
@@ -22,9 +25,15 @@ import {
   DeliveryMode,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { Card, OutletModule } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  IconComponent,
+  OutletModule,
+} from '@spartacus/storefront';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
+import { RouterModule } from '@angular/router';
 
 const mockCheckoutStep: CheckoutStep = {
   id: 'step',
@@ -134,12 +143,10 @@ describe('CheckoutReviewShippingComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
+        RouterModule.forRoot([]),
         IconTestingModule,
         OutletModule,
         CheckoutReviewShippingComponent,
-        MockUrlPipe,
-        MockCardComponent,
       ],
       providers: [
         {
@@ -160,7 +167,16 @@ describe('CheckoutReviewShippingComponent', () => {
           useValue: { markForCheck: createSpy('markForCheck') },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CheckoutReviewShippingComponent, {
+        remove: {
+          imports: [CardComponent, UrlPipe, IconComponent],
+        },
+        add: {
+          imports: [MockUrlPipe, MockCardComponent, MockIconComponent],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(CheckoutReviewShippingComponent);
     component = fixture.componentInstance;

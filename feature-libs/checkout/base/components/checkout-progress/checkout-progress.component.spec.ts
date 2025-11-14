@@ -4,12 +4,17 @@ import { By } from '@angular/platform-browser';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
   CurrencyService,
-  I18nTestingModule,
+  CxDatePipe,
   LanguageService,
+  MockTranslatePipe,
+  TranslatePipe,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutProgressComponent } from './checkout-progress.component';
+import { RouterModule } from '@angular/router';
+import { MultiLinePipe } from './multiline-titles.pipe';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 
 const mockCheckoutSteps: Array<CheckoutStep> = [
   {
@@ -39,11 +44,6 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   activeStepIndex$: Observable<number> = of(0);
 }
 
-@Pipe({ name: 'cxUrl' })
-class MockTranslateUrlPipe implements PipeTransform {
-  transform(): any {}
-}
-
 @Pipe({ name: 'cxMultiLine' })
 class MockMultiLinePipe implements PipeTransform {
   transform(value: string): string {
@@ -63,18 +63,22 @@ describe('CheckoutProgressComponent', () => {
       getActive: () => of('en'),
     };
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        CheckoutProgressComponent,
-        MockTranslateUrlPipe,
-        MockMultiLinePipe,
-      ],
+      imports: [RouterModule.forRoot([]), CheckoutProgressComponent],
       providers: [
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: CurrencyService, useValue: mockCurrencyService },
         { provide: LanguageService, useValue: mockLanguageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CheckoutProgressComponent, {
+        remove: {
+          imports: [TranslatePipe, MockUrlPipe, CxDatePipe, MultiLinePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockUrlPipe, MockMultiLinePipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

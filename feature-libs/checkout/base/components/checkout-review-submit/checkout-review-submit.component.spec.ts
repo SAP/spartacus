@@ -25,6 +25,7 @@ import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/ic
 import { of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutReviewSubmitComponent } from './checkout-review-submit.component';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const mockCart: Cart = {
@@ -151,6 +152,7 @@ describe('CheckoutReviewSubmitComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
+        RouterModule.forRoot([]),
         I18nTestingModule,
         PromotionsModule,
         IconTestingModule,

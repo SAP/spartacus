@@ -15,17 +15,22 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  CxDatePipe,
   FeatureConfigService,
   FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
   UserAddressService,
 } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
 import { CheckoutFlowOrchestratorService } from '../services/checkout-flow-orchestrator.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
+import { AddressFormComponent } from '@spartacus/user/profile/components';
 import createSpy = jasmine.createSpy;
 
 class MockUserAddressService implements Partial<UserAddressService> {
@@ -157,13 +162,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        CheckoutDeliveryAddressComponent,
-        MockAddressFormComponent,
-        MockCardComponent,
-        MockSpinnerComponent,
-      ],
+      imports: [CheckoutDeliveryAddressComponent],
       providers: [
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
@@ -195,7 +194,25 @@ describe('CheckoutDeliveryAddressComponent', () => {
       ],
     })
       .overrideComponent(CheckoutDeliveryAddressComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            AddressFormComponent,
+            CardComponent,
+            SpinnerComponent,
+          ],
+        },
+        add: {
+          changeDetection: ChangeDetectionStrategy.Default,
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockAddressFormComponent,
+            MockCardComponent,
+            MockSpinnerComponent,
+          ],
+        },
       })
       .compileComponents();
 

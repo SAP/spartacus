@@ -17,15 +17,17 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeatureDirective,
   GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
+import { AddressFormComponent } from '@spartacus/user/profile/components';
 import createSpy = jasmine.createSpy;
 
 class MockUserAddressService implements Partial<UserAddressService> {
@@ -173,14 +175,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        B2BCheckoutDeliveryAddressComponent,
-        MockAddressFormComponent,
-        MockCardComponent,
-        MockSpinnerComponent,
-        MockFeatureDirective,
-      ],
+      imports: [I18nTestingModule, B2BCheckoutDeliveryAddressComponent],
       providers: [
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
@@ -214,7 +209,23 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       ],
     })
       .overrideComponent(B2BCheckoutDeliveryAddressComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        add: {
+          changeDetection: ChangeDetectionStrategy.Default,
+          imports: [
+            MockAddressFormComponent,
+            MockCardComponent,
+            MockSpinnerComponent,
+            MockFeatureDirective,
+          ],
+        },
+        remove: {
+          imports: [
+            AddressFormComponent,
+            CardComponent,
+            SpinnerComponent,
+            FeatureDirective,
+          ],
+        },
       })
       .compileComponents();
 

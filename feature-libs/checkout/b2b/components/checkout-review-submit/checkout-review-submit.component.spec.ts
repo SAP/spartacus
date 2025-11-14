@@ -33,6 +33,7 @@ import { Card, OutletModule, PromotionsModule } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.component';
+import { RouterModule } from '@angular/router';
 
 import createSpy = jasmine.createSpy;
 
@@ -219,6 +220,7 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
+        RouterModule.forRoot([]),
         I18nTestingModule,
         PromotionsModule,
         IconTestingModule,

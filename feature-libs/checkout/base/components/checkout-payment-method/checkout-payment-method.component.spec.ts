@@ -15,19 +15,30 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  CxDatePipe,
   FeatureConfigService,
+  FeatureDirective,
   FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   PaymentDetails,
   QueryState,
+  TranslatePipe,
   UserPaymentService,
 } from '@spartacus/core';
-import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
+import {
+  CardComponent,
+  ICON_TYPE,
+  IconComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
+import { CheckoutPaymentFormComponent } from './checkout-payment-form/checkout-payment-form.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -192,13 +203,10 @@ describe('CheckoutPaymentMethodComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         CheckoutPaymentMethodComponent,
-        MockPaymentFormComponent,
         CardComponent,
-        MockSpinnerComponent,
-        MockCxIconComponent,
-        MockFeatureDirective,
+        IconComponent,
+        SpinnerComponent,
       ],
       providers: [
         { provide: UserPaymentService, useClass: MockUserPaymentService },
@@ -228,7 +236,30 @@ describe('CheckoutPaymentMethodComponent', () => {
           useClass: MockFeatureConfigService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CheckoutPaymentMethodComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CheckoutPaymentFormComponent,
+            SpinnerComponent,
+            IconComponent,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockPaymentFormComponent,
+            MockSpinnerComponent,
+            MockCxIconComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
 
     mockUserPaymentService = TestBed.inject(UserPaymentService);
     mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentFacade);

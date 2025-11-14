@@ -19,15 +19,18 @@ import {
   FeaturesConfig,
   GlobalMessageService,
   I18nTestingModule,
+  TranslatePipe,
   UserAddressService,
 } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import { Card, SpinnerComponent } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
 import { CheckoutFlowOrchestratorService } from '@spartacus/checkout/base/components';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { OpfB2bCheckoutDeliveryAddressComponent } from './opf-b2b-checkout-delivery-address.component';
 import { Store, StoreModule } from '@ngrx/store';
 import { CheckoutModule } from '@spartacus/checkout/base';
+import { FormComponent } from '@spartacus/organization/administration/components';
+import { AddressFormComponent } from '@spartacus/user/profile/components';
 import createSpy = jasmine.createSpy;
 
 @Pipe({ name: 'cxTranslate' })
@@ -166,14 +169,9 @@ describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         StoreModule.forRoot({}),
         CheckoutModule,
         OpfB2bCheckoutDeliveryAddressComponent,
-        MockAddressFormComponent,
-        MockCardComponent,
-        MockSpinnerComponent,
-        MockTranslatePipe,
       ],
       providers: [
         { provide: UserAddressService, useClass: MockUserAddressService },
@@ -208,6 +206,22 @@ describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
     })
       .overrideComponent(OpfB2bCheckoutDeliveryAddressComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: {
+          imports: [
+            FormComponent,
+            TranslatePipe,
+            SpinnerComponent,
+            AddressFormComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockAddressFormComponent,
+            MockCardComponent,
+            MockSpinnerComponent,
+            MockTranslatePipe,
+          ],
+        },
       })
       .compileComponents();
 
