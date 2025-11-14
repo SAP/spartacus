@@ -13,18 +13,20 @@ import { By } from '@angular/platform-browser';
 import {
   FeatureLevelDirective,
   I18nTestingModule,
+  MockTranslatePipe,
   ProductService,
   RoutingService,
+  TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
 import {
   IconComponent,
   ImageFetchPriority,
+  InnerComponentsHostDirective,
   LCP_PRESENCE,
   LcpContextDirectiveModule,
   LcpPresence,
   MediaComponent,
-  OutletDirective,
   OutletModule,
   StarRatingComponent,
 } from '@spartacus/storefront';
@@ -33,17 +35,7 @@ import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
 import { ProductGridItemComponent } from './product-grid-item.component';
-import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
-
-@Component({
-  selector: 'cx-add-to-cart',
-  template: '<button>add to cart</button>',
-  imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
-})
-class MockAddToCartComponent {
-  @Input() product;
-  @Input() showQuantity;
-}
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'cx-star-rating',
@@ -84,10 +76,9 @@ class MockUrlPipe implements PipeTransform {
 class MockRoutingService {}
 class MockProductService {}
 
-@Directive({ selector: '[cxOutlet]' })
-class MockOutletDirective implements Partial<OutletDirective> {
-  @Input() cxOutlet: string;
-}
+@Directive({ selector: '[cxInnerComponentsHost]' })
+class MockInnerComponentsHostDirective {}
+
 describe('ProductGridItemComponent in product-list', () => {
   let component: ProductGridItemComponent;
   let componentInjector: Injector;
@@ -114,19 +105,7 @@ describe('ProductGridItemComponent in product-list', () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        OutletModule,
-        LcpContextDirectiveModule,
-        ProductGridItemComponent,
-        MockMediaComponent,
-        MockAddToCartComponent,
-        MockStarRatingComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-        MockFeatureLevelDirective,
-        MockOutletDirective,
-      ],
+      imports: [I18nTestingModule, RouterModule.forRoot([])],
       providers: [
         {
           provide: LCP_PRESENCE,
@@ -143,16 +122,16 @@ describe('ProductGridItemComponent in product-list', () => {
       ],
     })
       .overrideComponent(ProductGridItemComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
         add: {
+          changeDetection: ChangeDetectionStrategy.Default,
           imports: [
             MockMediaComponent,
-            MockAddToCartComponent,
             MockStarRatingComponent,
             MockUrlPipe,
             MockCxIconComponent,
             MockFeatureLevelDirective,
-            MockOutletDirective,
+            MockTranslatePipe,
+            MockInnerComponentsHostDirective,
           ],
         },
         remove: {
@@ -160,12 +139,12 @@ describe('ProductGridItemComponent in product-list', () => {
             OutletModule,
             LcpContextDirectiveModule,
             MediaComponent,
-            AddToCartComponent,
             StarRatingComponent,
             UrlPipe,
             IconComponent,
             FeatureLevelDirective,
-            OutletDirective,
+            TranslatePipe,
+            InnerComponentsHostDirective,
           ],
         },
       })

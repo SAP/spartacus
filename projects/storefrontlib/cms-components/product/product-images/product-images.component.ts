@@ -10,6 +10,7 @@ import {
   TrackByFunction,
 } from '@angular/core';
 import {
+  FeatureDirective,
   ImageGroup,
   Product,
   isNotNullable,
@@ -35,6 +36,7 @@ import { CarouselComponent } from '../../../shared/components/carousel/carousel.
     CarouselScrollingComponent,
     CarouselComponent,
     AsyncPipe,
+    FeatureDirective,
   ],
 })
 export class ProductImagesComponent {

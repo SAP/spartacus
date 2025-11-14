@@ -1,11 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  CxDatePipe,
   EventService,
   FeatureDirective,
-  I18nTestingModule,
-  MockDatePipe,
   MockTranslatePipe,
   Product,
   TranslatePipe,
@@ -23,7 +20,7 @@ import { ProductIntroComponent } from './product-intro.component';
 @Component({
   selector: 'cx-star-rating',
   template: '',
-  imports: [I18nTestingModule],
+  imports: [],
 })
 class MockStarRatingComponent {
   @Input() rating: number;
@@ -74,19 +71,13 @@ describe('ProductIntroComponent in product', () => {
     })
       .overrideComponent(ProductIntroComponent, {
         remove: {
-          imports: [
-            TranslatePipe,
-            CxDatePipe,
-            StarRatingComponent,
-            FeatureDirective,
-          ],
+          imports: [StarRatingComponent, FeatureDirective, TranslatePipe],
         },
         add: {
           imports: [
-            MockTranslatePipe,
-            MockDatePipe,
             MockStarRatingComponent,
             MockFeatureDirective,
+            MockTranslatePipe,
           ],
         },
       })

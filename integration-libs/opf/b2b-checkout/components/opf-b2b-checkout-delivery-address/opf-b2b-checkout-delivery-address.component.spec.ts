@@ -205,7 +205,6 @@ describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
       ],
     })
       .overrideComponent(OpfB2bCheckoutDeliveryAddressComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
         remove: {
           imports: [
             FormComponent,
@@ -215,6 +214,7 @@ describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
           ],
         },
         add: {
+          changeDetection: ChangeDetectionStrategy.Default,
           imports: [
             MockAddressFormComponent,
             MockCardComponent,

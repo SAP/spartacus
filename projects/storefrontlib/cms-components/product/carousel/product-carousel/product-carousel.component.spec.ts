@@ -32,7 +32,7 @@ import {
   MediaComponent,
   ProductCarouselItemComponent,
 } from '@spartacus/storefront';
-import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'cx-carousel',
@@ -47,7 +47,7 @@ import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
       ></ng-container>
     </ng-container>
   `,
-  imports: [AsyncPipe, NgTemplateOutlet],
+  imports: [AsyncPipe, NgTemplateOutlet, NgFor],
 })
 class MockCarouselComponent {
   @Input() title: string;
@@ -69,6 +69,7 @@ class MockCarouselComponent {
       ></ng-container>
     </ng-container>
   `,
+  imports: [AsyncPipe, NgTemplateOutlet, NgFor],
 })
 class MockCarouselScrollingComponent {
   @Input() title: string;

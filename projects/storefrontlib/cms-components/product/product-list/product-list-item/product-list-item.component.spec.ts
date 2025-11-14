@@ -13,18 +13,20 @@ import { By } from '@angular/platform-browser';
 import {
   FeatureDirective,
   I18nTestingModule,
+  MockTranslatePipe,
   ProductService,
   RoutingService,
+  TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
 import {
   IconComponent,
   ImageFetchPriority,
+  InnerComponentsHostDirective,
   LCP_PRESENCE,
   LcpContextDirectiveModule,
   LcpPresence,
   MediaComponent,
-  OutletDirective,
   OutletModule,
   StarRatingComponent,
 } from '@spartacus/storefront';
@@ -33,17 +35,12 @@ import { BehaviorSubject } from 'rxjs';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
 import { ProductListItemComponent } from './product-list-item.component';
-import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
   imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
 })
-class MockAddToCartComponent {
-  @Input() product;
-  @Input() showQuantity;
-}
-
 @Component({
   selector: 'cx-star-rating',
   template: '*****',
@@ -82,10 +79,8 @@ class MockUrlPipe implements PipeTransform {
 class MockRoutingService {}
 class MockProductService {}
 
-@Directive({ selector: '[cxOutlet]' })
-class MockOutletDirective implements Partial<OutletDirective> {
-  @Input() cxOutlet: string;
-}
+@Directive({ selector: '[cxInnerComponentsHost]' })
+class MockInnerComponentsHostDirective {}
 
 describe('ProductListItemComponent in product-list', () => {
   let component: ProductListItemComponent;
@@ -114,6 +109,7 @@ describe('ProductListItemComponent in product-list', () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
+      imports: [RouterModule.forRoot([])],
       providers: [
         {
           provide: LCP_PRESENCE,
@@ -130,27 +126,27 @@ describe('ProductListItemComponent in product-list', () => {
       ],
     })
       .overrideComponent(ProductListItemComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
         add: {
+          changeDetection: ChangeDetectionStrategy.Default,
           imports: [
             MockMediaComponent,
-            MockAddToCartComponent,
             MockStarRatingComponent,
             MockUrlPipe,
             MockCxIconComponent,
             MockFeatureDirective,
-            MockOutletDirective,
+            MockTranslatePipe,
+            MockInnerComponentsHostDirective,
           ],
         },
         remove: {
           imports: [
             MediaComponent,
-            AddToCartComponent,
             StarRatingComponent,
             UrlPipe,
             IconComponent,
             FeatureDirective,
-            OutletDirective,
+            TranslatePipe,
+            InnerComponentsHostDirective,
           ],
         },
       })

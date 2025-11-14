@@ -18,6 +18,7 @@ import {
 } from '@spartacus/core';
 import {
   ImageFetchPriority,
+  InnerComponentsHostDirective,
   LCP_PRESENCE,
   LcpContextDirectiveModule,
   LcpPresence,
@@ -55,6 +56,9 @@ class MockMediaComponent {
   @Input() alt: string;
   @Input() fetchPriority: ImageFetchPriority | null | undefined;
 }
+
+@Directive({ selector: '[cxInnerComponentsHost]' })
+class MockInnerComponentsHostDirective {}
 
 describe('ProductCarouselItemComponent in product-carousel', () => {
   let component: ProductCarouselItemComponent;
@@ -100,12 +104,22 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
       ],
     })
       .overrideComponent(ProductCarouselItemComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
+        remove: {
+          imports: [
+            UrlPipe,
+            OutletDirective,
+            MediaComponent,
+            InnerComponentsHostDirective,
+          ],
         },
-        remove: { imports: [UrlPipe, OutletDirective, MediaComponent] },
         add: {
-          imports: [MockUrlPipe, MockOutletDirective, MockMediaComponent],
+          changeDetection: ChangeDetectionStrategy.Default,
+          imports: [
+            MockUrlPipe,
+            MockOutletDirective,
+            MockMediaComponent,
+            MockInnerComponentsHostDirective,
+          ],
         },
       })
       .compileComponents();

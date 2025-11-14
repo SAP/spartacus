@@ -5,6 +5,7 @@ import { DeferLoaderService } from '../../../layout/loading/defer-loader.service
 import { OutletDirective } from '../outlet.directive';
 import { OutletService } from '../outlet.service';
 import { OutletRefDirective } from './outlet-ref.directive';
+import { NgIf } from '@angular/common';
 
 const OUTLET_NAME = 'PDP.images';
 const STANDARD_TEXT = 'standard';
@@ -22,7 +23,7 @@ const CUSTOM_TEXT = 'customized';
       </ng-container>
     </ng-container>
   `,
-  imports: [OutletDirective, OutletRefDirective],
+  imports: [OutletDirective, OutletRefDirective, NgIf],
 })
 class TestContainerComponent {
   outletRefVisible = true;

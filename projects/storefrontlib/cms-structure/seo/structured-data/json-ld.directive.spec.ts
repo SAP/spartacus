@@ -5,6 +5,7 @@ import { JsonLdDirective } from './json-ld.directive';
 @Component({
   selector: 'cx-test-cmp',
   template: '',
+  imports: [JsonLdDirective],
 })
 class TestComponent {}
 

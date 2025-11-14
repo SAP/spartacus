@@ -19,7 +19,7 @@ import {
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductImagesComponent } from './product-images.component';
-import { NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 
 const firstImage = {
   zoom: {
@@ -87,7 +87,7 @@ class MockMediaComponent {
       ></ng-container>
     </ng-container>
   `,
-  imports: [LcpContextDirectiveModule, FeaturesConfigModule, NgTemplateOutlet],
+  imports: [FeaturesConfigModule, NgTemplateOutlet, NgFor, AsyncPipe],
 })
 class MockCarouselComponent {
   @Input() items;
@@ -106,7 +106,7 @@ class MockCarouselComponent {
       ></ng-container>
     </ng-container>
   `,
-  imports: [LcpContextDirectiveModule, FeaturesConfigModule, NgTemplateOutlet],
+  imports: [FeaturesConfigModule, NgTemplateOutlet, NgFor, AsyncPipe],
 })
 class MockCarouselScrollingComponent {
   @Input() items;

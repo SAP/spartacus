@@ -23,7 +23,7 @@ import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
 import { ProductReferencesComponent } from './product-references.component';
-import { NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import { MediaComponent } from 'projects/storefrontlib/shared/components/media/media.component';
 import {
   CarouselComponent,
@@ -41,7 +41,7 @@ import { RouterModule } from '@angular/router';
       ></ng-container>
     </ng-container>
   `,
-  imports: [FeaturesConfigModule],
+  imports: [FeaturesConfigModule, NgTemplateOutlet, NgFor, AsyncPipe],
 })
 class MockCarouselComponent {
   @Input() title: string;
@@ -59,7 +59,7 @@ class MockCarouselComponent {
       ></ng-container>
     </ng-container>
   `,
-  imports: [FeaturesConfigModule, NgTemplateOutlet],
+  imports: [FeaturesConfigModule, NgTemplateOutlet, AsyncPipe, NgFor],
 })
 class MockCarouselScrollingComponent {
   @Input() title: string;
@@ -171,7 +171,7 @@ describe('ProductReferencesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [FeaturesConfigModule],
+      imports: [FeaturesConfigModule, RouterModule.forRoot([])],
       providers: [
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
