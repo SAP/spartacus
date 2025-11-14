@@ -7,6 +7,10 @@ import { FormErrorsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { CancelOrderComponent } from './cancel-order.component';
+import {
+  AmendOrderActionsComponent,
+  CancelOrReturnItemsComponent,
+} from '@spartacus/order/components';
 
 const mockForm = new UntypedFormGroup({
   orderCode: new UntypedFormControl('123'),
@@ -47,16 +51,23 @@ describe('CancelOrderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        FormErrorsModule,
-        CancelOrderComponent,
-        MockAmendOrderActionComponent,
-        MockCancelOrReturnItemsComponent,
-      ],
+      imports: [FormErrorsModule, CancelOrderComponent],
       providers: [
         { provide: OrderAmendService, useClass: MockOrderAmendService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CancelOrderComponent, {
+        remove: {
+          imports: [AmendOrderActionsComponent, CancelOrReturnItemsComponent],
+        },
+        add: {
+          imports: [
+            MockAmendOrderActionComponent,
+            MockCancelOrReturnItemsComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

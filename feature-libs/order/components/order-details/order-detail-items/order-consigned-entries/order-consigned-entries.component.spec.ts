@@ -2,10 +2,18 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { PromotionLocation } from '@spartacus/cart/base/root';
-import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeaturesConfig,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { Consignment, Order } from '@spartacus/order/root';
 import { CardModule, OutletModule } from '@spartacus/storefront';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries.component';
+import { ConsignmentTrackingComponent } from '../consignment-tracking/consignment-tracking.component';
 
 const mockProduct = { product: { code: 'test' } };
 
@@ -83,13 +91,7 @@ describe('OrderConsignedEntriesComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CardModule,
-        I18nTestingModule,
-        OutletModule,
-        OrderConsignedEntriesComponent,
-        MockConsignmentTrackingComponent,
-      ],
+      imports: [CardModule, OutletModule, OrderConsignedEntriesComponent],
       providers: [
         {
           provide: FeaturesConfig,
@@ -98,7 +100,20 @@ describe('OrderConsignedEntriesComponent', () => {
           },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderConsignedEntriesComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, ConsignmentTrackingComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockConsignmentTrackingComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

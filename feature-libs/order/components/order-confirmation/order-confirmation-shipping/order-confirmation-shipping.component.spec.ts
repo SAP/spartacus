@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
@@ -20,6 +20,7 @@ import {
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OrderConfirmationShippingComponent } from './order-confirmation-shipping.component';
+import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import createSpy = jasmine.createSpy;
 
 // Mock pipes
@@ -71,6 +72,11 @@ class MockCardComponent {
   index: number;
 }
 
+@Directive({
+  selector: '[cxAbstractOrderContext]',
+})
+class MockAbstractOrderContextDirective {}
+
 describe('OrderConfirmationShippingComponent', () => {
   let component: OrderConfirmationShippingComponent;
   let fixture: ComponentFixture<OrderConfirmationShippingComponent>;
@@ -81,10 +87,20 @@ describe('OrderConfirmationShippingComponent', () => {
       providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
     }).overrideComponent(OrderConfirmationShippingComponent, {
       remove: {
-        imports: [TranslatePipe, CxDatePipe, CardComponent],
+        imports: [
+          TranslatePipe,
+          CxDatePipe,
+          CardComponent,
+          AbstractOrderContextDirective,
+        ],
       },
       add: {
-        imports: [MockTranslatePipe, MockDatePipe, MockCardComponent],
+        imports: [
+          MockTranslatePipe,
+          MockDatePipe,
+          MockCardComponent,
+          MockAbstractOrderContextDirective,
+        ],
       },
     });
   }
@@ -169,10 +185,20 @@ describe('OrderConfirmationShippingComponent', () => {
         providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
       }).overrideComponent(OrderConfirmationShippingComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, CardComponent],
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CardComponent,
+            AbstractOrderContextDirective,
+          ],
         },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockCardComponent],
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCardComponent,
+            MockAbstractOrderContextDirective,
+          ],
         },
       });
     }

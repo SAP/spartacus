@@ -6,10 +6,13 @@ import {
   I18nModule,
   RoutingService,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../../order-details.service';
 import { MyAccountV2OrderDetailsActionsComponent } from './my-account-v2-order-details-actions.component';
+import { OrderDetailActionsComponent } from '@spartacus/order/components';
+import { RouterModule } from '@angular/router';
 
 const mockOrder1 = {
   returnable: true,
@@ -51,18 +54,18 @@ describe('MyAccountV2OrderDetailsActionsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nModule,
-        MyAccountV2OrderDetailsActionsComponent,
-        MockUrlPipe,
-        MockOrderDetailActionsComponent,
-      ],
+      imports: [RouterModule.forRoot([])],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MyAccountV2OrderDetailsActionsComponent, {
+        remove: { imports: [UrlPipe, OrderDetailActionsComponent] },
+        add: { imports: [MockUrlPipe, MockOrderDetailActionsComponent] },
+      })
+      .compileComponents();
     event = TestBed.inject(EventService);
   }));
 

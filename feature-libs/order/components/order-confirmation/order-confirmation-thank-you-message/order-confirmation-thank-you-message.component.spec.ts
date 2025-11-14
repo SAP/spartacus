@@ -6,7 +6,6 @@ import {
   FeatureLevelDirective,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -31,14 +30,12 @@ const mockOrder = {
 @Component({
   selector: 'cx-add-to-home-screen-banner',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockAddtoHomeScreenBannerComponent {}
 
 @Component({
   selector: 'cx-guest-register-form',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockGuestRegisterFormComponent {
   @Input() guid: string;

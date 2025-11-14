@@ -6,11 +6,21 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { ReturnOrderConfirmationComponent } from './return-order-confirmation.component';
+import {
+  AmendOrderActionsComponent,
+  CancelOrReturnItemsComponent,
+} from '@spartacus/order/components';
 
 import createSpy = jasmine.createSpy;
 
@@ -68,17 +78,30 @@ describe('ReturnOrderConfirmationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        ReactiveFormsModule,
-        ReturnOrderConfirmationComponent,
-        MockAmendOrderActionComponent,
-        MockCancelOrReturnItemsComponent,
-      ],
+      imports: [ReactiveFormsModule, ReturnOrderConfirmationComponent],
       providers: [
         { provide: OrderAmendService, useClass: MockOrderAmendService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ReturnOrderConfirmationComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            AmendOrderActionsComponent,
+            CancelOrReturnItemsComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockAmendOrderActionComponent,
+            MockCancelOrReturnItemsComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
