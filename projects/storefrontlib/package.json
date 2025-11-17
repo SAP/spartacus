@@ -23,7 +23,7 @@
     "@ngrx/effects": "^20.1.0",
     "@ngrx/router-store": "^20.1.0",
     "@ngrx/store": "^20.1.0",
-    "@spartacus/core": "221121.2.0",
+    "@spartacus/core": "221121.4.0",
     "ngx-infinite-scroll": "^20.0.0",
     "rxjs": "^7.8.0"
   },

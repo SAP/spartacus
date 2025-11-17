@@ -30,12 +30,12 @@
     "@angular/core": "^20.3.7",
     "@angular/forms": "^20.3.7",
     "@angular/router": "^20.3.7",
-    "@spartacus/cart": "221121.2.0",
-    "@spartacus/checkout": "221121.2.0",
-    "@spartacus/core": "221121.2.0",
-    "@spartacus/order": "221121.2.0",
-    "@spartacus/schematics": "221121.2.0",
-    "@spartacus/storefront": "221121.2.0",
+    "@spartacus/cart": "221121.4.0",
+    "@spartacus/checkout": "221121.4.0",
+    "@spartacus/core": "221121.4.0",
+    "@spartacus/order": "221121.4.0",
+    "@spartacus/schematics": "221121.4.0",
+    "@spartacus/storefront": "221121.4.0",
     "rxjs": "^7.8.0"
   },
   "engines": {

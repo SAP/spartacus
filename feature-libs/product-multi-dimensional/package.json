@@ -31,10 +31,10 @@
     "@angular/forms": "^20.3.7",
     "@angular/router": "^20.3.7",
     "@ng-select/ng-select": "^20.4.3",
-    "@spartacus/core": "221121.2.0",
-    "@spartacus/schematics": "221121.2.0",
-    "@spartacus/storefront": "221121.2.0",
-    "@spartacus/styles": "221121.2.0",
+    "@spartacus/core": "221121.4.0",
+    "@spartacus/schematics": "221121.4.0",
+    "@spartacus/storefront": "221121.4.0",
+    "@spartacus/styles": "221121.4.0",
     "rxjs": "^7.8.0"
   },
   "engines": {
