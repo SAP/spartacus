@@ -59,7 +59,6 @@
         'orgUnit.approvalProcess' | cxTranslate
       }}</span>
       <ng-select
-        *cxFeature="'a11yApprovalProcessWithNoClearable'"
         formControlName="code"
         [searchable]="false"
         [clearable]="false"
@@ -73,22 +72,6 @@
         "
         [attr.aria-errormessage]="'codeError'"
         [cxNgSelectA11y]="{}"
-      >
-      </ng-select>
-      <ng-select
-        *cxFeature="'!a11yApprovalProcessWithNoClearable'"
-        [inputAttrs]="{ required: 'true' }"
-        formControlName="code"
-        [searchable]="false"
-        [items]="(approvalProcess$ | async) ?? []"
-        bindLabel="name"
-        bindValue="code"
-        appendTo="cx-org-list"
-        [placeholder]="'orgUnit.approvalProcess' | cxTranslate"
-        [attr.aria-invalid]="
-          form.get('code')?.touched && form.get('code')?.invalid
-        "
-        [attr.aria-errormessage]="'codeError'"
       >
       </ng-select>
 
@@ -107,7 +90,6 @@
           <cx-form-required-asterisks />
         </span>
         <ng-select
-          *cxFeature="'a11yApprovalProcessWithNoClearable'"
           [inputAttrs]="{ required: 'true' }"
           formControlName="uid"
           [searchable]="true"
@@ -122,23 +104,6 @@
             form.get('uid')?.touched && form.get('uid')?.invalid
           "
           [attr.aria-errormessage]="'codeError'"
-        >
-        </ng-select>
-        <ng-select
-          *cxFeature="'!a11yApprovalProcessWithNoClearable'"
-          [inputAttrs]="{ required: 'true' }"
-          formControlName="uid"
-          [searchable]="true"
-          [clearable]="false"
-          [items]="(units$ | async) ?? []"
-          bindLabel="name"
-          bindValue="id"
-          appendTo="cx-org-list"
-          [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
-          [attr.aria-invalid]="
-            form.get('uid')?.touched && form.get('uid')?.invalid
-          "
-          [attr.aria-errormessage]="'parentUnitUidError'"
         >
         </ng-select>
 

@@ -69,11 +69,6 @@ export class NgSelectA11yDirective implements AfterViewInit {
    */
   @HostListener('keyup', ['$event'])
   onKeyUp(event: KeyboardEvent) {
-    if (
-      !this.featureConfigService?.isEnabled('a11yNgSelectCloseDropdownOnEscape')
-    ) {
-      return;
-    }
     const jawsEscapeCode = 'AltLeft';
     if (event.code === jawsEscapeCode) {
       this.selectComponent.close();

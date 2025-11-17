@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './occ-subscription-billing.adapter';
+export * from './occ-subscription.adapter';
 export * from './occ-subscription-actions.adapter';

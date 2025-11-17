@@ -1,7 +1,7 @@
 {
   "name": "@spartacus/epd-visualization",
-  "version": "221121.2.0",
-  "description": "DEPRECATED - SAP Enterprise Product Development Visualization integration library for Spartacus",
+  "version": "221121.4.0",
+  "description": "SAP Enterprise Product Development Visualization integration library for Spartacus",
   "keywords": [
     "spartacus",
     "framework",
@@ -38,11 +38,11 @@
     "@angular/forms": "^20.3.7",
     "@angular/router": "^20.3.7",
     "@sapui5/ts-types-esm": "1.120.1",
-    "@spartacus/cart": "221121.2.0",
-    "@spartacus/core": "221121.2.0",
-    "@spartacus/schematics": "221121.2.0",
-    "@spartacus/storefront": "221121.2.0",
-    "@spartacus/styles": "221121.2.0",
+    "@spartacus/cart": "221121.4.0",
+    "@spartacus/core": "221121.4.0",
+    "@spartacus/schematics": "221121.4.0",
+    "@spartacus/storefront": "221121.4.0",
+    "@spartacus/styles": "221121.4.0",
     "rxjs": "^7.8.0"
   },
   "engines": {

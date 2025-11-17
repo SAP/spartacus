@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/opps",
-  "version": "221121.2.0",
+  "version": "221121.4.0",
   "description": "OPPS (Omni-Channel Personalization and Promotions Services) library for Spartacus",
   "keywords": [
     "spartacus",
