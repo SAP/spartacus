@@ -204,49 +204,29 @@ export class OpfResourceLoaderService {
   }
 
   /**
-   * Creates session-scoped script with isolated context
-   * PSP scripts can use OpfContext.orderId, OpfContext.amount, etc. without modifications
+   * Execute script with context passed via global variable (no wrapping)
+   * This allows using the original script hash from jsHash without modification
+   * Context is set in window.OpfContext before script execution
    */
-  protected createSessionScopedScript(
+  protected executeScriptWithContext(
     originalScript: string,
-    contextData: any,
-    sessionId: string
-  ): string {
-    return `
-      (function() {
-        'use strict';
-        
-        // Session-isolated context (no global pollution)
-        const OpfContext = ${JSON.stringify(contextData)};
-        const SessionId = '${sessionId}';
-        
-        // Original PSP script runs with context available immediately
-        ${originalScript}
-        
-      })();
-    `;
-  }
-
-  /**
-   * Generate unique session ID
-   */
-  protected generateSessionId(): string {
-    const timestamp = Date.now();
-    const random = Math.random().toString(36).substring(2);
-    return `opf-session-${timestamp}-${random}`;
-  }
-
-  /**
-   * Execute script with session isolation
-   */
-  protected executeScriptWithSession(
-    scriptContent: string,
-    sessionId: string
+    contextData: any
   ): void {
+    // Remove any existing OpfContext to avoid stale data
+    // Then set fresh context in global scope before executing script
+    // PSP scripts can access OpfContext.orderId, OpfContext.amount, etc.
+    if (typeof (window as any) !== 'undefined') {
+      if ((window as any).OpfContext) {
+        delete (window as any).OpfContext;
+      }
+      (window as any).OpfContext = contextData;
+    }
+
+    // Execute original script as-is (no wrapping needed)
+    // This allows the backend-provided jsHash to work directly
     const scriptElement = this.document.createElement('script');
     scriptElement.type = 'text/javascript';
-    scriptElement.textContent = scriptContent;
-    scriptElement.setAttribute('data-session-id', sessionId);
+    scriptElement.textContent = originalScript;
     scriptElement.setAttribute('data-opf-script', 'true');
     this.document.head.appendChild(scriptElement);
 
@@ -293,22 +273,16 @@ export class OpfResourceLoaderService {
       return Promise.resolve();
     }
 
-    // Prepare scoped script for SEPARATE mode (will execute after resources load)
-    let wrappedScript: string | undefined;
-    let sessionId: string | undefined;
+    let originalScript: string | undefined;
+    let contextData: any;
 
     if (
       dynamicScript?.htmlContentMode === OpfHtmlContentMode.SEPARATE &&
       dynamicScript.jsContent
     ) {
       try {
-        sessionId = this.generateSessionId();
-        const parsedContext = this.parseContext(dynamicScript.jsContext);
-        wrappedScript = this.createSessionScopedScript(
-          dynamicScript.jsContent,
-          parsedContext,
-          sessionId
-        );
+        contextData = this.parseContext(dynamicScript.jsContext);
+        originalScript = dynamicScript.jsContent;
       } catch (_) {
         // Intentionally swallow errors to align with existing load behavior (resolve on errors)
       }
@@ -367,8 +341,8 @@ export class OpfResourceLoaderService {
 
     if (!resources.length) {
       // No resources to load, execute script immediately if available
-      if (wrappedScript && sessionId) {
-        this.executeScriptWithSession(wrappedScript, sessionId);
+      if (originalScript) {
+        this.executeScriptWithContext(originalScript, contextData);
       }
       return Promise.resolve();
     }
@@ -390,10 +364,11 @@ export class OpfResourceLoaderService {
       }
     );
 
-    // Wait for all resources to load, then execute scoped script
     return Promise.all(resourcesPromises).then(() => {
-      if (wrappedScript && sessionId) {
-        this.executeScriptWithSession(wrappedScript, sessionId);
+      if (originalScript) {
+        setTimeout(() => {
+          this.executeScriptWithContext(originalScript, contextData);
+        });
       }
     });
   }
