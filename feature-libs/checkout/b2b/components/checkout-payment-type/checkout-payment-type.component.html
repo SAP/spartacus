@@ -25,6 +25,7 @@
             type="text"
             placeholder="{{ 'checkoutB2B.placeholder' | cxTranslate }}"
             value="{{ cartPoNumber$ | async }}"
+            [disabled]="!(isPONumberEditable$ | async)"
           />
         </label>
       </div>

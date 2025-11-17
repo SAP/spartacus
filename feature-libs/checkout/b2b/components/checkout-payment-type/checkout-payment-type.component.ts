@@ -8,10 +8,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PaymentType } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import {
   B2BPaymentTypeEnum,
   CheckoutPaymentTypeFacade,
@@ -133,6 +134,11 @@ export class CheckoutPaymentTypeComponent {
       filter(isNotUndefined),
       distinctUntilChanged()
     );
+
+  activeCartFacade: ActiveCartFacade = inject(ActiveCartFacade);
+  isPONumberEditable$: Observable<boolean> = this.activeCartFacade
+    .getActive()
+    .pipe(map((cart) => !cart?.quotePurchaseOrderNumber));
 
   constructor(
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
