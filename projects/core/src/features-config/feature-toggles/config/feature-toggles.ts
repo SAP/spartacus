@@ -180,12 +180,6 @@ export interface FeatureTogglesInterface {
   a11yRegionAssociatedHeaders?: boolean;
 
   /**
-   * Enables Real time stock display in the PDP page.
-   * when set to `true`, the user will be able to see the real time stock in PDP
-   */
-  showRealTimeStockInPDP?: boolean;
-
-  /**
    * When enabled, the scroll-to-top button adjusts its position when other UI elements
    * (like cookie consent banner) appear at the bottom of the page to prevent overlapping
    */
@@ -538,7 +532,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yHighContrastBorders: true,
   a11yRegionAssociatedHeaders: true,
   a11yHamburgerMenuTrapFocus: true,
-  showRealTimeStockInPDP: true,
   a11yScrollToTopPositioning: true,
   a11yWideScreenImprovements: true,
   a11yOptimizedMenuSpacing: true,
