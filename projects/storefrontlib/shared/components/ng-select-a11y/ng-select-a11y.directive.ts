@@ -158,6 +158,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
           selectObserver.observe(this.elementRef.nativeElement, {
             subtree: true,
             characterData: true,
+            childList: true,
           });
         });
     }
