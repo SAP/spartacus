@@ -196,18 +196,17 @@ export class OpfResourceLoaderService {
         try {
           parsed.responseBody = JSON.parse(parsed.responseBody);
         } catch (error) {
-          // Nested responseBody parsing failed - keep as string
-          // This is expected for some payment providers that return non-JSON strings
-          throw new Error(
+          new Error(
             `Failed to parse nested responseBody as JSON: ${error instanceof Error ? error.message : String(error)}`
           );
         }
       }
       return parsed;
     } catch (error) {
-      throw new Error(
+      new Error(
         `Failed to parse jsContext as JSON: ${error instanceof Error ? error.message : String(error)}`
       );
+      return {};
     }
   }
 
@@ -267,17 +266,10 @@ export class OpfResourceLoaderService {
       dynamicScript?.htmlContentMode === OpfHtmlContentMode.SEPARATE &&
       dynamicScript.jsContent
     ) {
-      try {
-        return {
-          originalScript: dynamicScript.jsContent,
-          contextData: this.parseContext(dynamicScript.jsContext),
-        };
-      } catch (error) {
-        return {
-          originalScript: dynamicScript.jsContent,
-          contextData: {},
-        };
-      }
+      return {
+        originalScript: dynamicScript.jsContent,
+        contextData: this.parseContext(dynamicScript.jsContext),
+      };
     }
     return {};
   }
