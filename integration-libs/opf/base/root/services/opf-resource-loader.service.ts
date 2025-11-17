@@ -6,7 +6,12 @@
 
 import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { Injectable, NgZone, PLATFORM_ID, inject } from '@angular/core';
-import { Config, ScriptLoader, WindowRef } from '@spartacus/core';
+import {
+  Config,
+  LoggerService,
+  ScriptLoader,
+  WindowRef,
+} from '@spartacus/core';
 
 import {
   OpfDynamicScript,
@@ -26,6 +31,7 @@ export class OpfResourceLoaderService {
   protected config = inject(Config);
   protected windowRef = inject(WindowRef);
   protected ngZone = inject(NgZone);
+  protected logger = inject(LoggerService);
 
   protected readonly CORS_DEFAULT_VALUE = 'anonymous';
   protected readonly OPF_RESOURCE_LOAD_ONCE_ATTRIBUTE_KEY = 'opf-load-once';
@@ -195,15 +201,23 @@ export class OpfResourceLoaderService {
       if (parsed.responseBody && typeof parsed.responseBody === 'string') {
         try {
           parsed.responseBody = JSON.parse(parsed.responseBody);
-        } catch (_error) {
+        } catch (error) {
           // NOSONAR: Error intentionally ignored for graceful degradation
           // This is expected for some payment providers that return non-JSON strings
+          this.logger.warn(
+            'Failed to parse nested responseBody as JSON, keeping as string:',
+            error
+          );
         }
       }
       return parsed;
-    } catch (_error) {
+    } catch (error) {
       // NOSONAR: Error intentionally ignored for graceful degradation
       // Invalid JSON in jsContext - return empty object for graceful degradation
+      this.logger.warn(
+        'Failed to parse jsContext as JSON, using empty object:',
+        error
+      );
       return {};
     }
   }
