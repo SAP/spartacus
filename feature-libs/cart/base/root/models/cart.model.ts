@@ -101,6 +101,7 @@ export interface Cart {
   totalUnitCount?: number;
   user?: Principal;
   quoteCode?: string;
+  quotePurchaseOrderNumber?: string;
 }
 
 export interface CartModification {

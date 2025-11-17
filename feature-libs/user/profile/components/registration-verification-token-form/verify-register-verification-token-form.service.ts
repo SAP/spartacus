@@ -5,12 +5,7 @@
  */
 
 import { Injectable, inject } from '@angular/core';
-import {
-  FeatureConfigService,
-  GlobalMessageService,
-  GlobalMessageType,
-  User,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType, User } from '@spartacus/core';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 
@@ -19,8 +14,6 @@ const globalMsgShowTime: number = 10000;
 export class RegistrationVerificationTokenFormComponentService {
   protected globalMessageService = inject(GlobalMessageService);
   protected userRegisterFacade = inject(UserRegisterFacade);
-  private featureConfigService: FeatureConfigService =
-    inject(FeatureConfigService);
 
   displayMessage(key: string, params: Object) {
     this.globalMessageService.add(
@@ -38,16 +31,9 @@ export class RegistrationVerificationTokenFormComponentService {
   }
 
   postRegisterMessage(): void {
-    if (this.featureConfigService.isEnabled('a11yPostRegisterSuccessMessage')) {
-      this.displayMessage(
-        'register.postRegisterSuccessMessage',
-        globalMsgShowTime
-      );
-    } else {
-      this.globalMessageService.add(
-        { key: 'register.postRegisterMessage' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-    }
+    this.displayMessage(
+      'register.postRegisterSuccessMessage',
+      globalMsgShowTime
+    );
   }
 }

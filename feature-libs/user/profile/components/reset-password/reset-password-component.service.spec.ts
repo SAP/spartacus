@@ -1,11 +1,6 @@
 import { TestBed } from '@angular/core/testing';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import {
-  AbstractControl,
-  ReactiveFormsModule,
-  UntypedFormControl,
-} from '@angular/forms';
-import {
-  FeatureConfigService,
   FeaturesConfigModule,
   GlobalMessageService,
   GlobalMessageType,
@@ -57,7 +52,6 @@ describe('ResetPasswordComponentService', () => {
   let globalMessageService: GlobalMessageService;
   let passwordConfirm: AbstractControl;
   let password: AbstractControl;
-  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -87,9 +81,6 @@ describe('ResetPasswordComponentService', () => {
   });
   describe(' - ', () => {
     beforeEach(() => {
-      featureConfigService = TestBed.inject(FeatureConfigService);
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
-
       service = TestBed.inject(ResetPasswordComponentService);
 
       userPasswordService = TestBed.inject(UserPasswordFacade);
@@ -237,64 +228,10 @@ describe('ResetPasswordComponentService', () => {
   });
 
   describe('password validators', () => {
-    let passwordControl: UntypedFormControl;
-
-    describe('when enableSecurePasswordValidation is enabled', () => {
-      beforePasswordValidatorCase(['enableSecurePasswordValidation']);
-
-      it('should use securePasswordValidator', () => {
-        expect(passwordControl).toBeTruthy();
-        expect((service as any).passwordValidators).toEqual(
-          CustomFormValidators.securePasswordValidators
-        );
-      });
+    it('should use securePasswordValidator', () => {
+      expect((service as any).passwordValidators).toEqual(
+        CustomFormValidators.securePasswordValidators
+      );
     });
-
-    describe('when enableConsecutiveCharactersPasswordRequirement is enabled', () => {
-      beforePasswordValidatorCase([
-        'enableConsecutiveCharactersPasswordRequirement',
-      ]);
-
-      it('should use strongPasswordValidator', () => {
-        expect(passwordControl).toBeTruthy();
-        expect((service as any).passwordValidators).toEqual([
-          ...CustomFormValidators.passwordValidators,
-          CustomFormValidators.noConsecutiveCharacters,
-        ]);
-      });
-    });
-
-    describe('when no feature flags are enabled', () => {
-      beforePasswordValidatorCase([]);
-
-      it('should use passwordValidator', () => {
-        expect(passwordControl).toBeTruthy();
-        expect((service as any).passwordValidators).toEqual(
-          // CXSPA-10916: replace with only CustomFormValidators.passwordValidators
-          [
-            ...CustomFormValidators.passwordValidators,
-            CustomFormValidators.noConsecutiveCharacters,
-          ]
-        );
-      });
-    });
-
-    function beforePasswordValidatorCase(featuresEnabled: string[]) {
-      beforeEach(() => {
-        featureConfigService = TestBed.inject(FeatureConfigService);
-        spyOn(featureConfigService, 'isEnabled').and.callFake(
-          (flag: string) => {
-            return featuresEnabled.includes(flag);
-          }
-        );
-
-        service = TestBed.inject(ResetPasswordComponentService);
-        passwordControl = service.form.get('password') as UntypedFormControl;
-
-        userPasswordService = TestBed.inject(UserPasswordFacade);
-        routingService = TestBed.inject(RoutingService);
-        globalMessageService = TestBed.inject(GlobalMessageService);
-      });
-    }
   });
 });
