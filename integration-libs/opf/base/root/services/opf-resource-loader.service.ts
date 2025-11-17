@@ -183,6 +183,7 @@ export class OpfResourceLoaderService {
 
   /**
    * Parses jsContext JSON string and nested JSON strings (e.g., responseBody)
+   * Returns empty object if parsing fails to allow graceful degradation
    */
   protected parseContext(jsContext?: string): any {
     if (!jsContext) {
@@ -194,10 +195,15 @@ export class OpfResourceLoaderService {
       if (parsed.responseBody && typeof parsed.responseBody === 'string') {
         try {
           parsed.responseBody = JSON.parse(parsed.responseBody);
-        } catch (_) {}
+        } catch (error) {
+          // Nested responseBody parsing failed - keep as string
+          // This is expected for some payment providers that return non-JSON strings
+        }
       }
       return parsed;
-    } catch (_) {
+    } catch (error) {
+      // Invalid JSON in jsContext - return empty object for graceful degradation
+      // This allows the script to execute even if context parsing fails
       return {};
     }
   }
@@ -248,6 +254,120 @@ export class OpfResourceLoaderService {
   }
 
   /**
+   * Extracts script content and context from dynamic script if in SEPARATE mode
+   */
+  protected extractDynamicScriptContext(dynamicScript?: OpfDynamicScript): {
+    originalScript?: string;
+    contextData?: any;
+  } {
+    if (
+      dynamicScript?.htmlContentMode === OpfHtmlContentMode.SEPARATE &&
+      dynamicScript.jsContent
+    ) {
+      try {
+        return {
+          originalScript: dynamicScript.jsContent,
+          contextData: this.parseContext(dynamicScript.jsContext),
+        };
+      } catch (error) {
+        throw error;
+      }
+    }
+    return {};
+  }
+
+  /**
+   * Adds CSS from dynamic script to styles array if in SEPARATE mode
+   */
+  protected addDynamicScriptCss(
+    dynamicScript?: OpfDynamicScript,
+    styles: OpfDynamicScriptResource[] = []
+  ): void {
+    if (
+      dynamicScript?.htmlContentMode === OpfHtmlContentMode.SEPARATE &&
+      dynamicScript.cssUrl &&
+      dynamicScript.cssHash
+    ) {
+      styles.push({
+        url: dynamicScript.cssUrl,
+        sri: dynamicScript.cssHash,
+        type: OpfDynamicScriptResourceType.STYLES,
+      });
+    }
+  }
+
+  /**
+   * Gets local PSP resources if available for the given payment option ID
+   */
+  protected getLocalResources(
+    paymentOptionId?: number
+  ): OpfDynamicScriptResource[] {
+    if (!paymentOptionId || !this.hasLocalPspResources(paymentOptionId)) {
+      return [];
+    }
+
+    const localPspResources = (this.config as any).opf?.localPspResources;
+    const localResources = localPspResources?.[paymentOptionId];
+
+    if (!localResources) {
+      return [];
+    }
+
+    const localScripts: OpfDynamicScriptResource[] = localResources.jsFiles.map(
+      (url: string) => ({
+        url,
+        type: OpfDynamicScriptResourceType.SCRIPT,
+      })
+    );
+
+    const localStyles: OpfDynamicScriptResource[] = localResources.cssFiles.map(
+      (url: string) => ({
+        url,
+        type: OpfDynamicScriptResourceType.STYLES,
+      })
+    );
+
+    return [...localScripts, ...localStyles];
+  }
+
+  /**
+   * Converts external scripts and styles to resource format
+   */
+  protected getExternalResources(
+    scripts: OpfDynamicScriptResource[] = [],
+    styles: OpfDynamicScriptResource[] = []
+  ): OpfDynamicScriptResource[] {
+    return [
+      ...scripts.map((script) => ({
+        ...script,
+        type: OpfDynamicScriptResourceType.SCRIPT,
+      })),
+      ...styles.map((style) => ({
+        ...style,
+        type: OpfDynamicScriptResourceType.STYLES,
+      })),
+    ];
+  }
+
+  /**
+   * Loads a single resource based on its type
+   */
+  protected loadResource(resource: OpfDynamicScriptResource): Promise<void> {
+    if (!resource.url) {
+      return Promise.resolve();
+    }
+
+    switch (resource.type) {
+      case OpfDynamicScriptResourceType.SCRIPT:
+        return this.loadScript(resource);
+      case OpfDynamicScriptResourceType.STYLES:
+        return this.loadStyles(resource);
+      default:
+        return Promise.resolve();
+    }
+  }
+
+  /**
    * Loads scripts and stylesheets specified in the lists of resource objects (scripts and styles).
    * The method automatically selects local or external resources based on the presence of localPspResources
    * in the storefront configuration.
@@ -271,70 +391,15 @@ export class OpfResourceLoaderService {
       return Promise.resolve();
     }
 
-    let originalScript: string | undefined;
-    let contextData: any;
+    const { originalScript, contextData } =
+      this.extractDynamicScriptContext(dynamicScript);
+    this.addDynamicScriptCss(dynamicScript, styles);
 
-    if (
-      dynamicScript?.htmlContentMode === OpfHtmlContentMode.SEPARATE &&
-      dynamicScript.jsContent
-    ) {
-      try {
-        contextData = this.parseContext(dynamicScript.jsContext);
-        originalScript = dynamicScript.jsContent;
-      } catch (_) {
-        // Intentionally swallow errors to align with existing load behavior (resolve on errors)
-      }
-    }
-
-    if (
-      dynamicScript?.htmlContentMode === OpfHtmlContentMode.SEPARATE &&
-      dynamicScript.cssUrl &&
-      dynamicScript.cssHash
-    ) {
-      styles.push({
-        url: dynamicScript.cssUrl,
-        sri: dynamicScript.cssHash,
-        type: OpfDynamicScriptResourceType.STYLES,
-      });
-    }
-
-    const resources: OpfDynamicScriptResource[] = [];
-
-    if (paymentOptionId && this.hasLocalPspResources(paymentOptionId)) {
-      const localPspResources = (this.config as any).opf?.localPspResources;
-      const localResources = localPspResources?.[paymentOptionId];
-
-      if (localResources) {
-        // Convert local paths to OpfDynamicScriptResource format
-        const localScripts: OpfDynamicScriptResource[] =
-          localResources.jsFiles.map((url: string) => ({
-            url,
-            type: OpfDynamicScriptResourceType.SCRIPT,
-          }));
-
-        const localStyles: OpfDynamicScriptResource[] =
-          localResources.cssFiles.map((url: string) => ({
-            url,
-            type: OpfDynamicScriptResourceType.STYLES,
-          }));
-
-        resources.push(...localScripts, ...localStyles);
-      }
-    }
-
-    // Fallback to external resources if no local resources found
-    if (resources.length === 0) {
-      resources.push(
-        ...scripts.map((script) => ({
-          ...script,
-          type: OpfDynamicScriptResourceType.SCRIPT,
-        })),
-        ...styles.map((style) => ({
-          ...style,
-          type: OpfDynamicScriptResourceType.STYLES,
-        }))
-      );
-    }
+    const localResources = this.getLocalResources(paymentOptionId);
+    const resources =
+      localResources.length > 0
+        ? localResources
+        : this.getExternalResources(scripts, styles);
 
     if (!resources.length) {
       if (originalScript) {
@@ -343,21 +408,8 @@ export class OpfResourceLoaderService {
       return Promise.resolve();
     }
 
-    const resourcesPromises = resources.map(
-      (resource: OpfDynamicScriptResource) => {
-        if (!resource.url) {
-          return Promise.resolve();
-        }
-
-        switch (resource.type) {
-          case OpfDynamicScriptResourceType.SCRIPT:
-            return this.loadScript(resource);
-          case OpfDynamicScriptResourceType.STYLES:
-            return this.loadStyles(resource);
-          default:
-            return Promise.resolve();
-        }
-      }
+    const resourcesPromises = resources.map((resource) =>
+      this.loadResource(resource)
     );
 
     return Promise.all(resourcesPromises).then(() => {
