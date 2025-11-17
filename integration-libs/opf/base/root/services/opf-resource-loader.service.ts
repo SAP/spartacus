@@ -195,12 +195,15 @@ export class OpfResourceLoaderService {
       if (parsed.responseBody && typeof parsed.responseBody === 'string') {
         try {
           parsed.responseBody = JSON.parse(parsed.responseBody);
-        } catch (error) {
-          return {};
+        } catch (_error) {
+          // NOSONAR: Error intentionally ignored for graceful degradation
+          // This is expected for some payment providers that return non-JSON strings
         }
       }
       return parsed;
-    } catch (error) {
+    } catch (_error) {
+      // NOSONAR: Error intentionally ignored for graceful degradation
+      // Invalid JSON in jsContext - return empty object for graceful degradation
       return {};
     }
   }
