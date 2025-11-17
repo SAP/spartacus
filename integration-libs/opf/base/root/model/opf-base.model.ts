@@ -41,7 +41,7 @@ export interface OpfActiveConfigurationsQuery {
 }
 export enum OpfHtmlContentMode {
   SEPARATE = 'SEPARATE',
-  MIX = 'MIXED',
+  MIXED = 'MIXED',
 }
 
 export interface OpfDynamicScript {

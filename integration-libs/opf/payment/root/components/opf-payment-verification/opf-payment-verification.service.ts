@@ -249,7 +249,6 @@ export class OpfPaymentVerificationService {
             this.opfResourceLoaderService.executeScriptFromHtml(html);
             resolve(true);
           } else if (html) {
-            // SEPARATE mode: render-safe HTML only
             resolve(true);
           } else {
             resolve(false);

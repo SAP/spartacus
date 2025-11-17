@@ -5,8 +5,8 @@
  */
 
 import { DOCUMENT, isPlatformServer } from '@angular/common';
-import { Injectable, PLATFORM_ID, inject } from '@angular/core';
-import { Config, ScriptLoader } from '@spartacus/core';
+import { Injectable, NgZone, PLATFORM_ID, inject } from '@angular/core';
+import { Config, ScriptLoader, WindowRef } from '@spartacus/core';
 
 import {
   OpfDynamicScript,
@@ -24,6 +24,8 @@ export class OpfResourceLoaderService {
   protected document = inject(DOCUMENT);
   protected platformId = inject(PLATFORM_ID);
   protected config = inject(Config);
+  protected windowRef = inject(WindowRef);
+  protected ngZone = inject(NgZone);
 
   protected readonly CORS_DEFAULT_VALUE = 'anonymous';
   protected readonly OPF_RESOURCE_LOAD_ONCE_ATTRIBUTE_KEY = 'opf-load-once';
@@ -189,13 +191,10 @@ export class OpfResourceLoaderService {
 
     try {
       const parsed = JSON.parse(jsContext);
-      // Parse nested JSON strings like responseBody
       if (parsed.responseBody && typeof parsed.responseBody === 'string') {
         try {
           parsed.responseBody = JSON.parse(parsed.responseBody);
-        } catch (_) {
-          // Keep as string if parsing fails
-        }
+        } catch (_) {}
       }
       return parsed;
     } catch (_) {
@@ -212,30 +211,29 @@ export class OpfResourceLoaderService {
     originalScript: string,
     contextData: any
   ): void {
-    // Remove any existing OpfContext to avoid stale data
-    // Then set fresh context in global scope before executing script
-    // PSP scripts can access OpfContext.orderId, OpfContext.amount, etc.
-    if (typeof (window as any) !== 'undefined') {
-      if ((window as any).OpfContext) {
-        delete (window as any).OpfContext;
+    // Run outside Angular zone since script execution doesn't need change detection
+    this.ngZone.runOutsideAngular(() => {
+      if (this.windowRef.isBrowser() && this.windowRef.nativeWindow) {
+        const nativeWindow = this.windowRef.nativeWindow as any;
+        if (nativeWindow.OpfContext) {
+          delete nativeWindow.OpfContext;
+        }
+        nativeWindow.OpfContext = contextData;
       }
-      (window as any).OpfContext = contextData;
-    }
 
-    // Execute original script as-is (no wrapping needed)
-    // This allows the backend-provided jsHash to work directly
-    const scriptElement = this.document.createElement('script');
-    scriptElement.type = 'text/javascript';
-    scriptElement.textContent = originalScript;
-    scriptElement.setAttribute('data-opf-script', 'true');
-    this.document.head.appendChild(scriptElement);
+      const scriptElement = this.document.createElement('script');
+      scriptElement.type = 'text/javascript';
+      scriptElement.textContent = originalScript;
+      scriptElement.setAttribute('data-opf-script', 'true');
+      this.document.head.appendChild(scriptElement);
 
-    // Clean up after execution
-    setTimeout(() => {
-      if (scriptElement.parentNode) {
-        scriptElement.parentNode.removeChild(scriptElement);
-      }
-    }, 100);
+      // Clean up after execution
+      setTimeout(() => {
+        if (scriptElement.parentNode) {
+          scriptElement.parentNode.removeChild(scriptElement);
+        }
+      }, 100);
+    });
   }
 
   /**
@@ -288,7 +286,6 @@ export class OpfResourceLoaderService {
       }
     }
 
-    // Add CSS from cssUrl/cssHash to styles array if in SEPARATE mode
     if (
       dynamicScript?.htmlContentMode === OpfHtmlContentMode.SEPARATE &&
       dynamicScript.cssUrl &&
@@ -340,7 +337,6 @@ export class OpfResourceLoaderService {
     }
 
     if (!resources.length) {
-      // No resources to load, execute script immediately if available
       if (originalScript) {
         this.executeScriptWithContext(originalScript, contextData);
       }

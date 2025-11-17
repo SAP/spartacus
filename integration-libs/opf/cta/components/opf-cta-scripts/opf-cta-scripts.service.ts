@@ -57,7 +57,6 @@ export class OpfCtaScriptsService {
               this.opfResourceLoaderService.executeScriptFromHtml(html);
               resolve(script);
             } else if (html) {
-              // SEPARATE mode: render-safe HTML, do not execute scripts here
               resolve(script);
             } else {
               resolve(undefined);
