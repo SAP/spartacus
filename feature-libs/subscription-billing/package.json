@@ -26,11 +26,11 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "20.3.7",
-    "@angular/common": "20.3.7",
-    "@angular/core": "20.3.7",
-    "@angular/router": "20.3.7",
-    "@ng-select/ng-select": "20.4.3",
+    "@angular-devkit/schematics": "^20.3.7",
+    "@angular/common": "^20.3.7",
+    "@angular/core": "^20.3.7",
+    "@angular/router": "^20.3.7",
+    "@ng-select/ng-select": "^20.4.3",
     "@spartacus/cart": "221121.2.0",
     "@spartacus/core": "221121.2.0",
     "@spartacus/schematics": "221121.2.0",

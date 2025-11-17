@@ -20,9 +20,9 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "20.3.7",
-    "@angular/common": "20.3.7",
-    "@angular/core": "20.3.7",
+    "@angular-devkit/schematics": "^20.3.7",
+    "@angular/common": "^20.3.7",
+    "@angular/core": "^20.3.7",
     "@spartacus/cart": "221121.2.0",
     "@spartacus/core": "221121.2.0",
     "@spartacus/pdf-invoices": "221121.2.0",
