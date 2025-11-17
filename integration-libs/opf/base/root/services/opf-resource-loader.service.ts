@@ -202,8 +202,6 @@ export class OpfResourceLoaderService {
         try {
           parsed.responseBody = JSON.parse(parsed.responseBody);
         } catch (error) {
-          // NOSONAR: Error intentionally ignored for graceful degradation
-          // This is expected for some payment providers that return non-JSON strings
           this.logger.warn(
             'Failed to parse nested responseBody as JSON, keeping as string:',
             error
@@ -212,8 +210,6 @@ export class OpfResourceLoaderService {
       }
       return parsed;
     } catch (error) {
-      // NOSONAR: Error intentionally ignored for graceful degradation
-      // Invalid JSON in jsContext - return empty object for graceful degradation
       this.logger.warn(
         'Failed to parse jsContext as JSON, using empty object:',
         error
