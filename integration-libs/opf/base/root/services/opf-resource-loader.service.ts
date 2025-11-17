@@ -196,16 +196,11 @@ export class OpfResourceLoaderService {
         try {
           parsed.responseBody = JSON.parse(parsed.responseBody);
         } catch (error) {
-          new Error(
-            `Failed to parse nested responseBody as JSON: ${error instanceof Error ? error.message : String(error)}`
-          );
+          return {};
         }
       }
       return parsed;
     } catch (error) {
-      new Error(
-        `Failed to parse jsContext as JSON: ${error instanceof Error ? error.message : String(error)}`
-      );
       return {};
     }
   }
