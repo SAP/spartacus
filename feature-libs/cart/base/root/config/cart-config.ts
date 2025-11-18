@@ -21,6 +21,9 @@ export abstract class CartConfig {
     validation?: {
       enabled?: boolean;
     };
+    showRealTimeStockInPDP?: {
+      enabled?: boolean;
+    };
   };
 }
 
