@@ -124,7 +124,7 @@ describe('CustomLoginGuard', () => {
     });
   });
 
-  describe('wehn SSR mode is running', () => {
+  describe('when SSR mode is running', () => {
     beforeEach(() => {
       spyOn(mockWindowRef, 'isBrowser').and.returnValue(false);
     });
