@@ -10,6 +10,10 @@ import { switchLanguage } from './language';
 import { checkBanner } from './homepage';
 import { clickHamburger, waitForPage } from './navigation';
 import { mockOrderList } from './orders-history-mocks';
+import {
+  replenishmentOrderHistoryHeaderValue,
+  replenishmentOrderHistoryUrl,
+} from './b2b/b2b-replenishment-order-history';
 
 const orderHistoryLink = '/my-account/orders';
 export const CART_PAGE_ALIAS = 'cartPage';
