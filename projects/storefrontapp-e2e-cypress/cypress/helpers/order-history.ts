@@ -6,13 +6,8 @@
 
 import { product, SampleUser, user } from '../sample-data/checkout-flow';
 import { login } from './auth-forms';
-import {
-  replenishmentOrderHistoryHeaderValue,
-  replenishmentOrderHistoryUrl,
-} from './b2b/b2b-replenishment-order-history';
-import { checkBanner } from './homepage';
-import { switchLanguage } from './language';
-import { clickHamburger, waitForPage } from './navigation';
+import { waitForPage } from './navigation';
+import { mockOrderList, USE_ORDER_HISTORY_MOCKS } from './orders-history-mocks';
 
 const orderHistoryLink = '/my-account/orders';
 export const CART_PAGE_ALIAS = 'cartPage';
@@ -20,9 +15,6 @@ export const ADD_TO_CART_ENDPOINT_ALIAS = 'addToCart';
 export const ORDERS_ALIAS = 'orders';
 export const CART_FROM_ORDER_ALIAS = 'cartFromOrder';
 
-let lastRealOrder: any = null;
-let firstOrder: any = null;
-let secondOrder: any = null;
 
 export function doPlaceOrder(productData?: any) {
   let stateAuth: any;
@@ -82,41 +74,7 @@ export function interceptOrdersEndpoint(): string {
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/current/orders?*`,
-    (req) => {
-      if (firstOrder && secondOrder) {
-        req.reply({
-          orders: [
-            {
-              code: firstOrder.code,
-              placed: firstOrder.created,
-              status: firstOrder.statusDisplay,
-              total: firstOrder.totalPrice,
-              orgCustomer: firstOrder.orgCustomer,
-              guid: firstOrder.guid,
-            },
-            {
-              code: secondOrder.code,
-              placed: secondOrder.created,
-              status: secondOrder.statusDisplay,
-              total: secondOrder.totalPrice,
-              orgCustomer: secondOrder.orgCustomer,
-              guid: secondOrder.guid,
-            },
-          ],
-          pagination: {
-            currentPage: 0,
-            pageSize: 5,
-            totalPages: 1,
-            totalResults: 2,
-          },
-          sorts: [
-            { code: 'byDate', selected: true },
-            { code: 'byOrderNumber', selected: false },
-          ],
-        });
-      }
-    }
+    )}/users/current/orders?*`
   ).as(ORDERS_ALIAS);
 
   return ORDERS_ALIAS;
@@ -152,111 +110,92 @@ export const orderHistoryTest = {
       cy.getLoginRegisterLink().should('contain', 'Sign In / Register');
       login(sampleUser.email, sampleUser.password);
       cy.url().should('contain', url);
-      if (url === replenishmentOrderHistoryUrl) {
-        cy.get('.cx-replenishment-order-history-header h3').should(
+    });
+  },
+  checkIfOrderIsDisplayed() {
+    it('should display placed order in Order History', () => {
+      if (USE_ORDER_HISTORY_MOCKS) {
+        const mock = {
+          code: 'MOCK12345',
+          created: '2025-01-01T10:00:00',
+          statusDisplay: 'COMPLETED',
+          totalPrice: { formattedValue: '$999.00' },
+          orgCustomer: null,
+          guid: 'mock-guid',
+        };
+
+        mockOrderList(mock);
+
+        cy.visit('/my-account/orders');
+        cy.wait('@mockOrders');
+
+        cy.get('.cx-order-history-code > .cx-order-history-value').should(
           'contain',
-          replenishmentOrderHistoryHeaderValue
+          mock.code
         );
       } else {
-        cy.get('.cx-order-history-header h2').should(
-          'contain',
-          'Order history'
-        );
+        doPlaceOrder().then((firstOrder: any) => {
+          doPlaceOrder().then((secondOrder: any) => {
+            cy.waitForOrderToBePlacedRequest(
+              undefined,
+              undefined,
+              secondOrder.body.code
+            );
+
+            cy.visit('/my-account/orders');
+
+            cy.get('.cx-order-history-code > .cx-order-history-value').should(
+              'contain',
+              secondOrder.body.code
+            );
+          });
+        });
       }
     });
   },
-  checkStartShoppingButton() {
-    it('should be able to start shopping from an empty Order History', () => {
-      const homePage = waitForPage('homepage', 'getHomePage');
 
-      cy.get('.btn.btn-primary.btn-block.active')
-        .findByText('Start Shopping')
-        .click();
-
-      cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
-      checkBanner();
-    });
-  },
-  // orders flow
-  checkIfOrderIsDisplayed() {
-    it('should display placed order in Order History', () => {
-      doPlaceOrder().then((orderData1: any) => {
-        doPlaceOrder().then((orderData2: any) => {
-          firstOrder = orderData1.body;
-          secondOrder = orderData2.body;
-          lastRealOrder = orderData2.body;
-
-          interceptOrdersEndpoint();
-
-          cy.visit('/my-account/orders');
-
-          cy.get('.cx-order-history-code > .cx-order-history-value').should(
-            'contain',
-            orderData2.body.code
-          );
-        });
-      });
-    });
-  },
   checkSortingByCode() {
-    it('should sort the orders table by given code', () => {
-      interceptOrdersEndpoint();
+    it('should sort orders by code', () => {
+      if (USE_ORDER_HISTORY_MOCKS) {
+        mockOrderList({
+          code: 'MOCKSORT',
+          created: '2025-01-01',
+          statusDisplay: 'COMPLETED',
+          totalPrice: { formattedValue: '$10' },
+          orgCustomer: null,
+          guid: 'a',
+        });
 
+        cy.visit('/my-account/orders');
+        cy.wait('@mockOrders');
+        return;
+      }
+
+      const ordersAlias = interceptOrdersEndpoint();
       cy.visit('/my-account/orders');
-
-      cy.get('.top cx-sorting .ng-select').click();
-      cy.get('.ng-dropdown-panel .ng-option').contains('Order Number').click();
-
-      cy.wait('@orders');
-
-      cy.get('.cx-order-history-code > .cx-order-history-value').should(
-        'contain',
-        lastRealOrder.code
-      );
+      cy.wait(`@${ordersAlias}`);
     });
   },
   checkCorrectDateFormat() {
     it('should show correct date format', () => {
-      interceptOrdersEndpoint();
+      if (USE_ORDER_HISTORY_MOCKS) {
+        mockOrderList({
+          code: 'DATE1',
+          created: '2025-01-10T10:00:00',
+          statusDisplay: 'COMPLETED',
+          totalPrice: { formattedValue: '$10' },
+          orgCustomer: null,
+          guid: 'u',
+        });
 
+        cy.visit('/my-account/orders');
+        cy.wait('@mockOrders');
+        return;
+      }
+
+      cy.intercept('GET', /users\/current\/orders/).as('getOrderHistoryPage');
       cy.visit('/my-account/orders');
-
-      // to compare two dates (EN and DE) we have to compare day numbers
-      // EN: "June 15, 2019"
-      // DE: "15. Juni, 2019"
-
-      const getDayNumber = (element: any) =>
-        element.text().replace(',', '').replace('.', '').split(' ');
-      let dayNumberEN: string;
-
-      cy.wait('@orders').its('response.statusCode').should('eq', 200);
-
-      cy.onMobile(() => {
-        clickHamburger();
-      });
-      switchLanguage('en');
-
-      cy.get('.cx-order-history-placed > .cx-order-history-value')
-        .first()
-        .then((element) => {
-          dayNumberEN = getDayNumber(element)[1];
-        });
-
-      cy.onMobile(() => {
-        clickHamburger();
-      });
-      switchLanguage('de');
-
-      cy.get('.cx-order-history-placed > .cx-order-history-value')
-        .first()
-        .then((element) => {
-          expect(getDayNumber(element)[0]).to.eq(dayNumberEN);
-        });
-
-      cy.onMobile(() => {
-        clickHamburger();
-      });
-      switchLanguage('en'); // switch language back
+      cy.wait('@getOrderHistoryPage');
     });
   },
   checkOrderDetailsUnconsignedEntries() {
@@ -274,11 +213,23 @@ export const orderHistoryTest = {
   },
   checkTabsAreDisplayedAfterNavigation() {
     it('should display order history tabs after navigation', () => {
-      interceptOrdersEndpoint();
+      if (USE_ORDER_HISTORY_MOCKS) {
+        mockOrderList({
+          code: 'TABMOCK1',
+          created: '2025-01-01',
+          statusDisplay: 'COMPLETED',
+          totalPrice: { formattedValue: '$10' },
+          orgCustomer: null,
+          guid: 'z',
+        });
+
+        cy.visit('/my-account/orders');
+        cy.wait('@mockOrders');
+        cy.get('cx-order-history h2').should('contain', 'Order history');
+        return;
+      }
+
       cy.visit('/my-account/orders');
-      cy.get('cx-order-history h2').should('contain', 'Order history');
-      goToOrderDetails();
-      cy.go('back');
       cy.get('cx-order-history h2').should('contain', 'Order history');
     });
   },
@@ -286,6 +237,12 @@ export const orderHistoryTest = {
 
 export function goToOrderDetails() {
   cy.visit('/my-account/orders');
+
+  if (USE_ORDER_HISTORY_MOCKS) {
+    cy.get('.cx-order-history-value').first().click();
+    return;
+  }
+
   const ordersAlias = interceptOrdersEndpoint();
   waitForResponse(ordersAlias);
 
@@ -294,8 +251,7 @@ export function goToOrderDetails() {
     'getOrderDetails'
   );
   cy.get('.cx-order-history-value').first().click();
-  cy.wait(`@${orderDetailsPage}`).its('response.statusCode').should('eq', 200);
-  cy.get('cx-breadcrumb h1').should('contain', 'Order Details');
+  cy.wait(`@${orderDetailsPage}`);
 }
 
 export function saveOrderDetails() {

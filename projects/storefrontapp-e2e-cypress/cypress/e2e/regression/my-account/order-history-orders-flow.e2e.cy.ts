@@ -17,6 +17,11 @@ import {
   verifyActionLinkHasText,
   waitForResponse,
 } from '../../../helpers/order-history';
+import {
+  USE_ORDER_HISTORY_MOCKS,
+  mockOrderDetails,
+  mockOrderList,
+} from '../../../helpers/orders-history-mocks';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { product } from '../../../sample-data/checkout-flow';
 import { waitForOrderWithConsignmentToBePlacedRequest } from '../../../support/utils/order-placed';
@@ -56,19 +61,38 @@ describe('Order details page', { testIsolation: false }, () => {
       cy.visit('/');
       cy.requireLoggedIn();
       doPlaceOrder().then((orderData: any) => {
-        formattedValue = orderData.body.totalPrice.formattedValue;
-        cy.waitForOrderToBePlacedRequest(
-          undefined,
-          undefined,
-          orderData.body.code
-        );
+        const order = orderData.body;
+        formattedValue = order.totalPrice.formattedValue;
+        if (USE_ORDER_HISTORY_MOCKS) {
+          const summary = {
+            code: order.code,
+            placed: order.created,
+            status: order.statusDisplay,
+            total: order.totalPrice,
+            guid: order.guid,
+          };
+
+          mockOrderList(summary);
+          mockOrderDetails(order);
+
+          cy.visit('/my-account/orders');
+          cy.wait('@mockOrders');
+
+          cy.get('.cx-order-history-value').first().click();
+
+          cy.wait('@mockOrderDetails');
+          return;
+        }
+
+        cy.waitForOrderToBePlacedRequest(undefined, undefined, order.code);
+
         cy.visit('/my-account/orders');
 
         cy.get('.cx-order-history-code > .cx-order-history-value', {
           timeout: 30000,
         }).then((el) => {
-          const orderNumber = el.text().match(/\d+/)[0];
-          waitForOrderWithConsignmentToBePlacedRequest(orderNumber);
+          const number = el.text().match(/\d+/)[0];
+          waitForOrderWithConsignmentToBePlacedRequest(number);
         });
 
         cy.get('.cx-order-history-code > .cx-order-history-value', {
