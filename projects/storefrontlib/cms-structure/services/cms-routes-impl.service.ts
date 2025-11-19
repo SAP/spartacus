@@ -167,8 +167,7 @@ export class CmsRoutesImplService {
       route: ActivatedRouteSnapshot,
       state: RouterStateSnapshot
     ): Observable<GuardResult> => {
-      // eslint-disable-next-line @typescript-eslint/no-deprecated
-      return this.cmsGuardsService.canActivateGuard(guard, route, state);
+      return this.cmsGuardsService.canActivateGuard(guard, route, state); // NOSONAR
     };
   }
 }
