@@ -62,6 +62,7 @@ export class CustomLoginGuard implements CanActivate {
       !this.windowRef.isBrowser()
     ) {
       // disable guard when custom login page is not enabled or when the application is running in SSR mode.
+      return of(true);
     }
 
     return this.authService.getCsrfToken().pipe(
