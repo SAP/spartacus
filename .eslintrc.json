@@ -29,6 +29,7 @@
         "prefer-const": "off",
         "@angular-eslint/use-lifecycle-interface": "error",
         "@angular-eslint/prefer-standalone": "off",
+        "@angular-eslint/prefer-inject": "off",
         "@stylistic/ts/quotes": "off",
         "@stylistic/ts/member-delimiter-style": [
           "error",
