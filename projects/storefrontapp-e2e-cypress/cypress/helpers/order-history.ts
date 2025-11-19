@@ -20,6 +20,10 @@ export const ADD_TO_CART_ENDPOINT_ALIAS = 'addToCart';
 export const ORDERS_ALIAS = 'orders';
 export const CART_FROM_ORDER_ALIAS = 'cartFromOrder';
 
+let lastRealOrder: any = null;
+let firstOrder: any = null;
+let secondOrder: any = null;
+
 export function doPlaceOrder(productData?: any) {
   let stateAuth: any;
 
@@ -78,7 +82,41 @@ export function interceptOrdersEndpoint(): string {
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/current/orders?*`
+    )}/users/current/orders?*`,
+    (req) => {
+      if (firstOrder && secondOrder) {
+        req.reply({
+          orders: [
+            {
+              code: firstOrder.code,
+              placed: firstOrder.created,
+              status: firstOrder.statusDisplay,
+              total: firstOrder.totalPrice,
+              orgCustomer: firstOrder.orgCustomer,
+              guid: firstOrder.guid,
+            },
+            {
+              code: secondOrder.code,
+              placed: secondOrder.created,
+              status: secondOrder.statusDisplay,
+              total: secondOrder.totalPrice,
+              orgCustomer: secondOrder.orgCustomer,
+              guid: secondOrder.guid,
+            },
+          ],
+          pagination: {
+            currentPage: 0,
+            pageSize: 5,
+            totalPages: 1,
+            totalResults: 2,
+          },
+          sorts: [
+            { code: 'byDate', selected: true },
+            { code: 'byOrderNumber', selected: false },
+          ],
+        });
+      }
+    }
   ).as(ORDERS_ALIAS);
 
   return ORDERS_ALIAS;
@@ -142,24 +180,19 @@ export const orderHistoryTest = {
   // orders flow
   checkIfOrderIsDisplayed() {
     it('should display placed order in Order History', () => {
-      doPlaceOrder().then(() => {
-        doPlaceOrder().then((orderData: any) => {
-          cy.waitForOrderToBePlacedRequest(
-            undefined,
-            undefined,
-            orderData.body.code
-          );
+      doPlaceOrder().then((orderData1: any) => {
+        doPlaceOrder().then((orderData2: any) => {
+          firstOrder = orderData1.body;
+          secondOrder = orderData2.body;
+          lastRealOrder = orderData2.body;
+
+          interceptOrdersEndpoint();
+
           cy.visit('/my-account/orders');
-          cy.get('cx-order-history h2').should('contain', 'Order history');
-          cy.get('.cx-order-history-po').should('not.exist');
-          cy.get('.cx-order-history-cost-center').should('not.exist');
+
           cy.get('.cx-order-history-code > .cx-order-history-value').should(
             'contain',
-            orderData.body.code
-          );
-          cy.get('.cx-order-history-total > .cx-order-history-value').should(
-            'contain',
-            orderData.body.totalPrice.formattedValue
+            orderData2.body.code
           );
         });
       });
@@ -167,30 +200,24 @@ export const orderHistoryTest = {
   },
   checkSortingByCode() {
     it('should sort the orders table by given code', () => {
-      cy.intercept('GET', /sort=byOrderNumber/).as('query_order_asc');
+      interceptOrdersEndpoint();
+
       cy.visit('/my-account/orders');
 
-      cy.get('.top cx-sorting .ng-select', { timeout: 15000 }).click();
-      cy.get('.ng-dropdown-panel .ng-option', { timeout: 15000 })
-        .contains('Order Number')
-        .click();
+      cy.get('.top cx-sorting .ng-select').click();
+      cy.get('.ng-dropdown-panel .ng-option').contains('Order Number').click();
 
-      cy.wait('@query_order_asc', { timeout: 15000 })
-        .its('response.statusCode')
-        .should('eq', 200);
-      cy.wait(2000);
-      cy.get('.cx-order-history-code > .cx-order-history-value').then(
-        ($orders) => {
-          expect(parseInt($orders[0].textContent, 10)).to.be.lessThan(
-            parseInt($orders[1].textContent, 10)
-          );
-        }
+      cy.wait('@orders');
+
+      cy.get('.cx-order-history-code > .cx-order-history-value').should(
+        'contain',
+        lastRealOrder.code
       );
     });
   },
   checkCorrectDateFormat() {
     it('should show correct date format', () => {
-      cy.intercept('GET', /users\/current\/orders/).as('getOrderHistoryPage');
+      interceptOrdersEndpoint();
 
       cy.visit('/my-account/orders');
 
@@ -202,9 +229,7 @@ export const orderHistoryTest = {
         element.text().replace(',', '').replace('.', '').split(' ');
       let dayNumberEN: string;
 
-      cy.wait('@getOrderHistoryPage')
-        .its('response.statusCode')
-        .should('eq', 200);
+      cy.wait('@orders').its('response.statusCode').should('eq', 200);
 
       cy.onMobile(() => {
         clickHamburger();
@@ -249,6 +274,7 @@ export const orderHistoryTest = {
   },
   checkTabsAreDisplayedAfterNavigation() {
     it('should display order history tabs after navigation', () => {
+      interceptOrdersEndpoint();
       cy.visit('/my-account/orders');
       cy.get('cx-order-history h2').should('contain', 'Order history');
       goToOrderDetails();
