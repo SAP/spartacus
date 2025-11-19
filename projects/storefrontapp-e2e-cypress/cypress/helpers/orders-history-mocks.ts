@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const USE_ORDER_HISTORY_MOCKS = true;
-
 export function mockOrderList(orderSummary) {
   cy.intercept(
     'GET',

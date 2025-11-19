@@ -18,7 +18,6 @@ import {
   waitForResponse,
 } from '../../../helpers/order-history';
 import {
-  USE_ORDER_HISTORY_MOCKS,
   mockOrderDetails,
   mockOrderList,
 } from '../../../helpers/orders-history-mocks';
@@ -26,6 +25,8 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { product } from '../../../sample-data/checkout-flow';
 import { waitForOrderWithConsignmentToBePlacedRequest } from '../../../support/utils/order-placed';
 import { isolateTestsBefore } from '../../../support/utils/test-isolation';
+
+const USE_ORDER_HISTORY_MOCKS = true;
 
 describe('Order History with orders', () => {
   viewportContext(['mobile'], () => {
@@ -43,15 +44,15 @@ describe('Order History with orders', () => {
       cy.saveLocalStorage();
     });
 
-    orderHistoryTest.checkIfOrderIsDisplayed();
-    orderHistoryTest.checkSortingByCode();
-    orderHistoryTest.checkCorrectDateFormat();
-    orderHistoryTest.checkTabsAreDisplayedAfterNavigation();
+    orderHistoryTest.checkIfOrderIsDisplayedMock();
+    orderHistoryTest.checkSortingByCodeMock();
+    orderHistoryTest.checkCorrectDateFormatMock();
+    orderHistoryTest.checkTabsAreDisplayedAfterNavigationMock();
   });
 });
 
 describe('Order details page', { testIsolation: false }, () => {
-  viewportContext(['mobile'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
     isolateTestsBefore();
     let formattedValue: any;
 
