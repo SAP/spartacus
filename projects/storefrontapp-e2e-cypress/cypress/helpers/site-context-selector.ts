@@ -5,9 +5,9 @@
  */
 
 import { user } from '../sample-data/checkout-flow';
-import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { switchSiteContext } from '../support/utils/switch-site-context';
 import { waitForPage } from './navigation';
+import { mockOrderList } from './orders-history-mocks';
 
 export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
@@ -82,15 +82,22 @@ export const CHECKOUT_PAYMENT_DETAILS_PATH = '/checkout/payment-details';
 export const CHECKOUT_REVIEW_ORDER_PATH = '/checkout/review-order';
 
 export function doPlaceOrder() {
-  cy.window().then((win) => {
-    const savedState = JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth'));
-    cy.requireProductAddedToCart(savedState.token).then((resp) => {
-      cy.requireDeliveryAddressAdded(user.address, savedState.token);
-      cy.requireDeliveryMethodSelected(savedState.token);
-      cy.requirePaymentDone(savedState.token);
-      cy.requirePlacedOrder(savedState.token, resp.cartId);
+  let tokenData;
+
+  return cy
+    .window()
+    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then(({ token }) => {
+      tokenData = token;
+      return cy.requireProductAddedToCart(token);
+    })
+    .then(({ cartId }) => {
+      cy.requireDeliveryAddressAdded(user.address, tokenData, cartId);
+      cy.requireDeliveryMethodSelected(tokenData, cartId);
+      cy.requirePaymentDone(tokenData, cartId);
+
+      return cy.requirePlacedOrder(tokenData, cartId);
     });
-  });
 }
 
 export function addressBookNextStep() {
@@ -204,8 +211,19 @@ export function testLangSwitchOrderPage() {
     const deutschName = MONTH_DE;
 
     before(() => {
-      doPlaceOrder();
-      waitForOrderToBePlacedRequest();
+      doPlaceOrder().then((orderData: any) => {
+        const order = orderData.body;
+
+        const summary = {
+          code: order.code,
+          placed: order.placed,
+          statusDisplay: order.statusDisplay,
+          totalPrice: order.totalPrice,
+          guid: order.guid,
+        };
+
+        mockOrderList(summary);
+      });
     });
 
     it('should change language in the url', () => {
