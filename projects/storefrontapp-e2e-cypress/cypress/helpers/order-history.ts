@@ -7,6 +7,7 @@
 import { product, SampleUser, user } from '../sample-data/checkout-flow';
 import { login } from './auth-forms';
 import { switchLanguage } from './language';
+import { checkBanner } from './homepage';
 import { clickHamburger, waitForPage } from './navigation';
 import { mockOrderList } from './orders-history-mocks';
 
@@ -110,6 +111,29 @@ export const orderHistoryTest = {
       cy.getLoginRegisterLink().should('contain', 'Sign In / Register');
       login(sampleUser.email, sampleUser.password);
       cy.url().should('contain', url);
+      if (url === replenishmentOrderHistoryUrl) {
+        cy.get('.cx-replenishment-order-history-header h3').should(
+          'contain',
+          replenishmentOrderHistoryHeaderValue
+        );
+      } else {
+        cy.get('.cx-order-history-header h2').should(
+          'contain',
+          'Order history'
+        );
+      }
+    });
+  },
+  checkStartShoppingButton() {
+    it('should be able to start shopping from an empty Order History', () => {
+      const homePage = waitForPage('homepage', 'getHomePage');
+
+      cy.get('.btn.btn-primary.btn-block.active')
+        .findByText('Start Shopping')
+        .click();
+
+      cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
+      checkBanner();
     });
   },
   checkIfOrderIsDisplayed() {
@@ -303,7 +327,7 @@ export const orderHistoryTest = {
       });
     });
   },
-    checkTabsAreDisplayedAfterNavigation() {
+  checkTabsAreDisplayedAfterNavigation() {
     it('should display order history tabs after navigation', () => {
       cy.visit('/my-account/orders');
       cy.get('cx-order-history h2').should('contain', 'Order history');
@@ -314,19 +338,19 @@ export const orderHistoryTest = {
   },
   checkTabsAreDisplayedAfterNavigationMock() {
     it('should display order history tabs after navigation', () => {
-        mockOrderList({
-          code: 'TABMOCK1',
-          created: '2025-01-01',
-          statusDisplay: 'COMPLETED',
-          totalPrice: { formattedValue: '$10' },
-          orgCustomer: null,
-          guid: 'z',
-        });
+      mockOrderList({
+        code: 'TABMOCK1',
+        created: '2025-01-01',
+        statusDisplay: 'COMPLETED',
+        totalPrice: { formattedValue: '$10' },
+        orgCustomer: null,
+        guid: 'z',
+      });
 
-        cy.visit('/my-account/orders');
-        cy.wait('@mockOrders');
-        cy.get('cx-order-history h2').should('contain', 'Order history');
-        return;
+      cy.visit('/my-account/orders');
+      cy.wait('@mockOrders');
+      cy.get('cx-order-history h2').should('contain', 'Order history');
+      return;
     });
   },
 };
