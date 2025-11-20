@@ -167,24 +167,38 @@ export const orderHistoryTest = {
   },
   checkIfOrderIsDisplayedMock() {
     it('should display placed order in Order History', () => {
-      const mock = {
-        code: 'MOCK12345',
-        created: '2025-01-01T10:00:00',
-        statusDisplay: 'COMPLETED',
-        totalPrice: { formattedValue: '$999.00' },
-        orgCustomer: null,
-        guid: 'mock-guid',
-      };
+      doPlaceOrder().then(() => {
+        doPlaceOrder().then((orderData: any) => {
+          const order = orderData.body;
 
-      mockOrderList(mock);
+          const summary = {
+            code: order.code,
+            created: order.created,
+            statusDisplay: order.statusDisplay,
+            totalPrice: order.totalPrice,
+            orgCustomer: null,
+            guid: order.guid,
+          };
 
-      cy.visit('/my-account/orders');
-      cy.wait('@mockOrders');
+          mockOrderList(summary);
 
-      cy.get('.cx-order-history-code > .cx-order-history-value').should(
-        'contain',
-        mock.code
-      );
+          cy.visit('/my-account/orders');
+          cy.wait('@mockOrders');
+
+          cy.get('.cx-order-history-code > .cx-order-history-value').should(
+            'contain',
+            order.code
+          );
+
+          cy.get('.cx-order-history-total > .cx-order-history-value').should(
+            'contain',
+            order.totalPrice.formattedValue
+          );
+
+          cy.get('.cx-order-history-po').should('not.exist');
+          cy.get('.cx-order-history-cost-center').should('not.exist');
+        });
+      });
     });
   },
   checkSortingByCode() {
