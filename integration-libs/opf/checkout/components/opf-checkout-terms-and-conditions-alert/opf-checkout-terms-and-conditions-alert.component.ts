@@ -14,6 +14,7 @@ import {
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { filter, take } from 'rxjs';
+import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 
 @Component({
   selector: 'cx-opf-checkout-terms-and-conditions-alert',
@@ -23,8 +24,13 @@ import { filter, take } from 'rxjs';
 })
 export class OpfCheckoutTermsAndConditionsAlertComponent implements OnInit {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
+  protected opfCheckoutBillingAddressFormService = inject(
+    OpfCheckoutBillingAddressFormService
+  );
 
   iconTypes = ICON_TYPE;
+  protected paymentDisabled$ =
+    this.opfCheckoutBillingAddressFormService.paymentOptionsDisabled$;
 
   /**
    * Defines if alert could be dismissed or not

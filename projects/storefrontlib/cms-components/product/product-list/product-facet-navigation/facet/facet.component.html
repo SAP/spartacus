@@ -1,29 +1,4 @@
 <ng-container *ngIf="state$ | async as state">
-  <button
-    class="heading"
-    #facetHeader
-    (click)="toggleGroup($event)"
-    (keydown)="onKeydown($event)"
-    [attr.aria-expanded]="isExpanded"
-    [attr.aria-label]="
-      'productFacetNavigation.filterBy.name' | cxTranslate: { name: facet.name }
-    "
-    [cxFocus]="{ key: facet.name }"
-    *cxFeature="'!a11yTabComponent'"
-  >
-    {{ facet.name }}
-    <cx-icon
-      title="{{ 'common.collapse' | cxTranslate }}"
-      class="collapse-icon"
-      [type]="collapseIcon"
-    ></cx-icon>
-    <cx-icon
-      title="{{ 'common.expand' | cxTranslate }}"
-      class="expand-icon"
-      [type]="expandIcon"
-    ></cx-icon>
-  </button>
-
   <div>
     <!-- TODO: (CXSPA-6892) - Remove feature flag next major release. -->
     <a

@@ -36,82 +36,27 @@ describe('UnknownErrorHandler', () => {
     expect(service.getPriority()).toBe(Priority.FALLBACK);
   });
 
-  //remove together with `ssrStrictErrorHandlingForHttpAndNgrx` feature toggle
-  describe('with `ssrStrictErrorHandlingForHttpAndNgrx` feature toggle', () => {
-    let featureConfigService: FeatureConfigService;
+  describe('error handling', () => {
     let loggerService: LoggerService;
 
     beforeEach(() => {
-      featureConfigService = TestBed.inject(FeatureConfigService);
       loggerService = TestBed.inject(LoggerService);
       spyOn(loggerService, 'warn');
     });
 
-    describe('when the feature is enabled', () => {
-      beforeEach(() => {
-        spyOn(featureConfigService, 'isEnabled').and.callFake(
-          (val: string) => val === 'ssrStrictErrorHandlingForHttpAndNgrx'
-        );
-      });
-      it('should log error in dev mode', () => {
-        spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
-        service.handleError(
-          {} as any,
-          { message: 'error' } as HttpErrorResponse
-        );
-        expect(loggerService.warn).toHaveBeenCalledWith(
-          'An unknown http error occurred\n',
-          'error'
-        );
-      });
-
-      it('should not log error if it is not a dev mode', () => {
-        spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
-        service.handleError(
-          {} as any,
-          { message: 'error' } as HttpErrorResponse
-        );
-        expect(loggerService.warn).not.toHaveBeenCalled();
-      });
+    it('should log error in dev mode', () => {
+      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
+      service.handleError({} as any, { message: 'error' } as HttpErrorResponse);
+      expect(loggerService.warn).toHaveBeenCalledWith(
+        'An unknown http error occurred\n',
+        'error'
+      );
     });
 
-    describe('when the feature is disabled', () => {
-      beforeEach(() => {
-        spyOn(featureConfigService, 'isEnabled').and.callFake(
-          (val: string) => val !== 'ssrStrictErrorHandlingForHttpAndNgrx'
-        );
-      });
-      it('should log error in dev mode', () => {
-        spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
-        service.handleError(
-          {} as any,
-          { message: 'error' } as HttpErrorResponse
-        );
-        expect(loggerService.warn).toHaveBeenCalledWith(
-          'An unknown http error occurred\n',
-          'error'
-        );
-      });
-      it('should log error in SSR', () => {
-        spyOn(service as any, 'isSsr').and.returnValue(true);
-        service.handleError(
-          {} as any,
-          { message: 'error' } as HttpErrorResponse
-        );
-        expect(loggerService.warn).toHaveBeenCalledWith(
-          'An unknown http error occurred\n',
-          'error'
-        );
-      });
-      it('should not log error if it is not a dev mode or it is not Ssr', () => {
-        spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
-        spyOn(service as any, 'isSsr').and.returnValue(false);
-        service.handleError(
-          {} as any,
-          { message: 'error' } as HttpErrorResponse
-        );
-        expect(loggerService.warn).not.toHaveBeenCalled();
-      });
+    it('should not log error if it is not a dev mode', () => {
+      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
+      service.handleError({} as any, { message: 'error' } as HttpErrorResponse);
+      expect(loggerService.warn).not.toHaveBeenCalled();
     });
   });
 });

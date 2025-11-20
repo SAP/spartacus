@@ -16,6 +16,9 @@ import { VisualPickingProductListComponent } from './product-list/visual-picking
 import { VisualPickingProductListService } from './product-list/visual-picking-product-list.service';
 import { VisualPickingTabService } from './visual-picking-tab.service';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Component({
   selector: 'cx-epd-visualization-visual-picking-tab',
   templateUrl: './visual-picking-tab.component.html',

@@ -12,7 +12,6 @@ import AppServerModule from './main.server';
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, {
   ssrFeatureToggles: {
-    avoidCachingErrors: true,
     limitCacheByMemory: true,
   },
 });

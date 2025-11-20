@@ -18,6 +18,9 @@ import { map } from 'rxjs/operators';
 import { LookupVisualizationsResponse } from '../../connectors/visualization/lookup-visualizations-response';
 import { VisualizationConnector } from '../../connectors/visualization/visualization.connector';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Injectable({
   providedIn: 'root',
 })

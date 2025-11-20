@@ -218,8 +218,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
 
   get isAdditionalValueAlphaNumeric(): boolean {
     return (
-      this.isWithAdditionalValues(this.attribute) &&
-      this.attribute.validationType === Configurator.ValidationType.NONE
+      (this.isWithAdditionalValues(this.attribute) &&
+        this.attribute.validationType === Configurator.ValidationType.NONE) ||
+      this.attribute.validationType === Configurator.ValidationType.SAP_DATE
     );
   }
 

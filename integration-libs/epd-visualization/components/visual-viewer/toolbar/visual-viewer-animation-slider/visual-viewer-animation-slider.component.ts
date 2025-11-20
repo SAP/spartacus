@@ -16,6 +16,9 @@ import {
 } from '@angular/core';
 import { VisualViewerAnimationSliderService } from './visual-viewer-animation-slider.service';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Component({
   selector: 'cx-epd-visualization-animation-slider',
   templateUrl: './visual-viewer-animation-slider.component.html',

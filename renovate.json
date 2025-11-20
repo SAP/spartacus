@@ -10,7 +10,7 @@
     ":automergeRequireAllStatusChecks",
     ":automergeMinor"
   ],
-  "baseBranches": ["develop"],
+  "baseBranchPatterns": ["develop"],
   "branchPrefix": "renovate/",
   "username": "ospo-renovate[bot]",
   "schedule": ["at any time"],

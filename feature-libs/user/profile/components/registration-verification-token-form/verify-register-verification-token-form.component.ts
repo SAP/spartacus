@@ -68,22 +68,7 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
   protected passwordValidators = this.getPasswordValidators();
 
   getPasswordValidators(): any {
-    if (this.featureConfigService.isEnabled('enableSecurePasswordValidation')) {
-      return CustomFormValidators.securePasswordValidators;
-    } else {
-      if (
-        this.featureConfigService.isEnabled(
-          'enableConsecutiveCharactersPasswordRequirement'
-        )
-      ) {
-        return [
-          ...CustomFormValidators.passwordValidators,
-          CustomFormValidators.noConsecutiveCharacters,
-        ];
-      } else {
-        return CustomFormValidators.passwordValidators;
-      }
-    }
+    return CustomFormValidators.securePasswordValidators;
   }
 
   protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);

@@ -82,6 +82,7 @@ import { EstimatedDeliveryDateFeatureModule } from './features/estimated-deliver
 import { OmfFeatureModule } from './features/omf/omf-feature.module';
 import { OpfFeatureModule } from './features/opf/opf-feature.module';
 import { OppsFeatureModule } from './features/opps/opps-feature.module';
+import { OrderDocumentFlowFeatureModule } from './features/order/order-document-flow-feature.module';
 import { OrderFeatureModule } from './features/order/order-feature.module';
 import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
 import { AdministrationFeatureModule } from './features/organization/organization-administration-feature.module';
@@ -107,6 +108,7 @@ import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 import { SegmentRefsFeatureModule } from './features/segment-refs/segment-refs-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StoreFinderFeatureModule } from './features/storefinder/storefinder-feature.module';
+import { SubscriptionBillingFeatureModule } from './features/subscription-billing/subscription-billing-feature.module';
 import { PersonalizationFeatureModule } from './features/tracking/personalization-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
 
@@ -254,6 +256,7 @@ if (environment.cpq) {
     CartImportExportFeatureModule,
 
     OrderFeatureModule,
+    OrderDocumentFlowFeatureModule,
 
     CheckoutFeatureModule,
 
@@ -278,6 +281,7 @@ if (environment.cpq) {
 
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
+    SubscriptionBillingFeatureModule,
     ...featureModules,
   ],
   providers: [
@@ -292,68 +296,22 @@ if (environment.cpq) {
     },
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
-        searchBoxV2: true,
-        trendingSearches: true,
-        propagateErrorsToServer: true,
-        ssrStrictErrorHandlingForHttpAndNgrx: true,
         a11yUseProperTextColorForFutureStockAccordion: true,
-        a11yPreventHorizontalScroll: true,
         a11yPopoverHighContrast: true,
         a11yTabsManualActivation: true,
-        a11yCartImportConfirmationMessage: true,
         a11yAnonymousConsentMessageInDialog: true,
-        a11yMobileFocusOnFirstNavigationItem: true,
         a11yQuickOrderSearchListKeyboardNavigation: false,
-        a11ySearchboxLabel: true,
-        a11yStyleExternalLinksAsLinks: true,
-        a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
-        a11yUseTrapTabInsteadOfTrapInDialogs: true,
         a11yKeyboardAccessibleZoom: true,
-        a11yTruncatedTextStoreFinder: true,
         a11yTruncatedTextUnitLevelOrderHistory: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
-        a11yTabComponent: true,
-        a11yCarouselArrowKeysNavigation: true,
-        a11yPickupOptionsTabs: true,
         a11yResetFocusAfterNavigating: true,
-        headerLayoutForSmallerViewports: true,
         a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
         a11yLinkBtnsToTertiaryBtns: true,
-        /**
-         * Defaults to false cause ng-select options ariaLabels are working as expected
-         * since Spartacus 2211.33
-         * TODO: CXSPA-9005: Remove this flag and related code in next major release
-         */
-        a11yNgSelectCloseDropdownOnEscape: true,
         a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
         a11yNgSelectAriaLabelDropdownCustomized: true,
-        a11yDeliveryMethodFieldset: true,
-        a11yShowMoreReviewsBtnFocus: true,
-        a11yDialogTriggerRefocus: true,
-        a11yAddToWishlistFocus: true,
-        a11ySearchBoxFocusOnEscape: true,
-        a11yUpdatingCartNoNarration: true,
-        a11yPasswordVisibliltyBtnValueOverflow: true,
-        a11yItemCounterFocus: true,
-        a11yScrollToReviewByShowReview: true,
-        a11yViewHoursButtonIconContrast: true,
-        a11yStoreInStockIconContrast: true,
-        a11yCheckoutStepsLandmarks: true,
-        a11yQTY2Quantity: true,
-        a11yImproveButtonsInCardComponent: true,
         a11yMiniCartFocusOnMobile: true,
-        a11yApprovalProcessWithNoClearable: true,
-        a11yPostRegisterSuccessMessage: true,
-        a11yDeleteButton2First: true,
-        a11yShowLabelOfSelect: true,
-        a11yShowDownArrowOnFocusedSelectMenu: true,
-        a11yCroppedFocusRing: true,
-        a11yTextSpacingAdjustments: true,
-        a11yTableHeaderReadout: true,
-        a11ySearchboxAssistiveMessage: true,
         updateConsentGivenInOnChanges: true,
-        a11yDifferentiateFocusedAndSelected: true,
         a11yQuickOrderSearchBoxRefocusOnClose: true,
         a11yKeyboardFocusInSearchBox: true,
         a11yAddPaddingToCarouselPanel: true,
@@ -364,18 +322,10 @@ if (environment.cpq) {
         a11yRepeatingButtonsUniqueLabels: true,
         a11yHighContrastBorders: true,
         a11yRegionAssociatedHeaders: true,
-        useSiteThemeService: true,
-        enableConsecutiveCharactersPasswordRequirement: true,
-        enablePasswordsCannotMatchInPasswordUpdateForm: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
-        allPageMetaResolversEnabledInCsr: true,
-        a11yPdpGridArrangement: true,
         a11yHamburgerMenuTrapFocus: true,
-        useExtendedMediaComponentConfiguration: true,
-        showRealTimeStockInPDP: true,
         a11yScrollToTopPositioning: true,
         a11yWideScreenImprovements: true,
-        a11yWrapReviewOrderInSection: true,
         a11yOptimizedMenuSpacing: true,
         a11yNgSelectLayering: true,
         readMoreDirective: true,
@@ -383,7 +333,6 @@ if (environment.cpq) {
         a11yNgSelectAriaControls: true,
         a11yConfiguratorOverviewHeaderVPC: true,
         enableCarouselCategoryProducts: true,
-        enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
         enableReadDomainValuesOnDemand: true,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
@@ -402,6 +351,10 @@ if (environment.cpq) {
         incrementProcessesCountForMergeCart: true,
         authorizationCodeFlowByDefault: false,
         defaultLayoutConfigWithoutPageFold: true,
+        navigationMenuCloseOnSameLinkClick: true,
+        enablePasswordExpiredErrorTranslation: true,
+        enableQuotePurchaseOrderNumber: false,
+        enableReturnOrderReturnableQuantityConsigmentFallback: true,
       };
       return appFeatureToggles;
     }),

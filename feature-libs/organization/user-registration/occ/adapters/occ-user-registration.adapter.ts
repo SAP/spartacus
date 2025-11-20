@@ -12,7 +12,7 @@ import {
   LoggerService,
   OccEndpointsService,
   USE_CLIENT_TOKEN,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
   ORGANIZATION_USER_REGISTRATION_SERIALIZER,
@@ -51,7 +51,7 @@ export class OccUserRegistrationAdapter implements UserRegistrationAdapter {
       .post<OrganizationUserRegistration>(url, userData, { headers })
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         })
       );
   }

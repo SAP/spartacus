@@ -21,7 +21,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { FeatureConfigService, useFeatureStyles } from '@spartacus/core';
 import { PickupOption } from '@spartacus/pickup-in-store/root';
 import { Tab, TAB_MODE, TabComponent, TabConfig } from '@spartacus/storefront';
 import { Subscription, take } from 'rxjs';
@@ -49,14 +48,13 @@ export class PickupOptionsComponent
   @Input() disableControls = false;
 
   /** Emitted when the selected option is changed. */
-  // TODO: Remove the 'PickupOption' type when the `a11yDialogTriggerRefocus` feature flag is removed.
-  @Output() pickupOptionChange = new EventEmitter<
-    { option: PickupOption; triggerElement: ElementRef } | PickupOption
-  >();
+  @Output() pickupOptionChange = new EventEmitter<{
+    option: PickupOption;
+    triggerElement: ElementRef;
+  }>();
 
   /** Emitted when a new store should be selected. */
-  // TODO: Remove the undefined type when the `a11yDialogTriggerRefocus` feature flag is removed.
-  @Output() pickupLocationChange = new EventEmitter<ElementRef | undefined>();
+  @Output() pickupLocationChange = new EventEmitter<ElementRef>();
 
   @ViewChild('dialogTriggerEl') triggerElement: ElementRef;
 
@@ -72,7 +70,6 @@ export class PickupOptionsComponent
   @Optional() protected cdr = inject(ChangeDetectorRef, {
     optional: true,
   });
-  private featureConfigService = inject(FeatureConfigService);
 
   @ViewChild('deliveryTabPanel') deliveryTabPanel: TemplateRef<any>;
   @ViewChild('pickupTabPanel') pickupTabPanel: TemplateRef<any>;
@@ -86,59 +83,37 @@ export class PickupOptionsComponent
     return null;
   }
 
-  constructor() {
-    useFeatureStyles('a11yDeliveryMethodFieldset');
-    useFeatureStyles('a11yPickupOptionsTabs');
-  }
-
   ngOnChanges(): void {
-    if (this.featureConfigService.isEnabled('a11yPickupOptionsTabs')) {
-      this.onSelectedOptionChange();
-    } else {
-      if (this.disableControls) {
-        this.pickupOptionsForm.get('pickupOption')?.disable();
-      }
-      this.pickupOptionsForm.markAllAsTouched();
-      this.pickupOptionsForm.get('pickupOption')?.setValue(this.selectedOption);
-    }
+    this.onSelectedOptionChange();
   }
 
   ngAfterViewInit() {
-    if (this.featureConfigService.isEnabled('a11yPickupOptionsTabs')) {
-      this.initializeTabs();
-      this.subscription.add(
-        this.tabComponent?.openTabs$.subscribe((openTabs) => {
-          // open tabs should have one tab opened for mode "TAB"
-          const openedTab = openTabs[0];
-          const selectedOption =
-            openedTab === PickupOptionsTabs.DELIVERY ? 'delivery' : 'pickup';
-          if (this.selectedOption !== selectedOption) {
-            this.onPickupOptionChange(selectedOption);
-          }
-        })
-      );
-    }
+    this.initializeTabs();
+    this.subscription.add(
+      this.tabComponent?.openTabs$.subscribe((openTabs) => {
+        // open tabs should have one tab opened for mode "TAB"
+        const openedTab = openTabs[0];
+        const selectedOption =
+          openedTab === PickupOptionsTabs.DELIVERY ? 'delivery' : 'pickup';
+        if (this.selectedOption !== selectedOption) {
+          this.onPickupOptionChange(selectedOption);
+        }
+      })
+    );
   }
 
   /** Emit a new selected option. */
   onPickupOptionChange(option: PickupOption): void {
-    if (this.featureConfigService.isEnabled('a11yDialogTriggerRefocus')) {
-      this.pickupOptionChange.emit({
-        option,
-        triggerElement: this.triggerElement,
-      });
-    } else {
-      this.pickupOptionChange.emit(option);
-    }
+    this.pickupOptionChange.emit({
+      option,
+      triggerElement: this.triggerElement,
+    });
   }
 
   /** Emit to indicate a new store should be selected. */
   onPickupLocationChange(): boolean {
-    if (this.featureConfigService.isEnabled('a11yDialogTriggerRefocus')) {
-      this.pickupLocationChange.emit(this.triggerElement);
-    } else {
-      this.pickupLocationChange.emit();
-    }
+    this.pickupLocationChange.emit(this.triggerElement);
+
     // Return false to stop `onPickupOptionChange` being called after this
     return false;
   }
