@@ -9,8 +9,11 @@ import {
   verifyProductIsDisplayed,
 } from '../../../helpers/b2b/b2b-saved-cart';
 import {
+  mockOrderDetails,
+  mockOrdersListEN,
+} from '../../../helpers/mock-order-history';
+import {
   clickOnActionLink,
-  doPlaceOrder,
   interceptAddToCartEndpoint,
   interceptCartPageEndpoint,
   orderHistoryTest,
@@ -19,7 +22,6 @@ import {
 } from '../../../helpers/order-history';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { product } from '../../../sample-data/checkout-flow';
-import { waitForOrderWithConsignmentToBePlacedRequest } from '../../../support/utils/order-placed';
 import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe('Order History with orders', () => {
@@ -46,61 +48,46 @@ describe('Order History with orders', () => {
 });
 
 describe('Order details page', { testIsolation: false }, () => {
-  viewportContext(['mobile'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
     isolateTestsBefore();
-    let formattedValue: any;
 
     orderHistoryTest.checkOrderDetailsUnconsignedEntries();
 
     before(() => {
       cy.visit('/');
       cy.requireLoggedIn();
-      doPlaceOrder().then((orderData: any) => {
-        formattedValue = orderData.body.totalPrice.formattedValue;
-        cy.waitForOrderToBePlacedRequest(
-          undefined,
-          undefined,
-          orderData.body.code
-        );
-        cy.visit('/my-account/orders');
 
-        cy.get('.cx-order-history-code > .cx-order-history-value', {
-          timeout: 30000,
-        }).then((el) => {
-          const orderNumber = el.text().match(/\d+/)[0];
-          waitForOrderWithConsignmentToBePlacedRequest(orderNumber);
-        });
+      mockOrdersListEN();
+      mockOrderDetails();
 
-        cy.get('.cx-order-history-code > .cx-order-history-value', {
-          timeout: 10000,
-        })
-          .should('exist')
-          .first()
-          .click();
-      });
+      cy.visit('/my-account/orders');
+      cy.wait('@ordersEN');
+
+      cy.contains('.cx-order-history-value', '00054851', { timeout: 10000 })
+        .should('be.visible')
+        .click({ force: true });
+        
+      cy.wait('@orderDetails');
     });
+
     it('should display order details page with consigned entries', () => {
-      cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
-      cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
-      cy.get('.cx-summary-total > .cx-summary-amount').should(
+      cy.get('.cx-item-list-row .cx-link').should('contain', 'Alpha 350');
+      cy.get('.cx-item-list-row .cx-code').should('contain', '1446509');
+      cy.get('.cx-summary-total .cx-summary-amount').should(
         'contain',
-        formattedValue
+        '$1,313.53'
       );
     });
 
     it('should add product to cart from order details page', () => {
       const addToCartAlias = interceptAddToCartEndpoint();
-
       const cartPageAlias = interceptCartPageEndpoint();
 
       verifyActionLinkHasText('Buy It Again');
-
       clickOnActionLink();
 
       waitForResponse(addToCartAlias);
-
       clickOnPrimaryDialogButton();
-
       waitForResponse(cartPageAlias);
 
       verifyProductIsDisplayed(product.name, product.code);

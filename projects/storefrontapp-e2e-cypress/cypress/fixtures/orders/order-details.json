@@ -1,0 +1,91 @@
+{
+  "type": "orderWsDTO",
+  "code": "00054851",
+  "created": "2025-11-13T16:56:46+0000",
+  "status": "READY",
+  "statusDisplay": "processing",
+
+  "subTotal": {
+    "currencyIso": "USD",
+    "formattedValue": "$1,301.54",
+    "priceType": "BUY",
+    "value": 1301.54
+  },
+
+  "deliveryCost": {
+    "currencyIso": "USD",
+    "formattedValue": "$11.99",
+    "priceType": "BUY",
+    "value": 11.99
+  },
+
+  "totalPrice": {
+    "currencyIso": "USD",
+    "formattedValue": "$1,313.53",
+    "priceType": "BUY",
+    "value": 1313.53
+  },
+
+  "totalPriceWithTax": {
+    "currencyIso": "USD",
+    "formattedValue": "$1,313.53",
+    "priceType": "BUY",
+    "value": 1313.53
+  },
+
+  "entries": [
+    {
+      "entryNumber": 0,
+      "cancellableQuantity": 1,
+      "returnableQuantity": 0,
+      "product": {
+        "code": "1446509",
+        "name": "Alpha 350",
+        "purchasable": true,
+        "availableForPickup": true,
+        "manufacturer": "Sony",
+        "stock": {
+          "stockLevel": 269,
+          "stockLevelStatus": "inStock"
+        },
+        "images": [
+          {
+            "format": "thumbnail",
+            "imageType": "PRIMARY",
+            "url": "/medias/alpha350-thumbnail.jpg"
+          }
+        ]
+      },
+      "quantity": 1,
+      "totalPrice": {
+        "currencyIso": "USD",
+        "formattedValue": "$1,321.54",
+        "priceType": "BUY",
+        "value": 1321.54
+      },
+      "updateable": true
+    }
+  ],
+
+  "unconsignedEntries": [
+    {
+      "entryNumber": 0,
+      "cancellableQuantity": 0,
+      "product": {
+        "code": "1446509",
+        "name": "Alpha 350",
+        "purchasable": true
+      },
+      "quantity": 1,
+      "totalPrice": {
+        "currencyIso": "USD",
+        "formattedValue": "$1,321.54",
+        "priceType": "BUY",
+        "value": 1321.54
+      },
+      "updateable": true
+    }
+  ],
+
+  "consignments": []
+}
