@@ -39,10 +39,11 @@ const testText = 'test text';
 
 @Component({
   selector: 'cx-test',
-  template: ` <div id="debugEl1">${testText}</div> `,
+  template: ` <div id="debugEl1">{{ testText }}</div> `,
   standalone: false,
 })
 class TestComponent {
+  testText = testText;
   constructor(
     public cmsData: CmsComponentData<CmsComponent>,
     @Inject('testService') public testService
