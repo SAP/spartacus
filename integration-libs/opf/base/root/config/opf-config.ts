@@ -35,6 +35,33 @@ export abstract class OpfConfig {
        */
       enableInfoMessage?: boolean;
     };
+    /**
+     * Local PSP resource configuration for faster loading
+     * @example
+     * ```ts
+     * const opfConfig = {
+     *   opf: {
+     *     localPspResources: {
+     *       213: { // paymentOptionId for Adyen
+     *         jsFiles: ['/assets/adyen-payment.js'],
+     *         cssFiles: ['/assets/adyen-styles.css']
+     *       },
+     *       456: { // paymentOptionId for Stripe
+     *         jsFiles: ['/assets/stripe-payment.js'],
+     *         cssFiles: ['/assets/stripe-styles.css']
+     *       }
+     *     }
+     *   }
+     * };
+     * ```
+     */
+    localPspResources?: Record<
+      number,
+      {
+        jsFiles: string[];
+        cssFiles: string[];
+      }
+    >;
   };
 }
 

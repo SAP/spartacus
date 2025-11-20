@@ -42,10 +42,8 @@
     &:focus {
       z-index: 1;
     }
-    @include forFeature('a11yCroppedFocusRing') {
-      &:focus-visible {
-        outline-offset: -3px;
-      }
+    &:focus-visible {
+      outline-offset: -3px;
     }
 
     &.active:after,
@@ -88,10 +86,8 @@
     border-radius: var(--cx-tab-panel-border-radius);
     padding: var(--cx-tab-panel-padding);
     background: var(--cx-tab-panel-bg);
-    @include forFeature('a11yCroppedFocusRing') {
-      &.active:focus-visible {
-        outline-offset: -3px;
-      }
+    &.active:focus-visible {
+      outline-offset: -3px;
     }
   }
 

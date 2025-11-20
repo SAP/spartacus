@@ -21,6 +21,10 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import {
+  ProjectType,
+  WorkspaceTargets,
+} from '@schematics/angular/utility/workspace-models';
 import { SourceFile } from 'ts-morph';
 import {
   CMS_CONFIG,
@@ -77,10 +81,6 @@ import {
   getWorkspace,
   scaffoldStructure,
 } from './workspace-utils';
-import {
-  ProjectType,
-  WorkspaceTargets,
-} from '@schematics/angular/utility/workspace-models';
 
 export interface LibraryOptions extends Partial<ExecutionOptions> {
   project: string;
@@ -634,7 +634,7 @@ function createArchitectOptions(
 ) {
   return {
     ...architectSection?.options,
-    styles: [...(architectSection?.options?.styles || []), libraryScssPath],
+    styles: [...(architectSection?.options?.styles ?? []), libraryScssPath],
   };
 }
 

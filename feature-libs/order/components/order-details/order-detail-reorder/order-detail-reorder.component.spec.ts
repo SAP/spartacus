@@ -1,7 +1,11 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  Product,
+  ProductCatalogService,
+} from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
@@ -10,6 +14,18 @@ import { OrderDetailReorderComponent } from './order-detail-reorder.component';
 
 const mockOrder: Order = {
   code: '123',
+  entries: [
+    {
+      product: {
+        code: '1',
+      },
+    },
+    {
+      product: {
+        code: '2',
+      },
+    },
+  ],
 };
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -26,6 +42,12 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 class MockOrderDetailsService {
   getOrderDetails() {
     return of(mockOrder);
+  }
+}
+
+class MockProductCatalogService {
+  isProductInCatalog(_product?: Product) {
+    return false;
   }
 }
 
@@ -46,6 +68,10 @@ describe('Order detail reorder component', () => {
         {
           provide: OrderDetailsService,
           useClass: MockOrderDetailsService,
+        },
+        {
+          provide: ProductCatalogService,
+          useClass: MockProductCatalogService,
         },
       ],
     }).compileComponents();
@@ -84,5 +110,23 @@ describe('Order detail reorder component', () => {
       component['vcr'],
       dialogData
     );
+  });
+
+  it('disable$ should return true if no entry product is in catalogue', (done) => {
+    component.order$ = of(mockOrder);
+    component.ngOnInit();
+
+    component.disabled$.subscribe((disabled) => {
+      expect(disabled).toBeTruthy();
+      done();
+    });
+  });
+
+  it('button should be disabled if disable$ emits true', () => {
+    component.disabled$ = of(true);
+    fixture.detectChanges();
+
+    const buttonEl = fixture.debugElement.query(By.css('.btn'));
+    expect(buttonEl.nativeElement.disabled).toBeTruthy();
   });
 });

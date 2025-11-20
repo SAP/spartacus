@@ -10,6 +10,10 @@ import {
   ELECTRONICS_BASESITE,
   signOutUser,
 } from '../../../../helpers/checkout-flow';
+import {
+  getASMB2BCustomer,
+  getB2BAgent,
+} from '../../../../sample-data/asm-flow';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import {
@@ -18,14 +22,12 @@ import {
 } from '../../../../support/utils/intercept';
 
 context('Assisted Service Module', () => {
-  const customer = {
-    fullName: 'William Hunter',
-    email: 'william.hunter@pronto-hw.com',
-  };
+  const customer = getASMB2BCustomer();
   const customer_coupon = {
     code: 'dragonboat',
     name: 'Buy over $1000 get 20% off on cart',
   };
+  const b2bAgent = getB2BAgent();
 
   before(() => {
     clearAllStorage();
@@ -39,12 +41,12 @@ context('Assisted Service Module', () => {
     beforeEach(() => {
       cy.visit('/?asm=true');
       cy.whenJDK17(() => {
-        asm.agentLogin('brandon.leclair@acme.com', 'pw4all');
+        asm.agentLogin(b2bAgent.userName, b2bAgent.password);
       });
 
       cy.whenJDK21(() => {
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21('brandon.leclair@acme.com', 'pw4all');
+        agentLoginForJDK21(b2bAgent.userName, b2bAgent.password);
       });
       asm.startCustomerEmulation(customer, true);
       cy.get('button.cx-360-button').click();
@@ -60,6 +62,18 @@ context('Assisted Service Module', () => {
       cy.get('.cx-asm-customer-360-promotion-listing-row')
         .first()
         .within(() => {
+          // Check if the "Remove" button is visible
+          cy.get('td').then(($body) => {
+            if (
+              $body.find('.cx-asm-customer-360-promotion-listing-remove-button')
+                .length > 0
+            ) {
+              cy.intercept('DELETE', /\.*\/vouchers\.*/).as('removeCoupon');
+              cy.wrap($body).contains('Remove').click();
+            } else {
+              cy.log('Remove button is not visible');
+            }
+          });
           cy.intercept('POST', /\.*\/vouchers\?voucherId=.*/).as('applyCoupon');
           cy.whenJDK21(() => {
             cy.get('button').contains('Remove').should('be.visible');
@@ -106,7 +120,7 @@ context('Assisted Service Module', () => {
       cy.whenJDK17(() => {
         asm.removeCustomerCoupon(
           customer.email,
-          'pw4all',
+          customer.password,
           customer_coupon.code
         );
       });
@@ -114,13 +128,13 @@ context('Assisted Service Module', () => {
       cy.whenJDK21(() => {
         asm.removeCustomerCouponFoJDK21(
           customer.email,
-          'pw4all',
+          customer.password,
           customer_coupon.code
         );
         signOutUser();
         cy.visit('/?asm=true');
         cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
-        agentLoginForJDK21('brandon.leclair@acme.com', 'pw4all');
+        agentLoginForJDK21(b2bAgent.userName, b2bAgent.password);
         asm.startCustomerEmulation(customer, true);
         cy.get('button.cx-360-button').click();
         cy.get('button.cx-tab-header').contains('Promotion').click();

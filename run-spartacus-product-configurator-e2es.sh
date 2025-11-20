@@ -14,7 +14,7 @@ case "$param" in
     ;;
   "b2c")
     export E2E_BASE_SITE="electronics-spa"
-    export E2ES_TO_RUN="'cypress/e2e/regression/product_configurator/*-configurator*e2e.cy.ts'"
+    export E2ES_TO_RUN="'cypress/e2e/regression/product-configurator/*-configurator*e2e.cy.ts'"
     ;;
   "b2c_flaky")
     export E2E_BASE_SITE="electronics-spa"

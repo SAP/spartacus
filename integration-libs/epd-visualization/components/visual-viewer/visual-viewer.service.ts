@@ -68,6 +68,9 @@ interface VisualContentChangesFinishedEvent {
 
 interface VisualContentLoadFinishedEvent {}
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Injectable({
   providedIn: 'root',
 })

@@ -116,6 +116,16 @@
       "@spartacus/order": ["dist/order"],
       "@spartacus/order/occ": ["dist/order/occ"],
       "@spartacus/order/root": ["dist/order/root"],
+      "@spartacus/order/document-flow/assets": [
+        "dist/order/document-flow/assets"
+      ],
+      "@spartacus/order/document-flow/components": [
+        "dist/order/document-flow/components"
+      ],
+      "@spartacus/order/document-flow/core": ["dist/order/document-flow/core"],
+      "@spartacus/order/document-flow": ["dist/order/document-flow"],
+      "@spartacus/order/document-flow/occ": ["dist/order/document-flow/occ"],
+      "@spartacus/order/document-flow/root": ["dist/order/document-flow/root"],
       "@spartacus/organization/account-summary/assets": [
         "dist/organization/account-summary/assets"
       ],
@@ -340,6 +350,20 @@
       "@spartacus/storefinder": ["dist/storefinder"],
       "@spartacus/storefinder/occ": ["dist/storefinder/occ"],
       "@spartacus/storefinder/root": ["dist/storefinder/root"],
+      "@spartacus/subscription-billing/assets": [
+        "dist/subscription-billing/assets"
+      ],
+      "@spartacus/subscription-billing/components": [
+        "dist/subscription-billing/components"
+      ],
+      "@spartacus/subscription-billing/core": [
+        "dist/subscription-billing/core"
+      ],
+      "@spartacus/subscription-billing": ["dist/subscription-billing"],
+      "@spartacus/subscription-billing/occ": ["dist/subscription-billing/occ"],
+      "@spartacus/subscription-billing/root": [
+        "dist/subscription-billing/root"
+      ],
       "@spartacus/tracking": ["dist/tracking"],
       "@spartacus/tracking/personalization/core": [
         "dist/tracking/personalization/core"

@@ -12,7 +12,7 @@ import {
   LoggerService,
   OccConfig,
   SearchConfig,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
   Budget,
@@ -67,7 +67,7 @@ class MockLoggerService {
   debug(): void {}
 }
 
-const error = normalizeHttpError(httpErrorResponse, new MockLoggerService());
+const error = tryNormalizeHttpError(httpErrorResponse, new MockLoggerService());
 
 describe('Budget Effects', () => {
   let actions$: Observable<BudgetActions.BudgetAction>;

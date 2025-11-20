@@ -95,6 +95,9 @@ export const SPARTACUS_ORDER = `@spartacus/order`;
 export const SPARTACUS_ORDER_ROOT = `@spartacus/order/root`;
 export const SPARTACUS_ORDER_ASSETS = `@spartacus/order/assets`;
 export const SPARTACUS_ORDER_COMPONENTS = `@spartacus/order/components`;
+export const SPARTACUS_ORDER_DOCUMENT_FLOW = `@spartacus/order/document-flow`;
+export const SPARTACUS_ORDER_DOCUMENT_FLOW_ROOT = `@spartacus/order/document-flow/root`;
+export const SPARTACUS_ORDER_DOCUMENT_FLOW_ASSETS = `@spartacus/order/document-flow/assets`;
 
 export const SPARTACUS_ORGANIZATION = `@spartacus/organization`;
 export const SPARTACUS_ADMINISTRATION = `@spartacus/organization/administration`;
@@ -193,6 +196,13 @@ export const SPARTACUS_USER_PROFILE_CORE = `@spartacus/user/profile/core`;
 export const SPARTACUS_USER_PROFILE_COMPONENTS = `@spartacus/user/profile/components`;
 export const SPARTACUS_USER_PROFILE_ASSETS = `@spartacus/user/profile/assets`;
 export const SPARTACUS_USER_PROFILE_ROOT = `@spartacus/user/profile/root`;
+
+export const SPARTACUS_SUBSCRIPTION_BILLING = '@spartacus/subscription-billing';
+export const SPARTACUS_SUBSCRIPTION_BILLING_ASSETS = `@spartacus/subscription-billing/assets`;
+export const SPARTACUS_SUBSCRIPTION_BILLING_ROOT = `@spartacus/subscription-billing/root`;
+export const SPARTACUS_SUBSCRIPTION_BILLING_COMPONENTS = `@spartacus/subscription-billing/components`;
+export const SPARTACUS_SUBSCRIPTION_BILLING_CORE = `@spartacus/subscription-billing/core`;
+export const SPARTACUS_SUBSCRIPTION_BILLING_OCC = `@spartacus/subscription-billing/occ`;
 
 export const SPARTACUS_CDS = `@spartacus/cds`;
 
@@ -303,6 +313,7 @@ export const CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME =
   'Checkout-Scheduled-Replenishment';
 
 export const ORDER_FEATURE_NAME = 'Order';
+export const ORDER_DOCUMENT_FLOW_FEATURE_NAME = 'Order-Document-Flow';
 
 export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME = 'Administration';
 export const ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME = 'Order-Approval';
@@ -345,6 +356,8 @@ export const PDF_INVOICES_FEATURE_NAME = 'PDF-Invoices';
 
 export const USER_ACCOUNT_FEATURE_NAME = 'User-Account';
 export const USER_PROFILE_FEATURE_NAME = 'User-Profile';
+
+export const SUBSCRIPTION_BILLING_FEATURE_NAME = 'Subscription-Billing';
 
 export const CDC_FEATURE_NAME = 'CDC';
 export const CDC_B2B_FEATURE_NAME = 'CDC-B2B';
