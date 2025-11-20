@@ -1,12 +1,6 @@
 name: Feature Toggles Check
 
 on:
-  push:
-    branches:
-      - feature-toggles-check
-  schedule:
-    # Run on the 5th of each month at 9:00 AM UTC
-    - cron: "0 9 5 * *"
   workflow_dispatch:
     # Allow manual triggering for testing
 
