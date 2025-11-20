@@ -92,6 +92,7 @@ jobs:
       - name: Run linting validation
         run: |
           ci-scripts/validate-lint.sh
+  
   check_peer_dependencies:
     name: CI - Check peerDependencies
     runs-on: ubuntu-latest
@@ -157,12 +158,13 @@ jobs:
               If you believe this change is necessary, please reach out to the Asterix team for further assistance.
               `;
 
-            await github.rest.issues.createComment({
-              issue_number,
-              owner,
-              repo,
-              body
-            });
+          # Temporarily disabled to avoid spam in comments of the PR. TODO:(ANGULAR-20) Re-enable this before merging.
+            # await github.rest.issues.createComment({
+            #   issue_number,
+            #   owner,
+            #   repo,
+            #   body
+            # });
 
   ci_result:
     needs: [unit_tests, sonarqube_scan, linting, check_peer_dependencies]
