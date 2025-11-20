@@ -34,10 +34,9 @@ export class MockCaptchaService extends CaptchaService implements OnDestroy {
 
   protected spinner: HTMLElement;
 
-  protected checkboxListener: () => void;
+  protected removeCheckboxListener: () => void;
 
-  initialize() {
-    super.initialize();
+  protected createForm() {
     // creating mock elements for captcha.
     this.container = this.renderer.createElement('div');
     this.renderer.addClass(this.container, 'form-check');
@@ -54,8 +53,12 @@ export class MockCaptchaService extends CaptchaService implements OnDestroy {
     this.spinner = this.renderer.createElement('icon');
     this.renderer.addClass(this.spinner, 'fa-solid');
     this.renderer.addClass(this.spinner, 'fa-spinner');
+  }
 
-    this.checkboxListener = this.renderer.listen(
+  initialize() {
+    super.initialize();
+    this.createForm();
+    this.removeCheckboxListener = this.renderer.listen(
       this.checkbox,
       'change',
       this.onCheckBoxClicked.bind(this)
@@ -97,8 +100,8 @@ export class MockCaptchaService extends CaptchaService implements OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.checkboxListener) {
-      this.checkboxListener();
+    if (this.removeCheckboxListener) {
+      this.removeCheckboxListener();
     }
   }
 }
