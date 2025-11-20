@@ -13,7 +13,7 @@ on:
     # empty as it is used only to manually trigger the workflow
   
 env:
-  NODE_VERSION: '22'
+  NODE_VERSION: '20'
   NX_BASE: origin/${{ github.event.pull_request.base.ref }}
   NX_HEAD: origin/${{ github.event.pull_request.head.ref }}
 
@@ -42,9 +42,8 @@ jobs:
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
-          key: nodemodules-${{ runner.os }}-node${{ env.NODE_VERSION }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            nodemodules-${{ runner.os }}-node${{ env.NODE_VERSION }}-
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Package installation
         run: npm ci
       - name: Run unit tests
@@ -84,15 +83,13 @@ jobs:
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
             ~/.cache/Cypress
-          key: nodemodules-${{ runner.os }}-node${{ env.NODE_VERSION }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            nodemodules-${{ runner.os }}-node${{ env.NODE_VERSION }}-
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Package installation
         run: npm ci
       - name: Run linting validation
         run: |
           ci-scripts/validate-lint.sh
-  
   check_peer_dependencies:
     name: CI - Check peerDependencies
     runs-on: ubuntu-latest
