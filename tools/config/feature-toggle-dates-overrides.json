@@ -14,12 +14,12 @@
       "reason": "Not documented to customers when created - treating as documented on 2026-02-10"
     },
     "a11yStoreFinderLabel": {
-      "policyStartDate": "2026-02-10",
-      "reason": "Not documented to customers when created - treating as documented on 2026-02-10"
+      "policyStartDate": "2025-04-20",
+      "reason": "Not documented to customers when created - treating as documented on 2025-04-20"
     },
     "a11yAddPaddingToCarouselPanel": {
-      "policyStartDate": "2026-02-10",
-      "reason": "Not documented to customers when created - treating as documented on 2026-02-10"
+      "policyStartDate": "2023-02-10",
+      "reason": "Not documented to customers when created - treating as documented on 2023-02-10"
     }
   }
 }
