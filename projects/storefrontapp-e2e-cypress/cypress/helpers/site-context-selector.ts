@@ -7,6 +7,11 @@
 import { user } from '../sample-data/checkout-flow';
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { switchSiteContext } from '../support/utils/switch-site-context';
+import {
+  mockOrdersListEN,
+  mockOrdersListDE,
+  mockOrderDetails,
+} from './mock-order-history';
 import { waitForPage } from './navigation';
 
 export const LANGUAGES = 'languages';
@@ -203,9 +208,11 @@ export function testLangSwitchOrderPage() {
     const orderPath = ORDER_PATH;
     const deutschName = MONTH_DE;
 
-    before(() => {
+    beforeEach(() => {
       doPlaceOrder();
-      waitForOrderToBePlacedRequest();
+      mockOrdersListEN();
+      mockOrdersListDE();
+      mockOrderDetails();
     });
 
     it('should change language in the url', () => {
