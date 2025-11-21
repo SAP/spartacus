@@ -19,7 +19,6 @@ describe('Order History Page accessibility', { testIsolation: false }, () => {
       doPlaceOrder().then(() => {
         mockOrdersListEN();
         cy.visit('/my-account/orders');
-        cy.wait('@ordersEN');
       });
     });
 
@@ -40,9 +39,7 @@ describe('Order History Page accessibility', { testIsolation: false }, () => {
     });
 
     it('Cancel order', () => {
-      cy.get('cx-order-details-actions .btn-secondary')
-        .contains(' Cancel Items ')
-        .click();
+      cy.get('cx-order-details-actions a.btn-secondary').click();
       cy.get('.cx-amend-order-items'); // wait until content is loaded
       cy.get('main').a11yRunContinuumTest();
     });
