@@ -5,6 +5,7 @@ import { FocusDirective, LaunchDialogService } from '@spartacus/storefront';
 import { VERIFICATION_TOKEN_DIALOG_ACTION } from '@spartacus/user/account/root';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { VerificationTokenDialogComponent } from './verification-token-dialog.component';
+import { FeatureDirective, TranslatePipe } from '@spartacus/core';
 
 @Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
@@ -23,16 +24,20 @@ describe('VerificationTokenDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        VerificationTokenDialogComponent,
-        MockTranslatePipe,
-        FocusDirective,
-        MockFeatureDirective,
-      ],
+      imports: [VerificationTokenDialogComponent, FocusDirective],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(VerificationTokenDialogComponent, {
+        remove: {
+          imports: [FeatureDirective, TranslatePipe],
+        },
+        add: {
+          imports: [MockFeatureDirective, MockTranslatePipe],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

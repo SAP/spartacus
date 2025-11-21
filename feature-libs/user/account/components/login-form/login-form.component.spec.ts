@@ -6,12 +6,21 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const isBusySubject = new BehaviorSubject(false);
@@ -41,12 +50,11 @@ describe('LoginFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
         LoginFormComponent,
-        MockUrlPipe,
-        MockFeatureDirective,
+        RouterModule.forRoot([]),
+        I18nTestingModule,
       ],
       providers: [
         {
@@ -54,7 +62,21 @@ describe('LoginFormComponent', () => {
           useClass: MockLoginFormComponentService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(LoginFormComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, FeatureDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

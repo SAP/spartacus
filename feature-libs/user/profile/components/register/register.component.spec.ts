@@ -16,27 +16,35 @@ import {
   BaseSite,
   BaseSiteService,
   ConsentTemplate,
+  CxDatePipe,
   FeatureConfigService,
+  FeatureDirective,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
   LanguageService,
+  MockDatePipe,
+  MockTranslatePipe,
   OAuthFlow,
   RoutingService,
   SiteAdapter,
   Title,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   CaptchaModule,
   FormErrorsModule,
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, Subject, of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const mockSecurePassword = 'strongPas$!123';
@@ -177,16 +185,13 @@ describe('RegisterComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
         NgSelectModule,
         PasswordVisibilityToggleModule,
         NgSelectA11yModule,
         CaptchaModule,
         RegisterComponent,
-        MockUrlPipe,
-        MockSpinnerComponent,
-        MockFeatureDirective,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -226,7 +231,28 @@ describe('RegisterComponent', () => {
           useClass: MockLanguageService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(RegisterComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            FeatureDirective,
+            SpinnerComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockSpinnerComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

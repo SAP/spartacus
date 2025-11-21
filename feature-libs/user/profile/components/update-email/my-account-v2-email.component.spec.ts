@@ -10,16 +10,27 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, User } from '@spartacus/core';
+import {
+  CxDatePipe,
+  GlobalMessageService,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+  User,
+} from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Subject, of } from 'rxjs';
 import { UserProfileFacade } from '../../root/facade';
 import { MyAccountV2EmailComponent } from './my-account-v2-email.component';
 import { UpdateEmailComponentService } from './update-email-component.service';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -51,6 +62,10 @@ class MockMyAccountV2EmailService
   resetForm = createSpy().and.stub();
 }
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy().and.stub();
+}
+
 const sampleUser: User = {
   uid: 'sampleUid',
 };
@@ -71,12 +86,9 @@ describe('MyAccountV2EmailComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
-        UrlTestingModule,
         PasswordVisibilityToggleModule,
         MyAccountV2EmailComponent,
-        MockCxSpinnerComponent,
       ],
       providers: [
         {
@@ -87,10 +99,22 @@ describe('MyAccountV2EmailComponent', () => {
           provide: UserProfileFacade,
           useClass: MockNewProfileFacade,
         },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     })
       .overrideComponent(MyAccountV2EmailComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SpinnerComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockCxSpinnerComponent,
+          ],
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
       })
       .compileComponents();
   }));

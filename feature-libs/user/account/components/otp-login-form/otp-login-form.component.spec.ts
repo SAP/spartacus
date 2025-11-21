@@ -2,7 +2,14 @@ import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, RoutingService, WindowRef } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  MockTranslatePipe,
+  RoutingService,
+  TranslatePipe,
+  UrlPipe,
+  WindowRef,
+} from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import {
   VerificationTokenCreation,
@@ -11,6 +18,7 @@ import {
 import { of, throwError } from 'rxjs';
 import { OneTimePasswordLoginFormComponent } from './otp-login-form.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const verificationTokenCreation: VerificationTokenCreation = {
@@ -46,17 +54,26 @@ describe('OneTimePasswordLoginFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
         OneTimePasswordLoginFormComponent,
-        MockUrlPipe,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: WindowRef, useClass: MockWinRef },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OneTimePasswordLoginFormComponent, {
+        remove: {
+          imports: [UrlPipe, TranslatePipe],
+        },
+        add: {
+          imports: [MockUrlPipe, MockTranslatePipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

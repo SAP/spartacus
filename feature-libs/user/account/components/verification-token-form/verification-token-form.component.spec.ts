@@ -11,7 +11,15 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  RoutingService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   FormErrorsModule,
   LaunchDialogService,
@@ -21,6 +29,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 import { VerificationTokenFormComponent } from './verification-token-form.component';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const isBusySubject = new BehaviorSubject(false);
@@ -64,11 +73,11 @@ describe('VerificationTokenFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
         VerificationTokenFormComponent,
-        MockUrlPipe,
+        RouterModule.forRoot([]),
+        I18nTestingModule,
       ],
       providers: [
         {
@@ -85,7 +94,16 @@ describe('VerificationTokenFormComponent', () => {
         },
         ChangeDetectorRef,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(VerificationTokenFormComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

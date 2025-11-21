@@ -4,13 +4,19 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
   AuthService,
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
   User,
 } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
+import { PageSlotComponent } from '@spartacus/storefront';
 import createSpy = jasmine.createSpy;
 
 const mockUserDetails: User = {
@@ -75,12 +81,7 @@ describe('LoginComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        LoginComponent,
-        MockDynamicSlotComponent,
-        MockUrlPipe,
-      ],
+      imports: [LoginComponent],
       providers: [
         {
           provide: ActivatedRoute,
@@ -98,7 +99,21 @@ describe('LoginComponent', () => {
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
         { provide: AuthService, useClass: MockAuthService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(LoginComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, PageSlotComponent, UrlPipe],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockDynamicSlotComponent,
+            MockUrlPipe,
+          ],
+        },
+      })
+      .compileComponents();
 
     authService = TestBed.inject(AuthService);
   }));
