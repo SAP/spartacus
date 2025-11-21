@@ -17,12 +17,15 @@ describe('Order History Page accessibility', { testIsolation: false }, () => {
       cy.a11yContinuumSetup();
       cy.requireLoggedIn();
       doPlaceOrder().then(() => {
-        mockOrdersListEN();
+        cy.intercept('GET', /\/users\/current\/orders.*curr=USD.*/, {
+          fixture: 'orders/orders-list-en.json',
+        }).as('ordersEN');
         cy.visit('/my-account/orders');
       });
     });
 
     it('Order list', () => {
+      cy.wait('@ordersEN');
       cy.get('#order-history-table'); // wait until content is loaded
       cy.get('main').a11yRunContinuumTest();
     });
