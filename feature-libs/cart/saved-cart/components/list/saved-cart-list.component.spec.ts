@@ -13,9 +13,14 @@ import {
   SavedCartFormType,
 } from '@spartacus/cart/saved-cart/root';
 import {
+  CxDatePipe,
+  FeatureDirective,
   FeaturesConfig,
-  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   LAUNCH_CALLER,
@@ -25,6 +30,7 @@ import {
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, Subscription, interval, map, of, take } from 'rxjs';
 import { SavedCartListComponent } from './saved-cart-list.component';
+import { RouterModule } from '@angular/router';
 
 const mockCart1: Cart = {
   code: '00001',
@@ -106,12 +112,7 @@ describe('SavedCartListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        SavedCartListComponent,
-        MockUrlPipe,
-        MockFeatureDirective,
-      ],
+      imports: [SavedCartListComponent, RouterModule.forRoot([])],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },
@@ -127,7 +128,21 @@ describe('SavedCartListComponent', () => {
           },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SavedCartListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, FeatureDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

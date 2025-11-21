@@ -4,16 +4,22 @@ import { StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   AuthService,
-  I18nTestingModule,
+  CxDatePipe,
+  FeatureDirective,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { AddToSavedCartComponent } from './add-to-saved-cart.component';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { RouterModule } from '@angular/router';
 
 const mockCart: Cart = {
   code: '123456789',
@@ -60,10 +66,8 @@ describe('AddToSavedCartComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        I18nTestingModule,
-        UrlTestingModule,
         AddToSavedCartComponent,
-        MockFeatureDirective,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
@@ -71,7 +75,21 @@ describe('AddToSavedCartComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AddToSavedCartComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, FeatureDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
 
     isLoggedInSubject$.next(false);
     routingService = TestBed.inject(RoutingService);

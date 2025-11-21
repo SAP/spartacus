@@ -11,15 +11,20 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   CmsAddToCartComponent,
+  CxDatePipe,
   EventService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Product,
   ProductAvailabilityAdapter,
   ProductCatalogService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
+  ItemCounterComponent,
   OutletModule,
   ProductListItemContext,
   SpinnerModule,
@@ -148,11 +153,9 @@ describe('AddToCartComponent', () => {
       imports: [
         BrowserAnimationsModule,
         SpinnerModule,
-        I18nTestingModule,
         ReactiveFormsModule,
         OutletModule,
         AddToCartComponent,
-        MockItemCounterComponent,
       ],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
@@ -178,6 +181,13 @@ describe('AddToCartComponent', () => {
           useValue: mockProductCatalogService,
         },
       ],
+    }).overrideComponent(AddToCartComponent, {
+      remove: {
+        imports: [TranslatePipe, CxDatePipe, ItemCounterComponent],
+      },
+      add: {
+        imports: [MockTranslatePipe, MockDatePipe, MockItemCounterComponent],
+      },
     });
   }
 

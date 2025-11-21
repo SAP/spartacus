@@ -12,12 +12,24 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
 import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import {
+  AtMessageDirective,
+  InnerComponentsHostDirective,
+  MediaComponent,
   ProductListItemContext,
   ProductListItemContextSource,
 } from '@spartacus/storefront';
 import { WishListItemComponent } from './wish-list-item.component';
+import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -76,6 +88,11 @@ class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
 }
 
+@Directive({
+  selector: '[cxInnerComponentsHost]',
+})
+class MockInnerComponentsHostDirective {}
+
 describe('WishListItemComponent', () => {
   let component: WishListItemComponent;
   let fixture: ComponentFixture<WishListItemComponent>;
@@ -84,17 +101,32 @@ describe('WishListItemComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        WishListItemComponent,
-        MockPictureComponent,
-        MockAddToCartComponent,
-        MockUrlPipe,
-        MockAtMessageDirective,
-      ],
+      imports: [WishListItemComponent, RouterModule.forRoot([])],
     })
       .overrideComponent(WishListItemComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            MediaComponent,
+            AddToCartComponent,
+            UrlPipe,
+            AtMessageDirective,
+            InnerComponentsHostDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockPictureComponent,
+            MockAddToCartComponent,
+            MockUrlPipe,
+            MockAtMessageDirective,
+            MockInnerComponentsHostDirective,
+          ],
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
       })
       .compileComponents();
   }));

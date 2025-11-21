@@ -3,9 +3,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { QuickOrderItemComponent } from './quick-order-item.component';
+import { RouterModule } from '@angular/router';
+import { ItemCounterComponent, MediaComponent } from '@spartacus/storefront';
 
 const mockIndex: number = 1;
 const mockCodeSubject = new Subject<string>();
@@ -60,16 +69,34 @@ describe('QuickOrderItemComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         QuickOrderItemComponent,
-        MockUrlPipe,
-        MockItemCounterComponent,
-        MockMediaComponent,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(QuickOrderItemComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            ItemCounterComponent,
+            MediaComponent,
+            UrlPipe,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockItemCounterComponent,
+            MockMediaComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     quickOrderService = TestBed.inject(QuickOrderFacade);
   });

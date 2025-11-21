@@ -11,15 +11,21 @@ import {
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
 import {
+  CxDatePipe,
   FeatureConfigService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Product,
   ProductCatalogService,
+  TranslatePipe,
   UserIdService,
 } from '@spartacus/core';
 import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
 import { Observable, Subject, of } from 'rxjs';
 import { CartItemListComponent } from './cart-item-list.component';
+import { CartItemComponent } from '../cart-item/cart-item.component';
+import { CartItemListRowComponent } from '../cart-item-list-row';
 
 class MockActiveCartService {
   updateEntry() {}
@@ -136,13 +142,7 @@ describe('CartItemListComponent', () => {
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        PromotionsModule,
-        I18nTestingModule,
-        CartItemListComponent,
-        MockCartItemComponent,
-      ],
+      imports: [ReactiveFormsModule, PromotionsModule, CartItemListComponent],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
@@ -154,6 +154,18 @@ describe('CartItemListComponent', () => {
           useValue: mockProductCatalogService,
         },
       ],
+    }).overrideComponent(CartItemListComponent, {
+      remove: {
+        imports: [
+          TranslatePipe,
+          CxDatePipe,
+          CartItemComponent,
+          CartItemListRowComponent,
+        ],
+      },
+      add: {
+        imports: [MockTranslatePipe, MockDatePipe, MockCartItemComponent],
+      },
     });
   }
 

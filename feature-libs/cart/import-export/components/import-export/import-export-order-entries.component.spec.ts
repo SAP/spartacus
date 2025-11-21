@@ -12,6 +12,8 @@ import {
 import { ContextService, PageComponentModule } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { ImportExportOrderEntriesComponent } from './import-export-order-entries.component';
+import { ExportOrderEntriesComponent } from '../export-entries';
+import { ImportOrderEntriesComponent } from '../import-to-cart';
 import createSpy = jasmine.createSpy;
 
 const mockLoadProduct: ProductImportInfo = {
@@ -76,14 +78,21 @@ describe('ImportExportComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        PageComponentModule,
-        ImportExportOrderEntriesComponent,
-        MockExportOrderEntriesComponent,
-        MockImportOrderEntriesComponent,
-      ],
+      imports: [PageComponentModule, ImportExportOrderEntriesComponent],
       providers: [{ provide: ContextService, useClass: MockContextService }],
-    }).compileComponents();
+    })
+      .overrideComponent(ImportExportOrderEntriesComponent, {
+        remove: {
+          imports: [ExportOrderEntriesComponent, ImportOrderEntriesComponent],
+        },
+        add: {
+          imports: [
+            MockExportOrderEntriesComponent,
+            MockImportOrderEntriesComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

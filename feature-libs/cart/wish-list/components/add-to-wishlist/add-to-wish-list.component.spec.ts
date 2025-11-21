@@ -13,14 +13,25 @@ import { Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import {
   AuthService,
+  CxDatePipe,
   FeatureConfigService,
+  FeatureDirective,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Product,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
-import { CurrentProductService } from '@spartacus/storefront';
+import {
+  AtMessageDirective,
+  CurrentProductService,
+  IconComponent,
+} from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddToWishListComponent } from './add-to-wish-list.component';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 const mockProduct: Product = {
   code: 'xxx',
@@ -115,14 +126,7 @@ describe('AddToWishListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        AddToWishListComponent,
-        MockIconComponent,
-        MockUrlPipe,
-        MockAtMessageDirective,
-        MockFeatureDirective,
-      ],
+      imports: [AddToWishListComponent, RouterModule.forRoot([])],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: WishListFacade, useClass: MockWishListService },
@@ -134,7 +138,27 @@ describe('AddToWishListComponent', () => {
       ],
     })
       .overrideComponent(AddToWishListComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            UrlPipe,
+            AtMessageDirective,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockIconComponent,
+            MockUrlPipe,
+            MockAtMessageDirective,
+            MockFeatureDirective,
+          ],
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
       })
       .compileComponents();
   }));

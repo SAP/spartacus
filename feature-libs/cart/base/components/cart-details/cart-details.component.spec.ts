@@ -11,12 +11,19 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   AuthService,
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CartDetailsComponent } from './cart-details.component';
+import { CartCouponComponent } from '../cart-coupon';
+import { CartItemListComponent } from '../cart-shared';
+import { CartValidationWarningsComponent } from '../public_api';
 
 class MockActiveCartService {
   removeEntry(): void {}
@@ -98,14 +105,7 @@ describe('CartDetailsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        PromotionsModule,
-        I18nTestingModule,
-        CartDetailsComponent,
-        MockCartItemListComponent,
-        MockCartCouponComponent,
-        MockCartValidationWarningsComponent,
-      ],
+      imports: [PromotionsModule, CartDetailsComponent],
       providers: [
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartFacade },
         { provide: AuthService, useValue: mockAuthService },
@@ -119,7 +119,28 @@ describe('CartDetailsComponent', () => {
           useValue: mockCartConfig,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CartDetailsComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CartItemListComponent,
+            CartCouponComponent,
+            CartValidationWarningsComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCartItemListComponent,
+            MockCartCouponComponent,
+            MockCartValidationWarningsComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     mockCartConfig.isSelectiveCartEnabled.and.returnValue(true);
     mockSelectiveCartFacade.isStable.and.returnValue(of(true));

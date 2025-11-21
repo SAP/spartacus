@@ -12,9 +12,10 @@ import {
   CartValidationFacade,
   CartValidationStatusCode,
 } from '@spartacus/cart/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { ReplaySubject } from 'rxjs';
 import { CartItemValidationWarningComponent } from './cart-item-validation-warning.component';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
 
 const mockCode = 'productCode1';
 const mockData = [
@@ -70,19 +71,23 @@ describe('CartItemValidationWarningComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CartItemValidationWarningComponent,
-        MockCxIconComponent,
-        MockTranslatePipe,
-        MockUrlPipe,
-      ],
+      imports: [CartItemValidationWarningComponent],
       providers: [
         {
           provide: CartValidationFacade,
           useClass: MockCartValidationFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CartItemValidationWarningComponent, {
+        remove: {
+          imports: [IconComponent, TranslatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockCxIconComponent, MockTranslatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(CartItemValidationWarningComponent);
     component = fixture.componentInstance;

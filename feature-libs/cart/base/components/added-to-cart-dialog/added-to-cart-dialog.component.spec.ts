@@ -21,12 +21,19 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   ActivatedRouterStateSnapshot,
+  CxDatePipe,
+  FeatureDirective,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   RouterState,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
+  IconComponent,
   KeyboardFocusTestingModule,
   LaunchDialogService,
   PromotionsModule,
@@ -38,6 +45,7 @@ import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { skip, take } from 'rxjs/operators';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 import { RouterModule } from '@angular/router';
+import { CartItemComponent } from '../cart-shared';
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   updateEntry(_entryNumber: number, _quantity: number): void {}
@@ -162,14 +170,9 @@ describe('AddedToCartDialogComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         SpinnerModule,
-        I18nTestingModule,
         PromotionsModule,
         KeyboardFocusTestingModule,
         AddedToCartDialogComponent,
-        MockCartItemComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-        MockFeatureDirective,
         RouterModule,
       ],
       providers: [
@@ -183,7 +186,30 @@ describe('AddedToCartDialogComponent', () => {
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AddedToCartDialogComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CartItemComponent,
+            UrlPipe,
+            IconComponent,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCartItemComponent,
+            MockUrlPipe,
+            MockCxIconComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
