@@ -6,7 +6,7 @@
 
 import {
   mockOrderDetails,
-  mockOrdersListEN,
+  mockOrdersListDE,
 } from '../../../helpers/mock-order-history';
 import { doPlaceOrder } from '../../../helpers/order-history';
 import { viewportContext } from '../../../helpers/viewport-context';
@@ -17,12 +17,13 @@ describe('Order History Page accessibility', { testIsolation: false }, () => {
       cy.a11yContinuumSetup();
       cy.requireLoggedIn();
       doPlaceOrder().then(() => {
-        mockOrdersListEN();
+        mockOrdersListDE();
         cy.visit('/my-account/orders');
       });
     });
 
     it('Order list', () => {
+      cy.wait('@ordersDE');
       cy.get('#order-history-table'); // wait until content is loaded
       cy.get('main').a11yRunContinuumTest();
     });
