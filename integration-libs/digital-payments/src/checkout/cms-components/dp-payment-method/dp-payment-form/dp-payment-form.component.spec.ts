@@ -4,6 +4,7 @@ import {
   WindowRef,
   GlobalMessageService,
   GlobalMessageType,
+  TranslatePipe,
 } from '@spartacus/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DpPaymentFormComponent } from './dp-payment-form.component';
@@ -11,6 +12,7 @@ import { DpCheckoutPaymentService } from '../../../facade';
 import { Observable, of } from 'rxjs';
 import { Component } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
+import { SpinnerComponent } from '@spartacus/storefront';
 
 const postUrl = 'https://dummy.url';
 const mockDpPaymentRequest: DpPaymentRequest = {
@@ -48,12 +50,7 @@ describe('DpPaymentFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        DpPaymentFormComponent,
-        MockTranslatePipe,
-        MockSpinnerComponent,
-      ],
+      imports: [StoreModule.forRoot({}), DpPaymentFormComponent],
       providers: [
         {
           provide: DpCheckoutPaymentService,
@@ -69,7 +66,16 @@ describe('DpPaymentFormComponent', () => {
         },
         { provide: WindowRef, useValue: mockWinRef },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(DpPaymentFormComponent, {
+        remove: {
+          imports: [TranslatePipe, SpinnerComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockSpinnerComponent],
+        },
+      })
+      .compileComponents();
 
     dpPaymentService = TestBed.inject(DpCheckoutPaymentService);
     winRef = TestBed.inject(WindowRef);

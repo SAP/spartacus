@@ -10,16 +10,25 @@ import {
   Address,
   GlobalMessageService,
   GlobalMessageType,
+  I18nTestingModule,
   MockTranslatePipe,
   PaymentDetails,
+  TranslatePipe,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { DpCheckoutPaymentService } from './../../../facade/dp-checkout-payment.service';
 import { DpLocalStorageService } from './../../../facade/dp-local-storage.service';
 import { DpPaymentRequest } from './../../../models/dp-checkout.model';
 import { DpPaymentCallbackComponent } from './dp-payment-callback.component';
-import { CheckoutBillingAddressFormService } from '@spartacus/checkout/base/components';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import {
+  CheckoutBillingAddressFormComponent,
+  CheckoutBillingAddressFormService,
+} from '@spartacus/checkout/base/components';
+import {
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 
 class MockDpCheckoutPaymentService
   implements Partial<DpCheckoutPaymentService>
@@ -85,6 +94,12 @@ class MockLaunchDialogService {
   }
 }
 
+@Component({
+  selector: 'cx-checkout-billing-address-form',
+  template: '',
+})
+class MockCheckoutBillingAddressFormComponent {}
+
 describe('DpPaymentCallbackComponent with success query param', () => {
   let component: DpPaymentCallbackComponent;
   let fixture: ComponentFixture<DpPaymentCallbackComponent>;
@@ -100,14 +115,9 @@ describe('DpPaymentCallbackComponent with success query param', () => {
         RouterModule.forRoot([]),
         StoreModule.forRoot({}),
         DpPaymentCallbackComponent,
-        MockTranslatePipe,
-        MockSpinnerComponent,
+        I18nTestingModule,
       ],
       providers: [
-        {
-          provide: DpPaymentCallbackComponent,
-          useClass: DpPaymentCallbackComponent,
-        },
         {
           provide: ActivatedRoute,
           useValue: mockActivatedRoute,
@@ -130,7 +140,24 @@ describe('DpPaymentCallbackComponent with success query param', () => {
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(DpPaymentCallbackComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            SpinnerComponent,
+            CheckoutBillingAddressFormComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockSpinnerComponent,
+            MockCheckoutBillingAddressFormComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     dpPaymentService = TestBed.inject(DpCheckoutPaymentService);
     launchDialogService = TestBed.inject(LaunchDialogService);
@@ -251,8 +278,7 @@ describe('DpPaymentCallbackComponent without query param', () => {
         RouterModule.forRoot([]),
         StoreModule.forRoot({}),
         DpPaymentCallbackComponent,
-        MockTranslatePipe,
-        MockSpinnerComponent,
+        I18nTestingModule,
       ],
       providers: [
         {
@@ -281,7 +307,24 @@ describe('DpPaymentCallbackComponent without query param', () => {
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(DpPaymentCallbackComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            SpinnerComponent,
+            CheckoutBillingAddressFormComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockSpinnerComponent,
+            MockCheckoutBillingAddressFormComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     msgService = TestBed.inject(GlobalMessageService);
 
