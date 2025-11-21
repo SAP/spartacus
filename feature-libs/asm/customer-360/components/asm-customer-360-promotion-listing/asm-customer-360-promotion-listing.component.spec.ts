@@ -7,10 +7,21 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AsmCustomer360PromotionListingComponent } from './asm-customer-360-promotion-listing.component';
-import { GlobalMessageType, I18nTestingModule } from '@spartacus/core';
+import {
+  GlobalMessageType,
+  I18nTestingModule,
+  TranslatePipe,
+  CxDatePipe,
+} from '@spartacus/core';
 import { By } from '@angular/platform-browser';
 import { PromotionListEntry } from './asm-customer-360-promotion-listing.model';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  IconComponent,
+  MessageComponent,
+} from '@spartacus/storefront';
+import { MockTranslatePipe } from '@spartacus/core';
+import { MockDatePipe } from '@spartacus/core';
 
 describe('AsmCustomer360PromotionListingComponent', () => {
   @Component({
@@ -75,7 +86,7 @@ describe('AsmCustomer360PromotionListingComponent', () => {
       >
       </cx-asm-customer-360-promotion-listing>
     `,
-    imports: [I18nTestingModule],
+    imports: [AsmCustomer360PromotionListingComponent],
   })
   class TestHostComponent {
     @Input() headerText: string;
@@ -101,14 +112,22 @@ describe('AsmCustomer360PromotionListingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        TestHostComponent,
-        AsmCustomer360PromotionListingComponent,
-        MockCxIconComponent,
-        MockCxMessageComponent,
-      ],
-    }).compileComponents();
+      imports: [TestHostComponent],
+    })
+      .overrideComponent(AsmCustomer360PromotionListingComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, IconComponent, MessageComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockCxMessageComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

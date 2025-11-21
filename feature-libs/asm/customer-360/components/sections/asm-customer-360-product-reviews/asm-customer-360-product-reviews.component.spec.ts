@@ -13,11 +13,17 @@ import {
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import {
-  I18nTestingModule,
+  CxDatePipe,
   LanguageService,
+  MockDatePipe,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  IconComponent,
+  StarRatingComponent,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
 
@@ -45,7 +51,7 @@ describe('AsmCustomer360ProductReviewsComponent', () => {
   @Component({
     selector: 'cx-icon',
     template: '',
-    imports: [I18nTestingModule],
+    imports: [],
   })
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
@@ -54,7 +60,7 @@ describe('AsmCustomer360ProductReviewsComponent', () => {
   @Component({
     selector: 'cx-star-rating',
     template: '',
-    imports: [I18nTestingModule],
+    imports: [],
   })
   class MockCxStarRatingnComponent {
     @Input() rating: number;
@@ -94,12 +100,8 @@ describe('AsmCustomer360ProductReviewsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         AsmCustomer360ProductReviewsComponent,
-        MockTranslatePipe,
-        MockCxIconComponent,
         AsmCustomer360TableComponent,
-        MockCxStarRatingnComponent,
         ArgsPipe,
       ],
       providers: [
@@ -111,7 +113,37 @@ describe('AsmCustomer360ProductReviewsComponent', () => {
         },
         { provide: LanguageService, useClass: MockLanguageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmCustomer360ProductReviewsComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            StarRatingComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCxIconComponent,
+            MockCxStarRatingnComponent,
+          ],
+        },
+      })
+      .overrideComponent(AsmCustomer360TableComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, StarRatingComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxStarRatingnComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -20,16 +20,21 @@ import {
 } from '@spartacus/asm/root';
 import {
   AuthService,
+  CxDatePipe,
   FeatureConfigService,
   FeatureModulesService,
   GlobalMessageService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   OAuthLibWrapperService,
   RoutingService,
+  TranslatePipe,
   User,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
+  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
@@ -37,6 +42,13 @@ import { UserAccountFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmMainUiComponent } from './asm-main-ui.component';
+import {
+  AsmToggleUiComponent,
+  CustomerSelectionComponent,
+  AsmSessionTimerComponent,
+  CustomerEmulationComponent,
+  CSAgentLoginFormComponent,
+} from '../public_api';
 
 class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
@@ -225,17 +237,7 @@ describe('AsmMainUiComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        AsmMainUiComponent,
-        MockAsmToggleUiComponent,
-        MockCSAgentLoginFormComponent,
-        MockCustomerSelectionComponent,
-        MockAsmSessionTimerComponent,
-        MockCustomerEmulationComponent,
-        MockCxIconComponent,
-        MockRevertedFeatureDirective,
-      ],
+      imports: [AsmMainUiComponent],
       providers: [
         {
           provide: FeatureModulesService,
@@ -254,7 +256,35 @@ describe('AsmMainUiComponent', () => {
           useClass: MockOAuthLibWrapperService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmMainUiComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            AsmToggleUiComponent,
+            CSAgentLoginFormComponent,
+            CustomerSelectionComponent,
+            AsmSessionTimerComponent,
+            CustomerEmulationComponent,
+            IconComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockAsmToggleUiComponent,
+            MockCSAgentLoginFormComponent,
+            MockCustomerSelectionComponent,
+            MockAsmSessionTimerComponent,
+            MockCustomerEmulationComponent,
+            MockCxIconComponent,
+            MockRevertedFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

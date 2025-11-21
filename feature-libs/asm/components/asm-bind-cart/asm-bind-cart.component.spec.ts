@@ -23,9 +23,11 @@ import {
   OCC_CART_ID_CURRENT,
   RoutingService,
   Translatable,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
+  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
@@ -165,8 +167,7 @@ describe('AsmBindCartComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         AsmBindCartComponent,
-        MockTranslatePipe,
-        MockCxIconComponent,
+
         DotSpinnerComponent,
       ],
       providers: [
@@ -181,7 +182,16 @@ describe('AsmBindCartComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: AsmComponentService, useClass: MockAsmComponentService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmBindCartComponent, {
+        remove: {
+          imports: [TranslatePipe, IconComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockCxIconComponent],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

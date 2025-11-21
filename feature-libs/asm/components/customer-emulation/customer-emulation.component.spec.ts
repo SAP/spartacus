@@ -4,15 +4,20 @@ import { By } from '@angular/platform-browser';
 import {
   FeatureModulesService,
   FeaturesConfig,
-  I18nTestingModule,
+  TranslatePipe,
+  CxDatePipe,
   User,
+  I18nTestingModule,
+  FeatureLevelDirective,
 } from '@spartacus/core';
+import { MockTranslatePipe, MockDatePipe } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { CustomerEmulationComponent } from './customer-emulation.component';
+import { AsmBindCartComponent } from '../public_api';
 
 describe('CustomerEmulationComponent', () => {
   class MockUserAccountFacade implements Partial<UserAccountFacade> {
@@ -62,12 +67,7 @@ describe('CustomerEmulationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        CustomerEmulationComponent,
-        MockFeatureLevelDirective,
-        MockAsmBindCartComponent,
-      ],
+      imports: [I18nTestingModule, CustomerEmulationComponent],
       providers: [
         {
           provide: FeatureModulesService,
@@ -83,7 +83,26 @@ describe('CustomerEmulationComponent', () => {
           },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerEmulationComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            AsmBindCartComponent,
+            FeatureLevelDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockAsmBindCartComponent,
+            MockFeatureLevelDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

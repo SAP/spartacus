@@ -6,6 +6,7 @@ import {
   AsmBindCartDialogComponent,
   BIND_CART_DIALOG_ACTION,
 } from './asm-bind-cart-dialog.component';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
 
 @Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
@@ -24,11 +25,16 @@ describe('AsmBindCartDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AsmBindCartDialogComponent, MockTranslatePipe, FocusDirective],
+      imports: [AsmBindCartDialogComponent, FocusDirective, I18nTestingModule],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmBindCartDialogComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -8,10 +8,11 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CsAgentAuthService } from '@spartacus/asm/root';
-import { AuthService, RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService, TranslatePipe } from '@spartacus/core';
 import {
   FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -79,12 +80,7 @@ describe('AsmSwitchCustomerDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        AsmSwitchCustomerDialogComponent,
-        MockTranslatePipe,
-        FocusDirective,
-        MockCxIconComponent,
-      ],
+      imports: [AsmSwitchCustomerDialogComponent, FocusDirective],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: AsmComponentService, useClass: MockAsmComponentService },
@@ -92,7 +88,16 @@ describe('AsmSwitchCustomerDialogComponent', () => {
         { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmSwitchCustomerDialogComponent, {
+        remove: {
+          imports: [TranslatePipe, IconComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockCxIconComponent],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

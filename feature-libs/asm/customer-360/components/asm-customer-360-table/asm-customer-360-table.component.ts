@@ -57,8 +57,6 @@ import { CxDatePipe } from '@spartacus/core';
     TranslatePipe,
     CxDatePipe,
     ArgsPipe,
-
-    CxDatePipe,
   ],
 })
 export class AsmCustomer360TableComponent

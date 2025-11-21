@@ -11,13 +11,17 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { FocusDirective, LaunchDialogService } from '@spartacus/storefront';
+import {
+  FocusDirective,
+  LaunchDialogService,
+  MessageComponent,
+} from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
   AsmSaveCartDialogComponent,
   SAVE_CART_DIALOG_ACTION,
 } from './asm-save-cart-dialog.component';
-import { GlobalMessageType } from '@spartacus/core';
+import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
 
 @Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
@@ -52,7 +56,7 @@ class MockCxMessageComponent {
   @Output() closeMessage = new EventEmitter();
 }
 
-describe('AsmBindCartDialogComponent', () => {
+describe('AsmSaveCartDialogComponent', () => {
   let component: AsmSaveCartDialogComponent;
   let fixture: ComponentFixture<AsmSaveCartDialogComponent>;
   let el: DebugElement;
@@ -61,17 +65,19 @@ describe('AsmBindCartDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        AsmSaveCartDialogComponent,
-        MockTranslatePipe,
-        FocusDirective,
-        MockCxMessageComponent,
-      ],
+      imports: [AsmSaveCartDialogComponent, FocusDirective],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmSaveCartDialogComponent, {
+        remove: { imports: [TranslatePipe, MessageComponent] },
+        add: {
+          imports: [MockTranslatePipe, MockCxMessageComponent],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

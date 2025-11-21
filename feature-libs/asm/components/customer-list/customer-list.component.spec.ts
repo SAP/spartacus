@@ -16,22 +16,29 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 import {
+  CxDatePipe,
   FeatureModulesService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   QueryState,
+  TranslatePipe,
   User,
 } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { CustomerListComponent } from './customer-list.component';
 import { CustomerListAction } from './customer-list.model';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 class MockAsmConfig implements AsmConfig {
@@ -240,12 +247,7 @@ describe('CustomerListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        CustomerListComponent,
-        MockCxIconComponent,
-        MockKeyboadFocusDirective,
-      ],
+      imports: [CustomerListComponent, RouterModule.forRoot([])],
       providers: [
         {
           provide: FeatureModulesService,
@@ -263,7 +265,21 @@ describe('CustomerListComponent', () => {
         },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, IconComponent, FocusDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockKeyboadFocusDirective,
+          ],
+        },
+      })
+      .compileComponents();
     featureModulesService = TestBed.inject(FeatureModulesService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     config = TestBed.inject(AsmConfig);

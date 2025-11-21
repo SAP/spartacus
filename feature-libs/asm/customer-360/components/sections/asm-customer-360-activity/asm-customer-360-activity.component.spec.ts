@@ -1,5 +1,4 @@
 import {
-  Component,
   DebugElement,
   Directive,
   Input,
@@ -13,14 +12,17 @@ import {
   AsmCustomer360ActivityList,
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
-import { I18nTestingModule, TranslationService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   DirectionMode,
   DirectionService,
   FocusConfig,
-  ICON_TYPE,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
 import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
 import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
@@ -38,20 +40,6 @@ describe('AsmCustomer360ActivityComponent', () => {
   @Pipe({ name: 'cxTranslate' })
   class MockTranslatePipe implements PipeTransform {
     transform(): any {}
-  }
-  @Component({
-    selector: 'cx-icon',
-    template: '',
-    imports: [I18nTestingModule],
-  })
-  class MockCxIconComponent {
-    @Input() type: ICON_TYPE;
-  }
-
-  class MockTranslationService {
-    translate(): Observable<string> {
-      return of('test');
-    }
   }
 
   class MockDirectionService {
@@ -128,13 +116,10 @@ describe('AsmCustomer360ActivityComponent', () => {
       imports: [
         I18nTestingModule,
         AsmCustomer360ActivityComponent,
-        MockTranslatePipe,
-        MockCxIconComponent,
         AsmCustomer360TableComponent,
         ArgsPipe,
       ],
       providers: [
-        { provide: TranslationService, useClass: MockTranslationService },
         AsmCustomer360SectionContextSource,
         {
           provide: AsmCustomer360SectionContext,
@@ -145,7 +130,32 @@ describe('AsmCustomer360ActivityComponent', () => {
           useClass: MockDirectionService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmCustomer360ActivityComponent, {
+        remove: {
+          imports: [TranslatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe],
+        },
+      })
+      .overrideComponent(AsmCustomer360TableComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe],
+        },
+      })
+      .overrideComponent(AsmCustomer360ActivityComponent, {
+        remove: {
+          imports: [TranslatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

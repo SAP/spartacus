@@ -12,10 +12,18 @@ import {
   AsmCreateCustomerFacade,
   CustomerRegistrationForm,
 } from '@spartacus/asm/root';
-import { HttpErrorModel, I18nTestingModule } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  HttpErrorModel,
+  I18nTestingModule,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { User } from '@spartacus/user/account/root';
@@ -103,6 +111,10 @@ export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
 
+export class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
+}
+
 describe('AsmCreateCustomerFormComponent', () => {
   let component: AsmCreateCustomerFormComponent;
   let fixture: ComponentFixture<AsmCreateCustomerFormComponent>;
@@ -112,21 +124,30 @@ describe('AsmCreateCustomerFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        AsmCreateCustomerFormComponent,
-        MockCxIconComponent,
-        MockKeyboadFocusDirective,
-      ],
+      imports: [I18nTestingModule, AsmCreateCustomerFormComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
           provide: AsmCreateCustomerFacade,
           useClass: MockAsmCreateCustomerFacade,
         },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmCreateCustomerFormComponent, {
+        remove: {
+          imports: [IconComponent, FocusDirective, TranslatePipe],
+        },
+        add: {
+          imports: [
+            MockCxIconComponent,
+            MockKeyboadFocusDirective,
+            MockTranslatePipe,
+          ],
+        },
+      })
+      .compileComponents();
 
     launchDialogService = TestBed.inject(LaunchDialogService);
     asmCreateCustomerFacade = TestBed.inject(AsmCreateCustomerFacade);

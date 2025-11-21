@@ -16,6 +16,9 @@ import {
   FeaturesConfig,
   I18nTestingModule,
   LanguageService,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
   User,
 } from '@spartacus/core';
 import {
@@ -32,6 +35,7 @@ import {
   AsmCustomer360ProfileComponent,
 } from '../sections';
 import { AsmCustomer360Component } from './asm-customer-360.component';
+import { AsmCustomer360SectionComponent } from '../sections/asm-customer-360-section/asm-customer-360-section.component';
 
 describe('AsmCustomer360Component', () => {
   const mockAsmConfig: AsmCustomer360Config = {
@@ -174,13 +178,7 @@ describe('AsmCustomer360Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        AsmCustomer360Component,
-        MockAsmCustomer360SectionComponent,
-        ArgsPipe,
-        FocusDirective,
-      ],
+      imports: [AsmCustomer360Component, ArgsPipe, FocusDirective],
       providers: [
         CxDatePipe,
         { provide: LanguageService, useValue: mockLanguageService },
@@ -200,7 +198,20 @@ describe('AsmCustomer360Component', () => {
         },
       ],
       schemas: [NO_ERRORS_SCHEMA],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmCustomer360Component, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, AsmCustomer360SectionComponent],
+        },
+        add: {
+          imports: [
+            MockAsmCustomer360SectionComponent,
+            MockTranslatePipe,
+            MockDatePipe,
+          ],
+        },
+      })
+      .compileComponents();
     datePipe = TestBed.inject(CxDatePipe);
     languageService = TestBed.inject(LanguageService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);

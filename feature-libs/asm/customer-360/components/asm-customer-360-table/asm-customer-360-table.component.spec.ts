@@ -12,14 +12,16 @@ import { By } from '@angular/platform-browser';
 import { ArgsPipe } from '@spartacus/asm/core';
 import {
   CxDatePipe,
-  I18nTestingModule,
   LanguageService,
+  MockDatePipe,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   DirectionMode,
   DirectionService,
   FocusConfig,
   ICON_TYPE,
+  IconComponent,
 } from '@spartacus/storefront';
 
 import { AsmCustomer360TableComponent } from './asm-customer-360-table.component';
@@ -89,7 +91,7 @@ describe('AsmCustomer360TableComponent', () => {
   @Component({
     selector: 'cx-icon',
     template: '',
-    imports: [I18nTestingModule],
+    imports: [],
   })
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
@@ -217,7 +219,7 @@ describe('AsmCustomer360TableComponent', () => {
         (selectItem)="itemSelected($event)"
       ></cx-asm-customer-360-table>
     `,
-    imports: [I18nTestingModule],
+    imports: [AsmCustomer360TableComponent],
   })
   class TestHostComponent {
     @Input() columns: Array<CustomerTableColumn>;
@@ -238,14 +240,7 @@ describe('AsmCustomer360TableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        TestHostComponent,
-        AsmCustomer360TableComponent,
-        MockTranslatePipe,
-        MockCxIconComponent,
-        ArgsPipe,
-      ],
+      imports: [TestHostComponent, AsmCustomer360TableComponent, ArgsPipe],
       providers: [
         CxDatePipe,
         { provide: LanguageService, useValue: mockLanguageService },
@@ -255,7 +250,16 @@ describe('AsmCustomer360TableComponent', () => {
         },
         { provide: AsmCustomer360Config, useValue: mockAsmConfig },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmCustomer360TableComponent, {
+        remove: {
+          imports: [CxDatePipe, TranslatePipe, IconComponent],
+        },
+        add: {
+          imports: [MockDatePipe, MockTranslatePipe, MockCxIconComponent],
+        },
+      })
+      .compileComponents();
     datePipe = TestBed.inject(CxDatePipe);
     languageService = TestBed.inject(LanguageService);
     spyOn(languageService, 'getActive').and.returnValue(of('en'));
