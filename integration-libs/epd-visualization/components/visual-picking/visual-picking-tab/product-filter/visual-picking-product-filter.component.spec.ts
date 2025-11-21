@@ -13,6 +13,7 @@ import {
   I18nModule,
   MockTranslatePipe,
   ProductReference,
+  TranslatePipe,
   UrlModule,
 } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
@@ -51,7 +52,6 @@ describe('VisualPickingProductFilterComponent', () => {
         UrlModule,
         IconModule,
         VisualPickingProductFilterComponent,
-        MockTranslatePipe,
       ],
       providers: [
         {
@@ -61,7 +61,16 @@ describe('VisualPickingProductFilterComponent', () => {
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(VisualPickingProductFilterComponent, {
+        remove: {
+          imports: [TranslatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe],
+        },
+      })
+      .compileComponents();
 
     TestBed.inject(HttpTestingController);
 
