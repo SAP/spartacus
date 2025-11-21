@@ -26,8 +26,8 @@
   "ssr-tests": {
     "@spartacus/core": "221121.4.0",
     "http-proxy": "^1.18.1",
-    "jest-circus": "^30.0.0",
-    "jest-environment-node": "^30.0.0"
+    "jest-circus": "^29.0.0",
+    "jest-environment-node": "^29.0.0"
   },
   "storefrontapp-e2e-cypress": {},
   "@spartacus/storefront": {
@@ -526,7 +526,7 @@
     "@types/googlepay": "^0.7.7",
     "angular-oauth2-oidc": "^20.0.2",
     "comment-json": "^4.2.3",
-    "express": "^4.21.2",
+    "express": "^5.1.0",
     "hamburgers": "^1.2.1",
     "i18next": "^24.2.1",
     "i18next-http-backend": "^3.0.1",
