@@ -31,7 +31,6 @@ import { NgIf, AsyncPipe } from '@angular/common';
 import { CardComponent } from '@spartacus/storefront';
 import { DatePickerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
-import { CxDatePipe as CxDatePipe_1 } from '@spartacus/core';
 
 @Component({
   selector: 'cx-request-delivery-date',
@@ -45,8 +44,6 @@ import { CxDatePipe as CxDatePipe_1 } from '@spartacus/core';
     DatePickerComponent,
     AsyncPipe,
     TranslatePipe,
-    CxDatePipe_1,
-
     CxDatePipe,
   ],
 })
