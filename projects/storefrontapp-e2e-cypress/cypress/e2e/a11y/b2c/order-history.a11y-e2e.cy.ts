@@ -4,21 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { viewportContext } from '../../../helpers/viewport-context';
+import {
+  mockOrderDetails,
+  mockOrdersListEN,
+} from '../../../helpers/mock-order-history';
 import { doPlaceOrder } from '../../../helpers/order-history';
+import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Order History Page accessibility', { testIsolation: false }, () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.a11yContinuumSetup();
       cy.requireLoggedIn();
-      doPlaceOrder().then((orderData: any) => {
-        cy.waitForOrderToBePlacedRequest(
-          undefined,
-          undefined,
-          orderData.body.code
-        );
+      doPlaceOrder().then(() => {
+        mockOrdersListEN();
         cy.visit('/my-account/orders');
+        cy.wait('@ordersEN');
       });
     });
 
@@ -28,9 +29,11 @@ describe('Order History Page accessibility', { testIsolation: false }, () => {
     });
 
     it('Order details', () => {
+      mockOrderDetails();
       cy.get('.cx-order-history-code > .cx-order-history-value')
         .first()
         .click();
+      cy.wait('@orderDetails');
 
       cy.get('.cx-order-details-cards'); // wait until content is loaded
       cy.get('main').a11yRunContinuumTest();

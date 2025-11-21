@@ -87,5 +87,8 @@
     }
   ],
 
-  "consignments": []
+  "consignments": [],
+  "cancellable" : true
 }
+
+

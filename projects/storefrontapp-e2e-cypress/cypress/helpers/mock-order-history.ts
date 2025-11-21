@@ -27,7 +27,7 @@ export function mockOrdersListSorted() {
 }
 
 export function mockOrderDetails() {
-  cy.intercept('GET', '**/users/current/orders/*', {
+  cy.intercept('GET', /\/users\/current\/orders\/[^/]+.*/, {
     fixture: 'orders/order-details.json',
   }).as('orderDetails');
 }
