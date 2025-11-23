@@ -223,6 +223,7 @@ describe('add-cms-component', () => {
       const moduleOptions = {
         name: moduleName,
         project: defaultOptions.project,
+        typeSeparator: '.',
       };
       const dummyComponentOptions = {
         project: defaultOptions.project,
@@ -230,6 +231,7 @@ describe('add-cms-component', () => {
         module: moduleName,
         export: true,
         standalone: false,
+        type: 'component',
       };
       const modifiedOptions: CxCmsComponentSchema = {
         ...commonCmsOptions,
@@ -521,11 +523,13 @@ describe('add-cms-component', () => {
       const moduleOptions = {
         name: moduleName,
         project: defaultOptions.project,
+        typeSeparator: '.',
       };
       const modifiedOptions: CxCmsComponentSchema = {
         ...commonCmsOptions,
         module: 'app',
         declareCmsModule: moduleName,
+        type: 'component',
       };
 
       appTree = await schematicRunner.runExternalSchematic(
