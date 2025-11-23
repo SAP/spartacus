@@ -17,9 +17,9 @@ const CUSTOM_TEXT = 'customized';
     </ng-container>
 
     <ng-container *ngIf="outletVisible">
-      <ng-container [cxOutlet]="outletName">
+      <ng-template [cxOutlet]="outletName">
         {{ standardText }}
-      </ng-container>
+      </ng-template>
     </ng-container>
   `,
   standalone: false,
