@@ -28,7 +28,7 @@
   },
   "optionalDependencies": {
     "@angular/platform-server": "^20.3.7",
-    "express": "^4.21.2"
+    "express": "^5.1.0"
   },
   "engines": {
     "node": "^22.0.0"

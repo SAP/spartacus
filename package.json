@@ -190,7 +190,7 @@
     "@types/googlepay": "^0.7.7",
     "angular-oauth2-oidc": "^20.0.2",
     "comment-json": "^4.2.3",
-    "express": "^4.21.2",
+    "express": "^5.1.0",
     "hamburgers": "^1.2.1",
     "i18next": "^24.2.1",
     "i18next-http-backend": "^3.0.1",

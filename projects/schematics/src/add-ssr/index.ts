@@ -352,6 +352,67 @@ function useNoSsrConfigurationInNgServe(
 }
 
 /**
+ * Removes the "outputMode" option from the "build" target in angular.json.
+ *
+ * This could be removed when we migrate to new SSR API.
+ */
+function removeOutputModeSupportedOnlyInNewSsrApi(
+  spartacusOptions: SpartacusOptions
+): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    if (spartacusOptions.debug) {
+      context.logger.info(
+        `⌛️ Removing "outputMode" supported only in new SSR API...`
+      );
+    }
+
+    const { path, workspace: angularJson } = getWorkspace(tree);
+    const projectName = getDefaultProjectNameFromWorkspace(tree);
+
+    const project = angularJson.projects[projectName];
+    const architect = project.architect;
+    const build = architect?.build;
+    const options = build?.options;
+
+    const updatedAngularJson = {
+      ...angularJson,
+      projects: {
+        ...angularJson.projects,
+        [projectName]: {
+          ...project,
+          architect: {
+            ...architect,
+            build: {
+              ...build,
+              options: {
+                ...options,
+                outputMode: undefined,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+
+    if (spartacusOptions.debug) {
+      context.logger.info(`✅ Removed "outputMode" option`);
+    }
+    return tree;
+  };
+}
+
+// TODO: remove `app.routes.server.ts` file and related code
+// function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
+//   return (tree: Tree, context: SchematicContext): Tree => {
+//     if (spartacusOptions.debug) {
+//       context.logger.info(`⌛️ Removing server routes file...`);
+//     }
+//   };
+// }
+
+/**
  * Http Transfer Cache is temporarily disabled; https://jira.tools.sap/browse/CXSPA-10430
  */
 export function addWithNoHttpTransferCacheToAppModule(
@@ -430,8 +491,8 @@ export function addSSR(options: SpartacusOptions): Rule {
       addPackageJsonDependencies(prepareDependencies(), packageJson),
       externalSchematic(ANGULAR_SSR, 'ng-add', {
         project: options.project,
-        serverRouting: false, //API in dev preview. Remove when API is stable and Spartacus is ready to use it.
       }),
+      removeOutputModeSupportedOnlyInNewSsrApi(options),
       addBuildSsrScript(options),
       modifyAppServerModuleFile(),
       modifyIndexHtmlFile(options),
