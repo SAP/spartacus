@@ -25,8 +25,11 @@ import {
   CostCenter,
   Country,
   I18nTestingModule,
+  MockTranslatePipe,
   PaymentDetails,
   QueryState,
+  TranslatePipe,
+  UrlPipe,
   UserCostCenterService,
 } from '@spartacus/core';
 import {
@@ -35,10 +38,17 @@ import {
   S4ServiceDeliveryModeConfig,
   ServiceDateTime,
 } from '@spartacus/s4-service/root';
-import { Card, OutletModule, PromotionsModule } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  IconComponent,
+  OutletModule,
+  PromotionsModule,
+} from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { ServiceCheckoutReviewSubmitComponent } from './service-checkout-review-submit.component';
+import { RouterModule } from '@angular/router';
 
 import createSpy = jasmine.createSpy;
 const mockServiceDeliveryModeConfig: S4ServiceDeliveryModeConfig = {
@@ -258,11 +268,9 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
       imports: [
         I18nTestingModule,
         PromotionsModule,
-        IconTestingModule,
         OutletModule,
         ServiceCheckoutReviewSubmitComponent,
-        MockCardComponent,
-        MockUrlPipe,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -307,7 +315,21 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
           useValue: mockServiceDeliveryModeConfig,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ServiceCheckoutReviewSubmitComponent, {
+        remove: {
+          imports: [TranslatePipe, IconComponent, CardComponent, UrlPipe],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            IconTestingModule,
+            MockCardComponent,
+            MockUrlPipe,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

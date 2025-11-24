@@ -11,12 +11,16 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { CancelServiceOrderFacade } from '@spartacus/s4-service/root';
 import { of, throwError } from 'rxjs';
 import { CancelServiceOrderComponent } from './cancel-service-order.component';
+import { RouterModule } from '@angular/router';
 
 // Mock classes
 class MockOrderDetailsService {
@@ -63,7 +67,7 @@ describe('CancelServiceOrderComponent', () => {
         ReactiveFormsModule,
         I18nTestingModule,
         CancelServiceOrderComponent,
-        MockUrlPipe,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
@@ -76,7 +80,16 @@ describe('CancelServiceOrderComponent', () => {
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CancelServiceOrderComponent, {
+        remove: {
+          imports: [TranslatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

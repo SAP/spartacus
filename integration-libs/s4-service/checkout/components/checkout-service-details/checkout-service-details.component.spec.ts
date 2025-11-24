@@ -1,9 +1,13 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { CheckoutServiceDetailsComponent } from './checkout-service-details.component';
 import {
+  CxDatePipe,
   GlobalMessageService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   QueryState,
+  TranslatePipe,
 } from '@spartacus/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -14,6 +18,7 @@ import {
   ServiceDateTime,
 } from '@spartacus/s4-service/root';
 import { Observable, of, throwError } from 'rxjs';
+import { DatePickerComponent } from '@spartacus/storefront';
 import createSpy = jasmine.createSpy;
 const mockScheduledAt = '2024-06-27T09:30:00-04:00';
 class MockActivatedRoute implements Partial<ActivatedRoute> {}
@@ -88,7 +93,24 @@ describe('CheckoutServiceDetailsComponent', () => {
           useClass: MockCheckoutServiceSchedulePickerService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CheckoutServiceDetailsComponent, {
+        remove: {
+          imports: [TranslatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe],
+        },
+      })
+      .overrideComponent(DatePickerComponent, {
+        remove: {
+          imports: [CxDatePipe],
+        },
+        add: {
+          imports: [MockDatePipe],
+        },
+      })
+      .compileComponents();
   }));
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutServiceDetailsComponent);

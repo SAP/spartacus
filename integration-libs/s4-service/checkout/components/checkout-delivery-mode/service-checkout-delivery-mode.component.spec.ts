@@ -7,14 +7,23 @@ import {
   CheckoutStepService,
 } from '@spartacus/checkout/base/components';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  I18nTestingModule,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CheckoutServiceDetailsFacade,
   S4ServiceDeliveryModeConfig,
 } from '@spartacus/s4-service/root';
-import { OutletModule } from '@spartacus/storefront';
+import {
+  InnerComponentsHostDirective,
+  OutletModule,
+} from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
 import { ServiceCheckoutDeliveryModeComponent } from './service-checkout-delivery-mode.component';
+import { Directive } from '@angular/core';
 import createSpy = jasmine.createSpy;
 const mockCart: Cart = {
   code: '123456789',
@@ -86,6 +95,11 @@ class MockCheckoutDeliveryModesFacade
     .and.returnValue(of(undefined));
 }
 
+@Directive({
+  selector: '[cxInnerComponentsHost]',
+})
+class MockInnerComponentsHostDirective {}
+
 describe('ServiceCheckoutDeliveryModeComponent', () => {
   let component: ServiceCheckoutDeliveryModeComponent;
   let fixture: ComponentFixture<ServiceCheckoutDeliveryModeComponent>;
@@ -121,7 +135,16 @@ describe('ServiceCheckoutDeliveryModeComponent', () => {
           useClass: MockCheckoutDeliveryModesFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ServiceCheckoutDeliveryModeComponent, {
+        remove: {
+          imports: [TranslatePipe, InnerComponentsHostDirective],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockInnerComponentsHostDirective],
+        },
+      })
+      .compileComponents();
     facade = TestBed.inject(CheckoutServiceDetailsFacade);
     spyOn(facade, 'hasServiceItems').and.callThrough();
     fixture = TestBed.createComponent(ServiceCheckoutDeliveryModeComponent);

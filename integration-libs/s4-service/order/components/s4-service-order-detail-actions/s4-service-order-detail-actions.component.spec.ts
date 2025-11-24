@@ -6,15 +6,22 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   I18nModule,
+  MockTranslatePipe,
   RoutingService,
   Translatable,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
-import { OrderDetailsService } from '@spartacus/order/components';
+import {
+  OrderDetailActionsComponent,
+  OrderDetailsService,
+} from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
 import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
 import { EMPTY, Observable, of } from 'rxjs';
 import { S4ServiceOrderDetailActionsComponent } from './s4-service-order-detail-actions.component';
+import { RouterModule } from '@angular/router';
 
 const mockOrder1 = {
   serviceCancellable: true,
@@ -79,8 +86,7 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
       imports: [
         I18nModule,
         S4ServiceOrderDetailActionsComponent,
-        MockUrlPipe,
-        MockOrderDetailActionsComponent,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
@@ -92,7 +98,20 @@ describe('S4ServiceOrderDetailActionsComponent', () => {
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(S4ServiceOrderDetailActionsComponent, {
+        remove: {
+          imports: [TranslatePipe, UrlPipe, OrderDetailActionsComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockUrlPipe,
+            MockOrderDetailActionsComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(S4ServiceOrderDetailActionsComponent);
     checkoutServiceSchedulePickerService = TestBed.inject(
