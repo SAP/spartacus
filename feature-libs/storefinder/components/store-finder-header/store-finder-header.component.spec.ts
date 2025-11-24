@@ -1,7 +1,14 @@
 import { Component } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreFinderHeaderComponent } from './store-finder-header.component';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import { StoreFinderSearchComponent } from '../public_api';
 
 @Component({
   template: '',
@@ -16,12 +23,21 @@ describe('StoreFinderHeaderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        StoreFinderHeaderComponent,
-        MockStoreFinderSearchComponent,
-      ],
-    }).compileComponents();
+      imports: [I18nTestingModule, StoreFinderHeaderComponent],
+    })
+      .overrideComponent(StoreFinderHeaderComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, StoreFinderSearchComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockStoreFinderSearchComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

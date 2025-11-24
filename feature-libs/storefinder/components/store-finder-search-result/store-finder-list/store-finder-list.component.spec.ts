@@ -35,6 +35,10 @@ class StoreFinderServiceMock implements Partial<StoreFinderService> {
     return 35.528984;
   }
 
+  getDirections(_location: PointOfService): string {
+    return 'testDirections';
+  }
+
   getStoreLongitude(_location: any): number {
     return 139.700168;
   }
@@ -45,7 +49,7 @@ class GoogleMapRendererServiceMock {
   renderMap() {}
 }
 
-describe('StoreFinderDisplayListComponent', () => {
+describe('StoreFinderListComponent', () => {
   let component: StoreFinderListComponent;
   let fixture: ComponentFixture<StoreFinderListComponent>;
   let storeMapComponent: StoreFinderMapComponent;
@@ -67,10 +71,16 @@ describe('StoreFinderDisplayListComponent', () => {
           useClass: GoogleMapRendererServiceMock,
         },
         { provide: StoreFinderService, useClass: StoreFinderServiceMock },
+
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(StoreFinderListComponent, {
+        remove: {},
+        add: {},
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
