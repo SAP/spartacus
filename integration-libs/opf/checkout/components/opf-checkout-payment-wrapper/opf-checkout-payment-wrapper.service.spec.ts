@@ -187,7 +187,22 @@ describe('OpfCheckoutPaymentWrapperService', () => {
             type: OpfDynamicScriptResourceType.STYLES,
           },
         ],
-        mockPaymentOptionId
+        mockPaymentOptionId,
+        {
+          html: '<html></html>',
+          jsUrls: [
+            {
+              url: 'script.js',
+              type: OpfDynamicScriptResourceType.SCRIPT,
+            },
+          ],
+          cssUrls: [
+            {
+              url: 'styles.css',
+              type: OpfDynamicScriptResourceType.STYLES,
+            },
+          ],
+        }
       );
 
       expect(service.renderPaymentGateway).toHaveBeenCalledWith({
@@ -404,7 +419,22 @@ describe('OpfCheckoutPaymentWrapperService', () => {
           type: OpfDynamicScriptResourceType.STYLES,
         },
       ],
-      mockPaymentOptionId
+      mockPaymentOptionId,
+      {
+        html: '<html></html>',
+        jsUrls: [
+          {
+            url: 'script.js',
+            type: OpfDynamicScriptResourceType.SCRIPT,
+          },
+        ],
+        cssUrls: [
+          {
+            url: 'styles.css',
+            type: OpfDynamicScriptResourceType.STYLES,
+          },
+        ],
+      }
     );
 
     setTimeout(() => {
