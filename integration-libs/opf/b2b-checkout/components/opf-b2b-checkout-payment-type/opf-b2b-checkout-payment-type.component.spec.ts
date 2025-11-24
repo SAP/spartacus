@@ -6,7 +6,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   B2BPaymentTypeEnum,
@@ -17,6 +17,7 @@ import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
   GlobalMessageService,
   I18nTestingModule,
+  TranslatePipe,
   UserIdService,
 } from '@spartacus/core';
 import {
@@ -33,7 +34,8 @@ import {
 } from '@spartacus/opf/payment/root';
 import { of } from 'rxjs';
 import { OpfB2bCheckoutPaymentTypeComponent } from './opf-b2b-checkout-payment-type.component';
-import { Pipe, PipeTransform } from '@angular/core';
+import { Component, Pipe, PipeTransform } from '@angular/core';
+import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
 
 @Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
@@ -78,6 +80,13 @@ class MockOpfPaymentFacade implements Partial<OpfPaymentFacade> {
   setCartPaymentOption = () => of({} as Cart);
 }
 
+@Component({
+  selector: 'cx-opf-checkout-payments',
+  template: '',
+})
+class MockOpfCheckoutPaymentsComponent
+  implements Partial<OpfB2bCheckoutPaymentTypeComponent> {}
+
 describe('OpfB2bCheckoutPaymentTypeComponent', () => {
   let component: OpfB2bCheckoutPaymentTypeComponent;
   let fixture: ComponentFixture<OpfB2bCheckoutPaymentTypeComponent>;
@@ -91,7 +100,7 @@ describe('OpfB2bCheckoutPaymentTypeComponent', () => {
         ReactiveFormsModule,
         I18nTestingModule,
         OpfB2bCheckoutPaymentTypeComponent,
-        MockTranslatePipe,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
@@ -110,7 +119,17 @@ describe('OpfB2bCheckoutPaymentTypeComponent', () => {
         { provide: ActivatedRoute, useValue: {} },
         FormBuilder,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OpfB2bCheckoutPaymentTypeComponent, {
+        remove: {
+          imports: [TranslatePipe, OpfCheckoutPaymentsComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockOpfCheckoutPaymentsComponent],
+        },
+      })
+
+      .compileComponents();
 
     fixture = TestBed.createComponent(OpfB2bCheckoutPaymentTypeComponent);
     component = fixture.componentInstance;

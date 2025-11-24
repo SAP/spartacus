@@ -4,6 +4,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutTermsAndConditionsAlertComponent } from './opf-checkout-terms-and-conditions-alert.component';
 import { of } from 'rxjs';
+import { IconComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-icon',
@@ -30,18 +32,23 @@ describe('OpfCheckoutTermsAndConditionsAlertComponent', () => {
       paymentOptionsDisabled$: of(false),
     };
     TestBed.configureTestingModule({
-      imports: [
-        OpfCheckoutTermsAndConditionsAlertComponent,
-        MockIconComponent,
-        MockTranslatePipe,
-      ],
+      imports: [OpfCheckoutTermsAndConditionsAlertComponent, MockTranslatePipe],
       providers: [
         {
           provide: OpfCheckoutBillingAddressFormService,
           useValue: mockBillingAddressFormService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OpfCheckoutTermsAndConditionsAlertComponent, {
+        remove: {
+          imports: [TranslatePipe, IconComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockIconComponent],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(
       OpfCheckoutTermsAndConditionsAlertComponent

@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  Type,
   Pipe,
   PipeTransform,
+  Type,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
@@ -31,6 +31,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { CheckoutModule } from '@spartacus/checkout/base';
 import { FormComponent } from '@spartacus/organization/administration/components';
 import { AddressFormComponent } from '@spartacus/user/profile/components';
+import { OpfB2bCheckoutCostCenterComponent } from '../opf-b2b-checkout-cost-center';
 import createSpy = jasmine.createSpy;
 
 @Pipe({ name: 'cxTranslate' })
@@ -158,6 +159,13 @@ class MockCardComponent {
   index: number;
 }
 
+@Component({
+  selector: 'cx-opf-b2b-checkout-cost-center',
+  template: '',
+})
+class MockOpfB2bCheckoutCostCenterComponent
+  implements Partial<OpfB2bCheckoutCostCenterComponent> {}
+
 describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
   let component: OpfB2bCheckoutDeliveryAddressComponent;
   let fixture: ComponentFixture<OpfB2bCheckoutDeliveryAddressComponent>;
@@ -183,10 +191,7 @@ describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        {
-          provide: CheckoutDeliveryModesFacade,
-          useClass: MockCheckoutDeliveryModesFacade,
-        },
+
         {
           provide: FeaturesConfig,
           useValue: {
@@ -211,6 +216,7 @@ describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
             TranslatePipe,
             SpinnerComponent,
             AddressFormComponent,
+            OpfB2bCheckoutCostCenterComponent,
           ],
         },
         add: {
@@ -220,21 +226,25 @@ describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
             MockCardComponent,
             MockSpinnerComponent,
             MockTranslatePipe,
+            MockOpfB2bCheckoutCostCenterComponent,
+          ],
+          providers: [
+            {
+              provide: CheckoutDeliveryAddressFacade,
+              useClass: MockCheckoutDeliveryAddressFacade,
+            },
+            {
+              provide: CheckoutDeliveryModesFacade,
+              useClass: MockCheckoutDeliveryModesFacade,
+            },
           ],
         },
       })
       .compileComponents();
 
-    checkoutDeliveryAddressFacade = TestBed.inject(
-      CheckoutDeliveryAddressFacade
-    );
-
     checkoutStepService = TestBed.inject(
       CheckoutStepService as Type<CheckoutStepService>
     );
-
-    checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
-    globalMessageService = TestBed.inject(GlobalMessageService);
   }));
 
   beforeEach(() => {
@@ -245,6 +255,14 @@ describe('OpfB2bCheckoutDeliveryAddressComponent', () => {
     spyOn(component, 'selectAddress').and.callThrough();
     spyOn<any>(component, 'setAddress').and.callThrough();
     spyOn<any>(component, 'getCardRole').and.callThrough();
+
+    checkoutDeliveryAddressFacade = fixture.componentRef.injector.get(
+      CheckoutDeliveryAddressFacade
+    );
+    checkoutDeliveryModesFacade = fixture.componentRef.injector.get(
+      CheckoutDeliveryModesFacade
+    );
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should be created', () => {

@@ -6,11 +6,17 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorModel, WindowRef } from '@spartacus/core';
+import {
+  HttpErrorModel,
+  MockTranslatePipe,
+  TranslatePipe,
+  WindowRef,
+} from '@spartacus/core';
 import { OpfKeyValueMap, OpfPage } from '@spartacus/opf/base/root';
 import { of, throwError } from 'rxjs';
 import { OpfPaymentVerificationComponent } from './opf-payment-verification.component';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
+import { SpinnerComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-spinner',
@@ -51,7 +57,7 @@ describe('OpfPaymentVerificationComponent', () => {
     });
 
     TestBed.configureTestingModule({
-      imports: [OpfPaymentVerificationComponent, MockSpinnerComponent],
+      imports: [OpfPaymentVerificationComponent],
       providers: [
         { provide: ActivatedRoute, useValue: routeMock },
         {
@@ -60,7 +66,16 @@ describe('OpfPaymentVerificationComponent', () => {
         },
         { provide: WindowRef, useValue: windowRefMock },
       ],
-    });
+    })
+      .overrideComponent(OpfPaymentVerificationComponent, {
+        remove: {
+          imports: [TranslatePipe, SpinnerComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockSpinnerComponent],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(OpfPaymentVerificationComponent);
     component = fixture.componentInstance;

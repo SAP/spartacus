@@ -4,6 +4,9 @@ import { OpfDynamicScript } from '@spartacus/opf/base/root';
 import { of, throwError } from 'rxjs';
 import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
 import { OpfCtaScriptsService } from './opf-cta-scripts.service';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { OpfCtaElementComponent } from '../opf-cta-element';
 import createSpy = jasmine.createSpy;
 
 const mockHtmlsList: OpfDynamicScript[] = [
@@ -45,15 +48,24 @@ describe('OpfCtaScriptsComponent', () => {
     ]);
 
     TestBed.configureTestingModule({
-      imports: [
-        OpfCtaScriptsComponent,
-        MockOpfCtaElementComponent,
-        MockSpinnerComponent,
-      ],
+      imports: [OpfCtaScriptsComponent],
       providers: [
         { provide: OpfCtaScriptsService, useValue: opfCtaScriptsService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OpfCtaScriptsComponent, {
+        remove: {
+          imports: [OpfCtaElementComponent, SpinnerComponent, TranslatePipe],
+        },
+        add: {
+          imports: [
+            MockOpfCtaElementComponent,
+            MockSpinnerComponent,
+            MockTranslatePipe,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

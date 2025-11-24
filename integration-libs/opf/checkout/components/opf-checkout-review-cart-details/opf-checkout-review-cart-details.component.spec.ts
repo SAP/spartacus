@@ -4,7 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BaseSiteService, TranslationService } from '@spartacus/core';
+import {
+  BaseSiteService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   Cart,
   CartOutlets,
@@ -23,6 +27,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-cart-details.component';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
+import {
+  CartItemListComponent,
+  OrderSummaryComponent,
+  AppliedCouponsComponent,
+} from '@spartacus/cart/base/components';
+import { PromotionsComponent, OutletDirective } from '@spartacus/storefront';
+import { PickUpItemsDetailsComponent } from '@spartacus/pickup-in-store/components';
 
 @Directive({ selector: '[cxOutlet]' })
 class MockOutletDirective {
@@ -69,6 +80,13 @@ class MockAppliedCouponsComponent {
 class MockPromotionsComponent {
   @Input() promotions: any[];
 }
+
+@Component({
+  selector: 'cx-pick-up-in-store-items-details',
+  template: '',
+})
+class MockPickUpItemsDetailsComponent
+  implements Partial<PickUpItemsDetailsComponent> {}
 
 describe('OpfCheckoutReviewCartDetailsComponent', () => {
   let component: OpfCheckoutReviewCartDetailsComponent;
@@ -121,15 +139,7 @@ describe('OpfCheckoutReviewCartDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        OpfCheckoutReviewCartDetailsComponent,
-        MockCartItemListComponent,
-        MockOrderSummaryComponent,
-        MockAppliedCouponsComponent,
-        MockPromotionsComponent,
-        MockTranslatePipe,
-        MockOutletDirective,
-      ],
+      imports: [OpfCheckoutReviewCartDetailsComponent],
 
       providers: [
         {
@@ -148,7 +158,32 @@ describe('OpfCheckoutReviewCartDetailsComponent', () => {
         },
         { provide: BaseSiteService, useValue: baseSiteServiceMock },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OpfCheckoutReviewCartDetailsComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CartItemListComponent,
+            OrderSummaryComponent,
+            AppliedCouponsComponent,
+            PromotionsComponent,
+            OutletDirective,
+            PickUpItemsDetailsComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCartItemListComponent,
+            MockOrderSummaryComponent,
+            MockAppliedCouponsComponent,
+            MockPromotionsComponent,
+            MockOutletDirective,
+            MockPickUpItemsDetailsComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

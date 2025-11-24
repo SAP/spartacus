@@ -10,6 +10,7 @@ import {
   Country,
   BaseSiteService,
   UserAddressAdapter,
+  TranslatePipe,
 } from '@spartacus/core';
 import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-address-form.component';
@@ -63,7 +64,7 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [OpfCheckoutBillingAddressFormComponent, MockTranslatePipe],
+      imports: [OpfCheckoutBillingAddressFormComponent],
       providers: [
         {
           provide: OpfCheckoutBillingAddressFormService,
@@ -81,7 +82,16 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
         { provide: BaseSiteService, useValue: {} },
         { provide: ActivatedRoute, useValue: { params: of({}) } },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OpfCheckoutBillingAddressFormComponent, {
+        remove: {
+          imports: [TranslatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe],
+        },
+      })
+      .compileComponents();
 
     service = TestBed.inject(OpfCheckoutBillingAddressFormService);
     fixture = TestBed.createComponent(OpfCheckoutBillingAddressFormComponent);
