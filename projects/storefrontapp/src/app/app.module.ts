@@ -112,7 +112,7 @@ if (!environment.production) {
             cmsComponents: {
                 ProductAddToCartComponent: {
                     data: {
-                        inventoryDisplay: true,
+                        inventoryDisplay: false,
                     },
                 },
             },
