@@ -11,11 +11,12 @@ import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
 import { combineLatest } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { PickupInfoComponent } from '../../presentational';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'cx-pickup-info-container',
   templateUrl: './pickup-info-container.component.html',
-  imports: [PickupInfoComponent],
+  imports: [PickupInfoComponent, NgFor],
 })
 export class PickupInfoContainerComponent implements OnInit {
   storesDetailsData: Partial<PointOfService>[];
