@@ -48,31 +48,6 @@ const withContinuum = <T extends (...args: any[]) => any>(fn: T): T => {
 // Normally code outside the Continuum JavaScript SDK is not required to do this, but Cypress' design essentially forces our hand
 const a11yContinuumSetup = withContinuum(
   (configFilePath: string = 'cypress/continuum.conf.ts') => {
-    /**
-     * Prevent showing xhr calls in logs and exposing api token.
-     */
-    const origLog = Cypress.log.bind(Cypress);
-    Cypress.log = function (opts, ...other) {
-      if (
-        opts.displayName >= LEVEL_ACCESS_API ||
-        opts.name >= LEVEL_ACCESS_API
-      ) {
-        return;
-      }
-      return origLog(opts, ...other);
-    };
-
-    /**
-     *  Avoid exposing API key in case of error.
-     */
-    Cypress.on('fail', (error) => {
-      if (error.message.includes(LEVEL_ACCESS_API)) {
-        error.message =
-          'There was an issue submitting accessibility concerns to AMP. Please confirm correct credentials and connection.';
-      }
-      throw error;
-    });
-
     return cy
       .readFile(configFilePath)
       .then((configFileContents) => window.eval(configFileContents))
