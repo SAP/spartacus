@@ -7,7 +7,6 @@ import { take } from 'rxjs/operators';
 import {
   CxDatePipe,
   FeatureDirective,
-  I18nTestingModule,
   LanguageService,
   MockDatePipe,
   MockTranslatePipe,
@@ -17,7 +16,8 @@ import {
 } from '@spartacus/core';
 import {
   FileDownloadService,
-  IconTestingModule,
+  IconComponent,
+  MockIconComponent,
   PaginationComponent,
   SortingComponent,
 } from '@spartacus/storefront';
@@ -45,7 +45,6 @@ const blob = new Blob();
 @Component({
   template: '',
   selector: 'cx-pagination',
-  imports: [I18nTestingModule, IconTestingModule],
 })
 class MockPaginationComponent {
   @Input() pagination: any;
@@ -54,7 +53,6 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  imports: [I18nTestingModule, IconTestingModule],
 })
 class MockSortingComponent {
   @Input() sortOptions: any;
@@ -67,7 +65,6 @@ class MockSortingComponent {
 @Component({
   template: '',
   selector: 'cx-account-summary-document-filter',
-  imports: [I18nTestingModule, IconTestingModule],
 })
 class MockAccountSummaryDocumentFilterComponent {
   @Input() documentTypeOptions: any;
@@ -110,12 +107,7 @@ describe('AccountSummaryDocumentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        IconTestingModule,
-        AccountSummaryDocumentComponent,
-        I18nTestingModule,
-        RouterModule.forRoot([]),
-      ],
+      imports: [AccountSummaryDocumentComponent, RouterModule.forRoot([])],
       providers: [
         { provide: AccountSummaryFacade, useClass: MockAccountSummaryFacade },
         { provide: FileDownloadService, useClass: MockFileDownloadService },
@@ -126,6 +118,7 @@ describe('AccountSummaryDocumentComponent', () => {
       .overrideComponent(AccountSummaryDocumentComponent, {
         remove: {
           imports: [
+            IconComponent,
             TranslatePipe,
             CxDatePipe,
             AccountSummaryDocumentFilterComponent,
@@ -136,6 +129,7 @@ describe('AccountSummaryDocumentComponent', () => {
         },
         add: {
           imports: [
+            MockIconComponent,
             MockTranslatePipe,
             MockDatePipe,
             MockAccountSummaryDocumentFilterComponent,

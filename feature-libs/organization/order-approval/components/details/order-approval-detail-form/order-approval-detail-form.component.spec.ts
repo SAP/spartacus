@@ -26,7 +26,7 @@ import {
 import { OrderApprovalService } from '../../../core/services/order-approval.service';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form.component';
-import { FormErrorsComponent } from '@spartacus/storefront';
+import { FormErrorsComponent, SpinnerComponent } from '@spartacus/storefront';
 import { RouterModule } from '@angular/router';
 
 const { REJECT, APPROVE } = OrderApprovalDecisionValue;
@@ -120,7 +120,7 @@ describe('OrderApprovalDetailFormComponent', () => {
             UrlPipe,
             FeatureDirective,
             FormErrorsComponent,
-            MockSpinnerComponent,
+            SpinnerComponent,
           ],
         },
         add: {

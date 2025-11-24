@@ -12,6 +12,7 @@ import { SubListTestingModule } from '../../../shared/sub-list/sub-list.testing.
 import { UserAssignedApproverListComponent } from './user-assigned-approver-list.component';
 import { UserAssignedApproverListService } from './user-assigned-approver-list.service';
 import { RouterModule } from '@angular/router';
+import { SubListComponent } from '../../../shared';
 
 class MockUserAssignedApproverListService {}
 
@@ -22,7 +23,6 @@ describe('UserAssignedApproverListComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SubListTestingModule,
         UserAssignedApproverListComponent,
         I18nTestingModule,
         RouterModule.forRoot([]),
@@ -36,10 +36,15 @@ describe('UserAssignedApproverListComponent', () => {
     })
       .overrideComponent(UserAssignedApproverListComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SubListComponent],
         },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            SubListTestingModule,
+          ],
         },
       })
       .compileComponents();

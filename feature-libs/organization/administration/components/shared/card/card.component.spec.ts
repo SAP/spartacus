@@ -10,7 +10,11 @@ import {
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import { PopoverModule, SplitViewService } from '@spartacus/storefront';
+import {
+  IconComponent,
+  PopoverModule,
+  SplitViewService,
+} from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { ViewComponent } from 'projects/storefrontlib/shared/components/split-view/view/view.component';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
@@ -19,6 +23,7 @@ import { ItemService } from '../item.service';
 import { MessageTestingModule } from '../message/message.testing.module';
 import { CardComponent } from './card.component';
 import { RouterModule } from '@angular/router';
+import { MessageComponent } from '../message/message.component';
 import createSpy = jasmine.createSpy;
 
 const mockItem = { foo: 'bar' };
@@ -42,8 +47,6 @@ describe('CardComponent', () => {
       imports: [
         CommonModule,
         // SplitViewTestingModule,
-        IconTestingModule,
-        MessageTestingModule,
         PopoverModule,
         CardComponent,
         ViewComponent,
@@ -61,10 +64,22 @@ describe('CardComponent', () => {
     })
       .overrideComponent(CardComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, FeatureDirective],
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            FeatureDirective,
+            IconComponent,
+            MessageComponent,
+          ],
         },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockFeatureDirective],
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockFeatureDirective,
+            IconTestingModule,
+            MessageTestingModule,
+          ],
         },
       })
       .compileComponents();

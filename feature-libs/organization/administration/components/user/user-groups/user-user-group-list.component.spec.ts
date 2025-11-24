@@ -12,6 +12,7 @@ import { CostCenterBudgetListService } from '../../cost-center/budgets/cost-cent
 import { SubListTestingModule } from '../../shared/sub-list/sub-list.testing.module';
 import { UserUserGroupListComponent } from './user-user-group-list.component';
 import { RouterModule } from '@angular/router';
+import { SubListComponent } from '../../shared';
 
 class MockCostCenterBudgetListService {}
 
@@ -22,7 +23,6 @@ describe('UserUserGroupListComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SubListTestingModule,
         UserUserGroupListComponent,
         I18nTestingModule,
         RouterModule.forRoot([]),
@@ -36,10 +36,15 @@ describe('UserUserGroupListComponent', () => {
     })
       .overrideComponent(UserUserGroupListComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SubListComponent],
         },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            SubListTestingModule,
+          ],
         },
       })
       .compileComponents();

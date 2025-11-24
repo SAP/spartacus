@@ -4,6 +4,7 @@ import { BudgetCostCenterListComponent } from './budget-cost-center-list.compone
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 import { RouterModule } from '@angular/router';
 import { I18nTestingModule } from '@spartacus/core';
+import { SubListComponent } from '../../shared';
 
 class MockBudgetCostCenterListService {}
 
@@ -14,7 +15,6 @@ describe('BudgetCostCenterListComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SubListTestingModule,
         BudgetCostCenterListComponent,
         I18nTestingModule,
         RouterModule.forRoot([]),
@@ -25,7 +25,12 @@ describe('BudgetCostCenterListComponent', () => {
           useClass: MockBudgetCostCenterListService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(BudgetCostCenterListComponent, {
+        remove: { imports: [SubListComponent] },
+        add: { imports: [SubListTestingModule] },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(BudgetCostCenterListComponent);
     component = fixture.componentInstance;

@@ -11,7 +11,11 @@ import {
 import { Permission } from '@spartacus/organization/administration/core';
 import { FocusDirective } from '@spartacus/storefront';
 import { EMPTY, of, Subject } from 'rxjs';
-import { DisableInfoModule } from '../../shared';
+import {
+  CardComponent,
+  DisableInfoModule,
+  MessageComponent,
+} from '../../shared';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { ItemExistsDirective } from '../../shared/item-exists.directive';
@@ -49,8 +53,6 @@ describe('PermissionDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        CardTestingModule,
-        MessageTestingModule,
         ToggleStatusModule,
         DisableInfoModule,
         PermissionDetailsComponent,
@@ -59,32 +61,42 @@ describe('PermissionDetailsComponent', () => {
         I18nTestingModule,
         RouterModule.forRoot([]),
       ],
-      providers: [
-        {
-          provide: ItemService,
-          useClass: MockPermissionItemService,
-        },
-      ],
+      providers: [],
     })
       .overrideComponent(PermissionDetailsComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            MessageComponent,
+            CardComponent,
+          ],
         },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            CardTestingModule,
+            MessageTestingModule,
+          ],
           providers: [
             {
               provide: MessageService,
               useClass: MockMessageService,
+            },
+            {
+              provide: ItemService,
+              useClass: MockPermissionItemService,
             },
           ],
         },
       })
       .compileComponents();
 
-    itemService = TestBed.inject(ItemService);
-
     fixture = TestBed.createComponent(PermissionDetailsComponent);
+    itemService = fixture.componentRef.injector.get(ItemService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

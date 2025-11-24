@@ -12,6 +12,7 @@ import { UnitAddressListComponent } from './unit-address-list.component';
 import { UnitAddressListService } from './unit-address-list.service';
 import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { RouterModule } from '@angular/router';
+import { SubListComponent } from '@spartacus/organization/administration/components';
 
 class MockUnitAddressListService {}
 
@@ -22,7 +23,6 @@ describe('UnitAddressListComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SubListTestingModule,
         UnitAddressListComponent,
         I18nTestingModule,
         RouterModule.forRoot([]),
@@ -36,10 +36,15 @@ describe('UnitAddressListComponent', () => {
     })
       .overrideComponent(UnitAddressListComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SubListComponent],
         },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            SubListTestingModule,
+          ],
         },
       })
       .compileComponents();

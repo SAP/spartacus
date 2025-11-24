@@ -18,7 +18,11 @@ import {
 } from '@spartacus/organization/administration/core';
 import { FocusConfig, FocusDirective } from '@spartacus/storefront';
 import { EMPTY, of, Subject } from 'rxjs';
-import { DisableInfoModule } from '../../shared';
+import {
+  CardComponent,
+  DisableInfoModule,
+  MessageComponent,
+} from '../../shared';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { ItemExistsDirective } from '../../shared/item-exists.directive';
@@ -89,8 +93,6 @@ describe('UserDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        CardTestingModule,
-        MessageTestingModule,
         ToggleStatusModule,
         DisableInfoModule,
         UserDetailsComponent,
@@ -98,14 +100,18 @@ describe('UserDetailsComponent', () => {
         I18nTestingModule,
         RouterModule.forRoot([]),
       ],
-      providers: [
-        { provide: ItemService, useClass: MockUserItemService },
-        { provide: B2BUserService, useClass: MockB2BUserService },
-      ],
+      providers: [{ provide: B2BUserService, useClass: MockB2BUserService }],
     })
       .overrideComponent(UserDetailsComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe, FocusDirective],
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            FocusDirective,
+            CardComponent,
+            MessageComponent,
+          ],
         },
         add: {
           imports: [
@@ -113,18 +119,19 @@ describe('UserDetailsComponent', () => {
             MockDatePipe,
             MockUrlPipe,
             MockKeyboadFocusDirective,
+            CardTestingModule,
+            MessageTestingModule,
           ],
           providers: [
             {
               provide: MessageService,
               useClass: MockMessageService,
             },
+            { provide: ItemService, useClass: MockUserItemService },
           ],
         },
       })
       .compileComponents();
-
-    itemService = TestBed.inject(ItemService);
 
     b2bUserService = TestBed.inject(B2BUserService);
 
@@ -133,6 +140,7 @@ describe('UserDetailsComponent', () => {
     spyOn(b2bUserService, 'isUpdatingUserAllowed').and.callThrough();
 
     fixture = TestBed.createComponent(UserDetailsComponent);
+    itemService = fixture.componentRef.injector.get(ItemService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

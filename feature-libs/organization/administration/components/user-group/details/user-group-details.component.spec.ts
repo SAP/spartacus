@@ -9,7 +9,10 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import { DeleteItemModule } from '@spartacus/organization/administration/components';
+import {
+  CardComponent,
+  DeleteItemModule,
+} from '@spartacus/organization/administration/components';
 import { Budget } from '@spartacus/organization/administration/core';
 import { FocusConfig, FocusDirective } from '@spartacus/storefront';
 import { EMPTY, of, Subject } from 'rxjs';
@@ -26,6 +29,7 @@ const mockCode = 'u1';
 class MockUserGroupItemService implements Partial<ItemService<Budget>> {
   key$ = of(mockCode);
   load = createSpy('load').and.returnValue(EMPTY);
+  error$ = of(false);
 }
 
 class MockMessageService {
@@ -53,22 +57,22 @@ describe('UserGroupDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        CardTestingModule,
         DeleteItemModule,
         UserGroupDetailsComponent,
         I18nTestingModule,
         RouterModule.forRoot([]),
       ],
-      providers: [
-        {
-          provide: ItemService,
-          useClass: MockUserGroupItemService,
-        },
-      ],
+      providers: [],
     })
       .overrideComponent(UserGroupDetailsComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe, FocusDirective],
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            FocusDirective,
+            CardComponent,
+          ],
         },
         add: {
           imports: [
@@ -76,20 +80,24 @@ describe('UserGroupDetailsComponent', () => {
             MockDatePipe,
             MockUrlPipe,
             MockKeyboadFocusDirective,
+            CardTestingModule,
           ],
           providers: [
             {
               provide: MessageService,
               useClass: MockMessageService,
             },
+            {
+              provide: ItemService,
+              useClass: MockUserGroupItemService,
+            },
           ],
         },
       })
       .compileComponents();
 
-    itemService = TestBed.inject(ItemService);
-
     fixture = TestBed.createComponent(UserGroupDetailsComponent);
+    itemService = fixture.componentRef.injector.get(ItemService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -9,7 +9,11 @@ import {
 } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 import { EMPTY } from 'rxjs';
-import { DisableInfoModule, ItemService } from '../../../../shared';
+import {
+  DisableInfoModule,
+  ItemService,
+  SubListComponent,
+} from '../../../../shared';
 import { SubListTestingModule } from '../../../../shared/sub-list/sub-list.testing.module';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitUserListService } from '../services/unit-user-list.service';
@@ -38,7 +42,6 @@ describe('UnitUserListComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SubListTestingModule,
         DisableInfoModule,
         UnitUserListComponent,
         I18nTestingModule,
@@ -65,10 +68,15 @@ describe('UnitUserListComponent', () => {
     })
       .overrideComponent(UnitUserListComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SubListComponent],
         },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            SubListTestingModule,
+          ],
         },
       })
       .compileComponents();

@@ -16,7 +16,10 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import { MessageService } from '@spartacus/organization/administration/components';
+import {
+  CardComponent,
+  MessageService,
+} from '@spartacus/organization/administration/components';
 import {
   FocusConfig,
   FocusDirective,
@@ -61,17 +64,12 @@ describe('UserChangePasswordFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
-        CardTestingModule,
         UserChangePasswordFormComponent,
         FormErrorsComponent,
         I18nTestingModule,
         RouterModule.forRoot([]),
       ],
       providers: [
-        {
-          provide: UserItemService,
-          useClass: MockUserItemService,
-        },
         {
           provide: UserChangePasswordFormService,
           useClass: MockUserChangePasswordFormService,
@@ -87,6 +85,7 @@ describe('UserChangePasswordFormComponent', () => {
             UrlPipe,
             FocusDirective,
             FeatureDirective,
+            CardComponent,
           ],
         },
         add: {
@@ -96,6 +95,13 @@ describe('UserChangePasswordFormComponent', () => {
             MockUrlPipe,
             MockKeyboadFocusDirective,
             MockFeatureDirective,
+            CardTestingModule,
+          ],
+          providers: [
+            {
+              provide: UserItemService,
+              useClass: MockUserItemService,
+            },
           ],
         },
       })

@@ -12,6 +12,7 @@ import {
 } from '@spartacus/core';
 import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { RouterModule } from '@angular/router';
+import { SubListComponent } from '../../../shared';
 
 class MockUserGroupAssignedUsersListService {}
 
@@ -22,7 +23,6 @@ describe('UserGroupAssignedUserListComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SubListTestingModule,
         UserGroupAssignedUserListComponent,
         I18nTestingModule,
         RouterModule.forRoot([]),
@@ -36,10 +36,15 @@ describe('UserGroupAssignedUserListComponent', () => {
     })
       .overrideComponent(UserGroupAssignedUserListComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SubListComponent],
         },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            SubListTestingModule,
+          ],
         },
       })
       .compileComponents();

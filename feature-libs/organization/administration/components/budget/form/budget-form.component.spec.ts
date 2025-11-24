@@ -35,6 +35,7 @@ import { BudgetItemService } from '../services/budget-item.service';
 import { BudgetFormComponent } from './budget-form.component';
 import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { RouterModule } from '@angular/router';
+import { FormComponent } from '../../shared';
 
 const mockForm = new UntypedFormGroup({
   name: new UntypedFormControl(),
@@ -96,7 +97,6 @@ describe('BudgetFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
-        FormTestingModule,
         BudgetFormComponent,
         FormErrorsComponent,
         FocusDirective,
@@ -112,6 +112,7 @@ describe('BudgetFormComponent', () => {
       .overrideComponent(BudgetFormComponent, {
         remove: {
           imports: [
+            FormComponent,
             TranslatePipe,
             CxDatePipe,
             UrlPipe,
@@ -121,6 +122,7 @@ describe('BudgetFormComponent', () => {
         },
         add: {
           imports: [
+            FormTestingModule,
             MockTranslatePipe,
             MockDatePipe,
             MockUrlPipe,

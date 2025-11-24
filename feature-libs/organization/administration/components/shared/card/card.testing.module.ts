@@ -10,7 +10,7 @@ import { Component, Input, NgModule } from '@angular/core';
   selector: 'cx-org-card',
   template: '<ng-content></ng-content>',
 })
-class MockCardComponent {
+export class MockCardComponent {
   @Input() i18nRoot;
   @Input() previous;
   @Input() showHint? = false;

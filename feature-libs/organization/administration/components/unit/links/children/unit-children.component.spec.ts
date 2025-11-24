@@ -8,7 +8,7 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { EMPTY } from 'rxjs';
-import { ItemService } from '../../../shared';
+import { ItemService, SubListComponent } from '../../../shared';
 import { DisableInfoModule } from '../../../shared/detail/disable-info/disable-info.module';
 import { SubListTestingModule } from '../../../shared/sub-list/sub-list.testing.module';
 import { CurrentUnitService } from '../../services/current-unit.service';
@@ -32,7 +32,6 @@ describe('UnitChildrenComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SubListTestingModule,
         DisableInfoModule,
         UnitChildrenComponent,
         I18nTestingModule,
@@ -55,10 +54,15 @@ describe('UnitChildrenComponent', () => {
     })
       .overrideComponent(UnitChildrenComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SubListComponent],
         },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            SubListTestingModule,
+          ],
         },
       })
       .compileComponents();

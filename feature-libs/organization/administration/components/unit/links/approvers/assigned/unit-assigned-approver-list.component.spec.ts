@@ -13,6 +13,7 @@ import { UnitAssignedApproverListComponent } from './unit-assigned-approver-list
 import { UnitAssignedApproverListService } from './unit-assigned-approver-list.service';
 import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { RouterModule } from '@angular/router';
+import { SubListComponent } from '@spartacus/organization/administration/components';
 
 class MockUnitAssignedApproverListService {}
 
@@ -23,7 +24,6 @@ describe('UnitAssignedApproverListComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SubListTestingModule,
         UrlTestingModule,
         I18nTestingModule,
         UnitAssignedApproverListComponent,
@@ -39,10 +39,15 @@ describe('UnitAssignedApproverListComponent', () => {
     })
       .overrideComponent(UnitAssignedApproverListComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SubListComponent],
         },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            SubListTestingModule,
+          ],
         },
       })
       .compileComponents();

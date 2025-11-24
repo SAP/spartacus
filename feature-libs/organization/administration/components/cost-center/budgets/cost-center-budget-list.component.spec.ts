@@ -12,6 +12,7 @@ import { CostCenterBudgetListComponent } from './cost-center-budget-list.compone
 import { CostCenterBudgetListService } from './cost-center-budget-list.service';
 import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { RouterModule } from '@angular/router';
+import { SubListComponent } from '../../shared';
 
 class MockCostCenterAssignBudgetListService {}
 
@@ -22,7 +23,6 @@ describe('CostCenterBudgetListComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SubListTestingModule,
         CostCenterBudgetListComponent,
         I18nTestingModule,
         RouterModule.forRoot([]),
@@ -36,10 +36,15 @@ describe('CostCenterBudgetListComponent', () => {
     })
       .overrideComponent(CostCenterBudgetListComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SubListComponent],
         },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            SubListTestingModule,
+          ],
         },
       })
       .compileComponents();

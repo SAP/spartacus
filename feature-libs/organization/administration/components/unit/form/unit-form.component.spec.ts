@@ -27,6 +27,7 @@ import { UnitItemService } from '../services/unit-item.service';
 import { UnitFormComponent } from './unit-form.component';
 import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { RouterModule } from '@angular/router';
+import { FormComponent } from '../../shared';
 
 const mockForm = new UntypedFormGroup({
   name: new UntypedFormControl(),
@@ -69,7 +70,6 @@ describe('UnitFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
-        FormTestingModule,
         UnitFormComponent,
         FormErrorsComponent,
         I18nTestingModule,
@@ -82,7 +82,13 @@ describe('UnitFormComponent', () => {
     })
       .overrideComponent(UnitFormComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe, FeatureDirective],
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            FeatureDirective,
+            FormComponent,
+          ],
         },
         add: {
           imports: [
@@ -90,6 +96,7 @@ describe('UnitFormComponent', () => {
             MockDatePipe,
             MockUrlPipe,
             MockFeatureDirective,
+            FormTestingModule,
           ],
         },
       })

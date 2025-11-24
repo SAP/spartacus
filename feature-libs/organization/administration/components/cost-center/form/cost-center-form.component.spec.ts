@@ -29,6 +29,7 @@ import { CostCenterItemService } from '../services/cost-center-item.service';
 import { CostCenterFormComponent } from './cost-center-form.component';
 import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { RouterModule } from '@angular/router';
+import { FormComponent } from '../../shared';
 
 const mockForm = new UntypedFormGroup({
   name: new UntypedFormControl(),
@@ -68,7 +69,6 @@ describe('CostCenterFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
-        FormTestingModule,
         CostCenterFormComponent,
         FormErrorsComponent,
         I18nTestingModule,
@@ -85,7 +85,13 @@ describe('CostCenterFormComponent', () => {
     })
       .overrideComponent(CostCenterFormComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe, FeatureDirective],
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            FeatureDirective,
+            FormComponent,
+          ],
         },
         add: {
           imports: [
@@ -93,6 +99,7 @@ describe('CostCenterFormComponent', () => {
             MockDatePipe,
             MockUrlPipe,
             MockFeatureDirective,
+            FormTestingModule,
           ],
         },
       })

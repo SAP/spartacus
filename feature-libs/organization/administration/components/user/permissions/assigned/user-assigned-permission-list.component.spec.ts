@@ -1,31 +1,37 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockTranslatePipe, TranslatePipe, UrlPipe } from '@spartacus/core';
 import { SubListTestingModule } from '../../../shared/sub-list/sub-list.testing.module';
 import { UserAssignedPermissionListComponent } from './user-assigned-permission-list.component';
 import { UserAssignedPermissionListService } from './user-assigned-permission-list.service';
+import { SubListComponent } from '../../../shared';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { RouterModule } from '@angular/router';
 
 class MockUserAssignedApproverListService {}
 
-describe('UserAssignedApproverListComponent', () => {
+describe('UserAssignedPermissionListComponent', () => {
   let component: UserAssignedPermissionListComponent;
   let fixture: ComponentFixture<UserAssignedPermissionListComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SubListTestingModule,
-        UrlTestingModule,
-        I18nTestingModule,
-        UserAssignedPermissionListComponent,
-      ],
+      imports: [UserAssignedPermissionListComponent, RouterModule.forRoot([])],
       providers: [
         {
           provide: UserAssignedPermissionListService,
           useClass: MockUserAssignedApproverListService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UserAssignedPermissionListComponent, {
+        remove: {
+          imports: [SubListComponent, TranslatePipe, UrlPipe],
+        },
+        add: {
+          imports: [SubListTestingModule, MockTranslatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(UserAssignedPermissionListComponent);
     component = fixture.componentInstance;

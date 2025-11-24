@@ -12,6 +12,7 @@ import { UserGroupAssignedPermissionListComponent } from './user-group-assigned-
 import { UserGroupAssignedPermissionsListService } from './user-group-assigned-permission-list.service';
 import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { RouterModule } from '@angular/router';
+import { SubListComponent } from '../../../shared';
 
 class MockUserGroupAssignedPermissionsListService {}
 
@@ -22,7 +23,6 @@ describe('UserGroupAssignedPermissionListComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SubListTestingModule,
         UserGroupAssignedPermissionListComponent,
         I18nTestingModule,
         RouterModule.forRoot([]),
@@ -36,10 +36,15 @@ describe('UserGroupAssignedPermissionListComponent', () => {
     })
       .overrideComponent(UserGroupAssignedPermissionListComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SubListComponent],
         },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            SubListTestingModule,
+          ],
         },
       })
       .compileComponents();

@@ -1,13 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { EMPTY } from 'rxjs';
-import { ItemService } from '../../../shared';
+import { ItemService, SubListComponent } from '../../../shared';
 import { DisableInfoModule } from '../../../shared/detail/disable-info/disable-info.module';
 import { SubListTestingModule } from '../../../shared/sub-list/sub-list.testing.module';
 import { CurrentUnitService } from '../../services/current-unit.service';
 import { UnitCostCenterListComponent } from './unit-cost-centers.component';
 import { UnitCostCenterListService } from './unit-cost-centers.service';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { RouterModule } from '@angular/router';
 
 class MockUnitCostCenterListService {}
 
@@ -24,11 +31,9 @@ describe('UnitCostCenterListComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SubListTestingModule,
-        UrlTestingModule,
-        I18nTestingModule,
         DisableInfoModule,
         UnitCostCenterListComponent,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -44,7 +49,21 @@ describe('UnitCostCenterListComponent', () => {
           useClass: MockItemService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UnitCostCenterListComponent, {
+        remove: {
+          imports: [SubListComponent, UrlPipe, TranslatePipe, CxDatePipe],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockUrlPipe,
+            MockDatePipe,
+            SubListTestingModule,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(UnitCostCenterListComponent);
     component = fixture.componentInstance;

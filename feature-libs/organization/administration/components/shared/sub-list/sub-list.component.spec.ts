@@ -19,6 +19,7 @@ import {
 import {
   FocusConfig,
   FocusDirective,
+  PaginationComponent,
   TableComponent,
 } from '@spartacus/storefront';
 import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
@@ -29,6 +30,8 @@ import { ListService } from '../list/list.service';
 import { MessageTestingModule } from '../message/message.testing.module';
 import { SubListComponent } from './sub-list.component';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { MessageComponent } from '../message/message.component';
+import { CardComponent } from '../card/card.component';
 import createSpy = jasmine.createSpy;
 
 const mockList: EntitiesModel<any> = {
@@ -112,9 +115,6 @@ describe('SubListComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        CardTestingModule,
-        MessageTestingModule,
-        PaginationTestingModule,
         SubListComponent,
         I18nTestingModule,
         RouterModule.forRoot([]),
@@ -136,7 +136,15 @@ describe('SubListComponent', () => {
     })
       .overrideComponent(SubListComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, TableComponent, FocusDirective],
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            TableComponent,
+            FocusDirective,
+            PaginationComponent,
+            CardComponent,
+            MessageComponent,
+          ],
         },
         add: {
           imports: [
@@ -144,6 +152,9 @@ describe('SubListComponent', () => {
             MockDatePipe,
             MockTableComponent,
             MockKeyboadFocusDirective,
+            CardTestingModule,
+            MessageTestingModule,
+            PaginationTestingModule,
           ],
         },
       })

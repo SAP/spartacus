@@ -26,11 +26,12 @@ import {
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, of } from 'rxjs';
-import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { PermissionItemService } from '../services/permission-item.service';
 import { PermissionFormComponent } from './permission-form.component';
 import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { RouterModule } from '@angular/router';
+import { FormComponent } from '../../shared';
+import { FormTestingModule } from '../../shared/form/form.testing.module';
 
 import createSpy = jasmine.createSpy;
 
@@ -89,7 +90,6 @@ describe('PermissionFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
-        FormTestingModule,
         PermissionFormComponent,
         FormErrorsComponent,
         I18nTestingModule,
@@ -107,7 +107,13 @@ describe('PermissionFormComponent', () => {
     })
       .overrideComponent(PermissionFormComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, UrlPipe, FeatureDirective],
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            FeatureDirective,
+            FormComponent,
+          ],
         },
         add: {
           imports: [
@@ -115,6 +121,7 @@ describe('PermissionFormComponent', () => {
             MockDatePipe,
             MockUrlPipe,
             MockFeatureDirective,
+            FormTestingModule,
           ],
         },
       })
