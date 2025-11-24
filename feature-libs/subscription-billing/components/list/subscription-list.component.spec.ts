@@ -4,7 +4,15 @@ import {
   TestBed,
   tick,
 } from '@angular/core/testing';
-import { I18nTestingModule, TranslationService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
+} from '@spartacus/core';
 import { SubscriptionListComponent } from './subscription-list.component';
 import { Observable, of } from 'rxjs';
 import {
@@ -13,6 +21,7 @@ import {
 } from '@spartacus/subscription-billing/root';
 import { Pipe, PipeTransform } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 
 const listWithData: SubscriptionList = {
   pagination: {
@@ -87,7 +96,11 @@ describe('SubscriptionListComponent', () => {
   let facade: SubscriptionFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, SubscriptionListComponent, MockUrlPipe],
+      imports: [
+        I18nTestingModule,
+        SubscriptionListComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {
@@ -95,7 +108,16 @@ describe('SubscriptionListComponent', () => {
           useClass: MockSubscriptionFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SubscriptionListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
     facade = TestBed.inject(SubscriptionFacade);
     fixture = TestBed.createComponent(SubscriptionListComponent);
     component = fixture.componentInstance;

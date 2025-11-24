@@ -1,8 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  CxDatePipe,
   EventService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import { SubscriptionDetailsComponent } from './subscription-details.component';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -12,6 +17,7 @@ import {
 } from '@spartacus/subscription-billing/root';
 import { ElementRef, Pipe, PipeTransform } from '@angular/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { RouterModule } from '@angular/router';
 const routerParam$: BehaviorSubject<{
   [key: string]: string;
 }> = new BehaviorSubject({});
@@ -56,7 +62,11 @@ describe('SubscriptionDetailsComponent', () => {
   let facade: SubscriptionFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, SubscriptionDetailsComponent, MockUrlPipe],
+      imports: [
+        I18nTestingModule,
+        SubscriptionDetailsComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {
@@ -66,7 +76,16 @@ describe('SubscriptionDetailsComponent', () => {
         { provide: EventService, useClass: MockEventService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SubscriptionDetailsComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
     eventService = TestBed.inject(EventService);
     facade = TestBed.inject(SubscriptionFacade);
     spyOn(eventService, 'dispatch').and.callThrough();
