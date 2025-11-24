@@ -7,10 +7,14 @@ import {
   VariantCategoryOption,
 } from '@spartacus/product-multi-dimensional/selector/core';
 import {
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Product,
   ProductService,
   RoutingService,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import { ActivatedRoute } from '@angular/router';
@@ -60,7 +64,16 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
         { provide: CurrentProductService, useValue: mockCurrentProductService },
         { provide: ActivatedRoute, useValue: {} },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductMultiDimensionalSelectorComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(ProductMultiDimensionalSelectorComponent);
     component = fixture.componentInstance;
