@@ -89,7 +89,18 @@
   ],
 
   "consignments": [],
-  "cancellable" : true
+  "cancellable" : true,
+  "statusSummary": {
+    "code": "READY",
+    "statusDisplay": "processing",
+    "actions": [
+      {
+        "type": "CANCEL",
+        "uri": "/my-account/order/cancel/00054851",
+        "displayName": "Cancel order"
+      }
+    ]
+  }
 }
 
 
