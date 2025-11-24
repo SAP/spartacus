@@ -10,7 +10,7 @@ import {
   GlobalMessageType,
   EventService,
 } from '@spartacus/core';
-import { catchError, throwError } from 'rxjs';
+import { catchError, EMPTY } from 'rxjs';
 import { GetSubscriptionByCodeReloadEvent } from '@spartacus/subscription-billing/root';
 
 @Injectable({
@@ -33,8 +33,7 @@ export class SubscriptionActionsModalComponentService {
         { key: errorMessageKey },
         GlobalMessageType.MSG_TYPE_ERROR
       );
-
-      return throwError(() => new Error('Subscription action failed'));
+      return EMPTY;
     });
   }
 
