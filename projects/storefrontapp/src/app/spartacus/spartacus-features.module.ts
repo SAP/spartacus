@@ -108,7 +108,7 @@ import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 import { SegmentRefsFeatureModule } from './features/segment-refs/segment-refs-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StoreFinderFeatureModule } from './features/storefinder/storefinder-feature.module';
-import { SubscriptionBillingFeatureModule } from './features/subscription-billing/subscription-billing-feature.module';
+//import { SubscriptionBillingFeatureModule } from './features/subscription-billing/subscription-billing-feature.module';
 import { PersonalizationFeatureModule } from './features/tracking/personalization-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
 
@@ -281,7 +281,7 @@ if (environment.cpq) {
 
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
-    SubscriptionBillingFeatureModule,
+    //SubscriptionBillingFeatureModule,
     ...featureModules,
   ],
   providers: [
