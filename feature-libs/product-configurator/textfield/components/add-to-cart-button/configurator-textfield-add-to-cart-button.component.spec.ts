@@ -7,9 +7,13 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import {
-  I18nTestingModule,
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
   RouterState,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -19,6 +23,7 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { ConfiguratorTextfieldAddToCartButtonComponent } from './configurator-textfield-add-to-cart-button.component';
+import { RouterModule } from '@angular/router';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const URL_CONFIGURATION = 'host:port/electronics-spa/en/USD/configureTEXTFIELD';
@@ -82,9 +87,8 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ConfiguratorTextfieldAddToCartButtonComponent,
-        MockUrlPipe,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -98,7 +102,11 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorTextfieldAddToCartButtonComponent, {
-        set: {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

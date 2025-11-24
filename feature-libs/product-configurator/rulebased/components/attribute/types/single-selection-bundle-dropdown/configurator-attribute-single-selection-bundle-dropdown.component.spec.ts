@@ -8,7 +8,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import { FeatureLevelDirective, I18nTestingModule } from '@spartacus/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
@@ -20,7 +20,10 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
@@ -28,9 +31,13 @@ import {
   ConfiguratorAttributeProductCardComponent,
   ConfiguratorAttributeProductCardComponentOptions,
 } from '../../product-card/configurator-attribute-product-card.component';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import {
+  ConfiguratorAttributeQuantityComponent,
+  ConfiguratorAttributeQuantityComponentOptions,
+} from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
+import { FocusDirective } from '@spartacus/storefront';
 
 const VALUE_DISPLAY_NAME = 'Lorem Ipsum Dolor';
 @Component({
@@ -220,11 +227,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
         ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
         ConfiguratorShowMoreComponent,
-        MockProductCardComponent,
-        MockConfiguratorAttributeQuantityComponent,
-        MockConfiguratorPriceComponent,
-        MockFocusDirective,
-        MockFeatureLevelDirective,
       ],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
@@ -241,7 +243,23 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       .overrideComponent(
         ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
         {
-          set: {
+          remove: {
+            imports: [
+              ConfiguratorAttributeProductCardComponent,
+              ConfiguratorAttributeQuantityComponent,
+              ConfiguratorPriceComponent,
+              FocusDirective,
+              FeatureLevelDirective,
+            ],
+          },
+          add: {
+            imports: [
+              MockProductCardComponent,
+              MockConfiguratorAttributeQuantityComponent,
+              MockConfiguratorPriceComponent,
+              MockFocusDirective,
+              MockFeatureLevelDirective,
+            ],
             changeDetection: ChangeDetectionStrategy.Default,
             providers: [
               {

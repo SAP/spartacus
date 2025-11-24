@@ -11,14 +11,20 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import {
   ConfiguratorAttributeProductCardComponent,
   ConfiguratorAttributeProductCardComponentOptions,
 } from '../../product-card/configurator-attribute-product-card.component';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import {
+  ConfiguratorAttributeQuantityComponent,
+  ConfiguratorAttributeQuantityComponentOptions,
+} from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
 
 @Component({
@@ -112,9 +118,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         ConfiguratorAttributeSingleSelectionBundleComponent,
         ConfiguratorShowMoreComponent,
         ItemCounterComponent,
-        MockProductCardComponent,
-        MockConfiguratorPriceComponent,
-        MockConfiguratorAttributeQuantityComponent,
       ],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
@@ -126,7 +129,19 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeSingleSelectionBundleComponent, {
-        set: {
+        remove: {
+          imports: [
+            ConfiguratorAttributeProductCardComponent,
+            ConfiguratorPriceComponent,
+            ConfiguratorAttributeQuantityComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockProductCardComponent,
+            MockConfiguratorPriceComponent,
+            MockConfiguratorAttributeQuantityComponent,
+          ],
           changeDetection: ChangeDetectionStrategy.Default,
           providers: [
             {

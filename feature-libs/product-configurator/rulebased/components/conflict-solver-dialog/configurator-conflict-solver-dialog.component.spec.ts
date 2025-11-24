@@ -1,6 +1,13 @@
 import { Component, Directive, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorRouter,
@@ -8,6 +15,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
   IconLoaderService,
   IconModule,
@@ -22,6 +30,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
+import { ConfiguratorGroupComponent } from '../group';
 
 export class MockIconFontLoaderService {
   getStyleClasses(_iconType: ICON_TYPE): void {}
@@ -92,14 +101,7 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        IconModule,
-        MockConfiguratorDefaultFormComponent,
-        ConfiguratorConflictSolverDialogComponent,
-        MockKeyboardFocusDirective,
-        MockFeatureDirective,
-      ],
+      imports: [IconModule, ConfiguratorConflictSolverDialogComponent],
       providers: [
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
         {
@@ -112,7 +114,28 @@ describe('ConfiguratorConflictSolverDialogComponent', () => {
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorConflictSolverDialogComponent, {
+        remove: {
+          imports: [
+            ConfiguratorGroupComponent,
+            FocusDirective,
+            FeatureDirective,
+            TranslatePipe,
+            CxDatePipe,
+          ],
+        },
+        add: {
+          imports: [
+            MockConfiguratorDefaultFormComponent,
+            MockKeyboardFocusDirective,
+            MockFeatureDirective,
+            MockTranslatePipe,
+            MockDatePipe,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -2,6 +2,7 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  CxNumericPipe,
   FeatureConfigService,
   I18nTestingModule,
   ImageType,
@@ -13,7 +14,10 @@ import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../price/configurator-price.component';
 import { ConfiguratorOverviewBundleAttributeComponent } from './configurator-overview-bundle-attribute.component';
 
 @Pipe({ name: 'cxNumeric' })
@@ -68,18 +72,21 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        MediaModule,
-        I18nTestingModule,
-        ConfiguratorOverviewBundleAttributeComponent,
-        MockConfiguratorPriceComponent,
-        MockNumericPipe,
-      ],
+      imports: [MediaModule, ConfiguratorOverviewBundleAttributeComponent],
       providers: [
         { provide: ProductService, useClass: MockProductService },
         FeatureConfigService,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorOverviewBundleAttributeComponent, {
+        remove: {
+          imports: [ConfiguratorPriceComponent, CxNumericPipe],
+        },
+        add: {
+          imports: [MockConfiguratorPriceComponent, MockNumericPipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

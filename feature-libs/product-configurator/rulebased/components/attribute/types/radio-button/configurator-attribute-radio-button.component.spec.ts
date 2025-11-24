@@ -8,7 +8,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
-import { ItemCounterComponent } from '@spartacus/storefront';
+import { FocusDirective, ItemCounterComponent } from '@spartacus/storefront';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
 
@@ -17,14 +17,21 @@ import { CommonConfiguratorTestUtilsService } from '../../../../../common/testin
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import {
+  ConfiguratorAttributeQuantityComponent,
+  ConfiguratorAttributeQuantityComponentOptions,
+} from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
+import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
 
 const VALUE_NAME_2 = 'val2';
 
@@ -127,10 +134,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         ConfiguratorAttributeInputFieldComponent,
         ConfiguratorAttributeNumericInputFieldComponent,
         ItemCounterComponent,
-        MockFocusDirective,
-        MockConfiguratorAttributeQuantityComponent,
-        MockConfiguratorPriceComponent,
-        MockConfiguratorShowMoreComponent,
       ],
       providers: [
         ConfiguratorStorefrontUtilsService,
@@ -149,7 +152,21 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
-        set: {
+        remove: {
+          imports: [
+            FocusDirective,
+            ConfiguratorAttributeQuantityComponent,
+            ConfiguratorPriceComponent,
+            ConfiguratorShowMoreComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockFocusDirective,
+            MockConfiguratorAttributeQuantityComponent,
+            MockConfiguratorPriceComponent,
+            MockConfiguratorShowMoreComponent,
+          ],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

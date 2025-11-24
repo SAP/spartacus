@@ -22,7 +22,7 @@ export interface ConfiguratorPriceComponentOptions {
   selector: 'cx-configurator-price',
   templateUrl: './configurator-price.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgClass, TranslatePipe, CxNumericPipe, TranslatePipe],
+  imports: [NgIf, NgClass, TranslatePipe, CxNumericPipe],
 })
 export class ConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;

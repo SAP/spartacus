@@ -20,6 +20,8 @@ import {
   productConfigurationWithoutIssues,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import { IconComponent } from '@spartacus/storefront';
 
 @Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
@@ -126,13 +128,7 @@ class MockActivatedRoute {
 describe('ConfigOverviewNotificationBannerComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterModule,
-        ConfiguratorOverviewNotificationBannerComponent,
-        MockTranslatePipe,
-        MockUrlPipe,
-        MockCxIconComponent,
-      ],
+      imports: [RouterModule, ConfiguratorOverviewNotificationBannerComponent],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
@@ -144,7 +140,16 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
           useClass: MockConfiguratorCommonsService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorOverviewNotificationBannerComponent, {
+        remove: {
+          imports: [TranslatePipe, UrlPipe, IconComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockUrlPipe, MockCxIconComponent],
+        },
+      })
+      .compileComponents();
   }));
 
   it('should create', () => {

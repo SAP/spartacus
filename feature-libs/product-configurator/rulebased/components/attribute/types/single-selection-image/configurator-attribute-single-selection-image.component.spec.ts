@@ -10,14 +10,21 @@ import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { I18nTestingModule } from '@spartacus/core';
-import { IconTestingModule, PopoverModule } from '@spartacus/storefront';
+import {
+  FocusDirective,
+  IconTestingModule,
+  PopoverModule,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
@@ -86,8 +93,6 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
         IconTestingModule,
         PopoverModule,
         ConfiguratorAttributeSingleSelectionImageComponent,
-        MockFocusDirective,
-        MockConfiguratorPriceComponent,
       ],
       providers: [
         ConfiguratorStorefrontUtilsService,
@@ -110,7 +115,11 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
-        set: {
+        remove: {
+          imports: [FocusDirective, ConfiguratorPriceComponent],
+        },
+        add: {
+          imports: [MockFocusDirective, MockConfiguratorPriceComponent],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

@@ -5,12 +5,16 @@ import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
 
 @Component({
   selector: 'cx-configurator-price',
@@ -100,12 +104,17 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         ReactiveFormsModule,
         I18nTestingModule,
         ConfiguratorAttributeReadOnlyComponent,
-        MockConfiguratorPriceComponent,
-        MockConfiguratorShowMoreComponent,
       ],
     })
       .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
-        set: {
+        remove: {
+          imports: [ConfiguratorPriceComponent, ConfiguratorShowMoreComponent],
+        },
+        add: {
+          imports: [
+            MockConfiguratorPriceComponent,
+            MockConfiguratorShowMoreComponent,
+          ],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

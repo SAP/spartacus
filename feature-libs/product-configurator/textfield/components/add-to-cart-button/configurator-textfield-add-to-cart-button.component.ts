@@ -16,7 +16,7 @@ import { UrlPipe } from '@spartacus/core';
   selector: 'cx-configurator-textfield-add-to-cart-button',
   templateUrl: './configurator-textfield-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, TranslatePipe, UrlPipe, TranslatePipe],
+  imports: [RouterLink, TranslatePipe, UrlPipe],
 })
 export class ConfiguratorTextfieldAddToCartButtonComponent {
   @Input() configuration: ConfiguratorTextfield.Configuration;

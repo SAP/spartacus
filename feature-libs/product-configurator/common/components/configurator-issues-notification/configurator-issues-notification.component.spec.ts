@@ -16,6 +16,9 @@ import {
   StatusSummary,
 } from './../../core/model/common-configurator.model';
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
+import { TranslatePipe } from '@spartacus/core';
+import { ConfigureCartEntryComponent } from '../configure-cart-entry';
+import { IconComponent } from '@spartacus/storefront';
 
 @Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
@@ -74,16 +77,28 @@ describe('ConfigureIssuesNotificationComponent', () => {
   describe('with cart item context', () => {
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          ConfiguratorIssuesNotificationComponent,
-          MockTranslatePipe,
-          MockCxIconComponent,
-          MockConfigureCartEntryComponent,
-        ],
+        imports: [ConfiguratorIssuesNotificationComponent],
         providers: [
           { provide: CartItemContext, useClass: MockCartItemContext },
         ],
-      }).compileComponents();
+      })
+        .overrideComponent(ConfiguratorIssuesNotificationComponent, {
+          remove: {
+            imports: [
+              TranslatePipe,
+              IconComponent,
+              ConfigureCartEntryComponent,
+            ],
+          },
+          add: {
+            imports: [
+              MockTranslatePipe,
+              MockCxIconComponent,
+              MockConfigureCartEntryComponent,
+            ],
+          },
+        })
+        .compileComponents();
     }));
 
     beforeEach(() => {
@@ -293,14 +308,26 @@ describe('ConfigureIssuesNotificationComponent', () => {
   describe('without cart item context', () => {
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          ConfiguratorIssuesNotificationComponent,
-          MockTranslatePipe,
-          MockCxIconComponent,
-          MockConfigureCartEntryComponent,
-        ],
+        imports: [ConfiguratorIssuesNotificationComponent],
         providers: [{ provide: CartItemContext, useValue: null }],
-      }).compileComponents();
+      })
+        .overrideComponent(ConfiguratorIssuesNotificationComponent, {
+          remove: {
+            imports: [
+              // TranslatePipe,  // Note: TranslatePipe is used as a pipe, not a component import
+              // CxIconComponent,  // Note: These would be the real components if they existed
+              // ConfigureCartEntryComponent,
+            ],
+          },
+          add: {
+            imports: [
+              MockTranslatePipe,
+              MockCxIconComponent,
+              MockConfigureCartEntryComponent,
+            ],
+          },
+        })
+        .compileComponents();
     }));
 
     beforeEach(() => {

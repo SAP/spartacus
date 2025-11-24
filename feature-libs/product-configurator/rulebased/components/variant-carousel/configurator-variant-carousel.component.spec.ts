@@ -2,7 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConfiguratorVariantCarouselComponent } from './configurator-variant-carousel.component';
 import { Observable, of } from 'rxjs';
-import { Product, ProductService, TranslationService } from '@spartacus/core';
+import {
+  Product,
+  ProductService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -15,6 +20,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { CarouselComponent } from '@spartacus/storefront';
 
 const PRODUCT_DESCRIPTION = 'Here is a product description';
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -131,11 +137,7 @@ const router: ConfiguratorRouter.Data = {
 describe('ConfiguratorVariantCarouselComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        ConfiguratorVariantCarouselComponent,
-        MockTranslatePipe,
-        MockCarouselComponent,
-      ],
+      imports: [ConfiguratorVariantCarouselComponent],
       providers: [
         {
           provide: ProductService,
@@ -151,7 +153,16 @@ describe('ConfiguratorVariantCarouselComponent', () => {
           useClass: MockConfiguratorCommonsService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorVariantCarouselComponent, {
+        remove: {
+          imports: [TranslatePipe, CarouselComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockCarouselComponent],
+        },
+      })
+      .compileComponents();
   });
 
   it('should create a component without variants', () => {

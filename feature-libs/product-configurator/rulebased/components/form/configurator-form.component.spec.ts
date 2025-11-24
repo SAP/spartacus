@@ -12,7 +12,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   GlobalMessageService,
   I18nTestingModule,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -29,9 +31,9 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
 import { KeyboardFocusService } from '@spartacus/storefront';
+import { ConfiguratorGroupComponent } from '../group';
 
 @Component({
   selector: 'cx-configurator-group',
@@ -263,15 +265,14 @@ let configExpertModeService: ConfiguratorExpertModeService;
 let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
 let keyboardFocusService: KeyboardFocusService;
 
-describe('ConfigurationFormComponent', () => {
+describe('ConfiguratorFormComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        MockConfiguratorGroupComponent,
         ConfiguratorFormComponent,
+        I18nTestingModule,
       ],
       providers: [
         {
@@ -297,8 +298,12 @@ describe('ConfigurationFormComponent', () => {
         },
       ],
     })
-      .overrideComponent(ConfiguratorAttributeHeaderComponent, {
-        set: {
+      .overrideComponent(ConfiguratorFormComponent, {
+        remove: {
+          imports: [TranslatePipe, ConfiguratorGroupComponent],
+        },
+        add: {
+          imports: [MockConfiguratorGroupComponent, MockTranslatePipe],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

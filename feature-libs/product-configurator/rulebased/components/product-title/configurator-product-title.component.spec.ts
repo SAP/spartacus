@@ -17,7 +17,11 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { IconLoaderService } from '@spartacus/storefront';
+import {
+  IconComponent,
+  IconLoaderService,
+  MediaComponent,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -326,12 +330,9 @@ describe('ConfigProductTitleComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         ConfiguratorProductTitleComponent,
-        MockCxIconComponent,
-        MockMediaComponent,
       ],
       providers: [
         {
@@ -360,7 +361,16 @@ describe('ConfigProductTitleComponent', () => {
           useClass: MockConfiguratorExpertModeService,
         },
       ],
-    });
+    })
+      .overrideComponent(ConfiguratorProductTitleComponent, {
+        remove: {
+          imports: [IconComponent, MediaComponent],
+        },
+        add: {
+          imports: [MockCxIconComponent, MockMediaComponent],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
