@@ -27,8 +27,8 @@ import { SkipLinkModule } from '../a11y/skip-link/skip-link.module';
     PageSlotModule,
     KeyboardFocusModule,
     SkipLinkModule,
-    StorefrontComponent,
   ],
+  declarations: [StorefrontComponent],
   exports: [StorefrontComponent],
 })
 export class StorefrontComponentModule {}
