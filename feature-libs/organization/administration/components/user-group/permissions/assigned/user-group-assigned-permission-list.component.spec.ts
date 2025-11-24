@@ -1,9 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { SubListTestingModule } from '../../../shared/sub-list/sub-list.testing.module';
 import { UserGroupAssignedPermissionListComponent } from './user-group-assigned-permission-list.component';
 import { UserGroupAssignedPermissionsListService } from './user-group-assigned-permission-list.service';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { RouterModule } from '@angular/router';
 
 class MockUserGroupAssignedPermissionsListService {}
 
@@ -15,9 +23,9 @@ describe('UserGroupAssignedPermissionListComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SubListTestingModule,
-        UrlTestingModule,
-        I18nTestingModule,
         UserGroupAssignedPermissionListComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -25,7 +33,16 @@ describe('UserGroupAssignedPermissionListComponent', () => {
           useClass: MockUserGroupAssignedPermissionsListService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UserGroupAssignedPermissionListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(UserGroupAssignedPermissionListComponent);
     component = fixture.componentInstance;

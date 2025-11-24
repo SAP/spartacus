@@ -1,8 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CostCenter, I18nTestingModule } from '@spartacus/core';
+import {
+  CostCenter,
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { FocusDirective } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { EMPTY, of, Subject } from 'rxjs';
 import { DisableInfoModule } from '../../shared';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
@@ -11,6 +18,8 @@ import { ItemService } from '../../shared/item.service';
 import { MessageTestingModule } from '../../shared/message/message.testing.module';
 import { MessageService } from '../../shared/message/services/message.service';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const mockCode = 'c1';
@@ -38,19 +47,23 @@ describe('CostCenterDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        I18nTestingModule,
-        UrlTestingModule,
         CardTestingModule,
         MessageTestingModule,
         ToggleStatusModule,
         DisableInfoModule,
         CostCenterDetailsComponent,
         FocusDirective,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [{ provide: ItemService, useClass: MockItemService }],
     })
       .overrideComponent(CostCenterDetailsComponent, {
-        set: {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
           providers: [
             {
               provide: MessageService,

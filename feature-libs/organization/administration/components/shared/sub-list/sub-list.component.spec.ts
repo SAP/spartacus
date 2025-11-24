@@ -8,8 +8,19 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { EntitiesModel, I18nTestingModule } from '@spartacus/core';
-import { FocusConfig } from '@spartacus/storefront';
+import {
+  CxDatePipe,
+  EntitiesModel,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  FocusConfig,
+  FocusDirective,
+  TableComponent,
+} from '@spartacus/storefront';
 import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { of } from 'rxjs';
 import { CardTestingModule } from '../card/card.testing.module';
@@ -17,8 +28,8 @@ import { ItemService } from '../item.service';
 import { ListService } from '../list/list.service';
 import { MessageTestingModule } from '../message/message.testing.module';
 import { SubListComponent } from './sub-list.component';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
-import { ActivatedRoute } from '@angular/router';
 
 const mockList: EntitiesModel<any> = {
   values: [
@@ -103,11 +114,10 @@ describe('SubListComponent', () => {
         CommonModule,
         CardTestingModule,
         MessageTestingModule,
-        I18nTestingModule,
         PaginationTestingModule,
         SubListComponent,
-        MockTableComponent,
-        MockKeyboadFocusDirective,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -123,7 +133,21 @@ describe('SubListComponent', () => {
           useValue: new ActivatedRouteMock({}),
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(SubListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, TableComponent, FocusDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockTableComponent,
+            MockKeyboadFocusDirective,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

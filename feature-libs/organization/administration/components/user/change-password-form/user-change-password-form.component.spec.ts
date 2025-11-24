@@ -7,16 +7,29 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { MessageService } from '@spartacus/organization/administration/components';
-import { FocusConfig, FormErrorsComponent } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import {
+  FocusConfig,
+  FocusDirective,
+  FormErrorsComponent,
+} from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { UserItemService } from '../services/user-item.service';
 import { UserChangePasswordFormComponent } from './user-change-password-form.component';
 import { UserChangePasswordFormService } from './user-change-password-form.service';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { RouterModule } from '@angular/router';
 
 const mockForm = new UntypedFormGroup({
   password: new UntypedFormControl(),
@@ -46,15 +59,13 @@ describe('UserChangePasswordFormComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
-        UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         CardTestingModule,
         UserChangePasswordFormComponent,
         FormErrorsComponent,
-        MockKeyboadFocusDirective,
-        MockFeatureDirective,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -67,7 +78,28 @@ describe('UserChangePasswordFormComponent', () => {
         },
         MessageService,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UserChangePasswordFormComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            FocusDirective,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockKeyboadFocusDirective,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
     formService = TestBed.inject(UserChangePasswordFormService);
 
     fixture = TestBed.createComponent(UserChangePasswordFormComponent);

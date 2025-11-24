@@ -4,13 +4,20 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   DocumentQueryParams,
   DocumentStatus,
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
-import { FormErrorsModule } from '@spartacus/storefront';
+import { DatePickerComponent, FormErrorsModule } from '@spartacus/storefront';
 
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { AccountSummaryDocumentFilterComponent } from './account-summary-document-filter.component';
@@ -44,16 +51,32 @@ describe('AccountSummaryDocumentFilterComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
         NgSelectModule,
         AccountSummaryDocumentFilterComponent,
-        MockDatePickerComponent,
-        MockFeatureDirective,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [],
-    }).compileComponents();
+    })
+      .overrideComponent(AccountSummaryDocumentFilterComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            FeatureDirective,
+            DatePickerComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockDatePickerComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

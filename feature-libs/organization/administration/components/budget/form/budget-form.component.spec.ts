@@ -7,18 +7,34 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Currency, CurrencyService, I18nTestingModule } from '@spartacus/core';
+import {
+  Currency,
+  CurrencyService,
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   B2BUnitNode,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import { FocusDirective, FormErrorsComponent } from '@spartacus/storefront';
+import {
+  DatePickerComponent,
+  FocusDirective,
+  FormErrorsComponent,
+} from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { BudgetItemService } from '../services/budget-item.service';
 import { BudgetFormComponent } from './budget-form.component';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { RouterModule } from '@angular/router';
 
 const mockForm = new UntypedFormGroup({
   name: new UntypedFormControl(),
@@ -78,23 +94,42 @@ describe('BudgetFormComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
-        UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         FormTestingModule,
         BudgetFormComponent,
         FormErrorsComponent,
-        MockDatePickerComponent,
         FocusDirective,
-        MockFeatureDirective,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         { provide: BudgetItemService, useClass: MockItemService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(BudgetFormComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            DatePickerComponent,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockDatePickerComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
 
     currencyService = TestBed.inject(CurrencyService);
     b2bUnitService = TestBed.inject(OrgUnitService);

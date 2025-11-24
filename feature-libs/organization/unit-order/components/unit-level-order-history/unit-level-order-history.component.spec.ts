@@ -10,19 +10,31 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   PaginationModel,
   RoutingService,
   SortModel,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  IconComponent,
+  PaginationComponent,
+  SortingComponent,
+  TotalComponent,
+} from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { OrderHistoryQueryParams } from '../../core/model/unit-order.model';
 import { UnitOrderFacade } from '../../root/facade';
 import { UnitLevelOrderHistoryFilterComponent } from './filter/unit-level-order-history-filter.component';
 import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
+import { RouterModule } from '@angular/router';
 
 const mockOrderList: OrderHistoryList | undefined = {
   orders: [
@@ -164,22 +176,43 @@ describe('UnitLevelOrderHistoryComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ReactiveFormsModule,
         UnitLevelOrderHistoryComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
-        MockSortingComponent,
         UnitLevelOrderHistoryFilterComponent,
-        MockCxIconComponent,
-        MockTotalComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UnitOrderFacade, useClass: MockUnitLevelOrdersFacade },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UnitLevelOrderHistoryComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            PaginationComponent,
+            SortingComponent,
+            IconComponent,
+            TotalComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockPaginationComponent,
+            MockSortingComponent,
+            MockCxIconComponent,
+            MockTotalComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     unitOrderFacade = TestBed.inject(UnitOrderFacade);
     mockUnitLevelOrdersFacade = unitOrderFacade as MockUnitLevelOrdersFacade;

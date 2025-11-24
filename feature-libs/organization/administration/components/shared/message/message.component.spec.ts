@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
+  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -12,6 +13,7 @@ import { MessageComponent } from './message.component';
 import { MessageData } from './message.model';
 import { MessageService } from './services';
 import { IconComponent, MockIconComponent } from '@spartacus/storefront';
+import { RouterModule } from '@angular/router';
 
 const mockMessage1: MessageData = {
   message: {
@@ -32,7 +34,12 @@ describe('MessageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, MessageComponent],
+      imports: [
+        CommonModule,
+        MessageComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
+      ],
       providers: [MessageService],
     })
       .overrideComponent(MessageComponent, {

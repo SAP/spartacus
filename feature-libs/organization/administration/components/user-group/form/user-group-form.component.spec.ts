@@ -6,18 +6,27 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   B2BUnitNode,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { UserGroupItemService } from '../services/user-group-item.service';
 import { UserGroupFormComponent } from './user-group-form.component';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { RouterModule } from '@angular/router';
 
 const mockForm = new UntypedFormGroup({
   uid: new UntypedFormControl(),
@@ -46,14 +55,13 @@ describe('UserGroupFormComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
-        UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         FormTestingModule,
         UserGroupFormComponent,
         FormErrorsComponent,
-        MockFeatureDirective,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
@@ -62,7 +70,21 @@ describe('UserGroupFormComponent', () => {
           useClass: MockItemService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UserGroupFormComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, FeatureDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
 
     b2bUnitService = TestBed.inject(OrgUnitService);
 

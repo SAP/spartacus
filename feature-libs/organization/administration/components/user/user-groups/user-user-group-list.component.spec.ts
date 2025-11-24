@@ -1,9 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import { UrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { CostCenterBudgetListService } from '../../cost-center/budgets/cost-center-budget-list.service';
 import { SubListTestingModule } from '../../shared/sub-list/sub-list.testing.module';
 import { UserUserGroupListComponent } from './user-user-group-list.component';
+import { RouterModule } from '@angular/router';
 
 class MockCostCenterBudgetListService {}
 
@@ -15,9 +23,9 @@ describe('UserUserGroupListComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SubListTestingModule,
-        UrlTestingModule,
-        I18nTestingModule,
         UserUserGroupListComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -25,7 +33,16 @@ describe('UserUserGroupListComponent', () => {
           useClass: MockCostCenterBudgetListService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UserUserGroupListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(UserUserGroupListComponent);
     component = fixture.componentInstance;

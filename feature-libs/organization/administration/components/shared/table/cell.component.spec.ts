@@ -1,12 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { UrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/url.pipe';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { CellComponent } from './cell.component';
+import { RouterModule } from '@angular/router';
 
 const mockContext: TableDataOutletContext = {
   _field: 'name',
@@ -26,7 +34,7 @@ describe('CellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [UrlTestingModule, I18nTestingModule, CellComponent],
+      imports: [CellComponent, I18nTestingModule, RouterModule.forRoot([])],
       providers: [
         {
           provide: OutletContextData,
@@ -35,7 +43,16 @@ describe('CellComponent', () => {
           },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CellComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -5,14 +5,18 @@ import {
   B2BUser,
   B2BUserRight,
   B2BUserRole,
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   B2BUserService,
   Budget,
 } from '@spartacus/organization/administration/core';
-import { FocusConfig } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { FocusConfig, FocusDirective } from '@spartacus/storefront';
 import { EMPTY, of, Subject } from 'rxjs';
 import { DisableInfoModule } from '../../shared';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
@@ -22,6 +26,8 @@ import { ItemService } from '../../shared/item.service';
 import { MessageTestingModule } from '../../shared/message/message.testing.module';
 import { MessageService } from '../../shared/message/services/message.service';
 import { UserDetailsComponent } from './user-details.component';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const mockCode = 'c1';
@@ -83,15 +89,14 @@ describe('UserDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        I18nTestingModule,
-        UrlTestingModule,
         CardTestingModule,
         MessageTestingModule,
         ToggleStatusModule,
         DisableInfoModule,
         UserDetailsComponent,
         ItemExistsDirective,
-        MockKeyboadFocusDirective,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: ItemService, useClass: MockUserItemService },
@@ -99,7 +104,16 @@ describe('UserDetailsComponent', () => {
       ],
     })
       .overrideComponent(UserDetailsComponent, {
-        set: {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, FocusDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockKeyboadFocusDirective,
+          ],
           providers: [
             {
               provide: MessageService,

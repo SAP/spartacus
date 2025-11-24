@@ -5,12 +5,18 @@ import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Country,
+  CxDatePipe,
+  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Region,
   Title,
   Translatable,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import {
@@ -22,6 +28,7 @@ import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-fe
 import { Observable, of, throwError } from 'rxjs';
 import { UserRegistrationFormComponent } from './user-registration-form.component';
 import { UserRegistrationFormService } from './user-registration-form.service';
+import { RouterModule } from '@angular/router';
 
 const mockOrganizationUser: OrganizationUserRegistrationForm = {
   firstName: 'John',
@@ -131,13 +138,13 @@ describe('UserRegistrationFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
-        I18nTestingModule,
         FormErrorsModule,
         UserRegistrationFormComponent,
-        MockUrlPipe,
         NgSelectA11yDirective,
         SpinnerComponent,
-        MockFeatureDirective,
+        I18nTestingModule,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -149,6 +156,18 @@ describe('UserRegistrationFormComponent', () => {
           useClass: MockGlobalMessageService,
         },
       ],
+    }).overrideComponent(UserRegistrationFormComponent, {
+      remove: {
+        imports: [TranslatePipe, CxDatePipe, UrlPipe, FeatureDirective],
+      },
+      add: {
+        imports: [
+          MockTranslatePipe,
+          MockDatePipe,
+          MockUrlPipe,
+          MockFeatureDirective,
+        ],
+      },
     });
 
     userRegistrationFormService = TestBed.inject(UserRegistrationFormService);

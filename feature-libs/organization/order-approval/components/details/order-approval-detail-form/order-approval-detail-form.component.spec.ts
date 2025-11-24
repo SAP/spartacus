@@ -8,7 +8,15 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
@@ -18,6 +26,8 @@ import {
 import { OrderApprovalService } from '../../../core/services/order-approval.service';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form.component';
+import { FormErrorsComponent } from '@spartacus/storefront';
+import { RouterModule } from '@angular/router';
 
 const { REJECT, APPROVE } = OrderApprovalDecisionValue;
 
@@ -90,12 +100,9 @@ describe('OrderApprovalDetailFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         OrderApprovalDetailFormComponent,
-        MockFormErrorsComponent,
-        MockSpinnerComponent,
-        MockUrlPipe,
-        MockFeatureDirective,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -104,7 +111,30 @@ describe('OrderApprovalDetailFormComponent', () => {
         },
         { provide: OrderApprovalService, useClass: MockOrderApprovalService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderApprovalDetailFormComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            FeatureDirective,
+            FormErrorsComponent,
+            MockSpinnerComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockFeatureDirective,
+            MockFormErrorsComponent,
+            MockSpinnerComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     makeDecisionResultLoading$.next(false);
     orderApprovalLoading$.next(false);

@@ -14,8 +14,12 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { PaginationModel } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { PaginationModel, TranslatePipe } from '@spartacus/core';
+import {
+  ICON_TYPE,
+  IconComponent,
+  PaginationComponent,
+} from '@spartacus/storefront';
 import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core';
 import { UnitLevelOrderHistoryFilterComponent } from './unit-level-order-history-filter.component';
 
@@ -63,14 +67,21 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        UnitLevelOrderHistoryFilterComponent,
-        MockTranslatePipe,
-        MockPaginationComponent,
-        MockCxIconComponent,
-      ],
-    }).compileComponents();
+      imports: [ReactiveFormsModule, UnitLevelOrderHistoryFilterComponent],
+    })
+      .overrideComponent(UnitLevelOrderHistoryFilterComponent, {
+        remove: {
+          imports: [TranslatePipe, PaginationComponent, IconComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockPaginationComponent,
+            MockCxIconComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(UnitLevelOrderHistoryFilterComponent);
     component = fixture.componentInstance;

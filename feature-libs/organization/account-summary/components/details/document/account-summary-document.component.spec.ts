@@ -5,12 +5,22 @@ import { EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import {
+  CxDatePipe,
+  FeatureDirective,
   I18nTestingModule,
   LanguageService,
+  MockDatePipe,
+  MockTranslatePipe,
   SortModel,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
-import { FileDownloadService, IconTestingModule } from '@spartacus/storefront';
+import {
+  FileDownloadService,
+  IconTestingModule,
+  PaginationComponent,
+  SortingComponent,
+} from '@spartacus/storefront';
 import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
 
 import { AccountSummaryDocumentComponent } from './account-summary-document.component';
@@ -27,6 +37,8 @@ import createSpy = jasmine.createSpy;
 
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { mockAccountSummaryList } from '../account-summary-mock-data';
+import { AccountSummaryDocumentFilterComponent } from './filter';
+import { RouterModule } from '@angular/router';
 
 const blob = new Blob();
 
@@ -99,13 +111,10 @@ describe('AccountSummaryDocumentComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         IconTestingModule,
         AccountSummaryDocumentComponent,
-        MockAccountSummaryDocumentFilterComponent,
-        MockPaginationComponent,
-        MockSortingComponent,
-        MockFeatureDirective,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: AccountSummaryFacade, useClass: MockAccountSummaryFacade },
@@ -113,7 +122,30 @@ describe('AccountSummaryDocumentComponent', () => {
         { provide: LanguageService, useClass: MockLanguageService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AccountSummaryDocumentComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            AccountSummaryDocumentFilterComponent,
+            PaginationComponent,
+            SortingComponent,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockAccountSummaryDocumentFilterComponent,
+            MockPaginationComponent,
+            MockSortingComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
     accountSummaryFacade = TestBed.inject(AccountSummaryFacade);
     translationService = TestBed.inject(TranslationService);
     downloadService = TestBed.inject(FileDownloadService);

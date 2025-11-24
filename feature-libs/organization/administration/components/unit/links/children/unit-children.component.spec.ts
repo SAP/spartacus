@@ -1,6 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { EMPTY } from 'rxjs';
 import { ItemService } from '../../../shared';
 import { DisableInfoModule } from '../../../shared/detail/disable-info/disable-info.module';
@@ -8,6 +14,8 @@ import { SubListTestingModule } from '../../../shared/sub-list/sub-list.testing.
 import { CurrentUnitService } from '../../services/current-unit.service';
 import { UnitChildrenComponent } from './unit-children.component';
 import { UnitChildrenService } from './unit-children.service';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { RouterModule } from '@angular/router';
 
 class MockUnitChildrenService {}
 
@@ -25,10 +33,10 @@ describe('UnitChildrenComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SubListTestingModule,
-        UrlTestingModule,
-        I18nTestingModule,
         DisableInfoModule,
         UnitChildrenComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -44,7 +52,16 @@ describe('UnitChildrenComponent', () => {
           useClass: MockItemService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UnitChildrenComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(UnitChildrenComponent);
     component = fixture.componentInstance;

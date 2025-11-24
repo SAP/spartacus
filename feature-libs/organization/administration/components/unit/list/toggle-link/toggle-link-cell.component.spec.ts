@@ -5,12 +5,21 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  RoutingService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { ToggleLinkCellComponent } from '@spartacus/organization/administration/components';
 import { IconModule, OutletContextData } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UnitTreeService } from '../../services/unit-tree.service';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const mockContext = {
@@ -41,10 +50,10 @@ describe('ToggleLinkCellComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        UrlTestingModule,
         IconModule,
-        I18nTestingModule,
         ToggleLinkCellComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -60,7 +69,16 @@ describe('ToggleLinkCellComponent', () => {
           useClass: MockRoutingService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ToggleLinkCellComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

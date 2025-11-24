@@ -1,7 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  GlobalMessageService,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { PopoverModule, SplitViewService } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { ViewComponent } from 'projects/storefrontlib/shared/components/split-view/view/view.component';
@@ -10,6 +18,7 @@ import { of } from 'rxjs';
 import { ItemService } from '../item.service';
 import { MessageTestingModule } from '../message/message.testing.module';
 import { CardComponent } from './card.component';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const mockItem = { foo: 'bar' };
@@ -34,12 +43,12 @@ describe('CardComponent', () => {
         CommonModule,
         // SplitViewTestingModule,
         IconTestingModule,
-        I18nTestingModule,
         MessageTestingModule,
         PopoverModule,
         CardComponent,
         ViewComponent,
-        MockFeatureDirective,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -49,7 +58,16 @@ describe('CardComponent', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         SplitViewService,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CardComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, FeatureDirective],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockFeatureDirective],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

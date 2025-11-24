@@ -8,10 +8,15 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  CxDatePipe,
   EntitiesModel,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
   SearchConfig,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
@@ -19,8 +24,10 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../core/services/order-approval.service';
 import { OrderApprovalListComponent } from './order-approval-list.component';
-import createSpy = jasmine.createSpy;
 import { ActivatedRoute } from '@angular/router';
+import { SortingComponent } from '@spartacus/storefront';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import createSpy = jasmine.createSpy;
 
 const mockOrderApprovals: EntitiesModel<OrderApproval> = {
   pagination: {
@@ -111,20 +118,28 @@ describe('OrderApprovalListComponent?', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        UrlTestingModule,
-        PaginationTestingModule,
-        OrderApprovalListComponent,
-        MockSortingComponent,
-      ],
+      imports: [PaginationTestingModule, OrderApprovalListComponent],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: OrderApprovalService, useClass: MockOrderApprovalService },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderApprovalListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SortingComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockSortingComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     orderApprovalService = TestBed.inject(OrderApprovalService);
     routingService = TestBed.inject(RoutingService);
