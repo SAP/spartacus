@@ -692,27 +692,27 @@ function applyClassicNamingConvention(options: SpartacusOptions): Rule {
 
         // app.ts -> app.component.ts
         // Only match relative imports
-        if (content.match(/(['"])(\.\.?\/[^\'\"]*)app(['"])/)) {
+        if (content.match(/(['"])(\.\.?\/[^'"]*)app(['"])/)) {
           content = content.replace(
-            /(['"])(\.\.?\/[^\'\"]*)app(['"])/g,
+            /(['"])(\.\.?\/[^'"]*)app(['"])/g,
             '$1$2app.component$3'
           );
           updated = true;
         }
 
         // app-module.ts -> app.module.ts
-        if (content.match(/(['"])(\.\.?\/[^\'\"]*)app-module(['"])/)) {
+        if (content.match(/(['"])(\.\.?\/[^'"]*)app-module(['"])/)) {
           content = content.replace(
-            /(['"])(\.\.?\/[^\'\"]*)app-module(['"])/g,
+            /(['"])(\.\.?\/[^'"]*)app-module(['"])/g,
             '$1$2app.module$3'
           );
           updated = true;
         }
 
         // app-routing-module.ts -> app-routing.module.ts
-        if (content.match(/(['"])(\.\.?\/[^\'\"]*)app-routing-module(['"])/)) {
+        if (content.match(/(['"])(\.\.?\/[^'"]*)app-routing-module(['"])/)) {
           content = content.replace(
-            /(['"])(\.\.?\/[^\'\"]*)app-routing-module(['"])/g,
+            /(['"])(\.\.?\/[^'"]*)app-routing-module(['"])/g,
             '$1$2app-routing.module$3'
           );
           updated = true;
