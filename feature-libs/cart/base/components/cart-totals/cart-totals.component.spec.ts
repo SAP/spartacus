@@ -3,6 +3,13 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { Observable, of } from 'rxjs';
 import { CartTotalsComponent } from './cart-totals.component';
+import {
+  TranslatePipe,
+  CxDatePipe,
+  MockTranslatePipe,
+  MockDatePipe,
+} from '@spartacus/core';
+import { OrderSummaryComponent } from '../cart-shared';
 
 const cartMock: Cart = {
   name: 'cart-mock',
@@ -35,7 +42,16 @@ describe('CartTotalsComponent', () => {
           useClass: MockActiveCartService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CartTotalsComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, OrderSummaryComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockOrderSummaryComponent],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
