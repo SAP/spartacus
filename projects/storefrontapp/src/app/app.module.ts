@@ -117,24 +117,6 @@ if (!environment.production) {
                 },
             },
         }),
-    provideConfig(<CmsConfig>{
-            cmsComponents: {
-                ProductAddToCartComponent: {
-                    data: {
-                        inventoryDisplay: false,
-                    },
-                },
-            },
-        }),
-    provideConfig(<CmsConfig>{
-            cmsComponents: {
-                ProductAddToCartComponent: {
-                    data: {
-                        inventoryDisplay: true,
-                    },
-                },
-            },
-        }),
   ],
   bootstrap: [StorefrontComponent],
 })
