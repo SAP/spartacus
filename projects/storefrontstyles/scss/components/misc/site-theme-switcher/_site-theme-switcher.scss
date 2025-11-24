@@ -30,17 +30,14 @@ $caretSize: 7px;
 
   cx-icon {
     margin-inline-start: -10px;
-    z-index: 1;
-    @include forFeature('a11yShowDownArrowOnFocusedSelectMenu') {
-      z-index: unset;
-    }
+    z-index: unset;
     pointer-events: none;
     color: var(--cx-color-text);
   }
 
   select {
     padding: 2px 4px;
-    background-color: var(--cx-color-light);
+    background-color: unset;
     color: var(--cx-color-text);
     border: 0;
     font-weight: var(--cx-font-weight-semi);
@@ -57,10 +54,6 @@ $caretSize: 7px;
     position: relative;
     @include media-breakpoint-up(lg) {
       background-color: var(--cx-color-light);
-    }
-    // TODO: Remove all background-color once the feature flag is removed.
-    @include forFeature('a11yShowDownArrowOnFocusedSelectMenu') {
-      background-color: unset;
     }
   }
 

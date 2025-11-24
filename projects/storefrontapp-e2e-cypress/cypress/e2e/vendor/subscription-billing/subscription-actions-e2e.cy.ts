@@ -6,7 +6,7 @@
 
 import { login } from '../../../helpers/b2b/b2b-quote';
 import { loginUser, signOutUser } from '../../../helpers/checkout-flow';
-import * as helper from '../../../helpers/vendor/subscription-billing/subscription-billing';
+import * as helper from '../../../helpers/vendor/subscription-billing/subscription';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 export const subscriptionComponentSelector = 'cx-subscription-list';
 describe('Subscription Billing - Cancel, Withdraw, Resubscribe', () => {

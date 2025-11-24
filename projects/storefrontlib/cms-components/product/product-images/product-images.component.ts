@@ -48,7 +48,6 @@ export class ProductImagesComponent {
   ]).pipe(map(([, container]) => container));
 
   constructor(protected currentProductService: CurrentProductService) {
-    useFeatureStyles('a11yDifferentiateFocusedAndSelected');
     useFeatureStyles('reserveSpaceForImagesOnPdpAndPlp');
     useFeatureStyles('productCarouselScrolling');
   }

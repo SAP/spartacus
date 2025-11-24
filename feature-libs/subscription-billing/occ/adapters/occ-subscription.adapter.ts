@@ -11,7 +11,7 @@ import {
   OccEndpointsService,
   tryNormalizeHttpError,
 } from '@spartacus/core';
-import { SubscriptionBillingAdapter } from '@spartacus/subscription-billing/core';
+import { SubscriptionAdapter } from '@spartacus/subscription-billing/core';
 import {
   SubscriptionDetail,
   SubscriptionList,
@@ -19,9 +19,7 @@ import {
 import { catchError, Observable } from 'rxjs';
 
 @Injectable()
-export class OccSubscriptionBillingAdapter
-  implements SubscriptionBillingAdapter
-{
+export class OccSubscriptionAdapter implements SubscriptionAdapter {
   protected logger = inject(LoggerService);
   protected http = inject(HttpClient);
   protected occEndpoints = inject(OccEndpointsService);
