@@ -7,8 +7,14 @@
 
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
 import {
+  I18nTestingModule,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import {
+  HighlightPipe,
   OutletContextData,
   SearchBoxComponentService,
 } from '@spartacus/storefront';
@@ -18,6 +24,7 @@ import {
   SearchBoxOutlet,
 } from './recent-searches.component';
 import { RecentSearchesService } from './recent-searches.service';
+import { RouterModule } from '@angular/router';
 
 @Pipe({ name: 'cxHighlight' })
 class MockHighlightPipe implements PipeTransform {
@@ -56,8 +63,7 @@ describe('RecentSearchesComponent', () => {
       imports: [
         I18nTestingModule,
         RecentSearchesComponent,
-        MockHighlightPipe,
-        MockUrlPipe,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -71,7 +77,16 @@ describe('RecentSearchesComponent', () => {
         { provide: OutletContextData, useValue: { context$ } },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+    })
+      .overrideComponent(RecentSearchesComponent, {
+        remove: {
+          imports: [TranslatePipe, HighlightPipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockHighlightPipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

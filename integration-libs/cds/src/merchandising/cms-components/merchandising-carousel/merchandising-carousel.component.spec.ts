@@ -9,18 +9,29 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  MockTranslatePipe,
   PageContext,
   PageType,
   Product,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
-import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
+import {
+  CarouselComponent,
+  CmsComponentData,
+  IntersectionService,
+  MediaComponent,
+} from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { MerchandisingMetadata, MerchandisingProduct } from '../../model/index';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import { MerchandisingCarouselModel } from './model/index';
+import { NgTemplateOutlet, NgFor, AsyncPipe } from '@angular/common';
+import { AttributesDirective } from '../directives';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -32,6 +43,7 @@ import createSpy = jasmine.createSpy;
       ></ng-container>
     </ng-container>
   `,
+  imports: [NgTemplateOutlet, NgFor, AsyncPipe],
 })
 class MockCarouselComponent {
   @Input() title: string;
@@ -164,13 +176,7 @@ describe('MerchandisingCarouselComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        MerchandisingCarouselComponent,
-        MockCarouselComponent,
-        MockAttributesDirective,
-        MockMediaComponent,
-        MockUrlPipe,
-      ],
+      imports: [MerchandisingCarouselComponent, RouterModule.forRoot([])],
       providers: [
         {
           provide: CmsComponentData,
@@ -189,7 +195,28 @@ describe('MerchandisingCarouselComponent', () => {
           useClass: IntersectionServiceStub,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MerchandisingCarouselComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CarouselComponent,
+            AttributesDirective,
+            MediaComponent,
+            UrlPipe,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCarouselComponent,
+            MockAttributesDirective,
+            MockMediaComponent,
+            MockUrlPipe,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(MerchandisingCarouselComponent);
     component = fixture.componentInstance;
