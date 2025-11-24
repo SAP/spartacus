@@ -741,6 +741,9 @@
       "@spartacus/omf": ["../../integration-libs/omf/public_api"],
       "@spartacus/omf/root": ["../../integration-libs/omf/root/public_api"],
       "@spartacus/omf/order": ["../../integration-libs/omf/order/public_api"],
+      "@spartacus/digital-payments": [
+        "../../integration-libs/digital-payments/public_api"
+      ],
       "@spartacus/digital-payments/assets": [
         "../../integration-libs/digital-payments/assets/public_api"
       ],
