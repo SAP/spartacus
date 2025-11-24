@@ -32,7 +32,6 @@ import {
 } from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
-import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import {
   ProductListItemComponent,
   ProductGridItemComponent,
@@ -136,22 +135,6 @@ class MockCxIconComponent {
   @Input() type;
 }
 
-@Component({
-  selector: 'cx-add-to-cart',
-  template: '<button>add to cart</button>',
-  imports: [
-    ListNavigationModule,
-    FormsModule,
-    I18nTestingModule,
-    InfiniteScrollModule,
-    SpinnerModule,
-  ],
-})
-class MockAddToCartComponent {
-  @Input() product;
-  @Input() showQuantity;
-}
-
 class MockViewConfig {
   view = {
     infiniteScroll: {
@@ -223,7 +206,6 @@ describe('ProductListComponent', () => {
             CxDatePipe,
             UrlPipe,
             StarRatingComponent,
-            AddToCartComponent,
             ProductListItemComponent,
             ProductGridItemComponent,
             IconComponent,
@@ -237,7 +219,6 @@ describe('ProductListComponent', () => {
             MockDatePipe,
             MockUrlPipe,
             MockStarRatingComponent,
-            MockAddToCartComponent,
             MockProductListItemComponent,
             MockProductGridItemComponent,
             MockCxIconComponent,
