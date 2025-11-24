@@ -10,7 +10,7 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OrderAmendService } from '../../amend-order.service';
-import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import { CancelOrReturnItemsComponent } from '../../amend-order-items/amend-order-items.component';
 import { AmendOrderActionsComponent } from '../../amend-order-actions/amend-order-actions.component';
 
@@ -24,6 +24,7 @@ import { AmendOrderActionsComponent } from '../../amend-order-actions/amend-orde
     AmendOrderActionsComponent,
     NgTemplateOutlet,
     AsyncPipe,
+    NgIf,
   ],
 })
 export class CancelOrderConfirmationComponent {

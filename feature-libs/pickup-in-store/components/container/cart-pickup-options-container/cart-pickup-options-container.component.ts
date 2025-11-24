@@ -45,7 +45,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { PickupOptionsComponent } from '../../presentational';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 
 type OrderEntryRequiredFields =
   | 'entryNumber'
@@ -78,7 +78,7 @@ export function orderEntryWithRequiredFields(
 @Component({
   selector: 'cx-cart-pickup-options-container',
   templateUrl: 'cart-pickup-options-container.component.html',
-  imports: [PickupOptionsComponent, AsyncPipe],
+  imports: [PickupOptionsComponent, AsyncPipe, NgIf],
 })
 export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
   pickupOption$: Observable<PickupOption | undefined>;

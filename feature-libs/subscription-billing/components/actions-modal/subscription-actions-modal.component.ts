@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import {
   Component,
   computed,
@@ -55,6 +55,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     SpinnerModule,
     NgSelectModule,
     FormRequiredAsterisksComponent,
+    NgIf,
   ],
 })
 export class SubscriptionActionsModalComponent {
