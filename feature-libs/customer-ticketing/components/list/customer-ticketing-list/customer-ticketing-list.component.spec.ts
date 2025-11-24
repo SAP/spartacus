@@ -9,9 +9,14 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   CustomerTicketingFacade,
@@ -19,6 +24,9 @@ import {
 } from '@spartacus/customer-ticketing/root';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
+import { PaginationComponent, SortingComponent } from '@spartacus/storefront';
+import { CustomerTicketingCreateComponent } from '../customer-ticketing-create';
+import { RouterModule } from '@angular/router';
 
 const mockTicketList: TicketList = {
   pagination: {
@@ -211,10 +219,7 @@ describe('CustomerTicketingListComponent', () => {
       imports: [
         I18nTestingModule,
         CustomerTicketingListComponent,
-        MockPaginationComponent,
-        MockSortingComponent,
-        MockUrlPipe,
-        MockCustomerTicketingCreateComponent,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -224,7 +229,30 @@ describe('CustomerTicketingListComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerTicketingListComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            PaginationComponent,
+            SortingComponent,
+            UrlPipe,
+            CustomerTicketingCreateComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockPaginationComponent,
+            MockSortingComponent,
+            MockUrlPipe,
+            MockCustomerTicketingCreateComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     const translationService = TestBed.inject(TranslationService);
     spyOn(translationService, 'translate').and.callFake((input) => {

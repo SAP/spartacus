@@ -1,6 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { EventService, I18nTestingModule } from '@spartacus/core';
+import {
+  EventService,
+  I18nTestingModule,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
@@ -8,11 +13,15 @@ import {
   TicketDetails,
   TicketEvent,
 } from '@spartacus/customer-ticketing/root';
-import { MessageEvent, MessagingConfigs } from '@spartacus/storefront';
+import {
+  MessageEvent,
+  MessagingComponent,
+  MessagingConfigs,
+} from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
-import createSpy = jasmine.createSpy;
 import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
+import createSpy = jasmine.createSpy;
 
 describe('CustomerTicketMessagesComponent', () => {
   let component: CustomerTicketingMessagesComponent;
@@ -55,11 +64,7 @@ describe('CustomerTicketMessagesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        CustomerTicketingMessagesComponent,
-        MockCxMessagingComponent,
-      ],
+      imports: [I18nTestingModule, CustomerTicketingMessagesComponent],
       providers: [
         CustomerTicketingMessagesComponentService,
         {
@@ -68,7 +73,16 @@ describe('CustomerTicketMessagesComponent', () => {
         },
         { provide: EventService, useClass: MockEventService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerTicketingMessagesComponent, {
+        remove: {
+          imports: [TranslatePipe, MessagingComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockCxMessagingComponent],
+        },
+      })
+      .compileComponents();
 
     createTicketResponse$.next(mockResponse);
     customerTicketingFacade = TestBed.inject(CustomerTicketingFacade);

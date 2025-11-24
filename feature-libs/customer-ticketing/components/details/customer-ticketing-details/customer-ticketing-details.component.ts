@@ -30,14 +30,7 @@ import { CxDatePipe } from '@spartacus/core';
   selector: 'cx-customer-ticketing-details',
   templateUrl: './customer-ticketing-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    CardComponent,
-    SpinnerComponent,
-    AsyncPipe,
-    CxDatePipe,
-    CxDatePipe,
-  ],
+  imports: [NgIf, CardComponent, SpinnerComponent, AsyncPipe, CxDatePipe],
 })
 export class CustomerTicketingDetailsComponent implements OnDestroy {
   dateFormat = DATE_FORMAT;
