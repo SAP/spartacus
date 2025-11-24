@@ -1,10 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
-import { PointOfService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  MockTranslatePipe,
+  PointOfService,
+  TranslatePipe,
+} from '@spartacus/core';
 import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
 import { Observable, of } from 'rxjs';
 import { PickupInfoStubComponent } from '../../presentational/pickup-info/pickup-info.component.spec';
 import { PickupInfoContainerComponent } from './pickup-info-container.component';
+import { PickupInfoComponent } from '../../presentational';
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
@@ -34,7 +40,7 @@ describe('PickupInfoContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PickupInfoContainerComponent],
+      imports: [PickupInfoContainerComponent, I18nTestingModule],
       declarations: [PickupInfoStubComponent],
       providers: [
         {
@@ -46,7 +52,16 @@ describe('PickupInfoContainerComponent', () => {
           useClass: MockPickupLocationsSearchFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PickupInfoComponent, {
+        remove: {
+          imports: [TranslatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

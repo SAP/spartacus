@@ -6,7 +6,6 @@ import {
   CmsService,
   ConfigModule,
   FeatureConfigService,
-  FeaturesConfigModule,
   I18nTestingModule,
   Page,
   PointOfService,
@@ -24,7 +23,6 @@ import { Observable, of } from 'rxjs';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
 import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
 import { MyPreferredStoreComponent } from './my-preferred-store.component';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
@@ -220,12 +218,7 @@ describe('MyPreferredStoreComponent', () => {
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     })
-      .overrideModule(FeaturesConfigModule, {
-        set: {
-          declarations: [MockFeatureDirective],
-          exports: [MockFeatureDirective],
-        },
-      })
+
       .compileComponents();
     cmsService = TestBed.inject(CmsService);
     routingService = TestBed.inject(RoutingService);
