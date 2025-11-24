@@ -128,12 +128,6 @@ function add_opps {
     fi
 }
 
-function add_epd_visualization {
-    if [ "$ADD_EPD_VISUALIZATION" = true ] ; then
-        ng add @spartacus/epd-visualization@${SPARTACUS_VERSION} --base-url ${EPD_VISUALIZATION_BASE_URL} --skip-confirmation --no-interactive
-    fi
-}
-
 function add_opf {
     if [ "${ADD_OPF}" = true ] ; then
         ng add @spartacus/opf@${SPARTACUS_VERSION} --opf-base-url ${OPF_BASE_URL} --commerce-cloud-public-key ${OPF_CLIENT_PUBLIC_KEY} --skip-confirmation --no-interactive 
@@ -231,7 +225,6 @@ function add_spartacus_csr {
     add_feature_libs
     add_b2b
     add_cdc
-    add_epd_visualization
     add_opf
     add_product_configurator
     add_product_multi_dimensional
@@ -262,7 +255,6 @@ function add_spartacus_ssr {
     add_feature_libs
     add_b2b
     add_cdc
-    add_epd_visualization
     add_opf
     add_product_configurator
     add_product_multi_dimensional
@@ -292,7 +284,6 @@ function add_spartacus_ssr_pwa {
     add_feature_libs
     add_b2b
     add_cdc
-    add_epd_visualization
     add_opf
     add_product_configurator
     add_product_multi_dimensional
@@ -826,11 +817,6 @@ function parseInstallArgs {
             cdc)
                 ADD_CDC=true
                 echo "➖ Added CDC"
-                shift
-                ;;
-            epd)
-                ADD_EPD_VISUALIZATION=true
-                echo "➖ Added EPD"
                 shift
                 ;;
             opps)

@@ -18,13 +18,8 @@ import {
   mediaConfig,
   PWAModuleConfig,
 } from '@spartacus/storefront';
-import { environment } from '../../environments/environment';
 
 let baseSite = ['powertools-spa', 'powertools-standalone'];
-
-if (environment.epdVisualization) {
-  baseSite.unshift('powertools-epdvisualization-spa');
-}
 
 @NgModule({
   providers: [

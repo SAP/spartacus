@@ -355,7 +355,7 @@ Also, add the new lib to the `build:libs` and `test:libs` scripts.
 
 ### Sample data release entry ONLY if applicable
 
-If you have your own sample data that derives from our spartacussampledata, such as epdvisualizationspartacussampledata, then the following is applicable to you.
+If you have your own sample data that derives from our spartacussampledata, then the following is applicable to you.
 
 1. `publish-sample-data.yml` - add an input entry and env entry to pass the input to the publish-sample-data script. This input is the target branch that we would want to release.
 2. `publish-sample-data.sh`:

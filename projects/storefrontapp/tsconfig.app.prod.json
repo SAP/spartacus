@@ -414,16 +414,6 @@
       "@spartacus/cpq-quote/root": ["dist/cpq-quote/root"],
       "@spartacus/digital-payments/assets": ["dist/digital-payments/assets"],
       "@spartacus/digital-payments": ["dist/digital-payments"],
-      "@spartacus/epd-visualization/assets": ["dist/epd-visualization/assets"],
-      "@spartacus/epd-visualization/components": [
-        "dist/epd-visualization/components"
-      ],
-      "@spartacus/epd-visualization/core": ["dist/epd-visualization/core"],
-      "@spartacus/epd-visualization/epd-visualization-api": [
-        "dist/epd-visualization/epd-visualization-api"
-      ],
-      "@spartacus/epd-visualization": ["dist/epd-visualization"],
-      "@spartacus/epd-visualization/root": ["dist/epd-visualization/root"],
       "@spartacus/omf": ["dist/omf"],
       "@spartacus/omf/order": ["dist/omf/order"],
       "@spartacus/omf/root": ["dist/omf/root"],

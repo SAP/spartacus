@@ -40,9 +40,6 @@ jobs:
           - suite: vendor:s4-service
             spa_env: s4-service,b2b
             test_name: E2E tests for s4 service
-          - suite: vendor:epd-visualization
-            spa_env: epd-visualization,b2c
-            test_name: E2E tests for epd visualization
           - suite: vendor:cds
             spa_env: cds,b2c
             test_name: E2E tests for cds

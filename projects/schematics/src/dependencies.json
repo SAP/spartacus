@@ -398,20 +398,6 @@
     "@spartacus/storefront": "221121.4.0",
     "rxjs": "^7.8.0"
   },
-  "@spartacus/epd-visualization": {
-    "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.15",
-    "@angular/core": "^19.2.15",
-    "@angular/forms": "^19.2.15",
-    "@angular/router": "^19.2.15",
-    "@sapui5/ts-types-esm": "1.120.1",
-    "@spartacus/cart": "221121.4.0",
-    "@spartacus/core": "221121.4.0",
-    "@spartacus/schematics": "221121.4.0",
-    "@spartacus/storefront": "221121.4.0",
-    "@spartacus/styles": "221121.4.0",
-    "rxjs": "^7.8.0"
-  },
   "@spartacus/omf": {
     "@angular-devkit/schematics": "^19.2.16",
     "@angular/common": "^19.2.15",

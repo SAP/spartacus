@@ -223,10 +223,6 @@ export const SPARTACUS_CDC_ORGANIZATION_REGISTRATION = `@spartacus/cdc/organizat
 export const SPARTACUS_DIGITAL_PAYMENTS = `@spartacus/digital-payments`;
 export const SPARTACUS_DIGITAL_PAYMENTS_ASSETS = `@spartacus/digital-payments/assets`;
 
-export const SPARTACUS_EPD_VISUALIZATION = `@spartacus/epd-visualization`;
-export const SPARTACUS_EPD_VISUALIZATION_ROOT = `@spartacus/epd-visualization/root`;
-export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/assets`;
-
 export const SPARTACUS_QUOTE = '@spartacus/quote';
 export const SPARTACUS_QUOTE_CART_GUARD =
   '@spartacus/quote/components/cart-guard';
@@ -369,8 +365,6 @@ export const CDS_FEATURE_NAME = 'CDS';
 export const QUOTE_FEATURE_NAME = 'Quote';
 
 export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
-
-export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
 
 export const S4OM_FEATURE_NAME = 'S4HANA-Order-Management';
 

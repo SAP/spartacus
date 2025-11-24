@@ -70,7 +70,6 @@
       "@spartacus/cdc",
       "@spartacus/cds",
       "@spartacus/digital-payments",
-      "@spartacus/epd-visualization",
       "@spartacus/s4om",
       "@spartacus/customer-ticketing",
       "@spartacus/subscription-billing",

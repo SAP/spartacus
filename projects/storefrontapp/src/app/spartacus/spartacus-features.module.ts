@@ -77,7 +77,6 @@ import { CheckoutFeatureModule } from './features/checkout/checkout-feature.modu
 import { CpqQuoteFeatureModule } from './features/cpq-quote/cpq-quote-feature.module';
 import { CustomerTicketingFeatureModule } from './features/customer-ticketing/customer-ticketing-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
-import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
 import { EstimatedDeliveryDateFeatureModule } from './features/estimated-delivery-date/estimated-delivery-date-feature.module';
 import { OmfFeatureModule } from './features/omf/omf-feature.module';
 import { OpfFeatureModule } from './features/opf/opf-feature.module';
@@ -139,9 +138,6 @@ if (environment.cds) {
 }
 if (environment.digitalPayments) {
   featureModules.push(DigitalPaymentsFeatureModule);
-}
-if (environment.epdVisualization) {
-  featureModules.push(EpdVisualizationFeatureModule);
 }
 if (environment.pdfInvoices) {
   featureModules.push(PDFInvoicesFeatureModule);

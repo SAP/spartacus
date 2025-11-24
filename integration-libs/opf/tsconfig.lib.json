@@ -12,7 +12,7 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
-    "skipLibCheck": true, // Needed due to @sapui5/ts-types-esm
+    "skipLibCheck": true,
     "lib": ["dom", "esnext"],
     "paths": {
       "@spartacus/cart": ["dist/cart"],
