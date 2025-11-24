@@ -167,7 +167,7 @@ export class CmsRoutesImplService {
       route: ActivatedRouteSnapshot,
       state: RouterStateSnapshot
     ): Observable<GuardResult> => {
-      return this.cmsGuardsService.canActivateGuard(guard, route, state); // NOSONAR
+      return this.cmsGuardsService.canActivateGuard(guard, route, state);
     };
   }
 }
