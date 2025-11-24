@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   EventService,
   I18nTestingModule,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -12,13 +13,14 @@ import {
   QuoteMetadata,
   QuoteState,
 } from '@spartacus/quote/root';
-import { CardModule, ICON_TYPE } from '@spartacus/storefront';
+import { CardModule, ICON_TYPE, IconComponent } from '@spartacus/storefront';
 
 import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { QuoteUIConfig } from '../../config';
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import {
   EditCard,
+  QuoteHeaderBuyerEditComponent,
   SaveEvent,
 } from '../buyer-edit/quote-header-buyer-edit.component';
 import { QuoteHeaderOverviewComponent } from './quote-header-overview.component';
@@ -46,13 +48,6 @@ const mockQuote: Quote = {
   name: 'Name',
   totalPrice: { value: 20, formattedValue: totalPriceFormattedValue },
 };
-
-@Component({
-  selector: 'cx-quote-actions-link',
-  template: '',
-  imports: [I18nTestingModule, CardModule],
-})
-export class MockQuoteActionsLinkComponent {}
 
 @Component({
   selector: 'cx-icon',
@@ -101,14 +96,7 @@ describe('QuoteHeaderOverviewComponent', () => {
   beforeEach(waitForAsync(() => {
     initMocks();
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        CardModule,
-        QuoteHeaderOverviewComponent,
-        MockCxIconComponent,
-        MockQuoteActionsLinkComponent,
-        MockQuoteHeaderBuyerEditComponent,
-      ],
+      imports: [CardModule, QuoteHeaderOverviewComponent],
       providers: [
         {
           provide: QuoteFacade,
@@ -124,7 +112,24 @@ describe('QuoteHeaderOverviewComponent', () => {
           useValue: quoteUIConfig,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(QuoteHeaderOverviewComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            IconComponent,
+            QuoteHeaderBuyerEditComponent,
+          ],
+        },
+        add: {
+          imports: [
+            I18nTestingModule,
+            MockCxIconComponent,
+            MockQuoteHeaderBuyerEditComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

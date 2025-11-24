@@ -13,6 +13,8 @@ import {
   I18nTestingModule,
   Price,
   Translatable,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   CartUtilsService,
@@ -30,8 +32,8 @@ import { BehaviorSubject, NEVER, Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteLinksComponent } from './quote-links.component';
-import createSpy = jasmine.createSpy;
 import { OrderConfig } from '@spartacus/order/root';
+import createSpy = jasmine.createSpy;
 
 class MockCartUtilsService implements Partial<CartUtilsService> {
   goToNewCart = createSpy();
@@ -110,12 +112,7 @@ describe('QuoteLinksComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        UrlTestingModule,
-        RouterModule.forRoot(mockRoutes),
-        QuoteLinksComponent,
-      ],
+      imports: [RouterModule.forRoot(mockRoutes), QuoteLinksComponent],
       providers: [
         {
           provide: QuoteFacade,
@@ -138,7 +135,12 @@ describe('QuoteLinksComponent', () => {
           useValue: mockOrderConfig,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(QuoteLinksComponent, {
+        remove: { imports: [TranslatePipe, UrlPipe] },
+        add: { imports: [I18nTestingModule, UrlTestingModule] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

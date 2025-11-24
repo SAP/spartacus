@@ -2,9 +2,17 @@ import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractOrderContextModule } from '@spartacus/cart/base/components';
 import { AbstractOrderType } from '@spartacus/cart/base/root';
-import { EventService, I18nTestingModule } from '@spartacus/core';
+import {
+  EventService,
+  I18nTestingModule,
+  TranslatePipe,
+} from '@spartacus/core';
 import { Quote } from '@spartacus/quote/root';
-import { IconTestingModule, OutletDirective } from '@spartacus/storefront';
+import {
+  IconComponent,
+  IconTestingModule,
+  OutletDirective,
+} from '@spartacus/storefront';
 import { EMPTY, NEVER, of } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
@@ -30,13 +38,7 @@ describe('QuoteItemsComponent', () => {
   beforeEach(waitForAsync(() => {
     initMocks();
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        IconTestingModule,
-        AbstractOrderContextModule,
-        QuoteItemsComponent,
-        MockOutletDirective,
-      ],
+      imports: [AbstractOrderContextModule, QuoteItemsComponent],
       providers: [
         {
           provide: EventService,
@@ -47,7 +49,16 @@ describe('QuoteItemsComponent', () => {
           useValue: quoteItemsComponentService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(QuoteItemsComponent, {
+        remove: {
+          imports: [TranslatePipe, IconComponent, OutletDirective],
+        },
+        add: {
+          imports: [I18nTestingModule, IconTestingModule, MockOutletDirective],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

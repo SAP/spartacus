@@ -8,11 +8,15 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  FeatureDirective,
   I18nTestingModule,
   LanguageService,
+  MockTranslatePipe,
   PaginationModel,
   QueryState,
   SortModel,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   Quote,
@@ -20,13 +24,20 @@ import {
   QuoteList,
   QuoteState,
 } from '@spartacus/quote/root';
-import { BreakpointService, ICON_TYPE } from '@spartacus/storefront';
+import {
+  BreakpointService,
+  ICON_TYPE,
+  IconComponent,
+  PaginationComponent,
+  SortingComponent,
+} from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, NEVER, Observable, of } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteListComponentService } from './quote-list-component.service';
 import { QuoteListComponent } from './quote-list.component';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
@@ -141,11 +152,7 @@ describe('QuoteListComponent', () => {
       imports: [
         I18nTestingModule,
         QuoteListComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
-        MockSortingComponent,
-        MockCxIconComponent,
-        MockFeatureDirective,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -158,7 +165,30 @@ describe('QuoteListComponent', () => {
           useClass: MockBreakpointService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(QuoteListComponent, {
+        remove: {
+          imports: [
+            UrlPipe,
+            PaginationComponent,
+            SortingComponent,
+            IconComponent,
+            FeatureDirective,
+            TranslatePipe,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockUrlPipe,
+            MockPaginationComponent,
+            MockSortingComponent,
+            MockCxIconComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

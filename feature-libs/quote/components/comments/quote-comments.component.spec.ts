@@ -13,6 +13,7 @@ import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/core';
 import { QuoteComment, Quote, QuoteFacade } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
+  IconComponent,
   MessagingComponent,
   MessagingConfigs,
 } from '@spartacus/storefront';
@@ -66,12 +67,7 @@ describe('QuoteCommentsComponent', () => {
     initTestData();
     initMocks();
     TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        QuoteCommentsComponent,
-        MockCxMessagingComponent,
-        MockCxIconComponent,
-      ],
+      imports: [I18nTestingModule, QuoteCommentsComponent],
       providers: [
         {
           provide: QuoteFacade,
@@ -90,7 +86,12 @@ describe('QuoteCommentsComponent', () => {
           useValue: mockQuoteItemsComponentService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(QuoteCommentsComponent, {
+        remove: { imports: [MessagingComponent, IconComponent] },
+        add: { imports: [MockCxMessagingComponent, MockCxIconComponent] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
