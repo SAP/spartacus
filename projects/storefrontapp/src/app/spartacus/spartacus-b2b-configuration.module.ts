@@ -42,11 +42,6 @@ if (environment.epdVisualization) {
         baseSite: baseSite,
       },
     }),
-    provideConfig(<AuthConfig>{
-      authentication: {
-        client_id: 'mobile_android_public_b2b',
-      },
-    }),
     provideConfig(<PWAModuleConfig>{
       pwa: {
         enabled: true,
