@@ -9,6 +9,9 @@ import { Config } from '@spartacus/core';
 import { UsageId } from '../models/usage-ids/usage-id';
 import { UsageIdDefinition } from '../models/usage-ids/usage-id-definition';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Injectable({
   providedIn: 'root',
   useExisting: Config,
@@ -20,6 +23,9 @@ export abstract class EpdVisualizationConfig implements Config {
   public epdVisualization?: EpdVisualizationInnerConfig;
 }
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 export interface EpdVisualizationInnerConfig {
   /**
    * UI5 configuration
@@ -39,6 +45,9 @@ export interface EpdVisualizationInnerConfig {
   visualPicking?: VisualPickingConfig;
 }
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 export interface Ui5Config {
   /**
    * This is the URL that SAPUI5 is bootstrapped from.
@@ -50,6 +59,9 @@ export interface Ui5Config {
   bootstrapUrl: string;
 }
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 export interface VisualizationApiConfig {
   /**
    * This is the base URL that is used to access the EPD Visualization APIs.
@@ -59,6 +71,9 @@ export interface VisualizationApiConfig {
   baseUrl: string;
 }
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 export interface UsageIdConfig {
   /**
    * Folders in the configured SAP EPD Visualization tenant that have anonymous access enabled and have this Usage ID
@@ -78,6 +93,9 @@ export interface UsageIdConfig {
   productUsageId: UsageIdDefinition;
 }
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 export interface VisualPickingConfig {
   /**
    * This is the type of product reference to list for the active product (typically SPAREPART)
@@ -85,6 +103,9 @@ export interface VisualPickingConfig {
   productReferenceType: string;
 }
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 declare module '@spartacus/core' {
   interface Config extends EpdVisualizationConfig {}
 }

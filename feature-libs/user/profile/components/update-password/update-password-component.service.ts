@@ -14,7 +14,6 @@ import {
 import {
   AuthRedirectService,
   AuthService,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -28,17 +27,7 @@ import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
 
 @Injectable()
 export class UpdatePasswordComponentService {
-  // CXSPA-10916: Remove service with toggle
-  private featureConfigService = inject(FeatureConfigService);
-
-  protected passwordValidators = this.featureConfigService.isEnabled(
-    'enableSecurePasswordValidation'
-  )
-    ? CustomFormValidators.securePasswordValidators
-    : [
-        ...CustomFormValidators.passwordValidators,
-        CustomFormValidators.noConsecutiveCharacters,
-      ];
+  protected passwordValidators = CustomFormValidators.securePasswordValidators;
 
   constructor(
     protected userPasswordService: UserPasswordFacade,

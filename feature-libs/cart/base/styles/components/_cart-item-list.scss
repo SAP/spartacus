@@ -53,10 +53,8 @@
     grid-template-columns: 5rem 14rem;
     gap: 1rem;
     text-indent: 0;
-    @include forFeature('a11yCroppedFocusRing') {
-      a {
-        height: fit-content;
-      }
+    a {
+      height: fit-content;
     }
   }
 

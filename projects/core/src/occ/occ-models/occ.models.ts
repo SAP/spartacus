@@ -1117,6 +1117,7 @@ export namespace Occ {
    */
   export interface SapQuote {
     code: string;
+    sapPurchaseOrderNumber: string;
   }
 
   /**

@@ -28,6 +28,9 @@ import {
 import { VisualPickingProductFilterService } from '../product-filter/visual-picking-product-filter.service';
 import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Injectable({
   providedIn: 'root',
 })

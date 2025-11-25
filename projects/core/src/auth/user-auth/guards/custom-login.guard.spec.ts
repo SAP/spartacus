@@ -31,6 +31,9 @@ class MockSemanticPathService {
 }
 class MockWindowRef {
   localStorage = mockStorage();
+  isBrowser(): boolean {
+    return true;
+  }
 }
 class MockGlobalMessageService {
   add = jasmine.createSpy();
@@ -59,6 +62,7 @@ describe('CustomLoginGuard', () => {
   let csrfStateService: CsrfStateService;
   let storage: Storage;
   let authConfigService: AuthConfigService;
+  let mockWindowRef: MockWindowRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -92,6 +96,7 @@ describe('CustomLoginGuard', () => {
     spyOn(csrfStateService, 'set').and.callThrough();
     storage = TestBed.inject(WindowRef).localStorage as Storage;
     spyOn(storage, 'setItem').and.callThrough();
+    mockWindowRef = TestBed.inject(WindowRef) as MockWindowRef;
     authConfigService = TestBed.inject(AuthConfigService);
 
     jasmine.clock().install();
@@ -113,9 +118,19 @@ describe('CustomLoginGuard', () => {
       );
     });
 
-    it('should resolve to true when custom login is enabled', async () => {
+    it('should resolve to true when custom login is disabled', async () => {
       const actual = await lastValueFrom(guard.canActivate());
+      expect(actual).toBe(true);
+    });
+  });
 
+  describe('when SSR mode is running', () => {
+    beforeEach(() => {
+      spyOn(mockWindowRef, 'isBrowser').and.returnValue(false);
+    });
+
+    it('should resolve to true when SSR mode is running', async () => {
+      const actual = await lastValueFrom(guard.canActivate());
       expect(actual).toBe(true);
     });
   });

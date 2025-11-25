@@ -18,7 +18,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { useFeatureStyles, WindowRef } from '@spartacus/core';
+import { WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { FilesFormValidators } from '../../../services/file/files-form-validators';
@@ -95,9 +95,7 @@ export class MessagingComponent implements OnInit, AfterViewChecked {
   constructor(
     protected windowRef: WindowRef,
     protected filesFormValidators: FilesFormValidators
-  ) {
-    useFeatureStyles('a11yCroppedFocusRing');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.buildForm();

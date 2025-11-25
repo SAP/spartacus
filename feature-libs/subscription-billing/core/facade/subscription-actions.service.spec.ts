@@ -3,7 +3,7 @@ import { SubscriptionActionsService } from './subscription-actions.service';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import {
   SubscriptionActionsConnector,
-  SubscriptionBillingConnector,
+  SubscriptionConnector,
 } from '../connector';
 import {
   SubscriptionCancellationDetails,
@@ -26,7 +26,7 @@ describe('SubscriptionActionsService', () => {
   let service: SubscriptionActionsService;
   let userIdService: jasmine.SpyObj<UserIdService>;
   let cancelConnector: jasmine.SpyObj<SubscriptionActionsConnector>;
-  let subscriptionBillingConnector: jasmine.SpyObj<SubscriptionBillingConnector>;
+  let subscriptionConnector: jasmine.SpyObj<SubscriptionConnector>;
   const userId = 'user123';
   const subscriptionCode = 'sub456';
 
@@ -38,10 +38,9 @@ describe('SubscriptionActionsService', () => {
       'reverseCancellation',
       'withdrawSubscription',
     ]);
-    subscriptionBillingConnector = jasmine.createSpyObj(
-      'SubscriptionBillingConnector',
-      ['check']
-    );
+    subscriptionConnector = jasmine.createSpyObj('SubscriptionConnector', [
+      'check',
+    ]);
     TestBed.configureTestingModule({
       providers: [
         SubscriptionActionsService,
@@ -51,8 +50,8 @@ describe('SubscriptionActionsService', () => {
           useValue: cancelConnector,
         },
         {
-          provide: SubscriptionBillingConnector,
-          useValue: subscriptionBillingConnector,
+          provide: SubscriptionConnector,
+          useValue: subscriptionConnector,
         },
         { provide: RoutingService, useValue: mockRoutingService },
         { provide: Store, useValue: mockStore },

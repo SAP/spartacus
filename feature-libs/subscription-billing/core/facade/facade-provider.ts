@@ -5,18 +5,18 @@
  */
 
 import { Provider } from '@angular/core';
-import { SubscriptionBillingService } from './subscription-billing.service';
+import { SubscriptionService } from './subscription.service';
 import {
   SubscriptionActionsFacade,
-  SubscriptionBillingFacade,
+  SubscriptionFacade,
 } from '@spartacus/subscription-billing/root';
 import { SubscriptionActionsService } from './subscription-actions.service';
 
 export const facadeProviders: Provider[] = [
-  SubscriptionBillingService,
+  SubscriptionService,
   {
-    provide: SubscriptionBillingFacade,
-    useExisting: SubscriptionBillingService,
+    provide: SubscriptionFacade,
+    useExisting: SubscriptionService,
   },
   SubscriptionActionsService,
   {

@@ -22,6 +22,7 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
+  CartConfig,
   CartItemComponentOptions,
   CartOutlets,
   CartUiEventAddToCart,
@@ -29,7 +30,6 @@ import {
 import {
   CmsAddToCartComponent,
   EventService,
-  FeatureToggles,
   Product,
   ProductAvailabilityService,
   ProductCatalogService,
@@ -94,9 +94,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   iconTypes = ICON_TYPE;
 
-  private featureToggles = inject(FeatureToggles);
   private productAvailabilityService = inject(ProductAvailabilityService);
   protected productCatalogService = inject(ProductCatalogService);
+  protected realTimeStockEnabled =
+    !!inject(CartConfig).cart?.showRealTimeStockInPDP?.enabled;
 
   /**
    * We disable the dialog launch on quantity input,
@@ -138,7 +139,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       let product$: Observable<Product | null>;
       if (this.productListItemContext) {
         product$ = this.productListItemContext.product$;
-      } else if (this.featureToggles.showRealTimeStockInPDP) {
+      } else if (this.realTimeStockEnabled) {
         product$ = this.currentProductService.getProduct([
           ProductScope.UNIT,
           ProductScope.DETAILS,
@@ -167,14 +168,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.showQuantity = false;
     }
 
-    /**
-     * When removing the feature toggle in the future, let's leave the if-else block.
-     * In case of absent sapUnit we want to fallback to the stock info from the product object.
-     */
-    if (
-      this.featureToggles.showRealTimeStockInPDP &&
-      product.sapUnit?.sapCode
-    ) {
+    if (this.realTimeStockEnabled && product.sapUnit?.sapCode) {
       this.productAvailabilityService
         .getRealTimeStock(this.productCode, product.sapUnit?.sapCode)
         .pipe(take(1))

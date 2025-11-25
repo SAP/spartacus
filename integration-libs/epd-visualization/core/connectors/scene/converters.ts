@@ -8,6 +8,9 @@ import { InjectionToken } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import { NodesResponse } from './nodes-response';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 export const NODES_RESPONSE_NORMALIZER = new InjectionToken<
   Converter<any, NodesResponse>
 >('NodesResponseNormalizer');
