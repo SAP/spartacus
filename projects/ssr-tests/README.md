@@ -14,6 +14,14 @@ If we change something in the application itself such as library code, we need t
 
 Note: Build time could be improved upon by only rebuilding libraries that have changes.
 
+## Local proxy server for OCC backend is needed
+
+The tests check the behavior of SSR in various network conditions, e.g. simulating various error responses from the OCC backend. For this purpose, in the tests we're spinning up two servers:
+1. An SSR server under tests, that serves the Spartacus application in SSR mode.
+2. A proxy server that sits between the SSR server and the OCC backend. The proxy server intercepts requests from the SSR server to the OCC backend and allows us to manipulate those requests and responses for testing purposes.
+
+So it's important that Spartacus SSR is built with the OCC backend URL pointing to the local proxy server. Moreover the Spartacus SSR needs to be built in the prod mode (so it prints logs to `stdout` in production-like single-line JSONs; as opposed to pretty-printed multi-line JSON logs that are used in dev mode).
+
 ## Writing tests
 
 In the `src` directory, you will find utility files and spec files, where spec files contain tests and utilities provide the functions in which we can test SSR. A typical test is comprised on setting up a server instance that runs the application in SSR mode and a proxy server instance for manipulating tests to and from the backend. By manipulating requests and responses between the application and the backend API using the proxy server, we can test that our application behaves correctly in different scenarios.
