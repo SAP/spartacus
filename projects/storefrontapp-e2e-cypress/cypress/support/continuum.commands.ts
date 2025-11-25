@@ -48,6 +48,26 @@ const withContinuum = <T extends (...args: any[]) => any>(fn: T): T => {
 // Normally code outside the Continuum JavaScript SDK is not required to do this, but Cypress' design essentially forces our hand
 const a11yContinuumSetup = withContinuum(
   (configFilePath: string = 'cypress/continuum.conf.ts') => {
+    /**
+     * Hide Level Access API traffic safely (without overriding Cypress.log).
+     * Prevents exposing API tokens in request logs.
+     */
+    cy.intercept(`${LEVEL_ACCESS_API}*`, { log: false });
+
+    /**
+     * Avoid exposing API key in case of errors.
+     */
+    Cypress.on('fail', (error) => {
+      if (error.message.includes(LEVEL_ACCESS_API)) {
+        error.message =
+          'There was an issue submitting accessibility concerns to AMP. Please confirm correct credentials and connection.';
+      }
+      throw error;
+    });
+
+    /**
+     * Continue with normal Continuum engine setup.
+     */
     return cy
       .readFile(configFilePath)
       .then((configFileContents) => window.eval(configFileContents))
@@ -66,6 +86,7 @@ const a11yContinuumSetup = withContinuum(
       );
   }
 );
+
 
 const a11YContinuumPrintResults = withContinuum(() => {
   const accessibilityConcerns = getConfirmedConcerns(
