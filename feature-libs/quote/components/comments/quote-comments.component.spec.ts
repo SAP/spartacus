@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Input } from '@angular/core';
+
+import { Component, Input, DOCUMENT } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,

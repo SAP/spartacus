@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT, isPlatformServer } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID, DOCUMENT } from '@angular/core';
 
 export enum ScriptPlacement {
   HEAD = 'head',
