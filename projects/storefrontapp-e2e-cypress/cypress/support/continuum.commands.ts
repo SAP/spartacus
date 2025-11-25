@@ -67,6 +67,7 @@ const a11yContinuumSetup = withContinuum(
   }
 );
 
+
 const a11YContinuumPrintResults = withContinuum(() => {
   const accessibilityConcerns = getConfirmedConcerns(
     Continuum.getAccessibilityConcerns()
