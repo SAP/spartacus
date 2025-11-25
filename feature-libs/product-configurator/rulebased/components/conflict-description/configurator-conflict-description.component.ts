@@ -4,15 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   Input,
 } from '@angular/core';
-import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { Configurator } from '../../core/model/configurator.model';
+import { NgIf } from '@angular/common';
+import { IconComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configurator-conflict-description',

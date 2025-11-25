@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute, RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   EntitiesModel,
@@ -25,13 +24,14 @@ import {
 } from '@spartacus/storefront';
 import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { of } from 'rxjs';
-import { CardComponent } from '../card/card.component';
 import { CardTestingModule } from '../card/card.testing.module';
 import { ItemService } from '../item.service';
 import { ListService } from '../list/list.service';
-import { MessageComponent } from '../message/message.component';
 import { MessageTestingModule } from '../message/message.testing.module';
 import { SubListComponent } from './sub-list.component';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { MessageComponent } from '../message/message.component';
+import { CardComponent } from '../card/card.component';
 import createSpy = jasmine.createSpy;
 
 const mockList: EntitiesModel<any> = {

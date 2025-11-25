@@ -12,11 +12,11 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
-import { AddToHomeScreenBannerComponent } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { of } from 'rxjs';
-import { OrderGuestRegisterFormComponent } from '../order-guest-register-form/order-guest-register-form.component';
 import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
+import { AddToHomeScreenBannerComponent } from '@spartacus/storefront';
+import { OrderGuestRegisterFormComponent } from '../order-guest-register-form/order-guest-register-form.component';
 import createSpy = jasmine.createSpy;
 
 const replenishmentOrderCode = 'test-repl-code';

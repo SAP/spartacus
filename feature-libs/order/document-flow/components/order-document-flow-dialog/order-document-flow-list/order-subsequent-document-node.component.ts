@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,9 +11,10 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { CxDatePipe, TranslatePipe } from '@spartacus/core';
-import { OrderSubsequentDocument } from '@spartacus/order/document-flow/root';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
+import { OrderSubsequentDocument } from '@spartacus/order/document-flow/root';
+import { NgFor, NgClass, NgIf } from '@angular/common';
+import { TranslatePipe, CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-subsequent-document-node',

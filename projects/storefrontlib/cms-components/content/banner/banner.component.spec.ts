@@ -1,7 +1,6 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import {
   CmsBannerComponent,
   CmsService,
@@ -24,6 +23,7 @@ import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-fe
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BannerComponent } from './banner.component';
+import { RouterModule } from '@angular/router';
 
 const media = {
   code: '/images/theme/logo_hybris.jpg',

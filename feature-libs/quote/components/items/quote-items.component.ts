@@ -4,21 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import { AbstractOrderType, CartOutlets } from '@spartacus/cart/base/root';
-import { TranslatePipe } from '@spartacus/core';
-import {
-  ICON_TYPE,
-  IconComponent,
-  OutletDirective,
-} from '@spartacus/storefront';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   QuoteItemsComponentService,
   QuoteItemsData,
 } from './quote-items.component.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { IconComponent } from '@spartacus/storefront';
+import { OutletDirective } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
+import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 
 /**
  * Renders quote items. These items are either taken from the actual quote,

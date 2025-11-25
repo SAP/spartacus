@@ -4,22 +4,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   B2BUser,
   CostCenter,
-  CxDatePipe,
   PaymentDetails,
   TranslationService,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { Card, CardComponent } from '@spartacus/storefront';
+import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { CardComponent } from '@spartacus/storefront';
+import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-unit-level-order-overview',

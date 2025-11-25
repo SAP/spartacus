@@ -5,8 +5,8 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SiteContextSelectorComponent } from './site-context-selector.component';
 import { SiteContextType } from './site-context.model';
+import { SiteContextSelectorComponent } from './site-context-selector.component';
 
 @Component({
   selector: 'cx-language-currency-selector',

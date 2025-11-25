@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -10,10 +9,11 @@ import {
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import { IconComponent, MockIconComponent } from '@spartacus/storefront';
 import { MessageComponent } from './message.component';
 import { MessageData } from './message.model';
 import { MessageService } from './services';
+import { IconComponent, MockIconComponent } from '@spartacus/storefront';
+import { RouterModule } from '@angular/router';
 
 const mockMessage1: MessageData = {
   message: {

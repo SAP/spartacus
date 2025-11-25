@@ -4,21 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   HostBinding,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import {
   CmsService,
   CmsVideoComponent,
   ContainerBackgroundOptions,
   PageType,
   SemanticPathService,
-  TranslatePipe,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
@@ -28,7 +25,10 @@ import {
   MediaContainer,
 } from '../../../shared/components/media/media.model';
 import { MediaService } from '../../../shared/components/media/media.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-video',

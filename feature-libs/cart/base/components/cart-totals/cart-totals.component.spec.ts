@@ -1,15 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import {
-  CxDatePipe,
-  MockDatePipe,
-  MockTranslatePipe,
-  TranslatePipe,
-} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { OrderSummaryComponent } from '../cart-shared';
 import { CartTotalsComponent } from './cart-totals.component';
+import {
+  TranslatePipe,
+  CxDatePipe,
+  MockTranslatePipe,
+  MockDatePipe,
+} from '@spartacus/core';
+import { OrderSummaryComponent } from '../cart-shared';
 
 const cartMock: Cart = {
   name: 'cart-mock',

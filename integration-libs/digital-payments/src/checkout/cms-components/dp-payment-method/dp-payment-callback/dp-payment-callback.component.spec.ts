@@ -7,10 +7,6 @@ import {
 } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import {
-  CheckoutBillingAddressFormComponent,
-  CheckoutBillingAddressFormService,
-} from '@spartacus/checkout/base/components';
-import {
   Address,
   GlobalMessageService,
   GlobalMessageType,
@@ -19,16 +15,20 @@ import {
   PaymentDetails,
   TranslatePipe,
 } from '@spartacus/core';
-import {
-  LAUNCH_CALLER,
-  LaunchDialogService,
-  SpinnerComponent,
-} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { DpCheckoutPaymentService } from './../../../facade/dp-checkout-payment.service';
 import { DpLocalStorageService } from './../../../facade/dp-local-storage.service';
 import { DpPaymentRequest } from './../../../models/dp-checkout.model';
 import { DpPaymentCallbackComponent } from './dp-payment-callback.component';
+import {
+  CheckoutBillingAddressFormComponent,
+  CheckoutBillingAddressFormService,
+} from '@spartacus/checkout/base/components';
+import {
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 
 class MockDpCheckoutPaymentService
   implements Partial<DpCheckoutPaymentService>

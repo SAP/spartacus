@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CxDatePipe, TranslatePipe } from '@spartacus/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { ConsignmentView } from '@spartacus/order/root';
+import { NgFor, NgIf } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
+import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-my-account-v2-consignment-entries',

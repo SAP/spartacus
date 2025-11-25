@@ -1,6 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
@@ -17,8 +16,9 @@ import { Order, OrderConfig, ReplenishmentOrder } from '@spartacus/order/root';
 import { Card, CardComponent, CmsComponentData } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
-import { OrderOverviewComponentService } from './order-overview-component.service';
 import { OrderOverviewComponent } from './order-overview.component';
+import { OrderOverviewComponentService } from './order-overview-component.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'cx-card',

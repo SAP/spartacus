@@ -6,8 +6,8 @@ import { BulkPrice } from '../../core/model/bulk-price.model';
 import { BulkPricingTableComponent } from './bulk-pricing-table.component';
 
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { BulkPricingService } from '../../core/services/bulk-pricing.service';
+import { Observable, of } from 'rxjs';
 
 const mockState = {
   state: {

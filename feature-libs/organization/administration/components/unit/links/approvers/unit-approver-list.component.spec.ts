@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -8,11 +7,12 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
-import { SubListComponent } from '../../../shared';
 import { SubListTestingModule } from '../../../shared/sub-list/sub-list.testing.module';
 import { UnitApproverListComponent } from './unit-approver-list.component';
 import { UnitApproverListService } from './unit-approver-list.service';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { RouterModule } from '@angular/router';
+import { SubListComponent } from '../../../shared';
 
 class MockUnitApproverListService {}
 

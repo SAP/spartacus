@@ -4,27 +4,28 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import {
-  CxDatePipe,
   EventService,
   TranslatePipe,
+  CxDatePipe,
   UrlPipe,
 } from '@spartacus/core';
+import {
+  GetSubscriptionByCodeReloadEvent,
+  SubscriptionActionMode,
+  SubscriptionFacade,
+  SubscriptionDetail,
+} from '@spartacus/subscription-billing/root';
+import { Observable, take } from 'rxjs';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { of } from 'rxjs';
 import {
   LAUNCH_CALLER,
   LaunchDialogService,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import {
-  GetSubscriptionByCodeReloadEvent,
-  SubscriptionActionMode,
-  SubscriptionDetail,
-  SubscriptionFacade,
-} from '@spartacus/subscription-billing/root';
-import { Observable, of, take } from 'rxjs';
 
 @Component({
   selector: 'cx-subscription-details',

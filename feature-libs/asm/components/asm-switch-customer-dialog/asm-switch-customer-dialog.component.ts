@@ -5,15 +5,13 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { TranslatePipe, User } from '@spartacus/core';
-import {
-  FocusConfig,
-  FocusDirective,
-  IconComponent,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { User } from '@spartacus/core';
+import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
 import { AsmComponentService } from '../services';
+import { FocusDirective } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 export enum SWITCH_CUSTOMER_DIALOG_ACTION {
   CANCEL = 'CANCEL',

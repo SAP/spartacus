@@ -4,28 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
-  FormsModule,
-  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
+  FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade, CartOutlets } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  TranslatePipe,
-} from '@spartacus/core';
-import {
-  InnerComponentsHostDirective,
-  OutletDirective,
-  SpinnerComponent,
-} from '@spartacus/storefront';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -37,6 +27,11 @@ import {
 } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { OutletDirective } from '@spartacus/storefront';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { InnerComponentsHostDirective } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-delivery-mode',

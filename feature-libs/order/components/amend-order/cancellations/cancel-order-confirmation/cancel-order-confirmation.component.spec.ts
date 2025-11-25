@@ -14,14 +14,14 @@ import {
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import {
-  AmendOrderActionsComponent,
-  CancelOrReturnItemsComponent,
-} from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.component';
+import {
+  AmendOrderActionsComponent,
+  CancelOrReturnItemsComponent,
+} from '@spartacus/order/components';
 
 import createSpy = jasmine.createSpy;
 

@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Params, Router, RouterLink } from '@angular/router';
 import { GenericLinkComponentService } from './generic-link-component.service';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 
 // private
 interface RouteParts {

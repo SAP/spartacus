@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import {
   AuthGuard,
   CmsConfig,
@@ -14,6 +13,7 @@ import {
   UrlModule,
   provideDefaultConfig,
 } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
 import { MyAccountV2UserComponent } from './my-account-v2-user.component';
 
 @NgModule({

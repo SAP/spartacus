@@ -1,7 +1,5 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
+import { CheckoutServiceDetailsComponent } from './checkout-service-details.component';
 import {
   CxDatePipe,
   GlobalMessageService,
@@ -11,14 +9,16 @@ import {
   QueryState,
   TranslatePipe,
 } from '@spartacus/core';
+import { UntypedFormBuilder } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import {
   CheckoutServiceDetailsFacade,
   CheckoutServiceSchedulePickerService,
   ServiceDateTime,
 } from '@spartacus/s4-service/root';
-import { DatePickerComponent } from '@spartacus/storefront';
 import { Observable, of, throwError } from 'rxjs';
-import { CheckoutServiceDetailsComponent } from './checkout-service-details.component';
+import { DatePickerComponent } from '@spartacus/storefront';
 import createSpy = jasmine.createSpy;
 const mockScheduledAt = '2024-06-27T09:30:00-04:00';
 class MockActivatedRoute implements Partial<ActivatedRoute> {}

@@ -6,10 +6,10 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UnitFormComponent } from '../../../form';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitItemService } from '../../../services/unit-item.service';
 import { UnitChildItemService } from './unit-child-item.service';
+import { UnitFormComponent } from '../../../form';
 
 @Component({
   selector: 'cx-org-unit-child-create',

@@ -27,11 +27,11 @@ import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsQuickOrderComponent } from '../../core/models/cms.model';
 import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
+import { QuickOrderComponent } from './quick-order.component';
 import {
   QuickOrderFormComponent,
   QuickOrderTableComponent,
 } from '../public_api';
-import { QuickOrderComponent } from './quick-order.component';
 
 const mockProduct: Product = {
   code: '123456789',

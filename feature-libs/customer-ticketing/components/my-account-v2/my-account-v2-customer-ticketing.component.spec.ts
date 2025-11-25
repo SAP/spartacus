@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -14,6 +13,7 @@ import {
 import { TicketList } from '@spartacus/customer-ticketing/root';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { MyAccountV2CustomerTicketingComponent } from './my-account-v2-customer-ticketing.component';
+import { RouterModule } from '@angular/router';
 
 const mockTicketList: TicketList = {
   pagination: {},

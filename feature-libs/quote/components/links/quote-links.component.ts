@@ -4,15 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
-  TranslatePipe,
-  UrlPipe,
 } from '@spartacus/core';
 import { OrderConfig } from '@spartacus/order/root';
 import {
@@ -22,6 +18,10 @@ import {
 import { Quote, QuoteAttachment, QuoteFacade } from '@spartacus/quote/root';
 import { FileDownloadService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-quote-links',

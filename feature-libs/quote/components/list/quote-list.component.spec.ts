@@ -7,7 +7,6 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
 import {
   FeatureDirective,
   I18nTestingModule,
@@ -38,6 +37,7 @@ import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteListComponentService } from './quote-list-component.service';
 import { QuoteListComponent } from './quote-list.component';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';

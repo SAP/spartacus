@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -32,9 +31,10 @@ import {
   tap,
 } from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
+import { PageSlotService } from './page-slot.service';
+import { NgIf, NgFor } from '@angular/common';
 import { OutletDirective } from '../../outlet/outlet.directive';
 import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
-import { PageSlotService } from './page-slot.service';
 
 /**
  * The `PageSlotComponent` is used to render the CMS page slot and it's components.

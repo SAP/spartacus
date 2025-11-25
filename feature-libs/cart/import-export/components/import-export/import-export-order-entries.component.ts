@@ -4,17 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  ORDER_ENTRIES_CONTEXT,
   OrderEntriesContext,
+  ORDER_ENTRIES_CONTEXT,
 } from '@spartacus/cart/base/root';
 import { ContextService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { ImportOrderEntriesComponent } from '../import-to-cart/import-entries/import-order-entries.component';
 import { ExportOrderEntriesComponent } from '../export-entries/export-order-entries.component';
-import { importOrderEntriesComponent } from '../import-to-cart/import-entries/import-order-entries.component';
 
 @Component({
   selector: 'cx-import-export-order-entries',
@@ -22,18 +22,18 @@ import { importOrderEntriesComponent } from '../import-to-cart/import-entries/im
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
-    importOrderEntriesComponent,
+    ImportOrderEntriesComponent,
     ExportOrderEntriesComponent,
     AsyncPipe,
   ],
 })
-export class importExportOrderEntriesComponent {
+export class ImportExportOrderEntriesComponent {
   constructor(protected contextService: ContextService) {}
 
   protected context$: Observable<OrderEntriesContext | undefined> =
     this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
 
-  shouldDisplayimport$: Observable<boolean> = this.context$.pipe(
+  shouldDisplayImport$: Observable<boolean> = this.context$.pipe(
     map((orderEntriesContext) => !!orderEntriesContext?.addEntries)
   );
 

@@ -1,10 +1,10 @@
 import { Component, Directive, Input } from '@angular/core';
 import {
+  waitForAsync,
   ComponentFixture,
   fakeAsync,
   TestBed,
   tick,
-  waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { LockFocusConfig } from '../keyboard-focus.model';

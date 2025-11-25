@@ -4,16 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { B2BUnit, TranslatePipe } from '@spartacus/core';
+import { B2BUnit } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { DisableInfoComponent } from '../../../shared/detail/disable-info/disable-info.component';
 import { ListService } from '../../../shared/list/list.service';
-import { SubListComponent } from '../../../shared/sub-list/sub-list.component';
 import { CurrentUnitService } from '../../services/current-unit.service';
 import { UnitCostCenterListService } from './unit-cost-centers.service';
+import { SubListComponent } from '../../../shared/sub-list/sub-list.component';
+import { RouterLink } from '@angular/router';
+import { DisableInfoComponent } from '../../../shared/detail/disable-info/disable-info.component';
+import { TranslatePipe } from '@spartacus/core';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'cx-org-unit-cost-centers',

@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import {
   FeatureDirective,
   I18nTestingModule,
@@ -16,6 +15,7 @@ import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-fe
 import { Observable, of } from 'rxjs';
 import { LaunchDialogService } from '../../../../layout/launch-dialog/services/index';
 import { StockNotificationDialogComponent } from './stock-notification-dialog.component';
+import { RouterModule } from '@angular/router';
 
 describe('StockNotificationDialogComponent', () => {
   let component: StockNotificationDialogComponent;

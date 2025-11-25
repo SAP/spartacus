@@ -3,8 +3,8 @@ import { ApplicationRef, Component, Injector } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import {
   NavigationEnd,
-  Router,
   ROUTER_CONFIGURATION,
+  Router,
   Scroll,
 } from '@angular/router';
 import { OnNavigateConfig, StorefrontComponent } from '@spartacus/storefront';

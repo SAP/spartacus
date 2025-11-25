@@ -4,22 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import {
-  NgClass,
-  NgFor,
   NgIf,
+  NgFor,
+  NgTemplateOutlet,
   NgSwitch,
   NgSwitchCase,
-  NgTemplateOutlet,
+  NgClass,
 } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
-import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
 import { AtMessageDirective } from '../assistive-technology-message/assistive-technology-message.directive';
 import { GenericLinkComponent } from '../generic-link/generic-link.component';
 import { TruncateTextPopoverComponent } from '../truncate-text-popover/truncate-text-popover.component';
+import { TranslatePipe } from '@spartacus/core';
 
 export interface CardAction {
   event: string;

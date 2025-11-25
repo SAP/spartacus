@@ -4,29 +4,29 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
   ProductSearchPage,
-  TranslatePipe,
   useFeatureStyles,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, skip, take } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms-structure/page/index';
-import { PaginationComponent } from '../../../../shared/components/list-navigation/pagination/pagination.component';
-import { SortingComponent } from '../../../../shared/components/list-navigation/sorting/sorting.component';
 import { ViewConfig } from '../../../../shared/config/view-config';
-import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
-import { ProductListItemComponent } from '../product-list-item/product-list-item.component';
 import {
-  ProductViewComponent,
   ViewModes,
+  ProductViewComponent,
 } from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { SortingComponent } from '../../../../shared/components/list-navigation/sorting/sorting.component';
+import { PaginationComponent } from '../../../../shared/components/list-navigation/pagination/pagination.component';
+import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
+import { ProductListItemComponent } from '../product-list-item/product-list-item.component';
 import { ProductScrollComponent } from './product-scroll/product-scroll.component';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-list',

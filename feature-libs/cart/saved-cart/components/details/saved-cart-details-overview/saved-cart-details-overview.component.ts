@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -13,18 +12,21 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
-import { CxDatePipe, TranslatePipe, TranslationService } from '@spartacus/core';
+import { TranslationService } from '@spartacus/core';
 import {
   Card,
-  CardComponent,
   ICON_TYPE,
-  IconComponent,
-  LAUNCH_CALLER,
   LaunchDialogService,
+  LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { CardComponent } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
+import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-saved-cart-details-overview',

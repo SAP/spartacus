@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,15 +21,11 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { RoutingService, TranslatePipe } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import {
   FocusConfig,
-  FocusDirective,
   ICON_TYPE,
-  IconComponent,
   LaunchDialogService,
-  PromotionsComponent,
-  SpinnerComponent,
 } from '@spartacus/storefront';
 import { Observable, Subscription, of } from 'rxjs';
 import {
@@ -41,7 +36,13 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+import { FocusDirective } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
+import { NgIf, AsyncPipe } from '@angular/common';
 import { CartItemComponent } from '../cart-shared/cart-item/cart-item.component';
+import { PromotionsComponent } from '@spartacus/storefront';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 export interface AddedToCartDialogComponentData {
   productCode: string;

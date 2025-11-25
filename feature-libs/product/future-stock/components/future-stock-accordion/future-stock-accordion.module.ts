@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
-import { IconModule } from '@spartacus/storefront';
+import { CommonModule } from '@angular/common';
 import { FutureStockAccordionComponent } from './future-stock-accordion.component';
+import { IconModule } from '@spartacus/storefront';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [

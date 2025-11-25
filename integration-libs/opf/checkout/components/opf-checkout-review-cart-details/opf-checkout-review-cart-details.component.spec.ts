@@ -5,13 +5,10 @@
  */
 
 import {
-  Component,
-  Directive,
-  Input,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+  BaseSiteService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   Cart,
   CartOutlets,
@@ -19,21 +16,24 @@ import {
   PromotionLocation,
 } from '@spartacus/cart/base/root';
 import {
-  BaseSiteService,
-  TranslatePipe,
-  TranslationService,
-} from '@spartacus/core';
+  Component,
+  Directive,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-cart-details.component';
 import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 import {
-  AppliedCouponsComponent,
   CartItemListComponent,
   OrderSummaryComponent,
+  AppliedCouponsComponent,
 } from '@spartacus/cart/base/components';
+import { PromotionsComponent, OutletDirective } from '@spartacus/storefront';
 import { PickUpItemsDetailsComponent } from '@spartacus/pickup-in-store/components';
-import { OutletDirective, PromotionsComponent } from '@spartacus/storefront';
-import { of } from 'rxjs';
-import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-cart-details.component';
 
 @Directive({ selector: '[cxOutlet]' })
 class MockOutletDirective {

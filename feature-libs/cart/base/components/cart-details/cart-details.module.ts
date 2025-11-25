@@ -16,8 +16,8 @@ import {
 import { PromotionsModule } from '@spartacus/storefront';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
-import { CartValidationWarningsModule } from '../validation/cart-warnings/cart-validation-warnings.module';
 import { CartDetailsComponent } from './cart-details.component';
+import { CartValidationWarningsModule } from '../validation/cart-warnings/cart-validation-warnings.module';
 
 @NgModule({
   imports: [

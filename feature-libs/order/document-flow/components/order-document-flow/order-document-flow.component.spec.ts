@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { of } from 'rxjs';
+import { Order } from '@spartacus/order/root';
 import { By } from '@angular/platform-browser';
+import { LaunchDialogService } from '@spartacus/storefront';
 import { I18nTestingModule } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
-import { Order } from '@spartacus/order/root';
-import { LaunchDialogService } from '@spartacus/storefront';
-import { of } from 'rxjs';
 import { OrderDocumentFlowComponent } from './order-document-flow.component';
 
 const orderData: Order = {

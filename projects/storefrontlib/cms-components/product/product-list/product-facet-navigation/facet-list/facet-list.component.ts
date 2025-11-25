@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -24,21 +23,23 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import { Facet, FeatureConfigService, TranslatePipe } from '@spartacus/core';
+import { Facet, FeatureConfigService } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
 import {
   FocusConfig,
   KeyboardFocusService,
 } from '../../../../../layout/a11y/keyboard-focus/index';
-import { TabComponent } from '../../../../content/tab/tab.component';
 import { TAB_MODE, Tab, TabConfig } from '../../../../content/tab/tab.model';
-import { IconComponent } from '../../../../misc/icon/icon.component';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetGroupCollapsedState, FacetList } from '../facet.model';
 import { FacetComponent } from '../facet/facet.component';
 import { FacetService } from '../services/facet.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
+import { IconComponent } from '../../../../misc/icon/icon.component';
+import { TabComponent } from '../../../../content/tab/tab.component';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-facet-list',

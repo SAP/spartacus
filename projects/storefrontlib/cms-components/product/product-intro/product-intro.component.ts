@@ -4,13 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, DecimalPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   EventService,
-  FeatureDirective,
   Product,
-  TranslatePipe,
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
@@ -20,8 +17,11 @@ import {
   ComponentCreateEvent,
   ComponentDestroyEvent,
 } from '../../../cms-structure';
-import { StarRatingComponent } from '../../../shared/components/star-rating/star-rating.component';
 import { CurrentProductService } from '../current-product.service';
+import { NgIf, AsyncPipe, DecimalPipe } from '@angular/common';
+import { StarRatingComponent } from '../../../shared/components/star-rating/star-rating.component';
+import { FeatureDirective } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-intro',

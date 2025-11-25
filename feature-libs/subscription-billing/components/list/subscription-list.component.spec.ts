@@ -1,12 +1,9 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
   TestBed,
   tick,
 } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -16,12 +13,15 @@ import {
   TranslationService,
   UrlPipe,
 } from '@spartacus/core';
+import { SubscriptionListComponent } from './subscription-list.component';
+import { Observable, of } from 'rxjs';
 import {
   SubscriptionFacade,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
-import { Observable, of } from 'rxjs';
-import { SubscriptionListComponent } from './subscription-list.component';
+import { Pipe, PipeTransform } from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 
 const listWithData: SubscriptionList = {
   pagination: {

@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { StoreFinderOutlets } from '@spartacus/storefinder/root';
-import { OutletDirective } from '@spartacus/storefront';
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
+import { NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { OutletDirective } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-list-item',

@@ -6,10 +6,11 @@
 
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { AsmConfig } from '@spartacus/asm/root';
-import { RoutingService, TranslatePipe, UserIdService } from '@spartacus/core';
+import { RoutingService, UserIdService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
+import { TranslatePipe } from '@spartacus/core';
 import { FormatTimerPipe } from './format-timer.pipe';
 
 @Component({

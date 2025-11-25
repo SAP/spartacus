@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,16 +11,18 @@ import {
   OnInit,
   Optional,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
-  HighlightPipe,
   OutletContextData,
   SearchBoxComponentService,
 } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
 import { RecentSearchesService } from './recent-searches.service';
+import { map, tap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@spartacus/core';
+import { HighlightPipe } from '@spartacus/storefront';
+import { UrlPipe } from '@spartacus/core';
 
 export interface SearchBoxOutlet {
   search: string;

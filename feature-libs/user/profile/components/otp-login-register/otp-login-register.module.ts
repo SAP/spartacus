@@ -6,9 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgSelectModule } from '@ng-select/ng-select';
 import {
   CmsConfig,
   FeaturesConfigModule,
@@ -26,9 +24,11 @@ import {
   PageSlotModule,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { ReactiveFormsModule, UntypedFormBuilder } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
-import { RegisterComponentService } from '../register';
 import { OneTimePasswordRegisterComponent } from './otp-login-register.component';
+import { RegisterComponentService } from '../register';
 
 @NgModule({
   imports: [

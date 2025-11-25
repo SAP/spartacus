@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,9 +17,9 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import {
-  KeyboardFocusService,
   LAUNCH_CALLER,
   LaunchDialogService,
+  KeyboardFocusService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {
@@ -35,6 +34,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { ConfiguratorGroupComponent } from '../group/configurator-group.component';
 
 @Component({

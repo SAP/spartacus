@@ -7,18 +7,18 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { TranslatePipe } from '@spartacus/core';
-import { IconComponent } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
-import { ConfigureCartEntryComponent } from '../configure-cart-entry';
 import {
   ConfigurationInfo,
   OrderEntryStatus,
   StatusSummary,
 } from './../../core/model/common-configurator.model';
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
+import { TranslatePipe } from '@spartacus/core';
+import { ConfigureCartEntryComponent } from '../configure-cart-entry';
+import { IconComponent } from '@spartacus/storefront';
 
 @Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {

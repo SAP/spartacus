@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, KeyValuePipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,17 +24,16 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   Product,
-  TranslatePipe,
 } from '@spartacus/core';
-import {
-  CmsComponentData,
-  MessageComponent,
-  ProgressButtonComponent,
-} from '@spartacus/storefront';
+import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { first, map, tap } from 'rxjs/operators';
 import { QuickOrderFormComponent } from './form/quick-order-form.component';
+import { NgIf, NgFor, AsyncPipe, KeyValuePipe } from '@angular/common';
+import { MessageComponent } from '@spartacus/storefront';
 import { QuickOrderTableComponent } from './table/quick-order-table.component';
+import { ProgressButtonComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-quick-order',

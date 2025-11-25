@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
 import { Configurator } from '../../core/model/configurator.model';
 import {
-  ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
+  ConfiguratorPriceComponent,
 } from '../price/configurator-price.component';
+import { Observable } from 'rxjs';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-overview-attribute',

@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import {
   CxDatePipe,
@@ -13,6 +12,7 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { AmendOrderActionsComponent } from './amend-order-actions.component';
+import { RouterModule } from '@angular/router';
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {

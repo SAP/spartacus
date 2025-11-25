@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Product, TranslatePipe } from '@spartacus/core';
-import {
-  ProductListItemContext,
-  StarRatingComponent,
-} from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
+import { Product } from '@spartacus/core';
+import { ProductListItemContext } from '@spartacus/storefront';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { StarRatingComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-multi-dimensional-list-item-details',

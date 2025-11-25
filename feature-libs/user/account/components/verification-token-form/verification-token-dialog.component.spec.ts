@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FeatureDirective, TranslatePipe } from '@spartacus/core';
 import { FocusDirective, LaunchDialogService } from '@spartacus/storefront';
 import { VERIFICATION_TOKEN_DIALOG_ACTION } from '@spartacus/user/account/root';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { VerificationTokenDialogComponent } from './verification-token-dialog.component';
+import { FeatureDirective, TranslatePipe } from '@spartacus/core';
 
 @Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {

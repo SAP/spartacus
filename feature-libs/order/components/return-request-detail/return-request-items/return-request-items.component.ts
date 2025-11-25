@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
 import { ReturnRequest } from '@spartacus/order/root';
-import { MediaComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { ReturnRequestService } from '../return-request.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { MediaComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-return-request-items',

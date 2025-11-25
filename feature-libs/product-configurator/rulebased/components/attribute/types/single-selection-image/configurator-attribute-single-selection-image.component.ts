@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,26 +11,26 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  UntypedFormControl,
   FormsModule,
   ReactiveFormsModule,
-  UntypedFormControl,
 } from '@angular/forms';
-import { Config, FeatureConfigService, TranslatePipe } from '@spartacus/core';
-import {
-  FocusDirective,
-  ICON_TYPE,
-  IconComponent,
-  PopoverDirective,
-} from '@spartacus/storefront';
+import { Config, FeatureConfigService } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import {
-  ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
+  ConfiguratorPriceComponent,
 } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
+import { FocusDirective } from '@spartacus/storefront';
+import { PopoverDirective } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-image',

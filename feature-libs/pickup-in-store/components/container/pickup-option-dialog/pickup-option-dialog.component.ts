@@ -26,17 +26,15 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
-import {
-  FocusDirective,
-  IconComponent,
-  SpinnerComponent,
-} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import { StoreListComponent } from '../store-list/store-list.component';
+import { FocusDirective } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
 import { StoreSearchComponent } from '../store-search/store-search.component';
+import { StoreListComponent } from '../store-list/store-list.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 /**
  * The dialog box to select the pickup location for a product.

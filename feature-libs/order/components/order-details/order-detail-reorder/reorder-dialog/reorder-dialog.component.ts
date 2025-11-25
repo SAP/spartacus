@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -17,18 +16,20 @@ import {
   CartValidationStatusCode,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import { OCC_CART_ID_CURRENT, TranslatePipe } from '@spartacus/core';
+import { OCC_CART_ID_CURRENT } from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import {
   FocusConfig,
-  FocusDirective,
   ICON_TYPE,
-  IconComponent,
   LaunchDialogService,
   SelectFocusUtility,
-  SpinnerComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
+import { FocusDirective } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-reorder-dialog',

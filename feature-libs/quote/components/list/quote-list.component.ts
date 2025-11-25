@@ -4,30 +4,28 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   OnInit,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { QuoteListComponentService } from './quote-list-component.service';
 import {
   CxDatePipe,
-  CxDatePipe as CxDatePipe_1,
   PaginationModel,
-  TranslatePipe,
   TranslationService,
-  UrlPipe,
 } from '@spartacus/core';
 import { QuoteState } from '@spartacus/quote/root';
-import {
-  ICON_TYPE,
-  IconComponent,
-  PaginationComponent,
-  SortingComponent,
-} from '@spartacus/storefront';
-import { QuoteListComponentService } from './quote-list-component.service';
+import { ICON_TYPE } from '@spartacus/storefront';
+import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
+import { SortingComponent } from '@spartacus/storefront';
+import { PaginationComponent } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { IconComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
+import { CxDatePipe as CxDatePipe_1 } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-quote-list',

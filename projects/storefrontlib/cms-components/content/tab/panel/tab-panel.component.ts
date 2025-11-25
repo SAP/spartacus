@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
 import { Tab, TAB_MODE } from '../tab.model';
+import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'cx-tab-panel',

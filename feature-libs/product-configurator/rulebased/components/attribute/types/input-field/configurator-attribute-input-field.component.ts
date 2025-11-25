@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,13 +11,11 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  UntypedFormControl,
   FormsModule,
   ReactiveFormsModule,
-  UntypedFormControl,
 } from '@angular/forms';
-import { TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { FocusDirective } from '@spartacus/storefront';
 import { Observable, Subscription, of, timer } from 'rxjs';
 import { debounce, map } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -27,6 +24,9 @@ import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-se
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { FocusDirective } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-attribute-input-field',

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,7 +13,6 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -23,18 +21,21 @@ import {
   NotificationType,
   OCC_USER_ID_ANONYMOUS,
   Product,
-  TranslatePipe,
   TranslationService,
-  UrlPipe,
   UserIdService,
   UserInterestsService,
   UserNotificationPreferenceService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, first, map, take, tap } from 'rxjs/operators';
-import { LAUNCH_CALLER, LaunchDialogService } from '../../../layout/index';
-import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { filter, first, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
+import { LaunchDialogService, LAUNCH_CALLER } from '../../../layout/index';
+import { take } from 'rxjs/operators';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { TranslatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-stock-notification',

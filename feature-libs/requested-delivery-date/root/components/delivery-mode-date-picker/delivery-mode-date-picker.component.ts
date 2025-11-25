@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
 import {
@@ -21,19 +20,17 @@ import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
-  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
-import {
-  Card,
-  CardComponent,
-  DatePickerComponent,
-  OutletContextData,
-} from '@spartacus/storefront';
+import { Card, OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { RequestedDeliveryDateFacade } from '../../facade/requested-delivery-date.facade';
 import { DateValidationService } from '../shared/date-validation.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { CardComponent } from '@spartacus/storefront';
+import { DatePickerComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-request-delivery-date',

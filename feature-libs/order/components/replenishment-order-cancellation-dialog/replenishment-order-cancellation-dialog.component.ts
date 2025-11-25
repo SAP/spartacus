@@ -12,21 +12,18 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  TranslatePipe,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { ReplenishmentOrderHistoryFacade } from '@spartacus/order/root';
 import {
   FocusConfig,
-  FocusDirective,
   ICON_TYPE,
-  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { combineLatest, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
+import { FocusDirective } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-replenishment-order-cancellation-dialog',

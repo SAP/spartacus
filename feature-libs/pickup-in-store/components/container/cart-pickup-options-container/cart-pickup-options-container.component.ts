@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -46,6 +45,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { PickupOptionsComponent } from '../../presentational';
+import { AsyncPipe, NgIf } from '@angular/common';
 
 type OrderEntryRequiredFields =
   | 'entryNumber'

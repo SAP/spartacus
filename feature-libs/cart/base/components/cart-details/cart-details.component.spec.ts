@@ -20,10 +20,10 @@ import {
 } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { CartDetailsComponent } from './cart-details.component';
 import { CartCouponComponent } from '../cart-coupon';
 import { CartItemListComponent } from '../cart-shared';
 import { CartValidationWarningsComponent } from '../public_api';
-import { CartDetailsComponent } from './cart-details.component';
 
 class MockActiveCartService {
   removeEntry(): void {}

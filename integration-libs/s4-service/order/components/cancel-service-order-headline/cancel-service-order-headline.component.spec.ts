@@ -1,10 +1,10 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
-import { OrderDetailsService } from '@spartacus/order/components';
 import { of } from 'rxjs';
 import { CancelServiceOrderHeadlineComponent } from './cancel-service-order-headline.component';
+import { OrderDetailsService } from '@spartacus/order/components';
+import { I18nTestingModule } from '@spartacus/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 // Mock data
 const mockOrder = {

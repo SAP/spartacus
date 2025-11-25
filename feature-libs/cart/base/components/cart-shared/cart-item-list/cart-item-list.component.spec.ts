@@ -23,9 +23,9 @@ import {
 } from '@spartacus/core';
 import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
 import { Observable, Subject, of } from 'rxjs';
-import { CartItemListRowComponent } from '../cart-item-list-row';
-import { CartItemComponent } from '../cart-item/cart-item.component';
 import { CartItemListComponent } from './cart-item-list.component';
+import { CartItemComponent } from '../cart-item/cart-item.component';
+import { CartItemListRowComponent } from '../cart-item-list-row';
 
 class MockActiveCartService {
   updateEntry() {}

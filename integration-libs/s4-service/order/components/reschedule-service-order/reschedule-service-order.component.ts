@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,18 +14,15 @@ import {
 import {
   FormBuilder,
   FormGroup,
+  Validators,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-  TranslatePipe,
-  UrlPipe,
 } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
@@ -35,13 +31,15 @@ import {
   RescheduleServiceOrderFacade,
   ServiceDateTime,
 } from '@spartacus/s4-service/root';
-import {
-  DatePickerComponent,
-  FormRequiredAsterisksComponent,
-  FormRequiredLegendComponent,
-  OutletDirective,
-} from '@spartacus/storefront';
 import { combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
+import { FormRequiredLegendComponent } from '@spartacus/storefront';
+import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
+import { DatePickerComponent } from '@spartacus/storefront';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { OutletDirective } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-reschedule-service-order',

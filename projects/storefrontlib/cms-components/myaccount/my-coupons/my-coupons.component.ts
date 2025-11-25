@@ -4,25 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import {
   CustomerCouponSearchResult,
   CustomerCouponService,
   PaginationModel,
-  TranslatePipe,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { LAUNCH_CALLER, LaunchDialogService } from '../../../layout/index';
-import { PaginationComponent } from '../../../shared/components/list-navigation/pagination/pagination.component';
-import { SortingComponent } from '../../../shared/components/list-navigation/sorting/sorting.component';
-import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
-import { IconComponent } from '../../misc/icon/icon.component';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
-import { CouponCardComponent } from './coupon-card/coupon-card.component';
+import { LaunchDialogService, LAUNCH_CALLER } from '../../../layout/index';
 import { MyCouponsComponentService } from './my-coupons.component.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { SortingComponent } from '../../../shared/components/list-navigation/sorting/sorting.component';
+import { PaginationComponent } from '../../../shared/components/list-navigation/pagination/pagination.component';
+import { CouponCardComponent } from './coupon-card/coupon-card.component';
+import { IconComponent } from '../../misc/icon/icon.component';
+import { RouterLink } from '@angular/router';
+import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-my-coupons',

@@ -16,20 +16,18 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import {
-  FeatureDirective,
-  TranslatePipe,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { useFeatureStyles } from '@spartacus/core';
 import {
   ICON_TYPE,
-  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Subscription, combineLatest } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { ProductImageZoomDialogComponent } from '../product-image-zoom-dialog/product-image-zoom-dialog.component';
+import { FeatureDirective } from '@spartacus/core';
+import { IconComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-image-zoom-trigger',

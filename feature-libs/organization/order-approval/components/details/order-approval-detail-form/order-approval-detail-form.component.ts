@@ -4,22 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
-  FormsModule,
-  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
+  FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
-import {
-  BtnLikeLinkDirective,
-  FormErrorsComponent,
-  SpinnerComponent,
-} from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {
@@ -28,6 +20,13 @@ import {
 } from '../../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../../core/services/order-approval.service';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
+import { BtnLikeLinkDirective } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-approval-detail-form',

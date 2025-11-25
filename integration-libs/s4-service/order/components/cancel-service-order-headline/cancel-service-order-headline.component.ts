@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
-import { TranslatePipe } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
-import { OutletDirective } from '@spartacus/storefront';
 import { map } from 'rxjs/operators';
+import { NgIf, AsyncPipe, DatePipe } from '@angular/common';
+import { OutletDirective } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cancel-service-order-headline',

@@ -1,8 +1,8 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { KeyboardFocusTestingModule } from '@spartacus/storefront';
 import { Tab, TAB_MODE } from '../tab.model';
 import { TabPanelComponent } from './tab-panel.component';
+import { KeyboardFocusTestingModule } from '@spartacus/storefront';
 
 const mockTab: Tab | any = {
   id: 1,

@@ -15,7 +15,6 @@ import {
 } from '@angular/core';
 import { Product } from '@spartacus/core';
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   AugmentedPointOfService,
   getProperty,
@@ -42,6 +41,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { PickupOptionsComponent } from '../../presentational';
+import { AsyncPipe, NgIf } from '@angular/common';
 
 /** Custom type guard to ensure we have a product a defined code */
 function isProductWithCode(

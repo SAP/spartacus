@@ -4,30 +4,28 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
-  CxDatePipe,
-  FeatureDirective,
   RoutingService,
-  TranslatePipe,
   TranslationService,
-  UrlPipe,
   useFeatureStyles,
 } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core';
 import { UnitOrderFacade } from '@spartacus/organization/unit-order/root';
-import {
-  BtnLikeLinkDirective,
-  PaginationComponent,
-  SortingComponent,
-  TotalComponent,
-} from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { UnitLevelOrderHistoryFilterComponent } from './filter/unit-level-order-history-filter.component';
+import { SortingComponent } from '@spartacus/storefront';
+import { TotalComponent } from '@spartacus/storefront';
+import { PaginationComponent } from '@spartacus/storefront';
+import { FeatureDirective } from '@spartacus/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { BtnLikeLinkDirective } from '@spartacus/storefront';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
+import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-unit-level-order-history',

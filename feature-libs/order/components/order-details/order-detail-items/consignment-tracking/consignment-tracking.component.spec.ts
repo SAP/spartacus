@@ -10,8 +10,8 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { Consignment, OrderHistoryFacade } from '@spartacus/order/root';
 import {
-  LAUNCH_CALLER,
   LaunchDialogService,
+  LAUNCH_CALLER,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';

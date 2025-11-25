@@ -10,9 +10,9 @@ import { Observable, of } from 'rxjs';
 import { SkipLinkDirective } from '../../../layout/a11y/index';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../../outlet/index';
-import { ComponentWrapperDirective } from '../component';
 import { PageSlotComponent } from './page-slot.component';
 import { PageSlotService } from './page-slot.service';
+import { ComponentWrapperDirective } from '../component';
 
 const slotWithOneComp = {
   components: [

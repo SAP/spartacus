@@ -5,13 +5,6 @@
  */
 
 import {
-  AsyncPipe,
-  NgClass,
-  NgFor,
-  NgIf,
-  NgTemplateOutlet,
-} from '@angular/common';
-import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -29,11 +22,7 @@ import {
   SafeResourceUrl,
 } from '@angular/platform-browser';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import {
-  CurrencyService,
-  LanguageService,
-  TranslatePipe,
-} from '@spartacus/core';
+import { CurrencyService, LanguageService } from '@spartacus/core';
 import {
   OpfGlobalFunctionsDomain,
   OpfGlobalFunctionsFacade,
@@ -43,7 +32,6 @@ import {
   OpfPaymentRenderPattern,
   OpfPaymentSessionData,
 } from '@spartacus/opf/payment/root';
-import { SpinnerComponent } from '@spartacus/storefront';
 import { merge, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -53,6 +41,15 @@ import {
   take,
 } from 'rxjs/operators';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
+import {
+  NgIf,
+  NgTemplateOutlet,
+  NgFor,
+  NgClass,
+  AsyncPipe,
+} from '@angular/common';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-checkout-payment-wrapper',

@@ -14,25 +14,25 @@ import {
 import {
   FormControl,
   FormGroup,
+  Validators,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 
+import { Subscription } from 'rxjs';
 import {
+  RoutingService,
   CustomerCouponService,
   GlobalMessageService,
   GlobalMessageType,
-  RoutingService,
-  TranslatePipe,
 } from '@spartacus/core';
-import { Subscription } from 'rxjs';
+import { FocusConfig, LaunchDialogService } from '../../../../layout/index';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
 import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
-import { FocusConfig, LaunchDialogService } from '../../../../layout/index';
-import { FormErrorsComponent } from '../../../../shared/components/form/form-errors/form-errors.component';
-import { FormRequiredAsterisksComponent } from '../../../../shared/components/form/form-required-asterisks/form-required-asterisks.component';
 import { IconComponent } from '../../../misc/icon/icon.component';
+import { FormRequiredAsterisksComponent } from '../../../../shared/components/form/form-required-asterisks/form-required-asterisks.component';
+import { FormErrorsComponent } from '../../../../shared/components/form/form-errors/form-errors.component';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-claim-dialog',

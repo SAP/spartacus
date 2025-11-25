@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
 import { OpfDynamicScript } from '@spartacus/opf/base/root';
-import { SpinnerComponent } from '@spartacus/storefront';
 import { of, throwError } from 'rxjs';
-import { OpfCtaElementComponent } from '../opf-cta-element';
 import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
 import { OpfCtaScriptsService } from './opf-cta-scripts.service';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { OpfCtaElementComponent } from '../opf-cta-element';
 import createSpy = jasmine.createSpy;
 
 const mockHtmlsList: OpfDynamicScript[] = [

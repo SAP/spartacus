@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CmsNavigationComponent } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from './navigation-node.model';
-import { NavigationUIComponent } from './navigation-ui.component';
 import { NavigationService } from './navigation.service';
+import { NavigationUIComponent } from './navigation-ui.component';
+import { NgClass, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'cx-navigation',

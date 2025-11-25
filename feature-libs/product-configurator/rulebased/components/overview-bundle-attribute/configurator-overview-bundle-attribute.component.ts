@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,22 +11,23 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  CxNumericPipe,
   ImageGroup,
   Product,
   ProductScope,
   ProductService,
-  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
-import { MediaComponent } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Configurator } from '../../core/model/configurator.model';
 import {
-  ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
+  ConfiguratorPriceComponent,
 } from '../price/configurator-price.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { MediaComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
+import { CxNumericPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-cpq-overview-attribute',

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -12,6 +11,7 @@ import {
   Component,
   Input,
 } from '@angular/core';
+import { NgIf } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
 
 @Component({

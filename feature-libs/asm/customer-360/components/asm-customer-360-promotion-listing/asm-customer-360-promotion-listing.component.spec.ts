@@ -6,22 +6,22 @@ import {
   Output,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { AsmCustomer360PromotionListingComponent } from './asm-customer-360-promotion-listing.component';
 import {
-  CxDatePipe,
   GlobalMessageType,
   I18nTestingModule,
-  MockDatePipe,
-  MockTranslatePipe,
   TranslatePipe,
+  CxDatePipe,
 } from '@spartacus/core';
+import { By } from '@angular/platform-browser';
+import { PromotionListEntry } from './asm-customer-360-promotion-listing.model';
 import {
   ICON_TYPE,
   IconComponent,
   MessageComponent,
 } from '@spartacus/storefront';
-import { AsmCustomer360PromotionListingComponent } from './asm-customer-360-promotion-listing.component';
-import { PromotionListEntry } from './asm-customer-360-promotion-listing.model';
+import { MockTranslatePipe } from '@spartacus/core';
+import { MockDatePipe } from '@spartacus/core';
 
 describe('AsmCustomer360PromotionListingComponent', () => {
   @Component({

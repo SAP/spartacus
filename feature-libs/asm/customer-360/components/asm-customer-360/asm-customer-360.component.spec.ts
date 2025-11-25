@@ -34,8 +34,8 @@ import {
   AsmCustomer360ProductReviewsComponent,
   AsmCustomer360ProfileComponent,
 } from '../sections';
-import { AsmCustomer360SectionComponent } from '../sections/asm-customer-360-section/asm-customer-360-section.component';
 import { AsmCustomer360Component } from './asm-customer-360.component';
+import { AsmCustomer360SectionComponent } from '../sections/asm-customer-360-section/asm-customer-360-section.component';
 
 describe('AsmCustomer360Component', () => {
   const mockAsmConfig: AsmCustomer360Config = {

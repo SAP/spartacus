@@ -4,27 +4,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   OnInit,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { CmsPickupItemDetails, TranslatePipe, UrlPipe } from '@spartacus/core';
+import { CmsPickupItemDetails } from '@spartacus/core';
 import { DeliveryPointOfService } from '@spartacus/pickup-in-store/root';
-import {
-  CmsComponentData,
-  ICON_TYPE,
-  IconComponent,
-  MediaComponent,
-} from '@spartacus/storefront';
+import { CmsComponentData, ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
+import { DeliveryPointsService } from '../../services/delivery-points.service';
+import { NgClass, NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { StoreAddressComponent } from '../../presentational/store/store-address/store-address.component';
 import { StoreScheduleComponent } from '../../presentational/store/store-schedule/store-schedule.component';
-import { DeliveryPointsService } from '../../services/delivery-points.service';
+import { RouterLink } from '@angular/router';
+import { IconComponent } from '@spartacus/storefront';
+import { MediaComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-pick-up-in-store-items-details',

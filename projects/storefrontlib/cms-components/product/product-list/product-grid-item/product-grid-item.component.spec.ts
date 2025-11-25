@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import {
   FeatureLevelDirective,
   I18nTestingModule,
@@ -36,6 +35,7 @@ import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
 import { ProductGridItemComponent } from './product-grid-item.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'cx-star-rating',

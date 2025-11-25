@@ -4,29 +4,29 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
-import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
 import {
-  FocusConfig,
-  FocusDirective,
-  ICON_TYPE,
-  IconComponent,
-  KeyboardFocusService,
   LaunchDialogService,
+  ICON_TYPE,
+  FocusConfig,
+  KeyboardFocusService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { ConfiguratorRouter } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorGroupComponent } from '../group/configurator-group.component';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { take } from 'rxjs/operators';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { FocusDirective } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { ConfiguratorGroupComponent } from '../group/configurator-group.component';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-conflict-solver-dialog',

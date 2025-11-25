@@ -13,9 +13,10 @@ import {
   ViewContainerRef,
   inject,
 } from '@angular/core';
-import { RoutingService, TranslatePipe } from '@spartacus/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { RoutingService } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-close-account',

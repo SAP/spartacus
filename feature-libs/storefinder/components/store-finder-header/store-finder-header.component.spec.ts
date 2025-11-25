@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { StoreFinderHeaderComponent } from './store-finder-header.component';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -8,7 +9,6 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import { StoreFinderSearchComponent } from '../public_api';
-import { StoreFinderHeaderComponent } from './store-finder-header.component';
 
 @Component({
   template: '',

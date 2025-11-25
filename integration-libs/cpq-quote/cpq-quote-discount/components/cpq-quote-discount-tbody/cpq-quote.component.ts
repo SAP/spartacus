@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
+import { Component, Optional, OnDestroy, OnInit, Inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 
-import { DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
-import { CpqDiscounts } from '@spartacus/cpq-quote/root';
 import { Observable, Subscription } from 'rxjs';
 import { CpqQuoteService } from '../../cpq-qute.service';
+import { CpqDiscounts } from '@spartacus/cpq-quote/root';
+import { NgIf, NgFor, NgClass, DecimalPipe } from '@angular/common';
 interface ExtendedOrderEntry extends OrderEntry {
   cpqDiscounts?: CpqDiscounts[];
 }

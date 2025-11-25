@@ -27,9 +27,9 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 
-import { VerificationTokenFacade } from '@spartacus/user/account/root';
 import { RegisterVerificationTokenFormComponentService } from './verification-token-form-component.service';
 import { RegisterVerificationTokenFormComponent } from './verification-token-form.component';
+import { VerificationTokenFacade } from '@spartacus/user/account/root';
 
 @NgModule({
   imports: [

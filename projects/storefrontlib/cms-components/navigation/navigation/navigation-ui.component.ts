@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,8 +21,6 @@ import {
 import { NavigationEnd, Router } from '@angular/router';
 import {
   FeatureConfigService,
-  FeatureDirective,
-  TranslatePipe,
   useFeatureStyles,
   WindowRef,
 } from '@spartacus/core';
@@ -35,11 +32,14 @@ import {
   take,
 } from 'rxjs/operators';
 import { BREAKPOINT, BreakpointService } from '../../../layout';
-import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
-import { IconComponent } from '../../misc/icon/icon.component';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
+import { NgIf, NgFor, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { IconComponent } from '../../misc/icon/icon.component';
+import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
+import { FeatureDirective } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 
 const ARIA_EXPANDED_ATTR = 'aria-expanded';
 

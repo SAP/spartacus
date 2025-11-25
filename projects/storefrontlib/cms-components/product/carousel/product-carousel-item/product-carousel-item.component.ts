@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,15 +11,17 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { Product, UrlPipe } from '@spartacus/core';
-import { InnerComponentsHostDirective } from '../../../../cms-structure/page/component/inner-components-host.directive';
-import { MediaComponent } from '../../../../shared/components/media/media.component';
-import { LcpContextDirective } from '../../../../shared/lcp-context/lcp-context.directive';
+import { Product } from '@spartacus/core';
 import {
   ProductListItemContext,
   ProductListItemContextSource,
 } from '../../product-list';
+import { RouterLink } from '@angular/router';
+import { LcpContextDirective } from '../../../../shared/lcp-context/lcp-context.directive';
+import { MediaComponent } from '../../../../shared/components/media/media.component';
+import { InnerComponentsHostDirective } from '../../../../cms-structure/page/component/inner-components-host.directive';
+import { AsyncPipe } from '@angular/common';
+import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-carousel-item',

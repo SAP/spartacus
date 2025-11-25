@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import {
   CurrencyService,
   CxDatePipe,
@@ -18,6 +17,7 @@ import { OrderFacade } from '@spartacus/order/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CheckoutPlaceOrderComponent } from './checkout-place-order.component';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 class MockOrderFacade implements Partial<OrderFacade> {

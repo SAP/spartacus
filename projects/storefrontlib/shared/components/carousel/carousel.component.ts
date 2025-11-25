@@ -5,14 +5,6 @@
  */
 
 import {
-  AsyncPipe,
-  NgClass,
-  NgFor,
-  NgIf,
-  NgTemplateOutlet,
-  SlicePipe,
-} from '@angular/common';
-import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -25,17 +17,22 @@ import {
   TemplateRef,
   TrackByFunction,
 } from '@angular/core';
-import {
-  LoggerService,
-  TranslatePipe,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { LoggerService, useFeatureStyles } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { disableTabbingForTick } from '../../../layout/a11y';
 import { CarouselService } from './carousel.service';
+import {
+  NgIf,
+  NgClass,
+  NgFor,
+  NgTemplateOutlet,
+  AsyncPipe,
+  SlicePipe,
+} from '@angular/common';
+import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
+import { TranslatePipe } from '@spartacus/core';
 
 /**
  * Generic carousel component that can be used to render any carousel items,

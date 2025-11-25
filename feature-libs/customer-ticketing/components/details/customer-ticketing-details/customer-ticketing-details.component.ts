@@ -4,10 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
-  CxDatePipe,
   EventService,
   RoutingService,
   TranslationService,
@@ -20,9 +18,13 @@ import {
   TEXT_COLOR_CLASS,
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
-import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
+import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { CardComponent } from '@spartacus/storefront';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-ticketing-details',

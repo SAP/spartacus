@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   ActiveCartFacade,
@@ -13,14 +12,12 @@ import {
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import {
-  CmsParagraphComponent,
-  CmsService,
-  TranslatePipe,
-} from '@spartacus/core';
+import { CmsParagraphComponent, CmsService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { NgIf, AsyncPipe } from '@angular/common';
 import { CartItemListComponent } from '../cart-shared/cart-item-list/cart-item-list.component';
+import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-save-for-later',
   templateUrl: './save-for-later.component.html',

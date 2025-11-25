@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
-import { OrderDetailsService } from '@spartacus/order/components';
-import { Order } from '@spartacus/order/root';
-import { LaunchDialogService } from '@spartacus/storefront';
 import { of } from 'rxjs';
+import { Order } from '@spartacus/order/root';
+import { By } from '@angular/platform-browser';
+import { LaunchDialogService } from '@spartacus/storefront';
+import { I18nTestingModule } from '@spartacus/core';
 import { OrderAttachmentsComponent } from './order-attachments.component';
+import { OrderDetailsService } from '@spartacus/order/components';
 
 const orderData: Order = {
   code: '00001004',

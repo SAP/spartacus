@@ -5,10 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { TranslatePipe } from '@spartacus/core';
-import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { VisualPickingProductFilterService } from './visual-picking-product-filter.service';
+import { FormsModule } from '@angular/forms';
+import { IconComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 /**
  * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.

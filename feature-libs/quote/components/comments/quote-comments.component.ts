@@ -4,29 +4,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, DOCUMENT, NgIf } from '@angular/common';
+import { DOCUMENT, NgIf, AsyncPipe } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import {
-  EventService,
-  TranslatePipe,
-  TranslationService,
-} from '@spartacus/core';
+import { EventService, TranslationService } from '@spartacus/core';
 import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/core';
 import { Quote, QuoteComment, QuoteFacade } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
-  IconComponent,
   MessageEvent,
   MessageEventBoundItem,
   MessagingComponent,
-  MessagingComponent as MessagingComponent_1,
   MessagingConfigs,
 } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { delay, finalize, map, take } from 'rxjs/operators';
 import { QuoteUIConfig } from '../config/quote-ui.config';
 import { QuoteItemsComponentService } from '../items/quote-items.component.service';
+import { IconComponent } from '@spartacus/storefront';
+import { MessagingComponent as MessagingComponent_1 } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 const DEFAULT_COMMENT_MAX_CHARS = 1000;
 const ALL_PRODUCTS_ID = '';

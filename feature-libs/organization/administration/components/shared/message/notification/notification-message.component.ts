@@ -4,15 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
-import {
-  FocusDirective,
-  ICON_TYPE,
-  IconComponent,
-} from '@spartacus/storefront';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { BaseMessageComponent } from '../base-message.component';
+import { FocusDirective } from '@spartacus/storefront';
+import { NgIf } from '@angular/common';
+import { IconComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-notification',

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,16 +11,17 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  ORDER_ENTRIES_CONTEXT,
   OrderEntriesContext,
+  ORDER_ENTRIES_CONTEXT,
 } from '@spartacus/cart/base/root';
-import { TranslatePipe } from '@spartacus/core';
 import {
   ContextService,
-  LAUNCH_CALLER,
   LaunchDialogService,
+  LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-import-order-entries',
@@ -29,7 +29,7 @@ import { Observable, Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIf, AsyncPipe, TranslatePipe],
 })
-export class importOrderEntriesComponent {
+export class ImportOrderEntriesComponent {
   protected subscription = new Subscription();
   @ViewChild('open') element: ElementRef;
 
@@ -43,7 +43,7 @@ export class importOrderEntriesComponent {
 
   openDialog(orderEntriesContext: OrderEntriesContext): void {
     this.launchDialogService.openDialogAndSubscribe(
-      LAUNCH_CALLER.import_TO_CART,
+      LAUNCH_CALLER.IMPORT_TO_CART,
       this.element,
       { orderEntriesContext }
     );

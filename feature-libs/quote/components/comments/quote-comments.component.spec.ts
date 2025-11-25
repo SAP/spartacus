@@ -10,7 +10,7 @@ import {
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, I18nTestingModule } from '@spartacus/core';
 import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/core';
-import { Quote, QuoteComment, QuoteFacade } from '@spartacus/quote/root';
+import { QuoteComment, Quote, QuoteFacade } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
   IconComponent,

@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -22,6 +21,7 @@ import { Order } from '@spartacus/order/root';
 import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
 import { EMPTY, Observable, of } from 'rxjs';
 import { S4ServiceOrderDetailActionsComponent } from './s4-service-order-detail-actions.component';
+import { RouterModule } from '@angular/router';
 
 const mockOrder1 = {
   serviceCancellable: true,

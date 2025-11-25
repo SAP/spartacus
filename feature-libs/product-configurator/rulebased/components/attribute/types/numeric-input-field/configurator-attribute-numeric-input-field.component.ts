@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, getLocaleId, NgClass, NgIf } from '@angular/common';
+import { getLocaleId, NgIf, NgClass, AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,21 +14,13 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  UntypedFormControl,
   FormsModule,
   ReactiveFormsModule,
-  UntypedFormControl,
 } from '@angular/forms';
-import {
-  LoggerService,
-  TranslatePipe,
-  TranslationService,
-} from '@spartacus/core';
+import { LoggerService, TranslationService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import {
-  FocusDirective,
-  ICON_TYPE,
-  IconComponent,
-} from '@spartacus/storefront';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { timer } from 'rxjs';
 import { debounce, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -40,6 +32,9 @@ import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
+import { FocusDirective } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 class DefaultSettings {
   numDecimalPlaces: number;

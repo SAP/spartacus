@@ -1,11 +1,11 @@
-import { NgIf } from '@angular/common';
 import { Component, TemplateRef } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../outlet.directive';
 import { OutletService } from '../outlet.service';
 import { OutletRefDirective } from './outlet-ref.directive';
+import { NgIf } from '@angular/common';
 
 const OUTLET_NAME = 'PDP.images';
 const STANDARD_TEXT = 'standard';

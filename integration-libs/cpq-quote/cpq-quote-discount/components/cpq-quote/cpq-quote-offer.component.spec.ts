@@ -1,11 +1,11 @@
-import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { LanguageService } from '@spartacus/core';
-import { CpqDiscounts } from '@spartacus/cpq-quote/root';
-import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
-import { Observable, ReplaySubject, of, take } from 'rxjs';
 import { CpqQuoteOfferComponent } from './cpq-quote-offer.component';
+import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
+import { Observable, ReplaySubject, of, take } from 'rxjs';
+import { Component, Input } from '@angular/core';
+import { LanguageService } from '@spartacus/core';
+import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
+import { CpqDiscounts } from '@spartacus/cpq-quote/root';
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);

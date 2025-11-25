@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,28 +12,23 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import {
-  CxDatePipe,
-  RoutingService,
-  TranslatePipe,
-  TranslationService,
-  UrlPipe,
-} from '@spartacus/core';
+import { RoutingService, TranslationService } from '@spartacus/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
   ReplenishmentOrderList,
 } from '@spartacus/order/root';
-import {
-  BtnLikeLinkDirective,
-  LAUNCH_CALLER,
-  LaunchDialogService,
-  PaginationComponent,
-  SortingComponent,
-} from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
+import { NgIf, NgFor, AsyncPipe, SlicePipe } from '@angular/common';
+import { SortingComponent } from '@spartacus/storefront';
+import { PaginationComponent } from '@spartacus/storefront';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { BtnLikeLinkDirective } from '@spartacus/storefront';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
+import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-replenishment-order-history',

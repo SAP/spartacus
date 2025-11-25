@@ -21,9 +21,9 @@ import {
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { AddressFormComponent } from '../public_api';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
+import { AddressFormComponent } from '../public_api';
 
 class MockGlobalMessageService {
   add = jasmine.createSpy();

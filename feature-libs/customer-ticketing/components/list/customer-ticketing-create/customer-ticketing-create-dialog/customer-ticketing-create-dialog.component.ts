@@ -4,26 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
+  Validators,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import {
-  NgOptionTemplateDirective,
-  NgSelectComponent,
-} from '@ng-select/ng-select';
-import {
   FeatureConfigService,
-  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
-  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -33,19 +26,24 @@ import {
   TicketDetails,
   TicketStarter,
 } from '@spartacus/customer-ticketing/root';
-import {
-  FileUploadComponent,
-  FocusDirective,
-  FormErrorsComponent,
-  FormRequiredAsterisksComponent,
-  FormRequiredLegendComponent,
-  FormUtils,
-  IconComponent,
-  NgSelectA11yDirective,
-} from '@spartacus/storefront';
+import { FormUtils } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
 import { catchError, first, map, tap } from 'rxjs/operators';
 import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
+import { FocusDirective } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
+import { FormRequiredLegendComponent } from '@spartacus/storefront';
+import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { FeatureDirective } from '@spartacus/core';
+import {
+  NgSelectComponent,
+  NgOptionTemplateDirective,
+} from '@ng-select/ng-select';
+import { NgSelectA11yDirective } from '@spartacus/storefront';
+import { FileUploadComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-ticketing-create-dialog',

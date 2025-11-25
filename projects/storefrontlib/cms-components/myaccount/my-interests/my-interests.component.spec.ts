@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   FeatureDirective,
@@ -30,19 +29,20 @@ import {
   UrlPipe,
   UserInterestsService,
 } from '@spartacus/core';
-import {
-  AtMessageDirective,
-  MediaComponent,
-  PaginationComponent,
-  SortingComponent,
-  SpinnerComponent,
-} from '@spartacus/storefront';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { MockFeatureLevelDirective } from '../../../shared/test/mock-feature-level-directive';
 import { MyInterestsComponent } from './my-interests.component';
+import { RouterModule } from '@angular/router';
+import {
+  MediaComponent,
+  SpinnerComponent,
+  PaginationComponent,
+  SortingComponent,
+  AtMessageDirective,
+} from '@spartacus/storefront';
 
 @Component({
   template: '',

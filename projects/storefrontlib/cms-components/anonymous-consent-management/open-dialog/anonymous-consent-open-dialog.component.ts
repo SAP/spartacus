@@ -4,23 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import {
-  AnonymousConsentsService,
-  FeatureDirective,
-  TranslatePipe,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { AnonymousConsentsService, useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/launch-config';
 import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
+import { FeatureDirective } from '@spartacus/core';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-anonymous-consent-open-dialog',

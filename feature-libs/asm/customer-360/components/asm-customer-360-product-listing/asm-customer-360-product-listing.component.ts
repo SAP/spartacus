@@ -18,16 +18,16 @@ import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { ProductItem } from './product-item.model';
 import {
-  AsyncPipe,
-  NgClass,
-  NgFor,
   NgIf,
   NgTemplateOutlet,
+  NgClass,
+  NgFor,
+  AsyncPipe,
 } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
 import { AsmCustomer360ProductItemComponent } from '../asm-customer-360-product-item/asm-customer-360-product-item.component';
-import { ProductItem } from './product-item.model';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-asm-customer-360-product-listing',

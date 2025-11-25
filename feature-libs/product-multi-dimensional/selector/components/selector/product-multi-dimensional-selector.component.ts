@@ -4,18 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   isNotNullable,
   Product,
   ProductScope,
   ProductService,
   RoutingService,
-  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -23,13 +18,7 @@ import {
   VariantCategoryGroup,
   VariantCategoryOption,
 } from '@spartacus/product-multi-dimensional/selector/core';
-import {
-  CurrentProductService,
-  FocusDirective,
-  MediaComponent,
-  NgSelectA11yDirective,
-} from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import {
   distinctUntilChanged,
   filter,
@@ -38,6 +27,15 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
+import { CurrentProductService } from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
+import { FocusDirective } from '@spartacus/storefront';
+import { MediaComponent } from '@spartacus/storefront';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
+import { NgSelectA11yDirective } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-multi-dimensional-selector',

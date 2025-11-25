@@ -7,7 +7,6 @@ import {
   QueryList,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
 import {
   Facet,
   FeatureConfigService,
@@ -18,6 +17,7 @@ import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetCollapseState } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 import { FacetComponent } from './facet.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'cx-icon',

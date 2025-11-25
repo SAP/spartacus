@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserFormComponent } from '../../../../user/form/user-form.component';
 import { UserItemService } from '../../../../user/services/user-item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitUserItemService } from './unit-user-item.service';
+import { AsyncPipe } from '@angular/common';
+import { UserFormComponent } from '../../../../user/form/user-form.component';
 
 @Component({
   selector: 'cx-org-unit-user-create',

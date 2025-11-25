@@ -5,16 +5,16 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { IconComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
+import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
+import { IconComponent } from '@spartacus/storefront';
 import { ActiveFacetsComponent } from './active-facets';
 import { FacetListComponent } from './facet-list';
-import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
 
 @Component({
   selector: 'cx-icon',

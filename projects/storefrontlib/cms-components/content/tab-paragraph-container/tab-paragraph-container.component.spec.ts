@@ -8,12 +8,12 @@ import {
   I18nTestingModule,
   WindowRef,
 } from '@spartacus/core';
+import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { LayoutConfig } from '../../../layout/config/layout-config';
-import { MockFeatureDirective } from '../../../shared/test/mock-feature-directive';
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 
 @Component({

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,30 +14,28 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import {
-  FormsModule,
-  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
+  FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import {
   CurrencyService,
   LanguageService,
   RoutingService,
-  TranslatePipe,
-  UrlPipe,
 } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
-import {
-  AtMessageDirective,
-  FormErrorsComponent,
-  FormRequiredAsterisksComponent,
-  FormRequiredLegendComponent,
-  LAUNCH_CALLER,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { combineLatest, map, Observable } from 'rxjs';
+import { FormRequiredLegendComponent } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
+import { AtMessageDirective } from '@spartacus/storefront';
+import { AsyncPipe } from '@angular/common';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-place-order',

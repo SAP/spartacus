@@ -4,15 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CmsNavigationComponent, TranslatePipe } from '@spartacus/core';
+import { CmsNavigationComponent } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
-import { NavigationUIComponent } from '../navigation/navigation-ui.component';
 import { NavigationService } from '../navigation/navigation.service';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { NavigationUIComponent } from '../navigation/navigation-ui.component';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-footer-navigation',

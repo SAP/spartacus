@@ -4,20 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component } from '@angular/core';
 import {
+  UntypedFormControl,
   FormsModule,
   ReactiveFormsModule,
-  UntypedFormControl,
 } from '@angular/forms';
+import { RoutingService } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
+import { FeatureDirective } from '@spartacus/core';
+import { IconComponent } from '@spartacus/storefront';
 import { RouterLink } from '@angular/router';
-import {
-  FeatureDirective,
-  RoutingService,
-  TranslatePipe,
-} from '@spartacus/core';
-import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-search',

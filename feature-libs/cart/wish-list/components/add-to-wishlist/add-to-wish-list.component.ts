@@ -4,33 +4,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
-import {
-  AuthService,
-  FeatureDirective,
-  Product,
-  TranslatePipe,
-  UrlPipe,
-  isNotNullable,
-} from '@spartacus/core';
-import {
-  AtMessageDirective,
-  BtnLikeLinkDirective,
-  CurrentProductService,
-  ICON_TYPE,
-  IconComponent,
-} from '@spartacus/storefront';
+import { AuthService, Product, isNotNullable } from '@spartacus/core';
+import { CurrentProductService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { FeatureDirective } from '@spartacus/core';
+import { AtMessageDirective } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
+import { BtnLikeLinkDirective } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-add-to-wishlist',

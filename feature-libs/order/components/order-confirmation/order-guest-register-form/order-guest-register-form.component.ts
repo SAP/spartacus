@@ -6,27 +6,25 @@
 
 import { Component, inject, Input, OnDestroy } from '@angular/core';
 import {
-  FormsModule,
-  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
+  FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import {
   AuthService,
   FeatureConfigService,
   RoutingService,
-  TranslatePipe,
 } from '@spartacus/core';
-import {
-  CustomFormValidators,
-  FormErrorsComponent,
-  FormRequiredAsterisksComponent,
-  FormRequiredLegendComponent,
-  PasswordVisibilityToggleDirective,
-} from '@spartacus/storefront';
+import { CustomFormValidators } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { Subscription } from 'rxjs';
+import { FormRequiredLegendComponent } from '@spartacus/storefront';
+import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
+import { PasswordVisibilityToggleDirective } from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-guest-register-form',

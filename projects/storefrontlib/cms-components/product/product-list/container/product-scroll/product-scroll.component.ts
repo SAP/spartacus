@@ -4,17 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core';
-import { ProductSearchPage, TranslatePipe } from '@spartacus/core';
-import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { ProductSearchPage } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
 import { ViewConfig } from '../../../../../shared/config/view-config';
-import { ProductGridItemComponent } from '../../product-grid-item/product-grid-item.component';
-import { ProductListItemComponent } from '../../product-list-item/product-list-item.component';
 import { ViewModes } from '../../product-view/product-view.component';
 import { ProductListComponentService } from '../product-list-component.service';
+import { NgIf, NgFor } from '@angular/common';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { ProductGridItemComponent } from '../../product-grid-item/product-grid-item.component';
+import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
+import { ProductListItemComponent } from '../../product-list-item/product-list-item.component';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-scroll',

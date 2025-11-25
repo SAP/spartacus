@@ -34,8 +34,8 @@ import {
 } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 
-import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumbnails/product-image-zoom-thumbnails.component';
 import { ProductImageZoomViewComponent } from './product-image-zoom-view.component';
+import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumbnails/product-image-zoom-thumbnails.component';
 
 const firstImage = {
   zoom: {

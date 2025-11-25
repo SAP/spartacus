@@ -24,14 +24,6 @@ import {
   IconComponent,
 } from '@spartacus/storefront';
 
-import { AsmCustomer360Type } from '@spartacus/asm/customer-360/root';
-import { of } from 'rxjs';
-import { AsmCustomer360Config } from '../config/asm-customer-360-config';
-import {
-  AsmCustomer360ActiveCartComponent,
-  AsmCustomer360ProductReviewsComponent,
-  AsmCustomer360ProfileComponent,
-} from '../sections';
 import { AsmCustomer360TableComponent } from './asm-customer-360-table.component';
 import {
   CustomerTableColumn,
@@ -39,6 +31,14 @@ import {
   GeneralEntry,
   TableEntry,
 } from './asm-customer-360-table.model';
+import { AsmCustomer360Type } from '@spartacus/asm/customer-360/root';
+import { AsmCustomer360Config } from '../config/asm-customer-360-config';
+import { of } from 'rxjs';
+import {
+  AsmCustomer360ActiveCartComponent,
+  AsmCustomer360ProductReviewsComponent,
+  AsmCustomer360ProfileComponent,
+} from '../sections';
 
 @Directive({
   selector: '[cxFocus]',

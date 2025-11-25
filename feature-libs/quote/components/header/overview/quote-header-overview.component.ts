@@ -4,13 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
-  CxDatePipe,
   EventService,
   FeatureToggles,
-  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -21,20 +18,20 @@ import {
   QuoteMetadata,
   QuoteState,
 } from '@spartacus/quote/root';
-import {
-  Card,
-  CardComponent,
-  ICON_TYPE,
-  IconComponent,
-} from '@spartacus/storefront';
+import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { QuoteUIConfig } from '../../config/quote-ui.config';
 import {
   EditCard,
-  QuoteHeaderBuyerEditComponent,
   SaveEvent,
+  QuoteHeaderBuyerEditComponent,
 } from '../buyer-edit/quote-header-buyer-edit.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { CardComponent } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
+import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-quote-header-overview',

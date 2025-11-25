@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,14 +11,16 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
-import { MediaComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { CompactAddToCartComponent } from './compact-add-to-cart/compact-add-to-cart.component';
 import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
-import { PagedListComponent } from './paged-list/paged-list.component';
 import { VisualPickingProductListService } from './visual-picking-product-list.service';
+import { PagedListComponent } from './paged-list/paged-list.component';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { MediaComponent } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { CompactAddToCartComponent } from './compact-add-to-cart/compact-add-to-cart.component';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 
 /**
  * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.

@@ -17,10 +17,7 @@ import {
 } from '@spartacus/cart/base/root';
 import { RoutingService } from '@spartacus/core';
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { AbstractOrderContext } from '@spartacus/cart/base/components';
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -28,6 +25,10 @@ import {
   ReadOnlyPostfix,
 } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configure-cart-entry',

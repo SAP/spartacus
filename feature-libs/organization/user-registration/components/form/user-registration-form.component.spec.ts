@@ -2,7 +2,6 @@ import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Country,
@@ -29,6 +28,7 @@ import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-fe
 import { Observable, of, throwError } from 'rxjs';
 import { UserRegistrationFormComponent } from './user-registration-form.component';
 import { UserRegistrationFormService } from './user-registration-form.service';
+import { RouterModule } from '@angular/router';
 
 const mockOrganizationUser: OrganizationUserRegistrationForm = {
   firstName: 'John',

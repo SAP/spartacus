@@ -37,8 +37,8 @@ import {
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
-import { CheckoutPaymentFormComponent } from './checkout-payment-form/checkout-payment-form.component';
 import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
+import { CheckoutPaymentFormComponent } from './checkout-payment-form/checkout-payment-form.component';
 import createSpy = jasmine.createSpy;
 
 @Component({

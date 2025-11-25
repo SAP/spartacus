@@ -14,8 +14,9 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { CxNumericPipe, TranslatePipe } from '@spartacus/core';
 import { VisualViewerAnimationSliderService } from './visual-viewer-animation-slider.service';
+import { TranslatePipe } from '@spartacus/core';
+import { CxNumericPipe } from '@spartacus/core';
 
 /**
  * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.

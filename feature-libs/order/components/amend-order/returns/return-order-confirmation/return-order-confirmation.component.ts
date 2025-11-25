@@ -4,19 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
+  UntypedFormGroup,
   FormsModule,
   ReactiveFormsModule,
-  UntypedFormGroup,
 } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AmendOrderActionsComponent } from '../../amend-order-actions/amend-order-actions.component';
-import { CancelOrReturnItemsComponent } from '../../amend-order-items/amend-order-items.component';
 import { OrderAmendService } from '../../amend-order.service';
+import { NgIf, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { CancelOrReturnItemsComponent } from '../../amend-order-items/amend-order-items.component';
+import { AmendOrderActionsComponent } from '../../amend-order-actions/amend-order-actions.component';
 
 @Component({
   selector: 'cx-return-order-confirmation',

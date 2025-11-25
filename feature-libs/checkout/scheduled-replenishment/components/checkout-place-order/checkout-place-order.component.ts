@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,27 +12,27 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import {
+  UntypedFormBuilder,
   FormsModule,
   ReactiveFormsModule,
-  UntypedFormBuilder,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
-import { RoutingService, TranslatePipe, UrlPipe } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import {
-  ORDER_TYPE,
   OrderFacade,
+  ORDER_TYPE,
   recurrencePeriod,
   ScheduledReplenishmentOrderFacade,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
-import {
-  AtMessageDirective,
-  LAUNCH_CALLER,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, merge, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
+import { RouterLink } from '@angular/router';
+import { AtMessageDirective } from '@spartacus/storefront';
+import { AsyncPipe } from '@angular/common';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-place-order',

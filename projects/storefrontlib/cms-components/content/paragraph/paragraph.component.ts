@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,6 +14,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { CmsParagraphComponent } from '@spartacus/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { NgIf, AsyncPipe } from '@angular/common';
 import { SupplementHashAnchorsPipe } from '../../../shared/pipes/suplement-hash-anchors/supplement-hash-anchors.pipe';
 
 @Component({

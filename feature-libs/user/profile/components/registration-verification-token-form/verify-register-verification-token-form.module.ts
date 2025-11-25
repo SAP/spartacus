@@ -24,9 +24,9 @@ import {
   KeyboardFocusModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { RegistrationVerificationTokenFormComponent } from './verify-register-verification-token-form.component';
 import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
+import { UserRegisterFacade } from '@spartacus/user/profile/root';
 
 @NgModule({
   imports: [

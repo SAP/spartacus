@@ -1,9 +1,9 @@
-import { Pipe, PipeTransform, signal } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { SubscriptionProductUsageChargeComponent } from './subscription-product-usage-charge.component';
+import { Pipe, PipeTransform, signal } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { UsageChargeType } from '../../../root/model';
-import { SubscriptionProductUsageChargeComponent } from './subscription-product-usage-charge.component';
 @Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(_value: string): any {

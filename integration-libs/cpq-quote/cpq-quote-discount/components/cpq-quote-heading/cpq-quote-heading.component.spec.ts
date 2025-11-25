@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { CpqQuoteHeadingComponent } from './cpq-quote-heading.component';
 import { TranslationService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
-import { CpqQuoteHeadingComponent } from './cpq-quote-heading.component';
 
 describe('CpqQuoteHeadingComponent', () => {
   let component: CpqQuoteHeadingComponent;

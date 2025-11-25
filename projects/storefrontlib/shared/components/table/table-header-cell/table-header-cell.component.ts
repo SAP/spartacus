@@ -5,13 +5,13 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
 import { OutletContextData } from '../../../../cms-structure/outlet/outlet.model';
 import {
   TableFieldOptions,
   TableHeader,
   TableHeaderOutletContext,
 } from '../table.model';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-table-header-cell',

@@ -4,9 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, Input, OnDestroy } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
@@ -16,6 +14,8 @@ import { ConfirmationMessageData } from '../../message/confirmation/confirmation
 import { MessageService } from '../../message/services/message.service';
 import { BaseItem } from '../../organization.model';
 import { DisableInfoService } from '../disable-info/disable-info.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
 
 /**
  * Reusable component in the my-company is to toggle the disabled state for

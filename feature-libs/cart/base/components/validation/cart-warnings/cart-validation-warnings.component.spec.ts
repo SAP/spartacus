@@ -7,16 +7,16 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import {
   CartModification,
   CartValidationFacade,
   CartValidationStatusCode,
 } from '@spartacus/cart/base/root';
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { ReplaySubject } from 'rxjs';
 import { CartValidationWarningsComponent } from './cart-validation-warnings.component';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
 
 const mockData = [
   {

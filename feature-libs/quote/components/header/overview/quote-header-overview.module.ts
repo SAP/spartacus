@@ -17,8 +17,8 @@ import {
   IconModule,
   KeyboardFocusModule,
 } from '@spartacus/storefront';
-import { QuoteHeaderBuyerEditModule } from '../buyer-edit/quote-header-buyer-edit.module';
 import { QuoteHeaderOverviewComponent } from './quote-header-overview.component';
+import { QuoteHeaderBuyerEditModule } from '../buyer-edit/quote-header-buyer-edit.module';
 
 @NgModule({
   imports: [

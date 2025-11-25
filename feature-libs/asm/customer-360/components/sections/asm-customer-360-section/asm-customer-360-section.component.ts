@@ -16,9 +16,9 @@ import { AsmCustomer360SectionConfig } from '@spartacus/asm/customer-360/root';
 import { UrlCommand, User } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 
-import { NgComponentOutlet } from '@angular/common';
 import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
+import { NgComponentOutlet } from '@angular/common';
 
 @Component({
   selector: 'cx-asm-customer-360-section',

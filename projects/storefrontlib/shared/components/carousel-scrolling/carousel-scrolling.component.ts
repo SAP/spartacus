@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,12 +15,14 @@ import {
   TemplateRef,
   TrackByFunction,
 } from '@angular/core';
-import { LoggerService, TranslatePipe } from '@spartacus/core';
+import { LoggerService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { disableTabbingForTick } from '../../../layout/a11y';
+import { NgIf, NgFor, NgTemplateOutlet, AsyncPipe } from '@angular/common';
 import { HorizontalScrollingPositionDirective } from '../../directives/horizontal-scrolling-position/horizontal-scrolling-position.directive';
+import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
+import { TranslatePipe } from '@spartacus/core';
 
 /**
  * Context passed to the `template` for each carousel item.

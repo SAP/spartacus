@@ -6,8 +6,8 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ProductURLPipe } from './product-url.pipe';
 import { UrlPipe } from './url.pipe';
+import { ProductURLPipe } from './product-url.pipe';
 
 @NgModule({
   imports: [CommonModule, UrlPipe, ProductURLPipe],

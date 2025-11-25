@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,9 +11,11 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { Product, TranslatePipe } from '@spartacus/core';
-import { MediaComponent } from '@spartacus/storefront';
+import { Product } from '@spartacus/core';
 import { ProductItem } from '../asm-customer-360-product-listing/product-item.model';
+import { MediaComponent } from '@spartacus/storefront';
+import { NgIf } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-asm-customer-360-product-item',

@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
   CurrencyService,
@@ -10,11 +9,12 @@ import {
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutProgressComponent } from './checkout-progress.component';
+import { RouterModule } from '@angular/router';
 import { MultiLinePipe } from './multiline-titles.pipe';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 
 const mockCheckoutSteps: Array<CheckoutStep> = [
   {

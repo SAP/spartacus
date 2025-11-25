@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import {
   CxDatePipe,
   EntitiesModel,
@@ -19,14 +18,15 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import { SortingComponent } from '@spartacus/storefront';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../core/services/order-approval.service';
 import { OrderApprovalListComponent } from './order-approval-list.component';
+import { ActivatedRoute } from '@angular/router';
+import { SortingComponent } from '@spartacus/storefront';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import createSpy = jasmine.createSpy;
 
 const mockOrderApprovals: EntitiesModel<OrderApproval> = {

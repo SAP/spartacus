@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -15,14 +14,12 @@ import {
   inject,
 } from '@angular/core';
 import { OpfErrorDialogOptions } from '@spartacus/opf/base/root';
-import {
-  FocusConfig,
-  FocusDirective,
-  LaunchDialogService,
-} from '@spartacus/storefront';
+import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { OpfErrorModalService } from './opf-error-modal.service';
+import { FocusDirective } from '@spartacus/storefront';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'cx-opf-error-modal',

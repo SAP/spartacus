@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,11 +13,12 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { QueryService, TranslatePipe, UserIdService } from '@spartacus/core';
-import { OrderDetailsService } from '@spartacus/order/components';
-import { Order } from '@spartacus/order/root';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { Order } from '@spartacus/order/root';
+import { QueryService, UserIdService, TranslatePipe } from '@spartacus/core';
+import { OrderDetailsService } from '@spartacus/order/components';
+import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'cx-order-document-flow',

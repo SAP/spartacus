@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
@@ -14,20 +13,21 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import {
-  IconModule,
-  KeyboardFocusModule,
-  MessageComponentModule,
-  SpinnerModule,
-} from '@spartacus/storefront';
-import { defaultOrderDocumentFlowDialogLayoutConfig } from './default-order-document-flow-dialog-layout.config';
 import { OrderDocumentFlowComponent } from './order-document-flow';
+import { defaultOrderDocumentFlowDialogLayoutConfig } from './default-order-document-flow-dialog-layout.config';
 import {
   OrderDocumentFlowDialogComponent,
   OrderDocumentOrderEntryListComponent,
   OrderSubsequentDocumentListComponent,
   OrderSubsequentDocumentNodeComponent,
 } from './order-document-flow-dialog';
+import { CommonModule } from '@angular/common';
+import {
+  IconModule,
+  KeyboardFocusModule,
+  MessageComponentModule,
+  SpinnerModule,
+} from '@spartacus/storefront';
 
 @NgModule({
   imports: [

@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -8,6 +7,7 @@ import { LcpContextDirective } from './lcp-context.directive';
 import { LcpPresenceMappingService } from './lcp-presence-mapping.service';
 import { LcpPresence } from './lcp-presence.model';
 import { LCP_PRESENCE } from './lcp-presence.token';
+import { AsyncPipe } from '@angular/common';
 
 class MockLcpPresenceMappingService {
   getFetchPriority(lcpPresence: LcpPresence): ImageFetchPriority | undefined {

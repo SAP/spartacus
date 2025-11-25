@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input } from '@angular/core';
+import { Component, Input, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { ProductImageZoomThumbnailsComponent } from './product-image-zoom-thumbnails.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 const firstImage = {
   zoom: {

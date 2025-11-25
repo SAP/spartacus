@@ -4,15 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Params, RouterLink, RouterLinkActive } from '@angular/router';
 import {
-  CxDatePipe,
   RoutingService,
-  TranslatePipe,
   TranslationService,
-  UrlPipe,
   isNotUndefined,
 } from '@spartacus/core';
 import {
@@ -21,13 +17,15 @@ import {
   OrderHistoryList,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
-import {
-  BtnLikeLinkDirective,
-  PaginationComponent,
-  SortingComponent,
-} from '@spartacus/storefront';
 import { Observable, combineLatest } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
+import { NgIf, NgClass, NgFor, AsyncPipe } from '@angular/common';
+import { SortingComponent } from '@spartacus/storefront';
+import { PaginationComponent } from '@spartacus/storefront';
+import { BtnLikeLinkDirective } from '@spartacus/storefront';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
+import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-history',

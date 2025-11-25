@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,33 +12,35 @@ import {
 } from '@angular/core';
 import {
   AbstractControl,
-  FormsModule,
-  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
+  FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { ProductData } from '@spartacus/cart/base/root';
 import {
   CartNameGeneration,
   CartNameSource,
-  importExportConfig,
+  ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
-import { CxDatePipe, TranslatePipe } from '@spartacus/core';
+import { CxDatePipe } from '@spartacus/core';
 import {
   FilesFormValidators,
-  FileUploadComponent,
-  FocusDirective,
-  FormErrorsComponent,
-  FormRequiredAsterisksComponent,
-  FormRequiredLegendComponent,
-  importCsvFileService,
+  ImportCsvFileService,
   LaunchDialogService,
-  MessageComponent,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { importProductsFromCsvService } from '../../import-products-from-csv.service';
-import { importEntriesFormComponent } from '../import-entries-form/import-entries-form.component';
+import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
+import { ImportEntriesFormComponent } from '../import-entries-form/import-entries-form.component';
+import { NgIf } from '@angular/common';
+import { MessageComponent } from '@spartacus/storefront';
+import { FocusDirective } from '@spartacus/storefront';
+import { FormRequiredLegendComponent } from '@spartacus/storefront';
+import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
+import { FileUploadComponent } from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-import-to-new-saved-cart-form',
@@ -59,7 +60,7 @@ import { importEntriesFormComponent } from '../import-entries-form/import-entrie
     TranslatePipe,
   ],
 })
-export class importToNewSavedCartFormComponent extends importEntriesFormComponent {
+export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponent {
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
 
@@ -81,10 +82,10 @@ export class importToNewSavedCartFormComponent extends importEntriesFormComponen
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected importToCartService: importProductsFromCsvService,
-    protected importCsvService: importCsvFileService,
+    protected importToCartService: ImportProductsFromCsvService,
+    protected importCsvService: ImportCsvFileService,
     protected filesFormValidators: FilesFormValidators,
-    protected importExportConfig: importExportConfig,
+    protected importExportConfig: ImportExportConfig,
     protected datePipe: CxDatePipe
   ) {
     super(
@@ -188,6 +189,6 @@ export class importToNewSavedCartFormComponent extends importEntriesFormComponen
   }
 
   protected get cartNameGeneration(): CartNameGeneration | undefined {
-    return this.importExportConfig.cartimportExport?.import?.cartNameGeneration;
+    return this.importExportConfig.cartImportExport?.import?.cartNameGeneration;
   }
 }

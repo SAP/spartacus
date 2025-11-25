@@ -4,25 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { CheckoutPlaceOrderModule } from '@spartacus/checkout/base/components';
 import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+import { CheckoutPlaceOrderModule } from '@spartacus/checkout/base/components';
+import { OpfB2bCheckoutReviewComponent } from './opf-b2b-checkout-review.component';
 import {
+  OpfCheckoutReviewCardModule,
+  OpfCheckoutTermsAndConditionsAlertModule,
   OpfCheckoutBillingAddressFormModule,
   OpfCheckoutPaymentsModule,
-  OpfCheckoutReviewCardModule,
   OpfCheckoutReviewCartDetailsModule,
-  OpfCheckoutTermsAndConditionsAlertModule,
 } from '@spartacus/opf/checkout/components';
-import { OpfB2bCheckoutReviewComponent } from './opf-b2b-checkout-review.component';
 
 import { OpfB2bCheckoutPlaceOrderModule } from '../opf-b2b-checkout-place-order/opf-b2b-checkout-place-order.module';
 

@@ -16,14 +16,14 @@ import {
 import {
   CmsScrollToTopComponent,
   ScrollBehavior,
-  TranslatePipe,
   WindowRef,
 } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SelectFocusUtility } from '../../../layout/a11y/index';
-import { IconComponent } from '../../misc/icon/icon.component';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
+import { IconComponent } from '../../misc/icon/icon.component';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-scroll-to-top',

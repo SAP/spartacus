@@ -18,8 +18,8 @@ import { MODULE_INITIALIZER } from '@spartacus/core';
 import { OutletDirective } from './outlet.directive';
 import { OutletPosition } from './outlet.model';
 import {
-  PROVIDE_OUTLET_OPTIONS,
   ProvideOutletOptions,
+  PROVIDE_OUTLET_OPTIONS,
 } from './outlet.providers';
 import { OutletService } from './outlet.service';
 

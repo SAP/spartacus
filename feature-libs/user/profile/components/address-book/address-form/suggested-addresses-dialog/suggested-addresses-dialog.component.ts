@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,16 +11,18 @@ import {
   HostListener,
   OnInit,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Address, TranslatePipe } from '@spartacus/core';
+import { Address } from '@spartacus/core';
 import {
   FocusConfig,
-  FocusDirective,
   ICON_TYPE,
-  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
+import { FocusDirective } from '@spartacus/storefront';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { IconComponent } from '@spartacus/storefront';
+import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-suggested-addresses-dialog',

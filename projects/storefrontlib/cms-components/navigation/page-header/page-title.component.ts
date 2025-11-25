@@ -4,12 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   OnInit,
+  AfterViewInit,
 } from '@angular/core';
 import {
   CmsPageTitleComponent,
@@ -19,6 +18,7 @@ import {
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'cx-page-title',

@@ -11,7 +11,6 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -30,6 +29,7 @@ import { BehaviorSubject, of } from 'rxjs';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 import { VerificationTokenFormComponent } from './verification-token-form.component';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const isBusySubject = new BehaviorSubject(false);

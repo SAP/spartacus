@@ -4,21 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckoutDeliveryModeComponent } from '@spartacus/checkout/base/components';
-import { TranslatePipe } from '@spartacus/core';
 import {
   CheckoutServiceDetailsFacade,
   S4ServiceDeliveryModeConfig,
 } from '@spartacus/s4-service/root';
-import {
-  InnerComponentsHostDirective,
-  OutletDirective,
-  SpinnerComponent,
-} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { NgTemplateOutlet, NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { OutletDirective } from '@spartacus/storefront';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { InnerComponentsHostDirective } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-delivery-mode',

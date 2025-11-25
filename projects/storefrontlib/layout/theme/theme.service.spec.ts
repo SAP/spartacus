@@ -5,8 +5,8 @@ import {
   SiteContextConfig,
   SiteThemeService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
 import { ThemeService } from './theme.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'cx-test',

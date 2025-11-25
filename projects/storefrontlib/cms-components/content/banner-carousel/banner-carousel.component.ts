@@ -4,18 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
+  CmsBannerCarouselComponent as model,
   CmsService,
   ContentSlotComponentData,
-  CmsBannerCarouselComponent as model,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/index';
-import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
+import { NgIf, AsyncPipe } from '@angular/common';
 import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
+import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 
 /**
  * Generic carousel that renders CMS Components.

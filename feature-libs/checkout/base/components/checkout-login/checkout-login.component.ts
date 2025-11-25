@@ -6,21 +6,20 @@
 
 import { Component, OnDestroy } from '@angular/core';
 import {
-  FormsModule,
-  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
+  FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { AuthRedirectService, TranslatePipe } from '@spartacus/core';
-import {
-  CustomFormValidators,
-  FormErrorsComponent,
-  FormRequiredAsterisksComponent,
-  FormRequiredLegendComponent,
-} from '@spartacus/storefront';
+import { AuthRedirectService } from '@spartacus/core';
+import { CustomFormValidators } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
+import { FormRequiredLegendComponent } from '@spartacus/storefront';
+import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-checkout-login',

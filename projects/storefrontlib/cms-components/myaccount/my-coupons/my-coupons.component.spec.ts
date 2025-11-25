@@ -1,15 +1,13 @@
-import { AsyncPipe } from '@angular/common';
 import {
   Component,
   DebugElement,
-  ElementRef,
   EventEmitter,
+  ElementRef,
   Input,
   Output,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
@@ -19,19 +17,21 @@ import {
   I18nTestingModule,
   TranslatePipe,
 } from '@spartacus/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '../../../layout/index';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+import { ICON_TYPE } from '../../misc/icon/icon.model';
+import { MyCouponsComponent } from './my-coupons.component';
+import { MyCouponsComponentService } from './my-coupons.component.service';
 import {
   CouponCardComponent,
   IconComponent,
   PaginationComponent,
   SortingComponent,
 } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
-import { LAUNCH_CALLER, LaunchDialogService } from '../../../layout/index';
-import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
-import { ICON_TYPE } from '../../misc/icon/icon.model';
-import { MyCouponsComponent } from './my-coupons.component';
-import { MyCouponsComponentService } from './my-coupons.component.service';
+import { RouterModule } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'cx-coupon-card',

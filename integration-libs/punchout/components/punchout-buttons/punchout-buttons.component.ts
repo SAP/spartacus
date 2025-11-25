@@ -4,19 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   Input,
 } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
 import {
   PunchoutFacade,
   PunchoutUiRestrictionService,
 } from '@spartacus/punchout/root';
 import { Observable } from 'rxjs';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-punchout-buttons',

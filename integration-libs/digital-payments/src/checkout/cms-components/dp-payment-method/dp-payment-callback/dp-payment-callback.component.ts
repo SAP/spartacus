@@ -4,28 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import { DpLocalStorageService } from './../../../facade/dp-local-storage.service';
+import { DP_CARD_REGISTRATION_STATUS } from '../../../../utils/dp-constants';
 import { ActivatedRoute } from '@angular/router';
-import {
-  CheckoutBillingAddressFormComponent,
-  CheckoutBillingAddressFormService,
-} from '@spartacus/checkout/base/components';
 import {
   Address,
   GlobalMessageService,
   GlobalMessageType,
-  TranslatePipe,
 } from '@spartacus/core';
-import {
-  LAUNCH_CALLER,
-  LaunchDialogService,
-  SpinnerComponent,
-} from '@spartacus/storefront';
-import { take } from 'rxjs';
-import { DP_CARD_REGISTRATION_STATUS } from '../../../../utils/dp-constants';
 import { DpCheckoutPaymentService } from '../../../facade';
-import { DpLocalStorageService } from './../../../facade/dp-local-storage.service';
+import { Component, OnInit, EventEmitter, Output, inject } from '@angular/core';
+import {
+  CheckoutBillingAddressFormComponent,
+  CheckoutBillingAddressFormService,
+} from '@spartacus/checkout/base/components';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { take } from 'rxjs';
+import { NgIf } from '@angular/common';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-dp-payment-callback',

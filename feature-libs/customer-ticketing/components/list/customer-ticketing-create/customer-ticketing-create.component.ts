@@ -11,10 +11,10 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-ticketing-create',

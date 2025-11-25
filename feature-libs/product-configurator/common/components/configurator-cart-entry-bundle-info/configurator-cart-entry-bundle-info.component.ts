@@ -4,22 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, Optional } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import {
-  CxNumericPipe,
-  TranslatePipe,
-  TranslationService,
-} from '@spartacus/core';
+import { TranslationService } from '@spartacus/core';
 import { BreakpointService } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
-import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
 import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
+import { TranslatePipe } from '@spartacus/core';
+import { CxNumericPipe } from '@spartacus/core';
 
 /**
  * Requires default change detection strategy, as the disabled state of the quantity from control may change,

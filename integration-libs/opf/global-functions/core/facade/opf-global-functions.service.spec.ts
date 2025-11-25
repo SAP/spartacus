@@ -14,10 +14,8 @@ import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { defaultOpfErrorDialogOptions } from '@spartacus/opf/base/root';
 import { OpfGlobalFunctionsDomain } from '@spartacus/opf/global-functions/root';
-import {
-  OpfPaymentEventsService,
-  OpfPaymentFacade,
-} from '@spartacus/opf/payment/root';
+import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
+import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
 import { OpfQuickBuyProviderType } from '@spartacus/opf/quick-buy/root';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';

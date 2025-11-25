@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import {
   I18nTestingModule,
   MockDatePipe,
@@ -22,6 +21,7 @@ import {
 } from '@spartacus/storefront';
 import { ICON_TYPE, IconComponent } from '../../../cms-components/misc/index';
 import { Card, CardComponent, CardLinkAction } from './card.component';
+import { RouterModule } from '@angular/router';
 
 @Directive({ selector: '[cxAtMessage]' })
 export class MockAtMessageDirective {

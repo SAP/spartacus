@@ -5,20 +5,20 @@ import { By } from '@angular/platform-browser';
 import { ProductData } from '@spartacus/cart/base/root';
 import {
   CartNameSource,
-  defaultimportExportConfig,
-  importExportConfig,
+  defaultImportExportConfig,
+  ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import {
   FilesFormValidators,
   FileUploadModule,
   FormErrorsModule,
-  importCsvFileService,
+  ImportCsvFileService,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { importProductsFromCsvService } from '../../import-products-from-csv.service';
-import { importToNewSavedCartFormComponent } from './import-to-new-saved-cart-form.component';
+import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
+import { ImportToNewSavedCartFormComponent } from './import-to-new-saved-cart-form.component';
 
 const mockLoadFileData: string[][] = [
   ['693923', '1', 'mockProduct1', '$4.00'],
@@ -41,12 +41,12 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
-class MockimportToCartService implements Partial<importProductsFromCsvService> {
+class MockImportToCartService implements Partial<ImportProductsFromCsvService> {
   isDataParsableToProducts = () => true;
   csvDataToProduct = () => mockProducts;
 }
 
-class MockimportCsvFileService implements Partial<importCsvFileService> {
+class MockImportCsvFileService implements Partial<ImportCsvFileService> {
   loadFile = () => of(mockLoadFileData);
   validateFile = () => of(null);
 }
@@ -57,12 +57,12 @@ class MockLanguageService {
   }
 }
 
-describe('importToNewSavedCartFormComponent', () => {
-  let component: importToNewSavedCartFormComponent;
-  let fixture: ComponentFixture<importToNewSavedCartFormComponent>;
-  let importToCartService: importProductsFromCsvService;
+describe('ImportToNewSavedCartFormComponent', () => {
+  let component: ImportToNewSavedCartFormComponent;
+  let fixture: ComponentFixture<ImportToNewSavedCartFormComponent>;
+  let importToCartService: ImportProductsFromCsvService;
   let filesFormValidators: FilesFormValidators;
-  let importCsvService: importCsvFileService;
+  let importCsvService: ImportCsvFileService;
   let el: DebugElement;
 
   beforeEach(() => {
@@ -73,26 +73,26 @@ describe('importToNewSavedCartFormComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         I18nTestingModule,
-        importToNewSavedCartFormComponent,
+        ImportToNewSavedCartFormComponent,
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: importProductsFromCsvService,
-          useClass: MockimportToCartService,
+          provide: ImportProductsFromCsvService,
+          useClass: MockImportToCartService,
         },
-        { provide: importCsvFileService, useClass: MockimportCsvFileService },
+        { provide: ImportCsvFileService, useClass: MockImportCsvFileService },
         { provide: LanguageService, useClass: MockLanguageService },
-        { provide: importExportConfig, useValue: defaultimportExportConfig },
+        { provide: ImportExportConfig, useValue: defaultImportExportConfig },
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(importToNewSavedCartFormComponent);
+    fixture = TestBed.createComponent(ImportToNewSavedCartFormComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    importCsvService = TestBed.inject(importCsvFileService);
-    importToCartService = TestBed.inject(importProductsFromCsvService);
+    importCsvService = TestBed.inject(ImportCsvFileService);
+    importToCartService = TestBed.inject(ImportProductsFromCsvService);
     filesFormValidators = TestBed.inject(FilesFormValidators);
 
     spyOn(importToCartService, 'csvDataToProduct').and.callThrough();
@@ -210,10 +210,10 @@ describe('importToNewSavedCartFormComponent', () => {
       ({ testName, cartNameGeneration, resultMask, alreadyFilledName }) => {
         it(testName, () => {
           component['importExportConfig'] = {
-            cartimportExport: {
-              ...defaultimportExportConfig.cartimportExport,
+            cartImportExport: {
+              ...defaultImportExportConfig.cartImportExport,
               import: {
-                ...defaultimportExportConfig.cartimportExport?.import,
+                ...defaultImportExportConfig.cartImportExport?.import,
                 cartNameGeneration,
               },
             },

@@ -18,9 +18,10 @@ import {
   Router,
   RouterLink,
 } from '@angular/router';
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
-import { ProgressButtonComponent } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
+import { ProgressButtonComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-proceed-to-checkout',

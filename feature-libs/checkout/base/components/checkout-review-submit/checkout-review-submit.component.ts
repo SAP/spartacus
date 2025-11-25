@@ -4,16 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AsyncPipe,
-  NgFor,
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-  NgTemplateOutlet,
-} from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import {
   ActiveCartFacade,
   Cart,
@@ -29,25 +20,27 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import {
-  Address,
-  PaymentDetails,
-  TranslatePipe,
-  TranslationService,
-  UrlPipe,
-} from '@spartacus/core';
+import { Address, PaymentDetails, TranslationService } from '@spartacus/core';
 import { deliveryAddressCard, deliveryModeCard } from '@spartacus/order/root';
-import {
-  Card,
-  CardComponent,
-  ICON_TYPE,
-  IconComponent,
-  OutletDirective,
-  PromotionsComponent,
-} from '@spartacus/storefront';
+import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
+import {
+  NgIf,
+  NgFor,
+  NgSwitch,
+  NgSwitchCase,
+  NgTemplateOutlet,
+  AsyncPipe,
+} from '@angular/common';
+import { CardComponent } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { IconComponent } from '@spartacus/storefront';
+import { OutletDirective } from '@spartacus/storefront';
+import { PromotionsComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-review-submit',

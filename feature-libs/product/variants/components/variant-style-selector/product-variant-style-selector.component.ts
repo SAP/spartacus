@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   BaseOption,
@@ -14,11 +13,12 @@ import {
   ProductScope,
   ProductService,
   RoutingService,
-  TranslatePipe,
   VariantOptionQualifier,
   VariantQualifier,
 } from '@spartacus/core';
 import { filter, take } from 'rxjs/operators';
+import { NgIf, NgFor, NgClass } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-variant-style-selector',

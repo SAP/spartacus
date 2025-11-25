@@ -29,10 +29,10 @@ import { AddressFormModule } from '@spartacus/user/profile/components';
 import { OpfCheckoutBillingAddressFormModule } from '../opf-checkout-billing-address-form/opf-checkout-billing-address-form.module';
 import { OpfCheckoutPaymentWrapperModule } from '../opf-checkout-payment-wrapper';
 import { OpfCheckoutPaymentsModule } from '../opf-checkout-payments/opf-checkout-payments.module';
-import { OpfCheckoutReviewCardModule } from '../opf-checkout-review-card/opf-checkout-review-card.module';
-import { OpfCheckoutReviewCartDetailsModule } from '../opf-checkout-review-cart-details/opf-checkout-review-cart-details.module';
 import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.module';
 import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
+import { OpfCheckoutReviewCardModule } from '../opf-checkout-review-card/opf-checkout-review-card.module';
+import { OpfCheckoutReviewCartDetailsModule } from '../opf-checkout-review-cart-details/opf-checkout-review-cart-details.module';
 
 @NgModule({
   imports: [

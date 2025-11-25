@@ -4,30 +4,27 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import {
   CheckoutPaymentFacade,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import {
   PaymentDetails,
-  TranslatePipe,
   TranslationService,
-  UrlPipe,
   useFeatureStyles,
 } from '@spartacus/core';
 import { billingAddressCard, paymentMethodCard } from '@spartacus/order/root';
-import {
-  Card,
-  CardComponent,
-  ICON_TYPE,
-  IconComponent,
-} from '@spartacus/storefront';
+import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { Observable, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { CardComponent } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { IconComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-checkout-review-payment',

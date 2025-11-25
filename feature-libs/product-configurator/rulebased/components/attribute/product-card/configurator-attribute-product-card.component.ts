@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,35 +12,32 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import {
-  Product,
-  ProductService,
-  TranslatePipe,
-  TranslationService,
-} from '@spartacus/core';
+import { Product, ProductService, TranslationService } from '@spartacus/core';
 import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import {
   FocusConfig,
-  FocusDirective,
   ICON_TYPE,
-  IconComponent,
   KeyboardFocusService,
-  MediaComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 import {
-  ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
+  ConfiguratorPriceComponent,
 } from '../../price/configurator-price.component';
-import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
 import {
-  ConfiguratorAttributeQuantityComponent,
   ConfiguratorAttributeQuantityComponentOptions,
+  ConfiguratorAttributeQuantityComponent,
 } from '../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { MediaComponent } from '@spartacus/storefront';
+import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
+import { FocusDirective } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 export interface ConfiguratorAttributeProductCardComponentOptions {
   /** If set to `true`, all action buttons will be disabled.  */

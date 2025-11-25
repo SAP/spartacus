@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   AuthGuard,
   CmsConfig,
-  I18nModule,
   provideDefaultConfig,
+  I18nModule,
 } from '@spartacus/core';
 import {
   FileUploadModule,
@@ -20,9 +20,9 @@ import {
   KeyboardFocusModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { CustomerTicketingReopenComponentService } from './customer-ticketing-reopen-component.service';
-import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reopen-dialog/customer-ticketing-reopen-dialog.component';
 import { CustomerTicketingReopenComponent } from './customer-ticketing-reopen.component';
+import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reopen-dialog/customer-ticketing-reopen-dialog.component';
+import { CustomerTicketingReopenComponentService } from './customer-ticketing-reopen-component.service';
 
 @NgModule({
   imports: [

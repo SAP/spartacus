@@ -10,13 +10,13 @@ import {
   Component,
   ViewChild,
 } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
 import { VisualViewerComponent } from '../../visual-viewer/visual-viewer.component';
 import { VisualViewerService } from '../../visual-viewer/visual-viewer.service';
-import { VisualPickingProductFilterComponent } from './product-filter/visual-picking-product-filter.component';
 import { VisualPickingProductListComponent } from './product-list/visual-picking-product-list.component';
 import { VisualPickingProductListService } from './product-list/visual-picking-product-list.service';
 import { VisualPickingTabService } from './visual-picking-tab.service';
+import { VisualPickingProductFilterComponent } from './product-filter/visual-picking-product-filter.component';
+import { TranslatePipe } from '@spartacus/core';
 
 /**
  * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -20,10 +19,10 @@ import {
   inject,
 } from '@angular/core';
 import {
-  FormsModule,
-  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import {
   ActiveCartFacade,
@@ -40,20 +39,21 @@ import {
   ProductAvailabilityService,
   ProductCatalogService,
   ProductScope,
-  TranslatePipe,
   isNotNullable,
 } from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
   ICON_TYPE,
-  IconComponent,
-  ItemCounterComponent,
-  OutletDirective,
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { ItemCounterComponent } from '@spartacus/storefront';
+import { OutletDirective } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-add-to-cart',

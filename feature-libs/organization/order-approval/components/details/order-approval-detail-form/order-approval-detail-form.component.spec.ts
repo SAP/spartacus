@@ -8,7 +8,6 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   FeatureDirective,
@@ -18,7 +17,6 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import { FormErrorsComponent, SpinnerComponent } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
@@ -28,6 +26,8 @@ import {
 import { OrderApprovalService } from '../../../core/services/order-approval.service';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form.component';
+import { FormErrorsComponent, SpinnerComponent } from '@spartacus/storefront';
+import { RouterModule } from '@angular/router';
 
 const { REJECT, APPROVE } = OrderApprovalDecisionValue;
 

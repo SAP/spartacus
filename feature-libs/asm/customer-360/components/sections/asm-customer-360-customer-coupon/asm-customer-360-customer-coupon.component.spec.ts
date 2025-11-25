@@ -1,6 +1,4 @@
-import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import {
   AsmCustomer360CustomerCouponList,
   AsmCustomer360Facade,
@@ -8,13 +6,15 @@ import {
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
 import { CustomerCouponService, I18nTestingModule } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
 import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { AsmCustomer360CustomerCouponComponent } from './asm-customer-360-customer-coupon.component';
+import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
 import { CustomerCouponEntry } from './asm-customer-360-customer-coupon.model';
+import { By } from '@angular/platform-browser';
+import { Component, DebugElement, Input } from '@angular/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 describe('AsmCustomer360CouponComponent', () => {
   @Component({

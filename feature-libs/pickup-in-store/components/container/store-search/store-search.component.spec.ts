@@ -4,8 +4,8 @@ import { I18nTestingModule } from '@spartacus/core';
 import { CurrentLocationService } from '../../services/current-location.service';
 import { MockCurrentLocationService } from '../../services/current-location.service.spec';
 
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { StoreSearchComponent } from './store-search.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 describe('StoreSearchComponent', () => {
   let component: StoreSearchComponent;

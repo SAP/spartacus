@@ -4,15 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, Optional, inject } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import {
-  CxDatePipe,
-  CxDatePipe as CxDatePipe_1,
-  TranslatePipe,
-  TranslationService,
-} from '@spartacus/core';
+import { CxDatePipe, TranslationService } from '@spartacus/core';
 import {
   ArrivalSlot,
   ArrivalSlots,
@@ -20,6 +14,9 @@ import {
 import { Consignment, Order, OrderHistoryFacade } from '@spartacus/order/root';
 import { EMPTY, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
+import { CxDatePipe as CxDatePipe_1 } from '@spartacus/core';
 
 @Component({
   selector: 'cx-estimated-delivery-date',

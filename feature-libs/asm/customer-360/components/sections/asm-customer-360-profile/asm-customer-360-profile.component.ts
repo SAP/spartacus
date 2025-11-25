@@ -8,18 +8,18 @@ import { Component, OnInit } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { Card, FocusConfig, ICON_TYPE } from '@spartacus/storefront';
 
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {
   AsmCustomer360CustomerProfile,
   AsmCustomer360PaymentDetail,
   AsmCustomer360Profile,
   PaymentCardCode,
 } from '@spartacus/asm/customer-360/root';
-import { TranslatePipe } from '@spartacus/core';
-import { CardComponent } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
+import { NgIf, NgTemplateOutlet, NgFor, AsyncPipe } from '@angular/common';
+import { CardComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-asm-customer-360-profile',

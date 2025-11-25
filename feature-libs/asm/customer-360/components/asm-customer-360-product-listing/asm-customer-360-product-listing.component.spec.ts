@@ -8,13 +8,13 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { MockTranslatePipe, Product, TranslatePipe } from '@spartacus/core';
+import { Product, TranslatePipe, MockTranslatePipe } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { AsmCustomer360ProductItemComponent } from '../asm-customer-360-product-item/asm-customer-360-product-item.component';
 import { AsmCustomer360ProductListingComponent } from './asm-customer-360-product-listing.component';
 import { ProductItem } from './product-item.model';
+import { AsmCustomer360ProductItemComponent } from '../asm-customer-360-product-item/asm-customer-360-product-item.component';
 
 describe('AsmCustomer360ProductListingComponent', () => {
   let component: AsmCustomer360ProductListingComponent;

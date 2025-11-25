@@ -12,8 +12,8 @@ import {
 } from '@spartacus/core';
 import { Consignment, Order } from '@spartacus/order/root';
 import { CardModule, OutletModule } from '@spartacus/storefront';
-import { ConsignmentTrackingComponent } from '../consignment-tracking/consignment-tracking.component';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries.component';
+import { ConsignmentTrackingComponent } from '../consignment-tracking/consignment-tracking.component';
 
 const mockProduct = { product: { code: 'test' } };
 

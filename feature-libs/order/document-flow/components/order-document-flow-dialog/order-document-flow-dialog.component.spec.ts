@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
 import {
   CxDatePipe,
@@ -17,6 +16,7 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { Observable, of, throwError } from 'rxjs';
+import { By } from '@angular/platform-browser';
 import { OrderDocumentFlowFacade } from '../../root/facade';
 import {
   OrderSubsequentDocument,

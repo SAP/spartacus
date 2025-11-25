@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,22 +11,22 @@ import {
   inject,
 } from '@angular/core';
 import {
+  UntypedFormGroup,
   FormsModule,
   ReactiveFormsModule,
-  UntypedFormGroup,
 } from '@angular/forms';
-import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
-import { RoutingService, TranslatePipe } from '@spartacus/core';
-import {
-  FormErrorsComponent,
-  FormRequiredAsterisksComponent,
-  FormRequiredLegendComponent,
-  NgSelectA11yDirective,
-  SpinnerComponent,
-} from '@spartacus/storefront';
 import { Title } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { UpdateProfileComponentService } from './update-profile-component.service';
+import { RoutingService } from '@spartacus/core';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { FormRequiredLegendComponent } from '@spartacus/storefront';
+import { NgSelectComponent, NgOptionComponent } from '@ng-select/ng-select';
+import { NgSelectA11yDirective } from '@spartacus/storefront';
+import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-update-profile',

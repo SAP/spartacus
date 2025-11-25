@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { DpLocalStorageService } from '../../../facade/dp-local-storage.service';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  TranslatePipe,
   WindowRef,
 } from '@spartacus/core';
-import { SpinnerComponent } from '@spartacus/storefront';
 import { DpCheckoutPaymentService } from '../../../facade';
-import { DpLocalStorageService } from '../../../facade/dp-local-storage.service';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-dp-payment-form',

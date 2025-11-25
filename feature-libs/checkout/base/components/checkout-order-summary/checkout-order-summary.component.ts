@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActiveCartFacade, Cart, CartOutlets } from '@spartacus/cart/base/root';
-import { OutletDirective } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { OutletDirective } from '@spartacus/storefront';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'cx-checkout-order-summary',

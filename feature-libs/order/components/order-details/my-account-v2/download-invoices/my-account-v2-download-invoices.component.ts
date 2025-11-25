@@ -4,26 +4,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
-  AfterViewChecked,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  inject,
+  ChangeDetectionStrategy,
   ViewChild,
+  ChangeDetectorRef,
+  AfterViewChecked,
+  inject,
 } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
 import { OrderOutlets } from '@spartacus/order/root';
 import { InvoicesListComponent } from '@spartacus/pdf-invoices/components';
 import {
-  FocusConfig,
-  FocusDirective,
   ICON_TYPE,
-  IconComponent,
+  FocusConfig,
   LaunchDialogService,
-  SpinnerComponent,
 } from '@spartacus/storefront';
+import { FocusDirective } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
+import { NgIf } from '@angular/common';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-my-account-v2-download-invoices',

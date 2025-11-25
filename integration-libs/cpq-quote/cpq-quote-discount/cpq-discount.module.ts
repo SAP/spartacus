@@ -10,16 +10,16 @@ import {
   OutletPosition,
   provideOutlet,
 } from '@spartacus/storefront';
-import { CpqQuoteDiscountComponent } from './components/cpq-quote-discount-tbody/cpq-quote.component';
 import { CpqQuoteHeadingComponent } from './components/cpq-quote-heading/cpq-quote-heading.component';
+import { CpqQuoteDiscountComponent } from './components/cpq-quote-discount-tbody/cpq-quote.component';
 import { CpqQuoteOfferComponent } from './components/cpq-quote/cpq-quote-offer.component';
 
 import { CommonModule } from '@angular/common';
-import { CartItemListComponentService } from '@spartacus/cart/base/components';
-import { CartOutlets } from '@spartacus/cart/base/root';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import { CpqQuoteSharedService } from './cpq-qute-shared.service';
+import { CartOutlets } from '@spartacus/cart/base/root';
 import { CpqQuoteService } from './cpq-qute.service';
+import { CpqQuoteSharedService } from './cpq-qute-shared.service';
+import { CartItemListComponentService } from '@spartacus/cart/base/components';
 
 @NgModule({
   imports: [

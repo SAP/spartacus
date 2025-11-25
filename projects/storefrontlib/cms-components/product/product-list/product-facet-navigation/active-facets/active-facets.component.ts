@@ -4,21 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   Input,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { Breadcrumb, TranslatePipe } from '@spartacus/core';
+import { Breadcrumb } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
-import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
-import { IconComponent } from '../../../../misc/icon/icon.component';
 import { FacetList } from '../facet.model';
 import { FacetService } from '../services/facet.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
+import { IconComponent } from '../../../../misc/icon/icon.component';
+import { TranslatePipe } from '@spartacus/core';
 
 /**
  * Active facets render the applied facet values as a list of focusable buttons

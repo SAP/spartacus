@@ -5,11 +5,11 @@
  */
 
 import { Component } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
 import {
   ListComponent,
   UnitListComponent,
 } from '@spartacus/organization/administration/components';
+import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-account-summary-list',
   templateUrl: './account-summary-list.component.html',

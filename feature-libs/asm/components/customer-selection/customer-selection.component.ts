@@ -17,10 +17,10 @@ import {
   inject,
 } from '@angular/core';
 import {
-  FormsModule,
-  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
+  FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { AsmService } from '@spartacus/asm/core';
 import {
@@ -29,18 +29,19 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { FeatureConfigService, TranslatePipe, User } from '@spartacus/core';
+import { FeatureConfigService, User } from '@spartacus/core';
 import {
   DirectionMode,
   DirectionService,
-  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { IconComponent } from '@spartacus/storefront';
 import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-selection',

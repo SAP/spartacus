@@ -1,4 +1,3 @@
-import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   Input,
@@ -24,15 +23,16 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
+import { ProductCarouselComponent } from './product-carousel.component';
 import {
   CarouselComponent,
   CarouselScrollingComponent,
   MediaComponent,
   ProductCarouselItemComponent,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
-import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
-import { ProductCarouselComponent } from './product-carousel.component';
+import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'cx-carousel',

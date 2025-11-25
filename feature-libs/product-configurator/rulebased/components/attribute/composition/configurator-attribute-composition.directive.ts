@@ -15,12 +15,12 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { LoggerService, ObjectComparisonUtils } from '@spartacus/core';
-import { Configurator } from '../../../core/model/configurator.model';
 import {
   AttributeComponentAssignment,
   ConfiguratorAttributeCompositionConfig,
 } from './configurator-attribute-composition.config';
 import { ConfiguratorAttributeCompositionContext } from './configurator-attribute-composition.model';
+import { Configurator } from '../../../core/model/configurator.model';
 
 @Directive({ selector: '[cxConfiguratorAttributeComponent]' })
 export class ConfiguratorAttributeCompositionDirective

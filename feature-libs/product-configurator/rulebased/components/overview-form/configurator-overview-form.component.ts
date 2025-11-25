@@ -14,22 +14,23 @@ import {
   tap,
 } from 'rxjs/operators';
 
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import {
-  AsyncPipe,
-  NgClass,
-  NgFor,
   NgIf,
+  NgTemplateOutlet,
+  NgFor,
+  NgClass,
   NgSwitch,
   NgSwitchCase,
   NgSwitchDefault,
-  NgTemplateOutlet,
+  AsyncPipe,
 } from '@angular/common';
-import { FeatureDirective, TranslatePipe } from '@spartacus/core';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { Configurator } from '../../core/model/configurator.model';
+import { FeatureDirective } from '@spartacus/core';
 import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/configurator-overview-attribute.component';
 import { ConfiguratorOverviewBundleAttributeComponent } from '../overview-bundle-attribute/configurator-overview-bundle-attribute.component';
-import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-overview-form',

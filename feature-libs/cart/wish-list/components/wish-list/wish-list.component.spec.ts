@@ -10,8 +10,8 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { WishListItemComponent } from '../public_api';
 import { WishListComponent } from './wish-list.component';
+import { WishListItemComponent } from '../public_api';
 import createSpy = jasmine.createSpy;
 
 const mockWishList: Cart = {

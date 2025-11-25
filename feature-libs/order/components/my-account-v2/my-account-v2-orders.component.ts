@@ -4,15 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject, OnDestroy } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { CxDatePipe, Product, TranslatePipe, UrlPipe } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 import { MyAccountV2OrderHistoryService } from '@spartacus/order/core';
 import { Order, OrderHistoryListView } from '@spartacus/order/root';
-import { MediaComponent, SpinnerComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { MediaComponent } from '@spartacus/storefront';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
+import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-my-account-v2-orders',

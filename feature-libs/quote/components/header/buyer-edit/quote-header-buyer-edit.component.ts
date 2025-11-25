@@ -4,23 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf, NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { FeatureToggles, TranslatePipe } from '@spartacus/core';
+import { inject } from '@angular/core';
+import { FeatureToggles } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
 
 export interface SaveEvent {
   name?: string;

@@ -11,15 +11,15 @@ import {
   HostListener,
   Input,
 } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
 import {
   FocusConfig,
-  FocusDirective,
   ICON_TYPE,
-  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { FocusDirective } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
 import { ProductImageZoomViewComponent } from '../product-image-zoom-view/product-image-zoom-view.component';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-image-zoom-dialog',

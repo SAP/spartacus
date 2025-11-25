@@ -40,15 +40,15 @@ import {
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
-import {
-  AsmSessionTimerComponent,
-  AsmToggleUiComponent,
-  CSAgentLoginFormComponent,
-  CustomerEmulationComponent,
-  CustomerSelectionComponent,
-} from '../public_api';
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmMainUiComponent } from './asm-main-ui.component';
+import {
+  AsmToggleUiComponent,
+  CustomerSelectionComponent,
+  AsmSessionTimerComponent,
+  CustomerEmulationComponent,
+  CSAgentLoginFormComponent,
+} from '../public_api';
 
 class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {

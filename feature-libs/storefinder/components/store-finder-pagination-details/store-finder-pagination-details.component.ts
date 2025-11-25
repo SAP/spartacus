@@ -5,7 +5,8 @@
  */
 
 import { Component, Input } from '@angular/core';
-import { PaginationModel, TranslatePipe } from '@spartacus/core';
+import { PaginationModel } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-pagination-details',

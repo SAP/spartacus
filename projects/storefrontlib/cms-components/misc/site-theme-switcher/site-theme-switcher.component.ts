@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { SiteTheme, TranslatePipe, TranslationService } from '@spartacus/core';
+import { SiteTheme, TranslationService } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { IconComponent } from '../icon/icon.component';
 import { ICON_TYPE } from '../icon/icon.model';
 import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { IconComponent } from '../icon/icon.component';
+import { TranslatePipe } from '@spartacus/core';
 
 /**
  * Component for switching themes.

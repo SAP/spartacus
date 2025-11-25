@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Product, ProductScope, TranslatePipe } from '@spartacus/core';
+import { Product, ProductScope } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
-import { PromotionsComponent } from '../../misc/promotions/promotions.component';
 import { CurrentProductService } from '../current-product.service';
 import { ProductDetailOutlets } from '../product-outlets.model';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { PromotionsComponent } from '../../misc/promotions/promotions.component';
+import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-summary',

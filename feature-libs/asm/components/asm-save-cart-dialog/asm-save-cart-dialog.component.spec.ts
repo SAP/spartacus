@@ -11,7 +11,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
 import {
   FocusDirective,
   LaunchDialogService,
@@ -22,6 +21,7 @@ import {
   AsmSaveCartDialogComponent,
   SAVE_CART_DIALOG_ACTION,
 } from './asm-save-cart-dialog.component';
+import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
 
 @Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -17,9 +16,11 @@ import {
   inject,
 } from '@angular/core';
 import { AbstractControl, UntypedFormControl } from '@angular/forms';
-import { FeatureConfigService, TranslatePipe, isObject } from '@spartacus/core';
+import { FeatureConfigService, isObject } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
 
 /**
  * Renders translated form errors for a given form control, based on its `errors` property.

@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnChanges } from '@angular/core';
-import { PointOfService, TranslatePipe } from '@spartacus/core';
+import { PointOfService } from '@spartacus/core';
+import { NgFor, NgIf } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
 
 type OpeningTime = {
   weekDay?: string;

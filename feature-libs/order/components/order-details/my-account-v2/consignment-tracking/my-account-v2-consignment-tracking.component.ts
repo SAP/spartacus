@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import { Component, HostBinding, inject, OnInit } from '@angular/core';
-import { CxDatePipe, TranslatePipe } from '@spartacus/core';
 import { Consignment, Order } from '@spartacus/order/root';
 import { OutletContextData } from '@spartacus/storefront';
 import { ConsignmentTrackingComponent } from '../../order-detail-items';
+import { NgIf } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
+import { CxDatePipe } from '@spartacus/core';
 type ConsignmentOutletContextData = { item: Consignment; order?: Order };
 @Component({
   selector: 'cx-my-account-v2-consignment-tracking',

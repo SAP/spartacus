@@ -9,11 +9,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
-  AuthGuard,
-  CmsConfig,
+  UrlModule,
   I18nModule,
   provideDefaultConfig,
-  UrlModule,
+  CmsConfig,
+  AuthGuard,
 } from '@spartacus/core';
 import { MediaModule, SpinnerModule } from '@spartacus/storefront';
 import { MyAccountV2OrdersComponent } from './my-account-v2-orders.component';

@@ -4,33 +4,34 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { StoreModule } from '@ngrx/store';
 import { Cart, PaymentType } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
 import {
-  BaseSite,
-  BaseSiteService,
   CmsService,
   CostCenter,
   I18nTestingModule,
   Page,
   QueryState,
+  BaseSite,
+  BaseSiteService,
 } from '@spartacus/core';
 import {
-  OpfActiveConfigurationsResponse,
   OpfBaseFacade,
   OpfMetadataModel,
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
 import { of } from 'rxjs';
 import { OpfB2bCheckoutReviewComponent } from './opf-b2b-checkout-review.component';
+import { Pipe, PipeTransform } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
+import { Component, Input } from '@angular/core';
+import { OpfActiveConfigurationsResponse } from '@spartacus/opf/base/root';
 
 @Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {

@@ -20,7 +20,6 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import {
   ActiveCartFacade,
   DeliveryMode,
@@ -34,6 +33,7 @@ import {
 } from '@spartacus/storefront';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
+import { RouterModule } from '@angular/router';
 
 const mockCheckoutStep: CheckoutStep = {
   id: 'step',

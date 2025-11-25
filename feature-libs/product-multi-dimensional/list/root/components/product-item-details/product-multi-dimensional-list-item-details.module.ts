@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
 import { StarRatingModule } from '@spartacus/storefront';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ProductMultiDimensionalListItemDetailsComponent } from './product-multi-dimensional-list-item-details.component';
 
 @NgModule({

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,9 +11,12 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
-import { IconComponent, MessageComponent } from '@spartacus/storefront';
+import { GlobalMessageType } from '@spartacus/core';
 import { PromotionListEntry } from './asm-customer-360-promotion-listing.model';
+import { NgIf, NgFor } from '@angular/common';
+import { MessageComponent } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-promotion-listing',

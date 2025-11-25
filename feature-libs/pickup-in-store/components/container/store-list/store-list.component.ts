@@ -4,16 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PointOfServiceStock, TranslatePipe } from '@spartacus/core';
+import { PointOfServiceStock } from '@spartacus/core';
 import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
-import { SpinnerComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { StoreComponent } from '../../presentational/store/store.component';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 /**
  * The list of stores with their stock level and distance from a searched location.

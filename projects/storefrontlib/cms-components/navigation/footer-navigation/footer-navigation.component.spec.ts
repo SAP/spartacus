@@ -1,7 +1,6 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import {
   AnonymousConsentsConfig,
   CmsNavigationComponent,
@@ -11,16 +10,17 @@ import {
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import {
-  GenericLinkComponent,
-  NavigationUIComponent,
-} from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { NavigationService } from '../navigation/navigation.service';
 import { FooterNavigationComponent } from './footer-navigation.component';
+import { RouterModule } from '@angular/router';
+import {
+  NavigationUIComponent,
+  GenericLinkComponent,
+} from '@spartacus/storefront';
 import createSpy = jasmine.createSpy;
 
 @Component({

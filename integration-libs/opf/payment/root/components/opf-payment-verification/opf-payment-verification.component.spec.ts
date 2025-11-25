@@ -13,10 +13,10 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { OpfKeyValueMap, OpfPage } from '@spartacus/opf/base/root';
-import { SpinnerComponent } from '@spartacus/storefront';
 import { of, throwError } from 'rxjs';
 import { OpfPaymentVerificationComponent } from './opf-payment-verification.component';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
+import { SpinnerComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-spinner',

@@ -10,10 +10,10 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
-import { TranslatePipe } from '@spartacus/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AtMessageDirective } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-place-order',

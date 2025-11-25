@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
-import { PopoverDirective } from '@spartacus/storefront';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CellComponent } from '../../shared';
+import { RouterLink } from '@angular/router';
+import { PopoverDirective } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-user-group-details-cell',

@@ -1,4 +1,3 @@
-import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import {
@@ -8,9 +7,10 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import { ListComponent } from '@spartacus/organization/administration/components';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { AccountSummaryListComponent } from './account-summary-list.component';
+import { Component, Input } from '@angular/core';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { ListComponent } from '@spartacus/organization/administration/components';
 
 describe('AccountSummaryListComponent', () => {
   @Component({

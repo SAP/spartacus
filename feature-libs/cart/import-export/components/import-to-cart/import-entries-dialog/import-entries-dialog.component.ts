@@ -4,29 +4,29 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   AddOrderEntriesContext,
   OrderEntriesSource,
   ProductData,
-  ProductimportInfo,
-  ProductimportStatus,
-  ProductimportSummary,
+  ProductImportInfo,
+  ProductImportStatus,
+  ProductImportSummary,
 } from '@spartacus/cart/base/root';
-import { TranslatePipe } from '@spartacus/core';
 import {
   FocusConfig,
-  FocusDirective,
   ICON_TYPE,
-  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
-import { importEntriesFormComponent } from './import-entries-form/import-entries-form.component';
-import { importEntriesSummaryComponent } from './import-entries-summary/import-entries-summary.component';
-import { importToNewSavedCartFormComponent } from './import-to-new-saved-cart-form/import-to-new-saved-cart-form.component';
+import { FocusDirective } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { ImportToNewSavedCartFormComponent } from './import-to-new-saved-cart-form/import-to-new-saved-cart-form.component';
+import { ImportEntriesFormComponent } from './import-entries-form/import-entries-form.component';
+import { ImportEntriesSummaryComponent } from './import-entries-summary/import-entries-summary.component';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-import-entries-dialog',
@@ -36,14 +36,14 @@ import { importToNewSavedCartFormComponent } from './import-to-new-saved-cart-fo
     FocusDirective,
     IconComponent,
     NgIf,
-    importToNewSavedCartFormComponent,
-    importEntriesFormComponent,
-    importEntriesSummaryComponent,
+    ImportToNewSavedCartFormComponent,
+    ImportEntriesFormComponent,
+    ImportEntriesSummaryComponent,
     AsyncPipe,
     TranslatePipe,
   ],
 })
-export class importEntriesDialogComponent {
+export class ImportEntriesDialogComponent {
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
@@ -53,7 +53,7 @@ export class importEntriesDialogComponent {
   };
 
   formState: boolean = true;
-  summary$ = new BehaviorSubject<ProductimportSummary>({
+  summary$ = new BehaviorSubject<ProductImportSummary>({
     loading: false,
     cartName: '',
     count: 0,
@@ -108,19 +108,19 @@ export class importEntriesDialogComponent {
           });
         })
       )
-      .subscribe((action: ProductimportInfo) => {
+      .subscribe((action: ProductImportInfo) => {
         this.populateSummary(action);
       });
   }
 
-  protected populateSummary(action: ProductimportInfo): void {
-    if (action.statusCode === ProductimportStatus.SUCCESS) {
+  protected populateSummary(action: ProductImportInfo): void {
+    if (action.statusCode === ProductImportStatus.SUCCESS) {
       this.summary$.next({
         ...this.summary$.value,
         count: this.summary$.value.count + 1,
         successesCount: this.summary$.value.successesCount + 1,
       });
-    } else if (action.statusCode === ProductimportStatus.LOW_STOCK) {
+    } else if (action.statusCode === ProductImportStatus.LOW_STOCK) {
       this.summary$.next({
         ...this.summary$.value,
         count: this.summary$.value.count + 1,

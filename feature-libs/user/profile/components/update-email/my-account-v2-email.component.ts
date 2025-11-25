@@ -11,24 +11,22 @@ import {
   inject,
 } from '@angular/core';
 import {
+  UntypedFormGroup,
   FormsModule,
   ReactiveFormsModule,
-  UntypedFormGroup,
 } from '@angular/forms';
 import { GlobalMessageType, User } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
-import {
-  FormErrorsComponent,
-  MessageComponent,
-  PasswordVisibilityToggleDirective,
-  SpinnerComponent,
-} from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { filter } from 'rxjs/operators';
 import { UpdateEmailComponentService } from './update-email-component.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { MessageComponent } from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
+import { PasswordVisibilityToggleDirective } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-my-account-v2-email',

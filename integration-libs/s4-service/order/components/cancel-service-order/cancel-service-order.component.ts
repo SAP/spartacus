@@ -4,23 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
+  Validators,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-  TranslatePipe,
-  UrlPipe,
 } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import {
@@ -29,6 +25,10 @@ import {
 } from '@spartacus/s4-service/root';
 import { Observable, throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
 @Component({
   selector: 'cx-cancel-service-order',
   templateUrl: './cancel-service-order.component.html',

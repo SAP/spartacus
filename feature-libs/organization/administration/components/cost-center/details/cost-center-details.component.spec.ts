@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
 import {
   CostCenter,
   CxDatePipe,
@@ -11,7 +10,6 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { FocusDirective } from '@spartacus/storefront';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { EMPTY, of, Subject } from 'rxjs';
 import {
   CardComponent,
@@ -21,9 +19,11 @@ import {
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { ItemService } from '../../shared/item.service';
-import { MessageTestingModule } from '../../shared/message/message.testing.module';
 import { MessageService } from '../../shared/message/services/message.service';
 import { CostCenterDetailsComponent } from './cost-center-details.component';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { RouterModule } from '@angular/router';
+import { MessageTestingModule } from '../../shared/message/message.testing.module';
 import createSpy = jasmine.createSpy;
 
 const mockCode = 'c1';

@@ -1,14 +1,14 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Product, TranslationService } from '@spartacus/core';
+import { SubscriptionProductPriceComponent } from './subscription-product-price.component';
 import { CurrentProductService } from '@spartacus/storefront';
-import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
+import { Pipe, PipeTransform } from '@angular/core';
+import { Product, TranslationService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import {
   OneTimeCharge,
   RecurringCharge,
 } from '@spartacus/subscription-billing/root';
-import { Observable, of } from 'rxjs';
-import { SubscriptionProductPriceComponent } from './subscription-product-price.component';
+import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
 const mockOneTime: OneTimeCharge[] = [{ name: 'one' }, { name: 'two' }];
 const mockRecurring: RecurringCharge[] = [{ price: { value: 1 } }];
 const mockProduct2 = {

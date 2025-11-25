@@ -16,24 +16,12 @@ import {
 } from '@angular/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
+  UntypedFormGroup,
   FormsModule,
   ReactiveFormsModule,
-  UntypedFormGroup,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import {
-  FeatureConfigService,
-  RoutingService,
-  TranslatePipe,
-  UrlPipe,
-} from '@spartacus/core';
-import {
-  FormErrorsComponent,
-  FormRequiredAsterisksComponent,
-  SpinnerComponent,
-} from '@spartacus/storefront';
+import { FeatureConfigService, RoutingService } from '@spartacus/core';
 import {
   VerificationToken,
   VerificationTokenFacade,
@@ -41,6 +29,13 @@ import {
 import { Subject, Subscription } from 'rxjs';
 import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-registration-constants';
 import { RegisterVerificationTokenFormComponentService } from './verification-token-form-component.service';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-verification-token-form',

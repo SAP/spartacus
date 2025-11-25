@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import {
-  CmsPageGuard,
-  OutletRefModule,
   PageLayoutModule,
+  OutletRefModule,
+  CmsPageGuard,
 } from '@spartacus/storefront';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { TestOutletComponentComponent } from './test-outlet-component.component';
 
 @NgModule({

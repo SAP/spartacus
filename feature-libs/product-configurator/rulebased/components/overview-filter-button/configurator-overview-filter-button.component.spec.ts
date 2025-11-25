@@ -6,7 +6,6 @@ import {
   CommonConfigurator,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, NEVER, Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -16,6 +15,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewFilterButtonComponent } from './configurator-overview-filter-button.component';
+import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;

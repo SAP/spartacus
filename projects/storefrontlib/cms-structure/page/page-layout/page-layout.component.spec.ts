@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, Injectable, Input } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CmsService, ContentSlotData, Page } from '@spartacus/core';
-import { TestModule } from 'projects/core/src/config/services/configuration.service.spec';
 import { Observable, of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../../outlet';
-import { PageSlotComponent } from '../slot';
 import { PageLayoutComponent } from './page-layout.component';
 import { PageLayoutService } from './page-layout.service';
 import { PageTemplateDirective } from './page-template.directive';
+import { TestModule } from 'projects/core/src/config/services/configuration.service.spec';
+import { PageSlotComponent } from '../slot';
 
 const slots = {
   Section1: {

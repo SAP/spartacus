@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,22 +12,23 @@ import {
 } from '@angular/core';
 import {
   FeatureConfigService,
-  FeatureDirective,
   CmsProductCarouselComponent as model,
   Product,
   ProductScope,
   ProductSearchByCategoryService,
   ProductSearchByCodeService,
   ProductService,
-  TranslatePipe,
   useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, of, switchMap, zip } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
+import { FeatureDirective } from '@spartacus/core';
+import { NgIf, AsyncPipe } from '@angular/common';
 import { CarouselScrollingComponent } from '../../../../shared/components/carousel-scrolling/carousel-scrolling.component';
 import { CarouselComponent } from '../../../../shared/components/carousel/carousel.component';
 import { ProductCarouselItemComponent } from '../product-carousel-item/product-carousel-item.component';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-carousel',

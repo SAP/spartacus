@@ -4,30 +4,30 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   TrackByFunction,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import {
   CmsProductReferencesComponent,
-  FeatureDirective,
   isNotNullable,
   Product,
   ProductReference,
   ProductReferenceService,
-  UrlPipe,
   useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
+import { CurrentProductService } from '../../current-product.service';
+import { FeatureDirective } from '@spartacus/core';
+import { NgIf, AsyncPipe } from '@angular/common';
 import { CarouselScrollingComponent } from '../../../../shared/components/carousel-scrolling/carousel-scrolling.component';
 import { CarouselComponent } from '../../../../shared/components/carousel/carousel.component';
+import { RouterLink } from '@angular/router';
 import { MediaComponent } from '../../../../shared/components/media/media.component';
-import { CurrentProductService } from '../../current-product.service';
+import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-references',

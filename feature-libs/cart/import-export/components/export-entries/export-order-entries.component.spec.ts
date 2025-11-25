@@ -95,10 +95,10 @@ class MockExportProductsToCsvService {
   downloadCsv = createSpy('downloadCsv');
 }
 
-class MockimportExportContext {
+class MockImportExportContext {
   getEntries = createSpy('getEntries').and.returnValue(of(entries));
 }
-const contextService = new MockimportExportContext();
+const contextService = new MockImportExportContext();
 
 class MockContextService implements Partial<ContextService> {
   get = createSpy().and.returnValue(of(contextService));

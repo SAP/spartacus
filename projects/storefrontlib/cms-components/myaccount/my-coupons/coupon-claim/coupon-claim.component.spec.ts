@@ -1,14 +1,14 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { CouponClaimComponent } from './coupon-claim.component';
 import {
-  CustomerCouponService,
+  RoutingService,
   GlobalMessageService,
-  GlobalMessageType,
   PageContext,
   PageType,
-  RoutingService,
+  GlobalMessageType,
+  CustomerCouponService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
-import { CouponClaimComponent } from './coupon-claim.component';
 
 const params = {
   ['couponCode']: 'customerCoupon1',

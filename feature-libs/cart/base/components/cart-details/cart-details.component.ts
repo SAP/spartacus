@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CartConfigService } from '@spartacus/cart/base/core';
 import {
@@ -14,12 +13,14 @@ import {
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import { AuthService, RoutingService, TranslatePipe } from '@spartacus/core';
-import { PromotionsComponent } from '@spartacus/storefront';
+import { AuthService, RoutingService } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { CartItemListComponent } from '../cart-shared/cart-item-list/cart-item-list.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 import { CartValidationWarningsComponent } from '../validation/cart-warnings/cart-validation-warnings.component';
+import { PromotionsComponent } from '@spartacus/storefront';
+import { CartItemListComponent } from '../cart-shared/cart-item-list/cart-item-list.component';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-details',

@@ -4,25 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   OnInit,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  TranslatePipe,
-  UrlPipe,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { OrderDetailActionsComponent } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
 import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
-import { BtnLikeLinkDirective } from '@spartacus/storefront';
 import { map, Observable, tap } from 'rxjs';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { BtnLikeLinkDirective } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@spartacus/core';
+import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-s4-service-order-detail-actions',

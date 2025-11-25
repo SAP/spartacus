@@ -4,19 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
-  FormsModule,
-  ReactiveFormsModule,
   UntypedFormArray,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
+  FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   AnonymousConsent,
   AnonymousConsentsConfig,
@@ -29,24 +26,24 @@ import {
   GlobalMessageType,
   OAuthFlow,
   RoutingService,
-  TranslatePipe,
-  UrlPipe,
 } from '@spartacus/core';
-import {
-  CaptchaComponent,
-  CustomFormValidators,
-  FormErrorsComponent,
-  FormRequiredAsterisksComponent,
-  FormRequiredLegendComponent,
-  NgSelectA11yDirective,
-  PasswordVisibilityToggleDirective,
-  SpinnerComponent,
-  sortTitles,
-} from '@spartacus/storefront';
+import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { RegisterComponentService } from './register-component.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { FormRequiredLegendComponent } from '@spartacus/storefront';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { NgSelectA11yDirective } from '@spartacus/storefront';
+import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
+import { PasswordVisibilityToggleDirective } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { CaptchaComponent } from '@spartacus/storefront';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-register',

@@ -4,8 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  CardModule,
+  IconModule,
+  ListNavigationModule,
+  SpinnerModule,
+} from '@spartacus/storefront';
 import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
@@ -14,14 +20,8 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import {
-  CardModule,
-  IconModule,
-  ListNavigationModule,
-  SpinnerModule,
-} from '@spartacus/storefront';
-import { CustomerTicketingCreateModule } from '../customer-ticketing-create/customer-ticketing-create.module';
 import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
+import { CustomerTicketingCreateModule } from '../customer-ticketing-create/customer-ticketing-create.module';
 
 @NgModule({
   imports: [

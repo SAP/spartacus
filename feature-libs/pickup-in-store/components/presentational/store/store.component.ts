@@ -4,14 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PointOfServiceStock, TranslatePipe } from '@spartacus/core';
+import { PointOfServiceStock } from '@spartacus/core';
 import { storeHasStock } from '@spartacus/pickup-in-store/core';
-import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
-import { SetPreferredStoreComponent } from '../../container/set-preferred-store/set-preferred-store.component';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { StoreAddressComponent } from './store-address/store-address.component';
+import { IconComponent } from '@spartacus/storefront';
+import { NgIf, NgClass } from '@angular/common';
 import { StoreScheduleComponent } from './store-schedule/store-schedule.component';
+import { SetPreferredStoreComponent } from '../../container/set-preferred-store/set-preferred-store.component';
+import { TranslatePipe } from '@spartacus/core';
 
 /**
  * A store in the store list including address, opening times, stock level, and

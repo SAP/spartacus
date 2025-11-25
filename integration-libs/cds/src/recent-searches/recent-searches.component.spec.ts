@@ -7,7 +7,6 @@
 
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
 import {
   I18nTestingModule,
   MockTranslatePipe,
@@ -25,6 +24,7 @@ import {
   SearchBoxOutlet,
 } from './recent-searches.component';
 import { RecentSearchesService } from './recent-searches.service';
+import { RouterModule } from '@angular/router';
 
 @Pipe({ name: 'cxHighlight' })
 class MockHighlightPipe implements PipeTransform {

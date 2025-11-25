@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
+  RoutingService,
   CustomerCouponService,
   GlobalMessageService,
   GlobalMessageType,
-  RoutingService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 

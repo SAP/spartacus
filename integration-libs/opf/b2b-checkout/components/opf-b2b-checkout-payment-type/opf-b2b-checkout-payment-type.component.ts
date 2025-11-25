@@ -5,21 +5,15 @@
  */
 
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
-  OnDestroy,
   OnInit,
   ViewChild,
+  AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
@@ -34,20 +28,26 @@ import {
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
-import { AsyncPipe, NgIf } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
-import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
-import { SpinnerComponent } from '@spartacus/storefront';
 import {
   BehaviorSubject,
-  filter,
   Observable,
   Subscription,
-  switchMap,
   take,
+  filter,
+  switchMap,
 } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-payment-type',

@@ -12,10 +12,10 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { QuoteSummaryActionsModule } from './actions/quote-summary-actions.module';
-import { QuoteSummaryPricesModule } from './prices/quote-summary-prices.module';
 import { QuoteSummaryComponent } from './quote-summary.component';
+import { QuoteSummaryPricesModule } from './prices/quote-summary-prices.module';
 import { QuoteSummarySellerEditModule } from './seller-edit/quote-summary-seller-edit.module';
+import { QuoteSummaryActionsModule } from './actions/quote-summary-actions.module';
 
 @NgModule({
   imports: [

@@ -16,7 +16,6 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import { OrderConfig } from '@spartacus/order/root';
 import {
   CartUtilsService,
   QuoteDetailsReloadQueryEvent,
@@ -33,6 +32,7 @@ import { BehaviorSubject, NEVER, Observable, of, throwError } from 'rxjs';
 import { createEmptyQuote } from '../../core/testing/quote-test-utils';
 import { CommonQuoteTestUtilsService } from '../testing/common-quote-test-utils.service';
 import { QuoteLinksComponent } from './quote-links.component';
+import { OrderConfig } from '@spartacus/order/root';
 import createSpy = jasmine.createSpy;
 
 class MockCartUtilsService implements Partial<CartUtilsService> {

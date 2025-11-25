@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,11 +18,12 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+import { CurrentProductService } from '../current-product.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { LcpContextDirective } from '../../../shared/lcp-context/lcp-context.directive';
+import { MediaComponent } from '../../../shared/components/media/media.component';
 import { CarouselScrollingComponent } from '../../../shared/components/carousel-scrolling/carousel-scrolling.component';
 import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
-import { MediaComponent } from '../../../shared/components/media/media.component';
-import { LcpContextDirective } from '../../../shared/lcp-context/lcp-context.directive';
-import { CurrentProductService } from '../current-product.service';
 
 @Component({
   selector: 'cx-product-images',

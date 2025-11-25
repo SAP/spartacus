@@ -2,20 +2,20 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductData } from '@spartacus/cart/base/root';
 import {
-  defaultimportExportConfig,
-  importExportConfig,
+  defaultImportExportConfig,
+  ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import {
   FilesFormValidators,
   FileUploadModule,
   FormErrorsModule,
-  importCsvFileService,
+  ImportCsvFileService,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { importProductsFromCsvService } from '../../import-products-from-csv.service';
-import { importEntriesFormComponent } from './import-entries-form.component';
+import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
+import { ImportEntriesFormComponent } from './import-entries-form.component';
 
 const mockLoadFileData: string[][] = [
   ['693923', '1', 'mockProduct1', '$4.00'],
@@ -38,12 +38,12 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
-class MockimportToCartService implements Partial<importProductsFromCsvService> {
+class MockImportToCartService implements Partial<ImportProductsFromCsvService> {
   isDataParsableToProducts = () => true;
   csvDataToProduct = () => mockProducts;
 }
 
-class MockimportCsvFileService implements Partial<importCsvFileService> {
+class MockImportCsvFileService implements Partial<ImportCsvFileService> {
   loadFile = () => of(mockLoadFileData);
   validateFile = () => of(null);
 }
@@ -54,13 +54,13 @@ class MockLanguageService {
   }
 }
 
-describe('importEntriesFormComponent', () => {
-  let component: importEntriesFormComponent;
-  let fixture: ComponentFixture<importEntriesFormComponent>;
+describe('ImportEntriesFormComponent', () => {
+  let component: ImportEntriesFormComponent;
+  let fixture: ComponentFixture<ImportEntriesFormComponent>;
   let launchDialogService: LaunchDialogService;
-  let importToCartService: importProductsFromCsvService;
+  let importToCartService: ImportProductsFromCsvService;
   let filesFormValidators: FilesFormValidators;
-  let importCsvService: importCsvFileService;
+  let importCsvService: ImportCsvFileService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -70,27 +70,27 @@ describe('importEntriesFormComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         I18nTestingModule,
-        importEntriesFormComponent,
+        ImportEntriesFormComponent,
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
-          provide: importProductsFromCsvService,
-          useClass: MockimportToCartService,
+          provide: ImportProductsFromCsvService,
+          useClass: MockImportToCartService,
         },
-        { provide: importCsvFileService, useClass: MockimportCsvFileService },
+        { provide: ImportCsvFileService, useClass: MockImportCsvFileService },
         { provide: LanguageService, useClass: MockLanguageService },
-        { provide: importExportConfig, useValue: defaultimportExportConfig },
+        { provide: ImportExportConfig, useValue: defaultImportExportConfig },
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(importEntriesFormComponent);
+    fixture = TestBed.createComponent(ImportEntriesFormComponent);
     component = fixture.componentInstance;
 
     launchDialogService = TestBed.inject(LaunchDialogService);
-    importToCartService = TestBed.inject(importProductsFromCsvService);
+    importToCartService = TestBed.inject(ImportProductsFromCsvService);
     filesFormValidators = TestBed.inject(FilesFormValidators);
-    importCsvService = TestBed.inject(importCsvFileService);
+    importCsvService = TestBed.inject(ImportCsvFileService);
 
     spyOn(importToCartService, 'csvDataToProduct').and.callThrough();
     spyOn(importCsvService, 'validateFile').and.callThrough();
@@ -104,13 +104,13 @@ describe('importEntriesFormComponent', () => {
 
   it('should get the accept', () => {
     expect(component.allowedTypes).toEqual(
-      defaultimportExportConfig.cartimportExport.import.fileValidity
+      defaultImportExportConfig.cartImportExport.import.fileValidity
         .allowedTypes
     );
   });
 
   it('should close dialog on close method', () => {
-    const mockCloseReason = 'Close import Products Dialog';
+    const mockCloseReason = 'Close Import Products Dialog';
     spyOn(launchDialogService, 'closeDialog');
     component.close(mockCloseReason);
 

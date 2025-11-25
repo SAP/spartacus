@@ -17,8 +17,8 @@ import { OpfKeyValueMap, OpfPage } from '@spartacus/opf/base/root';
 import { Observable, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
-import { SpinnerComponent } from '@spartacus/storefront';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
+import { SpinnerComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-opf-verify-payment',

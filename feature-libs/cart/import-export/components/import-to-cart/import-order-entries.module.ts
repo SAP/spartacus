@@ -23,12 +23,12 @@ import {
   KeyboardFocusModule,
   MessageComponentModule,
 } from '@spartacus/storefront';
-import { defaultimportEntriesLayoutConfig } from './default-import-entries-layout.config';
-import { importEntriesDialogComponent } from './import-entries-dialog/import-entries-dialog.component';
-import { importEntriesFormComponent } from './import-entries-dialog/import-entries-form/import-entries-form.component';
-import { importEntriesSummaryComponent } from './import-entries-dialog/import-entries-summary/import-entries-summary.component';
-import { importToNewSavedCartFormComponent } from './import-entries-dialog/import-to-new-saved-cart-form/import-to-new-saved-cart-form.component';
-import { importOrderEntriesComponent } from './import-entries/import-order-entries.component';
+import { defaultImportEntriesLayoutConfig } from './default-import-entries-layout.config';
+import { ImportEntriesDialogComponent } from './import-entries-dialog/import-entries-dialog.component';
+import { ImportEntriesFormComponent } from './import-entries-dialog/import-entries-form/import-entries-form.component';
+import { ImportEntriesSummaryComponent } from './import-entries-dialog/import-entries-summary/import-entries-summary.component';
+import { ImportToNewSavedCartFormComponent } from './import-entries-dialog/import-to-new-saved-cart-form/import-to-new-saved-cart-form.component';
+import { ImportOrderEntriesComponent } from './import-entries/import-order-entries.component';
 
 @NgModule({
   imports: [
@@ -46,25 +46,25 @@ import { importOrderEntriesComponent } from './import-entries/import-order-entri
     FeaturesConfigModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        importOrderEntriesComponent: {
-          component: importOrderEntriesComponent,
+        ImportOrderEntriesComponent: {
+          component: ImportOrderEntriesComponent,
         },
       },
     }),
     FeaturesConfigModule,
-    importOrderEntriesComponent,
-    importEntriesDialogComponent,
-    importEntriesFormComponent,
-    importEntriesSummaryComponent,
-    importToNewSavedCartFormComponent,
+    ImportOrderEntriesComponent,
+    ImportEntriesDialogComponent,
+    ImportEntriesFormComponent,
+    ImportEntriesSummaryComponent,
+    ImportToNewSavedCartFormComponent,
   ],
   exports: [
-    importOrderEntriesComponent,
-    importEntriesDialogComponent,
-    importEntriesFormComponent,
-    importEntriesSummaryComponent,
-    importToNewSavedCartFormComponent,
+    ImportOrderEntriesComponent,
+    ImportEntriesDialogComponent,
+    ImportEntriesFormComponent,
+    ImportEntriesSummaryComponent,
+    ImportToNewSavedCartFormComponent,
   ],
-  providers: [provideDefaultConfig(defaultimportEntriesLayoutConfig)],
+  providers: [provideDefaultConfig(defaultImportEntriesLayoutConfig)],
 })
-export class importOrderEntriesModule {}
+export class ImportOrderEntriesModule {}

@@ -1,9 +1,7 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgSelectModule } from '@ng-select/ng-select';
+import { Observable, of, throwError } from 'rxjs';
 import {
   Country,
   GlobalMessageService,
@@ -14,17 +12,19 @@ import {
   Title,
   Translatable,
 } from '@spartacus/core';
+import { VerificationTokenFacade } from '@spartacus/user/account/root';
+import { UserRegistrationOTPFormComponent } from './user-registration-otp-form.component';
+import { UserRegistrationFormService } from '../form';
+import createSpy = jasmine.createSpy;
+import { Pipe, PipeTransform } from '@angular/core';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
   FormErrorsModule,
   NgSelectA11yDirective,
   SpinnerComponent,
 } from '@spartacus/storefront';
-import { VerificationTokenFacade } from '@spartacus/user/account/root';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { Observable, of, throwError } from 'rxjs';
-import { UserRegistrationFormService } from '../form';
-import { UserRegistrationOTPFormComponent } from './user-registration-otp-form.component';
-import createSpy = jasmine.createSpy;
+import { HttpErrorResponse } from '@angular/common/http';
 
 class MockRoutingService {
   go = createSpy();

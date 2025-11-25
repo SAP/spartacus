@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AnonymousConsentsConfig,
@@ -13,7 +12,6 @@ import {
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
-  TranslatePipe,
   UserConsentService,
 } from '@spartacus/core';
 import {
@@ -32,9 +30,11 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { ConsentManagementComponentService } from '../consent-management-component.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { ConsentManagementFormComponent } from './consent-form/consent-management-form.component';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-consent-management',

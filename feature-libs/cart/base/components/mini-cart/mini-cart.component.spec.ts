@@ -11,10 +11,10 @@ import {
   UrlCommandRoute,
   UrlPipe,
 } from '@spartacus/core';
-import { IconComponent } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';
 import { MiniCartComponent } from './mini-cart.component';
+import { IconComponent } from '@spartacus/storefront';
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {

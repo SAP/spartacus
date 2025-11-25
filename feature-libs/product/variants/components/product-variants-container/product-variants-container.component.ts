@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   BaseOption,
@@ -16,9 +15,10 @@ import {
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
-import { ProductVariantColorSelectorComponent } from '../variant-color-selector/product-variant-color-selector.component';
-import { ProductVariantSizeSelectorComponent } from '../variant-size-selector/product-variant-size-selector.component';
+import { NgIf, AsyncPipe } from '@angular/common';
 import { ProductVariantStyleSelectorComponent } from '../variant-style-selector/product-variant-style-selector.component';
+import { ProductVariantSizeSelectorComponent } from '../variant-size-selector/product-variant-size-selector.component';
+import { ProductVariantColorSelectorComponent } from '../variant-color-selector/product-variant-color-selector.component';
 
 @Component({
   selector: 'cx-product-variants-container',

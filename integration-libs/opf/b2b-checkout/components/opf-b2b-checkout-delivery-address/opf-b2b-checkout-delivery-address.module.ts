@@ -15,8 +15,8 @@ import {
 } from '@spartacus/core';
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { AddressFormModule } from '@spartacus/user/profile/components';
-import { OpfB2bCheckoutCostCenterModule } from '../opf-b2b-checkout-cost-center';
 import { OpfB2bCheckoutDeliveryAddressComponent } from './opf-b2b-checkout-delivery-address.component';
+import { OpfB2bCheckoutCostCenterModule } from '../opf-b2b-checkout-cost-center';
 @NgModule({
   imports: [
     CommonModule,

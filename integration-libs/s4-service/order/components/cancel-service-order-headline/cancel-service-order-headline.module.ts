@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CancelServiceOrderHeadlineComponent } from './cancel-service-order-headline.component';
 import { RouterModule } from '@angular/router';
 import {
-  AuthGuard,
-  CmsConfig,
-  I18nModule,
   provideDefaultConfig,
+  CmsConfig,
+  AuthGuard,
+  I18nModule,
   UrlModule,
 } from '@spartacus/core';
 import {
@@ -20,7 +21,6 @@ import {
   OutletModule,
   PromotionsModule,
 } from '@spartacus/storefront';
-import { CancelServiceOrderHeadlineComponent } from './cancel-service-order-headline.component';
 
 @NgModule({
   imports: [

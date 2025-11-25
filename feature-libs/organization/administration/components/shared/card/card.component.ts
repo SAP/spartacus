@@ -4,28 +4,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   ViewChild,
 } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { FeatureDirective, TranslatePipe } from '@spartacus/core';
-import {
-  ICON_TYPE,
-  IconComponent,
-  PopoverDirective,
-  ViewComponent,
-  ViewComponent as ViewComponent_1,
-} from '@spartacus/storefront';
+import { ICON_TYPE, ViewComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
-import { MessageComponent } from '../message/message.component';
 import { MessageService } from '../message/services/message.service';
 import { BaseItem } from '../organization.model';
+import { ViewComponent as ViewComponent_1 } from '@spartacus/storefront';
+import { FeatureDirective } from '@spartacus/core';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { PopoverDirective } from '@spartacus/storefront';
+import { IconComponent } from '@spartacus/storefront';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { MessageComponent } from '../message/message.component';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-card',

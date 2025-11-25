@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -16,12 +15,13 @@ import {
 } from '@spartacus/organization/administration/components';
 import { Budget } from '@spartacus/organization/administration/core';
 import { FocusConfig, FocusDirective } from '@spartacus/storefront';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { EMPTY, of, Subject } from 'rxjs';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ItemService } from '../../shared/item.service';
 import { MessageService } from '../../shared/message/services/message.service';
 import { UserGroupDetailsComponent } from './user-group-details.component';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const mockCode = 'u1';

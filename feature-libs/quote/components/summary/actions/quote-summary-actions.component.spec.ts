@@ -1,6 +1,4 @@
-import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -8,7 +6,6 @@ import {
   Price,
   TranslationService,
 } from '@spartacus/core';
-import { QuoteStorefrontUtilsService } from '@spartacus/quote/core';
 import {
   Quote,
   QuoteAction,
@@ -17,6 +14,7 @@ import {
   QuoteRoleType,
   QuoteState,
 } from '@spartacus/quote/root';
+import { ElementRef, ViewContainerRef } from '@angular/core';
 import {
   IntersectionService,
   LAUNCH_CALLER,
@@ -33,6 +31,8 @@ import { ConfirmationContext } from '../../confirm-dialog/quote-confirm-dialog.m
 import { CommonQuoteTestUtilsService } from '../../testing/common-quote-test-utils.service';
 import { QuoteSummaryActionsComponent } from './quote-summary-actions.component';
 import createSpy = jasmine.createSpy;
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { QuoteStorefrontUtilsService } from '@spartacus/quote/core';
 
 const mockCartId = '1234';
 const mockCode = '3333';

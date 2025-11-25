@@ -4,25 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   Address,
   GlobalMessageService,
   GlobalMessageType,
-  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
-import {
-  Card,
-  CardComponent,
-  getAddressNumbers,
-  SpinnerComponent,
-} from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AddressBookComponentService } from './address-book.component.service';
+import { Card, getAddressNumbers } from '@spartacus/storefront';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { CardComponent } from '@spartacus/storefront';
 import { AddressFormComponent } from './address-form/address-form.component';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-address-book',

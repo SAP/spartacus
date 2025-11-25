@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,28 +12,26 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import {
-  GlobalMessageType,
-  TranslatePipe,
-  TranslationService,
-} from '@spartacus/core';
-import {
-  OrderAttachment,
-  OrderAttachmentsFacade,
-  OrderConfig,
-} from '@spartacus/order/root';
+import { GlobalMessageType, TranslationService } from '@spartacus/core';
 import {
   FocusConfig,
-  FocusDirective,
   ICON_TYPE,
-  IconComponent,
   LaunchDialogService,
-  MessageComponent,
-  SpinnerComponent,
 } from '@spartacus/storefront';
 import { EMPTY, Observable, of, share } from 'rxjs';
-import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap, filter } from 'rxjs/operators';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import {
+  OrderAttachment,
+  OrderConfig,
+  OrderAttachmentsFacade,
+} from '@spartacus/order/root';
+import { FocusDirective } from '@spartacus/storefront';
+import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
+import { IconComponent } from '@spartacus/storefront';
+import { MessageComponent } from '@spartacus/storefront';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-attachments-dialog',

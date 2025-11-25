@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,15 +14,16 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
 import {
   Consignment,
   ConsignmentTracking,
   OrderHistoryFacade,
 } from '@spartacus/order/root';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { NgIf } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-consignment-tracking',

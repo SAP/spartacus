@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterModule } from '@angular/router';
 import {
   FeatureDirective,
   I18nTestingModule,
@@ -12,6 +11,7 @@ import { CmsComponentData } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
 import { BreadcrumbComponent } from './breadcrumb.component';
+import { RouterModule } from '@angular/router';
 
 class MockPageMetaService {
   getMeta(): Observable<PageMeta> {

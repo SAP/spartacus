@@ -19,8 +19,8 @@ import {
   MessagingConfigs,
 } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
-import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
 import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
+import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
 import createSpy = jasmine.createSpy;
 
 describe('CustomerTicketMessagesComponent', () => {

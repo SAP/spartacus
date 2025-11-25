@@ -4,21 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import {
-  ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
+  ConfiguratorPriceComponent,
 } from '../../../price/configurator-price.component';
 import {
-  ConfiguratorAttributeProductCardComponent,
   ConfiguratorAttributeProductCardComponentOptions,
+  ConfiguratorAttributeProductCardComponent,
 } from '../../product-card/configurator-attribute-product-card.component';
-import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
 
 interface SelectionValue {
   name?: string;

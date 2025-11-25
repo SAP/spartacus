@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,28 +14,26 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { Cart } from '@spartacus/cart/base/root';
 import {
   SavedCartFacade,
   SavedCartFormType,
 } from '@spartacus/cart/saved-cart/root';
-import {
-  CxDatePipe,
-  RoutingService,
-  TranslatePipe,
-  UrlPipe,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { RoutingService, useFeatureStyles } from '@spartacus/core';
 import {
   LAUNCH_CALLER,
   LaunchDialogService,
   SiteContextComponentService,
   SiteContextType,
-  SpinnerComponent,
 } from '@spartacus/storefront';
 import { from, mergeMap, Observable, Subscription } from 'rxjs';
 import { map, skip, take } from 'rxjs/operators';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
+import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-saved-cart-list',

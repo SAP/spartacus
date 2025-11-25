@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -17,13 +16,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  FormsModule,
-  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
+  FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms';
-import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   Address,
   AddressValidation,
@@ -33,22 +31,24 @@ import {
   GlobalMessageType,
   Region,
   Title,
-  TranslatePipe,
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
 import {
-  FormErrorsComponent,
-  FormRequiredAsterisksComponent,
-  FormRequiredLegendComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
-  NgSelectA11yDirective,
   sortTitles,
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { FormRequiredLegendComponent } from '@spartacus/storefront';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { NgSelectA11yDirective } from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-address-form',

@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Promotion } from '@spartacus/core';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
   selector: 'cx-promotions',

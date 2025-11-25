@@ -17,19 +17,19 @@ import {
   provideDefaultConfigFactory,
   UrlModule,
 } from '@spartacus/core';
-import { USE_MY_ACCOUNT_V2_ORDER } from '@spartacus/order/root';
 import {
   BtnLikeLinkModule,
   ListNavigationModule,
   MediaModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import {
-  MyAccountV2ConsignmentEntriesComponent,
-  MyAccountV2OrderConsolidatedInformationComponent,
-  MyAccountV2OrderHistoryComponent,
-} from './my-account-v2';
 import { OrderHistoryComponent } from './order-history.component';
+import { USE_MY_ACCOUNT_V2_ORDER } from '@spartacus/order/root';
+import {
+  MyAccountV2OrderHistoryComponent,
+  MyAccountV2OrderConsolidatedInformationComponent,
+  MyAccountV2ConsignmentEntriesComponent,
+} from './my-account-v2';
 
 const myAccountV2CmsMapping: CmsConfig = {
   cmsComponents: {

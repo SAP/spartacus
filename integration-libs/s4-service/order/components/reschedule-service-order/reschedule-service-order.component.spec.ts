@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormBuilder } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RescheduleServiceOrderComponent } from './reschedule-service-order.component';
 import {
   CxDatePipe,
   GlobalMessageService,
@@ -13,17 +12,18 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
+import { of, throwError } from 'rxjs';
 import { OrderDetailsService } from '@spartacus/order/components';
+import { FormBuilder } from '@angular/forms';
 import {
-  CheckoutServiceSchedulePickerService,
   RescheduleServiceOrderFacade,
+  CheckoutServiceSchedulePickerService,
   ServiceDateTime,
 } from '@spartacus/s4-service/root';
-import { DatePickerComponent } from '@spartacus/storefront';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of, throwError } from 'rxjs';
-import { RescheduleServiceOrderComponent } from './reschedule-service-order.component';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { DatePickerComponent } from '@spartacus/storefront';
+import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const mockOrder = {

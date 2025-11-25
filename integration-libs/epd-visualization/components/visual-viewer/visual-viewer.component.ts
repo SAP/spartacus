@@ -4,22 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   Output,
 } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
-import { SpinnerComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { NavigationMode } from './models/navigation-mode';
 import { SelectionMode } from './models/selection-mode';
 import { VisualizationLoadInfo } from './models/visualization-load-info';
-import { VisualViewerAnimationSliderComponent } from './toolbar/visual-viewer-animation-slider/visual-viewer-animation-slider.component';
-import { VisualViewerToolbarButtonComponent } from './toolbar/visual-viewer-toolbar-button/visual-viewer-toolbar-button.component';
 import { VisualViewerService } from './visual-viewer.service';
+import { NgIf } from '@angular/common';
+import { VisualViewerToolbarButtonComponent } from './toolbar/visual-viewer-toolbar-button/visual-viewer-toolbar-button.component';
+import { VisualViewerAnimationSliderComponent } from './toolbar/visual-viewer-animation-slider/visual-viewer-animation-slider.component';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 /**
  * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.

@@ -6,18 +6,16 @@
 
 import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
-import { FeatureDirective, TranslatePipe } from '@spartacus/core';
 import {
   PointOfServiceNames,
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
-import {
-  ICON_TYPE,
-  IconComponent,
-  OutletContextData,
-} from '@spartacus/storefront';
+import { ICON_TYPE, OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
+import { FeatureDirective } from '@spartacus/core';
+import { NgIf, NgClass, AsyncPipe } from '@angular/common';
+import { IconComponent } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-set-preferred-store',

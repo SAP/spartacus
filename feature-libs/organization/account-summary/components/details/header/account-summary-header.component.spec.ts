@@ -22,8 +22,8 @@ import {
 
 import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
 
-import { mockAccountSummaryDetails } from '../account-summary-mock-data';
 import { AccountSummaryHeaderComponent } from './account-summary-header.component';
+import { mockAccountSummaryDetails } from '../account-summary-mock-data';
 
 @Component({
   selector: 'cx-card',

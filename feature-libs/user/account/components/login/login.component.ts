@@ -4,19 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import {
-  AuthService,
-  TranslatePipe,
-  TranslationService,
-  UrlPipe,
-} from '@spartacus/core';
-import { DomChangeDirective, PageSlotComponent } from '@spartacus/storefront';
+import { AuthService, TranslationService } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { PageSlotComponent } from '@spartacus/storefront';
+import { DomChangeDirective } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login',

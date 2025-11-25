@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,17 +12,18 @@ import {
   OnInit,
   Optional,
 } from '@angular/core';
-import { FormsModule, UntypedFormGroup } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { TranslatePipe } from '@spartacus/core';
+import { UntypedFormGroup, FormsModule } from '@angular/forms';
 import { LoadStatus } from '@spartacus/organization/administration/core';
-import { FocusDirective } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { first, map, switchMap, take } from 'rxjs/operators';
 import { CardComponent } from '../card/card.component';
-import { ItemActiveDirective } from '../item-active.directive';
 import { ItemService } from '../item.service';
 import { MessageService } from '../message/services/message.service';
+import { NgIf, AsyncPipe } from '@angular/common';
+import { ItemActiveDirective } from '../item-active.directive';
+import { FocusDirective } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@spartacus/core';
 
 const DISABLED_STATUS = 'DISABLED';
 

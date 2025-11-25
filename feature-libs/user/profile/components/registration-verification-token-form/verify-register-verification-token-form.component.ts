@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgIf } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
@@ -16,13 +15,12 @@ import {
   inject,
 } from '@angular/core';
 import {
-  FormsModule,
-  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
+  FormsModule,
+  ReactiveFormsModule,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import {
   AuthConfigService,
   FeatureConfigService,
@@ -30,16 +28,11 @@ import {
   GlobalMessageType,
   OAuthFlow,
   RoutingService,
-  TranslatePipe,
-  UrlPipe,
 } from '@spartacus/core';
 import {
   CustomFormValidators,
-  FormErrorsComponent,
-  FormRequiredAsterisksComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
-  SpinnerComponent,
 } from '@spartacus/storefront';
 import {
   VerificationToken,
@@ -49,6 +42,13 @@ import { UserSignUp } from '@spartacus/user/profile/root';
 import { BehaviorSubject } from 'rxjs';
 import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
 import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
+import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
+import { NgIf, NgClass } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { SpinnerComponent } from '@spartacus/storefront';
+import { UrlPipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-registration-verification-token-form',

@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { OpfCtaElementComponent } from '../opf-cta-element/opf-cta-element.component';
 import { OpfCtaScriptsService } from './opf-cta-scripts.service';
+import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { OpfCtaElementComponent } from '../opf-cta-element/opf-cta-element.component';
 
 @Component({
   selector: 'cx-opf-cta-scripts',

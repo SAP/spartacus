@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,13 +17,14 @@ import {
   ProductScope,
   ProductService,
   RoutingService,
-  TranslatePipe,
   TranslationService,
   VariantOptionQualifier,
   VariantQualifier,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { NgFor, AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-variant-size-selector',

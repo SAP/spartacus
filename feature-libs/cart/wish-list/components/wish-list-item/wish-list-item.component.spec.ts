@@ -11,8 +11,6 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
-import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   CxDatePipe,
@@ -30,6 +28,8 @@ import {
   ProductListItemContextSource,
 } from '@spartacus/storefront';
 import { WishListItemComponent } from './wish-list-item.component';
+import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'cx-add-to-cart',

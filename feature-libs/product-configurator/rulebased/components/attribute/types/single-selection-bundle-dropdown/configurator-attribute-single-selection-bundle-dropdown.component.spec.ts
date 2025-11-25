@@ -12,7 +12,6 @@ import { FeatureLevelDirective, I18nTestingModule } from '@spartacus/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
-import { FocusDirective } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
@@ -38,6 +37,7 @@ import {
 } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
+import { FocusDirective } from '@spartacus/storefront';
 
 const VALUE_DISPLAY_NAME = 'Lorem Ipsum Dolor';
 @Component({

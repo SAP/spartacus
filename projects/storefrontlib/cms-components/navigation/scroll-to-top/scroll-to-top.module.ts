@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { CommonModule } from '@angular/common';
+import { I18nModule, CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { IconModule } from '../../misc/icon/icon.module';
 import { ScrollToTopComponent } from './scroll-to-top.component';
 

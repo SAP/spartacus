@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   LoadStatus,
@@ -22,6 +21,7 @@ import { MessageService } from '../message/services/message.service';
 import { BaseItem } from '../organization.model';
 import { CellComponent } from '../table/cell.component';
 import { SubListService } from './sub-list.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'cx-org-assign-cell',

@@ -14,8 +14,8 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { IconModule, SpinnerModule } from '@spartacus/storefront';
 import { SubscriptionDetailsComponent } from './subscription-details.component';
+import { IconModule, SpinnerModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
