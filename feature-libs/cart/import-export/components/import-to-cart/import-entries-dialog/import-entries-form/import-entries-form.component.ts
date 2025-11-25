@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,30 +14,28 @@ import {
   Output,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
-  FormsModule,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { OrderEntriesSource, ProductData } from '@spartacus/cart/base/root';
 import { ImportExportConfig } from '@spartacus/cart/import-export/core';
+import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
 import {
   FilesFormValidators,
+  FileUploadComponent,
+  FocusDirective,
+  FormErrorsComponent,
   FormUtils,
   ImportCsvFileService,
   LaunchDialogService,
+  MessageComponent,
 } from '@spartacus/storefront';
 import { of, Subject } from 'rxjs';
 import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
-import { GlobalMessageType } from '@spartacus/core';
-import { NgIf } from '@angular/common';
-import { MessageComponent } from '@spartacus/storefront';
-import { FocusDirective } from '@spartacus/storefront';
-import { FileUploadComponent } from '@spartacus/storefront';
-import { FormErrorsComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-import-entries-form',
