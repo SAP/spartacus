@@ -4,8 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Address, B2BUnit, Country, UserAddressService } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import {
+  Address,
+  B2BUnit,
+  Country,
+  TranslatePipe,
+  UrlPipe,
+  UserAddressService,
+} from '@spartacus/core';
+import { FocusDirective } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -14,16 +24,11 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { CardComponent } from '../../../../shared/card/card.component';
+import { DeleteItemComponent } from '../../../../shared/detail/delete-item-action/delete-item.component';
 import { ItemService } from '../../../../shared/item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitAddressItemService } from '../services/unit-address-item.service';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { CardComponent } from '../../../../shared/card/card.component';
-import { FocusDirective } from '@spartacus/storefront';
-import { RouterLink } from '@angular/router';
-import { DeleteItemComponent } from '../../../../shared/detail/delete-item-action/delete-item.component';
-import { UrlPipe } from '@spartacus/core';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-unit-address-details',

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,7 +15,6 @@ import {
 import { CmsLinkComponent } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { NgIf, AsyncPipe } from '@angular/common';
 import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
 
 @Component({

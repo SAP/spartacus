@@ -1,6 +1,7 @@
 import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   EventService,
   I18nModule,
@@ -8,11 +9,10 @@ import {
   TranslationService,
   UrlPipe,
 } from '@spartacus/core';
+import { OrderDetailActionsComponent } from '@spartacus/order/components';
 import { EMPTY, Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../../order-details.service';
 import { MyAccountV2OrderDetailsActionsComponent } from './my-account-v2-order-details-actions.component';
-import { OrderDetailActionsComponent } from '@spartacus/order/components';
-import { RouterModule } from '@angular/router';
 
 const mockOrder1 = {
   returnable: true,

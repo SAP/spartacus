@@ -1,6 +1,7 @@
 import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
   GlobalMessageEntities,
   GlobalMessageService,
@@ -28,7 +29,6 @@ import {
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { CustomerTicketingCreateDialogComponent } from './customer-ticketing-create-dialog.component';
 import createSpy = jasmine.createSpy;
-import { NgSelectModule } from '@ng-select/ng-select';
 
 const mockCategories = [
   {

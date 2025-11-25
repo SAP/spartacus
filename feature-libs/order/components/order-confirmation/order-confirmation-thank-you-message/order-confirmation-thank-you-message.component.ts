@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -14,15 +15,14 @@ import {
 import {
   GlobalMessageService,
   GlobalMessageType,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import { Order, OrderFacade, ReplenishmentOrder } from '@spartacus/order/root';
+import { AddToHomeScreenBannerComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, take, tap, withLatestFrom } from 'rxjs/operators';
-import { NgIf, AsyncPipe } from '@angular/common';
 import { OrderGuestRegisterFormComponent } from '../order-guest-register-form/order-guest-register-form.component';
-import { AddToHomeScreenBannerComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-confirmation-thank-you-message',

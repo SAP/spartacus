@@ -5,8 +5,8 @@
  */
 
 import { Component } from '@angular/core';
-import { StoreFinderHeaderComponent } from '../store-finder-header/store-finder-header.component';
 import { RouterOutlet } from '@angular/router';
+import { StoreFinderHeaderComponent } from '../store-finder-header/store-finder-header.component';
 
 @Component({
   selector: 'cx-store-finder',

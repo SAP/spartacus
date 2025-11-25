@@ -1,3 +1,4 @@
+import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   Input,
@@ -7,6 +8,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CmsProductReferencesComponent,
   FeatureConfigService,
@@ -19,17 +21,15 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
-import { CurrentProductService } from '../../current-product.service';
-import { ProductReferencesComponent } from './product-references.component';
-import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
-import { MediaComponent } from 'projects/storefrontlib/shared/components/media/media.component';
 import {
   CarouselComponent,
   CarouselScrollingComponent,
 } from '@spartacus/storefront';
-import { RouterModule } from '@angular/router';
+import { MediaComponent } from 'projects/storefrontlib/shared/components/media/media.component';
+import { Observable, of } from 'rxjs';
+import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
+import { CurrentProductService } from '../../current-product.service';
+import { ProductReferencesComponent } from './product-references.component';
 
 @Component({
   selector: 'cx-carousel',

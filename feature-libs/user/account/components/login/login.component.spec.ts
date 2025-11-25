@@ -13,10 +13,10 @@ import {
   UrlPipe,
   User,
 } from '@spartacus/core';
+import { PageSlotComponent } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
-import { PageSlotComponent } from '@spartacus/storefront';
 import createSpy = jasmine.createSpy;
 
 const mockUserDetails: User = {

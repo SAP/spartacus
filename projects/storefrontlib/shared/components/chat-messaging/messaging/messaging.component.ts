@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   AfterViewChecked,
   Component,
@@ -14,28 +15,25 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
-  FormsModule,
-  ReactiveFormsModule,
 } from '@angular/forms';
-import { WindowRef } from '@spartacus/core';
+import { CxDatePipe, TranslatePipe, WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { FilesFormValidators } from '../../../services/file/files-form-validators';
 import { FileUploadComponent } from '../../form';
+import { FormErrorsComponent } from '../../form/form-errors/form-errors.component';
+import { AvatarComponent } from '../avatar/avatar.component';
 import {
   MessageEvent,
   MessageEventBoundItem,
   MessagingConfigs,
 } from './messaging.model';
-import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
-import { AvatarComponent } from '../avatar/avatar.component';
-import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
-import { FormErrorsComponent } from '../../form/form-errors/form-errors.component';
-import { TranslatePipe } from '@spartacus/core';
-import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-messaging',

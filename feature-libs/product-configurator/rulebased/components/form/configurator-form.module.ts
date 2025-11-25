@@ -8,8 +8,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
-import { ConfiguratorFormComponent } from './configurator-form.component';
 import { ConfiguratorGroupModule } from '../group/configurator-group.module';
+import { ConfiguratorFormComponent } from './configurator-form.component';
 
 @NgModule({
   imports: [

@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslationService } from '@spartacus/core';
 import { CheckoutServiceSchedulePickerService } from '@spartacus/s4-service/root';
 import { OutletContextData } from '@spartacus/storefront';
-import { ServiceDetailsCardComponent } from './service-details-card.component';
 import { of } from 'rxjs';
+import { ServiceDetailsCardComponent } from './service-details-card.component';
 
 class MockTranslationService {
   translate() {}

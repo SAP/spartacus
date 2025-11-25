@@ -1,18 +1,18 @@
-import { DpPaymentRequest } from './../../../models/dp-checkout.model';
+import { Component } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { StoreModule } from '@ngrx/store';
 import {
-  MockTranslatePipe,
-  WindowRef,
   GlobalMessageService,
   GlobalMessageType,
+  MockTranslatePipe,
   TranslatePipe,
+  WindowRef,
 } from '@spartacus/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DpPaymentFormComponent } from './dp-payment-form.component';
-import { DpCheckoutPaymentService } from '../../../facade';
-import { Observable, of } from 'rxjs';
-import { Component } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
 import { SpinnerComponent } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { DpCheckoutPaymentService } from '../../../facade';
+import { DpPaymentRequest } from './../../../models/dp-checkout.model';
+import { DpPaymentFormComponent } from './dp-payment-form.component';
 
 const postUrl = 'https://dummy.url';
 const mockDpPaymentRequest: DpPaymentRequest = {

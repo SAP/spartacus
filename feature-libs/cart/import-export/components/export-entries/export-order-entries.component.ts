@@ -4,18 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
+  ORDER_ENTRIES_CONTEXT,
   OrderEntriesContext,
   OrderEntry,
-  ORDER_ENTRIES_CONTEXT,
 } from '@spartacus/cart/base/root';
+import { TranslatePipe } from '@spartacus/core';
 import { ContextService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.service';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-export-order-entries',

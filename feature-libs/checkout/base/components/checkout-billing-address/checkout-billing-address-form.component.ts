@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import {
-  UntypedFormGroup,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormGroup,
 } from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
 import {
   Address,
@@ -18,14 +20,20 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   Region,
+  TranslatePipe,
   TranslationService,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
 import {
   Card,
+  CardComponent,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
+  NgSelectA11yDirective,
   getAddressNumbers,
 } from '@spartacus/storefront';
 import {
@@ -39,14 +47,6 @@ import {
   tap,
 } from 'rxjs';
 import { CheckoutBillingAddressFormService } from './checkout-billing-address-form.service';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { CardComponent } from '@spartacus/storefront';
-import { FormRequiredLegendComponent } from '@spartacus/storefront';
-import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
-import { NgSelectComponent } from '@ng-select/ng-select';
-import { NgSelectA11yDirective } from '@spartacus/storefront';
-import { FormErrorsComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-checkout-billing-address-form',

@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   I18nTestingModule,
   ProductService,
@@ -30,7 +31,6 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { ProductCarouselItemComponent } from './product-carousel-item.component';
-import { RouterModule } from '@angular/router';
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {

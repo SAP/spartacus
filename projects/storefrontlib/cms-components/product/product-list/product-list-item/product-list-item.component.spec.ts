@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   FeatureDirective,
   I18nTestingModule,
@@ -35,7 +36,6 @@ import { BehaviorSubject } from 'rxjs';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
 import { ProductListItemComponent } from './product-list-item.component';
-import { RouterModule } from '@angular/router';
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',

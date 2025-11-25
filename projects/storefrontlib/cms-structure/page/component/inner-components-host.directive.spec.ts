@@ -1,4 +1,18 @@
-import { InnerComponentsHostDirective } from './inner-components-host.directive';
+import {
+  Component,
+  Injector,
+  Renderer2,
+  ViewContainerRef,
+} from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  CmsComponent,
+  CmsConfig,
+  CmsService,
+  ConfigInitializerService,
+  DynamicAttributeService,
+  EventService,
+} from '@spartacus/core';
 import {
   CmsComponentData,
   CmsComponentsService,
@@ -8,23 +22,9 @@ import {
   ComponentWrapperDirective,
   PageComponentModule,
 } from '@spartacus/storefront';
-import {
-  Component,
-  Injector,
-  Renderer2,
-  ViewContainerRef,
-} from '@angular/core';
-import {
-  CmsComponent,
-  CmsConfig,
-  CmsService,
-  ConfigInitializerService,
-  DynamicAttributeService,
-  EventService,
-} from '@spartacus/core';
 import { of } from 'rxjs';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { WebComponentHandler } from './handlers/web-component.handler';
+import { InnerComponentsHostDirective } from './inner-components-host.directive';
 import { CxApiService } from './services/cx-api.service';
 
 @Component({

@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
-  CheckoutPaymentMethodComponent as CorePaymentMethodComponent,
   CheckoutStepService,
+  CheckoutPaymentMethodComponent as CorePaymentMethodComponent,
 } from '@spartacus/checkout/base/components';
 import {
   CheckoutDeliveryAddressService,
@@ -18,16 +19,14 @@ import {
 import {
   GlobalMessageService,
   PaymentDetails,
+  TranslatePipe,
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';
+import { CardComponent, SpinnerComponent } from '@spartacus/storefront';
 import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { CardComponent } from '@spartacus/storefront';
-import { DpPaymentFormComponent } from './dp-payment-form/dp-payment-form.component';
-import { SpinnerComponent } from '@spartacus/storefront';
 import { DpPaymentCallbackComponent } from './dp-payment-callback/dp-payment-callback.component';
-import { TranslatePipe } from '@spartacus/core';
+import { DpPaymentFormComponent } from './dp-payment-form/dp-payment-form.component';
 
 @Component({
   selector: 'cx-payment-method',

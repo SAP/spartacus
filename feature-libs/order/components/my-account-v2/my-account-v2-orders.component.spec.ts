@@ -1,6 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -13,10 +14,9 @@ import {
 } from '@spartacus/core';
 import { MyAccountV2OrderHistoryService } from '@spartacus/order/core';
 import { OrderHistoryListView } from '@spartacus/order/root';
+import { MediaComponent, SpinnerComponent } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { MyAccountV2OrdersComponent } from './my-account-v2-orders.component';
-import { RouterModule } from '@angular/router';
-import { MediaComponent, SpinnerComponent } from '@spartacus/storefront';
 
 const mockOrders: OrderHistoryListView = {
   orders: [

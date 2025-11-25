@@ -10,17 +10,17 @@ import { CxDatePipe, Product, TranslationService } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
+import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
 import {
   CustomerTableColumn,
   CustomerTableTextAlign,
   TableEntry,
 } from '../../asm-customer-360-table/asm-customer-360-table.model';
+import { AsmCustomer360Config } from '../../config/asm-customer-360-config';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { ReviewEntry } from './asm-customer-360-product-reviews.model';
-import { AsmCustomer360Config } from '../../config/asm-customer-360-config';
-import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
-import { AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

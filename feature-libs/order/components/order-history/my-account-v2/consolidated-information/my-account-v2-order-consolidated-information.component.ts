@@ -4,28 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
-  Component,
   ChangeDetectionStrategy,
+  Component,
   Input,
   inject,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { Images } from '@spartacus/core';
-import { MyAccountV2OrderConsignmentsService } from '../../../order-details';
+import { CxDatePipe, Images, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   ConsignmentView,
-  OrderView,
   OrderHistoryView,
+  OrderView,
 } from '@spartacus/order/root';
-import { OrderCriticalStatus } from '../my-account-v2-order-history.model';
-import { NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
-import { MyAccountV2ConsignmentEntriesComponent } from '../consignment-entries/my-account-v2-consignment-entries.component';
-import { RouterLink } from '@angular/router';
 import { MediaComponent } from '@spartacus/storefront';
-import { UrlPipe } from '@spartacus/core';
-import { TranslatePipe } from '@spartacus/core';
-import { CxDatePipe } from '@spartacus/core';
+import { MyAccountV2OrderConsignmentsService } from '../../../order-details';
+import { MyAccountV2ConsignmentEntriesComponent } from '../consignment-entries/my-account-v2-consignment-entries.component';
+import { OrderCriticalStatus } from '../my-account-v2-order-history.model';
 
 @Component({
   selector: 'cx-my-account-v2-order-consolidated-information',

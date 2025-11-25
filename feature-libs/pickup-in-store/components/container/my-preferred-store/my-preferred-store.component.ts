@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -17,6 +18,7 @@ import {
   Page,
   PointOfService,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
@@ -25,7 +27,7 @@ import {
 } from '@spartacus/pickup-in-store/root';
 import { StoreLocationService } from '@spartacus/storefinder/core';
 import { StoreFinderFacade } from '@spartacus/storefinder/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { CardComponent, ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -36,12 +38,8 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { NgClass, NgIf, AsyncPipe } from '@angular/common';
-import { CardComponent } from '@spartacus/storefront';
 import { StoreAddressComponent } from '../../presentational/store/store-address/store-address.component';
-import { IconComponent } from '@spartacus/storefront';
 import { StoreScheduleComponent } from '../../presentational/store/store-schedule/store-schedule.component';
-import { TranslatePipe } from '@spartacus/core';
 
 const GET_DIRECTIONS_NAME = 'Get Directions';
 const CHANGE_STORE_NAME = 'Change Store';

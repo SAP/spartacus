@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   ANONYMOUS_CONSENT_STATUS,
@@ -7,8 +7,8 @@ import {
   FeatureConfigService,
   I18nTestingModule,
 } from '@spartacus/core';
-import { ConsentManagementFormComponent } from './consent-management-form.component';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { ConsentManagementFormComponent } from './consent-management-form.component';
 
 class MockFeatureConfigService {
   isEnabled(): boolean {

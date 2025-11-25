@@ -1,11 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { ProductMultiDimensionalSelectorComponent } from './product-multi-dimensional-selector.component';
-import {
-  ProductMultiDimensionalSelectorService,
-  VariantCategoryGroup,
-  VariantCategoryOption,
-} from '@spartacus/product-multi-dimensional/selector/core';
+import { ActivatedRoute } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -17,8 +11,14 @@ import {
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
-import { ActivatedRoute } from '@angular/router';
+import {
+  ProductMultiDimensionalSelectorService,
+  VariantCategoryGroup,
+  VariantCategoryOption,
+} from '@spartacus/product-multi-dimensional/selector/core';
 import { CurrentProductService } from '@spartacus/storefront';
+import { of } from 'rxjs';
+import { ProductMultiDimensionalSelectorComponent } from './product-multi-dimensional-selector.component';
 
 describe('ProductMultiDimensionalSelectorComponent', () => {
   let component: ProductMultiDimensionalSelectorComponent;

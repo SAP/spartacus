@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
-  FormsModule,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import {
   ActiveCartFacade,
@@ -22,12 +23,11 @@ import {
   CustomerCouponSearchResult,
   CustomerCouponService,
   FeatureConfigService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.component';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-coupon',

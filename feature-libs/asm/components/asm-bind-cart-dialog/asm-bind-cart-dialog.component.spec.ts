@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import { FocusDirective, LaunchDialogService } from '@spartacus/storefront';
 import {
   AsmBindCartDialogComponent,
   BIND_CART_DIALOG_ACTION,
 } from './asm-bind-cart-dialog.component';
-import { I18nTestingModule, TranslatePipe } from '@spartacus/core';
 
 @Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {

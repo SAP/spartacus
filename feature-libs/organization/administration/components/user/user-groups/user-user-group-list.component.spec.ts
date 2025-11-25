@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -6,13 +7,12 @@ import {
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import { UrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/url.pipe';
 import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { UrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/url.pipe';
 import { CostCenterBudgetListService } from '../../cost-center/budgets/cost-center-budget-list.service';
+import { SubListComponent } from '../../shared';
 import { SubListTestingModule } from '../../shared/sub-list/sub-list.testing.module';
 import { UserUserGroupListComponent } from './user-user-group-list.component';
-import { RouterModule } from '@angular/router';
-import { SubListComponent } from '../../shared';
 
 class MockCostCenterBudgetListService {}
 

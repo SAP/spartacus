@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,17 +12,16 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  OrderEntriesContext,
   ORDER_ENTRIES_CONTEXT,
+  OrderEntriesContext,
 } from '@spartacus/cart/base/root';
+import { TranslatePipe } from '@spartacus/core';
 import {
   ContextService,
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-import-order-entries',

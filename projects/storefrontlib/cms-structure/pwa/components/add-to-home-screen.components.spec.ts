@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { AddToHomeScreenService } from '../services/add-to-home-screen.service';
 import { AddToHomeScreenComponent } from './add-to-home-screen.component';

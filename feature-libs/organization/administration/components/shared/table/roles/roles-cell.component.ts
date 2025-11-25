@@ -4,12 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CellComponent } from '../cell.component';
-import { NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { UrlPipe } from '@spartacus/core';
-import { TranslatePipe } from '@spartacus/core';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import { CellComponent } from '../cell.component';
 
 @Component({
   selector: 'cx-org-roles-cell',

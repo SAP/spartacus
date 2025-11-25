@@ -13,17 +13,9 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { catchError, of, Observable } from 'rxjs';
-import {
-  SubscriptionActionsFacade,
-  SubscriptionCancellationDetails,
-  SubscriptionDetail,
-  SubscriptionCancelData,
-  SubscriptionExtensionEffectiveDate,
-  SubscriptionActionMode,
-  ExtendSubscriptionFrequencyDropdownOptionsConfig,
-  defaultExtendDropdownOptions,
-} from '@spartacus/subscription-billing/root';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { RouterModule } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import {
   CardModule,
@@ -35,10 +27,18 @@ import {
   LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { RouterModule } from '@angular/router';
-import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  defaultExtendDropdownOptions,
+  ExtendSubscriptionFrequencyDropdownOptionsConfig,
+  SubscriptionActionMode,
+  SubscriptionActionsFacade,
+  SubscriptionCancelData,
+  SubscriptionCancellationDetails,
+  SubscriptionDetail,
+  SubscriptionExtensionEffectiveDate,
+} from '@spartacus/subscription-billing/root';
+import { catchError, Observable, of } from 'rxjs';
 import { SubscriptionActionsModalComponentService } from './subscription-actions-modal-component.service';
-import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'cx-subscription-actions-modal',

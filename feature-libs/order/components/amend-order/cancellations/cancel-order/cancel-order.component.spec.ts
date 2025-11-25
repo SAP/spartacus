@@ -3,14 +3,14 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
-import { OrderAmendService } from '../../amend-order.service';
-import { CancelOrderComponent } from './cancel-order.component';
 import {
   AmendOrderActionsComponent,
   CancelOrReturnItemsComponent,
 } from '@spartacus/order/components';
+import { FormErrorsModule } from '@spartacus/storefront';
+import { of } from 'rxjs';
+import { OrderAmendService } from '../../amend-order.service';
+import { CancelOrderComponent } from './cancel-order.component';
 
 const mockForm = new UntypedFormGroup({
   orderCode: new UntypedFormControl('123'),

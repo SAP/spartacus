@@ -1,14 +1,15 @@
 import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   Country,
-  TranslatePipe,
   CxDatePipe,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
+  TranslatePipe,
 } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import {
@@ -20,7 +21,6 @@ import {
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OrderConfirmationShippingComponent } from './order-confirmation-shipping.component';
-import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import createSpy = jasmine.createSpy;
 
 // Mock pipes

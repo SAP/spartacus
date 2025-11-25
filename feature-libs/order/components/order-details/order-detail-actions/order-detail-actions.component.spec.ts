@@ -1,6 +1,7 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   FeaturesConfig,
@@ -13,7 +14,6 @@ import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailActionsComponent } from './order-detail-actions.component';
-import { RouterModule } from '@angular/router';
 
 const mockOrder: Order = {
   code: '1',

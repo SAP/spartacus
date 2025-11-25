@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
 import { AsmUi } from '@spartacus/asm/root';
-import { Subscription } from 'rxjs';
-import { NgClass, NgIf } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-asm-toggle-ui',

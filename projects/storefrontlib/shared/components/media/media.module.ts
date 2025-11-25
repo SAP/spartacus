@@ -7,9 +7,9 @@
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { FeaturesConfigModule } from '@spartacus/core';
+import { MediaPreconnectService } from '../../../cms-structure';
 import { MediaSourcesPipe } from './media-sources.pipe';
 import { MediaComponent } from './media.component';
-import { MediaPreconnectService } from '../../../cms-structure';
 
 export function mediaPreconnectInitializer(
   mediaPreconnectService: MediaPreconnectService

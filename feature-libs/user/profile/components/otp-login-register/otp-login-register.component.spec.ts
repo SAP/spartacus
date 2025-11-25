@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
@@ -33,15 +34,14 @@ import {
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
+import { VerificationTokenFacade } from '@spartacus/user/account/root';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
-
-import createSpy = jasmine.createSpy;
+import { RegisterComponentService } from '../register';
 import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
 import { OneTimePasswordRegisterComponent } from './otp-login-register.component';
-import { VerificationTokenFacade } from '@spartacus/user/account/root';
-import { RegisterComponentService } from '../register';
-import { HttpErrorResponse } from '@angular/common/http';
+
+import createSpy = jasmine.createSpy;
 
 const mockRegisterFormData: any = {
   titleCode: 'Mr',

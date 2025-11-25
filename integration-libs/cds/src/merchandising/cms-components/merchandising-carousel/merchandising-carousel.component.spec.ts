@@ -1,3 +1,4 @@
+import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   Directive,
@@ -8,6 +9,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   MockTranslatePipe,
   PageContext,
@@ -26,12 +28,10 @@ import {
 import { EMPTY, Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { MerchandisingMetadata, MerchandisingProduct } from '../../model/index';
+import { AttributesDirective } from '../directives';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import { MerchandisingCarouselModel } from './model/index';
-import { NgTemplateOutlet, NgFor, AsyncPipe } from '@angular/common';
-import { AttributesDirective } from '../directives';
-import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 @Component({

@@ -4,33 +4,36 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { CartOutlets, DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   CmsOrderDetailOverviewComponent,
   CostCenter,
+  CxDatePipe,
   PaymentDetails,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
-import { Card, CmsComponentData } from '@spartacus/storefront';
-import { Observable, combineLatest, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { OrderDetailsService } from '../order-details.service';
 import {
   OrderConfig,
   OrderOutlets,
   paymentMethodCard,
 } from '@spartacus/order/root';
-import { OrderOverviewComponentService } from './order-overview-component.service';
-import { NgIf, NgTemplateOutlet, AsyncPipe } from '@angular/common';
-import { CardComponent } from '@spartacus/storefront';
-import { OutletDirective } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  CmsComponentData,
+  OutletDirective,
+} from '@spartacus/storefront';
+import { Observable, combineLatest, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { OrderDetailBillingComponent } from '../order-detail-billing/order-detail-billing.component';
-import { RouterLink } from '@angular/router';
-import { TranslatePipe } from '@spartacus/core';
-import { CxDatePipe } from '@spartacus/core';
-import { UrlPipe } from '@spartacus/core';
+import { OrderDetailsService } from '../order-details.service';
+import { OrderOverviewComponentService } from './order-overview-component.service';
 
 @Component({
   selector: 'cx-order-overview',

@@ -4,16 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { useFeatureStyles } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe, UrlPipe, useFeatureStyles } from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { IconComponent } from '@spartacus/storefront';
-import { UrlPipe } from '@spartacus/core';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-mini-cart',

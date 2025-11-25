@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -12,13 +13,12 @@ import {
   ViewContainerRef,
   inject,
 } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import { CustomerTicketingFacade } from '@spartacus/customer-ticketing/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CustomerTicketingReopenComponentService } from './customer-ticketing-reopen-component.service';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-ticketing-reopen',

@@ -4,24 +4,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
+  CxDatePipe,
   EntitiesModel,
   RoutingService,
   SearchConfig,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
+import { PaginationComponent, SortingComponent } from '@spartacus/storefront';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderApproval } from '../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../core/services/order-approval.service';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { SortingComponent } from '@spartacus/storefront';
-import { PaginationComponent } from '@spartacus/storefront';
-import { RouterLink } from '@angular/router';
-import { UrlPipe } from '@spartacus/core';
-import { TranslatePipe } from '@spartacus/core';
-import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-approval-list',

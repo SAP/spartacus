@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
-  FormsModule,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import {
   ActiveCartFacade,
@@ -20,13 +21,14 @@ import {
 import {
   RoutingService,
   SemanticPathService,
+  TranslatePipe,
   UserIdService,
 } from '@spartacus/core';
-import { CustomFormValidators } from '@spartacus/storefront';
+import {
+  CustomFormValidators,
+  FormErrorsComponent,
+} from '@spartacus/storefront';
 import { combineLatest, switchMap, take, tap } from 'rxjs';
-import { NgTemplateOutlet } from '@angular/common';
-import { FormErrorsComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-opf-checkout-email-update',

@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, Optional, inject } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
-import { StoreFinderService } from '@spartacus/storefinder/core';
-import { Observable } from 'rxjs';
-import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { RoutingService, TranslatePipe } from '@spartacus/core';
+import { StoreFinderService } from '@spartacus/storefinder/core';
 import { SpinnerComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-store-finder-stores-count',

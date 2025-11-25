@@ -5,11 +5,11 @@
  */
 
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Directive,
   ElementRef,
-  AfterViewInit,
   ViewContainerRef,
-  ChangeDetectorRef,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { FormConfig } from '../../../config/form-config';

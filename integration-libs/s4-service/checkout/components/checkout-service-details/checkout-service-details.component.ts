@@ -4,34 +4,39 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
-  Component,
-  OnInit,
-  OnDestroy,
-  inject,
   ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  inject,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import {
   FormBuilder,
   FormGroup,
-  Validators,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { Subscription, BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CheckoutServiceDetailsFacade,
   CheckoutServiceSchedulePickerService,
 } from '@spartacus/s4-service/root';
-import { FormRequiredLegendComponent } from '@spartacus/storefront';
-import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
-import { DatePickerComponent } from '@spartacus/storefront';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
+import {
+  DatePickerComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+} from '@spartacus/storefront';
+import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-service-details',

@@ -15,6 +15,7 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { CartItemContext, PromotionLocation } from '@spartacus/cart/base/root';
 import {
   CxDatePipe,
@@ -32,10 +33,9 @@ import {
   PromotionsComponent,
 } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { CartItemValidationWarningComponent } from '../../validation/cart-item-warning/cart-item-validation-warning.component';
 import { CartItemComponent } from './cart-item.component';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
-import { CartItemValidationWarningComponent } from '../../validation/cart-item-warning/cart-item-validation-warning.component';
-import { RouterModule } from '@angular/router';
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {

@@ -5,11 +5,11 @@
  */
 
 import { Component, inject, Input } from '@angular/core';
-import { delay, take, distinctUntilChanged, filter } from 'rxjs/operators';
-import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
-import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
-import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { TranslatePipe } from '@spartacus/core';
+import { delay, distinctUntilChanged, filter, take } from 'rxjs/operators';
+import { ConfiguratorCommonsService } from '../../../core/facade/configurator-commons.service';
+import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../composition/configurator-attribute-composition.model';
 
 @Component({
   selector: 'cx-configurator-show-options',

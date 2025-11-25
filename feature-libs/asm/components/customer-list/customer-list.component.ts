@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -13,10 +14,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  UntypedFormControl,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormControl,
 } from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   AsmConfig,
   AsmCustomerListFacade,
@@ -31,6 +33,7 @@ import {
   HttpResponseStatus,
   OccConfig,
   SortModel,
+  TranslatePipe,
   TranslationService,
   User,
 } from '@spartacus/core';
@@ -38,22 +41,19 @@ import {
   BREAKPOINT,
   BreakpointService,
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
+  NgSelectA11yDirective,
+  PaginationComponent,
+  SortingComponent,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { CustomerListAction } from './customer-list.model';
-import { FocusDirective } from '@spartacus/storefront';
-import { NgTemplateOutlet, NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { SpinnerComponent } from '@spartacus/storefront';
-import { PaginationComponent } from '@spartacus/storefront';
-import { IconComponent } from '@spartacus/storefront';
-import { SortingComponent } from '@spartacus/storefront';
-import { NgSelectComponent } from '@ng-select/ng-select';
-import { NgSelectA11yDirective } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-customer-list',

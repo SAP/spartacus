@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CmsComponentWithChildren, CmsService, Product } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
-import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
-import { CurrentProductService } from '../../current-product.service';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { OutletDirective } from '../../../../cms-structure/outlet/outlet.directive';
 import { ComponentWrapperDirective } from '../../../../cms-structure/page/component/component-wrapper.directive';
+import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
+import { CurrentProductService } from '../../current-product.service';
 
 @Component({
   selector: 'cx-product-details-tab',

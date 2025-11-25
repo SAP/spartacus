@@ -6,24 +6,22 @@
 
 import {
   DOCUMENT,
-  NgIf,
-  NgFor,
+  KeyValuePipe,
   NgClass,
+  NgFor,
+  NgIf,
   NgSwitch,
   NgSwitchCase,
-  KeyValuePipe,
 } from '@angular/common';
 import { Component, Inject, Input, ViewChild } from '@angular/core';
-import { PointOfService } from '@spartacus/core';
-import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { PointOfService, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
-import { LocationDisplayMode } from './store-finder-list.model';
-import { StoreFinderPaginationDetailsComponent } from '../../store-finder-pagination-details/store-finder-pagination-details.component';
-import { IconComponent } from '@spartacus/storefront';
-import { StoreFinderStoreDescriptionComponent } from '../../store-finder-store-description/store-finder-store-description.component';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { StoreFinderListItemComponent } from '../../store-finder-list-item/store-finder-list-item.component';
-import { TranslatePipe } from '@spartacus/core';
+import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
+import { StoreFinderPaginationDetailsComponent } from '../../store-finder-pagination-details/store-finder-pagination-details.component';
+import { StoreFinderStoreDescriptionComponent } from '../../store-finder-store-description/store-finder-store-description.component';
+import { LocationDisplayMode } from './store-finder-list.model';
 
 @Component({
   selector: 'cx-store-finder-list',

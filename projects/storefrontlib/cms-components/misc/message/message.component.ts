@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -13,12 +14,10 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { GlobalMessageType } from '@spartacus/core';
+import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
-import { NgClass, NgIf } from '@angular/common';
-import { IconComponent } from '../icon/icon.component';
 import { AtMessageDirective } from '../../../shared/components/assistive-technology-message/assistive-technology-message.directive';
-import { TranslatePipe } from '@spartacus/core';
+import { IconComponent } from '../icon/icon.component';
 @Component({
   selector: 'cx-message',
   templateUrl: './message.component.html',

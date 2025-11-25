@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
+import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -7,9 +8,8 @@ import {
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import { OrderDocumentOrderEntryListComponent } from './order-document-order-entry-list.component';
-import { By } from '@angular/platform-browser';
 import { OrderSubsequentDocumentEntry } from '@spartacus/order/document-flow/root';
+import { OrderDocumentOrderEntryListComponent } from './order-document-order-entry-list.component';
 
 const subsequentDocumentEntryData: OrderSubsequentDocumentEntry[] = [
   {

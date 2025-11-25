@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -14,18 +15,24 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   GlobalMessageType,
-  TranslationService,
   isNotNullable,
   TranslatePipe,
+  TranslationService,
 } from '@spartacus/core';
 import {
+  OrderDocumentFlowFacade,
+  OrderSubsequentDocument,
+  OrderSubsequentDocumentEntry,
+} from '@spartacus/order/document-flow/root';
+import {
   FocusConfig,
-  ICON_TYPE,
-  LaunchDialogService,
   FocusDirective,
+  ICON_TYPE,
   IconComponent,
+  LaunchDialogService,
   MessageComponent,
   SpinnerComponent,
 } from '@spartacus/storefront';
@@ -39,15 +46,8 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  OrderDocumentFlowFacade,
-  OrderSubsequentDocument,
-  OrderSubsequentDocumentEntry,
-} from '@spartacus/order/document-flow/root';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { OrderDocumentOrderEntryListComponent } from './order-document-order-entry-list/order-document-order-entry-list.component';
 import { OrderSubsequentDocumentListComponent } from './order-document-flow-list/order-subsequent-document-list.component';
+import { OrderDocumentOrderEntryListComponent } from './order-document-order-entry-list/order-document-order-entry-list.component';
 
 @Component({
   selector: 'cx-order-document-flow-dialog',

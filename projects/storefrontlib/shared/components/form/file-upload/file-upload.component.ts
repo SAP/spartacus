@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ContentChild,
@@ -16,7 +17,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
 
 /**

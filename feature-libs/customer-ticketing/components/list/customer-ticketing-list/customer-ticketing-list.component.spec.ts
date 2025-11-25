@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -22,11 +23,10 @@ import {
   CustomerTicketingFacade,
   TicketList,
 } from '@spartacus/customer-ticketing/root';
-import { EMPTY, Observable, of } from 'rxjs';
-import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
 import { PaginationComponent, SortingComponent } from '@spartacus/storefront';
+import { EMPTY, Observable, of } from 'rxjs';
 import { CustomerTicketingCreateComponent } from '../customer-ticketing-create';
-import { RouterModule } from '@angular/router';
+import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
 
 const mockTicketList: TicketList = {
   pagination: {

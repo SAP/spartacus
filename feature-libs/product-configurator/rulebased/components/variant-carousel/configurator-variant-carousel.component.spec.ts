@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConfiguratorVariantCarouselComponent } from './configurator-variant-carousel.component';
-import { Observable, of } from 'rxjs';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import {
   Product,
   ProductService,
@@ -15,12 +14,13 @@ import {
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { CarouselComponent } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorVariantCarouselComponent } from './configurator-variant-carousel.component';
 
 const PRODUCT_DESCRIPTION = 'Here is a product description';
 const PRODUCT_CODE = 'CONF_LAPTOP';

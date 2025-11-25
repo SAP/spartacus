@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf, NgTemplateOutlet, SlicePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,10 +17,8 @@ import {
   inject,
 } from '@angular/core';
 import { LoggerService } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { NgIf, NgTemplateOutlet, NgFor, SlicePipe } from '@angular/common';
-import { IconComponent } from '@spartacus/storefront';
 
 /**
  * Generic in-memory paged list component that can be used to render arbitrary items in

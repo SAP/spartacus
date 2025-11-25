@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,15 +12,12 @@ import {
   OnInit,
   PLATFORM_ID,
 } from '@angular/core';
-import { Translatable } from '@spartacus/core';
+import { Translatable, TranslatePipe } from '@spartacus/core';
+import { FocusDirective, IconComponent } from '@spartacus/storefront';
 import { BaseMessageComponent } from '../base-message.component';
 import { MessageData } from '../message.model';
 import { MessageService } from '../services/message.service';
 import { ConfirmationMessageData } from './confirmation-message.model';
-import { FocusDirective } from '@spartacus/storefront';
-import { NgIf } from '@angular/common';
-import { IconComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 /**
  * Renders a confirmation message and cancel/confirm button in the message component.

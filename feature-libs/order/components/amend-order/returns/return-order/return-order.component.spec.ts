@@ -4,15 +4,15 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { FeatureConfigService } from '@spartacus/core';
+import {
+  AmendOrderActionsComponent,
+  CancelOrReturnItemsComponent,
+} from '@spartacus/order/components';
 import { Consignment } from '@spartacus/order/root';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { combineLatest, of, take } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
 import { ReturnOrderComponent } from './return-order.component';
-import {
-  AmendOrderActionsComponent,
-  CancelOrReturnItemsComponent,
-} from '@spartacus/order/components';
 
 const mockForm = new UntypedFormGroup({
   orderCode: new UntypedFormControl('123'),

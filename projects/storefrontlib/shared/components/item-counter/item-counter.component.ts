@@ -14,14 +14,14 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  UntypedFormControl,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormControl,
 } from '@angular/forms';
+import { TranslatePipe } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
-import { TranslatePipe } from '@spartacus/core';
 
 /**
  * Provides a UI to manage the count of the quantity, typically by using

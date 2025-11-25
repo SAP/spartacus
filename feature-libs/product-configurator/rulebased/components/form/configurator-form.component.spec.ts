@@ -20,7 +20,11 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import {
+  KeyboardFocusService,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { EMPTY, NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -31,9 +35,8 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { ConfiguratorFormComponent } from './configurator-form.component';
-import { KeyboardFocusService } from '@spartacus/storefront';
 import { ConfiguratorGroupComponent } from '../group';
+import { ConfiguratorFormComponent } from './configurator-form.component';
 
 @Component({
   selector: 'cx-configurator-group',

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -14,18 +15,21 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
-  FormsModule,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import {
+  CxDatePipe,
   FeatureConfigService,
+  FeatureDirective,
   isNotNullable,
   Product,
   ProductReviewService,
   Review,
+  TranslatePipe,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -35,16 +39,12 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { CurrentProductService } from '../../current-product.service';
-import { NgIf, NgFor, AsyncPipe, SlicePipe } from '@angular/common';
-import { StarRatingComponent } from '../../../../shared/components/star-rating/star-rating.component';
-import { FeatureDirective } from '@spartacus/core';
-import { ReadMoreComponent } from '../../../../shared/components/read-more/read-more.component';
-import { FormRequiredLegendComponent } from '../../../../shared/components/form/form-required-legend/form-required-legend.component';
-import { FormRequiredAsterisksComponent } from '../../../../shared/components/form/form-required-asterisks/form-required-asterisks.component';
 import { FormErrorsComponent } from '../../../../shared/components/form/form-errors/form-errors.component';
-import { TranslatePipe } from '@spartacus/core';
-import { CxDatePipe } from '@spartacus/core';
+import { FormRequiredAsterisksComponent } from '../../../../shared/components/form/form-required-asterisks/form-required-asterisks.component';
+import { FormRequiredLegendComponent } from '../../../../shared/components/form/form-required-legend/form-required-legend.component';
+import { ReadMoreComponent } from '../../../../shared/components/read-more/read-more.component';
+import { StarRatingComponent } from '../../../../shared/components/star-rating/star-rating.component';
+import { CurrentProductService } from '../../current-product.service';
 
 @Component({
   selector: 'cx-product-reviews',

@@ -4,9 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
-import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { RoutingService, UrlPipe } from '@spartacus/core';
+import {
+  CarouselComponent,
+  CmsComponentData,
+  IntersectionService,
+  MediaComponent,
+} from '@spartacus/storefront';
 import { EMPTY, Observable, using } from 'rxjs';
 import {
   distinctUntilKeyChanged,
@@ -19,14 +26,9 @@ import {
 } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent as model } from '../../../cds-models/cms.model';
 import { MerchandisingProduct } from '../../model/index';
+import { AttributesDirective } from '../directives/attributes/attributes.directive';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import { MerchandisingCarouselModel } from './model/index';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { AttributesDirective } from '../directives/attributes/attributes.directive';
-import { CarouselComponent } from '@spartacus/storefront';
-import { RouterLink } from '@angular/router';
-import { MediaComponent } from '@spartacus/storefront';
-import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-merchandising-carousel',

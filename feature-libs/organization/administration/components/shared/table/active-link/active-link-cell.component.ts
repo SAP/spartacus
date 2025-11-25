@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CellComponent } from '../cell.component';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UrlPipe } from '@spartacus/core';
+import { CellComponent } from '../cell.component';
 
 @Component({
   selector: 'cx-org-active-link-cell',

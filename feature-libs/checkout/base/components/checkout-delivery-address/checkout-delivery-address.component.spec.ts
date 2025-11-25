@@ -26,11 +26,11 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
+import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { EMPTY, of } from 'rxjs';
 import { CheckoutFlowOrchestratorService } from '../services/checkout-flow-orchestrator.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
-import { AddressFormComponent } from '@spartacus/user/profile/components';
 import createSpy = jasmine.createSpy;
 
 class MockUserAddressService implements Partial<UserAddressService> {

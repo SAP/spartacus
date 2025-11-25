@@ -2,12 +2,14 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import { IconComponent } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -20,8 +22,6 @@ import {
   productConfigurationWithoutIssues,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
-import { IconComponent } from '@spartacus/storefront';
 
 @Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {

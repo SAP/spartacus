@@ -5,8 +5,8 @@
  */
 
 import { Component } from '@angular/core';
-import { StoreFinderSearchComponent } from '../store-finder-search/store-finder-search.component';
 import { TranslatePipe } from '@spartacus/core';
+import { StoreFinderSearchComponent } from '../store-finder-search/store-finder-search.component';
 
 @Component({
   selector: 'cx-store-finder-header',

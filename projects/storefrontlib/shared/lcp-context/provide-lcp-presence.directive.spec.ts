@@ -1,10 +1,10 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { LcpPresence } from './lcp-presence.model';
 import { DEFAULT_LCP_PRESENCE, LCP_PRESENCE } from './lcp-presence.token';
 import { ProvideLcpPresenceDirective } from './provide-lcp-presence.directive';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'cx-child',

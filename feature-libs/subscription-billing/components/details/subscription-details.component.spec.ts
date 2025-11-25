@@ -1,4 +1,6 @@
+import { ElementRef, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   EventService,
@@ -9,15 +11,13 @@ import {
   TranslationService,
   UrlPipe,
 } from '@spartacus/core';
-import { SubscriptionDetailsComponent } from './subscription-details.component';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import {
-  SubscriptionFacade,
-  SubscriptionDetail,
-} from '@spartacus/subscription-billing/root';
-import { ElementRef, Pipe, PipeTransform } from '@angular/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { RouterModule } from '@angular/router';
+import {
+  SubscriptionDetail,
+  SubscriptionFacade,
+} from '@spartacus/subscription-billing/root';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { SubscriptionDetailsComponent } from './subscription-details.component';
 const routerParam$: BehaviorSubject<{
   [key: string]: string;
 }> = new BehaviorSubject({});

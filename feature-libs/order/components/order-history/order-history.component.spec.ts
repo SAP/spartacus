@@ -26,9 +26,9 @@ import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
+import { PaginationComponent, SortingComponent } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
-import { PaginationComponent, SortingComponent } from '@spartacus/storefront';
 
 const mockOrders: OrderHistoryList = {
   orders: [

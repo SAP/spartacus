@@ -12,6 +12,7 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   ActiveCartFacade,
   Cart,
@@ -43,9 +44,8 @@ import { cold } from 'jasmine-marbles';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { skip, take } from 'rxjs/operators';
-import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
-import { RouterModule } from '@angular/router';
 import { CartItemComponent } from '../cart-shared';
+import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   updateEntry(_entryNumber: number, _quantity: number): void {}

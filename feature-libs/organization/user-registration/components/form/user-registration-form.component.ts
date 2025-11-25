@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,25 +12,26 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   Country,
   GlobalMessageService,
   GlobalMessageType,
   Region,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  NgSelectA11yDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Title } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { UserRegistrationFormService } from './user-registration-form.service';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { FormRequiredLegendComponent } from '@spartacus/storefront';
-import { NgSelectComponent } from '@ng-select/ng-select';
-import { NgSelectA11yDirective } from '@spartacus/storefront';
-import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
-import { FormErrorsComponent } from '@spartacus/storefront';
-import { RouterLink } from '@angular/router';
-import { SpinnerComponent } from '@spartacus/storefront';
-import { UrlPipe } from '@spartacus/core';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-user-registration-form',

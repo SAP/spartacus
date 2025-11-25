@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import { NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IconComponent } from '@spartacus/storefront';
+import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import { TranslatePipe } from '@spartacus/core';
+import { IconComponent } from '@spartacus/storefront';
 
 /**
  * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.

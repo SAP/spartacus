@@ -5,29 +5,28 @@
  */
 
 import {
+  AsyncPipe,
+  KeyValuePipe,
+  NgFor,
+  NgIf,
+  TitleCasePipe,
+} from '@angular/common';
+import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import {
   DaysOfWeek,
   ORDER_TYPE,
   ScheduleReplenishmentForm,
   recurrencePeriod,
 } from '@spartacus/order/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
-import { IconComponent } from '@spartacus/storefront';
-import {
-  NgFor,
-  NgIf,
-  AsyncPipe,
-  TitleCasePipe,
-  KeyValuePipe,
-} from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-schedule-replenishment-order',

@@ -28,9 +28,9 @@ import {
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
-import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

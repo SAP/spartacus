@@ -1,5 +1,5 @@
 import { Component, Directive } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BaseFocusDirective } from './base-focus.directive';
 import { BaseFocusService } from './base-focus.service';

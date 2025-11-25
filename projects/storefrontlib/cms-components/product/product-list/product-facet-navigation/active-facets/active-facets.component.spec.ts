@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { Breadcrumb, I18nTestingModule } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
 import { KeyboardFocusModule } from '../../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
@@ -13,7 +14,6 @@ import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetList } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 import { ActiveFacetsComponent } from './active-facets.component';
-import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'cx-icon',

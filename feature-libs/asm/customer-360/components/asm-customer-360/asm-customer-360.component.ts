@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,22 +15,25 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
+import { ArgsPipe } from '@spartacus/asm/core';
 import { getAsmDialogActionEvent } from '@spartacus/asm/customer-360/core';
 import {
+  AsmCustomer360Data,
+  AsmCustomer360Facade,
+  AsmCustomer360Overview,
+  AsmCustomer360TabConfig,
+  AsmCustomer360Type,
+  AsmCustomerOverview,
   AsmDialogActionEvent,
   AsmDialogActionType,
-  AsmCustomer360Data,
-  AsmCustomer360TabConfig,
-  AsmCustomer360Facade,
-  AsmCustomer360Type,
-  AsmCustomer360Overview,
-  AsmCustomerOverview,
   KeyBoardEventCode,
 } from '@spartacus/asm/customer-360/root';
 import { CsAgentAuthService } from '@spartacus/asm/root';
 import {
+  CxDatePipe,
   GlobalMessageType,
   Image,
+  TranslatePipe,
   UrlCommand,
   User,
   isNotUndefined,
@@ -38,21 +42,17 @@ import {
   DirectionMode,
   DirectionService,
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
+  MediaComponent,
+  MessageComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { catchError, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { AsmCustomer360Config } from '../config/asm-customer-360-config';
-import { FocusDirective } from '@spartacus/storefront';
-import { NgTemplateOutlet, NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { MessageComponent } from '@spartacus/storefront';
-import { MediaComponent } from '@spartacus/storefront';
-import { IconComponent } from '@spartacus/storefront';
 import { AsmCustomer360SectionComponent } from '../sections/asm-customer-360-section/asm-customer-360-section.component';
-import { TranslatePipe } from '@spartacus/core';
-import { CxDatePipe } from '@spartacus/core';
-import { ArgsPipe } from '@spartacus/asm/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

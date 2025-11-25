@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,20 +12,22 @@ import {
   HostBinding,
   inject,
 } from '@angular/core';
-import { B2BUnit, RoutingService } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import {
+  B2BUnit,
+  RoutingService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { B2BUnitTreeNode } from '@spartacus/organization/administration/core';
 import {
+  IconComponent,
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
 import { take } from 'rxjs';
 import { CellComponent } from '../../../shared/table/cell.component';
 import { UnitTreeService } from '../../services/unit-tree.service';
-import { NgIf } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { IconComponent } from '@spartacus/storefront';
-import { UrlPipe } from '@spartacus/core';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-toggle-link-cell',

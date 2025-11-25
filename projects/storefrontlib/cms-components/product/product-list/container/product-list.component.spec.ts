@@ -14,6 +14,12 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
+import {
+  IconComponent,
+  ProductGridItemComponent,
+  ProductListItemComponent,
+  ProductScrollComponent,
+} from '@spartacus/storefront';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { PageLayoutService } from '../../../../cms-structure';
@@ -32,12 +38,6 @@ import {
 } from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
 import { ProductListComponent } from './product-list.component';
-import {
-  ProductListItemComponent,
-  ProductGridItemComponent,
-  ProductScrollComponent,
-  IconComponent,
-} from '@spartacus/storefront';
 import createSpy = jasmine.createSpy;
 
 const mockProducts = [

@@ -9,6 +9,7 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -34,7 +35,6 @@ import { OrderHistoryQueryParams } from '../../core/model/unit-order.model';
 import { UnitOrderFacade } from '../../root/facade';
 import { UnitLevelOrderHistoryFilterComponent } from './filter/unit-level-order-history-filter.component';
 import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
-import { RouterModule } from '@angular/router';
 
 const mockOrderList: OrderHistoryList | undefined = {
   orders: [

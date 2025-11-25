@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,7 +23,6 @@ import { CurrentProductService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { ApplePayService } from './apple-pay.service';
-import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'cx-opf-apple-pay',

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,8 +12,10 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  CxDatePipe,
   LanguageService,
   SortModel,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -24,16 +27,16 @@ import {
   DocumentStatus,
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
-import { FileDownloadService, ICON_TYPE } from '@spartacus/storefront';
+import {
+  FileDownloadService,
+  ICON_TYPE,
+  IconComponent,
+  PaginationComponent,
+  SortingComponent,
+} from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { skip, switchMap, take, tap } from 'rxjs/operators';
-import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 import { AccountSummaryDocumentFilterComponent } from './filter/account-summary-document-filter.component';
-import { SortingComponent } from '@spartacus/storefront';
-import { PaginationComponent } from '@spartacus/storefront';
-import { IconComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
-import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-account-summary-document',

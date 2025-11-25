@@ -9,10 +9,10 @@ import { of } from 'rxjs';
 import { LayoutConfig } from '../../config/layout-config';
 import {
   DIALOG_TYPE,
+  LAUNCH_CALLER,
   LaunchInlineDialog,
   LaunchOptions,
   LaunchRoute,
-  LAUNCH_CALLER,
 } from '../config/launch-config';
 import { LaunchDialogService } from './launch-dialog.service';
 import { LaunchRenderStrategy } from './launch-render.strategy';

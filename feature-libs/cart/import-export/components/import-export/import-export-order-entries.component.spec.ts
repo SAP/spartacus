@@ -11,9 +11,9 @@ import {
 } from '@spartacus/cart/base/root';
 import { ContextService, PageComponentModule } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
-import { ImportExportOrderEntriesComponent } from './import-export-order-entries.component';
 import { ExportOrderEntriesComponent } from '../export-entries';
 import { ImportOrderEntriesComponent } from '../import-to-cart';
+import { ImportExportOrderEntriesComponent } from './import-export-order-entries.component';
 import createSpy = jasmine.createSpy;
 
 const mockLoadProduct: ProductImportInfo = {

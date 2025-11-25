@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PaymentDetails, TranslationService } from '@spartacus/core';
 import {
@@ -11,12 +12,10 @@ import {
   billingAddressCard,
   paymentMethodCard,
 } from '@spartacus/order/root';
-import { Card } from '@spartacus/storefront';
+import { Card, CardComponent } from '@spartacus/storefront';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { CardComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-order-detail-billing',

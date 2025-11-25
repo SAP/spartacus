@@ -1,5 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import {
   CheckoutPaymentFacade,
   CheckoutStep,
@@ -19,7 +20,6 @@ import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/ic
 import { of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutReviewPaymentComponent } from './checkout-review-payment.component';
-import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const mockPaymentDetails: PaymentDetails = {

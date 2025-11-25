@@ -6,14 +6,13 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
-  UntypedFormControl,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormControl,
 } from '@angular/forms';
-import { DatePickerService } from './date-picker.service';
+import { CxDatePipe, TranslatePipe } from '@spartacus/core';
 import { FormErrorsComponent } from '../form-errors/form-errors.component';
-import { TranslatePipe } from '@spartacus/core';
-import { CxDatePipe } from '@spartacus/core';
+import { DatePickerService } from './date-picker.service';
 
 /**
  * Component that adds a date control. While the native date picker works in most

@@ -6,8 +6,8 @@
 
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
-  ConfigInitializer,
   CONFIG_INITIALIZER,
+  ConfigInitializer,
 } from '../config/config-initializer/config-initializer';
 import { provideDefaultConfig } from '../config/config-providers';
 import { defaultI18nConfig } from './config/default-i18n-config';

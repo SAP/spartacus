@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import {
   CartItemComponentOptions,
   CartItemContext,
@@ -13,18 +15,17 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { CartItemContextSource } from './model/cart-item-context-source.model';
-import { OutletDirective } from '@spartacus/storefront';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  AtMessageDirective,
+  ICON_TYPE,
+  ItemCounterComponent,
+  MediaComponent,
+  OutletDirective,
+  PromotionsComponent,
+} from '@spartacus/storefront';
 import { CartItemValidationWarningComponent } from '../../validation/cart-item-warning/cart-item-validation-warning.component';
-import { NgClass, NgIf, NgFor, NgTemplateOutlet } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { MediaComponent } from '@spartacus/storefront';
-import { ItemCounterComponent } from '@spartacus/storefront';
-import { PromotionsComponent } from '@spartacus/storefront';
-import { AtMessageDirective } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
-import { UrlPipe } from '@spartacus/core';
+import { CartItemContextSource } from './model/cart-item-context-source.model';
 
 @Component({
   selector: 'cx-cart-item',

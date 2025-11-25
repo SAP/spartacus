@@ -1,7 +1,7 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { FeaturesConfig, FeaturesConfigModule } from '@spartacus/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { FeaturesConfig, FeaturesConfigModule } from '@spartacus/core';
 
 @Component({
   selector: 'cx-test-cmp',

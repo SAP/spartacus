@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -18,20 +19,23 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import { Facet, FacetValue, FeatureConfigService } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import {
+  Facet,
+  FacetValue,
+  FeatureConfigService,
+  TranslatePipe,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import {
   FocusDirective,
   disableTabbingForTick,
 } from '../../../../../layout/a11y';
-import { FacetCollapseState } from '../facet.model';
-import { FacetService } from '../services/facet.service';
-import { NgIf, NgFor, AsyncPipe, SlicePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { FocusDirective as FocusDirective_1 } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
 import { AtMessageDirective } from '../../../../../shared/components/assistive-technology-message/assistive-technology-message.directive';
-import { TranslatePipe } from '@spartacus/core';
+import { FacetCollapseState } from '../facet.model';
+import { FacetService } from '../services/facet.service';
 
 @Component({
   selector: 'cx-facet',

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   AddOrderEntriesContext,
@@ -13,20 +14,19 @@ import {
   ProductImportStatus,
   ProductImportSummary,
 } from '@spartacus/cart/base/root';
+import { TranslatePipe } from '@spartacus/core';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
-import { FocusDirective } from '@spartacus/storefront';
-import { IconComponent } from '@spartacus/storefront';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { ImportToNewSavedCartFormComponent } from './import-to-new-saved-cart-form/import-to-new-saved-cart-form.component';
 import { ImportEntriesFormComponent } from './import-entries-form/import-entries-form.component';
 import { ImportEntriesSummaryComponent } from './import-entries-summary/import-entries-summary.component';
-import { TranslatePipe } from '@spartacus/core';
+import { ImportToNewSavedCartFormComponent } from './import-to-new-saved-cart-form/import-to-new-saved-cart-form.component';
 
 @Component({
   selector: 'cx-import-entries-dialog',

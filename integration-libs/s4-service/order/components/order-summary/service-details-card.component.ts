@@ -4,18 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import {
-  ServiceDateTime,
   CheckoutServiceSchedulePickerService,
+  ServiceDateTime,
 } from '@spartacus/s4-service/root';
-import { Card, OutletContextData } from '@spartacus/storefront';
+import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription, map } from 'rxjs';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { CardComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-card-service-details',

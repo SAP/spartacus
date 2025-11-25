@@ -8,14 +8,14 @@ import {
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
 import {
-  LaunchDialogService,
-  LAUNCH_CALLER,
   ICON_TYPE,
+  LAUNCH_CALLER,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 
-import { CustomerTicketingCloseComponent } from './customer-ticketing-close.component';
 import { CustomerTicketingCloseComponentService } from './customer-ticketing-close-component.service';
+import { CustomerTicketingCloseComponent } from './customer-ticketing-close.component';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(

@@ -14,9 +14,9 @@ import {
   UnitListComponent,
 } from '@spartacus/organization/administration/components';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { UnitTreeService } from '../services/unit-tree.service';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import createSpy = jasmine.createSpy;
 
 @Component({

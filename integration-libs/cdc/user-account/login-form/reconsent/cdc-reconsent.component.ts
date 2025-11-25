@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,25 +13,27 @@ import {
   inject,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { AnonymousConsentsService, ConsentTemplate } from '@spartacus/core';
 import {
   CdcConsent,
   CdcConsentManagementComponentService,
 } from '@spartacus/cdc/root';
 import {
+  AnonymousConsentsService,
+  ConsentTemplate,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  BtnLikeLinkDirective,
+  ConsentManagementFormComponent,
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
+  SpinnerComponent,
 } from '@spartacus/storefront';
-import { Subscription, Observable, map, of } from 'rxjs';
+import { Observable, Subscription, map, of } from 'rxjs';
 import { CdcReconsentComponentService } from './cdc-reconsent-component.service';
-import { FocusDirective } from '@spartacus/storefront';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { IconComponent } from '@spartacus/storefront';
-import { ConsentManagementFormComponent } from '@spartacus/storefront';
-import { BtnLikeLinkDirective } from '@spartacus/storefront';
-import { SpinnerComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-anonymous-consent-dialog', //reusing existing selector

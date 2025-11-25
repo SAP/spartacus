@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   I18nTestingModule,
   ProductSearchPage,
@@ -14,16 +15,15 @@ import {
 } from '@spartacus/core';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { MediaComponent } from '../../../../../shared/components/media';
+import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
 import { SpinnerModule } from '../../../../../shared/components/spinner/spinner.module';
 import { ViewConfig } from '../../../../../shared/config/view-config';
 import { MockFeatureLevelDirective } from '../../../../../shared/test/mock-feature-level-directive';
+import { ProductGridItemComponent } from '../../product-grid-item/product-grid-item.component';
+import { ProductListItemComponent } from '../../product-list-item/product-list-item.component';
 import { ViewModes } from '../../product-view/product-view.component';
 import { ProductListComponentService } from '../product-list-component.service';
 import { ProductScrollComponent } from './product-scroll.component';
-import { ProductGridItemComponent } from '../../product-grid-item/product-grid-item.component';
-import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
-import { ProductListItemComponent } from '../../product-list-item/product-list-item.component';
-import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const mockModel1: ProductSearchPage = {

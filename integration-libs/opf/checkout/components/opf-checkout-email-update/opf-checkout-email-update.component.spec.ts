@@ -12,9 +12,9 @@ import {
   TranslatePipe,
   UserIdService,
 } from '@spartacus/core';
+import { FormErrorsComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OpfCheckoutEmailUpdateComponent } from './opf-checkout-email-update.component';
-import { FormErrorsComponent } from '@spartacus/storefront';
 
 @Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {

@@ -15,10 +15,10 @@ import {
   KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
-import { TrackingEventsComponent } from './tracking-events.component';
 import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { EMPTY, Observable, of } from 'rxjs';
 import { MockFocusDirective } from '../../../order-detail-reorder/reorder-dialog/reorder-dialog.component.spec';
+import { TrackingEventsComponent } from './tracking-events.component';
 
 const shipDate = new Date('2019-02-11T13:05:12+0000');
 class MockLaunchDialogService implements Partial<LaunchDialogService> {

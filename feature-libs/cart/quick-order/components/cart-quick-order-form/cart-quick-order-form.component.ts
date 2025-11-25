@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,10 +12,10 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormBuilder,
+  UntypedFormGroup,
 } from '@angular/forms';
 import {
   ActiveCartFacade,
@@ -25,12 +26,11 @@ import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
+  TranslatePipe,
 } from '@spartacus/core';
+import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { first, map } from 'rxjs/operators';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-quick-order-form',

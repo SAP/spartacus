@@ -4,32 +4,34 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   Country,
   GlobalMessageService,
   Region,
   RoutingService,
+  TranslatePipe,
   WindowRef,
 } from '@spartacus/core';
-import { Title } from '@spartacus/user/profile/root';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  NgSelectA11yDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import {
   VerificationToken,
   VerificationTokenCreation,
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
-import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-registration-constants';
+import { Title } from '@spartacus/user/profile/root';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UserRegistrationFormService } from '../form';
-import { HttpErrorResponse } from '@angular/common/http';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { NgSelectComponent } from '@ng-select/ng-select';
-import { NgSelectA11yDirective } from '@spartacus/storefront';
-import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
-import { FormErrorsComponent } from '@spartacus/storefront';
-import { SpinnerComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
+import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-registration-constants';
 
 @Component({
   selector: 'cx-user-registration-form',

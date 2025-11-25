@@ -4,37 +4,41 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   Input,
 } from '@angular/core';
-import { EntitiesModel, PaginationModel, Translatable } from '@spartacus/core';
+import { FormsModule } from '@angular/forms';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
+import {
+  EntitiesModel,
+  FeatureDirective,
+  PaginationModel,
+  Translatable,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   ICON_TYPE,
+  IconComponent,
+  PaginationComponent,
+  PopoverDirective,
+  SplitViewComponent,
   Table,
+  TableComponent,
   TableStructure,
   TrapFocus,
+  ViewComponent,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { OrganizationTableType } from '../organization.model';
 import { CreateButtonType, ListService } from './list.service';
-import { SplitViewComponent } from '@spartacus/storefront';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { ViewComponent } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
-import { PopoverDirective } from '@spartacus/storefront';
-import { IconComponent } from '@spartacus/storefront';
-import { NgSelectComponent, NgOptionComponent } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
-import { RouterLinkActive, RouterLink, RouterOutlet } from '@angular/router';
-import { TableComponent } from '@spartacus/storefront';
-import { PaginationComponent } from '@spartacus/storefront';
-import { UrlPipe } from '@spartacus/core';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-list',

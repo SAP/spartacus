@@ -4,16 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
+import { CxDatePipe, TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { Card, OutletContextData } from '@spartacus/storefront';
+import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { DateValidationService } from '../shared/date-validation.service';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { CardComponent } from '@spartacus/storefront';
-import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-overview-delivery-date',

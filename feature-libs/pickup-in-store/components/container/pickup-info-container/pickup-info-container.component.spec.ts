@@ -8,9 +8,9 @@ import {
 } from '@spartacus/core';
 import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
 import { Observable, of } from 'rxjs';
+import { PickupInfoComponent } from '../../presentational';
 import { PickupInfoStubComponent } from '../../presentational/pickup-info/pickup-info.component.spec';
 import { PickupInfoContainerComponent } from './pickup-info-container.component';
-import { PickupInfoComponent } from '../../presentational';
 
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {

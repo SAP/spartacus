@@ -8,7 +8,13 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { CheckoutModule } from '@spartacus/checkout/base';
+import {
+  CheckoutFlowOrchestratorService,
+  CheckoutStepService,
+} from '@spartacus/checkout/base/components';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -22,16 +28,12 @@ import {
   TranslatePipe,
   UserAddressService,
 } from '@spartacus/core';
-import { Card, SpinnerComponent } from '@spartacus/storefront';
-import { EMPTY, of } from 'rxjs';
-import { CheckoutFlowOrchestratorService } from '@spartacus/checkout/base/components';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import { OpfB2bCheckoutDeliveryAddressComponent } from './opf-b2b-checkout-delivery-address.component';
-import { Store, StoreModule } from '@ngrx/store';
-import { CheckoutModule } from '@spartacus/checkout/base';
 import { FormComponent } from '@spartacus/organization/administration/components';
+import { Card, SpinnerComponent } from '@spartacus/storefront';
 import { AddressFormComponent } from '@spartacus/user/profile/components';
+import { EMPTY, of } from 'rxjs';
 import { OpfB2bCheckoutCostCenterComponent } from '../opf-b2b-checkout-cost-center';
+import { OpfB2bCheckoutDeliveryAddressComponent } from './opf-b2b-checkout-delivery-address.component';
 import createSpy = jasmine.createSpy;
 
 @Pipe({ name: 'cxTranslate' })

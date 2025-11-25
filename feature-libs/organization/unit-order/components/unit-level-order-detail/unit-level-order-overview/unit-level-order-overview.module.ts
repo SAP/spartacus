@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
 import { CardModule } from '@spartacus/storefront';
-import { UnitLevelOrderOverviewComponent as UnitLevelOrderOverviewComponent } from './unit-level-order-overview.component';
+import { UnitLevelOrderOverviewComponent } from './unit-level-order-overview.component';
 
 @NgModule({
   imports: [

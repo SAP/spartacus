@@ -4,21 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Cart } from '@spartacus/cart/base/root';
-import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { normalizeEmpty } from '@spartacus/core';
-import { OpfCheckoutPaymentAndReviewComponent } from '@spartacus/opf/checkout/components';
-import { NgIf, NgClass, AsyncPipe } from '@angular/common';
-import { OpfCheckoutReviewCardComponent } from '@spartacus/opf/checkout/components';
-import { OpfCheckoutTermsAndConditionsAlertComponent } from '@spartacus/opf/checkout/components';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { OpfCheckoutBillingAddressFormComponent } from '@spartacus/opf/checkout/components';
-import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
-import { OpfCheckoutReviewCartDetailsComponent } from '@spartacus/opf/checkout/components';
-import { TranslatePipe } from '@spartacus/core';
-import { UrlPipe } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/base/root';
+import { CheckoutStepType } from '@spartacus/checkout/base/root';
+import { normalizeEmpty, TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  OpfCheckoutBillingAddressFormComponent,
+  OpfCheckoutPaymentAndReviewComponent,
+  OpfCheckoutPaymentsComponent,
+  OpfCheckoutReviewCardComponent,
+  OpfCheckoutReviewCartDetailsComponent,
+  OpfCheckoutTermsAndConditionsAlertComponent,
+} from '@spartacus/opf/checkout/components';
 import { Card } from '@spartacus/storefront';
 import { combineLatest, filter, map, Observable, take } from 'rxjs';
 

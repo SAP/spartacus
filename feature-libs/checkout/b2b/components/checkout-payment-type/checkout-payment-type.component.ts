@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -26,7 +27,9 @@ import {
   HttpErrorModel,
   isNotUndefined,
   OccHttpErrorType,
+  TranslatePipe,
 } from '@spartacus/core';
+import { SpinnerComponent } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -35,9 +38,6 @@ import {
   map,
   tap,
 } from 'rxjs/operators';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { SpinnerComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-payment-type',

@@ -6,8 +6,8 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ConfiguratorPriceComponent } from './configurator-price.component';
 import { I18nModule } from '@spartacus/core';
+import { ConfiguratorPriceComponent } from './configurator-price.component';
 
 @NgModule({
   exports: [ConfiguratorPriceComponent],

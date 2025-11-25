@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
-import { Observable } from 'rxjs';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { WishListItemComponent } from '../wish-list-item/wish-list-item.component';
 import { TranslatePipe } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { WishListItemComponent } from '../wish-list-item/wish-list-item.component';
 
 @Component({
   selector: 'cx-wish-list',

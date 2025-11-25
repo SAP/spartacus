@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -24,7 +25,6 @@ import {
   ProductListOutlets,
 } from '@spartacus/storefront';
 import { EMPTY, Observable, Subscription } from 'rxjs';
-import { NgIf, NgFor } from '@angular/common';
 
 @Component({
   selector: 'cx-variant-style-icons',

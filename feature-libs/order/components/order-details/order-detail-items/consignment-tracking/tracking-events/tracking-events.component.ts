@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,14 +13,15 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { CxDatePipe, TranslatePipe } from '@spartacus/core';
 import { ConsignmentTracking, OrderHistoryFacade } from '@spartacus/order/root';
-import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
+import {
+  FocusConfig,
+  FocusDirective,
+  LaunchDialogService,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { FocusDirective } from '@spartacus/storefront';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { SpinnerComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
-import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-tracking-events',

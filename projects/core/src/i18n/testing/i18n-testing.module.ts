@@ -5,10 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
-import { MockTranslatePipe } from './mock-translate.pipe';
 import { TranslationService } from '../translation.service';
-import { MockTranslationService } from './mock-translation.service';
 import { MockDatePipe } from './mock-date.pipe';
+import { MockTranslatePipe } from './mock-translate.pipe';
+import { MockTranslationService } from './mock-translation.service';
 
 @NgModule({
   imports: [MockTranslatePipe, MockDatePipe],

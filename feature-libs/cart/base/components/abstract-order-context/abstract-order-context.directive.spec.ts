@@ -1,3 +1,4 @@
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { tap } from 'rxjs/operators';
@@ -8,7 +9,6 @@ import {
 } from './abstract-order-context.directive';
 import { AbstractOrderContext } from './abstract-order-context.model';
 import { AbstractOrderContextModule } from './abstract-order-context.module';
-import { AsyncPipe, NgIf } from '@angular/common';
 
 const abstractOrderId = '129374';
 

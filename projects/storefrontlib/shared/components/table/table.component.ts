@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,6 +14,7 @@ import {
   isDevMode,
   Output,
 } from '@angular/core';
+import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
 import { TableRendererService } from './table-renderer.service';
 import {
   TableDataOutletContext,
@@ -21,8 +23,6 @@ import {
   TableOptions,
   TableStructure,
 } from './table.model';
-import { NgIf, NgFor } from '@angular/common';
-import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
 
 /**
  * The table component provides a generic table DOM structure, with 3 layout types:

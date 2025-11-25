@@ -4,23 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
-  Output,
-  OnInit,
   OnDestroy,
+  OnInit,
+  Output,
 } from '@angular/core';
 import { ImageGroup, isNotNullable } from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
+import {
+  CarouselComponent,
+  FocusableCarouselItemDirective,
+  MediaComponent,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { CarouselComponent } from '@spartacus/storefront';
-import { MediaComponent } from '@spartacus/storefront';
-import { FocusableCarouselItemDirective } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-product-image-zoom-thumbnails',

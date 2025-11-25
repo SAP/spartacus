@@ -4,18 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   OnDestroy,
 } from '@angular/core';
-import { AuthService, RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService, TranslatePipe } from '@spartacus/core';
 import { QuoteFacade } from '@spartacus/quote/root';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-quote-request-button',

@@ -18,9 +18,9 @@ import {
   NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
-import createSpy = jasmine.createSpy;
 import { CheckoutBillingAddressFormComponent } from './checkout-billing-address-form.component';
 import { CheckoutBillingAddressFormService } from './checkout-billing-address-form.service';
+import createSpy = jasmine.createSpy;
 
 const mockBillingCountries: Country[] = [
   {

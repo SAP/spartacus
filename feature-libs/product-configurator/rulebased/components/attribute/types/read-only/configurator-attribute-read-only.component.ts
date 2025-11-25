@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
+import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
-import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
 
 @Component({
   selector: 'cx-configurator-attribute-read-only',

@@ -5,9 +5,12 @@
  */
 
 import { Component } from '@angular/core';
-import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
-import { FocusDirective } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
+import {
+  FocusConfig,
+  FocusDirective,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 
 export enum BIND_CART_DIALOG_ACTION {
   CANCEL = 'CANCEL',
