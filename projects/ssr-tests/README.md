@@ -22,6 +22,8 @@ The tests check the behavior of SSR in various network conditions, e.g. simulati
 
 So it's important that Spartacus SSR is built with the OCC backend URL pointing to the local proxy server. Moreover the Spartacus SSR needs to be built in the prod mode (so it prints logs to `stdout` in production-like single-line JSONs; as opposed to pretty-printed multi-line JSON logs that are used in dev mode).
 
+Note: to avoid accidental mistakes, the script `./validate-ssr-build.js` checks first whether the pre-built SSR application meets the above requirements before running the tests.
+
 ## Writing tests
 
 In the `src` directory, you will find utility files and spec files, where spec files contain tests and utilities provide the functions in which we can test SSR. A typical test is comprised on setting up a server instance that runs the application in SSR mode and a proxy server instance for manipulating tests to and from the backend. By manipulating requests and responses between the application and the backend API using the proxy server, we can test that our application behaves correctly in different scenarios.
