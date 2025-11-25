@@ -23,7 +23,6 @@ import {
 } from '@spartacus/core';
 
 import {
-  OpfHtmlContentMode,
   OpfMetadataStoreService,
   OpfResourceLoaderService,
 } from '@spartacus/opf/base/root';
@@ -180,8 +179,7 @@ export class OpfCheckoutPaymentWrapperService {
         .loadResources(
           config.dynamicScript.jsUrls,
           config.dynamicScript.cssUrls,
-          paymentOptionId,
-          config.dynamicScript
+          paymentOptionId
         )
         .then(() => {
           this.renderPaymentMethodEvent$.next({
@@ -191,11 +189,7 @@ export class OpfCheckoutPaymentWrapperService {
             html,
           });
 
-          if (
-            html &&
-            config?.dynamicScript?.htmlContentMode !==
-              OpfHtmlContentMode.SEPARATE
-          ) {
+          if (html) {
             this.executeScriptFromHtml(html);
           }
         })

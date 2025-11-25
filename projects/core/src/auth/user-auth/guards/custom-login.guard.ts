@@ -57,11 +57,8 @@ export class CustomLoginGuard implements CanActivate {
   protected csrfStateService = inject(CsrfStateService);
 
   canActivate(): Observable<GuardResult> {
-    if (
-      !this.authConfigService.customLoginEnabled() ||
-      !this.windowRef.isBrowser()
-    ) {
-      // disable guard when custom login page is not enabled or when the application is running in SSR mode.
+    if (!this.authConfigService.customLoginEnabled()) {
+      // disable guard when custom login page is not enabled
       return of(true);
     }
 
