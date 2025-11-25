@@ -9,7 +9,6 @@ import { NgModule } from '@angular/core';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule } from '../../../../cms-components/misc/icon/icon.module';
 import { defaultFormConfig } from '../../../../shared/config/default-form-config';
-import { FormConfig } from '../../../../shared/config/form-config';
 import { PasswordVisibilityToggleComponent } from './password-visibility-toggle.component';
 import { PasswordVisibilityToggleDirective } from './password-visibility-toggle.directive';
 
@@ -21,7 +20,7 @@ import { PasswordVisibilityToggleDirective } from './password-visibility-toggle.
     PasswordVisibilityToggleDirective,
     PasswordVisibilityToggleComponent,
   ],
-  providers: [provideDefaultConfig(<FormConfig>defaultFormConfig)],
+  providers: [provideDefaultConfig(defaultFormConfig)],
   exports: [
     PasswordVisibilityToggleDirective,
     PasswordVisibilityToggleComponent,
