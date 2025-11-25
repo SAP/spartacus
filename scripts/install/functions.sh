@@ -490,8 +490,13 @@ function start_csr_unix {
         echo "Skipping csr app start (no port defined)"
     else
         build_csr
-        printh "Starting csr app"
-        pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT}
+         if [ -n "${SSL_CERT_PATH}" ] && [ -n "${SSL_KEY_PATH}" ]; then
+            printh "Starting csr app in SSL mode"
+            pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT} --ssl-cert ${SSL_CERT_PATH} --ssl-key ${SSL_KEY_PATH}
+        else
+            printh "Starting csr app in non-SSL mode"
+            pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT} 
+        fi
     fi
 }
 
