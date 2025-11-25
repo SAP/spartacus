@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -12,6 +13,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { TranslatePipe } from '@spartacus/core';
 import {
   AugmentedPointOfService,
   cartWithIdAndUserId,
@@ -22,15 +24,10 @@ import {
 } from '@spartacus/pickup-in-store/root';
 import {
   FocusConfig,
-  ICON_TYPE,
-  LaunchDialogService,
-} from '@spartacus/storefront';
-
-import { AsyncPipe, NgIf } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
-import {
   FocusDirective,
+  ICON_TYPE,
   IconComponent,
+  LaunchDialogService,
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';

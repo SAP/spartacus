@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -17,15 +19,15 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { RoutingService, WindowRef } from '@spartacus/core';
-import { CustomFormValidators } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-
-import { AsyncPipe, NgIf } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
-import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
+  RoutingService,
+  TranslatePipe,
+  UrlPipe,
+  WindowRef,
+} from '@spartacus/core';
+import {
+  CustomFormValidators,
   FormErrorsComponent,
   FormRequiredAsterisksComponent,
   FormRequiredLegendComponent,
@@ -37,6 +39,7 @@ import {
   VerificationTokenCreation,
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
 
 @Component({

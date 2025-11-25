@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -14,9 +15,6 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -32,6 +30,8 @@ import {
 import {
   FormErrorsComponent,
   FormRequiredAsterisksComponent,
+  LAUNCH_CALLER,
+  LaunchDialogService,
   SpinnerComponent,
 } from '@spartacus/storefront';
 import {

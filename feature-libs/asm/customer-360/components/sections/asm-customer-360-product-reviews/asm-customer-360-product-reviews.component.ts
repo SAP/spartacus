@@ -4,14 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AsmCustomer360ReviewList } from '@spartacus/asm/customer-360/root';
-import { CxDatePipe, Product, TranslationService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  Product,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
 import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
 import {
   CustomerTableColumn,

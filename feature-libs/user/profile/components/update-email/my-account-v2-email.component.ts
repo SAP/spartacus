@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,11 +16,7 @@ import {
   ReactiveFormsModule,
   UntypedFormGroup,
 } from '@angular/forms';
-import { GlobalMessageType, User } from '@spartacus/core';
-import { Observable } from 'rxjs';
-
-import { AsyncPipe, NgIf } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
+import { GlobalMessageType, TranslatePipe, User } from '@spartacus/core';
 import {
   FormErrorsComponent,
   MessageComponent,
@@ -27,6 +24,7 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { UpdateEmailComponentService } from './update-email-component.service';
 

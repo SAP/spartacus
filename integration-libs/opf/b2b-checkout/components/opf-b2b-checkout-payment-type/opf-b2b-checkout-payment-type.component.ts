@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -28,16 +29,17 @@ import {
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { GlobalMessageService, UserIdService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  TranslatePipe,
+  UserIdService,
+} from '@spartacus/core';
 import {
   OpfActiveConfiguration,
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
-import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
-
-import { AsyncPipe, NgIf } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
 import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
+import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
 import { SpinnerComponent } from '@spartacus/storefront';
 import {
   BehaviorSubject,
