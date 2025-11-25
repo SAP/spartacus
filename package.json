@@ -188,7 +188,7 @@
     "@types/applepayjs": "^14.0.3",
     "@types/google.maps": "^3.54.0",
     "@types/googlepay": "^0.7.7",
-    "angular-oauth2-oidc": "19.0.0",
+    "angular-oauth2-oidc": "^20.0.2",
     "comment-json": "^4.2.3",
     "express": "^4.21.2",
     "hamburgers": "^1.2.1",
