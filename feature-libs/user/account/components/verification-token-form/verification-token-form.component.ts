@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -15,25 +16,30 @@ import {
   inject,
 } from '@angular/core';
 import {
-  UntypedFormGroup,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormGroup,
 } from '@angular/forms';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { FeatureConfigService, RoutingService } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import {
+  FeatureConfigService,
+  FeatureDirective,
+  RoutingService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { VerificationToken } from '@spartacus/user/account/root';
+import { Observable } from 'rxjs';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
-import { NgIf, NgClass, AsyncPipe } from '@angular/common';
-import { SpinnerComponent } from '@spartacus/storefront';
-import { FormRequiredLegendComponent } from '@spartacus/storefront';
-import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
-import { FormErrorsComponent } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
-import { RouterLink } from '@angular/router';
-import { UrlPipe } from '@spartacus/core';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-verification-token-form',

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,6 +21,7 @@ import {
   GlobalMessageType,
   PaginationModel,
   QueryState,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -31,16 +33,16 @@ import {
   OpfMetadataModel,
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  IconComponent,
+  PaginationComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { NgIf, NgFor, NgTemplateOutlet, AsyncPipe } from '@angular/common';
-import { IconComponent } from '@spartacus/storefront';
-import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
-import { PaginationComponent } from '@spartacus/storefront';
-import { SpinnerComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
+import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
 
 @Component({
   selector: 'cx-opf-checkout-payments',

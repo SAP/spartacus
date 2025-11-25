@@ -4,22 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { FeatureDirective, Product, TranslatePipe } from '@spartacus/core';
 import {
+  CarouselComponent,
+  CarouselScrollingComponent,
   CurrentProductService,
+  FocusableCarouselItemDirective,
+  LcpContextDirective,
+  MediaComponent,
   ProductImagesComponent,
 } from '@spartacus/storefront';
-import { Product } from '@spartacus/core';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { LcpContextDirective } from '@spartacus/storefront';
-import { MediaComponent } from '@spartacus/storefront';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ProductImageZoomTriggerComponent } from '../product-image-zoom-trigger/product-image-zoom-trigger.component';
-import { FeatureDirective } from '@spartacus/core';
-import { CarouselScrollingComponent } from '@spartacus/storefront';
-import { CarouselComponent } from '@spartacus/storefront';
-import { FocusableCarouselItemDirective } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-images',

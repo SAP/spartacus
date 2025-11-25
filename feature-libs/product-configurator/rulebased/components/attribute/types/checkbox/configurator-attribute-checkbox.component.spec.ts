@@ -10,6 +10,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
+import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
+import {
+  DirectionMode,
+  DirectionService,
+  FocusDirective,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
@@ -23,12 +29,6 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
-import {
-  DirectionMode,
-  DirectionService,
-  FocusDirective,
-} from '@spartacus/storefront';
-import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
 
 @Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,12 +14,15 @@ import {
 } from '@angular/core';
 import { GigyaRaasComponentData } from '@spartacus/cdc/core';
 import { CdcConfig, CdcJsService } from '@spartacus/cdc/root';
-import { BaseSiteService, LanguageService, WindowRef } from '@spartacus/core';
+import {
+  BaseSiteService,
+  LanguageService,
+  TranslatePipe,
+  WindowRef,
+} from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-gigya-raas',

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -16,15 +17,17 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { BreakpointService } from '../../../layout/breakpoint';
+import {
+  FeatureConfigService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { Tab, TabConfig, TAB_MODE } from './tab.model';
-import { wrapIntoBounds } from './tab.utils';
-import { TranslationService, FeatureConfigService } from '@spartacus/core';
-import { NgIf, NgFor, NgTemplateOutlet, AsyncPipe } from '@angular/common';
+import { BreakpointService } from '../../../layout/breakpoint';
 import { TabPanelComponent } from './panel/tab-panel.component';
-import { TranslatePipe } from '@spartacus/core';
+import { Tab, TAB_MODE, TabConfig } from './tab.model';
+import { wrapIntoBounds } from './tab.utils';
 
 @Component({
   selector: 'cx-tab',

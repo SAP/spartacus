@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
   CmsBannerComponent,
@@ -16,10 +17,9 @@ import {
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { LcpContextDirective } from '../../../shared/lcp-context/lcp-context.directive';
-import { NgIf, AsyncPipe } from '@angular/common';
 import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
 import { MediaComponent } from '../../../shared/components/media/media.component';
+import { LcpContextDirective } from '../../../shared/lcp-context/lcp-context.directive';
 
 @Component({
   selector: 'cx-banner',

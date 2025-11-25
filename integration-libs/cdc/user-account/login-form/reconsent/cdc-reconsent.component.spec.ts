@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CdcConsentManagementComponentService } from '@spartacus/cdc/root';
+import { AnonymousConsentsService } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, of, Subscription, take } from 'rxjs';
-import { CdcReconsentComponent } from './cdc-reconsent.component';
 import { CdcReconsentComponentService } from './cdc-reconsent-component.service';
-import { AnonymousConsentsService } from '@spartacus/core';
+import { CdcReconsentComponent } from './cdc-reconsent.component';
 import createSpy = jasmine.createSpy;
-import { CdcConsentManagementComponentService } from '@spartacus/cdc/root';
 const reconsentEvent = {
   user: 'sample@user.com',
   password: 'password',

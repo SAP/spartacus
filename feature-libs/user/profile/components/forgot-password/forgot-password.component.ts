@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,19 +12,19 @@ import {
   inject,
 } from '@angular/core';
 import {
-  UntypedFormGroup,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormGroup,
 } from '@angular/forms';
+import { RoutingService, TranslatePipe } from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
-import { RoutingService } from '@spartacus/core';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { SpinnerComponent } from '@spartacus/storefront';
-import { FormRequiredLegendComponent } from '@spartacus/storefront';
-import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
-import { FormErrorsComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-forgot-password',

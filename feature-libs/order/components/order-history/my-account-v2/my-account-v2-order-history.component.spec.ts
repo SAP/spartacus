@@ -20,15 +20,15 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { MyAccountV2OrderHistoryService } from '@spartacus/order/core';
+import { PaginationComponent, SpinnerComponent } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import {
   OrderHistoryFacade,
   ReplenishmentOrderHistoryFacade,
 } from '../../../root/facade';
 import { Order, OrderHistoryList, OrderHistoryView } from '../../../root/model';
-import { MyAccountV2OrderHistoryComponent } from './my-account-v2-order-history.component';
-import { PaginationComponent, SpinnerComponent } from '@spartacus/storefront';
 import { MyAccountV2OrderConsolidatedInformationComponent } from './consolidated-information/my-account-v2-order-consolidated-information.component';
+import { MyAccountV2OrderHistoryComponent } from './my-account-v2-order-history.component';
 
 const mockOrders: OrderHistoryList = {
   orders: [

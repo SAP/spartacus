@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
+import { TranslatePipe } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
-import { NgIf } from '@angular/common';
 import { AppliedCouponsComponent } from '../../cart-coupon/applied-coupons/applied-coupons.component';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-summary',

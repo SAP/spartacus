@@ -4,11 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
   PaymentDetails,
+  TranslatePipe,
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';
@@ -19,10 +21,8 @@ import {
   Card,
   CardComponent,
 } from '../../../shared/components/card/card.component';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { FormRequiredLegendComponent } from '../../../shared/components/form/form-required-legend/form-required-legend.component';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-payment-methods',

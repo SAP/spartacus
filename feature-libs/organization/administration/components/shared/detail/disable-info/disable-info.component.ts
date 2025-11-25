@@ -4,15 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { ItemService } from '../../item.service';
 import { BaseItem } from '../../organization.model';
 import { DisableInfoService } from './disable-info.service';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { IconComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-disable-info',

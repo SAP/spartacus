@@ -4,20 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   Component,
+  Inject,
   Input,
   OnDestroy,
   OnInit,
   Optional,
-  Inject,
 } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { CpqQuoteService } from '../../cpq-qute.service';
-import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'cx-cpq-quote-heading',

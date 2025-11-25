@@ -1,10 +1,10 @@
+import { NgFor } from '@angular/common';
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { BehaviorSubject, filter } from 'rxjs';
 import { HorizontalScrollingPositionDirective } from './horizontal-scrolling-position.directive';
-import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'cx-test-component',

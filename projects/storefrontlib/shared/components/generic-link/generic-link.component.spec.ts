@@ -1,8 +1,8 @@
 import { SimpleChange, SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { GenericLinkComponent } from './generic-link.component';
 import { RouterModule } from '@angular/router';
+import { GenericLinkComponent } from './generic-link.component';
 
 /**
  * Helper function to produce simple change for the `url` `@Input`

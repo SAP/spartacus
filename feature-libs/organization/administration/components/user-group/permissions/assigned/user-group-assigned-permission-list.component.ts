@@ -5,11 +5,11 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ListService } from '../../../shared/list/list.service';
-import { UserGroupAssignedPermissionsListService } from './user-group-assigned-permission-list.service';
-import { SubListComponent } from '../../../shared/sub-list/sub-list.component';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@spartacus/core';
+import { ListService } from '../../../shared/list/list.service';
+import { SubListComponent } from '../../../shared/sub-list/sub-list.component';
+import { UserGroupAssignedPermissionsListService } from './user-group-assigned-permission-list.service';
 
 @Component({
   selector: 'cx-org-user-group-assigned-permission-list',

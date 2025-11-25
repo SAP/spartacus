@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -11,10 +12,9 @@ import {
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
-import { UrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/url.pipe';
 import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { UrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/url.pipe';
 import { CellComponent } from './cell.component';
-import { RouterModule } from '@angular/router';
 
 const mockContext: TableDataOutletContext = {
   _field: 'name',

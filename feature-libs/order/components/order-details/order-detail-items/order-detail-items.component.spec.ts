@@ -1,6 +1,7 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CmsOrderDetailItemsComponent,
   CxDatePipe,
@@ -13,10 +14,9 @@ import { Consignment, Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
-import { OrderDetailItemsComponent } from './order-detail-items.component';
-import { RouterModule } from '@angular/router';
 import { ConsignmentTrackingComponent } from './consignment-tracking/consignment-tracking.component';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
+import { OrderDetailItemsComponent } from './order-detail-items.component';
 
 const mockProduct = { product: { code: 'test' } };
 

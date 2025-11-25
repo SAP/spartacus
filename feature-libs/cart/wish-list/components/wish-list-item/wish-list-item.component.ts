@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,19 +14,16 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { Product } from '@spartacus/core';
+import { Product, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
+  AtMessageDirective,
+  InnerComponentsHostDirective,
+  MediaComponent,
   ProductListItemContext,
   ProductListItemContextSource,
 } from '@spartacus/storefront';
-import { RouterLink } from '@angular/router';
-import { MediaComponent } from '@spartacus/storefront';
-import { NgIf, NgFor } from '@angular/common';
-import { InnerComponentsHostDirective } from '@spartacus/storefront';
-import { AtMessageDirective } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
-import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: '[cx-wish-list-item], cx-wish-list-item',

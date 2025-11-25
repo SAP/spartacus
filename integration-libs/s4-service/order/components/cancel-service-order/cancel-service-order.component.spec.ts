@@ -7,6 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -20,7 +21,6 @@ import { OrderDetailsService } from '@spartacus/order/components';
 import { CancelServiceOrderFacade } from '@spartacus/s4-service/root';
 import { of, throwError } from 'rxjs';
 import { CancelServiceOrderComponent } from './cancel-service-order.component';
-import { RouterModule } from '@angular/router';
 
 // Mock classes
 class MockOrderDetailsService {

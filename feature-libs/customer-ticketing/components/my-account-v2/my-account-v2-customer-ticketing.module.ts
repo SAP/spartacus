@@ -4,18 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
-  provideDefaultConfig,
-  CmsConfig,
   AuthGuard,
+  CmsConfig,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { MyAccountV2CustomerTicketingComponent } from './my-account-v2-customer-ticketing.component';
 import { SpinnerModule } from '@spartacus/storefront';
-import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { MyAccountV2CustomerTicketingComponent } from './my-account-v2-customer-ticketing.component';
 
 @NgModule({
   exports: [MyAccountV2CustomerTicketingComponent],

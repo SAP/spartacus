@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,22 +13,21 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  UntypedFormGroup,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormGroup,
 } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { FeatureDirective, TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  PasswordVisibilityToggleDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { SpinnerComponent } from '@spartacus/storefront';
-import { FormRequiredLegendComponent } from '@spartacus/storefront';
-import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
-import { FormErrorsComponent } from '@spartacus/storefront';
-import { PasswordVisibilityToggleDirective } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
-import { RouterLink } from '@angular/router';
-import { UrlPipe } from '@spartacus/core';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login-form',

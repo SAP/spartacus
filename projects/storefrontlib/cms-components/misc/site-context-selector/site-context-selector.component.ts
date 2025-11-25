@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,11 +13,10 @@ import {
 } from '@angular/core';
 import { SiteContext, TranslationService } from '@spartacus/core';
 import { map, Observable } from 'rxjs';
+import { IconComponent } from '../icon/icon.component';
 import { ICON_TYPE } from '../icon/icon.model';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextType } from './site-context.model';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { IconComponent } from '../icon/icon.component';
 
 @Component({
   selector: 'cx-site-context-selector',

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,6 +23,7 @@ import {
   FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
+  TranslatePipe,
   TranslationService,
   UserAddressService,
   WindowRef,
@@ -29,9 +31,12 @@ import {
 } from '@spartacus/core';
 import {
   Card,
+  CardComponent,
   SelectFocusUtility,
+  SpinnerComponent,
   getAddressNumbers,
 } from '@spartacus/storefront';
+import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -43,11 +48,6 @@ import {
 } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services';
 import { CheckoutStepService } from '../services/checkout-step.service';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { CardComponent } from '@spartacus/storefront';
-import { AddressFormComponent } from '@spartacus/user/profile/components';
-import { SpinnerComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 export interface CardWithAddress {
   card: Card;

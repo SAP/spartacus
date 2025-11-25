@@ -6,6 +6,7 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   ANONYMOUS_CONSENT_STATUS,
@@ -44,7 +45,6 @@ import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-fe
 import { EMPTY, Observable, Subject, of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
-import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const mockSecurePassword = 'strongPas$!123';

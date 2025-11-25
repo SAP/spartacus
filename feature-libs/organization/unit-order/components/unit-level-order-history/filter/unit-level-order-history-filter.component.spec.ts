@@ -15,12 +15,12 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { PaginationModel, TranslatePipe } from '@spartacus/core';
+import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core';
 import {
   ICON_TYPE,
   IconComponent,
   PaginationComponent,
 } from '@spartacus/storefront';
-import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core';
 import { UnitLevelOrderHistoryFilterComponent } from './unit-level-order-history-filter.component';
 
 @Pipe({ name: 'cxTranslate' })

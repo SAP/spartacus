@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,10 +13,11 @@ import {
 } from '@angular/core';
 import {
   FormBuilder,
-  Validators,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { Cart, PaymentType } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
@@ -23,23 +25,28 @@ import {
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { CmsService, CostCenter, normalizeEmpty, Page } from '@spartacus/core';
+import {
+  CmsService,
+  CostCenter,
+  normalizeEmpty,
+  Page,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   OpfBaseFacade,
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
+import {
+  OpfCheckoutPaymentsComponent,
+  OpfCheckoutReviewCardComponent,
+  OpfCheckoutReviewCartDetailsComponent,
+  OpfCheckoutTermsAndConditionsAlertComponent,
+} from '@spartacus/opf/checkout/components';
 import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
 import { Card } from '@spartacus/storefront';
-import { NgIf, NgClass, AsyncPipe } from '@angular/common';
-import { OpfCheckoutReviewCardComponent } from '@spartacus/opf/checkout/components';
-import { OpfCheckoutTermsAndConditionsAlertComponent } from '@spartacus/opf/checkout/components';
-import { RouterLink } from '@angular/router';
-import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
-import { OpfCheckoutReviewCartDetailsComponent } from '@spartacus/opf/checkout/components';
-import { OpfB2bCheckoutPlaceOrderComponent } from '../opf-b2b-checkout-place-order/opf-b2b-checkout-place-order.component';
-import { TranslatePipe } from '@spartacus/core';
-import { UrlPipe } from '@spartacus/core';
 import { combineLatest, filter, map, Observable } from 'rxjs';
+import { OpfB2bCheckoutPlaceOrderComponent } from '../opf-b2b-checkout-place-order/opf-b2b-checkout-place-order.component';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-review',

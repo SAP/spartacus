@@ -18,8 +18,8 @@ import {
   TranslatePipe,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { SaveForLaterComponent } from './save-for-later.component';
 import { CartItemListComponent } from '../cart-shared';
+import { SaveForLaterComponent } from './save-for-later.component';
 @Component({
   template: '',
   selector: 'cx-cart-item-list',

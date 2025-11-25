@@ -4,8 +4,8 @@ import {
   AddOrderEntriesContext,
   OrderEntriesSource,
   ProductData,
-  ProductImportInfo,
-  ProductImportStatus,
+  ProductimportInfo,
+  ProductimportStatus,
 } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import {
@@ -15,7 +15,7 @@ import {
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { ImportEntriesDialogComponent } from './import-entries-dialog.component';
+import { importEntriesDialogComponent } from './import-entries-dialog.component';
 
 const mockProducts: ProductData[] = [
   { productCode: '693923', quantity: 1 },
@@ -24,12 +24,12 @@ const mockProducts: ProductData[] = [
 
 const mockName = 'mockSavedCart';
 
-const mockLoadProduct: ProductImportInfo = {
+const mockLoadProduct: ProductimportInfo = {
   productCode: '123456',
-  statusCode: ProductImportStatus.SUCCESS,
+  statusCode: ProductimportStatus.SUCCESS,
 };
 
-const loadProducts$: BehaviorSubject<ProductImportInfo> = new BehaviorSubject(
+const loadProducts$: BehaviorSubject<ProductimportInfo> = new BehaviorSubject(
   mockLoadProduct
 );
 
@@ -53,14 +53,14 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   template: '',
   imports: [I18nTestingModule, IconTestingModule, KeyboardFocusTestingModule],
 })
-class MockImportEntriesFormComponent {
+class MockimportEntriesFormComponent {
   @Input()
   type: OrderEntriesSource;
 }
 
-describe('ImportEntriesDialogComponent', () => {
-  let component: ImportEntriesDialogComponent;
-  let fixture: ComponentFixture<ImportEntriesDialogComponent>;
+describe('importEntriesDialogComponent', () => {
+  let component: importEntriesDialogComponent;
+  let fixture: ComponentFixture<importEntriesDialogComponent>;
   let launchDialogService: LaunchDialogService;
 
   beforeEach(() => {
@@ -69,8 +69,8 @@ describe('ImportEntriesDialogComponent', () => {
         I18nTestingModule,
         IconTestingModule,
         KeyboardFocusTestingModule,
-        ImportEntriesDialogComponent,
-        MockImportEntriesFormComponent,
+        importEntriesDialogComponent,
+        MockimportEntriesFormComponent,
         MockFeatureDirective,
       ],
       providers: [
@@ -78,7 +78,7 @@ describe('ImportEntriesDialogComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ImportEntriesDialogComponent);
+    fixture = TestBed.createComponent(importEntriesDialogComponent);
     component = fixture.componentInstance;
 
     launchDialogService = TestBed.inject(LaunchDialogService);
@@ -92,7 +92,7 @@ describe('ImportEntriesDialogComponent', () => {
   });
 
   it('should close dialog on close method', () => {
-    const mockCloseReason = 'Close Import Products Dialog';
+    const mockCloseReason = 'Close import Products Dialog';
     spyOn(launchDialogService, 'closeDialog');
     component.close(mockCloseReason);
 

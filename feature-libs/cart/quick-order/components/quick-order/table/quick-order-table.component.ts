@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { NgIf, NgFor } from '@angular/common';
-import { QuickOrderItemComponent } from './item/quick-order-item.component';
 import { TranslatePipe } from '@spartacus/core';
+import { QuickOrderItemComponent } from './item/quick-order-item.component';
 
 @Component({
   selector: 'cx-quick-order-table',

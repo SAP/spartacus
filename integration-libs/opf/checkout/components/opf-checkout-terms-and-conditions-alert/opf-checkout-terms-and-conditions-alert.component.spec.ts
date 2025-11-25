@@ -1,11 +1,11 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { TranslatePipe } from '@spartacus/core';
+import { IconComponent } from '@spartacus/storefront';
+import { of } from 'rxjs';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutTermsAndConditionsAlertComponent } from './opf-checkout-terms-and-conditions-alert.component';
-import { of } from 'rxjs';
-import { IconComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-icon',

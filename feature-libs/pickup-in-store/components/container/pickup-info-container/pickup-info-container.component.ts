@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
@@ -11,7 +12,6 @@ import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
 import { combineLatest } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
 import { PickupInfoComponent } from '../../presentational';
-import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'cx-pickup-info-container',

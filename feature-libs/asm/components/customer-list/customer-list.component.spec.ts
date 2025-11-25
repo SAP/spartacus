@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   AsmConfig,
   AsmCustomerListFacade,
@@ -38,7 +39,6 @@ import {
 import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { CustomerListComponent } from './customer-list.component';
 import { CustomerListAction } from './customer-list.model';
-import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 class MockAsmConfig implements AsmConfig {

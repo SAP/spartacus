@@ -4,7 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorRouterExtractorService,
@@ -15,8 +17,6 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-previous-next-buttons',

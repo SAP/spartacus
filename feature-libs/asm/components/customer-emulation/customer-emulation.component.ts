@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -14,18 +15,17 @@ import {
 } from '@angular/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
 import {
-  FeatureModulesService,
-  User,
   FeatureConfigService,
+  FeatureModulesService,
+  TranslatePipe,
+  User,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { AsmComponentService } from '../services/asm-component.service';
-import { NgIf, AsyncPipe } from '@angular/common';
 import { AsmBindCartComponent } from '../asm-bind-cart/asm-bind-cart.component';
-import { TranslatePipe } from '@spartacus/core';
+import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
   selector: 'cx-customer-emulation',

@@ -4,21 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
-  inject,
 } from '@angular/core';
 import {
   FormControl,
-  ValidatorFn,
-  Validators,
   FormsModule,
   ReactiveFormsModule,
+  ValidatorFn,
+  Validators,
 } from '@angular/forms';
 import { AsmBindCartFacade } from '@spartacus/asm/root';
 import {
@@ -28,14 +29,15 @@ import {
 } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
+  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
   OCC_CART_ID_CURRENT,
   RoutingService,
-  FeatureConfigService,
+  TranslatePipe,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import {
   BehaviorSubject,
   combineLatest,
@@ -56,10 +58,8 @@ import {
 } from 'rxjs/operators';
 import { BIND_CART_DIALOG_ACTION } from '../asm-bind-cart-dialog/asm-bind-cart-dialog.component';
 import { SAVE_CART_DIALOG_ACTION } from '../asm-save-cart-dialog/asm-save-cart-dialog.component';
-import { AsmComponentService } from '../services/asm-component.service';
-import { NgClass, NgIf, AsyncPipe } from '@angular/common';
 import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
-import { TranslatePipe } from '@spartacus/core';
+import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
   selector: 'cx-asm-bind-cart',

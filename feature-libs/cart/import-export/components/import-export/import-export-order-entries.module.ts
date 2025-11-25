@@ -14,26 +14,26 @@ import {
 } from '@spartacus/core';
 import { PageComponentModule } from '@spartacus/storefront';
 import { ExportOrderEntriesModule } from '../export-entries';
-import { ImportOrderEntriesModule } from '../import-to-cart';
-import { ImportExportOrderEntriesComponent } from './import-export-order-entries.component';
+import { importOrderEntriesModule } from '../import-to-cart';
+import { importExportOrderEntriesComponent } from './import-export-order-entries.component';
 
 @NgModule({
   imports: [
     PageComponentModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ImportExportOrderEntriesComponent: {
-          component: ImportExportOrderEntriesComponent,
+        importExportOrderEntriesComponent: {
+          component: importExportOrderEntriesComponent,
         },
       },
     }),
     I18nModule,
     UrlModule,
-    ImportOrderEntriesModule,
+    importOrderEntriesModule,
     ExportOrderEntriesModule,
     CommonModule,
-    ImportExportOrderEntriesComponent,
+    importExportOrderEntriesComponent,
   ],
-  exports: [ImportExportOrderEntriesComponent],
+  exports: [importExportOrderEntriesComponent],
 })
-export class ImportExportOrderEntriesModule {}
+export class importExportOrderEntriesModule {}

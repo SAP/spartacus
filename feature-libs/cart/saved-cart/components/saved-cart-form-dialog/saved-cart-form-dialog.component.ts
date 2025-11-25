@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,11 +14,11 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
-  FormsModule,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import {
   Cart,
@@ -34,22 +35,21 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   FocusConfig,
+  FocusDirective,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   FormUtils,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, Subscription, combineLatest, merge } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { NgIf, NgSwitch, NgSwitchCase, AsyncPipe } from '@angular/common';
-import { FocusDirective } from '@spartacus/storefront';
-import { IconComponent } from '@spartacus/storefront';
-import { FormRequiredLegendComponent } from '@spartacus/storefront';
-import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
-import { FormErrorsComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 export interface SavedCartFormDialogOptions {
   cart: Cart;

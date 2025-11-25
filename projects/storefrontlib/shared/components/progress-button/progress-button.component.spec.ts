@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from 'projects/core/src/i18n';
 import { ProgressButtonComponent } from './progress-button.component';

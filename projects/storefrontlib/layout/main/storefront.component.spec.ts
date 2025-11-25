@@ -5,6 +5,7 @@ import {
   FeatureDirective,
   RoutingService,
 } from '@spartacus/core';
+import { GlobalMessageComponent } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
   OutletDirective,
@@ -16,7 +17,6 @@ import { MockFeatureDirective } from '../../shared/test/mock-feature-directive';
 import { SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontComponent } from './storefront.component';
-import { GlobalMessageComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-header',

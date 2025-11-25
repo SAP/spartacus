@@ -4,13 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
+import { TranslatePipe, useFeatureStyles } from '@spartacus/core';
 import { FutureStockFacade } from '@spartacus/product/future-stock/root';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { IconComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-future-stock-accordion',

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,17 +13,16 @@ import {
 } from '@angular/core';
 import {
   AsmCustomer360Facade,
+  AsmCustomer360Promotion,
   AsmCustomer360PromotionList,
   AsmCustomer360Type,
-  AsmCustomer360Promotion,
 } from '@spartacus/asm/customer-360/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { TranslatePipe } from '@spartacus/core';
 import { BehaviorSubject, Subscription, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
-import { AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

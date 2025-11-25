@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,7 +13,7 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
+import { TranslatePipe, TranslationService } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
@@ -22,8 +23,10 @@ import {
   BreakpointService,
   DirectionMode,
   DirectionService,
+  FocusDirective,
   HamburgerMenuService,
   ICON_TYPE,
+  IconComponent,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
@@ -33,10 +36,6 @@ import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
-import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
-import { FocusDirective } from '@spartacus/storefront';
-import { IconComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-configurator-group-menu',

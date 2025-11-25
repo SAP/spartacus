@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { B2BUnit } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { B2BUnit, UrlPipe } from '@spartacus/core';
 import {
   OutletContextData,
   TableDataOutletContext,
@@ -13,9 +15,6 @@ import {
 import { Observable } from 'rxjs';
 import { ItemService } from '../../../../shared/item.service';
 import { CellComponent } from '../../../../shared/table/cell.component';
-import { NgIf, NgTemplateOutlet, AsyncPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-link-cell',

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,21 +17,20 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { FocusDirective } from '@spartacus/storefront';
-import { IconComponent } from '@spartacus/storefront';
-import { SpinnerComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-close-account-modal',

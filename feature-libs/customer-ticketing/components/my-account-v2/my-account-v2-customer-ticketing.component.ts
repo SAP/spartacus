@@ -4,18 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { CxDatePipe, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   CustomerTicketingFacade,
   TicketList,
 } from '@spartacus/customer-ticketing/root';
-import { Observable } from 'rxjs';
-import { RouterLink } from '@angular/router';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { SpinnerComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
-import { CxDatePipe } from '@spartacus/core';
-import { UrlPipe } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-my-account-v2-customer-ticketing',

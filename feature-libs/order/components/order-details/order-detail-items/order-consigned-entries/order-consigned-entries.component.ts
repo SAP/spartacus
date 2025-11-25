@@ -4,22 +4,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
+import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
+import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import {
   AbstractOrderType,
   CartOutlets,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { TranslationService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  TranslationService,
+} from '@spartacus/core';
 import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
-import { map } from 'rxjs';
-import { NgFor, NgIf, AsyncPipe, TitleCasePipe } from '@angular/common';
 import { OutletDirective } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
+import { map } from 'rxjs';
 import { ConsignmentTrackingComponent } from '../consignment-tracking/consignment-tracking.component';
-import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
-import { CxDatePipe } from '@spartacus/core';
-import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 
 @Component({
   selector: 'cx-order-consigned-entries',

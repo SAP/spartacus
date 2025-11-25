@@ -4,21 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf } from '@angular/common';
 import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
+import { CxDatePipe, TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  PaginationComponent,
+  SortingComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import {
   SubscriptionFacade,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
 import { switchMap } from 'rxjs';
-import { NgIf, NgFor } from '@angular/common';
-import {
-  SortingComponent,
-  PaginationComponent,
-  SpinnerComponent,
-} from '@spartacus/storefront';
-import { RouterLink } from '@angular/router';
-import { TranslatePipe, CxDatePipe, UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-subscription-list',

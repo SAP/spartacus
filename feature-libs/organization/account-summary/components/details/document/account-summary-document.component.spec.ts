@@ -35,10 +35,10 @@ import {
 } from '@spartacus/organization/account-summary/root';
 import createSpy = jasmine.createSpy;
 
+import { RouterModule } from '@angular/router';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { mockAccountSummaryList } from '../account-summary-mock-data';
 import { AccountSummaryDocumentFilterComponent } from './filter';
-import { RouterModule } from '@angular/router';
 
 const blob = new Blob();
 

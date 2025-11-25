@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   FeatureDirective,
@@ -20,10 +21,9 @@ import { ViewComponent } from 'projects/storefrontlib/shared/components/split-vi
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { ItemService } from '../item.service';
+import { MessageComponent } from '../message/message.component';
 import { MessageTestingModule } from '../message/message.testing.module';
 import { CardComponent } from './card.component';
-import { RouterModule } from '@angular/router';
-import { MessageComponent } from '../message/message.component';
 import createSpy = jasmine.createSpy;
 
 const mockItem = { foo: 'bar' };

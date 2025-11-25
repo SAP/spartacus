@@ -4,12 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Product, ProductScope } from '@spartacus/core';
+import { Product, ProductScope, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../../current-product.service';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-attributes',

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -28,13 +29,12 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { BREAKPOINT } from '../../../layout/config/layout-config';
-import { Tab, TabConfig } from '../tab/tab.model';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { TabComponent } from '../tab/tab.component';
-import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
+import { Tab, TabConfig } from '../tab/tab.model';
 
 const defaultTabConfig = {
   openTabs: [0],

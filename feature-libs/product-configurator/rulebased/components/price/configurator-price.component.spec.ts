@@ -1,14 +1,14 @@
 import { Pipe, PipeTransform, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { DirectionMode, DirectionService } from '@spartacus/storefront';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorPriceComponent } from './configurator-price.component';
-import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import {
   CxNumericPipe,
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
+import { DirectionMode, DirectionService } from '@spartacus/storefront';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorPriceComponent } from './configurator-price.component';
 
 @Pipe({ name: 'cxNumeric' })
 class MockNumericPipe implements PipeTransform {

@@ -12,14 +12,14 @@ import { I18nTestingModule } from '@spartacus/core';
 
 import { CardComponent, FocusConfig, ICON_TYPE } from '@spartacus/storefront';
 
-import { AsmCustomer360ProfileComponent } from './asm-customer-360-profile.component';
-import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
-import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
+import { By } from '@angular/platform-browser';
 import {
   AsmCustomer360CustomerProfile,
   AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
-import { By } from '@angular/platform-browser';
+import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
+import { AsmCustomer360ProfileComponent } from './asm-customer-360-profile.component';
 
 @Directive({
   selector: '[cxFocus]',

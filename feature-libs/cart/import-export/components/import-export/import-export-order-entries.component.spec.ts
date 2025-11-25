@@ -6,22 +6,22 @@ import {
   OrderEntriesSource,
   OrderEntry,
   ProductData,
-  ProductImportInfo,
-  ProductImportStatus,
+  ProductimportInfo,
+  ProductimportStatus,
 } from '@spartacus/cart/base/root';
 import { ContextService, PageComponentModule } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
-import { ImportExportOrderEntriesComponent } from './import-export-order-entries.component';
 import { ExportOrderEntriesComponent } from '../export-entries';
-import { ImportOrderEntriesComponent } from '../import-to-cart';
+import { importOrderEntriesComponent } from '../import-to-cart';
+import { importExportOrderEntriesComponent } from './import-export-order-entries.component';
 import createSpy = jasmine.createSpy;
 
-const mockLoadProduct: ProductImportInfo = {
+const mockLoadProduct: ProductimportInfo = {
   productCode: '123456',
-  statusCode: ProductImportStatus.SUCCESS,
+  statusCode: ProductimportStatus.SUCCESS,
 };
 
-class MockImportExportContext
+class MockimportExportContext
   implements AddOrderEntriesContext, GetOrderEntriesContext
 {
   getEntries = () => entries$.asObservable();
@@ -29,7 +29,7 @@ class MockImportExportContext
   readonly type: OrderEntriesSource;
 }
 
-const loadProducts$: BehaviorSubject<ProductImportInfo> = new BehaviorSubject(
+const loadProducts$: BehaviorSubject<ProductimportInfo> = new BehaviorSubject(
   mockLoadProduct
 );
 
@@ -44,7 +44,7 @@ const entries$ = new BehaviorSubject<OrderEntry[]>(mockEntries);
 
 const importExportContext = new BehaviorSubject<
   Partial<AddOrderEntriesContext & GetOrderEntriesContext>
->(new MockImportExportContext());
+>(new MockimportExportContext());
 
 class MockContextService implements Partial<ContextService> {
   get = createSpy().and.returnValue(importExportContext.asObservable());
@@ -55,7 +55,7 @@ class MockContextService implements Partial<ContextService> {
   template: '',
   imports: [PageComponentModule],
 })
-export class MockImportOrderEntriesComponent {
+export class MockimportOrderEntriesComponent {
   @ViewChild('open') element: ElementRef;
 
   @Input()
@@ -72,23 +72,23 @@ export class MockExportOrderEntriesComponent {
   entries: OrderEntry[];
 }
 
-describe('ImportExportComponent', () => {
-  let component: ImportExportOrderEntriesComponent;
-  let fixture: ComponentFixture<ImportExportOrderEntriesComponent>;
+describe('importExportComponent', () => {
+  let component: importExportOrderEntriesComponent;
+  let fixture: ComponentFixture<importExportOrderEntriesComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PageComponentModule, ImportExportOrderEntriesComponent],
+      imports: [PageComponentModule, importExportOrderEntriesComponent],
       providers: [{ provide: ContextService, useClass: MockContextService }],
     })
-      .overrideComponent(ImportExportOrderEntriesComponent, {
+      .overrideComponent(importExportOrderEntriesComponent, {
         remove: {
-          imports: [ExportOrderEntriesComponent, ImportOrderEntriesComponent],
+          imports: [ExportOrderEntriesComponent, importOrderEntriesComponent],
         },
         add: {
           imports: [
             MockExportOrderEntriesComponent,
-            MockImportOrderEntriesComponent,
+            MockimportOrderEntriesComponent,
           ],
         },
       })
@@ -96,7 +96,7 @@ describe('ImportExportComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ImportExportOrderEntriesComponent);
+    fixture = TestBed.createComponent(importExportOrderEntriesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

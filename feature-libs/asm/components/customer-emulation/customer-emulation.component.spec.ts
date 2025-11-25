@@ -2,22 +2,23 @@ import { Component, DebugElement, Injectable } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  CxDatePipe,
+  FeatureLevelDirective,
   FeatureModulesService,
   FeaturesConfig,
-  TranslatePipe,
-  CxDatePipe,
-  User,
   I18nTestingModule,
-  FeatureLevelDirective,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  User,
 } from '@spartacus/core';
-import { MockTranslatePipe, MockDatePipe } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { AsmBindCartComponent } from '../public_api';
 import { AsmComponentService } from '../services/asm-component.service';
 import { CustomerEmulationComponent } from './customer-emulation.component';
-import { AsmBindCartComponent } from '../public_api';
 
 describe('CustomerEmulationComponent', () => {
   class MockUserAccountFacade implements Partial<UserAccountFacade> {

@@ -5,9 +5,9 @@
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
 import { CurrentLocationService } from '../../services/current-location.service';
-import { TranslatePipe } from '@spartacus/core';
 
 /**
  * The search box and find my location button for finding points of

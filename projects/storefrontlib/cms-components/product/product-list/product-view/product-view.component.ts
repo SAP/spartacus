@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,10 +12,9 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ICON_TYPE } from '../../../misc/icon/icon.model';
-import { NgClass, NgIf } from '@angular/common';
-import { IconComponent } from '../../../misc/icon/icon.component';
 import { TranslatePipe } from '@spartacus/core';
+import { IconComponent } from '../../../misc/icon/icon.component';
+import { ICON_TYPE } from '../../../misc/icon/icon.model';
 
 export enum ViewModes {
   Grid = 'grid',

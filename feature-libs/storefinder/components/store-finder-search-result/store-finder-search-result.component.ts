@@ -4,20 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { GeoPoint, SearchConfig } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { GeoPoint, SearchConfig, TranslatePipe } from '@spartacus/core';
 import {
+  StoreFinderConfig,
   StoreFinderSearchQuery,
   StoreFinderService,
-  StoreFinderConfig,
 } from '@spartacus/storefinder/core';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { PaginationComponent } from '@spartacus/storefront';
+import { PaginationComponent, SpinnerComponent } from '@spartacus/storefront';
+import { Observable, Subscription } from 'rxjs';
 import { StoreFinderListComponent } from './store-finder-list/store-finder-list.component';
-import { SpinnerComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-search-result',

@@ -4,19 +4,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Product, ProductScope, ProductService } from '@spartacus/core';
-import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, filter, map, take } from 'rxjs/operators';
-import { ProductItem } from '../../asm-customer-360-product-listing/product-item.model';
-import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import {
   AsmCustomer360ActiveCart,
   CustomerCart,
 } from '@spartacus/asm/customer-360/root';
-import { NgIf, AsyncPipe } from '@angular/common';
+import {
+  Product,
+  ProductScope,
+  ProductService,
+  TranslatePipe,
+} from '@spartacus/core';
+import { forkJoin, Observable, of } from 'rxjs';
+import { concatMap, filter, map, take } from 'rxjs/operators';
 import { AsmCustomer360ProductListingComponent } from '../../asm-customer-360-product-listing/asm-customer-360-product-listing.component';
-import { TranslatePipe } from '@spartacus/core';
+import { ProductItem } from '../../asm-customer-360-product-listing/product-item.model';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

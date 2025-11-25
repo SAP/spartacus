@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -19,8 +20,10 @@ import {
 } from '@angular/core';
 import {
   FeatureConfigService,
+  FeatureDirective,
   ImageGroup,
   Product,
+  TranslatePipe,
   isNotNullable,
   useFeatureStyles,
 } from '@spartacus/core';
@@ -30,6 +33,8 @@ import {
   BreakpointService,
   CurrentProductService,
   ICON_TYPE,
+  IconComponent,
+  MediaComponent,
 } from '@spartacus/storefront';
 import {
   BehaviorSubject,
@@ -49,12 +54,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { IconComponent } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
-import { MediaComponent } from '@spartacus/storefront';
 import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumbnails/product-image-zoom-thumbnails.component';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-image-zoom-view',

@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { NavigationComponent } from '../../../navigation';
-import { NgIf, NgClass, AsyncPipe } from '@angular/common';
 import { NavigationUIComponent } from '../../../navigation/navigation/navigation-ui.component';
 
 @Component({

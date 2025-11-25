@@ -9,15 +9,15 @@ import { AsmCustomer360SupportTicketList } from '@spartacus/asm/customer-360/roo
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@spartacus/core';
+import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
 import {
   CustomerTableColumn,
   CustomerTableTextAlign,
 } from '../../asm-customer-360-table/asm-customer-360-table.model';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { SupportTicketEntry } from './asm-customer-360-support-tickets.model';
-import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
-import { AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

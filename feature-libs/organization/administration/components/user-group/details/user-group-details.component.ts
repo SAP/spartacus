@@ -4,20 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import { UserGroup } from '@spartacus/organization/administration/core';
+import { FocusDirective } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
-import { ItemService } from '../../shared/item.service';
-import { UserGroupItemService } from '../services/user-group-item.service';
-import { NgIf, AsyncPipe } from '@angular/common';
 import { CardComponent } from '../../shared/card/card.component';
-import { FocusDirective } from '@spartacus/storefront';
-import { RouterLink, RouterLinkActive } from '@angular/router';
 import { DeleteItemComponent } from '../../shared/detail/delete-item-action/delete-item.component';
 import { ItemExistsDirective } from '../../shared/item-exists.directive';
-import { UrlPipe } from '@spartacus/core';
-import { TranslatePipe } from '@spartacus/core';
+import { ItemService } from '../../shared/item.service';
+import { UserGroupItemService } from '../services/user-group-item.service';
 
 @Component({
   selector: 'cx-org-user-group-details',

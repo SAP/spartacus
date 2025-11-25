@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { OutletContextData } from '@spartacus/storefront';
-import { ActiveLinkCellComponent } from '..';
-import { I18nTestingModule, UrlPipe } from '@spartacus/core';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { RouterModule } from '@angular/router';
+import { I18nTestingModule, UrlPipe } from '@spartacus/core';
+import { OutletContextData } from '@spartacus/storefront';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { ActiveLinkCellComponent } from '..';
 
 const mockContext = {
   _field: 'name',

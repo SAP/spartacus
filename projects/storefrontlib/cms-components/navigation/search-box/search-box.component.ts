@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -19,27 +20,35 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
   CmsSearchBoxComponent,
   FeatureConfigService,
   PageType,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
   useFeatureStyles,
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import {
+  catchError,
   filter,
+  first,
   map,
   switchMap,
   tap,
-  first,
   timeout,
-  catchError,
 } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
+import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BREAKPOINT, BreakpointService } from '../../../layout/';
+import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
+import { MediaComponent } from '../../../shared/components/media/media.component';
+import { IconComponent } from '../../misc/icon/icon.component';
+import { HighlightPipe } from './highlight.pipe';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxOutlets } from './search-box-outlets.model';
 import {
@@ -47,15 +56,6 @@ import {
   SearchBoxSuggestionSelectedEvent,
 } from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
-import { IconComponent } from '../../misc/icon/icon.component';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
-import { MediaComponent } from '../../../shared/components/media/media.component';
-import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
-import { UrlPipe } from '@spartacus/core';
-import { TranslatePipe } from '@spartacus/core';
-import { HighlightPipe } from './highlight.pipe';
 
 const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   minCharactersBeforeRequest: 1,

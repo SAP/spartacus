@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -15,7 +16,6 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { OpfDynamicScript } from '@spartacus/opf/base/root';
 import { OpfCtaScriptsService } from '../opf-cta-scripts/opf-cta-scripts.service';
-import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'cx-opf-cta-element',

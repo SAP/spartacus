@@ -4,11 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { Price } from '@spartacus/core';
+import { Price, TranslatePipe } from '@spartacus/core';
 import { QuoteFacade } from '@spartacus/quote/root';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-quote-summary-prices',

@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
+import { IconModule } from '../../../../cms-components/misc/icon/icon.module';
 import { MessageEvent } from '../messaging';
 import { AvatarComponent } from './avatar.component';
-import { IconModule } from '../../../../cms-components/misc/icon/icon.module';
 
 const mockEvent: MessageEvent = {
   author: 'Mark Rivers',

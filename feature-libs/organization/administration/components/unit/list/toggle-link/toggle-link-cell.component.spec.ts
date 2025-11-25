@@ -5,6 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -16,10 +17,9 @@ import {
 } from '@spartacus/core';
 import { ToggleLinkCellComponent } from '@spartacus/organization/administration/components';
 import { IconModule, OutletContextData } from '@spartacus/storefront';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UnitTreeService } from '../../services/unit-tree.service';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
-import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const mockContext = {

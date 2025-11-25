@@ -5,6 +5,8 @@
  */
 
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@spartacus/core';
 import {
   LoadStatus,
   UserGroup,
@@ -14,8 +16,6 @@ import { ListService } from '../../shared/list/list.service';
 import { SubListComponent } from '../../shared/sub-list/sub-list.component';
 import { CurrentUserGroupService } from '../services/current-user-group.service';
 import { UserGroupUserListService } from './user-group-user-list.service';
-import { RouterLink } from '@angular/router';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-user-group-user-list',

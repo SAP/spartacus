@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
+import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
@@ -9,12 +11,10 @@ import {
   ConfiguratorPriceComponent,
   ConfiguratorPriceComponentOptions,
 } from '../../../price/configurator-price.component';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
-import { Observable, of } from 'rxjs';
-import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
+import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 
 @Component({
   selector: 'cx-configurator-price',

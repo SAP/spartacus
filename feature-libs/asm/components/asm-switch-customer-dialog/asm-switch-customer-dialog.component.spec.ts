@@ -19,8 +19,8 @@ import { Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services';
 import {
   AsmSwitchCustomerDialogComponent,
-  SwitchCustomerData,
   SWITCH_CUSTOMER_DIALOG_ACTION,
+  SwitchCustomerData,
 } from './asm-switch-customer-dialog.component';
 
 @Pipe({ name: 'cxTranslate' })

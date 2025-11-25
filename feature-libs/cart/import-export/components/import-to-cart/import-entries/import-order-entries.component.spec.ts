@@ -8,7 +8,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { ImportOrderEntriesComponent } from './import-order-entries.component';
+import { importOrderEntriesComponent } from './import-order-entries.component';
 import createSpy = jasmine.createSpy;
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -19,25 +19,25 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   ) {}
 }
 
-class MockImportExportContext {
+class MockimportExportContext {
   addEntries = createSpy('addEntries');
 }
 
-const contextService = new MockImportExportContext();
+const contextService = new MockimportExportContext();
 
 class MockContextService implements Partial<ContextService> {
   get = createSpy().and.returnValue(of(contextService));
 }
 
-describe('ImportOrderEntriesComponent', () => {
-  let component: ImportOrderEntriesComponent;
-  let fixture: ComponentFixture<ImportOrderEntriesComponent>;
+describe('importOrderEntriesComponent', () => {
+  let component: importOrderEntriesComponent;
+  let fixture: ComponentFixture<importOrderEntriesComponent>;
   let launchDialogService: LaunchDialogService;
   let el: DebugElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ImportOrderEntriesComponent],
+      imports: [I18nTestingModule, importOrderEntriesComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {
@@ -47,7 +47,7 @@ describe('ImportOrderEntriesComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ImportOrderEntriesComponent);
+    fixture = TestBed.createComponent(importOrderEntriesComponent);
     component = fixture.componentInstance;
 
     launchDialogService = TestBed.inject(LaunchDialogService);
@@ -65,7 +65,7 @@ describe('ImportOrderEntriesComponent', () => {
   it('should trigger an open dialog to import CSV', () => {
     component.openDialog(contextService);
     expect(launchDialogService.openDialogAndSubscribe).toHaveBeenCalledWith(
-      LAUNCH_CALLER.IMPORT_TO_CART,
+      LAUNCH_CALLER.import_TO_CART,
       component.element,
       { orderEntriesContext: contextService }
     );

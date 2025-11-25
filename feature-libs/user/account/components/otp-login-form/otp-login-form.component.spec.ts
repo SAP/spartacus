@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   I18nTestingModule,
   MockTranslatePipe,
@@ -17,8 +19,6 @@ import {
 } from '@spartacus/user/account/root';
 import { of, throwError } from 'rxjs';
 import { OneTimePasswordLoginFormComponent } from './otp-login-form.component';
-import { HttpErrorResponse } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const verificationTokenCreation: VerificationTokenCreation = {

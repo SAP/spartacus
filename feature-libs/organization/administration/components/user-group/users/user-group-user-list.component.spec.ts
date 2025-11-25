@@ -1,23 +1,23 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import {
   I18nTestingModule,
   MockTranslatePipe,
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { CurrentUserGroupService } from '../services/current-user-group.service';
-import { UserGroupUserListComponent } from './user-group-user-list.component';
-import { UserGroupUserListService } from './user-group-user-list.service';
 import { SubListComponent } from '@spartacus/organization/administration/components';
 import {
   LoadStatus,
   OrganizationItemStatus,
   UserGroup,
 } from '@spartacus/organization/administration/core';
-import { Component } from '@angular/core';
 import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
-import { RouterModule } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { CurrentUserGroupService } from '../services/current-user-group.service';
+import { UserGroupUserListComponent } from './user-group-user-list.component';
+import { UserGroupUserListService } from './user-group-user-list.service';
 const mockKey = 'mock';
 
 class MockCurrentUserGroupService {

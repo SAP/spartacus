@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { Cart } from '@spartacus/cart/base/root';
 import {
   SavedCartFacade,
@@ -30,7 +31,6 @@ import {
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, Subscription, interval, map, of, take } from 'rxjs';
 import { SavedCartListComponent } from './saved-cart-list.component';
-import { RouterModule } from '@angular/router';
 
 const mockCart1: Cart = {
   code: '00001',

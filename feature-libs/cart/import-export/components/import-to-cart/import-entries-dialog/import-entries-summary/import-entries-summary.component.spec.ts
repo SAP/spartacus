@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProductImportSummary } from '@spartacus/cart/base/root';
+import { ProductimportSummary } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { IconTestingModule } from '@spartacus/storefront';
-import { ImportEntriesSummaryComponent } from './import-entries-summary.component';
+import { importEntriesSummaryComponent } from './import-entries-summary.component';
 
-const mockSummary: ProductImportSummary = {
+const mockSummary: ProductimportSummary = {
   loading: true,
   cartName: 'mockCart',
   count: 0,
@@ -14,20 +14,20 @@ const mockSummary: ProductImportSummary = {
   errorMessages: [],
 };
 
-describe('ImportEntriesFormComponent', () => {
-  let component: ImportEntriesSummaryComponent;
-  let fixture: ComponentFixture<ImportEntriesSummaryComponent>;
+describe('importEntriesFormComponent', () => {
+  let component: importEntriesSummaryComponent;
+  let fixture: ComponentFixture<importEntriesSummaryComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
         IconTestingModule,
-        ImportEntriesSummaryComponent,
+        importEntriesSummaryComponent,
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ImportEntriesSummaryComponent);
+    fixture = TestBed.createComponent(importEntriesSummaryComponent);
     component = fixture.componentInstance;
     component.summary = mockSummary;
 
@@ -40,7 +40,7 @@ describe('ImportEntriesFormComponent', () => {
 
   it('should close dialog on close method', () => {
     spyOn(component.closeEvent, 'emit');
-    const mockCloseReason = 'Close Import Products Dialog';
+    const mockCloseReason = 'Close import Products Dialog';
     component.close(mockCloseReason);
 
     expect(component.closeEvent.emit).toHaveBeenCalledWith(mockCloseReason);

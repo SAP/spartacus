@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,27 +14,28 @@ import {
   OnInit,
   Optional,
 } from '@angular/core';
+import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import {
   AbstractOrderType,
   CartOutlets,
   DeliveryMode,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { Address, TranslationService } from '@spartacus/core';
+import { Address, TranslatePipe, TranslationService } from '@spartacus/core';
 import {
   Order,
   OrderFacade,
   deliveryAddressCard,
   deliveryModeCard,
 } from '@spartacus/order/root';
-import { Card, OutletContextData } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  OutletContextData,
+  OutletDirective,
+} from '@spartacus/storefront';
 import { Observable, Subscription, combineLatest, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { CardComponent } from '@spartacus/storefront';
-import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
-import { OutletDirective } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-order-confirmation-shipping',

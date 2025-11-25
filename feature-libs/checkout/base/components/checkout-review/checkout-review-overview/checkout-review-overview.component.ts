@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT, NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe, DOCUMENT, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -12,10 +12,9 @@ import {
   inject,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { TranslationService } from '@spartacus/core';
-import { Observable, take } from 'rxjs';
+import { TranslatePipe, TranslationService } from '@spartacus/core';
 import { PromotionsComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
+import { Observable, take } from 'rxjs';
 
 @Component({
   selector: 'cx-checkout-review-overview',

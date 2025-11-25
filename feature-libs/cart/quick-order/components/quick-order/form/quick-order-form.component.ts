@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -16,19 +17,25 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  UntypedFormControl,
-  UntypedFormGroup,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
 } from '@angular/forms';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   Config,
   FeatureConfigService,
+  FeatureDirective,
   Product,
+  TranslatePipe,
   WindowRef,
 } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  IconComponent,
+  MediaComponent,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -37,11 +44,6 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { IconComponent } from '@spartacus/storefront';
-import { FeatureDirective } from '@spartacus/core';
-import { MediaComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
 

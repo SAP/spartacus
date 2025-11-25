@@ -10,10 +10,10 @@ import { Product, ProductScope, ProductService } from '@spartacus/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, filter, take } from 'rxjs/operators';
 
-import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { AsmCustomer360ProductListingComponent } from '../../asm-customer-360-product-listing/asm-customer-360-product-listing.component';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { TranslatePipe } from '@spartacus/core';
+import { AsmCustomer360ProductListingComponent } from '../../asm-customer-360-product-listing/asm-customer-360-product-listing.component';
+import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

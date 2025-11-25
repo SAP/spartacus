@@ -4,17 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
+  TranslatePipe,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
 import { IconComponent } from '../icon/icon.component';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-global-message',

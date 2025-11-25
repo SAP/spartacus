@@ -2,11 +2,11 @@ import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nModule, TranslationService } from '@spartacus/core';
 import {
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
   OutletContextData,
 } from '@spartacus/storefront';
-import { Observable, EMPTY, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { MyAccountV2ConsignmentTrackingComponent } from './my-account-v2-consignment-tracking.component';
 
 class MockTranslationService {

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,16 +13,18 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { NotificationPreference, UserInterestsService } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import {
+  NotificationPreference,
+  TranslatePipe,
+  UrlPipe,
+  UserInterestsService,
+} from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
+import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
 import { FocusConfig } from '../../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { LaunchDialogService } from '../../../../layout/index';
-import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
-import { TranslatePipe } from '@spartacus/core';
-import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-stock-notification-dialog',

@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NotificationPreferenceComponent } from '../../notification-preference/notification-preference.component';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { TranslatePipe } from '@spartacus/core';
+import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
+import { NotificationPreferenceComponent } from '../../notification-preference/notification-preference.component';
 
 @Component({
   selector: 'cx-my-account-v2-notification-preference',

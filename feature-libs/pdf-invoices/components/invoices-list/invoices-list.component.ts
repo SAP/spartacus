@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,6 +12,7 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  CxDatePipe,
   ErrorModel,
   GlobalMessageService,
   GlobalMessageType,
@@ -18,6 +20,7 @@ import {
   LanguageService,
   PaginationModel,
   SortModel,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -26,7 +29,13 @@ import {
   OrderInvoiceList,
   PDFInvoicesFacade,
 } from '@spartacus/pdf-invoices/root';
-import { FileDownloadService, ICON_TYPE } from '@spartacus/storefront';
+import {
+  FileDownloadService,
+  ICON_TYPE,
+  IconComponent,
+  PaginationComponent,
+  SortingComponent,
+} from '@spartacus/storefront';
 import {
   BehaviorSubject,
   combineLatest,
@@ -35,12 +44,6 @@ import {
   Subscription,
 } from 'rxjs';
 import { catchError, skip, switchMap, take, tap } from 'rxjs/operators';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { SortingComponent } from '@spartacus/storefront';
-import { PaginationComponent } from '@spartacus/storefront';
-import { IconComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
-import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-invoices-list',

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -17,7 +18,6 @@ import {
 import { OpfActiveConfiguration } from '@spartacus/opf/base/root';
 import { BehaviorSubject } from 'rxjs';
 import { OpfGooglePayService } from './google-pay.service';
-import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'cx-opf-google-pay',

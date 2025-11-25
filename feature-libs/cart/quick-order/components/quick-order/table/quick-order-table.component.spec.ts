@@ -9,8 +9,8 @@ import {
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import { QuickOrderTableComponent } from './quick-order-table.component';
 import { QuickOrderItemComponent } from './item/quick-order-item.component';
+import { QuickOrderTableComponent } from './quick-order-table.component';
 
 const mockEntries: OrderEntry[] = [
   {

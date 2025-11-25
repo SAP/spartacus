@@ -4,23 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
-import { CheckoutPaymentFacade } from '@spartacus/checkout/base/root';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import { Observable, of } from 'rxjs';
-import { CheckoutFlowOrchestratorService } from '@spartacus/checkout/base/components';
-import { OPF_CHECKOUT_FLOW_NAME } from '../../root/model';
-import { Address, TranslationService, CmsService } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import { Store } from '@ngrx/store';
+import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
+import {
+  CheckoutFlowOrchestratorService,
+  CheckoutStepService,
+} from '@spartacus/checkout/base/components';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
+  CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
-import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Address, CmsService, TranslationService } from '@spartacus/core';
+import { Card } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { OPF_CHECKOUT_FLOW_NAME } from '../../root/model';
+import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
 
 @Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {

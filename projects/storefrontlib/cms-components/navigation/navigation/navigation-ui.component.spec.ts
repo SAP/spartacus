@@ -6,6 +6,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   FeatureConfigService,
@@ -16,14 +17,13 @@ import {
   TranslatePipe,
   WindowRef,
 } from '@spartacus/core';
+import { GenericLinkComponent, IconComponent } from '@spartacus/storefront';
 import { BreakpointService } from 'projects/storefrontlib/layout';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
-import { RouterModule } from '@angular/router';
-import { IconComponent, GenericLinkComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-icon',

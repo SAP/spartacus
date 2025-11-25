@@ -4,8 +4,8 @@ import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { DatePickerComponent } from './date-picker.component';
 import { FormErrorsComponent } from '../form-errors';
+import { DatePickerComponent } from './date-picker.component';
 
 @Component({
   selector: 'cx-form-errors',

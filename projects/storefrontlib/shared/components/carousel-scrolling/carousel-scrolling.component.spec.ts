@@ -2,12 +2,12 @@ import { Component, Directive, Input, OnDestroy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-  LoggerService,
-  TranslatePipe,
   CxDatePipe,
   I18nTestingModule,
+  LoggerService,
   MockDatePipe,
   MockTranslatePipe,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CarouselScrollingComponent,

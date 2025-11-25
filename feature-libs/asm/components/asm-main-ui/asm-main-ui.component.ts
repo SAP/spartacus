@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -24,6 +25,7 @@ import {
 } from '@spartacus/asm/root';
 import {
   AuthService,
+  FeatureDirective,
   FeatureModulesService,
   GlobalMessageService,
   GlobalMessageType,
@@ -31,12 +33,15 @@ import {
   HttpResponseStatus,
   OAuthLibWrapperService,
   RoutingService,
+  TranslatePipe,
   User,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
+  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
+  MessageComponent,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import {
@@ -55,18 +60,13 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { CustomerListAction } from '../customer-list/customer-list.model';
-import { AsmComponentService } from '../services/asm-component.service';
-import { IconComponent } from '@spartacus/storefront';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { FeatureDirective } from '@spartacus/core';
-import { AsmToggleUiComponent } from '../asm-toggle-ui/asm-toggle-ui.component';
 import { AsmSessionTimerComponent } from '../asm-session-timer/asm-session-timer.component';
-import { CustomerEmulationComponent } from '../customer-emulation/customer-emulation.component';
-import { MessageComponent } from '@spartacus/storefront';
-import { CustomerSelectionComponent } from '../customer-selection/customer-selection.component';
+import { AsmToggleUiComponent } from '../asm-toggle-ui/asm-toggle-ui.component';
 import { CSAgentLoginFormComponent } from '../csagent-login-form/csagent-login-form.component';
-import { TranslatePipe } from '@spartacus/core';
+import { CustomerEmulationComponent } from '../customer-emulation/customer-emulation.component';
+import { CustomerListAction } from '../customer-list/customer-list.model';
+import { CustomerSelectionComponent } from '../customer-selection/customer-selection.component';
+import { AsmComponentService } from '../services/asm-component.service';
 
 interface CartTypeKey {
   [key: string]: string;

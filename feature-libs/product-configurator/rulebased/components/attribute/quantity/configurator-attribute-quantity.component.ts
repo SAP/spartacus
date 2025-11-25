@@ -14,11 +14,11 @@ import {
   Output,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { TranslatePipe } from '@spartacus/core';
+import { ItemCounterComponent } from '@spartacus/storefront';
 import { Observable, Subscription, timer } from 'rxjs';
 import { debounce, distinct, take } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
-import { ItemCounterComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 export interface ConfiguratorAttributeQuantityComponentOptions {
   allowZero?: boolean;

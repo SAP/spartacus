@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { LowerCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,15 +13,12 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CustomerCoupon } from '@spartacus/core';
+import { CustomerCoupon, CxDatePipe, TranslatePipe } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
-import { FocusConfig, LaunchDialogService } from '../../../../../layout/index';
 import { FocusDirective } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
+import { FocusConfig, LaunchDialogService } from '../../../../../layout/index';
 import { IconComponent } from '../../../../misc/icon/icon.component';
-import { LowerCasePipe } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
-import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-coupon-dialog',

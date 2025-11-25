@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, Input, Signal } from '@angular/core';
 import { Product, TranslatePipe } from '@spartacus/core';
 import {
   PerUnitUsageCharge,
+  TierUsageChargeEntry,
   UsageChargeType,
   VolumeUsageCharge,
-  TierUsageChargeEntry,
 } from '@spartacus/subscription-billing/root';
-import { NgIf, NgTemplateOutlet, NgFor } from '@angular/common';
 
 @Component({
   selector: 'cx-subscription-product-usage-charge',

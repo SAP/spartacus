@@ -1,3 +1,4 @@
+import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -24,9 +25,8 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
-import { NgFor, NgTemplateOutlet, AsyncPipe } from '@angular/common';
 import { ProductImageZoomTriggerComponent } from '../product-image-zoom-trigger/product-image-zoom-trigger.component';
+import { ProductImageZoomProductImagesComponent } from './product-image-zoom-product-images.component';
 
 const firstImage = {
   zoom: {

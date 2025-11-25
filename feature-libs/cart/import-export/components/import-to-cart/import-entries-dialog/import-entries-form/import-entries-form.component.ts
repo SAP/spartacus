@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,30 +14,28 @@ import {
   Output,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
-  FormsModule,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import { OrderEntriesSource, ProductData } from '@spartacus/cart/base/root';
-import { ImportExportConfig } from '@spartacus/cart/import-export/core';
+import { importExportConfig } from '@spartacus/cart/import-export/core';
+import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
 import {
   FilesFormValidators,
+  FileUploadComponent,
+  FocusDirective,
+  FormErrorsComponent,
   FormUtils,
-  ImportCsvFileService,
+  importCsvFileService,
   LaunchDialogService,
+  MessageComponent,
 } from '@spartacus/storefront';
 import { of, Subject } from 'rxjs';
 import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
-import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
-import { GlobalMessageType } from '@spartacus/core';
-import { NgIf } from '@angular/common';
-import { MessageComponent } from '@spartacus/storefront';
-import { FocusDirective } from '@spartacus/storefront';
-import { FileUploadComponent } from '@spartacus/storefront';
-import { FormErrorsComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
+import { importProductsFromCsvService } from '../../import-products-from-csv.service';
 
 @Component({
   selector: 'cx-import-entries-form',
@@ -53,7 +52,7 @@ import { TranslatePipe } from '@spartacus/core';
     TranslatePipe,
   ],
 })
-export class ImportEntriesFormComponent implements OnInit {
+export class importEntriesFormComponent implements OnInit {
   form: UntypedFormGroup;
   loadedFile: string[][] | null;
   formSubmitSubject$ = new Subject();
@@ -69,10 +68,10 @@ export class ImportEntriesFormComponent implements OnInit {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected importToCartService: ImportProductsFromCsvService,
-    protected importCsvService: ImportCsvFileService,
+    protected importToCartService: importProductsFromCsvService,
+    protected importCsvService: importCsvFileService,
     protected filesFormValidators: FilesFormValidators,
-    protected importExportConfig: ImportExportConfig
+    protected importExportConfig: importExportConfig
   ) {}
 
   ngOnInit() {
@@ -141,21 +140,21 @@ export class ImportEntriesFormComponent implements OnInit {
   }
 
   public get allowedTypes(): string[] | undefined {
-    return this.importExportConfig.cartImportExport?.import?.fileValidity
+    return this.importExportConfig.cartimportExport?.import?.fileValidity
       ?.allowedTypes;
   }
 
   protected get maxSize(): number | undefined {
-    return this.importExportConfig.cartImportExport?.import?.fileValidity
+    return this.importExportConfig.cartimportExport?.import?.fileValidity
       ?.maxSize;
   }
 
   protected get maxEntries(): number | undefined {
-    return this.importExportConfig.cartImportExport?.import?.fileValidity
+    return this.importExportConfig.cartimportExport?.import?.fileValidity
       ?.maxEntries?.[this.type];
   }
 
   protected get separator(): string | undefined {
-    return this.importExportConfig.cartImportExport?.file.separator;
+    return this.importExportConfig.cartimportExport?.file.separator;
   }
 }

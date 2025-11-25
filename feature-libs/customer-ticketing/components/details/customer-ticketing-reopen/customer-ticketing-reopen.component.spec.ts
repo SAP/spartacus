@@ -7,12 +7,12 @@ import {
   STATUS_NAME,
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { CustomerTicketingReopenComponent } from './customer-ticketing-reopen.component';
 import { CustomerTicketingReopenComponentService } from './customer-ticketing-reopen-component.service';
+import { CustomerTicketingReopenComponent } from './customer-ticketing-reopen.component';
 
 describe('CustomerTicketingReopenComponent', () => {
   let component: CustomerTicketingReopenComponent;

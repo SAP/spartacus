@@ -9,10 +9,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  FeaturesConfigModule,
+  I18nModule,
   PageMetaModule,
   provideDefaultConfig,
-  I18nModule,
-  FeaturesConfigModule,
 } from '@spartacus/core';
 import { BreadcrumbComponent } from './breadcrumb.component';
 

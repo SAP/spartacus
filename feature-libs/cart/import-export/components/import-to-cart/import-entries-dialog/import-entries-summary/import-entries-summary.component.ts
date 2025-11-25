@@ -5,6 +5,13 @@
  */
 
 import {
+  NgFor,
+  NgIf,
+  NgSwitch,
+  NgSwitchCase,
+  NgSwitchDefault,
+} from '@angular/common';
+import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
@@ -13,18 +20,10 @@ import {
 } from '@angular/core';
 import {
   OrderEntriesSource,
-  ProductImportSummary,
+  ProductimportSummary,
 } from '@spartacus/cart/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
-import {
-  NgIf,
-  NgSwitch,
-  NgSwitchCase,
-  NgSwitchDefault,
-  NgFor,
-} from '@angular/common';
-import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-import-entries-summary',
@@ -40,7 +39,7 @@ import { TranslatePipe } from '@spartacus/core';
     TranslatePipe,
   ],
 })
-export class ImportEntriesSummaryComponent {
+export class importEntriesSummaryComponent {
   iconTypes = ICON_TYPE;
   orderEntriesSource = OrderEntriesSource;
 
@@ -51,7 +50,7 @@ export class ImportEntriesSummaryComponent {
   type: string;
 
   @Input()
-  summary: ProductImportSummary;
+  summary: ProductimportSummary;
 
   @Output()
   closeEvent = new EventEmitter<string>();

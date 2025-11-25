@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
+import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -7,10 +8,9 @@ import {
   MockTranslatePipe,
   TranslatePipe,
 } from '@spartacus/core';
-import { By } from '@angular/platform-browser';
 import { OrderSubsequentDocument } from '@spartacus/order/document-flow/root';
-import { OrderSubsequentDocumentNodeComponent } from './order-subsequent-document-node.component';
 import { IconModule } from '@spartacus/storefront';
+import { OrderSubsequentDocumentNodeComponent } from './order-subsequent-document-node.component';
 
 const subsequentDocumentsData: OrderSubsequentDocument[] = [
   {

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -15,13 +16,12 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import {
-  AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
+  AnonymousConsent,
   ConsentTemplate,
   FeatureConfigService,
+  TranslatePipe,
 } from '@spartacus/core';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-consent-management-form',

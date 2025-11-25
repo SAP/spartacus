@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NgClass, NgIf } from '@angular/common';
-import { PopoverDirective } from '../popover/popover.directive';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
+import { PopoverDirective } from '../popover/popover.directive';
 import { TruncatePipe } from './truncate.pipe';
 
 @Component({

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,20 +13,17 @@ import {
   SimpleChanges,
   inject,
 } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe, UrlPipe, useFeatureStyles } from '@spartacus/core';
+import { OutletDirective } from '../../../../cms-structure/outlet/outlet.directive';
+import { InnerComponentsHostDirective } from '../../../../cms-structure/page/component/inner-components-host.directive';
+import { MediaComponent } from '../../../../shared/components/media/media.component';
+import { StarRatingComponent } from '../../../../shared/components/star-rating/star-rating.component';
+import { LcpContextDirective } from '../../../../shared/lcp-context/lcp-context.directive';
 import { ProductListOutlets } from '../../product-outlets.model';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
 import { ProductListService } from '../product-list.service';
-import { RouterLink } from '@angular/router';
-import { LcpContextDirective } from '../../../../shared/lcp-context/lcp-context.directive';
-import { MediaComponent } from '../../../../shared/components/media/media.component';
-import { OutletDirective } from '../../../../cms-structure/outlet/outlet.directive';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { StarRatingComponent } from '../../../../shared/components/star-rating/star-rating.component';
-import { InnerComponentsHostDirective } from '../../../../cms-structure/page/component/inner-components-host.directive';
-import { TranslatePipe } from '@spartacus/core';
-import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-grid-item',

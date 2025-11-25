@@ -13,8 +13,8 @@ import {
   SiteThemeModule,
 } from '@spartacus/core';
 
-import { SiteThemeSwitcherComponent } from './site-theme-switcher.component';
 import { IconModule } from '../icon/index';
+import { SiteThemeSwitcherComponent } from './site-theme-switcher.component';
 import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
 
 @NgModule({

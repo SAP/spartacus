@@ -1,16 +1,18 @@
-import { ViewContainerRef, ElementRef } from '@angular/core';
+import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
-import { CurrencyService, LanguageService } from '@spartacus/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { CurrencyService, LanguageService } from '@spartacus/core';
 import { OpfGlobalFunctionsService } from '@spartacus/opf/global-functions/core';
 import {
   OpfGlobalFunctionsDomain,
   OpfGlobalFunctionsFacade,
   OpfRegisterGlobalFunctionsInput,
 } from '@spartacus/opf/global-functions/root';
-import { OpfPaymentRenderPattern } from '@spartacus/opf/payment/root';
-import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
+import {
+  OpfPaymentEventsService,
+  OpfPaymentRenderPattern,
+} from '@spartacus/opf/payment/root';
 import { of, Subject } from 'rxjs';
 import { OpfCheckoutPaymentWrapperComponent } from './opf-checkout-payment-wrapper.component';
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';

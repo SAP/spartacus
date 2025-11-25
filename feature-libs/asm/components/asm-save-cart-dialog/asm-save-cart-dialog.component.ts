@@ -4,17 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { GlobalMessageType } from '@spartacus/core';
-import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
+import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
+import {
+  FocusConfig,
+  FocusDirective,
+  LaunchDialogService,
+  MessageComponent,
+} from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { FocusDirective } from '@spartacus/storefront';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { MessageComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 export enum SAVE_CART_DIALOG_ACTION {
   CANCEL = 'CANCEL',

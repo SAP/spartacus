@@ -4,13 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
+  CxDatePipe,
   GlobalMessageService,
   GlobalMessageType,
   PaginationModel,
@@ -19,21 +22,18 @@ import {
   ProductInterestSearchResult,
   ProductScope,
   ProductService,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
   UserInterestsService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
-import { SortingComponent } from '../../../shared/components/list-navigation/sorting/sorting.component';
-import { PaginationComponent } from '../../../shared/components/list-navigation/pagination/pagination.component';
-import { RouterLink } from '@angular/router';
-import { MediaComponent } from '../../../shared/components/media/media.component';
 import { AtMessageDirective } from '../../../shared/components/assistive-technology-message/assistive-technology-message.directive';
+import { PaginationComponent } from '../../../shared/components/list-navigation/pagination/pagination.component';
+import { SortingComponent } from '../../../shared/components/list-navigation/sorting/sorting.component';
+import { MediaComponent } from '../../../shared/components/media/media.component';
 import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
-import { TranslatePipe } from '@spartacus/core';
-import { CxDatePipe } from '@spartacus/core';
-import { UrlPipe } from '@spartacus/core';
 
 interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   results?: (ProductInterestEntryRelation & {

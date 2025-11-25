@@ -17,12 +17,12 @@ import {
 } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { ProductVariantsContainerComponent } from './product-variants-container.component';
 import {
-  ProductVariantStyleSelectorComponent,
-  ProductVariantSizeSelectorComponent,
   ProductVariantColorSelectorComponent,
+  ProductVariantSizeSelectorComponent,
+  ProductVariantStyleSelectorComponent,
 } from '../public_api';
+import { ProductVariantsContainerComponent } from './product-variants-container.component';
 
 const mockProduct: Product = {
   name: 'mockProduct',

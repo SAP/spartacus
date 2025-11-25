@@ -4,12 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { NgIf, NgFor } from '@angular/common';
-import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-applied-coupons',

@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, Input, OnInit, Optional } from '@angular/core';
-import { PointOfService } from '@spartacus/core';
+import { PointOfService, TranslatePipe } from '@spartacus/core';
 import { Consignment } from '@spartacus/order/root';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { TranslatePipe } from '@spartacus/core';
 
 export type IOutletContextData = { item: Consignment };
 

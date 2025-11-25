@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { B2BUser, B2BUserRight, B2BUserRole } from '@spartacus/core';
+import { B2BUserService } from '@spartacus/organization/administration/core';
 import { OutletContextData, PopoverDirective } from '@spartacus/storefront';
 import { UserDetailsCellComponent } from '..';
-import { B2BUserService } from '@spartacus/organization/administration/core';
 
 class MockB2BUserService implements Partial<B2BUserService> {
   getAllRoles() {

@@ -4,21 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
-  UntypedFormGroup,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormGroup,
 } from '@angular/forms';
-import { GlobalMessageType } from '@spartacus/core';
+import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  MessageComponent,
+  PasswordVisibilityToggleDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { SpinnerComponent } from '@spartacus/storefront';
-import { MessageComponent } from '@spartacus/storefront';
-import { PasswordVisibilityToggleDirective } from '@spartacus/storefront';
-import { FormErrorsComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-my-account-v2-password',

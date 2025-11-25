@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { JsonPipe, NgFor, NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { PointOfService } from '@spartacus/core';
+import { PointOfService, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
-import { NgIf, NgFor, JsonPipe } from '@angular/common';
 import { ScheduleComponent } from '../schedule-component/schedule.component';
 import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-store-description',

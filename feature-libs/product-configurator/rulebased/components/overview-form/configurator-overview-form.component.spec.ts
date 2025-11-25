@@ -4,17 +4,18 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  I18nTestingModule,
-  RoutingService,
   FeatureConfigService,
   FeaturesConfigModule,
+  I18nTestingModule,
   MockTranslatePipe,
+  RoutingService,
   TranslatePipe,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -29,7 +30,6 @@ import {
 } from '../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
-import { DirectionMode, DirectionService } from '@spartacus/storefront';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;

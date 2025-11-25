@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { OrderSummaryComponent } from '../cart-shared';
-import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
   selector: 'cx-cart-totals',

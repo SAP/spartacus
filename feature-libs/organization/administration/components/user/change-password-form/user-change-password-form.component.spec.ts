@@ -6,6 +6,7 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   CxDatePipe,
@@ -25,14 +26,13 @@ import {
   FocusDirective,
   FormErrorsComponent,
 } from '@spartacus/storefront';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { UserItemService } from '../services/user-item.service';
 import { UserChangePasswordFormComponent } from './user-change-password-form.component';
 import { UserChangePasswordFormService } from './user-change-password-form.service';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
-import { RouterModule } from '@angular/router';
 
 const mockForm = new UntypedFormGroup({
   password: new UntypedFormControl(),

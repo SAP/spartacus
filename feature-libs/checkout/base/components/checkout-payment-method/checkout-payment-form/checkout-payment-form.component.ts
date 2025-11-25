@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,12 +15,13 @@ import {
   inject,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
-  FormsModule,
-  ReactiveFormsModule,
 } from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -29,23 +31,24 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   PaymentDetails,
+  TranslatePipe,
   TranslationService,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
-import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  ICON_TYPE,
+  IconComponent,
+  LaunchDialogService,
+  NgSelectA11yDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { CheckoutBillingAddressFormService } from '../../checkout-billing-address';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { FormRequiredLegendComponent } from '@spartacus/storefront';
-import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
-import { NgSelectComponent } from '@ng-select/ng-select';
-import { NgSelectA11yDirective } from '@spartacus/storefront';
-import { FormErrorsComponent } from '@spartacus/storefront';
-import { IconComponent } from '@spartacus/storefront';
 import { CheckoutBillingAddressFormComponent } from '../../checkout-billing-address/checkout-billing-address-form.component';
-import { SpinnerComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-payment-form',

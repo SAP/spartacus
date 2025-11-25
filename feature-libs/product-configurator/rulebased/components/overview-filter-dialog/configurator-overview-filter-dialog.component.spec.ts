@@ -21,8 +21,8 @@ import { NEVER, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
-import { ConfiguratorOverviewFilterDialogComponent } from './configurator-overview-filter-dialog.component';
 import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configurator-overview-filter.component';
+import { ConfiguratorOverviewFilterDialogComponent } from './configurator-overview-filter-dialog.component';
 
 let component: ConfiguratorOverviewFilterDialogComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFilterDialogComponent>;

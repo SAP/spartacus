@@ -1,7 +1,7 @@
-import { I18nTestingModule } from '@spartacus/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ConfiguratorAttributeNotSupportedComponent } from './configurator-attribute-not-supported.component';
+import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorAttributeNotSupportedComponent } from './configurator-attribute-not-supported.component';
 
 describe('ConfiguratorAttributeNotSupportedComponent', () => {
   let component: ConfiguratorAttributeNotSupportedComponent;

@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { I18nModule, UrlModule } from '@spartacus/core';
 import {
   OutletPosition,
   provideOutlet,
   SearchBoxModule,
   SearchBoxOutlets,
 } from '@spartacus/storefront';
-import { I18nModule, UrlModule } from '@spartacus/core';
 import { RecentSearchesComponent } from './recent-searches.component';
 
 @NgModule({

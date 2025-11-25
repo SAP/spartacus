@@ -12,8 +12,8 @@ import {
   KeyboardFocusTestingModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { ProductImageZoomDialogComponent } from './product-image-zoom-dialog.component';
 import { ProductImageZoomViewComponent } from '../product-image-zoom-view/product-image-zoom-view.component';
+import { ProductImageZoomDialogComponent } from './product-image-zoom-dialog.component';
 
 class MockLaunchDialogService {
   closeDialog() {}

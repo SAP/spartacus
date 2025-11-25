@@ -1,9 +1,9 @@
-import { TestBed } from '@angular/core/testing';
-import { DefaultComponentHandler } from './default-component.handler';
-import { CmsComponentsService } from '../../../services/cms-components.service';
-import { Priority } from '@spartacus/core';
 import { Component, ViewContainerRef } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { Priority } from '@spartacus/core';
 import { take } from 'rxjs/operators';
+import { CmsComponentsService } from '../../../services/cms-components.service';
+import { DefaultComponentHandler } from './default-component.handler';
 
 const mockCmsMappingService = {
   getComponentMapping: () => ({ component: TestComponent }),

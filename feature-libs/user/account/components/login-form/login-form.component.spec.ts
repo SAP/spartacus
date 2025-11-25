@@ -6,6 +6,7 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   FeatureDirective,
@@ -20,7 +21,6 @@ import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-fe
 import { BehaviorSubject } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
-import { RouterModule } from '@angular/router';
 import createSpy = jasmine.createSpy;
 
 const isBusySubject = new BehaviorSubject(false);

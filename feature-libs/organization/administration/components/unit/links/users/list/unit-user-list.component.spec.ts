@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
   I18nTestingModule,
@@ -8,6 +9,7 @@ import {
   UrlPipe,
 } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { EMPTY } from 'rxjs';
 import {
   DisableInfoModule,
@@ -18,8 +20,6 @@ import { SubListTestingModule } from '../../../../shared/sub-list/sub-list.testi
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitUserListService } from '../services/unit-user-list.service';
 import { UnitUserListComponent } from './unit-user-list.component';
-import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
-import { RouterModule } from '@angular/router';
 
 class MockUnitUserListService {}
 

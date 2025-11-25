@@ -16,8 +16,8 @@ import {
   PickupLocationsSearchFacade,
   PreferredStoreFacade,
 } from '@spartacus/pickup-in-store/root';
-import { StoreFinderFacade } from '@spartacus/storefinder/root';
 import { StoreLocationService } from '@spartacus/storefinder/core';
+import { StoreFinderFacade } from '@spartacus/storefinder/root';
 import { CardModule, IconTestingModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';

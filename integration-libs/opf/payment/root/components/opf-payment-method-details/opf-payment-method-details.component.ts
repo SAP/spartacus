@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { Card, OutletContextData } from '@spartacus/storefront';
+import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
 import { filter, map, Observable, Subscription } from 'rxjs';
 import { OpfPaymentMethodDetails } from '../../model';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { CardComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-opf-payment-method-details',

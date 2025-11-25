@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -17,6 +18,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import {
@@ -28,8 +30,10 @@ import {
 } from '@spartacus/product-configurator/common';
 import {
   ICON_TYPE,
+  IconComponent,
   IntersectionOptions,
   IntersectionService,
+  ItemCounterComponent,
   KeyboardFocusService,
 } from '@spartacus/storefront';
 import { Observable, Subscription, of } from 'rxjs';
@@ -47,10 +51,6 @@ import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorQuantityService } from '../../core/services/configurator-quantity.service';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { ItemCounterComponent } from '@spartacus/storefront';
-import { IconComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
 

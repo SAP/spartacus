@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,7 +21,6 @@ import {
 } from '@angular/forms';
 import { PunchoutFacade, PunchoutRequisition } from '@spartacus/punchout/root';
 import { filter, map, Observable, switchMap, take, tap, timer } from 'rxjs';
-import { NgIf, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'cx-punchout-requsition',

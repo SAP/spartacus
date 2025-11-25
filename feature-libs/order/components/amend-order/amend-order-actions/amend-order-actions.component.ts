@@ -4,19 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   Input,
 } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { BtnLikeLinkDirective } from '@spartacus/storefront';
 import { RouterLink } from '@angular/router';
-import { NgIf } from '@angular/common';
-import { UrlPipe } from '@spartacus/core';
-import { TranslatePipe } from '@spartacus/core';
+import { RoutingService, TranslatePipe, UrlPipe } from '@spartacus/core';
+import { BtnLikeLinkDirective } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-amend-order-actions',

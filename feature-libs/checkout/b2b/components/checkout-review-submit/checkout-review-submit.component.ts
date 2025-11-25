@@ -4,7 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import {
+  AsyncPipe,
+  NgFor,
+  NgIf,
+  NgSwitch,
+  NgSwitchCase,
+  NgTemplateOutlet,
+} from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
@@ -22,27 +31,20 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   CostCenter,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
   UserCostCenterService,
 } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  IconComponent,
+  OutletDirective,
+  PromotionsComponent,
+} from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import {
-  NgIf,
-  NgFor,
-  NgSwitch,
-  NgSwitchCase,
-  NgTemplateOutlet,
-  AsyncPipe,
-} from '@angular/common';
-import { CardComponent } from '@spartacus/storefront';
-import { RouterLink } from '@angular/router';
-import { IconComponent } from '@spartacus/storefront';
-import { OutletDirective } from '@spartacus/storefront';
-import { PromotionsComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
-import { UrlPipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-review-submit',

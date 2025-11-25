@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -30,19 +31,20 @@ import {
   SortOrder,
   whenType,
 } from '@spartacus/asm/core';
-import { DirectionMode, DirectionService } from '@spartacus/storefront';
+import { KeyBoardEventCode } from '@spartacus/asm/customer-360/root';
+import { CxDatePipe, TranslatePipe } from '@spartacus/core';
+import {
+  DirectionMode,
+  DirectionService,
+  StarRatingComponent,
+} from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
+import { AsmCustomer360Config } from '../config/asm-customer-360-config';
 import {
   CustomerTableColumn,
   CustomerTableTextAlign,
   TableEntry,
 } from './asm-customer-360-table.model';
-import { AsmCustomer360Config } from '../config/asm-customer-360-config';
-import { KeyBoardEventCode } from '@spartacus/asm/customer-360/root';
-import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
-import { StarRatingComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
-import { CxDatePipe } from '@spartacus/core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
