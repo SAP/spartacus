@@ -272,7 +272,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "^2.0.0",
     "karma-junit-reporter": "^2.0.1",
-    "ng-packagr": "^19.2.2",
+    "ng-packagr": "^20.3.2",
     "nx": "21.6.7",
     "parse5": "^7.2.1",
     "postcss": "^8.4.31",
