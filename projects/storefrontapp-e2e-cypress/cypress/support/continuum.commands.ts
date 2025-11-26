@@ -27,8 +27,6 @@ const accessEngineFilePath =
     ''
   ); // versions of Cypress prior to 5 include a leading forward slash in __dirname
 
-const LEVEL_ACCESS_API = 'https://sap.levelaccess.net/api/cont/organization';
-
 // Higher-order function to check if Continuum is available
 const withContinuum = <T extends (...args: any[]) => any>(fn: T): T => {
   return ((...args: Parameters<T>): ReturnType<T> | void => {
