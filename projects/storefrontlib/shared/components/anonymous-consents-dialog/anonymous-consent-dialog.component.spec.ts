@@ -383,6 +383,19 @@ describe('AnonymousConsentsDialogComponent', () => {
       component.closeMessage();
       expect(component.message$.next).toHaveBeenCalledWith(null);
     });
+
+    it('should reset focus to last selected element on close', () => {
+      component.selectedInput = <HTMLElement>(
+        document.querySelector('.cx-dialog-buttons button')
+      );
+      spyOn(component.selectedInput, 'focus');
+      component.selectedInput.focus();
+      expect(component.selectedInput.focus).toHaveBeenCalledTimes(1);
+      component.selectedInput.click();
+      expect(component.selectedInput.focus).toHaveBeenCalledTimes(1);
+      component.closeMessage();
+      expect(component.selectedInput.focus).toHaveBeenCalledTimes(2);
+    });
   });
 
   describe('ngOnDestroy', () => {

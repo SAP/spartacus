@@ -200,7 +200,7 @@ describe('OptimizedSsrEngine', () => {
       reuseCurrentRendering: true,
       renderingStrategyResolver: '() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR',
       logger: 'DefaultExpressServerLogger',
-      shouldCacheRenderingResult: '({ entry }) => !Boolean(entry.err)',
+      shouldCacheRenderingResult: '({ entry: { err } }) => !err',
       renderKeyResolver: 'function getRequestUrl(req) {\\n' +
         '    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;\\n' +
         '}',
@@ -1447,7 +1447,7 @@ describe('OptimizedSsrEngine', () => {
         : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
 }",
       "reuseCurrentRendering": true,
-      "shouldCacheRenderingResult": "({ entry }) => !Boolean(entry.err)",
+      "shouldCacheRenderingResult": "({ entry: { err } }) => !err",
       "ssrFeatureToggles": {
         "limitCacheByMemory": false,
       },

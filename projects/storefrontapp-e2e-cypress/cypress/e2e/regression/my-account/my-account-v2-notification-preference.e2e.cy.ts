@@ -26,7 +26,7 @@ describe('My Account V2 Notification preference (CXSPA-10780)', () => {
 
     describe('Logged in user (CXSPA-10780)', { testIsolation: false }, () => {
       isolateTests();
-      before(() => {
+      beforeEach(() => {
         standardUser.registrationData.email = generateMail(
           randomString(),
           true
@@ -36,7 +36,7 @@ describe('My Account V2 Notification preference (CXSPA-10780)', () => {
           standardUser.registrationData.password
         );
 
-        cy.visit('/');
+        cy.wait(2000);
       });
 
       it('should show correct email channel after update email address', () => {
@@ -48,8 +48,9 @@ describe('My Account V2 Notification preference (CXSPA-10780)', () => {
   });
 
   viewportContext(['desktop'], () => {
-    describe('Logged in user (CXSPA-10780)', () => {
-      before(() => {
+    describe('Logged in user (CXSPA-10780)', { testIsolation: false }, () => {
+      isolateTests();
+      beforeEach(() => {
         standardUser.registrationData.email = generateMail(
           randomString(),
           true
@@ -59,7 +60,7 @@ describe('My Account V2 Notification preference (CXSPA-10780)', () => {
           standardUser.registrationData.password
         );
 
-        cy.visit('/');
+        cy.wait(2000);
       });
 
       // Core test. Run in mobile view as well.

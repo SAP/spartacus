@@ -10,16 +10,6 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
-   * New REDESIGNED search-box component
-   */
-  searchBoxV2?: boolean;
-
-  /**
-   * In `SearchBoxComponent` it shows the trending searches.
-   */
-  trendingSearches?: boolean;
-
-  /**
    * In `FutureStockAccordionComponent` use `cx-color-text` for button color
    */
   a11yUseProperTextColorForFutureStockAccordion?: boolean;
@@ -45,33 +35,9 @@ export interface FeatureTogglesInterface {
   a11yQuickOrderSearchListKeyboardNavigation?: boolean;
 
   /**
-   * Adds label to the `SearchBoxComponent` search input
-   */
-  a11ySearchboxLabel?: boolean;
-
-  /**
-   * When set to `true`, external links in `StoreFinderListItemComponent`
-   * adopt a more link-like style, appearing more like links instead of buttons. This is semantically more correct since they open content in a new window,
-   * providing a more intuitive user experience.
-   */
-  a11yStyleExternalLinksAsLinks?: boolean;
-
-  /**
-   * If enabled, the "Checkout Shipping address/Payment" views
-   * will have a more a11y friendly selected label, including the context
-   * indicating weather the user is on a selected Address or Payment regsion.
-   */
-  a11ySelectLabelWithContextForSelectedAddrOrPayment?: boolean;
-
-  /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
    */
   a11yKeyboardAccessibleZoom?: boolean;
-
-  /**
-   * `StoreFinderListItemComponent` street name is not truncated
-   */
-  a11yTruncatedTextStoreFinder?: boolean;
 
   /**
    * `UnitLevelOrderHistoryComponent` filter input label and table email address
@@ -86,25 +52,9 @@ export interface FeatureTogglesInterface {
   a11yPreventCartItemsFormRedundantRecreation?: boolean;
 
   /**
-   * Use tabs instead of radio group for pickup options. Improves SR narration and keyboard navigation pattern.
-   * Modified components:
-   *  - `PickupOptionsComponent`
-   *  - `PdpPickupOptionsContainerComponent`
-   *  - `CartPickupOptionsContainerComponent`
-   *  - `AddToCartComponent`
-   */
-  a11yPickupOptionsTabs?: boolean;
-
-  /**
    * Resets the focus after navigating to a new page.
    */
   a11yResetFocusAfterNavigating?: boolean;
-
-  /**
-   * `StorefrontComponent`: Prevents header links from wrapping on smaller screen sizes.
-   * Enables support for increased letter-spacing up to 0.12em for header layout
-   */
-  headerLayoutForSmallerViewports?: boolean;
 
   /**
    * Adds label to 'StoreFinderSearchComponent' store search input field.
@@ -124,12 +74,6 @@ export interface FeatureTogglesInterface {
   a11yLinkBtnsToTertiaryBtns?: boolean;
 
   /**
-   * 'NgSelectA11yDirective' will close a dropdown with options on Escape key press
-   * when a screen reader is used.
-   */
-  a11yNgSelectCloseDropdownOnEscape?: boolean;
-
-  /**
    * 'NgSelectA11yDirective' will customize a ng-select dropdowns by setting custom
    * ariaLabelDropdown ng-select attribute value to provided common.ngSelectDropdownOptionsList translation
    */
@@ -144,111 +88,9 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * In `AddedToCartDialogComponent`, `Updating cart...` should no longer read by a screen reader.
-   */
-  a11yUpdatingCartNoNarration?: boolean;
-
-  /**
-   * Stops the inputs value from obstructing the 'PasswordVisibilityToggleComponent'.
-   */
-  a11yPasswordVisibliltyBtnValueOverflow?: boolean;
-
-  /**
-   * In `ItemCounterComponenet`, Remove button no longer lose focus after activating when count is 2.
-   * Add button no longer lose focus after activating when count is `max - 1`.
-   */
-  a11yItemCounterFocus?: boolean;
-
-  /**
-   * `ProductIntroComponent` should now scroll to the Review tab on the first click of the 'Show Review' button.
-   */
-  a11yScrollToReviewByShowReview?: boolean;
-
-  /**
-   * `StoreComponent and MyPreferredStoreComponent` an icon in a button that triggers showing
-   * store's opening hours has an acceptable contrast ratio in a default theme
-   */
-  a11yViewHoursButtonIconContrast?: boolean;
-
-  /**
-   * `StoreComponent` `In Stock` icon has an acceptable contrast ratio in a default theme
-   */
-  a11yStoreInStockIconContrast?: boolean;
-
-  /**
-   * `Checkout` add a landmarks to content representing steps
-   */
-  a11yCheckoutStepsLandmarks?: boolean;
-
-  /**
-   * In `CartItemListComponent`, change QTY into Quantity.
-   */
-  a11yQTY2Quantity?: boolean;
-
-  /**
-   * In `Card component`, replace button classes to .btn .btn-tertiary and use cx-generic link
-   * instead of regular <a> tag.
-   * In `My Preferred Store component`, replace a `Get directions` action from CardAction to CardLinkAction
-   * to so that Card component perceive it as a link;
-   */
-  a11yImproveButtonsInCardComponent?: boolean;
-
-  /**
    * In `MiniCart component`, improve visible focus contrast on mobile.
    */
   a11yMiniCartFocusOnMobile?: boolean;
-
-  /**
-   * In `UnitFormComponent`, set 'clearable' as false for select of `ApprovalProcess`.
-   */
-  a11yApprovalProcessWithNoClearable?: boolean;
-
-  /**
-   * Changes the success message of successful registration to be more informative. Affects `RegisterComponentService`.
-   */
-  a11yPostRegisterSuccessMessage?: boolean;
-
-  /**
-   * In `CardComponent`, place `Delete` button before `Cancel` button.
-   */
-  a11yDeleteButton2First?: boolean;
-
-  /**
-   * In `CustomerListComponent`, `OrderApprovalListComponent`, and `ConfiguratorAttriuteSingleSelectionBundleDropdownComponent`, show label of every `ng-select` and `select`.
-   */
-  a11yShowLabelOfSelect?: boolean;
-
-  /**
-   * In `SiteContextSelectComponent` and `SiteThemeSwitcherComponent`, update style of caret.
-   */
-  a11yShowDownArrowOnFocusedSelectMenu?: boolean;
-
-  /**
-   * Fixes various instances of the focus ring being cropped in the UI.
-   * The focus ring on interactive elements should have all its sides visible and not include any extra padding.
-   * Affects styles of: 'CartItemListComponent, CartItemComponent, ListComponent, FutureStockAccordionComponent,
-   * QuoteConfirmDialogComponent, MessagingComponent, TabComponent, ProductImageZoomViewComponent
-   */
-  a11yCroppedFocusRing?: boolean;
-
-  /**
-   * Fixes text formatting issues while a11y text spacing is enabled.
-   * Affects: ListComponent, CSAgentLoginFormComponent
-   */
-  a11yTextSpacingAdjustments?: boolean;
-
-  /**
-   * Ensures the table column header gets properly narrated by the screen readers.
-   * Affects tables in the following components: SavedCartListComponent, ReplenishmentOrderHistoryComponent, OrderReturnRequestListComponent,
-   * AccountSummaryDocumentComponent, OrderDetailPermissionResultsComponent, OrderApprovalListComponent, UnitLevelOrderHistoryComponent,
-   * InvoicesListComponent, MyInterestsComponent
-   */
-  a11yTableHeaderReadout?: boolean;
-
-  /**
-   * Removes the repetition of assistive message after the results are provided to the `SearchBoxComponent`.
-   */
-  a11ySearchboxAssistiveMessage?: boolean;
 
   /**
    * Updates the derivative `consentGiven` state when `consent` is updated.
@@ -258,12 +100,6 @@ export interface FeatureTogglesInterface {
    * - `MyAccountV2ConsentManagementFormComponent`
    */
   updateConsentGivenInOnChanges?: boolean;
-
-  /**
-   * Adds additional styling to help differentiate between focused and selected items in the list.
-   * Affects: ConfiguratorAttributeSingleSelectionImageComponent, ProductImagesComponent
-   */
-  a11yDifferentiateFocusedAndSelected?: boolean;
 
   /**
    * When enabled the input element in `QuickOrderFormComponent' will regain its focus after the dropdown is closed.
@@ -331,13 +167,6 @@ export interface FeatureTogglesInterface {
   enableClaimCustomerCouponWithCodeInRequestBody?: boolean;
 
   /**
-   * Modifies grid arrangement in Product Details Page for better accessibility:
-   * - add to cart button should be last step
-   * - future stock accordion is moved before add to cart button
-   */
-  a11yPdpGridArrangement?: boolean;
-
-  /**
    * Header. Fixes trapping focus on menu items on mobile when the menu is expanded.
    * Sets `tabindex` attribute  to `-1` for all visible focusable elements in the header section to exclude them from
    * keyboard navigation
@@ -351,44 +180,10 @@ export interface FeatureTogglesInterface {
   a11yRegionAssociatedHeaders?: boolean;
 
   /**
-   * When enabled, allows to provide extended formats and media queries for <picture> element if used in MediaComponent.
-   *
-   * Important: After activation default HTML element in MediaComponent will be `<img>`
-   * Only BannerComponent has passed `'picture'` value. If you need to use `<picture>` HTML element
-   * you need to pass `[elementType]="'picture'"` to `<cx-media>`
-   *
-   * For proper work requires `pictureElementFormats`  provided in media config:
-   *  ```ts
-   * provideConfig({
-   *   pictureElementFormats: {
-   *    mediaQueries: '(max-width: 480px)',
-   *   },
-   * })
-   * ```
-   *
-   * Toggle activates `@Input() elementType: 'img' | 'picture' = 'img'`
-   * and `@Input() sizesForImgElement: string` in `MediaComponent`
-   *
-   */
-  useExtendedMediaComponentConfiguration?: boolean;
-
-  /**
-   * Enables Real time stock display in the PDP page.
-   * when set to `true`, the user will be able to see the real time stock in PDP
-   */
-  showRealTimeStockInPDP?: boolean;
-
-  /**
    * When enabled, the scroll-to-top button adjusts its position when other UI elements
    * (like cookie consent banner) appear at the bottom of the page to prevent overlapping
    */
   a11yScrollToTopPositioning?: boolean;
-
-  /**
-   * Creates a section element with applied aria-label in "Review Order" page of the checkout.
-   * Moves components to be children of this section element.
-   */
-  a11yWrapReviewOrderInSection?: boolean;
 
   /**
    * Improves wide viewport layout issues.
@@ -443,14 +238,6 @@ export interface FeatureTogglesInterface {
    *
    */
   enableCarouselCategoryProducts?: boolean;
-
-  /**
-   * When enabled, enforces stronger password validation rules,
-   * including requirements for a mix of uppercase letters, lowercase letters,
-   * special characters, digits, and no consecutive characters,
-   * as well as enforcing both a minimum and maximum password length.
-   */
-  enableSecurePasswordValidation?: boolean;
 
   /**
    * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
@@ -692,54 +479,48 @@ export interface FeatureTogglesInterface {
    * Affects: `NavigationUIComponent`
    */
   navigationMenuCloseOnSameLinkClick?: boolean;
+
+  /**
+   * When enabled, translates the "Password expired" error message
+   * to the user's selected language using Spartacus i18n.
+   * Affects: `LoginComponent`
+   */
+  enablePasswordExpiredErrorTranslation?: boolean;
+
+  /**
+   * shows the Quote Purchase Order Number input field in the Quote Request form
+   * and in the Quote Details page
+   *
+   * when set to `true`, the user will be able to enter a Purchase Order Number
+   * when requesting a quote and see it in the quote details
+   */
+  enableQuotePurchaseOrderNumber?: boolean;
+
+  /**
+   * When enabled, fixes the issue with return order returnable quantity not being displayed correctly
+   * on the `ReturnOrderComponent` when navigating to the return request details page.
+   * Affects: `ReturnOrderComponent`
+   */
+  enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  searchBoxV2: true,
-  trendingSearches: true,
   a11yUseProperTextColorForFutureStockAccordion: true,
   a11yPopoverHighContrast: true,
   a11yTabsManualActivation: true,
   a11yAnonymousConsentMessageInDialog: true,
   a11yQuickOrderSearchListKeyboardNavigation: true,
-  a11yStyleExternalLinksAsLinks: true,
-  a11ySearchboxLabel: true,
-  a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
   a11yKeyboardAccessibleZoom: false,
-  a11yTruncatedTextStoreFinder: true,
   a11yTruncatedTextUnitLevelOrderHistory: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yPickupOptionsTabs: true,
   a11yResetFocusAfterNavigating: true,
-  headerLayoutForSmallerViewports: true,
   a11yStoreFinderLabel: false,
-  a11yImprovedErrorMessage: false,
+  a11yImprovedErrorMessage: true,
   a11yLinkBtnsToTertiaryBtns: false,
-  a11yNgSelectCloseDropdownOnEscape: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   a11yNgSelectAriaLabelDropdownCustomized: true,
-  a11yUpdatingCartNoNarration: true,
-  a11yPasswordVisibliltyBtnValueOverflow: true,
-  a11yItemCounterFocus: true,
-  a11yScrollToReviewByShowReview: true,
-  a11yViewHoursButtonIconContrast: true,
-  a11yStoreInStockIconContrast: true,
-  a11yCheckoutStepsLandmarks: true,
-  a11yQTY2Quantity: true,
-  a11yImproveButtonsInCardComponent: true,
   a11yMiniCartFocusOnMobile: true,
-  a11yWrapReviewOrderInSection: true,
-  a11yApprovalProcessWithNoClearable: true,
-  a11yPostRegisterSuccessMessage: true,
-  a11yDeleteButton2First: true,
-  a11yShowLabelOfSelect: true,
-  a11yShowDownArrowOnFocusedSelectMenu: true,
-  a11yCroppedFocusRing: true,
-  a11yTextSpacingAdjustments: true,
-  a11yTableHeaderReadout: true,
-  a11ySearchboxAssistiveMessage: true,
   updateConsentGivenInOnChanges: true,
-  a11yDifferentiateFocusedAndSelected: true,
   a11yQuickOrderSearchBoxRefocusOnClose: true,
   a11yKeyboardFocusInSearchBox: true,
   a11yAddPaddingToCarouselPanel: false,
@@ -750,23 +531,19 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yRepeatingButtonsUniqueLabels: true,
   a11yHighContrastBorders: true,
   a11yRegionAssociatedHeaders: true,
-  a11yPdpGridArrangement: true,
   a11yHamburgerMenuTrapFocus: true,
-  useExtendedMediaComponentConfiguration: true,
-  showRealTimeStockInPDP: true,
   a11yScrollToTopPositioning: true,
-  a11yWideScreenImprovements: false,
-  a11yOptimizedMenuSpacing: false,
-  a11yNgSelectLayering: false,
+  a11yWideScreenImprovements: true,
+  a11yOptimizedMenuSpacing: true,
+  a11yNgSelectLayering: true,
   readMoreDirective: false,
   productReviewCharactersLeft: false,
-  a11yNgSelectAriaControls: false,
+  a11yNgSelectAriaControls: true,
   a11yConfiguratorOverviewHeaderVPC: false,
-  enableSecurePasswordValidation: true,
   enableCarouselCategoryProducts: true,
   enableClaimCustomerCouponWithCodeInRequestBody: true,
-  enableReadDomainValuesOnDemand: false,
-  opfEnablePreventingFromCheckoutWithoutEmail: false,
+  enableReadDomainValuesOnDemand: true,
+  opfEnablePreventingFromCheckoutWithoutEmail: true,
   storeFinderFacadeCleanup: false,
   defaultProductPageRouteAllowsNoProductName: false,
   consistentSizeProductCards: false,
@@ -784,4 +561,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   dispatchLoginActionOnlyWhenTokenReceived: false,
   defaultLayoutConfigWithoutPageFold: false,
   navigationMenuCloseOnSameLinkClick: false,
+  enablePasswordExpiredErrorTranslation: false,
+  enableQuotePurchaseOrderNumber: false,
+  enableReturnOrderReturnableQuantityConsigmentFallback: false,
 };

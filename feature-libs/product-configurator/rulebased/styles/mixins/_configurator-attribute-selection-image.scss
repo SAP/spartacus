@@ -76,10 +76,7 @@
           }
 
           .cx-img-selected {
-            border: var(--cx-color-primary) 3px solid;
-            @include forFeature('a11yDifferentiateFocusedAndSelected') {
-              border-style: dotted;
-            }
+            border: var(--cx-color-primary) 3px dotted;
           }
         }
 

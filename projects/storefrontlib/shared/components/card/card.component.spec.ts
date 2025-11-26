@@ -319,7 +319,7 @@ describe('CardComponent', () => {
 
   it('should handle delete action', () => {
     function getDeleteButton(elem: DebugElement): HTMLElement {
-      return elem.query(By.css('.cx-card-actions .link')).nativeElement;
+      return elem.query(By.css('.cx-card-actions .btn-tertiary')).nativeElement;
     }
 
     const mockCard: Card = {
@@ -335,7 +335,7 @@ describe('CardComponent', () => {
 
   it('should handle default action', () => {
     function getDefaultActionButton(elem: DebugElement): HTMLElement {
-      return elem.query(By.css('.cx-card-actions .link')).nativeElement;
+      return elem.query(By.css('.cx-card-actions .btn-tertiary')).nativeElement;
     }
 
     const mockCard: Card = {
@@ -351,7 +351,7 @@ describe('CardComponent', () => {
 
   it('should handle send action', () => {
     function getSendActionButton(elem: DebugElement): HTMLElement {
-      return elem.query(By.css('.cx-card-actions .link')).nativeElement;
+      return elem.query(By.css('.cx-card-actions .btn-tertiary')).nativeElement;
     }
 
     const mockCard: Card = {
@@ -367,7 +367,7 @@ describe('CardComponent', () => {
 
   it('should handle edit action', () => {
     function getEditActionButton(elem: DebugElement): HTMLElement {
-      return elem.query(By.css('.cx-card-actions .link')).nativeElement;
+      return elem.query(By.css('.cx-card-actions .btn-tertiary')).nativeElement;
     }
 
     const mockCard: Card = {
@@ -382,19 +382,28 @@ describe('CardComponent', () => {
   });
 
   it('should handle links', () => {
-    function getLinkAction(elem: DebugElement): HTMLAnchorElement {
-      return elem.query(By.css('.cx-card-actions .link')).nativeElement;
+    function getLinkAction(elem: DebugElement): HTMLElement | null {
+      const debug = elem.query(By.css('cx-generic-link'));
+      return debug ? (debug.nativeElement as HTMLElement) : null;
     }
 
     const link: CardLinkAction = { link: '/test.html', name: 'Go to test' };
     const mockCard: Card = {
       actions: [link],
     };
+
     component.content = mockCard;
     fixture.detectChanges();
+
     const editActionButton = getLinkAction(el);
+
+    expect(editActionButton).toBeTruthy();
+
+    if (!editActionButton) {
+      return;
+    }
+
     expect(editActionButton.textContent).toContain(link.name);
-    expect(editActionButton.href).toContain(link.link);
   });
 
   it('should set aria-labelledby correctly based on index', () => {

@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/product",
-  "version": "221121.1.0",
+  "version": "221121.4.0",
   "description": "Product library for Spartacus",
   "keywords": [
     "spartacus",
@@ -29,10 +29,10 @@
     "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/router": "^19.2.15",
-    "@spartacus/core": "221121.1.0",
-    "@spartacus/schematics": "221121.1.0",
-    "@spartacus/storefront": "221121.1.0",
-    "@spartacus/styles": "221121.1.0",
+    "@spartacus/core": "221121.4.0",
+    "@spartacus/schematics": "221121.4.0",
+    "@spartacus/storefront": "221121.4.0",
+    "@spartacus/styles": "221121.4.0",
     "rxjs": "^7.8.0"
   },
   "engines": {

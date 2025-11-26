@@ -350,4 +350,38 @@ describe('UserAddressService', () => {
       });
     });
   });
+
+  describe('getDefaultAddress', () => {
+    it('should return the default address if present', (done) => {
+      const addresses: Address[] = [
+        { id: '1', defaultAddress: false },
+        { id: '2', defaultAddress: true },
+        { id: '3', defaultAddress: false },
+      ];
+      spyOn(service, 'getAddresses').and.returnValue(of(addresses));
+      service.getDefaultAddress().subscribe((result) => {
+        expect(result).toEqual(addresses[1]);
+        done();
+      });
+    });
+    it('should return undefined if no default address is present', (done) => {
+      const addresses: Address[] = [
+        { id: '1', defaultAddress: false },
+        { id: '2', defaultAddress: false },
+      ];
+      spyOn(service, 'getAddresses').and.returnValue(of(addresses));
+      service.getDefaultAddress().subscribe((result) => {
+        expect(result).toBeUndefined();
+        done();
+      });
+    });
+
+    it('should return undefined if addresses array is empty', (done) => {
+      spyOn(service, 'getAddresses').and.returnValue(of([]));
+      service.getDefaultAddress().subscribe((result) => {
+        expect(result).toBeUndefined();
+        done();
+      });
+    });
+  });
 });

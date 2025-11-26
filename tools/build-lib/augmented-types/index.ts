@@ -12,12 +12,10 @@ import {
 import { NgPackagrBuilderOptions } from '@angular-devkit/build-angular';
 import { JsonObject, logging } from '@angular-devkit/core';
 import { promises as fs } from 'fs';
-import * as globModule from 'glob';
+import { globSync } from 'glob';
 import * as path from 'path';
 import { from, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { promisify } from 'util';
-const glob = promisify(globModule);
 
 const DELIMITER_START = '/** AUGMENTABLE_TYPES_START */';
 const DELIMITER_END = '/** AUGMENTABLE_TYPES_END */';
@@ -94,7 +92,7 @@ async function propagateAugmentableTypes(
   logger: logging.LoggerApi
 ) {
   // grab all package.json files
-  const files = await glob(libPath + '/**/package.json');
+  const files = globSync(libPath + '/**/package.json', { nodir: true });
 
   for (const packageJsonFile of files) {
     try {

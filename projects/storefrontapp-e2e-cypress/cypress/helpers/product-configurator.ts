@@ -96,10 +96,10 @@ function clickOnPreviousOrNextBtn(
   btnSelector: string,
   activeGroup?: string
 ): void {
-  cy.get(btnSelector).scrollIntoView();
   cy.get(btnSelector)
     .should('be.visible')
-    .click()
+    .should('have.length', 1) // This waits until exactly one matching element is found. This guarantees the click happens only when a single visible element is present
+    .click() // is performed only when a single, unambiguous element is available, helping to avoid flaky tests caused by duplicate or missing elements
     .then(() => {
       checkUpdatingMessageNotDisplayed();
       if (activeGroup) {
@@ -319,7 +319,14 @@ export function selectAttribute(
     case 'checkBoxList':
     case 'multi_selection_image':
       cy.get(`#${valueId}`).scrollIntoView();
-      cy.get(`#${valueId}`).should('be.visible').click();
+      cy.get(`#${valueId}`)
+        .should('be.visible')
+        .click()
+        .then(() => {
+          if (waitForUpdateMsg) {
+            checkUpdatingMessageNotDisplayed();
+          }
+        });
       break;
     case 'single_selection_image':
       const labelId = `cx-configurator--label--${attributeName}--${valueName}`;

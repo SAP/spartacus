@@ -14,6 +14,9 @@ import {
 import { WindowRef } from '@spartacus/core';
 import { EventListenerUtils } from '@spartacus/epd-visualization/root';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Injectable({
   providedIn: 'root',
 })

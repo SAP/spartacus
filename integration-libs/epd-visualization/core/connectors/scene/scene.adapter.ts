@@ -7,6 +7,9 @@
 import { Observable } from 'rxjs';
 import { NodesResponse } from './nodes-response';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 export abstract class SceneAdapter {
   /**
    * Used for invoking the EPD Visualization API for retrieving scene node information.

@@ -12,6 +12,7 @@ import { concatMap, filter, finalize, map, take, tap } from 'rxjs/operators';
 import {
   OpfBaseFacade,
   OpfDynamicScript,
+  OpfHtmlContentMode,
   OpfResourceLoaderService,
 } from '@spartacus/opf/base/root';
 import {
@@ -47,10 +48,15 @@ export class OpfCtaScriptsService {
     return new Promise(
       (resolve: (value: OpfDynamicScript | undefined) => void) => {
         this.opfResourceLoaderService
-          .loadResources(script.jsUrls, script.cssUrls)
+          .loadResources(script.jsUrls, script.cssUrls, undefined, script)
           .then(() => {
-            if (html) {
+            if (
+              html &&
+              script?.htmlContentMode !== OpfHtmlContentMode.SEPARATE
+            ) {
               this.opfResourceLoaderService.executeScriptFromHtml(html);
+              resolve(script);
+            } else if (html) {
               resolve(script);
             } else {
               resolve(undefined);

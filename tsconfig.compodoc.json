@@ -257,6 +257,24 @@
       "@spartacus/order/root": [
         "feature-libs/order/root/public_api"
       ],
+      "@spartacus/order/document-flow/assets": [
+        "feature-libs/order/document-flow/assets/public_api"
+      ],
+      "@spartacus/order/document-flow/components": [
+        "feature-libs/order/document-flow/components/public_api"
+      ],
+      "@spartacus/order/document-flow/core": [
+        "feature-libs/order/document-flow/core/public_api"
+      ],
+      "@spartacus/order/document-flow": [
+        "feature-libs/order/document-flow/public_api"
+      ],
+      "@spartacus/order/document-flow/occ": [
+        "feature-libs/order/document-flow/occ/public_api"
+      ],
+      "@spartacus/order/document-flow/root": [
+        "feature-libs/order/document-flow/root/public_api"
+      ],
       "@spartacus/organization/account-summary/assets": [
         "feature-libs/organization/account-summary/assets/public_api"
       ],
@@ -568,6 +586,24 @@
       ],
       "@spartacus/storefinder/root": [
         "feature-libs/storefinder/root/public_api"
+      ],
+      "@spartacus/subscription-billing/assets": [
+        "feature-libs/subscription-billing/assets/public_api"
+      ],
+      "@spartacus/subscription-billing/components": [
+        "feature-libs/subscription-billing/components/public_api"
+      ],
+      "@spartacus/subscription-billing/core": [
+        "feature-libs/subscription-billing/core/public_api"
+      ],
+      "@spartacus/subscription-billing": [
+        "feature-libs/subscription-billing/public_api"
+      ],
+      "@spartacus/subscription-billing/occ": [
+        "feature-libs/subscription-billing/occ/public_api"
+      ],
+      "@spartacus/subscription-billing/root": [
+        "feature-libs/subscription-billing/root/public_api"
       ],
       "@spartacus/tracking": [
         "feature-libs/tracking/public_api"

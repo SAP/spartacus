@@ -62,9 +62,7 @@
           90%
         );
         border-radius: 0px 16px 16px 16px;
-        @include forFeature('a11yCroppedFocusRing') {
-          outline-offset: -2px;
-        }
+        outline-offset: -2px;
       }
 
       .cx-message-right-align-text {
@@ -72,9 +70,7 @@
         border: 1px solid var(--cx-color-light);
         background-color: var(--cx-color-background);
         border-radius: 0px 16px 16px 16px;
-        @include forFeature('a11yCroppedFocusRing') {
-          outline-offset: -2px;
-        }
+        outline-offset: -2px;
       }
 
       .cx-attachment {

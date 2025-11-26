@@ -35,6 +35,7 @@ SPARTACUS_PROJECTS=(
         "dist/quote:feature-libs/quote"
         "dist/smartedit:feature-libs/smartedit"
         "dist/customer-ticketing:feature-libs/customer-ticketing"
+        "dist/subscription-billing:feature-libs/subscription-billing"
         "dist/cds:integration-libs/cds"
         "dist/cdc:integration-libs/cdc"
         "dist/cdp:integration-libs/cdp"
@@ -68,6 +69,9 @@ SPARTACUS_VERSION='latest'
 CSR_PORT="4200"
 SSR_PORT="4100"
 SSR_PWA_PORT=
+
+SSL_CERT_PATH=
+SSL_KEY_PATH=
 
 CSR_APP_NAME="csr"
 SSR_APP_NAME="ssr"
