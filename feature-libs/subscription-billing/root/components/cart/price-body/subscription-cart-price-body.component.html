@@ -3,7 +3,7 @@
     <div class="cx-item-list-charges">
       <ng-container
         *ngIf="
-          item().product.sapPricePlan && item().product.sapSubscriptionTerm;
+          item().product?.sapPricePlan && item().product?.sapSubscriptionTerm;
           else noSubscriptions
         "
       >
@@ -21,7 +21,7 @@
 
 <ng-container *ngIf="parent() === 'minicart'">
   <ng-container
-    *ngIf="item().product.sapPricePlan && item().product.sapSubscriptionTerm"
+    *ngIf="item().product?.sapPricePlan && item().product?.sapSubscriptionTerm"
   >
     <ng-container *ngTemplateOutlet="charges"></ng-container>
   </ng-container>
