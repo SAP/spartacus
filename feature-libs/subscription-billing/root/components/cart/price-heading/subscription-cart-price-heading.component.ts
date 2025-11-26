@@ -10,7 +10,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { I18nModule } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
-import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
 import { EMPTY } from 'rxjs';
 
 @Component({
@@ -21,11 +20,12 @@ import { EMPTY } from 'rxjs';
 })
 export class SubscriptionCartPriceHeadingComponent {
   protected outletData = inject(OutletContextData, { optional: true });
-  protected productService = inject(SubscriptionProductService);
   cartItems = toSignal(this.outletData?.context$ ?? EMPTY);
   subscriptionItem = computed(() => {
     return this.cartItems()?.items?.find((item: OrderEntry) =>
-      item.product ? this.productService.isSubscription(item.product) : false
+      item.product
+        ? item.product.sapPricePlan && item.product.sapSubscriptionTerm
+        : false
     );
   });
 }

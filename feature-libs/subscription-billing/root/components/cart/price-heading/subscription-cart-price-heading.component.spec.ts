@@ -10,6 +10,8 @@ const mockSubscriptionProduct = {
     code: 'Mobile_2020_Plan_cpq',
     name: 'Mobile 2020 Plan',
     productTypes: 'SUBSCRIPTION',
+    sapPricePlan: {},
+    sapSubscriptionTerm: {},
   },
 };
 
