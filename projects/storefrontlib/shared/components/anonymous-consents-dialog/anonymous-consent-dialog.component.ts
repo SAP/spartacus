@@ -22,7 +22,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   useFeatureStyles,
-  WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
@@ -36,8 +35,6 @@ import { LaunchDialogService } from '../../../layout/launch-dialog/services/laun
   standalone: false,
 })
 export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
-  protected winRef = inject(WindowRef);
-
   private subscriptions = new Subscription();
   private featureConfigService = inject(FeatureConfigService);
 
@@ -55,11 +52,6 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     autofocus: 'input[type="checkbox"]',
     focusOnEscape: true,
   };
-  /**
-   * We store the selected input when making a selection to restore the focus to
-   * this element after closing the message dialog.
-   */
-  selectedInput: HTMLElement;
 
   @Optional() globalMessageService = inject(GlobalMessageService, {
     optional: true,
@@ -214,7 +206,6 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     if (
       this.featureConfigService.isEnabled('a11yAnonymousConsentMessageInDialog')
     ) {
-      this.selectedInput = <HTMLElement>this.winRef.document.activeElement;
       this.message$.next({
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
         key: 'consentManagementForm.message.success.given',
@@ -231,7 +222,6 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     if (
       this.featureConfigService.isEnabled('a11yAnonymousConsentMessageInDialog')
     ) {
-      this.selectedInput = <HTMLElement>this.winRef.document.activeElement;
       this.message$.next({
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
         key: 'consentManagementForm.message.success.withdrawn',
@@ -245,7 +235,6 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   }
 
   closeMessage(): void {
-    this.selectedInput?.focus();
     this.message$.next(null);
   }
 
