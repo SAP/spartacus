@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   ContextServiceMap,
+  I18nModule,
   provideDefaultConfig,
   SiteContextModule,
 } from '@spartacus/core';
@@ -20,7 +21,13 @@ import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, SiteContextModule, IconModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    SiteContextModule,
+    IconModule,
+    I18nModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
