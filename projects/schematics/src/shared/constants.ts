@@ -354,7 +354,6 @@ export const USER_PROFILE_FACADE = 'UserProfileFacade';
 export const USER_REGISTER_FACADE = 'UserRegisterFacade';
 export const UNIT_ADDRESS_FORM_SERVICE = 'UnitAddressFormService';
 export const GUEST_REGISTER_FORM_COMPONENT = 'GuestRegisterFormComponent';
-export const EPD_VISUALIZATION_CONFIG = 'EpdVisualizationConfig';
 export const CART_EVENT_BUILDER = 'CartEventBuilder';
 export const REGISTER_DELETE_CART = 'registerDeleteCart';
 

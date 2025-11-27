@@ -39,7 +39,6 @@ import {
 import { CDS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cds-schematics-config';
 import { CPQ_QUOTE_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/cpq-quote-schematics-config';
 import { DIGITAL_PAYMENTS_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/digital-payments-schematics-config';
-import { EPD_SCHEMATICS_CONFIG } from './lib-configs/integration-libs/epd-schematics-config';
 import {
   OPF_BASE_SCHEMATICS_CONFIG,
   OPF_CHECKOUT_SCHEMATICS_CONFIG,
@@ -167,8 +166,6 @@ export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   CDS_SCHEMATICS_CONFIG,
 
   DIGITAL_PAYMENTS_SCHEMATICS_CONFIG,
-
-  EPD_SCHEMATICS_CONFIG,
 
   OPPS_SCHEMATICS_CONFIG,
 

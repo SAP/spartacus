@@ -29,7 +29,6 @@ import { chalk } from '../chalk';
 import {
   PACKAGE_JSON,
   PUBLISHING_VERSION,
-  SAPUI5_TYPES,
   SAP_SCOPE,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_SCOPE,
@@ -765,8 +764,6 @@ function addMissingDependenciesToPackageJson(
             !dep.dependency.startsWith(`${SPARTACUS_SCOPE}/`)
           ) {
             // Nothing we can do here. First the dependencies must be added to root package.json (previous check).
-          } else if (dep.dependency === SAP_SCOPE) {
-            // Work around mismatch between package name (@sapui5/ts-types-esm) and module names (sap/...) for UI5 type definitions
           } else {
             if (typeof packageJson.peerDependencies === 'undefined') {
               packageJson.peerDependencies = {};
@@ -781,15 +778,11 @@ function addMissingDependenciesToPackageJson(
             }
           }
         } else {
-          if (dep.dependency === SAP_SCOPE) {
-            // Work around mismatch between package name (@sapui5/ts-types-esm) and module names (sap/...) for UI5 type definitions
-          } else {
-            errors.push(
-              `Missing \`${chalk.bold(
-                dep.dependency
-              )}\` dependency that is directly referenced in library.`
-            );
-          }
+          errors.push(
+            `Missing \`${chalk.bold(
+              dep.dependency
+            )}\` dependency that is directly referenced in library.`
+          );
         }
       }
     });
@@ -849,7 +842,6 @@ function removeNotUsedDependenciesFromPackageJson(
     Object.keys(deps).forEach((dep) => {
       if (
         typeof lib.externalDependenciesForPackageJson[dep] === 'undefined' &&
-        dep !== SAPUI5_TYPES &&
         dep !== `tslib` &&
         ((lib.name === SPARTACUS_SCHEMATICS &&
           !externalSchematics.includes(dep)) ||

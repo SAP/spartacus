@@ -93,10 +93,6 @@
             "bundleName": "order"
           },
           {
-            "input": "projects/storefrontapp/src/styles/lib-epd-visualization.scss",
-            "bundleName": "epd-visualization"
-          },
-          {
             "input": "projects/storefrontapp/src/styles/lib-customer-ticketing.scss",
             "bundleName": "customer-ticketing"
           },
