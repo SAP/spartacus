@@ -12,8 +12,12 @@ import {
   inject,
   DOCUMENT,
 } from '@angular/core';
-import { Config, ScriptLoader } from '@spartacus/core';
-import { LoggerService, WindowRef } from '@spartacus/core';
+import {
+  Config,
+  ScriptLoader,
+  LoggerService,
+  WindowRef,
+} from '@spartacus/core';
 
 import {
   OpfDynamicScript,
