@@ -5,7 +5,6 @@ const { defaultTransformerOptions } = require('jest-preset-angular/presets');
 /** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
 module.exports = {
   preset: 'jest-preset-angular',
-  globalSetup: 'jest-preset-angular/global-setup',
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
     prefix: '<rootDir>/',
   }),
