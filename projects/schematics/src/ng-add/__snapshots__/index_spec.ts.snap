@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 1`] = `
 "import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';

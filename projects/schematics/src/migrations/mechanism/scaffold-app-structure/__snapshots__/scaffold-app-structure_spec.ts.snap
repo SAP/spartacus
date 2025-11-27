@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`scaffold app structure When the new app structure does NOT exist should create it 1`] = `
 "import { NgModule } from '@angular/core';
