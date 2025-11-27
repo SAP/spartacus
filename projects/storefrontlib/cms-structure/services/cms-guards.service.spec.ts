@@ -216,7 +216,7 @@ describe('CmsGuardsService', () => {
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         );
-      }).toThrowError('Invalid CanActivate guard in cmsMapping');
+      }).toThrow('Invalid CanActivate guard in cmsMapping');
     });
   });
 });

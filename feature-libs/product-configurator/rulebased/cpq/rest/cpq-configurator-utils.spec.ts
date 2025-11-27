@@ -33,7 +33,7 @@ describe('CpqConfiguratorUtils', () => {
       const emptyConfiguration = ConfiguratorTestUtils.createConfiguration('1');
       expect(() =>
         CpqConfiguratorUtils.findFirstChangedAttribute(emptyConfiguration)
-      ).toThrowError();
+      ).toThrow();
     });
   });
 
@@ -49,7 +49,7 @@ describe('CpqConfiguratorUtils', () => {
     it('should throw an error if the necessary fields are not available on attribute level', () => {
       expect(() =>
         CpqConfiguratorUtils.getUpdateInformation(attributeRadioButtons)
-      ).toThrowError();
+      ).toThrow();
     });
   });
 });

@@ -59,7 +59,7 @@ describe('ConfiguratorStateUtils', () => {
     it('should throw an error if supplements array is empty', () => {
       expect(() =>
         ConfiguratorStateUtils['isTargetGroup'](groupNotMatchingSupplement, [])
-      ).toThrowError();
+      ).toThrow();
     });
   });
 
@@ -163,7 +163,7 @@ describe('ConfiguratorStateUtils', () => {
           groups,
           attributeSupplements
         )
-      ).toThrowError();
+      ).toThrow();
     });
 
     it('should update value prices for simple product', () => {

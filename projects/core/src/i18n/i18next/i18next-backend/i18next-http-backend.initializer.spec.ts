@@ -198,7 +198,7 @@ describe('I18nextHttpBackendInitializer', () => {
       it('should throw an error', () => {
         config.i18n = { backend: {} };
 
-        expect(() => initializer.initialize()).toThrowError(
+        expect(() => initializer.initialize()).toThrow(
           'Missing config `i18n.backend.loadPath`.'
         );
       });
