@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import {
   ComponentFactoryResolver,
   ComponentRef,
@@ -14,7 +13,7 @@ import {
   isDevMode,
   RendererFactory2,
   ViewContainerRef,
-  DOCUMENT
+  DOCUMENT,
 } from '@angular/core';
 import { LoggerService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';

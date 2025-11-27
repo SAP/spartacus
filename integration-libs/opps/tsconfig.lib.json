@@ -11,17 +11,10 @@
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
     "skipLibCheck": true,
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "paths": {
-      "@spartacus/core": [
-        "dist/core"
-      ],
-      "@spartacus/storefront": [
-        "dist/storefrontlib"
-      ]
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/storefront": ["dist/storefrontlib"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

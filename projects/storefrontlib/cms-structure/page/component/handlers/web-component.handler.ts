@@ -12,7 +12,7 @@ import {
   PLATFORM_ID,
   Renderer2,
   ViewContainerRef,
-  DOCUMENT
+  DOCUMENT,
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ComponentHandler } from './component-handler';

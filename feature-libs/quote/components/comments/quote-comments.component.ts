@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { Component, inject, ViewChild, DOCUMENT } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, TranslationService } from '@spartacus/core';

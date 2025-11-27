@@ -11,7 +11,7 @@ import {
   Injectable,
   Injector,
   inject,
-  DOCUMENT
+  DOCUMENT,
 } from '@angular/core';
 import {
   EventType,
