@@ -9,7 +9,7 @@ import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { OutletContextData } from '@spartacus/storefront';
-import { SubscriptionProductService } from '@spartacus/subscription-billing/root';
+import { SubscriptionProductService } from '../../../services/index';
 import { EMPTY } from 'rxjs';
 
 @Component({
