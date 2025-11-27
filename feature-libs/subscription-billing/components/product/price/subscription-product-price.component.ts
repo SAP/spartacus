@@ -7,7 +7,7 @@
 import { Component, computed, inject, Input, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Product } from '@spartacus/core';
-import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
+import { SubscriptionProductService } from '@spartacus/subscription-billing/root';
 import {
   OneTimeCharge,
   RecurringCharge,

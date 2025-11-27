@@ -9,6 +9,7 @@ import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { OutletContextData } from '@spartacus/storefront';
+import { SubscriptionProductService } from '@spartacus/subscription-billing/root';
 import { EMPTY } from 'rxjs';
 
 @Component({
@@ -19,13 +20,12 @@ import { EMPTY } from 'rxjs';
 })
 export class SubscriptionCartPriceBodyComponent {
   protected outletContext = inject(OutletContextData, { optional: true });
+  protected productService = inject(SubscriptionProductService);
   outletData = toSignal(this.outletContext?.context$ ?? EMPTY);
   parent = computed(() => this.outletData().parent);
   subscriptionItemExists = computed(() => {
     return this.outletData().items?.find((item: OrderEntry) =>
-      item.product
-        ? item.product.sapPricePlan && item.product.sapSubscriptionTerm
-        : false
+      item.product ? this.productService.isSubscription(item.product) : false
     );
   });
   item = computed(() => {
