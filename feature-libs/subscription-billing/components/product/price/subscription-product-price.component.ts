@@ -10,7 +10,7 @@ import { Product } from '@spartacus/core';
 import {
   OneTimeCharge,
   RecurringCharge,
-  SubscriptionProductService
+  SubscriptionProductService,
 } from '@spartacus/subscription-billing/root';
 
 @Component({
