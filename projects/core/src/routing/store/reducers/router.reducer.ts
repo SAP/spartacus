@@ -140,7 +140,7 @@ export class CustomSerializer
           state.routeConfig?.canActivate?.find(
             (x) =>
               x &&
-              typeof x === 'object' &&
+              typeof x === 'function' &&
               'guardName' in x &&
               x.guardName === 'CmsPageGuard'
           ))
