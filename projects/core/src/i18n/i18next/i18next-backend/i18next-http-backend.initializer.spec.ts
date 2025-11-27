@@ -199,7 +199,7 @@ describe('I18nextHttpBackendInitializer', () => {
         config.i18n = { backend: {} };
 
         expect(() => initializer.initialize()).toThrow(
-          'Missing config `i18n.backend.loadPath`.'
+          new Error('Missing config `i18n.backend.loadPath`.')
         );
       });
     });

@@ -51,7 +51,7 @@ describe('I18nextResourcesToBackendInitializer', () => {
         spyOn(i18next, 'init');
 
         expect(() => i18nextBackendInitializer.initialize()).toThrow(
-          'Missing config `i18n.backend.loader`.'
+          new Error('Missing config `i18n.backend.loader`.')
         );
       });
     });
