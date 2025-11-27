@@ -11,6 +11,7 @@ import {
   defaultExpressErrorHandlers,
   defaultSsrOptimizationOptions,
   ngExpressEngine as engine,
+  getChromeDevtoolsExpressMiddleware,
 } from '@spartacus/setup/ssr';
 import express from 'express';
 import { readFileSync } from 'node:fs';
@@ -68,6 +69,7 @@ export function app(): express.Express {
   });
 
   server.use(defaultExpressErrorHandlers(indexHtmlContent));
+  server.use(getChromeDevtoolsExpressMiddleware());
 
   return server;
 }
