@@ -12,7 +12,6 @@
     "importHelpers": true,
     "strict": true,
     "types": [],
-    "lib": ["es2022", "dom"],
     "paths": {
       "@spartacus/core": ["dist/core"]
     }
