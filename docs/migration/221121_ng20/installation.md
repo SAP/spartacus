@@ -38,7 +38,7 @@ The schematics will:
 - Install required Spartacus libraries
 - Configure your application for Spartacus
 
-## Step 4: SSR-Specific Configuration (If Using SSR)
+## Step 3: SSR-Specific Configuration (If Using SSR)
 
 For Spartacus with Server-Side Rendering (SSR), run the following command:
 

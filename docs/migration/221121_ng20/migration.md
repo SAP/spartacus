@@ -2,7 +2,7 @@
 
 Before upgrading Spartacus to the new version with Angular 20, you need to first:
 
-- upgrade Spartacus to version 2211.36 (with Angular 19)
+- upgrade Spartacus to version 221121.4.0 (with Angular 19)
 - install Node 22 version
 - if your project uses SSR (Server-Side Rendering), please upgrade `@types/node` to version 22
 
@@ -21,7 +21,7 @@ git add .
 git commit -m "update angular 20 and 3rd party deps angular 20 compatible"
 ```
 
-While migrating to Angular 18, you'll be asked whether to run the `use-application-builder` migration:
+While migrating to Angular 20, you'll be asked whether to run the `use-application-builder` migration:
 
 `❯◯ [use-application-builder] Migrate application projects to the new build system.`
 
