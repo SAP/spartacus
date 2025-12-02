@@ -9,7 +9,7 @@ import { isDevMode } from '@angular/core';
 import { Request, Response, NextFunction } from 'express';
 
 /**
- * Middleware for handlingChrome DevTools endpoint in development mode.
+ * Middleware for handling Chrome DevTools endpoint in development mode.
  */
 export function getChromeDevtoolsExpressMiddleware() {
   return (req: Request, res: Response, next: NextFunction) => {

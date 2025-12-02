@@ -60,6 +60,9 @@ export function app(): express.Express {
     })
   );
 
+  // Handle Chrome DevTools requests
+  server.use(getChromeDevtoolsExpressMiddleware());
+
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
     res.render(indexHtml, {
@@ -69,7 +72,6 @@ export function app(): express.Express {
   });
 
   server.use(defaultExpressErrorHandlers(indexHtmlContent));
-  server.use(getChromeDevtoolsExpressMiddleware());
 
   return server;
 }
