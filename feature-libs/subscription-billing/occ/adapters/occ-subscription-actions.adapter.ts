@@ -70,7 +70,7 @@ export class OccSubscriptionActionsAdapter
     subscriptionCode: string,
     withdrawalData: SubscriptionWithdraw
   ): Observable<any> {
-    const url = this.occEndpoints.buildUrl('withdrawal', {
+    const url = this.occEndpoints.buildUrl('withdrawSubscription', {
       urlParams: {
         userId,
         subscriptionCode,
