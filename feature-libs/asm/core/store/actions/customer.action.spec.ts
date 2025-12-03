@@ -5,6 +5,7 @@ import {
   CUSTOMER_SEARCH_DATA,
 } from '../asm-state';
 import { AsmActions } from './index';
+import { ASSISTED_SESSION_REGISTRATION_START, ASSISTED_SESSION_REGISTRATION_START_FAIL, ASSISTED_SESSION_REGISTRATION_START_SUCCESS } from './customer.action';
 
 const mockUser: User = {
   displayUid: 'Display Uid',
@@ -113,7 +114,7 @@ describe('Customer Actions', () => {
 
       expect({ ...action }).toEqual({
         type: AsmActions.ASSISTED_SESSION_REGISTRATION_START,
-        meta: StateUtils.loadMeta(CUSTOMER_SEARCH_DATA),
+        meta: StateUtils.loadMeta(ASSISTED_SESSION_REGISTRATION_START),
       });
     });
 
@@ -121,7 +122,7 @@ describe('Customer Actions', () => {
       const action = new AsmActions.AssistedSessionRegistrationSuccess();
       expect({ ...action }).toEqual({
         type: AsmActions.ASSISTED_SESSION_REGISTRATION_START_SUCCESS,
-        meta: StateUtils.successMeta(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA),
+        meta: StateUtils.successMeta(ASSISTED_SESSION_REGISTRATION_START_SUCCESS),
       });
     });
 
@@ -129,7 +130,7 @@ describe('Customer Actions', () => {
       const action = new AsmActions.AssistedSessionRegistrationFail(error);
       expect({ ...action }).toEqual({
         type: AsmActions.ASSISTED_SESSION_REGISTRATION_START_FAIL,
-        meta: StateUtils.failMeta(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA, error),
+        meta: StateUtils.failMeta(ASSISTED_SESSION_REGISTRATION_START_FAIL, error),
         payload: error,
         error,
       });

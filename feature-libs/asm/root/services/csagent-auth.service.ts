@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   AuthActions,
@@ -20,7 +20,6 @@ import { UserAccountFacade } from '@spartacus/user/account/root';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
-import { AsmService } from '@spartacus/asm/core';
 
 /**
  * Auth service for CS agent. Useful to login/logout agent, start emulation
@@ -30,8 +29,6 @@ import { AsmService } from '@spartacus/asm/core';
   providedIn: 'root',
 })
 export class CsAgentAuthService {
-  protected asmService = inject(AsmService);
-
   constructor(
     protected authService: AuthService,
     protected authStorageService: AsmAuthStorageService,
@@ -135,7 +132,6 @@ export class CsAgentAuthService {
     this.store.dispatch(new AuthActions.Logout());
     this.userIdService.setUserId(customerId);
     this.store.dispatch(new AuthActions.Login());
-    this.asmService.createSessionRegistrationStart();
   }
 
   /**
