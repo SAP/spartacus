@@ -14,6 +14,7 @@ export const defaultOccAsmConfig: OccConfig = {
         asmCustomerLists: '/assistedservicewebservices/customerlists',
         asmBindCart: '/assistedservicewebservices/bind-cart',
         asmCreateCustomer: '/assistedservicewebservices/customers',
+        asmSessionStartRegistration: 'assistedservicewebservices/${baseSite}/users/${userId}/sessionStartRegistration'
       },
     },
   },

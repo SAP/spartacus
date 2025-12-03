@@ -39,4 +39,8 @@ export class AsmConnector {
   createCustomer(user: CustomerRegistrationForm): Observable<User> {
     return this.asmAdapter.createCustomer(user);
   }
+
+  createSessionStartRegistration(): Observable<void> {
+    return this.asmAdapter.createSessionStartRegistration();
+  }
 }

@@ -36,4 +36,9 @@ export abstract class AsmAdapter {
    * Abstract function used to create an account for customers.
    */
   abstract createCustomer(user: CustomerRegistrationForm): Observable<User>;
+
+    /**
+   * Abstract function used to create session start registration.
+   */
+  abstract createSessionStartRegistration(): Observable<void>;
 }

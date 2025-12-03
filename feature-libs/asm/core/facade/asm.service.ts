@@ -66,4 +66,12 @@ export class AsmService {
   getAsmUiState(): Observable<AsmUi> {
     return this.store.pipe(select(AsmSelectors.getAsmUi));
   }
+
+
+  /**
+   * Get the state of the ASM UI
+   */
+  createSessionRegistrationStart(): void {
+    this.store.dispatch(new AsmActions.AssistedSessionRegistrationStart());
+  }
 }
