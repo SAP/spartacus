@@ -328,6 +328,7 @@ if (environment.cpq) {
         a11yWideScreenImprovements: true,
         a11yOptimizedMenuSpacing: true,
         a11yNgSelectLayering: true,
+        a11yNgSelectUnicodeCarets: true,
         readMoreDirective: true,
         productReviewCharactersLeft: true,
         a11yNgSelectAriaControls: true,

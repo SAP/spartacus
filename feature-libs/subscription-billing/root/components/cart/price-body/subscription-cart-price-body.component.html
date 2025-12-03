@@ -3,7 +3,7 @@
     <div class="cx-item-list-charges">
       <ng-container
         *ngIf="
-          item().product?.productTypes === 'SUBSCRIPTION';
+          this.productService.isSubscription(item().product);
           else noSubscriptions
         "
       >
@@ -20,7 +20,7 @@
 </ng-container>
 
 <ng-container *ngIf="parent() === 'minicart'">
-  <ng-container *ngIf="item().product?.productTypes === 'SUBSCRIPTION'">
+  <ng-container *ngIf="this.productService.isSubscription(item().product)">
     <ng-container *ngTemplateOutlet="charges"></ng-container>
   </ng-container>
 </ng-container>
