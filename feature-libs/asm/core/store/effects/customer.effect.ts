@@ -44,24 +44,6 @@ export class CustomerEffects {
     )
   );
 
-  createSessionRegistrationStart$: Observable<AsmActions.CustomerAction> = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AsmActions.ASSISTED_SESSION_REGISTRATION_START),
-      switchMap(() =>
-        this.asmConnector.createSessionStartRegistration().pipe(
-          map(() => new AsmActions.AssistedSessionRegistrationSuccess()),
-          catchError((error) =>
-            of(
-              new AsmActions.AssistedSessionRegistrationFail(
-                tryNormalizeHttpError(error, this.logger)
-              )
-            )
-          )
-        )
-      ),
-    )
-  );
-
   customerListCustomersSearch$: Observable<AsmActions.CustomerAction> =
     createEffect(() =>
       this.actions$.pipe(
@@ -84,9 +66,7 @@ export class CustomerEffects {
           )
         )
       )
-    );
-
-  constructor(
+    );constructor(
     private actions$: Actions,
     private asmConnector: AsmConnector
   ) {}

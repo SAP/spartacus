@@ -5,7 +5,6 @@ import {
   CUSTOMER_SEARCH_DATA,
 } from '../asm-state';
 import { AsmActions } from './index';
-import { ASSISTED_SESSION_REGISTRATION_START, ASSISTED_SESSION_REGISTRATION_START_FAIL, ASSISTED_SESSION_REGISTRATION_START_SUCCESS } from './customer.action';
 
 const mockUser: User = {
   displayUid: 'Display Uid',
@@ -108,33 +107,5 @@ describe('Customer Actions', () => {
         meta: StateUtils.resetMeta(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA),
       });
     });
-
-    it('should create the AssistedSessionRegistrationStart action', () => {
-      const action = new AsmActions.AssistedSessionRegistrationStart();
-
-      expect({ ...action }).toEqual({
-        type: AsmActions.ASSISTED_SESSION_REGISTRATION_START,
-        meta: StateUtils.loadMeta(ASSISTED_SESSION_REGISTRATION_START),
-      });
-    });
-
-    it('should create the AssistedSessionRegistrationSuccess action', () => {
-      const action = new AsmActions.AssistedSessionRegistrationSuccess();
-      expect({ ...action }).toEqual({
-        type: AsmActions.ASSISTED_SESSION_REGISTRATION_START_SUCCESS,
-        meta: StateUtils.successMeta(ASSISTED_SESSION_REGISTRATION_START_SUCCESS),
-      });
-    });
-
-    it('should create the AssistedSessionRegistrationFail action', () => {
-      const action = new AsmActions.AssistedSessionRegistrationFail(error);
-      expect({ ...action }).toEqual({
-        type: AsmActions.ASSISTED_SESSION_REGISTRATION_START_FAIL,
-        meta: StateUtils.failMeta(ASSISTED_SESSION_REGISTRATION_START_FAIL, error),
-        payload: error,
-        error,
-      });
-    });
-
   });
 });

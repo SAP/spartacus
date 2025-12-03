@@ -6,7 +6,7 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 import { User } from '@spartacus/core';
-import { AsmActions } from '../store/actions/index';
+import { AsmActions, AsmSessionActions } from '../store/actions/index';
 import { AsmState, ASM_FEATURE } from '../store/asm-state';
 import * as fromReducers from '../store/reducers/index';
 import { AsmService } from './asm.service';
@@ -109,7 +109,7 @@ describe('AsmService', () => {
     spyOn(store, 'dispatch').and.stub();
     service.createSessionRegistrationStart();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AsmActions.AssistedSessionRegistrationStart()
+      new AsmSessionActions.AssistedSessionRegistrationStart()
     );
   });
 });

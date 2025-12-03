@@ -15,9 +15,6 @@ export const CUSTOMER_SEARCH = '[Asm] Customer Search';
 export const CUSTOMER_SEARCH_FAIL = '[Asm] Customer Search Fail';
 export const CUSTOMER_SEARCH_SUCCESS = '[Asm] Customer Search Success';
 export const CUSTOMER_SEARCH_RESET = '[Asm] Customer Search Reset';
-export const ASSISTED_SESSION_REGISTRATION_START = '[Asm] Assisted Session Registration Start';
-export const ASSISTED_SESSION_REGISTRATION_START_FAIL = '[Asm] Assisted Session Registration Start Fail';
-export const ASSISTED_SESSION_REGISTRATION_START_SUCCESS = '[Asm] Assisted Session Registration Start Success';
 
 export const CUSTOMER_LIST_CUSTOMERS_SEARCH =
   '[Asm] Customer List Customers Search';
@@ -90,30 +87,6 @@ export class CustomerListCustomersSearchReset extends StateUtils.LoaderResetActi
   }
 }
 
-export class AssistedSessionRegistrationStart extends StateUtils.LoaderLoadAction {
-  readonly type = ASSISTED_SESSION_REGISTRATION_START;
-  constructor() {
-    super(ASSISTED_SESSION_REGISTRATION_START);
-  }
-}
-
-export class AssistedSessionRegistrationFail
-  extends StateUtils.LoaderFailAction
-  implements ErrorAction
-{
-  readonly type = ASSISTED_SESSION_REGISTRATION_START_FAIL;
-  constructor(public payload: any) {
-    super(ASSISTED_SESSION_REGISTRATION_START_FAIL, payload);
-  }
-}
-
-export class AssistedSessionRegistrationSuccess extends StateUtils.LoaderSuccessAction {
-  readonly type = ASSISTED_SESSION_REGISTRATION_START_SUCCESS;
-  constructor() {
-    super(ASSISTED_SESSION_REGISTRATION_START_SUCCESS);
-  }
-}
-
 // action types
 export type CustomerAction =
   | CustomerSearch
@@ -123,7 +96,4 @@ export type CustomerAction =
   | CustomerListCustomersSearch
   | CustomerListCustomersSearchFail
   | CustomerListCustomersSearchSuccess
-  | CustomerListCustomersSearchReset
-  | AssistedSessionRegistrationStart
-  | AssistedSessionRegistrationFail
-  | AssistedSessionRegistrationSuccess;
+  | CustomerListCustomersSearchReset;

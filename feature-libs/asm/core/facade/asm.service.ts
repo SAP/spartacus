@@ -12,7 +12,7 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 import { Observable } from 'rxjs';
-import { AsmActions } from '../store/actions/index';
+import { AsmActions, AsmSessionActions } from '../store/actions/index';
 import { StateWithAsm } from '../store/asm-state';
 import { AsmSelectors } from '../store/index';
 
@@ -71,6 +71,6 @@ export class AsmService {
    * Get the state of the ASM UI
    */
   createSessionRegistrationStart(): void {
-    this.store.dispatch(new AsmActions.AssistedSessionRegistrationStart());
+    this.store.dispatch(new AsmSessionActions.AssistedSessionRegistrationStart());
   }
 }
