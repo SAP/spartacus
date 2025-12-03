@@ -68,11 +68,12 @@ export class OccAsmAdapter implements AsmAdapter {
 
   createSessionStartRegistration(): Observable<void> {
     const headers = this.getHeaders();
-    const params: HttpParams = new HttpParams().set(
-      'baseSite',
-      this.activeBaseSite
-    );
+    const params: HttpParams = new HttpParams();
     params.set('userId', this.currentUserId);
+
+    const requestBody = {
+      eventType: 'StartSession'
+    };
 
     const url = this.occEndpointsService.buildUrl(
       'asmSessionStartRegistration',
@@ -88,7 +89,7 @@ export class OccAsmAdapter implements AsmAdapter {
       }
     );
 
-    return this.http.post<void>(url, {}, { headers, params }).pipe(
+    return this.http.post<void>(url, requestBody, { headers, params }).pipe(
       catchError((error) => {
         throw tryNormalizeHttpError(error, this.logger);
       })
