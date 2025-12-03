@@ -104,4 +104,12 @@ describe('AsmService', () => {
       .unsubscribe();
     expect(result).toEqual(asmUi);
   });
+
+  it('should dispatch proper action for create session registration start', () => {
+    spyOn(store, 'dispatch').and.stub();
+    service.createSessionRegistrationStart();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new AsmActions.AssistedSessionRegistrationStart()
+    );
+  });
 });

@@ -26,6 +26,7 @@ class MockAsmAdapter {
   createCustomer(_user: CustomerRegistrationForm): Observable<User> {
     return EMPTY;
   }
+  createSessionStartRegistration(): void {}
 }
 const MOCK_ID = '00000123';
 const MOCK_USER_ID = 'userId';
@@ -163,5 +164,11 @@ describe('AsmConnector', () => {
         expect(results).toEqual(user);
         done();
       });
+  });
+
+  it('should call adapter for createSessionStartRegistration', () => {
+    spyOn(asmAdapter, 'createSessionStartRegistration').and.stub();
+    asmConnector.createSessionStartRegistration();
+    expect(asmAdapter.createSessionStartRegistration).toHaveBeenCalled();
   });
 });
