@@ -107,5 +107,33 @@ describe('Customer Actions', () => {
         meta: StateUtils.resetMeta(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA),
       });
     });
+
+    it('should create the AssistedSessionRegistrationStart action', () => {
+      const action = new AsmActions.AssistedSessionRegistrationStart();
+
+      expect({ ...action }).toEqual({
+        type: AsmActions.ASSISTED_SESSION_REGISTRATION_START,
+        meta: StateUtils.loadMeta(CUSTOMER_SEARCH_DATA),
+      });
+    });
+
+    it('should create the AssistedSessionRegistrationSuccess action', () => {
+      const action = new AsmActions.AssistedSessionRegistrationSuccess();
+      expect({ ...action }).toEqual({
+        type: AsmActions.ASSISTED_SESSION_REGISTRATION_START_SUCCESS,
+        meta: StateUtils.successMeta(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA),
+      });
+    });
+
+    it('should create the AssistedSessionRegistrationFail action', () => {
+      const action = new AsmActions.AssistedSessionRegistrationFail(error);
+      expect({ ...action }).toEqual({
+        type: AsmActions.ASSISTED_SESSION_REGISTRATION_START_FAIL,
+        meta: StateUtils.failMeta(CUSTOMER_LIST_CUSTOMERS_SEARCH_DATA, error),
+        payload: error,
+        error,
+      });
+    });
+
   });
 });

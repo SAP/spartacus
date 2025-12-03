@@ -67,7 +67,6 @@ export class AsmService {
     return this.store.pipe(select(AsmSelectors.getAsmUi));
   }
 
-
   /**
    * Get the state of the ASM UI
    */
