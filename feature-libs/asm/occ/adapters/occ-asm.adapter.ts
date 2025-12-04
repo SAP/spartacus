@@ -67,7 +67,7 @@ export class OccAsmAdapter implements AsmAdapter {
       .subscribe((value) => (this.currentUserId = value));
   }
 
-  createSessionStartRegistration(
+  createASMSessionEvent(
     options: ASMSessionCreationOptions
   ): Observable<void> {
     const headers = this.getHeaders();
