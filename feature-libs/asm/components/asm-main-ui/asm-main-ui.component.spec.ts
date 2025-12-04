@@ -182,7 +182,7 @@ class MockAsmService implements Partial<AsmService> {
     return of(mockAsmUi);
   }
 
-  createASMSessionEvent(option: ASMSessionCreationOptions): void {}
+  createASMSessionEvent(_option: ASMSessionCreationOptions): void {}
 
   customerSearch(_searchTerm: unknown): void {}
 }

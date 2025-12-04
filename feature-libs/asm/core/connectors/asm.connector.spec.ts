@@ -169,7 +169,8 @@ describe('AsmConnector', () => {
 
   it('should call adapter for createASMSessionEvent', () => {
     spyOn(asmAdapter, 'createASMSessionEvent').and.stub();
-    asmConnector.createASMSessionEvent();
+    const options: ASMSessionCreationOptions = { eventType: 'startSession' };
+    asmConnector.createASMSessionEvent(options);
     expect(asmAdapter.createASMSessionEvent).toHaveBeenCalled();
   });
 });
