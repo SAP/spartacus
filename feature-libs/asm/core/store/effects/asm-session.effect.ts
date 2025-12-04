@@ -17,7 +17,7 @@ export class AsmSessionEffects {
           (action: AsmSessionActions.ASMSessionCreationAction) => action.payload
         ),
         switchMap((payload) =>
-          this.asmConnector.createSessionStartRegistration(payload).pipe(
+          this.asmConnector.createASMSessionEvent(payload).pipe(
             map(() => new AsmSessionActions.ASMSessionCreationSuccess()),
             catchError((error) =>
               of(

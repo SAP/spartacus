@@ -41,7 +41,7 @@ export abstract class AsmAdapter {
   /**
    * Abstract function used to create session start registration.
    */
-  abstract createSessionStartRegistration(
+  abstract createASMSessionEvent(
     options: ASMSessionCreationOptions
   ): Observable<void>;
 }
