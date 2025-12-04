@@ -374,7 +374,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       this.startingCustomerSession = true;
       this.showCustomerEmulationInfoAlert = true;
       this.showCreateCustomerSuccessfullyAlert = false;
-      this.asmService.createSessionRegistrationStart();
+      this.asmService.createASMSessionEvent({ eventType: 'StartSession' });
       if (parameters) {
         this.asmComponentService.handleDeepLinkNavigation({
           customerId,

@@ -3,40 +3,41 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import { ASMSessionCreationOptions } from '@spartacus/asm/root';
 import { StateUtils, ErrorAction } from '@spartacus/core';
 
-export const ASSISTED_SESSION_REGISTRATION_START =
+export const ASSISTED_SESSION_CREATION =
   '[Asm] Assisted Session Registration Start';
-export const ASSISTED_SESSION_REGISTRATION_START_FAIL =
+export const ASSISTED_SESSION_CREATION_FAIL =
   '[Asm] Assisted Session Registration Start Fail';
-export const ASSISTED_SESSION_REGISTRATION_START_SUCCESS =
+export const ASSISTED_SESSION_CREATION_SUCCESS =
   '[Asm] Assisted Session Registration Start Success';
 
-export class AssistedSessionRegistrationStart extends StateUtils.LoaderLoadAction {
-  readonly type = ASSISTED_SESSION_REGISTRATION_START;
-  constructor() {
-    super(ASSISTED_SESSION_REGISTRATION_START);
+export class ASMSessionCreationAction extends StateUtils.LoaderLoadAction {
+  readonly type = ASSISTED_SESSION_CREATION;
+  constructor(public payload: ASMSessionCreationOptions) {
+    super(ASSISTED_SESSION_CREATION);
   }
 }
 
-export class AssistedSessionRegistrationFail
+export class ASMSessionCreationFail
   extends StateUtils.LoaderFailAction
   implements ErrorAction
 {
-  readonly type = ASSISTED_SESSION_REGISTRATION_START_FAIL;
+  readonly type = ASSISTED_SESSION_CREATION_FAIL;
   constructor(public payload: any) {
-    super(ASSISTED_SESSION_REGISTRATION_START_FAIL, payload);
+    super(ASSISTED_SESSION_CREATION_FAIL, payload);
   }
 }
 
-export class AssistedSessionRegistrationSuccess extends StateUtils.LoaderSuccessAction {
-  readonly type = ASSISTED_SESSION_REGISTRATION_START_SUCCESS;
+export class ASMSessionCreationSuccess extends StateUtils.LoaderSuccessAction {
+  readonly type = ASSISTED_SESSION_CREATION_SUCCESS;
   constructor() {
-    super(ASSISTED_SESSION_REGISTRATION_START_SUCCESS);
+    super(ASSISTED_SESSION_CREATION_SUCCESS);
   }
 }
 
 export type ASMSessionAction =
-  | AssistedSessionRegistrationStart
-  | AssistedSessionRegistrationFail
-  | AssistedSessionRegistrationSuccess;
+  | ASMSessionCreationAction
+  | ASMSessionCreationFail
+  | ASMSessionCreationSuccess;

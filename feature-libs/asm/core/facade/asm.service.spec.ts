@@ -107,9 +107,9 @@ describe('AsmService', () => {
 
   it('should dispatch proper action for create session registration start', () => {
     spyOn(store, 'dispatch').and.stub();
-    service.createSessionRegistrationStart();
+    service.createAsmSeesionEvent();
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AsmSessionActions.AssistedSessionRegistrationStart()
+      new AsmSessionActions.ASMSessionCreationAction()
     );
   });
 });

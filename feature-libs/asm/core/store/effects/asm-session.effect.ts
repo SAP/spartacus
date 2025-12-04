@@ -4,24 +4,24 @@ import { Observable, switchMap, map, catchError, of } from 'rxjs';
 import { AsmSessionActions } from '../actions';
 import { inject, Injectable } from '@angular/core';
 import { AsmConnector } from '../../connectors';
-import { ASSISTED_SESSION_REGISTRATION_START } from '../actions/asm-session-actions';
 
 @Injectable()
 export class AsmSessionEffects {
   protected logger = inject(LoggerService);
 
-  createSessionRegistrationStart$: Observable<AsmSessionActions.ASMSessionAction> =
+  createASMSeesionEvent$: Observable<AsmSessionActions.ASMSessionAction> =
     createEffect(() =>
       this.actions$.pipe(
-        ofType(ASSISTED_SESSION_REGISTRATION_START),
-        switchMap(() =>
-          this.asmConnector.createSessionStartRegistration().pipe(
-            map(
-              () => new AsmSessionActions.AssistedSessionRegistrationSuccess()
-            ),
+        ofType(AsmSessionActions.ASSISTED_SESSION_CREATION),
+        map(
+          (action: AsmSessionActions.ASMSessionCreationAction) => action.payload
+        ),
+        switchMap((payload) =>
+          this.asmConnector.createSessionStartRegistration(payload).pipe(
+            map(() => new AsmSessionActions.ASMSessionCreationSuccess()),
             catchError((error) =>
               of(
-                new AsmSessionActions.AssistedSessionRegistrationFail(
+                new AsmSessionActions.ASMSessionCreationFail(
                   tryNormalizeHttpError(error, this.logger)
                 )
               )

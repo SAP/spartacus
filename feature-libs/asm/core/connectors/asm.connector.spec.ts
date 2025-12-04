@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
+  ASMSessionCreationOptions,
   BindCartParams,
   CustomerListsPage,
   CustomerRegistrationForm,
@@ -26,7 +27,7 @@ class MockAsmAdapter {
   createCustomer(_user: CustomerRegistrationForm): Observable<User> {
     return EMPTY;
   }
-  createSessionStartRegistration(): void {}
+  createSessionStartRegistration(_options: ASMSessionCreationOptions): void {}
 }
 const MOCK_ID = '00000123';
 const MOCK_USER_ID = 'userId';

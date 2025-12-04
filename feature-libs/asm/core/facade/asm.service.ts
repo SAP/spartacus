@@ -7,6 +7,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
+  ASMSessionCreationOptions,
   AsmUi,
   CustomerSearchOptions,
   CustomerSearchPage,
@@ -70,9 +71,9 @@ export class AsmService {
   /**
    * Get the state of the ASM UI
    */
-  createSessionRegistrationStart(): void {
+  createASMSessionEvent(options: ASMSessionCreationOptions): void {
     this.store.dispatch(
-      new AsmSessionActions.AssistedSessionRegistrationStart()
+      new AsmSessionActions.ASMSessionCreationAction(options)
     );
   }
 }

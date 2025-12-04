@@ -13,6 +13,7 @@ import {
 } from '@spartacus/asm/core';
 import {
   AsmConfig,
+  ASMSessionCreationOptions,
   BindCartParams,
   CustomerListsPage,
   CustomerRegistrationForm,
@@ -66,17 +67,19 @@ export class OccAsmAdapter implements AsmAdapter {
       .subscribe((value) => (this.currentUserId = value));
   }
 
-  createSessionStartRegistration(): Observable<void> {
+  createSessionStartRegistration(
+    options: ASMSessionCreationOptions
+  ): Observable<void> {
     const headers = this.getHeaders();
     const params: HttpParams = new HttpParams();
     params.set('userId', this.currentUserId);
 
     const requestBody = {
-      eventType: 'StartSession',
+      ...options,
     };
 
     const url = this.occEndpointsService.buildUrl(
-      'asmSessionStartRegistration',
+      'asmSessionEvent',
       {
         urlParams: {
           baseSiteId: this.activeBaseSite,
