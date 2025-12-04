@@ -72,7 +72,7 @@ export class OccAsmAdapter implements AsmAdapter {
     params.set('userId', this.currentUserId);
 
     const requestBody = {
-      eventType: 'StartSession'
+      eventType: 'StartSession',
     };
 
     const url = this.occEndpointsService.buildUrl(

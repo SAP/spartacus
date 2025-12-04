@@ -3,11 +3,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import { StateUtils, ErrorAction } from "@spartacus/core";
+import { StateUtils, ErrorAction } from '@spartacus/core';
 
-export const ASSISTED_SESSION_REGISTRATION_START = '[Asm] Assisted Session Registration Start';
-export const ASSISTED_SESSION_REGISTRATION_START_FAIL = '[Asm] Assisted Session Registration Start Fail';
-export const ASSISTED_SESSION_REGISTRATION_START_SUCCESS = '[Asm] Assisted Session Registration Start Success';
+export const ASSISTED_SESSION_REGISTRATION_START =
+  '[Asm] Assisted Session Registration Start';
+export const ASSISTED_SESSION_REGISTRATION_START_FAIL =
+  '[Asm] Assisted Session Registration Start Fail';
+export const ASSISTED_SESSION_REGISTRATION_START_SUCCESS =
+  '[Asm] Assisted Session Registration Start Success';
 
 export class AssistedSessionRegistrationStart extends StateUtils.LoaderLoadAction {
   readonly type = ASSISTED_SESSION_REGISTRATION_START;
@@ -33,7 +36,7 @@ export class AssistedSessionRegistrationSuccess extends StateUtils.LoaderSuccess
   }
 }
 
-export type ASMSessionAction = AssistedSessionRegistrationStart
+export type ASMSessionAction =
+  | AssistedSessionRegistrationStart
   | AssistedSessionRegistrationFail
   | AssistedSessionRegistrationSuccess;
-

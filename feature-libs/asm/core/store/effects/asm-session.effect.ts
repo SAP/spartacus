@@ -16,7 +16,9 @@ export class AsmSessionEffects {
         ofType(ASSISTED_SESSION_REGISTRATION_START),
         switchMap(() =>
           this.asmConnector.createSessionStartRegistration().pipe(
-            map(() => new AsmSessionActions.AssistedSessionRegistrationSuccess()),
+            map(
+              () => new AsmSessionActions.AssistedSessionRegistrationSuccess()
+            ),
             catchError((error) =>
               of(
                 new AsmSessionActions.AssistedSessionRegistrationFail(

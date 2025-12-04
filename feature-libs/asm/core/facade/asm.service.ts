@@ -71,6 +71,8 @@ export class AsmService {
    * Get the state of the ASM UI
    */
   createSessionRegistrationStart(): void {
-    this.store.dispatch(new AsmSessionActions.AssistedSessionRegistrationStart());
+    this.store.dispatch(
+      new AsmSessionActions.AssistedSessionRegistrationStart()
+    );
   }
 }
