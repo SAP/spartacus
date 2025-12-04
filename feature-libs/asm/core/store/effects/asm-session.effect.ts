@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import { Observable, switchMap, map, catchError, of } from 'rxjs';
