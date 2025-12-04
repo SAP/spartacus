@@ -39,6 +39,6 @@ export interface AsmDeepLinkParameters {
   cartType?: string;
 }
 
-export interface ASMSessionCreationOptions {
+export interface AsmSessionCreationOptions {
   eventType: string;
 }

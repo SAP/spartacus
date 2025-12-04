@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import { ASMSessionCreationOptions } from '@spartacus/asm/root';
+import { AsmSessionCreationOptions } from '@spartacus/asm/root';
 import { StateUtils, ErrorAction } from '@spartacus/core';
 
 export const ASSISTED_SESSION_CREATION =
@@ -13,14 +13,14 @@ export const ASSISTED_SESSION_CREATION_FAIL =
 export const ASSISTED_SESSION_CREATION_SUCCESS =
   '[Asm] Assisted Session Registration Start Success';
 
-export class ASMSessionCreationAction extends StateUtils.LoaderLoadAction {
+export class AsmSessionCreationAction extends StateUtils.LoaderLoadAction {
   readonly type = ASSISTED_SESSION_CREATION;
-  constructor(public payload: ASMSessionCreationOptions) {
+  constructor(public payload: AsmSessionCreationOptions) {
     super(ASSISTED_SESSION_CREATION);
   }
 }
 
-export class ASMSessionCreationFail
+export class AsmSessionCreationFail
   extends StateUtils.LoaderFailAction
   implements ErrorAction
 {
@@ -30,14 +30,14 @@ export class ASMSessionCreationFail
   }
 }
 
-export class ASMSessionCreationSuccess extends StateUtils.LoaderSuccessAction {
+export class AsmSessionCreationSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = ASSISTED_SESSION_CREATION_SUCCESS;
   constructor() {
     super(ASSISTED_SESSION_CREATION_SUCCESS);
   }
 }
 
-export type ASMSessionAction =
-  | ASMSessionCreationAction
-  | ASMSessionCreationFail
-  | ASMSessionCreationSuccess;
+export type AsmSessionAction =
+  | AsmSessionCreationAction
+  | AsmSessionCreationFail
+  | AsmSessionCreationSuccess;

@@ -15,19 +15,19 @@ import { AsmConnector } from '../../connectors';
 export class AsmSessionEffects {
   protected logger = inject(LoggerService);
 
-  createASMSessionEvent$: Observable<AsmSessionActions.ASMSessionAction> =
+  createAsmSessionEvent$: Observable<AsmSessionActions.AsmSessionAction> =
     createEffect(() =>
       this.actions$.pipe(
         ofType(AsmSessionActions.ASSISTED_SESSION_CREATION),
         map(
-          (action: AsmSessionActions.ASMSessionCreationAction) => action.payload
+          (action: AsmSessionActions.AsmSessionCreationAction) => action.payload
         ),
         switchMap((payload) =>
-          this.asmConnector.createASMSessionEvent(payload).pipe(
-            map(() => new AsmSessionActions.ASMSessionCreationSuccess()),
+          this.asmConnector.createAsmSessionEvent(payload).pipe(
+            map(() => new AsmSessionActions.AsmSessionCreationSuccess()),
             catchError((error) =>
               of(
-                new AsmSessionActions.ASMSessionCreationFail(
+                new AsmSessionActions.AsmSessionCreationFail(
                   tryNormalizeHttpError(error, this.logger)
                 )
               )

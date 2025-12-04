@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
-  ASMSessionCreationOptions,
+  AsmSessionCreationOptions,
   AsmUi,
   CustomerSearchOptions,
   CustomerSearchPage,
@@ -108,10 +108,10 @@ describe('AsmService', () => {
 
   it('should dispatch proper action for create session registration start', () => {
     spyOn(store, 'dispatch').and.stub();
-    const options: ASMSessionCreationOptions = { eventType: 'startSesion' };
-    service.createASMSessionEvent(options);
+    const options: AsmSessionCreationOptions = { eventType: 'startSesion' };
+    service.createAsmSessionEvent(options);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new AsmSessionActions.ASMSessionCreationAction(options)
+      new AsmSessionActions.AsmSessionCreationAction(options)
     );
   });
 });

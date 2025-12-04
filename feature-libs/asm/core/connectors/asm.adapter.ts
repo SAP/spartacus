@@ -5,7 +5,7 @@
  */
 
 import {
-  ASMSessionCreationOptions,
+  AsmSessionCreationOptions,
   BindCartParams,
   CustomerListsPage,
   CustomerRegistrationForm,
@@ -41,7 +41,7 @@ export abstract class AsmAdapter {
   /**
    * Abstract function used to create session start registration.
    */
-  abstract createASMSessionEvent(
-    options: ASMSessionCreationOptions
+  abstract createAsmSessionEvent(
+    options: AsmSessionCreationOptions
   ): Observable<void>;
 }
