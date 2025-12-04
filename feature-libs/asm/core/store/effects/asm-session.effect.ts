@@ -15,7 +15,7 @@ import { AsmConnector } from '../../connectors';
 export class AsmSessionEffects {
   protected logger = inject(LoggerService);
 
-  createASMSeesionEvent$: Observable<AsmSessionActions.ASMSessionAction> =
+  createASMSessionEvent$: Observable<AsmSessionActions.ASMSessionAction> =
     createEffect(() =>
       this.actions$.pipe(
         ofType(AsmSessionActions.ASSISTED_SESSION_CREATION),

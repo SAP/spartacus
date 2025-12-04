@@ -41,9 +41,7 @@ export class AsmConnector {
     return this.asmAdapter.createCustomer(user);
   }
 
-  createASMSessionEvent(
-    options: ASMSessionCreationOptions
-  ): Observable<void> {
+  createASMSessionEvent(options: ASMSessionCreationOptions): Observable<void> {
     return this.asmAdapter.createASMSessionEvent(options);
   }
 }

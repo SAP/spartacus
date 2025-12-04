@@ -14,6 +14,7 @@ import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
 import {
   AsmEnablerService,
+  ASMSessionCreationOptions,
   AsmUi,
   CsAgentAuthService,
   CustomerListColumnActionType,
@@ -181,7 +182,7 @@ class MockAsmService implements Partial<AsmService> {
     return of(mockAsmUi);
   }
 
-  createASMSeesionEvent(): void {}
+  createASMSessionEvent(option: ASMSessionCreationOptions): void {}
 
   customerSearch(_searchTerm: unknown): void {}
 }
