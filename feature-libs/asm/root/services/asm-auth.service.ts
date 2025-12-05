@@ -15,6 +15,8 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   OAuthLibWrapperService,
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
   RoutingService,
   StateWithClientAuth,
   UserIdService,
@@ -22,6 +24,7 @@ import {
 import { combineLatest, from, lastValueFrom, Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
+import { AsmStatePersistenceService } from '@spartacus/asm/core';
 
 /**
  * Version of AuthService that is working for both user na CS agent.
@@ -39,7 +42,8 @@ export class AsmAuthService extends AuthService {
     protected authRedirectService: AuthRedirectService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected authMultisiteIsolationService?: AuthMultisiteIsolationService
+    protected authMultisiteIsolationService?: AuthMultisiteIsolationService,
+    protected asmStatePersistenceService?: AsmStatePersistenceService
   ) {
     super(
       store,
@@ -50,6 +54,26 @@ export class AsmAuthService extends AuthService {
       routingService,
       authMultisiteIsolationService
     );
+  }
+
+  async checkOAuthParamsInUrl(): Promise<void> {
+    await super.checkOAuthParamsInUrl();
+
+    await this.asmStatePersistenceService?.initSync();
+    let userId: string | undefined;
+    let token: AuthToken | undefined;
+    let tokenTarget: TokenTarget | undefined;
+
+    userId = await lastValueFrom(this.userIdService.getUserId().pipe(take(1)));
+    token = await lastValueFrom(this.authStorageService.getToken().pipe(take(1)));
+    tokenTarget = await lastValueFrom(this.authStorageService.getTokenTarget().pipe(take(1)));
+
+    if (
+      tokenTarget === TokenTarget.CSAgent &&
+      token && userId === OCC_USER_ID_CURRENT
+    ) {
+      this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
+    }
   }
 
   protected canUserLogin(): boolean {
