@@ -126,7 +126,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         this.isAsmCustomer360Loaded$.next(true);
       });
     }
-    this.isAsmSessionConfigured = this.asmConfig.asm?.asmSessionSupport?.enabled ?? false;
+    this.isAsmSessionConfigured =
+      this.asmConfig.asm?.asmSessionSupport?.enabled ?? false;
     this.customerSupportAgentLoggedIn$ = this.csAgentAuthService
       .isCustomerSupportAgentLoggedIn()
       .pipe(

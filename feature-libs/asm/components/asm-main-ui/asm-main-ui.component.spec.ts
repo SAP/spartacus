@@ -273,7 +273,7 @@ describe('AsmMainUiComponent', () => {
         {
           provide: AsmConfig,
           useClass: MockAsmConfig,
-        }
+        },
       ],
     }).compileComponents();
   }));
@@ -347,7 +347,7 @@ describe('AsmMainUiComponent', () => {
       csAgentAuthService.startCustomerEmulationSession
     ).toHaveBeenCalledWith(testCustomerId);
     expect(asmService.createAsmSessionEvent).toHaveBeenCalledWith({
-      eventType: 'StartSession'
+      eventType: 'StartSession',
     });
   });
 
