@@ -7,6 +7,8 @@
 
 import * as http from 'http';
 import httpProxy from 'http-proxy';
+import * as https from 'https';
+import * as zlib from 'zlib';
 
 /**
  * Options to start a proxy server.
@@ -42,7 +44,9 @@ interface ProxyOptions {
     res: http.ServerResponse;
   }) => void;
 }
-
+function removeProtocol(url: string): string {
+  return url.replace(/^https?:\/\//, '');
+}
 /**
  * Starts an http proxy server on port 9002 with the provided options.
  */
@@ -52,6 +56,25 @@ export async function startBackendProxyServer(
   const proxy = httpProxy.createProxyServer({
     secure: false,
     selfHandleResponse: !!options.responseInterceptor,
+    agent: new https.Agent({
+      servername: removeProtocol(options.target),
+    }),
+  });
+  proxy.on('proxyReq', (proxyReq, req) => {
+    proxyReq.setHeader('host', removeProtocol(options.target));
+    console.log('proxyReq headers:', proxyReq.getHeaders());
+    console.log('proxyReq URL:', proxyReq.path);
+    const headers = proxyReq.getHeaders();
+    const url = `${options.target}${proxyReq.path}`;
+
+    // Build curl header flags
+    const headerFlags = Object.entries(headers)
+      .map(([key, value]) => `-H "${key}: ${value}"`)
+      .join(' ');
+
+    // Build curl command
+    const curlCmd = `curl -X ${req.method} ${headerFlags} "${url}"`;
+    console.log('Equivalent curl command:', curlCmd);
   });
   if (options.responseInterceptor) {
     proxy.on('proxyRes', (proxyRes, req, res) => {
@@ -61,7 +84,10 @@ export async function startBackendProxyServer(
         bodyBuffer.push(chunk);
       });
       proxyRes.on('end', () => {
-        const body = Buffer.concat(bodyBuffer).toString();
+        const body = decompressBody(
+          Buffer.concat(bodyBuffer),
+          proxyRes.headers['content-encoding']
+        );
 
         // Pass the body to the interceptor
         if (options.responseInterceptor) {
@@ -87,4 +113,15 @@ export async function startBackendProxyServer(
       resolve(server);
     });
   });
+}
+
+function decompressBody(buffer: Buffer, encoding?: string): string {
+  switch (encoding) {
+    case 'gzip':
+      return zlib.gunzipSync(buffer).toString();
+    case 'deflate':
+      return zlib.inflateSync(buffer).toString();
+    default:
+      return buffer.toString();
+  }
 }
