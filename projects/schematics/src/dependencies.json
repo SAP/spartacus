@@ -1,7 +1,7 @@
 {
   "@spartacus/assets": {},
   "@spartacus/core": {
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/platform-browser": "^19.2.15",
     "@angular/router": "^19.2.15",
@@ -17,7 +17,7 @@
   "@spartacus/schematics": {
     "@angular-devkit/core": "^19.2.16",
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/compiler": "^19.2.17",
+    "@angular/compiler": "^19.2.15",
     "@schematics/angular": "^19.2.15",
     "jsonc-parser": "^3.3.1",
     "parse5": "^7.2.1",
@@ -31,7 +31,7 @@
   },
   "storefrontapp-e2e-cypress": {},
   "@spartacus/storefront": {
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/platform-browser": "^19.2.15",
@@ -60,7 +60,7 @@
   },
   "@spartacus/asm": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@ng-select/ng-select": "^14.1.0",
@@ -78,7 +78,7 @@
   },
   "@spartacus/cart": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
@@ -94,7 +94,7 @@
   },
   "@spartacus/checkout": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
@@ -111,7 +111,7 @@
   },
   "@spartacus/customer-ticketing": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
@@ -125,7 +125,7 @@
   },
   "@spartacus/estimated-delivery-date": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@spartacus/cart": "221121.5.0",
     "@spartacus/core": "221121.5.0",
@@ -137,7 +137,7 @@
   },
   "@spartacus/order": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
@@ -155,7 +155,7 @@
   },
   "@spartacus/organization": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
@@ -173,7 +173,7 @@
   },
   "@spartacus/pdf-invoices": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@spartacus/core": "221121.5.0",
@@ -184,7 +184,7 @@
   },
   "@spartacus/pickup-in-store": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
@@ -202,7 +202,7 @@
   },
   "@spartacus/product": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/router": "^19.2.15",
     "@spartacus/core": "221121.5.0",
@@ -213,7 +213,7 @@
   },
   "@spartacus/product-configurator": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
@@ -231,7 +231,7 @@
   },
   "@spartacus/product-multi-dimensional": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
@@ -244,7 +244,7 @@
   },
   "@spartacus/qualtrics": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@spartacus/core": "221121.5.0",
     "@spartacus/schematics": "221121.5.0",
@@ -253,7 +253,7 @@
   },
   "@spartacus/quote": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
@@ -267,7 +267,7 @@
   },
   "@spartacus/requested-delivery-date": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@spartacus/cart": "221121.5.0",
@@ -281,7 +281,7 @@
   },
   "@spartacus/smartedit": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@spartacus/core": "221121.5.0",
     "@spartacus/schematics": "221121.5.0",
@@ -289,7 +289,7 @@
   },
   "@spartacus/storefinder": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
@@ -303,7 +303,7 @@
   },
   "@spartacus/subscription-billing": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/router": "^19.2.15",
     "@ng-select/ng-select": "^14.1.0",
@@ -316,7 +316,7 @@
   },
   "@spartacus/tracking": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@spartacus/core": "221121.5.0",
     "@spartacus/schematics": "221121.5.0",
@@ -324,7 +324,7 @@
   },
   "@spartacus/user": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
@@ -338,7 +338,7 @@
   },
   "@spartacus/cdc": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
@@ -362,7 +362,7 @@
   },
   "@spartacus/cds": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/router": "^19.2.15",
     "@ngrx/store": "^19.0.0",
@@ -376,7 +376,7 @@
   },
   "@spartacus/cpq-quote": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@spartacus/cart": "221121.5.0",
     "@spartacus/core": "221121.5.0",
@@ -386,7 +386,7 @@
   },
   "@spartacus/digital-payments": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
@@ -400,7 +400,7 @@
   },
   "@spartacus/epd-visualization": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
@@ -414,7 +414,7 @@
   },
   "@spartacus/omf": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/router": "^19.2.15",
     "@ngrx/store": "^19.0.0",
@@ -425,7 +425,7 @@
   },
   "@spartacus/opf": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/platform-browser": "^19.2.15",
@@ -444,7 +444,7 @@
   },
   "@spartacus/opps": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/router": "^19.2.15",
     "@spartacus/core": "221121.5.0",
@@ -454,7 +454,7 @@
   },
   "@spartacus/punchout": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
@@ -468,7 +468,7 @@
   },
   "@spartacus/s4-service": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
@@ -482,7 +482,7 @@
   },
   "@spartacus/s4om": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@spartacus/cart": "221121.5.0",
     "@spartacus/core": "221121.5.0",
@@ -495,7 +495,7 @@
   },
   "@spartacus/segment-refs": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@spartacus/core": "221121.5.0",
     "@spartacus/schematics": "221121.5.0",
@@ -503,8 +503,8 @@
   },
   "storefrontapp": {
     "@angular/animations": "^19.2.15",
-    "@angular/common": "^19.2.16",
-    "@angular/compiler": "^19.2.17",
+    "@angular/common": "^19.2.15",
+    "@angular/compiler": "^19.2.15",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/platform-browser": "^19.2.15",
