@@ -88,16 +88,16 @@ context('Merchandising Carousel - Brand page', () => {
     });
 
     it('should request products filtered by additional facets when facets on a brand page are changed', () => {
-      merchandisingCarousel.applyFacet(
-        'Stores',
-        merchandisingCarousel.chibaStoreName
+      merchandisingCarousel.openHiddenFacetAndApply(
+        'Category',
+        'Cameras'
       );
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnBrandPage(
         strategyRequestAlias,
         merchandisingCarousel.canonBrandCode,
         merchandisingCarousel.DEFAULT_LANGUAGE,
-        [`availableInStores:${merchandisingCarousel.chibaStoreName}`]
+        [`category:571`]
       );
     });
 

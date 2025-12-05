@@ -45,7 +45,11 @@ export function fillRegistrationForm(
  * Fill in Spartacus Login page
  */
 export function fillLoginForm(credentials: LoginUser) {
-  return fillCustomLoginForm(credentials);
+  cy.whenJDK21(() => {
+    fillAuthServerLoginForm(credentials);
+  }, () => {
+    fillCustomLoginForm(credentials);
+  });
 }
 
 /** New Authorization server login */
