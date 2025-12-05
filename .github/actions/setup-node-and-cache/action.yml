@@ -24,8 +24,8 @@ runs:
           node_modules
           projects/storefrontapp-e2e-cypress/node_modules
           ~/.cache/Cypress
-        key: nodemodules-${{ inputs.cache-key }}
-        restore-keys: nodemodules-${{ inputs.cache-key }}
+        key: nodemodules-${{ inputs.cache-key }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: nodemodules-${{ inputs.cache-key }}-
 
     - name: Package installation
       if: steps.cache-node-modules.outputs.cache-hit != 'true'

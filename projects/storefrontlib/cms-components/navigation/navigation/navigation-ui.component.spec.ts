@@ -328,9 +328,11 @@ describe('Navigation UI Component', () => {
       expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toBe(1);
       expect(element.queryAll(By.css('li.is-opened')).length).toBe(2);
 
-      element
-        .query(By.css('cx-generic-link[ng-reflect-url="/sub-sub-child-1a"]'))
-        .nativeElement.click();
+      const links = element.queryAll(By.css('cx-generic-link'));
+      const targetLink = links.find(
+        (link) => link.componentInstance.url === '/sub-sub-child-1a'
+      );
+      targetLink?.nativeElement.click();
       expect(
         navigationComponent.closeIfClickedTheSameLink
       ).toHaveBeenCalledWith({

@@ -123,7 +123,7 @@ describe(`ReorderOrderService`, () => {
 
         service.reorder(mockOrderId);
 
-        expect(service.reorder).toThrowError();
+        expect(service.reorder).toThrow();
       });
     });
   });

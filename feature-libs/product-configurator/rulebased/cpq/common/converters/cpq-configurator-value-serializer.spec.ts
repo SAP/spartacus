@@ -70,13 +70,13 @@ describe('CpqConfiguratorValueSerializer', () => {
     it('should throw error if no value was found', () => {
       expect(() =>
         cpqConfiguratorSerializer['findFirstChangedValue'](attributeValuesEmpty)
-      ).toThrowError();
+      ).toThrow();
     });
 
     it('should throw error if values are not defined', () => {
       expect(() =>
         cpqConfiguratorSerializer['findFirstChangedValue'](attributeWoValues)
-      ).toThrowError();
+      ).toThrow();
     });
   });
 });
