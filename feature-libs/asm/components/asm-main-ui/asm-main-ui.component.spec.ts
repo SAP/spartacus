@@ -13,6 +13,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
 import {
+  AsmConfig,
   AsmEnablerService,
   AsmSessionCreationOptions,
   AsmUi,
@@ -47,6 +48,16 @@ class MockAuthService implements Partial<AuthService> {
   updateIsUsingASMClient(_isUsing: boolean) {
     return of(false);
   }
+}
+
+let asmSupported: boolean;
+
+class MockAsmConfig extends AsmConfig {
+  asm = {
+    asmSessionSupport: {
+      enabled: asmSupported,
+    },
+  };
 }
 
 @Component({
@@ -259,6 +270,10 @@ describe('AsmMainUiComponent', () => {
           provide: OAuthLibWrapperService,
           useClass: MockOAuthLibWrapperService,
         },
+        {
+          provide: AsmConfig,
+          useClass: MockAsmConfig,
+        }
       ],
     }).compileComponents();
   }));
@@ -279,6 +294,7 @@ describe('AsmMainUiComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
+    asmSupported = true;
   });
 
   it('should create', () => {
@@ -322,6 +338,7 @@ describe('AsmMainUiComponent', () => {
 
   it('should call authService.startCustomerEmulationSession() when startCustomerEmulationSession() is called', () => {
     spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
+    spyOn(asmService, 'createAsmSessionEvent').and.stub();
     const testCustomerId = 'customerid1234567890';
 
     component.startCustomerEmulationSession({ customerId: testCustomerId });
@@ -329,6 +346,9 @@ describe('AsmMainUiComponent', () => {
     expect(
       csAgentAuthService.startCustomerEmulationSession
     ).toHaveBeenCalledWith(testCustomerId);
+    expect(asmService.createAsmSessionEvent).toHaveBeenCalledWith({
+      eventType: 'StartSession'
+    });
   });
 
   it('should not call authService.startCustomerEmulationSession() when customerId is undefined', () => {
