@@ -27,7 +27,7 @@
   },
   "peerDependencies": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.15",
+    "@angular/common": "^19.2.16",
     "@angular/core": "^19.2.15",
     "@angular/router": "^19.2.15",
     "@ng-select/ng-select": "^14.1.0",

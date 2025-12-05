@@ -33,7 +33,7 @@
   },
   "peerDependencies": {
     "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.15",
+    "@angular/common": "^19.2.16",
     "@angular/core": "^19.2.15",
     "@angular/forms": "^19.2.15",
     "@angular/router": "^19.2.15",
