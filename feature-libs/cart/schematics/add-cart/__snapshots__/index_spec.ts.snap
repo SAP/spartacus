@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Spartacus Cart schematics: ng-add Cart Base feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
@@ -109,10 +109,8 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/schematics-test",
-            "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -129,7 +127,6 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
               "src/styles.scss",
               "src/styles/spartacus/cart.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -166,7 +163,7 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "schematics-test:build:production"
@@ -178,10 +175,10 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@angular/build:extract-i18n"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "polyfills": [
               "zone.js",
@@ -199,7 +196,6 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
               "src/styles.scss",
               "src/styles/spartacus/cart.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -302,10 +298,8 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/schematics-test",
-            "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -322,7 +316,6 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
               "src/styles.scss",
               "src/styles/spartacus/cart.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -359,7 +352,7 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "schematics-test:build:production"
@@ -371,10 +364,10 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@angular/build:extract-i18n"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "polyfills": [
               "zone.js",
@@ -392,7 +385,6 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
               "src/styles.scss",
               "src/styles/spartacus/cart.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -495,10 +487,8 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/schematics-test",
-            "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -515,7 +505,6 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
               "src/styles.scss",
               "src/styles/spartacus/cart.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -552,7 +541,7 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "schematics-test:build:production"
@@ -564,10 +553,10 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@angular/build:extract-i18n"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "polyfills": [
               "zone.js",
@@ -585,7 +574,6 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
               "src/styles.scss",
               "src/styles/spartacus/cart.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -688,10 +676,8 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/schematics-test",
-            "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -708,7 +694,6 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
               "src/styles.scss",
               "src/styles/spartacus/cart.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -745,7 +730,7 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "schematics-test:build:production"
@@ -757,10 +742,10 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@angular/build:extract-i18n"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "polyfills": [
               "zone.js",
@@ -778,7 +763,6 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
               "src/styles.scss",
               "src/styles/spartacus/cart.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -891,10 +875,8 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/schematics-test",
-            "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -911,7 +893,6 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
               "src/styles.scss",
               "src/styles/spartacus/cart.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -948,7 +929,7 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "schematics-test:build:production"
@@ -960,10 +941,10 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@angular/build:extract-i18n"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "polyfills": [
               "zone.js",
@@ -981,7 +962,6 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
               "src/styles.scss",
               "src/styles/spartacus/cart.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"

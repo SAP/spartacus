@@ -9,7 +9,7 @@
         formControlName="titleCode"
         [searchable]="false"
         [clearable]="false"
-        [items]="titles$ | async"
+        [items]="(titles$ | async) ?? []"
         bindLabel="name"
         bindValue="code"
         placeholder="{{
