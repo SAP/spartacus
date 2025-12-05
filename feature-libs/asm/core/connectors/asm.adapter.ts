@@ -39,7 +39,7 @@ export abstract class AsmAdapter {
   abstract createCustomer(user: CustomerRegistrationForm): Observable<User>;
 
   /**
-   * Abstract function used to create session start registration.
+   * Abstract function used to create ASM session event.
    */
   abstract createAsmSessionEvent(
     options: AsmSessionCreationOptions

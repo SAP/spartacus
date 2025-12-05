@@ -7,11 +7,11 @@ import { AsmSessionCreationOptions } from '@spartacus/asm/root';
 import { StateUtils, ErrorAction } from '@spartacus/core';
 
 export const ASSISTED_SESSION_CREATION =
-  '[Asm] Assisted Session Registration Start';
+  '[Asm] Assisted Session Event creation';
 export const ASSISTED_SESSION_CREATION_FAIL =
-  '[Asm] Assisted Session Registration Start Fail';
+  '[Asm] Assisted Session Event creation Fail';
 export const ASSISTED_SESSION_CREATION_SUCCESS =
-  '[Asm] Assisted Session Registration Start Success';
+  '[Asm] Assisted Session Event creation Success';
 
 export class AsmSessionCreationAction extends StateUtils.LoaderLoadAction {
   readonly type = ASSISTED_SESSION_CREATION;
