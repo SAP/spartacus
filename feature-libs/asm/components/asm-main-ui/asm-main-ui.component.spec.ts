@@ -336,7 +336,7 @@ describe('AsmMainUiComponent', () => {
     ).toHaveBeenCalled();
   });
 
-  it('should call authService.startCustomerEmulationSession() when startCustomerEmulationSession() is called', () => {
+  it('should call authService.startCustomerEmulationSession() and asmService.createAsmSessionEvent() when startCustomerEmulationSession() is called', () => {
     spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
     spyOn(asmService, 'createAsmSessionEvent').and.stub();
     const testCustomerId = 'customerid1234567890';

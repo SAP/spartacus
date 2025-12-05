@@ -106,7 +106,7 @@ describe('AsmService', () => {
     expect(result).toEqual(asmUi);
   });
 
-  it('should dispatch proper action for create session registration start', () => {
+  it('should dispatch proper action for create session event', () => {
     spyOn(store, 'dispatch').and.stub();
     const options: AsmSessionCreationOptions = { eventType: 'startSesion' };
     service.createAsmSessionEvent(options);
