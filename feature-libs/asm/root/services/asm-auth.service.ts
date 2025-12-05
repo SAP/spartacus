@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   AuthActions,
@@ -15,8 +15,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   OAuthLibWrapperService,
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
   RoutingService,
   StateWithClientAuth,
   UserIdService,
@@ -24,7 +22,6 @@ import {
 import { combineLatest, from, lastValueFrom, Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
-import { AsmStatePersistenceService } from '@spartacus/asm/core';
 
 /**
  * Version of AuthService that is working for both user na CS agent.
@@ -53,25 +50,6 @@ export class AsmAuthService extends AuthService {
       routingService,
       authMultisiteIsolationService
     );
-  }
-  protected asmStatePersistenceService = inject(AsmStatePersistenceService);
-
-  async checkOAuthParamsInUrl(): Promise<void> {
-    await super.checkOAuthParamsInUrl();
-
-    this.asmStatePersistenceService?.initSync();
-    const [userId, token, tokenTarget] = await Promise.all([
-      lastValueFrom(this.userIdService.getUserId().pipe(take(1))),
-      lastValueFrom(this.authStorageService.getToken().pipe(take(1))),
-      lastValueFrom(this.authStorageService.getTokenTarget().pipe(take(1))),
-    ]);
-
-    if (
-      tokenTarget === TokenTarget.CSAgent &&
-      token && userId === OCC_USER_ID_CURRENT
-    ) {
-      this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
-    }
   }
 
   protected canUserLogin(): boolean {
