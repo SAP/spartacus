@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CxCommonEngine should handle APP_INITIALIZER errors the standard Angular way and throw if any occurred 1`] = `
-"R3InjectorError(TokenServerModule)[InjectionToken SOME_TOKEN -> InjectionToken SOME_TOKEN]:
+"R3InjectorError(TokenServerModule)[InjectionToken SOME_TOKEN -> InjectionToken SOME_TOKEN]: 
   NullInjectorError: No provider for InjectionToken SOME_TOKEN!"
 `;
 
