@@ -194,7 +194,7 @@ describe('AuthService', () => {
         );
       });
 
-       it('when token is present and customer is not emulated in ASM mode', async () => {
+      it('when token is present and customer is not emulated in ASM mode', async () => {
         service.updateIsUsingASMClient(true);
         spyOn(authStorageService, 'getItem').and.returnValue('token');
         spyOn(userIdService, 'setUserId').and.callThrough();
