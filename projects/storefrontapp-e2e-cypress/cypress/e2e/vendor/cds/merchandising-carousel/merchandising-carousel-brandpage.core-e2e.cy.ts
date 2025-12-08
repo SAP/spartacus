@@ -91,10 +91,7 @@ context('Merchandising Carousel - Brand page', () => {
     });
 
     it('should request products filtered by additional facets when facets on a brand page are changed', () => {
-      merchandisingCarousel.openHiddenFacetAndApply(
-        'Category',
-        'Cameras'
-      );
+      merchandisingCarousel.openHiddenFacetAndApply('Category', 'Cameras');
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnBrandPage(
         strategyRequestAlias,

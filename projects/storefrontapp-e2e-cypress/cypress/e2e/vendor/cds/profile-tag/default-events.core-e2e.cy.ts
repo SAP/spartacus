@@ -31,7 +31,8 @@ import {
   addProductToCart,
   goToProductPageFromCategory,
   selectPaymentMethod,
-  selectShippingAddress, verifyAndPlaceOrder,
+  selectShippingAddress,
+  verifyAndPlaceOrder,
 } from '../../../../helpers/checkout-as-persistent-user';
 
 describe('Profile-tag events', () => {
@@ -276,18 +277,13 @@ describe('Profile-tag events', () => {
         option: 'Consent Management',
       });
       verifyConsentManagementPage();
-      cy.get('input[type="checkbox"][name="PROFILE"]')
-        .as('profileCheckbox');
+      cy.get('input[type="checkbox"][name="PROFILE"]').as('profileCheckbox');
 
-      cy.get('@profileCheckbox')
-        .uncheck()
-        .should('not.be.checked');
+      cy.get('@profileCheckbox').uncheck().should('not.be.checked');
 
       cy.wait(50);
 
-      cy.get('@profileCheckbox')
-        .check()
-        .should('be.checked');
+      cy.get('@profileCheckbox').check().should('be.checked');
     });
 
     visitHomePage();
@@ -298,7 +294,7 @@ describe('Profile-tag events', () => {
     cy.wait(1000);
     verifyDeliveryOptions();
     cy.wait(1000);
-    selectPaymentMethod()
+    selectPaymentMethod();
     cy.wait(10000);
     verifyAndPlaceOrder();
     cy.wait(1000);
@@ -418,7 +414,7 @@ describe('Profile-tag events', () => {
       ).to.equal(1);
     });
 
-    openHiddenFacetAndApply('Brand', 'Canon')
+    openHiddenFacetAndApply('Brand', 'Canon');
 
     cy.window().should((win2) => {
       expect(
@@ -545,7 +541,7 @@ describe('Cart merging on login', () => {
   it('should send a CartSnapshot event when a cart gets merged after a successful login', () => {
     anonymousConsents.clickAllowAllFromBanner();
     cy.whenJDK21(() => {
-      visitPage("/login/register");
+      visitPage('/login/register');
     });
     registerUserFromLoginPage();
 

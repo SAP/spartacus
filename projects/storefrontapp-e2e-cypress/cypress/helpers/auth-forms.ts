@@ -45,11 +45,14 @@ export function fillRegistrationForm(
  * Fill in Spartacus Login page
  */
 export function fillLoginForm(credentials: LoginUser) {
-  cy.whenJDK21(() => {
-    fillAuthServerLoginForm(credentials);
-  }, () => {
-    fillCustomLoginForm(credentials);
-  });
+  cy.whenJDK21(
+    () => {
+      fillAuthServerLoginForm(credentials);
+    },
+    () => {
+      fillCustomLoginForm(credentials);
+    }
+  );
 }
 
 /** New Authorization server login */
@@ -104,7 +107,9 @@ export function register(
       cy.wait(`@${pageAlias}`).its('response.statusCode').should('eq', 200);
     });
   });
-} /**
+}
+
+/**
  * Starting from the registration page
  * - fill out the registration form
  * - submit the form without supplying captcha
