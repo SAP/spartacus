@@ -50,16 +50,6 @@ class MockAuthService implements Partial<AuthService> {
   }
 }
 
-let asmSupported: boolean;
-
-class MockAsmConfig extends AsmConfig {
-  asm = {
-    asmSessionSupport: {
-      enabled: asmSupported,
-    },
-  };
-}
-
 @Component({
   selector: 'cx-icon',
   template: '',
@@ -238,6 +228,7 @@ describe('AsmMainUiComponent', () => {
   let launchDialogService: LaunchDialogService;
   let featureConfig: FeatureConfigService;
   let asmEnablerService: AsmEnablerService;
+  let asmConfig: AsmConfig;
   const testCustomerId: string = 'test.customer@hybris.com';
 
   beforeEach(waitForAsync(() => {
@@ -270,10 +261,6 @@ describe('AsmMainUiComponent', () => {
           provide: OAuthLibWrapperService,
           useClass: MockOAuthLibWrapperService,
         },
-        {
-          provide: AsmConfig,
-          useClass: MockAsmConfig,
-        },
       ],
     }).compileComponents();
   }));
@@ -291,10 +278,10 @@ describe('AsmMainUiComponent', () => {
     featureConfig = TestBed.inject(FeatureConfigService);
     asmEnablerService = TestBed.inject(AsmEnablerService);
     featureModulesService = TestBed.inject(FeatureModulesService);
+    asmConfig = TestBed.inject(AsmConfig);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
-    asmSupported = true;
   });
 
   it('should create', () => {
@@ -339,8 +326,9 @@ describe('AsmMainUiComponent', () => {
   it('should call authService.startCustomerEmulationSession() and asmService.createAsmSessionEvent() when startCustomerEmulationSession() is called', () => {
     spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
     spyOn(asmService, 'createAsmSessionEvent').and.stub();
+    asmConfig.asm = { asmSessionSupport: { enabled: true } };
     const testCustomerId = 'customerid1234567890';
-
+    component.ngOnInit();
     component.startCustomerEmulationSession({ customerId: testCustomerId });
 
     expect(
@@ -349,6 +337,21 @@ describe('AsmMainUiComponent', () => {
     expect(asmService.createAsmSessionEvent).toHaveBeenCalledWith({
       eventType: 'StartSession',
     });
+  });
+
+    it('should not call asmService.createAsmSessionEvent() when asmSessionSupport is false', () => {
+    spyOn(asmService, 'createAsmSessionEvent').and.stub();
+    spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
+
+    asmConfig.asm = { asmSessionSupport: { enabled: false } };
+    const testCustomerId = 'customerid1234567890';
+    component.ngOnInit();
+    component.startCustomerEmulationSession({ customerId: testCustomerId });
+
+    expect(
+      csAgentAuthService.startCustomerEmulationSession
+    ).toHaveBeenCalledWith(testCustomerId);
+    expect(asmService.createAsmSessionEvent).not.toHaveBeenCalled();
   });
 
   it('should not call authService.startCustomerEmulationSession() when customerId is undefined', () => {
