@@ -339,7 +339,7 @@ describe('AsmMainUiComponent', () => {
     });
   });
 
-    it('should not call asmService.createAsmSessionEvent() when asmSessionSupport is false', () => {
+  it('should not call asmService.createAsmSessionEvent() when asmSessionSupport is false', () => {
     spyOn(asmService, 'createAsmSessionEvent').and.stub();
     spyOn(csAgentAuthService, 'startCustomerEmulationSession').and.stub();
 
