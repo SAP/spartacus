@@ -11,6 +11,12 @@ import * as https from 'https';
 import * as zlib from 'zlib';
 
 /**
+ * Set to `true` if the target server is a CCv2 server.
+ *
+ * This is needed to set up a custom HTTPS agent with the correct SNI servername.
+ */
+const IS_CCV2_SERVER = false;
+/**
  * Options to start a proxy server.
  */
 interface ProxyOptions {
@@ -44,7 +50,7 @@ interface ProxyOptions {
     res: http.ServerResponse;
   }) => void;
 }
-function removeProtocol(url: string): string {
+function extractUrlWithoutProtocol(url: string): string {
   return url.replace(/^https?:\/\//, '');
 }
 /**
@@ -53,29 +59,19 @@ function removeProtocol(url: string): string {
 export async function startBackendProxyServer(
   options: ProxyOptions
 ): Promise<http.Server> {
-  const proxy = httpProxy.createProxyServer({
+  const proxyOptions: httpProxy.ServerOptions = {
     secure: false,
     selfHandleResponse: !!options.responseInterceptor,
-    agent: new https.Agent({
-      servername: removeProtocol(options.target),
-    }),
-  });
-  proxy.on('proxyReq', (proxyReq, req) => {
-    proxyReq.setHeader('host', removeProtocol(options.target));
-    console.log('proxyReq headers:', proxyReq.getHeaders());
-    console.log('proxyReq URL:', proxyReq.path);
-    const headers = proxyReq.getHeaders();
-    const url = `${options.target}${proxyReq.path}`;
+  };
 
-    // Build curl header flags
-    const headerFlags = Object.entries(headers)
-      .map(([key, value]) => `-H "${key}: ${value}"`)
-      .join(' ');
+  // Add custom agent to support CCv2 servers
+  if (IS_CCV2_SERVER) {
+    proxyOptions.agent = new https.Agent({
+      servername: extractUrlWithoutProtocol(options.target),
+    });
+  }
 
-    // Build curl command
-    const curlCmd = `curl -X ${req.method} ${headerFlags} "${url}"`;
-    console.log('Equivalent curl command:', curlCmd);
-  });
+  const proxy = httpProxy.createProxyServer(proxyOptions);
   if (options.responseInterceptor) {
     proxy.on('proxyRes', (proxyRes, req, res) => {
       // We have to buffer the response body before passing it to the interceptor
@@ -84,7 +80,7 @@ export async function startBackendProxyServer(
         bodyBuffer.push(chunk);
       });
       proxyRes.on('end', () => {
-        const body = decompressBody(
+        const body = unzipResponseBody(
           Buffer.concat(bodyBuffer),
           proxyRes.headers['content-encoding']
         );
@@ -115,7 +111,7 @@ export async function startBackendProxyServer(
   });
 }
 
-function decompressBody(buffer: Buffer, encoding?: string): string {
+function unzipResponseBody(buffer: Buffer, encoding?: string): string {
   switch (encoding) {
     case 'gzip':
       return zlib.gunzipSync(buffer).toString();
