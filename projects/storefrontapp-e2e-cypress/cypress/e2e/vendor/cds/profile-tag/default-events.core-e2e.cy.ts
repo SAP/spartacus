@@ -85,16 +85,16 @@ describe('Profile-tag events', () => {
     });
 
     it('should send CartModified and CartSnapshot events on modifying the cart', () => {
-      goToProductPage();
       cy.intercept({
         method: 'GET',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
         )}/users/anonymous/carts/*`,
       }).as('getRefreshedCart');
+      goToProductPage();
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
-      cy.wait(500);
+      cy.wait(1000);
       cy.get('tr[cx-cart-item-list-row] cx-item-counter')
         .get(`[aria-label="Add one more"]`)
         .first()
@@ -136,16 +136,17 @@ describe('Profile-tag events', () => {
     });
 
     it('should send RemovedFromCart and CartSnapshot events on removing an item from the cart', () => {
-      goToProductPage();
-      cy.get('cx-add-to-cart button.btn-primary').click();
-      cy.get('cx-added-to-cart-dialog .btn-primary').click();
-      cy.get('cx-cart-item-list .cx-remove-btn').first().click();
       cy.intercept({
         method: 'GET',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
         )}/users/anonymous/carts/*`,
       }).as('getRefreshedCart');
+      goToProductPage();
+      cy.get('cx-add-to-cart button.btn-primary').click();
+      cy.get('cx-added-to-cart-dialog .btn-primary').click();
+      cy.get('cx-cart-item-list .cx-remove-btn').first().click();
+      cy.wait(1000);
       cy.wait('@getRefreshedCart');
       cy.window().should((win) => {
         expect(
@@ -292,15 +293,15 @@ describe('Profile-tag events', () => {
     visitHomePage();
     goToProductPageFromCategory();
     addProductToCart();
-    cy.wait(500);
+    cy.wait(1000);
     selectShippingAddress();
-    cy.wait(500);
+    cy.wait(1000);
     verifyDeliveryOptions();
-    cy.wait(500);
+    cy.wait(1000);
     selectPaymentMethod()
-    cy.wait(500);
+    cy.wait(10000);
     verifyAndPlaceOrder();
-    cy.wait(500);
+    cy.wait(1000);
 
     cy.location('pathname', { timeout: 10000 }).should(
       'include',
@@ -561,6 +562,7 @@ describe('Cart merging on login', () => {
     // add first product to cart (logged in user)
     gotToProductPageWithProductCode('280916');
     cy.get('cx-add-to-cart button.btn-primary').click();
+    cy.wait(1000);
     verifyCartSnapshotEventNumberOfEntries(cy, 1);
 
     // logout
@@ -569,6 +571,7 @@ describe('Cart merging on login', () => {
     // add second product to cart (first product for anonymous user)
     gotToProductPageWithProductCode('932577');
     cy.get('cx-add-to-cart button.btn-primary').click();
+    cy.wait(1000);
     verifyCartSnapshotEventNumberOfEntries(cy, 1);
 
     //login again, merge of carts should occur and a cart snapshot event with two products should be sent

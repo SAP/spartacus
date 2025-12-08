@@ -53,6 +53,7 @@ context('Merchandising Carousel - Brand page', () => {
   describe('without consent granted', () => {
     beforeEach(() => {
       testBrandPage();
+      cy.wait(1000);
     });
 
     it("should update the products' language when the storefront language is changed on a brand page", () => {
@@ -62,7 +63,7 @@ context('Merchandising Carousel - Brand page', () => {
       );
 
       switchSiteContext(merchandisingCarousel.japaneseLanguage, LANGUAGE_LABEL);
-      cy.wait(500);
+      cy.wait(1000);
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnBrandPage(
         strategyRequestAlias,
@@ -82,7 +83,7 @@ context('Merchandising Carousel - Brand page', () => {
       );
 
       switchSiteContext(CURRENCY_JPY, CURRENCY_LABEL);
-      cy.wait(500);
+      cy.wait(1000);
 
       merchandisingCarousel.verifyFirstCarouselItemPrice(
         merchandisingCarousel.yenCurrencySymbol
