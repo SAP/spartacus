@@ -7,8 +7,8 @@
 
 import * as http from 'http';
 import httpProxy from 'http-proxy';
-import * as https from 'https';
-import * as zlib from 'zlib';
+import { Agent as HttpsAgent } from 'https';
+import { gunzipSync, inflateSync } from 'zlib';
 
 /**
  * Set to `true` if the target server is a CCv2 server.
@@ -66,12 +66,17 @@ export async function startBackendProxyServer(
 
   // Add custom agent to support CCv2 servers
   if (IS_CCV2_SERVER) {
-    proxyOptions.agent = new https.Agent({
+    proxyOptions.agent = new HttpsAgent({
       servername: extractUrlWithoutProtocol(options.target),
     });
   }
 
   const proxy = httpProxy.createProxyServer(proxyOptions);
+
+  proxy.on('proxyReq', (proxyReq) => {
+    proxyReq.setHeader('host', extractUrlWithoutProtocol(options.target));
+  });
+
   if (options.responseInterceptor) {
     proxy.on('proxyRes', (proxyRes, req, res) => {
       // We have to buffer the response body before passing it to the interceptor
@@ -114,9 +119,9 @@ export async function startBackendProxyServer(
 function unzipResponseBody(buffer: Buffer, encoding?: string): string {
   switch (encoding) {
     case 'gzip':
-      return zlib.gunzipSync(buffer).toString();
+      return gunzipSync(buffer).toString();
     case 'deflate':
-      return zlib.inflateSync(buffer).toString();
+      return inflateSync(buffer).toString();
     default:
       return buffer.toString();
   }
