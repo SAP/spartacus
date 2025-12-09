@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { fillLoginForm } from '../../../helpers/auth-forms';
+import { fillSpartacusLoginForm } from '../../../helpers/auth-forms';
 import * as customerTicketing from '../../../helpers/customer-ticketing/customer-ticketing';
 import {
   logoutUser,
@@ -25,7 +25,10 @@ describe('Customer Data Platform (CDP) Integration', () => {
   it('should navigate to Customer Service List to check if service requests are un-editable', () => {
     cy.intercept('GET', '**/tickets?**').as('getTickets');
     visitLoginPage();
-    fillLoginForm({ username: cdpUser.userId, password: cdpUser.password });
+    fillSpartacusLoginForm({
+      username: cdpUser.userId,
+      password: cdpUser.password,
+    });
     waitForCmsComponentsToLoad('electronics-spa');
     cy.get('cx-login .cx-login-greet').contains(`Hi, ${cdpUser.fullName}`);
     customerTicketing.clickMyAccountMenuOption();

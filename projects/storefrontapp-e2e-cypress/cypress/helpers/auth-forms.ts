@@ -42,30 +42,37 @@ export function fillRegistrationForm(
 }
 
 /**
- * Fill in Spartacus Login page
+ * Enters credentials into the inputs "username" and "password", then submits the form
+ * with the "submit" button.
  */
-export function fillLoginForm(credentials: LoginUser) {
-  return fillCustomLoginForm(credentials);
-}
-
-/** New Authorization server login */
-export function fillAuthServerLoginForm({ username, password }: LoginUser) {
-  cy.log(`🛒 Logging in user ${username} from the login form`);
+function submitCredentials({ username, password }: LoginUser) {
   cy.get('input[name=username]').clear().type(username);
   cy.get('input[name=password]').clear().type(password);
 
   cy.get('button[type=submit]').click();
 }
 
-/** New Authorization server login */
-export function fillCustomLoginForm({ username, password }: LoginUser) {
-  cy.log(`🛒 Logging in user ${username} from the login form`);
+/**
+ * From auth server login page
+ * - Submits user credentials
+ */
+export function fillAuthServerLoginForm({ username, password }: LoginUser) {
+  cy.log(`🛒 Logging in user ${username} from the auth server login form`);
+  submitCredentials({ username, password });
+}
+
+/**
+ * From the spartacus login page
+ * - Asserts Spartacus login form exists
+ * - Submits user credentials
+ */
+export function fillSpartacusLoginForm({ username, password }: LoginUser) {
+  cy.log(`🛒 Logging in user ${username} from the spartacus login form`);
   cy.get('cx-login-form form').within(() => {
-    cy.get('[formcontrolname="userId"]').clear().type(username);
-    cy.get('[formcontrolname="password"]').clear().type(password);
-    cy.get('button[type=submit]').click();
+    submitCredentials({ username, password });
   });
 }
+export { fillSpartacusLoginForm as fillCustomLoginForm };
 
 export function fillKymaLoginForm({ username, password }: LoginUser) {
   cy.origin(
@@ -73,9 +80,7 @@ export function fillKymaLoginForm({ username, password }: LoginUser) {
     { args: { username, password } },
     ({ username, password }) => {
       cy.get('form[id="loginForm"]').within(() => {
-        cy.get('input[name="username"]').clear().type(username);
-        cy.get('input[name="password"]').clear().type(password);
-        cy.get('input[type=submit]').click();
+        submitCredentials({ username, password });
       });
     }
   );
@@ -100,7 +105,9 @@ export function register(
       cy.wait(`@${pageAlias}`).its('response.statusCode').should('eq', 200);
     });
   });
-} /**
+}
+
+/**
  * Starting from the registration page
  * - fill out the registration form
  * - submit the form without supplying captcha
@@ -133,7 +140,7 @@ export function registerWithCaptcha(
  * - Submit the form
  */
 export function login(username: string, password: string) {
-  fillLoginForm({ username, password });
+  fillSpartacusLoginForm({ username, password });
 }
 
 export function agentLoginForJDK21(username: string, password: string) {
@@ -143,10 +150,7 @@ export function agentLoginForJDK21(username: string, password: string) {
     ({ username, password }) => {
       cy.wait(2000);
       cy.get('form[id="loginForm"]').within(() => {
-        cy.get('input[name=username]').clear().type(username);
-        cy.get('input[name=password]').clear().type(password);
-
-        cy.get('button[type=submit]').click();
+        submitCredentials({ username, password });
       });
     }
   );
