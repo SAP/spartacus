@@ -27,7 +27,7 @@ import {
   insertImport,
   isImported,
 } from '@schematics/angular/utility/ast-utils';
-import { Change, RemoveChange } from '@schematics/angular/utility/change';
+import { RemoveChange } from '@schematics/angular/utility/change';
 import {
   NodeDependency,
   NodeDependencyType,
@@ -416,16 +416,12 @@ function removeOutputModeSupportedOnlyInNewSsrApi(
 }
 
 /**
- * Removes the `app.routes.server.ts` file and related code from the app.module.server.ts file.
- * This file is not supported by Spartacus SSR.
+ * Removes the `app.routes.server.ts` file.
  */
-function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
+function removeServerRoutesFileFromSrc(
+  spartacusOptions: SpartacusOptions
+): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
-    if (spartacusOptions.debug) {
-      context.logger.info(`⌛️ Removing server routes file...`);
-    }
-
-    // Find and remove app.routes.server.ts file
     const serverRoutesPath = getPathResultsForFile(
       tree,
       'app.routes.server.ts',
@@ -439,7 +435,15 @@ function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
       }
     }
 
-    // Find app.module.server.ts and remove references
+    return tree;
+  };
+}
+
+/**
+ * Removes the import for `serverRoutes` from './app.routes.server' in app.module.server.ts.
+ */
+function removeServerRoutesImport(spartacusOptions: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
     const appServerModulePath = getPathResultsForFile(
       tree,
       'app.module.server.ts',
@@ -447,18 +451,11 @@ function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
     )[0];
 
     if (!appServerModulePath) {
-      if (spartacusOptions.debug) {
-        context.logger.info(
-          `ℹ️ app.module.server.ts not found, skipping cleanup`
-        );
-      }
       return tree;
     }
 
     const appServerModuleSource = getTsSourceFile(tree, appServerModulePath);
-    const changes: Change[] = [];
 
-    // Remove import for serverRoutes from './app.routes.server'
     if (
       isImported(appServerModuleSource, 'serverRoutes', './app.routes.server')
     ) {
@@ -466,10 +463,36 @@ function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
         className: 'serverRoutes',
         importPath: './app.routes.server',
       });
-      changes.push(serverRoutesImportRemoval);
+      commitChanges(tree, appServerModulePath, [serverRoutesImportRemoval]);
+
+      if (spartacusOptions.debug) {
+        context.logger.info(
+          `✅ Removed serverRoutes import from ${appServerModulePath}`
+        );
+      }
     }
 
-    // Check if we need to remove @angular/ssr imports
+    return tree;
+  };
+}
+
+/**
+ * Removes the @angular/ssr import from app.module.server.ts.
+ */
+function removeAngularSsrImport(spartacusOptions: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    const appServerModulePath = getPathResultsForFile(
+      tree,
+      'app.module.server.ts',
+      '/src'
+    )[0];
+
+    if (!appServerModulePath) {
+      return tree;
+    }
+
+    const appServerModuleSource = getTsSourceFile(tree, appServerModulePath);
+
     const hasProvideServerRendering = isImported(
       appServerModuleSource,
       'provideServerRendering',
@@ -481,16 +504,42 @@ function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
       ANGULAR_SSR
     );
 
-    // If both imports exist, remove the entire @angular/ssr import line
-    // Otherwise, remove them individually
     if (hasProvideServerRendering && hasWithRoutes) {
       const angularSsrImportRemoval = removeImport(appServerModuleSource, {
         importPath: ANGULAR_SSR,
       });
-      changes.push(angularSsrImportRemoval);
+      commitChanges(tree, appServerModulePath, [angularSsrImportRemoval]);
+
+      if (spartacusOptions.debug) {
+        context.logger.info(
+          `✅ Removed @angular/ssr import from ${appServerModulePath}`
+        );
+      }
     }
 
-    // Remove provideServerRendering(withRoutes(serverRoutes)) from providers array
+    return tree;
+  };
+}
+
+/**
+ * Removes the provideServerRendering provider from app.module.server.ts.
+ */
+function removeProvideServerRenderingFromProviders(
+  spartacusOptions: SpartacusOptions
+): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    const appServerModulePath = getPathResultsForFile(
+      tree,
+      'app.module.server.ts',
+      '/src'
+    )[0];
+
+    if (!appServerModulePath) {
+      return tree;
+    }
+
+    const appServerModuleSource = getTsSourceFile(tree, appServerModulePath);
+
     const ngModuleDecorator = getDecoratorMetadata(
       appServerModuleSource,
       'NgModule',
@@ -517,22 +566,32 @@ function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
             providerToRemove.getStart(),
             providerToRemove.getFullText()
           );
-          changes.push(removeProviderChange);
-        }
-      }
-    }
+          commitChanges(tree, appServerModulePath, [removeProviderChange]);
 
-    if (changes.length > 0) {
-      commitChanges(tree, appServerModulePath, changes);
-      if (spartacusOptions.debug) {
-        context.logger.info(
-          `✅ Removed 'provideServerRendering(withRoutes(serverRoutes))' from ${appServerModulePath}`
-        );
+          if (spartacusOptions.debug) {
+            context.logger.info(
+              `✅ Removed provideServerRendering(withRoutes(serverRoutes)) from ${appServerModulePath}`
+            );
+          }
+        }
       }
     }
 
     return tree;
   };
+}
+
+/**
+ * Removes the `app.routes.server.ts` file and related code from the app.module.server.ts file.
+ * This file is not supported by Spartacus SSR.
+ */
+function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
+  return chain([
+    removeServerRoutesFileFromSrc(spartacusOptions),
+    removeServerRoutesImport(spartacusOptions),
+    removeAngularSsrImport(spartacusOptions),
+    removeProvideServerRenderingFromProviders(spartacusOptions),
+  ]);
 }
 
 /**
