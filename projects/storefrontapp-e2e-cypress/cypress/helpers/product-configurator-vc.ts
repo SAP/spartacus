@@ -697,8 +697,8 @@ export function registerConfigurationPricingRoute() {
  * @param {string} attributeName - Attribute name
  * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
- * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
- * @param waitForUpdateMsg - optional, default is true. if set to false, will not wait for update message to disappear
+ * @param {boolean} isPricingEnabled - will wait for pricing request in case pricing is enabled
+ * @param {boolean} waitForUpdateMsg - will wait for update message to disappear
  */
 export function selectAttributeAndWait(
   attributeName: string,
