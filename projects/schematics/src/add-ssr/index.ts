@@ -473,19 +473,19 @@ function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
     const hasProvideServerRendering = isImported(
       appServerModuleSource,
       'provideServerRendering',
-      '@angular/ssr'
+      ANGULAR_SSR
     );
     const hasWithRoutes = isImported(
       appServerModuleSource,
       'withRoutes',
-      '@angular/ssr'
+      ANGULAR_SSR
     );
 
     // If both imports exist, remove the entire @angular/ssr import line
     // Otherwise, remove them individually
     if (hasProvideServerRendering && hasWithRoutes) {
       const angularSsrImportRemoval = removeImport(appServerModuleSource, {
-        importPath: '@angular/ssr',
+        importPath: ANGULAR_SSR,
       });
       changes.push(angularSsrImportRemoval);
     }
