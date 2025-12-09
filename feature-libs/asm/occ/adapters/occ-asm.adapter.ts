@@ -70,7 +70,6 @@ export class OccAsmAdapter implements AsmAdapter {
   createAsmSessionEvent(options: AsmSessionCreationOptions): Observable<void> {
     const headers = this.getHeaders();
     const params: HttpParams = new HttpParams();
-    params.set('userId', this.currentUserId);
 
     const requestBody = {
       ...options,

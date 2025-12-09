@@ -104,7 +104,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   protected asmConfig = inject(AsmConfig);
 
   protected oAuthLibWrapperService = inject(OAuthLibWrapperService);
-  isAsmSessionConfigured: boolean | undefined = false;
+  isAsmSessionConfigured: boolean = false;
 
   constructor(
     protected authService: AuthService,
