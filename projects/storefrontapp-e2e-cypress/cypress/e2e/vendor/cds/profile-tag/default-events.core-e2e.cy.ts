@@ -575,7 +575,7 @@ describe('Cart merging on login', () => {
     loginHelper.loginUser();
     cy.wait(`@${loginAlias}`);
 
-    // verifyCartSnapshotEventNumberOfEntries(cy, 2); // TODO: why cart merging does not work?
+    verifyCartSnapshotEventNumberOfEntries(cy, 2);
   });
 });
 
