@@ -21,14 +21,25 @@ import {
   template,
   url,
 } from '@angular-devkit/schematics';
-import { insertImport } from '@schematics/angular/utility/ast-utils';
+import {
+  getDecoratorMetadata,
+  getMetadataField,
+  insertImport,
+  isImported,
+} from '@schematics/angular/utility/ast-utils';
+import { Change, RemoveChange } from '@schematics/angular/utility/change';
 import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import ts from 'typescript';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import collectedDependencies from '../dependencies.json';
-import { getDefaultProjectNameFromWorkspace, getWorkspace } from '../shared';
+import {
+  ANGULAR_CORE,
+  getDefaultProjectNameFromWorkspace,
+  getWorkspace,
+} from '../shared';
 import { ANGULAR_SSR } from '../shared/constants';
 import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
@@ -36,6 +47,7 @@ import {
   getIndexHtmlPath,
   getPathResultsForFile,
   getTsSourceFile,
+  removeImport,
 } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
@@ -403,14 +415,125 @@ function removeOutputModeSupportedOnlyInNewSsrApi(
   };
 }
 
-// TODO: remove `app.routes.server.ts` file and related code
-// function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
-//   return (tree: Tree, context: SchematicContext): Tree => {
-//     if (spartacusOptions.debug) {
-//       context.logger.info(`⌛️ Removing server routes file...`);
-//     }
-//   };
-// }
+/**
+ * Removes the `app.routes.server.ts` file and related code from the app.module.server.ts file.
+ * This file is not supported by Spartacus SSR.
+ */
+function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    if (spartacusOptions.debug) {
+      context.logger.info(`⌛️ Removing server routes file...`);
+    }
+
+    // Find and remove app.routes.server.ts file
+    const serverRoutesPath = getPathResultsForFile(
+      tree,
+      'app.routes.server.ts',
+      '/src'
+    )[0];
+
+    if (serverRoutesPath) {
+      tree.delete(serverRoutesPath);
+      if (spartacusOptions.debug) {
+        context.logger.info(`✅ Deleted ${serverRoutesPath}`);
+      }
+    }
+
+    // Find app.module.server.ts and remove references
+    const appServerModulePath = getPathResultsForFile(
+      tree,
+      'app.module.server.ts',
+      '/src'
+    )[0];
+
+    if (!appServerModulePath) {
+      if (spartacusOptions.debug) {
+        context.logger.info(
+          `ℹ️ app.module.server.ts not found, skipping cleanup`
+        );
+      }
+      return tree;
+    }
+
+    const appServerModuleSource = getTsSourceFile(tree, appServerModulePath);
+    const changes: Change[] = [];
+
+    // Remove import for serverRoutes from './app.routes.server'
+    if (
+      isImported(appServerModuleSource, 'serverRoutes', './app.routes.server')
+    ) {
+      const serverRoutesImportRemoval = removeImport(appServerModuleSource, {
+        className: 'serverRoutes',
+        importPath: './app.routes.server',
+      });
+      changes.push(serverRoutesImportRemoval);
+    }
+
+    // Check if we need to remove @angular/ssr imports
+    const hasProvideServerRendering = isImported(
+      appServerModuleSource,
+      'provideServerRendering',
+      '@angular/ssr'
+    );
+    const hasWithRoutes = isImported(
+      appServerModuleSource,
+      'withRoutes',
+      '@angular/ssr'
+    );
+
+    // If both imports exist, remove the entire @angular/ssr import line
+    // Otherwise, remove them individually
+    if (hasProvideServerRendering && hasWithRoutes) {
+      const angularSsrImportRemoval = removeImport(appServerModuleSource, {
+        importPath: '@angular/ssr',
+      });
+      changes.push(angularSsrImportRemoval);
+    }
+
+    // Remove provideServerRendering(withRoutes(serverRoutes)) from providers array
+    const ngModuleDecorator = getDecoratorMetadata(
+      appServerModuleSource,
+      'NgModule',
+      ANGULAR_CORE
+    )[0];
+
+    if (ngModuleDecorator) {
+      const providersAssignment = getMetadataField(
+        ngModuleDecorator as ts.ObjectLiteralExpression,
+        'providers'
+      )[0] as ts.PropertyAssignment;
+
+      if (providersAssignment) {
+        const providersArray =
+          providersAssignment.initializer as ts.ArrayLiteralExpression;
+
+        const providerToRemove = providersArray.elements.find((element) =>
+          element.getText().includes('provideServerRendering')
+        );
+
+        if (providerToRemove) {
+          const removeProviderChange = new RemoveChange(
+            appServerModulePath,
+            providerToRemove.getStart(),
+            providerToRemove.getFullText()
+          );
+          changes.push(removeProviderChange);
+        }
+      }
+    }
+
+    if (changes.length > 0) {
+      commitChanges(tree, appServerModulePath, changes);
+      if (spartacusOptions.debug) {
+        context.logger.info(
+          `✅ Removed server routes references from ${appServerModulePath}`
+        );
+      }
+    }
+
+    return tree;
+  };
+}
 
 /**
  * Http Transfer Cache is temporarily disabled; https://jira.tools.sap/browse/CXSPA-10430
@@ -493,6 +616,7 @@ export function addSSR(options: SpartacusOptions): Rule {
         project: options.project,
       }),
       removeOutputModeSupportedOnlyInNewSsrApi(options),
+      removeServerRoutesFile(options),
       addBuildSsrScript(options),
       modifyAppServerModuleFile(),
       modifyIndexHtmlFile(options),
