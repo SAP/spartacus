@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { fillLoginForm } from '../../../helpers/auth-forms';
+import { fillSpartacusLoginForm } from '../../../helpers/auth-forms';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { isolateTests } from '../../../support/utils/test-isolation';
 
@@ -22,7 +22,10 @@ describe('My Account Version-2 Landing Page', { testIsolation: false }, () => {
 
     it('should navigate to login page and SignIn with user details', () => {
       cy.getLoginRegisterLink().click();
-      fillLoginForm({ username: 'cdp.user@sap.com', password: 'Test@1' });
+      fillSpartacusLoginForm({
+        username: 'cdp.user@sap.com',
+        password: 'Test@1',
+      });
     });
 
     it('should navigate to My Account Landing page', () => {

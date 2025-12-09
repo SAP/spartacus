@@ -6,7 +6,7 @@
 
 import { user } from '../../../sample-data/checkout-flow';
 import { visitLoginPage } from '../../../support/utils/login';
-import { fillLoginForm } from '../../auth-forms';
+import { fillSpartacusLoginForm } from '../../auth-forms';
 import { verifyTabbingOrder } from '../tabbing-order';
 import { TabElement } from '../tabbing-order.model';
 
@@ -20,7 +20,7 @@ export function loginTabbingOrder(
 
   if (prefillForm) {
     const { email: username, password } = user;
-    fillLoginForm({ username, password });
+    fillSpartacusLoginForm({ username, password });
   }
 
   verifyTabbingOrder(containerSelector, config);
