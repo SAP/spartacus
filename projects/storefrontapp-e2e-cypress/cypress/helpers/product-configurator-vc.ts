@@ -698,16 +698,22 @@ export function registerConfigurationPricingRoute() {
  * @param {uiType} uiType - UI type
  * @param {string} valueName - Value name
  * @param {boolean} isPricingEnabled - will wait also for pricing request in case pricing is enabled
+ * @param waitForUpdateMsg - optional, default is true. if set to false, will not wait for update message to disappear
  */
 export function selectAttributeAndWait(
   attributeName: string,
   uiType: configuration.uiType,
   valueName: string,
-  isPricingEnabled: boolean = true
+  isPricingEnabled: boolean = true,
+  waitForUpdateMsg: boolean = true
 ): void {
-  configuration.selectAttribute(attributeName, uiType, valueName, true);
+  configuration.selectAttribute(
+    attributeName,
+    uiType,
+    valueName,
+    waitForUpdateMsg
+  );
   waitForRequest(UPDATE_CONFIG_ALIAS, isPricingEnabled);
-  checkGhostAnimationNotDisplayed();
 }
 
 /**
