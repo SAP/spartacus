@@ -115,13 +115,13 @@ async function propagateDeclarationMerging(
       logger.info(`Found ${declarationMerges.length} declaration merges`);
       for (const declarationMerge of declarationMerges) {
         // replace declare module `../foo/bar` with typingsFile without `.d.ts`
-        const typingsFileWithoutDts = typingsFile.replace('.d.ts', '');
+        const typingsBasename = path.basename(typingsFile, '.d.ts');
         typingsFileSource = typingsFileSource.replace(
           declarationMerge,
-          `declare module './${typingsFileWithoutDts}'`
+          `declare module './${typingsBasename}'`
         );
         logger.info(
-          `Updated declaration merge for ${declarationMerge}, new value: ${typingsFileWithoutDts}`
+          `Updated declaration merge for ${declarationMerge}, new value: ${typingsBasename}`
         );
       }
 
