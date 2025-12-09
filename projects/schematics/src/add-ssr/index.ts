@@ -526,7 +526,7 @@ function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
       commitChanges(tree, appServerModulePath, changes);
       if (spartacusOptions.debug) {
         context.logger.info(
-          `✅ Removed server routes references from ${appServerModulePath}`
+          `✅ Removed 'provideServerRendering(withRoutes(serverRoutes))' from ${appServerModulePath}`
         );
       }
     }
