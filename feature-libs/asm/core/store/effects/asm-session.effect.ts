@@ -14,6 +14,8 @@ import { AsmConnector } from '../../connectors';
 @Injectable()
 export class AsmSessionEffects {
   protected logger = inject(LoggerService);
+  protected asmConnector = inject(AsmConnector);
+  protected actions$ = inject(Actions);
 
   createAsmSessionEvent$: Observable<AsmSessionActions.AsmSessionAction> =
     createEffect(() =>
@@ -36,8 +38,4 @@ export class AsmSessionEffects {
         )
       )
     );
-  constructor(
-    private actions$: Actions,
-    private asmConnector: AsmConnector
-  ) {}
 }
