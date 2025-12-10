@@ -45,10 +45,9 @@ export abstract class AsmConfig {
        */
       enable?: boolean;
     };
-    createCustomer?:
-    {
+    createCustomer?: {
       enable?: boolean;
-    }
+    };
   };
 }
 
