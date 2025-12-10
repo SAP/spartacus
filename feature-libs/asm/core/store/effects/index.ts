@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsmSessionEffects } from './asm-session.effect';
 import { CustomerEffects } from './customer.effect';
 
-export const effects: any[] = [CustomerEffects];
+export const effects: any[] = [CustomerEffects, AsmSessionEffects];
 
 export * from './customer.effect';
+export * from './asm-session.effect';

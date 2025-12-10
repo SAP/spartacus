@@ -5,6 +5,7 @@
  */
 
 import {
+  AsmSessionCreationOptions,
   BindCartParams,
   CustomerListsPage,
   CustomerRegistrationForm,
@@ -36,4 +37,11 @@ export abstract class AsmAdapter {
    * Abstract function used to create an account for customers.
    */
   abstract createCustomer(user: CustomerRegistrationForm): Observable<User>;
+
+  /**
+   * Abstract function used to create ASM session event.
+   */
+  abstract createAsmSessionEvent(
+    options: AsmSessionCreationOptions
+  ): Observable<void>;
 }
