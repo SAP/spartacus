@@ -52,6 +52,7 @@ context('Merchandising Carousel - Home page', () => {
       );
 
       switchSiteContext(merchandisingCarousel.japaneseLanguage, LANGUAGE_LABEL);
+      cy.wait(500);
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
         strategyRequestAlias,
@@ -70,6 +71,7 @@ context('Merchandising Carousel - Home page', () => {
       );
 
       switchSiteContext(CURRENCY_JPY, CURRENCY_LABEL);
+      cy.wait(500);
 
       merchandisingCarousel.verifyFirstCarouselItemPrice(
         merchandisingCarousel.yenCurrencySymbol
