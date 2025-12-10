@@ -33,6 +33,9 @@ export abstract class AsmConfig {
         actionType?: CustomerListColumnActionType;
       }[];
     };
+    asmSessionSupport?: {
+      enabled?: boolean;
+    };
     userIdHttpHeader?: {
       /**
        * To fix certain features when a customer agent is emulating a user, we must send a header called
