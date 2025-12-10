@@ -76,9 +76,8 @@ export const defaultAsmConfig: AsmConfig = {
     userIdHttpHeader: {
       enable: true,
     },
-    createCustomer:
-    {
-      enable: false,
-    }
+    createCustomer: {
+      enable: true,
+    },
   },
 };
