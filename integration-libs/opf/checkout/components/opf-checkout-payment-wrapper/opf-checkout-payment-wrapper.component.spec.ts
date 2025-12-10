@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CurrencyService, LanguageService } from '@spartacus/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { OpfConfig } from '@spartacus/opf/base/root';
 import { OpfGlobalFunctionsService } from '@spartacus/opf/global-functions/core';
 import {
   OpfGlobalFunctionsDomain,
@@ -24,6 +25,7 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
   let mockLanguageService: jasmine.SpyObj<LanguageService>;
   let mockCurrencyService: jasmine.SpyObj<CurrencyService>;
   let mockActiveCartService: jasmine.SpyObj<ActiveCartFacade>;
+  let mockOpfConfig: OpfConfig;
   let domSanitizer: DomSanitizer;
 
   // Subjects for testing language and currency changes
@@ -85,6 +87,17 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
       cartStableSubject.asObservable()
     );
 
+    mockOpfConfig = {
+      opf: {
+        paymentOption: {
+          iframeSandboxMap: {
+            458: 'allow-scripts',
+            213: 'allow-scripts allow-same-origin',
+          },
+        },
+      },
+    };
+
     TestBed.configureTestingModule({
       declarations: [OpfCheckoutPaymentWrapperComponent],
       providers: [
@@ -108,6 +121,10 @@ describe('OpfCheckoutPaymentWrapperComponent', () => {
         {
           provide: ActiveCartFacade,
           useValue: mockActiveCartService,
+        },
+        {
+          provide: OpfConfig,
+          useValue: mockOpfConfig,
         },
         {
           provide: ViewContainerRef,

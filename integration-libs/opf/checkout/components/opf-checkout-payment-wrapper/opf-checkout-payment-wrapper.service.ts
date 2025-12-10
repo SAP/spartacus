@@ -174,7 +174,8 @@ export class OpfCheckoutPaymentWrapperService {
     if (config?.dynamicScript) {
       const html = config?.dynamicScript?.html;
 
-      const paymentOptionId = this.lastPaymentOptionId;
+      const paymentOptionId =
+        config?.paymentOptionId ?? this.lastPaymentOptionId;
 
       this.opfResourceLoaderService
         .loadResources(
@@ -189,6 +190,7 @@ export class OpfCheckoutPaymentWrapperService {
             isError: false,
             renderType: config?.pattern,
             html,
+            paymentOptionId,
           });
 
           if (
@@ -210,6 +212,7 @@ export class OpfCheckoutPaymentWrapperService {
         isError: false,
         renderType: config?.pattern,
         destination: config?.destination,
+        paymentOptionId: config?.paymentOptionId ?? this.lastPaymentOptionId,
       });
       return;
     }
