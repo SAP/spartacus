@@ -6,6 +6,7 @@
 
 import { Injectable } from '@angular/core';
 import {
+  AsmSessionCreationOptions,
   BindCartParams,
   CustomerListsPage,
   CustomerRegistrationForm,
@@ -38,5 +39,9 @@ export class AsmConnector {
 
   createCustomer(user: CustomerRegistrationForm): Observable<User> {
     return this.asmAdapter.createCustomer(user);
+  }
+
+  createAsmSessionEvent(options: AsmSessionCreationOptions): Observable<void> {
+    return this.asmAdapter.createAsmSessionEvent(options);
   }
 }
