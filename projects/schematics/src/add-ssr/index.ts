@@ -40,7 +40,7 @@ import {
   getDefaultProjectNameFromWorkspace,
   getWorkspace,
 } from '../shared';
-import { ANGULAR_SSR } from '../shared/constants';
+import { ANGULAR_SERVER_MODULE, ANGULAR_SSR } from '../shared/constants';
 import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
   commitChanges,
@@ -66,7 +66,7 @@ export function modifyAppServerModuleFile(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const appServerModulePath = getPathResultsForFile(
       tree,
-      'app.module.server.ts',
+      ANGULAR_SERVER_MODULE,
       '/src'
     )[0];
 
@@ -94,7 +94,7 @@ export function modifyAppServerModuleFile(): Rule {
     const changes = [importChange, ...providerChanges];
     commitChanges(tree, appServerModulePath, changes);
 
-    context.logger.log('info', `✅️ Modified app.server.module.ts file.`);
+    context.logger.log('info', `✅️ Modified app.module.server.ts file.`);
     return tree;
   };
 }
@@ -446,7 +446,7 @@ function removeServerRoutesImport(spartacusOptions: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     const appServerModulePath = getPathResultsForFile(
       tree,
-      'app.module.server.ts',
+      ANGULAR_SERVER_MODULE,
       '/src'
     )[0];
 
@@ -483,7 +483,7 @@ function removeAngularSsrImport(spartacusOptions: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     const appServerModulePath = getPathResultsForFile(
       tree,
-      'app.module.server.ts',
+      ANGULAR_SERVER_MODULE,
       '/src'
     )[0];
 
@@ -530,7 +530,7 @@ function removeProvideServerRenderingFromProviders(
   return (tree: Tree, context: SchematicContext): Tree => {
     const appServerModulePath = getPathResultsForFile(
       tree,
-      'app.module.server.ts',
+      ANGULAR_SERVER_MODULE,
       '/src'
     )[0];
 
