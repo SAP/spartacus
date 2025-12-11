@@ -7,11 +7,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
-import {
-  FeatureConfigService,
-  LoggerService,
-  tryNormalizeHttpError,
-} from '@spartacus/core';
+import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -47,7 +43,6 @@ type updateConfigurationSuccessResultType =
  */
 export class ConfiguratorBasicEffects {
   protected logger = inject(LoggerService);
-  private featureConfigService = inject(FeatureConfigService);
 
   createConfiguration$: Observable<
     | ConfiguratorActions.CreateConfigurationSuccess
@@ -123,6 +118,44 @@ export class ConfiguratorBasicEffects {
     )
   );
 
+  readAttributeDomain$: Observable<
+    | ConfiguratorActions.ReadConfigurationFail
+    | ConfiguratorActions.ReadConfigurationSuccess
+    | ConfiguratorActions.UpdatePriceSummary
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ConfiguratorActions.READ_ATTRIBUTE_DOMAIN),
+      mergeMap((action: ConfiguratorActions.ReadAttributeDomain) => {
+        return this.configuratorCommonsConnector
+          .readConfiguration(
+            action.payload.configuration.configId,
+            action.payload.groupId,
+            action.payload.configuration.owner,
+            action.payload.attributeKey
+          )
+          .pipe(
+            switchMap((configuration: Configurator.Configuration) => {
+              return [
+                new ConfiguratorActions.ReadConfigurationSuccess(configuration),
+                new ConfiguratorActions.UpdatePriceSummary({
+                  ...configuration,
+                  interactionState: {
+                    currentGroup: action.payload.groupId,
+                  },
+                }),
+              ];
+            }),
+            catchError((error) => [
+              new ConfiguratorActions.ReadConfigurationFail({
+                ownerKey: action.payload.configuration.owner.key,
+                error: tryNormalizeHttpError(error, this.logger),
+              }),
+            ])
+          );
+      })
+    )
+  );
+
   updateConfiguration$: Observable<
     | ConfiguratorActions.UpdateConfigurationSuccess
     | ConfiguratorActions.UpdateConfigurationFail
@@ -175,12 +208,7 @@ export class ConfiguratorBasicEffects {
         return this.configuratorCommonsConnector.readPriceSummary(payload).pipe(
           map((configuration: Configurator.Configuration) => {
             return new ConfiguratorActions.UpdatePriceSummarySuccess(
-              configuration,
-              {
-                isDeltaRendering: this.featureConfigService.isEnabled(
-                  'productConfiguratorDeltaRendering'
-                ),
-              }
+              configuration
             );
           }),
           catchError((error) => {

@@ -95,6 +95,9 @@ export const SPARTACUS_ORDER = `@spartacus/order`;
 export const SPARTACUS_ORDER_ROOT = `@spartacus/order/root`;
 export const SPARTACUS_ORDER_ASSETS = `@spartacus/order/assets`;
 export const SPARTACUS_ORDER_COMPONENTS = `@spartacus/order/components`;
+export const SPARTACUS_ORDER_DOCUMENT_FLOW = `@spartacus/order/document-flow`;
+export const SPARTACUS_ORDER_DOCUMENT_FLOW_ROOT = `@spartacus/order/document-flow/root`;
+export const SPARTACUS_ORDER_DOCUMENT_FLOW_ASSETS = `@spartacus/order/document-flow/assets`;
 
 export const SPARTACUS_ORGANIZATION = `@spartacus/organization`;
 export const SPARTACUS_ADMINISTRATION = `@spartacus/organization/administration`;
@@ -194,6 +197,13 @@ export const SPARTACUS_USER_PROFILE_COMPONENTS = `@spartacus/user/profile/compon
 export const SPARTACUS_USER_PROFILE_ASSETS = `@spartacus/user/profile/assets`;
 export const SPARTACUS_USER_PROFILE_ROOT = `@spartacus/user/profile/root`;
 
+export const SPARTACUS_SUBSCRIPTION_BILLING = '@spartacus/subscription-billing';
+export const SPARTACUS_SUBSCRIPTION_BILLING_ASSETS = `@spartacus/subscription-billing/assets`;
+export const SPARTACUS_SUBSCRIPTION_BILLING_ROOT = `@spartacus/subscription-billing/root`;
+export const SPARTACUS_SUBSCRIPTION_BILLING_COMPONENTS = `@spartacus/subscription-billing/components`;
+export const SPARTACUS_SUBSCRIPTION_BILLING_CORE = `@spartacus/subscription-billing/core`;
+export const SPARTACUS_SUBSCRIPTION_BILLING_OCC = `@spartacus/subscription-billing/occ`;
+
 export const SPARTACUS_CDS = `@spartacus/cds`;
 
 export const SPARTACUS_CDS_ASSETS = `@spartacus/cds/assets`;
@@ -236,6 +246,9 @@ export const SPARTACUS_OPF_ASSETS = `@spartacus/opf/assets`;
 export const SPARTACUS_OPF_CHECKOUT = `@spartacus/opf/checkout`;
 export const SPARTACUS_OPF_CHECKOUT_ROOT = `@spartacus/opf/checkout/root`;
 export const SPARTACUS_OPF_CHECKOUT_ASSETS = `@spartacus/opf/checkout/assets`;
+
+export const SPARTACUS_OPF_B2B_CHECKOUT = `@spartacus/opf/b2b-checkout`;
+export const SPARTACUS_OPF_B2B_CHECKOUT_ROOT = `@spartacus/opf/b2b-checkout/root`;
 
 export const SPARTACUS_OPF_PAYMENT = `@spartacus/opf/payment`;
 export const SPARTACUS_OPF_PAYMENT_ROOT = `@spartacus/opf/payment/root`;
@@ -300,6 +313,7 @@ export const CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME =
   'Checkout-Scheduled-Replenishment';
 
 export const ORDER_FEATURE_NAME = 'Order';
+export const ORDER_DOCUMENT_FLOW_FEATURE_NAME = 'Order-Document-Flow';
 
 export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME = 'Administration';
 export const ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME = 'Order-Approval';
@@ -343,6 +357,8 @@ export const PDF_INVOICES_FEATURE_NAME = 'PDF-Invoices';
 export const USER_ACCOUNT_FEATURE_NAME = 'User-Account';
 export const USER_PROFILE_FEATURE_NAME = 'User-Profile';
 
+export const SUBSCRIPTION_BILLING_FEATURE_NAME = 'Subscription-Billing';
+
 export const CDC_FEATURE_NAME = 'CDC';
 export const CDC_B2B_FEATURE_NAME = 'CDC-B2B';
 
@@ -369,6 +385,7 @@ export const OMF_FEATURE_NAME = 'OMF';
 export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 export const OPF_FEATURE_NAME = 'OPF';
 export const OPF_CHECKOUT_FEATURE_NAME = 'OPF-Checkout';
+export const OPF_B2B_CHECKOUT_FEATURE_NAME = 'OPF-B2B-Checkout';
 export const OPF_BASE_FEATURE_NAME = 'OPF-Base';
 export const OPF_PAYMENT_FEATURE_NAME = 'OPF-Payment';
 export const OPF_CTA_FEATURE_NAME = 'OPF-Cta';
@@ -387,6 +404,11 @@ export const CPQ_QUOTE_FEATURE_NAME = 'cpq-quote';
 export const SPARTACUS_CPQ_QUOTE = `@spartacus/cpq-quote`;
 export const SPARTACUS_CPQ_QUOTE_ROOT = `@spartacus/cpq-quote/root`;
 export const SPARTACUS_CPQ_QUOTE_ASSETS = `@spartacus/cpq-quote/assets`;
+
+export const SPARTACUS_PUNCHOUT = `@spartacus/punchout`;
+export const SPARTACUS_PUNCHOUT_ROOT = `@spartacus/punchout/root`;
+export const SPARTACUS_PUNCHOUT_ASSETS = `@spartacus/punchout/assets`;
+export const PUNCHOUT_FEATURE_NAME = 'Punchout';
 
 export const SPARTACUS_BOOTSTRAP_FUNCTIONS =
   '@spartacus/styles/vendor/bootstrap/scss/functions';

@@ -4,13 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  inject,
-} from '@angular/core';
-import { FeatureConfigService, LanguageService } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { LanguageService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -35,8 +30,6 @@ export class ConfiguratorGroupComponent {
 
   activeLanguage$: Observable<string> = this.languageService.getActive();
   uiType = Configurator.UiType;
-
-  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -96,6 +89,16 @@ export class ConfiguratorGroupComponent {
   }
 
   /**
+   * Creates unique key for config attribute on the UI
+   *
+   * @param prefix for key depending on usage (e.g. uiType, label)
+   * @param attributeId
+   */
+  createAttributeUiKey(prefix: string, attributeId: string): string {
+    return this.configUtils.createAttributeUiKey(prefix, attributeId);
+  }
+
+  /**
    * Retrieves information whether the expert mode is active.
    *
    * @returns {Observable<boolean> | undefined } - 'True' if the expert mode is active, otherwise 'false'.
@@ -114,17 +117,13 @@ export class ConfiguratorGroupComponent {
 
   /**
    * track-by function for the *ngFor generating the attribute list of the current group,
-   * returning the attribute key if the 'productConfiguratorDeltaRendering' toggle is active.
+   * returning the attribute key.
    *
    * @param _index
    * @param group
-   * @returns attribute key if feature 'productConfiguratorDeltaRendering' is active, the attribute itself otherwise (same as if there were not track-by function)
+   * @returns attribute key
    */
   trackByFn = (_index: number, attribute: Configurator.Attribute) => {
-    return this.featureConfigService.isEnabled(
-      'productConfiguratorDeltaRendering'
-    )
-      ? attribute.key
-      : attribute;
+    return attribute.key;
   };
 }

@@ -101,6 +101,7 @@ export interface Cart {
   totalUnitCount?: number;
   user?: Principal;
   quoteCode?: string;
+  quotePurchaseOrderNumber?: string;
 }
 
 export interface CartModification {
@@ -118,6 +119,7 @@ export interface CartItemComponentOptions {
   displayAddToCart?: boolean;
   addToCartString?: string;
   cartType?: CartType;
+  disableItemLink?: boolean;
 }
 /**
  * A key that identifies an 'abstract order', that in OO terms can be understood

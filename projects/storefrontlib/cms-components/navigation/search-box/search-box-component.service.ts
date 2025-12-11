@@ -15,7 +15,13 @@ import {
   WindowRef,
   ProductActions,
 } from '@spartacus/core';
-import { combineLatest, Observable, of, ReplaySubject, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+  of,
+  ReplaySubject,
+} from 'rxjs';
 import { map, switchMap, tap, filter, take } from 'rxjs/operators';
 import {
   SearchBoxProductSelectedEvent,
@@ -31,7 +37,7 @@ const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
 export class SearchBoxComponentService {
   chosenWord = new ReplaySubject<string>();
   sharedEvent = new ReplaySubject<KeyboardEvent>();
-  searchCompleted = new Subject<boolean>();
+  searchCompleted = new BehaviorSubject<boolean>(false);
 
   protected enableRecentSearches: boolean = false;
   protected enableTrendingSearches: boolean = false;
@@ -317,7 +323,6 @@ export class SearchBoxComponentService {
    */
   launchSearchPage(query: string): void {
     // Reset the completed state before starting new search
-    this.searchCompleted.next(false);
     this.searchCompleted
       .pipe(
         filter((complete) => complete), // Only proceed when true

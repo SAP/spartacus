@@ -15,6 +15,7 @@ import {
 
 import {
   OpfDynamicScript,
+  OpfHtmlContentMode,
   OpfKeyValueMap,
   OpfMetadataModel,
   OpfMetadataStoreService,
@@ -242,10 +243,12 @@ export class OpfPaymentVerificationService {
 
     return new Promise((resolve: (value: boolean) => void) => {
       this.opfResourceLoaderService
-        .loadResources(script.jsUrls, script.cssUrls)
+        .loadResources(script.jsUrls, script.cssUrls, undefined, script)
         .then(() => {
-          if (html) {
+          if (html && script?.htmlContentMode !== OpfHtmlContentMode.SEPARATE) {
             this.opfResourceLoaderService.executeScriptFromHtml(html);
+            resolve(true);
+          } else if (html) {
             resolve(true);
           } else {
             resolve(false);

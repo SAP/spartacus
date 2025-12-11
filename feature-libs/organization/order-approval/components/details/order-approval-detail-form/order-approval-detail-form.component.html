@@ -6,11 +6,6 @@
   </div>
 
   <ng-template #approvalFormTemplate>
-    <div
-      *cxFeature="'!a11yRemoveStatusLoadedRole'"
-      role="status"
-      [attr.aria-label]="'common.loaded' | cxTranslate"
-    ></div>
     <ng-container *ngIf="orderApproval?.approvalDecisionRequired">
       <div *ngIf="approvalFormVisible" class="cx-approval-form-header row">
         <div class="cx-approval-form-label col-sm-12">
@@ -48,9 +43,7 @@
             [attr.aria-errormessage]="'commentError'"
           ></textarea>
 
-          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
-            *cxFeature="'formErrorsDescriptiveMessages'"
             id="commentError"
             [translationParams]="{
               label:
@@ -58,11 +51,6 @@
                   approvalDecision +
                   '.label' | cxTranslate,
             }"
-            [control]="approvalForm.get('comment')"
-          ></cx-form-errors>
-
-          <cx-form-errors
-            *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="approvalForm.get('comment')"
           ></cx-form-errors>
         </label>

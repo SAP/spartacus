@@ -14,7 +14,6 @@ import {
   AuthService,
   FeatureConfigService,
   RoutingService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
@@ -24,33 +23,11 @@ import { Subscription } from 'rxjs';
   selector: 'cx-guest-register-form',
   templateUrl: './order-guest-register-form.component.html',
   standalone: false,
+  host: { ngSkipHydration: 'true' },
 })
 export class OrderGuestRegisterFormComponent implements OnDestroy {
-  // TODO: (CXSPA-7315) Remove feature toggle in the next major
   private featureConfigService = inject(FeatureConfigService);
-
-  protected passwordValidators = this.featureConfigService?.isEnabled(
-    'formErrorsDescriptiveMessages'
-  )
-    ? this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-      ? CustomFormValidators.securePasswordValidators
-      : this.featureConfigService.isEnabled(
-            'enableConsecutiveCharactersPasswordRequirement'
-          )
-        ? [
-            ...CustomFormValidators.passwordValidators,
-            CustomFormValidators.noConsecutiveCharacters,
-          ]
-        : CustomFormValidators.passwordValidators
-    : [
-        this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-          ? CustomFormValidators.securePasswordValidator
-          : this.featureConfigService.isEnabled(
-                'enableConsecutiveCharactersPasswordRequirement'
-              )
-            ? CustomFormValidators.strongPasswordValidator
-            : CustomFormValidators.passwordValidator,
-      ];
+  protected passwordValidators = CustomFormValidators.securePasswordValidators;
 
   @Input() guid: string;
   @Input() email: string;
@@ -74,9 +51,7 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
     protected routingService: RoutingService,
     protected authService: AuthService,
     protected fb: UntypedFormBuilder
-  ) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
+  ) {}
 
   submit() {
     if (this.guestRegisterForm.valid) {
@@ -84,7 +59,10 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
         this.guid,
         this.guestRegisterForm.value.password
       );
-      if (!this.subscription) {
+      if (
+        !this.subscription &&
+        !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+      ) {
         this.subscription = this.authService
           .isUserLoggedIn()
           .subscribe((isLoggedIn) => {

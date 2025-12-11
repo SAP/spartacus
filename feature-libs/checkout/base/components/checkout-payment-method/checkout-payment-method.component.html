@@ -1,24 +1,9 @@
-<section
-  *ngIf="
-    featureConfigService?.isEnabled('a11yCheckoutStepsLandmarks');
-    else content
-  "
-  [attr.aria-label]="'paymentForm.payment' | cxTranslate"
->
-  <ng-template [ngTemplateOutlet]="content"></ng-template>
-</section>
-
-<ng-template #content>
+<section [attr.aria-label]="'paymentForm.payment' | cxTranslate">
   <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'paymentForm.payment' | cxTranslate }}
   </h2>
   <ng-container *ngIf="cards$ | async as cards">
     <ng-container *ngIf="!(isUpdating$ | async); else loading">
-      <div
-        *cxFeature="'!a11yRemoveStatusLoadedRole'"
-        role="status"
-        [attr.aria-label]="'common.loaded' | cxTranslate"
-      ></div>
       <ng-container
         *ngIf="
           cards?.length && !newPaymentFormManuallyOpened;
@@ -102,7 +87,7 @@
       ></cx-payment-form>
     </ng-template>
   </ng-container>
-</ng-template>
+</section>
 
 <ng-template #loading>
   <div class="cx-spinner">

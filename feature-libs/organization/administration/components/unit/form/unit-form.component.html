@@ -18,18 +18,12 @@
         "
         [attr.aria-errormessage]="'nameError'"
       />
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
+
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="nameError"
         [translationParams]="{
           label: 'orgUnit.name' | cxTranslate,
         }"
-        [control]="form.get('name')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('name')"
       ></cx-form-errors>
     </label>
@@ -51,18 +45,11 @@
         [attr.aria-errormessage]="'uidError'"
       />
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="uidError"
         [translationParams]="{
           label: 'orgUnit.uid' | cxTranslate,
         }"
-        [control]="form.get('uid')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('uid')"
       ></cx-form-errors>
     </label>
@@ -72,7 +59,6 @@
         'orgUnit.approvalProcess' | cxTranslate
       }}</span>
       <ng-select
-        *cxFeature="'a11yApprovalProcessWithNoClearable'"
         formControlName="code"
         [searchable]="false"
         [clearable]="false"
@@ -88,35 +74,12 @@
         [cxNgSelectA11y]="{}"
       >
       </ng-select>
-      <ng-select
-        *cxFeature="'!a11yApprovalProcessWithNoClearable'"
-        [inputAttrs]="{ required: 'true' }"
-        formControlName="code"
-        [searchable]="false"
-        [items]="approvalProcess$ | async"
-        bindLabel="name"
-        bindValue="code"
-        appendTo="cx-org-list"
-        [placeholder]="'orgUnit.approvalProcess' | cxTranslate"
-        [attr.aria-invalid]="
-          form.get('code')?.touched && form.get('code')?.invalid
-        "
-        [attr.aria-errormessage]="'codeError'"
-      >
-      </ng-select>
 
-      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
       <cx-form-errors
-        *cxFeature="'formErrorsDescriptiveMessages'"
         id="codeError"
         [translationParams]="{
           label: 'orgUnit.approvalProcess' | cxTranslate,
         }"
-        [control]="form.get('approvalProcess.code')"
-      ></cx-form-errors>
-
-      <cx-form-errors
-        *cxFeature="'!formErrorsDescriptiveMessages'"
         [control]="form.get('approvalProcess.code')"
       ></cx-form-errors>
     </label>
@@ -127,7 +90,6 @@
           <cx-form-required-asterisks />
         </span>
         <ng-select
-          *cxFeature="'a11yApprovalProcessWithNoClearable'"
           [inputAttrs]="{ required: 'true' }"
           formControlName="uid"
           [searchable]="true"
@@ -144,36 +106,12 @@
           [attr.aria-errormessage]="'codeError'"
         >
         </ng-select>
-        <ng-select
-          *cxFeature="'!a11yApprovalProcessWithNoClearable'"
-          [inputAttrs]="{ required: 'true' }"
-          formControlName="uid"
-          [searchable]="true"
-          [clearable]="false"
-          [items]="(units$ | async) ?? null"
-          bindLabel="name"
-          bindValue="id"
-          appendTo="cx-org-list"
-          [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
-          [attr.aria-invalid]="
-            form.get('uid')?.touched && form.get('uid')?.invalid
-          "
-          [attr.aria-errormessage]="'parentUnitUidError'"
-        >
-        </ng-select>
 
-        <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
         <cx-form-errors
           id="parentUnitUidError"
-          *cxFeature="'formErrorsDescriptiveMessages'"
           [translationParams]="{
             label: 'orgUnit.form.parentOrgUnit' | cxTranslate,
           }"
-          [control]="form.get('parentOrgUnit.uid')"
-        ></cx-form-errors>
-
-        <cx-form-errors
-          *cxFeature="'!formErrorsDescriptiveMessages'"
           [control]="form.get('parentOrgUnit.uid')"
         ></cx-form-errors>
       </label>

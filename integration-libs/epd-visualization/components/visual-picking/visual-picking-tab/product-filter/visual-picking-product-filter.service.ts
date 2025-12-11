@@ -9,6 +9,9 @@ import { Product, ProductReference } from '@spartacus/core';
 import { combineLatest, concat, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Injectable({
   providedIn: 'root',
 })

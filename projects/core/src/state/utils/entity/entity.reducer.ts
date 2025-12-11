@@ -30,9 +30,7 @@ export function entityReducer<T, V extends Action = Action>(
       action.meta.entityType === entityType &&
       action.meta.entityId !== undefined
     ) {
-      if (action.meta.entityId !== null) {
-        ids = ([] as string[]).concat(action.meta.entityId);
-      }
+      ids = ([] as string[]).concat(action.meta.entityId ?? '');
 
       // remove selected entities
       if (action.meta.entityRemove) {

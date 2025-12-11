@@ -9,13 +9,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  FeaturesConfigModule,
   I18nModule,
   NotAuthGuard,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { BtnLikeLinkModule, PageSlotModule } from '@spartacus/storefront';
+import { LoginAsGuestGuard } from '../guards/login-as-guest.guard';
 import { LoginRegisterComponent } from './login-register.component';
 
 @NgModule({
@@ -25,7 +25,6 @@ import { LoginRegisterComponent } from './login-register.component';
     UrlModule,
     PageSlotModule,
     I18nModule,
-    FeaturesConfigModule,
     BtnLikeLinkModule,
   ],
   providers: [
@@ -33,7 +32,7 @@ import { LoginRegisterComponent } from './login-register.component';
       cmsComponents: {
         ReturningCustomerRegisterComponent: {
           component: LoginRegisterComponent,
-          guards: [NotAuthGuard],
+          guards: [NotAuthGuard, LoginAsGuestGuard],
         },
       },
     }),

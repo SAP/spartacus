@@ -36,7 +36,7 @@ export class RequestedDeliveryDateBadRequestHandler extends HttpErrorHandler {
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
-    return (response.error?.errors).filter(
+    return (response.error?.errors ?? []).filter(
       (error: any) =>
         error?.type === 'ValidationError' &&
         error?.message === 'checkout.multi.requestedretrievaldatevalid.error'

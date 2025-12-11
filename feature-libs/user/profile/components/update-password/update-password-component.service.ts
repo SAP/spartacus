@@ -14,7 +14,6 @@ import {
 import {
   AuthRedirectService,
   AuthService,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -28,32 +27,7 @@ import { USE_MY_ACCOUNT_V2_PASSWORD } from './use-my-account-v2-password';
 
 @Injectable()
 export class UpdatePasswordComponentService {
-  // TODO: (CXSPA-7315) Remove feature toggle in the next major
-  // TODO: (CXSPA-8550) Remove feature toggle
-  private featureConfigService = inject(FeatureConfigService);
-
-  protected passwordValidators = this.featureConfigService?.isEnabled(
-    'formErrorsDescriptiveMessages'
-  )
-    ? this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-      ? CustomFormValidators.securePasswordValidators
-      : this.featureConfigService.isEnabled(
-            'enableConsecutiveCharactersPasswordRequirement'
-          )
-        ? [
-            ...CustomFormValidators.passwordValidators,
-            CustomFormValidators.noConsecutiveCharacters,
-          ]
-        : CustomFormValidators.passwordValidators
-    : [
-        this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-          ? CustomFormValidators.securePasswordValidator
-          : this.featureConfigService.isEnabled(
-                'enableConsecutiveCharactersPasswordRequirement'
-              )
-            ? CustomFormValidators.strongPasswordValidator
-            : CustomFormValidators.passwordValidator,
-      ];
+  protected passwordValidators = CustomFormValidators.securePasswordValidators;
 
   constructor(
     protected userPasswordService: UserPasswordFacade,
@@ -145,23 +119,13 @@ export class UpdatePasswordComponentService {
     this.form.reset();
   }
 
-  // TODO: (CXSPA-8550) Remove after removing enablePasswordsCannotMatchInPasswordUpdateForm feature toggle
   protected getPasswordValidators(): ValidatorFn[] {
-    const passwordMustMatchValidator = CustomFormValidators.passwordsMustMatch(
-      'newPassword',
-      'newPasswordConfirm'
-    );
-
-    return this.featureConfigService.isEnabled(
-      'enablePasswordsCannotMatchInPasswordUpdateForm'
-    )
-      ? [
-          passwordMustMatchValidator,
-          CustomFormValidators.passwordsCannotMatch(
-            'oldPassword',
-            'newPassword'
-          ),
-        ]
-      : [passwordMustMatchValidator];
+    return [
+      CustomFormValidators.passwordsMustMatch(
+        'newPassword',
+        'newPasswordConfirm'
+      ),
+      CustomFormValidators.passwordsCannotMatch('oldPassword', 'newPassword'),
+    ];
   }
 }

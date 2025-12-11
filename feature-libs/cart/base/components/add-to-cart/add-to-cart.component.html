@@ -1,11 +1,6 @@
 <form *ngIf="productCode" [formGroup]="addToCartForm" (submit)="addToCart()">
   <div class="quantity" *ngIf="showQuantity">
-    <label *cxFeature="'a11yQTY2Quantity'">{{
-      'addToCart.quantityFull' | cxTranslate
-    }}</label>
-    <label *cxFeature="'!a11yQTY2Quantity'">{{
-      'addToCart.quantity' | cxTranslate
-    }}</label>
+    <label>{{ 'addToCart.quantityFull' | cxTranslate }}</label>
     <div class="cx-counter-stock">
       <cx-item-counter
         *ngIf="hasStock"
@@ -42,12 +37,19 @@
         : 'btn btn-primary btn-block'
     "
     type="submit"
-    [disabled]="disabled || quantity <= 0 || quantity > maxQuantity"
-    [attr.aria-describedby]="productCode + '_header'"
+    [disabled]="
+      disabled || quantity <= 0 || quantity > maxQuantity || unavailable
+    "
+    [attr.aria-label]="
+      product?.name
+        ? ('addToCart.addToCart' | cxTranslate) + ', ' + product?.name
+        : ('addToCart.addToCart' | cxTranslate)
+    "
   >
     <span
       *ngIf="
-        options?.addToCartString === ('addToCart.buyItAgain' | cxTranslate)
+        options?.addToCartString === ('addToCart.buyItAgain' | cxTranslate) &&
+        !unavailable
       "
       class="repeat-icon"
       ><cx-icon [type]="iconTypes.REPEAT"></cx-icon
@@ -59,7 +61,11 @@
           : ''
       "
     >
-      {{ options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate) }}
+      {{
+        unavailable
+          ? ('addToCart.unavailable' | cxTranslate)
+          : (options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate))
+      }}
     </span>
   </button>
 </form>

@@ -135,8 +135,18 @@ function add_epd_visualization {
 }
 
 function add_opf {
-    if [ "$ADD_OPF" = true ] ; then
-        ng add @spartacus/opf@${SPARTACUS_VERSION} --opf-base-url ${OPF_BASE_URL} --commerce-cloud-public-key ${OPF_CLIENT_PUBLIC_KEY} --skip-confirmation --no-interactive
+    if [ "${ADD_OPF}" = true ] ; then
+        ng add @spartacus/opf@${SPARTACUS_VERSION} --opf-base-url ${OPF_BASE_URL} --commerce-cloud-public-key ${OPF_CLIENT_PUBLIC_KEY} --skip-confirmation --no-interactive 
+    fi
+
+    if [ "${ADD_OPF}" = true ] && [ "${ADD_B2B_LIBS}" = true ] ; then
+        ng add @spartacus/opf@${SPARTACUS_VERSION} --skip-confirmation --no-interactive --features "OPF-B2B-Checkout"
+    fi
+}
+
+function add_punchout {
+    if [ "$ADD_PUNCHOUT" = true ] ; then
+        ng add @spartacus/punchout@${SPARTACUS_VERSION} --skip-confirmation --no-interactive
     fi
 }
 
@@ -232,6 +242,7 @@ function add_spartacus_csr {
     add_estimated_delivery_date
     add_cpq-quote
     add_pdf_invoices
+    add_punchout
     remove_npmrc
     )
 }
@@ -262,6 +273,7 @@ function add_spartacus_ssr {
     add_estimated_delivery_date
     add_cpq-quote
     add_pdf_invoices
+    add_punchout
     remove_npmrc
     )
 }
@@ -290,6 +302,7 @@ function add_spartacus_ssr_pwa {
     add_estimated_delivery_date
     add_cpq-quote
     add_pdf_invoices
+    add_punchout
     remove_npmrc
     )
 }
@@ -435,6 +448,7 @@ function build_csr {
     if [ -z "${CSR_PORT}" ]; then
         echo "Skipping csr app build (No port defined)"
     else
+        setJdkVersion "$CSR_APP_NAME" "csr"
         printh "Building csr app"
         ( mkdir -p ${INSTALLATION_DIR}/${CSR_APP_NAME} && cd ${INSTALLATION_DIR}/${CSR_APP_NAME} && ng build --configuration production )
     fi
@@ -445,6 +459,7 @@ function build_ssr {
         echo "Skipping ssr app build (No port defined)"
     else
         local buildCommands
+        setJdkVersion "$SSR_APP_NAME" "ssr"
         printh "Building ssr app"
         if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
             buildCommands="npm run build"
@@ -475,8 +490,13 @@ function start_csr_unix {
         echo "Skipping csr app start (no port defined)"
     else
         build_csr
-        printh "Starting csr app"
-        pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT}
+         if [ -n "${SSL_CERT_PATH}" ] && [ -n "${SSL_KEY_PATH}" ]; then
+            printh "Starting csr app in SSL mode"
+            pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT} --ssl-cert ${SSL_CERT_PATH} --ssl-key ${SSL_KEY_PATH}
+        else
+            printh "Starting csr app in non-SSL mode"
+            pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT} 
+        fi
     fi
 }
 
@@ -853,6 +873,11 @@ function parseInstallArgs {
                 echo "➖ Added OPF"
                 shift
                 ;;
+            punchout)
+                ADD_PUNCHOUT=true
+                echo "➖ Added Punchout"
+                shift
+                ;;
             -*|--*)
                 echo "Unknown option $1"
                 exit 1
@@ -1066,4 +1091,132 @@ function compareSemver() {
     # If all parts are equal, the versions are equal
     echo 0
     return
+}
+
+# To handle multiple OS, macOS 'sed -i' cmd needs single quotes param unlike others.
+sed_inplace() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "$@"
+    else
+        sed -i "$@"
+    fi
+}
+
+# Sets the JDK version in the Spartacus features module.
+# Updates the `authorizationCodeFlowByDefault` toggle according to the selected JDK version.
+function setJdkVersion {
+    local app_dir="${1}"
+    local authorizationCodeFlowByDefault_value="false"
+    # eg: ../../../spartacus-latest/apps/csr/src/app/spartacus/spartacus-features.module.ts
+    SPARTACUS_FEATURES_MODULE_PATH="${INSTALLATION_DIR}/${app_dir}/src/app/spartacus/spartacus-features.module.ts"
+    echo "Updating Spartacus features module with JDK version: $JDK_VERSION for app: $app_dir"   
+   
+    if [ ! -f "$SPARTACUS_FEATURES_MODULE_PATH" ]; then
+        echo "Incorrect path: $SPARTACUS_FEATURES_MODULE_PATH"
+        return
+    fi
+
+    if [ "$JDK_VERSION" = "JDK21" ]; then
+        authorizationCodeFlowByDefault_value="true"
+    fi
+
+    if ! grep -q 'authorizationCodeFlowByDefault' "$SPARTACUS_FEATURES_MODULE_PATH"; then
+        echo "authorizationCodeFlowByDefault toggle not found in file"
+        return
+    fi
+
+    if grep -E "\"?authorizationCodeFlowByDefault\"?:[[:space:]]*$authorizationCodeFlowByDefault_value" "$SPARTACUS_FEATURES_MODULE_PATH" > /dev/null; then
+      echo "authorizationCodeFlowByDefault is already set with $authorizationCodeFlowByDefault_value, no change needed."
+    else
+      sed_inplace -E "s/(\"?authorizationCodeFlowByDefault\"?:[[:space:]]*)(true|false)/\1$authorizationCodeFlowByDefault_value/" "$SPARTACUS_FEATURES_MODULE_PATH"
+        if grep -E "\"?authorizationCodeFlowByDefault\"?:[[:space:]]*$authorizationCodeFlowByDefault_value" "$SPARTACUS_FEATURES_MODULE_PATH" > /dev/null; then
+            echo "authorizationCodeFlowByDefault has been successfully updated to $authorizationCodeFlowByDefault_value with JDK version: $JDK_VERSION"
+        else
+            echo "Failed to update authorizationCodeFlowByDefault with JDK version: $JDK_VERSION"
+        fi
+    fi
+ 
+    echo "*********** spartacus-features.module.ts ***********"
+    echo $SPARTACUS_FEATURES_MODULE_PATH
+    cat "$SPARTACUS_FEATURES_MODULE_PATH"
+    echo "*********** EOF spartacus-features.module.ts ***********"
+
+   
+     if [ "$JDK_VERSION" = "JDK21" ]; then
+        addAuthConfig "$app_dir" "${2}"
+     fi
+}
+
+# Adds AuthConfig to the Spartacus configuration module.
+# Use case: B2C and B2B are hosted on separate domains, requiring two OAuth clients in backoffice.
+# The defaultAuthConfig must be overwritten to match the backoffice OAuth client configuration.
+function addAuthConfig {
+    local app_mode="$2"
+    local auth_config="$AUTH_CONFIG_CSR"
+    if [ "$app_mode" = "ssr" ]; then
+        auth_config="$AUTH_CONFIG_SSR"
+    fi
+    
+    if [ -z "$auth_config" ]; then
+        echo "AUTH_CONFIG is null or empty, exiting function."
+        return
+    fi
+
+    local app_dir="${1}"
+    SPARTACUS_CONFIGURATION_MODULE_PATH="${INSTALLATION_DIR}/${app_dir}/src/app/spartacus/spartacus-configuration.module.ts"
+    if [ ! -f "$SPARTACUS_CONFIGURATION_MODULE_PATH" ]; then
+        echo "Incorrect path: $SPARTACUS_CONFIGURATION_MODULE_PATH"
+        return
+    fi
+
+    clean_module_file() {
+       #Remove all empty lines then add one above @NgModule
+       echo "Cleaning up empty lines"
+       sed_inplace -e '/^[[:space:]]*$/d' -e '/@NgModule/i\' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+    }
+
+    if [ "$ADD_AUTH_CONFIG" = false ]; then
+        echo "ADD_AUTH_CONFIG is false -> Do not add AuthConfig."
+        echo "Remove authconfig import and provider if it was previously added."
+        perl -0777 -pi -e 's/provideConfig\(<AuthConfig>.*?\}\),\s*//gs' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+        sed_inplace 's/,*[[:space:]]*AuthConfig[[:space:]]*,*//g' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+        clean_module_file
+        return
+    fi
+
+    auth_config_single_line=$(echo "$auth_config" | tr -d '\n' | tr -d ' ')
+    echo "single line: $auth_config_single_line"
+
+    # delete previous provider config, text included between provideConfig(<AuthConfig> and the closing brace '})'.
+    # perl needed to handle muli-line regex
+    perl -0777 -pi -e 's/provideConfig\(<AuthConfig>.*?\}\),\s*//gs' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+
+    # Check presence of AuthConfig import
+    if ! grep -q 'AuthConfig.*@spartacus/core' "$SPARTACUS_CONFIGURATION_MODULE_PATH"; then
+        # add AuthConfig import on last position of @spartacus/core imports
+        sed_inplace 's/} from "@spartacus\/core"/,AuthConfig } from "@spartacus\/core"/' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+        echo "AuthConfig import added."
+    else
+        echo "AuthConfig import already exists, skipping."
+    fi
+
+
+
+    # move text after Providers to next line
+    sed_inplace 's/\(providers: \[\)\(.*\)$/\1\n\2/' "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+    ## Insert the AUTH_CONFIG_STRING after 'providers:' line
+    line=$(grep -n 'providers:' "$SPARTACUS_CONFIGURATION_MODULE_PATH" | head -n1 | cut -d: -f1)
+    if [ -n "$line" ]; then
+        sed_inplace "$((line+1))i\\
+        $auth_config_single_line
+        " "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+        echo "AuthConfig provider added."
+        clean_module_file
+    else
+        echo "Error: AuthConfig provider not added as providers section not found"
+    fi
+    echo "*********** spartacus-configuration.module.ts ***********"
+    echo "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+    cat "$SPARTACUS_CONFIGURATION_MODULE_PATH"
+    echo "*********** EOF spartacus-configuration.module.ts ***********"
 }

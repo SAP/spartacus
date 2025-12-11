@@ -23,7 +23,7 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import { Facet, FeatureConfigService, useFeatureStyles } from '@spartacus/core';
+import { Facet, FeatureConfigService } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import {
@@ -102,15 +102,10 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
     protected facetService: FacetService,
     protected elementRef: ElementRef,
     protected renderer: Renderer2
-  ) {
-    useFeatureStyles('a11yTabComponent');
-  }
+  ) {}
 
   ngOnInit(): void {
-    // TODO: (CXSPA-7321) - Remove feature flag next major release
-    if (this.featureConfigService?.isEnabled('a11yFacetsDialogFocusHandling')) {
-      this.enableFocusHandlingOnFacetListChanges();
-    }
+    this.enableFocusHandlingOnFacetListChanges();
 
     // Required to load facets when initial load in side panel.
     this.updateTabs();

@@ -22,7 +22,11 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { FeatureConfigService, TranslationService } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { filter, merge, take } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BREAKPOINT, BreakpointService } from '../../../layout';
@@ -53,9 +57,6 @@ export class NgSelectA11yDirective implements AfterViewInit {
    * @deprecated since 2211.33
    */
   onOpen() {
-    if (!this.featureConfigService?.isEnabled('a11yNgSelectOptionsCount')) {
-      return;
-    }
     const observer = new MutationObserver((changes, observerInstance) =>
       this.appendAriaLabelToOptions(changes, observerInstance)
     );
@@ -68,11 +69,6 @@ export class NgSelectA11yDirective implements AfterViewInit {
    */
   @HostListener('keyup', ['$event'])
   onKeyUp(event: KeyboardEvent) {
-    if (
-      !this.featureConfigService?.isEnabled('a11yNgSelectCloseDropdownOnEscape')
-    ) {
-      return;
-    }
     const jawsEscapeCode = 'AltLeft';
     if (event.code === jawsEscapeCode) {
       this.selectComponent.close();
@@ -93,7 +89,9 @@ export class NgSelectA11yDirective implements AfterViewInit {
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef
-  ) {}
+  ) {
+    useFeatureStyles('a11yNgSelectUnicodeCarets');
+  }
 
   ngAfterViewInit(): void {
     const inputCombobox =
@@ -115,6 +113,19 @@ export class NgSelectA11yDirective implements AfterViewInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((state) => {
         this.renderer.setAttribute(inputCombobox, 'aria-expanded', state);
+        if (
+          ariaControls &&
+          this.featureConfigService.isEnabled('a11yNgSelectAriaControls')
+        ) {
+          // Delay execution to come after the ng-select's own 'aria-controls' logic
+          setTimeout(() => {
+            this.renderer.setAttribute(
+              inputCombobox,
+              'aria-controls',
+              ariaControls
+            );
+          });
+        }
       });
 
     const ariaLabel = this.cxNgSelectA11y.ariaLabel;
@@ -129,11 +140,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
       this.renderer.setAttribute(inputCombobox, 'aria-controls', ariaControls);
     }
 
-    if (
-      this.featureConfigService.isEnabled('a11yNgSelectMobileReadout') &&
-      inputCombobox.readOnly &&
-      isPlatformBrowser(this.platformId)
-    ) {
+    if (inputCombobox.readOnly && isPlatformBrowser(this.platformId)) {
       this.breakpointService
         ?.isDown(BREAKPOINT.md)
         .pipe(filter(Boolean), take(1))

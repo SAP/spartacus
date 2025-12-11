@@ -11,7 +11,12 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Registers a new user and logs him in. Returns user (generated) email.
+       * Registers a new user, if necessary; logs in; and sets the user token into local storage.
+       *
+       * Note: The session data will be stored on the domain currently visited.  This may require
+       * you to visit the domain first, before calling this command.
+       *
+       * @returns The user (generated) email.
        *
        * @memberof Cypress.Chainable
        *
@@ -48,7 +53,8 @@ export interface RequireLoggedInDebugOptions {
 Cypress.Commands.add(
   'requireLoggedIn',
   (accountData?: AccountData, options: RequireLoggedInDebugOptions = {}) => {
-    function loginAsGuest() {
+    /** Not supported in JDK21 */
+    function clientCredentialGuestLogin() {
       return cy.request({
         method: 'POST',
         url: config.tokenUrl,
@@ -59,12 +65,19 @@ Cypress.Commands.add(
         form: true,
       });
     }
+    function skipRequest() {
+      return cy.wrap<Promise<undefined>, undefined>(Promise.resolve(undefined));
+    }
 
     function registerUser(
       uid: string,
       registrationData: RegistrationData,
-      access_token: string
+      access_token?: string
     ) {
+      const headers: Record<string, string> = {};
+      if (options.access_token) {
+        headers.Authorization = `bearer ${options.access_token}`;
+      }
       return cy.request({
         method: 'POST',
         url: config.newUserUrl,
@@ -75,9 +88,11 @@ Cypress.Commands.add(
           titleCode: registrationData.titleCode,
           uid,
         },
-        headers: {
-          Authorization: `bearer ${access_token}`,
-        },
+        headers: access_token
+          ? {
+              Authorization: `bearer ${access_token}`,
+            }
+          : {},
       });
     }
 
@@ -90,11 +105,13 @@ Cypress.Commands.add(
         titleCode: 'mr',
       },
     };
-    const account = accountData || defaultAccount;
+    const account = accountData ?? defaultAccount;
     const username =
       account.registrationData.email ||
       generateMail(account.user, options.freshUserOnTestRefresh);
-
+    // wait the page to be displayed before login
+    // specially for use case with `cy.visit('/')`
+    cy.wait(2000);
     login(username, account.registrationData.password, false).then((res) => {
       if (res.status === 200) {
         // User is already registered - only set session in sessionStorage
@@ -105,12 +122,12 @@ Cypress.Commands.add(
            2. Create new user
            3. Login as a new user
         */
-        loginAsGuest()
+        cy.whenJDK17(clientCredentialGuestLogin, skipRequest)
           .then((response) =>
             registerUser(
               username,
               account.registrationData,
-              response.body.access_token
+              response?.body?.access_token
             )
           )
           .then(() => login(username, account.registrationData.password))

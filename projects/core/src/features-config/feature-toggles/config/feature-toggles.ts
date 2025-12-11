@@ -10,134 +10,9 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
-   * In 'CheckoutDeliveryModeComponent' and 'CheckReviewShippingComponent', it displays
-   * the new delivery options translation
-   */
-  showDeliveryOptionsTranslation?: boolean;
-
-  /**
-   * In 'ProductListItemComponent' and 'ProductGridItemComponent', it hides the 'Add to cart' button
-   * when a product does not have a defined price or its purchasable field is set to false
-   */
-  shouldHideAddToCartForUnpurchasableProducts?: boolean;
-
-  /**
-   * In `FormErrorsComponent` it uses more descriptive validation error messages
-   * in all UI form fields existing before v2211.25.
-   *
-   * 1. The `FormErrorsComponent` uses new i18n keys:
-   * `formErrors.labeled.<validatorName>` instead of `formErrors.<validatorName>`,
-   * for example `formErrors.labeled.required` instead of `formErrors.required`.
-   *
-   * 2. The existing usages of `CustomFormValidators.passwordValidator` are replaced with
-   * an array of new, more specific validators `CustomFormValidators.passwordValidators`
-   * (with the plural `...Validators`)
-   */
-  formErrorsDescriptiveMessages?: boolean;
-
-  /**
-   * In `CheckoutPaymentFormComponent`, use the extracted billing address component instead of embedded billing address form.
-   */
-  useExtractedBillingAddressComponent?: boolean;
-
-  /**
-   * In `DpPaymentCallbackComponent` it shows the billing address form.
-   */
-  showBillingAddressInDigitalPayments?: boolean;
-
-  /**
-   * In `QuoteLinksComponent` it shows the download button.
-   * API for this button is available in commerce 2211.16 and above
-   */
-  showDownloadProposalButton?: boolean;
-
-  /**
-   * In `ASM` it shows searching customer by order ID.
-   */
-  showSearchingCustomerByOrderInASM?: boolean;
-
-  /**
-   * New REDESIGNED search-box component
-   */
-  searchBoxV2?: boolean;
-
-  /**
-   * Some Changes for input of cart Number and text of Customer360View in ASM view
-   */
-  showStyleChangesInASM?: boolean;
-
-  /**
-   * In `SearchBoxComponent` it shows the trending searches.
-   */
-  trendingSearches?: boolean;
-
-  /**
-   * When enabled, the batch API is used `ProductCarouselComponent` to load products. It increases the component's performance.
-   *
-   * _NOTE_: When flag is enabled, custom OCC config for the `productSearch` endpoint has to be adjusted to have an object representation:
-   * ```js
-   * backend: {
-   *    occ: {
-   *      endpoints: {
-   *         productSearch: {
-   *           default: '...',
-   *           carousel: '...',
-   *           carouselMinimal: '...',
-   *         },
-   *       },
-   *     },
-   *   }
-   * ```
-   */
-  useProductCarouselBatchApi?: boolean;
-
-  /**
-   * In a server environment (SSR or Prerendering) it propagates all errors caught in Angular app
-   * (in the Angular's `ErrorHandler` class) to the server layer.
-   *
-   * In SSR, such a propagation allows the server layer (e.g. ExpressJS) for handling those errors,
-   * e.g. sending a proper Error Page in response to the client,
-   * instead of a rendered HTML that is possibly malformed due to the occurred error.
-   */
-  propagateErrorsToServer?: boolean;
-
-  /**
-   * In SSR, the following errors will be printed to logs (and additionally can also
-   * be forwarded to ExpressJS if only the other feature toggle `propagateErrorsToServer` is enabled):
-   *
-   * 1. any outgoing HTTP request error (4xx-5xx status)
-   * 2. any NgRx action with the `error` property
-   */
-  ssrStrictErrorHandlingForHttpAndNgrx?: boolean;
-
-  /**
-   * The product configuration UI is completely re-rendered after each UI interaction. This may lead to performance issues for large configuration models,
-   * where a lot of attributes (>50) and/or a lot of possible values per attribute (>50) are rendered on the UI.
-   *
-   * When this feature toggle is activated, only these parts of the UI are re-rendered, that actually changed, significantly (up to factor 10) improving rendering performance for large models.
-   *
-   * Please note, this will influence how the pricing requests are processed and rendered.
-   * Instead of merging the prices into the configuration model, which effectively triggers re-rendering the whole UI-Component tree,
-   * the price supplements are kept in a separate subtree of the model, so that attribute components can react independently on pricing changes using the `ConfiguratorDeltaRenderingService`.
-   *
-   * Hence, it is advised to do full regression testing after activation of this flag and before rolling this out to production.
-   */
-  productConfiguratorDeltaRendering?: boolean;
-
-  /**
    * In `FutureStockAccordionComponent` use `cx-color-text` for button color
    */
   a11yUseProperTextColorForFutureStockAccordion?: boolean;
-
-  /**
-   * Improves screen reader(VoiceOver, JAWS) narration of menu buttons inside of 'NavigationUIComponent'.
-   */
-  a11yNavMenuExpandStateReadout?: boolean;
-
-  /**
-   * Prevent horizontal scroll appearing on smaller screens for `CartItemListComponent`, `AddedToCartDialogComponent`
-   */
-  a11yPreventHorizontalScroll?: boolean;
 
   /**
    * Fix popover appearance when a High Contrast Theme is applied.
@@ -150,20 +25,9 @@ export interface FeatureTogglesInterface {
   a11yTabsManualActivation?: boolean;
 
   /**
-   * In `ImportToNewSavedCartFormComponent`,`ImportEntriesFormComponent` after selecting a file
-   * confirmation message is displayed and read out
-   */
-  a11yCartImportConfirmationMessage?: boolean;
-
-  /**
    * In `AnonymousConsentDialogComponent` display notifications inside the modal without closing it
    */
   a11yAnonymousConsentMessageInDialog?: boolean;
-
-  /**
-   * `StorefrontComponent` focuses on the first navigation item after hamburger menu expansion
-   */
-  a11yMobileFocusOnFirstNavigationItem?: boolean;
 
   /**
    * `QuickOrderFormComponent` - disable navigation with Tab/Shift+Tab for search results list
@@ -171,91 +35,9 @@ export interface FeatureTogglesInterface {
   a11yQuickOrderSearchListKeyboardNavigation?: boolean;
 
   /**
-   * Improves focus behaviour of 'SearchBoxComponent'.
-   * On mobile, search box will no longer open on focus.
-   */
-  a11ySearchBoxMobileFocus?: boolean;
-
-  /**
-   * Modifies 'FacetComponent' to enable keyboard navigation for facets in the product list page.
-   */
-  a11yFacetKeyboardNavigation?: boolean;
-
-  /**
-   * Adds label to the `SearchBoxComponent` search input
-   */
-  a11ySearchboxLabel?: boolean;
-
-  /**
-   * When set to `true`, external links in `StoreFinderListItemComponent`
-   * adopt a more link-like style, appearing more like links instead of buttons. This is semantically more correct since they open content in a new window,
-   * providing a more intuitive user experience.
-   */
-  a11yStyleExternalLinksAsLinks?: boolean;
-
-  /**
-   * If enabled, the "Select this address/payment" button
-   * will not be displayed in `CheckoutPaymentMethodComponent`
-   * and `CheckoutDeliveryAddressComponent` when the address
-   * or payment method is already selected.
-   */
-  a11yHideSelectBtnForSelectedAddrOrPayment?: boolean;
-
-  /**
-   * If enabled, the "Checkout Shipping address/Payment" views
-   * will have a more a11y friendly selected label, including the context
-   * indicating weather the user is on a selected Address or Payment regsion.
-   */
-  a11ySelectLabelWithContextForSelectedAddrOrPayment?: boolean;
-
-  /**
-   * Enables only Tab/Shift+Tab keyboard navigation in dialogs and preserved default scrolling behaviour of up/down keys.
-   * Components:
-   * - `PickupOptionDialogComponent`
-   */
-  a11yUseTrapTabInsteadOfTrapInDialogs?: boolean;
-
-  /**
-   * In `CmsGuardsService`, it uses the `GuardsComposer` instead of
-   * calling its own deprecated method `canActivateGuard()`.
-   */
-  cmsGuardsServiceUseGuardsComposer?: boolean;
-
-  /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
    */
   a11yKeyboardAccessibleZoom?: boolean;
-
-  /**
-   * Sets 'linkable' property in 'CellComponent' to be false by default.
-   * Modifies all table configs to acomodate this change.
-   * This stops unnecessary anchor tags from being rendered in the table cells.
-   */
-  a11yOrganizationLinkableCells?: boolean;
-
-  /**
-   * Stops the focus indicator from overflowing and being obstructed by other elements.
-   * Includes style changes for:
-   * `StarRatingComponent`, `AddToWishListComponent`, `StarRatingComponent`, `SkipLinkComponent`,
-   * `StoreComponent`, `SetPreferredStoreComponent`, `WishListComponent`, `ItemCounter`,
-   * `CarouselComponent`, `ProductListItemComponent`
-   */
-  a11yVisibleFocusOverflows?: boolean;
-
-  /**
-   * When enabled then on mobile(320px) responsive view:
-   * 1. `ProductListComponent` - grid view button is aligned correctly
-   * 2. `QuickOrderFormComponent` - search combobox options are not truncated
-   * 3. `BreadcrumbComponent` - breadcrumb heading is not truncated
-   * 4. `CheckoutProgressMobileTopComponent` - checkout step names do not have huge vertical white space
-   * 5. 'UnitLevelOrderHistoryComponent' - sorting dropdown options will not be truncated
-   */
-  a11yTruncatedTextForResponsiveView?: boolean;
-
-  /**
-   * `StoreFinderListItemComponent` street name is not truncated
-   */
-  a11yTruncatedTextStoreFinder?: boolean;
 
   /**
    * `UnitLevelOrderHistoryComponent` filter input label and table email address
@@ -264,119 +46,10 @@ export interface FeatureTogglesInterface {
   a11yTruncatedTextUnitLevelOrderHistory?: boolean;
 
   /**
-   * When enabled focus outline on the close button inside `ProductImageZoomDialogComponent`
-   * will be fully visible
-   */
-  a11yCloseProductImageBtnFocus?: boolean;
-
-  /**
-   * Modifies getAriaLabel method in 'PaginationComponent' to return a sematic label.
-   */
-  a11ySemanticPaginationLabel?: boolean;
-
-  /**
    * When using CartItemListComponent as an outlet ([cxOutlet]="CartOutlets.CART_ITEM_LIST"):
    * prevents the form from being recreated when neither the items nor other dependent properties (e.g., readonly) have changed.
    */
   a11yPreventCartItemsFormRedundantRecreation?: boolean;
-
-  /**
-   * Prevents screen reader from stopping on invisible elements when being in read mode for `BreadcrumbComponent`, `QuickOrderFormComponent`
-   */
-  a11yPreventSRFocusOnHiddenElements?: boolean;
-
-  /**
-   * In `LoginComponent` the outline of "My Account" link when focused will not cover the user name
-   */
-  a11yMyAccountLinkOutline?: boolean;
-
-  /**
-   * Improve colour contrast in the demonstration theme Santorini
-   * to comply with accessibility standards. On activation, colour
-   * assignations for all UI elements will change and previous keyboard
-   * focus-ring gets replaced by a new bi-colour focus-ring.
-   *
-   * Note: If you're not using in your app the `StorefrontComponent`
-   *       (`<cx-storefront>`) from Spartacus, then you'll need to also add
-   *       the following line to the constructor of your app's root component:
-   *
-   * ```
-   * constructor() {
-   *   useFeatureStyles('a11yImproveContrast');
-   * }
-   * ```
-   */
-  a11yImproveContrast?: boolean;
-
-  /**
-   * Moves input elements of 'NotificationPreferenceComponent' into a fieldset.
-   */
-  a11yNotificationPreferenceFieldset?: boolean;
-
-  /**
-   * Modifies the template of 'WishListComponent'.
-   * Empty wishlist notification will be displayed in a paragraph instead of a heading.
-   */
-  a11yEmptyWishlistHeading?: boolean;
-
-  /**
-   * Removes the `tabindex` attribute from the `StorefrontComponent`.
-   * This helps to reduce the screen reader bloat.
-   */
-  a11yScreenReaderBloatFix?: boolean;
-
-  /**
-   * When enabled the button-like UI elements will use `<button>` under the hood instead of `<a>`
-   * in the following components: `AddedToCartDialogComponent`, `ForgotPasswordComponent`,
-   * `LoginRegisterComponent`, `ConfigureProductComponent`, `AnonymousConsentDialogComponent`,
-   * `StoreSearchComponent`, `AddToSavedCartComponent`, `PickupOptionsComponent`
-   */
-  a11yUseButtonsForBtnLinks?: boolean;
-
-  /**
-   * Enables the use of TabComponent in the PLP and PDP page to replace some functionality
-   * of the FacetListComponent and TabParagraphComponent to make then keyboard accessible
-   * and responsive in tab and accordion stles.
-   */
-  a11yTabComponent?: boolean;
-
-  /**
-   * `ProductImageZoomProductImagesComponent`, `ProductImageZoomThumbnailsComponent` - enable
-   * arrow keys navigation for the carousel
-   */
-  a11yCarouselArrowKeysNavigation?: boolean;
-
-  /**
-   * Use tabs instead of radio group for pickup options. Improves SR narration and keyboard navigation pattern.
-   * Modified components:
-   *  - `PickupOptionsComponent`
-   *  - `PdpPickupOptionsContainerComponent`
-   *  - `CartPickupOptionsContainerComponent`
-   *  - `AddToCartComponent`
-   */
-  a11yPickupOptionsTabs?: boolean;
-
-  /**
-   * `AnonymousConsentDialogComponent` - after consent was given/withdrawn the notification
-   * will be displayed
-   * `ConsentManagementComponent` - improve stability of notifications announcements by VoiceOver
-   * `ConsentManagementFormComponent` - only pronounce the title of the consent by default
-   */
-  a11yNotificationsOnConsentChange?: boolean;
-
-  /**
-   * When enabled disable "Apply" button in promo code component in cart for empty input,
-   * disable "Add" button in quick order component when input is empty and remove
-   * required validators for both inputs
-   */
-  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields?: boolean;
-
-  /**
-   * In `FacetListComponent` dialog view focus will be moved to the first facet
-   * after single-select facet selection.
-   * New "Back To Results" button is added
-   */
-  a11yFacetsDialogFocusHandling?: boolean;
 
   /**
    * Resets the focus after navigating to a new page.
@@ -384,31 +57,9 @@ export interface FeatureTogglesInterface {
   a11yResetFocusAfterNavigating?: boolean;
 
   /**
-   * `StorefrontComponent`: Prevents header links from wrapping on smaller screen sizes.
-   * Enables support for increased letter-spacing up to 0.12em for header layout
-   */
-  headerLayoutForSmallerViewports?: boolean;
-
-  /**
-   * Enables radio group fieldset for 'CheckoutDeliveryModeComponent' form
-   * and further improves its screen reader readout.
-   */
-  a11yDeliveryModeRadiogroup?: boolean;
-
-  /**
-   * Removes 'aria-live' from 'StoreFinderComponent' and adds 'alert' role to child components elements.
-   */
-  a11yStoreFinderAlerts?: boolean;
-
-  /**
    * Adds label to 'StoreFinderSearchComponent' store search input field.
    */
   a11yStoreFinderLabel?: boolean;
-
-  /**
-   * Stops the icon inside 'FormErrorsComponent' from being read out by screen readers.
-   */
-  a11yFormErrorMuteIcon?: boolean;
 
   /**
    * `FormErrorsComponent` replace role="alert" to aria-live="polite" as default
@@ -417,35 +68,10 @@ export interface FeatureTogglesInterface {
   a11yImprovedErrorMessage?: boolean;
 
   /**
-   * `MessageComponent` gets focused after a message with an action is rendered.
-   */
-  a11yCxMessageFocus?: boolean;
-
-  /**
    * Replaces buttons resembling links with tetriary buttons in the following components:
    * `AddToWishListComponent`, `ProductIntroComponent`, `ProductImageZoomTriggerComponent`
    */
   a11yLinkBtnsToTertiaryBtns?: boolean;
-
-  /**
-   * Aria-live inside the 'BreadcrumbComponent' will be toggled based on the active element.
-   * This removes the repeated announcement of the page title.
-   */
-  a11yRepeatedPageTitleFix?: boolean;
-
-  /**
-   * 'NgSelectA11yDirective' will now provide a count of items for each availble option.
-   * Including this count in aria-label will help screen readers to provide more context to the user.
-   * Update (since 2211.33): This feature toggle and the logic behind it should be removed
-   * in next major relase since ng-select now correctly handles aria-label values of select options.
-   */
-  a11yNgSelectOptionsCount?: boolean;
-
-  /**
-   * 'NgSelectA11yDirective' will close a dropdown with options on Escape key press
-   * when a screen reader is used.
-   */
-  a11yNgSelectCloseDropdownOnEscape?: boolean;
 
   /**
    * 'NgSelectA11yDirective' will customize a ng-select dropdowns by setting custom
@@ -462,169 +88,9 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * Removes duplicated error message from 'CancelOrderComponent'.
-   */
-  a11yRepeatedCancelOrderError?: boolean;
-
-  /**
-   * Mofifies the template of 'AddedToCartDialogComponent' to retain the focus after the cart is updated.
-   * Improves its screen reader readout.
-   */
-  a11yAddedToCartActiveDialog?: boolean;
-
-  /**
-   * Modifies the 'NgSelectA11yDirective' to improve the sorting dropdown screen reader experience on mobile devices.
-   */
-  a11yNgSelectMobileReadout?: boolean;
-
-  /**
-   * When enabled, the form in 'PickupOptionsComponent' will be wrapped in a fieldset and contain a legend.
-   */
-  a11yDeliveryMethodFieldset?: boolean;
-
-  /**
-   * In 'ProductReviewsComponent' the 'show more/less reviews' button will no longer loose focus on activation.
-   */
-  a11yShowMoreReviewsBtnFocus?: boolean;
-
-  /**
-   * Fixes `aria-controls` attribute in the 'QuickOrderFormComponent' combobox.
-   */
-  a11yQuickOrderAriaControls?: boolean;
-
-  /**
-   * Removes the element with `role="status"` attribute from subpage components.
-   * The 'Loaded, empty status' message will no longer be present for the screen readers.
-   */
-  a11yRemoveStatusLoadedRole?: boolean;
-
-  /**
-   * Changes modal title elements form divs into headings. Affects modals before version 2211.27.
-   */
-  a11yDialogsHeading?: boolean;
-
-  /**
-   * When enabled, the focus will be returned to the trigger element after the dialog is closed.
-   * Affected components: 'AddtoCartComponent', 'PickupOptionsComponent', CartPickupOptionsContainerComponent, PDPPickupOptionsContainerComponent
-   */
-  a11yDialogTriggerRefocus?: boolean;
-
-  /**
-   * The 'AddToWishListComponent' will restore focus to the button after adding or removing an item from the wishlist.
-   */
-  a11yAddToWishlistFocus?: boolean;
-
-  /**
-   * `SearchBoxComponent` should no longer lose focus after closing the popup the esc key.
-   */
-  a11ySearchBoxFocusOnEscape?: boolean;
-
-  /**
-   * In `AddedToCartDialogComponent`, `Updating cart...` should no longer read by a screen reader.
-   */
-  a11yUpdatingCartNoNarration?: boolean;
-
-  /**
-   * Stops the inputs value from obstructing the 'PasswordVisibilityToggleComponent'.
-   */
-  a11yPasswordVisibliltyBtnValueOverflow?: boolean;
-
-  /**
-   * In `ItemCounterComponenet`, Remove button no longer lose focus after activating when count is 2.
-   * Add button no longer lose focus after activating when count is `max - 1`.
-   */
-  a11yItemCounterFocus?: boolean;
-
-  /**
-   * `ProductIntroComponent` should now scroll to the Review tab on the first click of the 'Show Review' button.
-   */
-  a11yScrollToReviewByShowReview?: boolean;
-
-  /**
-   * `StoreComponent and MyPreferredStoreComponent` an icon in a button that triggers showing
-   * store's opening hours has an acceptable contrast ratio in a default theme
-   */
-  a11yViewHoursButtonIconContrast?: boolean;
-
-  /**
-   * `StoreComponent` `In Stock` icon has an acceptable contrast ratio in a default theme
-   */
-  a11yStoreInStockIconContrast?: boolean;
-
-  /**
-   * `Checkout` add a landmarks to content representing steps
-   */
-  a11yCheckoutStepsLandmarks?: boolean;
-
-  /**
-   * In `CartItemListComponent`, change QTY into Quantity.
-   */
-  a11yQTY2Quantity?: boolean;
-
-  /**
-   * In `Card component`, replace button classes to .btn .btn-tertiary and use cx-generic link
-   * instead of regular <a> tag.
-   * In `My Preferred Store component`, replace a `Get directions` action from CardAction to CardLinkAction
-   * to so that Card component perceive it as a link;
-   */
-  a11yImproveButtonsInCardComponent?: boolean;
-
-  /**
    * In `MiniCart component`, improve visible focus contrast on mobile.
    */
   a11yMiniCartFocusOnMobile?: boolean;
-
-  /**
-   * In `UnitFormComponent`, set 'clearable' as false for select of `ApprovalProcess`.
-   */
-  a11yApprovalProcessWithNoClearable?: boolean;
-
-  /**
-   * Changes the success message of successful registration to be more informative. Affects `RegisterComponentService`.
-   */
-  a11yPostRegisterSuccessMessage?: boolean;
-
-  /**
-   * In `CardComponent`, place `Delete` button before `Cancel` button.
-   */
-  a11yDeleteButton2First?: boolean;
-
-  /**
-   * In `CustomerListComponent`, `OrderApprovalListComponent`, and `ConfiguratorAttriuteSingleSelectionBundleDropdownComponent`, show label of every `ng-select` and `select`.
-   */
-  a11yShowLabelOfSelect?: boolean;
-
-  /**
-   * In `SiteContextSelectComponent` and `SiteThemeSwitcherComponent`, update style of caret.
-   */
-  a11yShowDownArrowOnFocusedSelectMenu?: boolean;
-
-  /**
-   * Fixes various instances of the focus ring being cropped in the UI.
-   * The focus ring on interactive elements should have all its sides visible and not include any extra padding.
-   * Affects styles of: 'CartItemListComponent, CartItemComponent, ListComponent, FutureStockAccordionComponent,
-   * QuoteConfirmDialogComponent, MessagingComponent, TabComponent, ProductImageZoomViewComponent
-   */
-  a11yCroppedFocusRing?: boolean;
-
-  /**
-   * Fixes text formatting issues while a11y text spacing is enabled.
-   * Affects: ListComponent, CSAgentLoginFormComponent
-   */
-  a11yTextSpacingAdjustments?: boolean;
-
-  /**
-   * Ensures the table column header gets properly narrated by the screen readers.
-   * Affects tables in the following components: SavedCartListComponent, ReplenishmentOrderHistoryComponent, OrderReturnRequestListComponent,
-   * AccountSummaryDocumentComponent, OrderDetailPermissionResultsComponent, OrderApprovalListComponent, UnitLevelOrderHistoryComponent,
-   * InvoicesListComponent, MyInterestsComponent
-   */
-  a11yTableHeaderReadout?: boolean;
-
-  /**
-   * Removes the repetition of assistive message after the results are provided to the `SearchBoxComponent`.
-   */
-  a11ySearchboxAssistiveMessage?: boolean;
 
   /**
    * Updates the derivative `consentGiven` state when `consent` is updated.
@@ -634,12 +100,6 @@ export interface FeatureTogglesInterface {
    * - `MyAccountV2ConsentManagementFormComponent`
    */
   updateConsentGivenInOnChanges?: boolean;
-
-  /**
-   * Adds additional styling to help differentiate between focused and selected items in the list.
-   * Affects: ConfiguratorAttributeSingleSelectionImageComponent, ProductImagesComponent
-   */
-  a11yDifferentiateFocusedAndSelected?: boolean;
 
   /**
    * When enabled the input element in `QuickOrderFormComponent' will regain its focus after the dropdown is closed.
@@ -699,70 +159,12 @@ export interface FeatureTogglesInterface {
   a11yHighContrastBorders?: boolean;
 
   /**
-   * In OCC cart requests, it puts parameters of a cart name and cart description
-   * into a request body, instead of query params.
-   * This toggle is used in the following classes: `OccCartAdapter`, `OccSavedCartAdapter`, `SavedCartOccModule`, `CartBaseOccModule`.
-   */
-  occCartNameAndDescriptionInHttpRequestBody?: boolean;
-
-  /**
-   * When enabled, styles for the `cx-bottom-header-slot` class will be applied. These styles are necessary to display
-   * customization buttons in the BottomHeaderSlot in SmartEdit.
-   */
-  cmsBottomHeaderSlotUsingFlexStyles?: boolean;
-
-  /**
-   * 1. It uses the new `SiteThemeService` as the source of truth for the "site theme" value
-   * (this value can change over time, e.g. when selecting new value in the new `SiteThemeSwitcherComponent`).
-   * Previously the "site theme" could be set only on the page start (via the static config `config.context.theme` or via CMS, when using the feature of the "automatic site-context configuration").
-   * 2. Now, when no custom theme is selected, the default theme value is an empty string `''`,
-   * unless you configure it differently via the global config `config.context.theme` (or via CMS).
-   * Previously, there the non-defined theme had a value `undefined`.
-   */
-  useSiteThemeService?: boolean;
-
-  /**
-   * Enables the requirement that passwords cannot contain consecutive identical characters.
-   *
-   * When set to `true`, the app will enforce that passwords must not have consecutive
-   * identical characters (e.g., "aa", "11", or "$$" are not allowed).
-   */
-  enableConsecutiveCharactersPasswordRequirement?: boolean;
-
-  /**
    * In CustomerCouponConnector, Enables claiming customer coupon with coupon code in httpRequest body with POST method.
    *
    * When set to `false`, claiming customer coupon works with coupon code as parameter in URL, which exposes sensitive data and has security risk.
    * When set to `true`, claiming customer coupon works with coupon code in httpRequest body with POST method(the new Occ endpoint is available since Commerce 2211.28), which avoids security risk.
    */
   enableClaimCustomerCouponWithCodeInRequestBody?: boolean;
-
-  /**
-   * Enables a validation that prevents new passwords from matching the current password
-   * in the password update form.
-   *
-   * When set to `true`, the user will not be allowed to reuse their current password
-   * when updating their password. The app will check that the new password does not match
-   * the old password.
-   */
-  enablePasswordsCannotMatchInPasswordUpdateForm?: boolean;
-
-  /**
-   * Enables *all* page meta resolvers in Client-Side Rendering (CSR),
-   * ignoring the configuration option set for specific resolvers
-   * `config.pageMeta.resolvers[index].disabledInCsr`.
-   *
-   * Note: The config option `disabledInCsr` is now deprecated and will be removed
-   *       in the future together with this feature toggle.
-   */
-  allPageMetaResolversEnabledInCsr?: boolean;
-
-  /**
-   * Modifies grid arrangement in Product Details Page for better accessibility:
-   * - add to cart button should be last step
-   * - future stock accordion is moved before add to cart button
-   */
-  a11yPdpGridArrangement?: boolean;
 
   /**
    * Header. Fixes trapping focus on menu items on mobile when the menu is expanded.
@@ -778,44 +180,10 @@ export interface FeatureTogglesInterface {
   a11yRegionAssociatedHeaders?: boolean;
 
   /**
-   * When enabled, allows to provide extended formats and media queries for <picture> element if used in MediaComponent.
-   *
-   * Important: After activation default HTML element in MediaComponent will be `<img>`
-   * Only BannerComponent has passed `'picture'` value. If you need to use `<picture>` HTML element
-   * you need to pass `[elementType]="'picture'"` to `<cx-media>`
-   *
-   * For proper work requires `pictureElementFormats`  provided in media config:
-   *  ```ts
-   * provideConfig({
-   *   pictureElementFormats: {
-   *    mediaQueries: '(max-width: 480px)',
-   *   },
-   * })
-   * ```
-   *
-   * Toggle activates `@Input() elementType: 'img' | 'picture' = 'img'`
-   * and `@Input() sizesForImgElement: string` in `MediaComponent`
-   *
-   */
-  useExtendedMediaComponentConfiguration?: boolean;
-
-  /**
-   * Enables Real time stock display in the PDP page.
-   * when set to `true`, the user will be able to see the real time stock in PDP
-   */
-  showRealTimeStockInPDP?: boolean;
-
-  /**
    * When enabled, the scroll-to-top button adjusts its position when other UI elements
    * (like cookie consent banner) appear at the bottom of the page to prevent overlapping
    */
   a11yScrollToTopPositioning?: boolean;
-
-  /**
-   * Creates a section element with applied aria-label in "Review Order" page of the checkout.
-   * Moves components to be children of this section element.
-   */
-  a11yWrapReviewOrderInSection?: boolean;
 
   /**
    * Improves wide viewport layout issues.
@@ -837,6 +205,37 @@ export interface FeatureTogglesInterface {
   a11yNgSelectLayering?: boolean;
 
   /**
+   * Introduces read more directive for presenting elements with long text.
+   * Affects: ProductReviewsComponent
+   */
+  readMoreDirective?: boolean;
+
+  /**
+   * Introduces characters left for product review form elements.
+   * Affects: ProductReviewsComponent
+   */
+  productReviewCharactersLeft?: boolean;
+
+  /**
+   * The optional `aria-controls` attribute will override on the NgSelect implementation.
+   * The updated library employs the `aria-controls` attribute to indicate the relationship between the button and the dropdown.
+   * This change ensures we can still use a custom id if preferable.
+   */
+  a11yNgSelectAriaControls?: boolean;
+
+  /**
+   * Ensures on configurator overview page, that group titles are recognized as heading
+   * in VPC mode when navigating with the 'H' key.
+   */
+  a11yConfiguratorOverviewHeaderVPC?: boolean;
+
+  /**
+   * Use unicode characters for ng-select dropdown carets so that OS themes can override the defaults
+   * by targetting text. This is not possible when using borders to draw shapes.
+   */
+  a11yNgSelectUnicodeCarets?: boolean;
+
+  /**
    * Enables the product carousel to include products based on specified category codes.
    *
    * - When this feature is enabled, the carousel will fetch and display products
@@ -847,12 +246,13 @@ export interface FeatureTogglesInterface {
   enableCarouselCategoryProducts?: boolean;
 
   /**
-   * When enabled, enforces stronger password validation rules,
-   * including requirements for a mix of uppercase letters, lowercase letters,
-   * special characters, digits, and no consecutive characters,
-   * as well as enforcing both a minimum and maximum password length.
+   * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
+   * a `ConfiguratorShowOptionsComponent` component underneath the attribute name.
+   * The `ConfiguratorShowOptionsComponent` component allows to load the domain values
+   * on demand by clicking on `Show Options` button in case the back-end signals
+   * that domain values are not yet present.
    */
-  enableSecurePasswordValidation?: boolean;
+  enableReadDomainValuesOnDemand?: boolean;
 
   /**
    * When enabled, checks before accessing checkout
@@ -861,135 +261,314 @@ export interface FeatureTogglesInterface {
    * After providing email user will be redirected back to checkout.
    */
   opfEnablePreventingFromCheckoutWithoutEmail?: boolean;
+
+  /**
+   * When enabled, it uses the StoreLocationService for getDirections, getStoreLatitude,
+   * and getStoreLongitude instead of StoreFinderFacade (deprecated)
+   * The logic behind it stays the same
+   * Affects: MyPreferredStoreComponent
+   */
+  storeFinderFacadeCleanup?: boolean;
+
+  /**
+   * When enabled, the default routing config for the product page is no longer just:
+   * `paths: ['product/:productCode/:name']`
+   * but:
+   * `paths: ['product/:productCode/:name', 'product/:productCode'],`
+   *
+   * It means that the old URL scheme of generating links and matching URLs is preserved,
+   * but now also a shorter alias (without product name) is accepted when matching the URL.
+   */
+  defaultProductPageRouteAllowsNoProductName?: boolean;
+
+  /**
+   * When enabled, the product cards in the product list page will have a forced consistent size.
+   * Affects the styles of: ProductGridItemComponent, ProductListItemComponent.
+   */
+  consistentSizeProductCards?: boolean;
+
+  /**
+   * Reserve horizontal space for Star Rating component to prevent CLS on PDP.
+   * When enabled, the `cx-star-rating` component will reserve horizontal space for the star rating component to prevent CLS on PDP
+   * Otherwise the component has no width initially, and gets wider only after a delay.
+   * when Font Awesome font is loaded and Star icons are rendered.
+   */
+  reserveHorizontalSpaceStarRating?: boolean;
+
+  /**
+   * Feature flag to enable using `transform: translateX` instead of animating the `margin` property
+   * for the top progress bar animation.
+   *
+   * ## Why this flag exists:
+   * Animating the `margin` property has two major downsides:
+   *
+   * 1. **Cumulative Layout Shift (CLS)**: Changing margin causes layout shifts that negatively impact visual stability.
+   * 2. **Performance impact**: Margin animations trigger browser re-layouts (reflows), increasing layout and paint costs,
+   *    which contributes to poor performance metrics like Total Blocking Time (TBT).
+   *
+   * ## When enabled:
+   * The top progress bar will animate using `transform: translateX(...)`, which is a GPU-accelerated,
+   * layout-independent operation that improves visual performance and avoids layout shifts.
+   */
+  topProgressBarUseTransformAnimation?: boolean;
+
+  /**
+   * Feature flag to disable the margin animation for the cx-page-slot component.
+   * Disables the CSS animation on the `margin` property in the `cx-page-slot` component.
+   * This animation was originally part of the legacy "defer loading" and "below the fold"
+   * mechanism in Spartacus. Since this mechanism is no longer used in the current storefront,
+   * the animation causes unnecessary layout shifts (CLS) and increased rendering cost (TBT).
+   *
+   * Enabling this flag removes the margin animation to improve performance and user experience.
+   */
+  disableCxPageSlotMarginAnimation?: boolean;
+
+  /**
+   * When enabled, the new carousel component `<cx-carousel-scrolling>` will be used
+   * in the following components instead of the old `<cx-carousel>`:
+   * - `ProductCarouselComponent`
+   * - `ProductReferencesComponent`
+   * - `ProductImagesComponent` and related `ProductImageZoomProductImagesComponent`
+   *
+   * The previous carousel had number of issues:
+   * - Caused huge layout shift when transitioning from SSR to CSR on desktop viewport,
+   *     because in SSR there was rendered just 1 carousel item, but in desktop CSR 4 items
+   *     appeared after a while (especially noticeable with Chrome DevTools Network throttling)
+   * - Eagerly-loaded images also from invisible slides, even when Spartacus was configured
+   *     to lazy load of all images: `provideConfig({ imageLoadingStrategy: ImageLoadingStrategy.LAZY})`
+   * - Was not swipe-friendly on mobile devices
+   *
+   * The new carousel:
+   * - Doesn't suffer from huge layout shifts when transitioning from SSR to CSR anymore, because of
+   *    rendering the same HTML both in SSR and when CSR kicks in after a delay,
+   *    so the same number of carousel items is visible in SSR HTML and CSR HTML.
+   * - It's lazy loading invisible images thanks to native horizontal scrolling (when Spartacus
+   *    is configured to lazy load all images: `provideConfig({ imageLoadingStrategy: ImageLoadingStrategy.LAZY})`)
+   * - It's swipe-friendly on touch devices thanks to its native horizontal scrolling
+   */
+  productCarouselScrolling?: boolean;
+
+  /**
+   * Feature flag to enable using the new LOGIN_EVENTS token instead of the ActionsSubject LOGIN stream for tracking.
+   *
+   * When enabled, the new LOGIN_EVENTS token will be used instead of the ActionsSubject LOGIN stream.
+   * This is needed to support code flow authentication. If we are using the ActionsSubject LOGIN stream,
+   * the login event won't be captured once we are redirected back from the auth server.
+   *
+   * Used in `ProfileTagLifecycleService`
+   */
+  cdsLoginEventsToken?: boolean;
+
+  /**
+   * Feature flag to enable using <link rel=preconnect> in the index.html.
+   *
+   * ## When enabled:
+   * Adding rel=preconnect to a <link> informs the browser that your page intends to establish a connection to another domain,
+   * and that you'd like the process to start as soon as possible. Resources will load more quickly because the setup process
+   * has already been completed by the time the browser requests them.
+   *
+   * Note: Preconnecting is not needed (and won't be performed) if the domain of the media base url is the same as the storefront's domain.
+   */
+  createMediaPreconnectLink?: boolean;
+
+  /**
+   * When enabled, sets the default oAuth configuration to use authorization code flow with PKCE.
+   * This results in a more secure authorization scheme as the default configuration.
+   *
+   * NOTE: This flag should only be enabled when used with a CCv2 Authorization Server running the
+   * September 2025 update or higher. The CCv2 Authorization Server only supports Authorization Code
+   * flow for public clients from that version and onwards.
+   */
+  authorizationCodeFlowByDefault?: boolean;
+
+  /**
+   * Feature flag to enable consistent header slot structure across breakpoints to reduce
+   * layout shift and improve Cumulative Layout Shift (CLS) scores.
+   *
+   * On desktop devices (non-mobile), some header and navigation elements were rendered
+   * only after client-side rendering (CSR), resulting in noticeable layout shifts. This negatively
+   * affected the user experience and CLS performance.
+   *
+   * When enabled:
+   * - Desktop uses the same header slot structure as mobile.
+   * - Reduces layout shift and improves perceived performance and visual stability.
+   *
+   *  ⚠️ To fully enable this feature, replace `provideConfig(layoutConfig)` in your codebase
+   * with `provideConfigFactory(layoutConfigFactory)`.
+   */
+  unifiedDefaultHeaderSlotsAcrossBreakpoints?: boolean;
+
+  /**
+   * Flag to enable reserving space for product images to prevent CLS (Cumulative Layout Shift) issues.
+   *
+   * When enabled, it ensures that appropriate space is reserved for images before they load,
+   * maintaining layout stability across the following contexts:
+   *
+   * - **PDP (Product Detail Page)**: Reserves space for the main product image.
+   * - **PLP (Product Listing Page) - List View**: Reserves space for each product image in list layout.
+   * - **PLP (Product Listing Page) - Grid View**: Reserves space for each product image in grid layout.
+   *
+   * This helps improve Core Web Vitals by preventing layout shifts as images load.
+   */
+  reserveSpaceForImagesOnPdpAndPlp?: boolean;
+
+  /**
+   * Feature flag to control the default image loading strategy.
+   *
+   * By default, the `MediaComponent` used the `loading="eager"` attribute for all images,
+   * due to the fallback logic in the `MediaService`, which defaults to
+   * `imageLoadingStrategy: EAGER` when no explicit configuration is provided.
+   *
+   * This flag, when enabled, changes the default image loading behavior to use
+   * `loading="lazy"` instead. This ensures that images below the fold are not downloaded
+   * immediately, reducing unnecessary network usage and improving performance.
+   *
+   * Lazy loading frees up bandwidth to prioritize more important assets,
+   * such as the largest content element on the page, which can positively
+   * impact the LCP (Largest Contentful Paint) metric.
+   *
+   * When all images are lazy loaded by default, you should explicitly prioritize LCP images,
+   * by specifying CMS component IDs via the Spartacus config:
+   * `provideConfig({ lcpCmsComponents: ... })`
+   * ... or by passing the special input directly to the `MediaComponent`:
+   * `<cx-media [fetchPriority]="ImageFetchPriority.HIGH" ... >`
+   *
+   * Set to `true` to enable lazy loading by default.
+   */
+  lazyLoadImagesByDefault?: boolean;
+
+  /**
+   * Feature flag to enable incrementing the processes count for the merge cart action.
+   *
+   * When enabled, the processes count will be incremented for the merge cart action.
+   * This is needed to prevent premature cart loading, that especially affects the authorization code flow that requires redirection to the auth server and back.
+   */
+  incrementProcessesCountForMergeCart?: boolean;
+
+  /**
+   * Controls when the Login action is dispatched during OAuth URL parameter checking.
+   *
+   * When set to `true`, enables the new behavior where the Login action is only dispatched when
+   * `tokenReceived` is true, meaning the token was received during the current `tryLogin()` attempt.
+   *
+   * When set to `false`, maintains the legacy behavior where the Login action will be dispatched in all
+   * successful login scenarios during `checkOAuthParamsInUrl()`, regardless of whether the token was
+   * received in the current attempt or retrieved from storage (e.g., page refresh).
+   *
+   * Affects: `AuthService`
+   */
+  dispatchLoginActionOnlyWhenTokenReceived?: boolean;
+
+  /**
+   * Previously the default Spartacus layout config contained the property `pageFold`
+   * for the following layouts:
+   * - `LandingPage2Template`
+   * - `CategoryPageTemplate`
+   * - `ProductDetailsPageTemplate`
+   *
+   * When this feature toggle is enabled, the `pageFold` property is removed from those layout configs.
+   *
+   * It is to improve the CLS (Cumulative Layout Shift) metric. Previously the `pageFold` property
+   * caused the CMS components to be rendered only after a small delay even in SSR pages,
+   * which caused a layout shift.
+   *
+   * ⚠️ To fully enable this feature toggle, you need to also replace `provideConfig(layoutConfig)`
+   * in your codebase with `provideConfigFactory(layoutConfigFactory)`.
+   */
+  defaultLayoutConfigWithoutPageFold?: boolean;
+
+  /**
+   * When this feature toggle is enabled, the navigation menu will close when clicking on the same link.
+   *
+   * This is to improve the user experience on mobile devices, where the menu remains open
+   * after clicking on a link that navigates to the same page.
+   * Affects: `NavigationUIComponent`
+   */
+  navigationMenuCloseOnSameLinkClick?: boolean;
+
+  /**
+   * When enabled, translates the "Password expired" error message
+   * to the user's selected language using Spartacus i18n.
+   * Affects: `LoginComponent`
+   */
+  enablePasswordExpiredErrorTranslation?: boolean;
+
+  /**
+   * shows the Quote Purchase Order Number input field in the Quote Request form
+   * and in the Quote Details page
+   *
+   * when set to `true`, the user will be able to enter a Purchase Order Number
+   * when requesting a quote and see it in the quote details
+   */
+  enableQuotePurchaseOrderNumber?: boolean;
+
+  /**
+   * When enabled, fixes the issue with return order returnable quantity not being displayed correctly
+   * on the `ReturnOrderComponent` when navigating to the return request details page.
+   * Affects: `ReturnOrderComponent`
+   */
+  enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  showDeliveryOptionsTranslation: true,
-  formErrorsDescriptiveMessages: true,
-  showSearchingCustomerByOrderInASM: true,
-  showStyleChangesInASM: true,
-  shouldHideAddToCartForUnpurchasableProducts: true,
-  useExtractedBillingAddressComponent: true,
-  showBillingAddressInDigitalPayments: true,
-  showDownloadProposalButton: true,
-  searchBoxV2: false,
-  trendingSearches: false,
-  useProductCarouselBatchApi: true,
-  propagateErrorsToServer: true,
-  ssrStrictErrorHandlingForHttpAndNgrx: true,
-  productConfiguratorDeltaRendering: true,
-  a11yUseProperTextColorForFutureStockAccordion: false,
-  a11yNavMenuExpandStateReadout: true,
-  a11yPreventHorizontalScroll: true,
-  a11yPopoverHighContrast: false,
-  a11yTabsManualActivation: false,
-  a11yCartImportConfirmationMessage: true,
-  a11yAnonymousConsentMessageInDialog: false,
-  a11yMobileFocusOnFirstNavigationItem: true,
-  a11yQuickOrderSearchListKeyboardNavigation: false,
-  a11ySearchBoxMobileFocus: true,
-  a11yFacetKeyboardNavigation: true,
-  a11yStyleExternalLinksAsLinks: false,
-  a11ySearchboxLabel: false,
-  a11yHideSelectBtnForSelectedAddrOrPayment: true,
-  a11ySelectLabelWithContextForSelectedAddrOrPayment: false,
-  a11yUseTrapTabInsteadOfTrapInDialogs: true,
-  cmsGuardsServiceUseGuardsComposer: true,
+  a11yUseProperTextColorForFutureStockAccordion: true,
+  a11yPopoverHighContrast: true,
+  a11yTabsManualActivation: true,
+  a11yAnonymousConsentMessageInDialog: true,
+  a11yQuickOrderSearchListKeyboardNavigation: true,
   a11yKeyboardAccessibleZoom: false,
-  a11yOrganizationLinkableCells: true,
-  a11yVisibleFocusOverflows: true,
-  a11yTruncatedTextForResponsiveView: true,
-  a11yTruncatedTextStoreFinder: false,
-  a11yTruncatedTextUnitLevelOrderHistory: false,
-  a11ySemanticPaginationLabel: true,
+  a11yTruncatedTextUnitLevelOrderHistory: true,
   a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yPreventSRFocusOnHiddenElements: true,
-  a11yMyAccountLinkOutline: true,
-  a11yCloseProductImageBtnFocus: true,
-  a11yNotificationPreferenceFieldset: true,
-  a11yImproveContrast: true,
-  a11yEmptyWishlistHeading: true,
-  a11yScreenReaderBloatFix: true,
-  a11yUseButtonsForBtnLinks: true,
-  a11yTabComponent: true,
-  a11yCarouselArrowKeysNavigation: true,
-  a11yPickupOptionsTabs: false,
-  a11yNotificationsOnConsentChange: true,
-  a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields: true,
-  a11yFacetsDialogFocusHandling: true,
-  a11yResetFocusAfterNavigating: false,
-  headerLayoutForSmallerViewports: false,
-  a11yStoreFinderAlerts: true,
+  a11yResetFocusAfterNavigating: true,
   a11yStoreFinderLabel: false,
-  a11yFormErrorMuteIcon: true,
-  a11yImprovedErrorMessage: false,
-  a11yCxMessageFocus: true,
+  a11yImprovedErrorMessage: true,
   a11yLinkBtnsToTertiaryBtns: false,
-  a11yRepeatedPageTitleFix: true,
-  a11yDeliveryModeRadiogroup: true,
-  a11yNgSelectOptionsCount: true,
-  a11yNgSelectCloseDropdownOnEscape: false,
-  a11ySelectImprovementsCustomerTicketingCreateSelectbox: false,
-  a11yNgSelectAriaLabelDropdownCustomized: false,
-  a11yRepeatedCancelOrderError: true,
-  a11yAddedToCartActiveDialog: true,
-  a11yNgSelectMobileReadout: true,
-  a11yDeliveryMethodFieldset: true,
-  a11yShowMoreReviewsBtnFocus: true,
-  a11yQuickOrderAriaControls: true,
-  a11yRemoveStatusLoadedRole: true,
-  a11yDialogsHeading: true,
-  a11yDialogTriggerRefocus: true,
-  a11yAddToWishlistFocus: true,
-  a11ySearchBoxFocusOnEscape: true,
-  a11yUpdatingCartNoNarration: false,
-  a11yPasswordVisibliltyBtnValueOverflow: false,
-  a11yItemCounterFocus: false,
-  a11yScrollToReviewByShowReview: false,
-  a11yViewHoursButtonIconContrast: false,
-  a11yStoreInStockIconContrast: false,
-  a11yCheckoutStepsLandmarks: false,
-  a11yQTY2Quantity: false,
-  a11yImproveButtonsInCardComponent: false,
-  a11yMiniCartFocusOnMobile: false,
-  a11yWrapReviewOrderInSection: false,
-  a11yApprovalProcessWithNoClearable: false,
-  a11yPostRegisterSuccessMessage: false,
-  a11yDeleteButton2First: false,
-  a11yShowLabelOfSelect: false,
-  a11yShowDownArrowOnFocusedSelectMenu: false,
-  a11yCroppedFocusRing: false,
-  a11yTextSpacingAdjustments: false,
-  a11yTableHeaderReadout: false,
-  a11ySearchboxAssistiveMessage: false,
-  updateConsentGivenInOnChanges: false,
-  a11yDifferentiateFocusedAndSelected: false,
-  a11yQuickOrderSearchBoxRefocusOnClose: false,
-  a11yKeyboardFocusInSearchBox: false,
+  a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
+  a11yNgSelectAriaLabelDropdownCustomized: true,
+  a11yMiniCartFocusOnMobile: true,
+  updateConsentGivenInOnChanges: true,
+  a11yQuickOrderSearchBoxRefocusOnClose: true,
+  a11yKeyboardFocusInSearchBox: true,
   a11yAddPaddingToCarouselPanel: false,
-  a11yNavigationButtonsAriaFixes: false,
-  a11yFocusOnCardAfterSelecting: false,
-  a11ySearchableDropdownFirstElementFocus: false,
-  a11yHideConsentButtonWhenBannerVisible: false,
-  a11yRepeatingButtonsUniqueLabels: false,
-  a11yHighContrastBorders: false,
-  a11yRegionAssociatedHeaders: false,
-  occCartNameAndDescriptionInHttpRequestBody: true,
-  cmsBottomHeaderSlotUsingFlexStyles: true,
-  useSiteThemeService: true,
-  enableConsecutiveCharactersPasswordRequirement: true,
-  enablePasswordsCannotMatchInPasswordUpdateForm: true,
-  allPageMetaResolversEnabledInCsr: true,
-  a11yPdpGridArrangement: false,
-  a11yHamburgerMenuTrapFocus: false,
-  useExtendedMediaComponentConfiguration: false,
-  showRealTimeStockInPDP: false,
-  a11yScrollToTopPositioning: false,
-  a11yWideScreenImprovements: false,
-  a11yOptimizedMenuSpacing: false,
-  a11yNgSelectLayering: false,
-  enableSecurePasswordValidation: false,
-  enableCarouselCategoryProducts: false,
-  enableClaimCustomerCouponWithCodeInRequestBody: false,
-  opfEnablePreventingFromCheckoutWithoutEmail: false,
+  a11yNavigationButtonsAriaFixes: true,
+  a11yFocusOnCardAfterSelecting: true,
+  a11ySearchableDropdownFirstElementFocus: true,
+  a11yHideConsentButtonWhenBannerVisible: true,
+  a11yRepeatingButtonsUniqueLabels: true,
+  a11yHighContrastBorders: true,
+  a11yRegionAssociatedHeaders: true,
+  a11yHamburgerMenuTrapFocus: true,
+  a11yScrollToTopPositioning: true,
+  a11yWideScreenImprovements: true,
+  a11yOptimizedMenuSpacing: true,
+  a11yNgSelectLayering: true,
+  a11yNgSelectUnicodeCarets: false,
+  readMoreDirective: false,
+  productReviewCharactersLeft: false,
+  a11yNgSelectAriaControls: true,
+  a11yConfiguratorOverviewHeaderVPC: false,
+  enableCarouselCategoryProducts: true,
+  enableClaimCustomerCouponWithCodeInRequestBody: true,
+  enableReadDomainValuesOnDemand: true,
+  opfEnablePreventingFromCheckoutWithoutEmail: true,
+  storeFinderFacadeCleanup: false,
+  defaultProductPageRouteAllowsNoProductName: false,
+  consistentSizeProductCards: false,
+  reserveHorizontalSpaceStarRating: false,
+  topProgressBarUseTransformAnimation: false,
+  disableCxPageSlotMarginAnimation: false,
+  productCarouselScrolling: false,
+  cdsLoginEventsToken: false,
+  createMediaPreconnectLink: false,
+  unifiedDefaultHeaderSlotsAcrossBreakpoints: false,
+  reserveSpaceForImagesOnPdpAndPlp: false,
+  lazyLoadImagesByDefault: false,
+  authorizationCodeFlowByDefault: false,
+  incrementProcessesCountForMergeCart: true,
+  dispatchLoginActionOnlyWhenTokenReceived: false,
+  defaultLayoutConfigWithoutPageFold: false,
+  navigationMenuCloseOnSameLinkClick: false,
+  enablePasswordExpiredErrorTranslation: false,
+  enableQuotePurchaseOrderNumber: false,
+  enableReturnOrderReturnableQuantityConsigmentFallback: false,
 };

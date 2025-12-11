@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -19,14 +20,6 @@ import {
   Validators,
 } from '@angular/forms';
 import {
-  CustomFormValidators,
-  LAUNCH_CALLER,
-  LaunchDialogService,
-} from '@spartacus/storefront';
-import { BehaviorSubject } from 'rxjs';
-import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
-import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
-import {
   AuthConfigService,
   FeatureConfigService,
   GlobalMessageService,
@@ -34,18 +27,26 @@ import {
   OAuthFlow,
   RoutingService,
 } from '@spartacus/core';
-import { UserSignUp } from '@spartacus/user/profile/root';
-import { HttpErrorResponse } from '@angular/common/http';
+import {
+  CustomFormValidators,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import {
   VerificationToken,
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
+import { UserSignUp } from '@spartacus/user/profile/root';
+import { BehaviorSubject } from 'rxjs';
+import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constants';
+import { RegistrationVerificationTokenFormComponentService } from './verify-register-verification-token-form.service';
 
 @Component({
   selector: 'cx-registration-verification-token-form',
   templateUrl: './verify-register-verification-token-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
+  host: { ngSkipHydration: 'true' },
 })
 export class RegistrationVerificationTokenFormComponent implements OnInit {
   protected fb = inject(UntypedFormBuilder);
@@ -67,34 +68,7 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
   protected passwordValidators = this.getPasswordValidators();
 
   getPasswordValidators(): any {
-    if (this.featureConfigService?.isEnabled('formErrorsDescriptiveMessages')) {
-      if (
-        this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-      ) {
-        return CustomFormValidators.securePasswordValidators;
-      } else {
-        if (
-          this.featureConfigService.isEnabled(
-            'enableConsecutiveCharactersPasswordRequirement'
-          )
-        ) {
-          return [
-            ...CustomFormValidators.passwordValidators,
-            CustomFormValidators.noConsecutiveCharacters,
-          ];
-        } else {
-          return CustomFormValidators.passwordValidators;
-        }
-      }
-    } else {
-      if (
-        this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-      ) {
-        return CustomFormValidators.securePasswordValidator;
-      } else {
-        return CustomFormValidators.passwordValidators;
-      }
-    }
+    return CustomFormValidators.securePasswordValidators;
   }
 
   protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
@@ -154,7 +128,11 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
       !this.firstName ||
       !this.lastName
     ) {
-      this.router.go(['/login/register']);
+      this.router.go(
+        this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+          ? { cxRoute: 'register' }
+          : ['/login/register']
+      );
     } else {
       this.startWaitTimeInterval();
       this.service.displayMessage(
@@ -257,6 +235,10 @@ export class RegistrationVerificationTokenFormComponent implements OnInit {
       OAuthFlow.ResourceOwnerPasswordFlow
     ) {
       this.router.go('login');
+    }
+
+    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
+      this.router.go({ cxRoute: 'login' });
     }
     this.service.postRegisterMessage();
   }

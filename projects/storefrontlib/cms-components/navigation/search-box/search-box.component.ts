@@ -28,12 +28,19 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  switchMap,
+  tap,
+  first,
+  timeout,
+  catchError,
+} from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BREAKPOINT, BreakpointService } from '../../../layout/';
 import { SearchBoxComponentService } from './search-box-component.service';
-import { SearchBoxFeatures } from './search-box-features.model';
 import { SearchBoxOutlets } from './search-box-outlets.model';
 import {
   SearchBoxProductSelectedEvent,
@@ -65,7 +72,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   private elementRef = inject(ElementRef);
   private renderer = inject(Renderer2);
   readonly searchBoxOutlets = SearchBoxOutlets;
-  readonly searchBoxFeatures = SearchBoxFeatures;
   @Input() config: SearchBoxConfig;
 
   /**
@@ -80,12 +86,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   @HostBinding('class.search-box-v2') get searchBoxV2() {
-    return this.isEnabledFeature(SearchBoxFeatures.SEARCH_BOX_V2);
-  }
-
-  get hasSearchBoxV2(): boolean {
-    const hostElement = this.elementRef.nativeElement;
-    return hostElement.classList.contains('search-box-v2');
+    return true;
   }
 
   /**
@@ -105,9 +106,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @HostListener('keydown.escape')
   onEscape() {
     if (
-      (this.featureConfigService?.isEnabled('a11ySearchBoxFocusOnEscape') &&
-        this.winRef.document.activeElement !==
-          this.searchInputEl?.nativeElement) ||
+      this.winRef.document.activeElement !==
+        this.searchInputEl?.nativeElement ||
       this.searchBoxActive
     ) {
       setTimeout(() => {
@@ -134,12 +134,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     return this.breakpointService?.isDown(BREAKPOINT.sm);
   }
 
-  // TODO: (CXSPA-6929) - Remove getter next major release.
-  /** Temporary getter, not ment for public use */
-  get a11ySearchBoxMobileFocusEnabled(): boolean {
-    return this.isEnabledFeature('a11ySearchBoxMobileFocus') || false;
-  }
-
   // TODO: (CXSPA-6929) - Make dependencies no longer optional next major release
   @Optional() changeDetecorRef = inject(ChangeDetectorRef, { optional: true });
 
@@ -156,7 +150,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     protected winRef: WindowRef,
     protected routingService: RoutingService
   ) {
-    useFeatureStyles('a11ySearchboxLabel');
     useFeatureStyles('a11yKeyboardFocusInSearchBox');
   }
 
@@ -254,19 +247,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * Opens the type-ahead searchBox
    */
   open(): void {
-    // TODO: (CXSPA-6929) - Remove feature flag next major release
-    if (this.a11ySearchBoxMobileFocusEnabled) {
-      if (!this.searchBoxActive) {
-        this.searchBoxComponentService.toggleBodyClass(
-          SEARCHBOX_IS_ACTIVE,
-          true
-        );
-        this.searchBoxActive = true;
-        this.searchInputEl?.nativeElement.focus();
-      }
-    } else {
+    if (!this.searchBoxActive) {
       this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, true);
       this.searchBoxActive = true;
+      this.searchInputEl?.nativeElement.focus();
     }
   }
 
@@ -291,11 +275,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   /**
    * Closes the type-ahead searchBox.
    */
-  close(event: UIEvent, force?: boolean): void {
+  close(force: boolean = false): void {
     // Use timeout to detect changes
     setTimeout(() => {
       if ((!this.ignoreCloseEvent && !this.isSearchBoxFocused()) || force) {
-        this.blurSearchBox(event);
+        this.blurSearchBox();
       }
     });
   }
@@ -305,19 +289,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.searchBoxActive = false;
   }
 
-  protected blurSearchBox(event: UIEvent): void {
+  protected blurSearchBox(): void {
     this.softClose();
     this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
     this.searchBoxActive = false;
-    // TODO: (CXSPA-6929) - Remove feature flag next major release
-    if (this.a11ySearchBoxMobileFocusEnabled) {
-      this.changeDetecorRef?.detectChanges();
-      this.searchButton?.nativeElement.focus();
-    } else {
-      if (event && event.target) {
-        (<HTMLElement>event.target).blur();
-      }
-    }
+    this.changeDetecorRef?.detectChanges();
+    this.searchButton?.nativeElement.focus();
   }
 
   // Check if focus is on searchbox or result list elements
@@ -348,7 +325,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    * */
   avoidReopen(event: UIEvent): void {
     if (this.searchBoxComponentService.hasBodyClass(SEARCHBOX_IS_ACTIVE)) {
-      this.close(event);
+      this.close();
       event.preventDefault();
     }
   }
@@ -433,7 +410,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       switch (event.code) {
         case 'Escape':
         case 'Enter':
-          this.close(event, true);
+          this.close(true);
           return;
         case 'ArrowUp':
           this.focusPreviousChild(event);
@@ -451,7 +428,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
           return;
       }
     } else if (event.type === 'blur') {
-      this.close(event);
+      this.close();
     }
   }
 
@@ -606,12 +583,57 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    *
    * TODO: if there's a single product match, we could open the PDP.
    */
-  launchSearchResult(event: UIEvent, query: string): void {
+  launchSearchResult(query: string): void {
     if (!query || query.trim().length === 0) {
       return;
     }
-    this.close(event);
+    this.close();
     this.searchBoxComponentService.launchSearchPage(query);
+  }
+
+  /**
+   * Handler for Enter key from the input. Mirrors the previous template inline calls
+   * but checks if the query matches a category suggestion and clears input if so.
+   */
+  onEnter(value: string): void {
+    if (!value || value.trim().length === 0) {
+      return;
+    }
+
+    const trimmedValue = value.trim();
+
+    // Check if the entered value matches any current suggestions (including categories)
+    // Wait for results that actually have suggestions loaded with timeout and fallback
+    const enterSubscription = this.results$
+      .pipe(
+        filter(
+          (result) =>
+            !!(result && result.suggestions && result.suggestions.length > 0)
+        ),
+        first(),
+        timeout(1000), // 1 second timeout to prevent hanging
+        catchError(() => of({ suggestions: [] }))
+      )
+      .subscribe((result) => {
+        const suggestions = result.suggestions ?? [];
+        const isCategoryMatch = suggestions.some(
+          (suggestion) =>
+            suggestion.toLowerCase() === trimmedValue.toLowerCase()
+        );
+
+        this.close(true);
+        this.launchSearchResult(trimmedValue);
+        this.updateChosenWord(trimmedValue);
+
+        // Clear input if it matches a category suggestion
+        if (isCategoryMatch) {
+          setTimeout(() => {
+            this.updateChosenWord('');
+          }, 150);
+        }
+      });
+
+    this.subscriptions.add(enterSubscription);
   }
 
   /**

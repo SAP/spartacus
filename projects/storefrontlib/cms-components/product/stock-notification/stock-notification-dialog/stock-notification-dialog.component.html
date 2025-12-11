@@ -7,20 +7,9 @@
 >
   <div class="modal-content">
     <div class="cx-dialog-header cx-modal-header">
-      <h3
-        *cxFeature="'a11yDialogsHeading'"
-        id="dialogTitle"
-        class="cx-dialog-title modal-title"
-      >
+      <h3 id="dialogTitle" class="cx-dialog-title modal-title">
         {{ 'stockNotification.subscriptionDialog.header' | cxTranslate }}
       </h3>
-      <div
-        *cxFeature="'!a11yDialogsHeading'"
-        id="dialogTitle"
-        class="cx-dialog-title modal-title"
-      >
-        {{ 'stockNotification.subscriptionDialog.header' | cxTranslate }}
-      </div>
       <button
         type="button"
         [attr.aria-label]="'common.close' | cxTranslate"
@@ -33,11 +22,6 @@
     </div>
 
     <ng-container *ngIf="subscribeSuccess$ | async; else loading">
-      <div
-        *cxFeature="'!a11yRemoveStatusLoadedRole'"
-        role="status"
-        [attr.aria-label]="'common.loaded' | cxTranslate"
-      ></div>
       <div class="cx-dialog-body modal-body">
         <div class="cx-stock-notification-content">
           <p class="cx-stock-notification-text">

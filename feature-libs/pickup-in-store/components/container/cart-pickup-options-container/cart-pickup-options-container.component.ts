@@ -7,11 +7,9 @@
 import {
   Component,
   ElementRef,
-  inject,
   OnDestroy,
   OnInit,
   Optional,
-  ViewChild,
   ViewContainerRef,
 } from '@angular/core';
 import {
@@ -19,7 +17,7 @@ import {
   CartType,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { CmsService, FeatureConfigService, Page } from '@spartacus/core';
+import { CmsService, Page } from '@spartacus/core';
 import {
   cartWithIdAndUserId,
   getProperty,
@@ -81,14 +79,6 @@ export function orderEntryWithRequiredFields(
   standalone: false,
 })
 export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
-  // TODO: Remove element reference once 'a11yDialogTriggerRefocus' feature flag is removed.
-  /**
-   * @deprecated since 2211.28.0
-   * This reference does not point to any element and will be removed at earliest convinience.
-   * The 'triggerElement' is passed through 'PickupOptionChange' event instead.
-   */
-  @ViewChild('open') element: ElementRef;
-
   pickupOption$: Observable<PickupOption | undefined>;
   disableControls$: Observable<boolean>;
   storeDetails$: Observable<{
@@ -103,10 +93,8 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
   productCode: string;
   quantity: number;
   userId: string;
-  private displayNameIsSet = false;
   page?: string;
   readonly CartType = CartType;
-  private featureConfigService = inject(FeatureConfigService);
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected launchDialogService: LaunchDialogService,
@@ -258,118 +246,54 @@ export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
             )
         )
       ),
-      map(({ displayName, name }) => ({ displayName, name })),
-      tap((_) => (this.displayNameIsSet = true))
+      map(({ displayName, name }) => ({ displayName, name }))
     );
   }
-  // TODO: Remove 'PickupOption' argument type once 'a11yDialogTriggerRefocus' feature flag is removed.
-  /**
-   * @deprecated since 2211.28.0 - Use event param instead of option.
-   * @param event - Object containing the selected option and the element that triggered the change.
-   */
-  onPickupOptionChange(pickupOption: PickupOption): void;
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
+
   onPickupOptionChange(event: {
     option: PickupOption;
     triggerElement: ElementRef;
-  }): void;
-  onPickupOptionChange(
-    event: { option: PickupOption; triggerElement: ElementRef } | PickupOption
-  ): void {
+  }): void {
     /* istanbul ignore else */
-    if (
-      this.featureConfigService.isEnabled('a11yDialogTriggerRefocus') &&
-      typeof event === 'object'
-    ) {
-      this.pickupOptionFacade.setPickupOption(this.entryNumber, event.option);
-      if (event.option === 'delivery') {
-        this.activeCartFacade.updateEntry(
-          this.entryNumber,
-          this.quantity,
-          undefined,
-          true
-        );
-        return;
-      }
-      [event.option]
-        .filter((option) => option === 'pickup')
-        .forEach(() => {
-          this.subscription.add(
-            this.storeDetails$
-              .pipe(
-                filter(({ name }) => !!name),
-                tap(({ name }) =>
-                  this.activeCartFacade.updateEntry(
-                    this.entryNumber,
-                    this.quantity,
-                    name,
-                    true
-                  )
-                )
-              )
-              .subscribe()
-          );
-        });
-
-      if (
-        !this.featureConfigService.isEnabled('a11yPickupOptionsTabs') &&
-        !this.displayNameIsSet
-      ) {
-        this.openDialog(event.triggerElement);
-      }
-    } else if (typeof event === 'string') {
-      this.pickupOptionFacade.setPickupOption(this.entryNumber, event);
-      if (event === 'delivery') {
-        this.activeCartFacade.updateEntry(
-          this.entryNumber,
-          this.quantity,
-          undefined,
-          true
-        );
-        return;
-      }
-      [event]
-        .filter((option) => option === 'pickup')
-        .forEach(() => {
-          this.subscription.add(
-            this.storeDetails$
-              .pipe(
-                filter(({ name }) => !!name),
-                tap(({ name }) =>
-                  this.activeCartFacade.updateEntry(
-                    this.entryNumber,
-                    this.quantity,
-                    name,
-                    true
-                  )
-                )
-              )
-              .subscribe()
-          );
-        });
-
-      if (
-        !this.featureConfigService.isEnabled('a11yPickupOptionsTabs') &&
-        !this.displayNameIsSet
-      ) {
-        this.openDialog();
-      }
+    this.pickupOptionFacade.setPickupOption(this.entryNumber, event.option);
+    if (event.option === 'delivery') {
+      this.activeCartFacade.updateEntry(
+        this.entryNumber,
+        this.quantity,
+        undefined,
+        true
+      );
+      return;
     }
+    [event.option]
+      .filter((option) => option === 'pickup')
+      .forEach(() => {
+        this.subscription.add(
+          this.storeDetails$
+            .pipe(
+              filter(({ name }) => !!name),
+              tap(({ name }) =>
+                this.activeCartFacade.updateEntry(
+                  this.entryNumber,
+                  this.quantity,
+                  name,
+                  true
+                )
+              )
+            )
+            .subscribe()
+        );
+      });
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  // TODO: Make argument required once 'a11yDialogTriggerRefocus' feature flag is removed.
-  /**
-   * @deprecated since 2211.28.0 - The use of TriggerElement param will become mandatory.
-   * @param triggerElement - The reference of element that triggered the dialog. Used to refocus on it after the dialog is closed.
-   */
-  openDialog(triggerElement?: ElementRef): void {
+  openDialog(triggerElement: ElementRef): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.PICKUP_IN_STORE,
-      triggerElement ? triggerElement : this.element,
+      triggerElement,
       this.vcr,
       {
         productCode: this.productCode,

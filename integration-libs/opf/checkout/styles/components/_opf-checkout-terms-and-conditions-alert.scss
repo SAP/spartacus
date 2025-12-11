@@ -1,10 +1,33 @@
 %cx-opf-checkout-terms-and-conditions-alert {
+  &.for-mobile {
+    display: none;
+    @include media-breakpoint-down(md) {
+      display: block;
+    }
+  }
+  &.for-desktop {
+    display: block;
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+  }
   .alert {
     padding-inline-end: 3rem;
+
+    @include cx-highContrastTheme-dark {
+      border: 1px solid var(--cx-color-text);
+      background-color: var(--cx-color-background);
+    }
+
     .close {
       top: var(--cx-top, 50%);
       right: 1.5rem;
       margin-top: -12px;
+
+      @include cx-highContrastTheme-dark {
+        color: var(--cx-color-text);
+      }
+
       &:before {
         margin: 0;
       }

@@ -10,6 +10,9 @@ import {
   EpdVisualizationInnerConfig,
 } from './epd-visualization-config';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 export function epdVisualizationConfigValidator(
   epdVisualizationConfig: EpdVisualizationConfig
 ): string | void {
@@ -133,14 +136,9 @@ function invalidUsageIds(
     }
   }
 
-  if (!epdVisualization.usageIds.productUsageId.source) {
+  if (!epdVisualization.usageIds.productUsageId.name) {
     return unconfiguredPropertyMessage(
-      'epdVisualization.usageIds.productUsageId.source'
-    );
-  }
-  if (!epdVisualization.usageIds.productUsageId.category) {
-    return unconfiguredPropertyMessage(
-      'epdVisualization.usageIds.productUsageId.category'
+      'epdVisualization.usageIds.productUsageId.name'
     );
   }
   if (!epdVisualization.usageIds.productUsageId.keyName) {

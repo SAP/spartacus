@@ -14,7 +14,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { useFeatureStyles } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
@@ -80,11 +79,6 @@ export class ItemCounterComponent implements OnInit, OnDestroy {
    * Subscription responsible for auto-correcting control's value when it's invalid.
    */
   private sub: Subscription;
-
-  constructor() {
-    useFeatureStyles('a11yVisibleFocusOverflows');
-    useFeatureStyles('a11yItemCounterFocus');
-  }
 
   ngOnInit() {
     this.sub = this.control.valueChanges

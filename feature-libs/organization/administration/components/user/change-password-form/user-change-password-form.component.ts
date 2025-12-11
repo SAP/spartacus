@@ -6,7 +6,7 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { useFeatureStyles, User } from '@spartacus/core';
+import { User } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
@@ -18,7 +18,7 @@ import { UserChangePasswordFormService } from './user-change-password-form.servi
   selector: 'cx-org-user-change-password-form',
   templateUrl: './user-change-password-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'content-wrapper' },
+  host: { class: 'content-wrapper', ngSkipHydration: 'true' },
   standalone: false,
 })
 export class UserChangePasswordFormComponent {
@@ -30,9 +30,7 @@ export class UserChangePasswordFormComponent {
     protected itemService: UserItemService,
     protected formService: UserChangePasswordFormService,
     protected messageService: MessageService
-  ) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
+  ) {}
 
   save(form: UntypedFormGroup): void {
     this.itemService.current$

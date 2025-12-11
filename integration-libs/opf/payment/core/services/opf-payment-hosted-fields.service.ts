@@ -41,6 +41,7 @@ import { OpfPaymentConnector } from '../connectors/opf-payment.connector';
 import { OpfPaymentErrorHandlerService } from '../services/opf-payment-error-handler.service';
 
 import { getBrowserInfo } from '../utils/opf-payment-utils';
+import { OpfGlobalFunctionsFacade } from '@spartacus/opf/global-functions/root';
 
 @Injectable()
 export class OpfPaymentHostedFieldsService {
@@ -55,6 +56,7 @@ export class OpfPaymentHostedFieldsService {
   protected opfPaymentErrorHandlerService = inject(
     OpfPaymentErrorHandlerService
   );
+  protected globalFunctionsFacade = inject(OpfGlobalFunctionsFacade);
 
   submitPayment(submitInput: OpfPaymentSubmitInput): Observable<boolean> {
     const {
@@ -98,7 +100,8 @@ export class OpfPaymentHostedFieldsService {
       catchError((error: OpfPaymentError | undefined) => {
         this.opfPaymentErrorHandlerService.handlePaymentError(
           error,
-          returnPath
+          returnPath,
+          submitInput?.callbacks?.onFailure
         );
         return throwError(error);
       }),
@@ -143,7 +146,8 @@ export class OpfPaymentHostedFieldsService {
       catchError((error: OpfPaymentError | undefined) => {
         this.opfPaymentErrorHandlerService.handlePaymentError(
           error,
-          returnPath
+          returnPath,
+          submitCompleteInput?.callbacks?.onFailure
         );
         return throwError(() => error);
       }),
@@ -164,6 +168,7 @@ export class OpfPaymentHostedFieldsService {
       onSuccess: OpfPaymentMerchantCallback;
       onPending: OpfPaymentMerchantCallback;
       onFailure: OpfPaymentMerchantCallback;
+      onCancel?: OpfPaymentMerchantCallback;
     }
   ): Observable<Order> {
     if (
@@ -172,6 +177,13 @@ export class OpfPaymentHostedFieldsService {
     ) {
       return from(Promise.resolve(callbacks.onSuccess(response))).pipe(
         concatMap(() => this.orderFacade.placePaymentAuthorizedOrder(true))
+      );
+    } else if (
+      callbacks?.onCancel &&
+      response.status === OpfPaymentSubmitStatus.CANCELLED
+    ) {
+      return from(Promise.resolve(callbacks.onCancel(response))).pipe(
+        concatMap(() => EMPTY)
       );
     } else if (response.status === OpfPaymentSubmitStatus.PENDING) {
       return from(Promise.resolve(callbacks.onPending(response))).pipe(

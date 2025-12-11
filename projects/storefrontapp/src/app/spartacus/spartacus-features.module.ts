@@ -82,6 +82,7 @@ import { EstimatedDeliveryDateFeatureModule } from './features/estimated-deliver
 import { OmfFeatureModule } from './features/omf/omf-feature.module';
 import { OpfFeatureModule } from './features/opf/opf-feature.module';
 import { OppsFeatureModule } from './features/opps/opps-feature.module';
+import { OrderDocumentFlowFeatureModule } from './features/order/order-document-flow-feature.module';
 import { OrderFeatureModule } from './features/order/order-feature.module';
 import { AccountSummaryFeatureModule } from './features/organization/organization-account-summary-feature.module';
 import { AdministrationFeatureModule } from './features/organization/organization-administration-feature.module';
@@ -97,6 +98,7 @@ import { BulkPricingFeatureModule } from './features/product/product-bulk-pricin
 import { FutureStockFeatureModule } from './features/product/product-future-stock-feature.module';
 import { ProductImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
 import { ProductVariantsFeatureModule } from './features/product/product-variants-feature.module';
+import { PunchoutFeatureModule } from './features/punchout/punchout-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
 import { QuoteFeatureModule } from './features/quote-feature.module';
 import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
@@ -106,6 +108,7 @@ import { S4OMFeatureModule } from './features/s4om/s4om-feature.module';
 import { SegmentRefsFeatureModule } from './features/segment-refs/segment-refs-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StoreFinderFeatureModule } from './features/storefinder/storefinder-feature.module';
+import { SubscriptionBillingFeatureModule } from './features/subscription-billing/subscription-billing-feature.module';
 import { PersonalizationFeatureModule } from './features/tracking/personalization-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
 
@@ -151,6 +154,9 @@ if (environment.s4om) {
 }
 if (environment.opf) {
   featureModules.push(OpfFeatureModule);
+}
+if (environment.punchout) {
+  featureModules.push(PunchoutFeatureModule);
 }
 if (environment.segmentRefs) {
   featureModules.push(SegmentRefsFeatureModule);
@@ -250,6 +256,7 @@ if (environment.cpq) {
     CartImportExportFeatureModule,
 
     OrderFeatureModule,
+    OrderDocumentFlowFeatureModule,
 
     CheckoutFeatureModule,
 
@@ -274,6 +281,7 @@ if (environment.cpq) {
 
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
+    SubscriptionBillingFeatureModule,
     ...featureModules,
   ],
   providers: [
@@ -288,112 +296,22 @@ if (environment.cpq) {
     },
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
-        showDeliveryOptionsTranslation: true,
-        formErrorsDescriptiveMessages: true,
-        showSearchingCustomerByOrderInASM: true,
-        showStyleChangesInASM: false,
-        shouldHideAddToCartForUnpurchasableProducts: false,
-        useExtractedBillingAddressComponent: false,
-        showBillingAddressInDigitalPayments: false,
-        showDownloadProposalButton: false,
-        searchBoxV2: false,
-        trendingSearches: false,
-        useProductCarouselBatchApi: true,
-        propagateErrorsToServer: true,
-        ssrStrictErrorHandlingForHttpAndNgrx: true,
-        productConfiguratorDeltaRendering: true,
         a11yUseProperTextColorForFutureStockAccordion: true,
-        a11yNavMenuExpandStateReadout: true,
-        a11yPreventHorizontalScroll: true,
         a11yPopoverHighContrast: true,
         a11yTabsManualActivation: true,
-        a11yCartImportConfirmationMessage: true,
         a11yAnonymousConsentMessageInDialog: true,
-        a11yMobileFocusOnFirstNavigationItem: true,
         a11yQuickOrderSearchListKeyboardNavigation: false,
-        a11ySearchBoxMobileFocus: true,
-        a11yFacetKeyboardNavigation: true,
-        a11ySearchboxLabel: true,
-        a11yStyleExternalLinksAsLinks: true,
-        a11yHideSelectBtnForSelectedAddrOrPayment: true,
-        a11ySelectLabelWithContextForSelectedAddrOrPayment: true,
-        a11yUseTrapTabInsteadOfTrapInDialogs: true,
-        cmsGuardsServiceUseGuardsComposer: true,
         a11yKeyboardAccessibleZoom: true,
-        a11yOrganizationLinkableCells: true,
-        a11yPreventSRFocusOnHiddenElements: true,
-        a11yVisibleFocusOverflows: true,
-        a11yTruncatedTextForResponsiveView: true,
-        a11yTruncatedTextStoreFinder: true,
         a11yTruncatedTextUnitLevelOrderHistory: true,
-        a11ySemanticPaginationLabel: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
-        a11yMyAccountLinkOutline: true,
-        a11yCloseProductImageBtnFocus: true,
-        a11yNotificationPreferenceFieldset: true,
-        a11yImproveContrast: true,
-        a11yEmptyWishlistHeading: true,
-        a11yScreenReaderBloatFix: true,
-        a11yUseButtonsForBtnLinks: true,
-        a11yTabComponent: true,
-        a11yCarouselArrowKeysNavigation: true,
-        a11yPickupOptionsTabs: true,
-        a11yNotificationsOnConsentChange: true,
-        a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields:
-          true,
-        a11yFacetsDialogFocusHandling: true,
         a11yResetFocusAfterNavigating: true,
-        headerLayoutForSmallerViewports: true,
-        a11yStoreFinderAlerts: true,
-        a11yFormErrorMuteIcon: true,
         a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
-        a11yCxMessageFocus: true,
-        occCartNameAndDescriptionInHttpRequestBody: true,
         a11yLinkBtnsToTertiaryBtns: true,
-        a11yRepeatedPageTitleFix: true,
-        a11yDeliveryModeRadiogroup: true,
-        /**
-         * Defaults to false cause ng-select options ariaLabels are working as expected
-         * since Spartacus 2211.33
-         * TODO: CXSPA-9005: Remove this flag and related code in next major release
-         */
-        a11yNgSelectOptionsCount: false,
-        a11yNgSelectCloseDropdownOnEscape: true,
         a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
         a11yNgSelectAriaLabelDropdownCustomized: true,
-        a11yRepeatedCancelOrderError: true,
-        a11yAddedToCartActiveDialog: true,
-        a11yNgSelectMobileReadout: true,
-        a11yDeliveryMethodFieldset: true,
-        a11yShowMoreReviewsBtnFocus: true,
-        a11yQuickOrderAriaControls: true,
-        a11yRemoveStatusLoadedRole: true,
-        a11yDialogsHeading: true,
-        a11yDialogTriggerRefocus: true,
-        a11yAddToWishlistFocus: true,
-        a11ySearchBoxFocusOnEscape: true,
-        a11yUpdatingCartNoNarration: true,
-        a11yPasswordVisibliltyBtnValueOverflow: true,
-        a11yItemCounterFocus: true,
-        a11yScrollToReviewByShowReview: true,
-        a11yViewHoursButtonIconContrast: true,
-        a11yStoreInStockIconContrast: true,
-        a11yCheckoutStepsLandmarks: true,
-        a11yQTY2Quantity: true,
-        a11yImproveButtonsInCardComponent: true,
         a11yMiniCartFocusOnMobile: true,
-        a11yApprovalProcessWithNoClearable: true,
-        a11yPostRegisterSuccessMessage: true,
-        a11yDeleteButton2First: true,
-        a11yShowLabelOfSelect: true,
-        a11yShowDownArrowOnFocusedSelectMenu: true,
-        a11yCroppedFocusRing: true,
-        a11yTextSpacingAdjustments: true,
-        a11yTableHeaderReadout: true,
-        a11ySearchboxAssistiveMessage: true,
         updateConsentGivenInOnChanges: true,
-        a11yDifferentiateFocusedAndSelected: true,
         a11yQuickOrderSearchBoxRefocusOnClose: true,
         a11yKeyboardFocusInSearchBox: true,
         a11yAddPaddingToCarouselPanel: true,
@@ -404,24 +322,40 @@ if (environment.cpq) {
         a11yRepeatingButtonsUniqueLabels: true,
         a11yHighContrastBorders: true,
         a11yRegionAssociatedHeaders: true,
-        cmsBottomHeaderSlotUsingFlexStyles: true,
-        useSiteThemeService: true,
-        enableConsecutiveCharactersPasswordRequirement: true,
-        enablePasswordsCannotMatchInPasswordUpdateForm: true,
-        allPageMetaResolversEnabledInCsr: true,
-        a11yPdpGridArrangement: true,
+        dispatchLoginActionOnlyWhenTokenReceived: true,
         a11yHamburgerMenuTrapFocus: true,
-        useExtendedMediaComponentConfiguration: true,
-        showRealTimeStockInPDP: false,
         a11yScrollToTopPositioning: true,
         a11yWideScreenImprovements: true,
-        a11yWrapReviewOrderInSection: true,
         a11yOptimizedMenuSpacing: true,
         a11yNgSelectLayering: true,
+        a11yNgSelectUnicodeCarets: true,
+        readMoreDirective: true,
+        productReviewCharactersLeft: true,
+        a11yNgSelectAriaControls: true,
+        a11yConfiguratorOverviewHeaderVPC: true,
         enableCarouselCategoryProducts: true,
-        enableSecurePasswordValidation: true,
         enableClaimCustomerCouponWithCodeInRequestBody: false,
+        enableReadDomainValuesOnDemand: true,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
+        storeFinderFacadeCleanup: true,
+        defaultProductPageRouteAllowsNoProductName: true,
+        consistentSizeProductCards: true,
+        reserveHorizontalSpaceStarRating: true,
+        topProgressBarUseTransformAnimation: true,
+        disableCxPageSlotMarginAnimation: true,
+        productCarouselScrolling: true,
+        cdsLoginEventsToken: true,
+        createMediaPreconnectLink: true,
+        unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
+        reserveSpaceForImagesOnPdpAndPlp: true,
+        lazyLoadImagesByDefault: true,
+        incrementProcessesCountForMergeCart: true,
+        authorizationCodeFlowByDefault: false,
+        defaultLayoutConfigWithoutPageFold: true,
+        navigationMenuCloseOnSameLinkClick: true,
+        enablePasswordExpiredErrorTranslation: true,
+        enableQuotePurchaseOrderNumber: false,
+        enableReturnOrderReturnableQuantityConsigmentFallback: true,
       };
       return appFeatureToggles;
     }),

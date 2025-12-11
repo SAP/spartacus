@@ -5,11 +5,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import {
-  AuthService,
-  TranslationService,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { AuthService, TranslationService } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -22,14 +18,13 @@ import { switchMap } from 'rxjs/operators';
 export class LoginComponent implements OnInit {
   user$: Observable<User | undefined>;
   greeting$: Observable<string | undefined>;
+  usingASMClient$: Observable<boolean>;
 
   constructor(
     private auth: AuthService,
     private userAccount: UserAccountFacade,
     private translation: TranslationService
-  ) {
-    useFeatureStyles('a11yMyAccountLinkOutline');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.user$ = this.auth.isUserLoggedIn().pipe(
@@ -48,6 +43,7 @@ export class LoginComponent implements OnInit {
         })
       )
     );
+    this.usingASMClient$ = this.auth.isUsingASMClient();
   }
 
   onRootNavBtnAdded($event: MutationRecord, greeting: string) {

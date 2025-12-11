@@ -5,4 +5,5 @@
  */
 
 import * as AsmActions from './customer-group.actions';
-export { AsmActions };
+import * as AsmSessionActions from './asm-session-actions';
+export { AsmActions, AsmSessionActions };

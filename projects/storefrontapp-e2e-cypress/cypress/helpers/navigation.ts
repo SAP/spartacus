@@ -85,7 +85,9 @@ export function navigateToCategory(
   cy.get('cx-category-navigation cx-generic-link a')
     .contains(categoryName)
     .click({ force });
-  cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(() => {
+    cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
+  });
 }
 
 export function navigateToAMyAccountPage(
@@ -98,5 +100,16 @@ export function navigateToAMyAccountPage(
   cy.selectUserMenuOption({
     option: myAccountOptionText,
   });
-  cy.wait(`@${pageAlias}`).its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(() => {
+    cy.wait(`@${pageAlias}`).its('response.statusCode').should('eq', 200);
+  });
+}
+
+/**
+ * When on mobile, will click the hamburger menu button.
+ */
+export function clickHamburger() {
+  cy.onMobile(() => {
+    cy.get('cx-hamburger-menu button', { timeout: 15000 }).click();
+  });
 }

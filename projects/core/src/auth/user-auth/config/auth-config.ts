@@ -56,6 +56,25 @@ export abstract class AuthConfig {
      */
     revokeEndpoint?: string;
     /**
+     * Determine if the `Authorization` header should be sent with revocation requests.
+     *
+     * In particular, you must set this property to `true` when using the legacy Authorization
+     * Server from SAP Commerce Cloud versions prior to September 2025. For SAP Commerce Cloud
+     * versions from September 2025 onwards, which includes the rebuilt Authorization server,
+     * set `sendAuthHeaderOnRevoke` to `false`.
+     */
+    sendAuthHeaderOnRevoke?: boolean;
+    /**
+     * Determine if client tokens should be requested and sent with the correspondingly marked
+     * connector requests.
+     *
+     * In particular, you must set this property to `true` when using the legacy Authorization
+     * Server from SAP Commerce Cloud versions prior to September 2025. For SAP Commerce Cloud
+     * versions from September 2025 onwards, which includes the rebuilt Authorization server,
+     * set `useClientTokens` to `false`.
+     */
+    useClientTokens?: boolean;
+    /**
      * Url for login redirect for Implicit and Authorization Code Flow.
      */
     loginUrl?: string;
@@ -71,6 +90,19 @@ export abstract class AuthConfig {
      * Config for angular-oauth-oidc library.
      */
     OAuthLibConfig?: AuthLibConfig;
+    /**
+     * Config for custom login page
+     */
+    customLoginPage?: {
+      /**
+       * Endpoint for Cross Site Request Forgery token and form name
+       */
+      csrfEndpoint?: string;
+      /**
+       * Endpoint for target (action) of form
+       */
+      loginFormEndpoint?: string;
+    };
   };
 }
 

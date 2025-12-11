@@ -2,11 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import {
-  FeatureConfigService,
-  I18nTestingModule,
-  Product,
-} from '@spartacus/core';
+import { I18nTestingModule, Product } from '@spartacus/core';
 
 import {
   AugmentedPointOfService,
@@ -17,12 +13,12 @@ import {
 } from '@spartacus/pickup-in-store/root';
 import {
   CurrentProductService,
-  LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { firstValueFrom, Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription, firstValueFrom, of } from 'rxjs';
 import { PdpPickupOptionsContainerComponent } from './pdp-pickup-options-container.component';
 
+import { ElementRef } from '@angular/core';
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
 import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
 import { PickupOptionsStubComponent } from '../../presentational/pickup-options/pickup-options.component.spec';
@@ -31,7 +27,9 @@ import { MockLaunchDialogService } from '../pickup-option-dialog/pickup-option-d
 
 import createSpy = jasmine.createSpy;
 
-class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
+class MockPickupLocationsSearchFacade
+  implements Partial<PickupLocationsSearchFacade>
+{
   startSearch = createSpy();
   hasSearchStarted = createSpy();
   isSearchRunning = createSpy();
@@ -86,12 +84,6 @@ class MockCurrentLocationService {
   }
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 describe('PdpPickupOptionsComponent', () => {
   let component: PdpPickupOptionsContainerComponent;
   let fixture: ComponentFixture<PdpPickupOptionsContainerComponent>;
@@ -99,7 +91,6 @@ describe('PdpPickupOptionsComponent', () => {
   let intendedPickupLocationService: IntendedPickupLocationFacade;
   let currentProductService: CurrentProductService;
   let preferredStoreFacade: PreferredStoreFacade;
-  let featureConfigService: FeatureConfigService;
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
@@ -131,10 +122,6 @@ describe('PdpPickupOptionsComponent', () => {
           provide: CurrentLocationService,
           useClass: MockCurrentLocationService,
         },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
       ],
     });
 
@@ -148,7 +135,6 @@ describe('PdpPickupOptionsComponent', () => {
     preferredStoreFacade = TestBed.inject(PreferredStoreFacade);
 
     currentProductService = TestBed.inject(CurrentProductService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
 
     spyOn(currentProductService, 'getProduct').and.callThrough();
     spyOn(launchDialogService, 'openDialog').and.callThrough();
@@ -174,14 +160,24 @@ describe('PdpPickupOptionsComponent', () => {
       expect(component).toBeDefined();
     });
 
-    it('should trigger and open dialog', () => {
-      component.openDialog();
-      expect(launchDialogService.openDialog).toHaveBeenCalledWith(
-        LAUNCH_CALLER.PICKUP_IN_STORE,
-        component.element,
-        component['vcr'],
-        { productCode: 'productCode' }
+    it('should not open dialog', () => {
+      spyOn(component, 'openDialog');
+      component.onPickupOptionChange({
+        option: 'pickup',
+        triggerElement: {} as ElementRef,
+      });
+      expect(component.openDialog).not.toHaveBeenCalled();
+    });
+
+    it('should handle invalid intended location on init', async () => {
+      spyOn(
+        intendedPickupLocationService,
+        'getIntendedLocation'
+      ).and.returnValue(of({ pickupOption: 'pickup', displayName: undefined }));
+      const displayLocation = await firstValueFrom(
+        component.displayPickupLocation$
       );
+      expect(displayLocation).toBeUndefined();
     });
 
     it('should unsubscribe from any subscriptions when destroyed', () => {
@@ -203,23 +199,6 @@ describe('PdpPickupOptionsComponent', () => {
         intendedPickupLocationService.getIntendedLocation
       ).toHaveBeenCalledWith('productCode');
       expect(component.availableForPickup).toBe(true);
-    });
-
-    it('should call setPickupOption on pickup option change ', () => {
-      spyOn(intendedPickupLocationService, 'setPickupOption');
-      const option = 'pickup';
-      const productCode = 'productCode';
-      component.onPickupOptionChange(option);
-      expect(
-        intendedPickupLocationService.setPickupOption
-      ).toHaveBeenCalledWith(productCode, option);
-    });
-
-    it('should return nothing if pickup option is delivery ', () => {
-      spyOn(component, 'openDialog');
-      const option = 'delivery';
-      component.onPickupOptionChange(option);
-      expect(component.openDialog).not.toHaveBeenCalled();
     });
 
     it('should return undefined if intendedLocation.displayName is not defined', async () => {
@@ -248,24 +227,6 @@ describe('PdpPickupOptionsComponent', () => {
         name: 'London School',
         pickupOption: 'delivery',
       });
-    });
-
-    it('should open dialog if displayName is not set and a11yPickupOptionsTabs disabled', () => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
-      spyOn(component, 'openDialog');
-      component['displayNameIsSet'] = false;
-      const option = 'pickup';
-      component.onPickupOptionChange(option);
-      expect(component.openDialog).toHaveBeenCalled();
-    });
-
-    it('should NOT open dialog if displayName is not set and a11yPickupOptionsTabs enabled', () => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
-      spyOn(component, 'openDialog');
-      component['displayNameIsSet'] = false;
-      const option = 'pickup';
-      component.onPickupOptionChange(option);
-      expect(component.openDialog).not.toHaveBeenCalled();
     });
   });
   describe('without current product', () => {

@@ -1,10 +1,5 @@
 <!-- FORM -->
 <ng-container *ngIf="!loading; else spinner">
-  <div
-    *cxFeature="'!a11yRemoveStatusLoadedRole'"
-    role="status"
-    [attr.aria-label]="'common.loaded' | cxTranslate"
-  ></div>
   <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
   <cx-form-required-legend />
   <form (ngSubmit)="next()" [formGroup]="paymentForm">
@@ -34,17 +29,10 @@
                 >
                 </ng-select>
 
-                <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                 <cx-form-errors
-                  *cxFeature="'formErrorsDescriptiveMessages'"
                   [translationParams]="{
                     label: 'paymentForm.paymentType' | cxTranslate,
                   }"
-                  [control]="paymentForm.get('cardType.code')"
-                ></cx-form-errors>
-
-                <cx-form-errors
-                  *cxFeature="'!formErrorsDescriptiveMessages'"
                   [control]="paymentForm.get('cardType.code')"
                 ></cx-form-errors>
               </label>
@@ -73,18 +61,11 @@
               [attr.aria-errormessage]="'accountHolderNameError'"
             />
 
-            <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
             <cx-form-errors
-              *cxFeature="'formErrorsDescriptiveMessages'"
               id="accountHolderNameError"
               [translationParams]="{
                 label: 'paymentForm.accountHolderName.label' | cxTranslate,
               }"
-              [control]="paymentForm.get('accountHolderName')"
-            ></cx-form-errors>
-
-            <cx-form-errors
-              *cxFeature="'!formErrorsDescriptiveMessages'"
               [control]="paymentForm.get('accountHolderName')"
             ></cx-form-errors>
           </label>
@@ -108,18 +89,11 @@
               [attr.aria-errormessage]="'cardNumberError'"
             />
 
-            <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
             <cx-form-errors
-              *cxFeature="'formErrorsDescriptiveMessages'"
               id="cardNumberError"
               [translationParams]="{
                 label: 'paymentForm.cardNumber' | cxTranslate,
               }"
-              [control]="paymentForm.get('cardNumber')"
-            ></cx-form-errors>
-
-            <cx-form-errors
-              *cxFeature="'!formErrorsDescriptiveMessages'"
               [control]="paymentForm.get('cardNumber')"
             ></cx-form-errors>
           </label>
@@ -150,17 +124,10 @@
                 >
                 </ng-select>
 
-                <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                 <cx-form-errors
-                  *cxFeature="'formErrorsDescriptiveMessages'"
                   [translationParams]="{
                     label: 'paymentForm.expirationDate' | cxTranslate,
                   }"
-                  [control]="paymentForm.get('expiryMonth')"
-                ></cx-form-errors>
-
-                <cx-form-errors
-                  *cxFeature="'!formErrorsDescriptiveMessages'"
                   [control]="paymentForm.get('expiryMonth')"
                 ></cx-form-errors>
               </label>
@@ -182,17 +149,10 @@
                 >
                 </ng-select>
 
-                <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
                 <cx-form-errors
-                  *cxFeature="'formErrorsDescriptiveMessages'"
                   [translationParams]="{
                     label: 'paymentForm.expirationDate' | cxTranslate,
                   }"
-                  [control]="paymentForm.get('expiryYear')"
-                ></cx-form-errors>
-
-                <cx-form-errors
-                  *cxFeature="'!formErrorsDescriptiveMessages'"
                   [control]="paymentForm.get('expiryYear')"
                 ></cx-form-errors>
               </label>
@@ -228,18 +188,11 @@
                 [attr.aria-errormessage]="'cvnError'"
               />
 
-              <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
               <cx-form-errors
-                *cxFeature="'formErrorsDescriptiveMessages'"
                 id="cvnError"
                 [translationParams]="{
                   label: 'paymentForm.securityCode' | cxTranslate,
                 }"
-                [control]="paymentForm.get('cvn')"
-              ></cx-form-errors>
-
-              <cx-form-errors
-                *cxFeature="'!formErrorsDescriptiveMessages'"
                 [control]="paymentForm.get('cvn')"
               ></cx-form-errors>
             </label>
@@ -262,356 +215,7 @@
         </div>
 
         <!-- BILLING -->
-        <div
-          *ngIf="
-            !useExtractedBillingAddressComponent;
-            else showExtractedBillingAddressForm
-          "
-          class="cx-payment-form-billing"
-        >
-          <div class="cx-payment-form-billing-address">
-            {{ 'paymentForm.billingAddress' | cxTranslate }}
-          </div>
-
-          <!-- SAME AS SHIPPING CHECKBOX -->
-          <ng-container *ngIf="showSameAsDeliveryAddressCheckbox$ | async">
-            <div class="form-group">
-              <div class="form-check">
-                <label>
-                  <input
-                    type="checkbox"
-                    class="form-check-input"
-                    [checked]="sameAsDeliveryAddress"
-                    (change)="toggleSameAsDeliveryAddress()"
-                    [attr.aria-label]="
-                      'paymentForm.billingAddressSameAsShipping' | cxTranslate
-                    "
-                  />
-                  <span class="form-check-label">{{
-                    'paymentForm.sameAsDeliveryAddress' | cxTranslate
-                  }}</span>
-                </label>
-              </div>
-            </div>
-          </ng-container>
-
-          <!-- BILLING INFO COMPONENT -->
-          <ng-container
-            *ngIf="
-              sameAsDeliveryAddress &&
-                (deliveryAddress$ | async) as deliveryAddress;
-              else billingAddress
-            "
-          >
-            <cx-card
-              [content]="getAddressCardContent(deliveryAddress)"
-            ></cx-card>
-          </ng-container>
-
-          <!-- TODO:#future-checkout do we really want this? We can always pass more inputs to the copied address form component to make it more modular -->
-          <ng-template #billingAddress>
-            <div [formGroup]="billingAddressForm">
-              <div class="form-group" formGroupName="country">
-                <ng-container *ngIf="countries$ | async as countries">
-                  <div *ngIf="countries.length !== 0">
-                    <label>
-                      <span class="label-content required">
-                        {{ 'addressForm.country' | cxTranslate }}
-                        <cx-form-required-asterisks />
-                      </span>
-                      <ng-select
-                        [inputAttrs]="{ required: 'true' }"
-                        [searchable]="true"
-                        [clearable]="false"
-                        [items]="countries"
-                        bindLabel="name"
-                        bindValue="isocode"
-                        placeholder="{{
-                          'addressForm.selectOne' | cxTranslate
-                        }}"
-                        (change)="countrySelected($event)"
-                        formControlName="isocode"
-                        id="country-payment-select"
-                        [cxNgSelectA11y]="{
-                          ariaLabel: 'addressForm.country' | cxTranslate,
-                        }"
-                      >
-                      </ng-select>
-
-                      <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-                      <cx-form-errors
-                        *cxFeature="'formErrorsDescriptiveMessages'"
-                        [translationParams]="{
-                          label: 'addressForm.country' | cxTranslate,
-                        }"
-                        [control]="billingAddressForm.get('country.isocode')"
-                      ></cx-form-errors>
-
-                      <cx-form-errors
-                        *cxFeature="'!formErrorsDescriptiveMessages'"
-                        [control]="billingAddressForm.get('country.isocode')"
-                      ></cx-form-errors>
-                    </label>
-                  </div>
-                </ng-container>
-              </div>
-              <div class="form-group">
-                <label>
-                  <span class="label-content required">
-                    {{ 'addressForm.firstName.label' | cxTranslate }}
-                    <cx-form-required-asterisks />
-                  </span>
-                  <input
-                    required="true"
-                    class="form-control"
-                    type="text"
-                    placeholder="{{
-                      'addressForm.firstName.placeholder' | cxTranslate
-                    }}"
-                    formControlName="firstName"
-                    [attr.aria-invalid]="
-                      billingAddressForm.get('firstName')?.touched &&
-                      billingAddressForm.get('firstName')?.invalid
-                    "
-                    [attr.aria-errormessage]="'firstNameError'"
-                  />
-
-                  <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-                  <cx-form-errors
-                    *cxFeature="'formErrorsDescriptiveMessages'"
-                    id="firstNameError"
-                    [translationParams]="{
-                      label: 'addressForm.firstName.label' | cxTranslate,
-                    }"
-                    [control]="billingAddressForm.get('firstName')"
-                  ></cx-form-errors>
-
-                  <cx-form-errors
-                    *cxFeature="'!formErrorsDescriptiveMessages'"
-                    [control]="billingAddressForm.get('firstName')"
-                  ></cx-form-errors>
-                </label>
-              </div>
-              <div class="form-group">
-                <label>
-                  <span class="label-content required">
-                    {{ 'addressForm.lastName.label' | cxTranslate }}
-                    <cx-form-required-asterisks />
-                  </span>
-                  <input
-                    required="true"
-                    type="text"
-                    class="form-control"
-                    placeholder="{{
-                      'addressForm.lastName.placeholder' | cxTranslate
-                    }}"
-                    formControlName="lastName"
-                    [attr.aria-invalid]="
-                      billingAddressForm.get('lastName')?.touched &&
-                      billingAddressForm.get('lastName')?.invalid
-                    "
-                    [attr.aria-errormessage]="'lastNameError'"
-                  />
-
-                  <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-                  <cx-form-errors
-                    *cxFeature="'formErrorsDescriptiveMessages'"
-                    id="lastNameError"
-                    [translationParams]="{
-                      label: 'addressForm.lastName.label' | cxTranslate,
-                    }"
-                    [control]="billingAddressForm.get('lastName')"
-                  ></cx-form-errors>
-
-                  <cx-form-errors
-                    *cxFeature="'!formErrorsDescriptiveMessages'"
-                    [control]="billingAddressForm.get('lastName')"
-                  ></cx-form-errors>
-                </label>
-              </div>
-              <div class="form-group">
-                <label>
-                  <span class="label-content required">
-                    {{ 'addressForm.address1' | cxTranslate }}
-                    <cx-form-required-asterisks />
-                  </span>
-                  <input
-                    required="true"
-                    type="text"
-                    class="form-control"
-                    placeholder="{{
-                      'addressForm.streetAddress' | cxTranslate
-                    }}"
-                    formControlName="line1"
-                    [attr.aria-invalid]="
-                      billingAddressForm.get('line1')?.touched &&
-                      billingAddressForm.get('line1')?.invalid
-                    "
-                    [attr.aria-errormessage]="'line1Error'"
-                  />
-
-                  <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-                  <cx-form-errors
-                    *cxFeature="'formErrorsDescriptiveMessages'"
-                    id="line1Error"
-                    [translationParams]="{
-                      label: 'addressForm.address1' | cxTranslate,
-                    }"
-                    [control]="billingAddressForm.get('line1')"
-                  ></cx-form-errors>
-
-                  <cx-form-errors
-                    *cxFeature="'!formErrorsDescriptiveMessages'"
-                    [control]="billingAddressForm.get('line1')"
-                  ></cx-form-errors>
-                </label>
-              </div>
-              <div class="form-group">
-                <label>
-                  <span class="label-content">{{
-                    'addressForm.address2' | cxTranslate
-                  }}</span>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="{{ 'addressForm.aptSuite' | cxTranslate }}"
-                    formControlName="line2"
-                  />
-                </label>
-              </div>
-              <div class="row">
-                <div class="form-group col-md-6">
-                  <label>
-                    <span class="label-content required">
-                      {{ 'addressForm.city.label' | cxTranslate }}
-                      <cx-form-required-asterisks />
-                    </span>
-                    <input
-                      required="true"
-                      type="text"
-                      class="form-control"
-                      placeholder="{{
-                        'addressForm.city.placeholder' | cxTranslate
-                      }}"
-                      formControlName="town"
-                      [attr.aria-invalid]="
-                        billingAddressForm.get('town')?.touched &&
-                        billingAddressForm.get('town')?.invalid
-                      "
-                      [attr.aria-errormessage]="'townError'"
-                    />
-
-                    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-                    <cx-form-errors
-                      *cxFeature="'formErrorsDescriptiveMessages'"
-                      id="townError"
-                      [translationParams]="{
-                        label: 'addressForm.city.label' | cxTranslate,
-                      }"
-                      [control]="billingAddressForm.get('town')"
-                    ></cx-form-errors>
-
-                    <cx-form-errors
-                      *cxFeature="'!formErrorsDescriptiveMessages'"
-                      [control]="billingAddressForm.get('town')"
-                    ></cx-form-errors>
-                  </label>
-                </div>
-                <div class="form-group col-md-6">
-                  <label>
-                    <span class="label-content required">
-                      {{ 'addressForm.zipCode.label' | cxTranslate }}
-                      <cx-form-required-asterisks />
-                    </span>
-                    <input
-                      required="true"
-                      type="text"
-                      class="form-control"
-                      placeholder="{{
-                        'addressForm.zipCode.placeholder' | cxTranslate
-                      }}"
-                      formControlName="postalCode"
-                      [attr.aria-invalid]="
-                        billingAddressForm.get('postalCode')?.touched &&
-                        billingAddressForm.get('postalCode')?.invalid
-                      "
-                      [attr.aria-errormessage]="'postalCodeError'"
-                    />
-
-                    <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-                    <cx-form-errors
-                      *cxFeature="'formErrorsDescriptiveMessages'"
-                      id="postalCodeError"
-                      [translationParams]="{
-                        label: 'addressForm.zipCode.label' | cxTranslate,
-                      }"
-                      [control]="billingAddressForm.get('postalCode')"
-                    ></cx-form-errors>
-
-                    <cx-form-errors
-                      *cxFeature="'!formErrorsDescriptiveMessages'"
-                      [control]="billingAddressForm.get('postalCode')"
-                    ></cx-form-errors>
-                  </label>
-                </div>
-                <ng-container
-                  *ngIf="regions$ | async as regions"
-                  formGroupName="region"
-                >
-                  <ng-container *ngIf="regions.length !== 0">
-                    <div class="form-group col-md-6">
-                      <label>
-                        <span class="label-content required">{{
-                          'addressForm.state' | cxTranslate
-                        }}</span>
-                        <ng-select
-                          [inputAttrs]="{ required: 'true' }"
-                          class="region-select"
-                          formControlName="isocodeShort"
-                          [searchable]="true"
-                          [clearable]="false"
-                          [items]="regions"
-                          bindLabel="{{
-                            regions[0].name ? 'name' : 'isocodeShort'
-                          }}"
-                          bindValue="{{
-                            regions[0].name ? 'isocodeShort' : 'region'
-                          }}"
-                          placeholder="{{
-                            'addressForm.selectOne' | cxTranslate
-                          }}"
-                          id="region-select"
-                          [cxNgSelectA11y]="{
-                            ariaLabel: 'addressForm.state' | cxTranslate,
-                          }"
-                        >
-                        </ng-select>
-
-                        <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
-                        <cx-form-errors
-                          *cxFeature="'formErrorsDescriptiveMessages'"
-                          [translationParams]="{
-                            label: 'addressForm.state' | cxTranslate,
-                          }"
-                          [control]="
-                            billingAddressForm.get('region.isocodeShort')
-                          "
-                        ></cx-form-errors>
-
-                        <cx-form-errors
-                          *cxFeature="'!formErrorsDescriptiveMessages'"
-                          [control]="
-                            billingAddressForm.get('region.isocodeShort')
-                          "
-                        ></cx-form-errors>
-                      </label>
-                    </div>
-                  </ng-container>
-                </ng-container>
-              </div>
-            </div>
-          </ng-template>
-        </div>
+        <cx-checkout-billing-address-form></cx-checkout-billing-address-form>
       </div>
     </div>
 
@@ -644,8 +248,4 @@
 
 <ng-template #spinner>
   <cx-spinner></cx-spinner>
-</ng-template>
-
-<ng-template #showExtractedBillingAddressForm>
-  <cx-checkout-billing-address-form></cx-checkout-billing-address-form>
 </ng-template>

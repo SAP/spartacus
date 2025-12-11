@@ -4,28 +4,33 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 export interface NodesResponse {
   nodes?: TreeNode[];
 }
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 export interface TreeNode {
   sid: string;
-  metadata?: Metadatum[];
+  usageIds?: UsageId[];
 }
 
-export enum MetadatumValueType {
-  string = 'string',
-  integer = 'integer',
-  float = 'float',
-  date = 'date',
-  blob = 'blob',
-  string_array = 'string_array',
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
+export interface UsageId {
+  name: string;
+  keys: UsageIdKey[];
 }
 
-export interface Metadatum {
-  source: string;
-  category: string;
-  tag: string;
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
+export interface UsageIdKey {
+  name: string;
   value: string;
-  valueType: MetadatumValueType;
 }

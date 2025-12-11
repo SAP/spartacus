@@ -33,7 +33,9 @@
     "zoomOut": "Zoom out",
     "selected": "Selected",
     "expand": "Expand",
-    "collapse": "Collapse"
+    "collapse": "Collapse",
+    "readMore": "Read More",
+    "readLess": "Read Less"
   },
   "pageMetaResolver": {
     "category": {
@@ -101,9 +103,17 @@
     "nextOrderDate": "Next Order Date",
     "pageViewUpdated": "Page view updated with your selected options."
   },
+  "customLoginPage": {
+    "badRequest": {
+      "bad_credentials": "Bad credentials. Please login again.",
+      "account_disabled": "User is disabled. Please contact administration.",
+      "unknown_error": "An unknown error occurred. Please try again later."
+    }
+  },
   "httpHandlers": {
     "badRequest": {
       "bad_credentials": "{{ errorMessage }}. Please login again.",
+      "password_expired": "{{ errorMessage }}. Please change your password.",
       "user_is_disabled": "{{ errorMessage }}. Please contact administration."
     },
     "badGateway": "A server error occurred. Please try again later.",
@@ -175,6 +185,8 @@
   "carousel": {
     "previousSlide": "Previous slide",
     "nextSlide": "Next slide",
+    "scrollForward": "Scroll forward",
+    "scrollBackward": "Scroll backward",
     "slideNumber": "Slide {{currentSlideNumber}} contains {{numberOfSlides}} items",
     "carouselForProduct": "Carousel, Images for {{product}}"
   },

@@ -18,6 +18,9 @@ import { map } from 'rxjs/operators';
 import { LookupVisualizationsResponse } from '../../connectors/visualization/lookup-visualizations-response';
 import { VisualizationConnector } from '../../connectors/visualization/visualization.connector';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -34,7 +37,7 @@ export class VisualizationLookupService {
    * @returns An Observable producing an VisualizationInfo array containing the set of matching visualizations.
    */
   public findMatchingVisualizations(
-    productCode: String
+    productCode: string
   ): Observable<VisualizationInfo[]> {
     const epdVisualization = this.epdVisualizationConfig
       .epdVisualization as EpdVisualizationInnerConfig;
@@ -43,10 +46,10 @@ export class VisualizationLookupService {
     const folderUsageId = usageIdConfig.folderUsageId;
 
     const usage: UsageId = {
-      name: productUsageId.name as string,
+      name: productUsageId.name,
       keys: [
         {
-          name: productUsageId.keyName as string,
+          name: productUsageId.keyName,
           value: productCode,
         },
       ],

@@ -17,6 +17,13 @@
   cx-banner cx-media {
     --cx-img-filter: invert(34%) sepia(61%) saturate(1353%) hue-rotate(178deg)
       brightness(90%) contrast(90%);
+    grid-area: media;
+
+    img {
+      filter: var(--cx-img-filter);
+      width: 50px;
+      height: 50px;
+    }
   }
 
   @include cx-highContrastTheme-dark {
@@ -79,16 +86,6 @@
       text-decoration: none;
       border-color: var(--cx-color-background);
       background: var(--cx-color-background);
-    }
-
-    cx-media {
-      grid-area: media;
-
-      img {
-        filter: var(--cx-img-filter);
-        width: 50px;
-        height: 50px;
-      }
     }
 
     .content {

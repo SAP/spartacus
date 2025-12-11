@@ -10,6 +10,7 @@
     <div class="cx-table-item-container">
       <!-- Item Image -->
       <a
+        *ngIf="!options.disableItemLink"
         [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
         tabindex="0"
       >
@@ -18,14 +19,20 @@
           format="cartIcon"
         ></cx-media>
       </a>
+      <cx-media
+        *ngIf="options.disableItemLink"
+        [container]="item.product?.images?.PRIMARY"
+        format="cartIcon"
+      ></cx-media>
       <div class="cx-info">
         <div *ngIf="item.product?.name" class="cx-name">
           <a
-            [attr.id]="item.product?.code + '_header'"
+            *ngIf="!options.disableItemLink"
             class="cx-link"
             [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
             >{{ item.product?.name }}</a
           >
+          <span *ngIf="options.disableItemLink">{{ item.product?.name }}</span>
         </div>
         <div *ngIf="item.product?.code" class="cx-code">
           {{ 'cartItems.id' | cxTranslate }} {{ item.product?.code }}
@@ -91,6 +98,18 @@
     </div>
   </td>
 
+  <!-- Subscription Charges -->
+  <ng-template
+    role="cell"
+    [cxOutlet]="CartOutlets.SUBSCRIPTION_PRICE_BODY"
+    [cxOutletContext]="{
+      items,
+      item,
+      parent: 'cart',
+    }"
+  >
+  </ng-template>
+
   <!-- item price with discount -->
   <ng-template
     role="cell"
@@ -103,20 +122,11 @@
   <!-- Item Quantity -->
   <td role="cell" class="cx-quantity">
     <div
-      *cxFeature="'a11yQTY2Quantity'"
       class="cx-mobile-header"
       placement="left"
       title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
     >
       {{ 'cartItems.quantityFull' | cxTranslate }}
-    </div>
-    <div
-      *cxFeature="'!a11yQTY2Quantity'"
-      class="cx-mobile-header"
-      placement="left"
-      title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
-    >
-      {{ 'cartItems.quantity' | cxTranslate }}
     </div>
     <div class="cx-value" [class.readonly-value]="readonly">
       <cx-item-counter

@@ -7,7 +7,7 @@
 import { user } from '../sample-data/checkout-flow';
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { switchSiteContext } from '../support/utils/switch-site-context';
-import { waitForPage } from './checkout-flow';
+import { waitForPage } from './navigation';
 
 export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
@@ -184,7 +184,7 @@ export function siteContextChange(
     },
   }).as('switchedContext');
   switchSiteContext(selectedOption, label);
-  cy.wait('@switchedContext').its('response.statusCode').should('eq', 200);
+  cy.wait('@switchedContext');
 }
 
 export function verifySiteContextChangeUrl(

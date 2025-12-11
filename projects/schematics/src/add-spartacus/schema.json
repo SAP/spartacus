@@ -49,10 +49,11 @@
           "Checkout-B2B",
           "Checkout-Scheduled-Replenishment",
           "Order",
+          "Order-Document-Flow",
           "OPPS",
           "Digital-Payments",
-          "EPD-Visualization",
           "OPF-Checkout",
+          "Punchout",
           "Customer-Ticketing",
           "Administration",
           "Order-Approval",
@@ -75,6 +76,7 @@
           "S4HANA-Order-Management",
           "cpq-quote",
           "s4-service",
+          "Subscription-Billing",
           "OMF",
           "SmartEdit",
           "Store-Finder",
@@ -163,16 +165,20 @@
             "checked": true
           },
           {
+            "value": "Order-Document-Flow",
+            "label": "Order Document Flow (b2b feature)"
+          },
+          {
             "value": "Digital-Payments",
             "label": "Digital Payments Integration"
           },
           {
-            "value": "EPD-Visualization",
-            "label": "EPD Visualization Integration"
-          },
-          {
             "value": "OPF-Checkout",
             "label": "Open Payment Framework Checkout Integration"
+          },
+          {
+            "value": "Punchout",
+            "label": "Punchout Integration (b2b feature)"
           },
           {
             "value": "Administration",
@@ -259,6 +265,10 @@
           {
             "value": "s4-service",
             "label": "S/4HANA Service Integration (b2b feature)"
+          },
+          {
+            "value": "Subscription-Billing",
+            "label": "Subscription Billing Integration"
           },
           {
             "value": "OMF",

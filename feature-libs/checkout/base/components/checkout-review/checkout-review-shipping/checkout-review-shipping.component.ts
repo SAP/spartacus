@@ -35,9 +35,6 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
 })
 export class CheckoutReviewShippingComponent {
   protected featureConfig = inject(FeatureConfigService);
-  private showDeliveryOptionsTranslation = this.featureConfig.isEnabled(
-    'showDeliveryOptionsTranslation'
-  );
 
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
@@ -95,11 +92,7 @@ export class CheckoutReviewShippingComponent {
 
   getDeliveryModeCard(deliveryMode: DeliveryMode): Observable<Card> {
     return combineLatest([
-      this.translationService.translate(
-        this.showDeliveryOptionsTranslation
-          ? 'checkoutMode.deliveryOptions'
-          : 'checkoutMode.deliveryMethod'
-      ),
+      this.translationService.translate('checkoutMode.deliveryOptions'),
     ]).pipe(map(([textTitle]) => deliveryModeCard(textTitle, deliveryMode)));
   }
 }

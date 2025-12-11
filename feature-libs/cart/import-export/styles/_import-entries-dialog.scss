@@ -18,11 +18,9 @@ cx-import-entries-dialog {
           line-height: var(--cx-line-height, 1.2222222222);
         }
 
-        @include forFeature('a11yVisibleFocusOverflows') {
-          .cx-import-entries-close {
-            margin: 0;
-            padding: 0;
-          }
+        .cx-import-entries-close {
+          margin: 0;
+          padding: 0;
         }
       }
 

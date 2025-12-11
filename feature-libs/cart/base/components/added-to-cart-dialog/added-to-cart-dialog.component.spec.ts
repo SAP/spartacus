@@ -268,7 +268,7 @@ describe('AddedToCartDialogComponent', () => {
 
   it('should display cart total', () => {
     component.cart$ = of({
-      deliveryItemsQuantity: 1,
+      totalUnitCount: 1,
       totalPrice: {
         formattedValue: '$100.00',
       },

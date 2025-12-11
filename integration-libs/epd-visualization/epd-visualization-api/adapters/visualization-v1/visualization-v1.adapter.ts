@@ -9,7 +9,7 @@ import { Injectable, inject } from '@angular/core';
 import {
   ConverterService,
   LoggerService,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import {
   LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER,
@@ -30,6 +30,8 @@ import { catchError } from 'rxjs/operators';
  * since multiple microservice APIs are being combined into a single namespace.
  * A new adapter implementation will be added and this one will be deprecated
  * when the new endpoint is available.
+ *
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 @Injectable()
 export class VisualizationV1Adapter implements VisualizationAdapter {
@@ -80,7 +82,7 @@ export class VisualizationV1Adapter implements VisualizationAdapter {
   ): Observable<LookupVisualizationsResponse> {
     return this.http.get(this.getUrl(visualizationUsageId, folderUsageId)).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       }),
       this.converter.pipeable(LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER)
     );

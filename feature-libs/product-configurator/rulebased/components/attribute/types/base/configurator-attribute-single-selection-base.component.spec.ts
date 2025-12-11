@@ -473,6 +473,24 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       component.attribute.validationType = Configurator.ValidationType.NONE;
       expect(component.isAdditionalValueAlphaNumeric).toBe(true);
     });
+    it('should include "SAP_DATE" validation type for uitypes dropdown or radio group with additional input', () => {
+      component.attribute.validationType = Configurator.ValidationType.SAP_DATE;
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      expect(component.isAdditionalValueAlphaNumeric).toBe(true);
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      expect(component.isAdditionalValueAlphaNumeric).toBe(true);
+    });
+    it('should exclude "NUMERIC" validation type for uitypes dropdown or radio group with additional input', () => {
+      component.attribute.validationType = Configurator.ValidationType.NUMERIC;
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      expect(component.isAdditionalValueAlphaNumeric).toBe(false);
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      expect(component.isAdditionalValueAlphaNumeric).toBe(false);
+    });
   });
   describe('getAriaLabel', () => {
     it('should return aria label for additional value', () => {
@@ -645,23 +663,6 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
           attributeWithOutPrice.label +
           ' value:' +
           valueWithOutPrice.valueDisplay
-      );
-    });
-
-    it('should return aria label for value without price in case delta rendering service is not provided', () => {
-      let attributeWithoutPrice: Configurator.Attribute = {
-        name: 'attribute without price',
-        label: 'attribute without value price',
-      };
-      const valueWithoutPrice = createValue('1', 'value without price', false);
-      component['configuratorAttributePriceChangeService'] = null;
-      expect(
-        component.getAriaLabel(valueWithoutPrice, attributeWithoutPrice)
-      ).toEqual(
-        'configurator.a11y.valueOfAttributeFull attribute:' +
-          attributeWithoutPrice.label +
-          ' value:' +
-          valueWithoutPrice.valueDisplay
       );
     });
 

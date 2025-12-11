@@ -18,6 +18,9 @@ import {
 context('Assisted Service Module', () => {
   before(() => {
     clearAllStorage();
+  });
+
+  it('should prapare customer cart/order/interest', () => {
     asmCustomer360.setup();
     cy.saveLocalStorage();
   });
@@ -46,7 +49,9 @@ context('Assisted Service Module', () => {
         .children()
         .eq(1)
         .click();
-      cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+      cy.whenJDK17(() => {
+        cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+      });
     });
 
     it('should redirect to the saved cart page (CXSPA-700)', () => {
@@ -67,7 +72,11 @@ context('Assisted Service Module', () => {
         'getInterestsPage'
       );
       cy.contains('div.product-listing-header > button', 'Interests').click();
-      cy.wait(`@${interestsPage}`).its('response.statusCode').should('eq', 200);
+      cy.whenJDK17(() => {
+        cy.wait(`@${interestsPage}`)
+          .its('response.statusCode')
+          .should('eq', 200);
+      });
     });
   });
 
@@ -93,7 +102,9 @@ context('Assisted Service Module', () => {
     it('should redirect to the cart page (CXSPA-700)', () => {
       const cartPage = waitForPage('/cart', 'getCartPage');
       asmCustomer360.redirect('Cart');
-      cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+      cy.whenJDK17(() => {
+        cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+      });
       cy.get('h1').contains('Your Shopping Cart');
     });
 
@@ -110,7 +121,11 @@ context('Assisted Service Module', () => {
         'getSavedCartPage'
       );
       asmCustomer360.redirect('Saved Cart');
-      cy.wait(`@${savedCartPage}`).its('response.statusCode').should('eq', 200);
+      cy.whenJDK17(() => {
+        cy.wait(`@${savedCartPage}`)
+          .its('response.statusCode')
+          .should('eq', 200);
+      });
       cy.get('h1').contains('Saved Cart Details');
     });
 
@@ -174,9 +189,11 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-customer-360-support-tickets').within(() => {
         cy.get('.cx-asm-customer-360-table-row > td > button').click();
       });
-      cy.wait(`@${supportTicketsPage}`)
-        .its('response.statusCode')
-        .should('eq', 200);
+      cy.whenJDK17(() => {
+        cy.wait(`@${supportTicketsPage}`)
+          .its('response.statusCode')
+          .should('eq', 200);
+      });
       cy.get('h1').contains('Entering a subject');
     });
 
@@ -185,7 +202,9 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-customer-360-product-reviews').within(() => {
         cy.get('.cx-asm-customer-360-table-row > td > button').click();
       });
-      cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+      cy.whenJDK17(() => {
+        cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+      });
       cy.contains('Show reviews');
     });
   });
@@ -219,7 +238,11 @@ context('Assisted Service Module', () => {
           cy.get('button').contains('Remove').should('be.visible');
           cy.intercept('DELETE', /\.*\/vouchers\.*/).as('removeCoupon');
           cy.get('button').contains('Remove').click();
-          cy.wait('@removeCoupon').its('response.statusCode').should('eq', 204);
+          cy.whenJDK17(() => {
+            cy.wait('@removeCoupon')
+              .its('response.statusCode')
+              .should('eq', 204);
+          });
           cy.get('button').should('not.contain', 'Remove');
           cy.get('button').contains('Apply to Cart').should('be.visible');
         });

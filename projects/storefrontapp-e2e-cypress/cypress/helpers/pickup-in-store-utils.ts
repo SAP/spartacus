@@ -79,7 +79,6 @@ export const LOCATORS = {
   PICKUP_OPTIONS_RADIO_PICKUP: `[data-pickup=pickup]`,
   PICKUP_OPTIONS_RADIO_PICKUP_CHECKED: `[data-pickup=pickup][aria-checked=true]`,
   PICKUP_OPTIONS_RADIO_PICKUP_UNCHECKED: `[data-pickup=pickup][aria-checked=false]`,
-  LOGIN_LINK: `cx-login a`,
   REGISTER_BUTTON: `cx-login-register a`,
   FORM_TITLE: `#title-select`,
   FORM_TITLE_ENTRY_MR: `div.ng-option:contains('Mr.')`,
@@ -120,7 +119,7 @@ const PASSWORD = `Password-1234`;
 
 export const register = (clickLoginLink = true) => {
   if (clickLoginLink) {
-    cy.get(LOCATORS.LOGIN_LINK).click();
+    cy.getLoginRegisterLink().click();
   }
   cy.get(LOCATORS.REGISTER_BUTTON).click();
   cy.get(LOCATORS.FORM_TITLE).click();
@@ -136,7 +135,7 @@ export const register = (clickLoginLink = true) => {
 };
 export const login = (clickLoginLink = true) => {
   if (clickLoginLink) {
-    cy.get(LOCATORS.LOGIN_LINK).click();
+    cy.getLoginRegisterLink().click();
   }
   cy.get(LOCATORS.SIGNIN_USERNAME).type(EMAIL_ADDRESS);
   cy.get(LOCATORS.SIGNIN_PASSWORD).type(PASSWORD);

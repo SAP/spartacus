@@ -20,6 +20,17 @@ $space: 0.5rem;
       padding: 0 10px;
     }
 
+    @include forFeature('unifiedDefaultHeaderSlotsAcrossBreakpoints') {
+      @include media-breakpoint-down(md) {
+        .SiteContext,
+        .SiteLinks,
+        .SiteLogin,
+        .NavigationBar {
+          display: none;
+        }
+      }
+    }
+
     display: flex;
     flex-wrap: wrap;
 
@@ -79,20 +90,14 @@ $space: 0.5rem;
     }
     justify-content: flex-start;
 
-    @include forFeature('a11yImproveContrast') {
-      @include type('8');
-    }
+    @include type('8');
   }
 
   .SiteLinks {
     --cx-display: block;
     cx-link {
       display: block;
-      padding-inline-end: 10px;
-
-      @include forFeature('headerLayoutForSmallerViewports') {
-        padding-inline-end: 0;
-      }
+      padding-inline-end: 0;
     }
   }
 
@@ -172,7 +177,11 @@ $space: 0.5rem;
     }
 
     .SiteLinks {
-      padding: $space / 2 $space * 2 $space;
+      flex-direction: column;
+      a {
+        padding: $space / 2 $space * 2 $space;
+        line-height: 48px;
+      }
     }
   }
 
@@ -211,10 +220,7 @@ $space: 0.5rem;
     .SiteLinks {
       justify-content: flex-end;
       color: var(--cx-color-primary);
-
-      @include forFeature('headerLayoutForSmallerViewports') {
-        flex-wrap: nowrap;
-      }
+      flex-wrap: nowrap;
     }
 
     .SiteLogin {

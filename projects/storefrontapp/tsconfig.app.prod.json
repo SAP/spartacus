@@ -116,6 +116,16 @@
       "@spartacus/order": ["dist/order"],
       "@spartacus/order/occ": ["dist/order/occ"],
       "@spartacus/order/root": ["dist/order/root"],
+      "@spartacus/order/document-flow/assets": [
+        "dist/order/document-flow/assets"
+      ],
+      "@spartacus/order/document-flow/components": [
+        "dist/order/document-flow/components"
+      ],
+      "@spartacus/order/document-flow/core": ["dist/order/document-flow/core"],
+      "@spartacus/order/document-flow": ["dist/order/document-flow"],
+      "@spartacus/order/document-flow/occ": ["dist/order/document-flow/occ"],
+      "@spartacus/order/document-flow/root": ["dist/order/document-flow/root"],
       "@spartacus/organization/account-summary/assets": [
         "dist/organization/account-summary/assets"
       ],
@@ -340,6 +350,20 @@
       "@spartacus/storefinder": ["dist/storefinder"],
       "@spartacus/storefinder/occ": ["dist/storefinder/occ"],
       "@spartacus/storefinder/root": ["dist/storefinder/root"],
+      "@spartacus/subscription-billing/assets": [
+        "dist/subscription-billing/assets"
+      ],
+      "@spartacus/subscription-billing/components": [
+        "dist/subscription-billing/components"
+      ],
+      "@spartacus/subscription-billing/core": [
+        "dist/subscription-billing/core"
+      ],
+      "@spartacus/subscription-billing": ["dist/subscription-billing"],
+      "@spartacus/subscription-billing/occ": ["dist/subscription-billing/occ"],
+      "@spartacus/subscription-billing/root": [
+        "dist/subscription-billing/root"
+      ],
       "@spartacus/tracking": ["dist/tracking"],
       "@spartacus/tracking/personalization/core": [
         "dist/tracking/personalization/core"
@@ -403,6 +427,12 @@
       "@spartacus/omf": ["dist/omf"],
       "@spartacus/omf/order": ["dist/omf/order"],
       "@spartacus/omf/root": ["dist/omf/root"],
+      "@spartacus/opf/b2b-checkout/components": [
+        "dist/opf/b2b-checkout/components"
+      ],
+      "@spartacus/opf/b2b-checkout/core": ["dist/opf/b2b-checkout/core"],
+      "@spartacus/opf/b2b-checkout": ["dist/opf/b2b-checkout"],
+      "@spartacus/opf/b2b-checkout/root": ["dist/opf/b2b-checkout/root"],
       "@spartacus/opf/base/components": ["dist/opf/base/components"],
       "@spartacus/opf/base/core": ["dist/opf/base/core"],
       "@spartacus/opf/base": ["dist/opf/base"],
@@ -429,6 +459,7 @@
       "@spartacus/opf/payment/assets": ["dist/opf/payment/assets"],
       "@spartacus/opf/payment/core": ["dist/opf/payment/core"],
       "@spartacus/opf/payment": ["dist/opf/payment"],
+      "@spartacus/opf/payment/occ": ["dist/opf/payment/occ"],
       "@spartacus/opf/payment/opf-api": ["dist/opf/payment/opf-api"],
       "@spartacus/opf/payment/root": ["dist/opf/payment/root"],
       "@spartacus/opf/quick-buy/components": ["dist/opf/quick-buy/components"],
@@ -438,6 +469,12 @@
       "@spartacus/opf/quick-buy/root": ["dist/opf/quick-buy/root"],
       "@spartacus/opps": ["dist/opps"],
       "@spartacus/opps/root": ["dist/opps/root"],
+      "@spartacus/punchout/assets": ["dist/punchout/assets"],
+      "@spartacus/punchout/components": ["dist/punchout/components"],
+      "@spartacus/punchout/core": ["dist/punchout/core"],
+      "@spartacus/punchout": ["dist/punchout"],
+      "@spartacus/punchout/occ": ["dist/punchout/occ"],
+      "@spartacus/punchout/root": ["dist/punchout/root"],
       "@spartacus/s4-service/assets": ["dist/s4-service/assets"],
       "@spartacus/s4-service/checkout": ["dist/s4-service/checkout"],
       "@spartacus/s4-service": ["dist/s4-service"],

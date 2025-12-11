@@ -1,5 +1,10 @@
 <ng-container *ngIf="mainImage$ | async as main">
-  <cx-media [container]="main" (click)="triggerZoom(true)"></cx-media>
+  <cx-media
+    [container]="main"
+    (click)="triggerZoom(true)"
+    *cxLcpContext="let lcpContext"
+    [fetchPriority]="lcpContext.fetchPriority$ | async"
+  ></cx-media>
   <cx-product-image-zoom-trigger
     [expandImage]="expandImage.value"
     [galleryIndex]="selectedIndex"
@@ -9,35 +14,41 @@
 
 <ng-container *ngIf="thumbs$ | async as thumbs">
   <ng-container *ngIf="product$ | async as product">
-    <cx-carousel
-      role="region"
-      [attr.aria-label]="
-        'carousel.carouselForProduct' | cxTranslate: { product: product.name }
-      "
-      tabindex="-1"
-      *ngIf="thumbs.length"
-      class="thumbs"
-      [items]="thumbs"
-      itemWidth="120px"
-      [hideIndicators]="false"
-      [template]="thumb"
-    ></cx-carousel>
+    <ng-container *cxFeature="'productCarouselScrolling'">
+      <cx-carousel-scrolling
+        role="region"
+        [attr.aria-label]="
+          'carousel.carouselForProduct' | cxTranslate: { product: product.name }
+        "
+        tabindex="-1"
+        *ngIf="thumbs.length"
+        class="thumbs"
+        [items]="thumbs"
+        [template]="thumb"
+        [trackByFn]="trackByFn"
+      ></cx-carousel-scrolling>
+    </ng-container>
+    <ng-container *cxFeature="'!productCarouselScrolling'">
+      <cx-carousel
+        role="region"
+        [attr.aria-label]="
+          'carousel.carouselForProduct' | cxTranslate: { product: product.name }
+        "
+        tabindex="-1"
+        *ngIf="thumbs.length"
+        class="thumbs"
+        [items]="thumbs"
+        itemWidth="120px"
+        [hideIndicators]="false"
+        [template]="thumb"
+      ></cx-carousel>
+    </ng-container>
   </ng-container>
 </ng-container>
 
 <ng-template #thumb let-item="item">
   <cx-media
-    *cxFeature="'a11yCarouselArrowKeysNavigation'"
     cxFocusableCarouselItem
-    [container]="item.container"
-    tabindex="0"
-    (focus)="openImage(item.container)"
-    [class.is-active]="isActive(item.container) | async"
-    format="product"
-  >
-  </cx-media>
-  <cx-media
-    *cxFeature="'!a11yCarouselArrowKeysNavigation'"
     [container]="item.container"
     tabindex="0"
     (focus)="openImage(item.container)"

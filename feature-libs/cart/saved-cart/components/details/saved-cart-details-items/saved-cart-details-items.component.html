@@ -1,10 +1,5 @@
 <ng-container *ngIf="savedCart$ | async as cart">
   <ng-container *ngIf="cart?.entries?.length > 0; else emptyCartItems">
-    <div
-      *cxFeature="'!a11yRemoveStatusLoadedRole'"
-      role="status"
-      [attr.aria-label]="'common.loaded' | cxTranslate"
-    ></div>
     <div class="cart-details-wrapper">
       <ng-template
         [cxOutlet]="CartOutlets.CART_ITEM_LIST"
@@ -24,20 +19,22 @@
       </ng-template>
     </div>
   </ng-container>
+
+  <ng-template let-ctx #addToCartBtn>
+    <cx-add-to-cart
+      [productCode]="ctx.item.product?.code"
+      [product]="ctx.item.product"
+      [showQuantity]="false"
+      [options]="ctx.options"
+      [pickupStore]="ctx.item.deliveryPointOfService?.name"
+      [savedCart]="cart"
+    >
+    </cx-add-to-cart>
+  </ng-template>
 </ng-container>
+
 <ng-template #emptyCartItems>
   <div class="cx-spinner">
     <cx-spinner></cx-spinner>
   </div>
-</ng-template>
-
-<ng-template let-ctx #addToCartBtn>
-  <cx-add-to-cart
-    [productCode]="ctx.item.product?.code"
-    [product]="ctx.item.product"
-    [showQuantity]="false"
-    [options]="ctx.options"
-    [pickupStore]="ctx.item.deliveryPointOfService?.name"
-  >
-  </cx-add-to-cart>
 </ng-template>

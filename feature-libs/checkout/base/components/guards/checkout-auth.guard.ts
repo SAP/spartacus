@@ -4,15 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { GuardResult, Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   AuthRedirectService,
   AuthService,
+  FeatureConfigService,
   SemanticPathService,
+  WindowRef,
 } from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
+import { IS_GUEST_USER_CHECKOUT_KEY } from '@spartacus/storefront';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 
@@ -20,6 +23,10 @@ import { CheckoutConfigService } from '../services/checkout-config.service';
   providedIn: 'root',
 })
 export class CheckoutAuthGuard {
+  // Name `featureConfig` instead of `featureConfigService` to avoid clash with `FeatureConfigService` in `OpfCheckoutAuthGuard`
+  private featureConfig = inject(FeatureConfigService);
+  protected windowRef = inject(WindowRef);
+
   constructor(
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,
@@ -52,7 +59,15 @@ export class CheckoutAuthGuard {
 
   protected handleAnonymousUser(): boolean | UrlTree {
     this.authRedirectService.saveCurrentNavigationUrl();
-    if (this.checkoutConfigService.isGuestCheckout()) {
+    if (this.featureConfig.isEnabled('authorizationCodeFlowByDefault')) {
+      if (this.checkoutConfigService.isGuestCheckout()) {
+        this.windowRef.localStorage?.setItem(
+          IS_GUEST_USER_CHECKOUT_KEY,
+          'true'
+        );
+      }
+      return this.router.parseUrl(this.semanticPathService.get('login') ?? '');
+    } else if (this.checkoutConfigService.isGuestCheckout()) {
       return this.router.createUrlTree(
         [this.semanticPathService.get('login')],
         { queryParams: { forced: true } }

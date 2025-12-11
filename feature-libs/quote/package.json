@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/quote",
-  "version": "2211.38.1",
+  "version": "221121.5.0",
   "description": "",
   "keywords": [
     "spartacus",
@@ -14,8 +14,8 @@
   "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/quote",
   "license": "Apache-2.0",
   "exports": {
-    ".": {
-      "sass": "./_index.scss"
+    "./*": {
+      "sass": "./*"
     }
   },
   "scripts": {
@@ -27,16 +27,17 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^19.0.4",
-    "@angular/common": "^19.0.3",
-    "@angular/core": "^19.0.3",
-    "@angular/forms": "^19.0.3",
-    "@angular/router": "^19.0.3",
-    "@spartacus/cart": "2211.38.1",
-    "@spartacus/core": "2211.38.1",
-    "@spartacus/schematics": "2211.38.1",
-    "@spartacus/storefront": "2211.38.1",
-    "@spartacus/styles": "2211.38.1",
+    "@angular-devkit/schematics": "^19.2.16",
+    "@angular/common": "^19.2.15",
+    "@angular/core": "^19.2.15",
+    "@angular/forms": "^19.2.15",
+    "@angular/router": "^19.2.15",
+    "@spartacus/cart": "221121.5.0",
+    "@spartacus/core": "221121.5.0",
+    "@spartacus/order": "221121.5.0",
+    "@spartacus/schematics": "221121.5.0",
+    "@spartacus/storefront": "221121.5.0",
+    "@spartacus/styles": "221121.5.0",
     "rxjs": "^7.8.0"
   },
   "engines": {

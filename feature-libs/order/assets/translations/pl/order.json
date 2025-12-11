@@ -10,6 +10,8 @@
     "placed": "Złożone",
     "placedBy": "Złożone przez",
     "unit": "Jednostka",
+    "quoteCode": "ID oferty {{id}}",
+    "quoteDetail": "Szczegóły oferty",
     "costCenter": "Miejsce powstawania kosztów",
     "costCenterAndUnit": "Miejsce powstawania kosztów/jednostka",
     "costCenterAndUnitValue": "{{costCenterName}} / {{unitName}}",
@@ -187,6 +189,17 @@
       "areYouSureToReplaceCart": "Bieżący koszyk zostanie zastąpiony nowymi pozycjami. Czy chcesz kontynuować?",
       "cancel": "Anuluj",
       "continue": "Kontynuuj"
+    }
+  },
+  "attachments": {
+    "button": "Wyświetl załączniki zamówienia",
+    "dialog": {
+      "title": "Załączniki",
+      "preview": "Wyświetl podgląd pliku",
+      "closeModal": "Zamknij okno",
+      "error": "Wystąpił błąd. Odśwież stronę lub spróbuj ponownie później.",
+      "empty": "Dokumenty są obecnie niedostępne. Będą widoczne tutaj po dodaniu.",
+      "downloadError": "Wystąpił błąd podczas pobierania dokumentów. Odśwież stronę lub spróbuj ponownie później."
     }
   }
 }

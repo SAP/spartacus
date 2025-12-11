@@ -11,7 +11,7 @@ export const cartUrlPrefix = `${Cypress.env('API_URL')}/${Cypress.env(
 export function createCart(accessToken: string) {
   return cy.request({
     method: 'POST',
-    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/current/carts`,
     body: {
@@ -33,7 +33,7 @@ export function addToCart(
   quantity: string,
   accessToken: string
 ) {
-  const addToCartUrl = `${Cypress.env('API_URL')}/${Cypress.env(
+  const addToCartUrl = `${Cypress.env('API_URL')}${Cypress.env(
     'OCC_PREFIX'
   )}/${Cypress.env('BASE_SITE')}/users/current/carts/${cartCode}/entries`;
   return cy.request({
@@ -64,7 +64,7 @@ export function addToCartWithProducts(
   quantity: string,
   accessToken: string
 ) {
-  const addToCartUrl = `${Cypress.env('API_URL')}/${Cypress.env(
+  const addToCartUrl = `${Cypress.env('API_URL')}${Cypress.env(
     'OCC_PREFIX'
   )}/${Cypress.env('BASE_SITE')}/users/current/carts/${cartCode}/entries`;
 
@@ -89,7 +89,7 @@ export function addProductToB2BCart(
   quantity: string,
   accessToken: string
 ) {
-  const addToCartUrl = `${Cypress.env('API_URL')}/${Cypress.env(
+  const addToCartUrl = `${Cypress.env('API_URL')}${Cypress.env(
     'OCC_PREFIX'
   )}/${Cypress.env('BASE_SITE')}/orgUsers/current/carts/${cartCode}/entries/`;
 

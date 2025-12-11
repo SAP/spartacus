@@ -5,8 +5,16 @@
  */
 
 import * as login from '../../../helpers/login';
+import { waitForPage } from '../../../helpers/navigation';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { user } from '../../../sample-data/checkout-flow';
+
+export function visitLoginPage() {
+  const homePage = waitForPage('homepage', 'getHomePage');
+  cy.visit('/');
+  cy.wait(`@${homePage}`);
+  cy.getLoginRegisterLink({ clickAndWait: true });
+}
 
 export function listenForUserRegistrationVerficationCodeEmailReceive(
   customerEmail: string
@@ -16,13 +24,15 @@ export function listenForUserRegistrationVerficationCodeEmailReceive(
     Cypress.env('MAIL_CCV2_PREFIX') +
     '/search?query=' +
     customerEmail +
-    '&kind=to';
+    '&limit=1';
+
+  cy.wait(5000); // allow time for email event handlers
 
   cy.request({
     method: 'GET',
     url: mailCCV2Url,
   }).then((response) => {
-    if (response.body.total != 1) {
+    if (response.body.count != 1) {
       listenForUserRegistrationVerficationCodeEmailReceive(customerEmail);
     }
   });
@@ -32,7 +42,8 @@ describe('OTP Registration', () => {
   viewportContext(['mobile'], () => {
     describe('B2C Customer Registration With OTP', () => {
       beforeEach(() => {
-        cy.visit('/login/register');
+        visitLoginPage();
+        cy.get('button.btn-register').click();
       });
 
       it('should be able to create b2c customer with otp (CXSPA-3919)', () => {
@@ -60,28 +71,23 @@ describe('OTP Registration', () => {
           Cypress.env('MAIL_CCV2_PREFIX') +
           '/search?query=' +
           user.email +
-          '&kind=to&start=0&limit=1';
+          '&limit=1';
 
         cy.request({
           method: 'GET',
           url: mailCCV2Url,
         }).then((response) => {
           const verificationCodeEmailStartText =
-            'Please use the following verification code to register in Spartacus Electronics Site:</p>';
-          const lableP = '<p>';
-
-          const items = response.body.items;
-          const emailBody = items[0].Content.Body;
+            'Please use the following verification code to register in Spartacus Electronics Site: ';
+          const items = response.body.messages;
+          const emailBody = items[0].Snippet;
 
           const verificationCodeEmailStartIndex =
             emailBody.indexOf(verificationCodeEmailStartText) +
             verificationCodeEmailStartText.length;
-          const verificationCodeStartIndex =
-            emailBody.indexOf(lableP, verificationCodeEmailStartIndex) +
-            lableP.length;
           const verificationCode = emailBody.substring(
-            verificationCodeStartIndex,
-            verificationCodeStartIndex + 8
+            verificationCodeEmailStartIndex,
+            verificationCodeEmailStartIndex + 8
           );
           cy.log('Extracted verification code: ' + verificationCode);
 
@@ -136,7 +142,20 @@ describe('OTP Registration', () => {
 
     describe('Verification token', () => {
       beforeEach(() => {
-        cy.visit('/register/verify-token');
+        visitLoginPage();
+        cy.get('button.btn-register').click();
+        cy.get('cx-otp-register-form form').within(() => {
+          cy.get('ng-select[formcontrolname="titleCode"]')
+            .click()
+            .get('div.ng-option')
+            .contains('Mr')
+            .click();
+          cy.get('[formcontrolname="firstName"]').clear().type(user.firstName);
+          cy.get('[formcontrolname="lastName"]').clear().type(user.lastName);
+          cy.get('[formcontrolname="email"]').clear().type(user.email);
+          cy.get('[formcontrolname="termsandconditions"]').click();
+          cy.get('button[type=submit]').click();
+        });
       });
       it('Should go back to register page when click back button (CXSPA-3919)', () => {
         cy.get('cx-registration-verification-token-form').should('exist');
@@ -153,7 +172,8 @@ describe('OTP Registration', () => {
     describe('Rate limit for registration', () => {
       it('Should display error message when create verification token with registration up to rate limit (CXSPA-9111)', () => {
         for (let i = 0; i < 6; i++) {
-          cy.visit('/login/register');
+          visitLoginPage();
+          cy.get('button.btn-register').click();
           cy.get('cx-otp-register-form form', { timeout: 10000 }).should(
             'exist'
           );

@@ -9,13 +9,17 @@ on:
       version:
         description: 'Release version (e.g., 2211.20.0 or 2211.20.0-1)'
         required: true
-  
+      create_pr:
+        description: 'Create a PR from the release branch to the source branch?'
+        required: false
+        type: 'boolean'
+        default: false
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.event.inputs.source || 'develop' }}
 
@@ -127,3 +131,22 @@ jobs:
             -H "Authorization: Bearer $GH_TOKEN" \
             https://api.github.com/repos/${{ github.repository }}/actions/workflows/repo-sync.yml/dispatches \
             -d "{\"ref\":\"${{ env.RELEASE_BRANCH }}\",\"inputs\":{\"branch_to_sync\":\"${{ env.RELEASE_BRANCH }}\"}}"
+
+      - name: Create Pull Request to develop
+        if: ${{ github.event.inputs.create_pr == 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
+        run: |
+          echo "Creating pull request from ${{ env.RELEASE_BRANCH }} to ${{ github.event.inputs.source }}..."
+
+          # Check if a PR already exists
+          existing_pr=$(gh pr list --head "${{ env.RELEASE_BRANCH }}" --base "${{ github.event.inputs.source }}" --json number --jq '.[].number')
+          if [[ -n "$existing_pr" ]]; then
+            echo "PR already exists: #$existing_pr"
+          else
+            gh pr create \
+              --head "${{ env.RELEASE_BRANCH }}" \
+              --base "${{ github.event.inputs.source }}" \
+              --title "chore(release): ${{ env.version }}" \
+              --body "Automated PR to merge release changes back into the source branch."
+          fi

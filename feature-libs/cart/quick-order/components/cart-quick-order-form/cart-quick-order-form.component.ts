@@ -7,15 +7,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
   Cart,
@@ -23,10 +18,8 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   EventService,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { first, map } from 'rxjs/operators';
@@ -38,8 +31,6 @@ import { first, map } from 'rxjs/operators';
   standalone: false,
 })
 export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
-  private featureConfig = inject(FeatureConfigService);
-
   quickOrderForm: UntypedFormGroup;
   cartIsLoading$: Observable<boolean> = this.activeCartService
     .isStable()
@@ -56,9 +47,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
     protected eventService: EventService,
     protected formBuilder: UntypedFormBuilder,
     protected globalMessageService: GlobalMessageService
-  ) {
-    useFeatureStyles('a11yQTY2Quantity');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.buildForm();
@@ -87,21 +76,13 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   }
 
   protected buildForm(): void {
-    // TODO: (CXSPA-7479) Remove feature flags next major
-    const shouldHaveRequiredValidator = !this.featureConfig.isEnabled(
-      'a11yDisabledCouponAndQuickOrderActionButtonsInsteadOfRequiredFields'
-    );
-
     this.quickOrderForm = this.formBuilder.group({
-      productCode: [
-        '',
-        shouldHaveRequiredValidator ? [Validators.required] : [],
-      ],
+      productCode: ['', []],
       quantity: [
         this.minQuantityValue,
         {
           updateOn: 'blur',
-          validators: shouldHaveRequiredValidator ? [Validators.required] : [],
+          validators: [],
         },
       ],
     });

@@ -8,11 +8,8 @@ import {
   CURRENCY_USD,
   LANGUAGE_EN,
 } from '../../../helpers/site-context-selector';
-import {
-  waitForCategoryPage,
-  waitForPage,
-  waitForProductPage,
-} from '../../checkout-flow';
+import { waitForCategoryPage, waitForProductPage } from '../../checkout-flow';
+import { waitForPage } from '../../navigation';
 
 interface StrategyRequestContext {
   language?: string;
@@ -128,7 +125,6 @@ function verifyCarouselItemRendered(
 function verifyCarouselItemsRendered(
   $merchandisingCarousel: JQuery<HTMLElement>
 ): void {
-  cy.wait(5000);
   cy.wrap($merchandisingCarousel)
     .get('.item')
     .should('have.length', STRATEGY_RESPONSE.products.length)

@@ -10,11 +10,7 @@ import {
   inject,
   Input,
 } from '@angular/core';
-import {
-  SiteContext,
-  TranslationService,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { SiteContext, TranslationService } from '@spartacus/core';
 import { map, Observable } from 'rxjs';
 import { ICON_TYPE } from '../icon/icon.model';
 import { SiteContextComponentService } from './site-context-component.service';
@@ -40,10 +36,7 @@ export class SiteContextSelectorComponent {
 
   protected translationService = inject(TranslationService);
 
-  constructor(private componentService: SiteContextComponentService) {
-    useFeatureStyles('a11yShowDownArrowOnFocusedSelectMenu');
-    useFeatureStyles('a11yVisibleFocusOverflows');
-  }
+  constructor(private componentService: SiteContextComponentService) {}
 
   get items$(): Observable<any> {
     return this.componentService.getItems(this.context);

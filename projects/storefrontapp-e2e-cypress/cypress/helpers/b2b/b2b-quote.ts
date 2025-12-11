@@ -224,14 +224,14 @@ export function clickOnRequestQuote(cartHasIssues = false): void {
  */
 export function login(email: string, password: string, name: string): void {
   log('Uses a cx-login-form to login a user', login.name);
-  cy.get('cx-login [role="link"]')
+  cy.getLoginRegisterLink()
     .click()
     .then(() => {
       cy.get('cx-login-form').should('be.visible');
     });
   authentication.login(email, password);
   cy.get('.cx-login-greet').should('contain', name);
-  cy.get('cx-login').should('not.contain', 'Sign In');
+  cy.getLoginRegisterLink().should('not.contain', 'Sign In');
 }
 
 /**
@@ -240,7 +240,7 @@ export function login(email: string, password: string, name: string): void {
 export function logout(): void {
   log('Logout buyer user', logout.name);
   cy.visit(`${SHOP_NAME}/en/USD/logout`).then(() => {
-    cy.get('cx-login [role="link"]');
+    cy.getLoginRegisterLink();
   });
 }
 
@@ -672,10 +672,12 @@ export function checkQuoteHeaderOverviewCardState(
  *
  * @param newQuoteName New quote name
  * @param newQuoteDescription New quote description
+ * @param quotePONumber PO number
  */
 export function editQuoteInformationCard(
   newQuoteName?: string,
-  newQuoteDescription?: string
+  newQuoteDescription?: string,
+  quotePONumber?: string
 ): void {
   log(
     'Edits the "Quote Information" card tile with given values',
@@ -686,10 +688,15 @@ export function editQuoteInformationCard(
       .contains(CARD_TITLE_QUOTE_INFORMATION)
       .then(() => {
         if (newQuoteName) {
-          cy.get('input').clear().type(newQuoteName);
+          cy.get('input[name="name"]').clear().type(newQuoteName);
         }
         if (newQuoteDescription) {
           cy.get('textarea').clear().type(newQuoteDescription);
+        }
+        if (quotePONumber) {
+          cy.get('input[name="purchaseOrderNumber"]')
+            .clear()
+            .type(quotePONumber);
         }
       });
   });

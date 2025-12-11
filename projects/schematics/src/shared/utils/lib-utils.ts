@@ -21,6 +21,10 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import {
+  ProjectType,
+  WorkspaceTargets,
+} from '@schematics/angular/utility/workspace-models';
 import { SourceFile } from 'ts-morph';
 import {
   CMS_CONFIG,
@@ -624,6 +628,16 @@ function createAssetsArray(
   return angularJsonAssets;
 }
 
+function createArchitectOptions(
+  architectSection: WorkspaceTargets<ProjectType> | undefined,
+  libraryScssPath: string
+) {
+  return {
+    ...architectSection?.options,
+    styles: [...(architectSection?.options?.styles ?? []), libraryScssPath],
+  };
+}
+
 export function addLibraryStyles(
   stylingConfig: StylingConfig,
   options: LibraryOptions
@@ -636,9 +650,8 @@ export function addLibraryStyles(
     })}/styles/spartacus/${stylingConfig.scssFileName}`;
 
     const featureLibStyleImport = `@import "${stylingConfig.importStyle}";`;
-    const additionalImports = stylingConfig.importStyles
-      ? stylingConfig.importStyles.map((style) => `@import "${style}";`)
-      : [];
+    const additionalImports =
+      stylingConfig.importStyles?.map((style) => `@import "${style}";`) || [];
 
     if (tree.exists(libraryScssPath)) {
       const initialContent = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
@@ -687,30 +700,6 @@ export function addLibraryStyles(
     const { path, workspace: angularJson } = getWorkspace(tree);
     const architect = angularJson.projects[project].architect;
 
-    // `build` architect section
-    const architectBuild = architect?.build;
-    const buildOptions = {
-      ...architectBuild?.options,
-      styles: [
-        ...((architectBuild?.options as any)?.styles
-          ? (architectBuild?.options as any)?.styles
-          : []),
-        libraryScssPath,
-      ],
-    };
-
-    // `test` architect section
-    const architectTest = architect?.test;
-    const testOptions = {
-      ...architectTest?.options,
-      styles: [
-        ...(architectTest?.options?.styles
-          ? architectTest?.options?.styles
-          : []),
-        libraryScssPath,
-      ],
-    };
-
     const updatedAngularJson = {
       ...angularJson,
       projects: {
@@ -720,12 +709,15 @@ export function addLibraryStyles(
           architect: {
             ...architect,
             build: {
-              ...architectBuild,
-              options: buildOptions,
+              ...architect?.build,
+              options: createArchitectOptions(
+                architect?.build,
+                libraryScssPath
+              ),
             },
             test: {
-              ...architectTest,
-              options: testOptions,
+              ...architect?.test,
+              options: createArchitectOptions(architect?.test, libraryScssPath),
             },
           },
         },

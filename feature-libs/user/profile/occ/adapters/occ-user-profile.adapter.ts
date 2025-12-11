@@ -14,8 +14,9 @@ import {
   OccEndpointsService,
   USE_CAPTCHA_TOKEN,
   USE_CLIENT_TOKEN,
-  normalizeHttpError,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
+import { CaptchaApiConfig, CaptchaRenderer } from '@spartacus/storefront';
 import { User } from '@spartacus/user/account/root';
 import {
   TITLE_NORMALIZER,
@@ -27,7 +28,6 @@ import {
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { CaptchaApiConfig, CaptchaRenderer } from '@spartacus/storefront';
 
 const CONTENT_TYPE_JSON_HEADER = { 'Content-Type': 'application/json' };
 const CONTENT_TYPE_URLENCODED_HEADER = {
@@ -54,7 +54,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     user = this.converter.convert(user, USER_PROFILE_SERIALIZER);
     return this.http.patch(url, user).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }
@@ -70,7 +70,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
 
     return this.http.post<User>(url, user, { headers }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       }),
       this.converter.pipeable(USER_PROFILE_NORMALIZER)
     );
@@ -89,7 +89,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
 
     return this.http.post<User>(url, httpParams, { headers }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       }),
       this.converter.pipeable(USER_PROFILE_NORMALIZER)
     );
@@ -102,7 +102,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     return this.http.post(url, body, { headers }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }
@@ -116,7 +116,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
 
     return this.http.post(url, { token, newPassword }, { headers }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }
@@ -136,7 +136,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     const headers = new HttpHeaders(CONTENT_TYPE_JSON_HEADER);
     return this.http.post(url, body, { headers }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }
@@ -156,7 +156,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     const headers = new HttpHeaders(CONTENT_TYPE_JSON_HEADER);
     return this.http.post(url, body, { headers }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }
@@ -168,7 +168,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     const url = this.occEndpoints.buildUrl(endpoint, { urlParams: { userId } });
     return this.http.delete<User>(url).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }
@@ -177,7 +177,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     const url = this.occEndpoints.buildUrl('titles');
     return this.http.get<Occ.TitleList>(url).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       }),
       map((titleList) => titleList.titles ?? []),
       this.converter.pipeableMany(TITLE_NORMALIZER)

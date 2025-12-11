@@ -15,14 +15,17 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { Cart, PaymentType } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
+import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import { CmsService, Page } from '@spartacus/core';
-import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
+import {
+  OpfBaseFacade,
+  OpfMetadataStoreService,
+} from '@spartacus/opf/base/root';
 import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
-
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, take, map, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cx-opf-checkout-payment-and-review',
@@ -37,8 +40,16 @@ export class OpfCheckoutPaymentAndReviewComponent
   protected fb = inject(UntypedFormBuilder);
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
   protected cmsService = inject(CmsService);
+  protected checkoutPaymentTypeFacade = inject(CheckoutPaymentTypeFacade);
+  protected opfBaseFacade = inject(OpfBaseFacade);
+  protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
+  protected activeCartFacade = inject(ActiveCartFacade);
 
   protected defaultTermsAndConditionsFieldValue = false;
+
+  protected selectedPaymentProviderName$ = new BehaviorSubject<
+    string | null | undefined
+  >(undefined);
 
   explicitTermsAndConditions$: Observable<boolean | undefined> = this.cmsService
     .getCurrentPage()
@@ -66,11 +77,14 @@ export class OpfCheckoutPaymentAndReviewComponent
     return Boolean(this.checkoutSubmitForm.get('termsAndConditions')?.value);
   }
 
-  get paymentType$(): Observable<PaymentType | undefined> {
-    return this.activeCartFacade
-      .getActive()
-      .pipe(map((cart: Cart) => cart.paymentType));
-  }
+  getSelectedPayment$ = this.opfBaseFacade.getActiveConfigurationsState();
+
+  getSelectedPaymentId$ = this.opfMetadataStoreService
+    .getOpfMetadataState()
+    .pipe(
+      take(1),
+      map((data) => data?.selectedPaymentOptionId)
+    );
 
   protected isCmsComponentInPage(cmsComponentUid: string, page: Page): boolean {
     return !!page && JSON.stringify(page).includes(cmsComponentUid);
@@ -86,7 +100,24 @@ export class OpfCheckoutPaymentAndReviewComponent
     this.updateTermsAndConditionsState();
   }
 
+  onPaymentProviderSelected(providerName: string) {
+    this.selectedPaymentProviderName$.next(providerName);
+  }
+
+  setPickupDeliveryMode(): void {
+    this.activeCartFacade
+      .hasDeliveryItems()
+      .pipe(take(1))
+      .subscribe((hasDeliveryItems) => {
+        if (!hasDeliveryItems) {
+          this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress();
+          this.checkoutDeliveryModesFacade.setDeliveryMode('pickup');
+        }
+      });
+  }
+
   ngOnInit() {
     this.updateTermsAndConditionsState();
+    this.setPickupDeliveryMode();
   }
 }

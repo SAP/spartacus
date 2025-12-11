@@ -5,12 +5,14 @@
  */
 
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ErrorModel } from '../../../../model/misc.model';
 import { Priority } from '../../../../util/applicable';
 import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
+import { Translatable } from '../../../../i18n/translatable';
+import { FeatureConfigService } from '../../../../features-config/services/feature-config.service';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -19,6 +21,7 @@ const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 })
 export class BadRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
+  private featureConfigService = inject(FeatureConfigService);
 
   handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
     this.handleBadPassword(request, response);
@@ -26,6 +29,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.handleValidationError(request, response);
     this.handleGuestDuplicateEmail(request, response);
     this.handleUnknownIdentifierError(request, response);
+    this.handleValidationErrorIleggalArgument(request, response);
   }
 
   protected handleBadPassword(
@@ -37,13 +41,28 @@ export class BadRequestHandler extends HttpErrorHandler {
       response.error?.error === 'invalid_grant' &&
       request.body?.get('grant_type') === 'password'
     ) {
+      let key = this.getErrorTranslationKey(response.error?.error_description);
+      const translationPrefix = `httpHandlers.badRequest`;
+      const params: Translatable['params'] = {
+        errorMessage:
+          response.error.error_description || response.message || '',
+      };
+      if (
+        this.featureConfigService.isEnabled(
+          'enablePasswordExpiredErrorTranslation'
+        )
+      ) {
+        const isPasswordExpiredError = key.startsWith(
+          `${translationPrefix}.password_expired_for_the_user`
+        );
+        if (isPasswordExpiredError) {
+          key = `${translationPrefix}.password_expired`;
+        }
+      }
       this.globalMessageService.add(
         {
-          key: this.getErrorTranslationKey(response.error?.error_description),
-          params: {
-            errorMessage:
-              response.error.error_description || response.message || '',
-          },
+          key,
+          params,
         },
         GlobalMessageType.MSG_TYPE_ERROR
       );
@@ -83,6 +102,20 @@ export class BadRequestHandler extends HttpErrorHandler {
           {
             key: `httpHandlers.validationErrors.${error.reason}.${error.subject}`,
           },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+  }
+
+  protected handleValidationErrorIleggalArgument(
+    _request: HttpRequest<any>,
+    response: HttpErrorResponse
+  ): void {
+    this.getErrors(response)
+      .filter((e) => e.type === 'IllegalArgumentError')
+      .forEach((error) => {
+        this.globalMessageService.add(
+          error.message as string | Translatable,
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });

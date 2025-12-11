@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { visitLoginPage } from '../support/utils/login';
 import { addProductToCart as addToCart } from './applied-promotions';
 import { login } from './auth-forms';
 import * as cart from './cart';
-import { waitForPage } from './checkout-flow';
+import { waitForPage } from './navigation';
 
 interface TestProduct {
   code: string;
@@ -180,7 +181,7 @@ export function testLoggedInUserSaveForLater() {
         validateCart(0, 1);
         cart.logOutAndNavigateToEmptyCart();
         const loginPage = waitForPage('/login', 'getLoginPage');
-        cy.visit('/login');
+        visitLoginPage();
         cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
         login(account.username, account.password);
         cy.url().should('not.contain', 'login');

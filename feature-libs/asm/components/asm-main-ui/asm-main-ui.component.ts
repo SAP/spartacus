@@ -8,22 +8,29 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
+import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
 import {
+  AsmConfig,
   AsmDeepLinkParameters,
   AsmUi,
+  CLOSE_DIALOG_REASON,
   CsAgentAuthService,
   CustomerListColumnActionType,
 } from '@spartacus/asm/root';
 import {
   AuthService,
+  FeatureModulesService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
+  HttpResponseStatus,
+  OAuthLibWrapperService,
   RoutingService,
   User,
 } from '@spartacus/core';
@@ -33,8 +40,15 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, Subscription, combineLatest, of } from 'rxjs';
 import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+  of,
+  Subscription,
+} from 'rxjs';
+import {
+  debounceTime,
   distinctUntilChanged,
   filter,
   map,
@@ -44,7 +58,7 @@ import {
 } from 'rxjs/operators';
 import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
-import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
+
 interface CartTypeKey {
   [key: string]: string;
 }
@@ -64,6 +78,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   customer$: Observable<User | undefined>;
   isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
+  forbiddenResponseStatus = HttpResponseStatus.FORBIDDEN;
 
   showDeeplinkCartInfoAlert$: Observable<boolean> =
     this.asmComponentService.shouldShowDeeplinkCartInfoAlert();
@@ -83,6 +98,14 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   @ViewChild('customerListLink') element: ElementRef;
   @ViewChild('addNewCustomerLink') addNewCustomerLink: ElementRef;
 
+  isAsmCustomer360Configured: boolean | undefined = false;
+  isAsmCustomer360Loaded$ = new BehaviorSubject<boolean>(false);
+  protected featureModules = inject(FeatureModulesService);
+  protected asmConfig = inject(AsmConfig);
+
+  protected oAuthLibWrapperService = inject(OAuthLibWrapperService);
+  isAsmSessionConfigured: boolean = false;
+
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
@@ -95,6 +118,16 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isAsmCustomer360Configured =
+      this.featureModules.isConfigured('asmCustomer360');
+    if (this.isAsmCustomer360Configured) {
+      // trigger lazy loading of the Customer 360 feature:
+      this.featureModules.resolveFeature('asmCustomer360').subscribe(() => {
+        this.isAsmCustomer360Loaded$.next(true);
+      });
+    }
+    this.isAsmSessionConfigured =
+      this.asmConfig.asm?.asmSessionSupport?.enabled ?? false;
     this.customerSupportAgentLoggedIn$ = this.csAgentAuthService
       .isCustomerSupportAgentLoggedIn()
       .pipe(
@@ -125,6 +158,13 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           uiState.collapsed === undefined ? false : uiState.collapsed
         )
       );
+    this.asmService.getAsmUiState().subscribe((state) => {
+      if (state.status === this.forbiddenResponseStatus) {
+        this.logout();
+        this.hideUi();
+        this.asmService.updateAsmUiState({ status: undefined });
+      }
+    });
     this.subscription.add(
       this.launchDialogService.dialogClose
         .pipe(filter((result) => Boolean(result)))
@@ -159,24 +199,49 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
                   take(1)
                 )
                 .subscribe((customer) => {
-                  setTimeout(() => {
-                    this.showC360Dialog(customer);
-                  }, 500);
+                  this.showC360Dialog(customer);
                 });
             }
           }
+          if (result === CLOSE_DIALOG_REASON.FORBIDDEN) {
+            this.logout();
+            this.hideUi();
+          }
         })
     );
+
+    this.subscription.add(
+      combineLatest([
+        this.customerSupportAgentLoggedIn$,
+        this.asmComponentService.isCustomerEmulationSessionInProgress(),
+      ])
+        .pipe(
+          debounceTime(500),
+          distinctUntilChanged(),
+          filter(([agentLoggedIn]) => Boolean(agentLoggedIn))
+        )
+        .subscribe(() => {
+          this.asmService.customerSearch({
+            query: 'autoSearchToAvoidUnauthorizedLogin',
+            pageSize: 1,
+          });
+        })
+    );
+
     this.subscribeForDeeplink();
   }
 
   protected showC360Dialog(customer: User | undefined): void {
-    const data = { customer: customer };
-    this.launchDialogService.openDialogAndSubscribe(
-      LAUNCH_CALLER.ASM_CUSTOMER_360,
-      this.element,
-      data
-    );
+    this.isAsmCustomer360Loaded$
+      .pipe(filter((isReady) => Boolean(isReady)))
+      .subscribe(() => {
+        const data = { customer: customer };
+        this.launchDialogService.openDialogAndSubscribe(
+          LAUNCH_CALLER.ASM_CUSTOMER_360,
+          this.element,
+          data
+        );
+      });
 
     this.subscription.add(
       this.launchDialogService.dialogClose
@@ -296,6 +361,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.csAgentAuthService.authorizeCustomerSupportAgent(userId, password);
   }
 
+  loginCustomerSupportAgentWithAuthorizationCodeFlow(): void {
+    this.csAgentAuthService.authorizeCustomerSupportAgentWhenUseCodeFlow();
+  }
+
   logout(): void {
     this.asmComponentService.logoutCustomerSupportAgentAndCustomer();
   }
@@ -309,6 +378,9 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       this.startingCustomerSession = true;
       this.showCustomerEmulationInfoAlert = true;
       this.showCreateCustomerSuccessfullyAlert = false;
+      if (this.isAsmSessionConfigured) {
+        this.asmService.createAsmSessionEvent({ eventType: 'StartSession' });
+      }
       if (parameters) {
         this.asmComponentService.handleDeepLinkNavigation({
           customerId,
@@ -326,6 +398,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   hideUi(): void {
     this.disabled = true;
     this.asmComponentService.unload();
+    this.oAuthLibWrapperService.refreshAuthConfig();
+    this.authService.updateIsUsingASMClient(false);
   }
 
   showCustomList(): void {

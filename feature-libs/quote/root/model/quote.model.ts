@@ -33,6 +33,8 @@ export interface OccQuote {
   totalPriceWithTax?: Price;
   updatedTime?: Date;
   version?: number;
+  sapOrderCode?: string;
+  sapPurchaseOrderNumber?: string;
 }
 
 export type Quote = Omit<OccQuote, 'allowedActions'> & {
@@ -66,6 +68,7 @@ export enum QuoteActionType {
   REJECT = 'REJECT',
   EXPIRED = 'EXPIRED',
   REQUOTE = 'REQUOTE',
+  DOWNLOAD_QUOTE_PROPOSAL_DOCUMENT = 'DOWNLOAD_QUOTE_PROPOSAL_DOCUMENT',
 }
 
 export enum QuoteState {
@@ -120,6 +123,7 @@ export interface QuoteMetadata {
   // 2023-08-26T09:13:00+02:00
   expirationTime?: string;
   name?: string;
+  purchaseOrderNumber?: string;
 }
 
 export interface QuoteStarter {

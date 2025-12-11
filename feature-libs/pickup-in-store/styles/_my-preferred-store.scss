@@ -7,10 +7,7 @@
     text-decoration: underline;
     .cx-store-opening-hours-icon {
       color: var(--cx-color-secondary);
-      opacity: var(--cx-opacity, 0.5);
-      @include forFeature('a11yViewHoursButtonIconContrast') {
-        opacity: var(--cx-opacity, 1);
-      }
+      opacity: var(--cx-opacity, 1);
     }
     padding-inline-start: 0;
     padding-top: 0.5rem;
@@ -28,9 +25,7 @@
       margin-bottom: 0;
       color: var(--cx-color-primary);
 
-      @include forFeature('a11yImproveContrast') {
-        @include type('2');
-      }
+      @include type('2');
     }
     [data-test-id='preferredStoreAddressBook'] .cx-store-name {
       font-weight: 700;
@@ -38,10 +33,19 @@
     }
     cx-card {
       .cx-card-actions {
-        border-width: 2px;
-        border-style: solid;
+        border: unset;
+        margin-top: 0;
+
+        &:not(:disabled):not(.disabled):active {
+          background-color: unset;
+        }
+
+        > *:only-child {
+          flex: 1;
+        }
+
         text-decoration: none;
-        margin-top: 1rem;
+
         &:hover {
           color: var(--cx-color-primary);
           border-width: 2px;
@@ -70,21 +74,6 @@
           font-weight: 700;
           text-decoration: none;
           width: 100%;
-        }
-      }
-    }
-
-    @include forFeature('a11yImproveButtonsInCardComponent') {
-      cx-card {
-        .cx-card-actions:not(:disabled):not(.disabled):active {
-          background-color: unset;
-        }
-        .cx-card-actions {
-          border: unset;
-          margin-top: 0;
-        }
-        .cx-card-actions > *:only-child {
-          flex: 1;
         }
       }
     }

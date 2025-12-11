@@ -2,13 +2,17 @@ on:
   pull_request:
     types: [opened, synchronize]
 
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
 name: Add license header to files
 jobs:
   add_license_header:
     name: Add license header to files
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           token: ${{ secrets.GH_PR_TOKEN }}

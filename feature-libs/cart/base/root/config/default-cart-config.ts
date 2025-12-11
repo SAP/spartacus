@@ -14,5 +14,8 @@ export const defaultCartConfig: CartConfig = {
     selectiveCart: {
       enabled: false,
     },
+    showRealTimeStockInPDP: {
+      enabled: false,
+    },
   },
 };

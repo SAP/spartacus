@@ -1,185 +1,291 @@
-// TODO: Add unit tests
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-// import { CommonModule } from '@angular/common';
-// import {
-//   Component,
-//   DebugElement,
-//   Directive,
-//   Input,
-//   Pipe,
-//   PipeTransform,
-// } from '@angular/core';
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { ReactiveFormsModule } from '@angular/forms';
-// import { By } from '@angular/platform-browser';
-// import { RouterTestingModule } from '@angular/router/testing';
-// import { ActiveCartService } from '@spartacus/cart/base/core';
-// import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
-// import { CheckoutStepService } from '@spartacus/checkout/base/components';
-// import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
-// import { I18nTestingModule } from '@spartacus/core';
-// import {
-//   FormErrorsModule,
-//   IconTestingModule,
-//   OutletDirective,
-//   PromotionsModule,
-// } from '@spartacus/storefront';
-// import { BehaviorSubject, Observable, of } from 'rxjs';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
+import { CheckoutPaymentFacade } from '@spartacus/checkout/base/root';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import { Observable, of } from 'rxjs';
+import { CheckoutFlowOrchestratorService } from '@spartacus/checkout/base/components';
+import { OPF_CHECKOUT_FLOW_NAME } from '../../root/model';
+import { Address, TranslationService, CmsService } from '@spartacus/core';
+import { Card } from '@spartacus/storefront';
+import {
+  CheckoutDeliveryAddressFacade,
+  CheckoutDeliveryModesFacade,
+} from '@spartacus/checkout/base/root';
+import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { finalize } from 'rxjs/operators';
 
-// import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
+@Pipe({
+  name: 'cxTranslate',
+  standalone: false,
+})
+class MockTranslatePipe implements PipeTransform {
+  transform(): any {}
+}
 
-// const mockCart = {
-//   code: 'test',
-//   paymentType: {
-//     code: 'PAYMENT_GATEWAY',
-//   },
-// };
-// const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
+@Component({
+  selector: 'cx-opf-checkout-review-card',
+  template: '',
+  standalone: false,
+})
+class MockReviewCardComponent {
+  @Input() cardContent$: Observable<Card>;
+  @Input() editConfig: any;
+}
 
-// const cart$ = new BehaviorSubject<any>({});
-// class MockActiveCartService implements Partial<ActiveCartService> {
-//   getActive(): Observable<Cart> {
-//     return cart$.asObservable();
-//   }
-//   getEntries(): Observable<OrderEntry[]> {
-//     return of(mockEntries);
-//   }
-// }
+@Component({
+  selector: 'cx-opf-checkout-payments',
+  template: '',
+  standalone: false,
+})
+class MockPaymentsComponent {
+  @Input() elementsPerPage: number;
+  @Input() explicitTermsAndConditions: boolean;
+  @Input() disabled: boolean;
+}
 
-// @Pipe({
-//   name: 'cxUrl',
-// })
-// class MockUrlPipe implements PipeTransform {
-//   transform() {}
-// }
+@Component({
+  selector: 'cx-opf-checkout-terms-and-conditions-alert',
+  template: '',
+  standalone: false,
+})
+class MockTermsAndConditionsAlertComponent {
+  @Input() isDismissible: boolean;
+  @Input() isVisible: boolean;
+  @Input() isExplicit: boolean;
+}
 
-// @Component({
-//   template: '',
-//   selector: 'cx-opf-checkout-payments',
-// })
-// class MockOpfCheckoutPaymentsComponent {
-//   @Input()
-//   disabled = false;
-// }
+@Component({
+  selector: 'cx-opf-checkout-billing-address-form',
+  template: '',
+  standalone: false,
+})
+class MockBillingAddressFormComponent {}
 
-// @Component({
-//   template: '',
-//   selector: 'cx-opf-checkout-billing-address-form',
-// })
-// class MockOpfCheckoutBillingAddressFormComponent {}
+@Component({
+  selector: 'cx-opf-checkout-review-cart-details',
+  template: '',
+  standalone: false,
+})
+class MockReviewCartDetailsComponent {
+  @Input() cart: any;
+  @Input() entries: any;
+}
 
-// @Directive({
-//   selector: '[cxOutlet]',
-// })
-// class MockOutletDirective implements Partial<OutletDirective> {
-//   @Input() cxOutlet: string;
-//   @Input() cxOutletContext: string;
-// }
+class MockTranslationService {
+  translate(key: string): Observable<string> {
+    const translations: { [key: string]: string } = {
+      'paymentForm.payment': 'Payment Method',
+      'addressCard.shipTo': 'Delivery Address',
+      'checkoutMode.deliveryMethod': 'Delivery Mode',
+      'checkoutProgress.paymentMethod': 'Payment Method',
+      'checkoutProgress.deliveryAddress': 'Delivery Address',
+      'checkoutProgress.deliveryMode': 'Delivery Mode',
+      'checkoutReview.paymentMethod': 'Payment Method',
+      'checkoutReview.deliveryAddress': 'Delivery Address',
+      'checkoutReview.deliveryMode': 'Delivery Mode',
+    };
+    return of(translations[key] || key);
+  }
+}
 
-// const mockCheckoutStep: CheckoutStep = {
-//   id: 'step',
-//   name: 'name',
-//   routeName: '/route',
-//   type: [CheckoutStepType.DELIVERY_ADDRESS],
-// };
-// class MockCheckoutStepService {
-//   steps$ = of([
-//     {
-//       id: 'step1',
-//       name: 'step1',
-//       routeName: 'route1',
-//       type: [CheckoutStepType.PAYMENT_TYPE],
-//     },
-//     {
-//       id: 'step2',
-//       name: 'step2',
-//       routeName: 'route2',
-//       type: [CheckoutStepType.REVIEW_ORDER],
-//     },
-//   ]);
-//   getCheckoutStep(): CheckoutStep {
-//     return mockCheckoutStep;
-//   }
-// }
+class MockStore {
+  dispatch(): void {}
+  pipe(): Observable<any> {
+    return of({});
+  }
+}
 
-// describe('OPFCheckoutPaymentReviewComponent', () => {
-//   let component: OpfCheckoutPaymentAndReviewComponent;
-//   let fixture: ComponentFixture<OpfCheckoutPaymentAndReviewComponent>;
-//   let el: DebugElement;
-//   let activeCartService: ActiveCartFacade;
+class MockCmsService {
+  getCurrentPage(): Observable<any> {
+    return of({});
+  }
+}
 
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       imports: [
-//         CommonModule,
-//         ReactiveFormsModule,
-//         I18nTestingModule,
-//         FormErrorsModule,
-//         RouterTestingModule,
-//         PromotionsModule,
-//         IconTestingModule,
-//       ],
-//       declarations: [
-//         OpfCheckoutPaymentAndReviewComponent,
-//         MockOpfCheckoutPaymentsComponent,
-//         MockUrlPipe,
-//         MockOpfCheckoutBillingAddressFormComponent,
-//         MockOutletDirective,
-//       ],
-//       providers: [
-//         { provide: ActiveCartFacade, useClass: MockActiveCartService },
-//         {
-//           provide: CheckoutStepService,
-//           useClass: MockCheckoutStepService,
-//         },
-//       ],
-//     }).compileComponents();
+describe('OpfCheckoutPaymentAndReviewComponent', () => {
+  let component: OpfCheckoutPaymentAndReviewComponent;
+  let fixture: ComponentFixture<OpfCheckoutPaymentAndReviewComponent>;
+  let checkoutFlowOrchestratorService: CheckoutFlowOrchestratorService;
 
-//     fixture = TestBed.createComponent(OpfCheckoutPaymentAndReviewComponent);
-//     el = fixture.debugElement;
-//     activeCartService = TestBed.inject(ActiveCartFacade);
+  const mockCheckoutStepService = {
+    getCheckoutStepUrl: jasmine
+      .createSpy('getCheckoutStepUrl')
+      .and.returnValue('/checkout/payment-type'),
+  };
 
-//     component = fixture.componentInstance;
-//     spyOn(activeCartService, 'getActive').and.returnValue(cart$);
+  const mockCheckoutDeliveryAddressFacade = {
+    getDeliveryAddressState: jasmine
+      .createSpy('getDeliveryAddressState')
+      .and.returnValue(of({})),
+    clearCheckoutDeliveryAddress: jasmine.createSpy(
+      'clearCheckoutDeliveryAddress'
+    ),
+  };
 
-//     fixture.detectChanges();
-//   });
+  const mockCheckoutPaymentFacade = {
+    getPaymentDetailsState: jasmine
+      .createSpy('getPaymentDetailsState')
+      .and.returnValue(of({})),
+  };
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
+  const mockCheckoutDeliveryModesFacade = {
+    getSelectedDeliveryModeState: jasmine
+      .createSpy('getSelectedDeliveryModeState')
+      .and.returnValue(of({})),
+    setDeliveryMode: jasmine.createSpy('setDeliveryMode'),
+  };
 
-//   it('should call for active cart to get payment type', () => {
-//     expect(activeCartService.getActive).toHaveBeenCalled();
-//   });
+  const mockCheckoutFlowOrchestratorService = {
+    getPaymentProvider: jasmine
+      .createSpy('getPaymentProvider')
+      .and.returnValue(of(OPF_CHECKOUT_FLOW_NAME)),
+  };
 
-//   it('should render cx-opf-checkout-payments component if payment type is not set to ACCOUNT', () => {
-//     cart$.next(mockCart);
-//     fixture.detectChanges();
+  const mockActiveCartFacade = {
+    hasDeliveryItems: jasmine.createSpy('hasDeliveryItems'),
+  };
 
-//     expect(el.query(By.css('cx-opf-checkout-payments'))).toBeTruthy();
-//   });
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [
+        OpfCheckoutPaymentAndReviewComponent,
+        MockReviewCardComponent,
+        MockPaymentsComponent,
+        MockTermsAndConditionsAlertComponent,
+        MockBillingAddressFormComponent,
+        MockReviewCartDetailsComponent,
+        MockTranslatePipe,
+      ],
+      providers: [
+        { provide: CheckoutStepService, useValue: mockCheckoutStepService },
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useValue: mockCheckoutDeliveryAddressFacade,
+        },
+        { provide: CheckoutPaymentFacade, useValue: mockCheckoutPaymentFacade },
+        {
+          provide: CheckoutDeliveryModesFacade,
+          useValue: mockCheckoutDeliveryModesFacade,
+        },
+        {
+          provide: CheckoutFlowOrchestratorService,
+          useValue: mockCheckoutFlowOrchestratorService,
+        },
+        { provide: TranslationService, useClass: MockTranslationService },
+        { provide: Store, useClass: MockStore },
+        { provide: CmsService, useClass: MockCmsService },
+        { provide: ActiveCartFacade, useValue: mockActiveCartFacade },
+      ],
+    }).compileComponents();
+  });
 
-//   it('should not render cx-opf-checkout-payments component if payment type is set to ACCOUNT', () => {
-//     cart$.next({ ...mockCart, paymentType: { code: 'ACCOUNT' } });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(OpfCheckoutPaymentAndReviewComponent);
+    component = fixture.componentInstance;
+    checkoutFlowOrchestratorService = TestBed.inject(
+      CheckoutFlowOrchestratorService
+    );
 
-//     fixture.detectChanges();
+    (
+      checkoutFlowOrchestratorService.getPaymentProvider as jasmine.Spy
+    ).calls.reset();
+    mockActiveCartFacade.hasDeliveryItems.calls.reset();
+    mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress.calls.reset();
+    mockCheckoutDeliveryModesFacade.setDeliveryMode.calls.reset();
+  });
 
-//     expect(el.query(By.css('cx-opf-checkout-payments'))).toBeFalsy();
-//   });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
-//   it('should change form value when checkbox get selected / change state', () => {
-//     cart$.next(mockCart);
+  it('should get delivery address card', () => {
+    const mockAddress: Address = {
+      firstName: 'John',
+      lastName: 'Doe',
+      line1: '123 Main St',
+      town: 'Anytown',
+      postalCode: '12345',
+      country: { isocode: 'US' },
+    };
+    const mockCountryName = 'United States';
 
-//     fixture.detectChanges();
+    component
+      .getDeliveryAddressCard(mockAddress, mockCountryName)
+      .subscribe((card) => {
+        expect(card.title).toBe('Delivery Address');
+        expect(card.textBold).toBe('John Doe');
+        expect(card.text).toContain('123 Main St');
+        expect(card.text).toContain('Anytown, United States');
+        expect(card.text).toContain('12345');
+      });
+  });
 
-//     expect(component.termsAndConditionInvalid).toEqual(true);
+  it('should get delivery mode card', () => {
+    const mockDeliveryMode: DeliveryMode = {
+      code: 'standard',
+      name: 'Standard Delivery',
+    };
 
-//     const inputEl = fixture.debugElement.query(By.css('input')).nativeElement;
+    component.getDeliveryModeCard(mockDeliveryMode).subscribe((card) => {
+      expect(card.title).toBe('Delivery Mode');
+      expect(card.textBold).toBe('Standard Delivery');
+      expect(card.text).toBeDefined();
+    });
+  });
 
-//     inputEl.click();
+  it('should clear delivery address and set pickup mode when cart has no delivery items', () => {
+    mockActiveCartFacade.hasDeliveryItems.and.returnValue(of(false));
 
-//     expect(inputEl.checked).toEqual(true);
-//     expect(component.termsAndConditionInvalid).toEqual(false);
-//   });
-// });
+    component.setPickupDeliveryMode();
+
+    expect(mockActiveCartFacade.hasDeliveryItems).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
+    ).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryModesFacade.setDeliveryMode
+    ).toHaveBeenCalledWith('pickup');
+  });
+  it('should not modify delivery settings when cart has delivery items', () => {
+    mockActiveCartFacade.hasDeliveryItems.and.returnValue(of(true));
+
+    component.setPickupDeliveryMode();
+
+    expect(mockActiveCartFacade.hasDeliveryItems).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
+    ).not.toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryModesFacade.setDeliveryMode
+    ).not.toHaveBeenCalled();
+  });
+
+  it('should handle Observable completion correctly', () => {
+    const completionSpy = jasmine.createSpy('completion');
+
+    mockActiveCartFacade.hasDeliveryItems.and.returnValue(
+      of(false).pipe(
+        finalize(() => {
+          completionSpy();
+        })
+      )
+    );
+
+    component.setPickupDeliveryMode();
+
+    expect(completionSpy).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
+    ).toHaveBeenCalled();
+    expect(
+      mockCheckoutDeliveryModesFacade.setDeliveryMode
+    ).toHaveBeenCalledWith('pickup');
+  });
+});

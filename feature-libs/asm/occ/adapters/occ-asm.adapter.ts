@@ -13,6 +13,7 @@ import {
 } from '@spartacus/asm/core';
 import {
   AsmConfig,
+  AsmSessionCreationOptions,
   BindCartParams,
   CustomerListsPage,
   CustomerRegistrationForm,
@@ -27,7 +28,8 @@ import {
   OccEndpointsService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
   User,
-  normalizeHttpError,
+  UserIdService,
+  tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -44,8 +46,10 @@ interface CustomerSearchParams {
 @Injectable()
 export class OccAsmAdapter implements AsmAdapter {
   private activeBaseSite: string;
+  private currentUserId: string;
 
   protected logger = inject(LoggerService);
+  protected userIdService = inject(UserIdService);
 
   constructor(
     protected http: HttpClient,
@@ -57,6 +61,39 @@ export class OccAsmAdapter implements AsmAdapter {
     this.baseSiteService
       .getActive()
       .subscribe((value) => (this.activeBaseSite = value));
+
+    this.userIdService
+      .getUserId()
+      .subscribe((value) => (this.currentUserId = value));
+  }
+
+  createAsmSessionEvent(options: AsmSessionCreationOptions): Observable<void> {
+    const headers = this.getHeaders();
+    const params: HttpParams = new HttpParams();
+
+    const requestBody = {
+      ...options,
+    };
+
+    const url = this.occEndpointsService.buildUrl(
+      'asmSessionEvent',
+      {
+        urlParams: {
+          baseSiteId: this.activeBaseSite,
+          userId: this.currentUserId,
+        },
+      },
+      {
+        baseSite: false,
+        prefix: false,
+      }
+    );
+
+    return this.http.post<void>(url, requestBody, { headers, params }).pipe(
+      catchError((error) => {
+        throw tryNormalizeHttpError(error, this.logger);
+      })
+    );
   }
 
   protected getHeaders(): HttpHeaders {
@@ -85,7 +122,7 @@ export class OccAsmAdapter implements AsmAdapter {
 
     return this.http.get<CustomerListsPage>(url, { headers, params }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       }),
       this.converterService.pipeable(CUSTOMER_LISTS_NORMALIZER)
     );
@@ -121,8 +158,8 @@ export class OccAsmAdapter implements AsmAdapter {
       params = params.set('pageSize', options.pageSize.toString());
     }
 
-    if (options.currentPage !== undefined) {
-      params = params.set('currentPage', options.currentPage.toString());
+    if (options.page !== undefined) {
+      params = params.set('page', options.page.toString());
     }
 
     if (options.customerListId !== undefined) {
@@ -142,7 +179,7 @@ export class OccAsmAdapter implements AsmAdapter {
       .post<CustomerSearchPage>(url, searchBody, { headers, params })
       .pipe(
         catchError((error) => {
-          throw normalizeHttpError(error, this.logger);
+          throw tryNormalizeHttpError(error, this.logger);
         }),
         this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER)
       );
@@ -174,7 +211,7 @@ export class OccAsmAdapter implements AsmAdapter {
 
     return this.http.post<void>(url, body, { headers, params }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }
@@ -196,7 +233,7 @@ export class OccAsmAdapter implements AsmAdapter {
     );
     return this.http.post<User>(url, user, { headers, params }).pipe(
       catchError((error) => {
-        throw normalizeHttpError(error, this.logger);
+        throw tryNormalizeHttpError(error, this.logger);
       })
     );
   }

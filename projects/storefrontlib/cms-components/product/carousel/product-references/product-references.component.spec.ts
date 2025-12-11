@@ -5,10 +5,13 @@ import {
   PipeTransform,
   TemplateRef,
 } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CmsProductReferencesComponent,
+  FeatureConfigService,
+  FeaturesConfigModule,
+  FeatureToggles,
   Product,
   ProductReference,
   ProductReferenceService,
@@ -21,6 +24,7 @@ import { ProductReferencesComponent } from './product-references.component';
 @Component({
   selector: 'cx-carousel',
   template: `
+    cx-carousel
     <ng-container *ngFor="let item$ of items">
       <ng-container
         *ngTemplateOutlet="template; context: { item: item$ | async }"
@@ -30,6 +34,24 @@ import { ProductReferencesComponent } from './product-references.component';
   standalone: false,
 })
 class MockCarouselComponent {
+  @Input() title: string;
+  @Input() template: TemplateRef<any>;
+  @Input() items: any[];
+}
+
+@Component({
+  selector: 'cx-carousel-scrolling',
+  template: `
+    cx-carousel-scrolling
+    <ng-container *ngFor="let item$ of items">
+      <ng-container
+        *ngTemplateOutlet="template; context: { item: item$ | async }"
+      ></ng-container>
+    </ng-container>
+  `,
+  standalone: false,
+})
+class MockCarouselScrollingComponent {
   @Input() title: string;
   @Input() template: TemplateRef<any>;
   @Input() items: any[];
@@ -118,6 +140,23 @@ class MockProductReferenceService {
   cleanReferences(): void {}
 }
 
+let mockFeatureToggles: FeatureToggles;
+
+class MockFeatureConfigService {
+  isEnabled(
+    feature: keyof FeatureToggles | `!${keyof FeatureToggles}`
+  ): boolean {
+    const hasNegation = feature.startsWith('!');
+    const featureName = (
+      hasNegation ? feature.slice(1) : feature
+    ) as keyof FeatureToggles;
+
+    return hasNegation
+      ? !mockFeatureToggles[featureName]
+      : !!mockFeatureToggles[featureName];
+  }
+}
+
 describe('ProductReferencesComponent', () => {
   let component: ProductReferencesComponent;
   let productReferenceService: ProductReferenceService;
@@ -125,13 +164,16 @@ describe('ProductReferencesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [FeaturesConfigModule],
       declarations: [
         ProductReferencesComponent,
         MockCarouselComponent,
+        MockCarouselScrollingComponent,
         MockMediaComponent,
         MockUrlPipe,
       ],
       providers: [
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
           provide: CmsComponentData,
           useValue: MockCmsProductCarouselComponent,
@@ -148,14 +190,17 @@ describe('ProductReferencesComponent', () => {
     }).compileComponents();
   });
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
+    mockFeatureToggles = {
+      productCarouselScrolling: true,
+    };
     fixture = TestBed.createComponent(ProductReferencesComponent);
     productReferenceService = TestBed.inject(ProductReferenceService);
     component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  }));
 
   it('should emit component data', () => {
+    fixture.detectChanges();
     let componentData: CmsProductReferencesComponent;
     component['componentData$']
       .subscribe((data) => (componentData = data))
@@ -170,6 +215,7 @@ describe('ProductReferencesComponent', () => {
   });
 
   it('should get productCode', () => {
+    fixture.detectChanges();
     spyOn(productReferenceService, 'cleanReferences').and.stub();
 
     let result: string;
@@ -182,6 +228,7 @@ describe('ProductReferencesComponent', () => {
   });
 
   it('should have 2 items', () => {
+    fixture.detectChanges();
     spyOn(productReferenceService, 'loadProductReferences').and.callThrough();
     spyOn(productReferenceService, 'getProductReferences').and.callThrough();
 
@@ -195,6 +242,7 @@ describe('ProductReferencesComponent', () => {
   });
 
   it('should have product reference code 111 in first product', () => {
+    fixture.detectChanges();
     let items: Observable<Product>[];
     component.items$.subscribe((i) => (items = i)).unsubscribe();
 
@@ -206,6 +254,7 @@ describe('ProductReferencesComponent', () => {
 
   describe('Component template render', () => {
     it('should have 2 rendered elements', () => {
+      fixture.detectChanges();
       const el = fixture.debugElement.queryAll(By.css('a'));
 
       expect(el.length).toEqual(2);
@@ -213,6 +262,7 @@ describe('ProductReferencesComponent', () => {
   });
 
   it('should render product attributes', () => {
+    fixture.detectChanges();
     const productNameElement = fixture.debugElement.query(
       By.css('a:first-child h4')
     ).nativeElement;
@@ -230,5 +280,32 @@ describe('ProductReferencesComponent', () => {
 
     const el = fixture.debugElement.query(By.css('a:last-child cx-media'));
     expect(el.nativeElement).toBeTruthy();
+  });
+
+  describe('when feature toggle "productCarouselScrolling" is enabled', () => {
+    beforeEach(() => {
+      mockFeatureToggles.productCarouselScrolling = true;
+    });
+
+    it('should render cx-carousel-scrolling component', () => {
+      fixture.detectChanges();
+      const carouselScrollingComponent = fixture.debugElement.query(
+        By.css('cx-carousel-scrolling')
+      );
+      expect(carouselScrollingComponent).toBeTruthy();
+    });
+  });
+  describe('when feature toggle "productCarouselScrolling" is disabled', () => {
+    beforeEach(() => {
+      mockFeatureToggles.productCarouselScrolling = false;
+    });
+
+    it('should render cx-carousel component', () => {
+      fixture.detectChanges();
+      const carouselComponent = fixture.debugElement.query(
+        By.css('cx-carousel')
+      );
+      expect(carouselComponent).toBeTruthy();
+    });
   });
 });

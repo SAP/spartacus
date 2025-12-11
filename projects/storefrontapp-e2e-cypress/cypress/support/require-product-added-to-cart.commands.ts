@@ -33,7 +33,7 @@ Cypress.Commands.add(
     function createCart() {
       return cy.request({
         method: 'POST',
-        url: `${Cypress.env('API_URL')}/${Cypress.env(
+        url: `${Cypress.env('API_URL')}${Cypress.env(
           'OCC_PREFIX'
         )}/${Cypress.env('BASE_SITE')}/users/current/carts`,
         body: {
@@ -70,7 +70,7 @@ Cypress.Commands.add(
       // B2C add to cart
       return cy.request({
         method: 'POST',
-        url: `${Cypress.env('API_URL')}/${Cypress.env(
+        url: `${Cypress.env('API_URL')}${Cypress.env(
           'OCC_PREFIX'
         )}/${Cypress.env('BASE_SITE')}/${Cypress.env(
           'OCC_PREFIX_USER_ENDPOINT'

@@ -190,6 +190,8 @@ describe('OptimizedSsrEngine', () => {
     options: {
       cache: false,
       cacheSize: 3000,
+      cacheSizeMemory: 800000000,
+      cacheEntrySizeCalculator: 'DefaultCacheEntrySizeCalculator',
       ttl: undefined,
       concurrency: 10,
       timeout: 50,
@@ -198,12 +200,11 @@ describe('OptimizedSsrEngine', () => {
       reuseCurrentRendering: true,
       renderingStrategyResolver: '() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR',
       logger: 'DefaultExpressServerLogger',
-      shouldCacheRenderingResult: '({ options, entry }) => !(options.ssrFeatureToggles?.avoidCachingErrors === true &&\\n' +
-        '        Boolean(entry.err))',
+      shouldCacheRenderingResult: '({ entry: { err } }) => !err',
       renderKeyResolver: 'function getRequestUrl(req) {\\n' +
         '    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;\\n' +
         '}',
-      ssrFeatureToggles: { avoidCachingErrors: true }
+      ssrFeatureToggles: { limitCacheByMemory: false }
     }
   }
 }",
@@ -390,14 +391,11 @@ describe('OptimizedSsrEngine', () => {
     }));
   });
 
-  describe('avoidCachingErrors option', () => {
-    describe('when using default shouldCacheRenderingResult', () => {
-      it('should not cache errors if `avoidCachingErrors` is set to true', fakeAsync(() => {
+  describe('shouldCacheRenderingResult option', () => {
+    describe('default behavior', () => {
+      it('should not cache errors', fakeAsync(() => {
         const engineRunner = TestEngineRunner.withError({
           cache: true,
-          ssrFeatureToggles: {
-            avoidCachingErrors: true,
-          },
         }).request('a');
 
         tick(200);
@@ -412,48 +410,9 @@ describe('OptimizedSsrEngine', () => {
         ]);
       }));
 
-      it('should cache errors if `avoidCachingErrors` is set to false', fakeAsync(() => {
-        const engineRunner = TestEngineRunner.withError({
-          cache: true,
-          ssrFeatureToggles: {
-            avoidCachingErrors: false,
-          },
-        }).request('a');
-
-        tick(200);
-        engineRunner.request('a');
-        tick(200);
-        engineRunner.request('a');
-        tick(200);
-        expect(engineRunner.responses).toEqual([
-          new Error('a-0'),
-          new Error('a-0'),
-          new Error('a-0'),
-        ]);
-      }));
-
-      it('should cache HTML if `avoidCachingErrors` is set to true', fakeAsync(() => {
+      it('should cache successful HTML responses', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           cache: true,
-          ssrFeatureToggles: {
-            avoidCachingErrors: true,
-          },
-        }).request('a');
-
-        tick(200);
-        engineRunner.request('a');
-        tick(200);
-        engineRunner.request('a');
-        tick(200);
-        expect(engineRunner.responses).toEqual(['a-0', 'a-0', 'a-0']);
-      }));
-
-      it('should cache HTML if `avoidCachingErrors` is set to false', fakeAsync(() => {
-        const engineRunner = new TestEngineRunner({
-          cache: true,
-          ssrFeatureToggles: {
-            avoidCachingErrors: true,
-          },
         }).request('a');
 
         tick(200);
@@ -464,9 +423,7 @@ describe('OptimizedSsrEngine', () => {
         expect(engineRunner.responses).toEqual(['a-0', 'a-0', 'a-0']);
       }));
     });
-  });
 
-  describe('shouldCacheRenderingResult option', () => {
     it('should not cache errors if `shouldCacheRenderingResult` returns false', fakeAsync(() => {
       const engineRunner = TestEngineRunner.withError({
         cache: true,
@@ -1471,7 +1428,9 @@ describe('OptimizedSsrEngine', () => {
   {
     "options": {
       "cache": false,
+      "cacheEntrySizeCalculator": "DefaultCacheEntrySizeCalculator",
       "cacheSize": 3000,
+      "cacheSizeMemory": 800000000,
       "concurrency": 10,
       "forcedSsrTimeout": 60000,
       "logger": "MockExpressServerLogger",
@@ -1488,10 +1447,9 @@ describe('OptimizedSsrEngine', () => {
         : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
 }",
       "reuseCurrentRendering": true,
-      "shouldCacheRenderingResult": "({ options, entry }) => !(options.ssrFeatureToggles?.avoidCachingErrors === true &&
-        Boolean(entry.err))",
+      "shouldCacheRenderingResult": "({ entry: { err } }) => !err",
       "ssrFeatureToggles": {
-        "avoidCachingErrors": true,
+        "limitCacheByMemory": false,
       },
       "timeout": 3000,
       "ttl": undefined,

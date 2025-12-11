@@ -19,6 +19,7 @@ import {
 } from '../../../sample-data/checkout-flow';
 import { AccountData } from '../../../support/require-logged-in.commands';
 import { interceptGet, interceptPost } from '../../../support/utils/intercept';
+import { visitLoginPage } from '../../../support/utils/login';
 import { tabbingOrderConfig } from '../../accessibility/b2b/tabbing-order.config';
 import { verifyTabbingOrder } from '../../accessibility/tabbing-order';
 import {
@@ -31,7 +32,8 @@ import {
   interceptPutDeliveryModeEndpoint,
 } from '../../b2b/b2b-checkout';
 import { clearActiveCart, goToCart, validateEmptyCart } from '../../cart';
-import { waitForPage, waitForProductPage } from '../../checkout-flow';
+import { waitForProductPage } from '../../checkout-flow';
+import { waitForPage } from '../../navigation';
 import { LOCATORS } from '../../pickup-in-store-utils';
 
 export const s4omB2BUser: AccountData = {
@@ -55,6 +57,17 @@ export const s4omB2bAccountShipToUser: SampleUser = {
   },
 };
 
+export const s4omB2bProductNotInCatalogUser: AccountData = {
+  registrationData: {
+    email: 'susan.miller@harvestlive.inc',
+    password: 'welcome',
+    firstName: 'Susan',
+    lastName: 'Miller',
+    titleCode: 'mr',
+  },
+  user: '209',
+};
+
 export const cartWithS4OMB2bProductAndPremiumShipping: SampleCartProduct = {
   estimatedShipping: '$16.99',
   total: '$12.55',
@@ -71,6 +84,11 @@ export const s4omPONumber: string = poNumber;
 export const s4omCostCenter: string = '17100003_CC';
 export const s4omB2BUnit: string = 'Dell Bont Industries';
 export const s4omPastOrderId: string = '103300';
+export const s4omProductNotInCatalogOrderIds = {
+  ALL_PRODUCT_IN_CATALOG: '141455',
+  SOME_PRODUCT_IN_CATALOG: '141453',
+  NONE_PRODUCT_IN_CATALOG: '141454',
+};
 
 const acceptAndSubmitOrder = [
   {
@@ -163,7 +181,7 @@ export function loginS4OMB2bUser() {
     s4omB2BUser.registrationData.lastName;
 
   cy.window().then((win) => win.sessionStorage.clear());
-  cy.visit('/login');
+  visitLoginPage();
   cy.get(LOCATORS.ALLOW_COOKIES_BUTTON).click();
   login(
     s4omB2BUser.registrationData.email,
@@ -233,9 +251,7 @@ export function clearItemsFromCart() {
   validateEmptyCart();
 }
 
-export function goToCart() {
-  goToCart();
-}
+export { goToCart };
 
 export function verifyScheduleLineInfo() {
   let scheduleLines = window.sessionStorage.getItem('TG11-scheduleLines');

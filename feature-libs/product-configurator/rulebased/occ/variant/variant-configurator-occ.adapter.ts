@@ -98,14 +98,16 @@ export class VariantConfiguratorOccAdapter
   readConfiguration(
     configId: string,
     groupId: string,
-    configurationOwner: CommonConfigurator.Owner
+    configurationOwner: CommonConfigurator.Owner,
+    attributeKey?: string
   ): Observable<Configurator.Configuration> {
     const expMode = this.getExpModeRequested();
+    const attributeKeyRequiresDomain = attributeKey;
     return this.http
       .get<OccConfigurator.Configuration>(
         this.occEndpointsService.buildUrl('readVariantConfiguration', {
           urlParams: { configId },
-          queryParams: { groupId, expMode },
+          queryParams: { groupId, expMode, attributeKeyRequiresDomain },
         }),
         { context: this.indicateSendUserForAsm() }
       )

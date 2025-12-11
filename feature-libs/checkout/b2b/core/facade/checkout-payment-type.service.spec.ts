@@ -31,6 +31,9 @@ const mockPurchaseOrderNumber = 'purchaseOrderNumber';
 class MockActiveCartService implements Partial<ActiveCartFacade> {
   takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
   isGuestCart = createSpy().and.returnValue(of(false));
+  getActive = createSpy().and.returnValue(
+    of({ purchaseOrderNumber: 'cartpurchaseOrderNumber' })
+  );
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -251,7 +254,7 @@ describe(`CheckoutPaymentTypeService`, () => {
           loading: false,
           error: false,
           data: {
-            purchaseOrderNumber: mockPurchaseOrderNumber,
+            purchaseOrderNumber: 'mockPurchaseOrderNumber',
           },
         })
       );
@@ -263,7 +266,7 @@ describe(`CheckoutPaymentTypeService`, () => {
           expect(result).toEqual(<QueryState<string | undefined>>{
             loading: false,
             error: false,
-            data: mockPurchaseOrderNumber,
+            data: 'cartpurchaseOrderNumber',
           });
           done();
         });

@@ -12,7 +12,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  FeatureConfigService,
   I18nTestingModule,
   LanguageService,
   Product,
@@ -256,6 +255,7 @@ class MockConfiguratorStorefrontUtilsService {
   isLastSelected(): boolean {
     return false;
   }
+  createAttributeUiKey() {}
 }
 
 const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositionConfig =
@@ -289,21 +289,12 @@ const mockConfiguratorAttributeCompositionConfig: ConfiguratorAttributeCompositi
     },
   };
 
-let productConfiguratorDeltaRenderingEnabled = false;
-class MockFeatureConfigService {
-  isEnabled(name: string): boolean {
-    if (name === 'productConfiguratorDeltaRendering') {
-      return productConfiguratorDeltaRenderingEnabled;
-    }
-    return false;
-  }
-}
-
 describe('ConfiguratorGroupComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
   let configExpertModeService: ConfiguratorExpertModeService;
+  let storefrontUtils: ConfiguratorStorefrontUtilsService;
   let mockLanguageService;
   let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorGroupComponent>;
@@ -370,10 +361,6 @@ describe('ConfiguratorGroupComponent', () => {
           useClass: MockProductService,
         },
         {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
-        {
           provide: ConfiguratorRouterExtractorService,
           useClass: MockConfiguratorRouterExtractorService,
         },
@@ -410,6 +397,9 @@ describe('ConfiguratorGroupComponent', () => {
     spyOn(configExpertModeService, 'setExpModeActive').and.callThrough();
 
     configuratorUtils.setOwnerKey(OWNER);
+    storefrontUtils = TestBed.inject(
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    );
     isConfigurationLoadingObservable = of(false);
     conflictGroup = structuredClone(conflictGroupBase);
   });
@@ -738,6 +728,17 @@ describe('ConfiguratorGroupComponent', () => {
     });
   });
 
+  describe('createAttributeUiKey', () => {
+    it('should call method of configuratoreStorefrontUtils', () => {
+      spyOn(storefrontUtils, 'createAttributeUiKey').and.callThrough();
+      createComponent().createAttributeUiKey('prefix', 'attributeId');
+      expect(storefrontUtils.createAttributeUiKey).toHaveBeenCalledWith(
+        'prefix',
+        'attributeId'
+      );
+    });
+  });
+
   describe('with regards to expMode', () => {
     it("should check whether expert mode status is set to 'true'", () => {
       createComponent();
@@ -808,13 +809,8 @@ describe('ConfiguratorGroupComponent', () => {
     beforeEach(() => {
       createComponent();
     });
-    it('should return attribute itself, if performance optimization is not active', () => {
-      productConfiguratorDeltaRenderingEnabled = false;
-      expect(component.trackByFn(0, attribute)).toBe(attribute);
-    });
 
-    it('should return attribute key, if performance optimization is active', () => {
-      productConfiguratorDeltaRenderingEnabled = true;
+    it('should return attribute key', () => {
       expect(component.trackByFn(0, attribute)).toBe(attribute.key);
     });
   });

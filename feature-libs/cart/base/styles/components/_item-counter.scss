@@ -28,30 +28,21 @@
 
   &:not(.readonly) {
     border-radius: 4px;
-    border: solid 1px var(--cx-color-light);
     display: inline-flex;
 
-    @include forFeature('a11yImproveContrast') {
-      border: solid 1px var(--cx-color-dark);
-    }
+    border: solid 1px var(--cx-color-dark);
 
     input {
-      border: solid 1px var(--cx-color-light);
+      border: solid 1px var(--cx-color-dark);
       border-width: 0 1px;
       padding: 12px 9px;
       max-height: 48px;
       min-width: 46%;
       max-width: 46%;
-      &:focus {
-        background: var(--cx-color-background);
-      }
 
-      @include forFeature('a11yImproveContrast') {
-        border-color: var(--cx-color-dark);
-        &:focus {
-          background-color: var(--cx-color-transparent);
-          box-shadow: 0 0 0 0;
-        }
+      &:focus {
+        background-color: var(--cx-color-transparent);
+        box-shadow: 0 0 0 0;
       }
     }
   }
@@ -76,47 +67,19 @@
       color: var(--cx-color, var(--cx-color-primary));
       cursor: pointer;
       font-weight: var(--cx-font-weight-bold);
-      @include forFeature('a11yVisibleFocusOverflows') {
-        z-index: 10;
-      }
+      z-index: 10;
+      box-shadow: 0 0 0 0;
     }
 
-    // TODO: The styles for ":disabled" selector should be deleted when "a11yItemCounterFocus" feature flag has been removed
-    &:disabled {
-      color: var(--cx-color-light);
+    &[aria-disabled='true'] {
+      color: var(--cx-color-dark);
       cursor: not-allowed;
     }
 
-    @include forFeature('a11yItemCounterFocus') {
-      &[aria-disabled='true'] {
-        color: var(--cx-color-light);
-        cursor: not-allowed;
-      }
-    }
-
-    @include forFeature('a11yImproveContrast') {
-      font-size: var(--cx-font-size, 1.7rem);
-      line-height: 0;
-      color: var(--cx-color-text);
-      padding-inline-start: 0;
-      padding-inline-end: 0;
-      &:focus {
-        box-shadow: 0 0 0 0;
-      }
-      // TODO: The styles for ":disabled" selector should be deleted when "a11yItemCounterFocus" feature flag has been removed
-      &:disabled {
-        color: var(--cx-color-dark);
-      }
-      @include forFeature('a11yItemCounterFocus') {
-        &[aria-disabled='true'] {
-          color: var(--cx-color-dark);
-        }
-      }
-    }
-  }
-
-  :disabled {
-    cursor: not-allowed;
+    font-size: var(--cx-font-size, 1.7rem);
+    line-height: 0;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
   }
 
   @include cx-highContrastTheme {

@@ -74,10 +74,8 @@
 }
 
 %organizationTitle {
-  @include forFeature('a11yCroppedFocusRing') {
-    .header h2 button {
-      outline-offset: -2px;
-    }
+  .header h2 button {
+    outline-offset: -2px;
   }
   .title {
     h2,
@@ -126,14 +124,12 @@
       }
     }
   }
-  //allow wrapping for overly long ids
-  @include forFeature('a11yTextSpacingAdjustments') {
-    cx-split-view[active-view='1'] {
-      .uid .text {
-        margin-inline-end: 1rem;
-        white-space: initial;
-        word-break: break-word;
-      }
+
+  cx-split-view[active-view='1'] {
+    .uid .text {
+      margin-inline-end: 1rem;
+      white-space: initial;
+      word-break: break-word;
     }
   }
 
@@ -189,12 +185,10 @@
       }
     }
   }
-  // TODO: (CXSPA-7155) - Remove feature flag next major release
-  @include forFeature('a11yOrganizationLinkableCells') {
-    cx-view {
-      &[position='0'] tr {
-        cursor: pointer;
-      }
+
+  cx-view {
+    &[position='0'] tr {
+      cursor: pointer;
     }
   }
 
@@ -302,21 +296,19 @@
     }
   }
 
-  @include forFeature('a11yTextSpacingAdjustments') {
-    .content-wrapper ng-select.ng-select {
-      .ng-value-label {
-        overflow: initial;
-        white-space: normal;
-      }
-      div.ng-select-container {
-        max-height: unset;
-        line-height: 1.3;
-      }
-    }
-    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
-      white-space: normal;
+  .content-wrapper ng-select.ng-select {
+    .ng-value-label {
       overflow: initial;
+      white-space: normal;
     }
+    div.ng-select-container {
+      max-height: unset;
+      line-height: 1.3;
+    }
+  }
+  .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+    white-space: normal;
+    overflow: initial;
   }
 
   @include cx-highContrastTheme {

@@ -15,6 +15,7 @@ import {
   I18nTestingModule,
   Product,
   ProductAvailabilityAdapter,
+  ProductCatalogService,
 } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -65,6 +66,11 @@ const mockNoStockProduct: Product = {
   name: 'mockProduct',
   code: 'code1',
   stock: { stockLevel: 0, stockLevelStatus: 'outOfStock' },
+};
+
+const mockSavedCart: Cart = {
+  code: 'cartId',
+  entries: [{ product: { code: productCode }, quantity: 7 }],
 };
 
 class MockProductListItemContext implements Partial<ProductListItemContext> {
@@ -118,6 +124,10 @@ class MockEventService implements Partial<EventService> {
   dispatch<T extends object>(_event: T): void {}
 }
 
+const mockProductCatalogService = {
+  isProductInCatalog: (_product?: Product) => false,
+};
+
 describe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
@@ -156,6 +166,10 @@ describe('AddToCartComponent', () => {
         {
           provide: ProductAvailabilityAdapter,
           useClass: MockProductAvailabilityAdapter,
+        },
+        {
+          provide: ProductCatalogService,
+          useValue: mockProductCatalogService,
         },
       ],
     });
@@ -263,6 +277,12 @@ describe('AddToCartComponent', () => {
         expect(addToCartComponent.maxQuantity).toBe(undefined);
         expect(addToCartComponent.hasStock).toEqual(false);
       });
+
+      it('unavailable should be true if product is not in catalog', () => {
+        addToCartComponent.product = mockProduct;
+        addToCartComponent.ngOnInit();
+        expect(addToCartComponent.unavailable).toBeTruthy();
+      });
     });
 
     it('should call addToCart()', () => {
@@ -338,6 +358,27 @@ describe('AddToCartComponent', () => {
       });
     });
 
+    describe('Saved cart', () => {
+      it('should add to cart with correct quantity', () => {
+        addToCartComponent.productCode = productCode;
+        addToCartComponent.savedCart = mockSavedCart;
+        addToCartComponent.showQuantity = false;
+        addToCartComponent.ngOnInit();
+        spyOn(activeCartFacade, 'addEntry').and.callThrough();
+        spyOn(activeCartFacade, 'getEntries').and.returnValue(
+          of([mockCartEntry])
+        );
+        spyOn(activeCartFacade, 'isStable').and.returnValue(of(true));
+
+        addToCartComponent.addToCart();
+        expect(activeCartFacade.addEntry).toHaveBeenCalledWith(
+          productCode,
+          7,
+          undefined
+        );
+      });
+    });
+
     describe('UI', () => {
       it('should show addToCart button with productCode input', () => {
         addToCartComponent.productCode = productCode;
@@ -361,6 +402,15 @@ describe('AddToCartComponent', () => {
         expect(getTextFromAddToCartButton()).toEqual('addToCart.addToCart');
       });
 
+      it('should disable addToCart button if unavailable is set to true', () => {
+        addToCartComponent.productCode = productCode;
+        addToCartComponent.unavailable = true;
+        addToCartComponent.ngOnInit();
+        fixture.detectChanges();
+
+        expect(getButton().nativeElement.disabled).toEqual(true);
+      });
+
       it('should use the provided string for add to cart button', () => {
         addToCartComponent.productCode = productCode;
         addToCartComponent.options = { addToCartString: 'add to active cart' };
@@ -377,6 +427,16 @@ describe('AddToCartComponent', () => {
         fixture.detectChanges();
 
         expect(getTextFromAddToCartButton()).toEqual('addToCart.addToCart');
+      });
+
+      it('should display unavailable string if unavailable property is set to true', () => {
+        addToCartComponent.productCode = productCode;
+        addToCartComponent.options = { addToCartString: 'add to active cart' };
+        addToCartComponent.unavailable = true;
+        addToCartComponent.ngOnInit();
+        fixture.detectChanges();
+
+        expect(getTextFromAddToCartButton()).toEqual('addToCart.unavailable');
       });
 
       it('should not show any button if the product is not in stock', () => {

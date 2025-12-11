@@ -7,7 +7,7 @@
 import { ChildProcess, exec, execSync } from 'child_process';
 import { prompt } from 'enquirer';
 import fs from 'fs';
-import glob from 'glob';
+import { globSync } from 'glob';
 import path from 'path';
 import { chalk } from '../chalk';
 
@@ -31,6 +31,7 @@ const featureLibsFolders: string[] = [
   'user',
   'quote',
   'customer-ticketing',
+  'subscription-billing',
 ];
 
 const integrationLibsFolders: string[] = [
@@ -44,6 +45,7 @@ const integrationLibsFolders: string[] = [
   'opps',
   's4-service',
   'cpq-quote',
+  'punchout',
 ];
 
 const commands = [
@@ -74,10 +76,12 @@ const commands = [
   'build estimated-delivery-date/schematics',
   'build smartedit/schematics',
   'build storefinder/schematics',
+  'build subscription-billing/schematics',
   'build tracking/schematics',
   'build user/schematics',
   'build customer-ticketing/schematics',
   'build cpq-quote/schematics',
+  'build punchout/schematics',
   'build all libs',
   'test all schematics',
   'exit',
@@ -139,7 +143,7 @@ function getPackageJsonFiles(): string[] {
     'projects/storefrontstyles/package.json',
     'projects/schematics/package.json',
   ];
-  const distFiles = glob.sync(`dist/!(node_modules)/package.json`);
+  const distFiles = globSync(`dist/!(node_modules)/package.json`);
   return [...sourceFiles, ...distFiles];
 }
 
@@ -416,6 +420,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build digital-payments/schematics':
     case 'build epd-visualization/schematics':
     case 'build opf/schematics':
+    case 'build punchout/schematics':
     case 'build organization/schematics':
     case 'build pdf-invoices/schematics':
     case 'build pickup-in-store/schematics':
@@ -430,6 +435,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build opps/schematics':
     case 'build smartedit/schematics':
     case 'build storefinder/schematics':
+    case 'build subscription-billing/schematics':
     case 'build tracking/schematics':
     case 'build user/schematics':
     case 'build customer-ticketing/schematics':

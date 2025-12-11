@@ -4,15 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
-  CmsProductCarouselComponent as model,
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  TrackByFunction,
+} from '@angular/core';
+import {
   FeatureConfigService,
+  CmsProductCarouselComponent as model,
   Product,
   ProductScope,
   ProductSearchByCategoryService,
   ProductSearchByCodeService,
   ProductService,
+  useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, of, switchMap, zip } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -63,26 +69,23 @@ export class ProductCarouselComponent {
         return { componentMappingExist, codes };
       }),
       map(({ componentMappingExist, codes }) => {
-        if (this.featureConfigService.isEnabled('useProductCarouselBatchApi')) {
-          const scope = componentMappingExist ? 'carousel' : 'carouselMinimal';
-          return codes.map((code: string) =>
-            this.productSearchByCodeService.get({ code, scope })
-          );
-        } else {
-          const productScope = componentMappingExist
-            ? [...this.PRODUCT_SCOPE]
-            : [...this.PRODUCT_SCOPE_ITEM];
-          return codes.map((code: string) =>
-            this.productService.get(code, productScope)
-          );
-        }
+        const scope = componentMappingExist ? 'carousel' : 'carouselMinimal';
+        return codes.map((code: string) =>
+          this.productSearchByCodeService.get({ code, scope })
+        );
       })
     );
+
+  trackByFn: TrackByFunction<Product> = (_index: number, item: Product) =>
+    item?.code;
 
   constructor(
     protected componentData: CmsComponentData<model>,
     protected productService: ProductService
-  ) {}
+  ) {
+    useFeatureStyles('productCarouselScrolling');
+  }
+
   handleCategoryCodes(data: model): Observable<model> {
     const categoryCodes = data?.categoryCodes?.split(' ');
 

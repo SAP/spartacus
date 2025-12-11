@@ -116,10 +116,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     textPhone: string,
     textMobile: string
   ): Card {
-    // TODO: (CXSPA-6956) - Remove feature flag in next major release
-    const hideSelectActionForSelected = this.featureConfigService?.isEnabled(
-      'a11yHideSelectBtnForSelectedAddrOrPayment'
-    );
     let region = '';
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
@@ -141,10 +137,9 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         address.postalCode,
         numbers,
       ],
-      actions:
-        hideSelectActionForSelected && isSelected
-          ? []
-          : [{ name: textShipToThisAddress, event: 'send' }],
+      actions: isSelected
+        ? []
+        : [{ name: textShipToThisAddress, event: 'send' }],
       header: isSelected ? textSelected : '',
       label: address.defaultAddress
         ? 'addressBook.defaultDeliveryAddress'
@@ -269,11 +264,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         'checkoutAddress.defaultDeliveryAddress'
       ),
       this.translationService.translate('checkoutAddress.shipToThisAddress'),
-      this.featureConfigService?.isEnabled(
-        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
-      )
-        ? this.translationService.translate('addressCard.selectedAddress')
-        : this.translationService.translate('addressCard.selected'),
+      this.translationService.translate('addressCard.selectedAddress'),
       this.translationService.translate('addressCard.phoneNumber'),
       this.translationService.translate('addressCard.mobileNumber'),
     ]);
@@ -379,10 +370,9 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   }
 
   protected getCardRole(isCardSelected: boolean): 'button' | 'application' {
-    const isButtonRole =
-      this.featureConfigService?.isEnabled(
-        'a11ySelectLabelWithContextForSelectedAddrOrPayment'
-      ) && !isCardSelected;
-    return isButtonRole ? 'button' : 'application';
+    const role: 'button' | 'application' = !isCardSelected
+      ? 'button'
+      : 'application';
+    return role;
   }
 }

@@ -24,7 +24,6 @@ import {
   GlobalMessageType,
   OAuthFlow,
   RoutingService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
@@ -36,34 +35,12 @@ import { RegisterComponentService } from './register-component.service';
   selector: 'cx-register',
   templateUrl: './register.component.html',
   standalone: false,
+  host: { ngSkipHydration: 'true' },
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  // TODO: (CXSPA-7315) Remove feature toggle in the next major
-  // TODO: (CXSPA-8550) Remove feature toggle
+  // CXSPA-10916: Remove service with toggle
   private featureConfigService = inject(FeatureConfigService);
-
-  protected passwordValidators = this.featureConfigService?.isEnabled(
-    'formErrorsDescriptiveMessages'
-  )
-    ? this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-      ? CustomFormValidators.securePasswordValidators
-      : this.featureConfigService.isEnabled(
-            'enableConsecutiveCharactersPasswordRequirement'
-          )
-        ? [
-            ...CustomFormValidators.passwordValidators,
-            CustomFormValidators.noConsecutiveCharacters,
-          ]
-        : CustomFormValidators.passwordValidators
-    : [
-        this.featureConfigService.isEnabled('enableSecurePasswordValidation')
-          ? CustomFormValidators.securePasswordValidator
-          : this.featureConfigService.isEnabled(
-                'enableConsecutiveCharactersPasswordRequirement'
-              )
-            ? CustomFormValidators.strongPasswordValidator
-            : CustomFormValidators.passwordValidator,
-      ];
+  protected passwordValidators = CustomFormValidators.securePasswordValidators;
 
   titles$: Observable<Title[]>;
 
@@ -125,9 +102,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
     protected authConfigService: AuthConfigService,
     protected registerComponentService: RegisterComponentService
-  ) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
+  ) {}
 
   ngOnInit() {
     this.titles$ = this.registerComponentService.getTitles().pipe(
@@ -147,8 +122,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             globalMessageEntities[GlobalMessageType.MSG_TYPE_ERROR];
 
           if (
-            messages &&
-            messages.some(
+            messages?.some(
               (message) => message.raw === 'This field is required.'
             )
           ) {
@@ -206,7 +180,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
       .register(this.collectDataFromRegisterForm(this.registerForm.value))
       .subscribe({
         next: () => this.onRegisterUserSuccess(),
-        complete: () => this.isLoading$.next(false),
+        complete: () =>
+          this.isLoading$.next(
+            this.authConfigService.getOAuthFlow() ===
+              OAuthFlow.AuthorizationCode
+          ),
         error: () => this.isLoading$.next(false),
       });
   }
@@ -237,7 +215,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   protected onRegisterUserSuccess(): void {
-    if (
+    if (this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')) {
+      this.router.go({ cxRoute: 'login' });
+    } else if (
       this.authConfigService.getOAuthFlow() ===
       OAuthFlow.ResourceOwnerPasswordFlow
     ) {

@@ -367,7 +367,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       );
     });
 
-    it('selected value should have aria-live tag if delta rendering is active', () => {
+    it('selected value should have aria-live tag', () => {
       component.listenForPriceChanges = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -380,16 +380,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         'polite'
       );
     });
-
-    it('selected value should not have aria-live tag if delta rendering is not active', () => {
-      component.listenForPriceChanges = false;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        'input[aria-live]'
-      );
-    });
   });
 
   describe('Rendering for additional value', () => {
@@ -397,6 +387,19 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       component.attribute.uiType =
         Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
       component.attribute.validationType = Configurator.ValidationType.NONE;
+      fixture.detectChanges();
+      htmlElem = fixture.nativeElement;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-input-field'
+      );
+    });
+
+    it('should provide input field for for an attribute of validation type "SAP_DATE" in case additional input is allowed', () => {
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.SAP_DATE;
       fixture.detectChanges();
       htmlElem = fixture.nativeElement;
       CommonConfiguratorTestUtilsService.expectElementPresent(

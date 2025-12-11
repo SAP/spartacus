@@ -16,7 +16,12 @@ import {
   TrackByFunction,
 } from '@angular/core';
 import { Config, Image, ImageGroup } from '@spartacus/core';
-import { ImageLoadingStrategy, Media, MediaContainer } from './media.model';
+import {
+  ImageFetchPriority,
+  ImageLoadingStrategy,
+  Media,
+  MediaContainer,
+} from './media.model';
 import { MediaService } from './media.service';
 import { USE_LEGACY_MEDIA_COMPONENT } from './media.token';
 
@@ -85,9 +90,15 @@ export class MediaComponent implements OnChanges {
   @Input() loading: ImageLoadingStrategy | null = this.loadingStrategy;
 
   /**
-   * Works only when `useExtendedMediaComponentConfiguration` toggle is true
-   *
-   * @default img
+   * Provides a hint to the browser about the fetch priority of the image.
+   * When set to 'high', the browser may prioritize loading this image earlier,
+   * and it will automatically use `loading="eager"` for optimal performance.
+   * Valid values are: 'low', 'auto', or 'high'.
+   */
+  @Input() fetchPriority?: ImageFetchPriority | null;
+
+  /**
+   * @default 'img'
    */
   @Input() elementType: 'img' | 'picture' = 'img';
 
@@ -103,8 +114,6 @@ export class MediaComponent implements OnChanges {
    *
    * This input is applicable only when the `elementType` input is set to `'img'`, as the `sizes` attribute
    * is currently added only to the `<img>` HTML element.
-   *
-   * Works only when the `useExtendedMediaComponentConfiguration` toggle is set to `true`.
    */
   @Input() sizesForImgElement: string;
 
@@ -146,8 +155,7 @@ export class MediaComponent implements OnChanges {
    * @deprecated since 2211.31. It will be eventually removed in the future
    *
    * To use `img` HTML element instead of `picture`
-   * use `useExtendedMediaComponentConfiguration` feature flag
-   * and pass `[elementType]="'img'"` input to the component
+   * pass `[elementType]="'img'"` input to the component
    */
   protected isLegacy =
     inject(USE_LEGACY_MEDIA_COMPONENT, { optional: true }) ||
@@ -209,5 +217,19 @@ export class MediaComponent implements OnChanges {
     this.isInitialized = true;
     this.isMissing = true;
     this.loaded.emit(false);
+  }
+
+  /**
+   * If the media has a high fetch priority, we load the image eagerly,
+   * no matter what the explicit loading strategy is.
+   *
+   * It's for convenience to not set explicitly `loading="eager"`,
+   * when we already know that the image has a high fetch priority.
+   */
+  protected get effectiveLoadingStrategy(): ImageLoadingStrategy | null {
+    if (this.fetchPriority === ImageFetchPriority.HIGH) {
+      return ImageLoadingStrategy.EAGER;
+    }
+    return this.loading ?? this.loadingStrategy;
   }
 }

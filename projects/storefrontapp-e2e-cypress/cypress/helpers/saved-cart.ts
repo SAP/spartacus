@@ -11,7 +11,8 @@ import * as cart from '../helpers/cart';
 import * as alerts from '../helpers/global-message';
 import { SampleProduct } from '../sample-data/checkout-flow';
 import * as sampleData from '../sample-data/saved-cart';
-import { waitForPage, waitForProductPage } from './checkout-flow';
+import { waitForProductPage } from './checkout-flow';
+import { waitForPage } from './navigation';
 
 export const SAVE_CART_ENDPOINT_ALIAS = 'saveCart';
 export const GET_ALL_SAVED_CART_ENDPOINT_ALIAS = 'getAllSavedCart';
@@ -185,7 +186,9 @@ export function addProductToCart(product: SampleProduct, quantity: number) {
 
   cy.visit(`/product/${product.code}`);
 
-  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
+  cy.whenJDK17(() => {
+    cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
+  });
 
   cy.get('cx-item-counter input').type(`{selectall}${quantity.toString()}`);
 
