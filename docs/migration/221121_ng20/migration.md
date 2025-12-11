@@ -2,7 +2,7 @@
 
 Before upgrading Spartacus to the new version with Angular 20, you need to first:
 
-- upgrade Spartacus to version 221121.4.0 (with Angular 19)
+- upgrade Spartacus to version 221121.5.0 (with Angular 19)
 - install Node 22 version
 - if your project uses SSR (Server-Side Rendering), please upgrade `@types/node` to version 22
 

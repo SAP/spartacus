@@ -26,7 +26,11 @@ import {
 } from '@angular/core/rxjs-interop';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { FeatureConfigService, TranslationService } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { filter, merge, take } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BREAKPOINT, BreakpointService } from '../../../layout';
@@ -89,7 +93,9 @@ export class NgSelectA11yDirective implements AfterViewInit {
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef
-  ) {}
+  ) {
+    useFeatureStyles('a11yNgSelectUnicodeCarets');
+  }
 
   ngAfterViewInit(): void {
     const inputCombobox =
