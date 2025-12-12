@@ -33,7 +33,9 @@
     "zoomOut": "Уменьшить",
     "selected": "Выбрано",
     "expand": "Развернуть",
-    "collapse": "Свернуть"
+    "collapse": "Свернуть",
+    "language": "Язык",
+    "currency": "Валюта"
   },
   "pageMetaResolver": {
     "category": {

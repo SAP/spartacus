@@ -34,6 +34,8 @@
     "selected": "Selected",
     "expand": "Expand",
     "collapse": "Collapse",
+    "language": "Language",
+    "currency": "Currency",
     "readMore": "Read More",
     "readLess": "Read Less"
   },

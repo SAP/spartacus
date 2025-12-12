@@ -12,16 +12,12 @@ import {
   isNotUndefined,
   LANGUAGE_CONTEXT_ID,
   SiteContext,
+  TranslationService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SiteContextType } from './site-context.model';
-
-const LABELS: { [key: string]: string } = {
-  [LANGUAGE_CONTEXT_ID]: 'Language',
-  [CURRENCY_CONTEXT_ID]: 'Currency',
-};
 
 @Injectable()
 export class SiteContextComponentService {
@@ -29,7 +25,8 @@ export class SiteContextComponentService {
     @Optional()
     protected componentData: CmsComponentData<CmsSiteContextSelectorComponent>,
     private contextServiceMap: ContextServiceMap,
-    protected injector: Injector
+    protected injector: Injector,
+    protected translationService: TranslationService,
   ) {}
 
   getItems(context?: SiteContextType): Observable<any> {
@@ -58,12 +55,13 @@ export class SiteContextComponentService {
     );
   }
 
-  getLabel(context?: SiteContextType): Observable<any> {
+  getLabel(context?: SiteContextType): Observable<string> {
     return this.getContext(context).pipe(
-      map((ctx) => {
+      switchMap((ctx) => {
         if (ctx) {
-          return LABELS[ctx];
+          return this.translationService.translate(`common.${ctx}`);
         }
+        return of('');
       })
     );
   }

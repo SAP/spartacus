@@ -33,7 +33,9 @@
     "zoomOut": "縮小",
     "selected": "選択済み",
     "expand": "展開",
-    "collapse": "折りたたむ"
+    "collapse": "折りたたむ",
+    "language": "言語",
+    "currency": "通貨"
   },
   "pageMetaResolver": {
     "category": {

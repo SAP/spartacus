@@ -50,7 +50,7 @@ export class SiteContextSelectorComponent {
     this.componentService.setActive(value, this.context);
   }
 
-  get label$(): Observable<any> {
+  get label$(): Observable<string> {
     return this.componentService.getLabel(this.context);
   }
 

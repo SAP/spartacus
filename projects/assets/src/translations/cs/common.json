@@ -33,7 +33,9 @@
     "zoomOut": "Zmenšit",
     "selected": "Vybráno",
     "expand": "Rozbalit",
-    "collapse": "Sbalit"
+    "collapse": "Sbalit",
+    "language": "Jazyk",
+    "currency": "Měna"
   },
   "pageMetaResolver": {
     "category": {

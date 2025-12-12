@@ -33,7 +33,9 @@
     "zoomOut": "Alejar",
     "selected": "Seleccionado",
     "expand": "Ampliar",
-    "collapse": "Contraer"
+    "collapse": "Contraer",
+    "language": "Idioma",
+    "currency": "Moneda"
   },
   "pageMetaResolver": {
     "category": {

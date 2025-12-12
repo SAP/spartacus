@@ -33,7 +33,9 @@
     "zoomOut": "ज़ूम आउट",
     "selected": "चयनित",
     "expand": "विस्तृत करें",
-    "collapse": "संकुचित करें"
+    "collapse": "संकुचित करें",
+    "language": "भाषा",
+    "currency": "मुद्रा"
   },
   "pageMetaResolver": {
     "category": {
