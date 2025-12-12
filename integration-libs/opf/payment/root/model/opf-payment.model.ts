@@ -177,6 +177,7 @@ export interface OpfPaymentRenderMethodEvent {
   renderType?: OpfPaymentRenderPattern;
   html?: string | null;
   destination?: OpfPaymentDestination;
+  paymentOptionId?: number;
 }
 
 export interface OpfPaymentMethodDetails {
