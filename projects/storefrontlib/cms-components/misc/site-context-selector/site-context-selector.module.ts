@@ -12,6 +12,7 @@ import {
   ContextServiceMap,
   provideDefaultConfig,
   SiteContextModule,
+  TranslationService,
 } from '@spartacus/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { IconModule } from '../icon/index';
@@ -30,7 +31,7 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
             {
               provide: SiteContextComponentService,
               useClass: SiteContextComponentService,
-              deps: [CmsComponentData, ContextServiceMap, Injector],
+              deps: [CmsComponentData, ContextServiceMap, Injector, TranslationService],
             },
           ],
         },
