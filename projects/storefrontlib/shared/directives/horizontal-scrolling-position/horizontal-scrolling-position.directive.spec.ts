@@ -111,12 +111,17 @@ describe('HorizontalScrollingPositionDirective', () => {
         expect(directive['scrollingAreaIntersectionObserver'].root).toEqual(
           mockScrollingArea
         );
-        expect(
-          directive['scrollingAreaIntersectionObserver'].takeRecords()
-        ).toEqual([
-          jasmine.objectContaining({ target: mockScrollingAreaStart }),
-          jasmine.objectContaining({ target: mockScrollingAreaEnd }),
-        ]);
+
+        spyOn(IntersectionObserver.prototype, 'observe');
+        directive.ngOnChanges();
+
+        expect(IntersectionObserver.prototype.observe).toHaveBeenCalledWith(
+          mockScrollingAreaStart
+        );
+        expect(IntersectionObserver.prototype.observe).toHaveBeenCalledWith(
+          mockScrollingAreaEnd
+        );
+
         expect(directive['scrollingAreaResizeObserver']).not.toBe(
           mockResizeObserver
         );
