@@ -1,5 +1,11 @@
-import * as configuration from '../../../helpers/product-configurator';
-import * as configurationVc from '../../../helpers/product-configurator-vc';
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import * as configuration from '../../../../helpers/product-configurator';
+import * as configurationVc from '../../../../helpers/product-configurator-vc';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL';
@@ -34,19 +40,6 @@ context('Variant Carousel for Product Configuration', () => {
       configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
       // Verify whether variant carousel is not displayed
       configuration.checkVariantCarouselNotDisplayed();
-    });
-  });
-
-  describe('Enable variant search', () => {
-    it('should display variant carousel', () => {
-      configuratorCoreConfig.productConfigurator.enableVariantSearch = true; // enable variant search
-      cy.cxConfig(configuratorCoreConfig);
-      //Go to the configuration
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
-      // Verify whether attribute is displayed
-      configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
-      // Verify whether variant carousel is displayed
-      configuration.checkVariantCarouselDisplayed();
     });
   });
 });
