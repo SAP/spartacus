@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BrowserBuilderOptions } from '@angular-devkit/build-angular';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
   getDefaultProjectNameFromWorkspace,
@@ -30,9 +29,11 @@ export function migrate(): Rule {
     const project = angularJson.projects[projectName];
     const architect = project.architect;
     const build = architect?.build;
-    const options = build?.options as BrowserBuilderOptions;
+    const options = build?.options;
 
-    if (!options?.index) {
+    // To avoid introducing to the @spartacus/schematics a new library `@angular-devkit/build-angular` where the `BrowserBuilderOptions` is located,
+    //`as any` was used to satisfy TS compiler.
+    if (!(options as any)?.index) {
       context.logger.info('  ↳ No "index" property found to remove');
       return tree;
     }
