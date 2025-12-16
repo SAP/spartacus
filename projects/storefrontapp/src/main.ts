@@ -15,7 +15,9 @@ if (environment.production) {
 
 function bootstrap() {
   platformBrowserDynamic()
-    .bootstrapModule(AppModule, { applicationProviders: [provideZoneChangeDetection()], })
+    .bootstrapModule(AppModule, {
+      applicationProviders: [provideZoneChangeDetection()],
+    })
     /* eslint-disable-next-line no-console
     --
     It's just an example application file. This message is not crucial
