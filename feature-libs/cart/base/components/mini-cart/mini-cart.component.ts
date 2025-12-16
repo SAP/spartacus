@@ -5,8 +5,8 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
 import { useFeatureStyles } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';
 
@@ -25,5 +25,9 @@ export class MiniCartComponent {
 
   constructor(protected miniCartComponentService: MiniCartComponentService) {
     useFeatureStyles('a11yMiniCartFocusOnMobile');
+
+    if (true) {
+      console.log('Code smell');
+    }
   }
 }
