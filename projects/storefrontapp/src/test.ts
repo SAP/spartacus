@@ -15,9 +15,10 @@ import 'zone.js/dist/async-test';
 import 'zone.js/dist/fake-async-test';
 import { getTestBed } from '@angular/core/testing';
 import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting,
-} from '@angular/platform-browser-dynamic/testing';
+  BrowserTestingModule,
+  platformBrowserTesting,
+} from '@angular/platform-browser/testing';
+import { NgModule, provideZoneChangeDetection } from '@angular/core';
 
 // Unfortunately there's no typing for the `__karma__` variable. Just declare it as any.
 declare var __karma__: any;
@@ -27,10 +28,15 @@ __karma__.loaded = function () {
   // Intentional empty function
 };
 
+@NgModule({
+  providers: [provideZoneChangeDetection()],
+})
+class ZoneChangeDetectionModule {}
+
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting(),
+  [BrowserTestingModule, ZoneChangeDetectionModule],
+  platformBrowserTesting(),
   {
     teardown: { destroyAfterEach: false },
   }

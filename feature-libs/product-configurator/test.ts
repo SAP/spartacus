@@ -11,16 +11,22 @@
 // Has to be imported just after zone.js imports.
 import 'testing/patch-object-define-property';
 
+import { NgModule, provideZoneChangeDetection } from '@angular/core';
 import { getTestBed } from '@angular/core/testing';
 import {
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting,
-} from '@angular/platform-browser-dynamic/testing';
+  BrowserTestingModule,
+  platformBrowserTesting,
+} from '@angular/platform-browser/testing';
+
+@NgModule({
+  providers: [provideZoneChangeDetection()],
+})
+class ZoneChangeDetectionModule {}
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(
-  BrowserDynamicTestingModule,
-  platformBrowserDynamicTesting(),
+  [BrowserTestingModule, ZoneChangeDetectionModule],
+  platformBrowserTesting(),
   {
     teardown: { destroyAfterEach: false },
   }
