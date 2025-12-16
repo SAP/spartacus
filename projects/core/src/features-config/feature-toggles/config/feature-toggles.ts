@@ -230,6 +230,12 @@ export interface FeatureTogglesInterface {
   a11yConfiguratorOverviewHeaderVPC?: boolean;
 
   /**
+   * Use unicode characters for ng-select dropdown carets so that OS themes can override the defaults
+   * by targetting text. This is not possible when using borders to draw shapes.
+   */
+  a11yNgSelectUnicodeCarets?: boolean;
+
+  /**
    * Enables the product carousel to include products based on specified category codes.
    *
    * - When this feature is enabled, the carousel will fetch and display products
@@ -536,6 +542,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yWideScreenImprovements: true,
   a11yOptimizedMenuSpacing: true,
   a11yNgSelectLayering: true,
+  a11yNgSelectUnicodeCarets: false,
   readMoreDirective: false,
   productReviewCharactersLeft: false,
   a11yNgSelectAriaControls: true,

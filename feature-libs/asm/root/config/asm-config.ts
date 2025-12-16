@@ -33,6 +33,9 @@ export abstract class AsmConfig {
         actionType?: CustomerListColumnActionType;
       }[];
     };
+    asmSessionSupport?: {
+      enabled?: boolean;
+    };
     userIdHttpHeader?: {
       /**
        * To fix certain features when a customer agent is emulating a user, we must send a header called
@@ -43,6 +46,9 @@ export abstract class AsmConfig {
        *
        * Enabling this feature will send the emulated user's IDs on requests that need it as context.
        */
+      enable?: boolean;
+    };
+    createCustomer?: {
       enable?: boolean;
     };
   };

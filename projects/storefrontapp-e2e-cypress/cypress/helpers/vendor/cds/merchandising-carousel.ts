@@ -125,7 +125,6 @@ function verifyCarouselItemRendered(
 function verifyCarouselItemsRendered(
   $merchandisingCarousel: JQuery<HTMLElement>
 ): void {
-  cy.wait(5000);
   cy.wrap($merchandisingCarousel)
     .get('.item')
     .should('have.length', STRATEGY_RESPONSE.products.length)
