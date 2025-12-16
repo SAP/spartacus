@@ -16,6 +16,7 @@ import {
 import { AsmService } from '@spartacus/asm/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
 import {
+  AsmConfig,
   AsmDeepLinkParameters,
   AsmUi,
   CLOSE_DIALOG_REASON,
@@ -100,8 +101,10 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   isAsmCustomer360Configured: boolean | undefined = false;
   isAsmCustomer360Loaded$ = new BehaviorSubject<boolean>(false);
   protected featureModules = inject(FeatureModulesService);
+  protected asmConfig = inject(AsmConfig);
 
   protected oAuthLibWrapperService = inject(OAuthLibWrapperService);
+  isAsmSessionConfigured: boolean = false;
 
   constructor(
     protected authService: AuthService,
@@ -123,7 +126,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
         this.isAsmCustomer360Loaded$.next(true);
       });
     }
-
+    this.isAsmSessionConfigured =
+      this.asmConfig.asm?.asmSessionSupport?.enabled ?? false;
     this.customerSupportAgentLoggedIn$ = this.csAgentAuthService
       .isCustomerSupportAgentLoggedIn()
       .pipe(
@@ -374,6 +378,9 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
       this.startingCustomerSession = true;
       this.showCustomerEmulationInfoAlert = true;
       this.showCreateCustomerSuccessfullyAlert = false;
+      if (this.isAsmSessionConfigured) {
+        this.asmService.createAsmSessionEvent({ eventType: 'StartSession' });
+      }
       if (parameters) {
         this.asmComponentService.handleDeepLinkNavigation({
           customerId,

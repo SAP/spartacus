@@ -16,6 +16,7 @@ export const defaultAsmConfig: AsmConfig = {
     customerSearch: {
       maxResults: 20,
     },
+    asmSessionSupport: { enabled: false },
     customerList: {
       pageSize: 5,
       showAvatar: true,
@@ -74,6 +75,9 @@ export const defaultAsmConfig: AsmConfig = {
       ],
     },
     userIdHttpHeader: {
+      enable: true,
+    },
+    createCustomer: {
       enable: true,
     },
   },

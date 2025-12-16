@@ -162,6 +162,7 @@ describe('AuthService', () => {
     describe('when dispatchLoginActionOnlyWhenTokenReceived feature flag is DISABLED', () => {
       beforeEach(() => {
         (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(false);
+        service.updateIsUsingASMClient(false);
       });
 
       it('should login user when token is present and dispatch login action', async () => {
@@ -185,6 +186,19 @@ describe('AuthService', () => {
         spyOn(userIdService, 'setUserId').and.callThrough();
 
         spyOn(userIdService, 'isEmulated').and.returnValue(of(true));
+
+        await service.checkOAuthParamsInUrl();
+
+        expect(userIdService.setUserId).not.toHaveBeenCalledWith(
+          OCC_USER_ID_CURRENT
+        );
+      });
+
+      it('when token is present and customer is not emulated in ASM mode', async () => {
+        service.updateIsUsingASMClient(true);
+        spyOn(authStorageService, 'getItem').and.returnValue('token');
+        spyOn(userIdService, 'setUserId').and.callThrough();
+        spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
 
         await service.checkOAuthParamsInUrl();
 
