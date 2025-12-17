@@ -292,5 +292,10 @@
     "typescript": "^5.9.3",
     "webpack": "~5.101.0",
     "webpack-cli": "^6.0.0"
+  },
+  "overrides": {
+    "@angular-builders/custom-esbuild": {
+      "@angular/build": "^21.0.3"
+    }
   }
 }
