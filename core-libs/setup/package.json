@@ -20,8 +20,6 @@
   },
   "peerDependencies": {
     "@angular/core": "^21.0.3",
-    "@angular/platform-browser": "^21.0.3",
-    "@angular/platform-browser-dynamic": "^21.0.3",
     "@angular/ssr": "^21.0.3",
     "@spartacus/cart": "221121.5.0",
     "@spartacus/core": "221121.5.0",
