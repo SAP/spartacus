@@ -93,6 +93,14 @@ describe('HorizontalScrollingPositionDirective', () => {
         spyOn(directive as any, 'subscribeScrollingArea').and.callThrough();
         spyOn(directive as any, 'unsubscribeScrollingArea').and.callThrough();
 
+        const observedElements: Element[] = [];
+        spyOn(IntersectionObserver.prototype, 'observe').and.callFake(function (
+          this: IntersectionObserver,
+          target: Element
+        ) {
+          observedElements.push(target);
+        });
+
         directive.ngOnChanges();
 
         // should unsubscribe from previous scrolling position
@@ -111,11 +119,9 @@ describe('HorizontalScrollingPositionDirective', () => {
         expect(directive['scrollingAreaIntersectionObserver'].root).toEqual(
           mockScrollingArea
         );
-        expect(
-          directive['scrollingAreaIntersectionObserver'].takeRecords()
-        ).toEqual([
-          jasmine.objectContaining({ target: mockScrollingAreaStart }),
-          jasmine.objectContaining({ target: mockScrollingAreaEnd }),
+        expect(observedElements).toEqual([
+          mockScrollingAreaStart,
+          mockScrollingAreaEnd,
         ]);
         expect(directive['scrollingAreaResizeObserver']).not.toBe(
           mockResizeObserver
