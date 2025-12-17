@@ -19,7 +19,6 @@ import {
   Renderer2,
   SecurityContext,
 } from '@angular/core';
-import { SIGNAL } from '@angular/core/primitives/signals';
 import {
   outputToObservable,
   takeUntilDestroyed,
@@ -103,13 +102,6 @@ export class NgSelectA11yDirective implements AfterViewInit {
 
     this.renderer.setAttribute(inputCombobox, 'role', 'combobox');
     this.renderer.setAttribute(inputCombobox, 'aria-expanded', 'false');
-    if (
-      this.featureConfigService?.isEnabled(
-        'a11yNgSelectAriaLabelDropdownCustomized'
-      )
-    ) {
-      this.customizeNgSelectAriaLabelDropdown();
-    }
 
     const isOpened$ = outputToObservable(this.selectComponent.openEvent).pipe(
       map(() => 'true')
@@ -192,6 +184,13 @@ export class NgSelectA11yDirective implements AfterViewInit {
           );
         });
     }
+    if (
+      this.featureConfigService?.isEnabled(
+        'a11yNgSelectAriaLabelDropdownCustomized'
+      )
+    ) {
+      this.customizeNgSelectAriaLabelDropdown();
+    }
     observerInstance.disconnect();
   }
 
@@ -229,14 +228,15 @@ export class NgSelectA11yDirective implements AfterViewInit {
       .subscribe((translation) => {
         // workaround for known issue with setting value of the input signal programmatically: https://github.com/angular/angular/issues/54782
         // since ng-select@20.x changed ariaLabelDropdown to be an input signal, we can't set its value directly
-        // NOTE: SIGNAL is not a part of the public API of @angular/core and may change without notice
-        // TODO: CXSPA-11443 find a way to apply customizeNgSelectAriaLabelDropdown in a different way
-        const ariaLabelDropdownSignal =
-          this.selectComponent.ariaLabelDropdown[SIGNAL];
-        ariaLabelDropdownSignal.applyValueToInputSignal(
-          ariaLabelDropdownSignal,
-          translation
+        // CXSPA-11443 related - use renderer to set the attribute
+        // This is workaround to set the aria-label on the dropdown panel when it opens (caused by the known issue above)
+        // It requires knowing internal structure of ng-select component (which is bad and has to be taken into account that it may change in future versions of ng-select)
+        const ngDropdownPanel = this.elementRef.nativeElement.querySelector(
+          '.ng-dropdown-panel-items[role="listbox"]'
         );
+        if (ngDropdownPanel) {
+          this.renderer.setAttribute(ngDropdownPanel, ARIA_LABEL, translation);
+        }
       });
   }
 }
