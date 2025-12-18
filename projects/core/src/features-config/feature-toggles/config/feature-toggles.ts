@@ -61,15 +61,6 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
-   * Hides the 'Consent Management' button from the tab order when the cookies banner is visible.
-   * Ensures the button is re-enabled and part of the tab order once consent is given and the banner disappears.
-   * Renames the button from "View Details" to "Consent Management" after consent is given.
-   * Ensures the button is centered in the `AnonymousConsentOpenDialogComponent` and has clear, four-sided visible focus when navigated via keyboard.
-   * Affects: AnonymousConsentOpenDialogComponent, AnonymousConsentManagementBannerComponent
-   */
-  a11yHideConsentButtonWhenBannerVisible?: boolean;
-
-  /**
    * Adds a unique `aria-label` to repeating buttons that contain the same text.
    * Affects: SetPreferredStoreComponent
    */
@@ -443,7 +434,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   updateConsentGivenInOnChanges: true,
   a11yAddPaddingToCarouselPanel: false,
-  a11yHideConsentButtonWhenBannerVisible: true,
   a11yRepeatingButtonsUniqueLabels: true,
   a11yHighContrastBorders: true,
   a11yRegionAssociatedHeaders: true,
