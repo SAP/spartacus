@@ -61,12 +61,6 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
-   * Search dropdowns will display the focus ring correctly when navigating to the options using the down arrow key.
-   * Affects: SearchBoxComponent, QuickOrderFormComponent
-   */
-  a11ySearchableDropdownFirstElementFocus?: boolean;
-
-  /**
    * Hides the 'Consent Management' button from the tab order when the cookies banner is visible.
    * Ensures the button is re-enabled and part of the tab order once consent is given and the banner disappears.
    * Renames the button from "View Details" to "Consent Management" after consent is given.
@@ -449,7 +443,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   updateConsentGivenInOnChanges: true,
   a11yAddPaddingToCarouselPanel: false,
-  a11ySearchableDropdownFirstElementFocus: true,
   a11yHideConsentButtonWhenBannerVisible: true,
   a11yRepeatingButtonsUniqueLabels: true,
   a11yHighContrastBorders: true,
