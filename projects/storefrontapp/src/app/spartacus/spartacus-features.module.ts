@@ -302,7 +302,6 @@ if (environment.cpq) {
         a11yStoreFinderLabel: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
-        a11yNgSelectAriaLabelDropdownCustomized: true,
         a11yMiniCartFocusOnMobile: true,
         updateConsentGivenInOnChanges: true,
         a11yQuickOrderSearchBoxRefocusOnClose: true,
