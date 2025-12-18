@@ -10,11 +10,6 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
-   * `QuickOrderFormComponent` - disable navigation with Tab/Shift+Tab for search results list
-   */
-  a11yQuickOrderSearchListKeyboardNavigation?: boolean;
-
-  /**
    * Adds a keyboard accessible zoom button to the `ProductImageZoomViewComponent`.
    */
   a11yKeyboardAccessibleZoom?: boolean;
@@ -491,7 +486,6 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  a11yQuickOrderSearchListKeyboardNavigation: true,
   a11yKeyboardAccessibleZoom: false,
   a11yTruncatedTextUnitLevelOrderHistory: true,
   a11yPreventCartItemsFormRedundantRecreation: false,

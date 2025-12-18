@@ -296,7 +296,6 @@ if (environment.cpq) {
     },
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
-        a11yQuickOrderSearchListKeyboardNavigation: false,
         a11yKeyboardAccessibleZoom: true,
         a11yTruncatedTextUnitLevelOrderHistory: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
