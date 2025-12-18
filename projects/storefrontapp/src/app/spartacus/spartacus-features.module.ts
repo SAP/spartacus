@@ -297,7 +297,6 @@ if (environment.cpq) {
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
         a11yKeyboardAccessibleZoom: true,
-        a11yTruncatedTextUnitLevelOrderHistory: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
         a11yResetFocusAfterNavigating: true,
         a11yImprovedErrorMessage: true,
