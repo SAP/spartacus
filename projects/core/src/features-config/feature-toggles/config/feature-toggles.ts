@@ -55,11 +55,6 @@ export interface FeatureTogglesInterface {
   updateConsentGivenInOnChanges?: boolean;
 
   /**
-   * When enabled the input element in `QuickOrderFormComponent' will regain its focus after the dropdown is closed.
-   */
-  a11yQuickOrderSearchBoxRefocusOnClose?: boolean;
-
-  /**
    * Adds a visible focus indicator for keyboard navigation in the `SearchBoxComponent` without affecting the visual state for mouse interactions.
    * Affects: SearchBoxComponent
    */
@@ -471,7 +466,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yLinkBtnsToTertiaryBtns: false,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   updateConsentGivenInOnChanges: true,
-  a11yQuickOrderSearchBoxRefocusOnClose: true,
   a11yKeyboardFocusInSearchBox: true,
   a11yAddPaddingToCarouselPanel: false,
   a11yNavigationButtonsAriaFixes: true,

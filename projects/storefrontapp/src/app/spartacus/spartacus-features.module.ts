@@ -303,7 +303,6 @@ if (environment.cpq) {
         a11yLinkBtnsToTertiaryBtns: true,
         a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
         updateConsentGivenInOnChanges: true,
-        a11yQuickOrderSearchBoxRefocusOnClose: true,
         a11yKeyboardFocusInSearchBox: true,
         a11yAddPaddingToCarouselPanel: true,
         a11yNavigationButtonsAriaFixes: true,

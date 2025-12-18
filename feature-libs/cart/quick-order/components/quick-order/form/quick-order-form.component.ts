@@ -83,15 +83,10 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     if (this.isResultsBoxOpen()) {
       this.toggleBodyClass(SEARCH_BOX_ACTIVE_CLASS, false);
-      if (
-        this.featureConfigService.isEnabled(
-          'a11yQuickOrderSearchBoxRefocusOnClose'
-        )
-      ) {
-        requestAnimationFrame(() => {
-          this.quickOrderInput.nativeElement.focus();
-        });
-      }
+      
+      requestAnimationFrame(() => {
+        this.quickOrderInput.nativeElement.focus();
+      });
     }
 
     const product = this.form.get('product')?.value;
