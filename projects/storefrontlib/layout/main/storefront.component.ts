@@ -160,9 +160,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     this.stopNavigating = isNavigating === false;
 
     // After clicking a link the focus should move to the first available item in the main content area.
-    if (
-      this.featureConfigService.isEnabled('a11yResetFocusAfterNavigating') &&
-      this.stopNavigating &&
+    if (this.stopNavigating &&
       this.document?.activeElement !== this.document?.body
     ) {
       this.skipLinkService?.scrollToTarget('cx-main');

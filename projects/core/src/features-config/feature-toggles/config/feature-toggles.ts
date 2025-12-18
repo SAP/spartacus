@@ -21,11 +21,6 @@ export interface FeatureTogglesInterface {
   a11yPreventCartItemsFormRedundantRecreation?: boolean;
 
   /**
-   * Resets the focus after navigating to a new page.
-   */
-  a11yResetFocusAfterNavigating?: boolean;
-
-  /**
    * Adds label to 'StoreFinderSearchComponent' store search input field.
    */
   a11yStoreFinderLabel?: boolean;
@@ -482,7 +477,6 @@ export interface FeatureTogglesInterface {
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yKeyboardAccessibleZoom: false,
   a11yPreventCartItemsFormRedundantRecreation: false,
-  a11yResetFocusAfterNavigating: true,
   a11yStoreFinderLabel: false,
   a11yImprovedErrorMessage: true,
   a11yLinkBtnsToTertiaryBtns: false,

@@ -298,7 +298,6 @@ if (environment.cpq) {
       const appFeatureToggles: Required<FeatureToggles> = {
         a11yKeyboardAccessibleZoom: true,
         a11yPreventCartItemsFormRedundantRecreation: true,
-        a11yResetFocusAfterNavigating: true,
         a11yImprovedErrorMessage: true,
         a11yStoreFinderLabel: true,
         a11yLinkBtnsToTertiaryBtns: true,
