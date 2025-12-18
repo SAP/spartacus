@@ -37,9 +37,6 @@ exports[`Workspace utils getProject should return project 1`] = `
         ],
         "browser": "src/main.ts",
         "inlineStyleLanguage": "scss",
-        "polyfills": [
-          "zone.js",
-        ],
         "stylePreprocessorOptions": {
           "includePaths": [
             "node_modules/",
@@ -56,9 +53,6 @@ exports[`Workspace utils getProject should return project 1`] = `
         "tsConfig": "tsconfig.app.json",
       },
     },
-    "extract-i18n": {
-      "builder": "@angular/build:extract-i18n",
-    },
     "serve": {
       "builder": "@angular/build:dev-server",
       "configurations": {
@@ -72,28 +66,13 @@ exports[`Workspace utils getProject should return project 1`] = `
       "defaultConfiguration": "development",
     },
     "test": {
-      "builder": "@angular/build:karma",
+      "builder": "@angular/build:unit-test",
       "options": {
-        "assets": [
-          {
-            "glob": "**/*",
-            "input": "public",
-          },
-        ],
-        "inlineStyleLanguage": "scss",
-        "polyfills": [
-          "zone.js",
-          "zone.js/testing",
-        ],
         "stylePreprocessorOptions": {
           "includePaths": [
             "node_modules/",
           ],
         },
-        "styles": [
-          "src/styles.scss",
-        ],
-        "tsConfig": "tsconfig.spec.json",
       },
     },
   },
@@ -152,9 +131,6 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
       ],
       "browser": "src/main.ts",
       "inlineStyleLanguage": "scss",
-      "polyfills": [
-        "zone.js",
-      ],
       "stylePreprocessorOptions": {
         "includePaths": [
           "node_modules/",
@@ -171,9 +147,6 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
       "tsConfig": "tsconfig.app.json",
     },
   },
-  "extract-i18n": {
-    "builder": "@angular/build:extract-i18n",
-  },
   "serve": {
     "builder": "@angular/build:dev-server",
     "configurations": {
@@ -187,28 +160,13 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
     "defaultConfiguration": "development",
   },
   "test": {
-    "builder": "@angular/build:karma",
+    "builder": "@angular/build:unit-test",
     "options": {
-      "assets": [
-        {
-          "glob": "**/*",
-          "input": "public",
-        },
-      ],
-      "inlineStyleLanguage": "scss",
-      "polyfills": [
-        "zone.js",
-        "zone.js/testing",
-      ],
       "stylePreprocessorOptions": {
         "includePaths": [
           "node_modules/",
         ],
       },
-      "styles": [
-        "src/styles.scss",
-      ],
-      "tsConfig": "tsconfig.spec.json",
     },
   },
 }

@@ -45,9 +45,6 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
             ],
             "browser": "src/main.ts",
             "inlineStyleLanguage": "scss",
-            "polyfills": [
-              "zone.js",
-            ],
             "prerender": false,
             "server": "src/main.server.ts",
             "ssr": {
@@ -69,9 +66,6 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
             "tsConfig": "tsconfig.app.json",
           },
         },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n",
-        },
         "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {
@@ -85,28 +79,13 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
           "defaultConfiguration": "development",
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public",
-              },
-            ],
-            "inlineStyleLanguage": "scss",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing",
-            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/",
               ],
             },
-            "styles": [
-              "src/styles.scss",
-            ],
-            "tsConfig": "tsconfig.spec.json",
           },
         },
       },
@@ -143,9 +122,10 @@ import { provideServer } from '@spartacus/setup/ssr';
 @NgModule({
   imports: [AppModule],
   providers: [
-    ...provideServer({
-       serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
-     }),
+    
+     ...provideServer({
+        serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
+      }),
   ],
   bootstrap: [App],
 })

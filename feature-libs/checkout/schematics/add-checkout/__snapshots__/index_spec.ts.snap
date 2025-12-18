@@ -164,9 +164,6 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -226,33 +223,17 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
-        },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": [
-              "src/styles.scss",
-              "src/styles/spartacus/checkout.scss"
-            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
               ]
-            }
+            },
+            "styles": [
+              "src/styles/spartacus/checkout.scss"
+            ]
           }
         }
       }
@@ -353,9 +334,6 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -415,33 +393,17 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
-        },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": [
-              "src/styles.scss",
-              "src/styles/spartacus/checkout.scss"
-            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
               ]
-            }
+            },
+            "styles": [
+              "src/styles/spartacus/checkout.scss"
+            ]
           }
         }
       }
@@ -636,9 +598,6 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -698,33 +657,17 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
-        },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": [
-              "src/styles.scss",
-              "src/styles/spartacus/checkout.scss"
-            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
               ]
-            }
+            },
+            "styles": [
+              "src/styles/spartacus/checkout.scss"
+            ]
           }
         }
       }
