@@ -19,6 +19,9 @@ module.exports = {
       },
     ],
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!@angular|ora|chalk|cli-cursor|cli-spinners|is-interactive|is-unicode-supported|log-symbols|stdin-discarder|string-width|strip-ansi|ansi-regex|is-fullwidth-code-point|emoji-regex|restore-cursor|onetime|mimic-function|yoctocolors|get-east-asian-width)',
+  ],
 
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
