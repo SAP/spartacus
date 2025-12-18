@@ -304,7 +304,6 @@ if (environment.cpq) {
         a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
         updateConsentGivenInOnChanges: true,
         a11yAddPaddingToCarouselPanel: true,
-        a11yFocusOnCardAfterSelecting: true,
         a11ySearchableDropdownFirstElementFocus: true,
         a11yHideConsentButtonWhenBannerVisible: true,
         a11yRepeatingButtonsUniqueLabels: true,

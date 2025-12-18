@@ -61,12 +61,6 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
-   * Restores the focus to the card once a option has been selected and the checkout has updated.
-   * Affects: CheckoutPaymentMethodComponent, CheckoutDeliveryAddressComponent
-   */
-  a11yFocusOnCardAfterSelecting?: boolean;
-
-  /**
    * Search dropdowns will display the focus ring correctly when navigating to the options using the down arrow key.
    * Affects: SearchBoxComponent, QuickOrderFormComponent
    */
@@ -455,7 +449,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   updateConsentGivenInOnChanges: true,
   a11yAddPaddingToCarouselPanel: false,
-  a11yFocusOnCardAfterSelecting: true,
   a11ySearchableDropdownFirstElementFocus: true,
   a11yHideConsentButtonWhenBannerVisible: true,
   a11yRepeatingButtonsUniqueLabels: true,

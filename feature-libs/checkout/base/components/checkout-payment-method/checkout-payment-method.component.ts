@@ -218,9 +218,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     );
 
     this.savePaymentMethod(paymentDetails);
-    if (this.featureConfigService?.isEnabled('a11yFocusOnCardAfterSelecting')) {
-      this.focusCardAfterSelecting();
-    }
+    this.focusCardAfterSelecting();
   }
 
   /**
