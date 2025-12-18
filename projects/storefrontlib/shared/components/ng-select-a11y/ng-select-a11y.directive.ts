@@ -34,7 +34,9 @@ import { filter, merge, take } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BREAKPOINT, BreakpointService } from '../../../layout';
 
-const ARIA_LABEL = 'aria-label';
+export const NG_SELECT_DROPDOWN_PANEL_ITEMS_SELECTOR =
+  '.ng-dropdown-panel-items[role="listbox"]';
+export const ARIA_LABEL = 'aria-label';
 
 @Directive({
   selector: '[cxNgSelectA11y]',
@@ -232,7 +234,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
         // This is workaround to set the aria-label on the dropdown panel when it opens (caused by the known issue above)
         // It requires knowing internal structure of ng-select component (which is bad and has to be taken into account that it may change in future versions of ng-select)
         const ngDropdownPanel = this.elementRef.nativeElement.querySelector(
-          '.ng-dropdown-panel-items[role="listbox"]'
+          NG_SELECT_DROPDOWN_PANEL_ITEMS_SELECTOR
         );
         if (ngDropdownPanel) {
           this.renderer.setAttribute(ngDropdownPanel, ARIA_LABEL, translation);

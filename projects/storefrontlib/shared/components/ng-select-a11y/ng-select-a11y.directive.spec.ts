@@ -5,7 +5,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FeatureConfigService, TranslationService } from '@spartacus/core';
 import { BreakpointService } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { NgSelectA11yDirective } from './ng-select-a11y.directive';
+import {
+  ARIA_LABEL,
+  NG_SELECT_DROPDOWN_PANEL_ITEMS_SELECTOR,
+  NgSelectA11yDirective,
+} from './ng-select-a11y.directive';
 import { NgSelectA11yModule } from './ng-select-a11y.module';
 
 @Component({
@@ -32,9 +36,11 @@ class MockFeatureConfigService {
   }
 }
 
+const EXPECTED_TRANSLATION = 'of';
+
 class MockTranslationService {
   translate() {
-    return of('of');
+    return of(EXPECTED_TRANSLATION);
   }
 }
 
@@ -119,6 +125,38 @@ describe('NgSelectA11yDirective', () => {
         `, ${component.selected}`
       );
       isDownSpy.and.callThrough();
+      done();
+    });
+  });
+
+  // describe('customizeNgSelectAriaLabelDropdown', () => {
+  //   it('should set custom ariaLabelDropdown attribute', (done) => {
+  //     fixture.detectChanges();
+  //     const select = getNgSelect().nativeElement;
+
+  //     // Wait for the translation service to set the attribute
+  //     setTimeout(() => {
+  //       expect(select.getAttribute('ariaLabelDropdown')).toEqual(
+  //         'common.ngSelectDropdownOptionsList'
+  //       );
+  //       done();
+  //     });
+  //   });
+  // })
+  it('should call customizeNgSelectAriaLabelDropdown() - set translateable aria-label on dropdown panel', (done) => {
+    fixture.detectChanges();
+    const select = getNgSelect().nativeElement;
+    const ngSelectInstance = getNgSelect().componentInstance;
+    ngSelectInstance.open();
+
+    // Wait for the mutation observer to update the options
+    setTimeout(() => {
+      const ngDropdownPanel = select.querySelector(
+        NG_SELECT_DROPDOWN_PANEL_ITEMS_SELECTOR
+      );
+      expect(ngDropdownPanel.getAttribute(ARIA_LABEL)).toEqual(
+        EXPECTED_TRANSLATION
+      );
       done();
     });
   });
