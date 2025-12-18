@@ -10,10 +10,7 @@
 
     <ng-container *ngIf="savedCarts?.length > 0; else noSavedCarts">
       <table role="table" class="table cx-saved-cart-list-table">
-        <thead
-          role="row"
-          class="cx-saved-cart-list-thead-mobile"
-        >
+        <thead role="row" class="cx-saved-cart-list-thead-mobile">
           <tr>
             <th scope="col">
               {{ 'savedCartList.cartName' | cxTranslate }}
