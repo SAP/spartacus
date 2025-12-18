@@ -11,8 +11,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   PaymentDetails,
-  TranslationService,
-  useFeatureStyles,
+  TranslationService
 } from '@spartacus/core';
 import { billingAddressCard, paymentMethodCard } from '@spartacus/order/root';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
@@ -37,9 +36,7 @@ export class CheckoutReviewPaymentComponent {
     protected checkoutStepService: CheckoutStepService,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected translationService: TranslationService
-  ) {
-    useFeatureStyles('a11yHighContrastBorders');
-  }
+  ) {}
 
   paymentDetails$: Observable<PaymentDetails | undefined> =
     this.checkoutPaymentFacade.getPaymentDetailsState().pipe(

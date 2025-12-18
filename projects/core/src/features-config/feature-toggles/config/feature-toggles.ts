@@ -61,13 +61,6 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
-   * Ensures that borders across all UI elements are visible and meet accessibility standards in high-contrast dark and light themes.
-   * This change is applied globally to enhance usability for users relying on high-contrast modes.
-   * Affects: CustomerTickingListComponent, CheckoutReviewPaymentComponent, SavedCartListComponent
-   */
-  a11yHighContrastBorders?: boolean;
-
-  /**
    * In CustomerCouponConnector, Enables claiming customer coupon with coupon code in httpRequest body with POST method.
    *
    * When set to `false`, claiming customer coupon works with coupon code as parameter in URL, which exposes sensitive data and has security risk.
@@ -428,7 +421,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   updateConsentGivenInOnChanges: true,
   a11yAddPaddingToCarouselPanel: false,
-  a11yHighContrastBorders: true,
   a11yRegionAssociatedHeaders: true,
   a11yHamburgerMenuTrapFocus: true,
   a11yScrollToTopPositioning: true,
