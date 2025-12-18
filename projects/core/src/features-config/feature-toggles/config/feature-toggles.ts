@@ -10,11 +10,6 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
-   * 'TabComponent' disallow automatic tab activation.
-   */
-  a11yTabsManualActivation?: boolean;
-
-  /**
    * In `AnonymousConsentDialogComponent` display notifications inside the modal without closing it
    */
   a11yAnonymousConsentMessageInDialog?: boolean;
@@ -501,7 +496,6 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  a11yTabsManualActivation: true,
   a11yAnonymousConsentMessageInDialog: true,
   a11yQuickOrderSearchListKeyboardNavigation: true,
   a11yKeyboardAccessibleZoom: false,

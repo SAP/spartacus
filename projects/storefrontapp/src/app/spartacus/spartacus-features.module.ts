@@ -296,7 +296,6 @@ if (environment.cpq) {
     },
     provideFeatureTogglesFactory(() => {
       const appFeatureToggles: Required<FeatureToggles> = {
-        a11yTabsManualActivation: true,
         a11yAnonymousConsentMessageInDialog: true,
         a11yQuickOrderSearchListKeyboardNavigation: false,
         a11yKeyboardAccessibleZoom: true,
