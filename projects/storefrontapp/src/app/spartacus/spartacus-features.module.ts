@@ -305,7 +305,6 @@ if (environment.cpq) {
         updateConsentGivenInOnChanges: true,
         a11yAddPaddingToCarouselPanel: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
-        a11yScrollToTopPositioning: true,
         a11yWideScreenImprovements: true,
         a11yOptimizedMenuSpacing: true,
         a11yNgSelectLayering: true,

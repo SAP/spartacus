@@ -69,12 +69,6 @@ export interface FeatureTogglesInterface {
   enableClaimCustomerCouponWithCodeInRequestBody?: boolean;
 
   /**
-   * When enabled, the scroll-to-top button adjusts its position when other UI elements
-   * (like cookie consent banner) appear at the bottom of the page to prevent overlapping
-   */
-  a11yScrollToTopPositioning?: boolean;
-
-  /**
    * Improves wide viewport layout issues.
    * Affects the styles of: Order confirmation page, product configurator.
    */
@@ -408,7 +402,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   updateConsentGivenInOnChanges: true,
   a11yAddPaddingToCarouselPanel: false,
-  a11yScrollToTopPositioning: true,
   a11yWideScreenImprovements: true,
   a11yOptimizedMenuSpacing: true,
   a11yNgSelectLayering: true,
