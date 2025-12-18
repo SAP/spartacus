@@ -19,7 +19,6 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
-  FeatureConfigService,
   RoutingService,
   useFeatureStyles,
 } from '@spartacus/core';
@@ -50,7 +49,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   readonly StorefrontOutlets = StorefrontOutlets;
 
-  private featureConfigService = inject(FeatureConfigService);
   protected destroyRef = inject(DestroyRef);
   @Optional() protected document = inject(DOCUMENT, {
     optional: true,
@@ -105,9 +103,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
       })
     );
 
-    if (this.featureConfigService.isEnabled('a11yHamburgerMenuTrapFocus')) {
-      this.trapFocusOnMenuIfExpanded();
-    }
+    this.trapFocusOnMenuIfExpanded();
   }
 
   collapseMenuIfClickOutside(event: any): void {

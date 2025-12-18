@@ -69,13 +69,6 @@ export interface FeatureTogglesInterface {
   enableClaimCustomerCouponWithCodeInRequestBody?: boolean;
 
   /**
-   * Header. Fixes trapping focus on menu items on mobile when the menu is expanded.
-   * Sets `tabindex` attribute  to `-1` for all visible focusable elements in the header section to exclude them from
-   * keyboard navigation
-   */
-  a11yHamburgerMenuTrapFocus?: boolean;
-
-  /**
    * When enabled, the scroll-to-top button adjusts its position when other UI elements
    * (like cookie consent banner) appear at the bottom of the page to prevent overlapping
    */
@@ -415,7 +408,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   updateConsentGivenInOnChanges: true,
   a11yAddPaddingToCarouselPanel: false,
-  a11yHamburgerMenuTrapFocus: true,
   a11yScrollToTopPositioning: true,
   a11yWideScreenImprovements: true,
   a11yOptimizedMenuSpacing: true,
