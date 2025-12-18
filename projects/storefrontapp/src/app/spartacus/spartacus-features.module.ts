@@ -304,7 +304,6 @@ if (environment.cpq) {
         a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
         updateConsentGivenInOnChanges: true,
         a11yAddPaddingToCarouselPanel: true,
-        a11yRegionAssociatedHeaders: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
         a11yHamburgerMenuTrapFocus: true,
         a11yScrollToTopPositioning: true,

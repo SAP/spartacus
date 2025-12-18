@@ -76,12 +76,6 @@ export interface FeatureTogglesInterface {
   a11yHamburgerMenuTrapFocus?: boolean;
 
   /**
-   * Associates content regions with their headers improving readout while navigating between sections.
-   * Affects: CardComponent, AccountSummaryDocumentComponent, ListComponent
-   */
-  a11yRegionAssociatedHeaders?: boolean;
-
-  /**
    * When enabled, the scroll-to-top button adjusts its position when other UI elements
    * (like cookie consent banner) appear at the bottom of the page to prevent overlapping
    */
@@ -421,7 +415,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   updateConsentGivenInOnChanges: true,
   a11yAddPaddingToCarouselPanel: false,
-  a11yRegionAssociatedHeaders: true,
   a11yHamburgerMenuTrapFocus: true,
   a11yScrollToTopPositioning: true,
   a11yWideScreenImprovements: true,
