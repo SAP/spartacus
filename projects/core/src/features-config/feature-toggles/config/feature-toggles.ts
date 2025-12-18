@@ -10,11 +10,6 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
-   * In `AnonymousConsentDialogComponent` display notifications inside the modal without closing it
-   */
-  a11yAnonymousConsentMessageInDialog?: boolean;
-
-  /**
    * `QuickOrderFormComponent` - disable navigation with Tab/Shift+Tab for search results list
    */
   a11yQuickOrderSearchListKeyboardNavigation?: boolean;
@@ -496,7 +491,6 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  a11yAnonymousConsentMessageInDialog: true,
   a11yQuickOrderSearchListKeyboardNavigation: true,
   a11yKeyboardAccessibleZoom: false,
   a11yTruncatedTextUnitLevelOrderHistory: true,
