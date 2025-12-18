@@ -46,11 +46,6 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * In `MiniCart component`, improve visible focus contrast on mobile.
-   */
-  a11yMiniCartFocusOnMobile?: boolean;
-
-  /**
    * Updates the derivative `consentGiven` state when `consent` is updated.
    *
    * Components affected:
@@ -475,7 +470,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yImprovedErrorMessage: true,
   a11yLinkBtnsToTertiaryBtns: false,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
-  a11yMiniCartFocusOnMobile: true,
   updateConsentGivenInOnChanges: true,
   a11yQuickOrderSearchBoxRefocusOnClose: true,
   a11yKeyboardFocusInSearchBox: true,
