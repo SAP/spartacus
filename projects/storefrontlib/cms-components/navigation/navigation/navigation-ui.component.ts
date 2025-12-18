@@ -91,8 +91,8 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     this.resize.next(undefined);
   }
 
-  @HostListener('document:keyDown.arrowUp', ['$event'])
-  @HostListener('document:keyDown.arrowDown', ['$event'])
+  @HostListener('document:keydown.ArrowUp', ['$event'])
+  @HostListener('document:keydown.ArrowDown', ['$event'])
   onArrow(e: KeyboardEvent) {
     this.arrowControls.next(e);
   }

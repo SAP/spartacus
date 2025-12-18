@@ -5,8 +5,8 @@
       role="list"
       class="cx-messages"
       id="cx-messages"
-      (keydown.arrowdown)="focusNextChild($any($event))"
-      (keydown.arrowup)="focusPreviousChild($any($event))"
+      (keydown.ArrowDown)="focusNextChild($any($event))"
+      (keydown.ArrowUp)="focusPreviousChild($any($event))"
       [attr.aria-label]="'chatMessaging.messages' | cxTranslate"
     >
       <ng-container *ngFor="let message of messageEvents; let i = index">
@@ -100,7 +100,7 @@
             formControlName="message"
             type="text"
             class="form-control"
-            (keydown.enter)="onSend()"
+            (keydown.Enter)="onSend()"
             [maxLength]="
               messagingConfigs?.charactersLimit || MAX_INPUT_CHARACTERS
             "

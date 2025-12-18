@@ -157,7 +157,7 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   /**
    * Listens for `escape` keydown event.
    */
-  @HostListener('keydown.escape')
+  @HostListener('keydown.Escape')
   escapeKeydown() {
     this.eventSubject.next(PopoverEvent.ESCAPE_KEYDOWN);
   }

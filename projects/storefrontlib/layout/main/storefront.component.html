@@ -5,7 +5,7 @@
       cxSkipLink="cx-header"
       [cxFocus]="focusConfig"
       [class.is-expanded]="isExpanded$ | async"
-      (keydown.escape)="collapseMenu()"
+      (keydown.Escape)="collapseMenu()"
       (click)="collapseMenuIfClickOutside($event)"
     >
       <cx-page-layout

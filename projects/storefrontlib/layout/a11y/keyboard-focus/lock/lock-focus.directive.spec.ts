@@ -1,10 +1,10 @@
 import { Component, Directive, Input } from '@angular/core';
 import {
-  waitForAsync,
   ComponentFixture,
   fakeAsync,
   TestBed,
   tick,
+  waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { LockFocusConfig } from '../keyboard-focus.model';
@@ -148,21 +148,21 @@ describe('LockFocusDirective', () => {
     it('should unlock with default configuration', () => {
       const host = fixture.debugElement.query(By.css('#a'));
       event.target = host.nativeElement;
-      host.triggerEventHandler('keydown.enter', event);
+      host.triggerEventHandler('keydown.Enter', event);
       expect(event.stopPropagation).toHaveBeenCalled();
     });
 
     it('should unlock when lock=true', () => {
       const host = fixture.debugElement.query(By.css('#b'));
       event.target = host.nativeElement;
-      host.triggerEventHandler('keydown.enter', event);
+      host.triggerEventHandler('keydown.Enter', event);
       expect(event.stopPropagation).toHaveBeenCalled();
     });
 
     it('should not unlock when lock=false', () => {
       const host = fixture.debugElement.query(By.css('#c'));
       event.target = host.nativeElement;
-      host.triggerEventHandler('keydown.enter', event);
+      host.triggerEventHandler('keydown.Enter', event);
       expect(event.stopPropagation).not.toHaveBeenCalled();
     });
   });
@@ -205,7 +205,7 @@ describe('LockFocusDirective', () => {
       fixture.detectChanges();
 
       event.target = host.nativeElement;
-      host.triggerEventHandler('keydown.enter', event);
+      host.triggerEventHandler('keydown.Enter', event);
 
       expect(d1.getAttribute('tabindex')).not.toEqual('-1');
       expect(d2.getAttribute('tabindex')).not.toEqual('-1');
@@ -225,7 +225,7 @@ describe('LockFocusDirective', () => {
       const b3 = fixture.debugElement.query(By.css('#b3')).nativeElement;
 
       event.target = host.nativeElement;
-      host.triggerEventHandler('keydown.enter', event);
+      host.triggerEventHandler('keydown.Enter', event);
 
       expect(b1.getAttribute('tabindex')).toEqual('0');
       expect(b2.getAttribute('tabindex')).toEqual('0');
@@ -239,7 +239,7 @@ describe('LockFocusDirective', () => {
       const b3 = fixture.debugElement.query(By.css('#b3')).nativeElement;
 
       event.target = host.nativeElement;
-      host.triggerEventHandler('keydown.space', event);
+      host.triggerEventHandler('keydown.Space', event);
 
       expect(b1.getAttribute('tabindex')).toEqual('0');
       expect(b2.getAttribute('tabindex')).toEqual('0');
@@ -252,7 +252,7 @@ describe('LockFocusDirective', () => {
       const b5 = fixture.debugElement.query(By.css('#b5')).nativeElement;
 
       event.target = host.nativeElement;
-      host.triggerEventHandler('keydown.enter', event);
+      host.triggerEventHandler('keydown.Enter', event);
 
       expect(b4.hasAttribute('tabindex')).toBeFalsy();
       expect(b5.hasAttribute('tabindex')).toBeFalsy();
@@ -286,7 +286,7 @@ describe('LockFocusDirective', () => {
       const host = fixture.debugElement.query(By.css('#a'));
       spyOn(service, 'handleEscape');
       fixture.detectChanges();
-      host.triggerEventHandler('keydown.escape', event);
+      host.triggerEventHandler('keydown.Escape', event);
       expect(service.handleEscape).toHaveBeenCalledTimes(1);
     });
 
@@ -294,7 +294,7 @@ describe('LockFocusDirective', () => {
       const host = fixture.debugElement.query(By.css('#b'));
       spyOn(service, 'handleEscape');
       fixture.detectChanges();
-      host.triggerEventHandler('keydown.escape', event);
+      host.triggerEventHandler('keydown.Escape', event);
       expect(service.handleEscape).toHaveBeenCalledTimes(1);
     });
 
@@ -302,7 +302,7 @@ describe('LockFocusDirective', () => {
       const host = fixture.debugElement.query(By.css('#c'));
       spyOn(service, 'handleEscape').and.callThrough();
       fixture.detectChanges();
-      host.triggerEventHandler('keydown.escape', event);
+      host.triggerEventHandler('keydown.Escape', event);
       expect(service.handleEscape).not.toHaveBeenCalled();
     });
 
@@ -310,7 +310,7 @@ describe('LockFocusDirective', () => {
       const host = fixture.debugElement.query(By.css('#d'));
       spyOn(service, 'handleEscape').and.callThrough();
       fixture.detectChanges();
-      host.triggerEventHandler('keydown.escape', event);
+      host.triggerEventHandler('keydown.Escape', event);
       expect(service.handleEscape).not.toHaveBeenCalled();
     });
 
@@ -318,7 +318,7 @@ describe('LockFocusDirective', () => {
       const host = fixture.debugElement.query(By.css('#d'));
       spyOn(service, 'clear').and.callThrough();
       fixture.detectChanges();
-      host.triggerEventHandler('keydown.escape', event);
+      host.triggerEventHandler('keydown.Escape', event);
       expect(service.clear).toHaveBeenCalled();
     });
 
@@ -326,7 +326,7 @@ describe('LockFocusDirective', () => {
       const host = fixture.debugElement.query(By.css('#c'));
       spyOn(service, 'clear').and.callThrough();
       fixture.detectChanges();
-      host.triggerEventHandler('keydown.escape', event);
+      host.triggerEventHandler('keydown.Escape', event);
       expect(service.clear).not.toHaveBeenCalled();
     });
   });
@@ -347,7 +347,7 @@ describe('LockFocusDirective', () => {
       spyOn(f2, 'focus').and.callThrough();
 
       event.target = host.nativeElement;
-      host.triggerEventHandler('keydown.enter', event);
+      host.triggerEventHandler('keydown.Enter', event);
 
       tick(100);
 
@@ -365,7 +365,7 @@ describe('LockFocusDirective', () => {
       spyOn(f2, 'focus').and.callThrough();
 
       event.target = host.nativeElement;
-      host.triggerEventHandler('keydown.enter', event);
+      host.triggerEventHandler('keydown.Enter', event);
 
       tick(100);
 
@@ -383,7 +383,7 @@ describe('LockFocusDirective', () => {
       spyOn(f2, 'focus').and.callThrough();
 
       event.target = host.nativeElement;
-      host.triggerEventHandler('keydown.enter', event);
+      host.triggerEventHandler('keydown.Enter', event);
 
       expect(f1.focus).not.toHaveBeenCalled();
       expect(f2.focus).not.toHaveBeenCalled();
@@ -399,7 +399,7 @@ describe('LockFocusDirective', () => {
       spyOn(f2, 'focus').and.callThrough();
 
       event.target = host.nativeElement;
-      host.triggerEventHandler('keydown.enter', event);
+      host.triggerEventHandler('keydown.Enter', event);
 
       expect(f1.focus).not.toHaveBeenCalled();
       expect(f2.focus).not.toHaveBeenCalled();
@@ -410,7 +410,7 @@ describe('LockFocusDirective', () => {
       spyOn(service, 'findFirstFocusable');
 
       event.target = host.nativeElement;
-      host.triggerEventHandler('keydown.enter', event);
+      host.triggerEventHandler('keydown.Enter', event);
 
       tick(100);
 

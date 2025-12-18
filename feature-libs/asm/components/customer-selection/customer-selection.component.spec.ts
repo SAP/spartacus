@@ -343,19 +343,19 @@ describe('CustomerSelectionComponent', () => {
 
       expect(component.activeFocusedButtonIndex).toEqual(-1);
 
-      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusFirstItem(new UIEvent('keydown.ArrowDown'));
       fixture.detectChanges();
       expect(component.activeFocusedButtonIndex).toEqual(0);
       expect(searchResultItems[0].nativeElement.tabIndex).toEqual(0);
       expect(searchResultItems[0].nativeElement.focus).toHaveBeenCalled();
 
-      component.focusNextChild(new UIEvent('keydown.arrowdown'));
+      component.focusNextChild(new UIEvent('keydown.ArrowDown'));
       fixture.detectChanges();
       expect(component.activeFocusedButtonIndex).toEqual(1);
       expect(searchResultItems[0].nativeElement.tabIndex).toEqual(-1);
       expect(searchResultItems[1].nativeElement.tabIndex).toEqual(0);
 
-      component.focusPreviousChild(new UIEvent('keydown.arrowup'));
+      component.focusPreviousChild(new UIEvent('keydown.ArrowUp'));
       fixture.detectChanges();
       expect(component.activeFocusedButtonIndex).toEqual(0);
       expect(searchResultItems[0].nativeElement.tabIndex).toEqual(0);
@@ -375,7 +375,7 @@ describe('CustomerSelectionComponent', () => {
       component.searchTerm.nativeElement.selectionEnd =
         validSearchTerm.length - 5;
 
-      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusFirstItem(new UIEvent('keydown.ArrowDown'));
       component.focusInputText(event as KeyboardEvent);
 
       expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
@@ -400,7 +400,7 @@ describe('CustomerSelectionComponent', () => {
       component.searchTerm.nativeElement.selectionEnd =
         validSearchTerm.length - 5;
 
-      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusFirstItem(new UIEvent('keydown.ArrowDown'));
       component.focusInputText(event as KeyboardEvent);
 
       expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
@@ -426,7 +426,7 @@ describe('CustomerSelectionComponent', () => {
       component.searchTerm.nativeElement.selectionEnd =
         validSearchTerm.length - 5;
 
-      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusFirstItem(new UIEvent('keydown.ArrowDown'));
       component.focusInputText(event as KeyboardEvent);
 
       expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
@@ -448,7 +448,7 @@ describe('CustomerSelectionComponent', () => {
       component.searchTerm.nativeElement.selectionEnd =
         validSearchTerm.length - 5;
 
-      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusFirstItem(new UIEvent('keydown.ArrowDown'));
       component.focusInputText(event as KeyboardEvent);
 
       expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
@@ -487,19 +487,19 @@ describe('CustomerSelectionComponent', () => {
 
       expect(component.activeFocusedButtonIndex).toEqual(-1);
 
-      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusFirstItem(new UIEvent('keydown.ArrowDown'));
       fixture.detectChanges();
       expect(component.activeFocusedButtonIndex).toEqual(0);
       expect(searchResultItems[0].nativeElement.tabIndex).toEqual(0);
       expect(searchResultItems[0].nativeElement.focus).toHaveBeenCalled();
 
-      component.focusNextChild(new UIEvent('keydown.arrowdown'));
+      component.focusNextChild(new UIEvent('keydown.ArrowDown'));
       fixture.detectChanges();
       expect(component.activeFocusedButtonIndex).toEqual(1);
       expect(searchResultItems[0].nativeElement.tabIndex).toEqual(-1);
       expect(searchResultItems[1].nativeElement.tabIndex).toEqual(0);
 
-      component.focusPreviousChild(new UIEvent('keydown.arrowup'));
+      component.focusPreviousChild(new UIEvent('keydown.ArrowUp'));
       fixture.detectChanges();
       expect(component.activeFocusedButtonIndex).toEqual(0);
       expect(searchResultItems[0].nativeElement.tabIndex).toEqual(0);
@@ -520,7 +520,7 @@ describe('CustomerSelectionComponent', () => {
       component.searchOrder.nativeElement.selectionEnd =
         validSearchOrderID.length - 5;
 
-      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusFirstItem(new UIEvent('keydown.ArrowDown'));
       component.focusOrderSearchInputText(event as KeyboardEvent);
 
       expect(component.searchOrder.nativeElement.focus).toHaveBeenCalled();
@@ -545,7 +545,7 @@ describe('CustomerSelectionComponent', () => {
       component.searchOrder.nativeElement.selectionEnd =
         validSearchOrderID.length - 5;
 
-      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusFirstItem(new UIEvent('keydown.ArrowDown'));
       component.focusOrderSearchInputText(event as KeyboardEvent);
 
       expect(component.searchOrder.nativeElement.focus).toHaveBeenCalled();
@@ -571,7 +571,7 @@ describe('CustomerSelectionComponent', () => {
       component.searchOrder.nativeElement.selectionEnd =
         validSearchOrderID.length - 5;
 
-      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusFirstItem(new UIEvent('keydown.ArrowDown'));
       component.focusOrderSearchInputText(event as KeyboardEvent);
 
       expect(component.searchOrder.nativeElement.focus).toHaveBeenCalled();
@@ -589,7 +589,7 @@ describe('CustomerSelectionComponent', () => {
       spyOn(component.searchOrder.nativeElement, 'focus');
       spyOn(asmService, 'customerSearchReset').and.stub();
 
-      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusFirstItem(new UIEvent('keydown.ArrowDown'));
       component.closeOrderSearchResults(event as KeyboardEvent);
 
       expect(component.searchOrder.nativeElement.focus).toHaveBeenCalled();
@@ -607,7 +607,7 @@ describe('CustomerSelectionComponent', () => {
       spyOn(component.searchTerm.nativeElement, 'focus');
       spyOn(asmService, 'customerSearchReset').and.stub();
 
-      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusFirstItem(new UIEvent('keydown.ArrowDown'));
       component.closeResults(event as KeyboardEvent);
 
       expect(component.searchTerm.nativeElement.focus).toHaveBeenCalled();
@@ -629,7 +629,7 @@ describe('CustomerSelectionComponent', () => {
       component.searchOrder.nativeElement.selectionEnd =
         validSearchOrderID.length - 5;
 
-      component.focusFirstItem(new UIEvent('keydown.arrowdown'));
+      component.focusFirstItem(new UIEvent('keydown.ArrowDown'));
       component.focusOrderSearchInputText(event as KeyboardEvent);
 
       expect(component.searchOrder.nativeElement.focus).toHaveBeenCalled();

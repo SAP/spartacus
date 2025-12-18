@@ -16,11 +16,11 @@
         (click)="open()"
         (input)="search(searchInput.value)"
         (blur)="close()"
-        (keydown.tab)="close()"
-        (keydown.escape)="close()"
-        (keydown.enter)="onEnter(searchInput.value)"
-        (keydown.arrowup)="focusPreviousChild($any($event))"
-        (keydown.arrowdown)="focusNextChild($any($event))"
+        (keydown.Tab)="close()"
+        (keydown.Escape)="close()"
+        (keydown.Enter)="onEnter(searchInput.value)"
+        (keydown.ArrowUp)="focusPreviousChild($any($event))"
+        (keydown.ArrowDown)="focusNextChild($any($event))"
         value="{{ chosenWord }}"
       />
 
@@ -61,7 +61,7 @@
 >
   <button
     class="btn btn-tertiary search-panel-close-btn"
-    (keydown.arrowdown)="focusPreviousGroup($any($event))"
+    (keydown.ArrowDown)="focusPreviousGroup($any($event))"
     (click)="close()"
   >
     {{ 'searchBox.closeSearchPanel' | cxTranslate }}
@@ -92,12 +92,12 @@
               params: { query: suggestion },
             } | cxUrl
           "
-          (keydown.arrowup)="focusPreviousChild($any($event))"
-          (keydown.arrowdown)="focusNextChild($any($event))"
-          (keydown.arrowleft)="focusPreviousGroup($any($event))"
-          (keydown.arrowright)="focusNextGroup($any($event))"
-          (keydown.enter)="close(true)"
-          (keydown.escape)="close(true)"
+          (keydown.ArrowUp)="focusPreviousChild($any($event))"
+          (keydown.ArrowDown)="focusNextChild($any($event))"
+          (keydown.ArrowLeft)="focusPreviousGroup($any($event))"
+          (keydown.ArrowRight)="focusNextGroup($any($event))"
+          (keydown.Enter)="close(true)"
+          (keydown.Escape)="close(true)"
           (blur)="close()"
           (mousedown)="preventDefault($event)"
           (click)="
@@ -163,11 +163,11 @@
             } | cxUrl
           "
           [class.has-media]="config.displayProductImages"
-          (keydown.enter)="close(true)"
-          (keydown.escape)="close(true)"
-          (keydown.arrowleft)="carouselEventPropagator($any($event))"
-          (keydown.arrowright)="carouselEventPropagator($any($event))"
-          (keydown.arrowup)="carouselEventPropagator($any($event))"
+          (keydown.Enter)="close(true)"
+          (keydown.Escape)="close(true)"
+          (keydown.ArrowLeft)="carouselEventPropagator($any($event))"
+          (keydown.ArrowRight)="carouselEventPropagator($any($event))"
+          (keydown.ArrowUp)="carouselEventPropagator($any($event))"
           (mousedown)="preventDefault($event)"
           (click)="
             dispatchProductEvent({
@@ -222,7 +222,7 @@
     </ng-container>
     <button
       class="btn btn-tertiary search-panel-close-btn"
-      (keydown.arrowdown)="focusPreviousGroup($any($event))"
+      (keydown.ArrowDown)="focusPreviousGroup($any($event))"
       (click)="close()"
     >
       {{ 'searchBox.closeSearchPanel' | cxTranslate }}

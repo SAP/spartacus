@@ -29,13 +29,13 @@ import {
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import {
+  catchError,
   filter,
+  first,
   map,
   switchMap,
   tap,
-  first,
   timeout,
-  catchError,
 } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -103,7 +103,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   @ViewChild('searchButton') searchButton: ElementRef<HTMLElement>;
 
-  @HostListener('keydown.escape')
+  @HostListener('keydown.Escape')
   onEscape() {
     if (
       this.winRef.document.activeElement !==

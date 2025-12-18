@@ -118,7 +118,7 @@ describe('PopoverComponent', () => {
 
     fixture.debugElement
       .query(By.css('button.close'))
-      .triggerEventHandler('keydown.enter', new Event('keydown'));
+      .triggerEventHandler('keydown.Enter', new Event('keydown'));
     fixture.detectChanges();
   });
 
@@ -136,7 +136,7 @@ describe('PopoverComponent', () => {
       expect(event).toBe(PopoverEvent.ESCAPE_KEYDOWN);
     });
 
-    fixture.debugElement.triggerEventHandler('keydown.escape', null);
+    fixture.debugElement.triggerEventHandler('keydown.Escape', null);
     fixture.detectChanges();
   });
 });

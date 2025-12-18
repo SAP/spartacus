@@ -39,8 +39,8 @@
           role="button"
           tabindex="-1"
           #resendLink
-          (keydown.enter)="resendOTP()"
-          (keydown.space)="resendOTP()"
+          (keydown.Enter)="resendOTP()"
+          (keydown.Space)="resendOTP()"
           (click)="resendOTP()"
           class="btn-link"
           [ngClass]="{ 'disabled-link': isResendDisabled }"

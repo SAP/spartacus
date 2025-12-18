@@ -762,7 +762,6 @@
     "strictInjectionParameters": true,
     "enableResourceInlining": true,
     "strictTemplates": true,
-    "strictInputAccessModifiers": true,
-    "typeCheckHostBindings": false
+    "strictInputAccessModifiers": true
   }
 }

@@ -20,8 +20,8 @@ export class TrapFocusDirective extends TabFocusDirective implements OnInit {
   // @Input('cxTrapFocus')
   protected config: TrapFocusConfig = {};
 
-  @HostListener('keydown.arrowdown', ['$event'])
-  @HostListener('keydown.tab', ['$event'])
+  @HostListener('keydown.ArrowDown', ['$event'])
+  @HostListener('keydown.Tab', ['$event'])
   handleTrapDown = (event: KeyboardEvent) => {
     const isTabPressed = event.key === 'Tab';
     if (!!this.config.trap || (this.config.trapTabOnly && isTabPressed)) {
@@ -29,7 +29,7 @@ export class TrapFocusDirective extends TabFocusDirective implements OnInit {
     }
   };
 
-  @HostListener('keydown.arrowup', ['$event'])
+  @HostListener('keydown.ArrowUp', ['$event'])
   @HostListener('keydown.shift.tab', ['$event'])
   handleTrapUp = (event: KeyboardEvent) => {
     const isTabPressed = event.key === 'Tab';

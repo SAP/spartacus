@@ -294,7 +294,7 @@ describe('SearchBoxComponent', () => {
       fixture.detectChanges();
       const input = fixture.debugElement.query(By.css('.searchbox input'));
       input.nativeElement.value = PRODUCT_SEARCH_STRING;
-      input.triggerEventHandler('keydown.enter', {});
+      input.triggerEventHandler('keydown.Enter', {});
 
       fixture.detectChanges();
 
@@ -304,7 +304,7 @@ describe('SearchBoxComponent', () => {
     it('should not launch search page on empty search', () => {
       fixture.detectChanges();
       const input = fixture.debugElement.query(By.css('.searchbox input'));
-      input.triggerEventHandler('keydown.enter', {});
+      input.triggerEventHandler('keydown.Enter', {});
 
       fixture.detectChanges();
 
@@ -480,7 +480,7 @@ describe('SearchBoxComponent', () => {
         type: PageType.CONTENT_PAGE,
       };
       input.nativeElement.value = PRODUCT_SEARCH_STRING;
-      input.triggerEventHandler('keydown.enter', {});
+      input.triggerEventHandler('keydown.Enter', {});
       routerState$.next(mockRouterState);
       fixture.detectChanges();
       expect(searchBoxComponent.chosenWord).toEqual(PRODUCT_SEARCH_STRING);
@@ -515,7 +515,7 @@ describe('SearchBoxComponent', () => {
       const input = fixture.debugElement.query(By.css('.searchbox input'));
       mockRouterState.state.context = null;
       input.nativeElement.value = PRODUCT_SEARCH_STRING;
-      input.triggerEventHandler('keydown.enter', {});
+      input.triggerEventHandler('keydown.Enter', {});
       routerState$.next(mockRouterState);
 
       fixture.detectChanges();

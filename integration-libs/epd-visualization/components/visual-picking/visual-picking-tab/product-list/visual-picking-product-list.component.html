@@ -33,8 +33,8 @@
     class="row no-gutters list-item"
     tabindex="0"
     (click)="selectedProductCodes = [item.product.code]"
-    (keydown.enter)="selectedProductCodes = [item.product.code]"
-    (keydown.space)="selectedProductCodes = [item.product.code]"
+    (keydown.Enter)="selectedProductCodes = [item.product.code]"
+    (keydown.Space)="selectedProductCodes = [item.product.code]"
     [class.selected]="item.selected"
   >
     <!-- Item Description -->
@@ -55,7 +55,7 @@
           <a
             class="cx-link"
             [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
-            (keydown.enter)="$event.currentTarget.click()"
+            (keydown.Enter)="$event.currentTarget.click()"
             >{{ item.product.name }}</a
           >
         </div>
@@ -89,10 +89,10 @@
         <div
           class="add-to-cart"
           (click)="addToCartComponent.addToCart(); $event.preventDefault()"
-          (keydown.enter)="
+          (keydown.Enter)="
             addToCartComponent.addToCart(); $event.preventDefault()
           "
-          (keydown.space)="
+          (keydown.Space)="
             addToCartComponent.addToCart(); $event.preventDefault()
           "
         >

@@ -12,10 +12,10 @@
       [attr.aria-disabled]="activeSlide === 0"
       [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
       [attr.title]="'carousel.previousSlide' | cxTranslate"
-      (keydown.arrowleft)="shareEvent($any($event))"
-      (keydown.arrowright)="shareEvent($any($event))"
-      (keydown.arrowup)="shareEvent($any($event))"
-      (keydown.arrowdown)="shareEvent($any($event))"
+      (keydown.ArrowLeft)="shareEvent($any($event))"
+      (keydown.ArrowRight)="shareEvent($any($event))"
+      (keydown.ArrowUp)="shareEvent($any($event))"
+      (keydown.ArrowDown)="shareEvent($any($event))"
     >
       <cx-icon [type]="previousIcon"></cx-icon>
     </button>
@@ -66,10 +66,10 @@
       [attr.aria-disabled]="activeSlide > items.length - size - 1"
       [attr.aria-label]="'carousel.nextSlide' | cxTranslate"
       [attr.title]="'carousel.nextSlide' | cxTranslate"
-      (keydown.arrowleft)="shareEvent($any($event))"
-      (keydown.arrowright)="shareEvent($any($event))"
-      (keydown.arrowup)="shareEvent($any($event))"
-      (keydown.arrowdown)="shareEvent($any($event))"
+      (keydown.ArrowLeft)="shareEvent($any($event))"
+      (keydown.ArrowRight)="shareEvent($any($event))"
+      (keydown.ArrowUp)="shareEvent($any($event))"
+      (keydown.ArrowDown)="shareEvent($any($event))"
     >
       <cx-icon [type]="nextIcon"></cx-icon>
     </button>

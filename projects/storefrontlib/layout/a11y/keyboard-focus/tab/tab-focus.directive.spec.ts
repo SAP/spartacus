@@ -1,5 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TabFocusConfig } from '../keyboard-focus.model';
 import { TabFocusDirective } from './tab-focus.directive';
@@ -59,8 +59,8 @@ describe('TabFocusDirective', () => {
       spyOn(service, 'moveTab').and.callThrough();
       fixture.detectChanges();
 
-      host.triggerEventHandler('keydown.arrowRight', event);
-      host.triggerEventHandler('keydown.arrowLeft', event);
+      host.triggerEventHandler('keydown.ArrowRight', event);
+      host.triggerEventHandler('keydown.ArrowLeft', event);
       expect(service.moveTab).toHaveBeenCalledTimes(2);
     });
 
@@ -69,8 +69,8 @@ describe('TabFocusDirective', () => {
       spyOn(service, 'moveTab').and.callThrough();
       fixture.detectChanges();
 
-      host.triggerEventHandler('keydown.arrowRight', event);
-      host.triggerEventHandler('keydown.arrowLeft', event);
+      host.triggerEventHandler('keydown.ArrowRight', event);
+      host.triggerEventHandler('keydown.ArrowLeft', event);
       expect(service.moveTab).toHaveBeenCalledTimes(2);
     });
 
@@ -79,8 +79,8 @@ describe('TabFocusDirective', () => {
       spyOn(service, 'moveTab').and.callThrough();
       fixture.detectChanges();
 
-      host.triggerEventHandler('keydown.arrowRight', event);
-      host.triggerEventHandler('keydown.arrowLeft', event);
+      host.triggerEventHandler('keydown.ArrowRight', event);
+      host.triggerEventHandler('keydown.ArrowLeft', event);
       expect(service.moveTab).toHaveBeenCalledTimes(0);
     });
   });
@@ -91,7 +91,7 @@ describe('TabFocusDirective', () => {
       spyOn(service, 'moveTab').and.callThrough();
       fixture.detectChanges();
 
-      host.triggerEventHandler('keydown.arrowRight', event);
+      host.triggerEventHandler('keydown.ArrowRight', event);
       expect(service.moveTab).toHaveBeenCalledWith(
         host.nativeElement,
         { tab: true },
@@ -105,7 +105,7 @@ describe('TabFocusDirective', () => {
       spyOn(service, 'moveTab').and.callThrough();
       fixture.detectChanges();
 
-      host.triggerEventHandler('keydown.arrowLeft', event);
+      host.triggerEventHandler('keydown.ArrowLeft', event);
 
       expect(service.moveTab).not.toHaveBeenCalledWith(
         host.nativeElement,
@@ -122,7 +122,7 @@ describe('TabFocusDirective', () => {
       spyOn(service, 'moveTab').and.callThrough();
       fixture.detectChanges();
 
-      host.triggerEventHandler('keydown.arrowLeft', event);
+      host.triggerEventHandler('keydown.ArrowLeft', event);
       expect(service.moveTab).toHaveBeenCalledWith(
         host.nativeElement,
         { tab: true },
@@ -136,7 +136,7 @@ describe('TabFocusDirective', () => {
       spyOn(service, 'moveTab').and.callThrough();
       fixture.detectChanges();
 
-      host.triggerEventHandler('keydown.arrowRight', event);
+      host.triggerEventHandler('keydown.ArrowRight', event);
 
       expect(service.moveTab).not.toHaveBeenCalledWith(
         host.nativeElement,

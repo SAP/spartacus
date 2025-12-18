@@ -7,6 +7,7 @@
 import {
   Component,
   DestroyRef,
+  DOCUMENT,
   ElementRef,
   HostBinding,
   HostListener,
@@ -15,7 +16,6 @@ import {
   OnInit,
   Optional,
   ViewChild,
-  DOCUMENT,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -72,7 +72,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     focusOnDoubleEscape: true,
   };
 
-  @HostListener('keydown.escape', ['$event'])
+  @HostListener('keydown.Escape', ['$event'])
   handleEscape(event: KeyboardEvent): void {
     this.keyboardFocusService.handleEscape(
       this.elementRef.nativeElement,

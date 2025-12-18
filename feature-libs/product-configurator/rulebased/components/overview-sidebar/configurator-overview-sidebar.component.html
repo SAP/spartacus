@@ -9,8 +9,8 @@
       [attr.aria-selected]="!showFilter"
       [class.active]="!showFilter"
       (keydown)="switchTabOnArrowPress($event, '#menuTab')"
-      (keydown.enter)="onMenu()"
-      (keydown.space)="onMenu()"
+      (keydown.Enter)="onMenu()"
+      (keydown.Space)="onMenu()"
       (click)="onMenu()"
     >
       {{ 'configurator.overviewSidebar.menu' | cxTranslate }}
@@ -22,8 +22,8 @@
       [attr.aria-selected]="showFilter"
       [class.active]="showFilter"
       (keydown)="switchTabOnArrowPress($event, '#filterTab')"
-      (keydown.enter)="onFilter()"
-      (keydown.space)="onFilter()"
+      (keydown.Enter)="onFilter()"
+      (keydown.Space)="onFilter()"
       (click)="onFilter()"
     >
       {{ 'configurator.overviewSidebar.filter' | cxTranslate }}

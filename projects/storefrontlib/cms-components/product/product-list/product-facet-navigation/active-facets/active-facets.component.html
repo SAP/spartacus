@@ -12,7 +12,7 @@
     [queryParams]="getLinkParams(facet)"
     [cxFocus]="{ key: getFocusKey(facetList, facet) }"
     role="button"
-    (keydown.space)="removeFilterWithSpacebar($event)"
+    (keydown.Space)="removeFilterWithSpacebar($event)"
     [attr.aria-label]="
       'productList.activeFilter' | cxTranslate: { filter: facet.facetValueName }
     "

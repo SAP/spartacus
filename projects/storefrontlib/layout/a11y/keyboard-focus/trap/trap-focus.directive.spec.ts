@@ -1,5 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TrapFocusConfig } from '../keyboard-focus.model';
 import { TrapFocusDirective } from './trap-focus.directive';
@@ -61,9 +61,9 @@ describe('TrapFocusDirective', () => {
       spyOn(service, 'moveFocus').and.callThrough();
       fixture.detectChanges();
 
-      host.triggerEventHandler('keydown.arrowup', event);
-      host.triggerEventHandler('keydown.arrowdown', event);
-      host.triggerEventHandler('keydown.tab', event);
+      host.triggerEventHandler('keydown.ArrowUp', event);
+      host.triggerEventHandler('keydown.ArrowDown', event);
+      host.triggerEventHandler('keydown.Tab', event);
       host.triggerEventHandler('keydown.shift.tab', event);
       expect(service.moveFocus).toHaveBeenCalledTimes(4);
     });
@@ -73,9 +73,9 @@ describe('TrapFocusDirective', () => {
       spyOn(service, 'moveFocus').and.callThrough();
       fixture.detectChanges();
 
-      host.triggerEventHandler('keydown.arrowup', event);
-      host.triggerEventHandler('keydown.arrowdown', event);
-      host.triggerEventHandler('keydown.tab', event);
+      host.triggerEventHandler('keydown.ArrowUp', event);
+      host.triggerEventHandler('keydown.ArrowDown', event);
+      host.triggerEventHandler('keydown.Tab', event);
       host.triggerEventHandler('keydown.shift.tab', event);
       expect(service.moveFocus).toHaveBeenCalledTimes(4);
     });
@@ -85,9 +85,9 @@ describe('TrapFocusDirective', () => {
       spyOn(service, 'moveFocus').and.callThrough();
       fixture.detectChanges();
 
-      host.triggerEventHandler('keydown.arrowup', event);
-      host.triggerEventHandler('keydown.arrowdown', event);
-      host.triggerEventHandler('keydown.tab', event);
+      host.triggerEventHandler('keydown.ArrowUp', event);
+      host.triggerEventHandler('keydown.ArrowDown', event);
+      host.triggerEventHandler('keydown.Tab', event);
       host.triggerEventHandler('keydown.shift.tab', event);
       expect(service.moveFocus).toHaveBeenCalledTimes(0);
     });
@@ -98,9 +98,9 @@ describe('TrapFocusDirective', () => {
       spyOn(service, 'moveFocus').and.callThrough();
       fixture.detectChanges();
 
-      host.triggerEventHandler('keydown.arrowup', event);
-      host.triggerEventHandler('keydown.arrowdown', event);
-      host.triggerEventHandler('keydown.tab', event);
+      host.triggerEventHandler('keydown.ArrowUp', event);
+      host.triggerEventHandler('keydown.ArrowDown', event);
+      host.triggerEventHandler('keydown.Tab', event);
       host.triggerEventHandler('keydown.shift.tab', event);
       expect(service.moveFocus).toHaveBeenCalledTimes(0);
     });

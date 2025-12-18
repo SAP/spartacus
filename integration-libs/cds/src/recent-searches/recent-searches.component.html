@@ -23,12 +23,12 @@
               } | cxUrl
             "
             (mousedown)="$event.preventDefault()"
-            (keydown.arrowup)="shareEvent($any($event))"
-            (keydown.arrowdown)="shareEvent($any($event))"
-            (keydown.arrowleft)="shareEvent($any($event))"
-            (keydown.arrowright)="shareEvent($any($event))"
-            (keydown.enter)="shareEvent($any($event))"
-            (keydown.escape)="shareEvent($any($event))"
+            (keydown.ArrowUp)="shareEvent($any($event))"
+            (keydown.ArrowDown)="shareEvent($any($event))"
+            (keydown.ArrowLeft)="shareEvent($any($event))"
+            (keydown.ArrowRight)="shareEvent($any($event))"
+            (keydown.Enter)="shareEvent($any($event))"
+            (keydown.Escape)="shareEvent($any($event))"
             (blur)="shareEvent($any($event))"
             (click)="updateChosenWord(recentSearch)"
           >

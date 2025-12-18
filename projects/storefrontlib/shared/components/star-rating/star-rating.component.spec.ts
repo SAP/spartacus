@@ -132,7 +132,7 @@ describe('StarRatingComponent in product', () => {
     it('should set rate on space', () => {
       fixture.detectChanges();
       const icons = fixture.debugElement.queryAll(By.css('cx-icon'));
-      icons[2].triggerEventHandler('keydown.space', event);
+      icons[2].triggerEventHandler('keydown.Space', event);
       expect(component.rating).toEqual(3);
     });
 
@@ -152,10 +152,10 @@ describe('StarRatingComponent in product', () => {
       expect(component.rating).toEqual(3);
     });
 
-    it('should keep rate on mouseout after keydown.space', () => {
+    it('should keep rate on mouseout after keydown.Space', () => {
       fixture.detectChanges();
       const icons = fixture.debugElement.queryAll(By.css('cx-icon'));
-      icons[2].triggerEventHandler('keydown.space', event);
+      icons[2].triggerEventHandler('keydown.Space', event);
       fixture.debugElement.triggerEventHandler('mouseout', event);
       expect(component.rating).toEqual(3);
     });

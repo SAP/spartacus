@@ -15,8 +15,8 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { PaginationModel } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
 import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { UnitLevelOrderHistoryFilterComponent } from './unit-level-order-history-filter.component';
 
 @Pipe({
@@ -280,7 +280,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
       let el = fixture.debugElement.query(By.css('.buyer-filter-mobile'));
 
-      el.triggerEventHandler('keydown.enter', {});
+      el.triggerEventHandler('keydown.Enter', {});
 
       fixture.detectChanges();
       expect(spy).toHaveBeenCalled();
@@ -311,7 +311,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(form.valid).toBeTruthy();
 
       let el = fixture.debugElement.query(By.css('.unit-filter-mobile'));
-      el.triggerEventHandler('keydown.enter', {});
+      el.triggerEventHandler('keydown.Enter', {});
 
       fixture.detectChanges();
       expect(spy).toHaveBeenCalledTimes(1);
@@ -340,7 +340,7 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
       expect(form.valid).toBeTruthy();
 
       let el = fixture.debugElement.query(By.css('.unit-filter-mobile'));
-      el.triggerEventHandler('keydown.enter', {});
+      el.triggerEventHandler('keydown.Enter', {});
 
       fixture.detectChanges();
       expect(spy).toHaveBeenCalled();

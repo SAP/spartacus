@@ -1,5 +1,5 @@
 import { Component, Directive, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { EscapeFocusConfig } from '../keyboard-focus.model';
 import { EscapeFocusDirective } from './escape-focus.directive';
@@ -88,19 +88,19 @@ describe('EscapeFocusDirective', () => {
   describe('config', () => {
     it('should use focusOnEscape by default', () => {
       const el = fixture.debugElement.query(By.css('#a'));
-      el.triggerEventHandler('keydown.escape', {});
+      el.triggerEventHandler('keydown.Escape', {});
       expect(service.shouldFocus).toHaveBeenCalledWith({ focusOnEscape: true });
     });
 
     it('should use focusOnEscape per configuration', () => {
       const el = fixture.debugElement.query(By.css('#b'));
-      el.triggerEventHandler('keydown.escape', {});
+      el.triggerEventHandler('keydown.Escape', {});
       expect(service.shouldFocus).toHaveBeenCalledWith({ focusOnEscape: true });
     });
 
     it('should use focusOnEscape: false per configuration', () => {
       const el = fixture.debugElement.query(By.css('#c'));
-      el.triggerEventHandler('keydown.escape', {});
+      el.triggerEventHandler('keydown.Escape', {});
       expect(service.shouldFocus).toHaveBeenCalledWith({
         focusOnEscape: false,
       });
@@ -111,7 +111,7 @@ describe('EscapeFocusDirective', () => {
     it('should delegate handling to service ', () => {
       const el = fixture.debugElement.query(By.css('#a'));
       const mockEvent = {};
-      el.triggerEventHandler('keydown.escape', mockEvent);
+      el.triggerEventHandler('keydown.Escape', mockEvent);
       expect(service.handleEscape).toHaveBeenCalledWith(
         el.nativeElement,
         { focusOnEscape: true },
@@ -137,26 +137,26 @@ describe('EscapeFocusDirective', () => {
   describe('emit', () => {
     it('should emit true on escape', () => {
       const el = fixture.debugElement.query(By.css('#a'));
-      el.triggerEventHandler('keydown.escape', {});
+      el.triggerEventHandler('keydown.Escape', {});
       expect(component.handleEmit).toHaveBeenCalledWith(true);
     });
 
     it('should emit false on escape', () => {
       const el = fixture.debugElement.query(By.css('#c'));
-      el.triggerEventHandler('keydown.escape', {});
+      el.triggerEventHandler('keydown.Escape', {});
       expect(component.handleEmit).toHaveBeenCalledWith(false);
     });
 
     it('should not emit on escape', () => {
       const el = fixture.debugElement.query(By.css('#d'));
-      el.triggerEventHandler('keydown.escape', {});
+      el.triggerEventHandler('keydown.Escape', {});
       expect(component.handleEmit).not.toHaveBeenCalled();
     });
 
     describe('Emit escape on nested elements', () => {
       it('should only emit once on nested elements', () => {
         const d11 = fixture.debugElement.query(By.css('#d-1-1'));
-        d11.triggerEventHandler('keydown.escape', {});
+        d11.triggerEventHandler('keydown.Escape', {});
         expect(component.handleEmit).toHaveBeenCalledTimes(1);
       });
     });

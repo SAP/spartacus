@@ -79,7 +79,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
     }
   }
 
-  @HostListener('keydown.escape')
+  @HostListener('keydown.Escape')
   onEscape() {
     setTimeout(() => {
       this.elementRef.nativeElement.querySelector('input').focus();

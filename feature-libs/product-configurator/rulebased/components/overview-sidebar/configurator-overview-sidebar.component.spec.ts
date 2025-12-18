@@ -175,7 +175,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     // keypress on filter button
     fixture.debugElement
       .queryAll(By.css('.cx-menu-bar button'))[1]
-      .triggerEventHandler('keydown.enter');
+      .triggerEventHandler('keydown.Enter');
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -188,7 +188,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     // keypress on filter button
     fixture.debugElement
       .queryAll(By.css('.cx-menu-bar button'))[1]
-      .triggerEventHandler('keydown.space');
+      .triggerEventHandler('keydown.Space');
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -218,7 +218,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     // keypress on menu button
     fixture.debugElement
       .queryAll(By.css('.cx-menu-bar button'))[0]
-      .triggerEventHandler('keydown.enter');
+      .triggerEventHandler('keydown.Enter');
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -233,7 +233,7 @@ describe('ConfiguratorOverviewSidebarComponent', () => {
     // keypress on menu button
     fixture.debugElement
       .queryAll(By.css('.cx-menu-bar button'))[0]
-      .triggerEventHandler('keydown.space');
+      .triggerEventHandler('keydown.Space');
     fixture.detectChanges();
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,

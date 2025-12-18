@@ -81,7 +81,7 @@
           formControlName="buyerFilterMobile"
           class="form-control buyer-filter-mobile"
           (input)="searchBuyer(buyerFilterMobileId)"
-          (keydown.enter)="searchUnitLevelOrdersForMobile()"
+          (keydown.Enter)="searchUnitLevelOrdersForMobile()"
           [attr.aria-label]="
             'unitLevelOrderHistory.filterByBuyerPlaceholder' | cxTranslate
           "
@@ -95,7 +95,7 @@
           [attr.aria-label]="'common.reset' | cxTranslate"
           [attr.title]="'common.reset' | cxTranslate"
           (mousedown)="clearBuyerMobile()"
-          (keydown.enter)="clearBuyerMobile()"
+          (keydown.Enter)="clearBuyerMobile()"
           class="reset cx-unit-level-order-history-filter-reset-button"
         >
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
@@ -153,7 +153,7 @@
           formControlName="unitFilterMobile"
           class="form-control unit-filter-mobile"
           (input)="searchUnit(unitFilterMobileId)"
-          (keydown.enter)="searchUnitLevelOrdersForMobile()"
+          (keydown.Enter)="searchUnitLevelOrdersForMobile()"
           [attr.aria-label]="
             'unitLevelOrderHistory.filterByUnitPlaceholder' | cxTranslate
           "
@@ -166,7 +166,7 @@
           [attr.aria-label]="'common.reset' | cxTranslate"
           [attr.title]="'common.reset' | cxTranslate"
           (mousedown)="clearUnitMobile()"
-          (keydown.enter)="clearUnitMobile()"
+          (keydown.Enter)="clearUnitMobile()"
           class="reset cx-unit-level-order-history-filter-reset-button"
         >
           <cx-icon [type]="iconTypes.RESET"></cx-icon>
@@ -194,7 +194,7 @@
   </div>
 </form>
 
-<form [formGroup]="filterForm" (keydown.enter)="searchUnitLevelOrders()">
+<form [formGroup]="filterForm" (keydown.Enter)="searchUnitLevelOrders()">
   <div>
     <div class="cx-unit-level-order-history-filter-div-wrapper">
       <div>
@@ -229,7 +229,7 @@
               [attr.aria-label]="'common.reset' | cxTranslate"
               [attr.title]="'common.reset' | cxTranslate"
               (mousedown)="clearBuyer()"
-              (keydown.enter)="clearBuyer()"
+              (keydown.Enter)="clearBuyer()"
               class="reset cx-unit-level-order-history-filter-reset-button"
             >
               <cx-icon [type]="iconTypes.RESET"></cx-icon>
@@ -279,7 +279,7 @@
               [attr.aria-label]="'common.reset' | cxTranslate"
               [attr.title]="'common.reset' | cxTranslate"
               (mousedown)="clearUnit()"
-              (keydown.enter)="clearUnit()"
+              (keydown.Enter)="clearUnit()"
               class="reset cx-unit-level-order-history-filter-reset-button"
             >
               <cx-icon [type]="iconTypes.RESET"></cx-icon>

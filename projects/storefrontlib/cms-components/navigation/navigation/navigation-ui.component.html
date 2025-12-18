@@ -51,7 +51,7 @@
       (click)="closeIfClickedTheSameLink(node)"
       [tabindex]="getTabIndex(node, depth)"
       (focus)="depth || reinitializeMenu()"
-      (keydown.space)="toggleOpen($any($event))"
+      (keydown.Space)="toggleOpen($any($event))"
       (keydown.esc)="back()"
     >
       {{ node.title }}
@@ -77,10 +77,10 @@
             [attr.aria-describedby]="'greeting'"
             (click)="toggleOpen($any($event))"
             (mouseenter)="onMouseEnter($event)"
-            (keydown.space)="onSpace($any($event))"
-            (keydown.enter)="onSpace($any($event))"
+            (keydown.Space)="onSpace($any($event))"
+            (keydown.Enter)="onSpace($any($event))"
             (keydown.esc)="back()"
-            (keydown.arrowDown)="focusOnNode($any($event))"
+            (keydown.ArrowDown)="focusOnNode($any($event))"
             (focus)="depth || reinitializeMenu()"
           >
             <ng-container *ngIf="!node.url">
@@ -92,8 +92,8 @@
         <ng-container *cxFeature="'a11yNavigationButtonsAriaFixes'">
           <h4
             *ngIf="(isDesktop$ | async) && depth; else dropdownHeader"
-            (keydown.arrowDown)="focusOnNode($any($event))"
-            (keydown.space)="onSpace($any($event))"
+            (keydown.ArrowDown)="focusOnNode($any($event))"
+            (keydown.Space)="onSpace($any($event))"
             tabindex="0"
           >
             {{ node.title }}
@@ -109,10 +109,10 @@
               "
               (click)="toggleOpen($any($event))"
               (mouseenter)="onMouseEnter($event)"
-              (keydown.space)="onSpace($any($event))"
-              (keydown.enter)="onSpace($any($event))"
+              (keydown.Space)="onSpace($any($event))"
+              (keydown.Enter)="onSpace($any($event))"
               (keydown.esc)="back()"
-              (keydown.arrowDown)="focusOnNode($any($event))"
+              (keydown.ArrowDown)="focusOnNode($any($event))"
               (focus)="depth || reinitializeMenu()"
             >
               <ng-container *ngIf="!node.url">

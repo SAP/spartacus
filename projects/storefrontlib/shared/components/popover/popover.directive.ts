@@ -85,8 +85,8 @@ export class PopoverDirective implements OnInit {
    * dedicated `FocusConfig` can be set to autofocus first
    * focusable element in popover container.
    */
-  @HostListener('keydown.enter', ['$event'])
-  @HostListener('keydown.space', ['$event'])
+  @HostListener('keydown.Enter', ['$event'])
+  @HostListener('keydown.Space', ['$event'])
   handlePress(event: KeyboardEvent): void {
     event?.preventDefault();
     if (event?.target === this.element.nativeElement && !this.isOpen) {
@@ -96,7 +96,7 @@ export class PopoverDirective implements OnInit {
     }
   }
 
-  @HostListener('keydown.tab')
+  @HostListener('keydown.Tab')
   @HostListener('keydown.shift.tab')
   handleTab(): void {
     if (!this.focusConfig?.trap && this.isOpen) {
@@ -104,7 +104,7 @@ export class PopoverDirective implements OnInit {
     }
   }
 
-  @HostListener('keydown.escape')
+  @HostListener('keydown.Escape')
   handleEscape(): void {
     this.eventSubject.next(PopoverEvent.ESCAPE_KEYDOWN);
   }

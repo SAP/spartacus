@@ -13,8 +13,8 @@
           [class.active]="!isOverviewPage(pageType)"
           [attr.aria-selected]="!isOverviewPage(pageType)"
           (keydown)="switchTabOnArrowPress($event, '#configTab')"
-          (keydown.enter)="navigateToConfiguration(routerData)"
-          (keydown.space)="navigateToConfiguration(routerData)"
+          (keydown.Enter)="navigateToConfiguration(routerData)"
+          (keydown.Space)="navigateToConfiguration(routerData)"
           (click)="navigateToConfiguration(routerData)"
           [attr.aria-label]="
             !isOverviewPage(pageType)
@@ -30,8 +30,8 @@
           [class.active]="isOverviewPage(pageType)"
           [attr.aria-selected]="isOverviewPage(pageType)"
           (keydown)="switchTabOnArrowPress($event, '#overviewTab')"
-          (keydown.enter)="navigateToOverview(routerData)"
-          (keydown.space)="navigateToOverview(routerData)"
+          (keydown.Enter)="navigateToOverview(routerData)"
+          (keydown.Space)="navigateToOverview(routerData)"
           (click)="navigateToOverview(routerData)"
           [attr.aria-label]="
             isOverviewPage(pageType)

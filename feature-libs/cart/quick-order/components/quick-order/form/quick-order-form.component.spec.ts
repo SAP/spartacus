@@ -245,7 +245,7 @@ describe('QuickOrderFormComponent', () => {
     ).nativeElement;
     inputSearch.focus();
 
-    component.focusNextChild(new UIEvent('keydown.arrowdown'));
+    component.focusNextChild(new UIEvent('keydown.ArrowDown'));
     expect(inputSearch).toBe(getFocusedElement());
   });
 
