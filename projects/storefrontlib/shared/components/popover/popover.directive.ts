@@ -14,14 +14,12 @@ import {
   HostListener,
   Input,
   OnInit,
-  Optional,
   Output,
   Renderer2,
   TemplateRef,
   ViewContainerRef,
-  inject,
 } from '@angular/core';
-import { FeatureConfigService, WindowRef } from '@spartacus/core';
+import { WindowRef } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { PopoverComponent } from './popover.component';
@@ -119,10 +117,6 @@ export class PopoverDirective implements OnInit {
     }
   }
 
-  @Optional() featureConfigService? = inject(FeatureConfigService, {
-    optional: true,
-  });
-
   protected openTriggerEvents: PopoverEvent[] = [
     PopoverEvent.OPEN,
     PopoverEvent.OPEN_BY_KEYBOARD,
@@ -218,13 +212,7 @@ export class PopoverDirective implements OnInit {
 
       if (this.cxPopoverOptions?.appendToBody) {
         const body = this.winRef.document.body;
-        const element = this.featureConfigService?.isEnabled(
-          'a11yPopoverHighContrast'
-        )
-          ? // we need to select first child element if exists,
-            // otherwise HCT theming in popover will not be picked up.
-            (body.firstElementChild ?? body)
-          : body;
+        const element = (body.firstElementChild ?? body)
         this.renderer.appendChild(
           element,
           this.popoverContainer.location.nativeElement

@@ -10,11 +10,6 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
-   * Fix popover appearance when a High Contrast Theme is applied.
-   */
-  a11yPopoverHighContrast?: boolean;
-
-  /**
    * 'TabComponent' disallow automatic tab activation.
    */
   a11yTabsManualActivation?: boolean;
@@ -506,7 +501,6 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  a11yPopoverHighContrast: true,
   a11yTabsManualActivation: true,
   a11yAnonymousConsentMessageInDialog: true,
   a11yQuickOrderSearchListKeyboardNavigation: true,
