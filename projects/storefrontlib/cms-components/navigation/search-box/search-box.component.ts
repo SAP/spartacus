@@ -24,7 +24,6 @@ import {
   FeatureConfigService,
   PageType,
   RoutingService,
-  useFeatureStyles,
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
@@ -149,9 +148,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     protected winRef: WindowRef,
     protected routingService: RoutingService
-  ) {
-    useFeatureStyles('a11yKeyboardFocusInSearchBox');
-  }
+  ) {}
 
   /**
    * Returns the SearchBox configuration. The configuration is driven by multiple
