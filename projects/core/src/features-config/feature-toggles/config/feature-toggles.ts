@@ -61,12 +61,6 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
-   * Adds a unique `aria-label` to repeating buttons that contain the same text.
-   * Affects: SetPreferredStoreComponent
-   */
-  a11yRepeatingButtonsUniqueLabels?: boolean;
-
-  /**
    * Ensures that borders across all UI elements are visible and meet accessibility standards in high-contrast dark and light themes.
    * This change is applied globally to enhance usability for users relying on high-contrast modes.
    * Affects: CustomerTickingListComponent, CheckoutReviewPaymentComponent, SavedCartListComponent
@@ -434,7 +428,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
   updateConsentGivenInOnChanges: true,
   a11yAddPaddingToCarouselPanel: false,
-  a11yRepeatingButtonsUniqueLabels: true,
   a11yHighContrastBorders: true,
   a11yRegionAssociatedHeaders: true,
   a11yHamburgerMenuTrapFocus: true,
