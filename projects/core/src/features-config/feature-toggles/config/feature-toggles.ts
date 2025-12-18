@@ -10,11 +10,6 @@
 // Thanks to that, customers using a property that was recently removed, will know they have to adapt their code.
 export interface FeatureTogglesInterface {
   /**
-   * In `FutureStockAccordionComponent` use `cx-color-text` for button color
-   */
-  a11yUseProperTextColorForFutureStockAccordion?: boolean;
-
-  /**
    * Fix popover appearance when a High Contrast Theme is applied.
    */
   a11yPopoverHighContrast?: boolean;
@@ -511,7 +506,6 @@ export interface FeatureTogglesInterface {
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
-  a11yUseProperTextColorForFutureStockAccordion: true,
   a11yPopoverHighContrast: true,
   a11yTabsManualActivation: true,
   a11yAnonymousConsentMessageInDialog: true,

@@ -5,7 +5,6 @@
  */
 
 import { Component } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
 import { FutureStockFacade } from '@spartacus/product/future-stock/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 
@@ -20,7 +19,6 @@ export class FutureStockAccordionComponent {
   iconType = ICON_TYPE;
 
   constructor(protected futureStockService: FutureStockFacade) {
-    useFeatureStyles('a11yUseProperTextColorForFutureStockAccordion');
   }
 
   toggle(): void {
