@@ -9,7 +9,6 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  inject,
   Input,
   OnDestroy,
   OnInit,
@@ -19,7 +18,6 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   Config,
-  FeatureConfigService,
   Product,
   WindowRef,
 } from '@spartacus/core';
@@ -52,7 +50,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   @ViewChild('quickOrderInput') quickOrderInput: ElementRef;
 
-  private featureConfigService = inject(FeatureConfigService);
   protected subscription = new Subscription();
   protected searchSubscription = new Subscription();
 
@@ -83,7 +80,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     if (this.isResultsBoxOpen()) {
       this.toggleBodyClass(SEARCH_BOX_ACTIVE_CLASS, false);
-      
+
       requestAnimationFrame(() => {
         this.quickOrderInput.nativeElement.focus();
       });
