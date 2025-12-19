@@ -1,11 +1,12 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
-    "module": "es2022",
+    "module": "preserve",
     "types": ["jasmine", "node"],
-    "strict": false
+    "strict": false,
+    "moduleResolution": "bundler",
+    "isolatedModules": true
   },
   "files": ["test.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]

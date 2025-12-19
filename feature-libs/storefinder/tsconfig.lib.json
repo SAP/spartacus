@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
     "declarationMap": true,
-    "module": "es2022",
+    "module": "preserve",
     "moduleResolution": "bundler",
     "declaration": true,
     "sourceMap": true,

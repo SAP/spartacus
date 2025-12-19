@@ -3,7 +3,9 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
     "types": ["jasmine", "node"],
-    "module": "es2022"
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "isolatedModules": true
   },
   "files": ["src/test.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]
