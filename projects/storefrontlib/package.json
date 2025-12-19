@@ -20,9 +20,9 @@
     "@angular/router": "^21.0.3",
     "@angular/service-worker": "^21.0.3",
     "@ng-select/ng-select": "^21.1.2",
-    "@ngrx/effects": "^20.1.0",
-    "@ngrx/router-store": "^20.1.0",
-    "@ngrx/store": "^20.1.0",
+    "@ngrx/effects": "^21.0.0",
+    "@ngrx/router-store": "^21.0.0",
+    "@ngrx/store": "^21.0.0",
     "@spartacus/core": "221121.5.0",
     "ngx-infinite-scroll": "^21.0.0",
     "rxjs": "^7.8.0"
