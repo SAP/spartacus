@@ -791,8 +791,7 @@
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/assets": ["../../projects/assets/src/public_api"]
     },
-    "moduleResolution": "bundler",
-    "isolatedModules": true
+    "moduleResolution": "bundler"
   },
   "include": ["ssr/**/*.spec.ts", "ssr/**/*.d.ts"]
 }

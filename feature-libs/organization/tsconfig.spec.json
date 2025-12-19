@@ -5,8 +5,7 @@
     "strict": false,
     "module": "preserve",
     "types": ["jasmine", "node"],
-    "moduleResolution": "bundler",
-    "isolatedModules": true
+    "moduleResolution": "bundler"
   },
   "files": ["test.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]

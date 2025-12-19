@@ -9,8 +9,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "moduleResolution": "bundler",
-    "isolatedModules": true
+    "moduleResolution": "bundler"
   },
   "files": ["test.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]
