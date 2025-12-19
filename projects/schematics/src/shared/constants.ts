@@ -28,6 +28,7 @@ export const NG_BOOTSTRAP = '@ng-bootstrap/ng-bootstrap';
 /***** Imports end *****/
 
 /***** File names start *****/
+export const APP_MODULE = 'app.module.ts';
 export const ANGULAR_SERVER_MODULE = 'app.module.server.ts';
 /***** File names end *****/
 
