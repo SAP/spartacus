@@ -35,6 +35,9 @@ if (environment.epdVisualization) {
     // b2b
     provideConfig(defaultB2bOccConfig),
     provideConfig(defaultB2BCheckoutConfig),
+    provideConfig({
+      showOrderQuoteLink: true,
+    }),
     provideConfig(<SiteContextConfig>{
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
