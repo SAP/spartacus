@@ -149,7 +149,7 @@ describe('CardComponent', () => {
         By.css('cx-popover > .popover-body > p')
       );
       expect(el).toBeTruthy();
-      expect(el.nativeElement.innerText).toBe('organization.budget.hint');
+      expect(el.nativeElement.innerText.trim()).toBe('organization.budget.hint');
     });
   });
 });
