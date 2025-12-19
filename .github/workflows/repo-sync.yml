@@ -104,7 +104,7 @@ jobs:
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Generate RBSC descriptors"
 
-          ./update-rbsc-descriptors.sh
+          ./ci-scripts/update-rbsc-descriptors.sh
 
           echo "---------------------------------------------------------------------------------------------------------------------------"
           echo "Verify RBSC descriptors file has been created"
