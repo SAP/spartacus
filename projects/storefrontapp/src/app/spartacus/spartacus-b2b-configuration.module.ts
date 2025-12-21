@@ -41,6 +41,9 @@ if (environment.epdVisualization) {
         baseSite: baseSite,
       },
     }),
+    provideConfig({
+      showOrderQuoteLink: true,
+    }),
     provideConfig(<PWAModuleConfig>{
       pwa: {
         enabled: true,
