@@ -355,7 +355,7 @@ if (environment.cpq) {
         enablePasswordExpiredErrorTranslation: true,
         enableQuotePurchaseOrderNumber: false,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
-        showOrderQuoteLink: true,
+       
       };
       return appFeatureToggles;
     }),
