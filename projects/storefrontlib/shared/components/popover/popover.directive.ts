@@ -212,7 +212,7 @@ export class PopoverDirective implements OnInit {
 
       if (this.cxPopoverOptions?.appendToBody) {
         const body = this.winRef.document.body;
-        const element = (body.firstElementChild ?? body);
+        const element = body.firstElementChild ?? body;
         this.renderer.appendChild(
           element,
           this.popoverContainer.location.nativeElement

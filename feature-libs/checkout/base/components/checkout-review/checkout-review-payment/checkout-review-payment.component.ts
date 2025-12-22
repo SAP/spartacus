@@ -9,10 +9,7 @@ import {
   CheckoutPaymentFacade,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import {
-  PaymentDetails,
-  TranslationService
-} from '@spartacus/core';
+import { PaymentDetails, TranslationService } from '@spartacus/core';
 import { billingAddressCard, paymentMethodCard } from '@spartacus/order/root';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { Observable, combineLatest } from 'rxjs';

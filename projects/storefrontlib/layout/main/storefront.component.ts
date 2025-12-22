@@ -18,10 +18,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  RoutingService,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { RoutingService, useFeatureStyles } from '@spartacus/core';
 import { Observable, Subscription, tap } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import {
@@ -155,7 +152,8 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     this.stopNavigating = isNavigating === false;
 
     // After clicking a link the focus should move to the first available item in the main content area.
-    if (this.stopNavigating &&
+    if (
+      this.stopNavigating &&
       this.document?.activeElement !== this.document?.body
     ) {
       this.skipLinkService?.scrollToTarget('cx-main');

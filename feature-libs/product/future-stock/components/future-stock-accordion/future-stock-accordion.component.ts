@@ -18,8 +18,7 @@ export class FutureStockAccordionComponent {
   expanded: boolean = false;
   iconType = ICON_TYPE;
 
-  constructor(protected futureStockService: FutureStockFacade) {
-  }
+  constructor(protected futureStockService: FutureStockFacade) {}
 
   toggle(): void {
     this.expanded = !this.expanded;

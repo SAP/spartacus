@@ -16,11 +16,7 @@ import {
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import {
-  Config,
-  Product,
-  WindowRef,
-} from '@spartacus/core';
+import { Config, Product, WindowRef } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {

@@ -5,10 +5,7 @@
  */
 
 import { Component } from '@angular/core';
-import {
-  RoutingService,
-  TranslationService,
-} from '@spartacus/core';
+import { RoutingService, TranslationService } from '@spartacus/core';
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
