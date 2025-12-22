@@ -6,7 +6,6 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { useFeatureStyles } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';
 
@@ -23,7 +22,5 @@ export class MiniCartComponent {
 
   total$: Observable<string> = this.miniCartComponentService.getTotalPrice();
 
-  constructor(protected miniCartComponentService: MiniCartComponentService) {
-    useFeatureStyles('a11yMiniCartFocusOnMobile');
-  }
+  constructor(protected miniCartComponentService: MiniCartComponentService) {}
 }

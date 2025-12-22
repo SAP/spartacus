@@ -160,9 +160,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     );
 
     this.setAddress(address);
-    if (this.featureConfigService?.isEnabled('a11yFocusOnCardAfterSelecting')) {
-      this.focusCardAfterSelecting();
-    }
+    this.focusCardAfterSelecting();
   }
 
   /**
