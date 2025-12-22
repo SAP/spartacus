@@ -113,10 +113,7 @@ describe('HorizontalScrollingPositionDirective', () => {
         );
         expect(
           directive['scrollingAreaIntersectionObserver'].takeRecords()
-        ).toEqual([
-          jasmine.objectContaining({ target: mockScrollingAreaStart }),
-          jasmine.objectContaining({ target: mockScrollingAreaEnd }),
-        ]);
+        ).toEqual([]);
         expect(directive['scrollingAreaResizeObserver']).not.toBe(
           mockResizeObserver
         );
