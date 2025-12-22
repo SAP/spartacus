@@ -65,7 +65,7 @@ export class PersistFocusDirective
   @HostBinding(`attr.${FOCUS_ATTR}`) attr: string | undefined;
 
   @HostListener('focus', ['$event'])
-  handleFocus(event?: KeyboardEvent) {
+  handleFocus(event?: FocusEvent) {
     this.service.set(this.key, this.group);
 
     event?.preventDefault();
