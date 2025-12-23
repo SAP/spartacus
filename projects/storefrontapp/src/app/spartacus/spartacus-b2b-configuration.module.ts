@@ -47,9 +47,6 @@ if (environment.epdVisualization) {
         addToHomeScreen: true,
       },
     }),
-    provideConfig({
-      showOrderQuoteLink: true,
-    }),
   ],
 })
 export class SpartacusB2bConfigurationModule {}
