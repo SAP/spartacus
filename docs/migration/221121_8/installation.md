@@ -1,6 +1,6 @@
-# Installing Spartacus 2211.21 with Angular 20
+# Installing Spartacus 221121.8 with Angular 21
 
-This guide provides step-by-step instructions for creating a fresh Angular 20 application and installing Spartacus 2211.21.
+This guide provides step-by-step instructions for creating a fresh Angular 20 application and installing Spartacus 221121.8
 
 ## Prerequisites
 
@@ -8,20 +8,20 @@ Before starting, ensure you have the following installed:
 
 - **Node.js**: Version 22 or higher
 - **npm**: Version 10 or higher
-- **Angular CLI**: Version 20
+- **Angular CLI**: Version 21
 
 Install or update Angular CLI globally:
 
 ```bash
-npm install -g @angular/cli@20
+npm install -g @angular/cli@21
 ```
 
-## Step 1: Create a New Angular 20 Application
+## Step 1: Create a New Angular 21 Application
 
-Create a new Angular 20 application:
+Create a new Angular 21 application:
 
 ```bash
-ng new my-spartacus-app --style=scss --ssr=false --zoneless=false --standalone=false
+ng new my-spartacus-app --style=scss --ssr=false --zoneless=false --standalone=false --file-name-style-guide=2016
 cd my-spartacus-app
 ```
 
@@ -37,6 +37,21 @@ The schematics will:
 - rename files in the project to use classic file name style guide (e.g., `app.component.ts` instead of `app.ts`)
 - Install required Spartacus libraries
 - Configure your application for Spartacus
+
+## Manual Changes
+
+//TODO: if Angular installation schematics are updated to include these changes, we can remove this section.
+In `main.ts`, update the replace deprecated BootstrapOptions object property `ngZoneEventCoalescing` with the new `provideZoneChangeDetection` function:
+
+```diff
++ import { provideZoneChangeDetection } from '@angular/core';
+
+ platformBrowser().bootstrapModule(AppModule, {
+-  ngZoneEventCoalescing: true,
++  provideZoneChangeDetection({ eventCoalescing: true }),
+})
+  .catch(err => console.error(err));
+```
 
 ## Step 3: SSR-Specific Configuration (If Using SSR)
 

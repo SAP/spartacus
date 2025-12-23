@@ -1,17 +1,14 @@
-# Migrating a custom app to use Spartacus with Angular 20
+# Migrating a custom app to use Spartacus 221121.8 with Angular 21
 
-Before upgrading Spartacus to the new version with Angular 20, you need to first:
+Before upgrading Spartacus to the new version with Angular 21, you need to first:
 
 - upgrade Spartacus to version 221121.5.0 (with Angular 19)
-- install Node 22 version
-- if your project uses SSR (Server-Side Rendering), please upgrade `@types/node` to version 22
+- ensure you have Node 22 version installed
+- upgrade Angular to version v20 and then to v21
 
-  ```bash
-  npm i @types/node@22 -D
-  ```
-- upgrade Angular to version v20
+## Update Angular to 20 and 21
 
-## Update Angular to 20 and 3rd party deps to be compatible with Angular 20
+### Update Angular to 20 and 3rd party deps to be compatible with Angular 20
 
 Follow the [Angular guidelines for upgrading from v19 to v20](https://angular.dev/update-guide?v=19.0-20.0&l=3) and bump the Angular version locally, and update other 3rd party dependencies from Angular ecosystem to versions compatible with Angular 20 (e.g. `@ng-select/ng-select@latest`, `@ngrx/store@20`, `angular-oauth2-oidc@20`, `ngx-infinite-scroll@latest`):
 
@@ -86,12 +83,27 @@ The result of migration should be following:
 
 Angular migration also takes care of adding `"typeSeparator": "."` to and proper type (suffix) to relevant schematics.
 
+### Update Angular to 21 and 3rd party deps to be compatible with Angular 21
+
+Follow the [Angular guidelines for upgrading from v20 to v21](https://angular.dev/update-guide?v=20.0-21.0&l=3) and bump the Angular version locally, and update other 3rd party dependencies from Angular ecosystem to versions compatible with Angular 21 (e.g. `@ng-select/ng-select@latest`, `@ngrx/store@21`, `angular-oauth2-oidc@21`, `ngx-infinite-scroll@latest`):
+
+```bash
+ng update @angular/core@21 @angular/cli@21 @ngrx/store@21 angular-oauth2-oidc@21 @ng-select/ng-select@21 ngx-infinite-scroll@21 --force
+git add .
+git commit -m "update angular 21 and 3rd party deps angular 21 compatible"
+```
+While migrating to Angular 20, you'll be asked whether to run the `use-application-builder` migration:
+
+`❯◯ [use-application-builder] Migrate application projects to the new build system.`
+
+If you didn't run it during Angular 20 migration, let's select this migration to replace old builders located under `@angular-devkit/build-angular` with new ones under `@angular/build`. The result of migration should be similar to the one shown in the previous step. If you already ran it during Angular 20 migration, the migration won't make any changes.
+
 ## Run Spartacus update
 
 After successfully updating the application to Angular 20 and Express 5, execute this command to initiate the Spartacus update process.
 
 ```bash
-ng update @spartacus/schematics@2211.21
+ng update @spartacus/schematics@221121.8
 ```
 
 ### Manual changes
@@ -150,7 +162,6 @@ Let's make following manual changes to modernize so it's similar to a new Angula
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-+    "typeCheckHostBindings": true,
     "strictTemplates": true
   },
 +  "files": [],
@@ -199,16 +210,36 @@ import { SpartacusModule } from './spartacus/spartacus.module';
 export class AppModule { }
 ```
 
-## If using Server Side Rendering (SSR)
+Note: The following migration should also take care of adding `provideZoneChangeDetection` to `main.ts` together with migrating deprecated bootstrap options:
+
+```
+❯ Migrates deprecated bootstrap options to providers.
+UPDATE src/main.ts (334 bytes)
+(1 file modified)
+```
+
+If not, please add it manually as shown below:
+
+```diff
++ import { provideZoneChangeDetection } from '@angular/core';
+
+ platformBrowser().bootstrapModule(AppModule, {
+-  ngZoneEventCoalescing: true,
++  provideZoneChangeDetection({ eventCoalescing: true }),
+})
+  .catch(err => console.error(err));
+```
+
+## Additional migration steps if using Server Side Rendering (SSR)
 
 ### Upgrade Express to Version 5
 
 Spartacus 221121.<latest> requires Express 5.x. Upgrade Express:
 
 ```bash
-npm install express@^5.1.0
+ng update express@5.1.0
 git add .
-git commit -m "chore: upgrade Express to v5"
+git commit -m "chore: upgrade Express to v5.1.0"
 ```
 
 ### Manual changes
