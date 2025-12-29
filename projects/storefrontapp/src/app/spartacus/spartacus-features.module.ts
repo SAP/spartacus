@@ -302,7 +302,6 @@ if (environment.cpq) {
         a11yStoreFinderLabel: true,
         a11yLinkBtnsToTertiaryBtns: true,
         a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
-        updateConsentGivenInOnChanges: true,
         a11yAddPaddingToCarouselPanel: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
         a11yWideScreenImprovements: true,
