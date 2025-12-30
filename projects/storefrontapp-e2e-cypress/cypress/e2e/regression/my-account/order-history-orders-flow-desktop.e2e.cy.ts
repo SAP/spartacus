@@ -46,7 +46,7 @@ describe('Order History with orders', () => {
 });
 
 describe('Order details page', { testIsolation: false }, () => {
-  viewportContext(['mobile'], () => {
+  viewportContext(['desktop'], () => {
     isolateTestsBefore();
     let formattedValue: any;
 
