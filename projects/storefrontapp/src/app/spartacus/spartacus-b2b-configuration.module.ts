@@ -7,6 +7,7 @@
 import { NgModule } from '@angular/core';
 import { defaultB2BCheckoutConfig } from '@spartacus/checkout/b2b/root';
 import {
+  AuthConfig,
   provideConfig,
   provideConfigFactory,
   SiteContextConfig,
@@ -41,10 +42,20 @@ if (environment.epdVisualization) {
         baseSite: baseSite,
       },
     }),
+    provideConfig(<AuthConfig>{
+      authentication: {
+        client_id: 'mobile_android_public_b2b',
+      },
+    }),
     provideConfig(<PWAModuleConfig>{
       pwa: {
         enabled: true,
         addToHomeScreen: true,
+      },
+    }),
+    provideConfig(<AuthConfig>{
+      authentication: {
+        client_id: 'mobile_android_public_b2b',
       },
     }),
   ],
