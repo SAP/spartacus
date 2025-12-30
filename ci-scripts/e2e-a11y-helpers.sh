@@ -47,7 +47,11 @@ stop_pwa_app() {
 build_and_start_pwa() {
     export SPA_ENV="$1"
     npm run build:csr
-    npm run start:pwa &
+    if [[ "$SPA_ENV" == *"b2b"* ]]; then
+        npm run start:pwa:b2b &
+    else
+        npm run start:pwa &
+    fi
     sleep 10
 }
 
