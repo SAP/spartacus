@@ -14,9 +14,6 @@ describe('Login', () => {
       cy.whenJDK17(() => {
         visitLoginPage();
       });
-      cy.whenJDK21(() => {
-        cy.visit('/login/register');
-      });
       login.registerUserFromLoginPage();
     });
 
