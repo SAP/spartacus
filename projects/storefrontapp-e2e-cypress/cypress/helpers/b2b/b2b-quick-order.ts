@@ -213,6 +213,7 @@ export function addProductToCartWithQuickForm(
       .type(`${quantity}`);
   }
   const alias = this.interceptAddToCartEndpoint();
+
   cy.get('cx-cart-quick-order-form .apply-quick-order-button').click();
 
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
