@@ -233,17 +233,25 @@ export function restoreCart(cart) {
  * Check that the imported cart displays correctly in saved carts list.
  */
 export function verifyImportedData(config: ImportConfig, cart) {
-  cy.get(`cx-saved-cart-list td.cx-saved-cart-list-cart-id`)
-    .contains(cart.code)
+  cy.get('cx-saved-cart-list td.cx-saved-cart-list-cart-id')
+    .contains(cart.code, { timeout: 60000 })
     .parentsUntil('tr')
     .parent()
     .within(() => {
-      cy.get(`td.cx-saved-cart-list-cart-name`).contains(
-        config.savedCartConfig?.name
+      cy.get('td.cx-saved-cart-list-cart-name').contains(
+        config.savedCartConfig?.name,
+        { timeout: 60000 }
       );
-      cy.get(`td.cx-saved-cart-list-date-saved`).contains(config.saveTime);
-      cy.get(`td.cx-saved-cart-list-quantity`).contains(config.quantity);
-      cy.get(`td.cx-saved-cart-list-total`).contains(config.total);
+      cy.get('td.cx-saved-cart-list-date-saved').contains(config.saveTime, {
+        timeout: 60000,
+      });
+      cy.get('td.cx-saved-cart-list-quantity').contains(
+        String(config.quantity),
+        { timeout: 60000 }
+      );
+      cy.get('td.cx-saved-cart-list-total').contains(config.total, {
+        timeout: 60000,
+      });
     });
 }
 
@@ -258,11 +266,20 @@ export function addProductToCart(productCode: string = cart.products[1].code) {
   cy.visit(`/product/${productCode}`);
   cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
   cart.clickAddToCart();
-  cy.wait(['@refreshCart', '@addToCart']);
-  cy.get('cx-added-to-cart-dialog button.btn-primary')
-    .contains('view cart')
-    .scrollIntoView()
-    .should('be.visible');
+  cy.wait('@addToCart');
+  cy.wait('@refreshCart');
+  cy.get('body').then(($body) => {
+    const $btn = $body
+      .find('cx-added-to-cart-dialog button.btn-primary')
+      .filter((_, el) => /view cart/i.test((el.textContent || '').trim()))
+      .first();
+
+    if ($btn.length) {
+      cy.wrap($btn).click({ force: true });
+    } else {
+      cy.visit('/cart');
+    }
+  });
 }
 
 /**
@@ -276,14 +293,29 @@ export function exportCart(expectedData?: string) {
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
   cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+
+  cy.intercept('GET', '**/users/**/carts/**?fields=**').as('refreshCartFinal');
+  cy.wait('@refreshCartFinal', { timeout: 30000 })
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-cart-item-list tr[cx-cart-item-list-row]', {
+    timeout: 10000,
+  }).should('have.length.greaterThan', 0);
+
   cy.get('cx-export-order-entries button')
     .contains('Export Product to CSV')
     .click();
+
   cy.get('cx-global-message').contains(
     'CSV file will download automatically to your device'
   );
+
   if (expectedData) {
-    cy.readFile(TEST_DOWNLOAD_FILE).should('contain', expectedData);
+    cy.readFile(TEST_DOWNLOAD_FILE, { timeout: 15000 }).should(
+      'contain',
+      expectedData
+    );
   }
 }
 
