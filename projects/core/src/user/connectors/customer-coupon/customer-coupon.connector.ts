@@ -43,7 +43,7 @@ export class CustomerCouponConnector {
     userId: string,
     couponCode: string
   ): Observable<CustomerCoupon2Customer> {
-      return this.adapter.claimCustomerCouponWithCodeInBody(userId, couponCode);
+    return this.adapter.claimCustomerCouponWithCodeInBody(userId, couponCode);
   }
 
   disclaimCustomerCoupon(

@@ -86,7 +86,6 @@ describe('CustomerCouponConnector', () => {
     );
   });
 
-
   it('claimCustomerCoupon should call adapter.claimCustomerCouponWithCodeInBody', () => {
     let result;
     service
