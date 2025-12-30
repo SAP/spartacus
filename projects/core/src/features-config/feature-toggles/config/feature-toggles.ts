@@ -61,14 +61,6 @@ export interface FeatureTogglesInterface {
   a11yAddPaddingToCarouselPanel?: boolean;
 
   /**
-   * In CustomerCouponConnector, Enables claiming customer coupon with coupon code in httpRequest body with POST method.
-   *
-   * When set to `false`, claiming customer coupon works with coupon code as parameter in URL, which exposes sensitive data and has security risk.
-   * When set to `true`, claiming customer coupon works with coupon code in httpRequest body with POST method(the new Occ endpoint is available since Commerce 2211.28), which avoids security risk.
-   */
-  enableClaimCustomerCouponWithCodeInRequestBody?: boolean;
-
-  /**
    * Improves wide viewport layout issues.
    * Affects the styles of: Order confirmation page, product configurator.
    */
@@ -411,7 +403,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yNgSelectAriaControls: true,
   a11yConfiguratorOverviewHeaderVPC: false,
   enableCarouselCategoryProducts: true,
-  enableClaimCustomerCouponWithCodeInRequestBody: true,
   enableReadDomainValuesOnDemand: true,
   opfEnablePreventingFromCheckoutWithoutEmail: true,
   storeFinderFacadeCleanup: false,

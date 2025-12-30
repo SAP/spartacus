@@ -12,13 +12,11 @@ import {
   CustomerCouponSearchResult,
 } from '../../../model/customer-coupon.model';
 import { CustomerCouponAdapter } from './customer-coupon.adapter';
-import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomerCouponConnector {
-  private featureConfigService = inject(FeatureConfigService);
   constructor(protected adapter: CustomerCouponAdapter) {}
 
   getCustomerCoupons(
@@ -45,15 +43,7 @@ export class CustomerCouponConnector {
     userId: string,
     couponCode: string
   ): Observable<CustomerCoupon2Customer> {
-    if (
-      this.featureConfigService.isEnabled(
-        'enableClaimCustomerCouponWithCodeInRequestBody'
-      )
-    ) {
       return this.adapter.claimCustomerCouponWithCodeInBody(userId, couponCode);
-    } else {
-      return this.adapter.claimCustomerCoupon(userId, couponCode);
-    }
   }
 
   disclaimCustomerCoupon(
