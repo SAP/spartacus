@@ -14,15 +14,6 @@
         >
           <ng-container>
             <ng-container
-              *ngIf="
-                isOnlyOnePaymentOptionAvailable &&
-                !hideOnlyOnePaymentProviderLabel &&
-                !forceRadioInputsView
-              "
-            >
-              {{ configuration.displayName }}
-            </ng-container>
-            <ng-container
               *ngIf="!isOnlyOnePaymentOptionAvailable || forceRadioInputsView"
             >
               <div class="form-check">

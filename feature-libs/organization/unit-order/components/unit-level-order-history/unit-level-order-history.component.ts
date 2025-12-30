@@ -5,11 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import {
-  RoutingService,
-  TranslationService,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { RoutingService, TranslationService } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core';
 import { UnitOrderFacade } from '@spartacus/organization/unit-order/root';
@@ -37,9 +33,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
     protected routing: RoutingService,
     protected unitOrdersFacade: UnitOrderFacade,
     protected translation: TranslationService
-  ) {
-    useFeatureStyles('a11yTruncatedTextUnitLevelOrderHistory');
-  }
+  ) {}
 
   orders$: Observable<OrderHistoryList | undefined> = this.unitOrdersFacade
     .getOrderHistoryList(this.PAGE_SIZE)
