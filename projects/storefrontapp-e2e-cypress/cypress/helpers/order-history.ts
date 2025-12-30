@@ -6,13 +6,14 @@
 
 import { product, SampleUser, user } from '../sample-data/checkout-flow';
 import { login } from './auth-forms';
+import { switchLanguage } from './language';
+import { checkBanner } from './homepage';
+import { clickHamburger, waitForPage } from './navigation';
+import { mockOrderList } from './orders-history-mocks';
 import {
   replenishmentOrderHistoryHeaderValue,
   replenishmentOrderHistoryUrl,
 } from './b2b/b2b-replenishment-order-history';
-import { checkBanner } from './homepage';
-import { switchLanguage } from './language';
-import { clickHamburger, waitForPage } from './navigation';
 
 const orderHistoryLink = '/my-account/orders';
 export const CART_PAGE_ALIAS = 'cartPage';
@@ -139,7 +140,6 @@ export const orderHistoryTest = {
       checkBanner();
     });
   },
-  // orders flow
   checkIfOrderIsDisplayed() {
     it('should display placed order in Order History', () => {
       doPlaceOrder().then(() => {
@@ -165,6 +165,42 @@ export const orderHistoryTest = {
       });
     });
   },
+  checkIfOrderIsDisplayedMock() {
+    it('should display placed order in Order History', () => {
+      doPlaceOrder().then(() => {
+        doPlaceOrder().then((orderData: any) => {
+          const order = orderData.body;
+
+          const summary = {
+            code: order.code,
+            created: order.created,
+            statusDisplay: order.statusDisplay,
+            totalPrice: order.totalPrice,
+            orgCustomer: null,
+            guid: order.guid,
+          };
+
+          mockOrderList(summary);
+
+          cy.visit('/my-account/orders');
+          cy.wait('@mockOrders');
+
+          cy.get('.cx-order-history-code > .cx-order-history-value').should(
+            'contain',
+            order.code
+          );
+
+          cy.get('.cx-order-history-total > .cx-order-history-value').should(
+            'contain',
+            order.totalPrice.formattedValue
+          );
+
+          cy.get('.cx-order-history-po').should('not.exist');
+          cy.get('.cx-order-history-cost-center').should('not.exist');
+        });
+      });
+    });
+  },
   checkSortingByCode() {
     it('should sort the orders table by given code', () => {
       cy.intercept('GET', /sort=byOrderNumber/).as('query_order_asc');
@@ -186,6 +222,21 @@ export const orderHistoryTest = {
           );
         }
       );
+    });
+  },
+  checkSortingByCodeMock() {
+    it('should sort orders by code', () => {
+      mockOrderList({
+        code: 'MOCKSORT',
+        created: '2025-01-01',
+        statusDisplay: 'COMPLETED',
+        totalPrice: { formattedValue: '$10' },
+        orgCustomer: null,
+        guid: 'a',
+      });
+
+      cy.visit('/my-account/orders');
+      cy.wait('@mockOrders');
     });
   },
   checkCorrectDateFormat() {
@@ -234,6 +285,53 @@ export const orderHistoryTest = {
       switchLanguage('en'); // switch language back
     });
   },
+  checkCorrectDateFormatMock() {
+    it('should show correct date format', () => {
+      mockOrderList({
+        code: 'DATE1',
+        created: '2025-01-10T10:00:00',
+        statusDisplay: 'COMPLETED',
+        totalPrice: { formattedValue: '$10' },
+        orgCustomer: null,
+        guid: 'mock-guid',
+      });
+
+      cy.visit('/my-account/orders');
+      cy.wait('@mockOrders');
+
+      const getDayNumber = (element: any) =>
+        element.text().replace(',', '').replace('.', '').split(' ');
+
+      let dayNumberEN: string;
+
+      cy.onMobile(() => {
+        clickHamburger();
+      });
+      switchLanguage('en');
+
+      cy.get('.cx-order-history-placed > .cx-order-history-value')
+        .first()
+        .then((element) => {
+          dayNumberEN = getDayNumber(element)[1];
+        });
+
+      cy.onMobile(() => {
+        clickHamburger();
+      });
+      switchLanguage('de');
+
+      cy.get('.cx-order-history-placed > .cx-order-history-value')
+        .first()
+        .then((element) => {
+          expect(getDayNumber(element)[0]).to.eq(dayNumberEN);
+        });
+
+      cy.onMobile(() => {
+        clickHamburger();
+      });
+      switchLanguage('en');
+    });
+  },
   checkOrderDetailsUnconsignedEntries() {
     it('should display order details page with unconsigned entries', () => {
       doPlaceOrder().then((orderData: any) => {
@@ -256,10 +354,28 @@ export const orderHistoryTest = {
       cy.get('cx-order-history h2').should('contain', 'Order history');
     });
   },
+  checkTabsAreDisplayedAfterNavigationMock() {
+    it('should display order history tabs after navigation', () => {
+      mockOrderList({
+        code: 'TABMOCK1',
+        created: '2025-01-01',
+        statusDisplay: 'COMPLETED',
+        totalPrice: { formattedValue: '$10' },
+        orgCustomer: null,
+        guid: 'z',
+      });
+
+      cy.visit('/my-account/orders');
+      cy.wait('@mockOrders');
+      cy.get('cx-order-history h2').should('contain', 'Order history');
+      return;
+    });
+  },
 };
 
 export function goToOrderDetails() {
   cy.visit('/my-account/orders');
+
   const ordersAlias = interceptOrdersEndpoint();
   waitForResponse(ordersAlias);
 
