@@ -7,8 +7,9 @@
 import { defineConfig } from 'cypress';
 
 export default defineConfig({
-  defaultCommandTimeout: 10000,
-  requestTimeout: 15000,
+  defaultCommandTimeout: 30000,
+  requestTimeout: 60000,
+  responseTimeout: 60000,
   chromeWebSecurity: false,
   retries: {
     runMode: 2,
@@ -18,7 +19,8 @@ export default defineConfig({
   env: {
     CLIENT_ID: 'mobile_android',
     CLIENT_SECRET: 'secret',
-    API_URL: 'https://40.76.109.9:9002',
+    API_URL:
+      'https://api.cg79x9wuu9-eccommerc1-p4-public.model-t.myhybris.cloud',
     BASE_SITE: 'electronics-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
