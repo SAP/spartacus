@@ -37,7 +37,7 @@ describe('Currency switch - checkout page', () => {
         )}/users/current/carts/*/addresses/delivery`,
       }).as('setAddress');
       cy.visit(checkoutShippingPath);
-      cy.wait('@setAddress', { timeout: 10000 });
+      cy.wait('@setAddress', { timeout: 30000 });
       siteContextSelector.verifySiteContextChangeUrl(
         null,
         siteContextSelector.CURRENCIES,

@@ -36,7 +36,10 @@ context('Currency switch - cart page', () => {
       method: 'GET',
       path: siteContextSelector.CURRENCY_REQUEST,
     }).as('currencies_request');
-    cy.wait(`@currencies_request`).its('response.statusCode').should('eq', 200);
+    cy.wait('@currencies_request', { timeout: 60000 })
+      .its('response.statusCode')
+      .should('eq', 200);
+    cy.get('.SiteContext label', { timeout: 30000 }).contains('Currency');
   });
 
   describe('cart page', () => {

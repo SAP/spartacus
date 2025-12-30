@@ -14,6 +14,11 @@ context('Cart Import/Export', () => {
   viewportContext(['mobile'], () => {
     beforeEach(() => {
       clearAllStorage();
+      cy.intercept('HEAD', '**/users/anonymous/consenttemplates?*', {
+        statusCode: 304,
+      }).as('headConsent');
+      cy.intercept('POST', '**/users/*/carts/*/entries?**').as('addToCart');
+      cy.intercept('GET', '**/users/*/carts/*?fields=**').as('refreshCart');
     });
 
     // Core test.
