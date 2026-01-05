@@ -4,7 +4,6 @@ on:
       - develop
       - develop-*
       - release/*
-      - feature-toggles-check
     paths-ignore:
       - "**.md"
       - "docs/**"
