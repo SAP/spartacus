@@ -46,15 +46,6 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * Updates the derivative `consentGiven` state when `consent` is updated.
-   *
-   * Components affected:
-   * - `ConsentManagementFormComponent`
-   * - `MyAccountV2ConsentManagementFormComponent`
-   */
-  updateConsentGivenInOnChanges?: boolean;
-
-  /**
    * Adds horizontal padding to the 'carousel-panel' to fix the issue where the focus only covers three sides of the 'Previous slide' and 'Next slide' buttons within the carousel section.
    * Affects: CarouselComponent
    */
@@ -392,7 +383,6 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yImprovedErrorMessage: true,
   a11yLinkBtnsToTertiaryBtns: false,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
-  updateConsentGivenInOnChanges: true,
   a11yAddPaddingToCarouselPanel: false,
   a11yWideScreenImprovements: true,
   a11yOptimizedMenuSpacing: true,
