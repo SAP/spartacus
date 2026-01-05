@@ -206,18 +206,11 @@
             formControlName="reviewerName"
             [maxLength]="maxLengthReviewerName"
           />
-          <!-- TODO: (CXSPA-7315) Remove feature toggle in the next major -->
           <cx-form-errors
-            *cxFeature="'formErrorsDescriptiveMessages'"
             id="titleError"
             [translationParams]="{
               label: 'productReview.reviewerName' | cxTranslate,
             }"
-            [control]="reviewForm.get('reviewerName')"
-          ></cx-form-errors>
-
-          <cx-form-errors
-            *cxFeature="'!formErrorsDescriptiveMessages'"
             [control]="reviewForm.get('reviewerName')"
           ></cx-form-errors>
           <p
