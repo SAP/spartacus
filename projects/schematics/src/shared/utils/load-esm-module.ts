@@ -6,7 +6,6 @@
 // See the Angular Schematics ticket: https://github.com/angular/angular-cli/issues/22786
 
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  * Copyright Google LLC All Rights Reserved.
  *
