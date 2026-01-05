@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -29,14 +28,13 @@ export * from './src/process/index';
 export * from './src/product/index';
 export * from './src/routing/index';
 export * from './src/site-context/index';
+export * from './src/site-theme/index';
 export * from './src/state/index';
 export * from './src/user/index';
 export * from './src/util/index';
 export * from './src/window/index';
-export * from './src/site-theme/index';
 
 /** AUGMENTABLE_TYPES_START */
-export { ProductScope } from './src/product/model/product-scope';
 export { AuthToken } from './src/auth/user-auth/models/auth-token.model';
 export { Config } from './src/config/config-tokens';
 export { Address } from './src/model/address.model';
@@ -44,15 +42,15 @@ export {
   B2BUnit,
   B2BUser,
   B2BUserRole,
-  CostCenter,
+  CostCenter
 } from './src/model/org-unit.model';
 export { Facet, ProductSearchPage } from './src/model/product-search.model';
 export { Price, Product, Stock } from './src/model/product.model';
 export { BackendConfig } from './src/occ/config/occ-config';
 export { OccEndpoints } from './src/occ/occ-models/occ-endpoints.model';
-export {
-  OccHttpErrorType,
-  OccHttpErrorReason,
-} from './src/util/occ-http-error-constants';
+export { ProductScope } from './src/product/model/product-scope';
 export { RoutingConfigDefinition } from './src/routing/configurable-routes/config/routing-config';
+export {
+  OccHttpErrorReason, OccHttpErrorType
+} from './src/util/occ-http-error-constants';
 /** AUGMENTABLE_TYPES_END */
