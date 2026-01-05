@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -119,7 +120,6 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       })
     );
     useFeatureStyles('a11yOptimizedMenuSpacing');
-    useFeatureStyles('a11yNavigationButtonsAriaFixes');
   }
 
   /**
@@ -264,20 +264,10 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * Focuses on the first focusable element in the dropdown
    */
   focusOnNode(event: UIEvent): void {
-    if (
-      this.featureConfigService?.isEnabled('a11yNavigationButtonsAriaFixes')
-    ) {
-      const firstFocusableNode = (<HTMLElement>(
-        event.target
-      ))?.nextElementSibling?.querySelector('button, h4, a') as HTMLElement;
-      firstFocusableNode?.focus();
-    } else {
-      const firstFocusableElement =
-        (<HTMLElement>event.target).nextElementSibling?.querySelector(
-          'button'
-        ) || (<HTMLElement>event.target).nextElementSibling?.querySelector('a');
-      firstFocusableElement?.focus();
-    }
+    const firstFocusableNode = (<HTMLElement>(
+      event.target
+    ))?.nextElementSibling?.querySelector('button, h4, a') as HTMLElement;
+    firstFocusableNode?.focus();
   }
 
   back(): void {
@@ -396,22 +386,6 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       return 0;
     }
     return depth > 0 && !node?.children ? -1 : 0;
-  }
-
-  // TODO: Delete deprecated methods once `a11yNavigationButtonsAriaFixes` feature flag is removed.
-  /**
-   * Replace spaces with hyphens and convert to lowercase
-   * @deprecated
-   */
-  getSanitizedTitle(title: string | undefined): string | null {
-    return title ? title.replace(/\s+/g, '-').toLowerCase() : null;
-  }
-  /**
-   * Returns the value for the `aria-control` and the `aria-label` attribute of a button.
-   * @deprecated
-   */
-  getAriaLabelAndControl(node: NavigationNode): string | null {
-    return this.getSanitizedTitle(node.title) || null;
   }
 
   transformIntoValidID(string: string): string | null {

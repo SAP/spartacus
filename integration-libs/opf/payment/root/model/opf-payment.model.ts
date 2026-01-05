@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -177,6 +178,7 @@ export interface OpfPaymentRenderMethodEvent {
   renderType?: OpfPaymentRenderPattern;
   html?: string | null;
   destination?: OpfPaymentDestination;
+  paymentOptionId?: number;
 }
 
 export interface OpfPaymentMethodDetails {

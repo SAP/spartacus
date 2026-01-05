@@ -3,7 +3,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SubscriptionCartPriceBodyComponent } from './subscription-cart-price-body.component';
 import { of } from 'rxjs';
 import { OutletContextData } from '@spartacus/storefront';
+import { SubscriptionProductService } from '@spartacus/subscription-billing/root';
 
+class MockSubscriptionProductService {
+  isSubscription(product: any) {
+    return Boolean(product?.sapSubscriptionTerm && product?.sapPricePlan);
+  }
+}
 const mockSubscriptionProduct = {
   basePrice: { formattedValue: 'USD35.00', value: 0 },
   product: {
@@ -92,6 +98,10 @@ describe('SubscriptionCartPriceBodyComponent', () => {
             provide: OutletContextData,
             useClass: MockSubscriptionOutletContextData,
           },
+          {
+            provide: SubscriptionProductService,
+            useClass: MockSubscriptionProductService,
+          },
         ],
         imports: [SubscriptionCartPriceBodyComponent],
       }).compileComponents();
@@ -127,6 +137,10 @@ describe('SubscriptionCartPriceBodyComponent', () => {
             provide: OutletContextData,
             useClass: MockOutletContextData,
           },
+          {
+            provide: SubscriptionProductService,
+            useClass: MockSubscriptionProductService,
+          },
         ],
         imports: [SubscriptionCartPriceBodyComponent],
       }).compileComponents();
@@ -160,6 +174,10 @@ describe('SubscriptionCartPriceBodyComponent', () => {
           {
             provide: OutletContextData,
             useClass: MockEmptyContextData,
+          },
+          {
+            provide: SubscriptionProductService,
+            useClass: MockSubscriptionProductService,
           },
         ],
         imports: [SubscriptionCartPriceBodyComponent],

@@ -40,6 +40,9 @@
         <iframe
           class="cx-payment-iframe"
           [src]="bypassSecurityTrustResourceUrl(paymentLink.destination?.url)"
+          [attr.sandbox]="
+            getIframeSandbox(paymentLink?.paymentOptionId || selectedPaymentId)
+          "
         ></iframe>
       </ng-container>
       <div
@@ -50,6 +53,9 @@
           *ngIf="paymentLink.renderType === RENDER_PATTERN.IFRAME"
           class="cx-payment-iframe"
           name="cx-payment-iframe"
+          [attr.sandbox]="
+            getIframeSandbox(paymentLink?.paymentOptionId || selectedPaymentId)
+          "
         ></iframe>
         <form
           [action]="paymentLink.destination?.url"

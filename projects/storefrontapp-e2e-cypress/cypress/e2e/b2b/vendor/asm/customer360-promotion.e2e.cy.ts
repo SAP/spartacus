@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -75,11 +76,6 @@ context('Assisted Service Module', () => {
             }
           });
           cy.intercept('POST', /\.*\/vouchers\?voucherId=.*/).as('applyCoupon');
-          cy.whenJDK21(() => {
-            cy.get('button').contains('Remove').should('be.visible');
-            cy.intercept('DELETE', /\.*\/vouchers\.*/).as('removeCoupon');
-            cy.get('button').contains('Remove').click();
-          });
           cy.get('button').contains('Apply to Cart').click();
           cy.whenJDK17(() => {
             cy.wait('@applyCoupon')

@@ -1,3 +1,10 @@
+/*
+ * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as common from '../../../helpers/common';
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 import * as configurationVc from '../../../helpers/product-configurator-vc';
