@@ -1,5 +1,4 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
  * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -117,7 +116,8 @@ export function claimCoupon(couponCode: string) {
     'getClaimedCouponPage'
   );
 
-  const claimCoupon = waitForClaimCouponWithCodeInBody(couponCode);
+  //TODO when 'enableClaimCustomerCouponWithCodeInRequestBody' is true, call the mothod of 'waitForClaimCouponWithCodeInBody' instead once ClaimCustomerCouponWithCodeInBody works in the backend(available since Commerce 2211.28)
+  const claimCoupon = waitForClaimCoupon(couponCode);
 
   const getCoupons = waitForGetCoupons();
 
@@ -292,12 +292,14 @@ export function testClaimCustomerCoupon() {
 
 export function testClaimCustomerCouponWithCodeInBody() {
   describe('Claim customer coupon with code in requestBody', () => {
-    it('should claim customer coupon successfully with code in requestBody', () => {
+    //TODO uncomment when enable 'enableClaimCustomerCouponWithCodeInRequestBody' to make ClaimCustomerCouponWithCodeInBody work in the backend, the new Occ endpoint is available since Commerce 2211.28.
+    it.skip('should claim customer coupon successfully with code in requestBody', () => {
       verifClaimCouponSuccessWithCodeInBody(validCouponCode);
       cy.saveLocalStorage();
     });
 
-    it('should not claim invalid customer coupon', () => {
+    //TODO uncomment when enable 'enableClaimCustomerCouponWithCodeInRequestBody' to make ClaimCustomerCouponWithCodeInBody work in the backend, the new Occ endpoint is available since Commerce 2211.28.
+    it.skip('should not claim invalid customer coupon', () => {
       cy.restoreLocalStorage();
       verifyClaimCouponFailWithCodeInBody(invalidCouponCode);
     });
