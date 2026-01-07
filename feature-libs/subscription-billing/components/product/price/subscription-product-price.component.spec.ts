@@ -2,10 +2,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Product, TranslationService } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
-import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
 import {
   OneTimeCharge,
   RecurringCharge,
+  SubscriptionProductService,
 } from '@spartacus/subscription-billing/root';
 import { Observable, of } from 'rxjs';
 import { SubscriptionProductPriceComponent } from './subscription-product-price.component';

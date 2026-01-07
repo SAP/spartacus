@@ -12,7 +12,9 @@ import { I18nTestingModule } from '@spartacus/core';
 import {
   FocusDirective,
   ICON_TYPE,
+  IconComponent,
   IconTestingModule,
+  MockIconComponent,
   PopoverModule,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -128,10 +130,14 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
     })
       .overrideComponent(ConfiguratorAttributeMultiSelectionImageComponent, {
         remove: {
-          imports: [FocusDirective, ConfiguratorPriceComponent],
+          imports: [FocusDirective, ConfiguratorPriceComponent, IconComponent],
         },
         add: {
-          imports: [MockFocusDirective, MockConfiguratorPriceComponent],
+          imports: [
+            MockFocusDirective,
+            MockConfiguratorPriceComponent,
+            MockIconComponent,
+          ],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })
