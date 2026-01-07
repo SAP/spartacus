@@ -80,7 +80,7 @@ describe('OrderDetailPermissionResultsComponent', () => {
   });
 
   it('should display approval details in a table', () => {
-    expect(element.queryAll(By.css('tr')).length).toEqual(
+    expect(element.queryAll(By.css('tbody tr')).length).toEqual(
       mockOrder.permissionResults.length
     );
 

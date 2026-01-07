@@ -13,19 +13,22 @@ const CUSTOM_TEXT = 'customized';
 @Component({
   template: `
     <ng-container *ngIf="outletRefVisible">
-      <ng-template cxOutletRef="${OUTLET_NAME}"> ${CUSTOM_TEXT} </ng-template>
+      <ng-template [cxOutletRef]="outletName"> {{ customText }} </ng-template>
     </ng-container>
 
     <ng-container *ngIf="outletVisible">
-      <ng-container *cxOutlet="'${OUTLET_NAME}'">
-        ${STANDARD_TEXT}
-      </ng-container>
+      <ng-template [cxOutlet]="outletName">
+        {{ standardText }}
+      </ng-template>
     </ng-container>
   `,
 })
 class TestContainerComponent {
   outletRefVisible = true;
   outletVisible = true;
+  outletName = OUTLET_NAME;
+  customText = CUSTOM_TEXT;
+  standardText = STANDARD_TEXT;
 }
 
 class MockDeferLoaderService {

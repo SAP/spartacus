@@ -17,6 +17,9 @@ import {
 } from '@spartacus/storefront';
 import { CompactAddToCartComponent } from './compact-add-to-cart.component';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @NgModule({
   imports: [
     CommonModule,

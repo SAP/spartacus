@@ -133,7 +133,7 @@ describe('QuoteSummarySellerEditComponentService', () => {
             style: 'percent',
           })
         )
-      ).toThrowError();
+      ).toThrow();
     });
   });
 

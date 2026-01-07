@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   EventService,
-  FeatureConfigService,
   Product,
   TranslationService,
   WindowRef,
@@ -40,8 +39,6 @@ import { TranslatePipe } from '@spartacus/core';
 export class ProductIntroComponent {
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
-
-  private featureConfigService = inject(FeatureConfigService);
 
   /**
    * Observable that checks the reviews component availability on the page.
@@ -90,22 +87,13 @@ export class ProductIntroComponent {
         if (reviewsTab) {
           this.clickTabIfInactive(reviewsTab);
           setTimeout(() => {
-            if (
-              this.featureConfigService?.isEnabled(
-                'a11yScrollToReviewByShowReview'
-              )
-            ) {
-              requestAnimationFrame(() => {
-                reviewsTab.scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'start',
-                });
-                reviewsTab.focus({ preventScroll: true });
+            requestAnimationFrame(() => {
+              reviewsTab.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
               });
-            } else {
-              reviewsTab.scrollIntoView({ behavior: 'smooth', block: 'start' });
               reviewsTab.focus({ preventScroll: true });
-            }
+            });
           });
         }
       })

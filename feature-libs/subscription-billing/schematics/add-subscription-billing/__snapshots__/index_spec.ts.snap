@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Spartacus Subscription Billing Schematics: ng-add Subscription Billing feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';

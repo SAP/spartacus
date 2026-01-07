@@ -315,7 +315,7 @@ describe('ConfigureCartEntryComponent', () => {
           component.retrieveEntityKey({
             type: AbstractOrderType.CART,
           })
-        ).toThrowError();
+        ).toThrow();
       });
     });
 

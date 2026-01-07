@@ -95,6 +95,10 @@ function create_shell_app {
         EXTRA_ANGULAR_CLI_FLAGS="--standalone=false --ssr=false" # SSR can be added later by running other schematics (e.g. Spartacus installation schematics with its flag --ssr).
         echo "Angular CLI version >= 17.0.0, so applying extra flags to the command 'ng new': ${EXTRA_ANGULAR_CLI_FLAGS}"
     fi
+    if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "20.0.0")" -ge 0 ]; then
+        EXTRA_ANGULAR_CLI_FLAGS="${EXTRA_ANGULAR_CLI_FLAGS} --zoneless=false --ai-config=none"
+        echo "Angular CLI version >= 20.0.0, so applying extra flag --zoneless=false"
+    fi
 
     ( cd ${INSTALLATION_DIR} && \
         ng new ${1} \
@@ -490,8 +494,13 @@ function start_csr_unix {
         echo "Skipping csr app start (no port defined)"
     else
         build_csr
-        printh "Starting csr app"
-        pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT}
+         if [ -n "${SSL_CERT_PATH}" ] && [ -n "${SSL_KEY_PATH}" ]; then
+            printh "Starting csr app in SSL mode"
+            pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT} --ssl-cert ${SSL_CERT_PATH} --ssl-key ${SSL_KEY_PATH}
+        else
+            printh "Starting csr app in non-SSL mode"
+            pm2 start --name "${CSR_APP_NAME}-${CSR_PORT}" serve -- ${INSTALLATION_DIR}/${CSR_APP_NAME}/dist/${CSR_APP_NAME}/browser --single -p ${CSR_PORT} 
+        fi
     fi
 }
 

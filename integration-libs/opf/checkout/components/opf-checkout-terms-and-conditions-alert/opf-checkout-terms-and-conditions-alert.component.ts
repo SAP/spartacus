@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,12 +12,11 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { filter, take } from 'rxjs';
-import { NgIf } from '@angular/common';
-import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
+import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
+import { filter, take } from 'rxjs';
+import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 
 @Component({
   selector: 'cx-opf-checkout-terms-and-conditions-alert',
@@ -26,8 +26,13 @@ import { TranslatePipe } from '@spartacus/core';
 })
 export class OpfCheckoutTermsAndConditionsAlertComponent implements OnInit {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);
+  protected opfCheckoutBillingAddressFormService = inject(
+    OpfCheckoutBillingAddressFormService
+  );
 
   iconTypes = ICON_TYPE;
+  protected paymentDisabled$ =
+    this.opfCheckoutBillingAddressFormService.paymentOptionsDisabled$;
 
   /**
    * Defines if alert could be dismissed or not

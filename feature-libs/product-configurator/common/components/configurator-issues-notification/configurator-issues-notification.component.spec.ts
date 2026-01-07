@@ -1,6 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { CartItemContextSource } from '@spartacus/cart/base/components';
 import {
   CartItemContext,
@@ -199,37 +200,31 @@ describe('ConfigureIssuesNotificationComponent', () => {
         it('should expose readonly$ as false in case readonly$ is undefined', () => {
           mockCartItemContext.readonly$?.next(undefined);
           fixture.detectChanges();
-          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
-            htmlElem,
-            'cx-configure-cart-entry'
-          );
+          const component = fixture.debugElement.query(
+            By.css('cx-configure-cart-entry')
+          ).componentInstance;
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+          expect(component.readOnly).toBe(false);
         });
 
         it('should expose readonly$ as false in case readonly$ is null', () => {
           mockCartItemContext.readonly$?.next(null);
           fixture.detectChanges();
-          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
-            htmlElem,
-            'cx-configure-cart-entry'
-          );
+          const component = fixture.debugElement.query(
+            By.css('cx-configure-cart-entry')
+          ).componentInstance;
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+          expect(component.readOnly).toBe(false);
         });
 
         it('should expose readonly$ as false in case readonly$ is false', () => {
           mockCartItemContext.readonly$?.next(false);
           fixture.detectChanges();
-          const element = CommonConfiguratorTestUtilsService.getHTMLElement(
-            htmlElem,
-            'cx-configure-cart-entry'
-          );
+          const component = fixture.debugElement.query(
+            By.css('cx-configure-cart-entry')
+          ).componentInstance;
 
-          expect(element.hasAttribute('ng-reflect-read-only')).toBe(true);
-          expect(element.getAttribute('ng-reflect-read-only')).toBe('false');
+          expect(component.readOnly).toBe(false);
         });
       });
 

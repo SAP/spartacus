@@ -8,7 +8,7 @@ import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import { SubscriptionListComponent } from './subscription-list.component';
 import { Observable, of } from 'rxjs';
 import {
-  SubscriptionBillingFacade,
+  SubscriptionFacade,
   SubscriptionList,
 } from '@spartacus/subscription-billing/root';
 import { Pipe, PipeTransform } from '@angular/core';
@@ -62,9 +62,7 @@ const listWithNoData: SubscriptionList = {
   sorts: [],
 };
 
-class MockSubscriptionBillingFacade
-  implements Partial<SubscriptionBillingFacade>
-{
+class MockSubscriptionFacade implements Partial<SubscriptionFacade> {
   getSubscriptionList(
     _pageSize?: number,
     _currentPage?: number,
@@ -86,19 +84,19 @@ class MockUrlPipe implements PipeTransform {
 describe('SubscriptionListComponent', () => {
   let component: SubscriptionListComponent;
   let fixture: ComponentFixture<SubscriptionListComponent>;
-  let facade: SubscriptionBillingFacade;
+  let facade: SubscriptionFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, SubscriptionListComponent, MockUrlPipe],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {
-          provide: SubscriptionBillingFacade,
-          useClass: MockSubscriptionBillingFacade,
+          provide: SubscriptionFacade,
+          useClass: MockSubscriptionFacade,
         },
       ],
     }).compileComponents();
-    facade = TestBed.inject(SubscriptionBillingFacade);
+    facade = TestBed.inject(SubscriptionFacade);
     fixture = TestBed.createComponent(SubscriptionListComponent);
     component = fixture.componentInstance;
   });

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -26,15 +27,17 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { FeatureConfigService, useFeatureStyles } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 import { PickupOption } from '@spartacus/pickup-in-store/root';
-import { Tab, TAB_MODE, TabComponent, TabConfig } from '@spartacus/storefront';
+import {
+  Tab,
+  TAB_MODE,
+  TabComponent,
+  TabComponent as TabComponent_1,
+  TabConfig,
+} from '@spartacus/storefront';
 import { Subscription, take } from 'rxjs';
 import { PickupOptionsTabs } from './pickup-options.model';
-import { FeatureDirective } from '@spartacus/core';
-import { NgIf } from '@angular/common';
-import { TabComponent as TabComponent_1 } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 /**
  * The presentational component of a pair of radio buttons for pickup options for a product.
@@ -44,7 +47,6 @@ import { TranslatePipe } from '@spartacus/core';
   templateUrl: './pickup-options.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    FeatureDirective,
     FormsModule,
     ReactiveFormsModule,
     NgIf,
@@ -87,7 +89,6 @@ export class PickupOptionsComponent
   @Optional() protected cdr = inject(ChangeDetectorRef, {
     optional: true,
   });
-  private featureConfigService = inject(FeatureConfigService);
 
   @ViewChild('deliveryTabPanel') deliveryTabPanel: TemplateRef<any>;
   @ViewChild('pickupTabPanel') pickupTabPanel: TemplateRef<any>;
@@ -101,37 +102,23 @@ export class PickupOptionsComponent
     return null;
   }
 
-  constructor() {
-    useFeatureStyles('a11yPickupOptionsTabs');
-  }
-
   ngOnChanges(): void {
-    if (this.featureConfigService.isEnabled('a11yPickupOptionsTabs')) {
-      this.onSelectedOptionChange();
-    } else {
-      if (this.disableControls) {
-        this.pickupOptionsForm.get('pickupOption')?.disable();
-      }
-      this.pickupOptionsForm.markAllAsTouched();
-      this.pickupOptionsForm.get('pickupOption')?.setValue(this.selectedOption);
-    }
+    this.onSelectedOptionChange();
   }
 
   ngAfterViewInit() {
-    if (this.featureConfigService.isEnabled('a11yPickupOptionsTabs')) {
-      this.initializeTabs();
-      this.subscription.add(
-        this.tabComponent?.openTabs$.subscribe((openTabs) => {
-          // open tabs should have one tab opened for mode "TAB"
-          const openedTab = openTabs[0];
-          const selectedOption =
-            openedTab === PickupOptionsTabs.DELIVERY ? 'delivery' : 'pickup';
-          if (this.selectedOption !== selectedOption) {
-            this.onPickupOptionChange(selectedOption);
-          }
-        })
-      );
-    }
+    this.initializeTabs();
+    this.subscription.add(
+      this.tabComponent?.openTabs$.subscribe((openTabs) => {
+        // open tabs should have one tab opened for mode "TAB"
+        const openedTab = openTabs[0];
+        const selectedOption =
+          openedTab === PickupOptionsTabs.DELIVERY ? 'delivery' : 'pickup';
+        if (this.selectedOption !== selectedOption) {
+          this.onPickupOptionChange(selectedOption);
+        }
+      })
+    );
   }
 
   /** Emit a new selected option. */

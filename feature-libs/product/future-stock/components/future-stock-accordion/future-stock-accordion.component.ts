@@ -23,7 +23,6 @@ export class FutureStockAccordionComponent {
   iconType = ICON_TYPE;
 
   constructor(protected futureStockService: FutureStockFacade) {
-    useFeatureStyles('a11yCroppedFocusRing');
     useFeatureStyles('a11yUseProperTextColorForFutureStockAccordion');
   }
 

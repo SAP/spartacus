@@ -6,13 +6,13 @@
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
-  PromotionLocation,
-  CartOutlets,
   Cart,
+  CartOutlets,
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { PromotionsComponent } from '@spartacus/storefront';
-import { OutletDirective } from '@spartacus/storefront';
+import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 import { TranslatePipe } from '@spartacus/core';
+import { OutletDirective, PromotionsComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-opf-checkout-review-cart-details',
@@ -20,12 +20,11 @@ import { TranslatePipe } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PromotionsComponent, OutletDirective, TranslatePipe],
 })
-export class OpfCheckoutReviewCartDetailsComponent {
+export class OpfCheckoutReviewCartDetailsComponent extends CheckoutReviewSubmitComponent {
   @Input() cart: Cart | null;
 
   @Input() entries: any[] | null;
-
+  @Input() isAddressCardVisible = false;
   readonly promotionLocation: PromotionLocation = PromotionLocation.Checkout;
-
   cartOutlets = CartOutlets;
 }

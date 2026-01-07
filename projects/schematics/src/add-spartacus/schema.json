@@ -49,9 +49,9 @@
           "Checkout-B2B",
           "Checkout-Scheduled-Replenishment",
           "Order",
+          "Order-Document-Flow",
           "OPPS",
           "Digital-Payments",
-          "EPD-Visualization",
           "OPF-Checkout",
           "Punchout",
           "Customer-Ticketing",
@@ -165,12 +165,12 @@
             "checked": true
           },
           {
-            "value": "Digital-Payments",
-            "label": "Digital Payments Integration"
+            "value": "Order-Document-Flow",
+            "label": "Order Document Flow (b2b feature)"
           },
           {
-            "value": "EPD-Visualization",
-            "label": "EPD Visualization Integration"
+            "value": "Digital-Payments",
+            "label": "Digital Payments Integration"
           },
           {
             "value": "OPF-Checkout",
@@ -265,6 +265,10 @@
           {
             "value": "s4-service",
             "label": "S/4HANA Service Integration (b2b feature)"
+          },
+          {
+            "value": "Subscription-Billing",
+            "label": "Subscription Billing Integration"
           },
           {
             "value": "OMF",

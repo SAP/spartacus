@@ -13,7 +13,6 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { useFeatureStyles } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
 import { OutletDirective } from '@spartacus/storefront';
@@ -70,10 +69,7 @@ export class CartItemComponent implements OnChanges {
   iconTypes = ICON_TYPE;
   readonly CartOutlets = CartOutlets;
 
-  constructor(protected cartItemContextSource: CartItemContextSource) {
-    useFeatureStyles('a11yQTY2Quantity');
-    useFeatureStyles('a11yCroppedFocusRing');
-  }
+  constructor(protected cartItemContextSource: CartItemContextSource) {}
 
   ngOnChanges(changes?: SimpleChanges) {
     if (changes?.compact) {

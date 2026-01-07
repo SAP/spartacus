@@ -15,7 +15,6 @@ import {
 import { UntypedFormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { useFeatureStyles } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -65,9 +64,7 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
   constructor(
     protected cd: ChangeDetectorRef,
     protected quickOrderService: QuickOrderFacade
-  ) {
-    useFeatureStyles('a11yQTY2Quantity');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

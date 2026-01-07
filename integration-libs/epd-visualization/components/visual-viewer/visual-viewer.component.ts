@@ -21,6 +21,9 @@ import { VisualViewerAnimationSliderComponent } from './toolbar/visual-viewer-an
 import { SpinnerComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Component({
   selector: 'cx-epd-visualization-viewer',
   templateUrl: './visual-viewer.component.html',

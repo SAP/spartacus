@@ -202,7 +202,7 @@ describe('OrderApprovalListComponent?', () => {
   });
 
   it('should go to details page when the table row is clicked', () => {
-    el.query(By.css('tr')).nativeElement.click();
+    el.query(By.css('tbody tr')).nativeElement.click();
 
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'orderApprovalDetails',

@@ -11,6 +11,18 @@ const subscriptionBillingEndpoints: SubscriptionBillingOccEndpoints = {
   subscriptionList: 'users/${userId}/subscriptions',
   subscriptionByCode:
     'users/${userId}/subscriptions/${subscriptionCode}?fields=FULL',
+  extensionEffectiveDate:
+    'users/${userId}/subscriptions/${subscriptionCode}/extensionEffectiveAt',
+  extendSubscription:
+    'users/${userId}/subscriptions/${subscriptionCode}/extension',
+  getEffectiveCancellationDate:
+    'users/${userId}/subscriptions/${subscriptionCode}/cancellationEffectiveAt',
+  cancelSubscription:
+    'users/${userId}/subscriptions/${subscriptionCode}/cancellation',
+  withdrawSubscription:
+    'users/${userId}/subscriptions/${subscriptionCode}/withdrawal',
+  reverseCancellation:
+    'users/${userId}/subscriptions/${subscriptionCode}/cancellationReversal',
 };
 
 export const defaultOccSubscriptionBillingConfig: OccConfig = {
@@ -20,7 +32,7 @@ export const defaultOccSubscriptionBillingConfig: OccConfig = {
         ...subscriptionBillingEndpoints,
         product: {
           subscription:
-            'products/${productCode}?fields=sapPricePlan,sapSubscriptionTerm,productTypes',
+            'products/${productCode}?fields=sapPricePlan,sapSubscriptionTerm',
         },
       },
     },

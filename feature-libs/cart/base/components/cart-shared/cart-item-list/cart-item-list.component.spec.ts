@@ -13,6 +13,8 @@ import {
 import {
   FeatureConfigService,
   I18nTestingModule,
+  Product,
+  ProductCatalogService,
   UserIdService,
 } from '@spartacus/core';
 import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
@@ -117,6 +119,10 @@ class MockFeatureConfigService {
   }
 }
 
+const mockProductCatalogService = {
+  isProductInCatalog: (_product?: Product) => true,
+};
+
 describe('CartItemListComponent', () => {
   let component: CartItemListComponent;
   let fixture: ComponentFixture<CartItemListComponent>;
@@ -143,6 +149,10 @@ describe('CartItemListComponent', () => {
         { provide: MultiCartFacade, useClass: MockMultiCartService },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        {
+          provide: ProductCatalogService,
+          useValue: mockProductCatalogService,
+        },
       ],
     });
   }
@@ -403,6 +413,17 @@ describe('CartItemListComponent', () => {
           );
         })
         .unsubscribe();
+    });
+
+    it('should disable item link only if product is not in catalog', () => {
+      component.options = mockContext.options;
+      expect(component.getOptions(mockItem0)).toBe(component.options);
+      mockProductCatalogService.isProductInCatalog = (_product?: Product) =>
+        false;
+      expect(component.getOptions(mockItem0)).toEqual({
+        ...component.options,
+        disableItemLink: true,
+      });
     });
   });
 

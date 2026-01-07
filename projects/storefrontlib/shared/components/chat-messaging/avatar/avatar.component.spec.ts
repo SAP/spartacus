@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
+import { beforeEach } from 'jest-circus';
+import { ICON_TYPE, IconModule } from '../../../../cms-components/misc/icon';
 import { MessageEvent } from '../messaging';
 import { AvatarComponent } from './avatar.component';
-import { IconModule } from '../../../../cms-components/misc/icon/icon.module';
 
 const mockEvent: MessageEvent = {
   author: 'Mark Rivers',
@@ -48,11 +49,13 @@ describe('AvatarComponent', () => {
 
   it('should display icon if addedByAgent is truthy', () => {
     mockEvent.rightAlign = true;
+    mockEvent.author = 'Agent';
     component.message = mockEvent;
     fixture.detectChanges();
-    const element = fixture.debugElement.query(By.css('cx-icon')).nativeElement;
+    const iconElement = fixture.nativeElement.querySelector('cx-icon');
+    expect(iconElement).toBeTruthy();
 
-    expect(element.getAttribute('ng-reflect-type')).toEqual('HEADSET');
+    expect(iconElement.textContent).toEqual(ICON_TYPE.HEADSET);
   });
 
   it('should display user icon if author is missing', () => {
@@ -60,8 +63,9 @@ describe('AvatarComponent', () => {
     mockEvent.rightAlign = false;
     component.message = mockEvent;
     fixture.detectChanges();
-    const element = fixture.debugElement.query(By.css('cx-icon')).nativeElement;
+    const iconElement = fixture.nativeElement.querySelector('cx-icon');
+    expect(iconElement).toBeTruthy();
 
-    expect(element.getAttribute('ng-reflect-type')).toEqual('USER');
+    expect(iconElement.textContent).toEqual(ICON_TYPE.USER);
   });
 });

@@ -176,9 +176,7 @@ describe('VideoComponent', () => {
       fixture.detectChanges();
 
       expect(videoComponent.routerLink).toEqual(product);
-      expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
-        product
-      );
+      expect(videoElement.getAttribute('href')).toContain(product);
     });
 
     it('should set routing link with category', () => {
@@ -187,9 +185,7 @@ describe('VideoComponent', () => {
       fixture.detectChanges();
 
       expect(videoComponent.routerLink).toEqual(category);
-      expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
-        category
-      );
+      expect(videoElement.getAttribute('href')).toContain(category);
     });
 
     it('should set routing link with url', () => {
@@ -198,9 +194,7 @@ describe('VideoComponent', () => {
       fixture.detectChanges();
 
       expect(videoComponent.routerLink).toEqual(url);
-      expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
-        url
-      );
+      expect(videoElement.getAttribute('href')).toContain(url);
     });
 
     it('should set routing link with content page', () => {
@@ -209,9 +203,7 @@ describe('VideoComponent', () => {
       fixture.detectChanges();
 
       expect(videoComponent.routerLink).toEqual(contentPage);
-      expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
-        contentPage
-      );
+      expect(videoElement.getAttribute('href')).toContain(contentPage);
     });
   });
 

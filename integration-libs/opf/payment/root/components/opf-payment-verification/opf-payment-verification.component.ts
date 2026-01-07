@@ -12,7 +12,7 @@ import {
   inject,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorModel } from '@spartacus/core';
+import { HttpErrorModel, WindowRef } from '@spartacus/core';
 import { OpfKeyValueMap, OpfPage } from '@spartacus/opf/base/root';
 import { Observable, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
@@ -31,11 +31,14 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
     OpfPaymentVerificationService
   );
   protected vcr = inject(ViewContainerRef);
+  protected winRef = inject(WindowRef);
 
   protected subscription?: Subscription;
   protected isHostedFieldPattern = false;
 
   ngOnInit(): void {
+    this.breakOutOfIframeIfNeeded();
+
     this.opfPaymentVerificationService.checkIfProcessingCartIdExist();
 
     this.subscription = this.opfPaymentVerificationService
@@ -62,6 +65,24 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
           }
         },
       });
+  }
+
+  /**
+   * Ensures the verification page is displayed in the top-level window.
+   * Some PSPs render verification/success pages inside an iframe; in such cases
+   * we reload the current URL in the top window to preserve full-page UX.
+   *
+   * Reference: https://docs.saferpay.com/home/integration-guide/general-information/iframe-integration-and-css
+   */
+  protected breakOutOfIframeIfNeeded(): void {
+    if (
+      this.winRef?.nativeWindow?.top &&
+      this.winRef.nativeWindow.top.location !==
+        this.winRef.nativeWindow.location
+    ) {
+      this.winRef.nativeWindow.top.location.href =
+        this.winRef.nativeWindow.document.location.href;
+    }
   }
 
   protected runPaymentPattern({

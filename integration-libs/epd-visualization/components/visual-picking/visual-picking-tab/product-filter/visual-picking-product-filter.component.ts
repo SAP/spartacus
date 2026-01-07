@@ -11,6 +11,9 @@ import { FormsModule } from '@angular/forms';
 import { IconComponent } from '@spartacus/storefront';
 import { TranslatePipe } from '@spartacus/core';
 
+/**
+ * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Component({
   selector: 'cx-epd-visualization-product-filter',
   templateUrl: './visual-picking-product-filter.component.html',

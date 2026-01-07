@@ -9,7 +9,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
-import { IconTestingModule, PopoverModule } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  IconTestingModule,
+  PopoverModule,
+} from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
@@ -213,19 +217,17 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
 
   it('should render 2 info icons at value level when value has a description', () => {
     fixture.detectChanges();
-    CommonConfiguratorTestUtilsService.expectNumberOfElements(
-      expect,
-      htmlElem,
-      "cx-icon[ng-reflect-type='INFO']",
-      2
+    const icons = fixture.debugElement.queryAll(By.css('cx-icon'));
+    const infoIcons = icons.filter(
+      (icon) => icon.componentInstance.type === ICON_TYPE.INFO
     );
+    expect(infoIcons.length).toBe(2);
   });
 
   it('should render popover with description at value level after clicking on info icon', () => {
     fixture.detectChanges();
-    const infoButton = fixture.debugElement.query(
-      By.css('button[ng-reflect-cx-popover]')
-    ).nativeElement;
+    const infoButton = fixture.debugElement.query(By.css('button cx-icon'))
+      .parent?.nativeElement;
     infoButton.click();
     const description = fixture.debugElement.query(
       By.css('cx-popover > .popover-body > span')

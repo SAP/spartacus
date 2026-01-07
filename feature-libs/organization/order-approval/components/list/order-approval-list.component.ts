@@ -10,7 +10,6 @@ import {
   RoutingService,
   SearchConfig,
   TranslationService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -49,9 +48,7 @@ export class OrderApprovalListComponent implements OnInit {
     protected routing: RoutingService,
     protected orderApprovalService: OrderApprovalService,
     protected translation: TranslationService
-  ) {
-    useFeatureStyles('a11yShowLabelOfSelect');
-  }
+  ) {}
 
   sortLabels$: Observable<{ byDate: string; byOrderNumber: string }>;
   protected PAGE_SIZE = 5;

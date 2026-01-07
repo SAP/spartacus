@@ -4,28 +4,29 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  UntypedFormGroup,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormGroup,
 } from '@angular/forms';
-import { useFeatureStyles, User } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe, User } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
+import {
+  FocusDirective,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  PasswordVisibilityToggleDirective,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
+import { CardComponent } from '../../shared/card/card.component';
 import { MessageService } from '../../shared/message/services/message.service';
 import { UserItemService } from '../services/user-item.service';
 import { UserChangePasswordFormService } from './user-change-password-form.service';
-import { NgIf, AsyncPipe } from '@angular/common';
-import { CardComponent } from '../../shared/card/card.component';
-import { FocusDirective } from '@spartacus/storefront';
-import { RouterLink } from '@angular/router';
-import { FormRequiredLegendComponent } from '@spartacus/storefront';
-import { FormRequiredAsterisksComponent } from '@spartacus/storefront';
-import { PasswordVisibilityToggleDirective } from '@spartacus/storefront';
-import { FormErrorsComponent } from '@spartacus/storefront';
-import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-org-user-change-password-form',
@@ -56,9 +57,7 @@ export class UserChangePasswordFormComponent {
     protected itemService: UserItemService,
     protected formService: UserChangePasswordFormService,
     protected messageService: MessageService
-  ) {
-    useFeatureStyles('a11yPasswordVisibliltyBtnValueOverflow');
-  }
+  ) {}
 
   save(form: UntypedFormGroup): void {
     this.itemService.current$

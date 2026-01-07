@@ -91,13 +91,11 @@ $productThumbSize: 75px !default;
         border-color: var(--cx-color-primary);
       }
 
-      @include forFeature('a11yDifferentiateFocusedAndSelected') {
-        &.is-active {
-          border-style: dotted;
-        }
-        &:hover {
-          border-style: dashed;
-        }
+      &.is-active {
+        border-style: dotted;
+      }
+      &:hover {
+        border-style: dashed;
       }
     }
   }

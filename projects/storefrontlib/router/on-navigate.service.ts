@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT, ViewportScroller } from '@angular/common';
+import { ViewportScroller } from '@angular/common';
 import {
   ApplicationRef,
   ComponentRef,
   Injectable,
   Injector,
   inject,
+  DOCUMENT,
 } from '@angular/core';
 import {
   EventType,

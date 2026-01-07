@@ -5,7 +5,7 @@
  */
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PointOfServiceStock, useFeatureStyles } from '@spartacus/core';
+import { PointOfServiceStock } from '@spartacus/core';
 import { storeHasStock } from '@spartacus/pickup-in-store/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { StoreAddressComponent } from './store-address/store-address.component';
@@ -44,10 +44,7 @@ export class StoreComponent implements OnInit {
   openHoursOpen = false;
   readonly ICON_TYPE = ICON_TYPE;
 
-  constructor() {
-    useFeatureStyles('a11yViewHoursButtonIconContrast');
-    useFeatureStyles('a11yStoreInStockIconContrast');
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.isInStock = storeHasStock(this.storeDetails);

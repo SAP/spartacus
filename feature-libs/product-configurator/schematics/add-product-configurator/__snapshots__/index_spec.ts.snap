@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ and Textfield eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
@@ -58,7 +58,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '221121.2'
+      level: '221121.5'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -155,10 +155,8 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/schematics-test",
-            "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -175,7 +173,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               "src/styles.scss",
               "src/styles/spartacus/product-configurator.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -212,7 +209,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "schematics-test:build:production"
@@ -224,10 +221,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@angular/build:extract-i18n"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "polyfills": [
               "zone.js",
@@ -245,7 +242,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               "src/styles.scss",
               "src/styles/spartacus/product-configurator.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -313,7 +309,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '221121.2'
+      level: '221121.5'
     }
   }), provideConfig(defaultB2bOccConfig)]
 })
@@ -400,10 +396,8 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/schematics-test",
-            "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -420,7 +414,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               "src/styles.scss",
               "src/styles/spartacus/product-configurator.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -457,7 +450,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "schematics-test:build:production"
@@ -469,10 +462,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@angular/build:extract-i18n"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "polyfills": [
               "zone.js",
@@ -490,7 +483,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               "src/styles.scss",
               "src/styles/spartacus/product-configurator.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -554,7 +546,7 @@ import { defaultCmsContentProviders, layoutConfigFactory, mediaConfig } from "@s
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '221121.2'
+      level: '221121.5'
     }
   })]
 })
@@ -624,10 +616,8 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/schematics-test",
-            "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -644,7 +634,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               "src/styles.scss",
               "src/styles/spartacus/product-configurator.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -681,7 +670,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "schematics-test:build:production"
@@ -693,10 +682,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@angular/build:extract-i18n"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "polyfills": [
               "zone.js",
@@ -714,7 +703,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               "src/styles.scss",
               "src/styles/spartacus/product-configurator.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -814,10 +802,8 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/schematics-test",
-            "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -834,7 +820,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               "src/styles.scss",
               "src/styles/spartacus/product-configurator.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -871,7 +856,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "schematics-test:build:production"
@@ -883,10 +868,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@angular/build:extract-i18n"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "polyfills": [
               "zone.js",
@@ -904,7 +889,6 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               "src/styles.scss",
               "src/styles/spartacus/product-configurator.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"

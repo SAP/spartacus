@@ -312,40 +312,6 @@ describe('RegistrationVerificationTokenFormComponent', () => {
   });
 
   describe('password validators', () => {
-    // CXSPA-10916: remove test block
-    describe('when validators feature flag is disabled', () => {
-      it('should have old validators', () => {
-        fixture = TestBed.createComponent(
-          RegistrationVerificationTokenFormComponent
-        );
-        component = fixture.componentInstance;
-
-        fixture.detectChanges();
-
-        const passwordControl = component.registerForm.get(
-          'password'
-        ) as UntypedFormControl;
-        const validators = passwordControl.validator?.({} as any);
-
-        expect(passwordControl).toBeTruthy();
-        expect(validators).toEqual({
-          cxMinOneDigit: true,
-          cxMinOneSpecialCharacter: true,
-          cxMinOneUpperCaseCharacter: true,
-          cxMinSixCharactersLength: true,
-          required: true,
-        });
-      });
-
-      it('test getPasswordValidators method', () => {
-        const passwordValidators = component.getPasswordValidators();
-        expect(passwordValidators).toEqual([
-          ...CustomFormValidators.passwordValidators,
-          CustomFormValidators.noConsecutiveCharacters,
-        ]);
-      });
-    });
-
     describe('when validators feature flag is enabled', () => {
       beforeEach(() => {
         (featureConfigService.isEnabled as jasmine.Spy).and.returnValue(true);

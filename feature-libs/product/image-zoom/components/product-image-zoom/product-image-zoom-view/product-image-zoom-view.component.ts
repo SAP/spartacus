@@ -185,7 +185,6 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     protected breakpointService: BreakpointService
   ) {
     useFeatureStyles('a11yKeyboardAccessibleZoom');
-    useFeatureStyles('a11yCroppedFocusRing');
   }
 
   ngOnInit() {

@@ -13,11 +13,10 @@ import {
 } from '@angular/core';
 import {
   CmsService,
-  Page,
   FeatureConfigService,
+  Page,
   PointOfService,
   RoutingService,
-  useFeatureStyles,
 } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
@@ -29,13 +28,13 @@ import { StoreFinderFacade } from '@spartacus/storefinder/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
+  distinctUntilChanged,
   filter,
   map,
   shareReplay,
   switchMap,
   take,
   tap,
-  distinctUntilChanged,
 } from 'rxjs/operators';
 import { NgClass, NgIf, AsyncPipe } from '@angular/common';
 import { CardComponent } from '@spartacus/storefront';
@@ -122,8 +121,6 @@ export class MyPreferredStoreComponent implements OnInit {
           })
         );
     }
-    useFeatureStyles('a11yViewHoursButtonIconContrast');
-    useFeatureStyles('a11yImproveButtonsInCardComponent');
   }
 
   ngOnInit(): void {
@@ -194,9 +191,7 @@ export class MyPreferredStoreComponent implements OnInit {
           )
         )
         .subscribe();
-    } else if (
-      this.featureConfigService.isEnabled('a11yImproveButtonsInCardComponent')
-    ) {
+    } else {
       this.cmsService
         .getCurrentPage()
         .pipe(
@@ -239,25 +234,6 @@ export class MyPreferredStoreComponent implements OnInit {
           }
           this.cdr?.detectChanges();
         });
-    } else {
-      this.cmsService
-        .getCurrentPage()
-        .pipe(
-          filter<Page>(Boolean),
-          take(1),
-          tap(
-            (cmsPage) =>
-              (this.isStoreFinder = cmsPage.pageId === 'storefinderPage')
-          ),
-          filter(() => this.isStoreFinder),
-          tap(() => {
-            this.content = {
-              header: '',
-              actions: [{ event: 'send', name: GET_DIRECTIONS_NAME }],
-            };
-          })
-        )
-        .subscribe();
     }
   }
 

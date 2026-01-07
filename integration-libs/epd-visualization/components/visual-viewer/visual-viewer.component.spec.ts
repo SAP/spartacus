@@ -210,6 +210,9 @@ class MockVisualViewerService {
   public sceneLoadInfo$ = new Subject<SceneLoadInfo>();
 }
 
+/**
+ * @deprecated since v221121.3.0 - The epd-visualization integration library will be removed in the future.
+ */
 @Component({
   selector: 'cx-epd-visualization-animation-slider',
   template: '',

@@ -6,7 +6,7 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { HttpErrorModel } from '@spartacus/core';
+import { HttpErrorModel, WindowRef } from '@spartacus/core';
 import { OpfKeyValueMap, OpfPage } from '@spartacus/opf/base/root';
 import { of, throwError } from 'rxjs';
 import { OpfPaymentVerificationComponent } from './opf-payment-verification.component';
@@ -23,6 +23,7 @@ describe('OpfPaymentVerificationComponent', () => {
   let fixture: ComponentFixture<OpfPaymentVerificationComponent>;
   let routeMock: jasmine.SpyObj<ActivatedRoute>;
   let opfPaymentVerificationServiceMock: jasmine.SpyObj<OpfPaymentVerificationService>;
+  let windowRefMock: jasmine.SpyObj<WindowRef>;
 
   beforeEach(() => {
     routeMock = jasmine.createSpyObj('ActivatedRoute', [], {
@@ -40,6 +41,14 @@ describe('OpfPaymentVerificationComponent', () => {
         'runHostedPagePattern',
       ]
     );
+    const mockNativeWindow = {
+      top: null,
+      location: { href: 'test-url' },
+      document: { location: { href: 'test-url' } },
+    } as any;
+    windowRefMock = jasmine.createSpyObj('WindowRef', [], {
+      nativeWindow: mockNativeWindow,
+    });
 
     TestBed.configureTestingModule({
       imports: [OpfPaymentVerificationComponent, MockSpinnerComponent],
@@ -49,6 +58,7 @@ describe('OpfPaymentVerificationComponent', () => {
           provide: OpfPaymentVerificationService,
           useValue: opfPaymentVerificationServiceMock,
         },
+        { provide: WindowRef, useValue: windowRefMock },
       ],
     });
 
@@ -117,7 +127,7 @@ describe('OpfPaymentVerificationComponent', () => {
         of(mockVerifyResult)
       );
       opfPaymentVerificationServiceMock.runHostedPagePattern.and.returnValue(
-        throwError(mockError)
+        throwError(() => mockError)
       );
 
       spyOn(component, 'onError');
@@ -184,6 +194,30 @@ describe('OpfPaymentVerificationComponent', () => {
       expect(opfPaymentVerificationServiceMock.goToPage).toHaveBeenCalledWith(
         OpfPage.CHECKOUT_REVIEW_PAGE
       );
+    });
+  });
+
+  describe('breakOutOfIframeIfNeeded', () => {
+    it('should not break out when not in iframe', () => {
+      const mockNativeWindow = windowRefMock.nativeWindow as any;
+      mockNativeWindow.top = mockNativeWindow;
+
+      component['breakOutOfIframeIfNeeded']();
+
+      expect(mockNativeWindow.top.location.href).toBe('test-url');
+    });
+
+    it('should break out when in iframe', () => {
+      const mockTopWindow = {
+        location: { href: 'top-url' },
+      };
+      const mockNativeWindow = windowRefMock.nativeWindow as any;
+      mockNativeWindow.top = mockTopWindow;
+      mockNativeWindow.document.location.href = 'current-url';
+
+      component['breakOutOfIframeIfNeeded']();
+
+      expect(mockTopWindow.location.href).toBe('current-url');
     });
   });
 

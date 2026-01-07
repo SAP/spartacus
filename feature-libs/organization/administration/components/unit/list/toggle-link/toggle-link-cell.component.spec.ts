@@ -135,7 +135,7 @@ describe('ToggleLinkCellComponent', () => {
       expect(component.onArrowLeft).toHaveBeenCalled();
     });
 
-    it('should make active item the only focusable item and navigate', () => {
+    it('should make active item the only focusable item and navigate', fakeAsync(() => {
       Object.defineProperty(mockSpaceEvent, 'target', {
         value: mockElement1,
       });
@@ -147,10 +147,9 @@ describe('ToggleLinkCellComponent', () => {
       expect(mockSpaceEvent.preventDefault).toHaveBeenCalled();
       expect(mockElement1.tabIndex).toEqual(0);
       expect(mockElement2.tabIndex).toEqual(-1);
-      fixture.whenStable().then(() => {
-        expect(component.restoreFocus).toHaveBeenCalled();
-      });
-    });
+      tick();
+      expect(component.restoreFocus).toHaveBeenCalled();
+    }));
 
     it('should focus next link on ArrowDown', () => {
       const currentSelectedIndex = 0;

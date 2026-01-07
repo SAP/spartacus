@@ -21,7 +21,7 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { RoutingService, useFeatureStyles } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import {
   FocusConfig,
   ICON_TYPE,
@@ -111,9 +111,7 @@ export class AddedToCartDialogComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService,
     protected routingService: RoutingService,
     protected el: ElementRef
-  ) {
-    useFeatureStyles('a11yUpdatingCartNoNarration');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.subscription.add(

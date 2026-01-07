@@ -101,9 +101,7 @@ export class MediaComponent implements OnChanges {
   @Input() fetchPriority?: ImageFetchPriority | null;
 
   /**
-   * Works only when `useExtendedMediaComponentConfiguration` toggle is true
-   *
-   * @default img
+   * @default 'img'
    */
   @Input() elementType: 'img' | 'picture' = 'img';
 
@@ -119,8 +117,6 @@ export class MediaComponent implements OnChanges {
    *
    * This input is applicable only when the `elementType` input is set to `'img'`, as the `sizes` attribute
    * is currently added only to the `<img>` HTML element.
-   *
-   * Works only when the `useExtendedMediaComponentConfiguration` toggle is set to `true`.
    */
   @Input() sizesForImgElement: string;
 
@@ -162,8 +158,7 @@ export class MediaComponent implements OnChanges {
    * @deprecated since 2211.31. It will be eventually removed in the future
    *
    * To use `img` HTML element instead of `picture`
-   * use `useExtendedMediaComponentConfiguration` feature flag
-   * and pass `[elementType]="'img'"` input to the component
+   * pass `[elementType]="'img'"` input to the component
    */
   protected isLegacy =
     inject(USE_LEGACY_MEDIA_COMPONENT, { optional: true }) ||

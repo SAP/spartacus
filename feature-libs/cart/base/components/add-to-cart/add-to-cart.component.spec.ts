@@ -15,6 +15,7 @@ import {
   I18nTestingModule,
   Product,
   ProductAvailabilityAdapter,
+  ProductCatalogService,
 } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -128,6 +129,10 @@ class MockEventService implements Partial<EventService> {
   dispatch<T extends object>(_event: T): void {}
 }
 
+const mockProductCatalogService = {
+  isProductInCatalog: (_product?: Product) => false,
+};
+
 describe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
@@ -167,6 +172,10 @@ describe('AddToCartComponent', () => {
         {
           provide: ProductAvailabilityAdapter,
           useClass: MockProductAvailabilityAdapter,
+        },
+        {
+          provide: ProductCatalogService,
+          useValue: mockProductCatalogService,
         },
       ],
     });
@@ -273,6 +282,12 @@ describe('AddToCartComponent', () => {
         expect(addToCartComponent.productCode).toEqual(mockProduct.code);
         expect(addToCartComponent.maxQuantity).toBe(undefined);
         expect(addToCartComponent.hasStock).toEqual(false);
+      });
+
+      it('unavailable should be true if product is not in catalog', () => {
+        addToCartComponent.product = mockProduct;
+        addToCartComponent.ngOnInit();
+        expect(addToCartComponent.unavailable).toBeTruthy();
       });
     });
 
@@ -393,6 +408,15 @@ describe('AddToCartComponent', () => {
         expect(getTextFromAddToCartButton()).toEqual('addToCart.addToCart');
       });
 
+      it('should disable addToCart button if unavailable is set to true', () => {
+        addToCartComponent.productCode = productCode;
+        addToCartComponent.unavailable = true;
+        addToCartComponent.ngOnInit();
+        fixture.detectChanges();
+
+        expect(getButton().nativeElement.disabled).toEqual(true);
+      });
+
       it('should use the provided string for add to cart button', () => {
         addToCartComponent.productCode = productCode;
         addToCartComponent.options = { addToCartString: 'add to active cart' };
@@ -409,6 +433,16 @@ describe('AddToCartComponent', () => {
         fixture.detectChanges();
 
         expect(getTextFromAddToCartButton()).toEqual('addToCart.addToCart');
+      });
+
+      it('should display unavailable string if unavailable property is set to true', () => {
+        addToCartComponent.productCode = productCode;
+        addToCartComponent.options = { addToCartString: 'add to active cart' };
+        addToCartComponent.unavailable = true;
+        addToCartComponent.ngOnInit();
+        fixture.detectChanges();
+
+        expect(getTextFromAddToCartButton()).toEqual('addToCart.unavailable');
       });
 
       it('should not show any button if the product is not in stock', () => {

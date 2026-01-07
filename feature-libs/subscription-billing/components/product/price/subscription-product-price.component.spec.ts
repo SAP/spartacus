@@ -8,7 +8,7 @@ import {
   OneTimeCharge,
   RecurringCharge,
 } from '@spartacus/subscription-billing/root';
-import { SubscriptionProductService } from '@spartacus/subscription-billing/core';
+import { SubscriptionProductService } from '@spartacus/subscription-billing/root';
 const mockOneTime: OneTimeCharge[] = [{ name: 'one' }, { name: 'two' }];
 const mockRecurring: RecurringCharge[] = [{ price: { value: 1 } }];
 const mockProduct2 = {

@@ -78,7 +78,6 @@ describe('CheckoutReviewOverviewComponent', () => {
 
   describe('wrapComponentsWithSectionEl', () => {
     it('should render section wrapper', fakeAsync(() => {
-      spyOn(component['featureService'], 'isEnabled').and.returnValue(true);
       const els = [
         document.createElement('cx-checkout-review-payment'),
         document.createElement('cx-checkout-review-overview'),

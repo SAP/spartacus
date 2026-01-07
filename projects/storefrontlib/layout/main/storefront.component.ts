@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT, AsyncPipe } from '@angular/common';
+import { AsyncPipe, DOCUMENT } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -18,6 +18,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterOutlet } from '@angular/router';
 import {
   FeatureConfigService,
   RoutingService,
@@ -25,23 +26,22 @@ import {
 } from '@spartacus/core';
 import { Observable, Subscription, tap } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { GlobalMessageComponent } from '../../cms-components/misc/global-message/global-message.component';
+import { OutletDirective } from '../../cms-structure/outlet/outlet.directive';
+import { PageLayoutComponent } from '../../cms-structure/page/page-layout/page-layout.component';
+import { PageTemplateDirective } from '../../cms-structure/page/page-layout/page-template.directive';
+import { PageSlotComponent } from '../../cms-structure/page/slot/page-slot.component';
+import { FocusDirective } from '../a11y/keyboard-focus/focus.directive';
 import {
   FocusConfig,
   KeyboardFocusService,
   SkipFocusConfig,
 } from '../a11y/keyboard-focus/index';
+import { SkipFocusDirective } from '../a11y/keyboard-focus/skip-focus.directive';
+import { SkipLinkDirective } from '../a11y/skip-link/directive/skip-link.directive';
 import { SkipLinkComponent, SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontOutlets } from './storefront-outlets.model';
-import { PageTemplateDirective } from '../../cms-structure/page/page-layout/page-template.directive';
-import { OutletDirective } from '../../cms-structure/outlet/outlet.directive';
-import { SkipLinkDirective } from '../a11y/skip-link/directive/skip-link.directive';
-import { FocusDirective } from '../a11y/keyboard-focus/focus.directive';
-import { PageLayoutComponent } from '../../cms-structure/page/page-layout/page-layout.component';
-import { SkipFocusDirective } from '../a11y/keyboard-focus/skip-focus.directive';
-import { PageSlotComponent } from '../../cms-structure/page/slot/page-slot.component';
-import { GlobalMessageComponent } from '../../cms-components/misc/global-message/global-message.component';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'cx-storefront',
@@ -107,8 +107,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     protected elementRef: ElementRef<HTMLElement>,
     protected keyboardFocusService: KeyboardFocusService
   ) {
-    useFeatureStyles('headerLayoutForSmallerViewports');
-    useFeatureStyles('a11yPdpGridArrangement');
     useFeatureStyles('a11yKeyboardFocusInSearchBox');
     useFeatureStyles('a11yNgSelectLayering');
     useFeatureStyles('topProgressBarUseTransformAnimation');
