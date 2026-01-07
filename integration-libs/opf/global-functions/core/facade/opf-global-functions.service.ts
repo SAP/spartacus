@@ -607,9 +607,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     );
   }
 
-  protected extractOtpKey(
-    response: string | { accessCode?: string } | unknown
-  ): string | undefined {
+  protected extractOtpKey(response: unknown): string | undefined {
     return typeof response === 'string'
       ? response
       : ((response as { accessCode?: string })?.accessCode ??
