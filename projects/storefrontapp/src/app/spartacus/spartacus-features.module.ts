@@ -313,7 +313,6 @@ if (environment.cpq) {
         a11yNgSelectAriaControls: true,
         a11yConfiguratorOverviewHeaderVPC: true,
         enableCarouselCategoryProducts: true,
-        enableClaimCustomerCouponWithCodeInRequestBody: false,
         enableReadDomainValuesOnDemand: true,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
         storeFinderFacadeCleanup: true,
