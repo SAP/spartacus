@@ -23,6 +23,7 @@ export type OpfPaymentMerchantCallback = (
 export interface OpfPaymentGlobalMethods {
   getRedirectParams?(): Array<OpfKeyValueMap>;
   submit?(options: {
+    cartId?: string;
     additionalData: Array<OpfKeyValueMap>;
     submitSuccess: OpfPaymentMerchantCallback;
     submitPending: OpfPaymentMerchantCallback;
@@ -32,6 +33,7 @@ export interface OpfPaymentGlobalMethods {
     paymentSessionId?: string;
   }): Promise<boolean>;
   submitComplete?(options: {
+    cartId?: string;
     additionalData: Array<OpfKeyValueMap>;
     submitSuccess: OpfPaymentMerchantCallback;
     submitPending: OpfPaymentMerchantCallback;

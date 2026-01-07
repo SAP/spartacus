@@ -251,6 +251,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     vcr?: ViewContainerRef
   ): void {
     this.getGlobalFunctionContainer(domain).submit = (options: {
+      cartId?: string;
       additionalData: Array<OpfKeyValueMap>;
       submitSuccess: OpfPaymentMerchantCallback;
       submitPending: OpfPaymentMerchantCallback;
@@ -374,6 +375,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     vcr?: ViewContainerRef
   ): void {
     this.getGlobalFunctionContainer(domain).submitComplete = (options: {
+      cartId?: string;
       additionalData: Array<OpfKeyValueMap>;
       submitSuccess: OpfPaymentMerchantCallback;
       submitPending: OpfPaymentMerchantCallback;
