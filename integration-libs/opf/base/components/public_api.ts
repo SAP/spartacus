@@ -5,3 +5,4 @@
  */
 
 export * from './opf-base-components.module';
+export * from './opf-error-modal/index';
