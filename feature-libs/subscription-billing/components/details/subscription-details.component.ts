@@ -13,7 +13,11 @@ import {
   TranslatePipe,
   UrlPipe,
 } from '@spartacus/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import {
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import {
   GetSubscriptionByCodeReloadEvent,
   SubscriptionActionMode,
@@ -25,7 +29,15 @@ import { Observable, of, take } from 'rxjs';
 @Component({
   selector: 'cx-subscription-details',
   templateUrl: './subscription-details.component.html',
-  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, CxDatePipe, UrlPipe],
+  imports: [
+    NgIf,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    UrlPipe,
+    SpinnerComponent,
+  ],
 })
 export class SubscriptionDetailsComponent implements OnInit {
   protected subscriptionFacade = inject(SubscriptionFacade);
