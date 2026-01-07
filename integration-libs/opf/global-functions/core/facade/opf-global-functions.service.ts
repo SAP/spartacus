@@ -22,6 +22,7 @@ import {
   Cart,
   DeliveryMode,
   MultiCartFacade,
+  CartAccessCodeFacade,
 } from '@spartacus/cart/base/root';
 import {
   OpfErrorDialogOptions,
@@ -49,7 +50,6 @@ import {
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
-import { CartAccessCodeFacade } from '@spartacus/cart/base/root';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { getBrowserInfo } from '@spartacus/opf/payment/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
@@ -262,8 +262,8 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     }): Promise<boolean> => {
       return this.ngZone.run(() => {
         const finalPaymentSessionId =
-          options.paymentSessionId ||
-          paymentSessionId ||
+          options.paymentSessionId ??
+          paymentSessionId ??
           this.opfMetadataStoreService.opfMetadataState.value
             ?.opfPaymentSessionId;
 
@@ -385,8 +385,8 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     }): Promise<boolean> => {
       return this.ngZone.run(() => {
         const finalPaymentSessionId =
-          options.paymentSessionId ||
-          paymentSessionId ||
+          options.paymentSessionId ??
+          paymentSessionId ??
           this.opfMetadataStoreService.opfMetadataState.value
             ?.opfPaymentSessionId;
 
@@ -546,13 +546,9 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       configurationIdOrPaymentConfig: string | number | OpfPaymentConfig
     ): Promise<OpfPaymentSessionData> => {
       return this.ngZone.run(() => {
-        const paymentConfig: OpfPaymentConfig =
-          typeof configurationIdOrPaymentConfig === 'string' ||
-          typeof configurationIdOrPaymentConfig === 'number'
-            ? {
-                configurationId: String(configurationIdOrPaymentConfig),
-              }
-            : configurationIdOrPaymentConfig;
+        const paymentConfig = this.normalizePaymentConfig(
+          configurationIdOrPaymentConfig
+        );
 
         if (!paymentConfig.configurationId) {
           return Promise.reject(new Error('configurationId is required'));
@@ -566,56 +562,88 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
 
         return lastValueFrom(
           combineLatest([userId$, cartId$]).pipe(
-            switchMap(([userId, cartId]) => {
-              if (!cartId) {
-                return throwError(
-                  () => new Error('Cart ID is required. No active cart found.')
-                );
-              }
-
-              return this.cartAccessCodeFacade
-                .getCartAccessCode(userId, cartId)
-                .pipe(
-                  map((response) => {
-                    const otpKey =
-                      typeof response === 'string'
-                        ? response
-                        : response?.accessCode || response;
-                    return otpKey;
-                  }),
-                  filter((otpKey) => Boolean(otpKey)),
-                  switchMap((otpKey) => {
-                    const configWithDefaults: OpfPaymentConfig = {
-                      ...paymentConfig,
-                      cartId: paymentConfig.cartId || cartId,
-                      browserInfo:
-                        paymentConfig.browserInfo ||
-                        getBrowserInfo(this.winRef.nativeWindow),
-                      resultURL:
-                        paymentConfig.resultURL ||
-                        this.routingService.getFullUrl({
-                          cxRoute: OpfPage.RESULT_PAGE,
-                        }),
-                      cancelURL:
-                        paymentConfig.cancelURL ||
-                        this.routingService.getFullUrl({
-                          cxRoute: OpfPage.CANCEL_PAGE,
-                        }),
-                    };
-
-                    const fullConfig: OpfPaymentInitiationConfig = {
-                      otpKey: otpKey as string,
-                      config: configWithDefaults,
-                    };
-                    return this.opfPaymentFacade.initiatePayment(fullConfig);
-                  }),
-                  take(1)
-                );
-            })
+            switchMap(([userId, cartId]) =>
+              this.initiatePaymentWithCart(userId, cartId, paymentConfig)
+            )
           )
         );
       });
     };
+  }
+
+  protected normalizePaymentConfig(
+    configurationIdOrPaymentConfig: string | number | OpfPaymentConfig
+  ): OpfPaymentConfig {
+    return typeof configurationIdOrPaymentConfig === 'string' ||
+      typeof configurationIdOrPaymentConfig === 'number'
+      ? {
+          configurationId: String(configurationIdOrPaymentConfig),
+        }
+      : configurationIdOrPaymentConfig;
+  }
+
+  protected initiatePaymentWithCart(
+    userId: string,
+    cartId: string | undefined,
+    paymentConfig: OpfPaymentConfig
+  ): Observable<OpfPaymentSessionData> {
+    if (!cartId) {
+      return throwError(
+        () => new Error('Cart ID is required. No active cart found.')
+      );
+    }
+
+    return this.cartAccessCodeFacade.getCartAccessCode(userId, cartId).pipe(
+      map((response) => this.extractOtpKey(response)),
+      filter((otpKey) => Boolean(otpKey)),
+      switchMap((otpKey) =>
+        this.buildAndInitiatePaymentConfig(
+          paymentConfig,
+          cartId,
+          otpKey as string
+        )
+      ),
+      take(1)
+    );
+  }
+
+  protected extractOtpKey(
+    response: string | { accessCode?: string } | unknown
+  ): string | undefined {
+    return typeof response === 'string'
+      ? response
+      : ((response as { accessCode?: string })?.accessCode ??
+          (response as string | undefined));
+  }
+
+  protected buildAndInitiatePaymentConfig(
+    paymentConfig: OpfPaymentConfig,
+    cartId: string,
+    otpKey: string
+  ): Observable<OpfPaymentSessionData> {
+    const configWithDefaults: OpfPaymentConfig = {
+      ...paymentConfig,
+      cartId: paymentConfig.cartId ?? cartId,
+      browserInfo:
+        paymentConfig.browserInfo ?? getBrowserInfo(this.winRef.nativeWindow),
+      resultURL:
+        paymentConfig.resultURL ??
+        this.routingService.getFullUrl({
+          cxRoute: OpfPage.RESULT_PAGE,
+        }),
+      cancelURL:
+        paymentConfig.cancelURL ??
+        this.routingService.getFullUrl({
+          cxRoute: OpfPage.CANCEL_PAGE,
+        }),
+    };
+
+    const fullConfig: OpfPaymentInitiationConfig = {
+      otpKey,
+      config: configWithDefaults,
+    };
+
+    return this.opfPaymentFacade.initiatePayment(fullConfig);
   }
 
   protected registerVerifyPayment(domain: OpfGlobalFunctionsDomain): void {
