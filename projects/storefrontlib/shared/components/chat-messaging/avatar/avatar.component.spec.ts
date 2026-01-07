@@ -64,7 +64,6 @@ describe('AvatarComponent', () => {
     mockEvent.author = 'Agent';
     component.message = mockEvent;
     fixture.detectChanges();
-    debugger;
     const iconElement = fixture.nativeElement.querySelector('cx-icon');
     expect(iconElement).toBeTruthy();
 
