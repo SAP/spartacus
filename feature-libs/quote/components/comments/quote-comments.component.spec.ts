@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, DOCUMENT } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -390,7 +389,7 @@ describe('QuoteCommentsComponent', () => {
       expect(mapCommentToMessageEvent(comment).item).toBeUndefined();
     });
     it('should throw an error if there is an entry but without entry number', () => {
-      expect(() => mapCommentToMessageEvent(comment, {})).toThrowError();
+      expect(() => mapCommentToMessageEvent(comment, {})).toThrow();
     });
   });
 

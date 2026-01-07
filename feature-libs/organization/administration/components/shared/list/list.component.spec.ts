@@ -294,9 +294,8 @@ describe('ListComponent', () => {
     });
 
     it('should display hint after click info button', () => {
-      const infoButton = fixture.debugElement.query(
-        By.css('button[ng-reflect-cx-popover]')
-      ).nativeElement;
+      const infoButton = fixture.debugElement.query(By.css('button cx-icon'))
+        .parent?.nativeElement;
       infoButton.click();
       const el = fixture.debugElement.query(
         By.css('cx-popover > .popover-body > p')

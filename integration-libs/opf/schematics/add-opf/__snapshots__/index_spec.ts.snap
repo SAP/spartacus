@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
@@ -82,10 +82,8 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/schematics-test",
-            "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -102,7 +100,6 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
               "src/styles.scss",
               "src/styles/spartacus/opf.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -139,7 +136,7 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "schematics-test:build:production"
@@ -151,10 +148,10 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
           "defaultConfiguration": "development"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
+          "builder": "@angular/build:extract-i18n"
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:karma",
           "options": {
             "polyfills": [
               "zone.js",
@@ -172,7 +169,6 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
               "src/styles.scss",
               "src/styles/spartacus/opf.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT } from '@angular/common';
 import {
   ComponentFactory,
   ComponentFactoryResolver,
@@ -12,6 +11,7 @@ import {
   Inject,
   Injectable,
   RendererFactory2,
+  DOCUMENT,
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';

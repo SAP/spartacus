@@ -19,10 +19,18 @@ import {
   Renderer2,
   SecurityContext,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SIGNAL } from '@angular/core/primitives/signals';
+import {
+  outputToObservable,
+  takeUntilDestroyed,
+} from '@angular/core/rxjs-interop';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { FeatureConfigService, TranslationService } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { filter, merge, take } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BREAKPOINT, BreakpointService } from '../../../layout';
@@ -82,7 +90,9 @@ export class NgSelectA11yDirective implements AfterViewInit {
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef
-  ) {}
+  ) {
+    useFeatureStyles('a11yNgSelectUnicodeCarets');
+  }
 
   ngAfterViewInit(): void {
     const inputCombobox =
@@ -98,8 +108,12 @@ export class NgSelectA11yDirective implements AfterViewInit {
       this.customizeNgSelectAriaLabelDropdown();
     }
 
-    const isOpened$ = this.selectComponent.openEvent.pipe(map(() => 'true'));
-    const isClosed$ = this.selectComponent.closeEvent.pipe(map(() => 'false'));
+    const isOpened$ = outputToObservable(this.selectComponent.openEvent).pipe(
+      map(() => 'true')
+    );
+    const isClosed$ = outputToObservable(this.selectComponent.closeEvent).pipe(
+      map(() => 'false')
+    );
     merge(isOpened$, isClosed$)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((state) => {
@@ -142,6 +156,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
           selectObserver.observe(this.elementRef.nativeElement, {
             subtree: true,
             characterData: true,
+            childList: true,
           });
         });
     }
@@ -209,7 +224,16 @@ export class NgSelectA11yDirective implements AfterViewInit {
       .translate('common.ngSelectDropdownOptionsList')
       .pipe(take(1))
       .subscribe((translation) => {
-        this.selectComponent.ariaLabelDropdown = translation;
+        // workaround for known issue with setting value of the input signal programmatically: https://github.com/angular/angular/issues/54782
+        // since ng-select@20.x changed ariaLabelDropdown to be an input signal, we can't set its value directly
+        // NOTE: SIGNAL is not a part of the public API of @angular/core and may change without notice
+        // TODO: CXSPA-11443 find a way to apply customizeNgSelectAriaLabelDropdown in a different way
+        const ariaLabelDropdownSignal =
+          this.selectComponent.ariaLabelDropdown[SIGNAL];
+        ariaLabelDropdownSignal.applyValueToInputSignal(
+          ariaLabelDropdownSignal,
+          translation
+        );
       });
   }
 }

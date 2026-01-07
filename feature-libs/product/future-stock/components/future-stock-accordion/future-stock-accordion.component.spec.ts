@@ -105,13 +105,18 @@ describe('FutureStockAccordionComponent', () => {
     });
 
     it('should toggle expanded state by clicking button', () => {
-      expect(button.innerHTML).toContain('CARET_DOWN');
+      let icon = fixture.debugElement.query(
+        By.css('cx-icon')
+      ).componentInstance;
+      expect(icon.type).toBe(ICON_TYPE.CARET_DOWN);
       button.click();
       fixture.detectChanges();
-      expect(button.innerHTML).toContain('CARET_UP');
+      icon = fixture.debugElement.query(By.css('cx-icon')).componentInstance;
+      expect(icon.type).toBe(ICON_TYPE.CARET_UP);
       button.click();
       fixture.detectChanges();
-      expect(button.innerHTML).toContain('CARET_DOWN');
+      icon = fixture.debugElement.query(By.css('cx-icon')).componentInstance;
+      expect(icon.type).toBe(ICON_TYPE.CARET_DOWN);
     });
   });
 

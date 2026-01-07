@@ -434,6 +434,7 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
             route,
             commonModule,
             module: declaringModule,
+            typeSeparator: '.',
           })
         : noop(),
       externalSchematic(ANGULAR_SCHEMATICS, 'component', {

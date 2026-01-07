@@ -320,10 +320,10 @@ describe('BannerComponent', () => {
       };
       data$.next(mockDataWithHeadline);
       fixture.detectChanges();
-      const linkElement = el.query(By.css('cx-generic-link')).nativeElement;
-      expect(linkElement.getAttribute('ng-reflect-aria-label')).toEqual(
-        'Banner Headline'
-      );
+      const linkComponent = el.query(
+        By.css('cx-generic-link')
+      ).componentInstance;
+      expect(linkComponent.ariaLabel).toEqual('Banner Headline');
     });
 
     it('should use image alt text if no headline is provided', () => {
@@ -335,11 +335,11 @@ describe('BannerComponent', () => {
         },
       };
       data$.next(mockDataWithAltTextOnly);
-      const linkElement = el.query(By.css('cx-generic-link')).nativeElement;
+      const linkComponent = el.query(
+        By.css('cx-generic-link')
+      ).componentInstance;
       fixture.detectChanges();
-      expect(linkElement.getAttribute('ng-reflect-aria-label')).toEqual(
-        'hybris Accelerator'
-      );
+      expect(linkComponent.ariaLabel).toEqual('hybris Accelerator');
     });
 
     it('should return undefined if neither headline nor alt text is available', () => {

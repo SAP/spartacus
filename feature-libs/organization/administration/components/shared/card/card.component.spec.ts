@@ -176,8 +176,8 @@ describe('CardComponent', () => {
 
     it('should display hint after click info button', () => {
       const infoButton = fixture.debugElement.query(
-        By.css('button[ng-reflect-cx-popover]')
-      ).nativeElement;
+        By.css('.title h3 button cx-icon')
+      ).parent?.nativeElement;
       infoButton.click();
       const el = fixture.debugElement.query(
         By.css('cx-popover > .popover-body > p')

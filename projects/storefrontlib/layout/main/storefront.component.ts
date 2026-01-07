@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -16,6 +15,7 @@ import {
   OnInit,
   Optional,
   ViewChild,
+  DOCUMENT,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {

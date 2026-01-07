@@ -96,7 +96,7 @@
         [attr.aria-errormessage]="'isocodeError'"
         [searchable]="false"
         [clearable]="false"
-        [items]="currencies$ | async"
+        [items]="(currencies$ | async) ?? []"
         bindLabel="name"
         bindValue="isocode"
         [class.invalid]="form.get('currency.isocode')?.invalid ?? false"

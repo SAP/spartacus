@@ -58,7 +58,7 @@ export class QuoteListComponent implements OnInit {
   sorts = this.quoteListComponentService.sortOptions;
   sortLabels$ = this.quoteListComponentService.sortLabels$;
   quotesState$ = this.quoteListComponentService.quotesState$;
-  dateFormat: string = 'MMMM d, YYYY h:mm aa';
+  dateFormat: string = 'MMMM d, yyyy h:mm aa';
   iconTypes = ICON_TYPE;
 
   ngOnInit(): void {
