@@ -13,12 +13,12 @@ import {
   isDevMode,
   RendererFactory2,
   ViewContainerRef,
-  DOCUMENT,
 } from '@angular/core';
 import { LoggerService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LAUNCH_CALLER, LaunchInlineDialog } from '../config/index';
 import { LaunchRenderStrategy } from './launch-render.strategy';
+import { DOCUMENT } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class InlineRenderStrategy extends LaunchRenderStrategy {

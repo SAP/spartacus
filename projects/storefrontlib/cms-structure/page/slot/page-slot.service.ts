@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID, DOCUMENT } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { DeferLoadingStrategy } from '@spartacus/core';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 import { CmsComponentsService } from '../../services/cms-components.service';

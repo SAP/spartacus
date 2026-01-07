@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   InjectionToken,
   ModuleWithProviders,
   NgModule,
   PLATFORM_ID,
   inject,
-  DOCUMENT,
 } from '@angular/core';
 import { provideFeatureTogglesFactory } from '../features-config';
 import { FeatureTogglesInterface } from '../features-config/feature-toggles/config/feature-toggles';
