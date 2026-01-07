@@ -104,9 +104,7 @@ describe('TabComponent', () => {
     });
 
     it('should navigate menu buttons with arrow keys', () => {
-      expect(component.isOpen(0)).toEqual(true);
-      expect(component.isOpen(1)).toEqual(false);
-      expect(component.isOpen(2)).toEqual(false);
+      const focusSpy = spyOn(component, 'focus');
 
       component.handleKeydownEvent(
         0,
@@ -114,10 +112,7 @@ describe('TabComponent', () => {
         component.config.mode,
         new KeyboardEvent('keydown', { key: 'ArrowRight' })
       );
-
-      expect(component.isOpen(0)).toEqual(false);
-      expect(component.isOpen(1)).toEqual(true);
-      expect(component.isOpen(2)).toEqual(false);
+      expect(focusSpy).toHaveBeenCalledWith(1);
 
       component.handleKeydownEvent(
         1,
@@ -125,10 +120,7 @@ describe('TabComponent', () => {
         component.config.mode,
         new KeyboardEvent('keydown', { key: 'ArrowDown' })
       );
-
-      expect(component.isOpen(0)).toEqual(false);
-      expect(component.isOpen(1)).toEqual(false);
-      expect(component.isOpen(2)).toEqual(true);
+      expect(focusSpy).toHaveBeenCalledWith(2);
 
       component.handleKeydownEvent(
         2,
@@ -136,10 +128,7 @@ describe('TabComponent', () => {
         component.config.mode,
         new KeyboardEvent('keydown', { key: 'ArrowLeft' })
       );
-
-      expect(component.isOpen(0)).toEqual(false);
-      expect(component.isOpen(1)).toEqual(true);
-      expect(component.isOpen(2)).toEqual(false);
+      expect(focusSpy).toHaveBeenCalledWith(1);
 
       component.handleKeydownEvent(
         1,
@@ -147,15 +136,11 @@ describe('TabComponent', () => {
         component.config.mode,
         new KeyboardEvent('keydown', { key: 'ArrowUp' })
       );
-
-      expect(component.isOpen(0)).toEqual(true);
-      expect(component.isOpen(1)).toEqual(false);
-      expect(component.isOpen(2)).toEqual(false);
+      expect(focusSpy).toHaveBeenCalledWith(0);
     });
 
     it('should wrap navigation on menu buttons with arrow keys', () => {
-      expect(component.isOpen(0)).toEqual(true);
-      expect(component.isOpen(3)).toEqual(false);
+      const focusSpy = spyOn(component, 'focus');
 
       component.handleKeydownEvent(
         0,
@@ -163,9 +148,7 @@ describe('TabComponent', () => {
         component.config.mode,
         new KeyboardEvent('keydown', { key: 'ArrowUp' })
       );
-
-      expect(component.isOpen(0)).toEqual(false);
-      expect(component.isOpen(3)).toEqual(true);
+      expect(focusSpy).toHaveBeenCalledWith(3);
 
       component.handleKeydownEvent(
         3,
@@ -173,9 +156,7 @@ describe('TabComponent', () => {
         component.config.mode,
         new KeyboardEvent('keydown', { key: 'ArrowDown' })
       );
-
-      expect(component.isOpen(0)).toEqual(true);
-      expect(component.isOpen(3)).toEqual(false);
+      expect(focusSpy).toHaveBeenCalledWith(0);
 
       component.handleKeydownEvent(
         0,
@@ -183,9 +164,7 @@ describe('TabComponent', () => {
         component.config.mode,
         new KeyboardEvent('keydown', { key: 'ArrowLeft' })
       );
-
-      expect(component.isOpen(0)).toEqual(false);
-      expect(component.isOpen(3)).toEqual(true);
+      expect(focusSpy).toHaveBeenCalledWith(3);
 
       component.handleKeydownEvent(
         3,
@@ -193,9 +172,7 @@ describe('TabComponent', () => {
         component.config.mode,
         new KeyboardEvent('keydown', { key: 'ArrowRight' })
       );
-
-      expect(component.isOpen(0)).toEqual(true);
-      expect(component.isOpen(3)).toEqual(false);
+      expect(focusSpy).toHaveBeenCalledWith(0);
     });
 
     it('should NOT navigate menu buttons with restricted arrow keys', () => {
@@ -207,9 +184,7 @@ describe('TabComponent', () => {
       };
       fixture.detectChanges();
 
-      expect(component.isOpen(0)).toEqual(true);
-      expect(component.isOpen(1)).toEqual(false);
-      expect(component.isOpen(2)).toEqual(false);
+      const focusSpy = spyOn(component, 'focus');
 
       component.handleKeydownEvent(
         0,
@@ -217,10 +192,7 @@ describe('TabComponent', () => {
         component.config.mode,
         new KeyboardEvent('keydown', { key: 'ArrowRight' })
       );
-
-      expect(component.isOpen(0)).toEqual(false);
-      expect(component.isOpen(1)).toEqual(true);
-      expect(component.isOpen(2)).toEqual(false);
+      expect(focusSpy).toHaveBeenCalledWith(1);
 
       component.handleKeydownEvent(
         1,
@@ -228,10 +200,7 @@ describe('TabComponent', () => {
         component.config.mode,
         new KeyboardEvent('keydown', { key: 'ArrowDown' })
       );
-
-      expect(component.isOpen(0)).toEqual(false);
-      expect(component.isOpen(1)).toEqual(true);
-      expect(component.isOpen(2)).toEqual(false);
+      expect(focusSpy).toHaveBeenCalledTimes(1);
 
       component.handleKeydownEvent(
         1,
@@ -239,10 +208,7 @@ describe('TabComponent', () => {
         component.config.mode,
         new KeyboardEvent('keydown', { key: 'ArrowLeft' })
       );
-
-      expect(component.isOpen(0)).toEqual(true);
-      expect(component.isOpen(1)).toEqual(false);
-      expect(component.isOpen(2)).toEqual(false);
+      expect(focusSpy).toHaveBeenCalledWith(0);
 
       component.handleKeydownEvent(
         0,
@@ -250,27 +216,11 @@ describe('TabComponent', () => {
         component.config.mode,
         new KeyboardEvent('keydown', { key: 'ArrowUp' })
       );
-
-      expect(component.isOpen(0)).toEqual(true);
-      expect(component.isOpen(1)).toEqual(false);
-      expect(component.isOpen(2)).toEqual(false);
+      expect(focusSpy).toHaveBeenCalledTimes(2);
     });
 
     it('should navigate to last tab with END key', () => {
-      expect(component.isOpen(0)).toEqual(true);
-      expect(component.isOpen(1)).toEqual(false);
-      expect(component.isOpen(3)).toEqual(false);
-
-      component.handleKeydownEvent(
-        0,
-        component.tabs,
-        component.config.mode,
-        new KeyboardEvent('keydown', { key: 'ArrowDown' })
-      );
-
-      expect(component.isOpen(0)).toEqual(false);
-      expect(component.isOpen(1)).toEqual(true);
-      expect(component.isOpen(3)).toEqual(false);
+      const focusSpy = spyOn(component, 'focus');
 
       component.handleKeydownEvent(
         1,
@@ -279,33 +229,11 @@ describe('TabComponent', () => {
         new KeyboardEvent('keydown', { key: 'End' })
       );
 
-      expect(component.isOpen(0)).toEqual(false);
-      expect(component.isOpen(1)).toEqual(false);
-      expect(component.isOpen(3)).toEqual(true);
+      expect(focusSpy).toHaveBeenCalledWith(3);
     });
 
     it('should navigate to first tab with HOME key', () => {
-      component.handleKeydownEvent(
-        0,
-        component.tabs,
-        component.config.mode,
-        new KeyboardEvent('keydown', { key: 'ArrowUp' })
-      );
-
-      expect(component.isOpen(3)).toEqual(true);
-      expect(component.isOpen(2)).toEqual(false);
-      expect(component.isOpen(0)).toEqual(false);
-
-      component.handleKeydownEvent(
-        3,
-        component.tabs,
-        component.config.mode,
-        new KeyboardEvent('keydown', { key: 'ArrowUp' })
-      );
-
-      expect(component.isOpen(3)).toEqual(false);
-      expect(component.isOpen(2)).toEqual(true);
-      expect(component.isOpen(0)).toEqual(false);
+      const focusSpy = spyOn(component, 'focus');
 
       component.handleKeydownEvent(
         2,
@@ -314,9 +242,7 @@ describe('TabComponent', () => {
         new KeyboardEvent('keydown', { key: 'Home' })
       );
 
-      expect(component.isOpen(3)).toEqual(false);
-      expect(component.isOpen(2)).toEqual(false);
-      expect(component.isOpen(0)).toEqual(true);
+      expect(focusSpy).toHaveBeenCalledWith(0);
     });
 
     it('should not set aria-controls when the tab is closed', () => {

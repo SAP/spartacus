@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ export const defaultAsmConfig: AsmConfig = {
     customerSearch: {
       maxResults: 20,
     },
+    asmSessionSupport: { enabled: false },
     customerList: {
       pageSize: 5,
       showAvatar: true,
@@ -74,6 +75,9 @@ export const defaultAsmConfig: AsmConfig = {
       ],
     },
     userIdHttpHeader: {
+      enable: true,
+    },
+    createCustomer: {
       enable: true,
     },
   },

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -100,13 +100,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
 
     this.renderer.setAttribute(inputCombobox, 'role', 'combobox');
     this.renderer.setAttribute(inputCombobox, 'aria-expanded', 'false');
-    if (
-      this.featureConfigService?.isEnabled(
-        'a11yNgSelectAriaLabelDropdownCustomized'
-      )
-    ) {
-      this.customizeNgSelectAriaLabelDropdown();
-    }
+    this.customizeNgSelectAriaLabelDropdown();
 
     const isOpened$ = outputToObservable(this.selectComponent.openEvent).pipe(
       map(() => 'true')

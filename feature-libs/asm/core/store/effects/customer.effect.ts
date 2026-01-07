@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CustomerSearchPage } from '@spartacus/asm/root';
 import { LoggerService, tryNormalizeHttpError } from '@spartacus/core';
@@ -15,8 +15,6 @@ import { AsmActions } from '../actions/index';
 
 @Injectable()
 export class CustomerEffects {
-  protected logger = inject(LoggerService);
-
   customerSearch$: Observable<AsmActions.CustomerAction> = createEffect(() =>
     this.actions$.pipe(
       ofType(AsmActions.CUSTOMER_SEARCH),
@@ -70,6 +68,7 @@ export class CustomerEffects {
 
   constructor(
     private actions$: Actions,
-    private asmConnector: AsmConnector
+    private asmConnector: AsmConnector,
+    private logger: LoggerService
   ) {}
 }

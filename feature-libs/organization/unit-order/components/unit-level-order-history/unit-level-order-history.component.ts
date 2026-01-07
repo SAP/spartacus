@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,6 @@ import {
   TranslatePipe,
   TranslationService,
   UrlPipe,
-  useFeatureStyles,
 } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core';
@@ -67,9 +66,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
     protected routing: RoutingService,
     protected unitOrdersFacade: UnitOrderFacade,
     protected translation: TranslationService
-  ) {
-    useFeatureStyles('a11yTruncatedTextUnitLevelOrderHistory');
-  }
+  ) {}
 
   orders$: Observable<OrderHistoryList | undefined> = this.unitOrdersFacade
     .getOrderHistoryList(this.PAGE_SIZE)

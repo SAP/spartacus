@@ -4,7 +4,6 @@ on:
       - develop
       - develop-*
       - release/*
-      - feature-toggles-check
     paths-ignore:
       - "**.md"
       - "docs/**"
@@ -74,6 +73,7 @@ jobs:
           args: >
             -Dsonar.qualitygate.wait=true
             -Dsonar.projectKey=composable-storefront
+            -Dsonar.typescript.exclusions=**/.github/**
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonar.tools.sap

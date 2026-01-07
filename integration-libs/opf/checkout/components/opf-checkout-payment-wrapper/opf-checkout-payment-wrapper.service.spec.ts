@@ -325,6 +325,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       isError: false,
       renderType: OpfPaymentRenderPattern.FULL_PAGE,
       destination: { url: mockUrl, form: [] },
+      paymentOptionId: undefined,
     });
   });
 
@@ -373,6 +374,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
       isError: false,
       renderType: OpfPaymentRenderPattern.IFRAME,
       destination: { url: mockUrl, form: mockFormData },
+      paymentOptionId: undefined,
     });
   });
 
@@ -443,6 +445,7 @@ describe('OpfCheckoutPaymentWrapperService', () => {
         isError: false,
         renderType: OpfPaymentRenderPattern.HOSTED_FIELDS,
         html: '<html></html>',
+        paymentOptionId: mockPaymentOptionId,
       });
       done();
     });

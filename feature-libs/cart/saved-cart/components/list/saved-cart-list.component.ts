@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,7 +26,6 @@ import {
   RoutingService,
   TranslatePipe,
   UrlPipe,
-  useFeatureStyles,
 } from '@spartacus/core';
 import {
   LAUNCH_CALLER,
@@ -81,9 +80,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     protected savedCartService: SavedCartFacade,
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
-  ) {
-    useFeatureStyles('a11yHighContrastBorders');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.isLoading$ = this.savedCartService.getSavedCartListProcessLoading();

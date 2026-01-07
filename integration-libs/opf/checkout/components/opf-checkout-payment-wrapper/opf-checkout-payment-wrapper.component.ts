@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,6 +34,7 @@ import {
   LanguageService,
   TranslatePipe,
 } from '@spartacus/core';
+import { OpfConfig } from '@spartacus/opf/base/root';
 import {
   OpfGlobalFunctionsDomain,
   OpfGlobalFunctionsFacade,
@@ -78,6 +79,7 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
   protected activeCartService = inject(ActiveCartFacade);
   protected vcr = inject(ViewContainerRef);
   protected cdr = inject(ChangeDetectorRef);
+  protected opfConfig = inject(OpfConfig);
   protected isPaymentDataReady = false;
   protected readonly PAYMENT_IFRAME_NAME = 'cx-payment-iframe';
 
@@ -96,6 +98,14 @@ export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {
 
   bypassSecurityTrustResourceUrl(url: string): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  getIframeSandbox(paymentOptionId?: number): string | undefined {
+    const sandboxMap = this.opfConfig?.opf?.paymentOption?.iframeSandboxMap;
+    if (paymentOptionId && sandboxMap && sandboxMap[paymentOptionId]) {
+      return sandboxMap[paymentOptionId];
+    }
+    return undefined;
   }
 
   ngOnInit() {
