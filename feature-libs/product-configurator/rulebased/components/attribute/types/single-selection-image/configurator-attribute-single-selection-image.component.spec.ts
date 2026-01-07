@@ -9,11 +9,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   FocusDirective,
   ICON_TYPE,
+  IconComponent,
   IconTestingModule,
+  MockIconComponent,
   PopoverModule,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -75,23 +83,12 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.overrideComponent(
       ConfiguratorAttributeSingleSelectionImageComponent,
-      {
-        set: {
-          providers: [
-            {
-              provide: ConfiguratorAttributePriceChangeService,
-              useClass: MockConfiguratorAttributePriceChangeService,
-            },
-          ],
-        },
-      }
+      {}
     );
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
-        I18nTestingModule,
-        IconTestingModule,
         PopoverModule,
         ConfiguratorAttributeSingleSelectionImageComponent,
       ],
@@ -117,11 +114,29 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
     })
       .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
         remove: {
-          imports: [FocusDirective, ConfiguratorPriceComponent],
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            FocusDirective,
+            ConfiguratorPriceComponent,
+          ],
         },
         add: {
-          imports: [MockFocusDirective, MockConfiguratorPriceComponent],
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockIconComponent,
+            MockFocusDirective,
+            MockConfiguratorPriceComponent,
+          ],
           changeDetection: ChangeDetectionStrategy.Default,
+          providers: [
+            {
+              provide: ConfiguratorAttributePriceChangeService,
+              useClass: MockConfiguratorAttributePriceChangeService,
+            },
+          ],
         },
       })
       .compileComponents();
