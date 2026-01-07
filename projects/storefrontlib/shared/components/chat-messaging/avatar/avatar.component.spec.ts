@@ -1,8 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { ICON_TYPE } from '../../../../cms-components/misc/icon';
-import { IconModule } from '../../../../cms-components/misc/icon/icon.module';
+import {
+  ICON_TYPE,
+  IconComponent,
+  MockIconComponent,
+} from '../../../../cms-components/misc/icon';
 import { MessageEvent } from '../messaging';
 import { AvatarComponent } from './avatar.component';
 
@@ -17,8 +20,17 @@ describe('AvatarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconModule, AvatarComponent],
-    }).compileComponents();
+      imports: [I18nTestingModule, AvatarComponent],
+    })
+      .overrideComponent(AvatarComponent, {
+        remove: {
+          imports: [IconComponent],
+        },
+        add: {
+          imports: [MockIconComponent],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -52,6 +64,7 @@ describe('AvatarComponent', () => {
     mockEvent.author = 'Agent';
     component.message = mockEvent;
     fixture.detectChanges();
+    debugger;
     const iconElement = fixture.nativeElement.querySelector('cx-icon');
     expect(iconElement).toBeTruthy();
 

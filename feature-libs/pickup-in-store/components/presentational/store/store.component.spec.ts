@@ -1,9 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
-import { ICON_TYPE, IconTestingModule } from '@spartacus/storefront';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import {
+  ICON_TYPE,
+  IconComponent,
+  MockIconComponent,
+} from '@spartacus/storefront';
+import { SetPreferredStoreComponent } from '../../container/set-preferred-store/set-preferred-store.component';
 import { SetPreferredStoreStubComponent } from '../../container/set-preferred-store/set-preferred-store.component.spec';
+import { StoreAddressComponent } from './store-address';
 import { StoreAddressStubComponent } from './store-address/store-address.component.spec';
+import { StoreScheduleComponent } from './store-schedule';
 import { StoreScheduleStubComponent } from './store-schedule/store-schedule.component.spec';
 import { StoreComponent } from './store.component';
 
@@ -13,13 +20,29 @@ describe('StoreComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        StoreAddressStubComponent,
-        StoreScheduleStubComponent,
-        SetPreferredStoreStubComponent,
-      ],
-      imports: [I18nTestingModule, IconTestingModule, StoreComponent],
-    }).compileComponents();
+      imports: [StoreComponent],
+    })
+      .overrideComponent(StoreComponent, {
+        remove: {
+          imports: [
+            StoreAddressComponent,
+            StoreScheduleComponent,
+            SetPreferredStoreComponent,
+            TranslatePipe,
+            IconComponent,
+          ],
+        },
+        add: {
+          imports: [
+            StoreAddressStubComponent,
+            StoreScheduleStubComponent,
+            SetPreferredStoreStubComponent,
+            MockTranslatePipe,
+            MockIconComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -80,7 +80,6 @@ describe('StoreSearchComponent', () => {
 @Component({
   selector: 'cx-store-search',
   template: '',
-  standalone: false,
 })
 export class StoreSearchStubComponent {
   @Input() hideOutOfStock = false;

@@ -41,7 +41,6 @@ describe('PickupInfoContainerComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PickupInfoContainerComponent, I18nTestingModule],
-      declarations: [PickupInfoStubComponent],
       providers: [
         {
           provide: ActiveCartFacade,
@@ -55,10 +54,10 @@ describe('PickupInfoContainerComponent', () => {
     })
       .overrideComponent(PickupInfoComponent, {
         remove: {
-          imports: [TranslatePipe],
+          imports: [TranslatePipe, PickupInfoComponent],
         },
         add: {
-          imports: [MockTranslatePipe],
+          imports: [MockTranslatePipe, PickupInfoStubComponent],
         },
       })
       .compileComponents();

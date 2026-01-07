@@ -1,6 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, PointOfService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  PointOfService,
+  TranslatePipe,
+} from '@spartacus/core';
 import { StoreAddressComponent } from './store-address.component';
 
 describe('StoreAddressComponent', () => {
@@ -9,8 +15,17 @@ describe('StoreAddressComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, StoreAddressComponent],
-    }).compileComponents();
+      imports: [StoreAddressComponent],
+    })
+      .overrideComponent(StoreAddressComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -31,7 +46,6 @@ describe('StoreAddressComponent', () => {
 @Component({
   selector: 'cx-store-address',
   template: '',
-  standalone: false,
 })
 export class StoreAddressStubComponent {
   @Input() storeDetails: PointOfService;

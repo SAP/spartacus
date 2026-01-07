@@ -97,7 +97,6 @@ class MockTranslationService {
 @Component({
   selector: 'cx-page-layout',
   template: 'mock',
-  standalone: false,
 })
 class MockPageLayoutComponent {}
 

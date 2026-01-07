@@ -40,10 +40,11 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
     mockTranslationService = jasmine.createSpyObj('TranslationService', [
       'translate',
     ]);
+    mockTranslationService.translate.and.returnValue(of('test translation'));
+
     mockCurrentProductService = jasmine.createSpyObj('CurrentProductService', [
       'getProduct',
     ]);
-
     mockCurrentProductService.getProduct.and.returnValue(
       of({
         code: 'productCode',
