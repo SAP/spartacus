@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,7 @@ export class OrganizationConflictHandler extends HttpErrorHandler {
   protected userMask = /User already exists/;
   protected userGroupMask = /Member Permission with the same id already exists/;
   protected unitMask = /Organizational unit with uid \[(.*)\] already exists/;
+  protected costCenterMask = /Cost center with code \[(.*)\] already exists/;
 
   hasMatch(errorResponse: HttpErrorResponse): boolean {
     return super.hasMatch(errorResponse) && this.matchMask(errorResponse);
@@ -50,15 +51,21 @@ export class OrganizationConflictHandler extends HttpErrorHandler {
         );
         // Handle unit conflict
         this.handleConflict(message, this.unitMask, 'unit');
+        // Handle cost center conflict
+        this.handleConflict(message, this.costCenterMask, 'costCenter');
       }
     });
   }
 
   protected matchMask(response: HttpErrorResponse): boolean {
     return this.getErrors(response).some((error) =>
-      [this.budgetMask, this.userMask, this.userGroupMask, this.unitMask].some(
-        (mask) => mask.test(error.message ?? '')
-      )
+      [
+        this.budgetMask,
+        this.userMask,
+        this.userGroupMask,
+        this.unitMask,
+        this.costCenterMask,
+      ].some((mask) => mask.test(error.message ?? ''))
     );
   }
 

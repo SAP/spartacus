@@ -92,6 +92,7 @@ describe('HorizontalScrollingPositionDirective', () => {
 
         spyOn(directive as any, 'subscribeScrollingArea').and.callThrough();
         spyOn(directive as any, 'unsubscribeScrollingArea').and.callThrough();
+        spyOn(IntersectionObserver.prototype, 'observe');
 
         const observedElements: Element[] = [];
         spyOn(IntersectionObserver.prototype, 'observe').and.callFake(function (
@@ -119,10 +120,13 @@ describe('HorizontalScrollingPositionDirective', () => {
         expect(directive['scrollingAreaIntersectionObserver'].root).toEqual(
           mockScrollingArea
         );
-        expect(observedElements).toEqual([
-          mockScrollingAreaStart,
-          mockScrollingAreaEnd,
-        ]);
+        expect(IntersectionObserver.prototype.observe).toHaveBeenCalledWith(
+          mockScrollingAreaStart
+        );
+        expect(IntersectionObserver.prototype.observe).toHaveBeenCalledWith(
+          mockScrollingAreaEnd
+        );
+
         expect(directive['scrollingAreaResizeObserver']).not.toBe(
           mockResizeObserver
         );

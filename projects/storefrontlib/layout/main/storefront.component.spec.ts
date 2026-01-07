@@ -1,6 +1,6 @@
 import { Component, DebugElement, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FeatureConfigService, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { OutletDirective } from '../../cms-structure';
 import { MockFeatureDirective } from '../../shared/test/mock-feature-directive';
@@ -115,12 +115,6 @@ describe('StorefrontComponent', () => {
           provide: SkipLinkService,
           useClass: MockSkipLinkService,
         },
-        {
-          provide: FeatureConfigService,
-          useValue: {
-            isEnabled: () => true,
-          },
-        },
       ],
     }).compileComponents();
   }));
@@ -195,9 +189,6 @@ describe('StorefrontComponent', () => {
 
     it('should call skipLinkService.scrollToTarget when navigation ends and document has active element', () => {
       spyOn(skipLinkService, 'scrollToTarget');
-      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
-        true
-      );
 
       const mockDocument = {
         activeElement: document.createElement('button'),
@@ -212,26 +203,12 @@ describe('StorefrontComponent', () => {
 
     it('should not call skipLinkService.scrollToTarget when navigation ends and focus is on body', () => {
       spyOn(skipLinkService, 'scrollToTarget');
-      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
-        true
-      );
       const body = document.createElement('body');
       const mockDocument = {
         activeElement: body,
         body,
       };
       component['document'] = mockDocument as any;
-
-      component['onNavigation'](false);
-
-      expect(skipLinkService.scrollToTarget).not.toHaveBeenCalled();
-    });
-
-    it('should not call skipLinkService.scrollToTarget when feature is disabled', () => {
-      spyOn(skipLinkService, 'scrollToTarget');
-      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
-        false
-      );
 
       component['onNavigation'](false);
 

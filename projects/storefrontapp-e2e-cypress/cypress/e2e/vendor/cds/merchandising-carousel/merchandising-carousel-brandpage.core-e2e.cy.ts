@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,6 +53,7 @@ context('Merchandising Carousel - Brand page', () => {
   describe('without consent granted', () => {
     beforeEach(() => {
       testBrandPage();
+      cy.wait(1000);
     });
 
     it("should update the products' language when the storefront language is changed on a brand page", () => {
@@ -62,6 +63,7 @@ context('Merchandising Carousel - Brand page', () => {
       );
 
       switchSiteContext(merchandisingCarousel.japaneseLanguage, LANGUAGE_LABEL);
+      cy.wait(1000);
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnBrandPage(
         strategyRequestAlias,
@@ -81,6 +83,7 @@ context('Merchandising Carousel - Brand page', () => {
       );
 
       switchSiteContext(CURRENCY_JPY, CURRENCY_LABEL);
+      cy.wait(1000);
 
       merchandisingCarousel.verifyFirstCarouselItemPrice(
         merchandisingCarousel.yenCurrencySymbol
@@ -88,16 +91,13 @@ context('Merchandising Carousel - Brand page', () => {
     });
 
     it('should request products filtered by additional facets when facets on a brand page are changed', () => {
-      merchandisingCarousel.applyFacet(
-        'Stores',
-        merchandisingCarousel.chibaStoreName
-      );
+      merchandisingCarousel.openHiddenFacetAndApply('Category', 'Cameras');
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnBrandPage(
         strategyRequestAlias,
         merchandisingCarousel.canonBrandCode,
         merchandisingCarousel.DEFAULT_LANGUAGE,
-        [`availableInStores:${merchandisingCarousel.chibaStoreName}`]
+        [`category:571`]
       );
     });
 
