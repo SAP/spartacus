@@ -49,7 +49,6 @@ import {
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
-import { CheckoutBillingAddressFacade } from '@spartacus/checkout/base/root';
 import { CartAccessCodeFacade } from '@spartacus/cart/base/root';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { getBrowserInfo } from '@spartacus/opf/payment/core';
@@ -75,7 +74,6 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   protected opfPaymentEventsService = inject(OpfPaymentEventsService);
   protected activeCartFacade = inject(ActiveCartFacade);
   protected multiCartFacade = inject(MultiCartFacade);
-  protected checkoutBillingAddressFacade = inject(CheckoutBillingAddressFacade);
   protected userIdService = inject(UserIdService);
   protected cartAccessCodeFacade = inject(CartAccessCodeFacade);
   protected routingService = inject(RoutingService);
