@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Component, OnDestroy, ViewContainerRef } from '@angular/core';
-import { AnonymousConsentsService, useFeatureStyles } from '@spartacus/core';
+import { AnonymousConsentsService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/launch-config';
@@ -26,9 +26,7 @@ export class AnonymousConsentManagementBannerComponent implements OnDestroy {
     protected anonymousConsentsService: AnonymousConsentsService,
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
-  ) {
-    useFeatureStyles('a11yScrollToTopPositioning');
-  }
+  ) {}
 
   viewDetails(): void {
     this.hideBanner();

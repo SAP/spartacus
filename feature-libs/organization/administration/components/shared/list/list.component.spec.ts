@@ -268,7 +268,7 @@ describe('ListComponent', () => {
         By.css('cx-popover > .popover-body > p')
       );
       expect(el).toBeTruthy();
-      expect(el.nativeElement.innerText).toBe('orgBudget.hint');
+      expect(el.nativeElement.innerText.trim()).toBe('orgBudget.hint');
     });
   });
 

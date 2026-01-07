@@ -483,6 +483,7 @@
 
 <ng-template #createCustomerButton>
   <button
+    *ngIf="asmConfig.asm?.createCustomer?.enable"
     type="button"
     class="btn cx-asm-create-customer-btn"
     (click)="createCustomer()"

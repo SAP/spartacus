@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,6 +27,12 @@ export * from './checkout-progress/checkout-progress-mobile-top/checkout-progres
 export * from './checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.module';
 export * from './checkout-progress/checkout-progress.component';
 export * from './checkout-progress/checkout-progress.module';
+export * from './checkout-review/checkout-review-overview/checkout-review-overview.component';
+export * from './checkout-review/checkout-review-overview/checkout-review-overview.module';
+export * from './checkout-review/checkout-review-shipping/checkout-review-shipping.component';
+export * from './checkout-review/checkout-review-shipping/checkout-review-shipping.module';
+export * from './checkout-review/checkout-review-payment/checkout-review-payment.component';
+export * from './checkout-review/checkout-review-payment/checkout-review-payment.module';
 export * from './checkout-review-submit/checkout-review-submit.component';
 export * from './checkout-review-submit/checkout-review-submit.module';
 export * from './guards/index';
