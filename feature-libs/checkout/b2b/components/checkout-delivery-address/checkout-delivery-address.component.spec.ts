@@ -335,8 +335,10 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
   });
 
   it('should be able to select address', () => {
-    component.selectAddress(mockAddress1);
+    fixture.detectChanges();
 
+    component.selectAddress(mockAddress1);
+ 
     expect(
       checkoutDeliveryAddressFacade.setDeliveryAddress
     ).toHaveBeenCalledWith(mockAddress1);
@@ -349,6 +351,8 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       createSpy().and.returnValue(
         of({ loading: false, error: false, data: mockAddress2 })
       );
+
+    fixture.detectChanges();
 
     component.selectAddress(mockAddress2);
 

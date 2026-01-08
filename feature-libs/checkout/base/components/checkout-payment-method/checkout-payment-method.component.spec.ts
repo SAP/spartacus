@@ -559,6 +559,8 @@ describe('CheckoutPaymentMethodComponent', () => {
     });
 
     it('should be able to select payment method', () => {
+      fixture.detectChanges();
+
       component.selectPaymentMethod(mockPaymentDetails);
 
       expect(mockCheckoutPaymentService.setPaymentDetails).toHaveBeenCalledWith(
@@ -575,6 +577,7 @@ describe('CheckoutPaymentMethodComponent', () => {
         createSpy().and.returnValue(
           of({ loading: false, error: false, data: mockPayments[0] })
         );
+      fixture.detectChanges();
 
       component.selectPaymentMethod(mockPayments[0]);
 
