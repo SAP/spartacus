@@ -338,7 +338,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     fixture.detectChanges();
 
     component.selectAddress(mockAddress1);
- 
+
     expect(
       checkoutDeliveryAddressFacade.setDeliveryAddress
     ).toHaveBeenCalledWith(mockAddress1);
