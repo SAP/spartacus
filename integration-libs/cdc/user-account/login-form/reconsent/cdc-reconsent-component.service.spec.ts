@@ -22,7 +22,6 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 }
 class MockCdcUserConsentService implements Partial<CdcUserConsentService> {
   updateCdcUserPreferences = createSpy();
-  updateCdcConsent = createSpy();
 }
 class MockCdcJsService implements Partial<CdcJsService> {
   didLoad = createSpy();
