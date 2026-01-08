@@ -5,6 +5,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
+  FileNameStyleGuide,
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
@@ -73,6 +74,7 @@ describe('scaffold app structure', () => {
     skipTests: false,
     projectRoot: '',
     standalone: false,
+    fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
 
   beforeEach(async () => {
