@@ -1,0 +1,95 @@
+<ng-container *ngIf="billingList$ | async as billings">   
+    <div class="billing-list-title-section">
+        <h3>All Subscription Bills</h3>
+        <a
+            [routerLink]="
+            {
+                cxRoute: 'activeBills',
+            } | cxUrl
+            "
+        >
+            <div class="cx-billing-list-active-bills">View All Active Bills</div>
+        </a>
+    </div>
+    <div class="billing-list-sorting-bar">
+        <span class="sort-label">
+            {{ 'billingList.sortLabel' | cxTranslate }}
+        </span>
+        <cx-sorting
+            [sortOptions]="billings.sorts"
+            (sortListEvent)="changeSortCode($event)"
+            [selectedOption]="billings.pagination?.sort"
+            placeholder="{{ 'billingList.sortLabel' | cxTranslate }}"
+            [ariaLabel]="'billingList.sortOrders'"
+        ></cx-sorting>
+    </div>
+    
+    <!-- table starts -->
+    <table id="billing-list-table" class="table cx-billing-list-table">
+        <thead class="cx-billing-list-thead">
+            <tr>
+                <th scope="col">
+                    <div class="cx-billing-list-table-header bill-id-header">
+                        {{ billings[0].id }}
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="cx-billing-list-table-header">
+                        Billing Date
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="cx-billing-list-table-header">
+                        Subscriptions
+                    </div>
+                </th>
+                <th scope="col">
+                    <div class="cx-billing-list-table-header">
+                        Total
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let billing of billings">
+            <td>
+            <a
+                [routerLink]="
+                {
+                    cxRoute: 'billingDetails',
+                    params: {  },
+                } | cxUrl
+                "
+            >
+                <div class="cx-billing-list-table-col bill-id-value">{{ billing.id }}</div>
+            </a>
+            </td>
+
+            <td>
+            <div class="cx-billing-list-table-col">
+                {{ billing.date }}
+            </div>
+            </td>
+
+            <td>
+            <div class="cx-billing-list-table-col">
+                {{ billing.status }}
+            </div>
+            </td>
+
+            <td>
+            <div class="cx-billing-list-table-col">
+                {{ billing.totalAmount }}
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="billing-list-pagination-bar">
+    <!-- <ng-container *ngIf="(list.pagination?.totalPages ?? 0) > 1"> -->
+        <cx-pagination
+            [pagination]="pagination"
+        ></cx-pagination>
+    </div>
+</ng-container>

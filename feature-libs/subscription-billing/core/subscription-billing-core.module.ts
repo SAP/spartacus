@@ -9,6 +9,7 @@ import { facadeProviders } from './facade';
 import {
   SubscriptionConnector,
   SubscriptionActionsConnector,
+  SubscriptionBillingConnector,
 } from './connector';
 
 @NgModule({
@@ -17,6 +18,7 @@ import {
     ...facadeProviders,
     SubscriptionConnector,
     SubscriptionActionsConnector,
+    SubscriptionBillingConnector,
   ],
 })
 export class SubscriptionBillingCoreModule {}

@@ -14,7 +14,9 @@ import {
 import {
   SubscriptionActionsAdapter,
   SubscriptionAdapter,
+  SubscriptionBillingAdapter,
 } from '@spartacus/subscription-billing/core';
+import { OccSubscriptionBillingAdapter } from './adapters/occ-subscription-billing.adapter';
 
 @NgModule({
   providers: [
@@ -27,6 +29,10 @@ import {
       provide: SubscriptionActionsAdapter,
       useClass: OccSubscriptionActionsAdapter,
     },
+    {
+      provide: SubscriptionBillingAdapter,
+      useClass: OccSubscriptionBillingAdapter,
+    }
   ],
 })
 export class SubscriptionBillingOccModule {}

@@ -1,0 +1,63 @@
+%cx-billing-list {
+    .billing-list-title-section {
+        display: flex;
+        justify-content: space-between;
+        padding: 2rem;
+        background-color: var(--cx-color-light);
+        border-top: 1px solid var(--cx-color-medium);
+        border-bottom: 1px solid var(--cx-color-medium);
+        margin-bottom: 30px;
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+            position: relative;
+            top: 2px;
+        }
+    }
+
+    .billing-list-sorting-bar {
+        .sort-label {
+            display: inline-block;
+            position: relative;
+            bottom: 4px;
+            font-weight: 600;
+        }
+        padding: 0 0 1.5rem 1.75rem;
+        width: 30%;
+
+        &input[type="text"] {
+            outline: none;
+        }
+    }
+
+    .cx-billing-list-thead {
+        width: 25%;
+        border-top: 1px solid var(--cx-color-medium);
+    }
+
+    .cx-billing-list-table-header, .cx-billing-list-table-col {
+        padding: 10px 0px;
+        text-align: center;
+    }
+
+    .cx-billing-list-table-header, .cx-billing-list-table-col {
+        &.bill-id-header, &.bill-id-value {
+            text-align: left;
+            padding-left: 10%;
+        }
+    }
+
+    tr > th:first-child {
+        padding: 5px 0;
+        width: 25%;
+    }
+
+    .billing-list-pagination-bar {
+        margin-top: 20px;
+        padding-right: 24px;
+        display: flex;
+        justify-content: flex-end;
+    }
+}

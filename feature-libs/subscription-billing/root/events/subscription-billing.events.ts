@@ -13,3 +13,11 @@ export class GetSubscriptionByCodeReloadEvent extends CxEvent {
 export class GetSubscriptionListReloadEvent extends CxEvent {
   static readonly type = 'GetSubscriptionListReloadEvent';
 }
+
+export class GetSubscriptionBillsListReloadEvent extends CxEvent {
+  static readonly type = 'GetSubscriptionBillsListReloadEvent';
+}
+
+export class GetSubscriptionBillByCodeReloadEvent extends CxEvent {
+  static readonly type = 'GetSubscriptionBillByCodeReloadEvent';
+}

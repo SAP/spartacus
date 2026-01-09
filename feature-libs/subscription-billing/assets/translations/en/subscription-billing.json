@@ -69,5 +69,14 @@
   "subscriptionCartItemList": {
     "itemPriceHeader": "Item Price",
     "dueNowHeader": "Due Now"
+  },
+  "subscriptionBillsList": {
+    "title": "All Subscriptions Bills",
+    "activeBills": "View All Active Bills",
+    "sortLabel": "Sort By",
+    "idHeaderTitle": "Bill ID/Number",
+    "dateHeaderTitle": "Billing Date",
+    "subscriptionsHeaderTitle": "Subscriptions",
+    "totalHeaderTitle": "Total"
   }
 }

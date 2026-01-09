@@ -8,9 +8,11 @@ import { Provider } from '@angular/core';
 import { SubscriptionService } from './subscription.service';
 import {
   SubscriptionActionsFacade,
+  SubscriptionBillingFacade,
   SubscriptionFacade,
 } from '@spartacus/subscription-billing/root';
 import { SubscriptionActionsService } from './subscription-actions.service';
+import { SubscriptionBillingService } from './subscription-billing.service';
 
 export const facadeProviders: Provider[] = [
   SubscriptionService,
@@ -23,4 +25,9 @@ export const facadeProviders: Provider[] = [
     provide: SubscriptionActionsFacade,
     useExisting: SubscriptionActionsService,
   },
+  SubscriptionBillingService,
+  {
+    provide: SubscriptionBillingFacade,
+    useExisting: SubscriptionBillingService,
+  }
 ];

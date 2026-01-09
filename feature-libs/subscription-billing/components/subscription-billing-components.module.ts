@@ -11,6 +11,7 @@ import { SubscriptionDetailsModule } from './details/subscription-details.module
 import { SubscriptionProductPriceModule } from './product/price/subscription-product-price.module';
 import { SubscriptionListModule } from './list/subscription-list.module';
 import { SubscriptionActionsModalModule } from './actions-modal/subscription-actions-modal.module';
+import { SubscriptionBillingListModule } from './list/billing/subscription-billing-list.module';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { SubscriptionActionsModalModule } from './actions-modal/subscription-act
     SubscriptionProductPriceModule,
     SubscriptionProductUsageChargeModule,
     SubscriptionActionsModalModule,
+    SubscriptionBillingListModule,
   ],
 })
 export class SubscriptionBillingComponentsModule {}
