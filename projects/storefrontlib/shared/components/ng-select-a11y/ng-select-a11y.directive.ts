@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,7 @@ import {
   Renderer2,
   SecurityContext,
 } from '@angular/core';
+import { SIGNAL } from '@angular/core/primitives/signals';
 import {
   outputToObservable,
   takeUntilDestroyed,
@@ -104,6 +105,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
 
     this.renderer.setAttribute(inputCombobox, 'role', 'combobox');
     this.renderer.setAttribute(inputCombobox, 'aria-expanded', 'false');
+    this.customizeNgSelectAriaLabelDropdown();
 
     const isOpened$ = outputToObservable(this.selectComponent.openEvent).pipe(
       map(() => 'true')
@@ -214,5 +216,23 @@ export class NgSelectA11yDirective implements AfterViewInit {
       );
     }
     observer.disconnect();
+  }
+
+  customizeNgSelectAriaLabelDropdown() {
+    this.translationService
+      .translate('common.ngSelectDropdownOptionsList')
+      .pipe(take(1))
+      .subscribe((translation) => {
+        // workaround for known issue with setting value of the input signal programmatically: https://github.com/angular/angular/issues/54782
+        // since ng-select@20.x changed ariaLabelDropdown to be an input signal, we can't set its value directly
+        // NOTE: SIGNAL is not a part of the public API of @angular/core and may change without notice
+        // TODO: CXSPA-11443 find a way to apply customizeNgSelectAriaLabelDropdown in a different way
+        const ariaLabelDropdownSignal =
+          this.selectComponent.ariaLabelDropdown[SIGNAL];
+        ariaLabelDropdownSignal.applyValueToInputSignal(
+          ariaLabelDropdownSignal,
+          translation
+        );
+      });
   }
 }
