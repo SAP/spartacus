@@ -147,13 +147,34 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false
+          "standalone": false,
+          "type": "component",
+          "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false
+          "standalone": false,
+          "type": "directive",
+          "addTypeToClassName": false
         },
         "@schematics/angular:pipe": {
-          "standalone": false
+          "standalone": false,
+          "typeSeparator": "."
+        },
+        "@schematics/angular:service": {
+          "type": "service",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+          "typeSeparator": "."
         }
       },
       "root": "",
@@ -317,13 +338,34 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false
+          "standalone": false,
+          "type": "component",
+          "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false
+          "standalone": false,
+          "type": "directive",
+          "addTypeToClassName": false
         },
         "@schematics/angular:pipe": {
-          "standalone": false
+          "standalone": false,
+          "typeSeparator": "."
+        },
+        "@schematics/angular:service": {
+          "type": "service",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+          "typeSeparator": "."
         }
       },
       "root": "",
@@ -581,13 +623,34 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false
+          "standalone": false,
+          "type": "component",
+          "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false
+          "standalone": false,
+          "type": "directive",
+          "addTypeToClassName": false
         },
         "@schematics/angular:pipe": {
-          "standalone": false
+          "standalone": false,
+          "typeSeparator": "."
+        },
+        "@schematics/angular:service": {
+          "type": "service",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+          "typeSeparator": "."
         }
       },
       "root": "",

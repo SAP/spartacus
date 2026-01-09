@@ -4,6 +4,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
+  FileNameStyleGuide,
   Style,
 } from '@schematics/angular/application/schema';
 import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
@@ -313,6 +314,7 @@ describe('File utils', () => {
     skipTests: false,
     projectRoot: '',
     standalone: false,
+    fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
   const defaultOptions = {
     project: 'schematics-test',
