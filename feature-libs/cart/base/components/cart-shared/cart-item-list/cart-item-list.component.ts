@@ -25,11 +25,7 @@ import {
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import {
-  FeatureConfigService,
-  ProductCatalogService,
-  UserIdService,
-} from '@spartacus/core';
+import { ProductCatalogService, UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
@@ -91,7 +87,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     }
   }
   readonly CartOutlets = CartOutlets;
-  private featureConfigService = inject(FeatureConfigService);
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
@@ -149,15 +144,9 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     context: ItemListContext,
     contextRequiresRerender: boolean
   ) {
-    const preventRedundantRecreationEnabled =
-      this.featureConfigService.isEnabled(
-        'a11yPreventCartItemsFormRedundantRecreation'
-      );
     if (
       context.items !== undefined &&
-      (!preventRedundantRecreationEnabled ||
-        contextRequiresRerender ||
-        this.isItemsChanged(context.items))
+      (contextRequiresRerender || this.isItemsChanged(context.items))
     ) {
       this.cd.markForCheck();
       this._setItems(context.items, {

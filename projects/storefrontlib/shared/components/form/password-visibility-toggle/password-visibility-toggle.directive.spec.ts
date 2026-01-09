@@ -10,12 +10,27 @@ import { I18nTestingModule, WindowRef } from '@spartacus/core';
 import { FormConfig } from '../../../../shared/config/form-config';
 import { IconTestingModule } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
 import { PasswordVisibilityToggleModule } from './password-visibility-toggle.module';
+import { ICON_TYPE, IconLoaderService } from '@spartacus/storefront';
 
 const mockFormConfig: FormConfig = {
   form: {
     passwordVisibilityToggle: true,
   },
 };
+
+class MockIconLoaderService {
+  useSvg(_iconType: ICON_TYPE) {
+    return false;
+  }
+
+  getStyleClasses(_iconType: ICON_TYPE): string {
+    return 'fas fa-exclamation-circle';
+  }
+
+  addLinkResource() {}
+  getHtml(_iconType: ICON_TYPE) {}
+  getFlipDirection(): void {}
+}
 
 @Component({
   template: `
@@ -67,6 +82,7 @@ describe('PasswordVisibilityToggleDirective', () => {
           provide: FormConfig,
           useValue: mockFormConfig,
         },
+        { provide: IconLoaderService, useClass: MockIconLoaderService },
         { provide: WindowRef, useClass: MockWinRef },
       ],
     }).compileComponents();

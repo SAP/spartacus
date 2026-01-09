@@ -3,6 +3,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule, WindowRef } from '@spartacus/core';
 import { FormConfig } from '../../../../shared/config/form-config';
+import {
+  ICON_TYPE,
+  IconLoaderService,
+} from '../../../../cms-components/misc/icon';
 import { IconTestingModule } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
 import { PasswordVisibilityToggleModule } from './password-visibility-toggle.module';
 import { PasswordVisibilityToggleComponent } from './password-visibility-toggle.component';
@@ -15,6 +19,20 @@ const mockFormConfig: FormConfig = {
 
 class MockWinRef {
   document = window.document;
+}
+
+class MockIconLoaderService {
+  useSvg(_iconType: ICON_TYPE) {
+    return false;
+  }
+
+  getStyleClasses(_iconType: ICON_TYPE): string {
+    return 'fas fa-exclamation-circle';
+  }
+
+  addLinkResource() {}
+  getHtml(_iconType: ICON_TYPE) {}
+  getFlipDirection(): void {}
 }
 
 describe('PasswordVisibilityToggleComponent', () => {
@@ -39,6 +57,7 @@ describe('PasswordVisibilityToggleComponent', () => {
           useValue: mockFormConfig,
         },
         { provide: WindowRef, useClass: MockWinRef },
+        { provide: IconLoaderService, useClass: MockIconLoaderService },
       ],
     }).compileComponents();
   }));

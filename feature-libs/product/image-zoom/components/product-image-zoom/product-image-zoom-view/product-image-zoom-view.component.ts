@@ -15,15 +15,8 @@ import {
   OnInit,
   Renderer2,
   ViewChild,
-  inject,
 } from '@angular/core';
-import {
-  FeatureConfigService,
-  ImageGroup,
-  Product,
-  isNotNullable,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { ImageGroup, Product, isNotNullable } from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
 import {
   BREAKPOINT,
@@ -74,8 +67,6 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
   protected defaultImageReady$: Observable<boolean> =
     this.defaultImageReady.asObservable();
   protected zoomReady$: Observable<boolean> = this.zoomReady.asObservable();
-
-  private featureConfigService = inject(FeatureConfigService);
 
   activeThumb: EventEmitter<ImageGroup> = new EventEmitter<ImageGroup>();
 
@@ -169,9 +160,7 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     protected renderer: Renderer2,
     protected cdRef: ChangeDetectorRef,
     protected breakpointService: BreakpointService
-  ) {
-    useFeatureStyles('a11yKeyboardAccessibleZoom');
-  }
+  ) {}
 
   ngOnInit() {
     this.subscription.add(this.defaultImageClickHandler$.subscribe());
@@ -216,15 +205,13 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     this.left = 0;
     this.top = 0;
     this.cdRef.markForCheck();
-    // TODO: (CXSPA-7492) - Remove feature flag next major release.
-    if (this.featureConfigService.isEnabled('a11yKeyboardAccessibleZoom')) {
-      this.imageLoaded.next(false);
-      this.imageLoaded.pipe(filter(Boolean), take(1)).subscribe(() => {
-        setTimeout(() => {
-          this.zoomButton.nativeElement.focus();
-        });
+
+    this.imageLoaded.next(false);
+    this.imageLoaded.pipe(filter(Boolean), take(1)).subscribe(() => {
+      setTimeout(() => {
+        this.zoomButton.nativeElement.focus();
       });
-    }
+    });
   }
 
   /**

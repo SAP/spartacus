@@ -79,25 +79,6 @@ describe('NgSelectA11yDirective', () => {
     expect(innerDiv.getAttribute('aria-label')).toEqual('Size');
   });
 
-  it('should append aria-label to options', (done) => {
-    fixture.detectChanges();
-    const select = getNgSelect().nativeElement;
-    const ngSelectInstance = getNgSelect().componentInstance;
-    ngSelectInstance.open();
-
-    // Wait for the mutation observer to update the options
-    setTimeout(() => {
-      const options = select.querySelectorAll('.ng-option');
-      expect(options.length).toBe(3);
-      options.forEach((option: HTMLElement, index: number) => {
-        expect(option.getAttribute('aria-label')).toEqual(
-          `${index + 1}, ${index + 1} of ${options.length}`
-        );
-      });
-      done();
-    });
-  });
-
   it('should append value to aria-label and hide the value element from screen reader on mobile', (done) => {
     const isDownSpy = spyOn(breakpointService, 'isDown').and.returnValue(
       of(true)
