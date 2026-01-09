@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivateFn,
@@ -18,21 +18,25 @@ import {
   CmsComponentChildRoutesConfig,
   CmsRoute,
   deepMerge,
+  getLastValueSync,
   PageContext,
   PageType,
+  UnifiedInjector,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsComponentsService } from './cms-components.service';
-import { CmsGuardsService } from './cms-guards.service';
+import { CanActivate, GuardsComposer } from './guards-composer';
 
 // This service should be exposed in public API only after the refactor planned in https://github.com/SAP/spartacus/issues/7070
 @Injectable({ providedIn: 'root' })
 export class CmsRoutesImplService {
+  protected guardsComposer = inject(GuardsComposer);
+  protected unifiedInjector = inject(UnifiedInjector);
+
   constructor(
     private router: Router,
-    private cmsComponentsService: CmsComponentsService,
-    private cmsGuardsService: CmsGuardsService
+    private cmsComponentsService: CmsComponentsService
   ) {}
 
   private cmsRouteExists(url: string): boolean {
@@ -167,7 +171,11 @@ export class CmsRoutesImplService {
       route: ActivatedRouteSnapshot,
       state: RouterStateSnapshot
     ): Observable<GuardResult> => {
-      return this.cmsGuardsService.canActivateGuard(guard, route, state);
+      const classGuard = getLastValueSync(
+        this.unifiedInjector.get<CanActivate>(guard)
+      );
+      const canActivate = classGuard ?? { canActivate: guard };
+      return this.guardsComposer.canActivate([canActivate], route, state);
     };
   }
 }

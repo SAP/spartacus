@@ -26,7 +26,6 @@ import {
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
 import {
-  FeatureConfigService,
   ProductCatalogService,
   UserIdService,
 } from '@spartacus/core';
@@ -91,7 +90,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     }
   }
   readonly CartOutlets = CartOutlets;
-  private featureConfigService = inject(FeatureConfigService);
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
@@ -149,14 +147,9 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     context: ItemListContext,
     contextRequiresRerender: boolean
   ) {
-    const preventRedundantRecreationEnabled =
-      this.featureConfigService.isEnabled(
-        'a11yPreventCartItemsFormRedundantRecreation'
-      );
     if (
       context.items !== undefined &&
-      (!preventRedundantRecreationEnabled ||
-        contextRequiresRerender ||
+      (contextRequiresRerender ||
         this.isItemsChanged(context.items))
     ) {
       this.cd.markForCheck();

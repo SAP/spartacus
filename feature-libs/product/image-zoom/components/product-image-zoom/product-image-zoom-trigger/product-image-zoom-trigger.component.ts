@@ -16,7 +16,6 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { useFeatureStyles } from '@spartacus/core';
 import {
   ICON_TYPE,
   LAUNCH_CALLER,
@@ -51,9 +50,7 @@ export class ProductImageZoomTriggerComponent implements OnDestroy {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef
-  ) {
-    useFeatureStyles('a11yLinkBtnsToTertiaryBtns');
-  }
+  ) {}
 
   triggerZoom(): void {
     const component = this.launchDialogService.launch(

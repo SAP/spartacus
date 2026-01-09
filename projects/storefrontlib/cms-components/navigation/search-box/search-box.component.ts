@@ -130,17 +130,13 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();
 
   get isMobile(): Observable<boolean> | undefined {
-    return this.breakpointService?.isDown(BREAKPOINT.sm);
+    return this.breakpointService.isDown(BREAKPOINT.sm);
   }
 
-  // TODO: (CXSPA-6929) - Make dependencies no longer optional next major release
-  @Optional() changeDetecorRef = inject(ChangeDetectorRef, { optional: true });
+  changeDetecorRef = inject(ChangeDetectorRef);
+  breakpointService = inject(BreakpointService);
 
-  @Optional() breakpointService = inject(BreakpointService, { optional: true });
-
-  @Optional() featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
+  featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
@@ -290,7 +286,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.softClose();
     this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
     this.searchBoxActive = false;
-    this.changeDetecorRef?.detectChanges();
+    this.changeDetecorRef.detectChanges();
     this.searchButton?.nativeElement.focus();
   }
 

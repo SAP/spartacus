@@ -55,18 +55,6 @@ export class NgSelectA11yDirective implements AfterViewInit {
   protected destroyRef = inject(DestroyRef);
   private featureConfigService = inject(FeatureConfigService);
 
-  @HostListener('open')
-  //TODO: CXSPA-9005: Remove this method in next major release
-  /**
-   * @deprecated since 2211.33
-   */
-  onOpen() {
-    const observer = new MutationObserver((changes, observerInstance) =>
-      this.appendAriaLabelToOptions(changes, observerInstance)
-    );
-    observer.observe(this.elementRef.nativeElement, { childList: true });
-  }
-
   /**
    * When we inside a combo box using JAWS screen reader and press escape key
    * an escape keyboard event doesn't get fired, instead an AltLeft is fired.
@@ -157,36 +145,6 @@ export class NgSelectA11yDirective implements AfterViewInit {
           });
         });
     }
-  }
-
-  //TODO: CXSPA-9005: Remove this method in next major release
-  /**
-   * @deprecated since 2211.33
-   */
-  appendAriaLabelToOptions(
-    _changes: MutationRecord[],
-    observerInstance: MutationObserver
-  ) {
-    const options: HTMLOptionElement[] =
-      this.elementRef?.nativeElement.querySelectorAll('.ng-option');
-    if (options?.length) {
-      this.translationService
-        .translate('common.of')
-        .pipe(take(1))
-        .subscribe((translation) => {
-          options.forEach(
-            (option: HTMLOptionElement, index: string | number) => {
-              const sanitizedOptionText = this.domSanitizer.sanitize(
-                SecurityContext.HTML,
-                option.innerText
-              );
-              const ariaLabel = `${sanitizedOptionText}, ${+index + 1} ${translation} ${options.length}`;
-              this.renderer.setAttribute(option, ARIA_LABEL, ariaLabel);
-            }
-          );
-        });
-    }
-    observerInstance.disconnect();
   }
 
   /**

@@ -11,12 +11,9 @@ cx-product-image-zoom-view {
     // Landscape phones
     @media only screen and (max-width: 900px) and (orientation: landscape) {
       height: 100%;
-      // TODO: (CXSPA-7492) - Remove feature flag next major release.
-      @include forFeature('a11yKeyboardAccessibleZoom') {
         cx-media {
           display: unset;
         }
-      }
     }
 
     .cx-navigate-image {
@@ -33,12 +30,9 @@ cx-product-image-zoom-view {
         outline-offset: -2px;
       }
     }
-    // TODO: (CXSPA-7492) - Remove feature flag next major release.
-    @include forFeature('a11yKeyboardAccessibleZoom') {
       @include media-breakpoint-up(lg) {
         height: calc(90vh - 200px);
       }
-    }
 
     .cx-default-image-zoom {
       display: flex;
@@ -47,12 +41,9 @@ cx-product-image-zoom-view {
 
       @include media-breakpoint-up(lg) {
         height: calc(90vh - 200px);
-        // TODO: (CXSPA-7492) - Remove feature flag next major release.
-        @include forFeature('a11yKeyboardAccessibleZoom') {
           &:has(picture) {
             height: unset;
           }
-        }
       }
 
       // Landscape phones
@@ -110,8 +101,7 @@ cx-product-image-zoom-view {
       }
     }
   }
-  // TODO: (CXSPA-7492) - Remove feature flag next major release.
-  @include forFeature('a11yKeyboardAccessibleZoom') {
+
     .cx-image-container {
       display: unset;
       position: relative;
@@ -143,7 +133,6 @@ cx-product-image-zoom-view {
         }
       }
     }
-  }
 
   @include cx-highContrastTheme-light {
     .cx-image-container .cx-zoom-btn .cx-zoom-indicator {

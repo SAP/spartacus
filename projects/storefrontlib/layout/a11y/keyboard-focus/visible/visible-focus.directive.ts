@@ -6,11 +6,9 @@
 
 import {
   Directive,
-  ElementRef,
   HostBinding,
   HostListener,
 } from '@angular/core';
-import { BaseFocusService } from '../base';
 import { BaseFocusDirective } from '../base/base-focus.directive';
 import { VisibleFocusConfig } from '../keyboard-focus.model';
 
@@ -28,13 +26,6 @@ import { VisibleFocusConfig } from '../keyboard-focus.model';
  */
 @Directive() // selector: '[cxVisibleFocus]'
 export class VisibleFocusDirective extends BaseFocusDirective {
-  // TODO: (CXSPA-5912) Remove usless constructor next major release
-  constructor(
-    protected elementRef: ElementRef<HTMLElement>,
-    protected service: BaseFocusService
-  ) {
-    super(elementRef, service);
-  }
 
   protected defaultConfig: VisibleFocusConfig = {
     disableMouseFocus: true,

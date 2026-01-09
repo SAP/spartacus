@@ -15,10 +15,7 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class StoreFinderStoresCountComponent implements OnInit {
-  // TODO: CXSPA-6884 Make service required in next major.
-  @Optional() protected routingService? = inject(RoutingService, {
-    optional: true,
-  });
+  @Optional() protected routingService? = inject(RoutingService);
   locations$: Observable<any>;
   isLoading$: Observable<boolean>;
 
@@ -31,9 +28,7 @@ export class StoreFinderStoresCountComponent implements OnInit {
   }
 
   navigateToLocation(isoCode: string, event?: Event): void {
-    if (this.routingService) {
       event?.preventDefault();
       this.routingService.go(['/store-finder/country', isoCode]);
-    }
   }
 }

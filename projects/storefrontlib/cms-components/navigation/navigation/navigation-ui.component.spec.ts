@@ -12,7 +12,6 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { BreakpointService } from 'projects/storefrontlib/layout';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
@@ -43,7 +42,6 @@ class MockHamburgerMenuService {
   toggle(_forceCollapse?: boolean): void {}
 }
 
-// TODO: (CXSPA-5919) Remove mock next major release
 class MockFeatureConfigService {
   isEnabled() {
     return true;
@@ -123,8 +121,6 @@ describe('Navigation UI Component', () => {
         NavigationUIComponent,
         MockIconComponent,
         MockGenericLinkComponent,
-        // TODO: (CXSPA-5919) Remove feature directive next major
-        MockFeatureDirective,
       ],
       providers: [
         {

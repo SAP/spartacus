@@ -20,7 +20,6 @@ describe('StarRatingComponent in product', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      // TODO: (CXSPA-5707) Remove MockFeatureLevelDirective next major
       declarations: [MockIconComponent, StarRatingComponent],
       providers: [],
     }).compileComponents();
