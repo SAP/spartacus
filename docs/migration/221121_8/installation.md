@@ -30,11 +30,10 @@ cd my-spartacus-app
 Run the Spartacus schematics to add Spartacus to your project:
 
 ```bash
-ng add @spartacus/schematics@221121.<latest>
+ng add @spartacus/schematics@221121.8
 ```
 
 The schematics will:
-- rename files in the project to use classic file name style guide (e.g., `app.component.ts` instead of `app.ts`)
 - Install required Spartacus libraries
 - Configure your application for Spartacus
 
@@ -43,7 +42,7 @@ The schematics will:
 For Spartacus with Server-Side Rendering (SSR), run the following command:
 
 ```bash
-ng add @spartacus/schematics@221121.<latest> --ssr
+ng add @spartacus/schematics@221121.8 --ssr
 ```
 This will set up SSR-specific configurations.
 
