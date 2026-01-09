@@ -94,14 +94,6 @@ describe('HorizontalScrollingPositionDirective', () => {
         spyOn(directive as any, 'unsubscribeScrollingArea').and.callThrough();
         spyOn(IntersectionObserver.prototype, 'observe');
 
-        const observedElements: Element[] = [];
-        spyOn(IntersectionObserver.prototype, 'observe').and.callFake(function (
-          this: IntersectionObserver,
-          target: Element
-        ) {
-          observedElements.push(target);
-        });
-
         directive.ngOnChanges();
 
         // should unsubscribe from previous scrolling position
