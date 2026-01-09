@@ -275,6 +275,8 @@ describe('CheckoutDeliveryAddressComponent', () => {
   });
 
   it('should be able to select address', () => {
+    fixture.detectChanges();
+
     component.selectAddress(mockAddress1);
 
     expect(
@@ -289,6 +291,8 @@ describe('CheckoutDeliveryAddressComponent', () => {
       createSpy().and.returnValue(
         of({ loading: false, error: false, data: mockAddress2 })
       );
+
+    fixture.detectChanges();
 
     component.selectAddress(mockAddress2);
 
