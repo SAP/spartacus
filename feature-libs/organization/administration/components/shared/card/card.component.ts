@@ -12,7 +12,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { FeatureDirective, TranslatePipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 import {
   ICON_TYPE,
   IconComponent,
@@ -35,7 +35,6 @@ import { BaseItem } from '../organization.model';
   providers: [MessageService],
   imports: [
     ViewComponent_1,
-    FeatureDirective,
     NgIf,
     PopoverDirective,
     IconComponent,

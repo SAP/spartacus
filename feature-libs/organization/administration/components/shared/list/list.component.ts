@@ -16,7 +16,6 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
 import {
   EntitiesModel,
-  FeatureDirective,
   PaginationModel,
   Translatable,
   TranslatePipe,
@@ -48,7 +47,6 @@ import { CreateButtonType, ListService } from './list.service';
     SplitViewComponent,
     NgIf,
     ViewComponent,
-    FeatureDirective,
     PopoverDirective,
     IconComponent,
     NgSelectComponent,

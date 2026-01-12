@@ -22,13 +22,7 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import {
-  Config,
-  FeatureDirective,
-  Product,
-  TranslatePipe,
-  WindowRef,
-} from '@spartacus/core';
+import { Config, Product, TranslatePipe, WindowRef } from '@spartacus/core';
 import {
   ICON_TYPE,
   IconComponent,
@@ -55,7 +49,6 @@ const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
     NgIf,
     IconComponent,
     NgFor,
-    FeatureDirective,
     MediaComponent,
     AsyncPipe,
     TranslatePipe,

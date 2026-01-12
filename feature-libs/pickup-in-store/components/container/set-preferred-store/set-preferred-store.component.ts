@@ -7,7 +7,7 @@
 import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
 
 import { AsyncPipe, NgClass, NgIf } from '@angular/common';
-import { FeatureDirective, TranslatePipe } from '@spartacus/core';
+import { TranslatePipe } from '@spartacus/core';
 import {
   PointOfServiceNames,
   PreferredStoreFacade,
@@ -22,14 +22,7 @@ import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'cx-set-preferred-store',
   templateUrl: './set-preferred-store.component.html',
-  imports: [
-    FeatureDirective,
-    NgIf,
-    NgClass,
-    IconComponent,
-    AsyncPipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, NgClass, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class SetPreferredStoreComponent implements OnInit, OnDestroy {
   readonly ICON_TYPE = ICON_TYPE;

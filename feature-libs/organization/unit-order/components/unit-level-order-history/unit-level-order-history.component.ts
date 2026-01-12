@@ -9,7 +9,6 @@ import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
   CxDatePipe,
-  FeatureDirective,
   RoutingService,
   TranslatePipe,
   TranslationService,
@@ -38,7 +37,6 @@ import { UnitLevelOrderHistoryFilterComponent } from './filter/unit-level-order-
     SortingComponent,
     TotalComponent,
     PaginationComponent,
-    FeatureDirective,
     NgFor,
     RouterLink,
     BtnLikeLinkDirective,

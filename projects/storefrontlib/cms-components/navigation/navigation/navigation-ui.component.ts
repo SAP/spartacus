@@ -22,7 +22,6 @@ import {
 import { NavigationEnd, Router } from '@angular/router';
 import {
   FeatureConfigService,
-  FeatureDirective,
   TranslatePipe,
   useFeatureStyles,
   WindowRef,
@@ -53,7 +52,6 @@ const ARIA_EXPANDED_ATTR = 'aria-expanded';
     NgFor,
     NgTemplateOutlet,
     GenericLinkComponent,
-    FeatureDirective,
     AsyncPipe,
     TranslatePipe,
   ],
