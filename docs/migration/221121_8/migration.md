@@ -139,6 +139,8 @@ Let's make following manual changes to modernize so it's similar to a new Angula
     }
 ```
 
+Starting from Angular 20, the `outputPath` option defaults to `dist/<project-name>`, what removest the need to explicitly setting it within a freshly generated app. If your migrated app has `outputPath` set to `dist/<project-name>`, we recommend removing it to keep it consistent with a new app structure.
+
 1. In `tsconfig.json`, update the config in the following way:
 
 ```diff
@@ -181,17 +183,13 @@ Let's make following manual changes to modernize so it's similar to a new Angula
 +}
 ```
 
-It's worth noting that starting from Angular 21, flag `typeCheckHostBindings` is enabled by default. Due to its srtict type checking, it cause a [known issue](https://github.com/angular/angular/issues/63170) if specific `keydown` bindings are used in `@HostListener` decorators. To solve the problem in Spartacus repo, we introduced [type augmentation](https://github.com/SAP/spartacus/blob/ac651f413f44345bf8519391789c4f47c8ed02b0/types.d.ts#L1) for `global` interface. If you encounter similar issues in your application, it is recommended to apply the same type augmentation approach in your project.
+Note: In fresh apps generated with Angular 21 CLI, the flag `typeCheckHostBindings` is enabled by default, so we suggest adding it also in migrated apps from Angular 19 to 21. However in apps migrated from Angular 19 to 21 beware it might cause issues. Due to its strict type checking, it causes a [known Angular issue](https://github.com/angular/angular/issues/63170) if specific `keydown` bindings are used in `@HostListener` decorators. To solve the problem in Spartacus repo, we introduced [type augmentation](https://github.com/SAP/spartacus/blob/ac651f413f44345bf8519391789c4f47c8ed02b0/types.d.ts#L1) for `global` interface. If you encounter similar issues in your application, we recommend you to apply analogical type augmentation solution in your project like we did in Spartacus repo.
 
 While it's not recommended, you can still disable the flag by adding the following configuration to your `tsconfig.json`:
 
 ```diff
 {
   "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false,
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true,
 +    "typeCheckHostBindings": false
   },
 }
