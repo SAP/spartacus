@@ -139,7 +139,7 @@ Let's make following manual changes to modernize so it's similar to a new Angula
     }
 ```
 
-Starting from Angular 20, the `outputPath` option defaults to `dist/<your-project-name>`, what removes the need to explicitly setting it within a freshly generated app. If your migrated app has `outputPath` set to `dist/<your-project-name>`, we recommend removing it from the `angular.json` to keep it consistent with a new app structure.
+Note: In fresh apps generated with Angular 21, the `outputPath` option is skipped and implicitly defaults to `dist/<your-project-name>`. If your migrated app has `outputPath` set to `dist/<your-project-name>`, we recommend removing it from the `angular.json` as not necessary.
 
 ```diff
  "projects": {
