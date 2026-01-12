@@ -36,6 +36,7 @@ export namespace Configurator {
     numTotalLength?: number;
     negativeAllowed?: boolean;
     hasConflicts?: boolean;
+    hasNonNavigableConflict?:boolean;
     retractTriggered?: boolean;
     attributePriceTotal?: PriceDetails;
     intervalInDomain?: boolean;
