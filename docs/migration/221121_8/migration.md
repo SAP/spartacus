@@ -165,7 +165,7 @@ Note: In fresh apps generated with Angular 21, the `outputPath` option is skippe
 For more, see: https://github.com/angular/angular-cli/pull/29905
 
 
-1. In `tsconfig.json`, update the config in the following way:
+2. In `tsconfig.json`, update the config in the following way:
 
 ```diff
 /* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
