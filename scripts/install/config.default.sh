@@ -54,7 +54,8 @@ SPARTACUS_PROJECTS=(
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
 # BRANCH='develop' TODO: revert to develop after next-major release
-BRANCH='develop-next-major'
+# BRANCH='develop-next-major' TODO: change to develop-next-major after merging the epic branch
+BRANCH='epic/angular-21-upgrade'
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
