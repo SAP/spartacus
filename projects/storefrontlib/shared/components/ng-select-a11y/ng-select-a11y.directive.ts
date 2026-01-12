@@ -213,18 +213,4 @@ export class NgSelectA11yDirective implements AfterViewInit {
     }
     observer.disconnect();
   }
-
-  /**
-   * @deprecated since 2211.33
-   * Use ariaLabelDropdown input of ng-select component to set the label for dropdown options list.
-   * E.g.: <ng-select [ariaLabelDropdown]="'custom.translation.key' | translate"></ng-select>
-   */
-  customizeNgSelectAriaLabelDropdown() {
-    this.translationService
-      .translate('common.ngSelectDropdownOptionsList')
-      .pipe(take(1))
-      .subscribe((translation) => {
-        this.selectComponent.ariaLabelDropdown = translation;
-      });
-  }
 }
