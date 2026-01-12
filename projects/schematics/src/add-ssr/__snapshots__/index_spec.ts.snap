@@ -260,7 +260,7 @@ export function app(): express.Express {
     });
   });
 
-  server.use(defaultExpressErrorHandlers(indexHtmlContent))
+  server.use(defaultExpressErrorHandlers(indexHtmlContent));
 
   return server;
 }
