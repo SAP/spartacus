@@ -139,7 +139,31 @@ Let's make following manual changes to modernize so it's similar to a new Angula
     }
 ```
 
-Starting from Angular 20, the `outputPath` option defaults to `dist/<project-name>`, what removest the need to explicitly setting it within a freshly generated app. If your migrated app has `outputPath` set to `dist/<project-name>`, we recommend removing it to keep it consistent with a new app structure.
+Starting from Angular 20, the `outputPath` option defaults to `dist/<your-project-name>`, what removes the need to explicitly setting it within a freshly generated app. If your migrated app has `outputPath` set to `dist/<your-project-name>`, we recommend removing it from the `angular.json` to keep it consistent with a new app structure.
+
+```diff
+ "projects": {
+    <your-project-name>: {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "options": {
+-            "outputPath": "dist/<your-project-name>",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            ...
+        }
+      }
+    }
+```
+
+For more, see: https://github.com/angular/angular-cli/pull/29905
+
 
 1. In `tsconfig.json`, update the config in the following way:
 
