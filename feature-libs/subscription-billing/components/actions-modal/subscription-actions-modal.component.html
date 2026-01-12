@@ -171,6 +171,9 @@
               | cxTranslate: { frequency: subscriptionContractFrequency }
           "
           (change)="onExtendActionDurationChange($event)"
+          ariaLabelDropdown="{{
+            'common.ngSelectDropdownOptionsList' | cxTranslate
+          }}"
         >
           <ng-template ng-option-tmp ng-label-tmp let-item="item">
             {{ item }}
