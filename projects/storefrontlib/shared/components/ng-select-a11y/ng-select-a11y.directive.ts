@@ -35,9 +35,7 @@ import { filter, merge, take } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BREAKPOINT, BreakpointService } from '../../../layout';
 
-export const NG_SELECT_DROPDOWN_PANEL_ITEMS_SELECTOR =
-  '.ng-dropdown-panel-items[role="listbox"]';
-export const ARIA_LABEL = 'aria-label';
+const ARIA_LABEL = 'aria-label';
 
 @Directive({
   selector: '[cxNgSelectA11y]',
@@ -218,6 +216,11 @@ export class NgSelectA11yDirective implements AfterViewInit {
     observer.disconnect();
   }
 
+  /**
+   * @deprecated since 2211.33
+   * Use ariaLabelDropdown input of ng-select component to set the label for dropdown options list.
+   * E.g.: <ng-select [ariaLabelDropdown]="'custom.translation.key' | translate"></ng-select>
+   */
   customizeNgSelectAriaLabelDropdown() {
     this.translationService
       .translate('common.ngSelectDropdownOptionsList')

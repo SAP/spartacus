@@ -32,11 +32,9 @@ class MockFeatureConfigService {
   }
 }
 
-const EXPECTED_TRANSLATION = 'of';
-
 class MockTranslationService {
   translate() {
-    return of(EXPECTED_TRANSLATION);
+    return of('of');
   }
 }
 
