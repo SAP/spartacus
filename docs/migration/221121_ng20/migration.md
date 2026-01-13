@@ -91,7 +91,7 @@ Angular migration also takes care of adding `"typeSeparator": "."` to and proper
 After successfully updating the application to Angular 20 and Express 5, execute this command to initiate the Spartacus update process.
 
 ```bash
-ng update @spartacus/schematics@2211.21
+ng update @spartacus/schematics@221121.<new_version>
 ```
 
 ### Manual changes
