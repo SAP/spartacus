@@ -17,21 +17,23 @@ import {
 import {
   CmsComponentChildRoutesConfig,
   CmsRoute,
-  deepMerge,
+  deepMerge, getLastValueSync,
   PageContext,
-  PageType,
+  PageType, UnifiedInjector,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsComponentsService } from './cms-components.service';
-import { CanActivate, GuardsComposer } from './guards-composer';
-import { isCanActivate } from './utils';
+import {
+  CanActivate,
+  GuardsComposer } from './guards-composer';
+
 
 // This service should be exposed in public API only after the refactor planned in https://github.com/SAP/spartacus/issues/7070
 @Injectable({ providedIn: 'root' })
 export class CmsRoutesImplService {
   protected guardsComposer = inject(GuardsComposer);
-
+  protected unifiedInjector = inject(UnifiedInjector);
   constructor(
     private router: Router,
     private cmsComponentsService: CmsComponentsService
@@ -171,8 +173,10 @@ export class CmsRoutesImplService {
     ): Observable<GuardResult> => {
       let canActivate: CanActivate;
 
-      if (isCanActivate(guard)) {
-        canActivate = guard;
+      const classGuard = getLastValueSync(this.unifiedInjector.get<CanActivate>(guard));
+
+      if (classGuard) {
+        canActivate = { canActivate: classGuard as unknown as CanActivateFn };
       } else {
         canActivate = { canActivate: guard as CanActivateFn };
       }
@@ -180,3 +184,4 @@ export class CmsRoutesImplService {
     };
   }
 }
+
