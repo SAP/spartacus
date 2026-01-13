@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit, Optional, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
 import { Observable } from 'rxjs';
@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class StoreFinderStoresCountComponent implements OnInit {
-  @Optional() protected routingService? = inject(RoutingService);
+  protected routingService = inject(RoutingService);
   locations$: Observable<any>;
   isLoading$: Observable<boolean>;
 

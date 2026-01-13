@@ -133,10 +133,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     return this.breakpointService.isDown(BREAKPOINT.sm);
   }
 
-  changeDetecorRef = inject(ChangeDetectorRef);
-  breakpointService = inject(BreakpointService);
 
-  featureConfigService = inject(FeatureConfigService);
+  protected breakpointService = inject(BreakpointService);
+  protected changeDetectorRef = inject(ChangeDetectorRef);
+
+  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
@@ -286,7 +287,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.softClose();
     this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
     this.searchBoxActive = false;
-    this.changeDetecorRef.detectChanges();
+    this.changeDetectorRef.detectChanges();
     this.searchButton?.nativeElement.focus();
   }
 
