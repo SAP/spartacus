@@ -16,11 +16,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import {
-  ImageGroup,
-  Product,
-  isNotNullable,
-} from '@spartacus/core';
+import { ImageGroup, Product, isNotNullable } from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
 import {
   BREAKPOINT,
@@ -210,12 +206,12 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
     this.top = 0;
     this.cdRef.markForCheck();
 
-      this.imageLoaded.next(false);
-      this.imageLoaded.pipe(filter(Boolean), take(1)).subscribe(() => {
-        setTimeout(() => {
-          this.zoomButton.nativeElement.focus();
-        });
+    this.imageLoaded.next(false);
+    this.imageLoaded.pipe(filter(Boolean), take(1)).subscribe(() => {
+      setTimeout(() => {
+        this.zoomButton.nativeElement.focus();
       });
+    });
   }
 
   /**

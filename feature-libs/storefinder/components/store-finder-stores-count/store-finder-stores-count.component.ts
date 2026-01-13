@@ -28,7 +28,7 @@ export class StoreFinderStoresCountComponent implements OnInit {
   }
 
   navigateToLocation(isoCode: string, event?: Event): void {
-      event?.preventDefault();
-      this.routingService.go(['/store-finder/country', isoCode]);
+    event?.preventDefault();
+    this.routingService.go(['/store-finder/country', isoCode]);
   }
 }

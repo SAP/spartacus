@@ -25,10 +25,7 @@ import {
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import {
-  ProductCatalogService,
-  UserIdService,
-} from '@spartacus/core';
+import { ProductCatalogService, UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
@@ -149,8 +146,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   ) {
     if (
       context.items !== undefined &&
-      (contextRequiresRerender ||
-        this.isItemsChanged(context.items))
+      (contextRequiresRerender || this.isItemsChanged(context.items))
     ) {
       this.cd.markForCheck();
       this._setItems(context.items, {

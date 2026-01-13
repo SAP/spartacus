@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, InjectionToken } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivateFn,
@@ -172,9 +172,11 @@ export class CmsRoutesImplService {
       state: RouterStateSnapshot
     ): Observable<GuardResult> => {
       const classGuard = getLastValueSync(
-        this.unifiedInjector.get<CanActivate>(guard)
+        this.unifiedInjector.get<CanActivate>(
+          guard as InjectionToken<CanActivate>
+        )
       );
-      const canActivate = classGuard ?? { canActivate: guard };
+      const canActivate = classGuard ?? { canActivate: guard as CanActivateFn };
       return this.guardsComposer.canActivate([canActivate], route, state);
     };
   }

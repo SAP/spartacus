@@ -4,11 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  Directive,
-  HostBinding,
-  HostListener,
-} from '@angular/core';
+import { Directive, HostBinding, HostListener } from '@angular/core';
 import { BaseFocusDirective } from '../base/base-focus.directive';
 import { VisibleFocusConfig } from '../keyboard-focus.model';
 
@@ -26,7 +22,6 @@ import { VisibleFocusConfig } from '../keyboard-focus.model';
  */
 @Directive() // selector: '[cxVisibleFocus]'
 export class VisibleFocusDirective extends BaseFocusDirective {
-
   protected defaultConfig: VisibleFocusConfig = {
     disableMouseFocus: true,
   };
