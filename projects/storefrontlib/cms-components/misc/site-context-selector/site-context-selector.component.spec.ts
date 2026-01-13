@@ -14,17 +14,20 @@ import {
   CmsSiteContextSelectorComponent,
   contextServiceMapProvider,
   CurrencyService,
-  I18nTestingModule,
   Language,
   LANGUAGE_CONTEXT_ID,
   LanguageService,
+  MockTranslatePipe,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
+import { IconComponent } from '../icon';
 
 @Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
@@ -81,13 +84,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-        I18nTestingModule,
-        SiteContextSelectorComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-      ],
+      imports: [BrowserAnimationsModule, SiteContextSelectorComponent],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         {
@@ -110,13 +107,17 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
       ],
     })
       .overrideComponent(SiteContextSelectorComponent, {
-        set: {
+        remove: {
+          imports: [UrlPipe, IconComponent, TranslatePipe],
+        },
+        add: {
           providers: [
             {
               provide: SiteContextComponentService,
               useClass: SiteContextComponentService,
             },
           ],
+          imports: [MockUrlPipe, MockCxIconComponent, MockTranslatePipe],
         },
       })
       .compileComponents();

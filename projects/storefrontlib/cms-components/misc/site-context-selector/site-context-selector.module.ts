@@ -10,7 +10,6 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   ContextServiceMap,
-  I18nModule,
   provideDefaultConfig,
   SiteContextModule,
 } from '@spartacus/core';
@@ -28,7 +27,6 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
     IconModule,
     SiteContextSelectorComponent,
     LanguageCurrencyComponent,
-    I18nModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
