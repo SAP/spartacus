@@ -260,6 +260,6 @@ export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   shouldCacheRenderingResult: ({ entry: { err } }) => !err,
   renderKeyResolver: getDefaultRenderKey,
   ssrFeatureToggles: {
-    limitCacheByMemory: false,
+    limitCacheByMemory: true,
   },
 };

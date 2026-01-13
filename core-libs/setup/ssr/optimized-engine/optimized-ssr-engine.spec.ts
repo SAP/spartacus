@@ -182,34 +182,34 @@ describe('OptimizedSsrEngine', () => {
       });
 
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
-[
-  "{
-  message: '[spartacus] SSR optimization engine initialized',
-  context: {
-    timestamp: '2023-01-01T00:00:00.000Z',
-    options: {
-      cache: false,
-      cacheSize: 3000,
-      cacheSizeMemory: 800000000,
-      cacheEntrySizeCalculator: 'DefaultCacheEntrySizeCalculator',
-      ttl: undefined,
-      concurrency: 10,
-      timeout: 50,
-      forcedSsrTimeout: 60000,
-      maxRenderTime: 300000,
-      reuseCurrentRendering: true,
-      renderingStrategyResolver: '() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR',
-      logger: 'DefaultExpressServerLogger',
-      shouldCacheRenderingResult: '({ entry: { err } }) => !err',
-      renderKeyResolver: 'function getRequestUrl(req) {\\n' +
-        '    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;\\n' +
-        '}',
-      ssrFeatureToggles: { limitCacheByMemory: false }
-    }
-  }
-}",
-]
-`);
+        [
+          "{
+          message: '[spartacus] SSR optimization engine initialized',
+          context: {
+            timestamp: '2023-01-01T00:00:00.000Z',
+            options: {
+              cache: false,
+              cacheSize: 3000,
+              cacheSizeMemory: 800000000,
+              cacheEntrySizeCalculator: 'DefaultCacheEntrySizeCalculator',
+              ttl: undefined,
+              concurrency: 10,
+              timeout: 50,
+              forcedSsrTimeout: 60000,
+              maxRenderTime: 300000,
+              reuseCurrentRendering: true,
+              renderingStrategyResolver: '() => ssr_optimization_options_1.RenderingStrategy.ALWAYS_SSR',
+              logger: 'DefaultExpressServerLogger',
+              shouldCacheRenderingResult: '({ entry: { err } }) => !err',
+              renderKeyResolver: 'function getRequestUrl(req) {\\n' +
+                '    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;\\n' +
+                '}',
+              ssrFeatureToggles: { limitCacheByMemory: true }
+            }
+          }
+        }",
+        ]
+      `);
     });
   });
 
@@ -1423,40 +1423,40 @@ describe('OptimizedSsrEngine', () => {
         logger: new MockExpressServerLogger() as ExpressServerLogger,
       });
       expect(consoleLogSpy.mock.lastCall).toMatchInlineSnapshot(`
-[
-  "[spartacus] SSR optimization engine initialized",
-  {
-    "options": {
-      "cache": false,
-      "cacheEntrySizeCalculator": "DefaultCacheEntrySizeCalculator",
-      "cacheSize": 3000,
-      "cacheSizeMemory": 800000000,
-      "concurrency": 10,
-      "forcedSsrTimeout": 60000,
-      "logger": "MockExpressServerLogger",
-      "maxRenderTime": 300000,
-      "renderKeyResolver": "function getRequestUrl(req) {
-    return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;
-}",
-      "renderingStrategyResolver": "(request) => {
-    if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {
-        return ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR;
-    }
-    return shouldFallbackToCsr(request, options)
-        ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR
-        : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
-}",
-      "reuseCurrentRendering": true,
-      "shouldCacheRenderingResult": "({ entry: { err } }) => !err",
-      "ssrFeatureToggles": {
-        "limitCacheByMemory": false,
-      },
-      "timeout": 3000,
-      "ttl": undefined,
-    },
-  },
-]
-`);
+        [
+          "[spartacus] SSR optimization engine initialized",
+          {
+            "options": {
+              "cache": false,
+              "cacheEntrySizeCalculator": "DefaultCacheEntrySizeCalculator",
+              "cacheSize": 3000,
+              "cacheSizeMemory": 800000000,
+              "concurrency": 10,
+              "forcedSsrTimeout": 60000,
+              "logger": "MockExpressServerLogger",
+              "maxRenderTime": 300000,
+              "renderKeyResolver": "function getRequestUrl(req) {
+            return (0, express_request_origin_1.getRequestOrigin)(req) + req.originalUrl;
+        }",
+              "renderingStrategyResolver": "(request) => {
+            if (hasExcludedUrl(request, defaultAlwaysCsrOptions.excludedUrls)) {
+                return ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR;
+            }
+            return shouldFallbackToCsr(request, options)
+                ? ssr_optimization_options_1.RenderingStrategy.ALWAYS_CSR
+                : ssr_optimization_options_1.RenderingStrategy.DEFAULT;
+        }",
+              "reuseCurrentRendering": true,
+              "shouldCacheRenderingResult": "({ entry: { err } }) => !err",
+              "ssrFeatureToggles": {
+                "limitCacheByMemory": true,
+              },
+              "timeout": 3000,
+              "ttl": undefined,
+            },
+          },
+        ]
+      `);
     });
   });
 });
