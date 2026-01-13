@@ -312,7 +312,6 @@ if (environment.cpq) {
         productReviewCharactersLeft: true,
         a11yNgSelectAriaControls: true,
         a11yConfiguratorOverviewHeaderVPC: true,
-        enableCarouselCategoryProducts: true,
         enableReadDomainValuesOnDemand: true,
         opfEnablePreventingFromCheckoutWithoutEmail: true,
         storeFinderFacadeCleanup: true,
