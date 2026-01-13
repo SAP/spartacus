@@ -9,6 +9,7 @@ import {
   contextServiceMapProvider,
   Currency,
   CurrencyService,
+  I18nTestingModule,
   Language,
   LanguageService,
   TranslationService,
@@ -90,6 +91,7 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
         BrowserAnimationsModule,
         LanguageCurrencyComponent,
         SiteContextSelectorComponent,
+        I18nTestingModule,
         MockCxIconComponent,
       ],
       providers: [

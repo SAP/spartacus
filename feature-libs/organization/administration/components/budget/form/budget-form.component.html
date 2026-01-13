@@ -102,6 +102,9 @@
         [class.invalid]="form.get('currency.isocode')?.invalid ?? false"
         appendTo="cx-org-list"
         [placeholder]="'orgBudget.currency' | cxTranslate"
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
       >
       </ng-select>
 
@@ -164,6 +167,9 @@
         [readonly]="form.get('orgUnit.uid')?.disabled ?? false"
         appendTo="cx-org-list"
         [placeholder]="'orgBudget.businessUnits' | cxTranslate"
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
       >
       </ng-select>
 

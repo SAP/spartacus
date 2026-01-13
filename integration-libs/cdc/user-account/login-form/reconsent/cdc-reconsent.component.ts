@@ -65,10 +65,6 @@ export class CdcReconsentComponent implements OnInit, OnDestroy {
   requiredReconsents: string[] = [];
   selectedConsents: string[] = [];
   disableSubmitButton: boolean = true;
-  /**
-   * @deprecated since 2211.38
-   */
-  totalConsents: number = 0; // CXSPA-9292: remove this property in next major release
 
   focusConfig: FocusConfig = {
     trap: true,
