@@ -89,7 +89,6 @@ export class GuardsComposer {
    * Tells whether the given object has a `canActivate` method.
    */
   protected isCanActivate(guard: any): guard is CanActivate {
-    console.log('IS CAN ACTIVATE typeof', typeof guard);
     return guard && typeof guard.canActivate === 'function';
   }
 }
