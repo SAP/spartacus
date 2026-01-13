@@ -12,7 +12,6 @@ import {
   TrackByFunction,
 } from '@angular/core';
 import {
-  FeatureDirective,
   CmsProductCarouselComponent as model,
   Product,
   ProductScope,
@@ -34,7 +33,6 @@ import { ProductCarouselItemComponent } from '../product-carousel-item/product-c
   templateUrl: './product-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    FeatureDirective,
     NgIf,
     CarouselScrollingComponent,
     CarouselComponent,
