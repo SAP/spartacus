@@ -7,33 +7,33 @@
 import { inject, Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
+  CanActivateFn,
+  DeprecatedGuard,
   GuardResult,
   Route,
   Router,
   RouterStateSnapshot,
-  CanActivateFn,
-  DeprecatedGuard,
 } from '@angular/router';
 import {
   CmsComponentChildRoutesConfig,
   CmsRoute,
-  deepMerge, getLastValueSync,
+  deepMerge,
+  getLastValueSync,
   PageContext,
-  PageType, UnifiedInjector,
+  PageType,
+  UnifiedInjector,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsComponentsService } from './cms-components.service';
-import {
-  CanActivate,
-  GuardsComposer } from './guards-composer';
-
+import { CanActivate, GuardsComposer } from './guards-composer';
 
 // This service should be exposed in public API only after the refactor planned in https://github.com/SAP/spartacus/issues/7070
 @Injectable({ providedIn: 'root' })
 export class CmsRoutesImplService {
   protected guardsComposer = inject(GuardsComposer);
   protected unifiedInjector = inject(UnifiedInjector);
+
   constructor(
     private router: Router,
     private cmsComponentsService: CmsComponentsService
@@ -171,17 +171,11 @@ export class CmsRoutesImplService {
       route: ActivatedRouteSnapshot,
       state: RouterStateSnapshot
     ): Observable<GuardResult> => {
-      let canActivate: CanActivate;
-
-      const classGuard = getLastValueSync(this.unifiedInjector.get<CanActivate>(guard));
-
-      if (classGuard) {
-        canActivate = { canActivate: classGuard as unknown as CanActivateFn };
-      } else {
-        canActivate = { canActivate: guard as CanActivateFn };
-      }
+      const classGuard = getLastValueSync(
+        this.unifiedInjector.get<CanActivate>(guard)
+      );
+      const canActivate = classGuard ?? { canActivate: guard };
       return this.guardsComposer.canActivate([canActivate], route, state);
     };
   }
 }
-

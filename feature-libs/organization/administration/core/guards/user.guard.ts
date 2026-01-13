@@ -5,7 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { CanActivateFn, Router, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -13,9 +13,7 @@ import {
 } from '@spartacus/core';
 import { B2BUserService } from '../services';
 
-@Injectable(
-  // { providedIn: 'root' }
-)
+@Injectable()
 export class UserGuard {
   constructor(
     protected globalMessageService: GlobalMessageService,
@@ -38,5 +36,3 @@ export class UserGuard {
     return isUpdatingUserAllowed;
   }
 }
-
-export const userGuard: CanActivateFn = () => true;
