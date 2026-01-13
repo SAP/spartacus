@@ -17,7 +17,7 @@ This document describes how to manage dependencies in this repo.
 - When all CI checks pass, ask repo admin to merge (because 1 check will fail - the check protecting changes in peer deps)
 
 ## How to update Angular-related dependency
-Updating Angular-ecosystem dependencies (e.g. Angular itself `@angular/core`, `@angular/cli`, etc. , but also 3rd party Angular-related like `@ng-select/ng-select` etc.) should be done with Angular CLI. Please follow the document [Updating Angular-ecosystem packages version in Spartacus]()) (TODO add link! 🚨) for detailed instructions.
+Updating Angular-ecosystem dependencies (e.g. Angular itself `@angular/core`, `@angular/cli`, etc. , but also 3rd party Angular-related like `@ng-select/ng-select` etc.) should be done with Angular CLI. Please follow the document [Updating Angular-ecosystem packages version in Spartacus](https://wiki.one.int.sap/wiki/spaces/spar/pages/3793852171/Update+To+The+New+Version+Of+Angular+-+Post-NX+Guideline)) for detailed instructions.
 
 ## Don't change peerDependencies in releases different than Major (once a year)
 Peer Dependencies should not be changed in the middle of the year, unless there is a critical security issue or a major bug that needs to be fixed. Changing a peerDependency minimal-version constraint in package.json of our libraries is considered a breaking change, because then customers are forced to install a different version of the peerDependency than before.
