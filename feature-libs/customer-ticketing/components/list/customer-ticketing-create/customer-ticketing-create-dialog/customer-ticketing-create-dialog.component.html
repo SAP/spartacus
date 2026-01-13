@@ -94,6 +94,9 @@
             [placeholder]="'createCustomerTicket.selectCategory' | cxTranslate"
             bindLabel="name"
             formControlName="ticketCategory"
+            ariaLabelDropdown="{{
+              'common.ngSelectDropdownOptionsList' | cxTranslate
+            }}"
             [cxNgSelectA11y]="{}"
             [attr.aria-invalid]="
               form.get('ticketCategory')?.touched &&
@@ -153,6 +156,9 @@
               [searchable]="false"
               formControlName="associatedTo"
               id="associated-to-select"
+              ariaLabelDropdown="{{
+                'common.ngSelectDropdownOptionsList' | cxTranslate
+              }}"
               [cxNgSelectA11y]="{}"
             >
               <ng-template
