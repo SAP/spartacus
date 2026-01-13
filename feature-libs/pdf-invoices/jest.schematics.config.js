@@ -1,29 +1,7 @@
 const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig.schematics.json');
 const { defaultTransformerOptions } = require('jest-preset-angular/presets');
-
-// ESM packages that need to be transformed by Jest
-const esmPackages = [
-  '@angular',
-  'ora',
-  'chalk',
-  'cli-cursor',
-  'cli-spinners',
-  'is-interactive',
-  'is-unicode-supported',
-  'log-symbols',
-  'stdin-discarder',
-  'string-width',
-  'strip-ansi',
-  'ansi-regex',
-  'is-fullwidth-code-point',
-  'emoji-regex',
-  'restore-cursor',
-  'onetime',
-  'mimic-function',
-  'yoctocolors',
-  'get-east-asian-width',
-];
+const { esmPackages } = require('../../jest-esm-packages');
 
 /** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
 module.exports = {
