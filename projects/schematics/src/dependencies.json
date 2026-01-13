@@ -46,8 +46,8 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/styles": {
-    "@fontsource/open-sans": "^5.1.0",
-    "@fortawesome/fontawesome-free": "6.7.2",
+    "@fontsource/open-sans": "^5.2.7",
+    "@fortawesome/fontawesome-free": "7.1.0",
     "@ng-select/ng-select": "^20.4.3"
   },
   "@spartacus/setup": {
@@ -515,8 +515,8 @@
     "@angular/router": "^20.3.9",
     "@angular/service-worker": "^20.3.9",
     "@angular/ssr": "^20.3.9",
-    "@fontsource/open-sans": "^5.1.0",
-    "@fortawesome/fontawesome-free": "6.7.2",
+    "@fontsource/open-sans": "^5.2.7",
+    "@fortawesome/fontawesome-free": "7.1.0",
     "@ng-select/ng-select": "^20.4.3",
     "@ngrx/effects": "^20.1.0",
     "@ngrx/operators": "^20.1.0",
