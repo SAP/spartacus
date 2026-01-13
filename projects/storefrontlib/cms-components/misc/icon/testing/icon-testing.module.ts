@@ -21,6 +21,9 @@ export class MockIconComponent {
 const mockComponents = [MockIconComponent];
 
 export class MockIconLoaderService {
+  getFlipDirection() {
+    // Intentional empty method
+  }
   getHtml() {
     // Intentional empty method
   }
