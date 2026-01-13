@@ -210,7 +210,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
   }
 
   protected getOrderDetailUrl(userId: string, orderCode: string): string {
-    const url = this.orderConfig.showOrderQuoteLink
+    return this.orderConfig.showOrderQuoteLink
       ? (() => {
           const scopes = ['orderDetail', 'quoteCode'];
           const scopedDataWithUrls: ScopedDataWithUrl[] = scopes.map(
@@ -228,6 +228,5 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
       : this.occEndpoints.buildUrl('orderDetail', {
           urlParams: { userId, orderId: orderCode },
         });
-    return url;
   }
 }
