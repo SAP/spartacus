@@ -18,6 +18,7 @@ module.exports = {
       },
     ],
   },
+  transformIgnorePatterns: ['node_modules/(?!parse5|@angular)'],
 
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
