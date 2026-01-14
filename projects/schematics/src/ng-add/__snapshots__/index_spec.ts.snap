@@ -108,7 +108,7 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "parse5": "^8.0.0",
+    "parse5": "^7.3.0",
     "typescript": "~5.9.2"
   }
 }"
