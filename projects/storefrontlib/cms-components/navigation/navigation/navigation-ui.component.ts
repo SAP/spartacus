@@ -41,7 +41,6 @@ import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/ha
 import { NavigationNode } from './navigation-node.model';
 
 const ARIA_EXPANDED_ATTR = 'aria-expanded';
-
 @Component({
   selector: 'cx-navigation-ui',
   templateUrl: './navigation-ui.component.html',
@@ -103,8 +102,8 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     this.resize.next(undefined);
   }
 
-  @HostListener('document:keyDown.arrowUp', ['$event'])
-  @HostListener('document:keyDown.arrowDown', ['$event'])
+  @HostListener('document:keydown.ArrowUp', ['$event'])
+  @HostListener('document:keydown.ArrowDown', ['$event'])
   onArrow(e: KeyboardEvent) {
     this.arrowControls.next(e);
   }
