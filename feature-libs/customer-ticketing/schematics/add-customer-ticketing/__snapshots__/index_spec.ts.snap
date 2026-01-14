@@ -110,6 +110,9 @@ exports[`Spartacus Customer Ticketing schematics: ng-add Customer Ticketing feat
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 1`] = `
-"import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
+"import { NgModule, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { BrowserModule, provideClientHydration, withEventReplay, withNoHttpTransferCache } from '@angular/platform-browser';
 
 import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
@@ -24,6 +24,7 @@ import { SpartacusModule } from './spartacus/spartacus.module';
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
     provideClientHydration(withEventReplay(), withNoHttpTransferCache())
   ],
@@ -87,7 +88,8 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
     "i18next-resources-to-backend": "^1.2.1",
     "ngx-infinite-scroll": "^21.0.0",
     "rxjs": "~7.8.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "zone.js": "~0.16.0"
   },
   "devDependencies": {
     "@angular-devkit/core": "^21.0.5",

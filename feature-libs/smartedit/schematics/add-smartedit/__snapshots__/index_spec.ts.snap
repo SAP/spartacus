@@ -72,6 +72,9 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [

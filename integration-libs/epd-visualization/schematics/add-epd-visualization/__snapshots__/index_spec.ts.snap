@@ -172,6 +172,9 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [

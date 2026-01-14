@@ -37,6 +37,9 @@ exports[`Workspace utils getProject should return project 1`] = `
         ],
         "browser": "src/main.ts",
         "inlineStyleLanguage": "scss",
+        "polyfills": [
+          "zone.js",
+        ],
         "stylePreprocessorOptions": {
           "includePaths": [
             "node_modules/",
@@ -152,6 +155,9 @@ exports[`Workspace utils getProjectTargets should return project targets 1`] = `
       ],
       "browser": "src/main.ts",
       "inlineStyleLanguage": "scss",
+      "polyfills": [
+        "zone.js",
+      ],
       "stylePreprocessorOptions": {
         "includePaths": [
           "node_modules/",
