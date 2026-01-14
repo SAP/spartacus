@@ -206,10 +206,14 @@ export const orderHistoryTest = {
         .its('response.statusCode')
         .should('eq', 200);
 
+      cy.intercept('GET', /users\/current\/orders/).as('ordersAfterLangSwitch');
+
       cy.onMobile(() => {
         clickHamburger();
       });
       switchLanguage('en');
+
+      cy.wait('@ordersAfterLangSwitch');
 
       cy.get('.cx-order-history-placed > .cx-order-history-value')
         .first()
@@ -217,10 +221,16 @@ export const orderHistoryTest = {
           dayNumberEN = getDayNumber(element)[1];
         });
 
+      cy.intercept('GET', /users\/current\/orders/).as(
+        'ordersAfterLangSwitchDE'
+      );
+
       cy.onMobile(() => {
         clickHamburger();
       });
       switchLanguage('de');
+
+      cy.wait('@ordersAfterLangSwitchDE');
 
       cy.get('.cx-order-history-placed > .cx-order-history-value')
         .first()
@@ -228,10 +238,16 @@ export const orderHistoryTest = {
           expect(getDayNumber(element)[0]).to.eq(dayNumberEN);
         });
 
+      cy.intercept('GET', /users\/current\/orders/).as(
+        'ordersAfterLangSwitchEN'
+      );
+
       cy.onMobile(() => {
         clickHamburger();
       });
       switchLanguage('en'); // switch language back
+
+      cy.wait('@ordersAfterLangSwitchEN');
     });
   },
   checkOrderDetailsUnconsignedEntries() {
