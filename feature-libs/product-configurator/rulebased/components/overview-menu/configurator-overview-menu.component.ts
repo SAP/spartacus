@@ -65,7 +65,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
     this.onScroll();
   }
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:scroll')
   onScroll(): void {
     this.menuItem = this.getMenuItemToHighlight();
     this.highlight(this.menuItem);
@@ -73,7 +73,7 @@ export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
     this.ensureElementVisible(this.menuItem);
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   onResize() {
     this.height = this.getHeight();
     this.ensureElementVisible(this.menuItem);
