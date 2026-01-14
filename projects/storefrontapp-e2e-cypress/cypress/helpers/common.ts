@@ -58,7 +58,7 @@ export function goToPDPage(shopName: string, productId: string): void {
  */
 export function checkLoadingMsgNotDisplayed(): void {
   cy.log('Wait until the loading notification is not displayed anymore');
-  cy.get('cx-storefront').should('not.contain.value', 'Loading');
+  cy.get('app-root').should('not.contain.value', 'Loading');
 }
 
 /**
