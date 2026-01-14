@@ -9,8 +9,8 @@
     <form [formGroup]="form" class="modal-content cx-saved-cart-form-container">
       <!-- Modal Header -->
       <div class="modal-header cx-saved-cart-form-header">
-        <ng-container [ngSwitch]="layoutOption">
-          <h3 id="dialogTitle" class="cx-saved-cart-form-title modal-title">
+        <h3 id="dialogTitle" class="cx-saved-cart-form-title modal-title">
+          <ng-container [ngSwitch]="layoutOption">
             <ng-container *ngSwitchCase="savedCartFormType.EDIT">
               {{ 'savedCartDialog.editSavedCart' | cxTranslate }}
             </ng-container>
@@ -23,8 +23,8 @@
             <ng-container *ngSwitchCase="savedCartFormType.RESTORE">
               {{ 'savedCartDialog.restoreSavedCart' | cxTranslate }}
             </ng-container>
-          </h3>
-        </ng-container>
+          </ng-container>
+        </h3>
 
         <button
           (click)="close('Close Save Cart Dialog')"

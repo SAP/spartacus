@@ -45,7 +45,7 @@
           ><div
             *ngIf="
               getProductInWishList(product, entries) as entry;
-              else addItem
+              else addItem_old
             "
           >
             <button
@@ -60,7 +60,7 @@
               }}</span>
             </button>
           </div>
-          <ng-template #addItem>
+          <ng-template #addItem_old>
             <button
               class="btn btn-link button-add cx-action-link"
               (click)="add(product)"
