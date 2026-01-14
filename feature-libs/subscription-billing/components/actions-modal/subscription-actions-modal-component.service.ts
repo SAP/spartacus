@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,7 @@ import {
   GlobalMessageType,
   EventService,
 } from '@spartacus/core';
-import { catchError, of } from 'rxjs';
+import { catchError, EMPTY } from 'rxjs';
 import { GetSubscriptionByCodeReloadEvent } from '@spartacus/subscription-billing/root';
 
 @Injectable({
@@ -33,8 +33,7 @@ export class SubscriptionActionsModalComponentService {
         { key: errorMessageKey },
         GlobalMessageType.MSG_TYPE_ERROR
       );
-
-      return of(undefined); // complete observable gracefully
+      return EMPTY;
     });
   }
 

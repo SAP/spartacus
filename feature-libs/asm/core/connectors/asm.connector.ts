@@ -1,11 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Injectable } from '@angular/core';
 import {
+  AsmSessionCreationOptions,
   BindCartParams,
   CustomerListsPage,
   CustomerRegistrationForm,
@@ -38,5 +39,9 @@ export class AsmConnector {
 
   createCustomer(user: CustomerRegistrationForm): Observable<User> {
     return this.asmAdapter.createCustomer(user);
+  }
+
+  createAsmSessionEvent(options: AsmSessionCreationOptions): Observable<void> {
+    return this.asmAdapter.createAsmSessionEvent(options);
   }
 }

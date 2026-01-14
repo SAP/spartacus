@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -85,10 +85,12 @@ export class AuthService {
 
       const isEmulated = await firstValueFrom(this.userIdService.isEmulated());
 
+      const isUsingASMClient = await firstValueFrom(this.isUsingASMClient());
+
       // We get the value `true` of `result` in the _code flow_ even if we did not log in successfully
       // (see source code https://github.com/manfredsteyer/angular-oauth2-oidc/blob/d95d7da788e2c1390346c66de62dc31f10d2b852/projects/lib/src/oauth-service.ts#L1711),
       // that why we also need to check if we have access_token
-      if (loginResult.result && token && !isEmulated) {
+      if (loginResult.result && token && !isEmulated && !isUsingASMClient) {
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
 
         if (

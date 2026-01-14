@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as configurationVc from '../../../helpers/product-configurator-vc';
 import * as configurationOverview from '../../../helpers/product-configurator-overview';
 import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';

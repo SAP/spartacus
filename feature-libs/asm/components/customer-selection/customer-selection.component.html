@@ -38,6 +38,7 @@
             </span>
             <span
               #createCustomerLink
+              *ngIf="config.asm?.createCustomer?.enable"
               class="linkStyleLabel"
               (click)="createCustomer()"
             >

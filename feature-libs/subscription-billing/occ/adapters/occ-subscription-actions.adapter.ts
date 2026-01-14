@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -70,7 +70,7 @@ export class OccSubscriptionActionsAdapter
     subscriptionCode: string,
     withdrawalData: SubscriptionWithdraw
   ): Observable<any> {
-    const url = this.occEndpoints.buildUrl('withdrawal', {
+    const url = this.occEndpoints.buildUrl('withdrawSubscription', {
       urlParams: {
         userId,
         subscriptionCode,
