@@ -29,7 +29,7 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { FeatureConfigService, TranslatePipe, User } from '@spartacus/core';
 import {
   DirectionMode,
@@ -51,9 +51,7 @@ import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
     IconComponent,
-    NgFor,
     DotSpinnerComponent,
     AsyncPipe,
     TranslatePipe,

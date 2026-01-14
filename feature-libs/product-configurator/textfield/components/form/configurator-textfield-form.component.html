@@ -1,33 +1,30 @@
-<ng-container *ngIf="configuration$ | async as configuration">
-  <ng-container *ngIf="isEditable$ | async as isEditable; else readonly">
+@if (configuration$ | async; as configuration) {
+  @if (isEditable$ | async; as isEditable) {
     <span class="cx-visually-hidden">
       {{ 'configurator.a11y.editAttributesAndValues' | cxTranslate }}
     </span>
-    <div
-      class="cx-attribute"
-      *ngFor="let attribute of configuration.configurationInfos"
-    >
-      <cx-configurator-textfield-input-field
-        [attribute]="attribute"
-        (inputChange)="updateConfiguration($event)"
-      ></cx-configurator-textfield-input-field>
-    </div>
+    @for (attribute of configuration.configurationInfos; track attribute) {
+      <div class="cx-attribute">
+        <cx-configurator-textfield-input-field
+          [attribute]="attribute"
+          (inputChange)="updateConfiguration($event)"
+        ></cx-configurator-textfield-input-field>
+      </div>
+    }
 
     <cx-configurator-textfield-add-to-cart-button
       [configuration]="configuration"
     ></cx-configurator-textfield-add-to-cart-button>
-  </ng-container>
-  <ng-template #readonly>
+  } @else {
     <span class="cx-visually-hidden">
       {{ 'configurator.a11y.listOfAttributesAndValues' | cxTranslate }}
     </span>
-    <div
-      class="cx-attribute"
-      *ngFor="let attribute of configuration.configurationInfos"
-    >
-      <cx-configurator-textfield-input-field-readonly
-        [attribute]="attribute"
-      ></cx-configurator-textfield-input-field-readonly>
-    </div>
-  </ng-template>
-</ng-container>
+    @for (attribute of configuration.configurationInfos; track attribute) {
+      <div class="cx-attribute">
+        <cx-configurator-textfield-input-field-readonly
+          [attribute]="attribute"
+        ></cx-configurator-textfield-input-field-readonly>
+      </div>
+    }
+  }
+}

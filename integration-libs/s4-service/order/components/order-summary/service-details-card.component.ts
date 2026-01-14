@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
@@ -19,7 +19,7 @@ import { Observable, Subscription, map } from 'rxjs';
 @Component({
   selector: 'cx-card-service-details',
   templateUrl: './service-details-card.component.html',
-  imports: [NgIf, CardComponent, AsyncPipe],
+  imports: [CardComponent, AsyncPipe],
 })
 export class ServiceDetailsCardComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);

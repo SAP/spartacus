@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,7 +22,7 @@ import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-ad
   selector: 'cx-opf-checkout-terms-and-conditions-alert',
   templateUrl: './opf-checkout-terms-and-conditions-alert.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, TranslatePipe, AsyncPipe],
+  imports: [IconComponent, TranslatePipe, AsyncPipe],
 })
 export class OpfCheckoutTermsAndConditionsAlertComponent implements OnInit {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);

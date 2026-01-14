@@ -1,37 +1,29 @@
-<ng-container *ngIf="subscriptionItemExists()">
+@if (subscriptionItemExists()) {
   <td role="cell" class="cx-item-list-charges">
     <div class="cx-item-list-charges">
-      <ng-container
-        *ngIf="
-          this.productService.isSubscription(item().product);
-          else noSubscriptions
-        "
-      >
+      @if (this.productService.isSubscription(item().product)) {
         <ng-container *ngTemplateOutlet="charges"></ng-container>
-      </ng-container>
-
-      <ng-template #noSubscriptions>
+      } @else {
         <span class="cx-value">
           {{ item().basePrice?.formattedValue }}
         </span>
-      </ng-template>
+      }
     </div>
   </td>
-</ng-container>
+}
 
-<ng-container *ngIf="parent() === 'minicart'">
-  <ng-container *ngIf="this.productService.isSubscription(item().product)">
+@if (parent() === 'minicart') {
+  @if (this.productService.isSubscription(item().product)) {
     <ng-container *ngTemplateOutlet="charges"></ng-container>
-  </ng-container>
-</ng-container>
+  }
+}
 
 <ng-template #charges>
   <div class="cx-recurring-charges">
-    <ng-container
-      *ngFor="
-        let recurringCharge of item().product?.sapPricePlan?.recurringCharges
-      "
-    >
+    @for (
+      recurringCharge of item().product?.sapPricePlan?.recurringCharges;
+      track recurringCharge
+    ) {
       <div class="cx-value">
         <span class="cx-billing-value"
           >{{ recurringCharge.price?.formattedValue }}/</span
@@ -40,12 +32,13 @@
           item().product?.sapSubscriptionTerm?.billingPlan?.billingTime?.name
         }}</span>
       </div>
-    </ng-container>
+    }
   </div>
   <div class="cx-one-time-charges">
-    <ng-container
-      *ngFor="let oneTimeCharge of item().product?.sapPricePlan?.oneTimeCharges"
-    >
+    @for (
+      oneTimeCharge of item().product?.sapPricePlan?.oneTimeCharges;
+      track oneTimeCharge
+    ) {
       <div class="cx-value">
         <span class="cx-billing-value">
           {{ oneTimeCharge.price?.formattedValue }}
@@ -54,6 +47,6 @@
           {{ oneTimeCharge.billingTime?.name | lowercase }}
         </span>
       </div>
-    </ng-container>
+    }
   </div>
 </ng-template>

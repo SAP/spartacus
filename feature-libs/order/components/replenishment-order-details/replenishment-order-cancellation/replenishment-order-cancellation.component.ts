@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -32,7 +32,6 @@ import { take } from 'rxjs/operators';
   imports: [
     BtnLikeLinkDirective,
     RouterLink,
-    NgIf,
     AsyncPipe,
     TranslatePipe,
     UrlPipe,

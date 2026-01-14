@@ -1,4 +1,4 @@
-<ng-container *ngIf="quoteDetails$ | async as quoteDetails; else ghostDetails">
+@if (quoteDetails$ | async; as quoteDetails) {
   <div
     role="region"
     tabindex="-1"
@@ -16,7 +16,7 @@
     </div>
     <div class="cx-container">
       <div class="cx-summary-card">
-        <ng-container *ngIf="!editMode">
+        @if (!editMode) {
           <cx-card
             [content]="
               getQuoteInformation(
@@ -28,28 +28,32 @@
             [truncateParagraphText]="true"
             [charactersLimit]="getCharactersLimitForCardTile()"
           ></cx-card>
-          <button
-            [attr.aria-label]="'quote.header.overview.a11y.edit' | cxTranslate"
-            [attr.title]="'quote.header.overview.a11y.edit' | cxTranslate"
-            *ngIf="isQuoteEditableForBuyer(quoteDetails)"
-            class="link cx-action-link cx-edit-btn"
-            (click)="toggleEditMode()"
-          >
-            <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
-          </button>
-        </ng-container>
-        <cx-quote-header-buyer-edit
-          *ngIf="editMode"
-          [content]="
-            getEditQuoteInformation(
-              quoteDetails.name,
-              quoteDetails.description,
-              quoteDetails.sapPurchaseOrderNumber
-            )
-          "
-          (saveCard)="save(quoteDetails, $event)"
-          (cancelCard)="cancel()"
-        ></cx-quote-header-buyer-edit>
+          @if (isQuoteEditableForBuyer(quoteDetails)) {
+            <button
+              [attr.aria-label]="
+                'quote.header.overview.a11y.edit' | cxTranslate
+              "
+              [attr.title]="'quote.header.overview.a11y.edit' | cxTranslate"
+              class="link cx-action-link cx-edit-btn"
+              (click)="toggleEditMode()"
+            >
+              <cx-icon [type]="iconTypes.PENCIL"></cx-icon>
+            </button>
+          }
+        }
+        @if (editMode) {
+          <cx-quote-header-buyer-edit
+            [content]="
+              getEditQuoteInformation(
+                quoteDetails.name,
+                quoteDetails.description,
+                quoteDetails.sapPurchaseOrderNumber
+              )
+            "
+            (saveCard)="save(quoteDetails, $event)"
+            (cancelCard)="cancel()"
+          ></cx-quote-header-buyer-edit>
+        }
       </div>
       <div class="cx-summary-card">
         <cx-card
@@ -73,9 +77,7 @@
       </div>
     </div>
   </div>
-</ng-container>
-
-<ng-template #ghostDetails>
+} @else {
   <div class="cx-ghost-heading">
     <div class="cx-ghost-column">
       <div class="cx-ghost-header ghost"></div>
@@ -84,9 +86,9 @@
   </div>
   <div class="cx-ghost-cards">
     <div class="cx-ghost-row">
-      <ng-container *ngFor="let number of [0, 1, 2]">
+      @for (number of [0, 1, 2]; track number) {
         <div class="cx-ghost-card ghost"></div>
-      </ng-container>
+      }
     </div>
   </div>
-</ng-template>
+}

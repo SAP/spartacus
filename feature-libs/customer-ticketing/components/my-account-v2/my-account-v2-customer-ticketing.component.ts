@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CxDatePipe, TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -20,14 +20,11 @@ import { Observable } from 'rxjs';
   templateUrl: './my-account-v2-customer-ticketing.component.html',
   imports: [
     RouterLink,
-    NgIf,
-    NgFor,
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
     CxDatePipe,
     UrlPipe,
-
     CxDatePipe,
   ],
 })

@@ -9,10 +9,10 @@
       [disabled]="disabled || isRequired(consentTemplate?.id)"
     />
     <span class="form-check-label cx-be-bold">
-      <ng-container *ngIf="consentTemplate?.name">
+      @if (consentTemplate?.name) {
         {{ consentTemplate?.name }}
         <br />
-      </ng-container>
+      }
     </span>
     <span class="form-check-label">
       {{ consentTemplate?.description }}
@@ -26,12 +26,12 @@
 </div>
 
 <ng-template #requiredAsterisk>
-  <ng-container *ngIf="showMandatory">
+  @if (showMandatory) {
     <abbr
       aria-hidden="true"
       class="text-decoration-none required-asterisk"
       title="{{ 'common.required' | cxTranslate }}"
       >*</abbr
     >
-  </ng-container>
+  }
 </ng-template>

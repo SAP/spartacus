@@ -1,9 +1,13 @@
 <div class="inner" [cxFocus]="{ focusOnEscape: true }" (esc)="close()">
-  <p class="messageTitle" *ngIf="messageTitle">
-    {{ messageTitle | cxTranslate }}
-  </p>
+  @if (messageTitle) {
+    <p class="messageTitle">
+      {{ messageTitle | cxTranslate }}
+    </p>
+  }
   <div class="message">
-    <cx-icon *ngIf="messageIcon" [type]="messageIcon"></cx-icon>
+    @if (messageIcon) {
+      <cx-icon [type]="messageIcon"></cx-icon>
+    }
     <p>
       {{ message | cxTranslate }}
     </p>

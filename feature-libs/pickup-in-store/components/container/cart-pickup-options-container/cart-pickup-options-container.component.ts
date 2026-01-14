@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -78,7 +78,7 @@ export function orderEntryWithRequiredFields(
 @Component({
   selector: 'cx-cart-pickup-options-container',
   templateUrl: 'cart-pickup-options-container.component.html',
-  imports: [PickupOptionsComponent, AsyncPipe, NgIf],
+  imports: [PickupOptionsComponent, AsyncPipe],
 })
 export class CartPickupOptionsContainerComponent implements OnInit, OnDestroy {
   pickupOption$: Observable<PickupOption | undefined>;

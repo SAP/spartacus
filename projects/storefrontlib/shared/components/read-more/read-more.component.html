@@ -1,14 +1,12 @@
-<ng-container *ngIf="isCollapsed">
+@if (isCollapsed) {
   {{ text.slice(0, maxLength) }}
-</ng-container>
-<ng-container *ngIf="!isCollapsed">
+}
+@if (!isCollapsed) {
   {{ text }}
-</ng-container>
+}
 
-<button
-  class="btn-link"
-  *ngIf="showReadMore"
-  (click)="isCollapsed = !isCollapsed"
->
-  {{ (isCollapsed ? readMoreI18nKey! : readLessI18nKey!) | cxTranslate }}
-</button>
+@if (showReadMore) {
+  <button class="btn-link" (click)="isCollapsed = !isCollapsed">
+    {{ (isCollapsed ? readMoreI18nKey! : readLessI18nKey!) | cxTranslate }}
+  </button>
+}

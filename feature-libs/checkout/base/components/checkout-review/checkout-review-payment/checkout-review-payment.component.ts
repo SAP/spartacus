@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -33,7 +33,6 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   templateUrl: './checkout-review-payment.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     CardComponent,
     RouterLink,
     IconComponent,

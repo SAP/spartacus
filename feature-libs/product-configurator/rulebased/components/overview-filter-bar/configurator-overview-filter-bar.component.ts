@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
@@ -15,7 +14,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
 @Component({
   selector: 'cx-configurator-overview-filter-bar',
   templateUrl: './configurator-overview-filter-bar.component.html',
-  imports: [NgFor, IconComponent, NgIf, TranslatePipe],
+  imports: [IconComponent, TranslatePipe],
 })
 export class ConfiguratorOverviewFilterBarComponent {
   readonly PREFIX_ID = 'cx-overview-filter-applied-';

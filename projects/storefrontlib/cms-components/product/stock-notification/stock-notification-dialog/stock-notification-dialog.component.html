@@ -21,7 +21,7 @@
       </button>
     </div>
 
-    <ng-container *ngIf="subscribeSuccess$ | async; else loading">
+    @if (subscribeSuccess$ | async) {
       <div class="cx-dialog-body modal-body">
         <div class="cx-stock-notification-content">
           <p class="cx-stock-notification-text">
@@ -30,10 +30,14 @@
                 | cxTranslate
             }}
           </p>
-          <p *ngFor="let preference of enabledPrefs" class="channels">
-            <span>{{ preference.channel }}</span
-            ><span *ngIf="preference.value">{{ ': ' + preference.value }}</span>
-          </p>
+          @for (preference of enabledPrefs; track preference) {
+            <p class="channels">
+              <span>{{ preference.channel }}</span>
+              @if (preference.value) {
+                <span>{{ ': ' + preference.value }}</span>
+              }
+            </p>
+          }
           <p class="cx-stock-notification-text">
             {{
               'stockNotification.subscriptionDialog.notifiedSuffix'
@@ -98,19 +102,17 @@
           </div>
         </div>
       </div>
-    </ng-container>
-  </div>
-
-  <ng-template #loading>
-    <div class="cx-dialog-body modal-body">
-      <p>
-        {{ 'stockNotification.subscriptionDialog.subscribing' | cxTranslate }}
-      </p>
-      <div class="cx-dialog-row">
-        <div class="col-sm-12">
-          <cx-spinner></cx-spinner>
+    } @else {
+      <div class="cx-dialog-body modal-body">
+        <p>
+          {{ 'stockNotification.subscriptionDialog.subscribing' | cxTranslate }}
+        </p>
+        <div class="cx-dialog-row">
+          <div class="col-sm-12">
+            <cx-spinner></cx-spinner>
+          </div>
         </div>
       </div>
-    </div>
-  </ng-template>
+    }
+  </div>
 </div>

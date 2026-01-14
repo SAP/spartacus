@@ -29,31 +29,29 @@
     </div>
 
     <!-- Modal Body -->
-    <ng-container *ngIf="context$ | async as context">
-      <ng-container *ngIf="formState; else importSummary">
-        <cx-import-to-new-saved-cart-form
-          class="modal-body"
-          *ngIf="isNewCartForm(context); else reducedForm"
-          [type]="context.type"
-          (submitEvent)="importProducts(context, $event)"
-        ></cx-import-to-new-saved-cart-form>
-        <ng-template #reducedForm>
+    @if (context$ | async; as context) {
+      @if (formState) {
+        @if (isNewCartForm(context)) {
+          <cx-import-to-new-saved-cart-form
+            class="modal-body"
+            [type]="context.type"
+            (submitEvent)="importProducts(context, $event)"
+          ></cx-import-to-new-saved-cart-form>
+        } @else {
           <cx-import-entries-form
             class="modal-body"
             [type]="context.type"
             (submitEvent)="importProducts(context, $event)"
           ></cx-import-entries-form>
-        </ng-template>
-      </ng-container>
-
-      <ng-template #importSummary>
+        }
+      } @else {
         <cx-import-entries-summary
           class="modal-body"
           [summary]="summary$ | async"
           [type]="context.type"
           (closeEvent)="close('Close Import Products Dialog')"
         ></cx-import-entries-summary>
-      </ng-template>
-    </ng-container>
+      }
+    }
   </div>
 </div>

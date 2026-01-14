@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   FormsModule,
@@ -53,7 +53,6 @@ import { RegisterComponentService } from './register-component.service';
   templateUrl: './register.component.html',
   host: { ngSkipHydration: 'true' },
   imports: [
-    NgIf,
     FormRequiredLegendComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -62,7 +61,6 @@ import { RegisterComponentService } from './register-component.service';
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
     PasswordVisibilityToggleDirective,
-    NgFor,
     RouterLink,
     CaptchaComponent,
     SpinnerComponent,

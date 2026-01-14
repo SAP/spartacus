@@ -1,4 +1,4 @@
-<ng-container *ngIf="futureStocks$ | async as futureStocks">
+@if (futureStocks$ | async; as futureStocks) {
   <button
     id="cx-future-stock-accordion-header"
     class="cx-future-stock-accordion-header"
@@ -13,21 +13,20 @@
     ></cx-icon>
   </button>
 
-  <ng-container *ngIf="expanded">
-    <ng-container *ngIf="futureStocks?.futureStocks?.length; else noStocks">
-      <div
-        id="cx-future-stock-accordion-content"
-        class="cx-future-stock-accordion-content"
-        aria-labelledby="cx-future-stock-accordion-header"
-        *ngFor="let futureStock of futureStocks.futureStocks"
-      >
-        {{ futureStock.formattedDate }} -
-        {{ 'futureStockDropdown.quantity' | cxTranslate }}
-        {{ futureStock.stock.stockLevel }}
-      </div>
-    </ng-container>
-
-    <ng-template #noStocks>
+  @if (expanded) {
+    @if (futureStocks?.futureStocks?.length) {
+      @for (futureStock of futureStocks.futureStocks; track futureStock) {
+        <div
+          id="cx-future-stock-accordion-content"
+          class="cx-future-stock-accordion-content"
+          aria-labelledby="cx-future-stock-accordion-header"
+        >
+          {{ futureStock.formattedDate }} -
+          {{ 'futureStockDropdown.quantity' | cxTranslate }}
+          {{ futureStock.stock.stockLevel }}
+        </div>
+      }
+    } @else {
       <div
         id="cx-future-stock-accordion-content"
         class="cx-future-stock-accordion-content"
@@ -35,6 +34,6 @@
       >
         {{ 'futureStockDropdown.noFutureStocks' | cxTranslate }}
       </div>
-    </ng-template>
-  </ng-container>
-</ng-container>
+    }
+  }
+}

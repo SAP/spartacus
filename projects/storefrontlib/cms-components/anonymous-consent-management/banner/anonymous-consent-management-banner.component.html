@@ -1,4 +1,4 @@
-<ng-container *ngIf="bannerVisible$ | async as bannerVisible">
+@if (bannerVisible$ | async; as bannerVisible) {
   <div
     [ngClass]="{ 'anonymous-consent-banner-hidden': !bannerVisible }"
     class="anonymous-consent-banner"
@@ -25,4 +25,4 @@
       </div>
     </div>
   </div>
-</ng-container>
+}

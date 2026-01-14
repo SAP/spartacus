@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
   ORDER_ENTRIES_CONTEXT,
@@ -21,7 +21,7 @@ import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.se
   selector: 'cx-export-order-entries',
   templateUrl: './export-order-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class ExportOrderEntriesComponent {
   @HostBinding('class') styles = 'container';

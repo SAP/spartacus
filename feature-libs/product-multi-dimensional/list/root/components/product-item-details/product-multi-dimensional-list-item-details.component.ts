@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Product, TranslatePipe } from '@spartacus/core';
 import {
@@ -17,7 +17,7 @@ import { EMPTY, Observable } from 'rxjs';
   selector: 'cx-product-multi-dimensional-list-item-details',
   templateUrl: './product-multi-dimensional-list-item-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, StarRatingComponent, TranslatePipe, AsyncPipe, TranslatePipe],
+  imports: [StarRatingComponent, TranslatePipe, AsyncPipe, TranslatePipe],
 })
 export class ProductMultiDimensionalListItemDetailsComponent {
   productListItemContext?: ProductListItemContext = inject(

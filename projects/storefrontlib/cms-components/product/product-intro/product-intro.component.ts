@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, DecimalPipe, NgIf } from '@angular/common';
+import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   EventService,
@@ -28,7 +28,6 @@ import { CurrentProductService } from '../current-product.service';
   templateUrl: './product-intro.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     StarRatingComponent,
     FeatureDirective,
     AsyncPipe,

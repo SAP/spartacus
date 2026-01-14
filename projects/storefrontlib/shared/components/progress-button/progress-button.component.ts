@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-progress-button',
   templateUrl: './progress-button.component.html',
-  imports: [NgClass, NgIf, TranslatePipe],
+  imports: [NgClass, TranslatePipe],
 })
 export class ProgressButtonComponent {
   @Input()

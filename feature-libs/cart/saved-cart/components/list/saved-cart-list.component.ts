@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -42,8 +42,6 @@ import { map, skip, take } from 'rxjs/operators';
   templateUrl: './saved-cart-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     RouterLink,
     SpinnerComponent,
     AsyncPipe,

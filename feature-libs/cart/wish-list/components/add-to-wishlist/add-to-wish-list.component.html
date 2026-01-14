@@ -1,29 +1,27 @@
-<ng-container *ngIf="product$ | async as product">
-  <ng-container *ngIf="userLoggedIn$ | async; else loginPrompt">
-    <ng-container *ngIf="wishListEntries$ | async as entries">
-      <ng-container *ngIf="hasStock">
+@if (product$ | async; as product) {
+  @if (userLoggedIn$ | async) {
+    @if (wishListEntries$ | async; as entries) {
+      @if (hasStock) {
         <!-- TODO: (CXSPA-7603) - Remove feature flag next major release. -->
         <ng-container *cxFeature="'a11yLinkBtnsToTertiaryBtns'">
-          <div
-            *ngIf="
-              getProductInWishList(product, entries) as entry;
-              else addItem
-            "
-          >
-            <button
-              #removeFromWishlistButton
-              class="btn btn-tertiary button-remove"
-              (click)="remove(entry)"
-              [disabled]="loading$ | async"
-              [cxAtMessage]="'addToWishList.removedFromWishList' | cxTranslate"
-            >
-              <cx-icon aria-hidden="true" [type]="iconTypes.HEART"></cx-icon>
-              <span class="button-text">{{
-                'addToWishList.remove' | cxTranslate
-              }}</span>
-            </button>
-          </div>
-          <ng-template #addItem>
+          @if (getProductInWishList(product, entries); as entry) {
+            <div>
+              <button
+                #removeFromWishlistButton
+                class="btn btn-tertiary button-remove"
+                (click)="remove(entry)"
+                [disabled]="loading$ | async"
+                [cxAtMessage]="
+                  'addToWishList.removedFromWishList' | cxTranslate
+                "
+              >
+                <cx-icon aria-hidden="true" [type]="iconTypes.HEART"></cx-icon>
+                <span class="button-text">{{
+                  'addToWishList.remove' | cxTranslate
+                }}</span>
+              </button>
+            </div>
+          } @else {
             <button
               #addToWishlistButton
               class="btn btn-tertiary button-add"
@@ -39,28 +37,26 @@
                 'addToWishList.add' | cxTranslate
               }}</span>
             </button>
-          </ng-template>
+          }
         </ng-container>
-        <ng-container *cxFeature="'!a11yLinkBtnsToTertiaryBtns'"
-          ><div
-            *ngIf="
-              getProductInWishList(product, entries) as entry;
-              else addItem_old
-            "
-          >
-            <button
-              class="btn btn-link button-remove cx-action-link"
-              (click)="remove(entry)"
-              [disabled]="loading$ | async"
-              [cxAtMessage]="'addToWishList.removedFromWishList' | cxTranslate"
-            >
-              <cx-icon aria-hidden="true" [type]="iconTypes.HEART"></cx-icon>
-              <span class="button-text">{{
-                'addToWishList.remove' | cxTranslate
-              }}</span>
-            </button>
-          </div>
-          <ng-template #addItem_old>
+        <ng-container *cxFeature="'!a11yLinkBtnsToTertiaryBtns'">
+          @if (getProductInWishList(product, entries); as entry) {
+            <div>
+              <button
+                class="btn btn-link button-remove cx-action-link"
+                (click)="remove(entry)"
+                [disabled]="loading$ | async"
+                [cxAtMessage]="
+                  'addToWishList.removedFromWishList' | cxTranslate
+                "
+              >
+                <cx-icon aria-hidden="true" [type]="iconTypes.HEART"></cx-icon>
+                <span class="button-text">{{
+                  'addToWishList.remove' | cxTranslate
+                }}</span>
+              </button>
+            </div>
+          } @else {
             <button
               class="btn btn-link button-add cx-action-link"
               (click)="add(product)"
@@ -75,24 +71,22 @@
                 'addToWishList.add' | cxTranslate
               }}</span>
             </button>
-          </ng-template>
+          }
         </ng-container>
-      </ng-container>
-    </ng-container>
-  </ng-container>
-</ng-container>
-
-<ng-template #loginPrompt>
-  <ng-container *ngIf="hasStock">
-    <a
-      class="btn btn-link button-add-link cx-action-link"
-      [routerLink]="{ cxRoute: 'login' } | cxUrl"
-      cxBtnLikeLink
-    >
-      <cx-icon aria-hidden="true" [type]="iconTypes.EMPTY_HEART"></cx-icon>
-      <span class="button-text">{{
-        'addToWishList.anonymous' | cxTranslate
-      }}</span>
-    </a>
-  </ng-container>
-</ng-template>
+      }
+    }
+  } @else {
+    @if (hasStock) {
+      <a
+        class="btn btn-link button-add-link cx-action-link"
+        [routerLink]="{ cxRoute: 'login' } | cxUrl"
+        cxBtnLikeLink
+      >
+        <cx-icon aria-hidden="true" [type]="iconTypes.EMPTY_HEART"></cx-icon>
+        <span class="button-text">{{
+          'addToWishList.anonymous' | cxTranslate
+        }}</span>
+      </a>
+    }
+  }
+}

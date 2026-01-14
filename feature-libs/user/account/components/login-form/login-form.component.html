@@ -1,4 +1,6 @@
-<cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
+@if (isUpdating$ | async) {
+  <cx-spinner class="overlay"></cx-spinner>
+}
 
 <form
   (ngSubmit)="onSubmit()"
@@ -67,12 +69,9 @@
   </label>
 
   <ng-container *cxFeature="'authorizationCodeFlowByDefault'">
-    <input
-      *ngIf="csrf"
-      formControlName="csrf"
-      type="hidden"
-      [name]="csrf.parameterName"
-    />
+    @if (csrf) {
+      <input formControlName="csrf" type="hidden" [name]="csrf.parameterName" />
+    }
   </ng-container>
 
   <a [routerLink]="{ cxRoute: 'forgotPassword' } | cxUrl" class="btn-link">

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -49,8 +49,6 @@ import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrap
   templateUrl: './opf-checkout-payments.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     IconComponent,
     NgTemplateOutlet,
     OpfCheckoutPaymentWrapperComponent,

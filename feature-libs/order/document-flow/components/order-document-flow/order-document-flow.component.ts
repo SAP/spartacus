@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -24,7 +24,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-order-document-flow',
   templateUrl: './order-document-flow.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class OrderDocumentFlowComponent {
   protected orderDetailsService = inject(OrderDetailsService);

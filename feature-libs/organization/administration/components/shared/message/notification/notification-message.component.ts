@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import {
@@ -18,7 +17,7 @@ import { BaseMessageComponent } from '../base-message.component';
   selector: 'cx-org-notification',
   templateUrl: './notification-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FocusDirective, NgIf, IconComponent, TranslatePipe],
+  imports: [FocusDirective, IconComponent, TranslatePipe],
 })
 export class NotificationMessageComponent extends BaseMessageComponent {
   closeIcon = ICON_TYPE.CLOSE;

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
@@ -15,7 +15,7 @@ import { OpfPaymentMethodDetails } from '../../model';
 @Component({
   selector: 'cx-opf-payment-method-details',
   templateUrl: './opf-payment-method-details.component.html',
-  imports: [NgIf, CardComponent, AsyncPipe],
+  imports: [CardComponent, AsyncPipe],
 })
 export class OpfPaymentMethodDetailsComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);

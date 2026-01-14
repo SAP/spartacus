@@ -9,7 +9,7 @@
   <div class="cx-modal-content">
     <div class="cx-dialog-header modal-header">
       <div id="dialogTitle" class="cx-dialog-title modal-title">
-        <ng-container *ngIf="displayDocumentEntries(); else defaultTitle">
+        @if (displayDocumentEntries()) {
           <span>
             <button
               class="btn-tertiary back"
@@ -19,13 +19,14 @@
               <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
             </button>
           </span>
-          <span *ngIf="selectedDocument$ | async as document">
-            {{ getDocumentTitle(document) }}
-          </span>
-        </ng-container>
-        <ng-template #defaultTitle>
+          @if (selectedDocument$ | async; as document) {
+            <span>
+              {{ getDocumentTitle(document) }}
+            </span>
+          }
+        } @else {
           <span>{{ 'documentFlow.dialog.title' | cxTranslate }}</span>
-        </ng-template>
+        }
       </div>
       <button
         type="button"
@@ -42,35 +43,56 @@
 
     <!-- Modal Body -->
     <div class="cx-dialog-body modal-body" #scrollContainer>
-      <cx-message
-        *ngIf="loadError(); else content"
-        [text]="'documentFlow.dialog.error' | cxTranslate"
-        [type]="globalMessageType.MSG_TYPE_ERROR"
-        [isVisibleCloseButton]="false"
-        class="cx-dialog-message error-message"
-      ></cx-message>
-      <ng-template #content>
-        <ng-container *ngIf="displayDocumentEntries(); else documentsView">
-          <ng-container
-            *ngIf="selectedDocumentEntries$ | async as entries; else spinner"
-          >
-            <cx-order-document-order-entry-list
-              *ngIf="entries.length > 0; else empty"
-              [entries]="entries"
-            />
-          </ng-container>
-        </ng-container>
-        <ng-template #documentsView>
-          <ng-container *ngIf="documents$ | async as documents; else spinner">
-            <cx-order-subsequent-document-list
-              *ngIf="documents.length > 0; else empty"
-              [documents]="documents"
-              [selectedDocument]="selectedDocument$ | async"
-              (documentSelected)="onDocumentSelection($event)"
-            />
-          </ng-container>
-        </ng-template>
-      </ng-template>
+      @if (loadError()) {
+        <cx-message
+          [text]="'documentFlow.dialog.error' | cxTranslate"
+          [type]="globalMessageType.MSG_TYPE_ERROR"
+          [isVisibleCloseButton]="false"
+          class="cx-dialog-message error-message"
+        ></cx-message>
+      } @else {
+        @if (displayDocumentEntries()) {
+          @if (selectedDocumentEntries$ | async; as entries) {
+            @if (entries.length > 0) {
+              <cx-order-document-order-entry-list [entries]="entries" />
+            } @else {
+              <cx-message
+                [text]="'documentFlow.dialog.empty' | cxTranslate"
+                [type]="globalMessageType.MSG_TYPE_INFO"
+                [isVisibleCloseButton]="false"
+                class="cx-dialog-message info-message"
+              >
+              </cx-message>
+            }
+          } @else {
+            <div class="cx-spinner">
+              <cx-spinner></cx-spinner>
+            </div>
+          }
+        } @else {
+          @if (documents$ | async; as documents) {
+            @if (documents.length > 0) {
+              <cx-order-subsequent-document-list
+                [documents]="documents"
+                [selectedDocument]="selectedDocument$ | async"
+                (documentSelected)="onDocumentSelection($event)"
+              />
+            } @else {
+              <cx-message
+                [text]="'documentFlow.dialog.empty' | cxTranslate"
+                [type]="globalMessageType.MSG_TYPE_INFO"
+                [isVisibleCloseButton]="false"
+                class="cx-dialog-message info-message"
+              >
+              </cx-message>
+            }
+          } @else {
+            <div class="cx-spinner">
+              <cx-spinner></cx-spinner>
+            </div>
+          }
+        }
+      }
     </div>
 
     <!-- Modal Footer -->
@@ -86,18 +108,3 @@
     </div>
   </div>
 </div>
-
-<ng-template #empty>
-  <cx-message
-    [text]="'documentFlow.dialog.empty' | cxTranslate"
-    [type]="globalMessageType.MSG_TYPE_INFO"
-    [isVisibleCloseButton]="false"
-    class="cx-dialog-message info-message"
-  >
-  </cx-message>
-</ng-template>
-<ng-template #spinner>
-  <div class="cx-spinner">
-    <cx-spinner></cx-spinner>
-  </div>
-</ng-template>

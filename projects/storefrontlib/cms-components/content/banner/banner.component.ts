@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
   CmsBannerComponent,
@@ -27,7 +27,6 @@ import { LcpContextDirective } from '../../../shared/lcp-context/lcp-context.dir
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     LcpContextDirective,
-    NgIf,
     GenericLinkComponent,
     MediaComponent,
     AsyncPipe,

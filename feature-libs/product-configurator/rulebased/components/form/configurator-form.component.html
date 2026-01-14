@@ -1,6 +1,6 @@
-<ng-container *ngIf="configuration$ | async as configuration; else ghostForm">
-  <ng-container *ngIf="!isDialogActive(configuration); else ghostForm">
-    <ng-container *ngIf="currentGroup$ | async as group">
+@if (configuration$ | async; as configuration) {
+  @if (!isDialogActive(configuration)) {
+    @if (currentGroup$ | async; as group) {
       <cx-configurator-group
         [group]="group"
         [owner]="configuration.owner"
@@ -8,12 +8,48 @@
         [isPricingAsync]="configuration.isPricingAsync"
       >
       </cx-configurator-group>
-    </ng-container>
-  </ng-container>
-</ng-container>
+    }
+  } @else {
+    @for (number of [0, 1, 2]; track number) {
+      <div class="cx-ghost-attribute">
+        <div class="cx-ghost-header">
+          <div class="cx-ghost-title ghost"></div>
+          <div class="cx-ghost-icon ghost"></div>
+        </div>
+        <div class="cx-ghost-body">
+          <div class="cx-ghost-text ghost"></div>
+          <div class="cx-ghost-price ghost"></div>
+        </div>
+      </div>
 
-<ng-template #ghostForm>
-  <ng-container *ngFor="let number of [0, 1, 2]">
+      <div class="cx-ghost-attribute">
+        <div class="cx-ghost-header">
+          <div class="cx-ghost-title ghost"></div>
+          <div class="cx-ghost-icon ghost"></div>
+          <div class="cx-ghost-description-box">
+            <div class="cx-ghost-description ghost"></div>
+          </div>
+        </div>
+        <div class="cx-ghost-body">
+          @for (number of [0, 1, 2]; track number; let i = $index) {
+            <div class="cx-ghost-radiobutton-value">
+              <div class="cx-ghost-value-label-pair">
+                <div class="cx-ghost-value-icon ghost"></div>
+                <div class="cx-ghost-label ghost"></div>
+              </div>
+              <div class="cx-ghost-value-price ghost">
+                @if (i !== 0) {
+                  <div class="cx-ghost-price"></div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  }
+} @else {
+  @for (number of [0, 1, 2]; track number) {
     <div class="cx-ghost-attribute">
       <div class="cx-ghost-header">
         <div class="cx-ghost-title ghost"></div>
@@ -34,21 +70,20 @@
         </div>
       </div>
       <div class="cx-ghost-body">
-        <div
-          *ngFor="let number of [0, 1, 2]; let i = index"
-          class="cx-ghost-radiobutton-value"
-        >
-          <div class="cx-ghost-value-label-pair">
-            <div class="cx-ghost-value-icon ghost"></div>
-            <div class="cx-ghost-label ghost"></div>
+        @for (number of [0, 1, 2]; track number; let i = $index) {
+          <div class="cx-ghost-radiobutton-value">
+            <div class="cx-ghost-value-label-pair">
+              <div class="cx-ghost-value-icon ghost"></div>
+              <div class="cx-ghost-label ghost"></div>
+            </div>
+            <div class="cx-ghost-value-price ghost">
+              @if (i !== 0) {
+                <div class="cx-ghost-price"></div>
+              }
+            </div>
           </div>
-          <div class="cx-ghost-value-price ghost">
-            <ng-container *ngIf="i !== 0">
-              <div class="cx-ghost-price"></div>
-            </ng-container>
-          </div>
-        </div>
+        }
       </div>
     </div>
-  </ng-container>
-</ng-template>
+  }
+}

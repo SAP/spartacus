@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
@@ -14,7 +13,7 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
   selector: 'cx-applied-coupons',
   templateUrl: './applied-coupons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, IconComponent, TranslatePipe],
+  imports: [IconComponent, TranslatePipe],
 })
 export class AppliedCouponsComponent {
   @Input()

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -29,16 +29,13 @@ import { OrderCriticalStatus } from '../my-account-v2-order-history.model';
   templateUrl: './my-account-v2-order-consolidated-information.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     NgTemplateOutlet,
     MyAccountV2ConsignmentEntriesComponent,
-    NgFor,
     RouterLink,
     MediaComponent,
     UrlPipe,
     TranslatePipe,
     CxDatePipe,
-
     CxDatePipe,
   ],
 })

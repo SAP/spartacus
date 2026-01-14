@@ -20,7 +20,7 @@
         </label>
       </div>
     </div>
-    <ng-container *ngIf="!(isUpdating$ | async); else loading">
+    @if (!(isUpdating$ | async)) {
       <span class="cx-payment-method-label">{{
         'opfCheckout.paymentMethod' | cxTranslate
       }}</span>
@@ -44,11 +44,10 @@
           </button>
         </div>
       </div>
-    </ng-container>
+    } @else {
+      <div class="cx-spinner">
+        <cx-spinner></cx-spinner>
+      </div>
+    }
   </form>
 </ng-container>
-<ng-template #loading>
-  <div class="cx-spinner">
-    <cx-spinner></cx-spinner>
-  </div>
-</ng-template>

@@ -1,4 +1,3 @@
-<cx-pickup-info
-  *ngFor="let storeDetailsData of storesDetailsData"
-  [storeDetails]="storeDetailsData"
-></cx-pickup-info>
+@for (storeDetailsData of storesDetailsData; track storeDetailsData) {
+  <cx-pickup-info [storeDetails]="storeDetailsData"></cx-pickup-info>
+}

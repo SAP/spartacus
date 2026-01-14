@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
 import {
@@ -40,7 +40,6 @@ import { DateValidationService } from '../shared/date-validation.service';
   templateUrl: './delivery-mode-date-picker.component.html',
   providers: [CxDatePipe],
   imports: [
-    NgIf,
     CardComponent,
     FormsModule,
     ReactiveFormsModule,

@@ -1,4 +1,4 @@
-<ng-container *ngIf="accountSummary$ | async as accountSummary">
+@if (accountSummary$ | async; as accountSummary) {
   <div role="region" aria-labelledby="regionTitle">
     <!-- HEADER -->
     <div class="cx-account-summary-document-header">
@@ -21,12 +21,9 @@
       >
       </cx-account-summary-document-filter>
 
-      <ng-container
-        *ngIf="
-          accountSummary.pagination && accountSummary.pagination.totalResults;
-          else noDocument
-        "
-      >
+      @if (
+        accountSummary.pagination && accountSummary.pagination.totalResults
+      ) {
         <div class="cx-account-summary-document-sort top">
           <label class="cx-account-summary-document-form-group form-group">
             <span>
@@ -41,20 +38,19 @@
               ariaControls="cx-account-summary-document-table"
             ></cx-sorting>
           </label>
-          <div
-            class="cx-account-summary-document-pagination"
-            *ngIf="
-              accountSummary.pagination &&
-              accountSummary.pagination.totalPages &&
-              accountSummary.pagination.totalPages > 1
-            "
-          >
-            <cx-pagination
-              [pagination]="accountSummary.pagination"
-              (viewPageEvent)="pageChange($event)"
-              paginationID="pagination-top"
-            ></cx-pagination>
-          </div>
+          @if (
+            accountSummary.pagination &&
+            accountSummary.pagination.totalPages &&
+            accountSummary.pagination.totalPages > 1
+          ) {
+            <div class="cx-account-summary-document-pagination">
+              <cx-pagination
+                [pagination]="accountSummary.pagination"
+                (viewPageEvent)="pageChange($event)"
+                paginationID="pagination-top"
+              ></cx-pagination>
+            </div>
+          }
         </div>
 
         <!-- TABLE -->
@@ -97,143 +93,141 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              *ngFor="let document of accountSummary.orgDocuments"
-              class="cx-account-summary-document-row"
-            >
-              <td class="cx-account-summary-document-code">
-                <div class="cx-account-summary-document-label">
-                  {{ 'orgAccountSummary.document.id' | cxTranslate }}
-                </div>
-                <div class="cx-account-summary-document-value">
-                  {{ document.id }}
-                </div>
-              </td>
-              <td class="cx-account-summary-document-type">
-                <div class="cx-account-summary-document-label">
-                  {{ 'orgAccountSummary.document.type' | cxTranslate }}
-                </div>
-                <div class="cx-account-summary-document-value">
-                  {{ document.orgDocumentType?.name }}
-                </div>
-              </td>
-              <td class="cx-account-summary-document-date">
-                <div class="cx-account-summary-document-label">
-                  {{ 'orgAccountSummary.document.date' | cxTranslate }}
-                </div>
-                <div class="cx-account-summary-document-value">
-                  {{ document.createdAtDate | cxDate: 'longDate' }}
-                </div>
-              </td>
-              <td class="cx-account-summary-document-date">
-                <div class="cx-account-summary-document-label">
-                  {{ 'orgAccountSummary.document.dueDate' | cxTranslate }}
-                </div>
-                <div class="cx-account-summary-document-value">
-                  {{ document.dueAtDate | cxDate: 'longDate' }}
-                </div>
-              </td>
-              <td class="cx-account-summary-document-monetary">
-                <div class="cx-account-summary-document-label">
-                  {{
-                    'orgAccountSummary.document.originalAmount' | cxTranslate
-                  }}
-                </div>
-                <div class="cx-account-summary-document-value">
-                  {{ document.formattedAmount }}
-                </div>
-              </td>
-              <td class="cx-account-summary-document-monetary">
-                <div class="cx-account-summary-document-label">
-                  {{ 'orgAccountSummary.document.openAmount' | cxTranslate }}
-                </div>
-                <div class="cx-account-summary-document-value">
-                  {{ document.formattedOpenAmount }}
-                </div>
-              </td>
-              <td class="cx-account-summary-document-status">
-                <div class="cx-account-summary-document-label">
-                  {{ 'orgAccountSummary.document.status' | cxTranslate }}
-                </div>
-                <div class="cx-account-summary-document-value">
-                  <span
-                    [ngClass]="{
-                      'status-open': document.status === 'open',
-                      'status-closed': document.status === 'closed',
-                    }"
-                  >
+            @for (document of accountSummary.orgDocuments; track document) {
+              <tr class="cx-account-summary-document-row">
+                <td class="cx-account-summary-document-code">
+                  <div class="cx-account-summary-document-label">
+                    {{ 'orgAccountSummary.document.id' | cxTranslate }}
+                  </div>
+                  <div class="cx-account-summary-document-value">
+                    {{ document.id }}
+                  </div>
+                </td>
+                <td class="cx-account-summary-document-type">
+                  <div class="cx-account-summary-document-label">
+                    {{ 'orgAccountSummary.document.type' | cxTranslate }}
+                  </div>
+                  <div class="cx-account-summary-document-value">
+                    {{ document.orgDocumentType?.name }}
+                  </div>
+                </td>
+                <td class="cx-account-summary-document-date">
+                  <div class="cx-account-summary-document-label">
+                    {{ 'orgAccountSummary.document.date' | cxTranslate }}
+                  </div>
+                  <div class="cx-account-summary-document-value">
+                    {{ document.createdAtDate | cxDate: 'longDate' }}
+                  </div>
+                </td>
+                <td class="cx-account-summary-document-date">
+                  <div class="cx-account-summary-document-label">
+                    {{ 'orgAccountSummary.document.dueDate' | cxTranslate }}
+                  </div>
+                  <div class="cx-account-summary-document-value">
+                    {{ document.dueAtDate | cxDate: 'longDate' }}
+                  </div>
+                </td>
+                <td class="cx-account-summary-document-monetary">
+                  <div class="cx-account-summary-document-label">
                     {{
-                      'orgAccountSummary.statuses.' + document?.status
-                        | cxTranslate
+                      'orgAccountSummary.document.originalAmount' | cxTranslate
                     }}
-                  </span>
-                </div>
-              </td>
-              <td class="cx-account-summary-document-attachment">
-                <div class="cx-account-summary-document-label">
-                  {{ 'orgAccountSummary.document.attachment' | cxTranslate }}
-                </div>
-                <div class="cx-account-summary-document-value">
-                  <button
-                    *ngIf="document.attachments?.[0]?.id as attachmentId"
-                    class="cx-account-summary-document-attachment-btn"
-                    (click)="downloadAttachment(document.id, attachmentId)"
-                    attr.aria-label="{{
-                      'orgAccountSummary.document.attachmentDescription'
-                        | cxTranslate
-                          : {
-                              id: document.id,
-                              type: document.orgDocumentType?.name,
-                            }
-                    }}"
-                  >
-                    <cx-icon
-                      [type]="ICON_TYPE.FILE"
-                      class="cx-account-summary-document-attachment-icon"
-                      title="{{
-                        'orgAccountSummary.document.download' | cxTranslate
-                      }}"
-                    >
-                    </cx-icon>
+                  </div>
+                  <div class="cx-account-summary-document-value">
+                    {{ document.formattedAmount }}
+                  </div>
+                </td>
+                <td class="cx-account-summary-document-monetary">
+                  <div class="cx-account-summary-document-label">
+                    {{ 'orgAccountSummary.document.openAmount' | cxTranslate }}
+                  </div>
+                  <div class="cx-account-summary-document-value">
+                    {{ document.formattedOpenAmount }}
+                  </div>
+                </td>
+                <td class="cx-account-summary-document-status">
+                  <div class="cx-account-summary-document-label">
+                    {{ 'orgAccountSummary.document.status' | cxTranslate }}
+                  </div>
+                  <div class="cx-account-summary-document-value">
                     <span
-                      class="cx-account-summary-document-attachment-text"
-                      [innerText]="
-                        'orgAccountSummary.document.download' | cxTranslate
-                      "
+                      [ngClass]="{
+                        'status-open': document.status === 'open',
+                        'status-closed': document.status === 'closed',
+                      }"
                     >
+                      {{
+                        'orgAccountSummary.statuses.' + document?.status
+                          | cxTranslate
+                      }}
                     </span>
-                  </button>
-                </div>
-              </td>
-            </tr>
+                  </div>
+                </td>
+                <td class="cx-account-summary-document-attachment">
+                  <div class="cx-account-summary-document-label">
+                    {{ 'orgAccountSummary.document.attachment' | cxTranslate }}
+                  </div>
+                  <div class="cx-account-summary-document-value">
+                    @if (document.attachments?.[0]?.id; as attachmentId) {
+                      <button
+                        class="cx-account-summary-document-attachment-btn"
+                        (click)="downloadAttachment(document.id, attachmentId)"
+                        attr.aria-label="{{
+                          'orgAccountSummary.document.attachmentDescription'
+                            | cxTranslate
+                              : {
+                                  id: document.id,
+                                  type: document.orgDocumentType?.name,
+                                }
+                        }}"
+                      >
+                        <cx-icon
+                          [type]="ICON_TYPE.FILE"
+                          class="cx-account-summary-document-attachment-icon"
+                          title="{{
+                            'orgAccountSummary.document.download' | cxTranslate
+                          }}"
+                        >
+                        </cx-icon>
+                        <span
+                          class="cx-account-summary-document-attachment-text"
+                          [innerText]="
+                            'orgAccountSummary.document.download' | cxTranslate
+                          "
+                        >
+                        </span>
+                      </button>
+                    }
+                  </div>
+                </td>
+              </tr>
+            }
           </tbody>
         </table>
 
         <!-- Select Form and Pagination Bottom -->
         <div class="cx-account-summary-document-sort bottom">
-          <div
-            class="cx-account-summary-document-pagination"
-            *ngIf="
-              accountSummary.pagination &&
-              accountSummary.pagination.totalPages &&
-              accountSummary.pagination.totalPages > 1
-            "
-          >
-            <cx-pagination
-              [pagination]="accountSummary.pagination"
-              (viewPageEvent)="pageChange($event)"
-              paginationID="pagination-bottom"
-            ></cx-pagination>
-          </div>
+          @if (
+            accountSummary.pagination &&
+            accountSummary.pagination.totalPages &&
+            accountSummary.pagination.totalPages > 1
+          ) {
+            <div class="cx-account-summary-document-pagination">
+              <cx-pagination
+                [pagination]="accountSummary.pagination"
+                (viewPageEvent)="pageChange($event)"
+                paginationID="pagination-bottom"
+              ></cx-pagination>
+            </div>
+          }
         </div>
-      </ng-container>
-
-      <!-- NO DOCUMENT CONTAINER -->
-      <ng-template #noDocument>
+      } @else {
         <div class="cx-account-summary-document-no-document">
           {{ 'orgAccountSummary.document.noneFound' | cxTranslate }}
         </div>
-      </ng-template>
+      }
+
+      <!-- NO DOCUMENT CONTAINER -->
     </div>
   </div>
-</ng-container>
+}

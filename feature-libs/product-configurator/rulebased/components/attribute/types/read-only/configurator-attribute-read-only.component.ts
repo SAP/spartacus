@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
@@ -21,8 +21,6 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
   imports: [
-    NgIf,
-    NgFor,
     ConfiguratorShowMoreComponent,
     ConfiguratorPriceComponent,
     AsyncPipe,

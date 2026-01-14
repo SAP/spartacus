@@ -1,46 +1,47 @@
 <div class="subscription-usage-charge">
-  <div *ngIf="isUsageChargePresent()" class="subscription-heading">
-    {{ 'subscriptionProduct.usageCharges' | cxTranslate }}:
-  </div>
+  @if (isUsageChargePresent()) {
+    <div class="subscription-heading">
+      {{ 'subscriptionProduct.usageCharges' | cxTranslate }}:
+    </div>
+  }
 
-  <ng-container *ngIf="tierUsageCharges().length > 0">
+  @if (tierUsageCharges().length > 0) {
     <ng-container *ngTemplateOutlet="showTierUsageCharges"></ng-container>
-  </ng-container>
+  }
 
-  <ng-container *ngIf="volumeUsageCharges().length > 0">
+  @if (volumeUsageCharges().length > 0) {
     <ng-container *ngTemplateOutlet="showVolumeUsageCharges"></ng-container>
-  </ng-container>
+  }
 
-  <ng-container *ngIf="percentageUsageCharges().length > 0">
+  @if (percentageUsageCharges().length > 0) {
     <ng-container *ngTemplateOutlet="showPercentageUsageCharges"></ng-container>
-  </ng-container>
+  }
 
-  <ng-container *ngIf="blockUsageCharges().length > 0">
+  @if (blockUsageCharges().length > 0) {
     <ng-container *ngTemplateOutlet="showBlockUsageCharges"></ng-container>
-  </ng-container>
+  }
 </div>
 
 <!-- Block Usage Charges -->
 <ng-template #showBlockUsageCharges>
-  <ng-container *ngFor="let usageCharge of blockUsageCharges(); let i = index">
+  @for (usageCharge of blockUsageCharges(); track usageCharge; let i = $index) {
     <ul>
-      <ng-container *ngIf="(usageCharge.includedQty ?? 0) > 0">
+      @if ((usageCharge.includedQty ?? 0) > 0) {
         <li>
           {{
             'subscriptionProduct.includedQuantity'
               | cxTranslate: { quantity: getIncludedQuantity(usageCharge) }
           }}
         </li>
-      </ng-container>
+      }
 
-      <ng-container
-        *ngFor="
-          let usageChargeEntry of usageCharge.perUnitUsageChargeEntries;
-          let j = index
-        "
-      >
+      @for (
+        usageChargeEntry of usageCharge.perUnitUsageChargeEntries;
+        track usageChargeEntry;
+        let j = $index
+      ) {
         <li>
-          <ng-container *ngIf="usageCharge.blockSize === 1">
+          @if (usageCharge.blockSize === 1) {
             {{
               'subscriptionProduct.oneBlockUsage'
                 | cxTranslate
@@ -49,8 +50,8 @@
                       usage: usageCharge.usageUnit?.name,
                     }
             }}
-          </ng-container>
-          <ng-container *ngIf="(usageCharge.blockSize ?? 0) > 1">
+          }
+          @if ((usageCharge.blockSize ?? 0) > 1) {
             {{
               'subscriptionProduct.multiBlockUsage'
                 | cxTranslate
@@ -62,23 +63,26 @@
                         usageCharge?.usageUnit?.namePlural,
                     }
             }}
-          </ng-container>
+          }
         </li>
-      </ng-container>
+      }
     </ul>
-  </ng-container>
+  }
 </ng-template>
 
 <!-- Volume Usage Charges -->
 <ng-template #showVolumeUsageCharges>
-  <ng-container *ngFor="let usageCharge of volumeUsageCharges(); let i = index">
+  @for (
+    usageCharge of volumeUsageCharges();
+    track usageCharge;
+    let i = $index
+  ) {
     <ul>
-      <ng-container
-        *ngFor="
-          let usageChargeEntry of usageCharge.tierUsageChargeEntries;
-          let j = index
-        "
-      >
+      @for (
+        usageChargeEntry of usageCharge.tierUsageChargeEntries;
+        track usageChargeEntry;
+        let j = $index
+      ) {
         <li>
           {{
             'subscriptionProduct.volumeUsage'
@@ -98,14 +102,13 @@
                   }
           }}
         </li>
-      </ng-container>
+      }
 
-      <ng-container
-        *ngFor="
-          let usageChargeEntry of usageCharge.overageUsageChargeEntries;
-          let k = index
-        "
-      >
+      @for (
+        usageChargeEntry of usageCharge.overageUsageChargeEntries;
+        track usageChargeEntry;
+        let k = $index
+      ) {
         <li>
           {{
             'subscriptionProduct.volumeOverageUsage'
@@ -124,24 +127,23 @@
                   }
           }}
         </li>
-      </ng-container>
+      }
     </ul>
     <div class="subscription-message">
       {{ 'subscriptionProduct.volumeUsageMessage' | cxTranslate }}
     </div>
-  </ng-container>
+  }
 </ng-template>
 
 <!-- Tier Usage Charges -->
 <ng-template #showTierUsageCharges>
-  <ng-container *ngFor="let usageCharge of tierUsageCharges(); let i = index">
+  @for (usageCharge of tierUsageCharges(); track usageCharge; let i = $index) {
     <ul>
-      <ng-container
-        *ngFor="
-          let usageChargeEntry of usageCharge.tierUsageChargeEntries;
-          let j = index
-        "
-      >
+      @for (
+        usageChargeEntry of usageCharge.tierUsageChargeEntries;
+        track usageChargeEntry;
+        let j = $index
+      ) {
         <li>
           {{
             'subscriptionProduct.tierUsage'
@@ -160,14 +162,13 @@
                   }
           }}
         </li>
-      </ng-container>
+      }
 
-      <ng-container
-        *ngFor="
-          let usageChargeEntry of usageCharge.overageUsageChargeEntries;
-          let k = index
-        "
-      >
+      @for (
+        usageChargeEntry of usageCharge.overageUsageChargeEntries;
+        track usageChargeEntry;
+        let k = $index
+      ) {
         <li>
           {{
             'subscriptionProduct.tierOverageUsage'
@@ -184,27 +185,28 @@
                   }
           }}
         </li>
-      </ng-container>
+      }
     </ul>
 
     <div class="subscription-message">
       {{ 'subscriptionProduct.tierUsageMessage' | cxTranslate }}
     </div>
-  </ng-container>
+  }
 </ng-template>
 
 <!-- Percentage Usage Charges -->
 <ng-template #showPercentageUsageCharges>
   <ul>
-    <ng-container
-      *ngFor="let usageCharge of percentageUsageCharges(); let i = index"
-    >
-      <ng-container
-        *ngFor="
-          let usageChargeEntry of usageCharge.perUnitUsageChargeEntries;
-          let j = index
-        "
-      >
+    @for (
+      usageCharge of percentageUsageCharges();
+      track usageCharge;
+      let i = $index
+    ) {
+      @for (
+        usageChargeEntry of usageCharge.perUnitUsageChargeEntries;
+        track usageChargeEntry;
+        let j = $index
+      ) {
         <li>
           {{
             'subscriptionProduct.percentageUsage'
@@ -216,7 +218,7 @@
                   }
           }}
         </li>
-      </ng-container>
-    </ng-container>
+      }
+    }
   </ul>
 </ng-template>

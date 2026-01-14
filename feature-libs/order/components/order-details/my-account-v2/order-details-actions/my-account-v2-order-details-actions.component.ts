@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { EventService, TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -14,7 +13,7 @@ import { OrderDetailActionsComponent } from '../../order-detail-actions/order-de
 @Component({
   selector: 'cx-my-account-v2-order-details-actions',
   templateUrl: './my-account-v2-order-details-actions.component.html',
-  imports: [NgIf, RouterLink, TranslatePipe, UrlPipe, TranslatePipe],
+  imports: [RouterLink, TranslatePipe, UrlPipe, TranslatePipe],
 })
 export class MyAccountV2OrderDetailsActionsComponent
   extends OrderDetailActionsComponent

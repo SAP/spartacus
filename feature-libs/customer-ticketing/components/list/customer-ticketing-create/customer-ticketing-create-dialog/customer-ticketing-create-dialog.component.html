@@ -58,120 +58,129 @@
           </p>
         </label>
 
-        <label *ngIf="ticketCategories$ | async as ticketCategories">
-          <span class="cx-customer-ticket-label label-content">
-            {{ 'createCustomerTicket.category' | cxTranslate }}
-            <cx-form-required-asterisks />
-          </span>
-          <select
-            *cxFeature="
-              '!a11ySelectImprovementsCustomerTicketingCreateSelectbox'
-            "
-            class="form-control"
-            formControlName="ticketCategory"
-          >
-            <option value="" disabled selected>
-              {{ 'createCustomerTicket.selectCategory' | cxTranslate }}
-            </option>
-            <option
-              *ngFor="let category of ticketCategories"
-              [ngValue]="category"
-              [selected]="category.id === selectedCategory?.id"
-            >
-              {{ category.name }}
-            </option>
-          </select>
-          <ng-select
-            *cxFeature="
-              'a11ySelectImprovementsCustomerTicketingCreateSelectbox'
-            "
-            [inputAttrs]="{ required: 'true' }"
-            class="ticket-category-select"
-            id="ticket-category-select"
-            [searchable]="false"
-            [clearable]="false"
-            [items]="ticketCategories"
-            [placeholder]="'createCustomerTicket.selectCategory' | cxTranslate"
-            bindLabel="name"
-            formControlName="ticketCategory"
-            ariaLabelDropdown="{{
-              'common.ngSelectDropdownOptionsList' | cxTranslate
-            }}"
-            [cxNgSelectA11y]="{}"
-            [attr.aria-invalid]="
-              form.get('ticketCategory')?.touched &&
-              form.get('ticketCategory')?.invalid
-            "
-            [attr.aria-errormessage]="'ticketCategoryError'"
-          >
-          </ng-select>
-
-          <cx-form-errors
-            id="ticketCategoryError"
-            [control]="form.get('ticketCategory')"
-          ></cx-form-errors>
-        </label>
-
-        <ng-container
-          *ngIf="ticketAssociatedObjects$ | async as ticketAssociatedObjects"
-        >
-          <label *ngIf="ticketAssociatedObjects.length > 0">
+        @if (ticketCategories$ | async; as ticketCategories) {
+          <label>
             <span class="cx-customer-ticket-label label-content">
-              {{ 'createCustomerTicket.associateTo' | cxTranslate }}
+              {{ 'createCustomerTicket.category' | cxTranslate }}
+              <cx-form-required-asterisks />
             </span>
             <select
               *cxFeature="
                 '!a11ySelectImprovementsCustomerTicketingCreateSelectbox'
               "
               class="form-control"
-              formControlName="associatedTo"
+              formControlName="ticketCategory"
             >
               <option value="" disabled selected>
-                {{
-                  'createCustomerTicket.optionallySelectAssociatedObject'
-                    | cxTranslate
-                }}
+                {{ 'createCustomerTicket.selectCategory' | cxTranslate }}
               </option>
-              <option
-                *ngFor="let associatedObject of ticketAssociatedObjects"
-                [ngValue]="associatedObject"
-                [selected]="
-                  associatedObject.code === selectedAssociatedObject?.code
-                "
-              >
-                {{ associatedObject.type }}
-                {{ associatedObject.code }}
-              </option>
+              @for (category of ticketCategories; track category) {
+                <option
+                  [ngValue]="category"
+                  [selected]="category.id === selectedCategory?.id"
+                >
+                  {{ category.name }}
+                </option>
+              }
             </select>
             <ng-select
               *cxFeature="
                 'a11ySelectImprovementsCustomerTicketingCreateSelectbox'
               "
-              [clearable]="false"
-              [items]="ticketAssociatedObjects"
-              [placeholder]="
-                'createCustomerTicket.optionallySelectAssociatedObject'
-                  | cxTranslate
-              "
+              [inputAttrs]="{ required: 'true' }"
+              class="ticket-category-select"
+              id="ticket-category-select"
               [searchable]="false"
-              formControlName="associatedTo"
-              id="associated-to-select"
+              [clearable]="false"
+              [items]="ticketCategories"
+              [placeholder]="
+                'createCustomerTicket.selectCategory' | cxTranslate
+              "
+              bindLabel="name"
+              formControlName="ticketCategory"
               ariaLabelDropdown="{{
                 'common.ngSelectDropdownOptionsList' | cxTranslate
               }}"
               [cxNgSelectA11y]="{}"
+              [attr.aria-invalid]="
+                form.get('ticketCategory')?.touched &&
+                form.get('ticketCategory')?.invalid
+              "
+              [attr.aria-errormessage]="'ticketCategoryError'"
             >
-              <ng-template
-                ng-option-tmp
-                let-item="item"
-                let-search="searchTerm"
-                let-index="index"
-              >
-                <span>{{ item.type + ' ' + item.code }}</span>
-              </ng-template>
             </ng-select>
+
+            <cx-form-errors
+              id="ticketCategoryError"
+              [control]="form.get('ticketCategory')"
+            ></cx-form-errors>
           </label>
-        </ng-container>
+        }
+
+        @if (ticketAssociatedObjects$ | async; as ticketAssociatedObjects) {
+          @if (ticketAssociatedObjects.length > 0) {
+            <label>
+              <span class="cx-customer-ticket-label label-content">
+                {{ 'createCustomerTicket.associateTo' | cxTranslate }}
+              </span>
+              <select
+                *cxFeature="
+                  '!a11ySelectImprovementsCustomerTicketingCreateSelectbox'
+                "
+                class="form-control"
+                formControlName="associatedTo"
+              >
+                <option value="" disabled selected>
+                  {{
+                    'createCustomerTicket.optionallySelectAssociatedObject'
+                      | cxTranslate
+                  }}
+                </option>
+                @for (
+                  associatedObject of ticketAssociatedObjects;
+                  track associatedObject
+                ) {
+                  <option
+                    [ngValue]="associatedObject"
+                    [selected]="
+                      associatedObject.code === selectedAssociatedObject?.code
+                    "
+                  >
+                    {{ associatedObject.type }}
+                    {{ associatedObject.code }}
+                  </option>
+                }
+              </select>
+              <ng-select
+                *cxFeature="
+                  'a11ySelectImprovementsCustomerTicketingCreateSelectbox'
+                "
+                [clearable]="false"
+                [items]="ticketAssociatedObjects"
+                [placeholder]="
+                  'createCustomerTicket.optionallySelectAssociatedObject'
+                    | cxTranslate
+                "
+                [searchable]="false"
+                formControlName="associatedTo"
+                id="associated-to-select"
+                ariaLabelDropdown="{{
+                  'common.ngSelectDropdownOptionsList' | cxTranslate
+                }}"
+                [cxNgSelectA11y]="{}"
+              >
+                <ng-template
+                  ng-option-tmp
+                  let-item="item"
+                  let-search="searchTerm"
+                  let-index="index"
+                >
+                  <span>{{ item.type + ' ' + item.code }}</span>
+                </ng-template>
+              </ng-select>
+            </label>
+          }
+        }
 
         <label>
           <span class="cx-customer-ticket-label label-content">

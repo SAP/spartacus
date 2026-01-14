@@ -28,7 +28,7 @@
 <div class="cx-attribute-value" aria-hidden="true">
   {{ attributeOverview.value }}
 </div>
-<ng-container *ngIf="isDesktop() | async; else mobile">
+@if (isDesktop() | async) {
   <div class="cx-attribute-label" aria-hidden="true">
     {{ attributeOverview.attribute }}
   </div>
@@ -37,8 +37,7 @@
       [formula]="extractPriceFormulaParameters()"
     ></cx-configurator-price>
   </div>
-</ng-container>
-<ng-template #mobile>
+} @else {
   <div class="cx-attribute-price" aria-hidden="true">
     <cx-configurator-price
       [formula]="extractPriceFormulaParameters()"
@@ -47,4 +46,4 @@
   <div class="cx-attribute-label" aria-hidden="true">
     {{ attributeOverview.attribute }}
   </div>
-</ng-template>
+}

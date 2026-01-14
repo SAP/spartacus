@@ -1,13 +1,14 @@
-<ng-container *ngIf="thumbs$ | async as thumbs">
-  <cx-carousel
-    *ngIf="thumbs.length"
-    class="thumbs"
-    [items]="thumbs"
-    itemWidth="70px"
-    [hideIndicators]="false"
-    [template]="thumb"
-  ></cx-carousel>
-</ng-container>
+@if (thumbs$ | async; as thumbs) {
+  @if (thumbs.length) {
+    <cx-carousel
+      class="thumbs"
+      [items]="thumbs"
+      itemWidth="70px"
+      [hideIndicators]="false"
+      [template]="thumb"
+    ></cx-carousel>
+  }
+}
 
 <ng-template #thumb let-item="item">
   <cx-media

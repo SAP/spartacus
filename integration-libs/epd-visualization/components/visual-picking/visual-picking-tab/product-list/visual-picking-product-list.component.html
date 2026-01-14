@@ -28,98 +28,104 @@
 </ng-template>
 
 <ng-template #itemTemplate let-item="item" let-active="active">
-  <div
-    *ngIf="active"
-    class="row no-gutters list-item"
-    tabindex="0"
-    (click)="selectedProductCodes = [item.product.code]"
-    (keydown.enter)="selectedProductCodes = [item.product.code]"
-    (keydown.space)="selectedProductCodes = [item.product.code]"
-    [class.selected]="item.selected"
-  >
-    <!-- Item Description -->
-    <div class="col-6 flex-row thumbnail-and-product-info">
-      <!-- Thumbnail -->
-      <div class="thumbnail-container">
-        <div class="thumbnail" [class.selected]="item.selected">
-          <cx-media
-            [container]="item.product.images?.PRIMARY"
-            format="thumbnail"
-          ></cx-media>
+  @if (active) {
+    <div
+      class="row no-gutters list-item"
+      tabindex="0"
+      (click)="selectedProductCodes = [item.product.code]"
+      (keydown.enter)="selectedProductCodes = [item.product.code]"
+      (keydown.space)="selectedProductCodes = [item.product.code]"
+      [class.selected]="item.selected"
+    >
+      <!-- Item Description -->
+      <div class="col-6 flex-row thumbnail-and-product-info">
+        <!-- Thumbnail -->
+        <div class="thumbnail-container">
+          <div class="thumbnail" [class.selected]="item.selected">
+            <cx-media
+              [container]="item.product.images?.PRIMARY"
+              format="thumbnail"
+            ></cx-media>
+          </div>
+        </div>
+
+        <!-- Name -->
+        <div class="flex-column product-info">
+          @if (item.product.name) {
+            <div class="cx-name">
+              <a
+                class="cx-link"
+                [routerLink]="
+                  { cxRoute: 'product', params: item.product } | cxUrl
+                "
+                (keydown.enter)="$event.currentTarget.click()"
+                >{{ item.product.name }}</a
+              >
+            </div>
+          }
+
+          <!-- ID -->
+          @if (item.product.code) {
+            <div class="cx-code">
+              {{
+                'epdVisualization.visualPicking.visualPickingProductList.id'
+                  | cxTranslate
+              }}
+              {{ item.product.code }}
+            </div>
+          }
         </div>
       </div>
 
-      <!-- Name -->
-      <div class="flex-column product-info">
-        <div *ngIf="item.product.name" class="cx-name">
-          <a
-            class="cx-link"
-            [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
-            (keydown.enter)="$event.currentTarget.click()"
-            >{{ item.product.name }}</a
-          >
-        </div>
-
-        <!-- ID -->
-        <div *ngIf="item.product.code" class="cx-code">
-          {{
-            'epdVisualization.visualPicking.visualPickingProductList.id'
-              | cxTranslate
-          }}
-          {{ item.product.code }}
-        </div>
+      <!-- Item Price -->
+      <div class="col-4 flex-column price">
+        @if (item.product.price) {
+          <div class="cx-price">
+            {{ item.product.price?.formattedValue }}
+          </div>
+        }
       </div>
-    </div>
 
-    <!-- Item Price -->
-    <div class="col-4 flex-column price">
-      <div *ngIf="item.product.price" class="cx-price">
-        {{ item.product.price?.formattedValue }}
-      </div>
-    </div>
-
-    <!-- Add to Cart -->
-    <div class="cx-add-to-cart col-2 flex-column">
-      <ng-container
-        *ngIf="
+      <!-- Add to Cart -->
+      <div class="cx-add-to-cart col-2 flex-column">
+        @if (
           item.product.price !== undefined &&
           item.product.stock.stockLevelStatus !== 'outOfStock'
-        "
-      >
-        <div
-          class="add-to-cart"
-          (click)="addToCartComponent.addToCart(); $event.preventDefault()"
-          (keydown.enter)="
-            addToCartComponent.addToCart(); $event.preventDefault()
-          "
-          (keydown.space)="
-            addToCartComponent.addToCart(); $event.preventDefault()
-          "
-        >
-          <cx-epd-visualization-compact-add-to-cart
-            #addToCartComponent
-            [showQuantity]="false"
-            [product]="item.product"
-          ></cx-epd-visualization-compact-add-to-cart>
-        </div>
-      </ng-container>
+        ) {
+          <div
+            class="add-to-cart"
+            (click)="addToCartComponent.addToCart(); $event.preventDefault()"
+            (keydown.enter)="
+              addToCartComponent.addToCart(); $event.preventDefault()
+            "
+            (keydown.space)="
+              addToCartComponent.addToCart(); $event.preventDefault()
+            "
+          >
+            <cx-epd-visualization-compact-add-to-cart
+              #addToCartComponent
+              [showQuantity]="false"
+              [product]="item.product"
+            ></cx-epd-visualization-compact-add-to-cart>
+          </div>
+        }
 
-      <ng-container #noPrice *ngIf="item.product.price === undefined">
-      </ng-container>
+        @if (item.product.price === undefined) {
+          <ng-container #noPrice> </ng-container>
+        }
 
-      <ng-container
-        *ngIf="
+        @if (
           item.product.price !== undefined &&
           item.product.stock.stockLevelStatus === 'outOfStock'
-        "
-      >
-        <div class="cx-out-of-stock">
-          {{
-            'epdVisualization.visualPicking.visualPickingProductList.outOfStock'
-              | cxTranslate
-          }}
-        </div>
-      </ng-container>
+        ) {
+          <div class="cx-out-of-stock">
+            {{
+              'epdVisualization.visualPicking.visualPickingProductList.outOfStock'
+                | cxTranslate
+            }}
+          </div>
+        }
+      </div>
     </div>
-  </div>
+  }
 </ng-template>

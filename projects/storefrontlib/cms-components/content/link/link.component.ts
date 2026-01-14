@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,7 +21,7 @@ import { GenericLinkComponent } from '../../../shared/components/generic-link/ge
   selector: 'cx-link',
   templateUrl: './link.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, GenericLinkComponent, AsyncPipe],
+  imports: [GenericLinkComponent, AsyncPipe],
 })
 export class LinkComponent implements OnDestroy, OnInit {
   @HostBinding('class') styleClasses: string | undefined;

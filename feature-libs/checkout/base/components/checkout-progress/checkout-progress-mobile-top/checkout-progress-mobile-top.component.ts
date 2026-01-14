@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
@@ -18,7 +18,7 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   selector: 'cx-checkout-progress-mobile-top',
   templateUrl: './checkout-progress-mobile-top.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, RouterLink, AsyncPipe, UrlPipe, TranslatePipe],
+  imports: [RouterLink, AsyncPipe, UrlPipe, TranslatePipe],
 })
 export class CheckoutProgressMobileTopComponent {
   private _steps$: BehaviorSubject<CheckoutStep[]> =

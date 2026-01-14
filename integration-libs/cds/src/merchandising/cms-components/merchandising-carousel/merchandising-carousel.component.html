@@ -1,6 +1,4 @@
-<ng-container
-  *ngIf="merchandisingCarouselModel$ | async as merchandisingCarouselModel"
->
+@if (merchandisingCarouselModel$ | async; as merchandisingCarouselModel) {
   <div
     class="data-cx-merchandising-carousel"
     [cxAttributes]="merchandisingCarouselModel.metadata"
@@ -27,24 +25,23 @@
         onMerchandisingCarouselItemClick(merchandisingCarouselModel, item)
       "
     >
-      <cx-media
-        *ngIf="item.images?.PRIMARY"
-        [container]="item.images.PRIMARY"
-        format="product"
-      >
-      </cx-media>
+      @if (item.images?.PRIMARY) {
+        <cx-media [container]="item.images.PRIMARY" format="product">
+        </cx-media>
+      }
       <h4>{{ item.name }}</h4>
       <div class="price">
         {{ item.price?.formattedValue }}
       </div>
-      <div class="price" *ngIf="item.stock?.stockLevel > 0; else outOfStock">
-        {{ item.stock?.stockLevelStatus }} : {{ item.stock?.stockLevel }}
-      </div>
-      <ng-template #outOfStock>
+      @if (item.stock?.stockLevel > 0) {
+        <div class="price">
+          {{ item.stock?.stockLevelStatus }} : {{ item.stock?.stockLevel }}
+        </div>
+      } @else {
         <div class="price">
           {{ item.stock?.stockLevelStatus }}
         </div>
-      </ng-template>
+      }
     </a>
   </ng-template>
-</ng-container>
+}

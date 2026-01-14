@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -52,7 +51,7 @@ import {
   selector: 'cx-table',
   templateUrl: './table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, OutletDirective],
+  imports: [OutletDirective],
 })
 export class TableComponent<T> {
   @HostBinding('attr.__cx-table-type') tableType: string;

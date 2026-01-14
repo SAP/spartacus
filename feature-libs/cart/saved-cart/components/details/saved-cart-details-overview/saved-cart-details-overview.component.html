@@ -1,4 +1,4 @@
-<ng-container *ngIf="savedCart$ | async as cart">
+@if (savedCart$ | async; as cart) {
   <div class="cx-cart-summary">
     <div class="container">
       <div class="cx-summary-card">
@@ -43,4 +43,4 @@
       </div>
     </div>
   </div>
-</ng-container>
+}

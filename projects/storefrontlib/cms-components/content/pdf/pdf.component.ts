@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CmsPDFDocumentComponent, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -17,7 +17,7 @@ import { IconComponent } from '../../misc/icon/icon.component';
   selector: 'cx-pdf',
   templateUrl: './pdf.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe],
+  imports: [IconComponent, AsyncPipe, TranslatePipe],
 })
 export class PDFComponent {
   url?: string;

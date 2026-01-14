@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  AsyncPipe,
-  NgClass,
-  NgFor,
-  NgIf,
-  NgTemplateOutlet,
-} from '@angular/common';
+import { AsyncPipe, NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -32,10 +26,8 @@ import { ProductItem } from './product-item.model';
   templateUrl: './asm-customer-360-product-listing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     NgTemplateOutlet,
     NgClass,
-    NgFor,
     AsmCustomer360ProductItemComponent,
     AsyncPipe,
     TranslatePipe,

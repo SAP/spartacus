@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import {
@@ -22,7 +22,6 @@ import { Observable } from 'rxjs';
   templateUrl: './order-confirmation-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     PromotionsComponent,
     AbstractOrderContextDirective,
     OutletDirective,

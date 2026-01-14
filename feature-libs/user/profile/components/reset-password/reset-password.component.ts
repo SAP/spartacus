@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   FormsModule,
@@ -28,7 +28,6 @@ import { ResetPasswordComponentService } from './reset-password-component.servic
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'user-form', ngSkipHydration: 'true' },
   imports: [
-    NgIf,
     SpinnerComponent,
     FormsModule,
     ReactiveFormsModule,

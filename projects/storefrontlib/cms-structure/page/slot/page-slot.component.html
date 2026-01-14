@@ -1,17 +1,19 @@
-<ng-template
-  *ngIf="position"
-  [cxOutlet]="position"
-  [cxOutletContext]="{ components$: components$ }"
->
-  <ng-container *ngFor="let component of components">
-    <ng-template
-      *ngIf="component.flexType"
-      [cxOutlet]="component.flexType"
-      [cxOutletContext]="{ component: component }"
-      [cxOutletDefer]="getComponentDeferOptions(component.flexType)"
-      (loaded)="isLoaded($event)"
-    >
-      <ng-container [cxComponentWrapper]="component"></ng-container>
-    </ng-template>
-  </ng-container>
-</ng-template>
+@if (position) {
+  <ng-template
+    [cxOutlet]="position"
+    [cxOutletContext]="{ components$: components$ }"
+  >
+    @for (component of components; track component) {
+      @if (component.flexType) {
+        <ng-template
+          [cxOutlet]="component.flexType"
+          [cxOutletContext]="{ component: component }"
+          [cxOutletDefer]="getComponentDeferOptions(component.flexType)"
+          (loaded)="isLoaded($event)"
+        >
+          <ng-container [cxComponentWrapper]="component"></ng-container>
+        </ng-template>
+      }
+    }
+  </ng-template>
+}

@@ -1,9 +1,10 @@
-<ng-container
-  *ngIf="{
+@if (
+  {
     orderHistory: orders$ | async,
-  } as type"
->
-  <ng-container *ngIf="type.orderHistory as orderHistory">
+  };
+  as type
+) {
+  @if (type.orderHistory; as orderHistory) {
     <div>
       <!-- HEADER -->
 
@@ -13,9 +14,7 @@
 
       <!-- BODY -->
       <div class="cx-unit-level-order-history-body">
-        <ng-container
-          *ngIf="orderHistory.pagination?.totalResults ?? 0 > 0; else noOrder"
-        >
+        @if (orderHistory.pagination?.totalResults ?? 0 > 0) {
           <!-- Select Form and Pagination Top -->
           <div class="cx-unit-level-order-history-sort top">
             <label class="cx-unit-level-order-history-form-group form-group"
@@ -35,16 +34,15 @@
             <div class="cx-unit-level-order-history-total-result">
               <cx-total [pagination]="orderHistory?.pagination"></cx-total>
             </div>
-            <div
-              *ngIf="orderHistory?.pagination?.totalPages ?? 0 > 1"
-              class="cx-unit-level-order-history-pagination"
-            >
-              <cx-pagination
-                [pagination]="orderHistory?.pagination"
-                (viewPageEvent)="pageChange($event)"
-                paginationID="pagination-top"
-              ></cx-pagination>
-            </div>
+            @if (orderHistory?.pagination?.totalPages ?? 0 > 1) {
+              <div class="cx-unit-level-order-history-pagination">
+                <cx-pagination
+                  [pagination]="orderHistory?.pagination"
+                  (viewPageEvent)="pageChange($event)"
+                  paginationID="pagination-top"
+                ></cx-pagination>
+              </div>
+            }
           </div>
           <!-- TABLE -->
           <table
@@ -74,111 +72,110 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                *ngFor="let order of orderHistory?.orders"
-                (click)="goToOrderDetail(order)"
-              >
-                <td class="cx-unit-level-order-history-code">
-                  <div class="cx-unit-level-order-history-label">
-                    {{ 'unitLevelOrderHistory.orderId' | cxTranslate }}
-                  </div>
-                  <a
-                    [routerLink]="
-                      {
-                        cxRoute: 'unitLevelOrderDetail',
-                        params: order,
-                      } | cxUrl
-                    "
-                    class="cx-unit-level-order-history-value"
-                  >
-                    {{ order?.code }}</a
-                  >
-                </td>
-                <td class="cx-unit-level-order-history-placed">
-                  <div class="cx-unit-level-order-history-label">
-                    {{ 'unitLevelOrderHistory.date' | cxTranslate }}
-                  </div>
-                  <a
-                    [routerLink]="
-                      {
-                        cxRoute: 'unitLevelOrderDetail',
-                        params: order,
-                      } | cxUrl
-                    "
-                    class="cx-unit-level-order-history-value"
-                  >
-                    {{ order?.placed | cxDate: 'longDate' }}
-                  </a>
-                </td>
-                <td class="cx-unit-level-order-history-status">
-                  <div class="cx-unit-level-order-history-label">
-                    {{ 'unitLevelOrderHistory.status' | cxTranslate }}
-                  </div>
-                  <a
-                    [routerLink]="
-                      {
-                        cxRoute: 'unitLevelOrderDetail',
-                        params: order,
-                      } | cxUrl
-                    "
-                    class="cx-unit-level-order-history-value"
-                  >
-                    {{
-                      'orderDetails.statusDisplay_' + order?.statusDisplay
-                        | cxTranslate
-                    }}</a
-                  >
-                </td>
-                <td class="cx-unit-level-order-history-buyer">
-                  <div class="cx-unit-level-order-history-label">
-                    {{ 'unitLevelOrderHistory.buyer' | cxTranslate }}
-                  </div>
-                  <a
-                    [routerLink]="
-                      {
-                        cxRoute: 'unitLevelOrderDetail',
-                        params: order,
-                      } | cxUrl
-                    "
-                    class="cx-unit-level-order-history-value"
-                  >
-                    {{ order?.orgCustomer?.name }}
-                    <span>{{ order?.orgCustomer?.email }}</span>
-                  </a>
-                </td>
-                <td class="cx-unit-level-order-history-unit">
-                  <div class="cx-unit-level-order-history-label">
-                    {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
-                  </div>
-                  <a
-                    [routerLink]="
-                      {
-                        cxRoute: 'unitLevelOrderDetail',
-                        params: order,
-                      } | cxUrl
-                    "
-                    class="cx-unit-level-order-history-value"
-                  >
-                    {{ order?.orgUnit?.name }}</a
-                  >
-                </td>
-                <td class="cx-unit-level-order-history-total">
-                  <div class="cx-unit-level-order-history-label">
-                    {{ 'unitLevelOrderHistory.total' | cxTranslate }}
-                  </div>
-                  <a
-                    [routerLink]="
-                      {
-                        cxRoute: 'unitLevelOrderDetail',
-                        params: order,
-                      } | cxUrl
-                    "
-                    class="cx-unit-level-order-history-value"
-                  >
-                    {{ order?.total?.formattedValue }}</a
-                  >
-                </td>
-              </tr>
+              @for (order of orderHistory?.orders; track order) {
+                <tr (click)="goToOrderDetail(order)">
+                  <td class="cx-unit-level-order-history-code">
+                    <div class="cx-unit-level-order-history-label">
+                      {{ 'unitLevelOrderHistory.orderId' | cxTranslate }}
+                    </div>
+                    <a
+                      [routerLink]="
+                        {
+                          cxRoute: 'unitLevelOrderDetail',
+                          params: order,
+                        } | cxUrl
+                      "
+                      class="cx-unit-level-order-history-value"
+                    >
+                      {{ order?.code }}</a
+                    >
+                  </td>
+                  <td class="cx-unit-level-order-history-placed">
+                    <div class="cx-unit-level-order-history-label">
+                      {{ 'unitLevelOrderHistory.date' | cxTranslate }}
+                    </div>
+                    <a
+                      [routerLink]="
+                        {
+                          cxRoute: 'unitLevelOrderDetail',
+                          params: order,
+                        } | cxUrl
+                      "
+                      class="cx-unit-level-order-history-value"
+                    >
+                      {{ order?.placed | cxDate: 'longDate' }}
+                    </a>
+                  </td>
+                  <td class="cx-unit-level-order-history-status">
+                    <div class="cx-unit-level-order-history-label">
+                      {{ 'unitLevelOrderHistory.status' | cxTranslate }}
+                    </div>
+                    <a
+                      [routerLink]="
+                        {
+                          cxRoute: 'unitLevelOrderDetail',
+                          params: order,
+                        } | cxUrl
+                      "
+                      class="cx-unit-level-order-history-value"
+                    >
+                      {{
+                        'orderDetails.statusDisplay_' + order?.statusDisplay
+                          | cxTranslate
+                      }}</a
+                    >
+                  </td>
+                  <td class="cx-unit-level-order-history-buyer">
+                    <div class="cx-unit-level-order-history-label">
+                      {{ 'unitLevelOrderHistory.buyer' | cxTranslate }}
+                    </div>
+                    <a
+                      [routerLink]="
+                        {
+                          cxRoute: 'unitLevelOrderDetail',
+                          params: order,
+                        } | cxUrl
+                      "
+                      class="cx-unit-level-order-history-value"
+                    >
+                      {{ order?.orgCustomer?.name }}
+                      <span>{{ order?.orgCustomer?.email }}</span>
+                    </a>
+                  </td>
+                  <td class="cx-unit-level-order-history-unit">
+                    <div class="cx-unit-level-order-history-label">
+                      {{ 'unitLevelOrderHistory.unit' | cxTranslate }}
+                    </div>
+                    <a
+                      [routerLink]="
+                        {
+                          cxRoute: 'unitLevelOrderDetail',
+                          params: order,
+                        } | cxUrl
+                      "
+                      class="cx-unit-level-order-history-value"
+                    >
+                      {{ order?.orgUnit?.name }}</a
+                    >
+                  </td>
+                  <td class="cx-unit-level-order-history-total">
+                    <div class="cx-unit-level-order-history-label">
+                      {{ 'unitLevelOrderHistory.total' | cxTranslate }}
+                    </div>
+                    <a
+                      [routerLink]="
+                        {
+                          cxRoute: 'unitLevelOrderDetail',
+                          params: order,
+                        } | cxUrl
+                      "
+                      class="cx-unit-level-order-history-value"
+                    >
+                      {{ order?.total?.formattedValue }}</a
+                    >
+                  </td>
+                </tr>
+              }
             </tbody>
           </table>
           <!-- Select Form and Pagination Bottom -->
@@ -200,38 +197,35 @@
             <div class="cx-unit-level-order-history-total-result">
               <cx-total [pagination]="orderHistory?.pagination"></cx-total>
             </div>
-            <div
-              *ngIf="orderHistory?.pagination?.totalPages ?? 0 > 1"
-              class="cx-unit-level-order-history-pagination"
-            >
-              <cx-pagination
-                [pagination]="orderHistory?.pagination"
-                (viewPageEvent)="pageChange($event)"
-                paginationID="pagination-bottom"
-              ></cx-pagination>
-            </div>
+            @if (orderHistory?.pagination?.totalPages ?? 0 > 1) {
+              <div class="cx-unit-level-order-history-pagination">
+                <cx-pagination
+                  [pagination]="orderHistory?.pagination"
+                  (viewPageEvent)="pageChange($event)"
+                  paginationID="pagination-bottom"
+                ></cx-pagination>
+              </div>
+            }
           </div>
-        </ng-container>
+        } @else {
+          @if (isLoaded$ | async) {
+            <div class="cx-unit-level-order-history-no-order">
+              <div>
+                <div>{{ 'unitLevelOrderHistory.noOrders' | cxTranslate }}</div>
+                <a
+                  [routerLink]="{ cxRoute: 'home' } | cxUrl"
+                  routerLinkActive="active"
+                  class="btn btn-primary btn-block"
+                  cxBtnLikeLink
+                  >{{ 'unitLevelOrderHistory.startShopping' | cxTranslate }}</a
+                >
+              </div>
+            </div>
+          }
+        }
 
         <!-- NO ORDER CONTAINER -->
-        <ng-template #noOrder>
-          <div
-            *ngIf="isLoaded$ | async"
-            class="cx-unit-level-order-history-no-order"
-          >
-            <div>
-              <div>{{ 'unitLevelOrderHistory.noOrders' | cxTranslate }}</div>
-              <a
-                [routerLink]="{ cxRoute: 'home' } | cxUrl"
-                routerLinkActive="active"
-                class="btn btn-primary btn-block"
-                cxBtnLikeLink
-                >{{ 'unitLevelOrderHistory.startShopping' | cxTranslate }}</a
-              >
-            </div>
-          </div>
-        </ng-template>
       </div>
     </div>
-  </ng-container>
-</ng-container>
+  }
+}

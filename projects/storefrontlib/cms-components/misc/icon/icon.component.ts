@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -42,7 +41,7 @@ type ICON_TYPE = DEFAULT_ICON_TYPE | string;
 @Component({
   selector: 'cx-icon,[cxIcon]',
   templateUrl: './icon.component.html',
-  imports: [NgIf],
+  imports: [],
 })
 export class IconComponent {
   /**

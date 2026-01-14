@@ -9,10 +9,11 @@
 
 <cx-active-facets></cx-active-facets>
 
-<cx-facet-list
-  *ngIf="isOpen$ | async"
-  [isDialog]="hasTrigger"
-  (closeList)="close()"
-  [class.active]="isActive$ | async"
-  [class.dialog]="hasTrigger"
-></cx-facet-list>
+@if (isOpen$ | async) {
+  <cx-facet-list
+    [isDialog]="hasTrigger"
+    (closeList)="close()"
+    [class.active]="isActive$ | async"
+    [class.dialog]="hasTrigger"
+  ></cx-facet-list>
+}

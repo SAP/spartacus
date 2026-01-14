@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, getLocaleId, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, getLocaleId, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -52,7 +52,6 @@ class DefaultSettings {
   templateUrl: './configurator-attribute-numeric-input-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     NgClass,

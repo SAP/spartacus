@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   GlobalMessageService,
@@ -32,11 +32,9 @@ import { ProductScrollComponent } from './product-scroll/product-scroll.componen
   selector: 'cx-product-list',
   templateUrl: './product-list.component.html',
   imports: [
-    NgIf,
     SortingComponent,
     PaginationComponent,
     ProductViewComponent,
-    NgFor,
     ProductGridItemComponent,
     ProductListItemComponent,
     ProductScrollComponent,

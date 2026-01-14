@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CartOutlets, DeliveryMode } from '@spartacus/cart/base/root';
@@ -40,7 +40,6 @@ import { OrderOverviewComponentService } from './order-overview-component.servic
   templateUrl: './order-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     CardComponent,
     OutletDirective,
     NgTemplateOutlet,
@@ -50,7 +49,6 @@ import { OrderOverviewComponentService } from './order-overview-component.servic
     TranslatePipe,
     CxDatePipe,
     UrlPipe,
-
     CxDatePipe,
   ],
 })

@@ -11,7 +11,7 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -38,12 +38,10 @@ import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-inpu
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
   imports: [
-    NgIf,
     FormsModule,
     NgClass,
     ReactiveFormsModule,
     FocusDirective,
-    NgFor,
     ConfiguratorShowMoreComponent,
     ConfiguratorPriceComponent,
     ConfiguratorAttributeQuantityComponent,

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { PaginationModel, TranslatePipe } from '@spartacus/core';
 
@@ -12,7 +11,7 @@ import { PaginationModel, TranslatePipe } from '@spartacus/core';
   selector: 'cx-total',
   templateUrl: './total.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class TotalComponent {
   private _pagination: PaginationModel;

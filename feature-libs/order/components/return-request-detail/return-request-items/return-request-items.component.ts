@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ReturnRequest } from '@spartacus/order/root';
@@ -16,7 +16,7 @@ import { ReturnRequestService } from '../return-request.service';
   selector: 'cx-return-request-items',
   templateUrl: './return-request-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, MediaComponent, AsyncPipe, TranslatePipe],
+  imports: [MediaComponent, AsyncPipe, TranslatePipe],
 })
 export class ReturnRequestItemsComponent {
   constructor(protected returnRequestService: ReturnRequestService) {}

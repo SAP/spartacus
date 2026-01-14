@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -76,8 +76,6 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     IconComponent,
-    NgIf,
-    NgFor,
     RouterLink,
     OutletDirective,
     MediaComponent,

@@ -1,13 +1,13 @@
-<ng-container *ngIf="text">
+@if (text) {
   <span [innerHTML]="textToShow"></span>
 
-  <button (click)="toggleShowMore()" *ngIf="showMore" tabindex="{{ tabIndex }}">
-    <ng-container *ngIf="showHiddenText; else less"
-      >&nbsp;... {{ 'configurator.button.less' | cxTranslate }}</ng-container
-    >
-
-    <ng-template #less>
-      &nbsp;... {{ 'configurator.button.more' | cxTranslate }}</ng-template
-    >
-  </button>
-</ng-container>
+  @if (showMore) {
+    <button (click)="toggleShowMore()" tabindex="{{ tabIndex }}">
+      @if (showHiddenText) {
+        &nbsp;... {{ 'configurator.button.less' | cxTranslate }}
+      } @else {
+        &nbsp;... {{ 'configurator.button.more' | cxTranslate }}
+      }
+    </button>
+  }
+}

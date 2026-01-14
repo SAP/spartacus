@@ -26,107 +26,111 @@
       >
     </div>
 
-    <div
-      class="cx-asm-customer-list"
-      *ngIf="customerSupportAgentLoggedIn$ | async"
-    >
-      <a
-        #customerListLink
-        tabindex="0"
-        role="button"
-        class="cx-asm-customer-list-link"
-        (click)="showCustomList()"
-      >
-        <cx-icon [type]="iconTypes.USER_FRIENDS"></cx-icon>
-        <span>{{ 'asm.customers' | cxTranslate }}</span></a
-      >
-    </div>
-
-    <ng-container *cxFeature="'!authorizationCodeFlowByDefault'">
-      <cx-asm-toggle-ui
-        *ngIf="customerSupportAgentLoggedIn$ | async"
-      ></cx-asm-toggle-ui>
-    </ng-container>
-
-    <cx-asm-session-timer
-      *ngIf="customerSupportAgentLoggedIn$ | async"
-    ></cx-asm-session-timer>
-
-    <ng-container *cxFeature="'authorizationCodeFlowByDefault'">
-      <div
-        class="cx-asm-customer-list"
-        *ngIf="!(customerSupportAgentLoggedIn$ | async)"
-      >
+    @if (customerSupportAgentLoggedIn$ | async) {
+      <div class="cx-asm-customer-list">
         <a
-          role="link"
+          #customerListLink
+          tabindex="0"
+          role="button"
           class="cx-asm-customer-list-link"
-          (click)="loginCustomerSupportAgentWithAuthorizationCodeFlow()"
-          >{{ 'asm.asmSignIn' | cxTranslate }}</a
+          (click)="showCustomList()"
+        >
+          <cx-icon [type]="iconTypes.USER_FRIENDS"></cx-icon>
+          <span>{{ 'asm.customers' | cxTranslate }}</span></a
         >
       </div>
-    </ng-container>
-    <button
-      class="close"
-      title="{{ 'asm.hideUi' | cxTranslate }}"
-      *ngIf="
-        !(customerSupportAgentLoggedIn$ | async) &&
-        !(csAgentTokenLoading$ | async)
-      "
-      (click)="hideUi()"
-    ></button>
+    }
 
-    <button
-      class="logout"
-      title="{{ 'asm.logout' | cxTranslate }}"
-      *ngIf="customerSupportAgentLoggedIn$ | async"
-      (click)="logout()"
-    ></button>
+    <ng-container *cxFeature="'!authorizationCodeFlowByDefault'">
+      @if (customerSupportAgentLoggedIn$ | async) {
+        <cx-asm-toggle-ui></cx-asm-toggle-ui>
+      }
+    </ng-container>
+
+    @if (customerSupportAgentLoggedIn$ | async) {
+      <cx-asm-session-timer></cx-asm-session-timer>
+    }
+
+    <ng-container *cxFeature="'authorizationCodeFlowByDefault'">
+      @if (!(customerSupportAgentLoggedIn$ | async)) {
+        <div class="cx-asm-customer-list">
+          <a
+            role="link"
+            class="cx-asm-customer-list-link"
+            (click)="loginCustomerSupportAgentWithAuthorizationCodeFlow()"
+            >{{ 'asm.asmSignIn' | cxTranslate }}</a
+          >
+        </div>
+      }
+    </ng-container>
+    @if (
+      !(customerSupportAgentLoggedIn$ | async) &&
+      !(csAgentTokenLoading$ | async)
+    ) {
+      <button
+        class="close"
+        title="{{ 'asm.hideUi' | cxTranslate }}"
+        (click)="hideUi()"
+      ></button>
+    }
+
+    @if (customerSupportAgentLoggedIn$ | async) {
+      <button
+        class="logout"
+        title="{{ 'asm.logout' | cxTranslate }}"
+        (click)="logout()"
+      ></button>
+    }
   </div>
 </div>
 
-<ng-container *ngIf="!(isCollapsed$ | async) as notCollapsed">
-  <ng-container
-    *ngIf="customerSupportAgentLoggedIn$ | async; else showLoginForm"
-  >
-    <ng-container *ngIf="customer$ | async; else showCustomerSelection">
-      <cx-customer-emulation *ngIf="notCollapsed"></cx-customer-emulation>
-      <cx-message
-        *ngIf="notCollapsed && showCreateCustomerSuccessfullyAlert"
-        [text]="'asm.createCustomerSuccessfullyAlert' | cxTranslate"
-        [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
-        (closeMessage)="closeDialogConfirmationAlert()"
-      >
-      </cx-message>
-      <cx-message
-        *ngIf="showDeeplinkCartInfoAlert$ | async"
-        [text]="deeplinkCartAlertKey | cxTranslate"
-        [type]="globalMessageType.MSG_TYPE_INFO"
-        (closeMessage)="closeDeeplinkCartInfoAlert()"
-      >
-      </cx-message>
-      <cx-message
-        *ngIf="notCollapsed && showCustomerEmulationInfoAlert"
-        [text]="'asm.startCustomerEmulationAlertInfo' | cxTranslate"
-        [type]="globalMessageType.MSG_TYPE_INFO"
-        (closeMessage)="closeCustomerEmulationInfoAlert()"
-      >
-      </cx-message>
-    </ng-container>
-    <ng-template #showCustomerSelection>
-      <cx-customer-selection
-        *ngIf="notCollapsed"
-        (submitEvent)="startCustomerEmulationSession($event, $event.parameters)"
-      ></cx-customer-selection>
-    </ng-template>
-  </ng-container>
-
-  <ng-template #showLoginForm>
+@if (!(isCollapsed$ | async); as notCollapsed) {
+  @if (customerSupportAgentLoggedIn$ | async) {
+    @if (customer$ | async) {
+      @if (notCollapsed) {
+        <cx-customer-emulation></cx-customer-emulation>
+      }
+      @if (notCollapsed && showCreateCustomerSuccessfullyAlert) {
+        <cx-message
+          [text]="'asm.createCustomerSuccessfullyAlert' | cxTranslate"
+          [type]="globalMessageType.MSG_TYPE_CONFIRMATION"
+          (closeMessage)="closeDialogConfirmationAlert()"
+        >
+        </cx-message>
+      }
+      @if (showDeeplinkCartInfoAlert$ | async) {
+        <cx-message
+          [text]="deeplinkCartAlertKey | cxTranslate"
+          [type]="globalMessageType.MSG_TYPE_INFO"
+          (closeMessage)="closeDeeplinkCartInfoAlert()"
+        >
+        </cx-message>
+      }
+      @if (notCollapsed && showCustomerEmulationInfoAlert) {
+        <cx-message
+          [text]="'asm.startCustomerEmulationAlertInfo' | cxTranslate"
+          [type]="globalMessageType.MSG_TYPE_INFO"
+          (closeMessage)="closeCustomerEmulationInfoAlert()"
+        >
+        </cx-message>
+      }
+    } @else {
+      @if (notCollapsed) {
+        <cx-customer-selection
+          (submitEvent)="
+            startCustomerEmulationSession($event, $event.parameters)
+          "
+        ></cx-customer-selection>
+      }
+    }
+  } @else {
     <ng-container *cxFeature="'!authorizationCodeFlowByDefault'">
-      <cx-csagent-login-form
-        *ngIf="notCollapsed"
-        (submitEvent)="loginCustomerSupportAgent($event)"
-        [csAgentTokenLoading]="csAgentTokenLoading$ | async"
-      ></cx-csagent-login-form>
+      @if (notCollapsed) {
+        <cx-csagent-login-form
+          (submitEvent)="loginCustomerSupportAgent($event)"
+          [csAgentTokenLoading]="csAgentTokenLoading$ | async"
+        ></cx-csagent-login-form>
+      }
     </ng-container>
-  </ng-template>
-</ng-container>
+  }
+}

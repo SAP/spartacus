@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
@@ -61,14 +61,12 @@ import { ONE_TIME_PASSWORD_REGISTRATION_PURPOSE } from '../user-account-constant
   selector: 'cx-otp-register-form',
   templateUrl: './otp-login-register.component.html',
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     NgSelectComponent,
     NgSelectA11yDirective,
     FormRequiredAsterisksComponent,
     FormErrorsComponent,
-    NgFor,
     RouterLink,
     CaptchaComponent,
     SpinnerComponent,

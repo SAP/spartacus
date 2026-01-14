@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -47,7 +46,6 @@ import { ImportEntriesFormComponent } from '../import-entries-form/import-entrie
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CxDatePipe],
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
     MessageComponent,

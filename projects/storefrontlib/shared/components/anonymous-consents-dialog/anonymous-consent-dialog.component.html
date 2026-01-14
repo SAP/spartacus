@@ -6,10 +6,11 @@
   aria-labelledby="dialogTitle"
 >
   <div class="modal-content cx-dialog-content">
-    <div *ngIf="loading$ | async; else dialogBody">
-      <cx-spinner></cx-spinner>
-    </div>
-    <ng-template #dialogBody>
+    @if (loading$ | async) {
+      <div>
+        <cx-spinner></cx-spinner>
+      </div>
+    } @else {
       <div class="modal-header cx-dialog-header">
         <h3 id="dialogTitle">
           {{ 'anonymousConsents.dialog.title' | cxTranslate }}
@@ -27,22 +28,25 @@
         </button>
       </div>
       <!-- Separator -->
-      <div class="cx-dialog-description" *ngIf="showLegalDescription">
-        {{ 'anonymousConsents.dialog.legalDescription' | cxTranslate }}
-        <div
-          class="cx-dialog-separator col-sm-12 d-xs-block d-sm-block d-md-none"
-        ></div>
-      </div>
+      @if (showLegalDescription) {
+        <div class="cx-dialog-description">
+          {{ 'anonymousConsents.dialog.legalDescription' | cxTranslate }}
+          <div
+            class="cx-dialog-separator col-sm-12 d-xs-block d-sm-block d-md-none"
+          ></div>
+        </div>
+      }
 
       <div class="cx-dialog-message" aria-live="assertive" aria-atomic="true">
-        <cx-message
-          *ngIf="message$ | async as message"
-          [text]="message.key | cxTranslate"
-          [type]="message.type"
-          [isVisibleCloseButton]="true"
-          (closeMessage)="closeMessage()"
-          [cxFocus]="{ autofocus: '.cx-message' }"
-        ></cx-message>
+        @if (message$ | async; as message) {
+          <cx-message
+            [text]="message.key | cxTranslate"
+            [type]="message.type"
+            [isVisibleCloseButton]="true"
+            (closeMessage)="closeMessage()"
+            [cxFocus]="{ autofocus: '.cx-message' }"
+          ></cx-message>
+        }
       </div>
       <!-- Actions -->
       <div class="cx-dialog-buttons">
@@ -54,24 +58,22 @@
         </button>
       </div>
       <!-- Modal Body -->
-      <div
-        class="modal-body cx-dialog-body"
-        *ngIf="templates$ | async as templates"
-      >
-        <ng-container *ngIf="consents$ | async as consents">
-          <div
-            class="cx-dialog-row col-sm-12 col-md-6"
-            *ngFor="let template of templates"
-          >
-            <cx-consent-management-form
-              [consentTemplate]="template"
-              [requiredConsents]="requiredConsents"
-              [consent]="getCorrespondingConsent(template, consents)"
-              (consentChanged)="onConsentChange($event)"
-            ></cx-consent-management-form>
-          </div>
-        </ng-container>
-      </div>
-    </ng-template>
+      @if (templates$ | async; as templates) {
+        <div class="modal-body cx-dialog-body">
+          @if (consents$ | async; as consents) {
+            @for (template of templates; track template) {
+              <div class="cx-dialog-row col-sm-12 col-md-6">
+                <cx-consent-management-form
+                  [consentTemplate]="template"
+                  [requiredConsents]="requiredConsents"
+                  [consent]="getCorrespondingConsent(template, consents)"
+                  (consentChanged)="onConsentChange($event)"
+                ></cx-consent-management-form>
+              </div>
+            }
+          }
+        </div>
+      }
+    }
   </div>
 </div>

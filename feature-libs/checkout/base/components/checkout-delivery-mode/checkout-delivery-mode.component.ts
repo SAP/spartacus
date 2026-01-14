@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   FormsModule,
@@ -43,10 +43,8 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   templateUrl: './checkout-delivery-mode.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FormsModule,
     ReactiveFormsModule,
-    NgFor,
     OutletDirective,
     SpinnerComponent,
     InnerComponentsHostDirective,

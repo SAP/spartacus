@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -27,7 +27,6 @@ import { combineLatest, filter, map, Observable, take } from 'rxjs';
   templateUrl: './opf-b2b-checkout-payment-and-review.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     OpfCheckoutReviewCardComponent,
     OpfCheckoutTermsAndConditionsAlertComponent,
     NgClass,

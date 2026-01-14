@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -26,7 +26,7 @@ import { filter, map, Observable, switchMap, take, tap, timer } from 'rxjs';
   selector: 'cx-punchout-requsition',
   templateUrl: './punchout-requisition.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, FormsModule, ReactiveFormsModule, AsyncPipe],
+  imports: [FormsModule, ReactiveFormsModule, AsyncPipe],
 })
 export class PunchoutRequisitionComponent implements OnInit {
   protected punchoutFacade = inject(PunchoutFacade);

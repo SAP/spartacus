@@ -4,9 +4,7 @@
   (esc)="close('Escape clicked')"
 >
   <div class="modal-content cx-consignment-tracking-container">
-    <ng-container
-      *ngIf="tracking$ | async as consignmentTracking; else loading"
-    >
+    @if (tracking$ | async; as consignmentTracking) {
       <!-- Modal Header -->
       <div class="modal-header cx-modal-header">
         <div class="modal-title cx-consignment-tracking-title">
@@ -23,13 +21,9 @@
       </div>
       <!-- Modal Body -->
       <!-- shipment header -->
-      <ng-container
-        *ngIf="
-          consignmentTracking?.carrierDetails &&
-            consignmentTracking?.trackingID;
-          else noTracking
-        "
-      >
+      @if (
+        consignmentTracking?.carrierDetails && consignmentTracking?.trackingID
+      ) {
         <div class="cx-shipment-heading">
           <div class="row">
             <div class="col-sm-12 col-md-6">
@@ -76,30 +70,39 @@
                 }}
               </div>
               <div class="cx-shipment-content">
-                <ng-container *ngIf="consignmentTracking?.trackingUrl">
+                @if (consignmentTracking?.trackingUrl) {
                   <a
                     target="_blank"
                     rel="noopener noreferrer"
                     [href]="consignmentTracking.trackingUrl"
                     >{{ consignmentTracking?.trackingID }}</a
                   >
-                </ng-container>
-                <ng-container *ngIf="!consignmentTracking?.trackingUrl">
+                }
+                @if (!consignmentTracking?.trackingUrl) {
                   <label>
                     {{ consignmentTracking?.trackingID }}
                   </label>
-                </ng-container>
+                }
               </div>
             </div>
           </div>
         </div>
-      </ng-container>
+      } @else {
+        <div class="cx-no-tracking-heading">
+          <div class="cx-shipment-content">
+            {{
+              'orderDetails.consignmentTracking.dialog.noTracking' | cxTranslate
+            }}
+          </div>
+        </div>
+      }
 
       <!-- tracking events -->
       <div class="cx-tracking-events modal-body">
-        <ng-container
-          *ngFor="let consignmentEvent of consignmentTracking.trackingEvents"
-        >
+        @for (
+          consignmentEvent of consignmentTracking.trackingEvents;
+          track consignmentEvent
+        ) {
           <div class="cx-tracking-event-body">
             <div class="cx-tracking-event-content">
               {{ consignmentEvent.eventDate | cxDate: 'medium' }}
@@ -114,21 +117,9 @@
               location: {{ consignmentEvent.location }}
             </div>
           </div>
-        </ng-container>
+        }
       </div>
-    </ng-container>
-
-    <ng-template #noTracking>
-      <div class="cx-no-tracking-heading">
-        <div class="cx-shipment-content">
-          {{
-            'orderDetails.consignmentTracking.dialog.noTracking' | cxTranslate
-          }}
-        </div>
-      </div>
-    </ng-template>
-
-    <ng-template #loading>
+    } @else {
       <div class="cx-tracking-loading">
         <div class="header modal-header">
           <div class="title modal-title">
@@ -155,6 +146,6 @@
           </div>
         </div>
       </div>
-    </ng-template>
+    }
   </div>
 </div>

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { useFeatureStyles } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -19,10 +19,8 @@ import { PageTemplateDirective } from './page-template.directive';
   templateUrl: './page-layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     PageTemplateDirective,
     OutletDirective,
-    NgFor,
     PageSlotComponent,
     AsyncPipe,
   ],

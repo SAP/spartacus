@@ -1,26 +1,28 @@
 <ng-container *cxFeature="'productCarouselScrolling'">
-  <ng-container *ngIf="items$ | async as items">
-    <cx-carousel-scrolling
-      *ngIf="items.length"
-      [title]="title$ | async"
-      [items]="items"
-      [template]="carouselItem"
-      [trackByFn]="trackByFn"
-    >
-    </cx-carousel-scrolling>
-  </ng-container>
+  @if (items$ | async; as items) {
+    @if (items.length) {
+      <cx-carousel-scrolling
+        [title]="title$ | async"
+        [items]="items"
+        [template]="carouselItem"
+        [trackByFn]="trackByFn"
+      >
+      </cx-carousel-scrolling>
+    }
+  }
 </ng-container>
 <ng-container *cxFeature="'!productCarouselScrolling'">
-  <ng-container *ngIf="items$ | async as items">
-    <cx-carousel
-      *ngIf="items$ | async as items"
-      [title]="title$ | async"
-      [items]="items"
-      [template]="carouselItem"
-      [trackByFn]="trackByFn"
-    >
-    </cx-carousel>
-  </ng-container>
+  @if (items$ | async; as items) {
+    @if (items$ | async; as items) {
+      <cx-carousel
+        [title]="title$ | async"
+        [items]="items"
+        [template]="carouselItem"
+        [trackByFn]="trackByFn"
+      >
+      </cx-carousel>
+    }
+  }
 </ng-container>
 
 <ng-template #carouselItem let-item="item">

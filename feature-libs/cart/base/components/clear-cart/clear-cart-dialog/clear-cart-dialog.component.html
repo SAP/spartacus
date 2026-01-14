@@ -6,7 +6,7 @@
   aria-labelledby="dialogTitle"
 >
   <div class="modal-content cx-clear-cart-container">
-    <ng-container *ngIf="!isClearing; else loading">
+    @if (!isClearing) {
       <!-- Modal Header -->
       <div class="modal-header cx-clear-cart-header">
         <h3 id="dialogTitle" class="cx-clear-cart-title modal-title">
@@ -49,17 +49,15 @@
           </div>
         </div>
       </div>
-    </ng-container>
+    } @else {
+      <div class="modal-header cx-clear-cart-header">
+        <h2 class="cx-clear-cart-title modal-title">
+          {{ 'clearCart.clearingCart' | cxTranslate }}
+        </h2>
+      </div>
+      <div class="cx-spinner">
+        <cx-spinner></cx-spinner>
+      </div>
+    }
   </div>
 </div>
-
-<ng-template #loading>
-  <div class="modal-header cx-clear-cart-header">
-    <h2 class="cx-clear-cart-title modal-title">
-      {{ 'clearCart.clearingCart' | cxTranslate }}
-    </h2>
-  </div>
-  <div class="cx-spinner">
-    <cx-spinner></cx-spinner>
-  </div>
-</ng-template>

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, Input, OnDestroy } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
@@ -25,7 +25,7 @@ import { DisableInfoService } from '../disable-info/disable-info.service';
   selector: 'cx-org-toggle-status',
   templateUrl: './toggle-status.component.html',
   host: { class: 'content-wrapper' },
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**

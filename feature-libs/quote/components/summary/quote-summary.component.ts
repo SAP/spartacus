@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { QuoteFacade } from '@spartacus/quote/root';
@@ -16,11 +16,9 @@ import { QuoteSummarySellerEditComponent } from './seller-edit/quote-summary-sel
   selector: 'cx-quote-summary',
   templateUrl: 'quote-summary.component.html',
   imports: [
-    NgIf,
     QuoteSummaryPricesComponent,
     QuoteSummarySellerEditComponent,
     QuoteSummaryActionsComponent,
-    NgFor,
     AsyncPipe,
     TranslatePipe,
   ],

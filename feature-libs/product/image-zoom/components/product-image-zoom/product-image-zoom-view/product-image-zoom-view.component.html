@@ -1,98 +1,114 @@
-<ng-container *ngIf="mainImage$ | async as main">
-  <div class="cx-main-image-group" *ngIf="thumbnails$ | async as thumbs">
-    <div class="cx-navigate-image">
-      <button
-        class="btn btn-link"
-        [attr.aria-label]="'productImageZoomDialog.previousSlide' | cxTranslate"
-        [attr.title]="'productImageZoomDialog.previousSlide' | cxTranslate"
-        *ngIf="getPreviousProduct(thumbs) | async as previousProduct"
-        (click)="openImage(previousProduct.container)"
-      >
-        <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
-      </button>
-    </div>
-    <!-- TODO: (CXSPA-7492) - Remove feature flag next major release. -->
-    <div *cxFeature="'a11yKeyboardAccessibleZoom'" class="cx-image-container">
-      <cx-media
-        #defaultImage
-        class="cx-default-image-zoom"
-        (loaded)="onImageLoad()"
-        *ngIf="!isZoomed"
-        [container]="main"
-      >
-      </cx-media>
-      <div #zoomContainer class="cx-zoom-container" *ngIf="isZoomed">
-        <cx-media
-          #zoomedImage
-          class="cx-image-zoomed"
-          [container]="main"
-          (mousemove)="pointerMove($event)"
-          (touchmove)="touchMove($event)"
-          (touchend)="clearTouch()"
-          (loaded)="onImageLoad()"
-        >
-        </cx-media>
+@if (mainImage$ | async; as main) {
+  @if (thumbnails$ | async; as thumbs) {
+    <div class="cx-main-image-group">
+      <div class="cx-navigate-image">
+        @if (getPreviousProduct(thumbs) | async; as previousProduct) {
+          <button
+            class="btn btn-link"
+            [attr.aria-label]="
+              'productImageZoomDialog.previousSlide' | cxTranslate
+            "
+            [attr.title]="'productImageZoomDialog.previousSlide' | cxTranslate"
+            (click)="openImage(previousProduct.container)"
+          >
+            <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
+          </button>
+        }
       </div>
-      <button
-        #zoomButton
-        *ngIf="imageLoaded | async"
-        [attr.aria-label]="
-          isZoomed
-            ? ('common.zoomOut' | cxTranslate)
-            : ('common.zoomIn' | cxTranslate)
-        "
-        title="{{
-          isZoomed
-            ? ('common.zoomOut' | cxTranslate)
-            : ('common.zoomIn' | cxTranslate)
-        }}"
-        class="btn btn-link cx-zoom-btn"
-        (click)="zoom()"
-      >
-        <cx-icon
-          [type]="iconType.SEARCH_PLUS"
-          *ngIf="!isZoomed"
-          class="cx-zoom-indicator"
-        ></cx-icon>
-        <cx-icon
-          [type]="iconType.SEARCH_MINUS"
-          *ngIf="isZoomed"
-          class="cx-zoom-indicator"
-        ></cx-icon>
-      </button>
+      <!-- TODO: (CXSPA-7492) - Remove feature flag next major release. -->
+      <div *cxFeature="'a11yKeyboardAccessibleZoom'" class="cx-image-container">
+        @if (!isZoomed) {
+          <cx-media
+            #defaultImage
+            class="cx-default-image-zoom"
+            (loaded)="onImageLoad()"
+            [container]="main"
+          >
+          </cx-media>
+        }
+        @if (isZoomed) {
+          <div #zoomContainer class="cx-zoom-container">
+            <cx-media
+              #zoomedImage
+              class="cx-image-zoomed"
+              [container]="main"
+              (mousemove)="pointerMove($event)"
+              (touchmove)="touchMove($event)"
+              (touchend)="clearTouch()"
+              (loaded)="onImageLoad()"
+            >
+            </cx-media>
+          </div>
+        }
+        @if (imageLoaded | async) {
+          <button
+            #zoomButton
+            [attr.aria-label]="
+              isZoomed
+                ? ('common.zoomOut' | cxTranslate)
+                : ('common.zoomIn' | cxTranslate)
+            "
+            title="{{
+              isZoomed
+                ? ('common.zoomOut' | cxTranslate)
+                : ('common.zoomIn' | cxTranslate)
+            }}"
+            class="btn btn-link cx-zoom-btn"
+            (click)="zoom()"
+          >
+            @if (!isZoomed) {
+              <cx-icon
+                [type]="iconType.SEARCH_PLUS"
+                class="cx-zoom-indicator"
+              ></cx-icon>
+            }
+            @if (isZoomed) {
+              <cx-icon
+                [type]="iconType.SEARCH_MINUS"
+                class="cx-zoom-indicator"
+              ></cx-icon>
+            }
+          </button>
+        }
+      </div>
+      <ng-container *cxFeature="'!a11yKeyboardAccessibleZoom'">
+        @if (!isZoomed) {
+          <cx-media
+            #defaultImage
+            class="cx-default-image-zoom"
+            [container]="main"
+          >
+          </cx-media>
+        }
+        @if (isZoomed) {
+          <div #zoomContainer class="cx-zoom-container">
+            <cx-media
+              #zoomedImage
+              class="cx-image-zoomed"
+              [container]="main"
+              (mousemove)="pointerMove($event)"
+              (touchmove)="touchMove($event)"
+              (touchend)="clearTouch()"
+            >
+            </cx-media>
+          </div>
+        }
+      </ng-container>
+      <div class="cx-navigate-image">
+        @if (getNextProduct(thumbs) | async; as nextProduct) {
+          <button
+            class="btn btn-link"
+            [attr.aria-label]="'productImageZoomDialog.nextSlide' | cxTranslate"
+            [attr.title]="'productImageZoomDialog.nextSlide' | cxTranslate"
+            (click)="openImage(nextProduct.container)"
+          >
+            <cx-icon [type]="iconType.CARET_RIGHT"></cx-icon>
+          </button>
+        }
+      </div>
     </div>
-    <ng-container *cxFeature="'!a11yKeyboardAccessibleZoom'">
-      <cx-media
-        #defaultImage
-        class="cx-default-image-zoom"
-        *ngIf="!isZoomed"
-        [container]="main"
-      >
-      </cx-media>
-      <div #zoomContainer class="cx-zoom-container" *ngIf="isZoomed">
-        <cx-media
-          #zoomedImage
-          class="cx-image-zoomed"
-          [container]="main"
-          (mousemove)="pointerMove($event)"
-          (touchmove)="touchMove($event)"
-          (touchend)="clearTouch()"
-        >
-        </cx-media></div
-    ></ng-container>
-    <div class="cx-navigate-image">
-      <button
-        class="btn btn-link"
-        [attr.aria-label]="'productImageZoomDialog.nextSlide' | cxTranslate"
-        [attr.title]="'productImageZoomDialog.nextSlide' | cxTranslate"
-        *ngIf="getNextProduct(thumbs) | async as nextProduct"
-        (click)="openImage(nextProduct.container)"
-      >
-        <cx-icon [type]="iconType.CARET_RIGHT"></cx-icon>
-      </button>
-    </div>
-  </div>
-</ng-container>
+  }
+}
 
 <cx-product-image-zoom-thumbnails
   [thumbs$]="thumbnails$"

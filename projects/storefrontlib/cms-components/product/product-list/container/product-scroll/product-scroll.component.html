@@ -1,4 +1,4 @@
-<ng-container *ngIf="viewMode === ViewModes.Grid">
+@if (viewMode === ViewModes.Grid) {
   <div
     infiniteScroll
     [infiniteScrollDistance]="5"
@@ -7,12 +7,13 @@
     (scrolled)="scrollPage((model?.pagination?.currentPage ?? 0) + 1)"
   >
     <div class="row">
-      <cx-product-grid-item
-        *ngFor="let product of model?.products; let i = index"
-        [product]="product"
-        [itemIndex]="i"
-        class="col-12 col-sm-6 col-md-4"
-      ></cx-product-grid-item>
+      @for (product of model?.products; track product; let i = $index) {
+        <cx-product-grid-item
+          [product]="product"
+          [itemIndex]="i"
+          class="col-12 col-sm-6 col-md-4"
+        ></cx-product-grid-item>
+      }
     </div>
     <div
       [className]="
@@ -21,31 +22,32 @@
           : 'cx-single-btn-container grid-btn-padding'
       "
     >
-      <div
-        *ngIf="
-          (isMaxProducts || isLastPage) &&
-          (model?.pagination?.currentPage ?? 0) > 0
-        "
-        (click)="scrollToTop()"
-        class="btn btn-block btn-secondary"
-      >
-        {{ 'productList.backToTopBtn' | cxTranslate }}
-      </div>
-      <div
-        *ngIf="isMaxProducts && !isLastPage"
-        (click)="loadNextPage((model?.pagination?.currentPage ?? 0) + 1)"
-        class="btn btn-block btn-secondary align-btn"
-      >
-        {{ 'productList.showMoreBtn' | cxTranslate }}
-      </div>
+      @if (
+        (isMaxProducts || isLastPage) &&
+        (model?.pagination?.currentPage ?? 0) > 0
+      ) {
+        <div (click)="scrollToTop()" class="btn btn-block btn-secondary">
+          {{ 'productList.backToTopBtn' | cxTranslate }}
+        </div>
+      }
+      @if (isMaxProducts && !isLastPage) {
+        <div
+          (click)="loadNextPage((model?.pagination?.currentPage ?? 0) + 1)"
+          class="btn btn-block btn-secondary align-btn"
+        >
+          {{ 'productList.showMoreBtn' | cxTranslate }}
+        </div>
+      }
     </div>
-    <div *ngIf="appendProducts" class="cx-spinner">
-      <cx-spinner></cx-spinner>
-    </div>
+    @if (appendProducts) {
+      <div class="cx-spinner">
+        <cx-spinner></cx-spinner>
+      </div>
+    }
   </div>
-</ng-container>
+}
 
-<ng-container *ngIf="viewMode === ViewModes.List">
+@if (viewMode === ViewModes.List) {
   <div
     infiniteScroll
     [infiniteScrollDistance]="3"
@@ -53,12 +55,13 @@
     [infiniteScrollDisabled]="isMaxProducts || isLastPage || isEmpty"
     (scrolled)="scrollPage((model?.pagination?.currentPage ?? 0) + 1)"
   >
-    <cx-product-list-item
-      *ngFor="let product of model?.products; let i = index"
-      [product]="product"
-      [itemIndex]="i"
-      class="cx-product-search-list"
-    ></cx-product-list-item>
+    @for (product of model?.products; track product; let i = $index) {
+      <cx-product-list-item
+        [product]="product"
+        [itemIndex]="i"
+        class="cx-product-search-list"
+      ></cx-product-list-item>
+    }
     <div
       [className]="
         !isLastPage && (model?.pagination?.currentPage ?? 0) > 0
@@ -66,26 +69,27 @@
           : 'cx-single-btn-container'
       "
     >
-      <div
-        *ngIf="
-          (isMaxProducts || isLastPage) &&
-          (model?.pagination?.currentPage ?? 0) > 0
-        "
-        (click)="scrollToTop()"
-        class="btn btn-block btn-secondary"
-      >
-        {{ 'productList.backToTopBtn' | cxTranslate }}
-      </div>
-      <div
-        *ngIf="isMaxProducts && !isLastPage"
-        (click)="loadNextPage((model?.pagination?.currentPage ?? 0) + 1)"
-        class="btn btn-block btn-secondary align-btn"
-      >
-        {{ 'productList.showMoreBtn' | cxTranslate }}
-      </div>
+      @if (
+        (isMaxProducts || isLastPage) &&
+        (model?.pagination?.currentPage ?? 0) > 0
+      ) {
+        <div (click)="scrollToTop()" class="btn btn-block btn-secondary">
+          {{ 'productList.backToTopBtn' | cxTranslate }}
+        </div>
+      }
+      @if (isMaxProducts && !isLastPage) {
+        <div
+          (click)="loadNextPage((model?.pagination?.currentPage ?? 0) + 1)"
+          class="btn btn-block btn-secondary align-btn"
+        >
+          {{ 'productList.showMoreBtn' | cxTranslate }}
+        </div>
+      }
     </div>
-    <div *ngIf="appendProducts" class="cx-spinner">
-      <cx-spinner></cx-spinner>
-    </div>
+    @if (appendProducts) {
+      <div class="cx-spinner">
+        <cx-spinner></cx-spinner>
+      </div>
+    }
   </div>
-</ng-container>
+}

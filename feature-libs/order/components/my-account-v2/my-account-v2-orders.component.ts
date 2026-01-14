@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject, OnDestroy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CxDatePipe, Product, TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -19,8 +19,6 @@ import { tap } from 'rxjs/operators';
   templateUrl: './my-account-v2-orders.component.html',
   imports: [
     RouterLink,
-    NgIf,
-    NgFor,
     MediaComponent,
     RouterLinkActive,
     SpinnerComponent,
@@ -28,7 +26,6 @@ import { tap } from 'rxjs/operators';
     UrlPipe,
     TranslatePipe,
     CxDatePipe,
-
     CxDatePipe,
   ],
 })

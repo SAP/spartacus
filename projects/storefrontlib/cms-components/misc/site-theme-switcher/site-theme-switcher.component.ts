@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SiteTheme, TranslatePipe, TranslationService } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -20,7 +20,7 @@ import { SiteThemeSwitcherComponentService } from './site-theme-switcher.compone
   selector: 'cx-site-theme-switcher',
   templateUrl: './site-theme-switcher.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, IconComponent, AsyncPipe, TranslatePipe],
+  imports: [IconComponent, AsyncPipe, TranslatePipe],
 })
 export class SiteThemeSwitcherComponent {
   readonly translationService = inject(TranslationService);

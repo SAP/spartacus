@@ -26,8 +26,9 @@
             ></span>
           </button>
         </div>
-        <cx-store-schedule *ngIf="openHoursOpen" [storeDetails]="storeDetails">
-        </cx-store-schedule>
+        @if (openHoursOpen) {
+          <cx-store-schedule [storeDetails]="storeDetails"> </cx-store-schedule>
+        }
         <cx-set-preferred-store
           [pointOfServiceName]="{
             name: storeDetails?.name,
@@ -40,12 +41,13 @@
   <div>
     <div class="cx-store-distance">{{ storeDetails?.formattedDistance }}</div>
     <div>
-      <cx-icon
-        class="cx-store-stock-icon"
-        aria-hidden="true"
-        *ngIf="isInStock"
-        [type]="ICON_TYPE.CHECK"
-      ></cx-icon>
+      @if (isInStock) {
+        <cx-icon
+          class="cx-store-stock-icon"
+          aria-hidden="true"
+          [type]="ICON_TYPE.CHECK"
+        ></cx-icon>
+      }
       <span
         class="cx-stock-level"
         [ngClass]="{

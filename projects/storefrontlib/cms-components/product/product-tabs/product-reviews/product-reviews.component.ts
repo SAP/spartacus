@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
+import { AsyncPipe, SlicePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -51,9 +51,7 @@ import { CurrentProductService } from '../../current-product.service';
   templateUrl: './product-reviews.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     StarRatingComponent,
-    NgFor,
     FeatureDirective,
     ReadMoreComponent,
     FormRequiredLegendComponent,
@@ -65,7 +63,6 @@ import { CurrentProductService } from '../../current-product.service';
     SlicePipe,
     TranslatePipe,
     CxDatePipe,
-
     CxDatePipe,
   ],
 })

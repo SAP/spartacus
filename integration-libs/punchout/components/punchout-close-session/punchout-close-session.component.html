@@ -1,5 +1,5 @@
-<ng-container *ngIf="(isPunchoutSessionActive$ | async) === true">
+@if ((isPunchoutSessionActive$ | async) === true) {
   <div class="cx-punchout-close-session" (click)="clickCloseSessionButton()">
     {{ 'punchout.closeSession' | cxTranslate }}
   </div>
-</ng-container>
+}

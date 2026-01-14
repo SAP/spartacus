@@ -1,5 +1,5 @@
-<ng-container *ngIf="configuration$ | async as configuration; else ghostForm">
-  <ng-container *ngIf="hasAttributes(configuration); else noAttributes">
+@if (configuration$ | async; as configuration) {
+  @if (hasAttributes(configuration)) {
     <ng-container
       *ngTemplateOutlet="
         groups;
@@ -10,15 +10,30 @@
         }
       "
     ></ng-container>
-  </ng-container>
-</ng-container>
-
-<ng-template #noAttributes>
-  <div class="cx-no-attribute-value-pairs">
-    <h2>{{ 'configurator.overviewForm.noAttributeHeader' | cxTranslate }}</h2>
-    <p>{{ 'configurator.overviewForm.noAttributeText' | cxTranslate }}</p>
-  </div>
-</ng-template>
+  } @else {
+    <div class="cx-no-attribute-value-pairs">
+      <h2>{{ 'configurator.overviewForm.noAttributeHeader' | cxTranslate }}</h2>
+      <p>{{ 'configurator.overviewForm.noAttributeText' | cxTranslate }}</p>
+    </div>
+  }
+} @else {
+  @for (number of [0, 1, 2]; track number) {
+    <div class="cx-ghost-group">
+      <div class="cx-ghost-header ghost"></div>
+      <div class="cx-ghost-body">
+        @for (number of [0, 1, 2, 3, 4, 5]; track number) {
+          <div class="cx-ghost-attribute-value">
+            <div class="cx-ghost-value ghost"></div>
+          </div>
+          <div class="cx-ghost-attribute-label">
+            <div class="cx-ghost-label ghost"></div>
+          </div>
+          <div class="cx-ghost-attribute-price ghost"></div>
+        }
+      </div>
+    </div>
+  }
+}
 
 <ng-template
   #groups
@@ -30,7 +45,7 @@
     {{ 'configurator.a11y.listOfAttributesAndValues' | cxTranslate }}
   </span>
 
-  <ng-container *ngFor="let group of overviewGroups">
+  @for (group of overviewGroups; track group) {
     <div
       id="{{ getGroupId(idPrefix, group.id) }}"
       [ngClass]="getGroupLevelStyleClasses(level, group.subGroups)"
@@ -63,35 +78,40 @@
         </h2>
       </ng-container>
 
-      <div
-        *ngFor="let attributeOverview of group.attributes; let i = index"
-        class="cx-attribute-value-pair"
-        [ngClass]="getStyleClasses(group.attributes, i)"
-      >
-        <ng-container [ngSwitch]="attributeOverview?.type">
-          <ng-container *ngSwitchCase="attributeOverviewType.GENERAL">
-            <cx-configurator-overview-attribute
-              [attributeOverview]="attributeOverview"
-            >
-            </cx-configurator-overview-attribute>
-          </ng-container>
+      @for (
+        attributeOverview of group.attributes;
+        track attributeOverview;
+        let i = $index
+      ) {
+        <div
+          class="cx-attribute-value-pair"
+          [ngClass]="getStyleClasses(group.attributes, i)"
+        >
+          @switch (attributeOverview?.type) {
+            @case (attributeOverviewType.GENERAL) {
+              <cx-configurator-overview-attribute
+                [attributeOverview]="attributeOverview"
+              >
+              </cx-configurator-overview-attribute>
+            }
 
-          <ng-container *ngSwitchCase="attributeOverviewType.BUNDLE">
-            <cx-configurator-cpq-overview-attribute
-              [attributeOverview]="attributeOverview"
-            >
-            </cx-configurator-cpq-overview-attribute>
-          </ng-container>
+            @case (attributeOverviewType.BUNDLE) {
+              <cx-configurator-cpq-overview-attribute
+                [attributeOverview]="attributeOverview"
+              >
+              </cx-configurator-cpq-overview-attribute>
+            }
 
-          <ng-container *ngSwitchDefault>
-            <cx-configurator-overview-attribute
-              [attributeOverview]="attributeOverview"
-            >
-            </cx-configurator-overview-attribute>
-          </ng-container>
-        </ng-container>
-      </div>
-      <ng-container *ngIf="group.subGroups?.length > 0">
+            @default {
+              <cx-configurator-overview-attribute
+                [attributeOverview]="attributeOverview"
+              >
+              </cx-configurator-overview-attribute>
+            }
+          }
+        </div>
+      }
+      @if (group.subGroups?.length > 0) {
         <ng-container
           *ngTemplateOutlet="
             groups;
@@ -102,26 +122,7 @@
             }
           "
         ></ng-container>
-      </ng-container>
+      }
     </div>
-  </ng-container>
-</ng-template>
-
-<ng-template #ghostForm>
-  <ng-container *ngFor="let number of [0, 1, 2]">
-    <div class="cx-ghost-group">
-      <div class="cx-ghost-header ghost"></div>
-      <div class="cx-ghost-body">
-        <ng-container *ngFor="let number of [0, 1, 2, 3, 4, 5]">
-          <div class="cx-ghost-attribute-value">
-            <div class="cx-ghost-value ghost"></div>
-          </div>
-          <div class="cx-ghost-attribute-label">
-            <div class="cx-ghost-label ghost"></div>
-          </div>
-          <div class="cx-ghost-attribute-price ghost"></div>
-        </ng-container>
-      </div>
-    </div>
-  </ng-container>
+  }
 </ng-template>

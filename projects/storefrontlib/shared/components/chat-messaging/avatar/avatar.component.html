@@ -1,16 +1,17 @@
-<div
-  *ngIf="message"
-  class="cx-avatar"
-  [ngClass]="{ 'right-align': message.rightAlign }"
->
-  <span *ngIf="!message.rightAlign && message?.author">
-    {{ getInitials(message?.author || '') }}
-  </span>
+@if (message) {
+  <div class="cx-avatar" [ngClass]="{ 'right-align': message.rightAlign }">
+    @if (!message.rightAlign && message?.author) {
+      <span>
+        {{ getInitials(message?.author || '') }}
+      </span>
+    }
 
-  <cx-icon
-    *ngIf="!message.rightAlign && !message?.author"
-    [type]="iconTypes.USER"
-  ></cx-icon>
+    @if (!message.rightAlign && !message?.author) {
+      <cx-icon [type]="iconTypes.USER"></cx-icon>
+    }
 
-  <cx-icon *ngIf="message.rightAlign" [type]="iconTypes.HEADSET"></cx-icon>
-</div>
+    @if (message.rightAlign) {
+      <cx-icon [type]="iconTypes.HEADSET"></cx-icon>
+    }
+  </div>
+}

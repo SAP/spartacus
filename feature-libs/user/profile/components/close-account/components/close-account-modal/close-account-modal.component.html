@@ -1,4 +1,4 @@
-<ng-container *ngIf="isLoggedIn$ | async">
+@if (isLoggedIn$ | async) {
   <div
     class="modal-dialog modal-dialog-centered cx-close-account-modal"
     [cxFocus]="focusConfig"
@@ -22,13 +22,13 @@
         </button>
       </div>
 
-      <div *ngIf="isLoading$ | async; else loaded">
-        <div class="cx-spinner">
-          <cx-spinner> </cx-spinner>
+      @if (isLoading$ | async) {
+        <div>
+          <div class="cx-spinner">
+            <cx-spinner> </cx-spinner>
+          </div>
         </div>
-      </div>
-
-      <ng-template #loaded>
+      } @else {
         <div class="modal-body">
           <p class="cx-confirmation">
             {{ 'closeAccount.confirmAccountClosureMessage' | cxTranslate }}
@@ -45,7 +45,7 @@
             {{ 'common.cancel' | cxTranslate }}
           </button>
         </div>
-      </ng-template>
+      }
     </div>
   </div>
-</ng-container>
+}

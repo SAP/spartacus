@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -26,7 +25,7 @@ import { CellComponent } from '../../shared';
   selector: 'cx-org-user-details-cell',
   templateUrl: './user-details-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, NgFor, PopoverDirective, TranslatePipe, UrlPipe],
+  imports: [RouterLink, PopoverDirective, TranslatePipe, UrlPipe],
 })
 export class UserDetailsCellComponent extends CellComponent {
   b2bUserModel: B2BUser;

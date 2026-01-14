@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { FutureStockFacade } from '@spartacus/product/future-stock/root';
@@ -13,7 +13,7 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 @Component({
   selector: 'cx-future-stock-accordion',
   templateUrl: './future-stock-accordion.component.html',
-  imports: [NgIf, IconComponent, NgFor, AsyncPipe, TranslatePipe],
+  imports: [IconComponent, AsyncPipe, TranslatePipe],
 })
 export class FutureStockAccordionComponent {
   futureStocks$ = this.futureStockService.getFutureStock();

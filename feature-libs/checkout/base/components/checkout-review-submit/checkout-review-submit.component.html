@@ -5,65 +5,63 @@
   </h2>
 
   <div class="cx-review-summary row">
-    <ng-container *ngIf="(steps$ | async)?.slice(0, -1) as steps">
+    @if ((steps$ | async)?.slice(0, -1); as steps) {
       <div class="col-md-12 col-lg-6 col-xl-6 cx-review-payment-col">
-        <ng-container *ngFor="let step of paymentSteps(steps)">
-          <ng-container [ngSwitch]="step.type[0]">
-            <ng-container *ngSwitchCase="checkoutStepTypePaymentDetails">
+        @for (step of paymentSteps(steps); track step) {
+          @switch (step.type[0]) {
+            @case (checkoutStepTypePaymentDetails) {
               <ng-container *ngTemplateOutlet="paymentMethod"></ng-container>
-            </ng-container>
-          </ng-container>
-        </ng-container>
+            }
+          }
+        }
       </div>
       <div class="col-md-12 col-lg-6 col-xl-6 cx-review-shipping-col">
-        <ng-container *ngFor="let step of deliverySteps(steps)">
-          <ng-container [ngSwitch]="step.type[0]">
-            <ng-container *ngSwitchCase="checkoutStepTypeDeliveryAddress">
+        @for (step of deliverySteps(steps); track step) {
+          @switch (step.type[0]) {
+            @case (checkoutStepTypeDeliveryAddress) {
               <ng-container *ngTemplateOutlet="deliveryAddress"></ng-container>
-            </ng-container>
-            <ng-container *ngSwitchCase="checkoutStepTypeDeliveryMode">
+            }
+            @case (checkoutStepTypeDeliveryMode) {
               <ng-container *ngTemplateOutlet="deliveryMode"></ng-container>
-            </ng-container>
-          </ng-container>
-        </ng-container>
+            }
+          }
+        }
       </div>
-    </ng-container>
+    }
   </div>
 
   <!-- DELIVERY ADDRESS SECTION -->
   <ng-template #deliveryAddress>
-    <div
-      *ngIf="deliveryAddress$ | async as deliveryAddress"
-      class="cx-review-summary-card cx-review-card-address"
-    >
-      <cx-card
-        [content]="getDeliveryAddressCard(deliveryAddress) | async"
-      ></cx-card>
-      <div class="cx-review-summary-edit-step">
-        <a
-          [attr.title]="
-            'checkoutReview.editDeliveryAddressDetails' | cxTranslate
-          "
-          [routerLink]="
-            {
-              cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
-            } | cxUrl
-          "
-          ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
-        ></a>
+    @if (deliveryAddress$ | async; as deliveryAddress) {
+      <div class="cx-review-summary-card cx-review-card-address">
+        <cx-card
+          [content]="getDeliveryAddressCard(deliveryAddress) | async"
+        ></cx-card>
+        <div class="cx-review-summary-edit-step">
+          <a
+            [attr.title]="
+              'checkoutReview.editDeliveryAddressDetails' | cxTranslate
+            "
+            [routerLink]="
+              {
+                cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryAddress),
+              } | cxUrl
+            "
+            ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
+          ></a>
+        </div>
       </div>
-    </div>
+    }
   </ng-template>
 
   <!-- DELIVERY MODE SECTION -->
   <ng-template #deliveryMode>
     <div class="cx-review-summary-card cx-review-card-shipping">
       <div>
-        <cx-card
-          *ngIf="deliveryMode$ | async as deliveryMode"
-          [content]="getDeliveryModeCard(deliveryMode) | async"
-        >
-        </cx-card>
+        @if (deliveryMode$ | async; as deliveryMode) {
+          <cx-card [content]="getDeliveryModeCard(deliveryMode) | async">
+          </cx-card>
+        }
         <ng-template
           [cxOutlet]="cartOutlets.DELIVERY_MODE"
           [cxOutletContext]="{
@@ -92,10 +90,11 @@
   <ng-template #paymentMethod>
     <div class="cx-review-summary-card cx-review-card-payment">
       <div>
-        <cx-card
-          *ngIf="paymentDetails$ | async as paymentDetails"
-          [content]="getPaymentMethodCard(paymentDetails) | async"
-        ></cx-card>
+        @if (paymentDetails$ | async; as paymentDetails) {
+          <cx-card
+            [content]="getPaymentMethodCard(paymentDetails) | async"
+          ></cx-card>
+        }
       </div>
       <div class="cx-review-summary-edit-step">
         <a
@@ -112,7 +111,7 @@
   </ng-template>
 
   <!-- CART ITEM SECTION -->
-  <ng-container *ngIf="cart$ | async as cart">
+  @if (cart$ | async; as cart) {
     <div class="cx-review-cart-total d-none d-lg-block d-xl-block">
       {{
         'cartItems.cartTotal'
@@ -123,24 +122,26 @@
     <div class="cx-review-cart-heading d-block d-lg-none d-xl-none">
       {{ 'checkoutReview.placeOrder' | cxTranslate }}
     </div>
-    <div class="cx-review-cart-item" *ngIf="entries$ | async as entries">
-      <cx-promotions
-        [promotions]="
-          (cart.appliedOrderPromotions || []).concat(
-            cart.potentialOrderPromotions || []
-          )
-        "
-      ></cx-promotions>
+    @if (entries$ | async; as entries) {
+      <div class="cx-review-cart-item">
+        <cx-promotions
+          [promotions]="
+            (cart.appliedOrderPromotions || []).concat(
+              cart.potentialOrderPromotions || []
+            )
+          "
+        ></cx-promotions>
 
-      <ng-template
-        [cxOutlet]="cartOutlets.CART_ITEM_LIST"
-        [cxOutletContext]="{
-          items: entries,
-          readonly: true,
-          promotionLocation: promotionLocation,
-        }"
-      >
-      </ng-template>
-    </div>
-  </ng-container>
+        <ng-template
+          [cxOutlet]="cartOutlets.CART_ITEM_LIST"
+          [cxOutletContext]="{
+            items: entries,
+            readonly: true,
+            promotionLocation: promotionLocation,
+          }"
+        >
+        </ng-template>
+      </div>
+    }
+  }
 </div>

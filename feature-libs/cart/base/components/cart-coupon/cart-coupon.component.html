@@ -1,4 +1,4 @@
-<ng-container *ngIf="cart$ | async as cart">
+@if (cart$ | async; as cart) {
   <div class="form-group">
     <form (ngSubmit)="applyVoucher()" [formGroup]="couponForm">
       <label id="card-coupon-input-label" class="cx-cart-coupon-title">
@@ -34,7 +34,7 @@
   >
   </cx-applied-coupons>
 
-  <ng-container *ngIf="applicableCoupons && applicableCoupons.length > 0">
+  @if (applicableCoupons && applicableCoupons.length > 0) {
     <div class="cx-available-coupon">
       <div class="title cx-cart-coupon-title">
         {{ 'voucher.availableCoupons' | cxTranslate }}
@@ -43,17 +43,19 @@
         {{ 'voucher.availableCouponsLabel' | cxTranslate }}
       </div>
       <div class="scroll">
-        <div class="coupons card" *ngFor="let coupon of applicableCoupons">
-          <button
-            (click)="applyCustomerCoupon(coupon.couponId)"
-            class="coupon-id link"
-            [disabled]="cartIsLoading$ | async"
-            [class.disabled]="cartIsLoading$ | async"
-          >
-            {{ coupon.couponId }}
-          </button>
-        </div>
+        @for (coupon of applicableCoupons; track coupon) {
+          <div class="coupons card">
+            <button
+              (click)="applyCustomerCoupon(coupon.couponId)"
+              class="coupon-id link"
+              [disabled]="cartIsLoading$ | async"
+              [class.disabled]="cartIsLoading$ | async"
+            >
+              {{ coupon.couponId }}
+            </button>
+          </div>
+        }
       </div>
     </div>
-  </ng-container>
-</ng-container>
+  }
+}

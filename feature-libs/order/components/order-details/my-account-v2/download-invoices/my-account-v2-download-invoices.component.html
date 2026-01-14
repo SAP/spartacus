@@ -31,17 +31,16 @@
 
     <div class="cx-dialog-body modal-body">
       <cx-invoices-list> </cx-invoices-list>
-      <div id="noInvoice" *ngIf="invoiceCount === 0" role="alert">
-        {{ 'myAccountV2OrderDetails.noInvoices' | cxTranslate }}
-      </div>
-      <div
-        *ngIf="invoiceCount === undefined"
-        class="cx-spinner"
-        aria-live="polite"
-        role="alert"
-      >
-        <cx-spinner></cx-spinner>
-      </div>
+      @if (invoiceCount === 0) {
+        <div id="noInvoice" role="alert">
+          {{ 'myAccountV2OrderDetails.noInvoices' | cxTranslate }}
+        </div>
+      }
+      @if (invoiceCount === undefined) {
+        <div class="cx-spinner" aria-live="polite" role="alert">
+          <cx-spinner></cx-spinner>
+        </div>
+      }
     </div>
   </div>
 </div>

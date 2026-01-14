@@ -2,16 +2,16 @@
   <div class="cx-store-schedule-title">
     {{ 'storeSchedule.storeHours' | cxTranslate }}
   </div>
-  <div
-    class="cx-store-schedule-opening-times"
-    *ngFor="let openingTime of openingTimes"
-  >
-    <div class="cx-store-schedule-day-of-week">{{ openingTime.weekDay }}</div>
-    <div *ngIf="!openingTime.closed; else closed">
-      {{ openingTime.openingHours }}
+  @for (openingTime of openingTimes; track openingTime) {
+    <div class="cx-store-schedule-opening-times">
+      <div class="cx-store-schedule-day-of-week">{{ openingTime.weekDay }}</div>
+      @if (!openingTime.closed) {
+        <div>
+          {{ openingTime.openingHours }}
+        </div>
+      } @else {
+        {{ 'storeSchedule.closed' | cxTranslate }}
+      }
     </div>
-    <ng-template #closed>{{
-      'storeSchedule.closed' | cxTranslate
-    }}</ng-template>
-  </div>
+  }
 </div>

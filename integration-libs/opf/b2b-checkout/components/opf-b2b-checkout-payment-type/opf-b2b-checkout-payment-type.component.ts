@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -58,7 +58,6 @@ import { map, tap } from 'rxjs/operators';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
     OpfCheckoutPaymentsComponent,
     SpinnerComponent,
     AsyncPipe,

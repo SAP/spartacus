@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CxNumericPipe, TranslatePipe } from '@spartacus/core';
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
@@ -21,7 +21,7 @@ export interface ConfiguratorPriceComponentOptions {
   selector: 'cx-configurator-price',
   templateUrl: './configurator-price.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgClass, TranslatePipe, CxNumericPipe],
+  imports: [NgClass, TranslatePipe, CxNumericPipe],
 })
 export class ConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;

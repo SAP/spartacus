@@ -25,13 +25,13 @@
         </span>
       </button>
     </div>
-    <ng-container *ngIf="config$ | async as config">
+    @if (config$ | async; as config) {
       <div class="cx-dialog-body modal-body">
         <cx-configurator-overview-filter
           [config]="config"
           [showFilterBar]="false"
         ></cx-configurator-overview-filter>
       </div>
-    </ng-container>
+    }
   </div>
 </div>

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -24,7 +24,7 @@ import {
 @Component({
   selector: 'cx-consent-management-form',
   templateUrl: './consent-management-form.component.html',
-  imports: [NgIf, NgTemplateOutlet, TranslatePipe],
+  imports: [NgTemplateOutlet, TranslatePipe],
 })
 export class ConsentManagementFormComponent implements OnInit, OnChanges {
   consentGiven = false;

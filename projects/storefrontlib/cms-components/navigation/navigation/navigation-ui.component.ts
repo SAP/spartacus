@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -46,9 +46,7 @@ const ARIA_EXPANDED_ATTR = 'aria-expanded';
   templateUrl: './navigation-ui.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     IconComponent,
-    NgFor,
     NgTemplateOutlet,
     GenericLinkComponent,
     AsyncPipe,

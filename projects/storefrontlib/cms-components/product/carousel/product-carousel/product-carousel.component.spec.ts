@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   Input,
@@ -38,16 +38,16 @@ import { ProductCarouselComponent } from './product-carousel.component';
   selector: 'cx-carousel',
   template: `
     cx-carousel
-    <ng-container *ngFor="let item$ of items; let i = index">
+    @for (item$ of items; track item$; let i = $index) {
       <ng-container
         *ngTemplateOutlet="
           template;
           context: { item: item$ | async, itemIndex: i }
         "
       ></ng-container>
-    </ng-container>
+    }
   `,
-  imports: [AsyncPipe, NgTemplateOutlet, NgFor],
+  imports: [AsyncPipe, NgTemplateOutlet],
 })
 class MockCarouselComponent {
   @Input() title: string;
@@ -60,16 +60,16 @@ class MockCarouselComponent {
   selector: 'cx-carousel-scrolling',
   template: `
     cx-carousel-scrolling
-    <ng-container *ngFor="let item$ of items; let i = index">
+    @for (item$ of items; track item$; let i = $index) {
       <ng-container
         *ngTemplateOutlet="
           template;
           context: { item: item$ | async, itemIndex: i }
         "
       ></ng-container>
-    </ng-container>
+    }
   `,
-  imports: [AsyncPipe, NgTemplateOutlet, NgFor],
+  imports: [AsyncPipe, NgTemplateOutlet],
 })
 class MockCarouselScrollingComponent {
   @Input() title: string;

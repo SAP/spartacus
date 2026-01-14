@@ -1,5 +1,5 @@
-<ng-container *ngIf="configuration$ | async as configuration; else ghostGroups">
-  <ng-container *ngIf="!isDialogActive(configuration); else ghostGroups">
+@if (configuration$ | async; as configuration) {
+  @if (!isDialogActive(configuration)) {
     <div class="cx-group-menu" role="tablist">
       <span id="listOfGroups" class="cx-visually-hidden">
         {{ 'configurator.a11y.listOfGroups' | cxTranslate }}
@@ -7,44 +7,43 @@
       <span id="inListOfGroups" class="cx-visually-hidden" aria-hidden="true">
         {{ 'configurator.a11y.inListOfGroups' | cxTranslate }}
       </span>
-      <ng-container *ngIf="displayedGroups$ | async as groups">
-        <ng-container *ngIf="currentGroup$ | async as currentGroup">
-          <ng-container
-            *ngFor="
-              let group of groups;
-              let groupIndex = index;
-              trackBy: trackByFn
-            "
-          >
-            <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
-              <button
-                *ngIf="parentGroup !== null && groupIndex === 0"
-                #groupItem
-                class="cx-menu-back"
-                role="tab"
-                [attr.aria-selected]="false"
-                [attr.aria-label]="
-                  isConflictGroupType(parentGroup.groupType)
-                    ? ('configurator.a11y.conflictBack' | cxTranslate)
-                    : ('configurator.a11y.groupBack' | cxTranslate)
-                "
-                aria-describedby="listOfGroups"
-                [cxFocus]="{ key: 'cx-menu-back' }"
-                (click)="navigateUp(currentGroup)"
-                (keydown)="
-                  switchGroupOnArrowPress(
-                    $event,
-                    groupIndex,
-                    group,
-                    currentGroup
-                  )
-                "
-              >
-                <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
-                {{ 'configurator.button.back' | cxTranslate }}
-              </button>
-            </ng-container>
-            <ng-container *ngIf="displayMenuItem(group) | async">
+      @if (displayedGroups$ | async; as groups) {
+        @if (currentGroup$ | async; as currentGroup) {
+          @for (
+            group of groups;
+            track trackByFn(groupIndex, group);
+            let groupIndex = $index
+          ) {
+            @if (displayedParentGroup$ | async; as parentGroup) {
+              @if (parentGroup !== null && groupIndex === 0) {
+                <button
+                  #groupItem
+                  class="cx-menu-back"
+                  role="tab"
+                  [attr.aria-selected]="false"
+                  [attr.aria-label]="
+                    isConflictGroupType(parentGroup.groupType)
+                      ? ('configurator.a11y.conflictBack' | cxTranslate)
+                      : ('configurator.a11y.groupBack' | cxTranslate)
+                  "
+                  aria-describedby="listOfGroups"
+                  [cxFocus]="{ key: 'cx-menu-back' }"
+                  (click)="navigateUp(currentGroup)"
+                  (keydown)="
+                    switchGroupOnArrowPress(
+                      $event,
+                      groupIndex,
+                      group,
+                      currentGroup
+                    )
+                  "
+                >
+                  <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
+                  {{ 'configurator.button.back' | cxTranslate }}
+                </button>
+              }
+            }
+            @if (displayMenuItem(group) | async) {
               <button
                 #groupItem
                 id="{{ group.id }}"
@@ -127,31 +126,39 @@
                     ></cx-icon>
                   </div>
                   <div class="subGroupIndicator">
-                    <cx-icon
-                      *ngIf="hasSubGroups(group)"
-                      [type]="iconTypes.CARET_RIGHT"
-                      id="{{ createIconId(iconTypes.CARET_RIGHT, group.id) }}"
-                      [attr.aria-label]="
-                        'configurator.a11y.iconSubGroup' | cxTranslate
-                      "
-                      title="{{ 'configurator.icon.subgroup' | cxTranslate }}"
-                    ></cx-icon>
+                    @if (hasSubGroups(group)) {
+                      <cx-icon
+                        [type]="iconTypes.CARET_RIGHT"
+                        id="{{ createIconId(iconTypes.CARET_RIGHT, group.id) }}"
+                        [attr.aria-label]="
+                          'configurator.a11y.iconSubGroup' | cxTranslate
+                        "
+                        title="{{ 'configurator.icon.subgroup' | cxTranslate }}"
+                      ></cx-icon>
+                    }
                   </div>
                 </div>
               </button>
-            </ng-container>
-          </ng-container>
-        </ng-container>
-      </ng-container>
-    </div> </ng-container
-></ng-container>
-<ng-template #ghostGroups>
-  <div class="cx-ghost-group-menu">
-    <div
-      *ngFor="let number of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"
-      class="cx-ghost-menu-item"
-    >
-      <div class="cx-ghost-item-title ghost"></div>
+            }
+          }
+        }
+      }
     </div>
+  } @else {
+    <div class="cx-ghost-group-menu">
+      @for (number of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; track number) {
+        <div class="cx-ghost-menu-item">
+          <div class="cx-ghost-item-title ghost"></div>
+        </div>
+      }
+    </div>
+  }
+} @else {
+  <div class="cx-ghost-group-menu">
+    @for (number of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]; track number) {
+      <div class="cx-ghost-menu-item">
+        <div class="cx-ghost-item-title ghost"></div>
+      </div>
+    }
   </div>
-</ng-template>
+}

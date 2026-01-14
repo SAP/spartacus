@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -24,7 +24,7 @@ import { Configurator } from '../../core/model/configurator.model';
   selector: 'cx-configurator-overview-notification-banner',
   templateUrl: './configurator-overview-notification-banner.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
+  imports: [IconComponent, RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
 })
 export class ConfiguratorOverviewNotificationBannerComponent {
   routerData$: Observable<ConfiguratorRouter.Data> =

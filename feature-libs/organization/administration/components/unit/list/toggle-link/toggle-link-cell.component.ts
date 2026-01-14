@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -33,7 +32,7 @@ import { UnitTreeService } from '../../services/unit-tree.service';
   selector: 'cx-org-toggle-link-cell',
   templateUrl: './toggle-link-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, IconComponent, UrlPipe, TranslatePipe],
+  imports: [RouterLink, IconComponent, UrlPipe, TranslatePipe],
 })
 export class ToggleLinkCellComponent extends CellComponent {
   @HostBinding('style.--cx-depth-level')

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   Address,
@@ -28,8 +28,6 @@ import { AddressFormComponent } from './address-form/address-form.component';
   selector: 'cx-address-book',
   templateUrl: './address-book.component.html',
   imports: [
-    NgIf,
-    NgFor,
     CardComponent,
     AddressFormComponent,
     SpinnerComponent,

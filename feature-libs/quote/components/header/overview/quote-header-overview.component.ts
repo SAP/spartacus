@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
   CxDatePipe,
@@ -40,11 +40,9 @@ import {
   selector: 'cx-quote-header-overview',
   templateUrl: './quote-header-overview.component.html',
   imports: [
-    NgIf,
     CardComponent,
     IconComponent,
     QuoteHeaderBuyerEditComponent,
-    NgFor,
     AsyncPipe,
     TranslatePipe,
     CxDatePipe,

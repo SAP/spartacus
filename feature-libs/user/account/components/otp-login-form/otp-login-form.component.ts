@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
@@ -48,7 +48,6 @@ import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { ngSkipHydration: 'true' },
   imports: [
-    NgIf,
     SpinnerComponent,
     FormsModule,
     ReactiveFormsModule,

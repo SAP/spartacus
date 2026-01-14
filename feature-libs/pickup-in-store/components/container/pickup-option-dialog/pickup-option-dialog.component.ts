@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -46,7 +46,6 @@ import { StoreSearchComponent } from '../store-search/store-search.component';
     IconComponent,
     StoreSearchComponent,
     StoreListComponent,
-    NgIf,
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -28,10 +28,8 @@ import { MyCouponsComponentService } from './my-coupons.component.service';
   selector: 'cx-my-coupons',
   templateUrl: './my-coupons.component.html',
   imports: [
-    NgIf,
     SortingComponent,
     PaginationComponent,
-    NgFor,
     CouponCardComponent,
     IconComponent,
     RouterLink,

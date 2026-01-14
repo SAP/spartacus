@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -30,7 +30,7 @@ import { distinctUntilChanged, filter, map, take, tap } from 'rxjs/operators';
   selector: 'cx-add-to-saved-cart',
   templateUrl: './add-to-saved-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe, TranslatePipe],
+  imports: [RouterLink, AsyncPipe, TranslatePipe, UrlPipe, TranslatePipe],
 })
 export class AddToSavedCartComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

@@ -1,26 +1,28 @@
 <nav [attr.aria-label]="'common.breadcrumbs' | cxTranslate" tabindex="-1">
   <ol [attr.aria-label]="'common.breadcrumbs' | cxTranslate">
-    <ng-container *ngIf="crumbs$ | async as crumbList">
-      <li *ngFor="let crumb of crumbList; let i = index; let last = last">
-        <a
-          [routerLink]="crumb.link"
-          [innerHTML]="crumb.label"
-          [attr.aria-label]="
-            last
-              ? ('common.breadcrumbsCurrentPage' | cxTranslate) +
-                ' ' +
-                crumb.label +
-                (i + 1) +
-                ('common.of' | cxTranslate) +
-                crumbList.length
-              : crumb.label +
-                (i + 1) +
-                ('common.of' | cxTranslate) +
-                crumbList.length
-          "
-        ></a>
-      </li>
-    </ng-container>
+    @if (crumbs$ | async; as crumbList) {
+      @for (crumb of crumbList; track crumb; let i = $index; let last = $last) {
+        <li>
+          <a
+            [routerLink]="crumb.link"
+            [innerHTML]="crumb.label"
+            [attr.aria-label]="
+              last
+                ? ('common.breadcrumbsCurrentPage' | cxTranslate) +
+                  ' ' +
+                  crumb.label +
+                  (i + 1) +
+                  ('common.of' | cxTranslate) +
+                  crumbList.length
+                : crumb.label +
+                  (i + 1) +
+                  ('common.of' | cxTranslate) +
+                  crumbList.length
+            "
+          ></a>
+        </li>
+      }
+    }
   </ol>
 </nav>
 

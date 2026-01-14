@@ -9,16 +9,17 @@
     {{ content }}
   </ng-template>
 
-  <button
-    *ngIf="isTruncated"
-    [cxPopover]="fullText"
-    [cxPopoverOptions]="{
-      placement: 'auto',
-      appendToBody: true,
-      displayCloseButton: true,
-    }"
-    class="ml-1 link cx-action-link"
-  >
-    {{ 'common.more' | cxTranslate }}
-  </button>
+  @if (isTruncated) {
+    <button
+      [cxPopover]="fullText"
+      [cxPopoverOptions]="{
+        placement: 'auto',
+        appendToBody: true,
+        displayCloseButton: true,
+      }"
+      class="ml-1 link cx-action-link"
+    >
+      {{ 'common.more' | cxTranslate }}
+    </button>
+  }
 </ng-container>

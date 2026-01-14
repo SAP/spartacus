@@ -17,237 +17,247 @@
         </div>
         <ng-template *ngTemplateOutlet="createCustomerButton"></ng-template>
       </div>
-      <div
-        class="cx-dialog-sub-header modal-header"
-        [class.tablet-mobile]="(breakpoint$ | async) !== BREAKPOINT.md"
-        *ngIf="customerListsPage$ | async as customerListsPage"
-      >
+      @if (customerListsPage$ | async; as customerListsPage) {
         <div
-          class="cx-header-select"
-          [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
+          class="cx-dialog-sub-header modal-header"
+          [class.tablet-mobile]="(breakpoint$ | async) !== BREAKPOINT.md"
         >
-          <ng-template
-            *ngTemplateOutlet="
-              groupSelector;
-              context: { customerListsPage: customerListsPage }
-            "
-          ></ng-template>
-          <ng-template
-            *ngTemplateOutlet="
-              total;
-              context: {
-                customerSearchPage: customerSearchPage$ | async,
-              }
-            "
+          <div
+            class="cx-header-select"
+            [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
           >
-          </ng-template>
-        </div>
+            <ng-template
+              *ngTemplateOutlet="
+                groupSelector;
+                context: { customerListsPage: customerListsPage }
+              "
+            ></ng-template>
+            <ng-template
+              *ngTemplateOutlet="
+                total;
+                context: {
+                  customerSearchPage: customerSearchPage$ | async,
+                }
+              "
+            >
+            </ng-template>
+          </div>
 
-        <div
-          class="cx-header-actions"
-          [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
-        >
-          <ng-template *ngTemplateOutlet="sort"></ng-template>
-          <ng-template *ngTemplateOutlet="search"></ng-template>
+          <div
+            class="cx-header-actions"
+            [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
+          >
+            <ng-template *ngTemplateOutlet="sort"></ng-template>
+            <ng-template *ngTemplateOutlet="search"></ng-template>
+          </div>
         </div>
-      </div>
+      }
       <!-- Modal Body -->
       <div class="cx-dialog-body modal-body">
         <div class="cx-dialog-row">
           <div class="cx-dialog-item">
-            <div *ngIf="listsEmpty" class="cx-error-state">
-              {{ 'asm.customerList.noLists' | cxTranslate }}
-            </div>
-            <div *ngIf="listsError" class="cx-error-state">
-              {{ 'asm.customerList.listsError' | cxTranslate }}
-            </div>
-            <div *ngIf="customerSearchError$ | async" class="cx-error-state">
-              {{ 'generalErrors.pageFailure' | cxTranslate }}
-            </div>
-            <cx-spinner *ngIf="customerSearchLoading$ | async"></cx-spinner>
-            <div *ngIf="customerSearchPage$ | async as customerSearchPage">
-              <table
-                id="asm-cusomer-list-table"
-                role="table"
-                class="table"
-                *ngIf="loaded"
-              >
-                <caption class="cx-visually-hidden">
-                  {{
-                    'asm.customerList.title' | cxTranslate
-                  }}
-                </caption>
-                <thead *ngIf="(breakpoint$ | async) === BREAKPOINT.md">
-                  <tr role="row">
-                    <th
-                      role="columnheader"
-                      *ngFor="let column of customerListConfig?.columns"
-                    >
-                      <span
-                        *ngIf="
-                          column.headerLocalizationKey &&
-                          column.headerLocalizationKey !== 'hideHeaders'
-                        "
-                      >
-                        <ng-container
-                          *ngIf="
-                            column.headerLocalizationKey ===
-                            'asm.customerList.tableHeader.customer'
-                          "
-                        >
-                          {{
-                            'asm.customerList.tableHeader.customerName'
-                              | cxTranslate
-                          }}
-                        </ng-container>
-                        <ng-container
-                          *ngIf="
-                            column.headerLocalizationKey ===
-                            'asm.customerList.tableHeader.email'
-                          "
-                        >
-                          {{
-                            'asm.customerList.tableHeader.emailId' | cxTranslate
-                          }}
-                        </ng-container>
-                        <ng-container
-                          *ngIf="
-                            column.headerLocalizationKey !==
-                              'asm.customerList.tableHeader.customer' &&
-                            column.headerLocalizationKey !==
-                              'asm.customerList.tableHeader.email'
-                          "
-                        >
-                          {{ column.headerLocalizationKey | cxTranslate }}
-                        </ng-container>
-                      </span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    role="row"
-                    *ngFor="let customerEntry of customerSearchPage?.entries"
-                  >
-                    <!-- multi columns if desktop -->
-                    <ng-container
-                      *ngIf="(breakpoint$ | async) === BREAKPOINT.md"
-                    >
-                      <td
-                        role="cell"
-                        *ngFor="let column of customerListConfig?.columns"
-                      >
-                        <ng-template
-                          *ngTemplateOutlet="
-                            cell;
-                            context: {
-                              customerEntry: customerEntry,
-                              column: column,
-                              showHeader: false,
-                            }
-                          "
-                        ></ng-template>
-                      </td>
-                    </ng-container>
-                    <!-- two column if tablet -->
-                    <ng-container
-                      *ngIf="(breakpoint$ | async) === BREAKPOINT.sm"
-                    >
-                      <td role="cell" class="cx-multi-cell">
-                        <ng-container
-                          *ngFor="
-                            let column of customerListConfig?.columns;
-                            let even = even
-                          "
-                        >
-                          <ng-container *ngIf="even">
-                            <ng-template
-                              *ngTemplateOutlet="
-                                cell;
-                                context: {
-                                  customerEntry: customerEntry,
-                                  column: column,
-                                  showHeader: true,
-                                }
-                              "
-                            ></ng-template>
-                          </ng-container>
-                        </ng-container>
-                      </td>
-                      <td role="cell" class="cx-multi-cell">
-                        <ng-container
-                          *ngFor="
-                            let column of customerListConfig?.columns;
-                            let odd = odd
-                          "
-                        >
-                          <ng-container *ngIf="odd">
-                            <ng-template
-                              *ngTemplateOutlet="
-                                cell;
-                                context: {
-                                  customerEntry: customerEntry,
-                                  column: column,
-                                  showHeader: true,
-                                }
-                              "
-                            ></ng-template>
-                          </ng-container>
-                        </ng-container>
-                      </td>
-                    </ng-container>
-                    <!-- one column if mobile -->
-                    <td
-                      role="cell"
-                      class="cx-multi-cell"
-                      *ngIf="(breakpoint$ | async) === BREAKPOINT.xs"
-                    >
-                      <ng-container
-                        *ngFor="let column of customerListConfig?.columns"
-                      >
-                        <ng-template
-                          *ngTemplateOutlet="
-                            cell;
-                            context: {
-                              customerEntry: customerEntry,
-                              column: column,
-                              showHeader: true,
-                            }
-                          "
-                        ></ng-template>
-                      </ng-container>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div
-                class="cx-empty-state"
-                *ngIf="!customerSearchPage?.entries.length"
-              >
-                {{ 'asm.customerList.noCustomers' | cxTranslate }}
+            @if (listsEmpty) {
+              <div class="cx-error-state">
+                {{ 'asm.customerList.noLists' | cxTranslate }}
               </div>
-            </div>
+            }
+            @if (listsError) {
+              <div class="cx-error-state">
+                {{ 'asm.customerList.listsError' | cxTranslate }}
+              </div>
+            }
+            @if (customerSearchError$ | async) {
+              <div class="cx-error-state">
+                {{ 'generalErrors.pageFailure' | cxTranslate }}
+              </div>
+            }
+            @if (customerSearchLoading$ | async) {
+              <cx-spinner></cx-spinner>
+            }
+            @if (customerSearchPage$ | async; as customerSearchPage) {
+              <div>
+                @if (loaded) {
+                  <table id="asm-cusomer-list-table" role="table" class="table">
+                    <caption class="cx-visually-hidden">
+                      {{
+                        'asm.customerList.title' | cxTranslate
+                      }}
+                    </caption>
+                    @if ((breakpoint$ | async) === BREAKPOINT.md) {
+                      <thead>
+                        <tr role="row">
+                          @for (
+                            column of customerListConfig?.columns;
+                            track column
+                          ) {
+                            <th role="columnheader">
+                              @if (
+                                column.headerLocalizationKey &&
+                                column.headerLocalizationKey !== 'hideHeaders'
+                              ) {
+                                <span>
+                                  @if (
+                                    column.headerLocalizationKey ===
+                                    'asm.customerList.tableHeader.customer'
+                                  ) {
+                                    {{
+                                      'asm.customerList.tableHeader.customerName'
+                                        | cxTranslate
+                                    }}
+                                  }
+                                  @if (
+                                    column.headerLocalizationKey ===
+                                    'asm.customerList.tableHeader.email'
+                                  ) {
+                                    {{
+                                      'asm.customerList.tableHeader.emailId'
+                                        | cxTranslate
+                                    }}
+                                  }
+                                  @if (
+                                    column.headerLocalizationKey !==
+                                      'asm.customerList.tableHeader.customer' &&
+                                    column.headerLocalizationKey !==
+                                      'asm.customerList.tableHeader.email'
+                                  ) {
+                                    {{
+                                      column.headerLocalizationKey | cxTranslate
+                                    }}
+                                  }
+                                </span>
+                              }
+                            </th>
+                          }
+                        </tr>
+                      </thead>
+                    }
+                    <tbody>
+                      @for (
+                        customerEntry of customerSearchPage?.entries;
+                        track customerEntry
+                      ) {
+                        <tr role="row">
+                          <!-- multi columns if desktop -->
+                          @if ((breakpoint$ | async) === BREAKPOINT.md) {
+                            @for (
+                              column of customerListConfig?.columns;
+                              track column
+                            ) {
+                              <td role="cell">
+                                <ng-template
+                                  *ngTemplateOutlet="
+                                    cell;
+                                    context: {
+                                      customerEntry: customerEntry,
+                                      column: column,
+                                      showHeader: false,
+                                    }
+                                  "
+                                ></ng-template>
+                              </td>
+                            }
+                          }
+                          <!-- two column if tablet -->
+                          @if ((breakpoint$ | async) === BREAKPOINT.sm) {
+                            <td role="cell" class="cx-multi-cell">
+                              @for (
+                                column of customerListConfig?.columns;
+                                track column;
+                                let even = $even
+                              ) {
+                                @if (even) {
+                                  <ng-template
+                                    *ngTemplateOutlet="
+                                      cell;
+                                      context: {
+                                        customerEntry: customerEntry,
+                                        column: column,
+                                        showHeader: true,
+                                      }
+                                    "
+                                  ></ng-template>
+                                }
+                              }
+                            </td>
+                            <td role="cell" class="cx-multi-cell">
+                              @for (
+                                column of customerListConfig?.columns;
+                                track column;
+                                let odd = $odd
+                              ) {
+                                @if (odd) {
+                                  <ng-template
+                                    *ngTemplateOutlet="
+                                      cell;
+                                      context: {
+                                        customerEntry: customerEntry,
+                                        column: column,
+                                        showHeader: true,
+                                      }
+                                    "
+                                  ></ng-template>
+                                }
+                              }
+                            </td>
+                          }
+                          <!-- one column if mobile -->
+                          @if ((breakpoint$ | async) === BREAKPOINT.xs) {
+                            <td role="cell" class="cx-multi-cell">
+                              @for (
+                                column of customerListConfig?.columns;
+                                track column
+                              ) {
+                                <ng-template
+                                  *ngTemplateOutlet="
+                                    cell;
+                                    context: {
+                                      customerEntry: customerEntry,
+                                      column: column,
+                                      showHeader: true,
+                                    }
+                                  "
+                                ></ng-template>
+                              }
+                            </td>
+                          }
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                }
+                @if (!customerSearchPage?.entries.length) {
+                  <div class="cx-empty-state">
+                    {{ 'asm.customerList.noCustomers' | cxTranslate }}
+                  </div>
+                }
+              </div>
+            }
           </div>
         </div>
       </div>
       <!-- Modal Foot -->
-      <div
-        class="cx-dialog-sub-header modal-header cx-dialog-foot"
-        [class.asm-mobile-pagination]="(breakpoint$ | async) !== BREAKPOINT.md"
-        *ngIf="customerListsPage$ | async as customerListsPage"
-      >
+      @if (customerListsPage$ | async; as customerListsPage) {
         <div
-          class="cx-header-actions"
-          [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
+          class="cx-dialog-sub-header modal-header cx-dialog-foot"
+          [class.asm-mobile-pagination]="
+            (breakpoint$ | async) !== BREAKPOINT.md
+          "
         >
-          <div *ngIf="customerSearchPage$ | async as customerSearchPage">
-            <cx-pagination
-              [pagination]="customerSearchPage.pagination"
-              (viewPageEvent)="changePage($event)"
-            ></cx-pagination>
+          <div
+            class="cx-header-actions"
+            [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
+          >
+            @if (customerSearchPage$ | async; as customerSearchPage) {
+              <div>
+                <cx-pagination
+                  [pagination]="customerSearchPage.pagination"
+                  (viewPageEvent)="changePage($event)"
+                ></cx-pagination>
+              </div>
+            }
           </div>
         </div>
-      </div>
+      }
       <div class="cx-dialog-footer modal-footer">
         <button
           type="button"
@@ -267,98 +277,104 @@
   let-column="column"
   let-showHeader="showHeader"
 >
-  <div
-    class="cx-cell-container"
-    *ngIf="column.headerLocalizationKey !== 'hideHeaders'"
-  >
-    <span class="cx-header-text" *ngIf="showHeader">
-      {{ column.headerLocalizationKey | cxTranslate }}
-    </span>
+  @if (column.headerLocalizationKey !== 'hideHeaders') {
+    <div class="cx-cell-container">
+      @if (showHeader) {
+        <span class="cx-header-text">
+          {{ column.headerLocalizationKey | cxTranslate }}
+        </span>
+      }
 
-    <ng-container *ngIf="!column.actionType">
-      <ng-container
-        *ngTemplateOutlet="
-          cellContent;
-          context: { column: column, customerEntry: customerEntry }
-        "
-      ></ng-container>
-    </ng-container>
+      @if (!column.actionType) {
+        <ng-container
+          *ngTemplateOutlet="
+            cellContent;
+            context: { column: column, customerEntry: customerEntry }
+          "
+        ></ng-container>
+      }
 
-    <div
-      class="cx-avatar"
-      *ngIf="
+      @if (
         customerListConfig?.showAvatar &&
         column?.actionType === customerListColumnActionType?.START_SESSION
-      "
-    >
-      <img
-        *ngIf="customerEntry?.userAvatar?.url"
-        [attr.src]="
-          occConfig?.backend?.occ?.baseUrl + customerEntry?.userAvatar?.url
-        "
-        alt="{{ 'asm.mainLogoLabel' | cxTranslate }}"
-        title="{{ 'asm.mainLogoLabel' | cxTranslate }}"
-      />
-      <div class="cx-avatar-text" *ngIf="!customerEntry?.userAvatar?.url">
-        {{ getBadgeText(customerEntry) }}
-      </div>
-    </div>
+      ) {
+        <div class="cx-avatar">
+          @if (customerEntry?.userAvatar?.url) {
+            <img
+              [attr.src]="
+                occConfig?.backend?.occ?.baseUrl +
+                customerEntry?.userAvatar?.url
+              "
+              alt="{{ 'asm.mainLogoLabel' | cxTranslate }}"
+              title="{{ 'asm.mainLogoLabel' | cxTranslate }}"
+            />
+          }
+          @if (!customerEntry?.userAvatar?.url) {
+            <div class="cx-avatar-text">
+              {{ getBadgeText(customerEntry) }}
+            </div>
+          }
+        </div>
+      }
 
-    <button
-      *ngIf="column.actionType"
-      (click)="startColumnAction(customerEntry, column.actionType)"
-      class="btn btn-link cx-action-link cx-btn-cell"
-      [class]="
-        (column.actionType === 'ACTIVE_CART' ? 'cx-cart ' : '') +
-        (column.actionType !== 'START_SESSION' ? 'cx-action-disable' : '')
-      "
-      [disabled]="isRequired(customerEntry, column.actionType)"
-      [attr.title]="
-        column.icon
-          ? (column.icon.captionLocalizationKey ?? column.headerLocalizationKey
-            | cxTranslate)
-          : undefined
-      "
-      [attr.aria-label]="
-        column.icon
-          ? (column.icon.captionLocalizationKey ?? column.headerLocalizationKey
-            | cxTranslate)
-          : undefined
-      "
-    >
-      <ng-container
-        *ngTemplateOutlet="
-          cellContent;
-          context: { column: column, customerEntry: customerEntry }
-        "
-      ></ng-container>
-    </button>
-  </div>
+      @if (column.actionType) {
+        <button
+          (click)="startColumnAction(customerEntry, column.actionType)"
+          class="btn btn-link cx-action-link cx-btn-cell"
+          [class]="
+            (column.actionType === 'ACTIVE_CART' ? 'cx-cart ' : '') +
+            (column.actionType !== 'START_SESSION' ? 'cx-action-disable' : '')
+          "
+          [disabled]="isRequired(customerEntry, column.actionType)"
+          [attr.title]="
+            column.icon
+              ? (column.icon.captionLocalizationKey ??
+                  column.headerLocalizationKey | cxTranslate)
+              : undefined
+          "
+          [attr.aria-label]="
+            column.icon
+              ? (column.icon.captionLocalizationKey ??
+                  column.headerLocalizationKey | cxTranslate)
+              : undefined
+          "
+        >
+          <ng-container
+            *ngTemplateOutlet="
+              cellContent;
+              context: { column: column, customerEntry: customerEntry }
+            "
+          ></ng-container>
+        </button>
+      }
+    </div>
+  }
 </ng-template>
 <ng-template #cellContent let-customerEntry="customerEntry" let-column="column">
   <div>
-    <span *ngIf="!column.icon">{{
-      column.renderer?.(customerEntry) || ''
-    }}</span>
-    <cx-icon
-      *ngIf="column.icon"
-      [attr.title]="
-        !column.actionType
-          ? (column.icon.captionLocalizationKey ?? column.headerLocalizationKey
-            | cxTranslate)
-          : undefined
-      "
-      [class.cx-action-color]="
-        column.actionType && !isRequired(customerEntry, column.actionType)
-      "
-      [type]="column.icon.symbol"
-      [attr.aria-label]="
-        !column.actionType
-          ? (column.icon.captionLocalizationKey ?? column.headerLocalizationKey
-            | cxTranslate)
-          : undefined
-      "
-    ></cx-icon>
+    @if (!column.icon) {
+      <span>{{ column.renderer?.(customerEntry) || '' }}</span>
+    }
+    @if (column.icon) {
+      <cx-icon
+        [attr.title]="
+          !column.actionType
+            ? (column.icon.captionLocalizationKey ??
+                column.headerLocalizationKey | cxTranslate)
+            : undefined
+        "
+        [class.cx-action-color]="
+          column.actionType && !isRequired(customerEntry, column.actionType)
+        "
+        [type]="column.icon.symbol"
+        [attr.aria-label]="
+          !column.actionType
+            ? (column.icon.captionLocalizationKey ??
+                column.headerLocalizationKey | cxTranslate)
+            : undefined
+        "
+      ></cx-icon>
+    }
   </div>
 </ng-template>
 
@@ -384,17 +400,20 @@
 </ng-template>
 
 <ng-template #total let-customerSearchPage="customerSearchPage">
-  <span class="cx-total" *ngIf="customerSearchPage?.pagination?.totalResults">
-    <ng-container *ngIf="customerSearchPage?.pagination?.totalResults > 1">
-      {{
-        'asm.customerList.noOfCustomers'
-          | cxTranslate: { count: customerSearchPage?.pagination?.totalResults }
-      }}
-    </ng-container>
-    <ng-container *ngIf="customerSearchPage?.pagination?.totalResults === 1">
-      {{ 'asm.customerList.oneCustomer' | cxTranslate }}
-    </ng-container>
-  </span>
+  @if (customerSearchPage?.pagination?.totalResults) {
+    <span class="cx-total">
+      @if (customerSearchPage?.pagination?.totalResults > 1) {
+        {{
+          'asm.customerList.noOfCustomers'
+            | cxTranslate
+              : { count: customerSearchPage?.pagination?.totalResults }
+        }}
+      }
+      @if (customerSearchPage?.pagination?.totalResults === 1) {
+        {{ 'asm.customerList.oneCustomer' | cxTranslate }}
+      }
+    </span>
+  }
 </ng-template>
 
 <ng-template #sort>
@@ -422,24 +441,26 @@
         'asm.customerList.page.page' | cxTranslate: { count: currentPage + 1 }
       }}
     </div>
-    <button
-      *ngIf="maxPage > 0"
-      (click)="goToPreviousPage()"
-      class="btn btn-link cx-action-link cx-btn-previous"
-      [disabled]="currentPage === 0 || !loaded"
-    >
-      <cx-icon class="previous" [type]="iconTypes.CARET_LEFT"></cx-icon
-      ><span>{{ 'asm.customerList.page.previous' | cxTranslate }}</span>
-    </button>
-    <button
-      *ngIf="maxPage > 0"
-      (click)="goToNextPage()"
-      class="btn btn-link cx-action-link cx-btn-next"
-      [disabled]="currentPage === maxPage || !loaded"
-    >
-      <span>{{ 'asm.customerList.page.next' | cxTranslate }}</span
-      ><cx-icon class="next" [type]="iconTypes.CARET_RIGHT"></cx-icon>
-    </button>
+    @if (maxPage > 0) {
+      <button
+        (click)="goToPreviousPage()"
+        class="btn btn-link cx-action-link cx-btn-previous"
+        [disabled]="currentPage === 0 || !loaded"
+      >
+        <cx-icon class="previous" [type]="iconTypes.CARET_LEFT"></cx-icon
+        ><span>{{ 'asm.customerList.page.previous' | cxTranslate }}</span>
+      </button>
+    }
+    @if (maxPage > 0) {
+      <button
+        (click)="goToNextPage()"
+        class="btn btn-link cx-action-link cx-btn-next"
+        [disabled]="currentPage === maxPage || !loaded"
+      >
+        <span>{{ 'asm.customerList.page.next' | cxTranslate }}</span
+        ><cx-icon class="next" [type]="iconTypes.CARET_RIGHT"></cx-icon>
+      </button>
+    }
   </div>
 </ng-template>
 
@@ -485,13 +506,14 @@
 </ng-template>
 
 <ng-template #createCustomerButton>
-  <button
-    *ngIf="asmConfig.asm?.createCustomer?.enable"
-    type="button"
-    class="btn cx-asm-create-customer-btn"
-    (click)="createCustomer()"
-  >
-    <cx-icon [type]="iconTypes.USER_PLUS"></cx-icon>
-    <span>{{ 'asm.customerList.createCustomer' | cxTranslate }}</span>
-  </button>
+  @if (asmConfig.asm?.createCustomer?.enable) {
+    <button
+      type="button"
+      class="btn cx-asm-create-customer-btn"
+      (click)="createCustomer()"
+    >
+      <cx-icon [type]="iconTypes.USER_PLUS"></cx-icon>
+      <span>{{ 'asm.customerList.createCustomer' | cxTranslate }}</span>
+    </button>
+  }
 </ng-template>

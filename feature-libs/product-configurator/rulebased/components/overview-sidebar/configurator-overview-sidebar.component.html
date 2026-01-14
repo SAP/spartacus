@@ -1,6 +1,4 @@
-<ng-container
-  *ngIf="configurationWithOv$ | async as configurationWithOv; else ghostSidebar"
->
+@if (configurationWithOv$ | async; as configurationWithOv) {
   <div class="cx-menu-bar" role="tablist">
     <button
       #menuTab
@@ -30,65 +28,63 @@
     </button>
   </div>
 
-  <cx-configurator-overview-filter
-    *ngIf="showFilter"
-    [config]="configurationWithOv"
-  >
-  </cx-configurator-overview-filter>
+  @if (showFilter) {
+    <cx-configurator-overview-filter [config]="configurationWithOv">
+    </cx-configurator-overview-filter>
+  }
 
-  <cx-configurator-overview-menu
-    *ngIf="!showFilter"
-    [config]="configurationWithOv"
-  >
-  </cx-configurator-overview-menu>
-</ng-container>
-
-<ng-template #ghostSidebar>
+  @if (!showFilter) {
+    <cx-configurator-overview-menu [config]="configurationWithOv">
+    </cx-configurator-overview-menu>
+  }
+} @else {
   <div class="cx-ghost-menu">
     <div class="cx-ghost-menu-bar ghost"></div>
-    <ng-container *ngFor="let number of [0, 1]">
-      <ng-container *ngFor="let number of [0, 1, 2]; let i = index">
+    @for (number of [0, 1]; track number) {
+      @for (number of [0, 1, 2]; track number; let i = $index) {
         <div class="cx-ghost-menu-level1">
           <div class="cx-ghost-menu-item">
             <div class="cx-ghost-menu-item-title ghost"></div>
           </div>
 
-          <ng-container *ngIf="i === 0">
+          @if (i === 0) {
             <div class="cx-ghost-menu-level2">
-              <div
-                *ngFor="let number of [0, 1, 2, 3]"
-                class="cx-ghost-menu-item"
-              >
-                <div class="cx-ghost-menu-item-title ghost"></div>
-              </div>
-            </div>
-          </ng-container>
-
-          <ng-container *ngIf="i === 1">
-            <div class="cx-ghost-menu-level2">
-              <div *ngFor="let number of [0, 1, 2]" class="cx-ghost-menu-item">
-                <div class="cx-ghost-menu-item-title ghost"></div>
-              </div>
-              <div class="cx-ghost-menu-level3">
-                <div
-                  *ngFor="let number of [0, 1, 2]"
-                  class="cx-ghost-menu-item"
-                >
+              @for (number of [0, 1, 2, 3]; track number) {
+                <div class="cx-ghost-menu-item">
                   <div class="cx-ghost-menu-item-title ghost"></div>
                 </div>
-              </div>
+              }
             </div>
-          </ng-container>
+          }
 
-          <ng-container *ngIf="i === 2">
-            <div class="cx-ghost-menu-level1">
-              <div *ngFor="let number of [0, 1]" class="cx-ghost-menu-item">
-                <div class="cx-ghost-menu-item-title ghost"></div>
+          @if (i === 1) {
+            <div class="cx-ghost-menu-level2">
+              @for (number of [0, 1, 2]; track number) {
+                <div class="cx-ghost-menu-item">
+                  <div class="cx-ghost-menu-item-title ghost"></div>
+                </div>
+              }
+              <div class="cx-ghost-menu-level3">
+                @for (number of [0, 1, 2]; track number) {
+                  <div class="cx-ghost-menu-item">
+                    <div class="cx-ghost-menu-item-title ghost"></div>
+                  </div>
+                }
               </div>
             </div>
-          </ng-container>
+          }
+
+          @if (i === 2) {
+            <div class="cx-ghost-menu-level1">
+              @for (number of [0, 1]; track number) {
+                <div class="cx-ghost-menu-item">
+                  <div class="cx-ghost-menu-item-title ghost"></div>
+                </div>
+              }
+            </div>
+          }
         </div>
-      </ng-container>
-    </ng-container>
+      }
+    }
   </div>
-</ng-template>
+}

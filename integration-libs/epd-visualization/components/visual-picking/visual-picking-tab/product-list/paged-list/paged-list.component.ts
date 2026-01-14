@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf, NgTemplateOutlet, SlicePipe } from '@angular/common';
+import { NgTemplateOutlet, SlicePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -34,7 +34,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-epd-visualization-paged-list',
   templateUrl: './paged-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgTemplateOutlet, NgFor, IconComponent, SlicePipe],
+  imports: [NgTemplateOutlet, IconComponent, SlicePipe],
 })
 export class PagedListComponent implements OnInit {
   /**

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FeatureDirective, Product, TranslatePipe } from '@spartacus/core';
 import {
@@ -24,7 +24,6 @@ import { ProductImageZoomTriggerComponent } from '../product-image-zoom-trigger/
   templateUrl: './product-image-zoom-product-images.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     LcpContextDirective,
     MediaComponent,
     ProductImageZoomTriggerComponent,

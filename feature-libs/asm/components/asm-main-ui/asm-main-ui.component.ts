@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -82,7 +82,6 @@ export const CART_TYPE_KEY: CartTypeKey = {
   templateUrl: './asm-main-ui.component.html',
   imports: [
     IconComponent,
-    NgIf,
     FeatureDirective,
     AsmToggleUiComponent,
     AsmSessionTimerComponent,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -42,7 +42,6 @@ import { UnitAddressItemService } from '../services/unit-address-item.service';
     },
   ],
   imports: [
-    NgIf,
     CardComponent,
     FocusDirective,
     RouterLink,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
@@ -25,7 +25,7 @@ import { UnitLevelOrderDetailService } from '../unit-level-order-detail.service'
   selector: 'cx-unit-level-order-overview',
   templateUrl: './unit-level-order-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, CardComponent, AsyncPipe, CxDatePipe, CxDatePipe],
+  imports: [CardComponent, AsyncPipe, CxDatePipe, CxDatePipe],
 })
 export class UnitLevelOrderOverviewComponent implements OnInit {
   constructor(

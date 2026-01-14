@@ -1,84 +1,94 @@
-<table *ngIf="structure">
-  <ng-container *ngIf="verticalStackedLayout">
-    <tbody
-      *ngFor="let item of data; trackBy: trackData"
-      (click)="launchItem(item)"
-      [class.is-current]="isCurrentItem(item)"
-    >
-      <tr *ngFor="let cell of structure.cells" [class]="cell">
-        <th>
-          <ng-template
-            [cxOutlet]="getHeaderOutletRef(cell)"
-            [cxOutletContext]="getHeaderOutletContext(cell)"
-          >
-            {{ cell }}
-          </ng-template>
-        </th>
-        <td>
-          <ng-template
-            [cxOutlet]="getDataOutletRef(cell)"
-            [cxOutletContext]="getDataOutletContext(cell, item)"
-          >
-            {{ $any(item)[cell] }}
-          </ng-template>
-        </td>
-      </tr>
-    </tbody>
-  </ng-container>
-
-  <!-- vertical tables render the item  -->
-  <ng-container *ngIf="verticalLayout">
-    <thead>
-      <tr>
-        <th scope="col" *ngFor="let cell of structure.cells" [class]="cell">
-          <ng-template
-            [cxOutlet]="getHeaderOutletRef(cell)"
-            [cxOutletContext]="getHeaderOutletContext(cell)"
-          >
-            {{ cell }}
-          </ng-template>
-        </th>
-      </tr>
-    </thead>
-
-    <tr
-      *ngFor="let item of data; trackBy: trackData"
-      [class.is-current]="isCurrentItem(item)"
-      (click)="launchItem(item)"
-    >
-      <td *ngFor="let cell of structure.cells; let i = index" [class]="cell">
-        <ng-template
-          [cxOutlet]="getDataOutletRef(cell)"
-          [cxOutletContext]="getDataOutletContext(cell, item)"
+@if (structure) {
+  <table>
+    @if (verticalStackedLayout) {
+      @for (item of data; track trackData($index, item)) {
+        <tbody
+          (click)="launchItem(item)"
+          [class.is-current]="isCurrentItem(item)"
         >
-          {{ $any(item)[cell] }}
-        </ng-template>
-      </td>
-    </tr>
-  </ng-container>
+          @for (cell of structure.cells; track cell) {
+            <tr [class]="cell">
+              <th>
+                <ng-template
+                  [cxOutlet]="getHeaderOutletRef(cell)"
+                  [cxOutletContext]="getHeaderOutletContext(cell)"
+                >
+                  {{ cell }}
+                </ng-template>
+              </th>
+              <td>
+                <ng-template
+                  [cxOutlet]="getDataOutletRef(cell)"
+                  [cxOutletContext]="getDataOutletContext(cell, item)"
+                >
+                  {{ $any(item)[cell] }}
+                </ng-template>
+              </td>
+            </tr>
+          }
+        </tbody>
+      }
+    }
 
-  <ng-container *ngIf="horizontalLayout">
-    <tr *ngFor="let cell of structure.cells" [class]="cell">
-      <th scope="col">
-        <ng-template
-          [cxOutlet]="getHeaderOutletRef(cell)"
-          [cxOutletContext]="getHeaderOutletContext(cell)"
-        >
-          {{ cell }}
-        </ng-template>
-      </th>
-      <td
-        *ngFor="let item of data; trackBy: trackData"
-        [class.is-current]="isCurrentItem(item)"
-        (click)="launchItem(item)"
-      >
-        <ng-template
-          [cxOutlet]="getDataOutletRef(cell)"
-          [cxOutletContext]="getDataOutletContext(cell, item)"
-        >
-          {{ $any(item)[cell] }}
-        </ng-template>
-      </td>
-    </tr>
-  </ng-container>
-</table>
+    <!-- vertical tables render the item  -->
+    @if (verticalLayout) {
+      <thead>
+        <tr>
+          @for (cell of structure.cells; track cell) {
+            <th scope="col" [class]="cell">
+              <ng-template
+                [cxOutlet]="getHeaderOutletRef(cell)"
+                [cxOutletContext]="getHeaderOutletContext(cell)"
+              >
+                {{ cell }}
+              </ng-template>
+            </th>
+          }
+        </tr>
+      </thead>
+
+      @for (item of data; track trackData($index, item)) {
+        <tr [class.is-current]="isCurrentItem(item)" (click)="launchItem(item)">
+          @for (cell of structure.cells; track cell; let i = $index) {
+            <td [class]="cell">
+              <ng-template
+                [cxOutlet]="getDataOutletRef(cell)"
+                [cxOutletContext]="getDataOutletContext(cell, item)"
+              >
+                {{ $any(item)[cell] }}
+              </ng-template>
+            </td>
+          }
+        </tr>
+      }
+    }
+
+    @if (horizontalLayout) {
+      @for (cell of structure.cells; track cell) {
+        <tr [class]="cell">
+          <th scope="col">
+            <ng-template
+              [cxOutlet]="getHeaderOutletRef(cell)"
+              [cxOutletContext]="getHeaderOutletContext(cell)"
+            >
+              {{ cell }}
+            </ng-template>
+          </th>
+          @for (item of data; track trackData($index, item)) {
+            <td
+              [class.is-current]="isCurrentItem(item)"
+              (click)="launchItem(item)"
+            >
+              <ng-template
+                [cxOutlet]="getDataOutletRef(cell)"
+                [cxOutletContext]="getDataOutletContext(cell, item)"
+              >
+                {{ $any(item)[cell] }}
+              </ng-template>
+            </td>
+          }
+        </tr>
+      }
+    }
+  </table>
+}

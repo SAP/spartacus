@@ -1,13 +1,12 @@
-<ng-container *ngIf="isEarliestRetrievalDatePresent()">
-  <ng-container *ngIf="isDatePickerReadOnly; else datePickerEnabled">
+@if (isEarliestRetrievalDatePresent()) {
+  @if (isDatePickerReadOnly) {
     <cx-card
       [content]="
         getRequestedDeliveryDateCardContent(requestedRetrievalAt | cxDate)
           | async
       "
     ></cx-card>
-  </ng-container>
-  <ng-template #datePickerEnabled>
+  } @else {
     <div class="form-check">
       <form [formGroup]="form">
         <label class="row">
@@ -26,5 +25,5 @@
         </label>
       </form>
     </div>
-  </ng-template>
-</ng-container>
+  }
+}

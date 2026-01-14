@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -30,13 +30,11 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
   selector: 'cx-saved-cart-details-overview',
   templateUrl: './saved-cart-details-overview.component.html',
   imports: [
-    NgIf,
     CardComponent,
     IconComponent,
     AsyncPipe,
     TranslatePipe,
     CxDatePipe,
-
     CxDatePipe,
   ],
 })

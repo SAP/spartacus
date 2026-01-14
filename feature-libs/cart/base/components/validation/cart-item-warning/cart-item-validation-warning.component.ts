@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CartValidationFacade } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
@@ -15,7 +15,7 @@ import { map } from 'rxjs/operators';
   selector: 'cx-cart-item-validation-warning',
   templateUrl: './cart-item-validation-warning.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe],
+  imports: [IconComponent, AsyncPipe, TranslatePipe],
 })
 export class CartItemValidationWarningComponent {
   @Input()
