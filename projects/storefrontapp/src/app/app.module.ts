@@ -13,7 +13,11 @@ import {
 import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
-import { NgModule } from '@angular/core';
+import {
+  NgModule,
+  provideBrowserGlobalErrorListeners,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import {
   BrowserModule,
   provideClientHydration,
@@ -68,6 +72,8 @@ if (!environment.production) {
   providers: [
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
     provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideBrowserGlobalErrorListeners(),
     provideConfig(<OccConfig>{
       backend: {
         occ: {
