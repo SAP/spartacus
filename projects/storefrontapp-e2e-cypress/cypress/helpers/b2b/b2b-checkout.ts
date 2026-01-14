@@ -452,9 +452,7 @@ export function completeReplenishmentForm(replenishmentPeriod: string) {
     cy.get('cx-schedule-replenishment-order .cx-days select')
       .select(replenishmentDay)
       .should('have.value', replenishmentDay);
-  }
 
-  if (replenishmentPeriod === recurrencePeriod.WEEKLY) {
     cy.get(
       'cx-schedule-replenishment-order .cx-repeat-days-container [type="checkbox"]'
     ).check();
