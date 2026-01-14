@@ -3,7 +3,7 @@
     "button": "View Document Flow",
     "dialog": {
       "title": "Document",
-      "closeModal": "Close Modal",
+      "closeModal": "Close",
       "name": "Document name",
       "date": "Date",
       "time": "Time",
