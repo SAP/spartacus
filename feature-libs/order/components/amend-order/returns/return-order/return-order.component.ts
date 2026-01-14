@@ -7,10 +7,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
+import { FeatureConfigService } from '@spartacus/core';
 import { Consignment } from '@spartacus/order/root';
 import { Observable, combineLatest, map, tap } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
-import { FeatureConfigService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-return-order',
@@ -20,9 +20,7 @@ import { FeatureConfigService } from '@spartacus/core';
 })
 export class ReturnOrderComponent {
   orderCode: string;
-  private featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
+  private featureConfigService = inject(FeatureConfigService);
 
   form$: Observable<UntypedFormGroup> = this.orderAmendService
     .getForm()

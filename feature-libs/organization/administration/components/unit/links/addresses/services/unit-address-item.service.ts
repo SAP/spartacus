@@ -27,9 +27,7 @@ import { CurrentUnitAddressService } from './current-unit-address.service';
 })
 export class UnitAddressItemService extends ItemService<Address> {
   // TODO (CXSPA-5630): Remove service in next major.
-  private featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
+  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected currentItemService: CurrentUnitAddressService,

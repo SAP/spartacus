@@ -32,9 +32,7 @@ export class OrgUnitEffects {
   protected logger = inject(LoggerService);
 
   // TODO (CXSPA-5630): Remove service in next major.
-  private featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
+  private featureConfigService = inject(FeatureConfigService);
 
   loadOrgUnit$: Observable<
     | OrgUnitActions.LoadOrgUnitSuccess

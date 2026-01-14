@@ -138,9 +138,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   @Optional() breakpointService = inject(BreakpointService, { optional: true });
 
-  private featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
+  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
