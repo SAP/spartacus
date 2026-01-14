@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,7 +32,7 @@ export const defaultOccSubscriptionBillingConfig: OccConfig = {
         ...subscriptionBillingEndpoints,
         product: {
           subscription:
-            'products/${productCode}?fields=sapPricePlan,sapSubscriptionTerm,productTypes',
+            'products/${productCode}?fields=sapPricePlan,sapSubscriptionTerm',
         },
       },
     },

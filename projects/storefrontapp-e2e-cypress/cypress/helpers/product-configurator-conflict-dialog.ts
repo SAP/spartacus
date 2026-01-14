@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -105,7 +105,7 @@ export function checkConflictingAttributeDisplayed(
 }
 /**
  * Change the attribute value within the conflict solver dialog
- * @param {sting} attributeName attribute name
+ * @param {string} attributeName attribute name
  * @param {string} value value name to select / value to set
  * @param {uiType} uiType uiType o attribute
  */
@@ -115,7 +115,13 @@ export function selectAttributeAndWait(
   value: string
 ) {
   cy.get('cx-configurator-conflict-solver-dialog').within(() =>
-    configurationVc.selectAttributeAndWait(attributeName, uiType, value)
+    configurationVc.selectAttributeAndWait(
+      attributeName,
+      uiType,
+      value,
+      false,
+      false
+    )
   );
 }
 /**
