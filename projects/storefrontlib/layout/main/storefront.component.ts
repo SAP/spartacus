@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   DestroyRef,
@@ -18,13 +19,22 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterModule } from '@angular/router';
 import { RoutingService, useFeatureStyles } from '@spartacus/core';
+import {
+  GlobalMessageComponent,
+  OutletDirective,
+  PageLayoutComponent,
+  PageSlotComponent,
+} from '@spartacus/storefront';
 import { Observable, Subscription, tap } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import {
   FocusConfig,
+  FocusDirective,
   KeyboardFocusService,
   SkipFocusConfig,
+  SkipFocusDirective,
 } from '../a11y/keyboard-focus/index';
 import { SkipLinkComponent, SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
@@ -33,6 +43,16 @@ import { StorefrontOutlets } from './storefront-outlets.model';
 @Component({
   selector: 'cx-storefront',
   templateUrl: './storefront.component.html',
+  imports: [
+    PageLayoutComponent,
+    PageSlotComponent,
+    FocusDirective,
+    SkipFocusDirective,
+    GlobalMessageComponent,
+    RouterModule,
+    AsyncPipe,
+    OutletDirective,
+  ],
 })
 export class StorefrontComponent implements OnInit, OnDestroy {
   navigateSubscription: Subscription;
