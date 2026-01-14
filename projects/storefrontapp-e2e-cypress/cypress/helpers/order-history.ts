@@ -211,6 +211,9 @@ export const orderHistoryTest = {
       });
       switchLanguage('en');
 
+      // wait for switch to EN language
+      cy.wait('@getOrderHistoryPage');
+
       cy.get('.cx-order-history-placed > .cx-order-history-value')
         .first()
         .then((element) => {
@@ -222,6 +225,9 @@ export const orderHistoryTest = {
       });
       switchLanguage('de');
 
+      // wait for switch to DE language
+      cy.wait('@getOrderHistoryPage');
+
       cy.get('.cx-order-history-placed > .cx-order-history-value')
         .first()
         .then((element) => {
@@ -232,6 +238,9 @@ export const orderHistoryTest = {
         clickHamburger();
       });
       switchLanguage('en'); // switch language back
+
+      // wait for switch to EN language
+      cy.wait('@getOrderHistoryPage');
     });
   },
   checkOrderDetailsUnconsignedEntries() {
