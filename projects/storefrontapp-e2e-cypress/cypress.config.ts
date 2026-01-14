@@ -16,9 +16,9 @@ export default defineConfig({
   },
   videoUploadOnPasses: false,
   env: {
-    CLIENT_ID: 'mobile_android',
+    CLIENT_ID: 'mobile_android_public',
     CLIENT_SECRET: 'secret',
-    API_URL: 'https://40.76.109.9:9002',
+    API_URL: 'https://spartacus-test.eastus.cloudapp.azure.com:8443',
     BASE_SITE: 'electronics-spa',
     BASE_LANG: 'en',
     BASE_CURRENCY: 'USD',
@@ -27,7 +27,7 @@ export default defineConfig({
     OCC_PREFIX_ORDER_ENDPOINT: 'orders',
     MAIL_CCV2_URL: 'https://mailhog-poc.westeurope.cloudapp.azure.com',
     MAIL_CCV2_PREFIX: '/api/v1',
-    JDK_VERSION: 'JDK17',
+    JDK_VERSION: 'JDK21',
   },
   e2e: {
     // We've imported your old cypress plugins here.
