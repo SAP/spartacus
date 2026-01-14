@@ -1,9 +1,10 @@
 const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig.schematics.json');
 const { defaultTransformerOptions } = require('jest-preset-angular/presets');
+
 /** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
 module.exports = {
-  preset: 'jest-preset-angular',
+  preset: '../../jest-schematics-testing-preset.ts',
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
     prefix: '<rootDir>/',
   }),
@@ -18,8 +19,6 @@ module.exports = {
       },
     ],
   },
-  transformIgnorePatterns: ['node_modules/(?!parse5|@angular)'],
-
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
   coverageDirectory: '<rootDir>/../../coverage/subscription-billing/schematics',
