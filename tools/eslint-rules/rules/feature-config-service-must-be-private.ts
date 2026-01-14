@@ -11,6 +11,9 @@ export const RULE_NAME = 'feature-config-service-must-be-private';
 /**
  * ESLint rule that enforces that FeatureConfigService must always be injected as a private property.
  *
+ * Reason: we don't want expose such properties in public API, because we want to be able to remove
+ *         them easily (without causing Typescript breaking changes) anytime later
+ *
  * This rule ensures that all properties injected with FeatureConfigService have the 'private' access modifier.
  * Properties without an explicit modifier are public by default in TypeScript, which this rule prevents.
  * Protected or public FeatureConfigService properties are also not allowed.
