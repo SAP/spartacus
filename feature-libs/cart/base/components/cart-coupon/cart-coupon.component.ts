@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
@@ -19,7 +19,6 @@ import {
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponService,
-  FeatureConfigService,
 } from '@spartacus/core';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -42,10 +41,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   couponBoxIsActive = false;
-
-  @Optional() protected featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
 
   constructor(
     protected cartVoucherService: CartVoucherFacade,

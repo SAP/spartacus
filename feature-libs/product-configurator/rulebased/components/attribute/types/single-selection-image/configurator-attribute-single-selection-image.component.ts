@@ -11,7 +11,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { Config, FeatureConfigService } from '@spartacus/core';
+import { Config } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -39,7 +39,6 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
 
   iconTypes = ICON_TYPE;
   protected config = inject(Config);
-  protected featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,

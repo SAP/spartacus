@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   ActiveCartFacade,
   CartOutlets,
@@ -16,11 +16,7 @@ import {
   CheckoutDeliveryModesFacade,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import {
-  Address,
-  FeatureConfigService,
-  TranslationService,
-} from '@spartacus/core';
+import { Address, TranslationService } from '@spartacus/core';
 import { deliveryAddressCard, deliveryModeCard } from '@spartacus/order/root';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
@@ -34,8 +30,6 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   standalone: false,
 })
 export class CheckoutReviewShippingComponent {
-  protected featureConfig = inject(FeatureConfigService);
-
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
 

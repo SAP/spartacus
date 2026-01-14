@@ -20,7 +20,7 @@ import { FeatureConfigService } from '@spartacus/core';
 })
 export class ReturnOrderComponent {
   orderCode: string;
-  protected featureConfigService = inject(FeatureConfigService, {
+  private featureConfigService = inject(FeatureConfigService, {
     optional: true,
   });
 

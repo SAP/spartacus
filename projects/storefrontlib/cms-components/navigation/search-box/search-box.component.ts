@@ -28,13 +28,13 @@ import {
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import {
+  catchError,
   filter,
+  first,
   map,
   switchMap,
   tap,
-  first,
   timeout,
-  catchError,
 } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -138,7 +138,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   @Optional() breakpointService = inject(BreakpointService, { optional: true });
 
-  @Optional() featureConfigService = inject(FeatureConfigService, {
+  private featureConfigService = inject(FeatureConfigService, {
     optional: true,
   });
 

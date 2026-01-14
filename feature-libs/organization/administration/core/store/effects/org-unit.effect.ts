@@ -32,7 +32,7 @@ export class OrgUnitEffects {
   protected logger = inject(LoggerService);
 
   // TODO (CXSPA-5630): Remove service in next major.
-  protected featureConfigService = inject(FeatureConfigService, {
+  private featureConfigService = inject(FeatureConfigService, {
     optional: true,
   });
 

@@ -34,7 +34,7 @@ export interface OccCmsPageRequest {
 })
 export class OccCmsPageAdapter implements CmsPageAdapter {
   protected readonly userIdService = inject(UserIdService);
-  protected readonly featureConfigService = inject(FeatureConfigService);
+  private readonly featureConfigService = inject(FeatureConfigService);
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(

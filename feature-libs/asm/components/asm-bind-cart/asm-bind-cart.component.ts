@@ -11,7 +11,6 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { AsmBindCartFacade } from '@spartacus/asm/root';
@@ -27,9 +26,8 @@ import {
   HttpErrorModel,
   OCC_CART_ID_CURRENT,
   RoutingService,
-  FeatureConfigService,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import {
   BehaviorSubject,
   combineLatest,
@@ -94,8 +92,6 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   saveInactiveCartElemRef: ElementRef<HTMLButtonElement>;
 
   protected subscription = new Subscription();
-
-  protected featureConfig = inject(FeatureConfigService);
 
   constructor(
     protected globalMessageService: GlobalMessageService,

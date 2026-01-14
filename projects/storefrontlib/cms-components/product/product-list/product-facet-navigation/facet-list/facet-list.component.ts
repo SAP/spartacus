@@ -23,7 +23,7 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import { Facet, FeatureConfigService } from '@spartacus/core';
+import { Facet } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import {
@@ -94,9 +94,6 @@ export class FacetListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.close();
   }
   @Optional() focusService = inject(KeyboardFocusService, { optional: true });
-  @Optional() featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
 
   constructor(
     protected facetService: FacetService,

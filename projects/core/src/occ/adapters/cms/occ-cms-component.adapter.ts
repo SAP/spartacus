@@ -27,7 +27,7 @@ import { FeatureConfigService } from '../../../features-config';
 })
 export class OccCmsComponentAdapter implements CmsComponentAdapter {
   protected readonly userIdService = inject(UserIdService);
-  protected readonly featureConfigService = inject(FeatureConfigService);
+  private readonly featureConfigService = inject(FeatureConfigService);
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
