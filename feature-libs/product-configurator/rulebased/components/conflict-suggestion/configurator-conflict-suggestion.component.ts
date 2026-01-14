@@ -26,7 +26,7 @@ export class ConfiguratorConflictSuggestionComponent {
   groupType = Configurator.GroupType;
 
   @HostBinding('tabindex') tabindex = '0';
-  @HostBinding('role') role = 'note';
+  @HostBinding('attr.role') role = 'note';
 
   constructor() {
     // Intentional empty constructor
