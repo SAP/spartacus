@@ -34,6 +34,7 @@ const esmPackages = [
   'mimic-function',
   'yoctocolors',
   'get-east-asian-width',
+  'parse5'
 ];
 
 module.exports = { esmPackages };

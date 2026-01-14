@@ -121,7 +121,6 @@ import { provideServer } from '@spartacus/setup/ssr';
 @NgModule({
   imports: [AppModule],
   providers: [
-
      ...provideServer({
         serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
       }),
