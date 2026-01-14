@@ -298,7 +298,6 @@ if (environment.cpq) {
       const appFeatureToggles: Required<FeatureToggles> = {
         a11yImprovedErrorMessage: true,
         a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
-        a11yAddPaddingToCarouselPanel: true,
         dispatchLoginActionOnlyWhenTokenReceived: true,
         a11yWideScreenImprovements: true,
         a11yOptimizedMenuSpacing: true,

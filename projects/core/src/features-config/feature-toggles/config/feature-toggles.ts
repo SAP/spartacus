@@ -24,12 +24,6 @@ export interface FeatureTogglesInterface {
   a11ySelectImprovementsCustomerTicketingCreateSelectbox?: boolean;
 
   /**
-   * Adds horizontal padding to the 'carousel-panel' to fix the issue where the focus only covers three sides of the 'Previous slide' and 'Next slide' buttons within the carousel section.
-   * Affects: CarouselComponent
-   */
-  a11yAddPaddingToCarouselPanel?: boolean;
-
-  /**
    * Improves wide viewport layout issues.
    * Affects the styles of: Order confirmation page, product configurator.
    */
@@ -357,7 +351,6 @@ export interface FeatureTogglesInterface {
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yImprovedErrorMessage: true,
   a11ySelectImprovementsCustomerTicketingCreateSelectbox: true,
-  a11yAddPaddingToCarouselPanel: false,
   a11yWideScreenImprovements: true,
   a11yOptimizedMenuSpacing: true,
   a11yNgSelectLayering: true,
