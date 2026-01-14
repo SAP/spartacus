@@ -33,9 +33,6 @@ import { StorefrontOutlets } from './storefront-outlets.model';
 @Component({
   selector: 'cx-storefront',
   templateUrl: './storefront.component.html',
-
-  // eslint-disable-next-line @angular-eslint/prefer-standalone -- This component must be non-standalone to support NgModule.bootstrap[] in AppModule
-  standalone: false,
 })
 export class StorefrontComponent implements OnInit, OnDestroy {
   navigateSubscription: Subscription;
