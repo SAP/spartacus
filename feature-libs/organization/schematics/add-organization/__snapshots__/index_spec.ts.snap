@@ -110,13 +110,34 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false
+          "standalone": false,
+          "type": "component",
+          "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false
+          "standalone": false,
+          "type": "directive",
+          "addTypeToClassName": false
         },
         "@schematics/angular:pipe": {
-          "standalone": false
+          "standalone": false,
+          "typeSeparator": "."
+        },
+        "@schematics/angular:service": {
+          "type": "service",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+          "typeSeparator": "."
         }
       },
       "root": "",
@@ -189,33 +210,17 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
-        },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": [
-              "src/styles.scss",
-              "src/styles/spartacus/organization.scss"
-            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
               ]
-            }
+            },
+            "styles": [
+              "src/styles/spartacus/organization.scss"
+            ]
           }
         }
       }
@@ -334,13 +339,34 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false
+          "standalone": false,
+          "type": "component",
+          "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false
+          "standalone": false,
+          "type": "directive",
+          "addTypeToClassName": false
         },
         "@schematics/angular:pipe": {
-          "standalone": false
+          "standalone": false,
+          "typeSeparator": "."
+        },
+        "@schematics/angular:service": {
+          "type": "service",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+          "typeSeparator": "."
         }
       },
       "root": "",
@@ -413,33 +439,17 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
-        },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": [
-              "src/styles.scss",
-              "src/styles/spartacus/organization.scss"
-            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
               ]
-            }
+            },
+            "styles": [
+              "src/styles/spartacus/organization.scss"
+            ]
           }
         }
       }
@@ -558,13 +568,34 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false
+          "standalone": false,
+          "type": "component",
+          "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false
+          "standalone": false,
+          "type": "directive",
+          "addTypeToClassName": false
         },
         "@schematics/angular:pipe": {
-          "standalone": false
+          "standalone": false,
+          "typeSeparator": "."
+        },
+        "@schematics/angular:service": {
+          "type": "service",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+          "typeSeparator": "."
         }
       },
       "root": "",
@@ -637,33 +668,17 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
-        },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": [
-              "src/styles.scss",
-              "src/styles/spartacus/organization.scss"
-            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
               ]
-            }
+            },
+            "styles": [
+              "src/styles/spartacus/organization.scss"
+            ]
           }
         }
       }
@@ -782,13 +797,34 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false
+          "standalone": false,
+          "type": "component",
+          "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false
+          "standalone": false,
+          "type": "directive",
+          "addTypeToClassName": false
         },
         "@schematics/angular:pipe": {
-          "standalone": false
+          "standalone": false,
+          "typeSeparator": "."
+        },
+        "@schematics/angular:service": {
+          "type": "service",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+          "typeSeparator": "."
         }
       },
       "root": "",
@@ -861,33 +897,17 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
-        },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": [
-              "src/styles.scss",
-              "src/styles/spartacus/organization.scss"
-            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
               ]
-            }
+            },
+            "styles": [
+              "src/styles/spartacus/organization.scss"
+            ]
           }
         }
       }
@@ -1006,13 +1026,34 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false
+          "standalone": false,
+          "type": "component",
+          "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false
+          "standalone": false,
+          "type": "directive",
+          "addTypeToClassName": false
         },
         "@schematics/angular:pipe": {
-          "standalone": false
+          "standalone": false,
+          "typeSeparator": "."
+        },
+        "@schematics/angular:service": {
+          "type": "service",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+          "typeSeparator": "."
         }
       },
       "root": "",
@@ -1085,33 +1126,17 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
-        },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": [
-              "src/styles.scss",
-              "src/styles/spartacus/organization.scss"
-            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
               ]
-            }
+            },
+            "styles": [
+              "src/styles/spartacus/organization.scss"
+            ]
           }
         }
       }

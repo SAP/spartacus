@@ -27,7 +27,7 @@ export class ConfiguratorConflictDescriptionComponent {
   iconTypes = ICON_TYPE;
 
   @HostBinding('tabindex') tabindex = '0';
-  @HostBinding('role') role = 'note';
+  @HostBinding('attr.role') role = 'note';
 
   constructor() {
     // Intentional empty constructor

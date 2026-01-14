@@ -55,7 +55,7 @@ export class ScrollToTopComponent implements OnInit {
     this.setConfig();
   }
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:scroll')
   onScroll(): void {
     this.switchDisplay();
   }

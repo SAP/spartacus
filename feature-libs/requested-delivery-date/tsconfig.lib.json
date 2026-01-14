@@ -5,7 +5,7 @@
     "declarationMap": true,
     "forceConsistentCasingInFileNames": true,
     "target": "es2022",
-    "module": "es2022",
+    "module": "preserve",
     "moduleResolution": "bundler",
     "declaration": true,
     "sourceMap": true,
