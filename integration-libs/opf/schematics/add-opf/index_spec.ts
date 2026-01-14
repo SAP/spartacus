@@ -53,6 +53,7 @@ describe('Spartacus SAP OPF integration schematics: ng-add', () => {
     skipTests: false,
     projectRoot: '',
     standalone: false,
+    zoneless: false,
     fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
 

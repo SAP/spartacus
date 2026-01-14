@@ -61,6 +61,7 @@ describe('Module file utils', () => {
     skipTests: false,
     projectRoot: '',
     standalone: false,
+    zoneless: false,
     fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
   const defaultOptions = {

@@ -113,6 +113,9 @@ exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature g
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [

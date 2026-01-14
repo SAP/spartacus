@@ -106,6 +106,9 @@ exports[`Spartacus SAP OPF integration schematics: ng-add SAP OPF feature genera
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [

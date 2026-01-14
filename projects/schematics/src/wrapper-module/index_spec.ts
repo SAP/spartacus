@@ -60,6 +60,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
     skipTests: false,
     projectRoot: '',
     standalone: false,
+    zoneless: false,
     fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
 
