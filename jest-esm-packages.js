@@ -4,6 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+/**
+ * ESM-only packages that need to be transformed by Jest.
+ *
+ * By default, Jest doesn't transform node_modules. However, these packages
+ * ship only ESM (no CommonJS fallback), so Jest must transform them to work
+ * in its CommonJS-based test environment.
+ *
+ * @see https://jestjs.io/docs/ecmascript-modules
+ * @see https://jestjs.io/docs/configuration#transformignorepatterns-arraystring
+ */
 const esmPackages = [
   '@angular',
   'ora',
