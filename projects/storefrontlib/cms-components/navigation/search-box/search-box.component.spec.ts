@@ -17,7 +17,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {
   CmsSearchBoxComponent,
-  FeatureConfigService,
   I18nTestingModule,
   PageType,
   ProductSearchService,
@@ -25,7 +24,6 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { OutletDirective } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import {
   BehaviorSubject,
   delay,
@@ -144,12 +142,6 @@ class MockRoutingService implements Partial<RoutingService> {
   getRouterState = () => routerState$.asObservable();
 }
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 describe('SearchBoxComponent', () => {
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
@@ -200,7 +192,6 @@ describe('SearchBoxComponent', () => {
       ],
       declarations: [
         SearchBoxComponent,
-        MockFeatureDirective,
         MockUrlPipe,
         MockHighlightPipe,
         MockCxIconComponent,
@@ -224,10 +215,6 @@ describe('SearchBoxComponent', () => {
         {
           provide: RoutingService,
           useClass: MockRoutingService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
       ],
     }).compileComponents();

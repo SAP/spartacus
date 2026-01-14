@@ -21,7 +21,6 @@ import {
 } from '@angular/core';
 import {
   CmsSearchBoxComponent,
-  FeatureConfigService,
   PageType,
   RoutingService,
   WindowRef,
@@ -133,11 +132,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     return this.breakpointService.isDown(BREAKPOINT.sm);
   }
 
-
   protected breakpointService = inject(BreakpointService);
   protected changeDetectorRef = inject(ChangeDetectorRef);
-
-  private featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
@@ -649,10 +645,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       el.focus();
       this.ignoreCloseEvent = false;
     });
-  }
-
-  isEnabledFeature(feature: string) {
-    return this.featureConfigService?.isEnabled(feature);
   }
 
   ngOnDestroy(): void {
