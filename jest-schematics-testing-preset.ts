@@ -1,6 +1,5 @@
 export default {
   preset: 'jest-preset-angular',
-
   transformIgnorePatterns: [
     /**
      * Because ESM support is experimental in Jest, we don't enable it

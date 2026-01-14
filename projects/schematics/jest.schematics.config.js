@@ -4,7 +4,6 @@ const { defaultTransformerOptions } = require('jest-preset-angular/presets');
 
 /** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
 module.exports = {
-
   preset: '../../jest-schematics-testing-preset.ts',
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
     prefix: '<rootDir>/',
