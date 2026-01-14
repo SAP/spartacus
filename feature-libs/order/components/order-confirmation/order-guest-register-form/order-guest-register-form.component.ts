@@ -4,20 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, inject, Input, OnDestroy } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import {
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import {
-  AuthService,
+  AuthRedirectService,
   FeatureConfigService,
   RoutingService,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-guest-register-form',
@@ -25,14 +24,14 @@ import { Subscription } from 'rxjs';
   standalone: false,
   host: { ngSkipHydration: 'true' },
 })
-export class OrderGuestRegisterFormComponent implements OnDestroy {
+export class OrderGuestRegisterFormComponent {
   private featureConfigService = inject(FeatureConfigService);
+  protected authRedirectService = inject(AuthRedirectService);
   protected passwordValidators = CustomFormValidators.securePasswordValidators;
 
   @Input() guid: string;
   @Input() email: string;
 
-  subscription: Subscription;
   guestRegisterForm: UntypedFormGroup = this.fb.group(
     {
       password: ['', [Validators.required, ...this.passwordValidators]],
@@ -49,36 +48,24 @@ export class OrderGuestRegisterFormComponent implements OnDestroy {
   constructor(
     protected userRegisterFacade: UserRegisterFacade,
     protected routingService: RoutingService,
-    protected authService: AuthService,
     protected fb: UntypedFormBuilder
   ) {}
 
   submit() {
     if (this.guestRegisterForm.valid) {
+      if (
+        !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
+      ) {
+        this.authRedirectService.setRedirectUrl(
+          this.routingService.getUrl({ cxRoute: 'home' })
+        );
+      }
       this.userRegisterFacade.registerGuest(
         this.guid,
         this.guestRegisterForm.value.password
       );
-      if (
-        !this.subscription &&
-        !this.featureConfigService.isEnabled('authorizationCodeFlowByDefault')
-      ) {
-        this.subscription = this.authService
-          .isUserLoggedIn()
-          .subscribe((isLoggedIn) => {
-            if (isLoggedIn) {
-              this.routingService.go({ cxRoute: 'home' });
-            }
-          });
-      }
     } else {
       this.guestRegisterForm.markAllAsTouched();
-    }
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
     }
   }
 }

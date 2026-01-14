@@ -109,7 +109,8 @@
       "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {
         "@angular-eslint/template/no-negated-async": "off",
-        "@angular-eslint/template/eqeqeq": "error"
+        "@angular-eslint/template/eqeqeq": "error",
+        "@angular-eslint/template/prefer-control-flow": "off"
       }
     },
     {

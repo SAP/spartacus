@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 1`] = `
-"import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
+"import { NgModule, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { BrowserModule, provideClientHydration, withEventReplay, withNoHttpTransferCache } from '@angular/platform-browser';
 
 import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
@@ -24,6 +24,7 @@ import { SpartacusModule } from './spartacus/spartacus.module';
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
     provideClientHydration(withEventReplay(), withNoHttpTransferCache())
   ],
@@ -60,21 +61,21 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "^20.3.0",
-    "@angular/compiler": "^20.3.0",
-    "@angular/core": "^20.3.0",
-    "@angular/forms": "^20.3.0",
-    "@angular/platform-browser": "^20.3.0",
-    "@angular/platform-server": "^20.3.0",
-    "@angular/router": "^20.3.0",
-    "@angular/service-worker": "^20.3.9",
-    "@angular/ssr": "^20.3.9",
+    "@angular/common": "^21.0.0",
+    "@angular/compiler": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@angular/forms": "^21.0.0",
+    "@angular/platform-browser": "^21.0.0",
+    "@angular/platform-server": "^21.0.0",
+    "@angular/router": "^21.0.0",
+    "@angular/service-worker": "^21.0.8",
+    "@angular/ssr": "^21.0.5",
     "@fontsource/open-sans": "^5.1.0",
     "@fortawesome/fontawesome-free": "6.7.2",
-    "@ng-select/ng-select": "^20.4.3",
-    "@ngrx/effects": "^20.1.0",
-    "@ngrx/router-store": "^20.1.0",
-    "@ngrx/store": "^20.1.0",
+    "@ng-select/ng-select": "^21.1.4",
+    "@ngrx/effects": "^21.0.1",
+    "@ngrx/router-store": "^21.0.1",
+    "@ngrx/store": "^21.0.1",
     "@spartacus/assets": "~221121.5.0",
     "@spartacus/core": "~221121.5.0",
     "@spartacus/setup": "~221121.5.0",
@@ -85,31 +86,26 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
     "i18next": "^25.7.4",
     "i18next-http-backend": "^3.0.2",
     "i18next-resources-to-backend": "^1.2.1",
-    "ngx-infinite-scroll": "^20.0.0",
+    "ngx-infinite-scroll": "^21.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.15.0"
+    "zone.js": "~0.16.0"
   },
   "devDependencies": {
-    "@angular-devkit/core": "^20.3.9",
-    "@angular-devkit/schematics": "^20.3.9",
-    "@angular/build": "^20.3.9",
+    "@angular-devkit/core": "^21.0.5",
+    "@angular-devkit/schematics": "^21.0.5",
+    "@angular/build": "^21.0.5",
     "@angular/cli": "^0.5.0",
-    "@angular/compiler": "^20.3.9",
-    "@angular/compiler-cli": "^20.3.0",
-    "@schematics/angular": "^20.3.9",
+    "@angular/compiler": "^21.0.8",
+    "@angular/compiler-cli": "^21.0.0",
+    "@schematics/angular": "^21.0.5",
     "@types/express": "^5.0.1",
-    "@types/jasmine": "~5.1.0",
     "@types/node": "^20.17.19",
-    "jasmine-core": "~5.9.0",
+    "jsdom": "^27.1.0",
     "jsonc-parser": "^3.3.1",
-    "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.2.0",
-    "karma-coverage": "~2.2.0",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.1.0",
     "parse5": "^7.2.1",
-    "typescript": "~5.9.2"
+    "typescript": "~5.9.2",
+    "vitest": "^4.0.8"
   }
 }"
 `;
@@ -125,9 +121,10 @@ import { provideServer } from '@spartacus/setup/ssr';
 @NgModule({
   imports: [AppModule],
   providers: [
-    ...provideServer({
-       serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
-     }),
+    
+     ...provideServer({
+        serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
+      }),
   ],
   bootstrap: [App],
 })

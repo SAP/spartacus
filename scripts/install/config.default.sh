@@ -54,7 +54,8 @@ SPARTACUS_PROJECTS=(
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
 # BRANCH='develop' TODO: revert to develop after next-major release
-BRANCH='develop-next-major'
+# BRANCH='develop-next-major' TODO: change to develop-next-major after merging the epic branch
+BRANCH='epic/angular-21-upgrade'
 
 # custom location for the installation output
 # BASE_DIR='/tmp/'
@@ -64,7 +65,7 @@ CLONE_DIR="clone"
 INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
 
-ANGULAR_CLI_VERSION='^20.3.0'
+ANGULAR_CLI_VERSION='^21.0.5'
 SPARTACUS_VERSION='latest'
 
 CSR_PORT="4200"

@@ -1,6 +1,7 @@
 const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig.schematics.json');
 const { defaultTransformerOptions } = require('jest-preset-angular/presets');
+const { esmPackages } = require('../../jest-esm-packages');
 
 /** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
 module.exports = {
@@ -19,6 +20,7 @@ module.exports = {
       },
     ],
   },
+  transformIgnorePatterns: [`node_modules/(?!${esmPackages.join('|')})`],
 
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],

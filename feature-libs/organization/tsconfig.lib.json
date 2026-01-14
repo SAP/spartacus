@@ -4,7 +4,7 @@
     "outDir": "../../out-tsc/lib",
     "declarationMap": true,
     "target": "es2022",
-    "module": "es2022",
+    "module": "preserve",
     "moduleResolution": "bundler",
     "declaration": true,
     "sourceMap": true,
@@ -13,7 +13,6 @@
     "importHelpers": true,
     "strict": true,
     "types": [],
-    "lib": ["es2022", "dom"],
     "paths": {
       "@spartacus/cart": ["dist/cart"],
       "@spartacus/cart/wish-list": ["dist/cart/wish-list"],

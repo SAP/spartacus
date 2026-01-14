@@ -69,9 +69,6 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
             "tsConfig": "tsconfig.app.json",
           },
         },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n",
-        },
         "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {
@@ -85,28 +82,13 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
           "defaultConfiguration": "development",
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public",
-              },
-            ],
-            "inlineStyleLanguage": "scss",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing",
-            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/",
               ],
             },
-            "styles": [
-              "src/styles.scss",
-            ],
-            "tsConfig": "tsconfig.spec.json",
           },
         },
       },
@@ -115,14 +97,35 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
       "root": "",
       "schematics": {
         "@schematics/angular:component": {
+          "addTypeToClassName": false,
           "standalone": false,
           "style": "scss",
+          "type": "component",
         },
         "@schematics/angular:directive": {
+          "addTypeToClassName": false,
           "standalone": false,
+          "type": "directive",
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": ".",
+        },
+        "@schematics/angular:interceptor": {
+          "typeSeparator": ".",
+        },
+        "@schematics/angular:module": {
+          "typeSeparator": ".",
         },
         "@schematics/angular:pipe": {
           "standalone": false,
+          "typeSeparator": ".",
+        },
+        "@schematics/angular:resolver": {
+          "typeSeparator": ".",
+        },
+        "@schematics/angular:service": {
+          "addTypeToClassName": false,
+          "type": "service",
         },
       },
       "sourceRoot": "src",
@@ -143,9 +146,10 @@ import { provideServer } from '@spartacus/setup/ssr';
 @NgModule({
   imports: [AppModule],
   providers: [
-    ...provideServer({
-       serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
-     }),
+    
+     ...provideServer({
+        serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
+      }),
   ],
   bootstrap: [App],
 })
@@ -154,7 +158,7 @@ export class AppServerModule {}
 `;
 
 exports[`add-ssr app.module.ts should be updated 1`] = `
-"import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
+"import { NgModule, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { BrowserModule, provideClientHydration, withEventReplay, withNoHttpTransferCache } from '@angular/platform-browser';
 
 import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
@@ -177,6 +181,7 @@ import { SpartacusModule } from './spartacus/spartacus.module';
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
     provideClientHydration(withEventReplay(), withNoHttpTransferCache())
   ],
