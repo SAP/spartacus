@@ -56,13 +56,34 @@ exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false
+          "standalone": false,
+          "type": "component",
+          "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false
+          "standalone": false,
+          "type": "directive",
+          "addTypeToClassName": false
         },
         "@schematics/angular:pipe": {
-          "standalone": false
+          "standalone": false,
+          "typeSeparator": "."
+        },
+        "@schematics/angular:service": {
+          "type": "service",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+          "typeSeparator": "."
         }
       },
       "root": "",
@@ -136,34 +157,18 @@ exports[`Spartacus Estimated-Delivery-Date schematics: ng-add Estimated-Delivery
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular/build:extract-i18n"
-        },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": [
-              "src/styles.scss",
-              "src/styles/spartacus/cart.scss",
-              "src/styles/spartacus/estimated-delivery-date.scss"
-            ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
               ]
-            }
+            },
+            "styles": [
+              "src/styles/spartacus/cart.scss",
+              "src/styles/spartacus/estimated-delivery-date.scss"
+            ]
           }
         }
       }
