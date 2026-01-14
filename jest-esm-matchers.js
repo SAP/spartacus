@@ -14,8 +14,9 @@
  * @see https://jestjs.io/docs/ecmascript-modules
  * @see https://jestjs.io/docs/configuration#transformignorepatterns-arraystring
  */
-const esmPackages = [
-  '@angular',
+const esmMatchers = [
+  '.*\\.mjs$',
+  '@angular/common/locales/.*\\.js$',
   'ora',
   'chalk',
   'cli-cursor',
@@ -34,7 +35,7 @@ const esmPackages = [
   'mimic-function',
   'yoctocolors',
   'get-east-asian-width',
-  'parse5'
+  'parse5',
 ];
 
-module.exports = { esmPackages };
+module.exports = { esmMatchers };
