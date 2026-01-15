@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -46,9 +46,7 @@ const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
     IconComponent,
-    NgFor,
     MediaComponent,
     AsyncPipe,
     TranslatePipe,

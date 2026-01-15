@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
@@ -18,12 +17,6 @@ import { IconComponent } from '@spartacus/storefront';
   selector: 'cx-epd-visualization-compact-add-to-cart',
   templateUrl: './compact-add-to-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    FormsModule,
-    ReactiveFormsModule,
-    IconComponent,
-    TranslatePipe,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, IconComponent, TranslatePipe],
 })
 export class CompactAddToCartComponent extends AddToCartComponent {}

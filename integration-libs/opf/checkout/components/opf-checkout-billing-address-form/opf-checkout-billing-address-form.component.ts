@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -37,7 +37,6 @@ import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-add
   templateUrl: './opf-checkout-billing-address-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     CardComponent,
     IconComponent,
     AddressFormComponent,

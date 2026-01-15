@@ -1,4 +1,6 @@
-<cx-spinner class="overlay" *ngIf="isUpdating$ | async"> </cx-spinner>
+@if (isUpdating$ | async) {
+  <cx-spinner class="overlay"> </cx-spinner>
+}
 <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
 <cx-form-required-legend />
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
@@ -18,9 +20,9 @@
         ariaLabel: 'updateProfileForm.title' | cxTranslate,
       }"
     >
-      <ng-option *ngFor="let title of titles$ | async" [value]="title.code">{{
-        title.name
-      }}</ng-option>
+      @for (title of titles$ | async; track title) {
+        <ng-option [value]="title.code">{{ title.name }}</ng-option>
+      }
     </ng-select>
   </label>
   <label>

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -53,8 +53,6 @@ import { combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
     FormRequiredLegendComponent,
     FormRequiredAsterisksComponent,
     DatePickerComponent,
-    NgIf,
-    NgFor,
     OutletDirective,
     RouterLink,
     AsyncPipe,

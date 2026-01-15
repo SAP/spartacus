@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -29,14 +29,7 @@ import { wrapIntoBounds } from './tab.utils';
   selector: 'cx-tab',
   templateUrl: './tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NgFor,
-    NgTemplateOutlet,
-    TabPanelComponent,
-    AsyncPipe,
-    TranslatePipe,
-  ],
+  imports: [NgTemplateOutlet, TabPanelComponent, AsyncPipe, TranslatePipe],
 })
 export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
   /**

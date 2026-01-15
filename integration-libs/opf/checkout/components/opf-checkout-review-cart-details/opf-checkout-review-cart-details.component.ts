@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   Cart,
@@ -28,7 +28,6 @@ import { OpfCheckoutReviewCardComponent } from '../opf-checkout-review-card';
     AsyncPipe,
     PickUpItemsDetailsComponent,
     OpfCheckoutReviewCardComponent,
-    NgIf,
   ],
 })
 export class OpfCheckoutReviewCartDetailsComponent extends CheckoutReviewSubmitComponent {

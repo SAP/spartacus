@@ -17,106 +17,118 @@
         <!-- Modal Body -->
         <div class="cx-dialog-body modal-body">
           <div class="message-container">
-            <cx-message
-              *ngIf="showDialogInfoAlert"
-              [text]="'asm.createCustomerForm.createAccountAlert' | cxTranslate"
-              [type]="globalMessageType.MSG_TYPE_INFO"
-              (closeMessage)="closeDialogInfoAlert()"
-            >
-            </cx-message>
-            <ng-container
-              *ngFor="let errorMessage of backendErrorMessages; let i = index"
-            >
+            @if (showDialogInfoAlert) {
               <cx-message
-                *ngIf="showDialogBackendErrorAlerts[i]"
-                [text]="errorMessage"
-                [type]="globalMessageType.MSG_TYPE_ERROR"
-                (closeMessage)="closeDialogBackendErroAlert(i)"
+                [text]="
+                  'asm.createCustomerForm.createAccountAlert' | cxTranslate
+                "
+                [type]="globalMessageType.MSG_TYPE_INFO"
+                (closeMessage)="closeDialogInfoAlert()"
               >
               </cx-message>
-            </ng-container>
+            }
+            @for (
+              errorMessage of backendErrorMessages;
+              track errorMessage;
+              let i = $index
+            ) {
+              @if (showDialogBackendErrorAlerts[i]) {
+                <cx-message
+                  [text]="errorMessage"
+                  [type]="globalMessageType.MSG_TYPE_ERROR"
+                  (closeMessage)="closeDialogBackendErroAlert(i)"
+                >
+                </cx-message>
+              }
+            }
           </div>
 
-          <div *ngIf="!(isLoading$ | async); else loading">
-            <div class="form-group">
-              <label>
-                <span class="label-content">{{
-                  'asm.createCustomerForm.firstName.label' | cxTranslate
-                }}</span>
-                <input
-                  required="true"
-                  class="form-control"
-                  placeholder="{{
-                    'asm.createCustomerForm.firstName.placeholder' | cxTranslate
-                  }}"
-                  [attr.aria-invalid]="
-                    registerForm.get('firstName')?.touched &&
-                    registerForm.get('firstName')?.invalid
-                  "
-                  [attr.aria-errormessage]="'firstNameError'"
-                  formControlName="firstName"
-                  name="text"
-                />
-                <cx-form-errors
-                  id="firstNameError"
-                  [control]="registerForm.get('firstName')"
-                ></cx-form-errors>
-              </label>
-            </div>
+          @if (!(isLoading$ | async)) {
+            <div>
+              <div class="form-group">
+                <label>
+                  <span class="label-content">{{
+                    'asm.createCustomerForm.firstName.label' | cxTranslate
+                  }}</span>
+                  <input
+                    required="true"
+                    class="form-control"
+                    placeholder="{{
+                      'asm.createCustomerForm.firstName.placeholder'
+                        | cxTranslate
+                    }}"
+                    [attr.aria-invalid]="
+                      registerForm.get('firstName')?.touched &&
+                      registerForm.get('firstName')?.invalid
+                    "
+                    [attr.aria-errormessage]="'firstNameError'"
+                    formControlName="firstName"
+                    name="text"
+                  />
+                  <cx-form-errors
+                    id="firstNameError"
+                    [control]="registerForm.get('firstName')"
+                  ></cx-form-errors>
+                </label>
+              </div>
 
-            <div class="form-group">
-              <label>
-                <span class="label-content">{{
-                  'asm.createCustomerForm.lastName.label' | cxTranslate
-                }}</span>
-                <input
-                  required="true"
-                  class="form-control"
-                  placeholder="{{
-                    'asm.createCustomerForm.lastName.placeholder' | cxTranslate
-                  }}"
-                  [attr.aria-invalid]="
-                    registerForm.get('lastName')?.touched &&
-                    registerForm.get('lastName')?.invalid
-                  "
-                  [attr.aria-errormessage]="'lastNameError'"
-                  name="text"
-                  formControlName="lastName"
-                />
-                <cx-form-errors
-                  id="lastNameError"
-                  [control]="registerForm.get('lastName')"
-                ></cx-form-errors>
-              </label>
-            </div>
+              <div class="form-group">
+                <label>
+                  <span class="label-content">{{
+                    'asm.createCustomerForm.lastName.label' | cxTranslate
+                  }}</span>
+                  <input
+                    required="true"
+                    class="form-control"
+                    placeholder="{{
+                      'asm.createCustomerForm.lastName.placeholder'
+                        | cxTranslate
+                    }}"
+                    [attr.aria-invalid]="
+                      registerForm.get('lastName')?.touched &&
+                      registerForm.get('lastName')?.invalid
+                    "
+                    [attr.aria-errormessage]="'lastNameError'"
+                    name="text"
+                    formControlName="lastName"
+                  />
+                  <cx-form-errors
+                    id="lastNameError"
+                    [control]="registerForm.get('lastName')"
+                  ></cx-form-errors>
+                </label>
+              </div>
 
-            <div class="form-group">
-              <label>
-                <span class="label-content">{{
-                  'asm.createCustomerForm.emailAddress.label' | cxTranslate
-                }}</span>
-                <input
-                  required="true"
-                  class="form-control"
-                  placeholder="{{
-                    'asm.createCustomerForm.emailAddress.placeholder'
-                      | cxTranslate
-                  }}"
-                  [attr.aria-invalid]="
-                    registerForm.get('email')?.touched &&
-                    registerForm.get('email')?.invalid
-                  "
-                  [attr.aria-errormessage]="'emailError'"
-                  name="email"
-                  formControlName="email"
-                />
-                <cx-form-errors
-                  id="emailError"
-                  [control]="registerForm.get('email')"
-                ></cx-form-errors>
-              </label>
+              <div class="form-group">
+                <label>
+                  <span class="label-content">{{
+                    'asm.createCustomerForm.emailAddress.label' | cxTranslate
+                  }}</span>
+                  <input
+                    required="true"
+                    class="form-control"
+                    placeholder="{{
+                      'asm.createCustomerForm.emailAddress.placeholder'
+                        | cxTranslate
+                    }}"
+                    [attr.aria-invalid]="
+                      registerForm.get('email')?.touched &&
+                      registerForm.get('email')?.invalid
+                    "
+                    [attr.aria-errormessage]="'emailError'"
+                    name="email"
+                    formControlName="email"
+                  />
+                  <cx-form-errors
+                    id="emailError"
+                    [control]="registerForm.get('email')"
+                  ></cx-form-errors>
+                </label>
+              </div>
             </div>
-          </div>
+          } @else {
+            <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+          }
         </div>
         <!-- Modal Footer -->
         <div class="modal-footer">
@@ -138,7 +150,3 @@
     </ng-container>
   </div>
 </div>
-
-<ng-template #loading>
-  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
-</ng-template>

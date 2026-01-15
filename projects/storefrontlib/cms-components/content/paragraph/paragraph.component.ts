@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,7 +21,7 @@ import { SupplementHashAnchorsPipe } from '../../../shared/pipes/suplement-hash-
   selector: 'cx-paragraph',
   templateUrl: './paragraph.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, SupplementHashAnchorsPipe],
+  imports: [AsyncPipe, SupplementHashAnchorsPipe],
 })
 export class ParagraphComponent {
   protected sanitizer = inject(DomSanitizer);

@@ -1,11 +1,11 @@
-<ng-container *ngIf="mode$ | async as mode">
+@if (mode$ | async; as mode) {
   <!-- Tab List is the list of buttons to open tabs -->
   <div
     [attr.role]="mode === TAB_MODE.ACCORDIAN ? null : 'tablist'"
     [attr.aria-label]="config.label | cxTranslate"
     [class]="mode.toLowerCase()"
   >
-    <ng-container *ngFor="let tab of tabs; let i = index">
+    @for (tab of tabs; track tab; let i = $index) {
       <button
         type="button"
         class="tab-btn"
@@ -27,40 +27,38 @@
             ? (tab.headerKey | cxTranslate: tab.headerParams || {})
             : tab.header
         }}
-        <span
-          *ngIf="mode === TAB_MODE.ACCORDIAN"
-          class="tab-icon"
-          aria-hidden="true"
-        >
-          {{ isOpen(i) ? '–' : '+' }}
-        </span>
+        @if (mode === TAB_MODE.ACCORDIAN) {
+          <span class="tab-icon" aria-hidden="true">
+            {{ isOpen(i) ? '–' : '+' }}
+          </span>
+        }
       </button>
 
       <!-- Show tab panels under selected button in Accordian mode -->
-      <ng-container
-        *ngIf="mode === TAB_MODE.ACCORDIAN"
-        [ngTemplateOutlet]="tabPanel"
-        [ngTemplateOutletContext]="{ tabNum: i }"
-      ></ng-container>
-    </ng-container>
+      @if (mode === TAB_MODE.ACCORDIAN) {
+        <ng-container
+          [ngTemplateOutlet]="tabPanel"
+          [ngTemplateOutletContext]="{ tabNum: i }"
+        ></ng-container>
+      }
+    }
   </div>
 
   <!-- Show selected tab panel under all buttons in Tab mode -->
-  <ng-container *ngIf="mode === TAB_MODE.TAB">
-    <ng-container
-      *ngFor="let tab of tabs; let i = index"
-      [ngTemplateOutlet]="tabPanel"
-      [ngTemplateOutletContext]="{ tabNum: i }"
-    >
-    </ng-container>
-  </ng-container>
+  @if (mode === TAB_MODE.TAB) {
+    @for (tab of tabs; track tab; let i = $index) {
+      <ng-container
+        [ngTemplateOutlet]="tabPanel"
+        [ngTemplateOutletContext]="{ tabNum: i }"
+      >
+      </ng-container>
+    }
+  }
 
   <!-- Tab Panel shows the content of the given tab -->
   <ng-template #tabPanel let-tabNum="tabNum">
-    <cx-tab-panel
-      [tab]="tabs[tabNum]"
-      [mode]="mode"
-      *ngIf="isOpen(tabNum)"
-    ></cx-tab-panel>
+    @if (isOpen(tabNum)) {
+      <cx-tab-panel [tab]="tabs[tabNum]" [mode]="mode"></cx-tab-panel>
+    }
   </ng-template>
-</ng-container>
+}

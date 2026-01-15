@@ -1,66 +1,60 @@
 <fieldset>
   <div id="{{ createAttributeIdForConfigurator(attribute) }}">
-    <ng-container
-      *ngIf="
-        attribute.values && attribute.values.length > 0;
-        else noStaticDomain
-      "
-    >
-      <ng-container *ngFor="let value of attribute.values">
-        <div
-          *ngIf="value.selected && (changedPrices$ | async) as changedPrices"
-          class="form-check"
-        >
-          <span
-            id="{{
-              createValueUiKey('aria-label', attribute.name, value.valueCode)
-            }}"
-            role="note"
-            tabindex="0"
-            class="cx-visually-hidden"
-          >
-            {{
-              getAriaLabel(
-                attribute,
-                enrichValueWithPrice(value, changedPrices)
-              )
-            }}
-          </span>
-          <div class="cx-value-label-pair">
-            <label
+    @if (attribute.values && attribute.values.length > 0) {
+      @for (value of attribute.values; track value) {
+        @if (value.selected && (changedPrices$ | async); as changedPrices) {
+          <div class="form-check">
+            <span
               id="{{
-                createValueUiKey('label', attribute.name, value.valueCode)
+                createValueUiKey('aria-label', attribute.name, value.valueCode)
               }}"
-              aria-hidden="true"
-              class="cx-read-only-attribute-label"
-              >{{
-                getLabel(expMode, value.valueDisplay, value.valueCode)
-              }}</label
+              role="note"
+              tabindex="0"
+              class="cx-visually-hidden"
             >
-            <cx-configurator-show-more
-              *ngIf="value.description"
-              [text]="value.description"
-              [textSize]="getValueDescriptionLength()"
-              [productName]="
-                getLabel(expMode, value.valueDisplay, value.valueCode)
-              "
-              [tabIndex]="0"
-            ></cx-configurator-show-more>
-          </div>
-          <div class="cx-value-price">
-            <cx-configurator-price
-              [formula]="
-                extractValuePriceFormulaParameters(
+              {{
+                getAriaLabel(
+                  attribute,
                   enrichValueWithPrice(value, changedPrices)
                 )
-              "
-            ></cx-configurator-price>
+              }}
+            </span>
+            <div class="cx-value-label-pair">
+              <label
+                id="{{
+                  createValueUiKey('label', attribute.name, value.valueCode)
+                }}"
+                aria-hidden="true"
+                class="cx-read-only-attribute-label"
+                >{{
+                  getLabel(expMode, value.valueDisplay, value.valueCode)
+                }}</label
+              >
+              @if (value.description) {
+                <cx-configurator-show-more
+                  [text]="value.description"
+                  [textSize]="getValueDescriptionLength()"
+                  [productName]="
+                    getLabel(expMode, value.valueDisplay, value.valueCode)
+                  "
+                  [tabIndex]="0"
+                ></cx-configurator-show-more>
+              }
+            </div>
+            <div class="cx-value-price">
+              <cx-configurator-price
+                [formula]="
+                  extractValuePriceFormulaParameters(
+                    enrichValueWithPrice(value, changedPrices)
+                  )
+                "
+              ></cx-configurator-price>
+            </div>
           </div>
-        </div>
-      </ng-container>
-    </ng-container>
-    <ng-template #noStaticDomain>
-      <ng-container *ngIf="attribute.selectedSingleValue">
+        }
+      }
+    } @else {
+      @if (attribute.selectedSingleValue) {
         <span
           id="{{
             createValueUiKey(
@@ -78,8 +72,8 @@
         <div class="cx-read-only-attribute-label" aria-hidden="true">
           <span aria-hidden="true">{{ attribute.selectedSingleValue }}</span>
         </div>
-      </ng-container>
-      <ng-container *ngIf="attribute.userInput">
+      }
+      @if (attribute.userInput) {
         <span
           id="{{
             createValueUiKey('aria-label', attribute.name, attribute.userInput)
@@ -93,7 +87,7 @@
         <div class="cx-read-only-attribute-label" aria-hidden="true">
           <span aria-hidden="true">{{ attribute.userInput }}</span>
         </div>
-      </ng-container>
-    </ng-template>
+      }
+    }
   </div>
 </fieldset>

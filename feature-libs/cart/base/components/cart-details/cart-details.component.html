@@ -1,41 +1,44 @@
-<ng-container *ngIf="cart$ | async as cart">
-  <ng-container *ngIf="entries$ | async as entries">
-    <div *ngIf="cart.totalItems > 0" class="cart-details-wrapper">
-      <cx-cart-validation-warnings></cx-cart-validation-warnings>
+@if (cart$ | async; as cart) {
+  @if (entries$ | async; as entries) {
+    @if (cart.totalItems > 0) {
+      <div class="cart-details-wrapper">
+        <cx-cart-validation-warnings></cx-cart-validation-warnings>
 
-      <h2 class="cx-total">
-        {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
-      </h2>
+        <h2 class="cx-total">
+          {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
+        </h2>
 
-      <cx-promotions
-        [promotions]="
-          (cart.appliedOrderPromotions || []).concat(
-            cart.potentialOrderPromotions || []
-          )
-        "
-      ></cx-promotions>
+        <cx-promotions
+          [promotions]="
+            (cart.appliedOrderPromotions || []).concat(
+              cart.potentialOrderPromotions || []
+            )
+          "
+        ></cx-promotions>
 
-      <cx-cart-item-list
-        [items]="entries"
-        [cartIsLoading]="!(cartLoaded$ | async)"
-        [promotionLocation]="promotionLocation"
-        [options]="{
-          isSaveForLater: false,
-          optionalBtn: saveForLaterBtn,
-        }"
-      ></cx-cart-item-list>
-    </div>
-  </ng-container>
-</ng-container>
+        <cx-cart-item-list
+          [items]="entries"
+          [cartIsLoading]="!(cartLoaded$ | async)"
+          [promotionLocation]="promotionLocation"
+          [options]="{
+            isSaveForLater: false,
+            optionalBtn: saveForLaterBtn,
+          }"
+        ></cx-cart-item-list>
+      </div>
+    }
+  }
+}
 
 <ng-template let-ctx #saveForLaterBtn>
-  <button
-    *ngIf="selectiveCartEnabled"
-    class="btn btn-tertiary cx-sfl-btn"
-    [disabled]="ctx.loading"
-    (click)="saveForLater(ctx.item)"
-    type="button"
-  >
-    {{ 'saveForLaterItems.saveForLater' | cxTranslate }}
-  </button>
+  @if (selectiveCartEnabled) {
+    <button
+      class="btn btn-tertiary cx-sfl-btn"
+      [disabled]="ctx.loading"
+      (click)="saveForLater(ctx.item)"
+      type="button"
+    >
+      {{ 'saveForLaterItems.saveForLater' | cxTranslate }}
+    </button>
+  }
 </ng-template>

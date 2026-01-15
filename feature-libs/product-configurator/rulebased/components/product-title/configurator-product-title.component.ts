@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
   Product,
@@ -34,7 +34,6 @@ import { ConfiguratorMainAriaLabelledByDirective } from './configurator-product-
   templateUrl: './configurator-product-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     ConfiguratorMainAriaLabelledByDirective,
     IconComponent,
     MediaComponent,

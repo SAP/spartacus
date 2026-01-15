@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -38,13 +38,7 @@ export interface EditCard {
 @Component({
   selector: 'cx-quote-header-buyer-edit',
   templateUrl: './quote-header-buyer-edit.component.html',
-  imports: [
-    NgIf,
-    FormsModule,
-    ReactiveFormsModule,
-    NgTemplateOutlet,
-    TranslatePipe,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, NgTemplateOutlet, TranslatePipe],
 })
 export class QuoteHeaderBuyerEditComponent implements OnInit {
   iconTypes = ICON_TYPE;

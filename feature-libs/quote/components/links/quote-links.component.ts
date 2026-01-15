@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -27,7 +27,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-quote-links',
   templateUrl: './quote-links.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe, TranslatePipe],
+  imports: [RouterLink, AsyncPipe, TranslatePipe, UrlPipe, TranslatePipe],
 })
 export class QuoteLinksComponent {
   protected quoteFacade = inject(QuoteFacade);

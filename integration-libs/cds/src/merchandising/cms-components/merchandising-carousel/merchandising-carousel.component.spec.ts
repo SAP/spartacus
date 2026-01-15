@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   Directive,
@@ -37,13 +37,13 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-carousel',
   template: `
-    <ng-container *ngFor="let item$ of items">
+    @for (item$ of items; track item$) {
       <ng-container
         *ngTemplateOutlet="template; context: { item: item$ | async }"
       ></ng-container>
-    </ng-container>
+    }
   `,
-  imports: [NgTemplateOutlet, NgFor, AsyncPipe],
+  imports: [NgTemplateOutlet, AsyncPipe],
 })
 class MockCarouselComponent {
   @Input() title: string;

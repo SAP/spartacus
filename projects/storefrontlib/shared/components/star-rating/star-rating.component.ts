@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -26,7 +26,7 @@ import { ICON_TYPE } from '../../../cms-components/misc/index';
   selector: 'cx-star-rating',
   templateUrl: './star-rating.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgTemplateOutlet, NgFor, IconComponent, TranslatePipe],
+  imports: [NgTemplateOutlet, IconComponent, TranslatePipe],
 })
 export class StarRatingComponent {
   protected initialRate = 0;

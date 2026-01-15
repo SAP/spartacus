@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,13 +36,7 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
   selector: 'cx-saved-cart-details-items',
   templateUrl: './saved-cart-details-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    OutletDirective,
-    AddToCartComponent,
-    SpinnerComponent,
-    AsyncPipe,
-  ],
+  imports: [OutletDirective, AddToCartComponent, SpinnerComponent, AsyncPipe],
 })
 export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

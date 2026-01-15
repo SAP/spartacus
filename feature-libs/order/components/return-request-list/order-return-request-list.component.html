@@ -1,8 +1,8 @@
-<ng-container *ngIf="returnRequests$ | async as returnRequests">
+@if (returnRequests$ | async; as returnRequests) {
   <div class="container">
     <!-- BODY -->
     <div class="cx-order-history-body">
-      <ng-container *ngIf="returnRequests.pagination.totalResults > 0">
+      @if (returnRequests.pagination.totalResults > 0) {
         <!-- Select Form and Pagination Top -->
         <div class="cx-order-history-sort top">
           <label class="cx-order-history-form-group form-group"
@@ -43,56 +43,58 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let return of returnRequests.returnRequests">
-              <td class="cx-order-history-code">
-                <div class="cx-order-history-label">
-                  {{ 'returnRequestList.returnRequestId' | cxTranslate }}
-                </div>
-                <a
-                  [routerLink]="
-                    {
-                      cxRoute: 'returnRequestDetails',
-                      params: return,
-                    } | cxUrl
-                  "
-                  class="cx-order-history-value"
-                >
-                  {{ return?.rma }}</a
-                >
-              </td>
-              <td class="cx-order-history-code">
-                <div class="cx-order-history-label">
-                  {{ 'returnRequestList.orderId' | cxTranslate }}
-                </div>
-                <a
-                  [routerLink]="
-                    {
-                      cxRoute: 'orderDetails',
-                      params: return?.order,
-                    } | cxUrl
-                  "
-                  class="cx-order-history-value"
-                >
-                  {{ return?.order?.code }}</a
-                >
-              </td>
+            @for (return of returnRequests.returnRequests; track return) {
+              <tr>
+                <td class="cx-order-history-code">
+                  <div class="cx-order-history-label">
+                    {{ 'returnRequestList.returnRequestId' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
+                      {
+                        cxRoute: 'returnRequestDetails',
+                        params: return,
+                      } | cxUrl
+                    "
+                    class="cx-order-history-value"
+                  >
+                    {{ return?.rma }}</a
+                  >
+                </td>
+                <td class="cx-order-history-code">
+                  <div class="cx-order-history-label">
+                    {{ 'returnRequestList.orderId' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
+                      {
+                        cxRoute: 'orderDetails',
+                        params: return?.order,
+                      } | cxUrl
+                    "
+                    class="cx-order-history-value"
+                  >
+                    {{ return?.order?.code }}</a
+                  >
+                </td>
 
-              <td class="cx-order-history-placed">
-                <div class="cx-order-history-label">
-                  {{ 'returnRequestList.date' | cxTranslate }}
-                </div>
-                {{ return?.creationTime | cxDate: 'longDate' }}
-              </td>
-              <td class="cx-order-history-status">
-                <div class="cx-order-history-label">
-                  {{ 'returnRequestList.status' | cxTranslate }}
-                </div>
-                {{
-                  'returnRequestList.statusDisplay_' + return?.status
-                    | cxTranslate
-                }}
-              </td>
-            </tr>
+                <td class="cx-order-history-placed">
+                  <div class="cx-order-history-label">
+                    {{ 'returnRequestList.date' | cxTranslate }}
+                  </div>
+                  {{ return?.creationTime | cxDate: 'longDate' }}
+                </td>
+                <td class="cx-order-history-status">
+                  <div class="cx-order-history-label">
+                    {{ 'returnRequestList.status' | cxTranslate }}
+                  </div>
+                  {{
+                    'returnRequestList.statusDisplay_' + return?.status
+                      | cxTranslate
+                  }}
+                </td>
+              </tr>
+            }
           </tbody>
         </table>
         <!-- Select Form and Pagination Bottom -->
@@ -116,7 +118,7 @@
             ></cx-pagination>
           </div>
         </div>
-      </ng-container>
+      }
     </div>
   </div>
-</ng-container>
+}

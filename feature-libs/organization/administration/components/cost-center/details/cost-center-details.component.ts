@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CostCenter, TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -30,7 +30,6 @@ import { CostCenterItemService } from '../services/cost-center-item.service';
   ],
   host: { class: 'content-wrapper' },
   imports: [
-    NgIf,
     CardComponent,
     FocusDirective,
     RouterLink,

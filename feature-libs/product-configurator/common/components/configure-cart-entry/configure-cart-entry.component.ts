@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -31,7 +31,7 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   selector: 'cx-configure-cart-entry',
   templateUrl: './configure-cart-entry.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, AsyncPipe, UrlPipe, TranslatePipe],
+  imports: [RouterLink, AsyncPipe, UrlPipe, TranslatePipe],
 })
 export class ConfigureCartEntryComponent {
   protected routingService = inject(RoutingService);

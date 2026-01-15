@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
@@ -16,7 +16,7 @@ import { map } from 'rxjs/operators';
   selector: 'cx-cancel-service-order-headline',
   templateUrl: './cancel-service-order-headline.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, OutletDirective, AsyncPipe, DatePipe, TranslatePipe],
+  imports: [OutletDirective, AsyncPipe, DatePipe, TranslatePipe],
 })
 export class CancelServiceOrderHeadlineComponent {
   protected orderDetailsService = inject(OrderDetailsService);

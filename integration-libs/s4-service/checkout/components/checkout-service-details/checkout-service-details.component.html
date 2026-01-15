@@ -50,20 +50,22 @@
         <cx-form-required-asterisks />
       </div>
       <div>
-        <select
-          *ngIf="scheduleTimes$ | async as scheduleTimes"
-          class="form-control"
-          formControlName="scheduleTime"
-          (change)="setScheduleTime($event)"
-        >
-          <option
-            *ngFor="let time of scheduleTimes"
-            [value]="time"
-            [selected]="form.get('scheduleTime')?.value === time"
+        @if (scheduleTimes$ | async; as scheduleTimes) {
+          <select
+            class="form-control"
+            formControlName="scheduleTime"
+            (change)="setScheduleTime($event)"
           >
-            {{ time }}
-          </option>
-        </select>
+            @for (time of scheduleTimes; track time) {
+              <option
+                [value]="time"
+                [selected]="form.get('scheduleTime')?.value === time"
+              >
+                {{ time }}
+              </option>
+            }
+          </select>
+        }
       </div>
     </label>
   </div>

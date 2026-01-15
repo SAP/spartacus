@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -21,7 +21,7 @@ import { IconComponent } from '../icon/icon.component';
 @Component({
   selector: 'cx-message',
   templateUrl: './message.component.html',
-  imports: [NgClass, IconComponent, NgIf, AtMessageDirective, TranslatePipe],
+  imports: [NgClass, IconComponent, AtMessageDirective, TranslatePipe],
 })
 export class MessageComponent implements AfterViewInit {
   @Input()

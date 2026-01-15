@@ -1,15 +1,8 @@
-<ng-container
-  *ngIf="
-    configurationWithOv$ | async as configurationWithOv;
-    else ghostFilterButton
-  "
->
-  <ng-container
-    *ngIf="
-      !(isDisplayOnlyVariant() | async) ||
-      configurationWithOv.overview.possibleGroups?.length !== 1
-    "
-  >
+@if (configurationWithOv$ | async; as configurationWithOv) {
+  @if (
+    !(isDisplayOnlyVariant() | async) ||
+    configurationWithOv.overview.possibleGroups?.length !== 1
+  ) {
     <button
       #filterButton
       class="btn btn-secondary cx-config-filter-button"
@@ -33,12 +26,10 @@
             : { numAppliedFilters: getNumFilters(configurationWithOv.overview) }
       }}
     </button>
-  </ng-container>
+  }
   <cx-configurator-overview-filter-bar
     [config]="configurationWithOv"
   ></cx-configurator-overview-filter-bar>
-</ng-container>
-
-<ng-template #ghostFilterButton>
+} @else {
   <div class="cx-ghost-filter-button ghost"></div>
-</ng-template>
+}

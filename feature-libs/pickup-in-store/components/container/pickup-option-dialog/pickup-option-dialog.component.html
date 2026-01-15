@@ -38,11 +38,13 @@
         [productCode]="productCode"
         (storeSelected)="close(LOCATION_SELECTED)"
       ></cx-store-list>
-      <div *ngIf="loading">
-        <div class="cx-spinner">
-          <cx-spinner></cx-spinner>
+      @if (loading) {
+        <div>
+          <div class="cx-spinner">
+            <cx-spinner></cx-spinner>
+          </div>
         </div>
-      </div>
+      }
     </section>
   </div>
 </div>

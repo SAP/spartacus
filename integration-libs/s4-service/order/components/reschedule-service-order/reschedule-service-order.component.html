@@ -31,54 +31,60 @@
             {{ 'rescheduleService.timePickerLabel' | cxTranslate }}
             <cx-form-required-asterisks />
           </span>
-          <select
-            *ngIf="scheduleTimes$ | async as scheduleTimes"
-            class="form-control"
-            formControlName="scheduleTime"
-            (change)="setScheduleTime($event)"
-          >
-            <option
-              *ngFor="let time of scheduleTimes"
-              [value]="time"
-              [selected]="form.get('scheduleTime')?.value === time"
+          @if (scheduleTimes$ | async; as scheduleTimes) {
+            <select
+              class="form-control"
+              formControlName="scheduleTime"
+              (change)="setScheduleTime($event)"
             >
-              {{ time }}
-            </option>
-          </select>
+              @for (time of scheduleTimes; track time) {
+                <option
+                  [value]="time"
+                  [selected]="form.get('scheduleTime')?.value === time"
+                >
+                  {{ time }}
+                </option>
+              }
+            </select>
+          }
         </label>
       </div>
     </div>
   </div>
 
   <div class="cx-reschedule-service-details">
-    <ng-template
-      *ngIf="order$ | async as order"
-      [cxOutlet]="CartOutlets.CART_ITEM_LIST"
-      [cxOutletContext]="{
-        items: order.entries,
-        readonly: true,
-      }"
-    >
-    </ng-template>
+    @if (order$ | async; as order) {
+      <ng-template
+        [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+        [cxOutletContext]="{
+          items: order.entries,
+          readonly: true,
+        }"
+      >
+      </ng-template>
+    }
   </div>
 
   <div class="cx-reschedule-service-actions">
     <div class="row">
       <div class="col-sm-12 col-xl-6">
-        <button
-          type="button"
-          class="btn btn-secondary btn-block"
-          *ngIf="order$ | async as order"
-          [routerLink]="
-            {
-              cxRoute: 'orderDetails',
-              params: order,
-            } | cxUrl
-          "
-          [attr.aria-label]="'rescheduleService.backButtonLabel' | cxTranslate"
-        >
-          {{ 'rescheduleService.backButtonLabel' | cxTranslate }}
-        </button>
+        @if (order$ | async; as order) {
+          <button
+            type="button"
+            class="btn btn-secondary btn-block"
+            [routerLink]="
+              {
+                cxRoute: 'orderDetails',
+                params: order,
+              } | cxUrl
+            "
+            [attr.aria-label]="
+              'rescheduleService.backButtonLabel' | cxTranslate
+            "
+          >
+            {{ 'rescheduleService.backButtonLabel' | cxTranslate }}
+          </button>
+        }
       </div>
       <div class="col-sm-12 col-xl-6">
         <button

@@ -1,7 +1,7 @@
-<ng-container *ngIf="product$ | async as product">
-  <ng-container *ngIf="product.potentialPromotions">
+@if (product$ | async; as product) {
+  @if (product.potentialPromotions) {
     <cx-promotions [promotions]="product.potentialPromotions"></cx-promotions>
-  </ng-container>
+  }
 
   <ng-template
     [cxOutlet]="outlets.PRICE"
@@ -30,4 +30,4 @@
           </a>
         </div>
       </ng-container> -->
-</ng-container>
+}

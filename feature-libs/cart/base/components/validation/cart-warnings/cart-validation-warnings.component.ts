@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -20,15 +20,7 @@ import { map } from 'rxjs/operators';
   selector: 'cx-cart-validation-warnings',
   templateUrl: './cart-validation-warnings.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgFor,
-    NgIf,
-    IconComponent,
-    RouterLink,
-    AsyncPipe,
-    TranslatePipe,
-    UrlPipe,
-  ],
+  imports: [IconComponent, RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
 })
 export class CartValidationWarningsComponent {
   iconTypes = ICON_TYPE;

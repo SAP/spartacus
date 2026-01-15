@@ -7,8 +7,6 @@
 import {
   AsyncPipe,
   NgClass,
-  NgFor,
-  NgIf,
   NgTemplateOutlet,
   SlicePipe,
 } from '@angular/common';
@@ -62,10 +60,8 @@ import { CarouselService } from './carousel.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { ngSkipHydration: 'true' },
   imports: [
-    NgIf,
     NgClass,
     IconComponent,
-    NgFor,
     NgTemplateOutlet,
     AsyncPipe,
     SlicePipe,

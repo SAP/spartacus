@@ -11,62 +11,70 @@
       ></cx-media>
     </a>
     <div class="cx-info">
-      <div *ngIf="cartEntry.product?.name" class="cx-name">
-        <a
-          class="cx-link"
-          [routerLink]="
-            { cxRoute: 'product', params: cartEntry.product } | cxUrl
-          "
-          >{{ cartEntry.product?.name }}</a
-        >
-      </div>
-      <div *ngIf="cartEntry.product?.code" class="cx-code">
-        {{ 'cartItems.id' | cxTranslate }} {{ cartEntry.product?.code }}
-      </div>
+      @if (cartEntry.product?.name) {
+        <div class="cx-name">
+          <a
+            class="cx-link"
+            [routerLink]="
+              { cxRoute: 'product', params: cartEntry.product } | cxUrl
+            "
+            >{{ cartEntry.product?.name }}</a
+          >
+        </div>
+      }
+      @if (cartEntry.product?.code) {
+        <div class="cx-code">
+          {{ 'cartItems.id' | cxTranslate }} {{ cartEntry.product?.code }}
+        </div>
+      }
     </div>
   </div>
   <!-- Variants -->
-  <ng-container *ngIf="cartEntry.product?.baseOptions?.length">
-    <div
-      *ngFor="
-        let variant of cartEntry.product?.baseOptions[0]?.selected
-          ?.variantOptionQualifiers
-      "
-      class="cx-property"
-    >
-      <div class="cx-label" *ngIf="variant.name && variant.value">
-        {{ variant.name }}: {{ variant.value }}
+  @if (cartEntry.product?.baseOptions?.length) {
+    @for (
+      variant of cartEntry.product?.baseOptions[0]?.selected
+        ?.variantOptionQualifiers;
+      track variant
+    ) {
+      <div class="cx-property">
+        @if (variant.name && variant.value) {
+          <div class="cx-label">{{ variant.name }}: {{ variant.value }}</div>
+        }
       </div>
-    </div>
-  </ng-container>
+    }
+  }
 </td>
 <!-- Item Price -->
-<td role="cell" *ngIf="cartEntry.basePrice" class="cx-price">
-  <div class="cx-mobile-header">
-    {{ 'cartItems.itemPrice' | cxTranslate }}
-  </div>
-  <div *ngIf="cartEntry.basePrice" class="cx-value">
-    {{ cartEntry.basePrice?.formattedValue }}
-  </div>
-</td>
+@if (cartEntry.basePrice) {
+  <td role="cell" class="cx-price">
+    <div class="cx-mobile-header">
+      {{ 'cartItems.itemPrice' | cxTranslate }}
+    </div>
+    @if (cartEntry.basePrice) {
+      <div class="cx-value">
+        {{ cartEntry.basePrice?.formattedValue }}
+      </div>
+    }
+  </td>
+}
 <!-- Action -->
 <td role="cell" class="cx-actions">
-  <ng-container
-    *ngIf="cartEntry.updateable"
-    cxInnerComponentsHost
-  ></ng-container>
+  @if (cartEntry.updateable) {
+    <ng-container cxInnerComponentsHost></ng-container>
+  }
   <ng-template #outOfStock>
     <span class="cx-out-of-stock">
       {{ 'addToCart.outOfStock' | cxTranslate }}
     </span>
   </ng-template>
-  <button
-    *ngIf="cartEntry.updateable"
-    (click)="removeEntry(cartEntry)"
-    [cxAtMessage]="'wishlist.itemRemoved' | cxTranslate"
-    [disabled]="isLoading"
-    class="link cx-action-link cx-remove-btn"
-  >
-    {{ 'common.remove' | cxTranslate }}
-  </button>
+  @if (cartEntry.updateable) {
+    <button
+      (click)="removeEntry(cartEntry)"
+      [cxAtMessage]="'wishlist.itemRemoved' | cxTranslate"
+      [disabled]="isLoading"
+      class="link cx-action-link cx-remove-btn"
+    >
+      {{ 'common.remove' | cxTranslate }}
+    </button>
+  }
 </td>

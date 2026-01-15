@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -35,7 +35,7 @@ import { AsmCustomer360SectionContext } from '../asm-customer-360-section-contex
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-map',
   templateUrl: './asm-customer-360-map.component.html',
-  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360MapComponent implements OnDestroy, OnInit {
   storeData: StoreFinderSearchPage;

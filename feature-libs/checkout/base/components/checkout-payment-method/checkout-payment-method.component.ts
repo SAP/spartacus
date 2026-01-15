@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -61,8 +61,6 @@ import { CheckoutPaymentFormComponent } from './checkout-payment-form/checkout-p
   templateUrl: './checkout-payment-method.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
-    NgFor,
     CardComponent,
     CheckoutPaymentFormComponent,
     SpinnerComponent,

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { SpinnerComponent } from '../../../../../shared/components/spinner/spinner.component';
@@ -15,9 +15,7 @@ import { MyAccountV2ConsentManagementFormComponent } from './consent-form/my-acc
   selector: 'cx-my-account-v2-consent-management',
   templateUrl: './my-account-v2-consent-management.component.html',
   imports: [
-    NgIf,
     SpinnerComponent,
-    NgFor,
     MyAccountV2ConsentManagementFormComponent,
     AsyncPipe,
     TranslatePipe,

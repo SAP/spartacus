@@ -1,4 +1,3 @@
-import { NgFor } from '@angular/common';
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -22,14 +21,16 @@ import { HorizontalScrollingPositionDirective } from './horizontal-scrolling-pos
         style="overflow-x: auto; white-space: nowrap; width: 300px; display: flex;"
       >
         <div #scrollingAreaStart></div>
-        <div *ngFor="let item of items" class="item" style="flex: 0 0 100px">
-          {{ item }}
-        </div>
+        @for (item of items; track item) {
+          <div class="item" style="flex: 0 0 100px">
+            {{ item }}
+          </div>
+        }
         <div #scrollingAreaEnd></div>
       </div>
     </ng-container>
   `,
-  imports: [HorizontalScrollingPositionDirective, NgFor],
+  imports: [HorizontalScrollingPositionDirective],
 })
 export class TestComponent {
   items = [1, 2, 3, 4, 5];

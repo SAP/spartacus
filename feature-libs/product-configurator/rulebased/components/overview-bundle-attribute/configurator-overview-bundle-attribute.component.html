@@ -1,4 +1,4 @@
-<ng-container *ngIf="product$ | async as product">
+@if (product$ | async; as product) {
   <div class="cx-value-container">
     <div class="cx-thumbnail">
       <cx-media
@@ -14,26 +14,32 @@
       <div>
         {{ attributeOverview.value }}
       </div>
-      <span class="cx-code" *ngIf="attributeOverview?.productCode">
-        {{ 'configurator.attribute.id' | cxTranslate }}:
-        {{ attributeOverview.productCode }}</span
-      >
-      <div *ngIf="displayQuantity()" class="cx-quantity">
-        <span class="cx-identifier">{{
-          'configurator.attribute.quantity' | cxTranslate
-        }}</span>
-        <span class="cx-item">{{
-          attributeOverview.quantity | cxNumeric
-        }}</span>
-      </div>
-      <div *ngIf="displayPrice()" class="cx-price">
-        <span class="cx-identifier">{{
-          'configurator.overviewForm.itemPrice' | cxTranslate
-        }}</span>
-        <span class="cx-item">{{
-          attributeOverview.valuePrice?.formattedValue
-        }}</span>
-      </div>
+      @if (attributeOverview?.productCode) {
+        <span class="cx-code">
+          {{ 'configurator.attribute.id' | cxTranslate }}:
+          {{ attributeOverview.productCode }}</span
+        >
+      }
+      @if (displayQuantity()) {
+        <div class="cx-quantity">
+          <span class="cx-identifier">{{
+            'configurator.attribute.quantity' | cxTranslate
+          }}</span>
+          <span class="cx-item">{{
+            attributeOverview.quantity | cxNumeric
+          }}</span>
+        </div>
+      }
+      @if (displayPrice()) {
+        <div class="cx-price">
+          <span class="cx-identifier">{{
+            'configurator.overviewForm.itemPrice' | cxTranslate
+          }}</span>
+          <span class="cx-item">{{
+            attributeOverview.valuePrice?.formattedValue
+          }}</span>
+        </div>
+      }
     </div>
   </div>
 
@@ -43,4 +49,4 @@
       [formula]="extractPriceFormulaParameters()"
     ></cx-configurator-price>
   </div>
-</ng-container>
+}

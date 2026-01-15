@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
   CmsService,
@@ -24,7 +24,7 @@ import { CarouselComponent } from '../../../shared/components/carousel/carousel.
   selector: 'cx-banner-carousel',
   templateUrl: 'banner-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, CarouselComponent, ComponentWrapperDirective, AsyncPipe],
+  imports: [CarouselComponent, ComponentWrapperDirective, AsyncPipe],
 })
 export class BannerCarouselComponent {
   private componentData$: Observable<model> = this.componentData.data$.pipe(

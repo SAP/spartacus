@@ -1,6 +1,8 @@
-<ng-container
-  *ngFor="let filter of config.overview.attributeFilters; let i = index"
->
+@for (
+  filter of config.overview.attributeFilters;
+  track filter;
+  let i = $index
+) {
   <button
     class="cx-overview-filter-applied"
     id="cx-overview-filter-applied-{{
@@ -28,11 +30,9 @@
       <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
     </span>
   </button>
-</ng-container>
+}
 
-<ng-container
-  *ngFor="let groupId of config.overview.groupFilters; let i = index"
->
+@for (groupId of config.overview.groupFilters; track groupId; let i = $index) {
   <button
     id="cx-overview-filter-applied-{{ groupId }}"
     class="cx-overview-filter-applied"
@@ -50,9 +50,9 @@
       <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
     </span>
   </button>
-</ng-container>
+}
 
-<ng-container *ngIf="isShowRemoveAll(config.overview)">
+@if (isShowRemoveAll(config.overview)) {
   <button
     class="cx-overview-filter-applied"
     id="cx-overview-filter-applied-REMOVE_ALL"
@@ -66,4 +66,4 @@
       <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
     </span>
   </button>
-</ng-container>
+}

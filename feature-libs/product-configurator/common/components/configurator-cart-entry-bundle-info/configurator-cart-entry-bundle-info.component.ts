@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, Optional } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
@@ -29,8 +29,6 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
   selector: 'cx-configurator-cart-entry-bundle-info',
   templateUrl: './configurator-cart-entry-bundle-info.component.html',
   imports: [
-    NgIf,
-    NgFor,
     ConfigureCartEntryComponent,
     AsyncPipe,
     TranslatePipe,

@@ -5,7 +5,7 @@
 >
   <div class="modal-content cx-dialog-content">
     <!-- Modal Header -->
-    <ng-container *ngIf="loaded$ | async; else loading">
+    @if (loaded$ | async) {
       <div class="modal-header cx-dialog-header">
         <h3>
           {{ 'reconsent.dialog.title' | cxTranslate }}
@@ -30,23 +30,21 @@
       </div>
       <div class="cx-dialog-buttons"></div>
       <!-- Modal Body -->
-      <div
-        class="modal-body cx-dialog-body"
-        *ngIf="templateList$ | async as templateList"
-      >
-        <div
-          class="cx-dialog-row col-sm-12 col-md-6"
-          *ngFor="let consentTemplate of templateList"
-        >
-          <cx-consent-management-form
-            [consentTemplate]="consentTemplate"
-            (consentChanged)="onConsentChange($event)"
-            [showMandatory]="
-              requiredReconsents.includes(consentTemplate.id ?? '')
-            "
-          ></cx-consent-management-form>
+      @if (templateList$ | async; as templateList) {
+        <div class="modal-body cx-dialog-body">
+          @for (consentTemplate of templateList; track consentTemplate) {
+            <div class="cx-dialog-row col-sm-12 col-md-6">
+              <cx-consent-management-form
+                [consentTemplate]="consentTemplate"
+                (consentChanged)="onConsentChange($event)"
+                [showMandatory]="
+                  requiredReconsents.includes(consentTemplate.id ?? '')
+                "
+              ></cx-consent-management-form>
+            </div>
+          }
         </div>
-      </div>
+      }
       <!-- Actions -->
       <div class="cx-dialog-buttons">
         <a
@@ -60,10 +58,8 @@
           >{{ 'common.submit' | cxTranslate }}</a
         >
       </div>
-    </ng-container>
+    } @else {
+      <cx-spinner></cx-spinner>
+    }
   </div>
-
-  <ng-template #loading>
-    <cx-spinner></cx-spinner>
-  </ng-template>
 </div>

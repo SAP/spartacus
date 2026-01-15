@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,12 +36,10 @@ import { ConfirmationContext } from './quote-confirm-dialog.model';
   providers: [CxDatePipe],
   imports: [
     FocusDirective,
-    NgIf,
     IconComponent,
     AsyncPipe,
     TranslatePipe,
     CxDatePipe_1,
-
     CxDatePipe,
   ],
 })

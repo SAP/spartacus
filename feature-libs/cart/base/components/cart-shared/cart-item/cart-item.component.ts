@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -40,8 +40,6 @@ import { CartItemContextSource } from './model/cart-item-context-source.model';
     NgClass,
     RouterLink,
     MediaComponent,
-    NgIf,
-    NgFor,
     ItemCounterComponent,
     PromotionsComponent,
     NgTemplateOutlet,

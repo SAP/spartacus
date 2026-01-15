@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -27,16 +27,13 @@ import { OrderApprovalService } from '../../core/services/order-approval.service
   templateUrl: './order-approval-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     SortingComponent,
     PaginationComponent,
-    NgFor,
     RouterLink,
     AsyncPipe,
     UrlPipe,
     TranslatePipe,
     CxDatePipe,
-
     CxDatePipe,
   ],
 })

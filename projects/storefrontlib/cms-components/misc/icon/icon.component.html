@@ -1,4 +1,4 @@
-<ng-container *ngIf="icon">
+@if (icon) {
   <i [outerHTML]="icon"></i>
-</ng-container>
+}
 <ng-content></ng-content>

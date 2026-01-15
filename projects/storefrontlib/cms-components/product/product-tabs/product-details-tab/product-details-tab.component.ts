@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CmsComponentWithChildren, CmsService, Product } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
@@ -18,7 +18,7 @@ import { CurrentProductService } from '../../current-product.service';
   selector: 'cx-product-details-tab',
   templateUrl: './product-details-tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, OutletDirective, ComponentWrapperDirective, AsyncPipe],
+  imports: [OutletDirective, ComponentWrapperDirective, AsyncPipe],
 })
 export class ProductDetailsTabComponent implements OnInit {
   product$: Observable<Product | null>;

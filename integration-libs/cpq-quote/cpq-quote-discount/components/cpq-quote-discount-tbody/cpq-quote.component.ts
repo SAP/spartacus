@@ -7,7 +7,7 @@
 import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 
-import { DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { DecimalPipe, NgClass } from '@angular/common';
 import { CpqDiscounts } from '@spartacus/cpq-quote/root';
 import { Observable, Subscription } from 'rxjs';
 import { CpqQuoteService } from '../../cpq-qute.service';
@@ -18,7 +18,7 @@ interface ExtendedOrderEntry extends OrderEntry {
 @Component({
   selector: 'cx-cpq-quote',
   templateUrl: './cpq-quote.component.html',
-  imports: [NgIf, NgFor, NgClass, DecimalPipe],
+  imports: [NgClass, DecimalPipe],
 })
 export class CpqQuoteDiscountComponent implements OnInit, OnDestroy {
   quoteDiscountData: ExtendedOrderEntry | null;

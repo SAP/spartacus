@@ -1,6 +1,4 @@
-<ng-container
-  *ngIf="((items$ | async)?.length ?? 0) > 0 && (items$ | async) as items"
->
+@if (((items$ | async)?.length ?? 0) > 0 && (items$ | async); as items) {
   <div class="cx-variant-carousel-container">
     <cx-carousel
       role="region"
@@ -18,4 +16,4 @@
       <cx-product-carousel-item [item]="item"></cx-product-carousel-item>
     </ng-template>
   </div>
-</ng-container>
+}

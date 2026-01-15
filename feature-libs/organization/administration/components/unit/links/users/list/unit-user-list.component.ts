@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { B2BUnit, TranslatePipe } from '@spartacus/core';
@@ -30,7 +30,6 @@ import { UnitUserListService } from '../services/unit-user-list.service';
   ],
   imports: [
     SubListComponent,
-    NgIf,
     RouterLink,
     DisableInfoComponent,
     AsyncPipe,

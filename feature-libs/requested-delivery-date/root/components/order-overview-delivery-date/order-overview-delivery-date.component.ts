@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
 import { CxDatePipe, TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
@@ -16,7 +16,7 @@ import { DateValidationService } from '../shared/date-validation.service';
 @Component({
   selector: 'cx-order-overview-delivery-date',
   templateUrl: './order-overview-delivery-date.component.html',
-  imports: [NgIf, CardComponent, AsyncPipe, CxDatePipe, CxDatePipe],
+  imports: [CardComponent, AsyncPipe, CxDatePipe, CxDatePipe],
 })
 export class OrderOverviewDeliveryDateComponent implements OnInit, OnDestroy {
   constructor(

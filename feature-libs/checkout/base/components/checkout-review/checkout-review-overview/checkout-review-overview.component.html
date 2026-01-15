@@ -1,4 +1,4 @@
-<ng-container *ngIf="cart$ | async as cart">
+@if (cart$ | async; as cart) {
   <div class="cx-review-cart-total d-none d-lg-block d-xl-block">
     {{ 'cartItems.cartTotal' | cxTranslate: { count: cart.totalUnitCount } }}:
     {{ cart.totalPrice?.formattedValue }}
@@ -10,4 +10,4 @@
       )
     "
   ></cx-promotions>
-</ng-container>
+}

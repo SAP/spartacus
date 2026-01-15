@@ -25,7 +25,6 @@ import createSpy = jasmine.createSpy;
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     I18nTestingModule,
     FormErrorsModule,

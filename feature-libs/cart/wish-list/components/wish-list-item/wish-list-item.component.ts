@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -39,8 +38,6 @@ import {
   imports: [
     RouterLink,
     MediaComponent,
-    NgIf,
-    NgFor,
     InnerComponentsHostDirective,
     AtMessageDirective,
     TranslatePipe,

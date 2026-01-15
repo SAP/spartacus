@@ -1,6 +1,6 @@
 <!-- https://github.com/angular/angular/issues/24567 -->
 
-<ng-container *ngIf="isExternalUrl(); else isLocalUrl">
+@if (isExternalUrl()) {
   <a
     [href]="url"
     [attr.target]="target"
@@ -14,9 +14,7 @@
   >
     <ng-container *ngTemplateOutlet="content"></ng-container>
   </a>
-</ng-container>
-
-<ng-template #isLocalUrl>
+} @else {
   <a
     [routerLink]="routerUrl"
     [queryParams]="queryParams"
@@ -31,7 +29,7 @@
   >
     <ng-container *ngTemplateOutlet="content"></ng-container>
   </a>
-</ng-template>
+}
 
 <ng-template #content>
   <ng-content></ng-content>

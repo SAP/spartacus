@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PointOfServiceStock, TranslatePipe } from '@spartacus/core';
 import { storeHasStock } from '@spartacus/pickup-in-store/core';
@@ -23,7 +23,6 @@ import { StoreScheduleComponent } from './store-schedule/store-schedule.componen
   imports: [
     StoreAddressComponent,
     IconComponent,
-    NgIf,
     StoreScheduleComponent,
     SetPreferredStoreComponent,
     NgClass,

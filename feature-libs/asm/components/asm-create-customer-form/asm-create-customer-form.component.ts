@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
@@ -44,9 +44,7 @@ import { CreatedCustomer } from './asm-create-customer-form.model';
     FocusDirective,
     FormsModule,
     ReactiveFormsModule,
-    NgIf,
     MessageComponent,
-    NgFor,
     FormErrorsComponent,
     SpinnerComponent,
     AsyncPipe,

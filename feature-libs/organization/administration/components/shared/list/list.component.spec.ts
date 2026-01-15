@@ -116,7 +116,6 @@ class MockTableComponent {
 @Component({
   templateUrl: './list.component.html',
   imports: [
-    CommonModule,
     I18nTestingModule,
     UrlTestingModule,
     SplitViewTestingModule,

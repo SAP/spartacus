@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import {
   FormsModule,
@@ -52,7 +52,6 @@ import { CheckoutBillingAddressFormService } from './checkout-billing-address-fo
   selector: 'cx-checkout-billing-address-form',
   templateUrl: './checkout-billing-address-form.component.html',
   imports: [
-    NgIf,
     CardComponent,
     FormsModule,
     ReactiveFormsModule,

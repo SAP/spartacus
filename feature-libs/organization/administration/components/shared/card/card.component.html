@@ -11,20 +11,21 @@
           <span id="{{ i18nRoot + '_title' }}">
             {{ i18nRoot + '.title' | cxTranslate: { item: item$ | async } }}
           </span>
-          <button
-            *ngIf="showHint"
-            [cxPopover]="detailHint"
-            [cxPopoverOptions]="{
-              placement: 'auto',
-              class: 'hint-popover',
-              appendToBody: true,
-              displayCloseButton: true,
-            }"
-            [attr.aria-label]="'organization.information' | cxTranslate"
-            [attr.title]="'organization.information' | cxTranslate"
-          >
-            <cx-icon [type]="iconTypes.INFO"> </cx-icon>
-          </button>
+          @if (showHint) {
+            <button
+              [cxPopover]="detailHint"
+              [cxPopoverOptions]="{
+                placement: 'auto',
+                class: 'hint-popover',
+                appendToBody: true,
+                displayCloseButton: true,
+              }"
+              [attr.aria-label]="'organization.information' | cxTranslate"
+              [attr.title]="'organization.information' | cxTranslate"
+            >
+              <cx-icon [type]="iconTypes.INFO"> </cx-icon>
+            </button>
+          }
         </h3>
         <h4>
           {{
@@ -37,20 +38,23 @@
         <ng-content select="[actions]"></ng-content>
       </div>
     </div>
-    <button
-      *ngIf="!!previous"
-      class="link btn btn-link btn-sm close"
-      [attr.aria-label]="'common.close' | cxTranslate"
-      routerLink="../"
-    >
-      <cx-icon
-        *ngIf="previous === true; else prevLabel"
-        type="CLOSE"
-        title="{{ 'common.close' | cxTranslate }}"
-        (click)="closeView($event)"
-      ></cx-icon>
-      <ng-template #prevLabel>{{ previousLabel | cxTranslate }}</ng-template>
-    </button>
+    @if (!!previous) {
+      <button
+        class="link btn btn-link btn-sm close"
+        [attr.aria-label]="'common.close' | cxTranslate"
+        routerLink="../"
+      >
+        @if (previous === true) {
+          <cx-icon
+            type="CLOSE"
+            title="{{ 'common.close' | cxTranslate }}"
+            (click)="closeView($event)"
+          ></cx-icon>
+        } @else {
+          {{ previousLabel | cxTranslate }}
+        }
+      </button>
+    }
   </div>
 
   <div class="main">

@@ -1,50 +1,53 @@
-<ng-container
-  *ngIf="{
+@if (
+  {
     value: explicitTermsAndConditions$ | async,
-  } as explicitTermsAndConditions"
->
-  <cx-opf-checkout-terms-and-conditions-alert
-    *ngIf="!explicitTermsAndConditions.value"
-    [isVisible]="termsAndConditionInvalid"
-    [isExplicit]="explicitTermsAndConditions.value"
-    [isDismissible]="false"
-    [ngClass]="['for-mobile']"
-  ></cx-opf-checkout-terms-and-conditions-alert>
+  };
+  as explicitTermsAndConditions
+) {
+  @if (!explicitTermsAndConditions.value) {
+    <cx-opf-checkout-terms-and-conditions-alert
+      [isVisible]="termsAndConditionInvalid"
+      [isExplicit]="explicitTermsAndConditions.value"
+      [isDismissible]="false"
+      [ngClass]="['for-mobile']"
+    ></cx-opf-checkout-terms-and-conditions-alert>
+  }
 
-  <div
-    *ngIf="explicitTermsAndConditions.value"
-    class="cx-opf-terms-and-conditions"
-    [attr.aria-label]="'opfCheckout.termsAndConditions' | cxTranslate"
-  >
-    <h3>{{ 'opfCheckout.termsAndConditions' | cxTranslate }}</h3>
-
-    <form
-      class="cx-place-order-form form-check"
-      [formGroup]="checkoutSubmitForm"
+  @if (explicitTermsAndConditions.value) {
+    <div
+      class="cx-opf-terms-and-conditions"
+      [attr.aria-label]="'opfCheckout.termsAndConditions' | cxTranslate"
     >
-      <div class="form-group">
-        <label>
-          <input
-            formControlName="termsAndConditions"
-            class="scaled-input form-check-input"
-            type="checkbox"
-            (change)="toggleTermsAndConditions()"
-          />
-          <span class="form-check-label">
-            {{ 'checkoutReview.confirmThatRead' | cxTranslate }}
-            <a
-              [routerLink]="{ cxRoute: 'termsAndConditions' } | cxUrl"
-              class="cx-tc-link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {{ 'checkoutReview.termsAndConditions' | cxTranslate }}
-            </a>
-          </span>
-        </label>
-      </div>
-    </form>
-  </div>
+      <h3>{{ 'opfCheckout.termsAndConditions' | cxTranslate }}</h3>
+
+      <form
+        class="cx-place-order-form form-check"
+        [formGroup]="checkoutSubmitForm"
+      >
+        <div class="form-group">
+          <label>
+            <input
+              formControlName="termsAndConditions"
+              class="scaled-input form-check-input"
+              type="checkbox"
+              (change)="toggleTermsAndConditions()"
+            />
+            <span class="form-check-label">
+              {{ 'checkoutReview.confirmThatRead' | cxTranslate }}
+              <a
+                [routerLink]="{ cxRoute: 'termsAndConditions' } | cxUrl"
+                class="cx-tc-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {{ 'checkoutReview.termsAndConditions' | cxTranslate }}
+              </a>
+            </span>
+          </label>
+        </div>
+      </form>
+    </div>
+  }
 
   <cx-opf-checkout-billing-address-form></cx-opf-checkout-billing-address-form>
 
@@ -53,13 +56,14 @@
     [explicitTermsAndConditions]="explicitTermsAndConditions.value"
     [disabled]="termsAndConditionInvalid"
   >
-    <cx-opf-checkout-terms-and-conditions-alert
-      *ngIf="!explicitTermsAndConditions.value"
-      [isDismissible]="true"
-      [isVisible]="termsAndConditionInvalid"
-      [isExplicit]="explicitTermsAndConditions.value"
-      [ngClass]="['for-desktop']"
-    ></cx-opf-checkout-terms-and-conditions-alert>
+    @if (!explicitTermsAndConditions.value) {
+      <cx-opf-checkout-terms-and-conditions-alert
+        [isDismissible]="true"
+        [isVisible]="termsAndConditionInvalid"
+        [isExplicit]="explicitTermsAndConditions.value"
+        [ngClass]="['for-desktop']"
+      ></cx-opf-checkout-terms-and-conditions-alert>
+    }
   </cx-opf-checkout-payments>
 
   <cx-opf-checkout-review-cart-details
@@ -67,4 +71,4 @@
     [entries]="entries$ | async"
     [isAddressCardVisible]="true"
   ></cx-opf-checkout-review-cart-details>
-</ng-container>
+}

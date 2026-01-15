@@ -1,26 +1,28 @@
-<ng-container *ngIf="facetList$ | async as facetList">
-  <div
-    id="cx-active-facets-groupName"
-    *ngIf="facetList.activeFacets && facetList.activeFacets.length > 0"
-  >
-    {{ 'productList.appliedFilter' | cxTranslate }}
-  </div>
+@if (facetList$ | async; as facetList) {
+  @if (facetList.activeFacets && facetList.activeFacets.length > 0) {
+    <div id="cx-active-facets-groupName">
+      {{ 'productList.appliedFilter' | cxTranslate }}
+    </div>
+  }
 
-  <a
-    *ngFor="let facet of facetList?.activeFacets"
-    routerLink="./"
-    [queryParams]="getLinkParams(facet)"
-    [cxFocus]="{ key: getFocusKey(facetList, facet) }"
-    role="button"
-    (keydown.space)="removeFilterWithSpacebar($event)"
-    [attr.aria-label]="
-      'productList.activeFilter' | cxTranslate: { filter: facet.facetValueName }
-    "
-    [attr.title]="
-      'productList.activeFilter' | cxTranslate: { filter: facet.facetValueName }
-    "
-  >
-    <span>{{ facet.facetValueName }}</span>
-    <cx-icon aria-hidden="true" [type]="closeIcon"></cx-icon>
-  </a>
-</ng-container>
+  @for (facet of facetList?.activeFacets; track facet) {
+    <a
+      routerLink="./"
+      [queryParams]="getLinkParams(facet)"
+      [cxFocus]="{ key: getFocusKey(facetList, facet) }"
+      role="button"
+      (keydown.space)="removeFilterWithSpacebar($event)"
+      [attr.aria-label]="
+        'productList.activeFilter'
+          | cxTranslate: { filter: facet.facetValueName }
+      "
+      [attr.title]="
+        'productList.activeFilter'
+          | cxTranslate: { filter: facet.facetValueName }
+      "
+    >
+      <span>{{ facet.facetValueName }}</span>
+      <cx-icon aria-hidden="true" [type]="closeIcon"></cx-icon>
+    </a>
+  }
+}

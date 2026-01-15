@@ -18,12 +18,10 @@
         : null
   }}"
 >
-  <cx-icon
-    *ngIf="viewMode === iconTypes.GRID"
-    [type]="iconTypes.GRID"
-  ></cx-icon>
-  <cx-icon
-    *ngIf="viewMode === iconTypes.LIST"
-    [type]="iconTypes.LIST"
-  ></cx-icon>
+  @if (viewMode === iconTypes.GRID) {
+    <cx-icon [type]="iconTypes.GRID"></cx-icon>
+  }
+  @if (viewMode === iconTypes.LIST) {
+    <cx-icon [type]="iconTypes.LIST"></cx-icon>
+  }
 </button>

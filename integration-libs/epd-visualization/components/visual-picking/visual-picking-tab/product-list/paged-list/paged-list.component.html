@@ -1,74 +1,77 @@
-<ng-container *ngIf="items?.length > 0 && itemsPerSlide">
-  <h3 *ngIf="title">{{ title }}</h3>
+@if (items?.length > 0 && itemsPerSlide) {
+  @if (title) {
+    <h3>{{ title }}</h3>
+  }
 
   <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
 
   <div class="list-panel">
     <div class="slides">
-      <ng-container *ngFor="let _ of items; let i = index">
-        <div
-          class="slide"
-          *ngIf="i % itemsPerSlide === 0"
-          [class.active]="i === activeSlideStartIndex"
-        >
-          <ng-container
-            *ngFor="
-              let item of items | slice: i : i + itemsPerSlide;
-              let j = index
-            "
-          >
-            <div
-              *ngIf="item as data"
-              class="item"
-              [class.active]="i === activeSlideStartIndex"
-            >
-              <ng-container
-                *ngTemplateOutlet="
-                  template;
-                  context: {
-                    item: data,
-                    active: i === activeSlideStartIndex,
-                  }
-                "
-              ></ng-container>
-            </div>
-          </ng-container>
-        </div>
-      </ng-container>
+      @for (_ of items; track _; let i = $index) {
+        @if (i % itemsPerSlide === 0) {
+          <div class="slide" [class.active]="i === activeSlideStartIndex">
+            @for (
+              item of items | slice: i : i + itemsPerSlide;
+              track item;
+              let j = $index
+            ) {
+              @if (item; as data) {
+                <div class="item" [class.active]="i === activeSlideStartIndex">
+                  <ng-container
+                    *ngTemplateOutlet="
+                      template;
+                      context: {
+                        item: data,
+                        active: i === activeSlideStartIndex,
+                      }
+                    "
+                  ></ng-container>
+                </div>
+              }
+            }
+          </div>
+        }
+      }
     </div>
   </div>
 
-  <div
-    *ngIf="!hideIndicators && itemsPerSlide < items.length"
-    class="indicators"
-  >
-    <button
-      *ngIf="itemsPerSlide < items.length"
-      class="previous"
-      (click)="setActiveSlideStartIndex(activeSlideStartIndex - itemsPerSlide)"
-      [disabled]="activeSlideStartIndex === 0"
-    >
-      <cx-icon [type]="previousIcon"></cx-icon>
-    </button>
+  @if (!hideIndicators && itemsPerSlide < items.length) {
+    <div class="indicators">
+      @if (itemsPerSlide < items.length) {
+        <button
+          class="previous"
+          (click)="
+            setActiveSlideStartIndex(activeSlideStartIndex - itemsPerSlide)
+          "
+          [disabled]="activeSlideStartIndex === 0"
+        >
+          <cx-icon [type]="previousIcon"></cx-icon>
+        </button>
+      }
 
-    <ng-container *ngFor="let _ of items; let i = index">
-      <button
-        *ngIf="i % itemsPerSlide === 0"
-        (click)="setActiveSlideStartIndex(i)"
-        [disabled]="i === activeSlideStartIndex"
-        class="slide-indicator"
-      >
-        <cx-icon [type]="indicatorIcon"></cx-icon>
-      </button>
-    </ng-container>
+      @for (_ of items; track _; let i = $index) {
+        @if (i % itemsPerSlide === 0) {
+          <button
+            (click)="setActiveSlideStartIndex(i)"
+            [disabled]="i === activeSlideStartIndex"
+            class="slide-indicator"
+          >
+            <cx-icon [type]="indicatorIcon"></cx-icon>
+          </button>
+        }
+      }
 
-    <button
-      *ngIf="itemsPerSlide < items.length"
-      class="next"
-      (click)="setActiveSlideStartIndex(activeSlideStartIndex + itemsPerSlide)"
-      [disabled]="activeSlideStartIndex > items.length - itemsPerSlide - 1"
-    >
-      <cx-icon [type]="nextIcon"></cx-icon>
-    </button>
-  </div>
-</ng-container>
+      @if (itemsPerSlide < items.length) {
+        <button
+          class="next"
+          (click)="
+            setActiveSlideStartIndex(activeSlideStartIndex + itemsPerSlide)
+          "
+          [disabled]="activeSlideStartIndex > items.length - itemsPerSlide - 1"
+        >
+          <cx-icon [type]="nextIcon"></cx-icon>
+        </button>
+      }
+    </div>
+  }
+}

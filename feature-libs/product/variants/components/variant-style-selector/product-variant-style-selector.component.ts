@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   BaseOption,
@@ -24,7 +24,7 @@ import { filter, take } from 'rxjs/operators';
   selector: 'cx-product-variant-style-selector',
   templateUrl: './product-variant-style-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, NgClass, TranslatePipe],
+  imports: [NgClass, TranslatePipe],
 })
 export class ProductVariantStyleSelectorComponent {
   constructor(

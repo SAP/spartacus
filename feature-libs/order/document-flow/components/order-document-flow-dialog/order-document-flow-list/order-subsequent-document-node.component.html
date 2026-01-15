@@ -1,4 +1,4 @@
-<ng-container *ngFor="let document of documents">
+@for (document of documents; track document) {
   <tr [ngClass]="{ selected: document === selectedDocument }">
     <td [style.padding-left.rem]="depth + 1">
       <div>
@@ -41,22 +41,24 @@
       {{ 'documentFlow.dialog.status_' + document.sapStatus | cxTranslate }}
     </td>
     <td class="text-center p-0">
-      <button
-        *ngIf="haveSubNodes(document)"
-        class="btn btn-tertiary action"
-        title="{{ 'documentFlow.dialog.orderItems' | cxTranslate }}"
-        (click)="onDocumentSelection(document)"
-      >
-        <cx-icon [type]="iconTypes.CARET_RIGHT"></cx-icon>
-      </button>
+      @if (haveSubNodes(document)) {
+        <button
+          class="btn btn-tertiary action"
+          title="{{ 'documentFlow.dialog.orderItems' | cxTranslate }}"
+          (click)="onDocumentSelection(document)"
+        >
+          <cx-icon [type]="iconTypes.CARET_RIGHT"></cx-icon>
+        </button>
+      }
     </td>
   </tr>
-  <cx-order-subsequent-document-node
-    *ngIf="haveSubNodes(document)"
-    [documents]="document.sapSubsequentDocuments"
-    [selectedDocument]="selectedDocument"
-    [depth]="depth + 1"
-    (documentSelected)="onDocumentSelection($event)"
-  >
-  </cx-order-subsequent-document-node>
-</ng-container>
+  @if (haveSubNodes(document)) {
+    <cx-order-subsequent-document-node
+      [documents]="document.sapSubsequentDocuments"
+      [selectedDocument]="selectedDocument"
+      [depth]="depth + 1"
+      (documentSelected)="onDocumentSelection($event)"
+    >
+    </cx-order-subsequent-document-node>
+  }
+}

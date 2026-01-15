@@ -1,18 +1,34 @@
-<a
-  *ngIf="linkable; else text"
-  [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
-  [tabindex]="tabIndex"
->
-  <ng-container *ngTemplateOutlet="text"></ng-container>
-</a>
+@if (linkable) {
+  <a
+    [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
+    [tabindex]="tabIndex"
+  >
+    <ng-container *ngTemplateOutlet="text"></ng-container>
+  </a>
+} @else {
+  <ul class="text">
+    @for (role of model.roles; track role) {
+      <li
+        class="li"
+        [innerText]="'organization.userRoles.' + role | cxTranslate"
+      ></li>
+    }
+    @if (model.roles?.length === 0) {
+      <li>-</li>
+    }
+  </ul>
+}
 
 <ng-template #text>
   <ul class="text">
-    <li
-      *ngFor="let role of model.roles"
-      class="li"
-      [innerText]="'organization.userRoles.' + role | cxTranslate"
-    ></li>
-    <li *ngIf="model.roles?.length === 0">-</li>
+    @for (role of model.roles; track role) {
+      <li
+        class="li"
+        [innerText]="'organization.userRoles.' + role | cxTranslate"
+      ></li>
+    }
+    @if (model.roles?.length === 0) {
+      <li>-</li>
+    }
   </ul>
 </ng-template>

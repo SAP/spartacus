@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
@@ -16,7 +15,7 @@ import { PickupInfoComponent } from '../../presentational';
 @Component({
   selector: 'cx-pickup-info-container',
   templateUrl: './pickup-info-container.component.html',
-  imports: [PickupInfoComponent, NgFor],
+  imports: [PickupInfoComponent],
 })
 export class PickupInfoContainerComponent implements OnInit {
   storesDetailsData: Partial<PointOfService>[];

@@ -1,6 +1,6 @@
-<label *ngIf="attribute.intervalInDomain" class="cx-intervalHelpText">{{
-  this.getHelpTextForInterval()
-}}</label>
+@if (attribute.intervalInDomain) {
+  <label class="cx-intervalHelpText">{{ this.getHelpTextForInterval() }}</label>
+}
 <div id="{{ createAttributeIdForConfigurator(attribute) }}" class="form-group">
   <input
     [formControl]="attributeInputForm"
@@ -26,28 +26,30 @@
     }"
   />
 </div>
-<div
-  class="cx-validation-msg"
-  id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
-  *ngIf="mustDisplayValidationMessage()"
-  aria-live="assertive"
-  aria-atomic="true"
-  role="alert"
->
-  <cx-icon [type]="iconType.ERROR"></cx-icon>
-  {{
-    'configurator.attribute.wrongNumericFormatMessage'
-      | cxTranslate: { pattern: numericFormatPattern }
-  }}
-</div>
-<div
-  class="cx-validation-msg"
-  id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
-  *ngIf="mustDisplayIntervalMessage()"
-  aria-live="assertive"
-  aria-atomic="true"
-  role="alert"
->
-  <cx-icon [type]="iconType.ERROR"></cx-icon>
-  {{ 'configurator.attribute.wrongIntervalFormat' | cxTranslate }}
-</div>
+@if (mustDisplayValidationMessage()) {
+  <div
+    class="cx-validation-msg"
+    id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
+    aria-live="assertive"
+    aria-atomic="true"
+    role="alert"
+  >
+    <cx-icon [type]="iconType.ERROR"></cx-icon>
+    {{
+      'configurator.attribute.wrongNumericFormatMessage'
+        | cxTranslate: { pattern: numericFormatPattern }
+    }}
+  </div>
+}
+@if (mustDisplayIntervalMessage()) {
+  <div
+    class="cx-validation-msg"
+    id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
+    aria-live="assertive"
+    aria-atomic="true"
+    role="alert"
+  >
+    <cx-icon [type]="iconType.ERROR"></cx-icon>
+    {{ 'configurator.attribute.wrongIntervalFormat' | cxTranslate }}
+  </div>
+}

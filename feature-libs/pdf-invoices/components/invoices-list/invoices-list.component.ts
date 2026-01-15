@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -50,15 +50,12 @@ import { catchError, skip, switchMap, take, tap } from 'rxjs/operators';
   templateUrl: './invoices-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     SortingComponent,
     PaginationComponent,
     IconComponent,
-    NgFor,
     AsyncPipe,
     TranslatePipe,
     CxDatePipe,
-
     CxDatePipe,
   ],
 })

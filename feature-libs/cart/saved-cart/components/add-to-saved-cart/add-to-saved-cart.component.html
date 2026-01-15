@@ -1,4 +1,4 @@
-<ng-container *ngIf="cart$ | async as cart">
+@if (cart$ | async; as cart) {
   <div class="cx-add-to-saved-cart-container">
     <a
       class="link cx-action-link"
@@ -21,4 +21,4 @@
       <span>{{ 'addToSavedCart.saveCartForLater' | cxTranslate }}</span>
     </button>
   </div>
-</ng-container>
+}

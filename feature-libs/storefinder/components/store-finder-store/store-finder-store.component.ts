@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PointOfService, RoutingService, TranslatePipe } from '@spartacus/core';
@@ -21,7 +21,6 @@ import { StoreFinderStoreDescriptionComponent } from '../store-finder-store-desc
   selector: 'cx-store-finder-store',
   templateUrl: './store-finder-store.component.html',
   imports: [
-    NgIf,
     IconComponent,
     StoreFinderStoreDescriptionComponent,
     SpinnerComponent,

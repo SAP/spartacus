@@ -1,4 +1,4 @@
-<ng-container *ngIf="container$ | async as container">
+@if (container$ | async; as container) {
   <button
     class="btn btn-tertiary"
     tabindex="0"
@@ -9,21 +9,21 @@
         : ('configurator.button.exit' | cxTranslate)
     "
   >
-    <ng-container *ngIf="!container.routerData.isOwnerCartEntry">
-      <ng-container *ngIf="isDesktop() | async">
+    @if (!container.routerData.isOwnerCartEntry) {
+      @if (isDesktop() | async) {
         {{ 'configurator.button.exit' | cxTranslate }}
-      </ng-container>
-      <ng-container *ngIf="isMobile() | async">
+      }
+      @if (isMobile() | async) {
         {{ 'configurator.button.exitMobile' | cxTranslate }}
-      </ng-container>
-    </ng-container>
-    <ng-container *ngIf="container.routerData.isOwnerCartEntry">
-      <ng-container *ngIf="isMobile() | async">
+      }
+    }
+    @if (container.routerData.isOwnerCartEntry) {
+      @if (isMobile() | async) {
         {{ 'configurator.button.cancelConfigurationMobile' | cxTranslate }}
-      </ng-container>
-      <ng-container *ngIf="isDesktop() | async">
+      }
+      @if (isDesktop() | async) {
         {{ 'configurator.button.cancelConfiguration' | cxTranslate }}
-      </ng-container>
-    </ng-container>
+      }
+    }
   </button>
-</ng-container>
+}

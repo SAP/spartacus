@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CxDatePipe, TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -20,8 +20,6 @@ import { MyAccountV2OrderConsolidatedInformationComponent } from './consolidated
   selector: 'cx-my-account-v2-order-history',
   templateUrl: './my-account-v2-order-history.component.html',
   imports: [
-    NgIf,
-    NgFor,
     RouterLink,
     MyAccountV2OrderConsolidatedInformationComponent,
     PaginationComponent,
@@ -31,7 +29,6 @@ import { MyAccountV2OrderConsolidatedInformationComponent } from './consolidated
     UrlPipe,
     TranslatePipe,
     CxDatePipe,
-
     CxDatePipe,
   ],
 })

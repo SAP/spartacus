@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, DOCUMENT, NgIf } from '@angular/common';
+import { AsyncPipe, DOCUMENT } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -20,7 +20,7 @@ import { Observable, take } from 'rxjs';
   selector: 'cx-checkout-review-overview',
   templateUrl: './checkout-review-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, PromotionsComponent, AsyncPipe, TranslatePipe],
+  imports: [PromotionsComponent, AsyncPipe, TranslatePipe],
 })
 export class CheckoutReviewOverviewComponent implements AfterViewInit {
   protected document = inject(DOCUMENT, { optional: true });

@@ -1,5 +1,5 @@
-<ng-container *ngIf="quoteItemsData$ | async as quoteItemsData; else ghostCart">
-  <ng-container *ngIf="{ showCart: showCart$ | async } as state">
+@if (quoteItemsData$ | async; as quoteItemsData) {
+  @if ({ showCart: showCart$ | async }; as state) {
     <div
       role="region"
       tabindex="-1"
@@ -19,7 +19,7 @@
         </cx-icon>
         <span class="cx-text">{{ 'quote.commons.cart' | cxTranslate }}</span>
       </div>
-      <ng-container *ngIf="state.showCart">
+      @if (state.showCart) {
         <ng-template
           [cxAbstractOrderContext]="{
             id: quoteItemsData.abstractOrderId,
@@ -32,32 +32,30 @@
           }"
         >
         </ng-template>
-      </ng-container>
+      }
     </div>
-  </ng-container>
-</ng-container>
-
-<ng-template #ghostCart>
+  }
+} @else {
   <div class="cx-ghost-table-header">
     <div class="cx-ghost-title ghost"></div>
   </div>
   <div class="cx-ghost-table">
-    <ng-container *ngFor="let number of [0, 1, 2, 3, 4]">
+    @for (number of [0, 1, 2, 3, 4]; track number) {
       <div class="cx-ghost-row">
         <div class="cx-ghost-image-container">
           <div class="cx-ghost-image ghost"></div>
         </div>
         <div class="cx-ghost-container">
           <div class="cx-ghost-info-container">
-            <ng-container *ngFor="let number of [0, 1, 2, 3]">
+            @for (number of [0, 1, 2, 3]; track number) {
               <div class="cx-ghost-info ghost"></div>
-            </ng-container>
+            }
           </div>
           <div class="cx-ghost-qty ghost"></div>
           <div class="cx-ghost-total ghost"></div>
           <div class="cx-ghost-action ghost"></div>
         </div>
       </div>
-    </ng-container>
+    }
   </div>
-</ng-template>
+}

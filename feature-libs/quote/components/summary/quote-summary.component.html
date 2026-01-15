@@ -1,6 +1,4 @@
-<ng-container
-  *ngIf="quoteDetails$ | async as quoteDetails; else ghostOrderSummary"
->
+@if (quoteDetails$ | async; as quoteDetails) {
   <div
     class="cx-container"
     role="region"
@@ -11,23 +9,21 @@
     <cx-quote-summary-seller-edit></cx-quote-summary-seller-edit>
     <cx-quote-summary-actions></cx-quote-summary-actions>
   </div>
-</ng-container>
-
-<ng-template #ghostOrderSummary>
+} @else {
   <div class="cx-ghost-summary-heading">
     <div class="cx-ghost-title ghost"></div>
   </div>
   <div class="cx-ghost-summary-partials">
-    <ng-container *ngFor="let number of [0, 1, 2, 3]">
+    @for (number of [0, 1, 2, 3]; track number) {
       <div class="cx-ghost-row">
         <div class="cx-ghost-summary-label ghost"></div>
         <div class="cx-ghost-summary-amount ghost"></div>
       </div>
-    </ng-container>
+    }
   </div>
   <div class="cx-ghost-actions">
-    <ng-container *ngFor="let number of [0, 1, 2]">
+    @for (number of [0, 1, 2]; track number) {
       <div class="cx-ghost-button ghost"></div>
-    </ng-container>
+    }
   </div>
-</ng-template>
+}

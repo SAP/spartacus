@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -23,7 +23,7 @@ import { take } from 'rxjs/operators';
   selector: 'cx-clear-cart',
   templateUrl: './clear-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, AsyncPipe, TranslatePipe],
+  imports: [AsyncPipe, TranslatePipe],
 })
 export class ClearCartComponent implements OnDestroy {
   cart$: Observable<Cart> = this.activeCartFacade.getActive();

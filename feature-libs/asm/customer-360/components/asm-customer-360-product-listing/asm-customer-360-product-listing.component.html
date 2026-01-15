@@ -1,58 +1,62 @@
-<div class="product-listing" *ngIf="products?.length; else emptyResultTemplate">
-  <div
-    class="product-listing-header"
-    role="heading"
-    aria-level="4"
-    [attr.aria-label]="headerText"
-  >
-    <button
-      [attr.aria-label]="headerText"
-      [disabled]="headerInactive"
-      [class.inactive]="headerInactive"
-      class="title-link link"
-      (click)="clickHeader.emit()"
-    >
-      {{ headerText }}
-    </button>
-    <ng-container *ngIf="headerTemplate">
-      <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
-    </ng-container>
-  </div>
-  <ng-container *ngIf="numberofColumns$ | async as numberofColumns">
+@if (products?.length) {
+  <div class="product-listing">
     <div
-      class="product-listing-items"
-      [ngClass]="'column-' + numberofColumns"
-      [class.show-more]="showMore"
+      class="product-listing-header"
+      role="heading"
+      aria-level="4"
+      [attr.aria-label]="headerText"
     >
-      <ng-container *ngFor="let product of products; let i = index">
-        <cx-asm-customer-360-product-item
-          *ngIf="showMore || i < numberofColumns"
-          [product]="product"
-          [quantity]="product?.quantity"
-          (selectProduct)="selectProduct.emit($event)"
-        ></cx-asm-customer-360-product-item>
-      </ng-container>
-    </div>
-    <ng-container *ngIf="products.length > numberofColumns">
       <button
-        class="link cx-action-link show-hide-button"
-        (click)="toggleShowMore()"
+        [attr.aria-label]="headerText"
+        [disabled]="headerInactive"
+        [class.inactive]="headerInactive"
+        class="title-link link"
+        (click)="clickHeader.emit()"
       >
-        <span *ngIf="!showMore; else showLess">{{
-          'asmCustomer360.productListing.showMore' | cxTranslate
-        }}</span>
-        <ng-template #showLess>
-          <span *ngIf="showMore">{{
-            'asmCustomer360.productListing.showLess' | cxTranslate
-          }}</span>
-        </ng-template>
+        {{ headerText }}
       </button>
-    </ng-container>
-  </ng-container>
-</div>
-
-<ng-template #emptyResultTemplate>
+      @if (headerTemplate) {
+        <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+      }
+    </div>
+    @if (numberofColumns$ | async; as numberofColumns) {
+      <div
+        class="product-listing-items"
+        [ngClass]="'column-' + numberofColumns"
+        [class.show-more]="showMore"
+      >
+        @for (product of products; track product; let i = $index) {
+          @if (showMore || i < numberofColumns) {
+            <cx-asm-customer-360-product-item
+              [product]="product"
+              [quantity]="product?.quantity"
+              (selectProduct)="selectProduct.emit($event)"
+            ></cx-asm-customer-360-product-item>
+          }
+        }
+      </div>
+      @if (products.length > numberofColumns) {
+        <button
+          class="link cx-action-link show-hide-button"
+          (click)="toggleShowMore()"
+        >
+          @if (!showMore) {
+            <span>{{
+              'asmCustomer360.productListing.showMore' | cxTranslate
+            }}</span>
+          } @else {
+            @if (showMore) {
+              <span>{{
+                'asmCustomer360.productListing.showLess' | cxTranslate
+              }}</span>
+            }
+          }
+        </button>
+      }
+    }
+  </div>
+} @else {
   <div class="empty-result-description">
     {{ emptyResultDescription }}
   </div>
-</ng-template>
+}

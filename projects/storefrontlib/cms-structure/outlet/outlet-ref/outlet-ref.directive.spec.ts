@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, TemplateRef } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
@@ -13,17 +12,17 @@ const CUSTOM_TEXT = 'customized';
 
 @Component({
   template: `
-    <ng-container *ngIf="outletRefVisible">
+    @if (outletRefVisible) {
       <ng-template [cxOutletRef]="outletName"> {{ customText }} </ng-template>
-    </ng-container>
+    }
 
-    <ng-container *ngIf="outletVisible">
+    @if (outletVisible) {
       <ng-template [cxOutlet]="outletName">
         {{ standardText }}
       </ng-template>
-    </ng-container>
+    }
   `,
-  imports: [OutletDirective, OutletRefDirective, NgIf],
+  imports: [OutletDirective, OutletRefDirective],
 })
 class TestContainerComponent {
   outletRefVisible = true;

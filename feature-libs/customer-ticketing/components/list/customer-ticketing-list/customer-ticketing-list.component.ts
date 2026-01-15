@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -35,10 +35,8 @@ import { CustomerTicketingCreateComponent } from '../customer-ticketing-create/c
   selector: 'cx-customer-ticketing-list',
   templateUrl: './customer-ticketing-list.component.html',
   imports: [
-    NgIf,
     SortingComponent,
     CustomerTicketingCreateComponent,
-    NgFor,
     RouterLink,
     NgClass,
     PaginationComponent,
@@ -47,7 +45,6 @@ import { CustomerTicketingCreateComponent } from '../customer-ticketing-create/c
     TranslatePipe,
     CxDatePipe,
     UrlPipe,
-
     CxDatePipe,
   ],
 })

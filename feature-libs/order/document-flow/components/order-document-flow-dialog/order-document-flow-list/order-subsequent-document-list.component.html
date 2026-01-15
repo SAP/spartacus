@@ -19,12 +19,13 @@
     </tr>
   </thead>
   <tbody>
-    <cx-order-subsequent-document-node
-      *ngIf="documents"
-      [documents]="documents"
-      [selectedDocument]="selectedDocument"
-      (documentSelected)="onDocumentSelection($event)"
-    >
-    </cx-order-subsequent-document-node>
+    @if (documents) {
+      <cx-order-subsequent-document-node
+        [documents]="documents"
+        [selectedDocument]="selectedDocument"
+        (documentSelected)="onDocumentSelection($event)"
+      >
+      </cx-order-subsequent-document-node>
+    }
   </tbody>
 </table>

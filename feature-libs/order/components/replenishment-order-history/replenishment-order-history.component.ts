@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
+import { AsyncPipe, SlicePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -41,10 +41,8 @@ import { map, take, tap } from 'rxjs/operators';
   templateUrl: './replenishment-order-history.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     SortingComponent,
     PaginationComponent,
-    NgFor,
     RouterLink,
     BtnLikeLinkDirective,
     RouterLinkActive,

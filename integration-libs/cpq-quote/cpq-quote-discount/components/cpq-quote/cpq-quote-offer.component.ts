@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgFor, NgIf } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
@@ -19,7 +18,7 @@ interface ExtendedOrderEntry extends OrderEntry {
 @Component({
   selector: 'cx-cpq-quote-offer',
   templateUrl: './cpq-quote-offer.component.html',
-  imports: [NgIf, NgFor, TranslatePipe],
+  imports: [TranslatePipe],
 })
 export class CpqQuoteOfferComponent implements OnInit, OnDestroy {
   quoteDiscountData: ExtendedOrderEntry | null;

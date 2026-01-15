@@ -1,4 +1,4 @@
-<ng-container *ngIf="product$ | async as product; else ghostProductTitle">
+@if (product$ | async; as product) {
   <div class="cx-general-product-info">
     <div class="cx-title">
       <span
@@ -11,7 +11,7 @@
       </span>
     </div>
     <button (click)="triggerDetails()" [attr.aria-expanded]="showMore">
-      <ng-container *ngIf="!showMore">
+      @if (!showMore) {
         <div class="cx-toggle-details-link-text">
           <span aria-hidden="true">{{
             'configurator.header.showMore' | cxTranslate
@@ -24,9 +24,9 @@
           "
           [type]="iconTypes.CARET_DOWN"
         ></cx-icon>
-      </ng-container>
+      }
 
-      <ng-container *ngIf="showMore">
+      @if (showMore) {
         <div class="cx-toggle-details-link-text" aria-hidden="true">
           {{ 'configurator.header.showLess' | cxTranslate }}
         </div>
@@ -37,7 +37,7 @@
           "
           [type]="iconTypes.CARET_UP"
         ></cx-icon>
-      </ng-container>
+      }
     </button>
     <div class="cx-details" [class.open]="showMore">
       <div class="cx-details-image" aria-hidden="true">
@@ -51,35 +51,36 @@
         [attr.aria-hidden]="showMore ? false : true"
       >
         <div class="cx-detail-title">
-          <span
-            *ngIf="product.name"
-            [attr.title]="'configurator.a11y.productName' | cxTranslate"
-          >
-            {{ product.name }}
-          </span>
+          @if (product.name) {
+            <span [attr.title]="'configurator.a11y.productName' | cxTranslate">
+              {{ product.name }}
+            </span>
+          }
         </div>
         <div class="cx-code">
-          <span
-            *ngIf="product.code"
-            [attr.title]="'configurator.a11y.productCode' | cxTranslate"
-          >
-            {{ product.code }}
-          </span>
+          @if (product.code) {
+            <span [attr.title]="'configurator.a11y.productCode' | cxTranslate">
+              {{ product.code }}
+            </span>
+          }
         </div>
         <div class="cx-description">
-          <span
-            *ngIf="product.description"
-            [attr.title]="'configurator.a11y.productDescription' | cxTranslate"
-          >
-            {{ product.description }}
-          </span>
+          @if (product.description) {
+            <span
+              [attr.title]="
+                'configurator.a11y.productDescription' | cxTranslate
+              "
+            >
+              {{ product.description }}
+            </span>
+          }
         </div>
 
-        <ng-container *ngIf="expMode | async">
-          <ng-container *ngIf="configuration$ | async as configuration">
-            <ng-container *ngIf="configuration.kbKey">
+        @if (expMode | async) {
+          @if (configuration$ | async; as configuration) {
+            @if (configuration.kbKey) {
               <div class="cx-kb-key-details">
-                <ng-container *ngIf="configuration.kbKey.kbName">
+                @if (configuration.kbKey.kbName) {
                   <div class="cx-kb-pair">
                     <span
                       class="cx-label"
@@ -94,8 +95,8 @@
                       {{ configuration.kbKey.kbName }}
                     </span>
                   </div>
-                </ng-container>
-                <ng-container *ngIf="configuration.kbKey.kbLogsys">
+                }
+                @if (configuration.kbKey.kbLogsys) {
                   <div class="cx-kb-pair">
                     <span
                       class="cx-label"
@@ -111,8 +112,8 @@
                       {{ configuration.kbKey.kbLogsys }}
                     </span>
                   </div>
-                </ng-container>
-                <ng-container *ngIf="configuration.kbKey.kbVersion">
+                }
+                @if (configuration.kbKey.kbVersion) {
                   <div class="cx-kb-pair">
                     <span
                       class="cx-label"
@@ -128,8 +129,8 @@
                       {{ configuration.kbKey.kbVersion }}
                     </span>
                   </div>
-                </ng-container>
-                <ng-container *ngIf="configuration.kbKey.kbBuildNumber">
+                }
+                @if (configuration.kbKey.kbBuildNumber) {
                   <div class="cx-kb-pair">
                     <span
                       class="cx-label"
@@ -145,15 +146,14 @@
                       {{ configuration.kbKey.kbBuildNumber }}
                     </span>
                   </div>
-                </ng-container>
+                }
               </div>
-            </ng-container>
-          </ng-container>
-        </ng-container>
+            }
+          }
+        }
       </div>
     </div>
   </div>
-</ng-container>
-<ng-template #ghostProductTitle>
+} @else {
   <div class="cx-ghost-general-product-info"></div>
-</ng-template>
+}

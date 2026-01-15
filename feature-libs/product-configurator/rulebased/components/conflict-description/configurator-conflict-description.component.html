@@ -1,4 +1,4 @@
-<ng-container *ngIf="displayConflictDescription(currentGroup)">
+@if (displayConflictDescription(currentGroup)) {
   <cx-icon [type]="iconTypes.WARNING" aria-hidden="true"></cx-icon>
   {{ currentGroup.name }}
-</ng-container>
+}

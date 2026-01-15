@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -31,7 +30,6 @@ import { DpLocalStorageService } from './../../../facade/dp-local-storage.servic
   selector: 'cx-dp-payment-callback',
   templateUrl: './dp-payment-callback.component.html',
   imports: [
-    NgIf,
     CheckoutBillingAddressFormComponent,
     SpinnerComponent,
     TranslatePipe,

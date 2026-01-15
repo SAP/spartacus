@@ -1,4 +1,4 @@
-<ng-container *ngIf="quoteDetailsForSeller$ | async as quoteDetails">
+@if (quoteDetailsForSeller$ | async; as quoteDetails) {
   <div class="cx-seller-edit-body">
     <form (ngSubmit)="onApply(quoteDetails.code)" [formGroup]="form">
       <label>
@@ -27,16 +27,19 @@
           </button>
         </div>
 
-        <div
-          class="cx-validation-msg"
-          *ngIf="mustDisplayValidationMessage()"
-          aria-live="assertive"
-          aria-atomic="true"
-          role="alert"
-        >
-          <cx-icon [type]="iconType.ERROR"></cx-icon>
-          {{ 'quote.summary.sellerEdit.discountValidationText' | cxTranslate }}
-        </div>
+        @if (mustDisplayValidationMessage()) {
+          <div
+            class="cx-validation-msg"
+            aria-live="assertive"
+            aria-atomic="true"
+            role="alert"
+          >
+            <cx-icon [type]="iconType.ERROR"></cx-icon>
+            {{
+              'quote.summary.sellerEdit.discountValidationText' | cxTranslate
+            }}
+          </div>
+        }
       </label>
 
       <label>
@@ -55,4 +58,4 @@
       </label>
     </form>
   </div>
-</ng-container>
+}

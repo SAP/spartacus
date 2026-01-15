@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -55,10 +55,8 @@ enum KeyboardEventKeys {
   templateUrl: './carousel-scrolling.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     HorizontalScrollingPositionDirective,
     IconComponent,
-    NgFor,
     NgTemplateOutlet,
     AsyncPipe,
     TranslatePipe,

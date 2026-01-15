@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { B2BUnit, TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -20,18 +20,19 @@ import { CellComponent } from '../../../../shared/table/cell.component';
 @Component({
   selector: 'cx-org-unit-user-link-cell',
   template: `
-    <a
-      class="button"
-      *ngIf="isUpdatingUserAllowed && hasItem && (unitKey$ | async) as uid"
-      [routerLink]="
-        { cxRoute: 'orgUnitUserRoles', params: getRouterModel(uid) } | cxUrl
-      "
-    >
-      {{ 'orgUser.links.rolesAndRights' | cxTranslate }}
-    </a>
+    @if (isUpdatingUserAllowed && hasItem && (unitKey$ | async); as uid) {
+      <a
+        class="button"
+        [routerLink]="
+          { cxRoute: 'orgUnitUserRoles', params: getRouterModel(uid) } | cxUrl
+        "
+      >
+        {{ 'orgUser.links.rolesAndRights' | cxTranslate }}
+      </a>
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe, TranslatePipe],
+  imports: [RouterLink, AsyncPipe, TranslatePipe, UrlPipe, TranslatePipe],
 })
 export class UnitUserRolesCellComponent extends CellComponent {
   unitKey$: Observable<string> = this.itemService.key$;

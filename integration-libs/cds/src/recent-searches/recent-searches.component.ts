@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -35,15 +35,7 @@ const MAX_RECENT_SEARCHES = 5;
   selector: 'cx-recent-searches',
   templateUrl: './recent-searches.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NgFor,
-    RouterLink,
-    AsyncPipe,
-    TranslatePipe,
-    HighlightPipe,
-    UrlPipe,
-  ],
+  imports: [RouterLink, AsyncPipe, TranslatePipe, HighlightPipe, UrlPipe],
 })
 export class RecentSearchesComponent implements OnInit {
   public result$: Observable<string[]>;

@@ -4,8 +4,8 @@
   aria-modal="true"
   aria-labelledby="dialogTitle"
 >
-  <ng-container *ngIf="dialogData$ | async as dialogData">
-    <ng-container *ngIf="product$ | async as product">
+  @if (dialogData$ | async; as dialogData) {
+    @if (product$ | async; as product) {
       <div
         class="cx-modal-content"
         [cxFocus]="focusConfig"
@@ -48,6 +48,6 @@
           </button>
         </div>
       </div>
-    </ng-container>
-  </ng-container>
+    }
+  }
 </div>

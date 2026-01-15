@@ -1,20 +1,21 @@
-<cx-asm-customer-360-product-listing
-  *ngIf="productItems$ | async as productItems"
-  [emptyResultDescription]="
-    'asmCustomer360.savedCart.emptyDescription' | cxTranslate
-  "
-  [headerInactive]="true"
-  [headerTemplate]="headerTemplate"
-  [headerText]="'asmCustomer360.savedCart.header' | cxTranslate"
-  [products]="productItems"
-  (selectProduct)="
-    sectionContext.navigate$.next({ cxRoute: 'product', params: $event })
-  "
->
-</cx-asm-customer-360-product-listing>
+@if (productItems$ | async; as productItems) {
+  <cx-asm-customer-360-product-listing
+    [emptyResultDescription]="
+      'asmCustomer360.savedCart.emptyDescription' | cxTranslate
+    "
+    [headerInactive]="true"
+    [headerTemplate]="headerTemplate"
+    [headerText]="'asmCustomer360.savedCart.header' | cxTranslate"
+    [products]="productItems"
+    (selectProduct)="
+      sectionContext.navigate$.next({ cxRoute: 'product', params: $event })
+    "
+  >
+  </cx-asm-customer-360-product-listing>
+}
 
 <ng-template #headerTemplate>
-  <ng-container *ngIf="savedCart$ | async as savedCart">
+  @if (savedCart$ | async; as savedCart) {
     <button
       [attr.aria-label]="
         'asmCustomer360.savedCart.aria.linkLabel'
@@ -43,5 +44,5 @@
           | cxTranslate: { price: savedCart.totalPrice }
       }}
     </div>
-  </ng-container>
+  }
 </ng-template>

@@ -1,6 +1,6 @@
-<cx-import-order-entries
-  *ngIf="shouldDisplayImport$ | async"
-></cx-import-order-entries>
-<cx-export-order-entries
-  *ngIf="shouldDisplayExport$ | async"
-></cx-export-order-entries>
+@if (shouldDisplayImport$ | async) {
+  <cx-import-order-entries></cx-import-order-entries>
+}
+@if (shouldDisplayExport$ | async) {
+  <cx-export-order-entries></cx-export-order-entries>
+}

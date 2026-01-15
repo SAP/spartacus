@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AnonymousConsentsConfig,
@@ -40,9 +40,7 @@ import { ConsentManagementFormComponent } from './consent-form/consent-managemen
   selector: 'cx-consent-management',
   templateUrl: './consent-management.component.html',
   imports: [
-    NgIf,
     SpinnerComponent,
-    NgFor,
     ConsentManagementFormComponent,
     AsyncPipe,
     TranslatePipe,

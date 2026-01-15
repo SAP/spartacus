@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -20,7 +19,7 @@ import { BtnLikeLinkDirective } from '@spartacus/storefront';
   selector: 'cx-amend-order-actions',
   templateUrl: './amend-order-actions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BtnLikeLinkDirective, RouterLink, NgIf, UrlPipe, TranslatePipe],
+  imports: [BtnLikeLinkDirective, RouterLink, UrlPipe, TranslatePipe],
 })
 export class AmendOrderActionsComponent {
   @Input() orderCode: string;

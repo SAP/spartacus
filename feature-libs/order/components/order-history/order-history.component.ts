@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { Params, RouterLink, RouterLinkActive } from '@angular/router';
 import {
@@ -34,11 +34,9 @@ import { filter, map, take, tap } from 'rxjs/operators';
   templateUrl: './order-history.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     NgClass,
     SortingComponent,
     PaginationComponent,
-    NgFor,
     RouterLink,
     BtnLikeLinkDirective,
     RouterLinkActive,
@@ -46,7 +44,6 @@ import { filter, map, take, tap } from 'rxjs/operators';
     UrlPipe,
     TranslatePipe,
     CxDatePipe,
-
     CxDatePipe,
   ],
 })

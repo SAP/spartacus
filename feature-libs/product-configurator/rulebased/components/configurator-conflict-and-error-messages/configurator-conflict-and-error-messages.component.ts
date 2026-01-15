@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslatePipe } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
@@ -18,7 +18,7 @@ import { Configurator } from '../../core/model/configurator.model';
   selector: 'cx-configuration-conflict-and-error-messages',
   templateUrl: './configurator-conflict-and-error-messages.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, NgFor, AsyncPipe, TranslatePipe],
+  imports: [IconComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorConflictAndErrorMessagesComponent {
   iconTypes = ICON_TYPE;

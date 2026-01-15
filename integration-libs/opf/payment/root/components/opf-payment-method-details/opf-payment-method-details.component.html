@@ -1,9 +1,10 @@
-<ng-container *ngIf="isPaymentMethodDetailsInfoPresent(order)">
-  <cx-card
-    *ngIf="order.paymentInfo"
-    [content]="
-      getPaymentMethodDetailsCardContent(order.paymentInfo.sapPaymentMethod)
-        | async
-    "
-  ></cx-card>
-</ng-container>
+@if (isPaymentMethodDetailsInfoPresent(order)) {
+  @if (order.paymentInfo) {
+    <cx-card
+      [content]="
+        getPaymentMethodDetailsCardContent(order.paymentInfo.sapPaymentMethod)
+          | async
+      "
+    ></cx-card>
+  }
+}

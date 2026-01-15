@@ -1,46 +1,48 @@
 <!-- FORM -->
-<ng-container *ngIf="!loading; else spinner">
+@if (!loading) {
   <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
   <cx-form-required-legend />
   <form (ngSubmit)="next()" [formGroup]="paymentForm">
     <div class="row">
       <div class="col-md-12 col-xl-10">
         <div class="form-group" formGroupName="cardType">
-          <ng-container *ngIf="cardTypes$ | async as cardTypes">
-            <div *ngIf="cardTypes.length !== 0">
-              <label>
-                <span class="label-content required"
-                  >{{ 'paymentForm.paymentType' | cxTranslate }}
-                  <cx-form-required-asterisks />
-                </span>
-                <ng-select
-                  [inputAttrs]="{ required: 'true' }"
-                  [searchable]="true"
-                  [clearable]="false"
-                  [items]="cardTypes"
-                  bindLabel="name"
-                  bindValue="code"
-                  placeholder="{{ 'paymentForm.selectOne' | cxTranslate }}"
-                  formControlName="code"
-                  id="card-type-select"
-                  ariaLabelDropdown="{{
-                    'common.ngSelectDropdownOptionsList' | cxTranslate
-                  }}"
-                  [cxNgSelectA11y]="{
-                    ariaLabel: 'paymentForm.paymentType' | cxTranslate,
-                  }"
-                >
-                </ng-select>
+          @if (cardTypes$ | async; as cardTypes) {
+            @if (cardTypes.length !== 0) {
+              <div>
+                <label>
+                  <span class="label-content required"
+                    >{{ 'paymentForm.paymentType' | cxTranslate }}
+                    <cx-form-required-asterisks />
+                  </span>
+                  <ng-select
+                    [inputAttrs]="{ required: 'true' }"
+                    [searchable]="true"
+                    [clearable]="false"
+                    [items]="cardTypes"
+                    bindLabel="name"
+                    bindValue="code"
+                    placeholder="{{ 'paymentForm.selectOne' | cxTranslate }}"
+                    formControlName="code"
+                    id="card-type-select"
+                    ariaLabelDropdown="{{
+                      'common.ngSelectDropdownOptionsList' | cxTranslate
+                    }}"
+                    [cxNgSelectA11y]="{
+                      ariaLabel: 'paymentForm.paymentType' | cxTranslate,
+                    }"
+                  >
+                  </ng-select>
 
-                <cx-form-errors
-                  [translationParams]="{
-                    label: 'paymentForm.paymentType' | cxTranslate,
-                  }"
-                  [control]="paymentForm.get('cardType.code')"
-                ></cx-form-errors>
-              </label>
-            </div>
-          </ng-container>
+                  <cx-form-errors
+                    [translationParams]="{
+                      label: 'paymentForm.paymentType' | cxTranslate,
+                    }"
+                    [control]="paymentForm.get('cardType.code')"
+                  ></cx-form-errors>
+                </label>
+              </div>
+            }
+          }
         </div>
 
         <div class="form-group">
@@ -208,20 +210,22 @@
           </div>
         </div>
 
-        <div class="form-group" *ngIf="setAsDefaultField">
-          <div class="form-check">
-            <label>
-              <input
-                type="checkbox"
-                class="form-check-input"
-                (change)="toggleDefaultPaymentMethod()"
-              />
-              <span class="form-check-label">{{
-                'paymentForm.setAsDefault' | cxTranslate
-              }}</span>
-            </label>
+        @if (setAsDefaultField) {
+          <div class="form-group">
+            <div class="form-check">
+              <label>
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  (change)="toggleDefaultPaymentMethod()"
+                />
+                <span class="form-check-label">{{
+                  'paymentForm.setAsDefault' | cxTranslate
+                }}</span>
+              </label>
+            </div>
           </div>
-        </div>
+        }
 
         <!-- BILLING -->
         <cx-checkout-billing-address-form></cx-checkout-billing-address-form>
@@ -231,20 +235,16 @@
     <!-- BUTTON SECTION -->
     <div class="cx-checkout-btns row">
       <div class="col-md-12 col-lg-6">
-        <button
-          *ngIf="paymentMethodsCount === 0"
-          class="btn btn-block btn-secondary"
-          (click)="back()"
-        >
-          {{ 'common.back' | cxTranslate }}
-        </button>
-        <button
-          *ngIf="paymentMethodsCount > 0"
-          class="btn btn-block btn-secondary"
-          (click)="close()"
-        >
-          {{ 'paymentForm.changePayment' | cxTranslate }}
-        </button>
+        @if (paymentMethodsCount === 0) {
+          <button class="btn btn-block btn-secondary" (click)="back()">
+            {{ 'common.back' | cxTranslate }}
+          </button>
+        }
+        @if (paymentMethodsCount > 0) {
+          <button class="btn btn-block btn-secondary" (click)="close()">
+            {{ 'paymentForm.changePayment' | cxTranslate }}
+          </button>
+        }
       </div>
       <div class="col-md-12 col-lg-6">
         <button class="btn btn-block btn-primary" type="submit">
@@ -253,8 +253,6 @@
       </div>
     </div>
   </form>
-</ng-container>
-
-<ng-template #spinner>
+} @else {
   <cx-spinner></cx-spinner>
-</ng-template>
+}

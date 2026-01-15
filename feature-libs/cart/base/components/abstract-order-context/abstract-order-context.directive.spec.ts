@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { tap } from 'rxjs/operators';
@@ -17,12 +17,12 @@ let emissionCounterKey = 0;
 @Component({
   selector: 'cx-test-cmp-inner',
   template: `
-    <ng-container *ngIf="myKey$ | async as key">
+    @if (myKey$ | async; as key) {
       {{ key.id }}
       {{ key.type }}
-    </ng-container>
+    }
   `,
-  imports: [NgIf, AsyncPipe],
+  imports: [AsyncPipe],
 })
 class TestInnerComponent {
   abstractOrderContext = inject(AbstractOrderContext, { optional: true });

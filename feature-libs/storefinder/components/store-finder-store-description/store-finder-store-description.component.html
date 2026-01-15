@@ -1,19 +1,21 @@
-<ng-container *ngIf="location">
+@if (location) {
   <div class="cx-container">
     <div class="cx-store">
       <h2>{{ location.displayName || location.name }}</h2>
-      <div *ngIf="location.address" class="cx-store-description-address">
-        <div>{{ location.address.line1 }} {{ location.address.line2 }}</div>
-        <div>
-          {{
-            getFormattedStoreAddress([
-              location.address.town,
-              location.address.postalCode,
-              location.address.country.isocode,
-            ])
-          }}
+      @if (location.address) {
+        <div class="cx-store-description-address">
+          <div>{{ location.address.line1 }} {{ location.address.line2 }}</div>
+          <div>
+            {{
+              getFormattedStoreAddress([
+                location.address.town,
+                location.address.postalCode,
+                location.address.country.isocode,
+              ])
+            }}
+          </div>
         </div>
-      </div>
+      }
 
       <section class="cx-contact">
         <ul class="cx-list">
@@ -29,35 +31,42 @@
               >{{ 'storeFinder.getDirections' | cxTranslate }}</a
             >
           </li>
-          <li class="cx-item" *ngIf="location.address?.phone">
-            {{ 'storeFinder.call' | cxTranslate }}
-            {{ location.address?.phone }}
-          </li>
+          @if (location.address?.phone) {
+            <li class="cx-item">
+              {{ 'storeFinder.call' | cxTranslate }}
+              {{ location.address?.phone }}
+            </li>
+          }
         </ul>
       </section>
-      <div class="cx-schedule" *ngIf="location.openingHours">
-        <cx-schedule [location]="location">
-          <h3>{{ 'storeFinder.storeHours' | cxTranslate }}</h3>
-        </cx-schedule>
-      </div>
+      @if (location.openingHours) {
+        <div class="cx-schedule">
+          <cx-schedule [location]="location">
+            <h3>{{ 'storeFinder.storeHours' | cxTranslate }}</h3>
+          </cx-schedule>
+        </div>
+      }
 
-      <div *ngIf="(location.features | json) !== '{}'" class="cx-features">
-        <h3 class="cx-features-header">
-          {{ 'storeFinder.storeFeatures' | cxTranslate }}
-        </h3>
+      @if ((location.features | json) !== '{}') {
+        <div class="cx-features">
+          <h3 class="cx-features-header">
+            {{ 'storeFinder.storeFeatures' | cxTranslate }}
+          </h3>
 
-        <div>
-          <div
-            *ngFor="let feature of location.features?.entry"
-            class="cx-feature-item"
-          >
-            {{ feature.value }}
+          <div>
+            @for (feature of location.features?.entry; track feature) {
+              <div class="cx-feature-item">
+                {{ feature.value }}
+              </div>
+            }
           </div>
         </div>
+      }
+    </div>
+    @if (!disableMap) {
+      <div class="cx-storeMap">
+        <cx-store-finder-map [locations]="[location]"></cx-store-finder-map>
       </div>
-    </div>
-    <div class="cx-storeMap" *ngIf="!disableMap">
-      <cx-store-finder-map [locations]="[location]"></cx-store-finder-map>
-    </div>
+    }
   </div>
-</ng-container>
+}

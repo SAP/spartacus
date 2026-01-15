@@ -3,7 +3,9 @@
   [cxFocus]="{ autofocus: true, focusOnEscape: true }"
   (esc)="close()"
 >
-  <cx-icon *ngIf="messageIcon" [type]="messageIcon"></cx-icon>
+  @if (messageIcon) {
+    <cx-icon [type]="messageIcon"></cx-icon>
+  }
   <p>{{ message | cxTranslate }}</p>
   <button
     class="close"

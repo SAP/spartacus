@@ -29,86 +29,88 @@
     </div>
 
     <!-- Modal Body -->
-    <ng-container *ngIf="loaded$ | async; else loading">
-      <div class="cx-dialog-body modal-body" *ngIf="entry$ | async as entry">
-        <div class="cx-dialog-row">
-          <div class="cx-dialog-item col-sm-12 col-md-6">
-            <cx-cart-item
-              [item]="entry"
-              [compact]="true"
-              [quantityControl]="getQuantityControl() | async"
-              [promotionLocation]="promotionLocation"
-            ></cx-cart-item>
-            <div class="cx-dialog-pickup-store" *ngIf="pickupStoreName">
-              {{ 'pickupOptionDialog.modalHeader' | cxTranslate }}:
-              <span class="cx-dialog-pickup-store-name">{{
-                pickupStoreName
-              }}</span>
+    @if (loaded$ | async) {
+      @if (entry$ | async; as entry) {
+        <div class="cx-dialog-body modal-body">
+          <div class="cx-dialog-row">
+            <div class="cx-dialog-item col-sm-12 col-md-6">
+              <cx-cart-item
+                [item]="entry"
+                [compact]="true"
+                [quantityControl]="getQuantityControl() | async"
+                [promotionLocation]="promotionLocation"
+              ></cx-cart-item>
+              @if (pickupStoreName) {
+                <div class="cx-dialog-pickup-store">
+                  {{ 'pickupOptionDialog.modalHeader' | cxTranslate }}:
+                  <span class="cx-dialog-pickup-store-name">{{
+                    pickupStoreName
+                  }}</span>
+                </div>
+              }
             </div>
-          </div>
-          <!-- Separator -->
-          <div
-            class="cx-dialog-separator col-sm-12 d-xs-block d-sm-block d-md-none"
-          ></div>
-          <!-- Total container -->
-          <div
-            class="cx-dialog-actions col-sm-12 col-md-6"
-            *ngIf="cart$ | async as cart"
-          >
-            <div class="cx-dialog-total">
-              <div>
-                {{
-                  'cartItems.cartTotal'
-                    | cxTranslate: { count: cart.totalUnitCount }
-                }}
+            <!-- Separator -->
+            <div
+              class="cx-dialog-separator col-sm-12 d-xs-block d-sm-block d-md-none"
+            ></div>
+            <!-- Total container -->
+            @if (cart$ | async; as cart) {
+              <div class="cx-dialog-actions col-sm-12 col-md-6">
+                <div class="cx-dialog-total">
+                  <div>
+                    {{
+                      'cartItems.cartTotal'
+                        | cxTranslate: { count: cart.totalUnitCount }
+                    }}
+                  </div>
+
+                  <div>{{ cart.subTotal?.formattedValue }}</div>
+                </div>
+
+                <!-- Promotions -->
+                <div class="cx-dialog-promotions">
+                  <cx-promotions
+                    [promotions]="
+                      (cart.appliedOrderPromotions || []).concat(
+                        cart.potentialOrderPromotions || []
+                      )
+                    "
+                  ></cx-promotions>
+                </div>
+
+                <!-- Actions -->
+                <div class="cx-dialog-buttons">
+                  <button
+                    [class.disabled]="form.dirty"
+                    (click)="onAction('viewCart')"
+                    class="btn btn-primary"
+                    autofocus
+                  >
+                    {{ 'addToCart.viewCart' | cxTranslate }}
+                  </button>
+                  <button
+                    [class.disabled]="form.dirty"
+                    (click)="onAction('checkout')"
+                    class="btn btn-secondary"
+                  >
+                    {{ 'addToCart.proceedToCheckout' | cxTranslate }}
+                  </button>
+                </div>
               </div>
-
-              <div>{{ cart.subTotal?.formattedValue }}</div>
-            </div>
-
-            <!-- Promotions -->
-            <div class="cx-dialog-promotions">
-              <cx-promotions
-                [promotions]="
-                  (cart.appliedOrderPromotions || []).concat(
-                    cart.potentialOrderPromotions || []
-                  )
-                "
-              ></cx-promotions>
-            </div>
-
-            <!-- Actions -->
-            <div class="cx-dialog-buttons">
-              <button
-                [class.disabled]="form.dirty"
-                (click)="onAction('viewCart')"
-                class="btn btn-primary"
-                autofocus
-              >
-                {{ 'addToCart.viewCart' | cxTranslate }}
-              </button>
-              <button
-                [class.disabled]="form.dirty"
-                (click)="onAction('checkout')"
-                class="btn btn-secondary"
-              >
-                {{ 'addToCart.proceedToCheckout' | cxTranslate }}
-              </button>
-            </div>
+            }
+          </div>
+        </div>
+      }
+    } @else {
+      <div class="cx-dialog-body modal-body">
+        <div class="cx-dialog-row">
+          <div class="col-sm-12">
+            <cx-spinner aria-hidden="true"></cx-spinner>
           </div>
         </div>
       </div>
-    </ng-container>
+    }
   </div>
 
   <!-- Modal Body -->
-  <ng-template #loading>
-    <div class="cx-dialog-body modal-body">
-      <div class="cx-dialog-row">
-        <div class="col-sm-12">
-          <cx-spinner aria-hidden="true"></cx-spinner>
-        </div>
-      </div>
-    </div>
-  </ng-template>
 </div>

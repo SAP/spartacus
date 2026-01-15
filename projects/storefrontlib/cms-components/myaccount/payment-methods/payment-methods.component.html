@@ -1,4 +1,4 @@
-<ng-container *ngIf="paymentMethods$ | async as paymentMethods">
+@if (paymentMethods$ | async; as paymentMethods) {
   <!-- TODO: (CXSPA-5953) Remove feature flags next major -->
   <cx-form-required-legend />
   <div class="cx-payment container">
@@ -14,29 +14,33 @@
           'paymentMethods.newPaymentMethodsAreAddedDuringCheckout' | cxTranslate
         }}
       </div>
-      <div *ngIf="loading$ | async; else cards"><cx-spinner></cx-spinner></div>
-      <ng-template #cards>
+      @if (loading$ | async) {
+        <div><cx-spinner></cx-spinner></div>
+      } @else {
         <div class="cx-existing row">
-          <div
-            class="cx-payment-card col-sm-12 col-md-12 col-lg-6"
-            *ngFor="let paymentMethod of paymentMethods; let i = index"
-          >
-            <div class="cx-payment-inner">
-              <cx-card
-                [index]="i"
-                [border]="true"
-                [fitToContainer]="true"
-                [content]="getCardContent(paymentMethod) | async"
-                (deleteCard)="deletePaymentMethod(paymentMethod)"
-                (setDefaultCard)="setDefaultPaymentMethod(paymentMethod)"
-                (editCard)="setEdit(paymentMethod)"
-                [editMode]="editCard === paymentMethod.id"
-                (cancelCard)="cancelCard()"
-              ></cx-card>
+          @for (
+            paymentMethod of paymentMethods;
+            track paymentMethod;
+            let i = $index
+          ) {
+            <div class="cx-payment-card col-sm-12 col-md-12 col-lg-6">
+              <div class="cx-payment-inner">
+                <cx-card
+                  [index]="i"
+                  [border]="true"
+                  [fitToContainer]="true"
+                  [content]="getCardContent(paymentMethod) | async"
+                  (deleteCard)="deletePaymentMethod(paymentMethod)"
+                  (setDefaultCard)="setDefaultPaymentMethod(paymentMethod)"
+                  (editCard)="setEdit(paymentMethod)"
+                  [editMode]="editCard === paymentMethod.id"
+                  (cancelCard)="cancelCard()"
+                ></cx-card>
+              </div>
             </div>
-          </div>
+          }
         </div>
-      </ng-template>
+      }
     </div>
   </div>
-</ng-container>
+}

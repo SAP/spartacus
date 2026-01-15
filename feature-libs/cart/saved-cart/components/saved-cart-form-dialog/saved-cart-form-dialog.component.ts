@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -61,12 +61,9 @@ export interface SavedCartFormDialogOptions {
   templateUrl: './saved-cart-form-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     FocusDirective,
     FormsModule,
     ReactiveFormsModule,
-    NgSwitch,
-    NgSwitchCase,
     IconComponent,
     FormRequiredLegendComponent,
     FormRequiredAsterisksComponent,

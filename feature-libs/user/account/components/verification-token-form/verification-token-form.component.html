@@ -1,4 +1,6 @@
-<cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
+@if (isUpdating$ | async) {
+  <cx-spinner class="overlay"></cx-spinner>
+}
 
 <form
   (ngSubmit)="onSubmit()"
@@ -24,12 +26,14 @@
       aria-describedby="tokenInputHint"
     />
     <cx-form-errors [control]="form.get('tokenCode')"></cx-form-errors>
-    <div class="rate-limit-error-display" *ngIf="upToRateLimit">
-      {{
-        'register.rateLimitForRegistrationMessage'
-          | cxTranslate: { seconds: waitTimeForRateLimit }
-      }}
-    </div>
+    @if (upToRateLimit) {
+      <div class="rate-limit-error-display">
+        {{
+          'register.rateLimitForRegistrationMessage'
+            | cxTranslate: { seconds: waitTimeForRateLimit }
+        }}
+      </div>
+    }
   </label>
   <span id="tokenInputHint" class="cx-visually-hidden">
     {{ 'verificationTokenForm.tokenInputHint' | cxTranslate }}
@@ -43,50 +47,49 @@
   />
 
   <ng-container *cxFeature="'authorizationCodeFlowByDefault'">
-    <input
-      *ngIf="csrf"
-      formControlName="csrf"
-      type="hidden"
-      [name]="csrf.parameterName"
-    />
+    @if (csrf) {
+      <input formControlName="csrf" type="hidden" [name]="csrf.parameterName" />
+    }
   </ng-container>
 
-  <div *ngIf="!upToRateLimit" class="resend-link-text">
-    <div class="left-text">
-      <span role="timer" aria-live="polite" aria-atomic="true">
+  @if (!upToRateLimit) {
+    <div class="resend-link-text">
+      <div class="left-text">
+        <span role="timer" aria-live="polite" aria-atomic="true">
+          <a
+            role="button"
+            tabindex="-1"
+            #resendLink
+            (keydown.enter)="resendOTP()"
+            (keydown.space)="resendOTP()"
+            (click)="resendOTP()"
+            class="btn-link"
+            [ngClass]="{ 'disabled-link': isResendDisabled }"
+          >
+            {{ 'verificationTokenForm.resend' | cxTranslate }}
+          </a>
+          @if (isResendDisabled) {
+            {{
+              'verificationTokenForm.sendRateLime'
+                | cxTranslate: { waitTime: waitTime }
+            }}
+          }
+        </span>
+      </div>
+      <div class="right-text">
         <a
           role="button"
-          tabindex="-1"
-          #resendLink
-          (keydown.enter)="resendOTP()"
-          (keydown.space)="resendOTP()"
-          (click)="resendOTP()"
+          tabindex="0"
+          #noReceiveCodeLink
+          (keydown)="onOpenInfoDailogKeyDown($event)"
+          (click)="openInfoDailog()"
           class="btn-link"
-          [ngClass]="{ 'disabled-link': isResendDisabled }"
         >
-          {{ 'verificationTokenForm.resend' | cxTranslate }}
+          {{ 'verificationTokenForm.noReceiveCode' | cxTranslate }}
         </a>
-        <ng-container *ngIf="isResendDisabled">
-          {{
-            'verificationTokenForm.sendRateLime'
-              | cxTranslate: { waitTime: waitTime }
-          }}
-        </ng-container>
-      </span>
+      </div>
     </div>
-    <div class="right-text">
-      <a
-        role="button"
-        tabindex="0"
-        #noReceiveCodeLink
-        (keydown)="onOpenInfoDailogKeyDown($event)"
-        (click)="openInfoDailog()"
-        class="btn-link"
-      >
-        {{ 'verificationTokenForm.noReceiveCode' | cxTranslate }}
-      </a>
-    </div>
-  </div>
+  }
 
   <div class="verify-container">
     <button

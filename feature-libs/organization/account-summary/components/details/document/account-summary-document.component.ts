@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -43,17 +43,14 @@ import { AccountSummaryDocumentFilterComponent } from './filter/account-summary-
   templateUrl: './account-summary-document.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     AccountSummaryDocumentFilterComponent,
     SortingComponent,
     PaginationComponent,
     IconComponent,
-    NgFor,
     NgClass,
     AsyncPipe,
     TranslatePipe,
     CxDatePipe,
-
     CxDatePipe,
   ],
 })

@@ -28,8 +28,8 @@
 
     <!-- Modal Body -->
     <div class="cx-dialog-body modal-body">
-      <ng-container *ngIf="data$ | async as data">
-        <ng-container *ngIf="showDecisionPrompt$ | async; else result">
+      @if (data$ | async; as data) {
+        @if (showDecisionPrompt$ | async) {
           <div class="cx-reorder-dialog-areyousure-section">
             <p>
               {{ 'reorder.dialog.areYouSureToReplaceCart' | cxTranslate }}
@@ -53,13 +53,10 @@
               </div>
             </div>
           </div>
-        </ng-container>
-        <ng-template #result>
-          <ng-container *ngIf="!(loading$ | async); else loading">
+        } @else {
+          @if (!(loading$ | async)) {
             <p aria-live="polite">
-              <ng-container
-                *ngIf="!cartModifications?.length; else cartResponse"
-              >
+              @if (!cartModifications?.length) {
                 <span class="cx-cart-mod-entry-container">
                   <span class="alert-icon">
                     <cx-icon
@@ -69,54 +66,56 @@
                   </span>
                   {{ 'reorder.dialog.messages.success' | cxTranslate }}
                 </span>
-              </ng-container>
-              <ng-template #cartResponse>
-                <span
-                  *ngFor="let cartModification of cartModifications"
-                  class="cx-cart-mod-entry-container"
-                >
-                  <ng-container
-                    *ngIf="
+              } @else {
+                @for (
+                  cartModification of cartModifications;
+                  track cartModification
+                ) {
+                  <span class="cx-cart-mod-entry-container">
+                    @if (
                       cartModification.statusCode ===
-                        cartValidationStatusCode.LOW_STOCK;
-                      else errorIcon
-                    "
-                  >
-                    <span class="alert-icon">
-                      <cx-icon
-                        class="warning"
-                        [type]="iconTypes.INFO"
-                      ></cx-icon>
+                      cartValidationStatusCode.LOW_STOCK
+                    ) {
+                      <span class="alert-icon">
+                        <cx-icon
+                          class="warning"
+                          [type]="iconTypes.INFO"
+                        ></cx-icon>
+                      </span>
+                    } @else {
+                      <span class="alert-icon">
+                        <cx-icon
+                          class="error"
+                          [type]="iconTypes.ERROR"
+                        ></cx-icon>
+                      </span>
+                    }
+
+                    <span>
+                      {{
+                        'reorder.dialog.messages.' + cartModification.statusCode
+                          | cxTranslate
+                            : {
+                                quantity: cartModification.quantity,
+                                quantityAdded: cartModification.quantityAdded,
+                                productCode:
+                                  cartModification.entry.product.code,
+                                productName:
+                                  cartModification.entry.product.name,
+                              }
+                      }}
                     </span>
-                  </ng-container>
-                  <ng-template #errorIcon>
-                    <span class="alert-icon">
-                      <cx-icon class="error" [type]="iconTypes.ERROR"></cx-icon>
-                    </span>
-                  </ng-template>
-                  <span>
-                    {{
-                      'reorder.dialog.messages.' + cartModification.statusCode
-                        | cxTranslate
-                          : {
-                              quantity: cartModification.quantity,
-                              quantityAdded: cartModification.quantityAdded,
-                              productCode: cartModification.entry.product.code,
-                              productName: cartModification.entry.product.name,
-                            }
-                    }}
                   </span>
-                </span>
-              </ng-template>
+                }
+              }
             </p>
-          </ng-container>
-          <ng-template #loading>
+          } @else {
             <div class="cx-spinner">
               <cx-spinner></cx-spinner>
             </div>
-          </ng-template>
-        </ng-template>
-      </ng-container>
+          }
+        }
+      }
     </div>
   </div>
 </div>

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe, UrlPipe } from '@spartacus/core';
@@ -16,7 +16,6 @@ import { OrderDetailsService } from '../order-details.service';
   selector: 'cx-order-details-actions',
   templateUrl: './order-detail-actions.component.html',
   imports: [
-    NgIf,
     RouterLink,
     BtnLikeLinkDirective,
     AsyncPipe,

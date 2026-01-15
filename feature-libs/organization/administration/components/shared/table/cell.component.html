@@ -1,10 +1,13 @@
-<a
-  *ngIf="linkable; else text"
-  [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
-  [tabIndex]="tabIndex"
->
-  <ng-container *ngTemplateOutlet="text"></ng-container>
-</a>
+@if (linkable) {
+  <a
+    [routerLink]="{ cxRoute: route, params: routeModel } | cxUrl"
+    [tabIndex]="tabIndex"
+  >
+    <ng-container *ngTemplateOutlet="text"></ng-container>
+  </a>
+} @else {
+  <span class="text" title="{{ property }}">{{ property }}</span>
+}
 
 <ng-template #text>
   <span class="text" title="{{ property }}">{{ property }}</span>

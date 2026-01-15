@@ -1,6 +1,6 @@
-<ng-container *ngIf="isPunchoutSessionActive$ | async">
-  <ng-container *ngIf="cart$ | async as cart">
-    <ng-container *ngIf="entries$ | async as entries">
+@if (isPunchoutSessionActive$ | async) {
+  @if (cart$ | async; as cart) {
+    @if (entries$ | async; as entries) {
       <div class="punchoutStartSection">
         <cx-cart-item-list
           [readonly]="true"
@@ -16,6 +16,6 @@
 
         <cx-punchout-buttons [removeCancelButton]="true"></cx-punchout-buttons>
       </div>
-    </ng-container>
-  </ng-container>
-</ng-container>
+    }
+  }
+}

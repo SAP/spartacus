@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -33,13 +33,11 @@ import { UpdateProfileComponentService } from './update-profile-component.servic
   templateUrl: './my-account-v2-profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgIf,
     SpinnerComponent,
     FormsModule,
     ReactiveFormsModule,
     NgSelectComponent,
     NgSelectA11yDirective,
-    NgFor,
     NgOptionComponent,
     FormErrorsComponent,
     AsyncPipe,
