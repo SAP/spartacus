@@ -17,7 +17,8 @@
     "
   ></cx-promotions>
 
-  <cx-pick-up-in-store-items-details></cx-pick-up-in-store-items-details>
+  <ng-template [cxOutlet]="cartOutlets.OPF_CHECKOUT_PICKUP_ITEMS">
+  </ng-template>
 
   <ng-container *ngIf="cart?.deliveryItemsQuantity">
     <div class="cx-items-to-ship-label">
