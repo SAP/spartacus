@@ -1,8 +1,19 @@
-# Standalone Components in Spartacus
+# Standalone Components in Spartacus since 221121.8.0
 
-Since version 221121.8.0, all Spartacus OOTB components are [Angular Standalone Components](https://angular.dev/reference/migrations/standalone). Angular `NgModules` are still in use just for organizing features into cohesive modules, but no longer for declaring components.
+Since version 221121.8.0, all Spartacus OOTB components are [Angular Standalone Components](https://angular.dev/reference/migrations/standalone). They can be used in your custom code as before, even after they became Standalone Components. You should be able to use them even in your custom non-Standalone components. However, we strongly recommend converting your custom components to Standalone Components as well, to unlock the latest Angular features and innovations.
 
-Angular's function [bootstrapModule()](https://angular.dev/api/core/PlatformRef#bootstrapModule) is still used to bootstrap the application's root AppComponent component (so the root component must remain non-Standalone), but in the future Spartacus version we plan to change it to [bootstrapApplication()](https://angular.dev/api/platform-browser/bootstrapApplication) function, which will allow bootstraping a Standalone root Component.
+## Remaining non-Standalone APIs in Spartacus
+
+### NgModules are still in use
+Angular `NgModules` are still in use in Spartacus just for organizing features into cohesive modules, but no longer for declaring components.
+
+### bootstrapModule() is still in use
+The Angular's function [bootstrapModule()](https://angular.dev/api/core/PlatformRef#bootstrapModule) is still used to bootstrap the application's root AppComponent component (so the root component must remain non-Standalone).
+
+But in the future Spartacus version we plan to change it to [bootstrapApplication()](https://angular.dev/api/platform-browser/bootstrapApplication) function, which will allow bootstrapping a Standalone root Component.
+
+### Fresh apps still need to be created with `--standalone=false` flag
+Fresh Angular applications created with Spartacus schematics still need to be created with `ng new ... --standalone=false` flag, so the generated app uses `bootstrapModule()` function for bootstrapping the root component.
 
 ## Migrating to 221121.8.0
 
@@ -17,7 +28,7 @@ Note: Very likely you have been using your custom root `AppComponent` in the `bo
 - Simplified component declarations (no need for component declarations in your `NgModule`)
 - Unlocking latest Angular features and innovations like [Defer Loading](https://angular.dev/guide/templates/defer) and [Incremental Hydration](https://angular.dev/guide/incremental-hydration), which allow better tree-shaking and performance. Note: There might be also other prerequisites for those features, but Standalone Components is a major prerequisite.
 
-To convert automatically your custom components to Angular Standalone Components, please the first step of the Angular documentation on [Migrating to standalone components](https://angular.dev/reference/migrations/standalone), at least:
+To convert automatically your custom components to Angular Standalone Components, please follow the first step of the Angular documentation on [Migrating to standalone components](https://angular.dev/reference/migrations/standalone):
 
 > 1. Run `ng g @angular/core:standalone` and select "Convert all components, directives and pipes to standalone"
 
