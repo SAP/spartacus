@@ -103,7 +103,7 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
     "@types/node": "^20.17.19",
     "jsdom": "^27.1.0",
     "jsonc-parser": "^3.3.1",
-    "parse5": "^7.2.1",
+    "parse5": "^8.0.0",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
   }
