@@ -21,14 +21,12 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 import { RoutingService, useFeatureStyles } from '@spartacus/core';
-import {
-  GlobalMessageComponent,
-  OutletDirective,
-  PageLayoutComponent,
-  PageSlotComponent,
-} from '@spartacus/storefront';
 import { Observable, Subscription, tap } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { GlobalMessageComponent } from '../../cms-components/misc/global-message/global-message.component';
+import { OutletDirective } from '../../cms-structure/outlet/outlet.directive';
+import { PageLayoutComponent } from '../../cms-structure/page/page-layout/page-layout.component';
+import { PageSlotComponent } from '../../cms-structure/page/slot/page-slot.component';
 import {
   FocusConfig,
   FocusDirective,
@@ -44,12 +42,12 @@ import { StorefrontOutlets } from './storefront-outlets.model';
   selector: 'cx-storefront',
   templateUrl: './storefront.component.html',
   imports: [
+    RouterModule,
     PageLayoutComponent,
     PageSlotComponent,
     FocusDirective,
     SkipFocusDirective,
     GlobalMessageComponent,
-    RouterModule,
     AsyncPipe,
     OutletDirective,
   ],
