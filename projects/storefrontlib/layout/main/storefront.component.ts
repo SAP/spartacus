@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,11 +18,7 @@ import {
   DOCUMENT,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  FeatureConfigService,
-  RoutingService,
-  useFeatureStyles,
-} from '@spartacus/core';
+import { RoutingService, useFeatureStyles } from '@spartacus/core';
 import { Observable, Subscription, tap } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import {
@@ -50,7 +46,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   readonly StorefrontOutlets = StorefrontOutlets;
 
-  private featureConfigService = inject(FeatureConfigService);
   protected destroyRef = inject(DestroyRef);
   @Optional() protected document = inject(DOCUMENT, {
     optional: true,
@@ -87,7 +82,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     protected elementRef: ElementRef<HTMLElement>,
     protected keyboardFocusService: KeyboardFocusService
   ) {
-    useFeatureStyles('a11yKeyboardFocusInSearchBox');
     useFeatureStyles('a11yNgSelectLayering');
     useFeatureStyles('topProgressBarUseTransformAnimation');
     useFeatureStyles('unifiedDefaultHeaderSlotsAcrossBreakpoints');
@@ -106,9 +100,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
       })
     );
 
-    if (this.featureConfigService.isEnabled('a11yHamburgerMenuTrapFocus')) {
-      this.trapFocusOnMenuIfExpanded();
-    }
+    this.trapFocusOnMenuIfExpanded();
   }
 
   collapseMenuIfClickOutside(event: any): void {
@@ -161,7 +153,6 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
     // After clicking a link the focus should move to the first available item in the main content area.
     if (
-      this.featureConfigService.isEnabled('a11yResetFocusAfterNavigating') &&
       this.stopNavigating &&
       this.document?.activeElement !== this.document?.body
     ) {

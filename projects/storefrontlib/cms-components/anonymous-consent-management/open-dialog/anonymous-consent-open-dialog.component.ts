@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { AnonymousConsentsService, useFeatureStyles } from '@spartacus/core';
+import { AnonymousConsentsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/launch-config';
@@ -30,9 +30,7 @@ export class AnonymousConsentOpenDialogComponent {
     protected vcr: ViewContainerRef,
     protected anonymousConsentsService: AnonymousConsentsService,
     protected launchDialogService: LaunchDialogService
-  ) {
-    useFeatureStyles('a11yHideConsentButtonWhenBannerVisible');
-  }
+  ) {}
 
   openDialog(): void {
     const dialog = this.launchDialogService.openDialog(

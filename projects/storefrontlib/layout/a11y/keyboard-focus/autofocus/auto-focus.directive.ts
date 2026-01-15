@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -83,7 +83,7 @@ export class AutoFocusDirective
    * Mimic the focus without setting the actual focus on the host. The first
    * focusable child element will be focussed.
    */
-  handleFocus(event?: KeyboardEvent) {
+  handleFocus(event?: FocusEvent) {
     if (this.shouldAutofocus) {
       if (!event?.target || event.target === this.host) {
         this.firstFocusable?.focus();

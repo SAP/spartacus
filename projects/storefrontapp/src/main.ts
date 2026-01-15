@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { platformBrowser } from '@angular/platform-browser';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
@@ -14,7 +14,7 @@ if (environment.production) {
 }
 
 function bootstrap() {
-  platformBrowserDynamic()
+  platformBrowser()
     .bootstrapModule(AppModule)
     /* eslint-disable-next-line no-console
     --

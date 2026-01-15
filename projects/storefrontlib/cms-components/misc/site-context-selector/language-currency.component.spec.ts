@@ -9,6 +9,7 @@ import {
   contextServiceMapProvider,
   Currency,
   CurrencyService,
+  I18nTestingModule,
   Language,
   LanguageService,
   TranslationService,
@@ -87,7 +88,7 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule],
+      imports: [BrowserAnimationsModule, I18nTestingModule],
       declarations: [
         LanguageCurrencyComponent,
         SiteContextSelectorComponent,

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,6 +13,7 @@ import {
 } from '@spartacus/asm/core';
 import {
   AsmConfig,
+  AsmSessionCreationOptions,
   BindCartParams,
   CustomerListsPage,
   CustomerRegistrationForm,
@@ -27,6 +28,7 @@ import {
   OccEndpointsService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
   User,
+  UserIdService,
   tryNormalizeHttpError,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -44,8 +46,10 @@ interface CustomerSearchParams {
 @Injectable()
 export class OccAsmAdapter implements AsmAdapter {
   private activeBaseSite: string;
+  private currentUserId: string;
 
   protected logger = inject(LoggerService);
+  protected userIdService = inject(UserIdService);
 
   constructor(
     protected http: HttpClient,
@@ -57,6 +61,39 @@ export class OccAsmAdapter implements AsmAdapter {
     this.baseSiteService
       .getActive()
       .subscribe((value) => (this.activeBaseSite = value));
+
+    this.userIdService
+      .getUserId()
+      .subscribe((value) => (this.currentUserId = value));
+  }
+
+  createAsmSessionEvent(options: AsmSessionCreationOptions): Observable<void> {
+    const headers = this.getHeaders();
+    const params: HttpParams = new HttpParams();
+
+    const requestBody = {
+      ...options,
+    };
+
+    const url = this.occEndpointsService.buildUrl(
+      'asmSessionEvent',
+      {
+        urlParams: {
+          baseSiteId: this.activeBaseSite,
+          userId: this.currentUserId,
+        },
+      },
+      {
+        baseSite: false,
+        prefix: false,
+      }
+    );
+
+    return this.http.post<void>(url, requestBody, { headers, params }).pipe(
+      catchError((error) => {
+        throw tryNormalizeHttpError(error, this.logger);
+      })
+    );
   }
 
   protected getHeaders(): HttpHeaders {

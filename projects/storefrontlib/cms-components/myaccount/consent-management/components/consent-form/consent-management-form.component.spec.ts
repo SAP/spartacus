@@ -4,17 +4,9 @@ import { By } from '@angular/platform-browser';
 import {
   ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
-  FeatureConfigService,
   I18nTestingModule,
 } from '@spartacus/core';
 import { ConsentManagementFormComponent } from './consent-management-form.component';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-
-class MockFeatureConfigService {
-  isEnabled(): boolean {
-    return true;
-  }
-}
 
 describe('ConsentManagementFormComponent', () => {
   let component: ConsentManagementFormComponent;
@@ -24,10 +16,7 @@ describe('ConsentManagementFormComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [ConsentManagementFormComponent, MockFeatureDirective],
-      providers: [
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
-      ],
+      declarations: [ConsentManagementFormComponent],
     }).compileComponents();
   }));
 

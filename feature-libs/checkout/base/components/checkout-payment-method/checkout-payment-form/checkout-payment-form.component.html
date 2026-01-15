@@ -23,6 +23,9 @@
                   placeholder="{{ 'paymentForm.selectOne' | cxTranslate }}"
                   formControlName="code"
                   id="card-type-select"
+                  ariaLabelDropdown="{{
+                    'common.ngSelectDropdownOptionsList' | cxTranslate
+                  }}"
                   [cxNgSelectA11y]="{
                     ariaLabel: 'paymentForm.paymentType' | cxTranslate,
                   }"
@@ -115,6 +118,9 @@
                   placeholder="{{ 'paymentForm.monthMask' | cxTranslate }}"
                   formControlName="expiryMonth"
                   id="month-select"
+                  ariaLabelDropdown="{{
+                    'common.ngSelectDropdownOptionsList' | cxTranslate
+                  }}"
                   [cxNgSelectA11y]="{
                     ariaLabel:
                       'paymentForm.expirationMonth'
@@ -139,6 +145,9 @@
                   [items]="years"
                   placeholder="{{ 'paymentForm.yearMask' | cxTranslate }}"
                   id="year-select"
+                  ariaLabelDropdown="{{
+                    'common.ngSelectDropdownOptionsList' | cxTranslate
+                  }}"
                   [cxNgSelectA11y]="{
                     ariaLabel:
                       'paymentForm.expirationYear'

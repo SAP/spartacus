@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 
 const user = getSampleUser();
+
 describe('Checkout Accessibility', { testIsolation: false }, () => {
   before(() => {
     cy.a11yContinuumSetup();
@@ -96,8 +97,7 @@ describe('Checkout Accessibility', { testIsolation: false }, () => {
     });
 
     it('review order', () => {
-      fillPaymentDetails(user, undefined, false);
-      cy.get('button.btn-primary').click();
+      fillPaymentDetails(user, undefined, true);
       cy.get('section[aria-label="Review Order"]').a11yRunContinuumTest();
       cy.get('cx-place-order').a11yRunContinuumTest();
     });
