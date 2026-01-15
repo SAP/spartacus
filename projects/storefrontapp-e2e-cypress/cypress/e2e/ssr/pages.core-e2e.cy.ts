@@ -8,6 +8,12 @@ describe('SSR', () => {
   const plpUrl = '/Brands/Sony/c/brand_5';
   const pdpUrl = '/product/3965240/np-fv-70';
 
+  // before(() => {
+  //   cy.request('/');
+  //   cy.request(plpUrl);
+  //   cy.request(pdpUrl);
+  // });
+
   beforeEach(() => {
     cy.intercept({ method: 'GET', url: '*.js' }, { body: '' });
   });

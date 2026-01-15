@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import {
   loginB2bUser,
   navigateToReviewOrderPage,
@@ -23,11 +23,11 @@ describe('Reorder accessibility', () => {
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
     cy.a11yContinuumSetup();
     loginB2bUser();
-    navigateToReviewOrderPage();
-    waitUntilOrderIsPlaced();
   });
 
   it('Reorder', () => {
+    navigateToReviewOrderPage();
+    waitUntilOrderIsPlaced();
     cy.visit('my-account/orders');
     cy.get('cx-order-history .cx-order-history-value').first().click();
     cy.get('button').contains(' Reorder ').click();

@@ -119,10 +119,22 @@ export function clickViewDetailsFromBanner() {
 }
 
 export function openAnonymousConsentsDialog() {
-  cy.get('cx-anonymous-consent-open-dialog').within(() => {
-    const link = cy.get('button');
-    link.should('exist');
-    link.click({ force: true });
+  cy.get('body').then(($body) => {
+    const hasBannerBtn =
+      $body.find('cx-anonymous-consent-management-banner .btn-secondary')
+        .length > 0;
+
+    if (hasBannerBtn) {
+      cy.log('Opening dialog via banner');
+      cy.get('cx-anonymous-consent-management-banner .btn-secondary')
+        .should('be.visible')
+        .click({ force: true });
+    } else {
+      cy.log('Opening dialog via footer link');
+      cy.get('cx-anonymous-consent-open-dialog button')
+        .should('exist')
+        .click({ force: true });
+    }
   });
 }
 

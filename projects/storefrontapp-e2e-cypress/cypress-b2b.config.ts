@@ -5,15 +5,19 @@
  */
 
 import { defineConfig } from 'cypress';
-import baseConfig from './cypress.config.ci.ts';
+import baseConfig from './cypress.config.ts';
 
 export default defineConfig({
   ...baseConfig,
   env: {
     ...baseConfig.env,
-    CLIENT_ID: 'asm_client',
-    API_URL:
-      'https://api.c432wmya2v-teamspart3-s4-public.model-t.myhybris.cloud',
-    JDK_VERSION: 'JDK21',
+    CLIENT_ID:
+      baseConfig?.env?.JDK_VERSION === 'JDK21'
+        ? 'mobile_android_public_b2b'
+        : 'mobile_android',
+  },
+  e2e: {
+    ...baseConfig.e2e,
+    baseUrl: 'http://localhost:5200',
   },
 });

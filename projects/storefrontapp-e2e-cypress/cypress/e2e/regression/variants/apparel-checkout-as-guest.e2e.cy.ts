@@ -14,13 +14,10 @@ import { viewportContext } from '../../../helpers/viewport-context';
 context('Apparel - checkout as guest', () => {
   viewportContext(['desktop', 'mobile'], () => {
     describe('core tests', () => {
-      before(() => {
-        checkoutVariants.generateVariantGuestUser();
-      });
-
       beforeEach(() => {
         Cypress.env('BASE_SITE', APPAREL_BASESITE);
         configureProductWithVariants();
+        checkoutVariants.generateVariantGuestUser();
       });
 
       checkoutVariants.testCheckoutVariantAsGuest();
@@ -29,13 +26,10 @@ context('Apparel - checkout as guest', () => {
 
   viewportContext(['desktop'], () => {
     describe('all tests', () => {
-      before(() => {
-        checkoutVariants.generateVariantGuestUser();
-      });
-
       beforeEach(() => {
         Cypress.env('BASE_SITE', APPAREL_BASESITE);
         configureProductWithVariants();
+        checkoutVariants.generateVariantGuestUser();
       });
 
       checkoutVariants.testCheckoutVariantAsGuestAndVerifyCart();

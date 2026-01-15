@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { getSampleUser } from '../../../sample-data/checkout-flow';
-import { login } from '../../../support/utils/login';
-import { myCompanyAdminUser } from '../../../sample-data/shared-users';
-import { addB2bUser, setB2bPassword } from '../../../helpers/b2b/b2b-checkout';
+import * as b2bCheckout from '../../../helpers/b2b/b2b-checkout';
 import {
   b2bUser,
   POWERTOOLS_BASESITE,
   products,
 } from '../../../sample-data/b2b-checkout';
+import { getSampleUser } from '../../../sample-data/checkout-flow';
+import { myCompanyAdminUser } from '../../../sample-data/shared-users';
+import { login } from '../../../support/utils/login';
 
 export function loginB2bUser() {
   let adminToken;
@@ -24,10 +24,14 @@ export function loginB2bUser() {
   )
     .then((result) => {
       adminToken = result?.body?.access_token;
-      return addB2bUser(adminToken, user);
+      return b2bCheckout.addB2bUser(adminToken, user);
     })
     .then((result) => {
-      return setB2bPassword(result.body.customerId, user.password, adminToken);
+      return b2bCheckout.setB2bPassword(
+        result.body.customerId,
+        user.password,
+        adminToken
+      );
     })
     .then((result: any) => {
       b2bUser.registrationData.email = user.email;

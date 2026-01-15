@@ -17,9 +17,17 @@ describe('ASM Continuum tests', { testIsolation: false }, () => {
   });
 
   it('Logged in', () => {
-    cy.get('input').first().type('brandon.leclair@acme.com');
-    cy.get('input[type="password"').type('pw4all{enter}');
-    cy.get('.searchLabel');
+    cy.whenJDK21(() => {
+      cy.get('.cx-asm-customer-list .cx-asm-customer-list-link').click();
+      agentLoginForJDK21('brandon.leclair@acme.com', 'pw4all');
+    });
+
+    cy.whenJDK17(() => {
+      cy.get('input').first().type('brandon.leclair@acme.com');
+      cy.get('input[type="password"').type('pw4all{enter}');
+    });
+
+    cy.get('.searchLabel').should('be.visible');
     cy.get('cx-asm-main-ui').a11yRunContinuumTest();
   });
 
