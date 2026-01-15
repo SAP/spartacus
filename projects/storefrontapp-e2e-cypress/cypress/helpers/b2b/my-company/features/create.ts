@@ -24,7 +24,7 @@ export function createTest(config: MyCompanyConfig) {
         path: `**${config.apiEndpoint}**`,
       }).as('loadEntity');
       cy.visit(`${config.baseUrl}${entityId ? '/' + entityId : ''}`);
-      cy.get('cx-storefront').contains('Loading...').should('not.exist');
+      cy.get('app-root').contains('Loading...').should('not.exist');
       cy.wait('@loadEntity').its('response.statusCode').should('eq', 200);
     });
 
