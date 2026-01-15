@@ -20,7 +20,6 @@ import {
   MessageEvent,
   MessageEventBoundItem,
   MessagingComponent,
-  MessagingComponent as MessagingComponent_1,
   MessagingConfigs,
 } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
@@ -34,13 +33,7 @@ const ALL_PRODUCTS_ID = '';
 @Component({
   selector: 'cx-quote-comments',
   templateUrl: './quote-comments.component.html',
-  imports: [
-    NgIf,
-    IconComponent,
-    MessagingComponent_1,
-    AsyncPipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, IconComponent, MessagingComponent, AsyncPipe, TranslatePipe],
 })
 export class QuoteCommentsComponent {
   protected quoteFacade = inject(QuoteFacade);

@@ -71,8 +71,6 @@ import { AsmCustomer360SectionComponent } from '../sections/asm-customer-360-sec
     TranslatePipe,
     CxDatePipe,
     ArgsPipe,
-
-    CxDatePipe,
   ],
 })
 export class AsmCustomer360Component implements OnDestroy, OnInit {

@@ -50,8 +50,6 @@ import { OrderOverviewComponentService } from './order-overview-component.servic
     TranslatePipe,
     CxDatePipe,
     UrlPipe,
-
-    CxDatePipe,
   ],
 })
 export class OrderOverviewComponent {

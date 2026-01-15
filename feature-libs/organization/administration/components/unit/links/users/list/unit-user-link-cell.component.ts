@@ -31,7 +31,7 @@ import { CellComponent } from '../../../../shared/table/cell.component';
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe, TranslatePipe],
+  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
 })
 export class UnitUserRolesCellComponent extends CellComponent {
   unitKey$: Observable<string> = this.itemService.key$;

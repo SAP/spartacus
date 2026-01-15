@@ -33,8 +33,6 @@ import { DatePickerService } from './date-picker.service';
     FormErrorsComponent,
     TranslatePipe,
     CxDatePipe,
-
-    CxDatePipe,
   ],
 })
 export class DatePickerComponent {

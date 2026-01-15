@@ -15,7 +15,6 @@ import {
 import {
   MessageEvent,
   MessagingComponent,
-  MessagingComponent as MessagingComponent_1,
   MessagingConfigs,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -24,7 +23,7 @@ import { CustomerTicketingMessagesComponentService } from './customer-ticketing-
 @Component({
   selector: 'cx-customer-ticketing-messages',
   templateUrl: './customer-ticketing-messages.component.html',
-  imports: [MessagingComponent_1],
+  imports: [MessagingComponent],
 })
 export class CustomerTicketingMessagesComponent implements OnDestroy {
   @ViewChild(MessagingComponent) messagingComponent: MessagingComponent;

@@ -14,7 +14,6 @@ import {
 import { RouterLink } from '@angular/router';
 import {
   CxDatePipe,
-  CxDatePipe as CxDatePipe_1,
   PaginationModel,
   TranslatePipe,
   TranslationService,
@@ -44,9 +43,7 @@ import { QuoteListComponentService } from './quote-list-component.service';
     IconComponent,
     AsyncPipe,
     TranslatePipe,
-    CxDatePipe_1,
     UrlPipe,
-
     CxDatePipe,
   ],
 })

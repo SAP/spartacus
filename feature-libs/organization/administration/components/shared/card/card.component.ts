@@ -18,7 +18,6 @@ import {
   IconComponent,
   PopoverDirective,
   ViewComponent,
-  ViewComponent as ViewComponent_1,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -34,7 +33,7 @@ import { BaseItem } from '../organization.model';
   host: { class: 'content-wrapper' },
   providers: [MessageService],
   imports: [
-    ViewComponent_1,
+    ViewComponent,
     NgIf,
     PopoverDirective,
     IconComponent,

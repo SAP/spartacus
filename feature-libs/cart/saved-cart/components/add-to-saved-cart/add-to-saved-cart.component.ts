@@ -30,7 +30,7 @@ import { distinctUntilChanged, filter, map, take, tap } from 'rxjs/operators';
   selector: 'cx-add-to-saved-cart',
   templateUrl: './add-to-saved-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe, TranslatePipe],
+  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
 })
 export class AddToSavedCartComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

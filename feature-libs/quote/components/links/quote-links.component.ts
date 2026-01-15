@@ -27,7 +27,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-quote-links',
   templateUrl: './quote-links.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe, TranslatePipe],
+  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
 })
 export class QuoteLinksComponent {
   protected quoteFacade = inject(QuoteFacade);

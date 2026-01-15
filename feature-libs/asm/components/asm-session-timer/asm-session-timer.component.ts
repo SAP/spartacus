@@ -15,7 +15,7 @@ import { FormatTimerPipe } from './format-timer.pipe';
 @Component({
   selector: 'cx-asm-session-timer',
   templateUrl: './asm-session-timer.component.html',
-  imports: [TranslatePipe, FormatTimerPipe, TranslatePipe],
+  imports: [TranslatePipe, FormatTimerPipe],
 })
 export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();

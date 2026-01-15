@@ -11,12 +11,7 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import {
-  CxDatePipe,
-  CxDatePipe as CxDatePipe_1,
-  TranslatePipe,
-  TranslationService,
-} from '@spartacus/core';
+import { CxDatePipe, TranslatePipe, TranslationService } from '@spartacus/core';
 import { QuoteCoreConfig } from '@spartacus/quote/core';
 import {
   FocusConfig,
@@ -40,8 +35,6 @@ import { ConfirmationContext } from './quote-confirm-dialog.model';
     IconComponent,
     AsyncPipe,
     TranslatePipe,
-    CxDatePipe_1,
-
     CxDatePipe,
   ],
 })

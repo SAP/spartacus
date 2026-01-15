@@ -13,7 +13,7 @@ import { ConsignmentView } from '@spartacus/order/root';
   selector: 'cx-my-account-v2-consignment-entries',
   templateUrl: './my-account-v2-consignment-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgFor, NgIf, TranslatePipe, CxDatePipe, CxDatePipe],
+  imports: [NgFor, NgIf, TranslatePipe, CxDatePipe],
 })
 export class MyAccountV2ConsignmentEntriesComponent {
   @Input()
