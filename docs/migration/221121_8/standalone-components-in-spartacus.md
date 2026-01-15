@@ -20,7 +20,7 @@ Fresh Angular applications created with Spartacus schematics still need to be cr
 ### Migrating to use OOTB Spartacus Standalone Components
 Existing OOTB Spartacus components can be used in your custom code as before, even after they became Standalone Components. You should be able to use them even in your custom non-Standalone components.
 
-Note: Very likely you have been using your custom root `AppComponent` in the `bootstrap` array of your `AppModule`. But if by some chance, you were using directly the Spartacus OOTB `StorefrontComponent` in the `bootstrap` array, then you should replace it with your custom non-Standalone `AppComponent`. It's because Angular's `bootstrap` array of `NgModule` accepts only non-Standalone components, but `StorefrontComponent` became now a Standalone Component.
+Note: Very likely you have been using your custom root `AppComponent` in the `bootstrap` array of your app's main `NgModule`. But if by some chance, you were using directly the Spartacus OOTB `StorefrontComponent` in the `bootstrap` array, then you should replace it with your custom non-Standalone `AppComponent`. It's because Angular's `bootstrap` array of `NgModule` accepts only non-Standalone components, but `StorefrontComponent` became now a Standalone Component.
 
 ### Migrating your custom components to Standalone Components
 
