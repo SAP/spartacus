@@ -77,10 +77,29 @@ class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
   });
 }
 
+const mockBillingAddress: Address = {
+  id: 'billing-address-id',
+  firstName: 'Jane',
+  lastName: 'Smith',
+  line1: '789 Business Blvd',
+  town: 'Los Angeles',
+  postalCode: '90002',
+  country: { isocode: 'US' },
+  region: { isocodeShort: 'CA' },
+};
+
+const mockCart = {
+  code: 'test-cart-id',
+  sapBillingAddress: mockBillingAddress,
+} as any;
+
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActiveCartId = jasmine
     .createSpy('getActiveCartId')
     .and.returnValue(of('test-cart-id'));
+  getActive = jasmine.createSpy('getActive').and.returnValue(of(mockCart));
+  isStable = jasmine.createSpy('isStable').and.returnValue(of(true));
+  reloadActiveCart = jasmine.createSpy('reloadActiveCart');
 }
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {}
@@ -119,6 +138,9 @@ class MockOpfQuickBuyTransactionService
       country: { isocode: 'US' },
     })
   );
+  setBillingAddress = jasmine
+    .createSpy('setBillingAddress')
+    .and.returnValue(of(true));
   setDeliveryMode = jasmine
     .createSpy('setDeliveryMode')
     .and.returnValue(of(mockDeliveryMode));
@@ -436,6 +458,16 @@ describe('OpfGlobalFunctionsService', () => {
         vcr: {} as ViewContainerRef,
       });
       windowOpf = (windowRef.nativeWindow as any)?.['Opf'] as any;
+    });
+
+    it('should handle getBillingAddress event', async () => {
+      const result = await windowOpf.payments['global'].getBillingAddress();
+
+      const mockActiveCartFacade = TestBed.inject(
+        ActiveCartFacade
+      ) as jasmine.SpyObj<ActiveCartFacade>;
+      expect(mockActiveCartFacade.getActive).toHaveBeenCalled();
+      expect(result).toEqual(mockBillingAddress);
     });
 
     it('should handle setDeliveryAddress event', async () => {
