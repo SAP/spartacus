@@ -705,20 +705,22 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     ): Promise<unknown> => {
       return this.ngZone.run(() => {
         return lastValueFrom(
-          this.opfQuickBuyTransactionService.setBillingAddress(address).pipe(
-            switchMap(() => {
-              this.activeCartFacade.reloadActiveCart();
-              return this.activeCartFacade.isStable().pipe(
-                skip(1), // Skip the initial stable state before reload
-                filter((isStable: boolean) => isStable),
-                take(1),
-                map(() => true)
-              );
-            })
-          )
+          this.opfQuickBuyTransactionService
+            .setBillingAddress(address)
+            .pipe(switchMap(() => this.reloadCartAndWaitForStable()))
         );
       });
     };
+  }
+
+  protected reloadCartAndWaitForStable(): Observable<boolean> {
+    this.activeCartFacade.reloadActiveCart();
+    return this.activeCartFacade.isStable().pipe(
+      skip(1), // Skip the initial stable state before reload
+      filter((isStable: boolean) => isStable),
+      take(1),
+      map(() => true)
+    );
   }
 
   protected registerSetDeliveryAddress(domain: OpfGlobalFunctionsDomain): void {
