@@ -16,14 +16,12 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { UserIdService } from '../../../auth';
-import { FeatureConfigService } from '../../../features-config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OccCmsComponentAdapter implements CmsComponentAdapter {
   protected readonly userIdService = inject(UserIdService);
-  protected readonly featureConfigService = inject(FeatureConfigService);
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
