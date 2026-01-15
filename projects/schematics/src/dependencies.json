@@ -9,8 +9,8 @@
     "@ngrx/router-store": "^21.0.1",
     "@ngrx/store": "^21.0.1",
     "angular-oauth2-oidc": "^20.0.2",
-    "i18next": "^24.2.1",
-    "i18next-http-backend": "^3.0.1",
+    "i18next": "^25.7.4",
+    "i18next-http-backend": "^3.0.2",
     "i18next-resources-to-backend": "^1.2.1",
     "rxjs": "^7.8.0"
   },
@@ -20,7 +20,7 @@
     "@angular/compiler": "^21.0.8",
     "@schematics/angular": "^21.0.5",
     "jsonc-parser": "^3.3.1",
-    "parse5": "^7.2.1",
+    "parse5": "^8.0.0",
     "typescript": "^5.9.3"
   },
   "ssr-tests": {
@@ -46,8 +46,8 @@
     "rxjs": "^7.8.0"
   },
   "@spartacus/styles": {
-    "@fontsource/open-sans": "^5.1.0",
-    "@fortawesome/fontawesome-free": "6.7.2",
+    "@fontsource/open-sans": "^5.2.7",
+    "@fortawesome/fontawesome-free": "7.1.0",
     "@ng-select/ng-select": "^21.1.4"
   },
   "@spartacus/setup": {
@@ -515,8 +515,8 @@
     "@angular/router": "^21.0.8",
     "@angular/service-worker": "^21.0.8",
     "@angular/ssr": "^21.0.5",
-    "@fontsource/open-sans": "^5.1.0",
-    "@fortawesome/fontawesome-free": "6.7.2",
+    "@fontsource/open-sans": "^5.2.7",
+    "@fortawesome/fontawesome-free": "7.1.0",
     "@ng-select/ng-select": "^21.1.4",
     "@ngrx/effects": "^21.0.1",
     "@ngrx/operators": "^21.0.1",
@@ -529,8 +529,8 @@
     "comment-json": "^4.2.3",
     "express": "^5.1.0",
     "hamburgers": "^1.2.1",
-    "i18next": "^24.2.1",
-    "i18next-http-backend": "^3.0.1",
+    "i18next": "^25.7.4",
+    "i18next-http-backend": "^3.0.2",
     "i18next-resources-to-backend": "^1.2.1",
     "ngx-infinite-scroll": "^21.0.0",
     "rxjs": "^7.8.0",
