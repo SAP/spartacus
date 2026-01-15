@@ -26,6 +26,7 @@ import { distinctUntilChanged } from 'rxjs/operators';
 import { GlobalMessageComponent } from '../../cms-components/misc/global-message/global-message.component';
 import { OutletDirective } from '../../cms-structure/outlet/outlet.directive';
 import { PageLayoutComponent } from '../../cms-structure/page/page-layout/page-layout.component';
+import { PageTemplateDirective } from '../../cms-structure/page/page-layout/page-template.directive';
 import { PageSlotComponent } from '../../cms-structure/page/slot/page-slot.component';
 import {
   FocusConfig,
@@ -34,7 +35,11 @@ import {
   SkipFocusConfig,
   SkipFocusDirective,
 } from '../a11y/keyboard-focus/index';
-import { SkipLinkComponent, SkipLinkService } from '../a11y/skip-link/index';
+import {
+  SkipLinkComponent,
+  SkipLinkDirective,
+  SkipLinkService,
+} from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontOutlets } from './storefront-outlets.model';
 
@@ -47,9 +52,11 @@ import { StorefrontOutlets } from './storefront-outlets.model';
     PageSlotComponent,
     FocusDirective,
     SkipFocusDirective,
+    SkipLinkDirective,
     GlobalMessageComponent,
     AsyncPipe,
     OutletDirective,
+    PageTemplateDirective,
   ],
 })
 export class StorefrontComponent implements OnInit, OnDestroy {
