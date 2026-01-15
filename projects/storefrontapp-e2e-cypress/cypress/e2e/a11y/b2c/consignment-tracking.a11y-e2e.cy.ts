@@ -26,9 +26,14 @@ describe('Consignment Tracking Accessibility', { testIsolation: false }, () => {
   });
 
   it('Tracking Dialog', () => {
-    cy.get('cx-consignment-tracking button')
-      .contains(' Track package ')
-      .click();
+    cy.contains('.cx-list.row .cx-code', '300938')
+      .closest('.cx-list.row')
+      .within(() => {
+        cy.contains(
+          'cx-consignment-tracking button',
+          ' Track package '
+        ).click();
+      });
     cy.get('.modal-dialog .cx-tracking-event-body');
     cy.get('cx-tracking-events').a11yRunContinuumTest();
   });

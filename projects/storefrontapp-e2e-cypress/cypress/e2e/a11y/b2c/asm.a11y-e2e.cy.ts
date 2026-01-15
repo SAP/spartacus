@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { agentLoginForJDK21 } from '../../../helpers/auth-forms';
+
 describe('ASM Continuum tests', { testIsolation: false }, () => {
   before(() => {
     cy.a11yContinuumSetup();
