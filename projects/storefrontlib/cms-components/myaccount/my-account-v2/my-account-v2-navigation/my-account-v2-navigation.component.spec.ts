@@ -1,19 +1,18 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { MyAccountV2NavigationComponent } from './my-account-v2-navigation.component';
+import { CmsNavigationComponent } from '@spartacus/core';
 import {
   CmsComponentData,
   NavigationNode,
   NavigationService,
 } from '@spartacus/storefront';
-import { CmsNavigationComponent } from '@spartacus/core';
 import { of } from 'rxjs';
+import { MyAccountV2NavigationComponent } from './my-account-v2-navigation.component';
 import createSpy = jasmine.createSpy;
-import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'cx-navigation-ui',
   template: '',
-  standalone: false,
 })
 class MockNavigationUIComponent {
   @Input()
@@ -39,6 +38,7 @@ describe('MyAccountV2NavigationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [MyAccountV2NavigationComponent, MockNavigationUIComponent],
       providers: [
         {
           provide: NavigationService,
@@ -49,7 +49,6 @@ describe('MyAccountV2NavigationComponent', () => {
           useValue: MockCmsNavigationComponent,
         },
       ],
-      declarations: [MyAccountV2NavigationComponent, MockNavigationUIComponent],
     }).compileComponents();
   }));
 

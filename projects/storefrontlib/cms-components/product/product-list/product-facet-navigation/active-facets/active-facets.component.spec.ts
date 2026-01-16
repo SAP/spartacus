@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { Breadcrumb, I18nTestingModule } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
 import { KeyboardFocusModule } from '../../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
@@ -17,7 +18,7 @@ import { ActiveFacetsComponent } from './active-facets.component';
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, KeyboardFocusModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -38,8 +39,13 @@ describe('ActiveFacetsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, KeyboardFocusModule],
-      declarations: [ActiveFacetsComponent, MockCxIconComponent],
+      imports: [
+        I18nTestingModule,
+        KeyboardFocusModule,
+        ActiveFacetsComponent,
+        MockCxIconComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [{ provide: FacetService, useClass: MockFacetService }],
     })
       .overrideComponent(ActiveFacetsComponent, {

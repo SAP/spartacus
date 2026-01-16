@@ -1,4 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, PaginationModel } from '@spartacus/core';
 import { StoreFinderPaginationDetailsComponent } from './store-finder-pagination-details.component';
@@ -15,8 +15,7 @@ describe('StoreFinderPaginationDetailsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [StoreFinderPaginationDetailsComponent],
+      imports: [I18nTestingModule, StoreFinderPaginationDetailsComponent],
     }).compileComponents();
   }));
 

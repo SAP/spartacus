@@ -23,8 +23,7 @@ describe('TableHeaderCellComponent', () => {
   describe('static field', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [TableHeaderCellComponent],
-        imports: [I18nTestingModule],
+        imports: [I18nTestingModule, TableHeaderCellComponent],
         providers: [
           {
             provide: OutletContextData,
@@ -58,8 +57,7 @@ describe('TableHeaderCellComponent', () => {
   describe('i18n default', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [TableHeaderCellComponent],
-        imports: [I18nTestingModule],
+        imports: [I18nTestingModule, TableHeaderCellComponent],
         providers: [
           {
             provide: OutletContextData,
@@ -90,8 +88,7 @@ describe('TableHeaderCellComponent', () => {
   describe('i18n field', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [TableHeaderCellComponent],
-        imports: [I18nTestingModule],
+        imports: [I18nTestingModule, TableHeaderCellComponent],
         providers: [
           {
             provide: OutletContextData,

@@ -1,11 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { DeleteItemModule } from '@spartacus/organization/administration/components';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import {
+  CardComponent,
+  DeleteItemModule,
+} from '@spartacus/organization/administration/components';
 import { Budget } from '@spartacus/organization/administration/core';
-import { FocusConfig } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { FocusConfig, FocusDirective } from '@spartacus/storefront';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { EMPTY, of, Subject } from 'rxjs';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ItemService } from '../../shared/item.service';
@@ -18,6 +29,7 @@ const mockCode = 'u1';
 class MockUserGroupItemService implements Partial<ItemService<Budget>> {
   key$ = of(mockCode);
   load = createSpy('load').and.returnValue(EMPTY);
+  error$ = of(false);
 }
 
 class MockMessageService {
@@ -31,7 +43,6 @@ class MockMessageService {
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[cxFocus]',
-  standalone: false,
 })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
@@ -46,34 +57,47 @@ describe('UserGroupDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        I18nTestingModule,
-        UrlTestingModule,
-        CardTestingModule,
         DeleteItemModule,
+        UserGroupDetailsComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
-      declarations: [UserGroupDetailsComponent, MockKeyboadFocusDirective],
-      providers: [
-        {
-          provide: ItemService,
-          useClass: MockUserGroupItemService,
-        },
-      ],
+      providers: [],
     })
       .overrideComponent(UserGroupDetailsComponent, {
-        set: {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            FocusDirective,
+            CardComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockKeyboadFocusDirective,
+            CardTestingModule,
+          ],
           providers: [
             {
               provide: MessageService,
               useClass: MockMessageService,
+            },
+            {
+              provide: ItemService,
+              useClass: MockUserGroupItemService,
             },
           ],
         },
       })
       .compileComponents();
 
-    itemService = TestBed.inject(ItemService);
-
     fixture = TestBed.createComponent(UserGroupDetailsComponent);
+    itemService = fixture.componentRef.injector.get(ItemService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

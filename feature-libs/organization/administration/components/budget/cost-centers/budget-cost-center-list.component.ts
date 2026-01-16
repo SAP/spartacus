@@ -5,6 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SubListComponent } from '../../shared';
 import { ListService } from '../../shared/list/list.service';
 import { BudgetCostCenterListService } from './budget-cost-center-list.service';
 
@@ -19,6 +20,6 @@ import { BudgetCostCenterListService } from './budget-cost-center-list.service';
       useExisting: BudgetCostCenterListService,
     },
   ],
-  standalone: false,
+  imports: [SubListComponent],
 })
 export class BudgetCostCenterListComponent {}

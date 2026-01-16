@@ -73,8 +73,8 @@ describe('ImportToNewSavedCartFormComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         I18nTestingModule,
+        ImportToNewSavedCartFormComponent,
       ],
-      declarations: [ImportToNewSavedCartFormComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {

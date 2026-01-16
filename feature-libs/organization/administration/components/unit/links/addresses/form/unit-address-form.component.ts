@@ -4,10 +4,29 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { Address, B2BUnit, Country, Region, Title } from '@spartacus/core';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import {
+  Address,
+  B2BUnit,
+  Country,
+  Region,
+  Title,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { FormComponent } from '../../../../shared/form/form.component';
 import { ItemService } from '../../../../shared/item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitAddressItemService } from '../services/unit-address-item.service';
@@ -24,7 +43,18 @@ import { UnitAddressFormService } from './unit-address-form.service';
       useExisting: UnitAddressItemService,
     },
   ],
-  standalone: false,
+  imports: [
+    FormComponent,
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    NgSelectComponent,
+    FormErrorsComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class UnitAddressFormComponent implements OnInit {
   form: UntypedFormGroup | null = this.itemService.getForm();

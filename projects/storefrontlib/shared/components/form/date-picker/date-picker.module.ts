@@ -18,8 +18,8 @@ import { DatePickerComponent } from './date-picker.component';
     FormErrorsModule,
     I18nModule,
     FeaturesConfigModule,
+    DatePickerComponent,
   ],
-  declarations: [DatePickerComponent],
   exports: [DatePickerComponent],
 })
 export class DatePickerModule {}

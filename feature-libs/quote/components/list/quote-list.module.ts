@@ -31,6 +31,7 @@ import { QuoteListComponent } from './quote-list.component';
     UrlModule,
     RouterModule,
     ListNavigationModule,
+    QuoteListComponent,
   ],
   providers: [
     provideDefaultConfig(<ViewConfig>{
@@ -49,7 +50,6 @@ import { QuoteListComponent } from './quote-list.component';
     QuoteListComponentService,
     FeaturesConfigModule,
   ],
-  declarations: [QuoteListComponent],
   exports: [QuoteListComponent],
 })
 export class QuoteListModule {}

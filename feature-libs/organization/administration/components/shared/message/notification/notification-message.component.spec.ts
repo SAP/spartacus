@@ -32,9 +32,8 @@ describe('NotificationMessageComponent', () => {
         KeyboardFocusTestingModule,
         I18nTestingModule,
         IconTestingModule,
+        NotificationMessageComponent,
       ],
-      declarations: [NotificationMessageComponent],
-
       providers: [
         {
           provide: MessageData,

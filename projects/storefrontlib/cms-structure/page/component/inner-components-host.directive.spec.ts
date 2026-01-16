@@ -1,4 +1,18 @@
-import { InnerComponentsHostDirective } from './inner-components-host.directive';
+import {
+  Component,
+  Injector,
+  Renderer2,
+  ViewContainerRef,
+} from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  CmsComponent,
+  CmsConfig,
+  CmsService,
+  ConfigInitializerService,
+  DynamicAttributeService,
+  EventService,
+} from '@spartacus/core';
 import {
   CmsComponentData,
   CmsComponentsService,
@@ -8,43 +22,27 @@ import {
   ComponentWrapperDirective,
   PageComponentModule,
 } from '@spartacus/storefront';
-import {
-  Component,
-  Injector,
-  Renderer2,
-  ViewContainerRef,
-} from '@angular/core';
-import {
-  CmsComponent,
-  CmsConfig,
-  CmsService,
-  ConfigInitializerService,
-  DynamicAttributeService,
-  EventService,
-} from '@spartacus/core';
 import { of } from 'rxjs';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { WebComponentHandler } from './handlers/web-component.handler';
+import { InnerComponentsHostDirective } from './inner-components-host.directive';
 import { CxApiService } from './services/cx-api.service';
 
 @Component({
   selector: 'cx-inner-a',
   template: `_A_`,
-  standalone: false,
 })
 class InnerAComponent {}
 
 @Component({
   selector: 'cx-inner-b',
   template: `_B_`,
-  standalone: false,
 })
 class InnerBComponent {}
 
 @Component({
   selector: 'cx-host',
   template: `<div [cxInnerComponentsHost]></div>`,
-  standalone: false,
+  imports: [InnerComponentsHostDirective],
 })
 class HostComponent {}
 
@@ -108,8 +106,8 @@ describe('InnerComponentsHostDirective', () => {
 
     beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [PageComponentModule.forRoot()],
-        declarations: [
+        imports: [
+          PageComponentModule.forRoot(),
           HostComponent,
           InnerComponentsHostDirective,
           ComponentWrapperDirective,

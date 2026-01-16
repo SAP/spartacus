@@ -12,10 +12,10 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { QuoteSummaryComponent } from './quote-summary.component';
-import { QuoteSummaryPricesModule } from './prices/quote-summary-prices.module';
-import { QuoteSummarySellerEditModule } from './seller-edit/quote-summary-seller-edit.module';
 import { QuoteSummaryActionsModule } from './actions/quote-summary-actions.module';
+import { QuoteSummaryPricesModule } from './prices/quote-summary-prices.module';
+import { QuoteSummaryComponent } from './quote-summary.component';
+import { QuoteSummarySellerEditModule } from './seller-edit/quote-summary-seller-edit.module';
 
 @NgModule({
   imports: [
@@ -24,6 +24,7 @@ import { QuoteSummaryActionsModule } from './actions/quote-summary-actions.modul
     QuoteSummaryPricesModule,
     QuoteSummarySellerEditModule,
     QuoteSummaryActionsModule,
+    QuoteSummaryComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -35,7 +36,6 @@ import { QuoteSummaryActionsModule } from './actions/quote-summary-actions.modul
       },
     }),
   ],
-  declarations: [QuoteSummaryComponent],
   exports: [QuoteSummaryComponent],
 })
 export class QuoteSummaryModule {}

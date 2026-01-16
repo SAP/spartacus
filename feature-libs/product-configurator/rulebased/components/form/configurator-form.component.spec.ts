@@ -12,13 +12,19 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {
   GlobalMessageService,
   I18nTestingModule,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import {
+  KeyboardFocusService,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { EMPTY, NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -29,14 +35,13 @@ import { ConfiguratorExpertModeService } from '../../core/services/configurator-
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { productConfiguration } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
+import { ConfiguratorGroupComponent } from '../group';
 import { ConfiguratorFormComponent } from './configurator-form.component';
-import { KeyboardFocusService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configurator-group',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockConfiguratorGroupComponent {
   @Input() group: Configurator.Group;
@@ -263,11 +268,15 @@ let configExpertModeService: ConfiguratorExpertModeService;
 let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
 let keyboardFocusService: KeyboardFocusService;
 
-describe('ConfigurationFormComponent', () => {
+describe('ConfiguratorFormComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [MockConfiguratorGroupComponent, ConfiguratorFormComponent],
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
+        ConfiguratorFormComponent,
+        I18nTestingModule,
+      ],
       providers: [
         {
           provide: RoutingService,
@@ -292,8 +301,12 @@ describe('ConfigurationFormComponent', () => {
         },
       ],
     })
-      .overrideComponent(ConfiguratorAttributeHeaderComponent, {
-        set: {
+      .overrideComponent(ConfiguratorFormComponent, {
+        remove: {
+          imports: [TranslatePipe, ConfiguratorGroupComponent],
+        },
+        add: {
+          imports: [MockConfiguratorGroupComponent, MockTranslatePipe],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

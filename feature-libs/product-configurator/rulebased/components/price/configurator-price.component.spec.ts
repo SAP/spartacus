@@ -1,15 +1,16 @@
 import { Pipe, PipeTransform, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxNumericPipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorPriceComponent } from './configurator-price.component';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorPriceComponent } from './configurator-price.component';
 
-@Pipe({
-  name: 'cxNumeric',
-  standalone: false,
-})
+@Pipe({ name: 'cxNumeric' })
 class MockNumericPipe implements PipeTransform {
   transform(value: string): string {
     return value;
@@ -42,15 +43,23 @@ describe('ConfiguratorPriceComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ConfiguratorPriceComponent, MockNumericPipe],
-      imports: [I18nTestingModule],
+      imports: [ConfiguratorPriceComponent],
       providers: [
         {
           provide: DirectionService,
           useClass: MockDirectionService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorPriceComponent, {
+        remove: {
+          imports: [CxNumericPipe, TranslatePipe],
+        },
+        add: {
+          imports: [MockNumericPipe, MockTranslatePipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

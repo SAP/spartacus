@@ -23,10 +23,7 @@ const IS_CONFIGURABLE_MEDIA_COMPONENT = new InjectionToken<boolean>(
 
 const mediaUrl = 'mockProductImageUrl.jpg';
 
-@Directive({
-  selector: '[cxFeature]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFeature]' })
 export class MockFeatureDirective {
   protected templateRef = inject(TemplateRef<any>);
   protected viewContainer = inject(ViewContainerRef);
@@ -46,10 +43,7 @@ export class MockFeatureDirective {
   }
 }
 
-@Pipe({
-  name: 'cxMediaSources',
-  standalone: false,
-})
+@Pipe({ name: 'cxMediaSources' })
 export class MockMediaSourcesPipe implements PipeTransform {
   transform() {
     return [
@@ -138,7 +132,7 @@ function configureTestingModule(
   isConfigurableMediaComponent = false
 ): void {
   TestBed.configureTestingModule({
-    declarations: [MediaComponent, MockMediaSourcesPipe, MockFeatureDirective],
+    imports: [MediaComponent, MockMediaSourcesPipe, MockFeatureDirective],
     providers: [
       { provide: MediaService, useValue: mockMediaService },
       {

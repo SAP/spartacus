@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -25,10 +26,15 @@ import {
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import { ProductCatalogService, UserIdService } from '@spartacus/core';
-import { OutletContextData } from '@spartacus/storefront';
+import {
+  ProductCatalogService,
+  TranslatePipe,
+  UserIdService,
+} from '@spartacus/core';
+import { OutletContextData, OutletDirective } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
+import { CartItemListRowComponent } from '../cart-item-list-row/cart-item-list-row.component';
 
 interface ItemListContext {
   readonly?: boolean;
@@ -44,7 +50,14 @@ interface ItemListContext {
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    OutletDirective,
+    NgFor,
+    CartItemListRowComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CartItemListComponent implements OnInit, OnDestroy {
   protected productCatalogService = inject(ProductCatalogService);

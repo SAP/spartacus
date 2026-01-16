@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -16,18 +17,26 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { BreakpointService } from '../../../layout/breakpoint';
+import { TranslatePipe, TranslationService } from '@spartacus/core';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { Tab, TabConfig, TAB_MODE } from './tab.model';
+import { BreakpointService } from '../../../layout/breakpoint';
+import { TabPanelComponent } from './panel/tab-panel.component';
+import { Tab, TAB_MODE, TabConfig } from './tab.model';
 import { wrapIntoBounds } from './tab.utils';
-import { TranslationService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-tab',
   templateUrl: './tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    NgTemplateOutlet,
+    TabPanelComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class TabComponent implements OnInit, AfterViewInit, OnDestroy {
   /**

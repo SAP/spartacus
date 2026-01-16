@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import {
   CartItemComponentOptions,
   CartItemContext,
@@ -13,7 +15,16 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  AtMessageDirective,
+  ICON_TYPE,
+  ItemCounterComponent,
+  MediaComponent,
+  OutletDirective,
+  PromotionsComponent,
+} from '@spartacus/storefront';
+import { CartItemValidationWarningComponent } from '../../validation/cart-item-warning/cart-item-validation-warning.component';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
 
 @Component({
@@ -23,7 +34,21 @@ import { CartItemContextSource } from './model/cart-item-context-source.model';
     CartItemContextSource,
     { provide: CartItemContext, useExisting: CartItemContextSource },
   ],
-  standalone: false,
+  imports: [
+    OutletDirective,
+    CartItemValidationWarningComponent,
+    NgClass,
+    RouterLink,
+    MediaComponent,
+    NgIf,
+    NgFor,
+    ItemCounterComponent,
+    PromotionsComponent,
+    NgTemplateOutlet,
+    AtMessageDirective,
+    TranslatePipe,
+    UrlPipe,
+  ],
 })
 export class CartItemComponent implements OnChanges {
   @Input() compact = false;

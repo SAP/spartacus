@@ -4,14 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormArray,
   UntypedFormBuilder,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   AnonymousConsent,
   AnonymousConsentsConfig,
@@ -24,8 +29,20 @@ import {
   GlobalMessageType,
   OAuthFlow,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
-import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
+import {
+  CaptchaComponent,
+  CustomFormValidators,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  NgSelectA11yDirective,
+  PasswordVisibilityToggleDirective,
+  SpinnerComponent,
+  sortTitles,
+} from '@spartacus/storefront';
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -34,8 +51,25 @@ import { RegisterComponentService } from './register-component.service';
 @Component({
   selector: 'cx-register',
   templateUrl: './register.component.html',
-  standalone: false,
   host: { ngSkipHydration: 'true' },
+  imports: [
+    NgIf,
+    FormRequiredLegendComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    PasswordVisibilityToggleDirective,
+    NgFor,
+    RouterLink,
+    CaptchaComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   // CXSPA-10916: Remove service with toggle

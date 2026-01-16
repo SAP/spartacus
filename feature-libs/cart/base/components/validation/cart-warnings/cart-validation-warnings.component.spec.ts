@@ -7,12 +7,14 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CartModification,
   CartValidationFacade,
   CartValidationStatusCode,
 } from '@spartacus/cart/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { ReplaySubject } from 'rxjs';
 import { CartValidationWarningsComponent } from './cart-validation-warnings.component';
 
@@ -54,24 +56,17 @@ class MockCartValidationFacade {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -84,19 +79,23 @@ describe('CartValidationWarningsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CartValidationWarningsComponent,
-        MockCxIconComponent,
-        MockTranslatePipe,
-        MockUrlPipe,
-      ],
+      imports: [CartValidationWarningsComponent, RouterModule.forRoot([])],
       providers: [
         {
           provide: CartValidationFacade,
           useClass: MockCartValidationFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CartValidationWarningsComponent, {
+        remove: {
+          imports: [IconComponent, TranslatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockCxIconComponent, MockTranslatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(CartValidationWarningsComponent);
     component = fixture.componentInstance;

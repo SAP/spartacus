@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SelectFocusUtility } from '../services/select-focus.util';
 import { PersistFocusService } from './persist-focus.service';
@@ -11,7 +11,6 @@ class MockSelectFocusUtility {}
     <div id="a"></div>
     <div id="b" tabindex="5" data-cx-focus-group="pg"></div>
   `,
-  standalone: false,
 })
 class MockComponent {}
 
@@ -21,7 +20,7 @@ describe('PersistFocusService', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent],
+      imports: [MockComponent],
       providers: [
         PersistFocusService,
         {

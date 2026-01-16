@@ -28,7 +28,7 @@ describe('SplitViewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SplitViewComponent],
+      imports: [SplitViewComponent],
       providers: [
         { provide: BreakpointService, useClass: MockBreakpointService },
       ],

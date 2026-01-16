@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,24 +13,43 @@ import {
   inject,
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { AnonymousConsentsService, ConsentTemplate } from '@spartacus/core';
 import {
   CdcConsent,
   CdcConsentManagementComponentService,
 } from '@spartacus/cdc/root';
 import {
+  AnonymousConsentsService,
+  ConsentTemplate,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  BtnLikeLinkDirective,
+  ConsentManagementFormComponent,
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
+  SpinnerComponent,
 } from '@spartacus/storefront';
-import { Subscription, Observable, map, of } from 'rxjs';
+import { Observable, Subscription, map, of } from 'rxjs';
 import { CdcReconsentComponentService } from './cdc-reconsent-component.service';
 
 @Component({
   selector: 'cx-anonymous-consent-dialog', //reusing existing selector
   templateUrl: './cdc-reconsent.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FocusDirective,
+    NgIf,
+    IconComponent,
+    NgFor,
+    ConsentManagementFormComponent,
+    BtnLikeLinkDirective,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CdcReconsentComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

@@ -1,5 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import { SubListComponent } from '@spartacus/organization/administration/components';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { SubListTestingModule } from '../../../../shared/sub-list/sub-list.testing.module';
 import { UnitAssignedApproverListComponent } from './unit-assigned-approver-list.component';
@@ -13,15 +23,34 @@ describe('UnitAssignedApproverListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SubListTestingModule, UrlTestingModule, I18nTestingModule],
+      imports: [
+        UrlTestingModule,
+        I18nTestingModule,
+        UnitAssignedApproverListComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         {
           provide: UnitAssignedApproverListService,
           useClass: MockUnitAssignedApproverListService,
         },
       ],
-      declarations: [UnitAssignedApproverListComponent],
-    }).compileComponents();
+    })
+      .overrideComponent(UnitAssignedApproverListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SubListComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            SubListTestingModule,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(UnitAssignedApproverListComponent);
     component = fixture.componentInstance;

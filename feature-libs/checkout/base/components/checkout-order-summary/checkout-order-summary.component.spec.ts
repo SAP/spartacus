@@ -26,8 +26,8 @@ describe('CheckoutOrderSummaryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         CheckoutOrderSummaryComponent,
         OrderSummaryComponent,
         PromotionsComponent,

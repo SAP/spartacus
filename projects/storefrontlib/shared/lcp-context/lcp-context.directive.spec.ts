@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -28,7 +29,7 @@ class MockLcpPresenceMappingService {
       </div>
     </ng-container>
   `,
-  standalone: false,
+  imports: [LcpContextDirective, AsyncPipe],
 })
 class TestHostComponent {}
 
@@ -39,7 +40,7 @@ describe('LcpContextDirective', () => {
   beforeEach(() => {
     mockLcpPresence$ = new ReplaySubject<LcpPresence>();
     TestBed.configureTestingModule({
-      declarations: [TestHostComponent, LcpContextDirective],
+      imports: [TestHostComponent, LcpContextDirective],
       providers: [
         {
           provide: LCP_PRESENCE,

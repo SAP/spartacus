@@ -17,7 +17,6 @@ import * as fromReducer from './router.reducer';
 @Component({
   selector: 'cx-test-cmp',
   template: 'test-cmp',
-  standalone: false,
 })
 class TestComponent {}
 
@@ -45,7 +44,6 @@ describe('Router Reducer', () => {
     };
 
     TestBed.configureTestingModule({
-      declarations: [TestComponent],
       imports: [
         StoreModule.forRoot(fromReducer.reducerToken),
         RouterModule.forRoot([
@@ -89,6 +87,7 @@ describe('Router Reducer', () => {
           { path: '**', component: TestComponent },
         ]),
         StoreRouterConnectingModule.forRoot(),
+        TestComponent,
       ],
       providers: [
         fromReducer.reducerProvider,

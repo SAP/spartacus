@@ -61,8 +61,9 @@ const myAccountV2EmailMapping: CmsConfig = {
     BtnLikeLinkModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    UpdateEmailComponent,
+    MyAccountV2EmailComponent,
   ],
-  declarations: [UpdateEmailComponent, MyAccountV2EmailComponent],
   exports: [UpdateEmailComponent, MyAccountV2EmailComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{

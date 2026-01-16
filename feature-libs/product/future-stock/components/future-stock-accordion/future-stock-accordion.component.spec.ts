@@ -1,9 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { FutureStockFacade } from '@spartacus/product/future-stock/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { FutureStockService } from '../../core/services';
 import { FutureStockAccordionComponent } from './future-stock-accordion.component';
@@ -11,7 +17,7 @@ import { FutureStockAccordionComponent } from './future-stock-accordion.componen
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -51,12 +57,20 @@ describe('FutureStockAccordionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [MockCxIconComponent, FutureStockAccordionComponent],
+      imports: [FutureStockAccordionComponent],
       providers: [
         { provide: FutureStockFacade, useClass: MockFutureStockService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(FutureStockAccordionComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, IconComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockCxIconComponent],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

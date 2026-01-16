@@ -36,9 +36,9 @@ import { QuoteConfirmDialogComponent } from './quote-confirm-dialog.component';
     KeyboardFocusModule,
     SpinnerModule,
     FeaturesConfigModule,
+    QuoteConfirmDialogComponent,
   ],
   providers: [provideDefaultConfig(defaultQuoteActionDialogConfig)],
-  declarations: [QuoteConfirmDialogComponent],
   exports: [QuoteConfirmDialogComponent],
 })
 export class QuoteConfirmDialogModule {}

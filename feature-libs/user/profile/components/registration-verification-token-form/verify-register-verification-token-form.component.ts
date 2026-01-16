@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass, NgIf } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
@@ -15,10 +16,13 @@ import {
   inject,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import {
   AuthConfigService,
   FeatureConfigService,
@@ -26,11 +30,16 @@ import {
   GlobalMessageType,
   OAuthFlow,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   CustomFormValidators,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import {
   VerificationToken,
@@ -45,8 +54,19 @@ import { RegistrationVerificationTokenFormComponentService } from './verify-regi
   selector: 'cx-registration-verification-token-form',
   templateUrl: './verify-register-verification-token-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
   host: { ngSkipHydration: 'true' },
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    NgIf,
+    NgClass,
+    RouterLink,
+    SpinnerComponent,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class RegistrationVerificationTokenFormComponent implements OnInit {
   protected fb = inject(UntypedFormBuilder);

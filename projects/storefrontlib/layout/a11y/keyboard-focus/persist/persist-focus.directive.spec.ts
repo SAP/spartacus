@@ -1,14 +1,11 @@
 import { Component, Directive, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { PersistFocusConfig } from '../keyboard-focus.model';
 import { PersistFocusDirective } from './persist-focus.directive';
 import { PersistFocusService } from './persist-focus.service';
 
-@Directive({
-  selector: '[cxPersistFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxPersistFocus]' })
 class CustomFocusDirective extends PersistFocusDirective {
   @Input('cxPersistFocus') protected config: PersistFocusConfig;
 }
@@ -20,7 +17,7 @@ class CustomFocusDirective extends PersistFocusDirective {
     <div id="c" [cxPersistFocus]="{ key: 'key-c' }"></div>
     <div id="d" [cxPersistFocus]="{ key: 'key-d' }"></div>
   `,
-  standalone: false,
+  imports: [CustomFocusDirective],
 })
 class MockComponent {}
 
@@ -41,7 +38,7 @@ describe('PersistFocusDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent, CustomFocusDirective],
+      imports: [MockComponent, CustomFocusDirective],
       providers: [
         {
           provide: PersistFocusService,

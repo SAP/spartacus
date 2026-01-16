@@ -37,7 +37,7 @@ $CSS_FEATURE_FLAG_PREFIX: 'cxFeat_';
 //
 // The second argument with value `'currentSelector'` should be passed ONLY
 // in one edge case, when the feature-flagged styles are defined
-// for the Angular root element, i.e. `cx-storefront`.
+// for the Angular root element, i.e. `app-root`.
 @mixin forFeature($feature, $classTarget: 'ancestorSelector') {
   // Validate params
   @if (type-of($feature) != 'string') {

@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   ANONYMOUS_CONSENT_STATUS,
@@ -22,8 +22,7 @@ describe('MyAccountV2ConsentManagementFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [MyAccountV2ConsentManagementFormComponent],
+      imports: [I18nTestingModule, MyAccountV2ConsentManagementFormComponent],
       providers: [
         {
           provide: FeatureConfigService,

@@ -62,20 +62,14 @@ class MockCmsComponentData {
   }
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {
     return ['test', 'url'];
   }
 }
 
-@Pipe({
-  name: 'cxHighlight',
-  standalone: false,
-})
+@Pipe({ name: 'cxHighlight' })
 class MockHighlightPipe implements PipeTransform {
   transform(): any {}
 }
@@ -83,7 +77,7 @@ class MockHighlightPipe implements PipeTransform {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type;
@@ -92,7 +86,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-media',
   template: '<img>',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container;
@@ -100,10 +94,7 @@ class MockMediaComponent {
   @Input() alt;
 }
 
-@Directive({
-  selector: '[cxOutlet]',
-  standalone: false,
-})
+@Directive({ selector: '[cxOutlet]' })
 class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
   @Input() cxOutletContext: string;
@@ -112,7 +103,7 @@ class MockOutletDirective implements Partial<OutletDirective> {
 @Component({
   selector: 'cx-carousel',
   template: ``,
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCarouselComponent {
   @Input() items: any;
@@ -189,8 +180,6 @@ describe('SearchBoxComponent', () => {
         BrowserAnimationsModule,
         RouterModule.forRoot([]),
         I18nTestingModule,
-      ],
-      declarations: [
         SearchBoxComponent,
         MockUrlPipe,
         MockHighlightPipe,
