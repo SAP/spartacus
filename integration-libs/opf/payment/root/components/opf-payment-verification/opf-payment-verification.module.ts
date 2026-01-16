@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,8 +10,7 @@ import { SpinnerModule } from '@spartacus/storefront';
 import { OpfPaymentVerificationComponent } from './opf-payment-verification.component';
 
 @NgModule({
-  declarations: [OpfPaymentVerificationComponent],
-  imports: [CommonModule, SpinnerModule],
+  imports: [CommonModule, SpinnerModule, OpfPaymentVerificationComponent],
   exports: [OpfPaymentVerificationComponent],
 })
 export class OpfPaymentVerificationModule {}

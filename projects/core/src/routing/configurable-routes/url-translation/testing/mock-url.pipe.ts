@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,10 +37,7 @@ export const URL_TESTING_ALLOWLISTED_PARAMS = new InjectionToken<string[]>(
  * - if the `params` object has too many properties that pollute the output,
  *    they can be allowlisted by using module's method. For example `UrlTestingModule.allowlistParams(['code', 'name'])`
  */
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 export class MockUrlPipe implements PipeTransform {
   constructor(
     @Inject(URL_TESTING_ALLOWLISTED_PARAMS)

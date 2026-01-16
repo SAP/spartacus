@@ -1,20 +1,31 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { useFeatureStyles } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { OutletDirective } from '../../outlet/outlet.directive';
+import { PageSlotComponent } from '../slot/page-slot.component';
 import { PageLayoutService } from './page-layout.service';
-import { useFeatureStyles } from '@spartacus/core';
+import { PageTemplateDirective } from './page-template.directive';
 
 @Component({
   selector: 'cx-page-layout',
   templateUrl: './page-layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    PageTemplateDirective,
+    OutletDirective,
+    NgFor,
+    PageSlotComponent,
+    AsyncPipe,
+  ],
 })
 export class PageLayoutComponent {
   @Input() set section(value: string) {

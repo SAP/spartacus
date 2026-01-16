@@ -1,22 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, Input, Signal } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { Product, TranslatePipe } from '@spartacus/core';
 import {
   PerUnitUsageCharge,
+  TierUsageChargeEntry,
   UsageChargeType,
   VolumeUsageCharge,
-  TierUsageChargeEntry,
 } from '@spartacus/subscription-billing/root';
 
 @Component({
   selector: 'cx-subscription-product-usage-charge',
-  standalone: false,
   templateUrl: './subscription-product-usage-charge.component.html',
+  imports: [NgIf, NgTemplateOutlet, NgFor, TranslatePipe],
 })
 export class SubscriptionProductUsageChargeComponent {
   @Input() product!: Signal<Product | undefined | null>;

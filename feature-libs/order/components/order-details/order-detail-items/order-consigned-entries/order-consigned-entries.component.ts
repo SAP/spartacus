@@ -1,23 +1,43 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf, TitleCasePipe } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
+import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
+import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import {
   AbstractOrderType,
   CartOutlets,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { TranslationService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  TranslationService,
+} from '@spartacus/core';
 import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
+import { OutletDirective } from '@spartacus/storefront';
 import { map } from 'rxjs';
+import { ConsignmentTrackingComponent } from '../consignment-tracking/consignment-tracking.component';
 
 @Component({
   selector: 'cx-order-consigned-entries',
   templateUrl: './order-consigned-entries.component.html',
-  standalone: false,
+  imports: [
+    NgFor,
+    OutletDirective,
+    NgIf,
+    FeatureDirective,
+    ConsignmentTrackingComponent,
+    AbstractOrderContextDirective,
+    AddToCartComponent,
+    AsyncPipe,
+    TitleCasePipe,
+    CxDatePipe,
+  ],
 })
 export class OrderConsignedEntriesComponent {
   @Input() consignments: Consignment[];

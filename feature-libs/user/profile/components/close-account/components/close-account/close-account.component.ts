@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,15 +13,15 @@ import {
   ViewContainerRef,
   inject,
 } from '@angular/core';
+import { RoutingService, TranslatePipe } from '@spartacus/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-close-account',
   templateUrl: './close-account.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [TranslatePipe],
 })
 export class CloseAccountComponent {
   @ViewChild('element') element: ElementRef;

@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,6 +14,7 @@ import {
   isDevMode,
   Output,
 } from '@angular/core';
+import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
 import { TableRendererService } from './table-renderer.service';
 import {
   TableDataOutletContext,
@@ -50,7 +52,7 @@ import {
   selector: 'cx-table',
   templateUrl: './table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, NgFor, OutletDirective],
 })
 export class TableComponent<T> {
   @HostBinding('attr.__cx-table-type') tableType: string;

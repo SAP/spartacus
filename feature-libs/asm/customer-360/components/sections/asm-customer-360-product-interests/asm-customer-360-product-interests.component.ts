@@ -1,22 +1,33 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AsmCustomer360ProductInterestList } from '@spartacus/asm/customer-360/root';
-import { Product, ProductScope, ProductService } from '@spartacus/core';
+import {
+  Product,
+  ProductScope,
+  ProductService,
+  TranslatePipe,
+} from '@spartacus/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, filter, take } from 'rxjs/operators';
-
+import { AsmCustomer360ProductListingComponent } from '../../asm-customer-360-product-listing/asm-customer-360-product-listing.component';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-product-interests',
   templateUrl: './asm-customer-360-product-interests.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    AsmCustomer360ProductListingComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class AsmCustomer360ProductInterestsComponent {
   products$: Observable<Array<Product>>;

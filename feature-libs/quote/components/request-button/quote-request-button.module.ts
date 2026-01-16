@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,8 +10,7 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { QuoteRequestButtonComponent } from './quote-request-button.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
-  declarations: [QuoteRequestButtonComponent],
+  imports: [CommonModule, I18nModule, QuoteRequestButtonComponent],
   exports: [QuoteRequestButtonComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{

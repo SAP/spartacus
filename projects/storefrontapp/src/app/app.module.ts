@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,11 @@ import {
 import localeDe from '@angular/common/locales/de';
 import localeJa from '@angular/common/locales/ja';
 import localeZh from '@angular/common/locales/zh';
-import { NgModule } from '@angular/core';
+import {
+  NgModule,
+  provideBrowserGlobalErrorListeners,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import {
   BrowserModule,
   provideClientHydration,
@@ -39,9 +43,10 @@ import {
 } from '@spartacus/core';
 import { StoreFinderConfig } from '@spartacus/storefinder/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
-import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
+import { AppRoutingModule } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
+import { AppComponent } from './app.component';
 import { SpartacusModule } from './spartacus/spartacus.module';
 
 registerLocaleData(localeDe);
@@ -68,6 +73,8 @@ if (!environment.production) {
   providers: [
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
     provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideBrowserGlobalErrorListeners(),
     provideConfig(<OccConfig>{
       backend: {
         occ: {
@@ -108,6 +115,7 @@ if (!environment.production) {
       googleMaps: { apiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG },
     }),
   ],
-  bootstrap: [StorefrontComponent],
+  declarations: [AppComponent],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

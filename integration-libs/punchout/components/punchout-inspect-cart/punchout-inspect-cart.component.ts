@@ -1,19 +1,31 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  CartItemListComponent,
+  OrderSummaryComponent,
+} from '@spartacus/cart/base/components';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
-import { filter, Observable } from 'rxjs';
 import { PunchoutUiRestrictionService } from '@spartacus/punchout/root';
+import { filter, Observable } from 'rxjs';
+import { PunchoutButtonsComponent } from '../punchout-buttons/punchout-buttons.component';
 
 @Component({
   selector: 'cx-punchout-inspect-cart',
   templateUrl: './punchout-inspect-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    CartItemListComponent,
+    OrderSummaryComponent,
+    PunchoutButtonsComponent,
+    AsyncPipe,
+  ],
 })
 export class PunchoutInspectCartComponent {
   protected activeCartService = inject(ActiveCartFacade);

@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,6 +14,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -21,22 +23,31 @@ import {
   NotificationType,
   OCC_USER_ID_ANONYMOUS,
   Product,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
   UserIdService,
   UserInterestsService,
   UserNotificationPreferenceService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, first, map, tap } from 'rxjs/operators';
+import { filter, first, map, take, tap } from 'rxjs/operators';
+import { LAUNCH_CALLER, LaunchDialogService } from '../../../layout/index';
+import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
 import { CurrentProductService } from '../current-product.service';
-import { LaunchDialogService, LAUNCH_CALLER } from '../../../layout/index';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-stock-notification',
   templateUrl: './stock-notification.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    RouterLink,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+  ],
 })
 export class StockNotificationComponent implements OnInit, OnDestroy {
   hasProductInterests$: Observable<boolean>;

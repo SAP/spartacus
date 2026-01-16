@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,9 +23,9 @@ import { PaginationComponent } from './pagination.component';
     I18nModule,
     FeaturesConfigModule,
     KeyboardFocusModule,
+    PaginationComponent,
   ],
   providers: [provideDefaultConfig(defaultPaginationConfig)],
-  declarations: [PaginationComponent],
   exports: [PaginationComponent],
 })
 export class PaginationModule {}

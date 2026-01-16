@@ -1,14 +1,18 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
+  CxDatePipe,
   RoutingService,
+  TranslatePipe,
   TranslationService,
-  useFeatureStyles,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   CustomerTicketingConfig,
@@ -17,14 +21,35 @@ import {
   TEXT_COLOR_CLASS,
   TicketList,
 } from '@spartacus/customer-ticketing/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  PaginationComponent,
+  SortingComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable, combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { CustomerTicketingCreateComponent } from '../customer-ticketing-create/customer-ticketing-create.component';
 
 @Component({
   selector: 'cx-customer-ticketing-list',
   templateUrl: './customer-ticketing-list.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    SortingComponent,
+    CustomerTicketingCreateComponent,
+    NgFor,
+    RouterLink,
+    NgClass,
+    PaginationComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    UrlPipe,
+
+    CxDatePipe,
+  ],
 })
 export class CustomerTicketingListComponent {
   constructor(
@@ -32,9 +57,7 @@ export class CustomerTicketingListComponent {
     protected routingService: RoutingService,
     protected translationService: TranslationService,
     protected customerTicketingConfig: CustomerTicketingConfig
-  ) {
-    useFeatureStyles('a11yHighContrastBorders');
-  }
+  ) {}
   PAGE_SIZE =
     this.customerTicketingConfig.customerTicketing?.listViewPageSize || 5;
   sortType: string;

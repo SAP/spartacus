@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,8 +11,13 @@ import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ReplenishmentOrderCancellationDialogComponent } from './replenishment-order-cancellation-dialog.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule, KeyboardFocusModule],
-  declarations: [ReplenishmentOrderCancellationDialogComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    KeyboardFocusModule,
+    ReplenishmentOrderCancellationDialogComponent,
+  ],
   exports: [ReplenishmentOrderCancellationDialogComponent],
 })
 export class ReplenishmentOrderCancellationDialogModule {}

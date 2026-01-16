@@ -1,11 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
+import { CxDatePipe, TranslatePipe } from '@spartacus/core';
+import { FormErrorsComponent } from '../form-errors/form-errors.component';
 import { DatePickerService } from './date-picker.service';
 
 /**
@@ -21,7 +27,13 @@ import { DatePickerService } from './date-picker.service';
 @Component({
   selector: 'cx-date-picker',
   templateUrl: './date-picker.component.html',
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormErrorsComponent,
+    TranslatePipe,
+    CxDatePipe,
+  ],
 })
 export class DatePickerComponent {
   constructor(protected service: DatePickerService) {}

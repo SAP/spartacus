@@ -8,10 +8,10 @@ import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import { CheckoutReviewOverviewComponent } from './checkout-review-overview.component';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';
+import { CheckoutReviewOverviewComponent } from './checkout-review-overview.component';
 
 const mockCart: Cart = {
   guid: 'test',
@@ -32,8 +32,11 @@ describe('CheckoutReviewOverviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CheckoutReviewOverviewComponent],
-      imports: [I18nTestingModule, PromotionsModule],
+      imports: [
+        I18nTestingModule,
+        PromotionsModule,
+        CheckoutReviewOverviewComponent,
+      ],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
       ],

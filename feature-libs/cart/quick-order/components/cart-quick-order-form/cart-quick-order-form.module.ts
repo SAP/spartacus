@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,6 +29,7 @@ import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    CartQuickOrderFormComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -39,7 +40,6 @@ import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
       },
     }),
   ],
-  declarations: [CartQuickOrderFormComponent],
   exports: [CartQuickOrderFormComponent],
 })
 export class CartQuickOrderFormModule {}

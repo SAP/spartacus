@@ -1,25 +1,26 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, DOCUMENT, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   inject,
-  DOCUMENT,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { TranslationService } from '@spartacus/core';
+import { TranslatePipe, TranslationService } from '@spartacus/core';
+import { PromotionsComponent } from '@spartacus/storefront';
 import { Observable, take } from 'rxjs';
 
 @Component({
   selector: 'cx-checkout-review-overview',
   templateUrl: './checkout-review-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, PromotionsComponent, AsyncPipe, TranslatePipe],
 })
 export class CheckoutReviewOverviewComponent implements AfterViewInit {
   protected document = inject(DOCUMENT, { optional: true });

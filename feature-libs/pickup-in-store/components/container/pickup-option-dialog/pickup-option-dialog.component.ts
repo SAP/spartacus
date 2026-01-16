@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -12,6 +13,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { TranslatePipe } from '@spartacus/core';
 import {
   AugmentedPointOfService,
   cartWithIdAndUserId,
@@ -22,12 +24,16 @@ import {
 } from '@spartacus/pickup-in-store/root';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
+  SpinnerComponent,
 } from '@spartacus/storefront';
-
 import { Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
+import { StoreListComponent } from '../store-list/store-list.component';
+import { StoreSearchComponent } from '../store-search/store-search.component';
 
 /**
  * The dialog box to select the pickup location for a product.
@@ -35,7 +41,16 @@ import { filter, tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-pickup-option-dialog',
   templateUrl: './pickup-option-dialog.component.html',
-  standalone: false,
+  imports: [
+    FocusDirective,
+    IconComponent,
+    StoreSearchComponent,
+    StoreListComponent,
+    NgIf,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class PickupOptionDialogComponent implements OnInit, OnDestroy {
   productCode: string;

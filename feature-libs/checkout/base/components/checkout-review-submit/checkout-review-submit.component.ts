@@ -1,10 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import {
+  AsyncPipe,
+  NgFor,
+  NgIf,
+  NgSwitch,
+  NgSwitchCase,
+  NgTemplateOutlet,
+} from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
   ActiveCartFacade,
   Cart,
@@ -20,9 +29,22 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { Address, PaymentDetails, TranslationService } from '@spartacus/core';
+import {
+  Address,
+  PaymentDetails,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
+} from '@spartacus/core';
 import { deliveryAddressCard, deliveryModeCard } from '@spartacus/order/root';
-import { Card, ICON_TYPE } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  ICON_TYPE,
+  IconComponent,
+  OutletDirective,
+  PromotionsComponent,
+} from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
@@ -31,7 +53,21 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   selector: 'cx-review-submit',
   templateUrl: './checkout-review-submit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    NgSwitch,
+    NgSwitchCase,
+    NgTemplateOutlet,
+    CardComponent,
+    RouterLink,
+    IconComponent,
+    OutletDirective,
+    PromotionsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+  ],
 })
 export class CheckoutReviewSubmitComponent {
   readonly cartOutlets = CartOutlets;

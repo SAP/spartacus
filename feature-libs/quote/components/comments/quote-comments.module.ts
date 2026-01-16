@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,13 @@ import { ChatMessagingModule, IconModule } from '@spartacus/storefront';
 import { QuoteCommentsComponent } from './quote-comments.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule, ChatMessagingModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    ChatMessagingModule,
+    QuoteCommentsComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -27,7 +33,6 @@ import { QuoteCommentsComponent } from './quote-comments.component';
       },
     }),
   ],
-  declarations: [QuoteCommentsComponent],
   exports: [QuoteCommentsComponent],
 })
 export class QuoteCommentsModule {}

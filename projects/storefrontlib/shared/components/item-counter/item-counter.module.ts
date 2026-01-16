@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,8 +18,8 @@ import { ItemCounterComponent } from './item-counter.component';
     I18nModule,
     KeyboardFocusModule,
     FeaturesConfigModule,
+    ItemCounterComponent,
   ],
-  declarations: [ItemCounterComponent],
   exports: [ItemCounterComponent],
 })
 export class ItemCounterModule {}

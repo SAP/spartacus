@@ -1,12 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardModule, SpinnerModule } from '@spartacus/storefront';
+import { NgModule } from '@angular/core';
 import {
   AuthGuard,
   CmsConfig,
@@ -14,10 +13,18 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { CustomerTicketingDetailsComponent } from './customer-ticketing-details.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, UrlModule, CardModule, SpinnerModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    UrlModule,
+    CardModule,
+    SpinnerModule,
+    CustomerTicketingDetailsComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -28,7 +35,6 @@ import { CustomerTicketingDetailsComponent } from './customer-ticketing-details.
       },
     }),
   ],
-  declarations: [CustomerTicketingDetailsComponent],
   exports: [CustomerTicketingDetailsComponent],
 })
 export class CustomerTicketingDetailsModule {}

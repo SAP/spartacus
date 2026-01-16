@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,7 +17,6 @@ import { OpfCtaScriptsComponent } from './opf-cta-scripts.component';
 import { OpfCtaScriptsService } from './opf-cta-scripts.service';
 
 @NgModule({
-  declarations: [OpfCtaScriptsComponent],
   providers: [
     OpfCtaScriptsService,
     OpfDynamicCtaService,
@@ -31,6 +30,6 @@ import { OpfCtaScriptsService } from './opf-cta-scripts.service';
     }),
   ],
   exports: [OpfCtaScriptsComponent],
-  imports: [CommonModule, OpfCtaElementModule],
+  imports: [CommonModule, OpfCtaElementModule, OpfCtaScriptsComponent],
 })
 export class OpfCtaScriptsModule {}

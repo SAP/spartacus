@@ -1,15 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   TrackByFunction,
 } from '@angular/core';
 import {
+  FeatureDirective,
   ImageGroup,
   Product,
   isNotNullable,
@@ -17,13 +19,25 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+import { CarouselScrollingComponent } from '../../../shared/components/carousel-scrolling/carousel-scrolling.component';
+import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
+import { MediaComponent } from '../../../shared/components/media/media.component';
+import { LcpContextDirective } from '../../../shared/lcp-context/lcp-context.directive';
 import { CurrentProductService } from '../current-product.service';
 
 @Component({
   selector: 'cx-product-images',
   templateUrl: './product-images.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    LcpContextDirective,
+    MediaComponent,
+    CarouselScrollingComponent,
+    CarouselComponent,
+    AsyncPipe,
+    FeatureDirective,
+  ],
 })
 export class ProductImagesComponent {
   protected mainMediaContainer = new BehaviorSubject<any>(null);

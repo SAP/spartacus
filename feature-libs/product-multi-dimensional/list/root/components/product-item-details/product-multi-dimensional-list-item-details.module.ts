@@ -1,18 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
 import { StarRatingModule } from '@spartacus/storefront';
-import { AsyncPipe, NgIf } from '@angular/common';
 import { ProductMultiDimensionalListItemDetailsComponent } from './product-multi-dimensional-list-item-details.component';
 
 @NgModule({
-  imports: [I18nModule, NgIf, AsyncPipe, StarRatingModule],
-  declarations: [ProductMultiDimensionalListItemDetailsComponent],
+  imports: [
+    I18nModule,
+    NgIf,
+    AsyncPipe,
+    StarRatingModule,
+    ProductMultiDimensionalListItemDetailsComponent,
+  ],
   exports: [ProductMultiDimensionalListItemDetailsComponent],
 })
 export class ProductMultiDimensionalListItemDetailsModule {}

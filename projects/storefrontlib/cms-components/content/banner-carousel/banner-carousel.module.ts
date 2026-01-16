@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,13 @@ import { CarouselModule, MediaModule } from '../../../shared/components/index';
 import { BannerCarouselComponent } from './banner-carousel.component';
 
 @NgModule({
-  imports: [CommonModule, PageComponentModule, CarouselModule, MediaModule],
+  imports: [
+    CommonModule,
+    PageComponentModule,
+    CarouselModule,
+    MediaModule,
+    BannerCarouselComponent,
+  ],
   providers: [
     provideDefaultConfig({
       cmsComponents: {
@@ -22,7 +28,6 @@ import { BannerCarouselComponent } from './banner-carousel.component';
       },
     } as CmsConfig),
   ],
-  declarations: [BannerCarouselComponent],
   exports: [BannerCarouselComponent],
 })
 export class BannerCarouselModule {}

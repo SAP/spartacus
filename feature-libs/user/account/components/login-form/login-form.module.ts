@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,6 +44,7 @@ import { LoginFormComponent } from './login-form.component';
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    LoginFormComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -62,6 +63,5 @@ import { LoginFormComponent } from './login-form.component';
       },
     }),
   ],
-  declarations: [LoginFormComponent],
 })
 export class LoginFormModule {}

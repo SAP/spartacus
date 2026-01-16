@@ -1,20 +1,21 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { AsmConfig } from '@spartacus/asm/root';
-import { RoutingService, UserIdService } from '@spartacus/core';
+import { RoutingService, TranslatePipe, UserIdService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
+import { FormatTimerPipe } from './format-timer.pipe';
 
 @Component({
   selector: 'cx-asm-session-timer',
   templateUrl: './asm-session-timer.component.html',
-  standalone: false,
+  imports: [TranslatePipe, FormatTimerPipe],
 })
 export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();

@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -14,7 +15,11 @@ import {
   inject,
 } from '@angular/core';
 import { OpfErrorDialogOptions } from '@spartacus/opf/base/root';
-import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
+import {
+  FocusConfig,
+  FocusDirective,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { Observable, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { OpfErrorModalService } from './opf-error-modal.service';
@@ -23,7 +28,7 @@ import { OpfErrorModalService } from './opf-error-modal.service';
   selector: 'cx-opf-error-modal',
   templateUrl: './opf-error-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [FocusDirective, NgIf, AsyncPipe],
 })
 export class OpfErrorModalComponent implements OnInit {
   protected launchDialogService = inject(LaunchDialogService);

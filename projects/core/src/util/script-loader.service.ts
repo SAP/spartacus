@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { isPlatformServer } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID, DOCUMENT } from '@angular/core';
+import { DOCUMENT, isPlatformServer } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 export enum ScriptPlacement {
   HEAD = 'head',

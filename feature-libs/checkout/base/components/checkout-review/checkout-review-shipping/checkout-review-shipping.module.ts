@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,6 @@ import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CheckoutReviewShippingComponent } from './checkout-review-shipping.component';
 
 @NgModule({
-  declarations: [CheckoutReviewShippingComponent],
   exports: [CheckoutReviewShippingComponent],
   imports: [
     CommonModule,
@@ -29,6 +28,7 @@ import { CheckoutReviewShippingComponent } from './checkout-review-shipping.comp
     RouterModule,
     IconModule,
     OutletModule,
+    CheckoutReviewShippingComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

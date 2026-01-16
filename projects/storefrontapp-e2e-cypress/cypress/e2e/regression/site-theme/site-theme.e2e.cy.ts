@@ -1,12 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { isolateTests } from '../../../support/utils/test-isolation';
 import * as siteTheme from '../../../helpers/site-theme';
-import { FeaturesConfig } from '@spartacus/core';
+import { isolateTests } from '../../../support/utils/test-isolation';
 
 context('Site Theme', { testIsolation: false }, () => {
   isolateTests();
@@ -36,36 +35,30 @@ context('Site Theme', { testIsolation: false }, () => {
     cy.get('cx-site-theme-switcher select')
       .select('HC-Dark')
       .should('have.value', 'cx-theme-high-contrast-dark');
-    cy.get('cx-storefront').should('have.class', 'cx-theme-high-contrast-dark');
+    cy.get('app-root').should('have.class', 'cx-theme-high-contrast-dark');
 
     cy.get('cx-site-theme-switcher select')
       .select('HC-Light')
       .should('have.value', 'cx-theme-high-contrast-light');
-    cy.get('cx-storefront').should(
-      'have.class',
-      'cx-theme-high-contrast-light'
-    );
+    cy.get('app-root').should('have.class', 'cx-theme-high-contrast-light');
 
     cy.get('cx-site-theme-switcher select')
       .select('Default')
       .should('have.value', '');
-    cy.get('cx-storefront').should(
-      'not.have.class',
-      'cx-theme-high-contrast-light'
-    );
+    cy.get('app-root').should('not.have.class', 'cx-theme-high-contrast-light');
   });
 
   it('should keep selected theme after reload the page', () => {
     cy.get('cx-site-theme-switcher select')
       .select('HC-Dark')
       .should('have.value', 'cx-theme-high-contrast-dark');
-    cy.get('cx-storefront').should('have.class', 'cx-theme-high-contrast-dark');
+    cy.get('app-root').should('have.class', 'cx-theme-high-contrast-dark');
 
     cy.reload();
 
     siteTheme.interceptToAddThemeCompnent();
 
-    cy.get('cx-storefront').should('have.class', 'cx-theme-high-contrast-dark');
+    cy.get('app-root').should('have.class', 'cx-theme-high-contrast-dark');
     cy.get('cx-site-theme-switcher select').then(($select) => {
       const selectedOption = $select.find('option:selected');
       cy.wrap(selectedOption).should(

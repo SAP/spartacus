@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { DOCUMENT } from '@angular/common';
 import {
   ApplicationRef,
   ComponentFactoryResolver,
@@ -12,10 +13,9 @@ import {
   Injectable,
   Injector,
   RendererFactory2,
-  DOCUMENT,
 } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { LaunchInlineRootDialog, LAUNCH_CALLER } from '../config/launch-config';
+import { LAUNCH_CALLER, LaunchInlineRootDialog } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })

@@ -1,8 +1,14 @@
 import { Component, DebugElement, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FeatureConfigService, RoutingService } from '@spartacus/core';
+import { FeatureDirective, RoutingService } from '@spartacus/core';
+import { GlobalMessageComponent } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
-import { OutletDirective } from '../../cms-structure';
+import {
+  OutletDirective,
+  PageLayoutComponent,
+  PageSlotComponent,
+  PageTemplateDirective,
+} from '../../cms-structure';
 import { MockFeatureDirective } from '../../shared/test/mock-feature-directive';
 import { SkipLinkService } from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
@@ -11,28 +17,24 @@ import { StorefrontComponent } from './storefront.component';
 @Component({
   selector: 'cx-header',
   template: '',
-  standalone: false,
 })
 class MockHeaderComponent {}
 
 @Component({
   selector: 'cx-global-message',
   template: '',
-  standalone: false,
 })
 class MockGlobalMessageComponent {}
 
 @Component({
   selector: 'cx-page-slot',
   template: '',
-  standalone: false,
 })
 class DynamicSlotComponent {}
 
 @Component({
   selector: 'cx-footer',
   template: '',
-  standalone: false,
 })
 class MockFooterComponent {}
 
@@ -45,14 +47,12 @@ class MockRoutingService {
 @Component({
   selector: 'cx-schema',
   template: '',
-  standalone: false,
 })
 class MockSchemaComponent {}
 
 @Component({
   selector: 'cx-page-layout',
   template: '',
-  standalone: false,
 })
 class MockPageLayoutComponent {}
 
@@ -61,13 +61,13 @@ class MockHamburgerMenuService {
   isExpanded = of(false);
 }
 
-@Directive({
-  selector: '[cxOutlet]',
-  standalone: false,
-})
+@Directive({ selector: '[cxOutlet]' })
 class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
 }
+
+@Directive({ selector: '[cxPageTemplateStyle]' })
+class MockPageTemplateDirective implements Partial<PageTemplateDirective> {}
 
 class MockSkipLinkService implements Partial<SkipLinkService> {
   getSkipLinks() {
@@ -91,17 +91,6 @@ describe('StorefrontComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        StorefrontComponent,
-        MockHeaderComponent,
-        MockGlobalMessageComponent,
-        MockFooterComponent,
-        DynamicSlotComponent,
-        MockPageLayoutComponent,
-        MockFeatureDirective,
-        MockSchemaComponent,
-        MockOutletDirective,
-      ],
       providers: [
         {
           provide: RoutingService,
@@ -115,14 +104,35 @@ describe('StorefrontComponent', () => {
           provide: SkipLinkService,
           useClass: MockSkipLinkService,
         },
-        {
-          provide: FeatureConfigService,
-          useValue: {
-            isEnabled: () => true,
-          },
-        },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(StorefrontComponent, {
+        add: {
+          imports: [
+            MockHeaderComponent,
+            MockGlobalMessageComponent,
+            MockFooterComponent,
+            MockPageLayoutComponent,
+            MockFeatureDirective,
+            MockSchemaComponent,
+            MockOutletDirective,
+            DynamicSlotComponent,
+            MockPageTemplateDirective,
+          ],
+        },
+        remove: {
+          imports: [
+            GlobalMessageComponent,
+            PageLayoutComponent,
+            FeatureDirective,
+            OutletDirective,
+            PageSlotComponent,
+            PageLayoutComponent,
+            PageTemplateDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -195,9 +205,6 @@ describe('StorefrontComponent', () => {
 
     it('should call skipLinkService.scrollToTarget when navigation ends and document has active element', () => {
       spyOn(skipLinkService, 'scrollToTarget');
-      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
-        true
-      );
 
       const mockDocument = {
         activeElement: document.createElement('button'),
@@ -212,26 +219,12 @@ describe('StorefrontComponent', () => {
 
     it('should not call skipLinkService.scrollToTarget when navigation ends and focus is on body', () => {
       spyOn(skipLinkService, 'scrollToTarget');
-      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
-        true
-      );
       const body = document.createElement('body');
       const mockDocument = {
         activeElement: body,
         body,
       };
       component['document'] = mockDocument as any;
-
-      component['onNavigation'](false);
-
-      expect(skipLinkService.scrollToTarget).not.toHaveBeenCalled();
-    });
-
-    it('should not call skipLinkService.scrollToTarget when feature is disabled', () => {
-      spyOn(skipLinkService, 'scrollToTarget');
-      spyOn(component['featureConfigService'], 'isEnabled').and.returnValue(
-        false
-      );
 
       component['onNavigation'](false);
 

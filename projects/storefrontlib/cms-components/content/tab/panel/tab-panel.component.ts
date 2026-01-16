@@ -1,16 +1,18 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
 import { Tab, TAB_MODE } from '../tab.model';
 
 @Component({
   selector: 'cx-tab-panel',
   templateUrl: './tab-panel.component.html',
-  standalone: false,
+  imports: [FocusDirective, NgIf, NgTemplateOutlet],
 })
 export class TabPanelComponent {
   TAB_MODE = TAB_MODE;

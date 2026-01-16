@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,7 +12,8 @@ import {
   OnInit,
   PLATFORM_ID,
 } from '@angular/core';
-import { Translatable } from '@spartacus/core';
+import { Translatable, TranslatePipe } from '@spartacus/core';
+import { FocusDirective, IconComponent } from '@spartacus/storefront';
 import { BaseMessageComponent } from '../base-message.component';
 import { MessageData } from '../message.model';
 import { MessageService } from '../services/message.service';
@@ -24,7 +26,7 @@ import { ConfirmationMessageData } from './confirmation-message.model';
   selector: 'cx-org-confirmation',
   templateUrl: './confirmation-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [FocusDirective, NgIf, IconComponent, TranslatePipe],
 })
 export class ConfirmationMessageComponent
   extends BaseMessageComponent

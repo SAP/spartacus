@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,8 +11,12 @@ import { IconModule } from '@spartacus/storefront';
 import { OpfCheckoutTermsAndConditionsAlertComponent } from './opf-checkout-terms-and-conditions-alert.component';
 
 @NgModule({
-  declarations: [OpfCheckoutTermsAndConditionsAlertComponent],
   exports: [OpfCheckoutTermsAndConditionsAlertComponent],
-  imports: [CommonModule, I18nModule, IconModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    OpfCheckoutTermsAndConditionsAlertComponent,
+  ],
 })
 export class OpfCheckoutTermsAndConditionsAlertModule {}

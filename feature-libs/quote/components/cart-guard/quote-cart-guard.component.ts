@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,8 +13,5 @@ import { QuoteCartGuard } from './quote-cart.guard';
  * to this component, allows it. If not, the navigation will be re-directed to the quote
  * details page of the quote that is attached to the current cart.
  */
-@Component({
-  templateUrl: './quote-cart-guard.component.html',
-  standalone: false,
-})
+@Component({ templateUrl: './quote-cart-guard.component.html' })
 export class QuoteCartGuardComponent {}

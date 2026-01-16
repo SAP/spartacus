@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,10 +23,14 @@ import { Directive } from '@angular/core';
     // Adding [role] tells screen reatders that this "link" is really a "button"
     role: 'button',
     // Add Enter keydown click mimic native Button's behaviour
-    '(keydown.enter)': '$event.preventDefault() ; $event.target.click() ;',
+    '(keydown.Enter)': 'handleKeydown($event)',
     // Add Space keydown click mimic native Button's behaviour
-    '(keydown.space)': '$event.preventDefault() ; $event.target.click() ;',
+    '(keydown.Space)': 'handleKeydown($event)',
   },
-  standalone: false,
 })
-export class BtnLikeLinkDirective {}
+export class BtnLikeLinkDirective {
+  handleKeydown(event: KeyboardEvent): void {
+    event.preventDefault();
+    (event.target as HTMLElement | null)?.click();
+  }
+}

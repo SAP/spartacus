@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -54,6 +54,7 @@ import { ConfiguratorGroupComponent } from './configurator-group.component';
     ConfiguratorConflictDescriptionModule,
     ConfiguratorConflictSuggestionModule,
     ConfiguratorAttributeCompositionModule,
+    ConfiguratorGroupComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -64,7 +65,6 @@ import { ConfiguratorGroupComponent } from './configurator-group.component';
       },
     }),
   ],
-  declarations: [ConfiguratorGroupComponent],
   exports: [ConfiguratorGroupComponent],
 })
 export class ConfiguratorGroupModule {}

@@ -1,27 +1,48 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
   ProductSearchPage,
+  TranslatePipe,
   useFeatureStyles,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 import { filter, skip, take } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms-structure/page/index';
+import { PaginationComponent } from '../../../../shared/components/list-navigation/pagination/pagination.component';
+import { SortingComponent } from '../../../../shared/components/list-navigation/sorting/sorting.component';
 import { ViewConfig } from '../../../../shared/config/view-config';
-import { ViewModes } from '../product-view/product-view.component';
+import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
+import { ProductListItemComponent } from '../product-list-item/product-list-item.component';
+import {
+  ProductViewComponent,
+  ViewModes,
+} from '../product-view/product-view.component';
 import { ProductListComponentService } from './product-list-component.service';
+import { ProductScrollComponent } from './product-scroll/product-scroll.component';
 
 @Component({
   selector: 'cx-product-list',
   templateUrl: './product-list.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    SortingComponent,
+    PaginationComponent,
+    ProductViewComponent,
+    NgFor,
+    ProductGridItemComponent,
+    ProductListItemComponent,
+    ProductScrollComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ProductListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

@@ -2,6 +2,7 @@ import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
+  FileNameStyleGuide,
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
@@ -55,6 +56,8 @@ describe('Feature utils', () => {
     skipTests: false,
     projectRoot: '',
     standalone: false,
+    zoneless: false,
+    fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

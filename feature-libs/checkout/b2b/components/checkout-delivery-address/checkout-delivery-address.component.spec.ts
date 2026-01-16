@@ -17,12 +17,14 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  FeatureDirective,
   GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import { Card, CardComponent, SpinnerComponent } from '@spartacus/storefront';
+import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
@@ -129,7 +131,7 @@ const mockActivatedRoute = {
 @Component({
   selector: 'cx-address-form',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockAddressFormComponent {
   @Input() cancelBtnLabel: string;
@@ -140,14 +142,14 @@ class MockAddressFormComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockSpinnerComponent {}
 
 @Component({
   selector: 'cx-card',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCardComponent {
   @Input()
@@ -173,14 +175,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        B2BCheckoutDeliveryAddressComponent,
-        MockAddressFormComponent,
-        MockCardComponent,
-        MockSpinnerComponent,
-        MockFeatureDirective,
-      ],
+      imports: [I18nTestingModule, B2BCheckoutDeliveryAddressComponent],
       providers: [
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
@@ -214,7 +209,23 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       ],
     })
       .overrideComponent(B2BCheckoutDeliveryAddressComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        add: {
+          changeDetection: ChangeDetectionStrategy.Default,
+          imports: [
+            MockAddressFormComponent,
+            MockCardComponent,
+            MockSpinnerComponent,
+            MockFeatureDirective,
+          ],
+        },
+        remove: {
+          imports: [
+            AddressFormComponent,
+            CardComponent,
+            SpinnerComponent,
+            FeatureDirective,
+          ],
+        },
       })
       .compileComponents();
 
@@ -335,6 +346,8 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
   });
 
   it('should be able to select address', () => {
+    fixture.detectChanges();
+
     component.selectAddress(mockAddress1);
 
     expect(
@@ -349,6 +362,8 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       createSpy().and.returnValue(
         of({ loading: false, error: false, data: mockAddress2 })
       );
+
+    fixture.detectChanges();
 
     component.selectAddress(mockAddress2);
 

@@ -15,7 +15,7 @@ const attributeNamePrefix = 'attribute-prefix';
       [cxAttributesNamePrefix]="attributesNamePrefix"
     ></div>
   `,
-  standalone: false,
+  imports: [AttributesModule],
 })
 class TestComponent {
   attributes: { [attribute: string]: any };
@@ -29,8 +29,7 @@ describe('cxAttributes directive', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AttributesModule],
-      declarations: [TestComponent],
+      imports: [AttributesModule, TestComponent],
     });
 
     fixture = TestBed.createComponent(TestComponent);

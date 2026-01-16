@@ -1,12 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { GlobalMessageType } from '@spartacus/core';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  MessageComponent,
+  PasswordVisibilityToggleDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 
@@ -14,8 +25,18 @@ import { UpdatePasswordComponentService } from './update-password-component.serv
   selector: 'cx-my-account-v2-password',
   templateUrl: './my-account-v2-password.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
   host: { ngSkipHydration: 'true' },
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    MessageComponent,
+    PasswordVisibilityToggleDirective,
+    FormErrorsComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class MyAccountV2PasswordComponent {
   protected service = inject(UpdatePasswordComponentService);

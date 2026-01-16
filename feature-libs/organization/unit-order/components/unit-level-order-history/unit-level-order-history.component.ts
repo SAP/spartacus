@@ -1,26 +1,53 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import {
+  CxDatePipe,
   RoutingService,
+  TranslatePipe,
   TranslationService,
-  useFeatureStyles,
+  UrlPipe,
 } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core';
 import { UnitOrderFacade } from '@spartacus/organization/unit-order/root';
+import {
+  BtnLikeLinkDirective,
+  PaginationComponent,
+  SortingComponent,
+  TotalComponent,
+} from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { UnitLevelOrderHistoryFilterComponent } from './filter/unit-level-order-history-filter.component';
 
 @Component({
   selector: 'cx-unit-level-order-history',
   templateUrl: './unit-level-order-history.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    UnitLevelOrderHistoryFilterComponent,
+    SortingComponent,
+    TotalComponent,
+    PaginationComponent,
+    NgFor,
+    RouterLink,
+    BtnLikeLinkDirective,
+    RouterLinkActive,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    CxDatePipe,
+
+    CxDatePipe,
+  ],
 })
 export class UnitLevelOrderHistoryComponent implements OnDestroy {
   private PAGE_SIZE = 5;
@@ -37,9 +64,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
     protected routing: RoutingService,
     protected unitOrdersFacade: UnitOrderFacade,
     protected translation: TranslationService
-  ) {
-    useFeatureStyles('a11yTruncatedTextUnitLevelOrderHistory');
-  }
+  ) {}
 
   orders$: Observable<OrderHistoryList | undefined> = this.unitOrdersFacade
     .getOrderHistoryList(this.PAGE_SIZE)

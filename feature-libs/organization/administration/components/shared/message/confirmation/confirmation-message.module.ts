@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,12 @@ import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfirmationMessageComponent } from './confirmation-message.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule, KeyboardFocusModule],
-  declarations: [ConfirmationMessageComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    KeyboardFocusModule,
+    ConfirmationMessageComponent,
+  ],
 })
 export class ConfirmationMessageModule {}

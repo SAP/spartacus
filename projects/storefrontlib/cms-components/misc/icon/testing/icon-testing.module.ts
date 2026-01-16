@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,6 @@ import { IconLoaderService } from '../icon-loader.service';
 @Component({
   selector: 'cx-icon,[cxIcon]',
   template: `{{ type || cxIcon }}`,
-  standalone: false,
 })
 export class MockIconComponent {
   @Input() cxIcon: any;
@@ -36,7 +35,7 @@ export class MockIconLoaderService {
 }
 
 @NgModule({
-  declarations: mockComponents,
+  imports: [...mockComponents],
   exports: mockComponents,
   providers: [
     {

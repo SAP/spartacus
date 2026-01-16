@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -24,7 +24,7 @@ import { I18nModule, Translatable } from '@spartacus/core';
   templateUrl: './read-more.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, I18nModule],
+  imports: [CommonModule, I18nModule, NgIf],
 })
 export class ReadMoreComponent implements OnChanges {
   // Read More label translation key

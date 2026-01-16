@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,9 +13,12 @@ import { ConfigureCartEntryModule } from '../configure-cart-entry/configure-cart
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, ConfigureCartEntryModule],
-  declarations: [ConfiguratorCartEntryBundleInfoComponent],
-
+  imports: [
+    CommonModule,
+    I18nModule,
+    ConfigureCartEntryModule,
+    ConfiguratorCartEntryBundleInfoComponent,
+  ],
   providers: [
     provideOutlet({
       id: CartOutlets.ITEM_BUNDLE_DETAILS,

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,13 +10,21 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
+import { TranslatePipe } from '@spartacus/core';
+import { AtMessageDirective } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-place-order',
   templateUrl: './opf-b2b-checkout-place-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    AtMessageDirective,
+    TranslatePipe,
+  ],
 })
 export class OpfB2bCheckoutPlaceOrderComponent
   extends CheckoutPlaceOrderComponent

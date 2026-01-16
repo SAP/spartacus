@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -41,10 +41,7 @@ import { PageLayoutService } from './page-layout.service';
  * ```
  *
  */
-@Directive({
-  selector: '[cxPageTemplateStyle]',
-  standalone: false,
-})
+@Directive({ selector: '[cxPageTemplateStyle]' })
 export class PageTemplateDirective implements OnInit, OnDestroy {
   /**
    * Indicates whether this component is driven by an input template or should

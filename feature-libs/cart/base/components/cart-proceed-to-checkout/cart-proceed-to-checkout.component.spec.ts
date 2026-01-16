@@ -1,16 +1,19 @@
 import { ChangeDetectorRef, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Event, NavigationEnd, Router } from '@angular/router';
-import { I18nTestingModule } from '@spartacus/core';
+import { Event, NavigationEnd, Router, RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { ProgressButtonModule } from '@spartacus/storefront';
 import { Subject } from 'rxjs';
 import { CartProceedToCheckoutComponent } from './cart-proceed-to-checkout.component';
 import createSpy = jasmine.createSpy;
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -27,8 +30,11 @@ describe('CartProceedToCheckoutComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ProgressButtonModule],
-      declarations: [CartProceedToCheckoutComponent, MockUrlPipe],
+      imports: [
+        ProgressButtonModule,
+        CartProceedToCheckoutComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         {
           provide: Router,
@@ -39,7 +45,16 @@ describe('CartProceedToCheckoutComponent', () => {
           useValue: { markForCheck: createSpy('markForCheck') },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CartProceedToCheckoutComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

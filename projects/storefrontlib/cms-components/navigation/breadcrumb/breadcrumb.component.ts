@@ -1,19 +1,21 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   OnInit,
 } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import {
   CmsBreadcrumbsComponent,
   PageMetaService,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
@@ -25,7 +27,7 @@ import { PageTitleComponent } from '../page-header/page-title.component';
   selector: 'cx-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgFor, RouterLink, AsyncPipe, TranslatePipe],
 })
 export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   crumbs$: Observable<any[]>;

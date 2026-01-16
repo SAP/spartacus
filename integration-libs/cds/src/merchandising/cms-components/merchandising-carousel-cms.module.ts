@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,7 @@ import { MerchandisingCarouselComponent } from './merchandising-carousel/merchan
     MediaModule,
     RouterModule,
     UrlModule,
+    MerchandisingCarouselComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -30,7 +31,6 @@ import { MerchandisingCarouselComponent } from './merchandising-carousel/merchan
       },
     }),
   ],
-  declarations: [MerchandisingCarouselComponent],
   exports: [MerchandisingCarouselComponent],
 })
 export class MerchandisingCarouselCmsModule {}

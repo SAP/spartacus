@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,7 +13,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, TranslatePipe } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
@@ -29,7 +30,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   templateUrl: './configurator-tab-bar.component.html',
   //here we cannot go with OnPush, as we otherwise do not take the change to host binding into account
   changeDetection: ChangeDetectionStrategy.Default,
-  standalone: false,
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorTabBarComponent {
   @HostBinding('class.ghost') ghostStyle = true;

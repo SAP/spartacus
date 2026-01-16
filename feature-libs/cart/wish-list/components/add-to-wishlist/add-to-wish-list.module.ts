@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,6 +31,7 @@ import { AddToWishListComponent } from './add-to-wish-list.component';
     AtMessageModule,
     FeaturesConfigModule,
     BtnLikeLinkModule,
+    AddToWishListComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -41,7 +42,6 @@ import { AddToWishListComponent } from './add-to-wish-list.component';
       },
     }),
   ],
-  declarations: [AddToWishListComponent],
   exports: [AddToWishListComponent],
 })
 export class AddToWishListModule {}

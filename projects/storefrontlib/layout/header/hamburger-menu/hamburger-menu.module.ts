@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,7 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { HamburgerMenuComponent } from './hamburger-menu.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
+  imports: [CommonModule, I18nModule, HamburgerMenuComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -20,7 +20,6 @@ import { HamburgerMenuComponent } from './hamburger-menu.component';
       },
     }),
   ],
-  declarations: [HamburgerMenuComponent],
   exports: [HamburgerMenuComponent],
 })
 export class HamburgerMenuModule {}

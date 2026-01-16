@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,12 +13,18 @@ import {
   SiteThemeModule,
 } from '@spartacus/core';
 
-import { SiteThemeSwitcherComponent } from './site-theme-switcher.component';
 import { IconModule } from '../icon/index';
+import { SiteThemeSwitcherComponent } from './site-theme-switcher.component';
 import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule, SiteThemeModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    SiteThemeModule,
+    SiteThemeSwitcherComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -29,7 +35,6 @@ import { SiteThemeSwitcherComponentService } from './site-theme-switcher.compone
     }),
     SiteThemeSwitcherComponentService,
   ],
-  declarations: [SiteThemeSwitcherComponent],
   exports: [SiteThemeSwitcherComponent],
 })
 export class SiteThemeSwitcherModule {}

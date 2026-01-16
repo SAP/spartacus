@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,9 +12,13 @@ import { defaultOpfErrorModalLayoutConfig } from './default-opf-error-modal.layo
 import { OpfErrorModalComponent } from './opf-error-modal.component';
 
 @NgModule({
-  declarations: [OpfErrorModalComponent],
   providers: [provideDefaultConfig(defaultOpfErrorModalLayoutConfig)],
   exports: [OpfErrorModalComponent],
-  imports: [CommonModule, I18nModule, KeyboardFocusModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    KeyboardFocusModule,
+    OpfErrorModalComponent,
+  ],
 })
 export class OpfErrorModalModule {}

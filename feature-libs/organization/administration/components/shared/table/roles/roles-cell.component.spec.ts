@@ -11,8 +11,7 @@ describe('RolesCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RolesCellComponent],
-      imports: [UrlTestingModule, I18nTestingModule],
+      imports: [UrlTestingModule, I18nTestingModule, RolesCellComponent],
       providers: [
         {
           provide: OutletContextData,

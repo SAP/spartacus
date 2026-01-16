@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,10 +15,13 @@ import {
   inject,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -27,19 +31,44 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   PaymentDetails,
+  TranslatePipe,
   TranslationService,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
-import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  ICON_TYPE,
+  IconComponent,
+  LaunchDialogService,
+  NgSelectA11yDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { CheckoutBillingAddressFormService } from '../../checkout-billing-address';
+import { CheckoutBillingAddressFormComponent } from '../../checkout-billing-address/checkout-billing-address-form.component';
 
 @Component({
   selector: 'cx-payment-form',
   templateUrl: './checkout-payment-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    FormRequiredLegendComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    FormErrorsComponent,
+    IconComponent,
+    CheckoutBillingAddressFormComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CheckoutPaymentFormComponent implements OnInit {
   iconTypes = ICON_TYPE;

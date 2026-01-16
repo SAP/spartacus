@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,10 +31,7 @@ import { LoggerService } from '@spartacus/core';
  * </ng-template>
  * ```
  */
-@Directive({
-  selector: '[cxFocusableCarouselItem]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocusableCarouselItem]' })
 export class FocusableCarouselItemDirective {
   constructor(
     protected logger: LoggerService,

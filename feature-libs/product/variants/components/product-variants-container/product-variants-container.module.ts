@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,7 +22,7 @@ import { ProductVariantsContainerComponent } from './product-variants-container.
     ProductVariantStyleSelectorModule,
     ProductVariantSizeSelectorModule,
     ProductVariantColorSelectorModule,
+    ProductVariantsContainerComponent,
   ],
-  declarations: [ProductVariantsContainerComponent],
 })
 export class ProductVariantsContainerModule {}

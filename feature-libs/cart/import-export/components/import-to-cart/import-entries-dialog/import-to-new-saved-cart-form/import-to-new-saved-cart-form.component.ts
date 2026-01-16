@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,6 +13,8 @@ import {
 } from '@angular/core';
 import {
   AbstractControl,
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
@@ -22,11 +25,17 @@ import {
   CartNameSource,
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
-import { CxDatePipe } from '@spartacus/core';
+import { CxDatePipe, TranslatePipe } from '@spartacus/core';
 import {
   FilesFormValidators,
+  FileUploadComponent,
+  FocusDirective,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   ImportCsvFileService,
   LaunchDialogService,
+  MessageComponent,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
@@ -37,7 +46,18 @@ import { ImportEntriesFormComponent } from '../import-entries-form/import-entrie
   templateUrl: './import-to-new-saved-cart-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CxDatePipe],
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    MessageComponent,
+    FocusDirective,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    FileUploadComponent,
+    FormErrorsComponent,
+    TranslatePipe,
+  ],
 })
 export class ImportToNewSavedCartFormComponent extends ImportEntriesFormComponent {
   descriptionMaxLength: number = 250;

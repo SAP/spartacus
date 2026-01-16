@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,6 +37,8 @@ import { WishListComponent } from './wish-list/wish-list.component';
     StarRatingModule,
     UrlModule,
     FeaturesConfigModule,
+    WishListComponent,
+    WishListItemComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -53,7 +55,6 @@ import { WishListComponent } from './wish-list/wish-list.component';
       },
     }),
   ],
-  declarations: [WishListComponent, WishListItemComponent],
   exports: [WishListComponent, WishListItemComponent],
 })
 export class WishListComponentsModule {}

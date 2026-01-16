@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -19,8 +20,10 @@ import {
 } from '@angular/core';
 import {
   FeatureConfigService,
+  FeatureDirective,
   ImageGroup,
   Product,
+  TranslatePipe,
   isNotNullable,
   useFeatureStyles,
 } from '@spartacus/core';
@@ -30,6 +33,8 @@ import {
   BreakpointService,
   CurrentProductService,
   ICON_TYPE,
+  IconComponent,
+  MediaComponent,
 } from '@spartacus/storefront';
 import {
   BehaviorSubject,
@@ -49,12 +54,21 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
+import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumbnails/product-image-zoom-thumbnails.component';
 
 @Component({
   selector: 'cx-product-image-zoom-view',
   templateUrl: './product-image-zoom-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    IconComponent,
+    FeatureDirective,
+    MediaComponent,
+    ProductImageZoomThumbnailsComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
   iconType = ICON_TYPE;

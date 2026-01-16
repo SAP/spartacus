@@ -10,6 +10,7 @@ import {
   Page,
   PageContext,
   SemanticPathService,
+  TranslatePipe,
   UrlCommand,
 } from '@spartacus/core';
 import { CmsComponentData, Media } from '@spartacus/storefront';
@@ -17,10 +18,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { MediaService } from '../../../shared/components/media/media.service';
 import { VideoComponent } from './video.component';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -82,15 +80,19 @@ describe('VideoComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([])],
-      declarations: [VideoComponent, MockTranslatePipe],
+      imports: [RouterModule.forRoot([]), VideoComponent, MockTranslatePipe],
       providers: [
         { provide: CmsComponentData, useClass: MockCmsVideoComponentData },
         { provide: CmsService, useClass: MockCmsService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
         { provide: MediaService, useClass: MockMediaService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(VideoComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: { imports: [MockTranslatePipe] },
+      })
+      .compileComponents();
   });
   beforeEach(() => {
     fixture = TestBed.createComponent(VideoComponent);

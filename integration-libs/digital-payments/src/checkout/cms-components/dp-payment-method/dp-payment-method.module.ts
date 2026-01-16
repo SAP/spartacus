@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,7 +29,6 @@ import { DpPaymentMethodComponent } from './dp-payment-method.component';
     SpinnerModule,
     I18nModule,
     DpPaymentCallbackModule,
-
     ConfigModule.withConfig({
       cmsComponents: {
         CheckoutPaymentDetails: {
@@ -38,8 +37,8 @@ import { DpPaymentMethodComponent } from './dp-payment-method.component';
       },
     }),
     FeaturesConfigModule,
+    DpPaymentMethodComponent,
   ],
-  declarations: [DpPaymentMethodComponent],
   exports: [DpPaymentMethodComponent],
   providers: [provideDefaultConfig(defaultDigitalPaymentsConfig)],
 })

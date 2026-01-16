@@ -6,6 +6,7 @@ import {
   CommonConfigurator,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
+import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, NEVER, Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -15,7 +16,6 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewFilterButtonComponent } from './configurator-overview-filter-button.component';
-import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -71,7 +71,7 @@ function initMocks() {
 @Component({
   selector: 'cx-configurator-overview-filter-bar',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockConfiguratorOverviewFilterBarComponent {
   @Input() config: Configurator.ConfigurationWithOverview;
@@ -90,8 +90,8 @@ describe('ConfigurationOverviewFilterButtonComponent', () => {
     initTestData();
     initMocks();
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         ConfiguratorOverviewFilterButtonComponent,
         MockConfiguratorOverviewFilterBarComponent,
       ],

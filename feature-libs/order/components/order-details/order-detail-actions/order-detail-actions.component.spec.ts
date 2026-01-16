@@ -1,7 +1,15 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  FeaturesConfig,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
@@ -14,10 +22,7 @@ const mockOrder: Order = {
   cancellable: false,
 };
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -36,7 +41,7 @@ describe('OrderDetailActionsComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [OrderDetailActionsComponent, RouterModule.forRoot([])],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
         {
@@ -46,8 +51,12 @@ describe('OrderDetailActionsComponent', () => {
           },
         },
       ],
-      declarations: [OrderDetailActionsComponent, MockUrlPipe],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderDetailActionsComponent, {
+        remove: { imports: [TranslatePipe, CxDatePipe, UrlPipe] },
+        add: { imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

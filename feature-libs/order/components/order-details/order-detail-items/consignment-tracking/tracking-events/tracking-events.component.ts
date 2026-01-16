@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,15 +13,29 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { CxDatePipe, TranslatePipe } from '@spartacus/core';
 import { ConsignmentTracking, OrderHistoryFacade } from '@spartacus/order/root';
-import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
+import {
+  FocusConfig,
+  FocusDirective,
+  LaunchDialogService,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-tracking-events',
   templateUrl: './tracking-events.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FocusDirective,
+    NgIf,
+    NgFor,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+  ],
 })
 export class TrackingEventsComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();

@@ -110,8 +110,8 @@ describe('StoreFinderListItemComponent', () => {
         I18nTestingModule,
         RouterModule.forRoot([]),
         OutletModule,
+        StoreFinderListItemComponent,
       ],
-      declarations: [StoreFinderListItemComponent],
       providers: [
         provideLocationMocks(),
         { provide: StoreFinderService, useClass: MockStoreFinderService },

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,14 +7,18 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
-import { ClearCartComponent } from './clear-cart.component';
 import { ClearCartDialogModule } from '../clear-cart-dialog/clear-cart-dialog.module';
 import { defaultClearCartLayoutConfig } from '../clear-cart-dialog/default-clear-cart-layout.config';
+import { ClearCartComponent } from './clear-cart.component';
 
 @NgModule({
-  declarations: [ClearCartComponent],
   exports: [ClearCartComponent],
-  imports: [CommonModule, I18nModule, ClearCartDialogModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    ClearCartDialogModule,
+    ClearCartComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

@@ -1,10 +1,20 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import {
+  AsyncPipe,
+  NgClass,
+  NgFor,
+  NgIf,
+  NgSwitch,
+  NgSwitchCase,
+  NgTemplateOutlet,
+} from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import { B2BCheckoutReviewSubmitComponent } from '@spartacus/checkout/b2b/components';
 import {
@@ -18,22 +28,48 @@ import {
   CheckoutPaymentFacade,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { TranslationService, UserCostCenterService } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import {
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
+  UserCostCenterService,
+} from '@spartacus/core';
 import {
   CheckoutServiceDetailsFacade,
   CheckoutServiceSchedulePickerService,
-  ServiceDateTime,
   S4ServiceDeliveryModeConfig,
+  ServiceDateTime,
 } from '@spartacus/s4-service/root';
+import {
+  Card,
+  CardComponent,
+  IconComponent,
+  OutletDirective,
+  PromotionsComponent,
+} from '@spartacus/storefront';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-review-submit',
   templateUrl: './service-checkout-review-submit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    NgSwitch,
+    NgSwitchCase,
+    NgTemplateOutlet,
+    NgClass,
+    CardComponent,
+    RouterLink,
+    IconComponent,
+    OutletDirective,
+    PromotionsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+  ],
 })
 export class ServiceCheckoutReviewSubmitComponent extends B2BCheckoutReviewSubmitComponent {
   checkoutStepTypeServiceDetails = CheckoutStepType.SERVICE_DETAILS;

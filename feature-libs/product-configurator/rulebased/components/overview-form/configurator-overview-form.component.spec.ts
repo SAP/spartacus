@@ -1,18 +1,21 @@
-import { Component, Input } from '@angular/core';
+import { Component, Injectable, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  I18nTestingModule,
-  RoutingService,
   FeatureConfigService,
   FeaturesConfigModule,
+  I18nTestingModule,
+  MockTranslatePipe,
+  RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { DirectionMode, DirectionService } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
@@ -21,7 +24,10 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/configurator-overview-attribute.component';
-import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
 
@@ -134,25 +140,33 @@ function checkConfigurationOverviewObs(
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  standalone: false,
+  imports: [
+    I18nTestingModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    FeaturesConfigModule,
+  ],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+@Injectable()
+class MockDirectionService implements Partial<DirectionService> {
+  getDirection(): DirectionMode {
+    return DirectionMode.LTR;
+  }
 }
 
 describe('ConfigurationOverviewFormComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
         FeaturesConfigModule,
-      ],
-      declarations: [
         ConfiguratorOverviewFormComponent,
         ConfiguratorOverviewAttributeComponent,
-        MockConfiguratorPriceComponent,
       ],
       providers: [
         {
@@ -167,8 +181,18 @@ describe('ConfigurationOverviewFormComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
         },
+        { provide: DirectionService, useClass: MockDirectionService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ConfiguratorOverviewFormComponent, {
+        remove: {
+          imports: [ConfiguratorPriceComponent, TranslatePipe],
+        },
+        add: {
+          imports: [MockConfiguratorPriceComponent, MockTranslatePipe],
+        },
+      })
+      .compileComponents();
   }));
   beforeEach(() => {
     routerStateObservable = null;

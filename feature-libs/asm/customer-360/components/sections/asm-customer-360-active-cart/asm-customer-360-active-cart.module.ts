@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,8 +12,12 @@ import { AsmCustomer360ProductListingModule } from '../../asm-customer-360-produ
 import { AsmCustomer360ActiveCartComponent } from './asm-customer-360-active-cart.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, AsmCustomer360ProductListingModule],
-  declarations: [AsmCustomer360ActiveCartComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    AsmCustomer360ProductListingModule,
+    AsmCustomer360ActiveCartComponent,
+  ],
   exports: [AsmCustomer360ActiveCartComponent],
 })
 export class AsmCustomer360ActiveCartModule {}

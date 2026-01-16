@@ -10,18 +10,33 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
+  CxDatePipe,
+  FeatureDirective,
+  FeatureLevelDirective,
   GlobalMessageService,
   I18nTestingModule,
   ImageType,
+  MockDatePipe,
+  MockTranslatePipe,
   NotificationType,
   OccConfig,
   Product,
   ProductInterestEntryRelation,
   ProductInterestSearchResult,
   ProductService,
+  TranslatePipe,
+  UrlPipe,
   UserInterestsService,
 } from '@spartacus/core';
+import {
+  AtMessageDirective,
+  MediaComponent,
+  PaginationComponent,
+  SortingComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
@@ -32,7 +47,7 @@ import { MyInterestsComponent } from './my-interests.component';
 @Component({
   template: '',
   selector: 'cx-pagination',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockPaginationComponent {
   @Input() pagination;
@@ -41,7 +56,7 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockSortingComponent {
   @Input() sortOptions;
@@ -54,7 +69,7 @@ class MockSortingComponent {
 @Component({
   template: '',
   selector: 'cx-media',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container;
@@ -74,10 +89,7 @@ const MockOccModuleConfig: OccConfig = {
 };
 const MockLayoutConfig: LayoutConfig = {};
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -90,14 +102,11 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockSpinnerComponent {}
 
-@Directive({
-  selector: '[cxAtMessage]',
-  standalone: false,
-})
+@Directive({ selector: '[cxAtMessage]' })
 class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
 }
@@ -218,7 +227,7 @@ describe('MyInterestsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [RouterModule.forRoot([]), MyInterestsComponent],
       providers: [
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: LayoutConfig, useValue: MockLayoutConfig },
@@ -226,18 +235,38 @@ describe('MyInterestsComponent', () => {
         { provide: ProductService, useValue: productService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
-      declarations: [
-        MyInterestsComponent,
-        MockUrlPipe,
-        MockMediaComponent,
-        MockSpinnerComponent,
-        MockPaginationComponent,
-        MockSortingComponent,
-        MockFeatureLevelDirective,
-        MockAtMessageDirective,
-        MockFeatureDirective,
-      ],
-    }).compileComponents();
+    })
+      .overrideComponent(MyInterestsComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            MediaComponent,
+            SpinnerComponent,
+            PaginationComponent,
+            SortingComponent,
+            FeatureLevelDirective,
+            AtMessageDirective,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockMediaComponent,
+            MockSpinnerComponent,
+            MockPaginationComponent,
+            MockSortingComponent,
+            MockFeatureLevelDirective,
+            MockAtMessageDirective,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

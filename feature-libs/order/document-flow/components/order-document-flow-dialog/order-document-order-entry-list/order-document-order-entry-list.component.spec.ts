@@ -1,9 +1,15 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { I18nTestingModule } from '@spartacus/core';
-import { OrderDocumentOrderEntryListComponent } from './order-document-order-entry-list.component';
 import { By } from '@angular/platform-browser';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { OrderSubsequentDocumentEntry } from '@spartacus/order/document-flow/root';
+import { OrderDocumentOrderEntryListComponent } from './order-document-order-entry-list.component';
 
 const subsequentDocumentEntryData: OrderSubsequentDocumentEntry[] = [
   {
@@ -32,10 +38,18 @@ describe('OrderDocumentOrderEntryListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OrderDocumentOrderEntryListComponent],
+      imports: [I18nTestingModule, OrderDocumentOrderEntryListComponent],
       providers: [],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderDocumentOrderEntryListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

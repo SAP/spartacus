@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,8 +12,7 @@ import { PageSlotComponent } from './page-slot.component';
 import { PageSlotService } from './page-slot.service';
 
 @NgModule({
-  imports: [CommonModule, OutletModule, PageComponentModule],
-  declarations: [PageSlotComponent],
+  imports: [CommonModule, OutletModule, PageComponentModule, PageSlotComponent],
   exports: [PageSlotComponent],
 })
 export class PageSlotModule {

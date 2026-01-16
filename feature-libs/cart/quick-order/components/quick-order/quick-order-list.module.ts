@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,6 +44,10 @@ import { QuickOrderTableComponent } from './table/quick-order-table.component';
     RouterModule,
     UrlModule,
     FeaturesConfigModule,
+    QuickOrderComponent,
+    QuickOrderFormComponent,
+    QuickOrderItemComponent,
+    QuickOrderTableComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -56,12 +60,6 @@ import { QuickOrderTableComponent } from './table/quick-order-table.component';
         },
       },
     }),
-  ],
-  declarations: [
-    QuickOrderComponent,
-    QuickOrderFormComponent,
-    QuickOrderItemComponent,
-    QuickOrderTableComponent,
   ],
   exports: [
     QuickOrderComponent,

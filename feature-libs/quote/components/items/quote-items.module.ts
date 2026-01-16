@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,7 @@ import { QuoteItemsComponent } from './quote-items.component';
     IconModule,
     I18nModule,
     AbstractOrderContextModule,
+    QuoteItemsComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -34,7 +35,6 @@ import { QuoteItemsComponent } from './quote-items.component';
       },
     }),
   ],
-  declarations: [QuoteItemsComponent],
   exports: [QuoteItemsComponent],
 })
 export class QuoteItemsModule {}

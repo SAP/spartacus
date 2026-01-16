@@ -1,15 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 
-@Directive({
-  selector: '[cxFeature]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFeature]' })
 export class MockFeatureDirective {
   constructor(
     protected templateRef: TemplateRef<any>,

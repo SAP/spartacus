@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -12,8 +13,9 @@ import {
   ViewContainerRef,
   inject,
 } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import { CustomerTicketingFacade } from '@spartacus/customer-ticketing/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CustomerTicketingReopenComponentService } from './customer-ticketing-reopen-component.service';
@@ -21,7 +23,7 @@ import { CustomerTicketingReopenComponentService } from './customer-ticketing-re
 @Component({
   selector: 'cx-customer-ticketing-reopen',
   templateUrl: './customer-ticketing-reopen.component.html',
-  standalone: false,
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class CustomerTicketingReopenComponent implements OnDestroy {
   protected subscription = new Subscription();

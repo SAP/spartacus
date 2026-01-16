@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,7 @@ import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-f
     CommonModule,
     I18nModule,
     IconModule,
+    ConfiguratorAttributeFooterComponent,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
@@ -29,7 +30,6 @@ import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-f
       },
     }),
   ],
-  declarations: [ConfiguratorAttributeFooterComponent],
   exports: [ConfiguratorAttributeFooterComponent],
 })
 export class ConfiguratorAttributeFooterModule {}

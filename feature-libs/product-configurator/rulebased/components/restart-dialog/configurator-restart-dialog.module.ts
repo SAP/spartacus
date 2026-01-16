@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,13 +16,13 @@ import { ConfiguratorRestartDialogComponent } from './configurator-restart-dialo
 import { defaultConfiguratorRestartDialogLayoutConfig } from './default-configurator-restart-dialog-layout.config';
 
 @NgModule({
-  declarations: [ConfiguratorRestartDialogComponent],
   imports: [
     CommonModule,
     I18nModule,
     IconModule,
     KeyboardFocusModule,
     FeaturesConfigModule,
+    ConfiguratorRestartDialogComponent,
   ],
   providers: [
     provideDefaultConfig(defaultConfiguratorRestartDialogLayoutConfig),

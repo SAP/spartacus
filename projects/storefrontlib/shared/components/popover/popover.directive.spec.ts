@@ -27,7 +27,7 @@ import { PopoverModule } from './popover.module';
       Popover
     </button>
   `,
-  standalone: false,
+  imports: [PopoverModule, I18nTestingModule],
 })
 class PopoverTestComponent {
   open() {
@@ -45,8 +45,7 @@ describe('PopoverDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PopoverModule, I18nTestingModule],
-      declarations: [PopoverTestComponent],
+      imports: [PopoverModule, I18nTestingModule, PopoverTestComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PopoverTestComponent);
@@ -129,7 +128,13 @@ describe('PopoverDirective', () => {
     fixture.detectChanges();
 
     getPopoverOpener().nativeElement.click();
-    expect(document.body.lastChild).toBe(getPopoverComponent().nativeElement);
+
+    const popoverEl = getPopoverComponent().nativeElement as HTMLElement;
+    const body = document.body;
+    const host = (body.firstElementChild ?? body) as HTMLElement;
+
+    expect(host.contains(popoverEl)).toBeTruthy();
+    expect(popoverEl.parentElement).toBe(host);
   });
 
   it('should call passed method on popover `open` event', () => {

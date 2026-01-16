@@ -133,7 +133,6 @@ class MockVisualPickingProductListService {
 @Component({
   selector: 'cx-page-layout',
   template: 'mock',
-  standalone: false,
 })
 class MockPageLayoutComponent {}
 class MockProductAvailabilityAdapter {}
@@ -146,7 +145,6 @@ describe('VisualPickingProductListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [VisualPickingProductListComponent],
       imports: [
         CommonModule,
         StoreModule.forRoot({}),
@@ -165,6 +163,7 @@ describe('VisualPickingProductListComponent', () => {
         UrlModule,
         I18nTestingModule,
         CompactAddToCartModule,
+        VisualPickingProductListComponent,
       ],
       providers: [
         Actions,

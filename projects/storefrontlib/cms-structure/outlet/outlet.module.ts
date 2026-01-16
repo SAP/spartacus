@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,8 +18,8 @@ import { MODULE_INITIALIZER } from '@spartacus/core';
 import { OutletDirective } from './outlet.directive';
 import { OutletPosition } from './outlet.model';
 import {
-  ProvideOutletOptions,
   PROVIDE_OUTLET_OPTIONS,
+  ProvideOutletOptions,
 } from './outlet.providers';
 import { OutletService } from './outlet.service';
 
@@ -47,8 +47,7 @@ export function registerOutletsFactory(
 }
 
 @NgModule({
-  imports: [CommonModule],
-  declarations: [OutletDirective],
+  imports: [CommonModule, OutletDirective],
   exports: [OutletDirective],
 })
 export class OutletModule {

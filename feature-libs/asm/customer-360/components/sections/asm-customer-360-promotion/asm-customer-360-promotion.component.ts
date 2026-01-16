@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,20 +13,22 @@ import {
 } from '@angular/core';
 import {
   AsmCustomer360Facade,
+  AsmCustomer360Promotion,
   AsmCustomer360PromotionList,
   AsmCustomer360Type,
-  AsmCustomer360Promotion,
 } from '@spartacus/asm/customer-360/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { TranslatePipe } from '@spartacus/core';
 import { BehaviorSubject, Subscription, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-promotion',
   templateUrl: './asm-customer-360-promotion.component.html',
-  standalone: false,
+  imports: [AsmCustomer360PromotionListingComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360PromotionComponent implements OnInit, OnDestroy {
   showErrorAlert$ = new BehaviorSubject<boolean>(false);

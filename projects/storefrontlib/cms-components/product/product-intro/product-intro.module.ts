@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,13 @@ import { StarRatingModule } from '../../../shared/components/star-rating/star-ra
 import { ProductIntroComponent } from './product-intro.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, StarRatingModule, FeaturesConfigModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    StarRatingModule,
+    FeaturesConfigModule,
+    ProductIntroComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -26,7 +32,6 @@ import { ProductIntroComponent } from './product-intro.component';
       },
     }),
   ],
-  declarations: [ProductIntroComponent],
   exports: [ProductIntroComponent],
 })
 export class ProductIntroModule {}

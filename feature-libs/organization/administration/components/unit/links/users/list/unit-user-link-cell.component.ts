@@ -1,11 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { B2BUnit } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { B2BUnit, TranslatePipe, UrlPipe } from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
 import {
   OutletContextData,
@@ -29,7 +31,7 @@ import { CellComponent } from '../../../../shared/table/cell.component';
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
 })
 export class UnitUserRolesCellComponent extends CellComponent {
   unitKey$: Observable<string> = this.itemService.key$;

@@ -1,30 +1,46 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
-  Component,
   ChangeDetectionStrategy,
+  Component,
   Input,
   inject,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { Images } from '@spartacus/core';
-import { MyAccountV2OrderConsignmentsService } from '../../../order-details';
+import { CxDatePipe, Images, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   ConsignmentView,
-  OrderView,
   OrderHistoryView,
+  OrderView,
 } from '@spartacus/order/root';
+import { MediaComponent } from '@spartacus/storefront';
+import { MyAccountV2OrderConsignmentsService } from '../../../order-details';
+import { MyAccountV2ConsignmentEntriesComponent } from '../consignment-entries/my-account-v2-consignment-entries.component';
 import { OrderCriticalStatus } from '../my-account-v2-order-history.model';
 
 @Component({
   selector: 'cx-my-account-v2-order-consolidated-information',
   templateUrl: './my-account-v2-order-consolidated-information.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    MyAccountV2ConsignmentEntriesComponent,
+    NgFor,
+    RouterLink,
+    MediaComponent,
+    UrlPipe,
+    TranslatePipe,
+    CxDatePipe,
+
+    CxDatePipe,
+  ],
 })
 export class MyAccountV2OrderConsolidatedInformationComponent {
   protected orderConsignmentsService = inject(

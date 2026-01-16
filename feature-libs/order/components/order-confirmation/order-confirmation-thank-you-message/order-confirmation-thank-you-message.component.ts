@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -14,17 +15,26 @@ import {
 import {
   GlobalMessageService,
   GlobalMessageType,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import { Order, OrderFacade, ReplenishmentOrder } from '@spartacus/order/root';
+import { AddToHomeScreenBannerComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, take, tap, withLatestFrom } from 'rxjs/operators';
+import { OrderGuestRegisterFormComponent } from '../order-guest-register-form/order-guest-register-form.component';
 
 @Component({
   selector: 'cx-order-confirmation-thank-you-message',
   templateUrl: './order-confirmation-thank-you-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    OrderGuestRegisterFormComponent,
+    AddToHomeScreenBannerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class OrderConfirmationThankYouMessageComponent
   implements OnInit, AfterViewInit, OnDestroy

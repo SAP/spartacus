@@ -1,10 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@spartacus/core';
 import {
   LoadStatus,
   UserGroup,
@@ -26,7 +28,7 @@ import { UserGroupUserListService } from './user-group-user-list.service';
       useExisting: UserGroupUserListService,
     },
   ],
-  standalone: false,
+  imports: [SubListComponent, RouterLink, TranslatePipe],
 })
 export class UserGroupUserListComponent {
   constructor(

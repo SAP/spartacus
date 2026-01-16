@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,6 +24,8 @@ import { AnonymousConsentOpenDialogComponent } from './open-dialog/anonymous-con
     I18nModule,
     KeyboardFocusModule,
     FeaturesConfigModule,
+    AnonymousConsentManagementBannerComponent,
+    AnonymousConsentOpenDialogComponent,
   ],
   providers: [
     provideDefaultConfig(defaultAnonymousConsentLayoutConfig),
@@ -38,10 +40,6 @@ import { AnonymousConsentOpenDialogComponent } from './open-dialog/anonymous-con
         },
       },
     }),
-  ],
-  declarations: [
-    AnonymousConsentManagementBannerComponent,
-    AnonymousConsentOpenDialogComponent,
   ],
   exports: [
     AnonymousConsentManagementBannerComponent,

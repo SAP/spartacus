@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,9 +12,13 @@ import { OpfCheckoutPaymentWrapperComponent } from './opf-checkout-payment-wrapp
 import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper.service';
 
 @NgModule({
-  declarations: [OpfCheckoutPaymentWrapperComponent],
   providers: [OpfCheckoutPaymentWrapperService],
   exports: [OpfCheckoutPaymentWrapperComponent],
-  imports: [CommonModule, I18nModule, SpinnerModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    SpinnerModule,
+    OpfCheckoutPaymentWrapperComponent,
+  ],
 })
 export class OpfCheckoutPaymentWrapperModule {}

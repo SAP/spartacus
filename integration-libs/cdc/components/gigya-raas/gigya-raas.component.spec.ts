@@ -7,6 +7,7 @@ import {
   CmsComponent,
   LanguageService,
   MockTranslatePipe,
+  TranslatePipe,
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -77,7 +78,7 @@ describe('GigyaRaasComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [GigyaRaasComponent, MockTranslatePipe],
+      imports: [GigyaRaasComponent],
       providers: [
         { provide: CdcConfig, useValue: sampleCdcConfig },
         { provide: CmsComponentData, useValue: MockCmsComponentData },
@@ -85,7 +86,16 @@ describe('GigyaRaasComponent', () => {
         { provide: CdcJsService, useClass: CdcJsServiceStub },
         { provide: LanguageService, useClass: LanguageServiceStub },
       ],
-    });
+    })
+      .overrideComponent(GigyaRaasComponent, {
+        remove: {
+          imports: [TranslatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe],
+        },
+      })
+      .compileComponents();
     baseSiteService = TestBed.inject(BaseSiteService);
     cdcJsService = TestBed.inject(CdcJsService);
     fixture = TestBed.createComponent(GigyaRaasComponent);

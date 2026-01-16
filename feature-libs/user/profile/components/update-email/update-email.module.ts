@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -61,8 +61,9 @@ const myAccountV2EmailMapping: CmsConfig = {
     BtnLikeLinkModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    UpdateEmailComponent,
+    MyAccountV2EmailComponent,
   ],
-  declarations: [UpdateEmailComponent, MyAccountV2EmailComponent],
   exports: [UpdateEmailComponent, MyAccountV2EmailComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{

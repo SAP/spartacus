@@ -1,13 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CmsComponentWithChildren, CmsService, Product } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { OutletDirective } from '../../../../cms-structure/outlet/outlet.directive';
+import { ComponentWrapperDirective } from '../../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
 
@@ -15,7 +18,7 @@ import { CurrentProductService } from '../../current-product.service';
   selector: 'cx-product-details-tab',
   templateUrl: './product-details-tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, NgFor, OutletDirective, ComponentWrapperDirective, AsyncPipe],
 })
 export class ProductDetailsTabComponent implements OnInit {
   product$: Observable<Product | null>;

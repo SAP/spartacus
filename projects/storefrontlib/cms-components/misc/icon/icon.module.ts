@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,8 +12,7 @@ import { fontawesomeIconConfig } from './fontawesome-icon.config';
 import { IconComponent } from './icon.component';
 
 @NgModule({
-  declarations: [IconComponent],
-  imports: [CommonModule],
+  imports: [CommonModule, IconComponent],
   providers: [
     provideDefaultConfig(defaultIconConfig),
     // TODO: move the opinionated fontawesome config to a recipe

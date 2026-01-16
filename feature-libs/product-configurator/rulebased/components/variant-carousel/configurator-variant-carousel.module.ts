@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,7 @@ import { ConfiguratorVariantCarouselComponent } from './configurator-variant-car
     I18nModule,
     CarouselModule,
     ProductCarouselModule,
+    ConfiguratorVariantCarouselComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -29,7 +30,6 @@ import { ConfiguratorVariantCarouselComponent } from './configurator-variant-car
       },
     }),
   ],
-  declarations: [ConfiguratorVariantCarouselComponent],
   exports: [ConfiguratorVariantCarouselComponent],
 })
 export class ConfiguratorVariantCarouselModule {}

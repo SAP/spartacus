@@ -1,29 +1,33 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
-  inject,
   Input,
   OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
-  Config,
-  FeatureConfigService,
-  Product,
-  WindowRef,
-} from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import { Config, Product, TranslatePipe, WindowRef } from '@spartacus/core';
+import {
+  ICON_TYPE,
+  IconComponent,
+  MediaComponent,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -39,7 +43,16 @@ const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
   selector: 'cx-quick-order-form',
   templateUrl: './quick-order-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    IconComponent,
+    NgFor,
+    MediaComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class QuickOrderFormComponent implements OnInit, OnDestroy {
   form: UntypedFormGroup;
@@ -52,7 +65,6 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   @ViewChild('quickOrderInput') quickOrderInput: ElementRef;
 
-  private featureConfigService = inject(FeatureConfigService);
   protected subscription = new Subscription();
   protected searchSubscription = new Subscription();
 
@@ -83,15 +95,10 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     if (this.isResultsBoxOpen()) {
       this.toggleBodyClass(SEARCH_BOX_ACTIVE_CLASS, false);
-      if (
-        this.featureConfigService.isEnabled(
-          'a11yQuickOrderSearchBoxRefocusOnClose'
-        )
-      ) {
-        requestAnimationFrame(() => {
-          this.quickOrderInput.nativeElement.focus();
-        });
-      }
+
+      requestAnimationFrame(() => {
+        this.quickOrderInput.nativeElement.focus();
+      });
     }
 
     const product = this.form.get('product')?.value;
@@ -154,15 +161,9 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
     // Focus on first index moving to last
     if (results.length) {
-      if (
-        this.featureConfigService.isEnabled(
-          'a11ySearchableDropdownFirstElementFocus'
-        )
-      ) {
-        this.winRef.document
-          .querySelector('main')
-          ?.classList.remove('mouse-focus');
-      }
+      this.winRef.document
+        .querySelector('main')
+        ?.classList.remove('mouse-focus');
       if (focusedIndex >= results.length - 1) {
         results[0].focus();
       } else {

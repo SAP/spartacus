@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,8 +12,14 @@ import { IconModule } from '@spartacus/storefront';
 import { CartItemValidationWarningComponent } from './cart-item-validation-warning.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, I18nModule, UrlModule, IconModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    I18nModule,
+    UrlModule,
+    IconModule,
+    CartItemValidationWarningComponent,
+  ],
   exports: [CartItemValidationWarningComponent],
-  declarations: [CartItemValidationWarningComponent],
 })
 export class CartItemValidationWarningModule {}

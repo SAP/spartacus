@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,13 @@ import { CheckoutStepsSetGuard } from '../../guards/checkout-steps-set.guard';
 import { CheckoutProgressMobileBottomComponent } from './checkout-progress-mobile-bottom.component';
 
 @NgModule({
-  imports: [CommonModule, UrlModule, I18nModule, RouterModule],
+  imports: [
+    CommonModule,
+    UrlModule,
+    I18nModule,
+    RouterModule,
+    CheckoutProgressMobileBottomComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -30,7 +36,6 @@ import { CheckoutProgressMobileBottomComponent } from './checkout-progress-mobil
       },
     }),
   ],
-  declarations: [CheckoutProgressMobileBottomComponent],
   exports: [CheckoutProgressMobileBottomComponent],
 })
 export class CheckoutProgressMobileBottomModule {}

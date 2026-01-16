@@ -6,8 +6,8 @@ import { BulkPrice } from '../../core/model/bulk-price.model';
 import { BulkPricingTableComponent } from './bulk-pricing-table.component';
 
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { BulkPricingService } from '../../core/services/bulk-pricing.service';
 import { Observable, of } from 'rxjs';
+import { BulkPricingService } from '../../core/services/bulk-pricing.service';
 
 const mockState = {
   state: {
@@ -102,8 +102,7 @@ describe('BulkPricingTableComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, I18nTestingModule],
-      declarations: [BulkPricingTableComponent],
+      imports: [CommonModule, I18nTestingModule, BulkPricingTableComponent],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: BulkPricingService, useClass: MockBulkPricingService },

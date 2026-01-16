@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,7 +20,6 @@ import { defaultCdcReconsentLayoutConfig } from './default-cdc-reconsent-layout.
 
 @NgModule({
   providers: [provideDefaultConfig(defaultCdcReconsentLayoutConfig)],
-  declarations: [CdcReconsentComponent],
   exports: [CdcReconsentComponent],
   imports: [
     CommonModule,
@@ -30,6 +29,7 @@ import { defaultCdcReconsentLayoutConfig } from './default-cdc-reconsent-layout.
     KeyboardFocusModule,
     ConsentManagementModule,
     BtnLikeLinkModule,
+    CdcReconsentComponent,
   ],
 })
 export class CdcReconsentModule {

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,9 +27,9 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 
+import { VerificationTokenFacade } from '@spartacus/user/account/root';
 import { RegisterVerificationTokenFormComponentService } from './verification-token-form-component.service';
 import { RegisterVerificationTokenFormComponent } from './verification-token-form.component';
-import { VerificationTokenFacade } from '@spartacus/user/account/root';
 
 @NgModule({
   imports: [
@@ -45,6 +45,7 @@ import { VerificationTokenFacade } from '@spartacus/user/account/root';
     SpinnerModule,
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
+    RegisterVerificationTokenFormComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -68,6 +69,5 @@ import { VerificationTokenFacade } from '@spartacus/user/account/root';
       },
     }),
   ],
-  declarations: [RegisterVerificationTokenFormComponent],
 })
 export class RegisterVerificationTokenFormModule {}

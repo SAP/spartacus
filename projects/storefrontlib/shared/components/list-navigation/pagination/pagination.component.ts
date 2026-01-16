@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,9 +13,10 @@ import {
   Output,
   inject,
 } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, RouterLink } from '@angular/router';
 import { PaginationModel, TranslationService } from '@spartacus/core';
 import { Observable, combineLatest, map, of } from 'rxjs';
+import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
 import { PaginationBuilder } from './pagination.builder';
 import { PaginationItem, PaginationItemType } from './pagination.model';
 
@@ -27,7 +29,7 @@ import { PaginationItem, PaginationItemType } from './pagination.model';
   selector: 'cx-pagination',
   templateUrl: './pagination.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgFor, RouterLink, FocusDirective, AsyncPipe],
 })
 export class PaginationComponent {
   /** The (optional) pageRoute used for the anchor links created in the pagination   */

@@ -2,11 +2,11 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule, WindowRef } from '@spartacus/core';
-import { FormConfig } from '../../../../shared/config/form-config';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon';
 import { IconTestingModule } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
-import { PasswordVisibilityToggleModule } from './password-visibility-toggle.module';
+import { FormConfig } from '../../../../shared/config/form-config';
 import { PasswordVisibilityToggleComponent } from './password-visibility-toggle.component';
+import { PasswordVisibilityToggleModule } from './password-visibility-toggle.module';
 
 const mockFormConfig: FormConfig = {
   form: {
@@ -32,8 +32,8 @@ describe('PasswordVisibilityToggleComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         PasswordVisibilityToggleModule,
+        PasswordVisibilityToggleComponent,
       ],
-      declarations: [PasswordVisibilityToggleComponent],
       providers: [
         {
           provide: FormConfig,

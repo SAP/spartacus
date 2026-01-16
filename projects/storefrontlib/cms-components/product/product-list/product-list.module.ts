@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -54,6 +54,11 @@ import { ProductViewComponent } from './product-view/product-view.component';
     UrlModule,
     FeaturesConfigModule,
     LcpContextDirectiveModule,
+    ProductListComponent,
+    ProductListItemComponent,
+    ProductGridItemComponent,
+    ProductViewComponent,
+    ProductScrollComponent,
   ],
   providers: [
     ProductListService,
@@ -86,13 +91,6 @@ import { ProductViewComponent } from './product-view/product-view.component';
         },
       },
     }),
-  ],
-  declarations: [
-    ProductListComponent,
-    ProductListItemComponent,
-    ProductGridItemComponent,
-    ProductViewComponent,
-    ProductScrollComponent,
   ],
   exports: [
     ProductListComponent,

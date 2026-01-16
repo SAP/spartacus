@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,7 +13,12 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { PunchoutFacade, PunchoutRequisition } from '@spartacus/punchout/root';
 import { filter, map, Observable, switchMap, take, tap, timer } from 'rxjs';
 
@@ -20,7 +26,7 @@ import { filter, map, Observable, switchMap, take, tap, timer } from 'rxjs';
   selector: 'cx-punchout-requsition',
   templateUrl: './punchout-requisition.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, FormsModule, ReactiveFormsModule, AsyncPipe],
 })
 export class PunchoutRequisitionComponent implements OnInit {
   protected punchoutFacade = inject(PunchoutFacade);

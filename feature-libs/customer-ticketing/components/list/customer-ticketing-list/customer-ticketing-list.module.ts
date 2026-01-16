@@ -1,17 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  CardModule,
-  IconModule,
-  ListNavigationModule,
-  SpinnerModule,
-} from '@spartacus/storefront';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
@@ -20,8 +14,14 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
+import {
+  CardModule,
+  IconModule,
+  ListNavigationModule,
+  SpinnerModule,
+} from '@spartacus/storefront';
 import { CustomerTicketingCreateModule } from '../customer-ticketing-create/customer-ticketing-create.module';
+import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
 
 @NgModule({
   imports: [
@@ -34,6 +34,7 @@ import { CustomerTicketingCreateModule } from '../customer-ticketing-create/cust
     ListNavigationModule,
     RouterModule,
     SpinnerModule,
+    CustomerTicketingListComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -45,7 +46,6 @@ import { CustomerTicketingCreateModule } from '../customer-ticketing-create/cust
       },
     }),
   ],
-  declarations: [CustomerTicketingListComponent],
   exports: [CustomerTicketingListComponent],
 })
 export class CustomerTicketingListModule {}

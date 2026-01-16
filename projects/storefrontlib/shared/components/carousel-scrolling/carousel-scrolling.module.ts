@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,8 +22,8 @@ import { CarouselScrollingComponent } from './carousel-scrolling.component';
     UrlModule,
     I18nModule,
     HorizontalScrollingPositionDirectiveModule,
+    CarouselScrollingComponent,
   ],
-  declarations: [CarouselScrollingComponent],
   exports: [CarouselScrollingComponent],
 })
 export class CarouselScrollingModule {}

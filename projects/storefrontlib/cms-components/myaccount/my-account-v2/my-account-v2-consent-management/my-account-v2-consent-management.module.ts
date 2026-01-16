@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,12 +23,10 @@ import { MyAccountV2ConsentManagementComponent } from './components/my-account-v
     I18nModule,
     IconModule,
     FeaturesConfigModule,
-  ],
-  providers: [ConsentManagementComponentService],
-  declarations: [
     MyAccountV2ConsentManagementComponent,
     MyAccountV2ConsentManagementFormComponent,
   ],
+  providers: [ConsentManagementComponentService],
   exports: [
     MyAccountV2ConsentManagementComponent,
     MyAccountV2ConsentManagementFormComponent,

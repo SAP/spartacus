@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -19,10 +20,12 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { WindowRef } from '@spartacus/core';
+import { TranslatePipe, WindowRef } from '@spartacus/core';
 import { Subject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
+import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { PositioningService } from '../../services/positioning/positioning.service';
 import { PopoverEvent, PopoverPosition } from './popover.model';
@@ -31,7 +34,13 @@ import { PopoverEvent, PopoverPosition } from './popover.model';
   selector: 'cx-popover',
   templateUrl: './popover.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FocusDirective,
+    NgIf,
+    IconComponent,
+    NgTemplateOutlet,
+    TranslatePipe,
+  ],
 })
 export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   /**

@@ -1,14 +1,24 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { Cart } from '@spartacus/cart/base/root';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { normalizeEmpty } from '@spartacus/core';
-import { OpfCheckoutPaymentAndReviewComponent } from '@spartacus/opf/checkout/components';
+import { normalizeEmpty, TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  OpfCheckoutBillingAddressFormComponent,
+  OpfCheckoutPaymentAndReviewComponent,
+  OpfCheckoutPaymentsComponent,
+  OpfCheckoutReviewCardComponent,
+  OpfCheckoutReviewCartDetailsComponent,
+  OpfCheckoutTermsAndConditionsAlertComponent,
+} from '@spartacus/opf/checkout/components';
 import { Card } from '@spartacus/storefront';
 import { combineLatest, filter, map, Observable, take } from 'rxjs';
 
@@ -16,7 +26,21 @@ import { combineLatest, filter, map, Observable, take } from 'rxjs';
   selector: 'cx-opf-b2b-checkout-payment-and-review',
   templateUrl: './opf-b2b-checkout-payment-and-review.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    OpfCheckoutReviewCardComponent,
+    OpfCheckoutTermsAndConditionsAlertComponent,
+    NgClass,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink,
+    OpfCheckoutBillingAddressFormComponent,
+    OpfCheckoutPaymentsComponent,
+    OpfCheckoutReviewCartDetailsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+  ],
 })
 export class OpfB2bCheckoutPaymentAndReviewComponent
   extends OpfCheckoutPaymentAndReviewComponent

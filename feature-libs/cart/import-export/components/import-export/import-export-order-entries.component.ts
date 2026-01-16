@@ -1,23 +1,31 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  OrderEntriesContext,
   ORDER_ENTRIES_CONTEXT,
+  OrderEntriesContext,
 } from '@spartacus/cart/base/root';
 import { ContextService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { ExportOrderEntriesComponent } from '../export-entries/export-order-entries.component';
+import { ImportOrderEntriesComponent } from '../import-to-cart/import-entries/import-order-entries.component';
 
 @Component({
   selector: 'cx-import-export-order-entries',
   templateUrl: './import-export-order-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    ImportOrderEntriesComponent,
+    ExportOrderEntriesComponent,
+    AsyncPipe,
+  ],
 })
 export class ImportExportOrderEntriesComponent {
   constructor(protected contextService: ContextService) {}

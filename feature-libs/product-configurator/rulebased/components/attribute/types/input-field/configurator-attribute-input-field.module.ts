@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,7 @@ import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribu
     ReactiveFormsModule,
     CommonModule,
     I18nModule,
+    ConfiguratorAttributeInputFieldComponent,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
@@ -30,7 +31,6 @@ import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribu
       },
     }),
   ],
-  declarations: [ConfiguratorAttributeInputFieldComponent],
   exports: [ConfiguratorAttributeInputFieldComponent],
 })
 export class ConfiguratorAttributeInputFieldModule {}

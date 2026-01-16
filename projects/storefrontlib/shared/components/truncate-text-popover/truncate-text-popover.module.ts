@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,8 +12,13 @@ import { TruncateTextPopoverComponent } from './truncate-text-popover.component'
 import { TruncatePipe } from './truncate.pipe';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, PopoverModule],
-  declarations: [TruncateTextPopoverComponent, TruncatePipe],
+  imports: [
+    CommonModule,
+    I18nModule,
+    PopoverModule,
+    TruncateTextPopoverComponent,
+    TruncatePipe,
+  ],
   exports: [TruncateTextPopoverComponent, TruncatePipe],
 })
 export class TruncateTextPopoverModule {}

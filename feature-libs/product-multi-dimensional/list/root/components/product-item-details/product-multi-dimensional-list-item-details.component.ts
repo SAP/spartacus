@@ -1,19 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Product, TranslatePipe } from '@spartacus/core';
+import {
+  ProductListItemContext,
+  StarRatingComponent,
+} from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
-import { Product } from '@spartacus/core';
-import { ProductListItemContext } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-product-multi-dimensional-list-item-details',
   templateUrl: './product-multi-dimensional-list-item-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, StarRatingComponent, TranslatePipe, AsyncPipe],
 })
 export class ProductMultiDimensionalListItemDetailsComponent {
   productListItemContext?: ProductListItemContext = inject(

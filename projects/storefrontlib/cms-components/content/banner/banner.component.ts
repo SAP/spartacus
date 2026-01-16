@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
   CmsBannerComponent,
@@ -16,12 +17,21 @@ import {
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
+import { MediaComponent } from '../../../shared/components/media/media.component';
+import { LcpContextDirective } from '../../../shared/lcp-context/lcp-context.directive';
 
 @Component({
   selector: 'cx-banner',
   templateUrl: './banner.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    LcpContextDirective,
+    NgIf,
+    GenericLinkComponent,
+    MediaComponent,
+    AsyncPipe,
+  ],
 })
 export class BannerComponent {
   routerLink: string | any[] | undefined;

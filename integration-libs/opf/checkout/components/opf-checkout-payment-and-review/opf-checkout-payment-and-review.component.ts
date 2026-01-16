@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,27 +12,51 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import { CmsService, Page } from '@spartacus/core';
+import { CmsService, Page, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   OpfBaseFacade,
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
 import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
-import { Observable, take, map, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map, Observable, take } from 'rxjs';
+import { OpfCheckoutBillingAddressFormComponent } from '../opf-checkout-billing-address-form/opf-checkout-billing-address-form.component';
+import { OpfCheckoutPaymentsComponent } from '../opf-checkout-payments/opf-checkout-payments.component';
+import {
+  OpfCheckoutReviewCartDetailsComponent,
+  OpfCheckoutReviewCartDetailsModule,
+} from '../opf-checkout-review-cart-details';
+import { OpfCheckoutTermsAndConditionsAlertComponent } from '../opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.component';
 
 @Component({
   selector: 'cx-opf-checkout-payment-and-review',
   templateUrl: './opf-checkout-payment-and-review.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    OpfCheckoutReviewCartDetailsModule,
+    OpfCheckoutTermsAndConditionsAlertComponent,
+    NgClass,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink,
+    OpfCheckoutBillingAddressFormComponent,
+    OpfCheckoutPaymentsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    OpfCheckoutReviewCartDetailsComponent,
+  ],
 })
 export class OpfCheckoutPaymentAndReviewComponent
   extends CheckoutReviewSubmitComponent

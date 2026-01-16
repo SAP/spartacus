@@ -1,21 +1,37 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   Input,
 } from '@angular/core';
-import { EntitiesModel, PaginationModel, Translatable } from '@spartacus/core';
+import { FormsModule } from '@angular/forms';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
+import {
+  EntitiesModel,
+  PaginationModel,
+  Translatable,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   ICON_TYPE,
+  IconComponent,
+  PaginationComponent,
+  PopoverDirective,
+  SplitViewComponent,
   Table,
+  TableComponent,
   TableStructure,
   TrapFocus,
+  ViewComponent,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -27,7 +43,25 @@ import { CreateButtonType, ListService } from './list.service';
   selector: 'cx-org-list',
   templateUrl: './list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    SplitViewComponent,
+    NgIf,
+    ViewComponent,
+    PopoverDirective,
+    IconComponent,
+    NgSelectComponent,
+    FormsModule,
+    NgFor,
+    NgOptionComponent,
+    RouterLinkActive,
+    RouterLink,
+    TableComponent,
+    PaginationComponent,
+    RouterOutlet,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class ListComponent<T = any, P = PaginationModel> {
   readonly trapFocus = TrapFocus;

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,6 +25,7 @@ import { BannerComponent } from './banner.component';
     MediaModule,
     FeaturesConfigModule,
     LcpContextDirectiveModule,
+    BannerComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -41,7 +42,6 @@ import { BannerComponent } from './banner.component';
       },
     }),
   ],
-  declarations: [BannerComponent],
   exports: [BannerComponent],
 })
 export class BannerModule {}

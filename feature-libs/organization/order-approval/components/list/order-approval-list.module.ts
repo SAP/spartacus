@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,8 +35,8 @@ import { OrderApprovalListComponent } from './order-approval-list.component';
     ListNavigationModule,
     I18nModule,
     FeaturesConfigModule,
+    OrderApprovalListComponent,
   ],
-  declarations: [OrderApprovalListComponent],
   exports: [OrderApprovalListComponent],
 })
 export class OrderApprovalListModule {}

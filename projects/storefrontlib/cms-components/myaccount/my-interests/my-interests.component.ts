@@ -1,16 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
+  CxDatePipe,
   GlobalMessageService,
   GlobalMessageType,
   PaginationModel,
@@ -19,11 +22,18 @@ import {
   ProductInterestSearchResult,
   ProductScope,
   ProductService,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
   UserInterestsService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { AtMessageDirective } from '../../../shared/components/assistive-technology-message/assistive-technology-message.directive';
+import { PaginationComponent } from '../../../shared/components/list-navigation/pagination/pagination.component';
+import { SortingComponent } from '../../../shared/components/list-navigation/sorting/sorting.component';
+import { MediaComponent } from '../../../shared/components/media/media.component';
+import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
 
 interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   results?: (ProductInterestEntryRelation & {
@@ -35,7 +45,22 @@ interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   selector: 'cx-my-interests',
   templateUrl: './my-interests.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    SortingComponent,
+    PaginationComponent,
+    NgFor,
+    RouterLink,
+    MediaComponent,
+    AtMessageDirective,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    UrlPipe,
+
+    CxDatePipe,
+  ],
 })
 export class MyInterestsComponent implements OnInit, OnDestroy {
   private DEFAULT_PAGE_SIZE = 10;

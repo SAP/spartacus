@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,9 +13,8 @@ import { PickupInfoModule } from '../../presentational/index';
 import { PickupInfoContainerComponent } from './pickup-info-container.component';
 
 @NgModule({
-  imports: [CommonModule, PickupInfoModule],
+  imports: [CommonModule, PickupInfoModule, PickupInfoContainerComponent],
   exports: [PickupInfoContainerComponent],
-  declarations: [PickupInfoContainerComponent],
   providers: [
     provideOutlet({
       id: CartOutlets.PICKUP_INFO,

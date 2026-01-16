@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,8 +21,9 @@ import { FocusableCarouselItemDirective } from './focusable-carousel-item/focusa
     MediaModule,
     UrlModule,
     I18nModule,
+    CarouselComponent,
+    FocusableCarouselItemDirective,
   ],
-  declarations: [CarouselComponent, FocusableCarouselItemDirective],
   exports: [CarouselComponent, FocusableCarouselItemDirective],
 })
 export class CarouselModule {}

@@ -1,18 +1,31 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { B2BUser, B2BUserRole, B2BUserRight } from '@spartacus/core';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import {
+  B2BUser,
+  B2BUserRight,
+  B2BUserRole,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   B2BUserService,
   LoadStatus,
 } from '@spartacus/organization/administration/core';
+import { FocusDirective } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
+import { CardComponent } from '../../../../shared/card/card.component';
 import { ItemService } from '../../../../shared/item.service';
 import { MessageService } from '../../../../shared/message/services/message.service';
 import { UserItemService } from '../../../../user/services/user-item.service';
@@ -30,7 +43,17 @@ import { UnitUserRolesItemService } from './unit-user-roles-item.service';
       useExisting: UnitUserRolesItemService,
     },
   ],
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    CardComponent,
+    FocusDirective,
+    RouterLink,
+    ReactiveFormsModule,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class UnitUserRolesFormComponent {
   protected item: B2BUser | undefined;

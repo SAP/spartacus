@@ -1,15 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
-import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
+import {
+  ConfiguratorAttributeProductCardComponent,
+  ConfiguratorAttributeProductCardComponentOptions,
+} from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
 
 interface SelectionValue {
@@ -23,7 +31,14 @@ interface SelectionValue {
   selector: 'cx-configurator-attribute-multi-selection-bundle',
   templateUrl: './configurator-attribute-multi-selection-bundle.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    ConfiguratorAttributeQuantityComponent,
+    ConfiguratorPriceComponent,
+    NgFor,
+    ConfiguratorAttributeProductCardComponent,
+    AsyncPipe,
+  ],
 })
 export class ConfiguratorAttributeMultiSelectionBundleComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent

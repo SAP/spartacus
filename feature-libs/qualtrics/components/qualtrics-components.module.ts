@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,11 @@ import { defaultQualtricsConfig } from './qualtrics-loader/config/default-qualtr
 import { QualtricsComponent } from './qualtrics-loader/qualtrics.component';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    QualtricsComponent,
+    QualtricsEmbeddedFeedbackComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -26,7 +30,6 @@ import { QualtricsComponent } from './qualtrics-loader/qualtrics.component';
     }),
     provideDefaultConfig(defaultQualtricsConfig),
   ],
-  declarations: [QualtricsComponent, QualtricsEmbeddedFeedbackComponent],
   exports: [QualtricsComponent, QualtricsEmbeddedFeedbackComponent],
 })
 export class QualtricsComponentsModule {}

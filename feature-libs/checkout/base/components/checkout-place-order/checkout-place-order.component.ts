@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,24 +15,47 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import {
   CurrencyService,
   LanguageService,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import {
+  AtMessageDirective,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { combineLatest, map, Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-place-order',
   templateUrl: './checkout-place-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FormRequiredLegendComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    AtMessageDirective,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class CheckoutPlaceOrderComponent implements OnDestroy, OnInit {
   placedOrder: void | Observable<ComponentRef<any> | undefined>;

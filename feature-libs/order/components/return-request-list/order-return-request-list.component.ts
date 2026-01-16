@@ -1,15 +1,24 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { isNotUndefined, TranslationService } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import {
+  CxDatePipe,
+  isNotUndefined,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   OrderReturnRequestFacade,
   ReturnRequestList,
 } from '@spartacus/order/root';
+import { PaginationComponent, SortingComponent } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 
@@ -17,7 +26,17 @@ import { filter, map, take, tap } from 'rxjs/operators';
   selector: 'cx-order-return-request-list',
   templateUrl: './order-return-request-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    SortingComponent,
+    PaginationComponent,
+    NgFor,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    CxDatePipe,
+  ],
 })
 export class OrderReturnRequestListComponent implements OnDestroy {
   constructor(

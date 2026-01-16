@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,6 +34,8 @@ import { CloseAccountComponent } from './components/close-account/close-account.
     SpinnerModule,
     KeyboardFocusModule,
     BtnLikeLinkModule,
+    CloseAccountComponent,
+    CloseAccountModalComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -46,6 +48,5 @@ import { CloseAccountComponent } from './components/close-account/close-account.
     }),
     provideDefaultConfig(defaultCloseDialogModalLayoutConfig),
   ],
-  declarations: [CloseAccountComponent, CloseAccountModalComponent],
 })
 export class CloseAccountModule {}

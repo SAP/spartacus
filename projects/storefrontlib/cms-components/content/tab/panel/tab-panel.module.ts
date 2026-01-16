@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,9 +7,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
-import { KeyboardFocusModule } from '../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { OutletModule } from '../../../../cms-structure/outlet/outlet.module';
 import { PageComponentModule } from '../../../../cms-structure/page/component/page-component.module';
+import { KeyboardFocusModule } from '../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { TabPanelComponent } from './tab-panel.component';
 
 @NgModule({
@@ -19,8 +19,8 @@ import { TabPanelComponent } from './tab-panel.component';
     OutletModule,
     I18nModule,
     KeyboardFocusModule,
+    TabPanelComponent,
   ],
-  declarations: [TabPanelComponent],
   exports: [TabPanelComponent],
 })
 export class TabPanelModule {}

@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,7 +13,7 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
+import { TranslatePipe, TranslationService } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
@@ -22,8 +23,10 @@ import {
   BreakpointService,
   DirectionMode,
   DirectionService,
+  FocusDirective,
   HamburgerMenuService,
   ICON_TYPE,
+  IconComponent,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
@@ -38,7 +41,15 @@ import { ConfiguratorGroupMenuService } from './configurator-group-menu.componen
   selector: 'cx-configurator-group-menu',
   templateUrl: './configurator-group-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    FocusDirective,
+    IconComponent,
+    NgClass,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ConfiguratorGroupMenuComponent {
   @ViewChildren('groupItem') groups: QueryList<ElementRef<HTMLElement>>;

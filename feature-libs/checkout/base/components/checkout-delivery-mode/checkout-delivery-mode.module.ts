@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,6 +31,7 @@ import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.componen
     OutletModule,
     PageComponentModule,
     FeaturesConfigModule,
+    CheckoutDeliveryModeComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -47,7 +48,6 @@ import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.componen
       },
     }),
   ],
-  declarations: [CheckoutDeliveryModeComponent],
   exports: [CheckoutDeliveryModeComponent],
 })
 export class CheckoutDeliveryModeModule {}

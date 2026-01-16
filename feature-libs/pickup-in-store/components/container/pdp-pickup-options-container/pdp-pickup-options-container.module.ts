@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,9 +13,12 @@ import { PickupOptionsModule } from '../../presentational/index';
 import { PdpPickupOptionsContainerComponent } from './pdp-pickup-options-container.component';
 
 @NgModule({
-  imports: [CommonModule, PickupOptionsModule],
+  imports: [
+    CommonModule,
+    PickupOptionsModule,
+    PdpPickupOptionsContainerComponent,
+  ],
   exports: [PdpPickupOptionsContainerComponent],
-  declarations: [PdpPickupOptionsContainerComponent],
   providers: [
     provideOutlet({
       id: CartOutlets.ADD_TO_CART_PICKUP_OPTION,

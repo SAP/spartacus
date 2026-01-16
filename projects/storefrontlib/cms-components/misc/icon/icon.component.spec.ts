@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
@@ -15,7 +15,7 @@ import { IconModule } from './icon.module';
     <div cxIcon type="CART"></div>
     <p class="original" cxIcon="CART"></p>
   `,
-  standalone: false,
+  imports: [IconModule],
 })
 class MockIconTestComponent {}
 
@@ -40,8 +40,7 @@ describe('IconComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [IconComponent],
+      imports: [IconComponent],
       providers: [
         { provide: IconLoaderService, useClass: MockIconLoaderService },
       ],
@@ -185,8 +184,7 @@ describe('host icon components', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [IconModule],
-      declarations: [MockIconTestComponent],
+      imports: [IconModule, MockIconTestComponent],
       providers: [
         { provide: IconLoaderService, useClass: MockIconLoaderService },
       ],

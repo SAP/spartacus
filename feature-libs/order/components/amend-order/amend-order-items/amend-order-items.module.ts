@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,10 +22,9 @@ import { CancelOrReturnItemsComponent } from './amend-order-items.component';
     I18nModule,
     MediaModule,
     ItemCounterModule,
-
     FormErrorsModule,
+    CancelOrReturnItemsComponent,
   ],
-  declarations: [CancelOrReturnItemsComponent],
   exports: [CancelOrReturnItemsComponent],
 })
 export class AmendOrderItemsModule {}

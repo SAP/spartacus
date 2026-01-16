@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,10 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Translatable, isTranslatable } from '../translatable';
 import { mockTranslate } from './mock-translate';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 export class MockTranslatePipe implements PipeTransform {
   transform(
     input: Translatable | string | string[],

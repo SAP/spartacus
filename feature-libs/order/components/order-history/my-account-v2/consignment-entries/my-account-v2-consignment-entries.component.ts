@@ -1,17 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { NgFor, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { CxDatePipe, TranslatePipe } from '@spartacus/core';
 import { ConsignmentView } from '@spartacus/order/root';
 
 @Component({
   selector: 'cx-my-account-v2-consignment-entries',
   templateUrl: './my-account-v2-consignment-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgFor, NgIf, TranslatePipe, CxDatePipe],
 })
 export class MyAccountV2ConsignmentEntriesComponent {
   @Input()

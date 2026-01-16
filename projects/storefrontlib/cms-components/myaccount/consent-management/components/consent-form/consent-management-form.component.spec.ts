@@ -1,20 +1,13 @@
 import { DebugElement } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
-  FeatureConfigService,
   I18nTestingModule,
 } from '@spartacus/core';
-import { ConsentManagementFormComponent } from './consent-management-form.component';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-
-class MockFeatureConfigService {
-  isEnabled(): boolean {
-    return true;
-  }
-}
+import { ConsentManagementFormComponent } from './consent-management-form.component';
 
 describe('ConsentManagementFormComponent', () => {
   let component: ConsentManagementFormComponent;
@@ -23,10 +16,10 @@ describe('ConsentManagementFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ConsentManagementFormComponent, MockFeatureDirective],
-      providers: [
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+      imports: [
+        I18nTestingModule,
+        ConsentManagementFormComponent,
+        MockFeatureDirective,
       ],
     }).compileComponents();
   }));
