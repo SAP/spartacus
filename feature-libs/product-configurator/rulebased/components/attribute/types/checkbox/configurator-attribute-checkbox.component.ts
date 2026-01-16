@@ -4,10 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
+import { FocusDirective } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
+import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
@@ -17,7 +25,15 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   templateUrl: './configurator-attribute-checkbox.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ConfiguratorAttributePriceChangeService],
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    FocusDirective,
+    ReactiveFormsModule,
+    ConfiguratorShowMoreComponent,
+    ConfiguratorPriceComponent,
+    AsyncPipe,
+  ],
 })
 export class ConfiguratorAttributeCheckBoxComponent
   extends ConfiguratorAttributeBaseComponent

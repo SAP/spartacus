@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   Input,
 } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import {
   PunchoutFacade,
   PunchoutUiRestrictionService,
@@ -20,7 +22,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-punchout-buttons',
   templateUrl: './punchout-buttons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class PunchoutButtonsComponent {
   @Input() removeCancelButton = false;

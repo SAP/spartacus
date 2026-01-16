@@ -5,6 +5,8 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
@@ -13,7 +15,7 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
   selector: 'cx-configurator-textfield-add-to-cart-button',
   templateUrl: './configurator-textfield-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [RouterLink, TranslatePipe, UrlPipe],
 })
 export class ConfiguratorTextfieldAddToCartButtonComponent {
   @Input() configuration: ConfiguratorTextfield.Configuration;

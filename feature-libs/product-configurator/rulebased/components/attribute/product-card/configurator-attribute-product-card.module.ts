@@ -20,7 +20,6 @@ import { ConfiguratorAttributeQuantityModule } from '../quantity/configurator-at
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
 
 @NgModule({
-  declarations: [ConfiguratorAttributeProductCardComponent],
   exports: [ConfiguratorAttributeProductCardComponent],
   imports: [
     CommonModule,
@@ -35,6 +34,7 @@ import { ConfiguratorAttributeProductCardComponent } from './configurator-attrib
     ConfiguratorPriceModule,
     KeyboardFocusModule,
     IconModule,
+    ConfiguratorAttributeProductCardComponent,
   ],
 })
 export class ConfiguratorAttributeProductCardModule {}

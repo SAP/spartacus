@@ -20,8 +20,9 @@ import { PopoverDirective } from './popover.directive';
     KeyboardFocusModule,
     IconModule,
     I18nModule,
+    PopoverDirective,
+    PopoverComponent,
   ],
-  declarations: [PopoverDirective, PopoverComponent],
   exports: [PopoverDirective, PopoverComponent],
 })
 export class PopoverModule {}

@@ -68,10 +68,7 @@ class MockFormComponentService
   );
   displayMessage = createSpy('displayMessage').and.stub();
 }
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -113,8 +110,9 @@ describe('RegistrationVerificationTokenFormComponent', () => {
         I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
+        RegistrationVerificationTokenFormComponent,
+        MockUrlPipe,
       ],
-      declarations: [RegistrationVerificationTokenFormComponent, MockUrlPipe],
       providers: [
         {
           provide: RegistrationVerificationTokenFormComponentService,

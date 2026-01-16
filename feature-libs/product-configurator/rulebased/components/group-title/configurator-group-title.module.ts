@@ -7,11 +7,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
 import { HamburgerMenuModule } from '@spartacus/storefront';
+import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
 
 @NgModule({
-  imports: [CommonModule, HamburgerMenuModule],
+  imports: [CommonModule, HamburgerMenuModule, ConfiguratorGroupTitleComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -21,7 +21,6 @@ import { HamburgerMenuModule } from '@spartacus/storefront';
       },
     }),
   ],
-  declarations: [ConfiguratorGroupTitleComponent],
   exports: [ConfiguratorGroupTitleComponent],
 })
 export class ConfiguratorGroupTitleModule {}

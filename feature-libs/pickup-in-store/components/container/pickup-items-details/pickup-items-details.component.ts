@@ -4,24 +4,45 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   OnInit,
 } from '@angular/core';
-import { CmsPickupItemDetails } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { CmsPickupItemDetails, TranslatePipe, UrlPipe } from '@spartacus/core';
 import { DeliveryPointOfService } from '@spartacus/pickup-in-store/root';
-import { CmsComponentData, ICON_TYPE } from '@spartacus/storefront';
+import {
+  CmsComponentData,
+  ICON_TYPE,
+  IconComponent,
+  MediaComponent,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
+import { StoreAddressComponent } from '../../presentational/store/store-address/store-address.component';
+import { StoreScheduleComponent } from '../../presentational/store/store-schedule/store-schedule.component';
 import { DeliveryPointsService } from '../../services/delivery-points.service';
 
 @Component({
   selector: 'cx-pick-up-in-store-items-details',
   templateUrl: './pickup-items-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgClass,
+    NgIf,
+    NgFor,
+    StoreAddressComponent,
+    StoreScheduleComponent,
+    RouterLink,
+    IconComponent,
+    MediaComponent,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+  ],
 })
 export class PickUpItemsDetailsComponent implements OnInit {
   @Input() showEdit: boolean;

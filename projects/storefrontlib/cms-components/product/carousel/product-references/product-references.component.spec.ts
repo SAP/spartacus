@@ -1,3 +1,4 @@
+import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   Input,
@@ -7,15 +8,24 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CmsProductReferencesComponent,
   FeatureConfigService,
   FeaturesConfigModule,
   FeatureToggles,
+  MockTranslatePipe,
   Product,
   ProductReference,
   ProductReferenceService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
+import {
+  CarouselComponent,
+  CarouselScrollingComponent,
+} from '@spartacus/storefront';
+import { MediaComponent } from 'projects/storefrontlib/shared/components/media/media.component';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { CurrentProductService } from '../../current-product.service';
@@ -31,7 +41,7 @@ import { ProductReferencesComponent } from './product-references.component';
       ></ng-container>
     </ng-container>
   `,
-  standalone: false,
+  imports: [FeaturesConfigModule, NgTemplateOutlet, NgFor, AsyncPipe],
 })
 class MockCarouselComponent {
   @Input() title: string;
@@ -49,7 +59,7 @@ class MockCarouselComponent {
       ></ng-container>
     </ng-container>
   `,
-  standalone: false,
+  imports: [FeaturesConfigModule, NgTemplateOutlet, AsyncPipe, NgFor],
 })
 class MockCarouselScrollingComponent {
   @Input() title: string;
@@ -57,10 +67,7 @@ class MockCarouselScrollingComponent {
   @Input() items: any[];
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -68,7 +75,7 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-media',
   template: '',
-  standalone: false,
+  imports: [FeaturesConfigModule],
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -139,7 +146,7 @@ class MockProductReferenceService {
 
   cleanReferences(): void {}
 }
-
+RouterModule.forRoot([]);
 let mockFeatureToggles: FeatureToggles;
 
 class MockFeatureConfigService {
@@ -164,14 +171,7 @@ describe('ProductReferencesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [FeaturesConfigModule],
-      declarations: [
-        ProductReferencesComponent,
-        MockCarouselComponent,
-        MockCarouselScrollingComponent,
-        MockMediaComponent,
-        MockUrlPipe,
-      ],
+      imports: [FeaturesConfigModule, RouterModule.forRoot([])],
       providers: [
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
@@ -187,7 +187,28 @@ describe('ProductReferencesComponent', () => {
           useClass: MockProductReferenceService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductReferencesComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            UrlPipe,
+            MediaComponent,
+            CarouselScrollingComponent,
+            CarouselComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockUrlPipe,
+            MockMediaComponent,
+            MockCarouselScrollingComponent,
+            MockCarouselComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(waitForAsync(() => {

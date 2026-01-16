@@ -25,8 +25,8 @@ import { FormComponent } from './form.component';
     MessageModule,
     ItemActiveModule,
     KeyboardFocusModule,
+    FormComponent,
   ],
-  declarations: [FormComponent],
   exports: [FormComponent],
 })
 export class FormModule {}

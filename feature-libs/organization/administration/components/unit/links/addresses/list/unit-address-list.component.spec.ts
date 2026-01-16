@@ -1,6 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import { SubListComponent } from '@spartacus/organization/administration/components';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { SubListTestingModule } from '../../../../shared/sub-list/sub-list.testing.module';
 import { UnitAddressListComponent } from './unit-address-list.component';
 import { UnitAddressListService } from './unit-address-list.service';
@@ -13,15 +22,32 @@ describe('UnitAddressListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SubListTestingModule, UrlTestingModule, I18nTestingModule],
+      imports: [
+        UnitAddressListComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         {
           provide: UnitAddressListService,
           useClass: MockUnitAddressListService,
         },
       ],
-      declarations: [UnitAddressListComponent],
-    }).compileComponents();
+    })
+      .overrideComponent(UnitAddressListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SubListComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            SubListTestingModule,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(UnitAddressListComponent);
     component = fixture.componentInstance;

@@ -7,21 +7,30 @@ import {
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
+  CxDatePipe,
   FeaturesConfig,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Product,
   Translatable,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   CmsComponentData,
   MessageComponentModule,
+  ProgressButtonComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsQuickOrderComponent } from '../../core/models/cms.model';
 import { QuickOrderStatePersistenceService } from '../../core/services/quick-order-state-persistance.service';
+import {
+  QuickOrderFormComponent,
+  QuickOrderTableComponent,
+} from '../public_api';
 import { QuickOrderComponent } from './quick-order.component';
 
 const mockProduct: Product = {
@@ -128,7 +137,7 @@ const MockCmsComponentData = <CmsComponentData<any>>{
 @Component({
   template: '',
   selector: 'cx-quick-order-form',
-  standalone: false,
+  imports: [I18nTestingModule, MessageComponentModule],
 })
 class MockQuickOrderFormComponent {
   @Input() isLoading: boolean;
@@ -138,7 +147,7 @@ class MockQuickOrderFormComponent {
 @Component({
   template: '',
   selector: 'cx-quick-order-table',
-  standalone: false,
+  imports: [I18nTestingModule, MessageComponentModule],
 })
 class MockQuickOrderTableComponent {
   @Input() entries: OrderEntry[];
@@ -148,7 +157,7 @@ class MockQuickOrderTableComponent {
 @Component({
   template: '',
   selector: 'cx-progress-button',
-  standalone: false,
+  imports: [I18nTestingModule, MessageComponentModule],
 })
 class MockProgressButtonComponent {
   @Input() loading: boolean;
@@ -164,13 +173,7 @@ describe('QuickOrderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, MessageComponentModule],
-      declarations: [
-        QuickOrderComponent,
-        MockQuickOrderFormComponent,
-        MockQuickOrderTableComponent,
-        MockProgressButtonComponent,
-      ],
+      imports: [MessageComponentModule, QuickOrderComponent],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
@@ -190,7 +193,28 @@ describe('QuickOrderComponent', () => {
           },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(QuickOrderComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            QuickOrderFormComponent,
+            QuickOrderTableComponent,
+            ProgressButtonComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockQuickOrderFormComponent,
+            MockQuickOrderTableComponent,
+            MockProgressButtonComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     quickOrderService = TestBed.inject(QuickOrderFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);

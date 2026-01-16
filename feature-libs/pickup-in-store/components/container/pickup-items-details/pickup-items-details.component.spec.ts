@@ -26,7 +26,6 @@ describe('Order - PickUpItemsDetailsComponent', () => {
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PickUpItemsDetailsComponent],
       imports: [
         CommonModule,
         I18nModule,
@@ -36,6 +35,7 @@ describe('Order - PickUpItemsDetailsComponent', () => {
         StoreModule,
         CardModule,
         MediaModule,
+        PickUpItemsDetailsComponent,
       ],
       providers: [
         {
@@ -69,7 +69,6 @@ describe('Delivery Mode - PickUpItemsDetailsComponent', () => {
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PickUpItemsDetailsComponent],
       imports: [
         CommonModule,
         I18nModule,
@@ -79,6 +78,7 @@ describe('Delivery Mode - PickUpItemsDetailsComponent', () => {
         StoreModule,
         CardModule,
         MediaModule,
+        PickUpItemsDetailsComponent,
       ],
       providers: [
         {

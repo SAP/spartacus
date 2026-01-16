@@ -61,11 +61,10 @@ describe('OrderDetailTotalsComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [OutletModule],
+      imports: [OutletModule, OrderDetailTotalsComponent],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
       ],
-      declarations: [OrderDetailTotalsComponent],
     }).compileComponents();
   }));
 

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -17,6 +18,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import {
@@ -28,8 +30,10 @@ import {
 } from '@spartacus/product-configurator/common';
 import {
   ICON_TYPE,
+  IconComponent,
   IntersectionOptions,
   IntersectionService,
+  ItemCounterComponent,
   KeyboardFocusService,
 } from '@spartacus/storefront';
 import { Observable, Subscription, of } from 'rxjs';
@@ -54,7 +58,13 @@ const CX_SELECTOR = 'cx-configurator-add-to-cart-button';
   selector: CX_SELECTOR,
   templateUrl: './configurator-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    ItemCounterComponent,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

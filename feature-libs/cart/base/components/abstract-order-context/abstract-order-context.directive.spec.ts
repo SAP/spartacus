@@ -1,28 +1,18 @@
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { tap } from 'rxjs/operators';
 import { AbstractOrderType } from '../../root/models/cart.model';
-import { AbstractOrderKeyInput } from './abstract-order-context.directive';
+import {
+  AbstractOrderContextDirective,
+  AbstractOrderKeyInput,
+} from './abstract-order-context.directive';
 import { AbstractOrderContext } from './abstract-order-context.model';
 import { AbstractOrderContextModule } from './abstract-order-context.module';
 
 const abstractOrderId = '129374';
 
 let emissionCounterKey = 0;
-
-@Component({
-  selector: 'cx-test-cmp',
-  template: ` <span [cxAbstractOrderContext]="abstractOrderKey"
-    ><cx-test-cmp-inner />
-  </span>`,
-  standalone: false,
-})
-class TestComponent {
-  abstractOrderKey: AbstractOrderKeyInput = {
-    id: abstractOrderId,
-    type: AbstractOrderType.ORDER,
-  };
-}
 
 @Component({
   selector: 'cx-test-cmp-inner',
@@ -32,7 +22,7 @@ class TestComponent {
       {{ key.type }}
     </ng-container>
   `,
-  standalone: false,
+  imports: [NgIf, AsyncPipe],
 })
 class TestInnerComponent {
   abstractOrderContext = inject(AbstractOrderContext, { optional: true });
@@ -41,14 +31,27 @@ class TestInnerComponent {
   );
 }
 
+@Component({
+  selector: 'cx-test-cmp',
+  template: ` <span [cxAbstractOrderContext]="abstractOrderKey"
+    ><cx-test-cmp-inner />
+  </span>`,
+  imports: [AbstractOrderContextDirective, TestInnerComponent],
+})
+class TestComponent {
+  abstractOrderKey: AbstractOrderKeyInput = {
+    id: abstractOrderId,
+    type: AbstractOrderType.ORDER,
+  };
+}
+
 describe('AbstractOrderContextDirective', () => {
   let fixture: ComponentFixture<TestComponent>;
   let testOuterComponent: TestComponent;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TestComponent, TestInnerComponent],
-      imports: [AbstractOrderContextModule],
+      imports: [AbstractOrderContextModule, TestComponent, TestInnerComponent],
       providers: [],
     }).compileComponents();
     emissionCounterKey = 0;

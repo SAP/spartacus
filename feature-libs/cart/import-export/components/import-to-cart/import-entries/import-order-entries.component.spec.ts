@@ -37,8 +37,7 @@ describe('ImportOrderEntriesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ImportOrderEntriesComponent],
+      imports: [I18nTestingModule, ImportOrderEntriesComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {

@@ -8,10 +8,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
+import { FeatureLevelDirective, I18nTestingModule } from '@spartacus/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
+import { FocusDirective } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
@@ -20,7 +21,10 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
@@ -28,7 +32,10 @@ import {
   ConfiguratorAttributeProductCardComponent,
   ConfiguratorAttributeProductCardComponentOptions,
 } from '../../product-card/configurator-attribute-product-card.component';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import {
+  ConfiguratorAttributeQuantityComponent,
+  ConfiguratorAttributeQuantityComponentOptions,
+} from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
 
@@ -36,7 +43,12 @@ const VALUE_DISPLAY_NAME = 'Lorem Ipsum Dolor';
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    I18nTestingModule,
+    UrlTestingModule,
+  ],
 })
 class MockProductCardComponent {
   @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
@@ -45,7 +57,12 @@ class MockProductCardComponent {
 @Component({
   selector: 'cx-configurator-attribute-quantity',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    I18nTestingModule,
+    UrlTestingModule,
+  ],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -54,16 +71,18 @@ class MockConfiguratorAttributeQuantityComponent {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    I18nTestingModule,
+    UrlTestingModule,
+  ],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
@@ -199,15 +218,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
-        ConfiguratorShowMoreComponent,
-        MockProductCardComponent,
-        MockConfiguratorAttributeQuantityComponent,
-        MockConfiguratorPriceComponent,
-        MockFocusDirective,
-        MockFeatureLevelDirective,
-      ],
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
@@ -215,8 +225,9 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         UrlTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
+        ConfiguratorShowMoreComponent,
       ],
-
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
@@ -232,7 +243,23 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       .overrideComponent(
         ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
         {
-          set: {
+          remove: {
+            imports: [
+              ConfiguratorAttributeProductCardComponent,
+              ConfiguratorAttributeQuantityComponent,
+              ConfiguratorPriceComponent,
+              FocusDirective,
+              FeatureLevelDirective,
+            ],
+          },
+          add: {
+            imports: [
+              MockProductCardComponent,
+              MockConfiguratorAttributeQuantityComponent,
+              MockConfiguratorPriceComponent,
+              MockFocusDirective,
+              MockFeatureLevelDirective,
+            ],
             changeDetection: ChangeDetectionStrategy.Default,
             providers: [
               {

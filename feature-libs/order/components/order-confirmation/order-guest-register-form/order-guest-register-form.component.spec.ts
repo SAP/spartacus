@@ -61,8 +61,9 @@ describe('OrderGuestRegisterFormComponent', () => {
         ReactiveFormsModule,
         FormErrorsModule,
         PasswordVisibilityToggleModule,
+        OrderGuestRegisterFormComponent,
+        MockFeatureDirective,
       ],
-      declarations: [OrderGuestRegisterFormComponent, MockFeatureDirective],
       providers: [
         { provide: AuthRedirectService, useClass: MockAuthRedirectService },
         { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },

@@ -24,7 +24,6 @@ import { SpinnerModule } from '../../../shared/components/spinner/spinner.module
 import { MyInterestsComponent } from './my-interests.component';
 
 @NgModule({
-  declarations: [MyInterestsComponent],
   imports: [
     AtMessageModule,
     CommonModule,
@@ -44,6 +43,7 @@ import { MyInterestsComponent } from './my-interests.component';
       },
     ]),
     FeaturesConfigModule,
+    MyInterestsComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

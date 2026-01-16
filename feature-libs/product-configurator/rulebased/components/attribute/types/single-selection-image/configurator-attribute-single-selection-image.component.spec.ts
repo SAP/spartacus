@@ -9,10 +9,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { I18nTestingModule } from '@spartacus/core';
 import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   IconTestingModule,
+  MockIconComponent,
   PopoverModule,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -21,7 +30,10 @@ import { ConfiguratorCommonsService } from '../../../../core/facade/configurator
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
@@ -30,10 +42,7 @@ import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurat
 const VALUE_DISPLAY_NAME = 'val2';
 class MockGroupService {}
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: string;
 }
@@ -41,7 +50,13 @@ export class MockFocusDirective {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    I18nTestingModule,
+    IconTestingModule,
+    PopoverModule,
+  ],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -68,29 +83,14 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.overrideComponent(
       ConfiguratorAttributeSingleSelectionImageComponent,
-      {
-        set: {
-          providers: [
-            {
-              provide: ConfiguratorAttributePriceChangeService,
-              useClass: MockConfiguratorAttributePriceChangeService,
-            },
-          ],
-        },
-      }
+      {}
     );
     TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeSingleSelectionImageComponent,
-        MockFocusDirective,
-        MockConfiguratorPriceComponent,
-      ],
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
-        I18nTestingModule,
-        IconTestingModule,
         PopoverModule,
+        ConfiguratorAttributeSingleSelectionImageComponent,
       ],
       providers: [
         ConfiguratorStorefrontUtilsService,
@@ -113,8 +113,30 @@ describe('ConfiguratorAttributeSingleSelectionImageComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeSingleSelectionImageComponent, {
-        set: {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            FocusDirective,
+            ConfiguratorPriceComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockIconComponent,
+            MockFocusDirective,
+            MockConfiguratorPriceComponent,
+          ],
           changeDetection: ChangeDetectionStrategy.Default,
+          providers: [
+            {
+              provide: ConfiguratorAttributePriceChangeService,
+              useClass: MockConfiguratorAttributePriceChangeService,
+            },
+          ],
         },
       })
       .compileComponents();

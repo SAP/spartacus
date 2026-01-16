@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Params, Router } from '@angular/router';
+import { Params, Router, RouterLink } from '@angular/router';
 import { GenericLinkComponentService } from './generic-link-component.service';
 
 // private
@@ -26,7 +27,7 @@ interface RouteParts {
 @Component({
   selector: 'cx-generic-link',
   templateUrl: './generic-link.component.html',
-  standalone: false,
+  imports: [NgIf, NgTemplateOutlet, RouterLink],
 })
 export class GenericLinkComponent implements OnChanges {
   constructor(

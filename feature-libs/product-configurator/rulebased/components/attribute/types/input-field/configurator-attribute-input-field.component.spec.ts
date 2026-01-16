@@ -22,10 +22,7 @@ import { defaultConfiguratorUISettingsConfig } from '../../../config/default-con
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
@@ -53,11 +50,12 @@ describe('ConfiguratorAttributeInputFieldComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
         ConfiguratorAttributeInputFieldComponent,
         MockFocusDirective,
       ],
-      imports: [ReactiveFormsModule, I18nTestingModule],
       providers: [
         {
           provide: ConfiguratorUISettingsConfig,

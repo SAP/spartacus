@@ -25,8 +25,8 @@ import { PaymentMethodsComponent } from './payment-methods.component';
     SpinnerModule,
     I18nModule,
     FeaturesConfigModule,
-
     FormRequiredLegendComponent,
+    PaymentMethodsComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -38,7 +38,6 @@ import { PaymentMethodsComponent } from './payment-methods.component';
       },
     }),
   ],
-  declarations: [PaymentMethodsComponent],
   exports: [PaymentMethodsComponent],
 })
 export class PaymentMethodsModule {}

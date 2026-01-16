@@ -25,9 +25,8 @@ import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-in
     IconModule,
     ConfiguratorIssuesNotificationModule,
     ConfigureCartEntryModule,
+    ConfiguratorCartEntryInfoComponent,
   ],
-  declarations: [ConfiguratorCartEntryInfoComponent],
-
   providers: [
     provideOutlet({
       id: CartOutlets.ITEM_DETAILS,

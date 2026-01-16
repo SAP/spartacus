@@ -13,8 +13,11 @@ import { UserGroupAssignedUserListComponent } from './assigned/user-group-assign
 import { UserGroupUserListComponent } from './user-group-user-list.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, RouterModule, SubListModule],
-  declarations: [
+  imports: [
+    CommonModule,
+    I18nModule,
+    RouterModule,
+    SubListModule,
     UserGroupAssignedUserListComponent,
     UserGroupUserListComponent,
   ],

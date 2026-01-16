@@ -11,7 +11,7 @@ import {
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { IconLoaderService } from '@spartacus/storefront';
+import { IconComponent, IconLoaderService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -99,7 +99,7 @@ export class MockIconFontLoaderService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockCxIconComponent {
   @Input() type: any;
@@ -113,10 +113,10 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
         ConfiguratorConflictAndErrorMessagesComponent,
-        MockCxIconComponent,
       ],
       providers: [
         {
@@ -127,9 +127,13 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,
         },
-
         { provide: IconLoaderService, useClass: MockIconFontLoaderService },
       ],
+    }).overrideComponent(ConfiguratorConflictAndErrorMessagesComponent, {
+      remove: {
+        imports: [IconComponent],
+      },
+      add: { imports: [MockCxIconComponent] },
     });
   }));
   beforeEach(() => {

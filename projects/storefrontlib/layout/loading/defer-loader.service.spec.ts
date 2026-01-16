@@ -21,7 +21,6 @@ const MockDeferLayoutConfig: LayoutConfig = {
 @Component({
   selector: 'cx-any',
   template: '<div id="any"></div>',
-  standalone: false,
 })
 class MockAnyComponent {}
 
@@ -33,7 +32,6 @@ class MockIntersectionService {
 
 function getModule(platformId: string, layoutConfig: LayoutConfig) {
   return {
-    declarations: [MockAnyComponent],
     providers: [
       { provide: PLATFORM_ID, useValue: platformId },
       { provide: LayoutConfig, useValue: layoutConfig },

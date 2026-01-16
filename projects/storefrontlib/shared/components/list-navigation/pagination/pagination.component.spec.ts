@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Params } from '@angular/router';
 import { I18nTestingModule } from '@spartacus/core';
-import { FocusConfig } from '@spartacus/storefront';
+import { FocusConfig, FocusDirective } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { PaginationConfig } from './config/pagination.config';
 import { PaginationComponent } from './pagination.component';
@@ -34,17 +34,26 @@ describe('PaginationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, MockFocusDirective],
-      declarations: [PaginationComponent, MockFeatureDirective],
+      imports: [PaginationComponent],
       providers: [
         {
           provide: PaginationConfig,
           useValue: mockPaginationConfig,
         },
-
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PaginationComponent, {
+        remove: { imports: [FocusDirective] },
+        add: {
+          imports: [
+            I18nTestingModule,
+            MockFocusDirective,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

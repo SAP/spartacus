@@ -10,30 +10,33 @@ import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
 import {
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   IconTestingModule,
+  MockIconComponent,
   PopoverModule,
 } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
-import { Observable, of } from 'rxjs';
+import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
 
 class MockGroupService {}
 
 const VALUE_NAME_3 = 'val3';
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
@@ -41,7 +44,13 @@ export class MockFocusDirective {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    I18nTestingModule,
+    IconTestingModule,
+    PopoverModule,
+  ],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -94,17 +103,11 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
       }
     );
     TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeMultiSelectionImageComponent,
-        MockFocusDirective,
-        MockConfiguratorPriceComponent,
-      ],
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
-        I18nTestingModule,
-        IconTestingModule,
         PopoverModule,
+        ConfiguratorAttributeMultiSelectionImageComponent,
       ],
       providers: [
         {
@@ -126,7 +129,15 @@ describe('ConfiguratorAttributeMultiSelectionImageComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeMultiSelectionImageComponent, {
-        set: {
+        remove: {
+          imports: [FocusDirective, ConfiguratorPriceComponent, IconComponent],
+        },
+        add: {
+          imports: [
+            MockFocusDirective,
+            MockConfiguratorPriceComponent,
+            MockIconComponent,
+          ],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

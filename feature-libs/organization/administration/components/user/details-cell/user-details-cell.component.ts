@@ -4,20 +4,29 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CellComponent } from '../../shared';
+import { NgFor, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import {
+  B2BUser,
+  B2BUserRight,
+  B2BUserRole,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { B2BUserService } from '@spartacus/organization/administration/core';
-import { B2BUser, B2BUserRole, B2BUserRight } from '@spartacus/core';
 import {
   OutletContextData,
+  PopoverDirective,
   TableDataOutletContext,
 } from '@spartacus/storefront';
+import { CellComponent } from '../../shared';
 
 @Component({
   selector: 'cx-org-user-details-cell',
   templateUrl: './user-details-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, RouterLink, NgFor, PopoverDirective, TranslatePipe, UrlPipe],
 })
 export class UserDetailsCellComponent extends CellComponent {
   b2bUserModel: B2BUser;

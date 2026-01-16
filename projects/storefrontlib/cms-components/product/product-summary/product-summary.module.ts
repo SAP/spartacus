@@ -26,7 +26,6 @@ import { ProductSummaryComponent } from './product-summary.component';
       },
     }),
   ],
-  declarations: [ProductSummaryComponent],
   exports: [ProductSummaryComponent],
   imports: [
     CommonModule,
@@ -34,6 +33,7 @@ import { ProductSummaryComponent } from './product-summary.component';
     I18nModule,
     PromotionsModule,
     FeaturesConfigModule,
+    ProductSummaryComponent,
   ],
 })
 export class ProductSummaryModule {}

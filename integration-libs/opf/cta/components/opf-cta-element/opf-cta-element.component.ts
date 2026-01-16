@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -20,7 +21,7 @@ import { OpfCtaScriptsService } from '../opf-cta-scripts/opf-cta-scripts.service
   selector: 'cx-opf-cta-element',
   templateUrl: './opf-cta-element.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf],
 })
 export class OpfCtaElementComponent implements AfterViewInit {
   protected sanitizer = inject(DomSanitizer);

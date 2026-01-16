@@ -4,20 +4,41 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslatePipe } from '@spartacus/core';
 import {
   STATUS,
   STATUS_NAME,
   TicketEvent,
 } from '@spartacus/customer-ticketing/root';
-import { FormUtils } from '@spartacus/storefront';
+import {
+  FileUploadComponent,
+  FocusDirective,
+  FormErrorsComponent,
+  FormUtils,
+  IconComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { CustomerTicketingDialogComponent } from '../../../shared/customer-ticketing-dialog/customer-ticketing-dialog.component';
 
 @Component({
   selector: 'cx-customer-ticketing-reopen-dialog',
   templateUrl: './customer-ticketing-reopen-dialog.component.html',
-  standalone: false,
+  imports: [
+    FocusDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    IconComponent,
+    FormErrorsComponent,
+    FileUploadComponent,
+    NgIf,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CustomerTicketingReopenDialogComponent
   extends CustomerTicketingDialogComponent

@@ -6,6 +6,8 @@
 
 import { Component, inject, Input } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
@@ -14,15 +16,30 @@ import {
   AuthRedirectService,
   FeatureConfigService,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
-import { CustomFormValidators } from '@spartacus/storefront';
+import {
+  CustomFormValidators,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  PasswordVisibilityToggleDirective,
+} from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 
 @Component({
   selector: 'cx-guest-register-form',
   templateUrl: './order-guest-register-form.component.html',
-  standalone: false,
   host: { ngSkipHydration: 'true' },
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    PasswordVisibilityToggleDirective,
+    FormErrorsComponent,
+    TranslatePipe,
+  ],
 })
 export class OrderGuestRegisterFormComponent {
   private featureConfigService = inject(FeatureConfigService);

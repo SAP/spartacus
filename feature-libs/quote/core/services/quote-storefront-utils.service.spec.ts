@@ -24,7 +24,6 @@ class MockedWindowRef extends WindowRef {
       <label id="ATTR_1--value_3">value_3</label>
     </cx-quote-list>
   `,
-  standalone: false,
 })
 class MockQuoteComponent {}
 
@@ -36,7 +35,7 @@ describe('QuoteStorefrontUtilsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MockQuoteComponent],
+      imports: [MockQuoteComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [{ provide: WindowRef, useClass: MockedWindowRef }],
     }).compileComponents();

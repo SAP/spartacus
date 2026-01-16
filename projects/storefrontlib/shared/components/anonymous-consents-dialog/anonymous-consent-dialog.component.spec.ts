@@ -20,14 +20,14 @@ import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.comp
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
-  standalone: false,
+  imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockCxSpinnerComponent {}
 
 @Component({
   selector: 'cx-icon',
   template: ``,
-  standalone: false,
+  imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: string;
@@ -36,7 +36,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-consent-management-form',
   template: ``,
-  standalone: false,
+  imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockConsentManagementFormComponent {
   @Input()
@@ -93,8 +93,9 @@ describe('AnonymousConsentsDialogComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, KeyboardFocusTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
+        KeyboardFocusTestingModule,
         AnonymousConsentDialogComponent,
         MockCxIconComponent,
         MockConsentManagementFormComponent,

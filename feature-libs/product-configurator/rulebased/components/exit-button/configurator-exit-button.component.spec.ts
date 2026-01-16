@@ -2,7 +2,6 @@ import { Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { BreakpointService } from '@spartacus/storefront';
 import {
   I18nTestingModule,
   Product,
@@ -16,12 +15,13 @@ import {
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { ConfiguratorExitButtonComponent } from './configurator-exit-button.component';
-import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { BreakpointService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorExitButtonComponent } from './configurator-exit-button.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '001+1';
@@ -110,8 +110,12 @@ describe('ConfiguratorExitButton', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [ConfiguratorExitButtonComponent],
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        ConfiguratorExitButtonComponent,
+      ],
       providers: [
         {
           provide: ConfiguratorRouterExtractorService,

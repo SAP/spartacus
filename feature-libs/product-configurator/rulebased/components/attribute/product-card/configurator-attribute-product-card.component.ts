@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,19 +13,34 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { Product, ProductService, TranslationService } from '@spartacus/core';
+import {
+  Product,
+  ProductService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   KeyboardFocusService,
+  MediaComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
-import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../quantity/configurator-attribute-quantity.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../price/configurator-price.component';
+import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
+import {
+  ConfiguratorAttributeQuantityComponent,
+  ConfiguratorAttributeQuantityComponentOptions,
+} from '../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
 export interface ConfiguratorAttributeProductCardComponentOptions {
@@ -55,7 +71,18 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   selector: 'cx-configurator-attribute-product-card',
   templateUrl: './configurator-attribute-product-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgClass,
+    MediaComponent,
+    ConfiguratorShowMoreComponent,
+    ConfiguratorAttributeQuantityComponent,
+    ConfiguratorPriceComponent,
+    FocusDirective,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ConfiguratorAttributeProductCardComponent
   extends ConfiguratorAttributeBaseComponent

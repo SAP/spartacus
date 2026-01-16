@@ -11,8 +11,7 @@ import { BtnLikeLinkDirective } from './btn-like-link.directive';
 const directives = [BtnLikeLinkDirective];
 
 @NgModule({
-  imports: [CommonModule],
-  declarations: [...directives],
+  imports: [CommonModule, ...directives],
   exports: [...directives],
 })
 export class BtnLikeLinkModule {}

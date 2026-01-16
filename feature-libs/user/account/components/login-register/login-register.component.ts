@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass } from '@angular/common';
 import { Component, OnInit, Optional, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login-register',
   templateUrl: './login-register.component.html',
-  standalone: false,
+  imports: [NgClass, TranslatePipe],
 })
 export class LoginRegisterComponent implements OnInit {
   loginAsGuest = false;
