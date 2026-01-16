@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,7 +22,11 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { FeatureConfigService, TranslationService } from '@spartacus/core';
+import {
+  FeatureConfigService,
+  TranslationService,
+  useFeatureStyles,
+} from '@spartacus/core';
 import { filter, merge, take } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BREAKPOINT, BreakpointService } from '../../../layout';
@@ -85,7 +89,9 @@ export class NgSelectA11yDirective implements AfterViewInit {
   constructor(
     private renderer: Renderer2,
     private elementRef: ElementRef
-  ) {}
+  ) {
+    useFeatureStyles('a11yNgSelectUnicodeCarets');
+  }
 
   ngAfterViewInit(): void {
     const inputCombobox =
@@ -93,13 +99,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
 
     this.renderer.setAttribute(inputCombobox, 'role', 'combobox');
     this.renderer.setAttribute(inputCombobox, 'aria-expanded', 'false');
-    if (
-      this.featureConfigService?.isEnabled(
-        'a11yNgSelectAriaLabelDropdownCustomized'
-      )
-    ) {
-      this.customizeNgSelectAriaLabelDropdown();
-    }
+    this.customizeNgSelectAriaLabelDropdown();
 
     const isOpened$ = this.selectComponent.openEvent.pipe(map(() => 'true'));
     const isClosed$ = this.selectComponent.closeEvent.pipe(map(() => 'false'));

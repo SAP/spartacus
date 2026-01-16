@@ -52,7 +52,6 @@
           "Order-Document-Flow",
           "OPPS",
           "Digital-Payments",
-          "EPD-Visualization",
           "OPF-Checkout",
           "Punchout",
           "Customer-Ticketing",
@@ -172,10 +171,6 @@
           {
             "value": "Digital-Payments",
             "label": "Digital Payments Integration"
-          },
-          {
-            "value": "EPD-Visualization",
-            "label": "EPD Visualization Integration"
           },
           {
             "value": "OPF-Checkout",

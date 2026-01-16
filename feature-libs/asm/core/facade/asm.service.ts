@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,12 +7,13 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
+  AsmSessionCreationOptions,
   AsmUi,
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 import { Observable } from 'rxjs';
-import { AsmActions } from '../store/actions/index';
+import { AsmActions, AsmSessionActions } from '../store/actions/index';
 import { StateWithAsm } from '../store/asm-state';
 import { AsmSelectors } from '../store/index';
 
@@ -65,5 +66,14 @@ export class AsmService {
    */
   getAsmUiState(): Observable<AsmUi> {
     return this.store.pipe(select(AsmSelectors.getAsmUi));
+  }
+
+  /**
+   * Get the state of the ASM UI
+   */
+  createAsmSessionEvent(options: AsmSessionCreationOptions): void {
+    this.store.dispatch(
+      new AsmSessionActions.AsmSessionCreationAction(options)
+    );
   }
 }
