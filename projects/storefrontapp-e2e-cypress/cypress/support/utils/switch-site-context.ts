@@ -11,7 +11,7 @@ export function switchSiteContext(option: string, label: string) {
     ? '.navigation .SiteContext label'
     : '.header .SiteContext label';
 
-  cy.get(selector)
+  cy.get(selector, { timeout: 10000 })
     .contains(label)
     .should('be.visible')
     .parent()
