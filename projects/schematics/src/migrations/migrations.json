@@ -256,7 +256,7 @@
       "description": "Silence Sass deprecations about the `@import` directive"
     },
     "migration-v221121_8-angular-providers": {
-      "version": "221121.5.0",
+      "version": "221121.8.0",
       "factory": "./221121_8/angular-providers/index#migrate",
       "description": "Add provideBrowserGlobalErrorListeners to app.module.ts"
     }
