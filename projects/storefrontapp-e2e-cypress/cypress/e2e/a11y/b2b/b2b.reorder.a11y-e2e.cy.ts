@@ -12,7 +12,9 @@ import {
 } from '../helpers/a11y-b2b.checkout';
 
 export function waitUntilOrderIsPlaced() {
-  cy.get('input[formcontrolname="termsAndConditions"]').check();
+  cy.get('input[formcontrolname="termsAndConditions"]')
+    .should('be.visible')
+    .check();
   cy.get('cx-place-order button').contains(' Place Order ').click();
   cy.get('main').contains('Thank you for your order!');
 }
