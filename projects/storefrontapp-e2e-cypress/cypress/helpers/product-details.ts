@@ -36,7 +36,7 @@ export function verifyProductDetails() {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/components`,
+    )}/**/cms/components`,
   }).as('getComponents');
   cy.wait('@getComponents').its('response.statusCode').should('eq', 200);
   cy.get(`${breadcrumbContainer} h1`).should('contain', PRODUCT_NAME);
@@ -254,7 +254,7 @@ export function configureDefaultProduct() {
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages?pageType=ProductPage**`,
+    )}/**/cms/pages?pageType=ProductPage**`,
   }).as('productPage');
 
   cy.visit('/product/266685');

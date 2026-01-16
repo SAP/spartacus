@@ -44,7 +44,7 @@ export function interceptCartPageEndpoint() {
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
+    )}/**/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
   ).as(CART_PAGE_ALIAS);
 
   return CART_PAGE_ALIAS;

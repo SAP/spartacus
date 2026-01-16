@@ -17,7 +17,7 @@ export function myAccountV2UserProfileManagementTabbingOrder(
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/components`,
+    )}/**/cms/components`,
   }).as('getComponents');
   cy.visit('/my-account/update-profile');
 

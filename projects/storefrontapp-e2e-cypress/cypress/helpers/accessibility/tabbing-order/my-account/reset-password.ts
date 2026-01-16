@@ -14,7 +14,7 @@ export function forgotPasswordTabbingOrder(config: TabElement[]) {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/components`,
+    )}/**/cms/components`,
   }).as('getComponents');
   cy.visit('/login/forgot-password');
   cy.wait('@getComponents');

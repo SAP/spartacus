@@ -14,7 +14,7 @@ export function configureDefaultProduct() {
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages?pageType=ProductPage**`
+    )}/**/cms/pages?pageType=ProductPage**`
   ).as('productPage');
 
   cy.visit('/product/CX704/7%E2%80%9Dx12%E2%80%9D-mini-metal-lathe');

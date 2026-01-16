@@ -15,7 +15,7 @@ describe('Segment Reference', () => {
     Cypress.env('BASE_CURRENCY', APPAREL_CURRENCY);
   });
   it('should fetch appropriate banner customization', () => {
-    interceptGet('segmentRefApi', '/cms/pages*');
+    interceptGet('segmentRefApi', '/**/cms/pages*');
     cy.visit(
       `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
         'BASE_CURRENCY'

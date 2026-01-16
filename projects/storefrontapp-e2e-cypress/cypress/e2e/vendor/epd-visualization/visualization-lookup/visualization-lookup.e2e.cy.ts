@@ -15,7 +15,7 @@ describe('in Spare Parts Tab', () => {
         'GET',
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/cms/pages?pageType=ProductPage**`
+        )}/**/cms/pages?pageType=ProductPage**`
       ).as('productPage');
     });
 

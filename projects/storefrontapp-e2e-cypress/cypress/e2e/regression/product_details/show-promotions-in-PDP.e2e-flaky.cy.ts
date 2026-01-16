@@ -18,7 +18,7 @@ describe('Promotions in PDP', () => {
       method: 'GET',
       path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
         'BASE_SITE'
-      )}/cms/pages?pageType=ProductPage**`,
+      )}/**/cms/pages?pageType=ProductPage**`,
     }).as('productPage');
   });
   it('should show promotions in Product Details Page', () => {

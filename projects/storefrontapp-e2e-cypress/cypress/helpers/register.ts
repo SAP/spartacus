@@ -11,7 +11,7 @@ export function signOut() {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/**/cms/pages`,
     query: {
       pageLabelOrId: '/logout',
     },

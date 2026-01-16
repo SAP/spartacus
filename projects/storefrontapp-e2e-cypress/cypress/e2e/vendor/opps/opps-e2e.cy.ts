@@ -44,7 +44,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
   });
   describe('OPPS Coupon Codes', () => {
     it('should fetch appropriate banner customization based on coupon codes', () => {
-      interceptGet('couponCodesApi', '/cms/pages*');
+      interceptGet('couponCodesApi', '/**/cms/pages*');
       cy.visit(
         `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
           'BASE_CURRENCY'
@@ -62,7 +62,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
         method: 'GET',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/cms/pages?pageType=ProductPage**`,
+        )}/**/cms/pages?pageType=ProductPage**`,
       }).as('productPage');
     });
     it('should continue to PDP if user is already logged in', () => {
@@ -101,7 +101,7 @@ describe('OPPS (Omni-Channel Personalization and Promotions Services)', () => {
         method: 'GET',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/cms/pages?pageType=ProductPage**`,
+        )}/**/cms/pages?pageType=ProductPage**`,
       }).as('productPage');
     });
     it('should fetch appropriate banner customization based on coupon codes & show login page if user is not logged in', () => {

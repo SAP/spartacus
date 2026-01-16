@@ -85,7 +85,7 @@ export function updateCustomerIdForB2BUser(interceptName: string) {
 export function waitForCmsComponentsToLoad(baseSite: string) {
   cy.intercept({
     method: 'GET',
-    pathname: `${Cypress.env('OCC_PREFIX')}/${baseSite}/cms/components`,
+    pathname: `${Cypress.env('OCC_PREFIX')}/${baseSite}/**/cms/components`,
   }).as('getComponents');
   cy.wait('@getComponents').its('response.statusCode').should('eq', 200);
 }

@@ -15,7 +15,7 @@ export function footerTabbingOrder(config: TabElement[]) {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/components`,
+    )}/**/cms/components`,
   }).as('getComponents');
 
   visitLoginPage();

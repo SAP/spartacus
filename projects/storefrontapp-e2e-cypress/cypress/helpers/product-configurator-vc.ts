@@ -84,7 +84,7 @@ export function registerCMSPagesRoute() {
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}//cms/pages*`,
+    )}/**/cms/pages*`,
   }).as(CMS_PAGES_ALIAS.substring(1)); // strip the '@'
 }
 

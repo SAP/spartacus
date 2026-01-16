@@ -10,7 +10,7 @@ context('scroll Position Restoration', () => {
       method: 'GET',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
         'BASE_SITE'
-      )}/cms/pages`,
+      )}/**/cms/pages`,
       query: {
         pageType: 'ProductPage',
       },
@@ -20,7 +20,7 @@ context('scroll Position Restoration', () => {
       method: 'GET',
       pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
         'BASE_SITE'
-      )}/cms/pages`,
+      )}/**/cms/pages`,
       query: {
         pageType: 'CategoryPage',
       },

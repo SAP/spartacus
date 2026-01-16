@@ -120,7 +120,7 @@ export function selectShippingAddress() {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/**/cms/pages`,
     query: {
       pageLabelOrId: '/checkout/delivery-address',
     },
@@ -140,7 +140,7 @@ export function selectShippingAddress() {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/**/cms/pages`,
     query: {
       pageLabelOrId: '/checkout/delivery-mode',
     },
@@ -161,7 +161,7 @@ export function selectDeliveryMethod() {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/**/cms/pages`,
     query: {
       pageLabelOrId: '/checkout/payment-details',
     },

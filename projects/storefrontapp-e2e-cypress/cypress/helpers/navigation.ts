@@ -38,13 +38,13 @@ export function waitForPage(page: string, alias: string): string {
           method: 'GET',
           path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
             'BASE_SITE'
-          )}/cms/pages?lang=en&curr=*`,
+          )}/**/cms/pages?lang=en&curr=*`,
         }
       : {
           method: 'GET',
           pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
             'BASE_SITE'
-          )}/cms/pages`,
+          )}/**/cms/pages`,
           query: {
             pageLabelOrId: page,
           },
@@ -61,7 +61,7 @@ export function waitForCategoryPage(
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/**/cms/pages`,
     query: {
       pageType: 'CategoryPage',
       code: categoryCode,

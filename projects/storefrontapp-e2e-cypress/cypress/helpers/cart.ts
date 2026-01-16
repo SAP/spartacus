@@ -232,7 +232,7 @@ function getBaseUrlPrefix() {
 export function registerCartPageRoute() {
   cy.intercept(
     'GET',
-    `${getOccUrlPrefix()}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
+    `${getOccUrlPrefix()}/**/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
   ).as('cart_page');
 }
 
