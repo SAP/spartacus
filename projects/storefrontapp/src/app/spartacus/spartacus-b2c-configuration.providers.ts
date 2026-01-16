@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { provideConfig } from '@spartacus/core';
 import { environment } from '../../environments/environment';
 
@@ -23,18 +22,17 @@ const baseSite = environment.epdVisualization
   : defaultBaseSite;
 
 export const spartacusB2cConfigurationProviders = [
-    provideConfig({
-      context: {
-        urlParameters: ['baseSite', 'language', 'currency'],
-        baseSite: baseSite,
+  provideConfig({
+    context: {
+      urlParameters: ['baseSite', 'language', 'currency'],
+      baseSite: baseSite,
+    },
+  }),
+  provideConfig({
+    cart: {
+      selectiveCart: {
+        enabled: true,
       },
-    }),
-    provideConfig({
-      cart: {
-        selectiveCart: {
-          enabled: true,
-        },
-      },
-    }),
-  ],
+    },
+  }),
 ];
