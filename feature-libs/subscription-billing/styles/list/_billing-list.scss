@@ -1,4 +1,14 @@
 %cx-billing-list {
+    @mixin input-border {
+        border: 1px solid var(--cx-color-medium);
+        color: var(--cx-color-secondary);
+    }
+
+    @mixin table-first-col {
+        text-align: left;
+        padding-left: 10%;
+    }
+
     .billing-list-title-section {
         display: flex;
         justify-content: space-between;
@@ -17,41 +27,59 @@
         }
     }
 
-    .billing-list-sorting-bar {
-        .sort-label {
-            display: inline-block;
-            position: relative;
-            bottom: 4px;
-            font-weight: 600;
+    .billing-list-filter-section {
+        .billing-list-sorting-bar {
+            .sort-label {
+                display: inline-block;
+                position: relative;
+                bottom: 4px;
+                font-weight: 600;
+            }
+            .ng-select-container {
+                @include input-border;
+            }
+            padding: 0 1rem 0 1.75rem;
+            width: 30%;
+            height: 40%;
         }
-        padding: 0 0 1.5rem 1.75rem;
-        width: 30%;
 
-        &input[type="text"] {
-            outline: none;
+        .date-filters {
+            input {
+                @include input-border;
+            }
+            font-weight: 600;
+            padding-left: 1rem;
         }
+
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 1rem;
     }
 
     .cx-billing-list-thead {
-        width: 25%;
         border-top: 1px solid var(--cx-color-medium);
-    }
 
-    .cx-billing-list-table-header, .cx-billing-list-table-col {
-        padding: 10px 0px;
-        text-align: center;
-    }
-
-    .cx-billing-list-table-header, .cx-billing-list-table-col {
-        &.bill-id-header, &.bill-id-value {
-            text-align: left;
-            padding-left: 10%;
+        .bill-id-header {
+            width: 35%;
+            .cx-billing-list-table-header {
+                @include table-first-col;
+            }
         }
     }
 
-    tr > th:first-child {
-        padding: 5px 0;
-        width: 25%;
+    .cx-billing-list-table-header, .cx-billing-list-table-col  {
+        padding: 1rem 0px;
+        text-align: center;
+    }
+
+    .cx-billing-list-table-col {
+        padding: 0.5rem 0;
+    }
+
+    .bill-id-value {
+        .cx-billing-list-table-col {
+            @include table-first-col;
+        }
     }
 
     .billing-list-pagination-bar {

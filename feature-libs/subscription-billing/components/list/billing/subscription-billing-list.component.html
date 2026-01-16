@@ -1,86 +1,112 @@
 <ng-container *ngIf="billingList$ | async as billings">   
     <div class="billing-list-title-section">
         <h3>All Subscription Bills</h3>
-        <a
-            [routerLink]="
-            {
-                cxRoute: 'activeBills',
-            } | cxUrl
-            "
-        >
-            <div class="cx-billing-list-active-bills">View All Active Bills</div>
-        </a>
     </div>
-    <div class="billing-list-sorting-bar">
-        <span class="sort-label">
-            {{ 'billingList.sortLabel' | cxTranslate }}
-        </span>
-        <cx-sorting
-            [sortOptions]="billings.sorts"
-            (sortListEvent)="changeSortCode($event)"
-            [selectedOption]="billings.pagination?.sort"
-            placeholder="{{ 'billingList.sortLabel' | cxTranslate }}"
-            [ariaLabel]="'billingList.sortOrders'"
-        ></cx-sorting>
+    <div class="billing-list-filter-section">
+        <div class="from-date-filter date-filters">
+            <span class="sort-label label-text">
+                {{ 'subscriptionBillsList.filterFromDateLabel' | cxTranslate }}
+            </span>
+            <cx-date-picker
+                [control]="$any(billsDateFilterForm.get('from'))"
+                (update)="onDateFilterChange()"
+            ></cx-date-picker>
+        </div>
+        <div class="to-date-filter date-filters">
+            <span class="sort-label label-text">
+                {{ 'subscriptionBillsList.filterToDateLabel' | cxTranslate }}
+            </span>
+            <cx-date-picker
+                [control]="$any(billsDateFilterForm.get('to'))"
+                (update)="onDateFilterChange()"
+            ></cx-date-picker>
+        </div>
+
+        <div class="billing-list-sorting-bar">
+            <span class="sort-label label-text">
+                {{ 'subscriptionBillsList.sortLabel' | cxTranslate }}
+            </span>
+            <cx-sorting
+                [sortOptions]="billings.sorts"
+                (sortListEvent)="changeSortCode($event)"
+                [selectedOption]="billings.pagination?.sort"
+                placeholder="{{ 'subscriptionBillsList.sortLabel' | cxTranslate }}"
+                [ariaLabel]="'subscriptionBillsList.sortOrders'"
+            ></cx-sorting>
+        </div>
     </div>
     
     <!-- table starts -->
     <table id="billing-list-table" class="table cx-billing-list-table">
         <thead class="cx-billing-list-thead">
-            <tr>
-                <th scope="col">
-                    <div class="cx-billing-list-table-header bill-id-header">
-                        {{ billings[0].id }}
+            <tr scope="row">
+                <th scope="col" class="bill-id-header">
+                    <div class="cx-billing-list-table-header">
+                        {{ 'subscriptionBillsList.tableHeaderColId' | cxTranslate }}
                     </div>
                 </th>
                 <th scope="col">
                     <div class="cx-billing-list-table-header">
-                        Billing Date
+                        {{ 'subscriptionBillsList.tableHeaderColDate' | cxTranslate }}
                     </div>
                 </th>
                 <th scope="col">
                     <div class="cx-billing-list-table-header">
-                        Subscriptions
+                        {{ 'subscriptionBillsList.tableHeaderColSubscriptions' | cxTranslate }}
                     </div>
                 </th>
                 <th scope="col">
                     <div class="cx-billing-list-table-header">
-                        Total
+                        {{ 'subscriptionBillsList.tableHeaderColTotal' | cxTranslate }}
                     </div>
+                </th>
+                <th scope="col">
+                    <div class="cx-billing-list-table-header"></div>
                 </th>
             </tr>
         </thead>
         <tbody>
         <tr *ngFor="let billing of billings">
-            <td>
-            <a
-                [routerLink]="
-                {
-                    cxRoute: 'billingDetails',
-                    params: {  },
-                } | cxUrl
-                "
-            >
-                <div class="cx-billing-list-table-col bill-id-value">{{ billing.id }}</div>
-            </a>
+            <td class="bill-id-value">
+                <a
+                    [routerLink]="
+                    {
+                        cxRoute: 'subscriptionBillDetails',
+                        params: { billId: billing.id },
+                    } | cxUrl
+                    "
+                >
+                    <div class="cx-billing-list-table-col">{{ billing.id }}</div>
+                </a>
             </td>
-
             <td>
-            <div class="cx-billing-list-table-col">
-                {{ billing.date }}
-            </div>
+                <div class="cx-billing-list-table-col">
+                    {{ billing.date }}
+                </div>
             </td>
-
             <td>
-            <div class="cx-billing-list-table-col">
-                {{ billing.status }}
-            </div>
+                <div class="cx-billing-list-table-col">
+                    {{ billing.status }}
+                </div>
             </td>
-
             <td>
-            <div class="cx-billing-list-table-col">
-                {{ billing.totalAmount }}
-            </div>
+                <div class="cx-billing-list-table-col">
+                    {{ billing.totalAmount }}
+                </div>
+            </td>
+            <td>
+                <div class="cx-billing-list-table-col">
+                    <a
+                        [routerLink]="
+                        {
+                            cxRoute: 'subscriptionBillDetails',
+                            params: { billId: billing.id },
+                        } | cxUrl
+                        "
+                    >
+                        <div class="cx-billing-list-table-col">{{ 'subscriptionBillsList.tableViewBillCol' | cxTranslate }}</div>
+                    </a>
+                </div>
             </td>
         </tr>
         </tbody>

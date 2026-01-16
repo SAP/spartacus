@@ -72,11 +72,13 @@
   },
   "subscriptionBillsList": {
     "title": "All Subscriptions Bills",
-    "activeBills": "View All Active Bills",
+    "filterFromDateLabel": "From",
+    "filterToDateLabel": "To",
     "sortLabel": "Sort By",
-    "idHeaderTitle": "Bill ID/Number",
-    "dateHeaderTitle": "Billing Date",
-    "subscriptionsHeaderTitle": "Subscriptions",
-    "totalHeaderTitle": "Total"
+    "tableHeaderColId": "Bill ID/Number",
+    "tableHeaderColDate": "Billing Date",
+    "tableHeaderColSubscriptions": "Subscriptions",
+    "tableHeaderColTotal": "Total",
+    "tableViewBillCol": "View Bill"
   }
 }
