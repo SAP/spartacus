@@ -718,8 +718,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     return this.activeCartFacade.isStable().pipe(
       skip(1), // Skip the initial stable state before reload
       filter((isStable: boolean) => isStable),
-      take(1),
-      map(() => true)
+      take(1)
     );
   }
 
