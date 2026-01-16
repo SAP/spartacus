@@ -29,6 +29,7 @@ import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    CartQuickOrderFormComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -39,7 +40,6 @@ import { CartQuickOrderFormComponent } from './cart-quick-order-form.component';
       },
     }),
   ],
-  declarations: [CartQuickOrderFormComponent],
   exports: [CartQuickOrderFormComponent],
 })
 export class CartQuickOrderFormModule {}

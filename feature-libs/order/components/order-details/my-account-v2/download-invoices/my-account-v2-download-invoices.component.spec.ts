@@ -77,7 +77,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nModule, PDFInvoicesModule, KeyboardFocusTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -86,7 +86,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
+  imports: [I18nModule, PDFInvoicesModule, KeyboardFocusTestingModule],
 })
 class MockSpinnerComponent {}
 
@@ -99,7 +99,15 @@ describe('MyAccountV2DownloadInvoicesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nModule, PDFInvoicesModule, KeyboardFocusTestingModule],
+      imports: [
+        I18nModule,
+        PDFInvoicesModule,
+        KeyboardFocusTestingModule,
+        MyAccountV2DownloadInvoicesComponent,
+        InvoicesListComponent,
+        MockCxIconComponent,
+        MockSpinnerComponent,
+      ],
       providers: [
         ChangeDetectorRef,
         { provide: LanguageService, useClass: MockLanguageService },
@@ -107,12 +115,6 @@ describe('MyAccountV2DownloadInvoicesComponent', () => {
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-      ],
-      declarations: [
-        MyAccountV2DownloadInvoicesComponent,
-        InvoicesListComponent,
-        MockCxIconComponent,
-        MockSpinnerComponent,
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(MyAccountV2DownloadInvoicesComponent);

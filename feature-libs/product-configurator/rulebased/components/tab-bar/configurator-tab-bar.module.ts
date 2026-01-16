@@ -28,6 +28,7 @@ import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
     I18nModule,
     UrlModule,
     RouterModule,
+    ConfiguratorTabBarComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -38,7 +39,6 @@ import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
       },
     }),
   ],
-  declarations: [ConfiguratorTabBarComponent],
   exports: [ConfiguratorTabBarComponent],
 })
 export class ConfiguratorTabBarModule {}

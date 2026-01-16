@@ -5,7 +5,7 @@ import {
   ConsentTemplate,
   I18nTestingModule,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { AnonymousConsentManagementBannerComponent } from './anonymous-consent-management-banner.component';
 
@@ -40,8 +40,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [AnonymousConsentManagementBannerComponent],
+      imports: [I18nTestingModule, AnonymousConsentManagementBannerComponent],
       providers: [
         {
           provide: AnonymousConsentsService,

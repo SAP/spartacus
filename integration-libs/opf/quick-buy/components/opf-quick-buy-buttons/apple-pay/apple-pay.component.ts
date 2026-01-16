@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -27,7 +28,7 @@ import { ApplePayService } from './apple-pay.service';
   selector: 'cx-opf-apple-pay',
   templateUrl: './apple-pay.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, AsyncPipe],
 })
 export class ApplePayComponent implements OnInit {
   @Input() activeConfiguration: OpfActiveConfiguration;

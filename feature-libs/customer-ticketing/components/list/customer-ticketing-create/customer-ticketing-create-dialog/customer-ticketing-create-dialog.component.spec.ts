@@ -1,6 +1,7 @@
 import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
   GlobalMessageEntities,
   GlobalMessageService,
@@ -28,7 +29,6 @@ import {
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { CustomerTicketingCreateDialogComponent } from './customer-ticketing-create-dialog.component';
 import createSpy = jasmine.createSpy;
-import { NgSelectModule } from '@ng-select/ng-select';
 
 const mockCategories = [
   {
@@ -96,16 +96,20 @@ class MockTranslationService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [
+    I18nTestingModule,
+    ReactiveFormsModule,
+    FormErrorsModule,
+    FileUploadModule,
+    NgSelectModule,
+    NgSelectA11yModule,
+  ],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -125,8 +129,6 @@ describe('CustomerTicketingCreateDialogComponent', () => {
         FileUploadModule,
         NgSelectModule,
         NgSelectA11yModule,
-      ],
-      declarations: [
         CustomerTicketingCreateDialogComponent,
         MockCxIconComponent,
         MockKeyboadFocusDirective,

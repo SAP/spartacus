@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,28 +13,54 @@ import {
   inject,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { RoutingService, WindowRef } from '@spartacus/core';
-import { CustomFormValidators } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
-
-import { HttpErrorResponse } from '@angular/common/http';
+import { RouterLink } from '@angular/router';
+import {
+  RoutingService,
+  TranslatePipe,
+  UrlPipe,
+  WindowRef,
+} from '@spartacus/core';
+import {
+  CustomFormValidators,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  PasswordVisibilityToggleDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import {
   VerificationToken,
   VerificationTokenCreation,
   VerificationTokenFacade,
 } from '@spartacus/user/account/root';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
 
 @Component({
   selector: 'cx-otp-login-form',
   templateUrl: './otp-login-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
   host: { ngSkipHydration: 'true' },
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    PasswordVisibilityToggleDirective,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class OneTimePasswordLoginFormComponent {
   protected routingService = inject(RoutingService);

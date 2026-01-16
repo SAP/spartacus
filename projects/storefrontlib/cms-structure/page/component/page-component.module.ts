@@ -13,8 +13,11 @@ import { LazyComponentHandler } from './handlers/lazy-component.handler';
 import { InnerComponentsHostDirective } from './inner-components-host.directive';
 
 @NgModule({
-  imports: [CommonModule],
-  declarations: [ComponentWrapperDirective, InnerComponentsHostDirective],
+  imports: [
+    CommonModule,
+    ComponentWrapperDirective,
+    InnerComponentsHostDirective,
+  ],
   exports: [ComponentWrapperDirective, InnerComponentsHostDirective],
 })
 export class PageComponentModule {

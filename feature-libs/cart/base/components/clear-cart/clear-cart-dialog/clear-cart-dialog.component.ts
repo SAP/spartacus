@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,14 +12,27 @@ import {
   HostListener,
   OnDestroy,
 } from '@angular/core';
-import { FocusConfig, ICON_TYPE } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
+import {
+  FocusConfig,
+  FocusDirective,
+  ICON_TYPE,
+  IconComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
 
 @Component({
   selector: 'cx-clear-cart-dialog',
   templateUrl: './clear-cart-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FocusDirective,
+    NgIf,
+    IconComponent,
+    SpinnerComponent,
+    TranslatePipe,
+  ],
 })
 export class ClearCartDialogComponent implements OnDestroy {
   focusConfig: FocusConfig = {

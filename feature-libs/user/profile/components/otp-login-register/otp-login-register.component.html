@@ -13,13 +13,16 @@
               }}</span>
               <ng-select
                 [clearable]="false"
-                [items]="titles$ | async"
+                [items]="(titles$ | async) ?? []"
                 [placeholder]="'register.selectTitle' | cxTranslate"
                 [searchable]="false"
                 bindLabel="name"
                 bindValue="code"
                 formControlName="titleCode"
                 id="title-select"
+                ariaLabelDropdown="{{
+                  'common.ngSelectDropdownOptionsList' | cxTranslate
+                }}"
                 [cxNgSelectA11y]="{}"
               >
               </ng-select>

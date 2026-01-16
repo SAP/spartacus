@@ -2,11 +2,11 @@ import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nModule, TranslationService } from '@spartacus/core';
 import {
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
   OutletContextData,
 } from '@spartacus/storefront';
-import { Observable, EMPTY, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { MyAccountV2ConsignmentTrackingComponent } from './my-account-v2-consignment-tracking.component';
 
 class MockTranslationService {
@@ -38,13 +38,12 @@ describe('MyAccountV2ConsignmentTrackingComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nModule],
+      imports: [I18nModule, MyAccountV2ConsignmentTrackingComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: OutletContextData, useClass: MockOutletContextData },
       ],
-      declarations: [MyAccountV2ConsignmentTrackingComponent],
     }).compileComponents();
     fixture = TestBed.createComponent(MyAccountV2ConsignmentTrackingComponent);
     outlet = TestBed.inject(OutletContextData);

@@ -6,7 +6,7 @@
   "prefix": "cx",
   "targets": {
     "build": {
-      "executor": "./tools/build-lib:augmented-types",
+      "executor": "./tools/build-lib:declaration-merging",
       "options": {
         "tsConfig": "integration-libs/cpq-quote/tsconfig.lib.json",
         "project": "integration-libs/cpq-quote/ng-package.json"

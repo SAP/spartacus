@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,13 +17,16 @@ import {
   CartValidationStatusCode,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import { OCC_CART_ID_CURRENT } from '@spartacus/core';
+import { OCC_CART_ID_CURRENT, TranslatePipe } from '@spartacus/core';
 import { ReorderOrderFacade } from '@spartacus/order/root';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
   SelectFocusUtility,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 
@@ -30,7 +34,15 @@ import { BehaviorSubject } from 'rxjs';
   selector: 'cx-reorder-dialog',
   templateUrl: './reorder-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FocusDirective,
+    IconComponent,
+    NgIf,
+    NgFor,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ReorderDialogComponent {
   iconTypes = ICON_TYPE;

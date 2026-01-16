@@ -71,7 +71,7 @@ describe('ApplePayComponent', () => {
     );
 
     TestBed.configureTestingModule({
-      declarations: [ApplePayComponent],
+      imports: [ApplePayComponent],
       providers: [
         { provide: ApplePayService, useValue: mockApplePayService },
         { provide: CurrentProductService, useValue: mockCurrentProductService },

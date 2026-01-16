@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
@@ -13,14 +15,11 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { SpinnerModule, DatePickerModule } from '@spartacus/storefront';
-import { RouterModule } from '@angular/router';
-import { CancelServiceOrderComponent } from './cancel-service-order.component';
+import { DatePickerModule, SpinnerModule } from '@spartacus/storefront';
 import { CancelServiceOrderGuard } from '../guards';
+import { CancelServiceOrderComponent } from './cancel-service-order.component';
 
 @NgModule({
-  declarations: [CancelServiceOrderComponent],
   imports: [
     CommonModule,
     I18nModule,
@@ -29,6 +28,7 @@ import { CancelServiceOrderGuard } from '../guards';
     ReactiveFormsModule,
     UrlModule,
     RouterModule,
+    CancelServiceOrderComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

@@ -28,6 +28,7 @@ import { ReplenishmentOrderHistoryComponent } from './replenishment-order-histor
     I18nModule,
     BtnLikeLinkModule,
     FeaturesConfigModule,
+    ReplenishmentOrderHistoryComponent,
   ],
   providers: [
     provideDefaultConfig(defaultReplenishmentOrderCancellationLayoutConfig),
@@ -40,7 +41,6 @@ import { ReplenishmentOrderHistoryComponent } from './replenishment-order-histor
       },
     }),
   ],
-  declarations: [ReplenishmentOrderHistoryComponent],
   exports: [ReplenishmentOrderHistoryComponent],
 })
 export class ReplenishmentOrderHistoryModule {}

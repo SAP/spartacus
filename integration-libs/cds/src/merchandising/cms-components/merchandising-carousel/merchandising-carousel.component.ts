@@ -4,9 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
-import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { RoutingService, UrlPipe } from '@spartacus/core';
+import {
+  CarouselComponent,
+  CmsComponentData,
+  IntersectionService,
+  MediaComponent,
+} from '@spartacus/storefront';
 import { EMPTY, Observable, using } from 'rxjs';
 import {
   distinctUntilKeyChanged,
@@ -19,6 +26,7 @@ import {
 } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent as model } from '../../../cds-models/cms.model';
 import { MerchandisingProduct } from '../../model/index';
+import { AttributesDirective } from '../directives/attributes/attributes.directive';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import { MerchandisingCarouselModel } from './model/index';
 
@@ -26,7 +34,15 @@ import { MerchandisingCarouselModel } from './model/index';
   selector: 'cx-merchandising-carousel',
   templateUrl: './merchandising-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    AttributesDirective,
+    CarouselComponent,
+    RouterLink,
+    MediaComponent,
+    AsyncPipe,
+    UrlPipe,
+  ],
 })
 export class MerchandisingCarouselComponent {
   protected lastEventModelId: string;

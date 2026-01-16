@@ -20,7 +20,6 @@ import { defaultCdcReconsentLayoutConfig } from './default-cdc-reconsent-layout.
 
 @NgModule({
   providers: [provideDefaultConfig(defaultCdcReconsentLayoutConfig)],
-  declarations: [CdcReconsentComponent],
   exports: [CdcReconsentComponent],
   imports: [
     CommonModule,
@@ -30,6 +29,7 @@ import { defaultCdcReconsentLayoutConfig } from './default-cdc-reconsent-layout.
     KeyboardFocusModule,
     ConsentManagementModule,
     BtnLikeLinkModule,
+    CdcReconsentComponent,
   ],
 })
 export class CdcReconsentModule {

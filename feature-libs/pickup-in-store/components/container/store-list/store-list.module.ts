@@ -19,8 +19,8 @@ import { StoreListComponent } from './store-list.component';
     SpinnerModule,
     StoreModule,
     FeaturesConfigModule,
+    StoreListComponent,
   ],
   exports: [StoreListComponent],
-  declarations: [StoreListComponent],
 })
 export class StoreListModule {}

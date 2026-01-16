@@ -1240,7 +1240,7 @@ describe('CdcJsService', () => {
       service.setUserConsentPreferences(mockUser, lang, userPreference);
       expect(service['invokeAPI']).toHaveBeenCalled();
       expect(service.setUserConsentPreferences).toBeTruthy();
-      expect(service.setUserConsentPreferences).toThrowError();
+      expect(service.setUserConsentPreferences).toThrow();
       done();
     });
   });

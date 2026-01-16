@@ -19,7 +19,10 @@ import {
   Renderer2,
   SecurityContext,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import {
+  outputToObservable,
+  takeUntilDestroyed,
+} from '@angular/core/rxjs-interop';
 import { DomSanitizer } from '@angular/platform-browser';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import {
@@ -33,10 +36,7 @@ import { BREAKPOINT, BreakpointService } from '../../../layout';
 
 const ARIA_LABEL = 'aria-label';
 
-@Directive({
-  selector: '[cxNgSelectA11y]',
-  standalone: false,
-})
+@Directive({ selector: '[cxNgSelectA11y]' })
 export class NgSelectA11yDirective implements AfterViewInit {
   /**
    * Use directive to bind aria attribute to inner element of ng-select
@@ -99,10 +99,13 @@ export class NgSelectA11yDirective implements AfterViewInit {
 
     this.renderer.setAttribute(inputCombobox, 'role', 'combobox');
     this.renderer.setAttribute(inputCombobox, 'aria-expanded', 'false');
-    this.customizeNgSelectAriaLabelDropdown();
 
-    const isOpened$ = this.selectComponent.openEvent.pipe(map(() => 'true'));
-    const isClosed$ = this.selectComponent.closeEvent.pipe(map(() => 'false'));
+    const isOpened$ = outputToObservable(this.selectComponent.openEvent).pipe(
+      map(() => 'true')
+    );
+    const isClosed$ = outputToObservable(this.selectComponent.closeEvent).pipe(
+      map(() => 'false')
+    );
     merge(isOpened$, isClosed$)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((state) => {
@@ -145,6 +148,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
           selectObserver.observe(this.elementRef.nativeElement, {
             subtree: true,
             characterData: true,
+            childList: true,
           });
         });
     }
@@ -205,14 +209,5 @@ export class NgSelectA11yDirective implements AfterViewInit {
       );
     }
     observer.disconnect();
-  }
-
-  customizeNgSelectAriaLabelDropdown() {
-    this.translationService
-      .translate('common.ngSelectDropdownOptionsList')
-      .pipe(take(1))
-      .subscribe((translation) => {
-        this.selectComponent.ariaLabelDropdown = translation;
-      });
   }
 }

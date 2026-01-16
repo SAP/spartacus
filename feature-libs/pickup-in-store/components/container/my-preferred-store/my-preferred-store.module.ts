@@ -24,8 +24,8 @@ import { MyPreferredStoreComponent } from './my-preferred-store.component';
         },
       },
     } as CmsConfig),
+    MyPreferredStoreComponent,
   ],
   exports: [MyPreferredStoreComponent],
-  declarations: [MyPreferredStoreComponent],
 })
 export class MyPreferredStoreModule {}

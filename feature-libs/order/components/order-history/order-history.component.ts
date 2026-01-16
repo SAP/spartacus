@@ -4,11 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { Params } from '@angular/router';
+import { Params, RouterLink, RouterLinkActive } from '@angular/router';
 import {
+  CxDatePipe,
   RoutingService,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
   isNotUndefined,
 } from '@spartacus/core';
 import {
@@ -17,6 +21,11 @@ import {
   OrderHistoryList,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
+import {
+  BtnLikeLinkDirective,
+  PaginationComponent,
+  SortingComponent,
+} from '@spartacus/storefront';
 import { Observable, combineLatest } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 
@@ -24,7 +33,22 @@ import { filter, map, take, tap } from 'rxjs/operators';
   selector: 'cx-order-history',
   templateUrl: './order-history.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgClass,
+    SortingComponent,
+    PaginationComponent,
+    NgFor,
+    RouterLink,
+    BtnLikeLinkDirective,
+    RouterLinkActive,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    CxDatePipe,
+
+    CxDatePipe,
+  ],
 })
 export class OrderHistoryComponent implements OnDestroy {
   constructor(

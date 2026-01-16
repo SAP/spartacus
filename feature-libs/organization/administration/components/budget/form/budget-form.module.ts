@@ -35,7 +35,7 @@ import { BudgetFormComponent } from './budget-form.component';
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    BudgetFormComponent,
   ],
-  declarations: [BudgetFormComponent],
 })
 export class BudgetFormModule {}

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,20 +12,35 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormArray,
   UntypedFormControl,
   UntypedFormGroup,
 } from '@angular/forms';
-import { B2BUser, B2BUserRole, B2BUserRight, Title } from '@spartacus/core';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import {
+  B2BUser,
+  B2BUserRight,
+  B2BUserRole,
+  Title,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   B2BUnitNode,
   B2BUserService,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+} from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';
+import { FormComponent } from '../../shared/form/form.component';
 import { ItemService } from '../../shared/item.service';
 import { CurrentUserService } from '../services/current-user.service';
 import { UserItemService } from '../services/user-item.service';
@@ -44,7 +60,19 @@ import { UserItemService } from '../services/user-item.service';
       useExisting: CurrentUserService,
     },
   ],
-  standalone: false,
+  imports: [
+    FormComponent,
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    NgSelectComponent,
+    FormErrorsComponent,
+    FormRequiredAsterisksComponent,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class UserFormComponent implements OnInit {
   form: UntypedFormGroup | null = this.itemService.getForm();

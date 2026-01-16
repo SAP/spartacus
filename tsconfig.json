@@ -205,14 +205,24 @@
       "@spartacus/order": ["feature-libs/order/public_api"],
       "@spartacus/order/occ": ["feature-libs/order/occ/public_api"],
       "@spartacus/order/root": ["feature-libs/order/root/public_api"],
-      "@spartacus/order/document-flow/assets": ["feature-libs/order/document-flow/assets/public_api"],
+      "@spartacus/order/document-flow/assets": [
+        "feature-libs/order/document-flow/assets/public_api"
+      ],
       "@spartacus/order/document-flow/components": [
         "feature-libs/order/document-flow/components/public_api"
       ],
-      "@spartacus/order/document-flow/core": ["feature-libs/order/document-flow/core/public_api"],
-      "@spartacus/order/document-flow": ["feature-libs/order/document-flow/public_api"],
-      "@spartacus/order/document-flow/occ": ["feature-libs/order/document-flow/occ/public_api"],
-      "@spartacus/order/document-flow/root": ["feature-libs/order/document-flow/root/public_api"],
+      "@spartacus/order/document-flow/core": [
+        "feature-libs/order/document-flow/core/public_api"
+      ],
+      "@spartacus/order/document-flow": [
+        "feature-libs/order/document-flow/public_api"
+      ],
+      "@spartacus/order/document-flow/occ": [
+        "feature-libs/order/document-flow/occ/public_api"
+      ],
+      "@spartacus/order/document-flow/root": [
+        "feature-libs/order/document-flow/root/public_api"
+      ],
       "@spartacus/organization/account-summary/assets": [
         "feature-libs/organization/account-summary/assets/public_api"
       ],
@@ -623,15 +633,9 @@
       "@spartacus/epd-visualization/root": [
         "integration-libs/epd-visualization/root/public_api"
       ],
-      "@spartacus/omf": [
-        "integration-libs/omf/public_api"
-      ],
-      "@spartacus/omf/order": [
-        "integration-libs/omf/order/public_api"
-      ],
-      "@spartacus/omf/root": [
-        "integration-libs/omf/root/public_api"
-      ],
+      "@spartacus/omf": ["integration-libs/omf/public_api"],
+      "@spartacus/omf/order": ["integration-libs/omf/order/public_api"],
+      "@spartacus/omf/root": ["integration-libs/omf/root/public_api"],
       "@spartacus/opf/b2b-checkout/components": [
         "integration-libs/opf/b2b-checkout/components/public_api"
       ],
@@ -689,9 +693,7 @@
       "@spartacus/opf/payment/core": [
         "integration-libs/opf/payment/core/public_api"
       ],
-      "@spartacus/opf/payment": [
-        "integration-libs/opf/payment/public_api"
-      ],
+      "@spartacus/opf/payment": ["integration-libs/opf/payment/public_api"],
       "@spartacus/opf/payment/occ": [
         "integration-libs/opf/payment/occ/public_api"
       ],

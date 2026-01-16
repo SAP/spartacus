@@ -7,7 +7,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable, RendererFactory2 } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
-import { LaunchRoute, LAUNCH_CALLER } from '../config/index';
+import { LAUNCH_CALLER, LaunchRoute } from '../config/index';
 import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })

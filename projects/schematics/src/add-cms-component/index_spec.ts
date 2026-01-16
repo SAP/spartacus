@@ -4,6 +4,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
+  FileNameStyleGuide,
   Style,
 } from '@schematics/angular/application/schema';
 import { addSymbolToNgModuleMetadata } from '@schematics/angular/utility/ast-utils';
@@ -99,6 +100,8 @@ describe('add-cms-component', () => {
     skipTests: false,
     projectRoot: '',
     standalone: false,
+    zoneless: false,
+    fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
 
   const defaultOptions: SpartacusOptions = {
@@ -223,6 +226,7 @@ describe('add-cms-component', () => {
       const moduleOptions = {
         name: moduleName,
         project: defaultOptions.project,
+        typeSeparator: '.',
       };
       const dummyComponentOptions = {
         project: defaultOptions.project,
@@ -230,6 +234,7 @@ describe('add-cms-component', () => {
         module: moduleName,
         export: true,
         standalone: false,
+        type: 'component',
       };
       const modifiedOptions: CxCmsComponentSchema = {
         ...commonCmsOptions,
@@ -521,11 +526,13 @@ describe('add-cms-component', () => {
       const moduleOptions = {
         name: moduleName,
         project: defaultOptions.project,
+        typeSeparator: '.',
       };
       const modifiedOptions: CxCmsComponentSchema = {
         ...commonCmsOptions,
         module: 'app',
         declareCmsModule: moduleName,
+        type: 'component',
       };
 
       appTree = await schematicRunner.runExternalSchematic(

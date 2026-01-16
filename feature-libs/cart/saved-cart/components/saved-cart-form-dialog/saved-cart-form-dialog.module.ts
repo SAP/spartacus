@@ -29,8 +29,8 @@ import { SavedCartFormDialogComponent } from './saved-cart-form-dialog.component
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    SavedCartFormDialogComponent,
   ],
-  declarations: [SavedCartFormDialogComponent],
   exports: [SavedCartFormDialogComponent],
 })
 export class SavedCartFormDialogModule {}

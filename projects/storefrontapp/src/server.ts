@@ -54,7 +54,7 @@ export function app(): express.Express {
 
   // Serve static files from /browser
   server.get(
-    '*.*',
+    /.*\..*/,
     express.static(browserDistFolder, {
       maxAge: '1y',
     })
@@ -64,7 +64,7 @@ export function app(): express.Express {
   server.use(getChromeDevtoolsExpressMiddleware());
 
   // All regular routes use the Universal engine
-  server.get('*', (req, res) => {
+  server.get(/.*/, (req, res) => {
     res.render(indexHtml, {
       req,
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],

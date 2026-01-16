@@ -1,12 +1,15 @@
 import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   EventService,
   I18nModule,
   RoutingService,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
+import { OrderDetailActionsComponent } from '@spartacus/order/components';
 import { EMPTY, Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../../order-details.service';
 import { MyAccountV2OrderDetailsActionsComponent } from './my-account-v2-order-details-actions.component';
@@ -20,10 +23,7 @@ const mockOrder2 = {
   cancellable: false,
 };
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -42,7 +42,7 @@ class MockOrderDetailsService {
 @Component({
   template: '',
   selector: 'cx-order-details-actions',
-  standalone: false,
+  imports: [I18nModule],
 })
 class MockOrderDetailActionsComponent {}
 
@@ -54,18 +54,18 @@ describe('MyAccountV2OrderDetailsActionsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nModule],
+      imports: [RouterModule.forRoot([])],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
-      declarations: [
-        MyAccountV2OrderDetailsActionsComponent,
-        MockUrlPipe,
-        MockOrderDetailActionsComponent,
-      ],
-    }).compileComponents();
+    })
+      .overrideComponent(MyAccountV2OrderDetailsActionsComponent, {
+        remove: { imports: [UrlPipe, OrderDetailActionsComponent] },
+        add: { imports: [MockUrlPipe, MockOrderDetailActionsComponent] },
+      })
+      .compileComponents();
     event = TestBed.inject(EventService);
   }));
 

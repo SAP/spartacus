@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Type } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
+  CanActivateFn,
+  DeprecatedGuard,
   GuardResult,
   Route,
   Router,
@@ -156,7 +158,7 @@ export class CmsRoutesImplService {
    * even if it's 'provided only in a child injector of a lazy-loaded module.
    */
   private wrapCmsGuard(
-    guardClass: Type<any>
+    guard: CanActivateFn | DeprecatedGuard
   ): (
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -165,7 +167,7 @@ export class CmsRoutesImplService {
       route: ActivatedRouteSnapshot,
       state: RouterStateSnapshot
     ): Observable<GuardResult> => {
-      return this.cmsGuardsService.canActivateGuard(guardClass, route, state);
+      return this.cmsGuardsService.canActivateGuard(guard, route, state);
     };
   }
 }

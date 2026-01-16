@@ -183,8 +183,12 @@ describe('ExplainDisableInfoComponent', () => {
   let fixture: ComponentFixture<DisableInfoComponent<BaseItem>>;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, I18nTestingModule, IconModule],
-      declarations: [DisableInfoComponent],
+      imports: [
+        CommonModule,
+        I18nTestingModule,
+        IconModule,
+        DisableInfoComponent,
+      ],
       providers: [
         {
           provide: ItemService,

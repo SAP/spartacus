@@ -29,8 +29,9 @@ describe('ClearCartDialogComponent', () => {
         I18nTestingModule,
         KeyboardFocusTestingModule,
         IconTestingModule,
+        ClearCartDialogComponent,
+        MockFeatureDirective,
       ],
-      declarations: [ClearCartDialogComponent, MockFeatureDirective],
       providers: [
         {
           provide: ClearCartDialogComponentService,

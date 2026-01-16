@@ -24,6 +24,7 @@ import { LoginComponent } from './login.component';
     PageSlotModule,
     I18nModule,
     DomChangeModule,
+    LoginComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -34,6 +35,5 @@ import { LoginComponent } from './login.component';
       },
     }),
   ],
-  declarations: [LoginComponent],
 })
 export class LoginModule {}

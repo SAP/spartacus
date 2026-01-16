@@ -102,6 +102,16 @@ export interface FeatureTogglesInterface {
   a11yNgSelectUnicodeCarets?: boolean;
 
   /**
+   * Enables the product carousel to include products based on specified category codes.
+   *
+   * - When this feature is enabled, the carousel will fetch and display products
+   *   associated with the `categoryCodes` provided.
+   * - The `categoryCodes` are configured and managed through SmartEdit
+   *
+   */
+  enableCarouselCategoryProducts?: boolean;
+
+  /**
    * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
    * a `ConfiguratorShowOptionsComponent` component underneath the attribute name.
    * The `ConfiguratorShowOptionsComponent` component allows to load the domain values
@@ -378,28 +388,29 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   a11yOptimizedMenuSpacing: true,
   a11yNgSelectLayering: true,
   a11yNgSelectUnicodeCarets: false,
-  readMoreDirective: false,
-  productReviewCharactersLeft: false,
+  readMoreDirective: true,
+  productReviewCharactersLeft: true,
   a11yNgSelectAriaControls: true,
-  a11yConfiguratorOverviewHeaderVPC: false,
+  a11yConfiguratorOverviewHeaderVPC: true,
+  enableCarouselCategoryProducts: true,
   enableReadDomainValuesOnDemand: true,
   opfEnablePreventingFromCheckoutWithoutEmail: true,
-  storeFinderFacadeCleanup: false,
-  defaultProductPageRouteAllowsNoProductName: false,
-  consistentSizeProductCards: false,
-  reserveHorizontalSpaceStarRating: false,
-  topProgressBarUseTransformAnimation: false,
-  disableCxPageSlotMarginAnimation: false,
-  productCarouselScrolling: false,
+  storeFinderFacadeCleanup: true,
+  defaultProductPageRouteAllowsNoProductName: true,
+  consistentSizeProductCards: true,
+  reserveHorizontalSpaceStarRating: true,
+  topProgressBarUseTransformAnimation: true,
+  disableCxPageSlotMarginAnimation: true,
+  productCarouselScrolling: true,
   cdsLoginEventsToken: false,
-  createMediaPreconnectLink: false,
-  unifiedDefaultHeaderSlotsAcrossBreakpoints: false,
-  reserveSpaceForImagesOnPdpAndPlp: false,
-  lazyLoadImagesByDefault: false,
+  createMediaPreconnectLink: true,
+  unifiedDefaultHeaderSlotsAcrossBreakpoints: true,
+  reserveSpaceForImagesOnPdpAndPlp: true,
+  lazyLoadImagesByDefault: true,
   authorizationCodeFlowByDefault: false,
   incrementProcessesCountForMergeCart: true,
   dispatchLoginActionOnlyWhenTokenReceived: false,
-  defaultLayoutConfigWithoutPageFold: false,
+  defaultLayoutConfigWithoutPageFold: true,
   navigationMenuCloseOnSameLinkClick: false,
   enablePasswordExpiredErrorTranslation: false,
   enableQuotePurchaseOrderNumber: false,

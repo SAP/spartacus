@@ -1,8 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { IconTestingModule } from '@spartacus/storefront';
+import { By } from '@angular/platform-browser';
+import { MockTranslatePipe, TranslatePipe } from '@spartacus/core';
+import {
+  ICON_TYPE,
+  IconComponent,
+  MockIconComponent,
+} from '@spartacus/storefront';
+import { SetPreferredStoreComponent } from '../../container/set-preferred-store/set-preferred-store.component';
 import { SetPreferredStoreStubComponent } from '../../container/set-preferred-store/set-preferred-store.component.spec';
+import { StoreAddressComponent } from './store-address';
 import { StoreAddressStubComponent } from './store-address/store-address.component.spec';
+import { StoreScheduleComponent } from './store-schedule';
 import { StoreScheduleStubComponent } from './store-schedule/store-schedule.component.spec';
 import { StoreComponent } from './store.component';
 
@@ -12,14 +20,29 @@ describe('StoreComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        StoreComponent,
-        StoreAddressStubComponent,
-        StoreScheduleStubComponent,
-        SetPreferredStoreStubComponent,
-      ],
-      imports: [I18nTestingModule, IconTestingModule],
-    }).compileComponents();
+      imports: [StoreComponent],
+    })
+      .overrideComponent(StoreComponent, {
+        remove: {
+          imports: [
+            StoreAddressComponent,
+            StoreScheduleComponent,
+            SetPreferredStoreComponent,
+            TranslatePipe,
+            IconComponent,
+          ],
+        },
+        add: {
+          imports: [
+            StoreAddressStubComponent,
+            StoreScheduleStubComponent,
+            SetPreferredStoreStubComponent,
+            MockTranslatePipe,
+            MockIconComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -79,27 +102,31 @@ describe('StoreComponent', () => {
 
     expect(component.openHoursOpen).toEqual(false);
     expect(element.querySelector('cx-store-schedule')).toBeNull();
-    let icon = element
-      .querySelector('cx-icon')
-      .attributes.getNamedItem('ng-reflect-type')?.value;
-    expect(icon).toEqual('CARET_DOWN');
+    let iconDebugElement = fixture.debugElement.query(
+      By.css('.cx-store-opening-hours-icon cx-icon')
+    );
+    expect(iconDebugElement.componentInstance.type).toEqual(
+      ICON_TYPE.CARET_DOWN
+    );
 
     component.toggleOpenHours();
     fixture.detectChanges();
     expect(component.openHoursOpen).toEqual(true);
     expect(element.querySelector('cx-store-schedule')).not.toBeNull();
-    icon = element
-      .querySelector('cx-icon')
-      .attributes.getNamedItem('ng-reflect-type')?.value;
-    expect(icon).toEqual('CARET_UP');
+    iconDebugElement = fixture.debugElement.query(
+      By.css('.cx-store-opening-hours-icon cx-icon')
+    );
+    expect(iconDebugElement.componentInstance.type).toEqual(ICON_TYPE.CARET_UP);
 
     component.toggleOpenHours();
     fixture.detectChanges();
     expect(component.openHoursOpen).toEqual(false);
     expect(element.querySelector('cx-store-schedule')).toBeNull();
-    icon = element
-      .querySelector('cx-icon')
-      .attributes.getNamedItem('ng-reflect-type')?.value;
-    expect(icon).toEqual('CARET_DOWN');
+    iconDebugElement = fixture.debugElement.query(
+      By.css('.cx-store-opening-hours-icon cx-icon')
+    );
+    expect(iconDebugElement.componentInstance.type).toEqual(
+      ICON_TYPE.CARET_DOWN
+    );
   });
 });

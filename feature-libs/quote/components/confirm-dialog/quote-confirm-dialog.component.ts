@@ -4,17 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   OnInit,
 } from '@angular/core';
-import { CxDatePipe, TranslationService } from '@spartacus/core';
+import { CxDatePipe, TranslatePipe, TranslationService } from '@spartacus/core';
 import { QuoteCoreConfig } from '@spartacus/quote/core';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -26,7 +29,14 @@ import { ConfirmationContext } from './quote-confirm-dialog.model';
   templateUrl: './quote-confirm-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CxDatePipe],
-  standalone: false,
+  imports: [
+    FocusDirective,
+    NgIf,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+  ],
 })
 export class QuoteConfirmDialogComponent implements OnInit {
   protected launchDialogService = inject(LaunchDialogService);

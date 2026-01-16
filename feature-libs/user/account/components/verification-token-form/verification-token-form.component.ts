@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -14,11 +15,29 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { FeatureConfigService, RoutingService } from '@spartacus/core';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import {
+  FeatureConfigService,
+  FeatureDirective,
+  RoutingService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { VerificationToken } from '@spartacus/user/account/root';
+import { Observable } from 'rxjs';
 import { ONE_TIME_PASSWORD_LOGIN_PURPOSE } from '../user-account-constants';
 import { VerificationTokenFormComponentService } from './verification-token-form-component.service';
 
@@ -26,7 +45,21 @@ import { VerificationTokenFormComponentService } from './verification-token-form
   selector: 'cx-verification-token-form',
   templateUrl: './verification-token-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    FeatureDirective,
+    NgClass,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class VerificationTokenFormComponent implements OnInit {
   constructor() {}

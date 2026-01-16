@@ -78,7 +78,7 @@ describe('CdcUserConsentService()', () => {
       expect(output).toEqual('en');
     });
   });
-  describe('updateCdcConsent()', () => {
+  describe('updateCdcUserPreferences()', () => {
     it('give consent via CDC SDK', () => {
       languageService.getActive = createSpy().and.returnValue(of('en'));
       userProfileFacade.get = createSpy().and.returnValue(of(mockUser));

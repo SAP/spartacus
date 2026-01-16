@@ -33,10 +33,7 @@ class MockAbstractOrderContext {
   key$ = of({ id: quoteCode, type: AbstractOrderType.QUOTE });
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -63,8 +60,12 @@ describe('ConfigureCartEntryComponent', () => {
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterModule],
-      declarations: [ConfigureCartEntryComponent, MockUrlPipe],
+      imports: [
+        I18nTestingModule,
+        RouterModule,
+        ConfigureCartEntryComponent,
+        MockUrlPipe,
+      ],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
@@ -314,7 +315,7 @@ describe('ConfigureCartEntryComponent', () => {
           component.retrieveEntityKey({
             type: AbstractOrderType.CART,
           })
-        ).toThrowError();
+        ).toThrow();
       });
     });
 

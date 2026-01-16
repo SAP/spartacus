@@ -31,7 +31,7 @@ import { UserGroupFormComponent } from './user-group-form.component';
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    UserGroupFormComponent,
   ],
-  declarations: [UserGroupFormComponent],
 })
 export class UserGroupFormModule {}

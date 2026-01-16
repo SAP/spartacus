@@ -64,6 +64,9 @@
                 "
                 [attr.aria-errormessage]="'isocodeError'"
                 id="country-payment-select"
+                ariaLabelDropdown="{{
+                  'common.ngSelectDropdownOptionsList' | cxTranslate
+                }}"
                 [cxNgSelectA11y]="{
                   ariaLabel: 'addressForm.country' | cxTranslate,
                 }"
@@ -241,6 +244,9 @@
                   bindValue="{{ regions[0].name ? 'isocodeShort' : 'region' }}"
                   placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
                   id="region-select"
+                  ariaLabelDropdown="{{
+                    'common.ngSelectDropdownOptionsList' | cxTranslate
+                  }}"
                   [cxNgSelectA11y]="{
                     ariaLabel: 'addressForm.state' | cxTranslate,
                   }"

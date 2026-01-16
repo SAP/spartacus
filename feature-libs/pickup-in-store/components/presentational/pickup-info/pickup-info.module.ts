@@ -11,8 +11,7 @@ import { StoreModule } from '../store/store.module';
 import { PickupInfoComponent } from './pickup-info.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, StoreModule],
-  declarations: [PickupInfoComponent],
+  imports: [CommonModule, I18nModule, StoreModule, PickupInfoComponent],
   exports: [PickupInfoComponent],
 })
 export class PickupInfoModule {}

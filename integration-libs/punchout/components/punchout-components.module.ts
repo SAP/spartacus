@@ -18,14 +18,6 @@ import { PunchoutRequisitionComponent } from './punchout-requisition/punchout-re
 import { PunchoutSessionComponent } from './punchout-session/punchout-session.component';
 
 @NgModule({
-  declarations: [
-    PunchoutSessionComponent,
-    PunchoutErrorComponent,
-    PunchoutRequisitionComponent,
-    PunchoutButtonsComponent,
-    PunchoutCloseSessionComponent,
-    PunchoutInspectCartComponent,
-  ],
   exports: [
     PunchoutSessionComponent,
     PunchoutErrorComponent,
@@ -40,6 +32,12 @@ import { PunchoutSessionComponent } from './punchout-session/punchout-session.co
     I18nModule,
     CartSharedModule,
     IconModule,
+    PunchoutSessionComponent,
+    PunchoutErrorComponent,
+    PunchoutRequisitionComponent,
+    PunchoutButtonsComponent,
+    PunchoutCloseSessionComponent,
+    PunchoutInspectCartComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

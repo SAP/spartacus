@@ -49,8 +49,8 @@ import { UserRegistrationFormService } from './user-registration-form.service';
       },
     }),
     FeaturesConfigModule,
+    UserRegistrationFormComponent,
   ],
-  declarations: [UserRegistrationFormComponent],
   exports: [UserRegistrationFormComponent],
   providers: [UserRegistrationFormService],
 })

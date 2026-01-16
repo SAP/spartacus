@@ -50,7 +50,6 @@ import { SelectFocusUtility } from './select-focus.util';
       <button id="e5"></button>
     </div>
   `,
-  standalone: false,
 })
 class MockComponent {}
 
@@ -60,7 +59,7 @@ describe('SelectFocusUtility', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent],
+      imports: [MockComponent],
       providers: [SelectFocusUtility],
     }).compileComponents();
 

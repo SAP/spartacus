@@ -22,8 +22,8 @@ import { CarouselScrollingComponent } from './carousel-scrolling.component';
     UrlModule,
     I18nModule,
     HorizontalScrollingPositionDirectiveModule,
+    CarouselScrollingComponent,
   ],
-  declarations: [CarouselScrollingComponent],
   exports: [CarouselScrollingComponent],
 })
 export class CarouselScrollingModule {}

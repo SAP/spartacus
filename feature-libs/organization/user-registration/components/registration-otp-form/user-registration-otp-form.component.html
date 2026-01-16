@@ -9,12 +9,15 @@
         formControlName="titleCode"
         [searchable]="false"
         [clearable]="false"
-        [items]="titles$ | async"
+        [items]="(titles$ | async) ?? []"
         bindLabel="name"
         bindValue="code"
         placeholder="{{
           'userRegistrationForm.fields.titleCodeOnOTPForm.placeholder'
             | cxTranslate
+        }}"
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
         }}"
         [cxNgSelectA11y]="{
           ariaLabel:
@@ -141,6 +144,9 @@
             'userRegistrationForm.fields.countryOnOTPForm.placeholder'
               | cxTranslate
           }}"
+          ariaLabelDropdown="{{
+            'common.ngSelectDropdownOptionsList' | cxTranslate
+          }}"
           [cxNgSelectA11y]="{
             ariaLabel:
               'userRegistrationForm.fields.countryOnOTPForm.label'
@@ -258,6 +264,9 @@
               | cxTranslate
           }}"
           id="region-select"
+          ariaLabelDropdown="{{
+            'common.ngSelectDropdownOptionsList' | cxTranslate
+          }}"
           [cxNgSelectA11y]="{
             ariaLabel:
               'userRegistrationForm.fields.stateOnOTPForm.label' | cxTranslate,

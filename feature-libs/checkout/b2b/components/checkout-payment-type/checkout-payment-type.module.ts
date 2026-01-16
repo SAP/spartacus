@@ -34,8 +34,8 @@ import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component'
       },
     }),
     FeaturesConfigModule,
+    CheckoutPaymentTypeComponent,
   ],
-  declarations: [CheckoutPaymentTypeComponent],
   exports: [CheckoutPaymentTypeComponent],
 })
 export class CheckoutPaymentTypeModule {}

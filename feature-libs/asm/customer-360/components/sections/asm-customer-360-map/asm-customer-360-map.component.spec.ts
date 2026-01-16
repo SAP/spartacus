@@ -112,8 +112,7 @@ describe('AsmCustomer360MapComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [AsmCustomer360MapComponent],
+      imports: [I18nTestingModule, AsmCustomer360MapComponent],
       providers: [
         AsmCustomer360SectionContextSource,
         {

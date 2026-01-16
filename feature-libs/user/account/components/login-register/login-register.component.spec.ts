@@ -1,8 +1,16 @@
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { LoginRegisterComponent } from './login-register.component';
 class MockRoutingService implements Partial<RoutingService> {
@@ -14,14 +22,6 @@ describe('LoginRegisterComponent', () => {
   let fixture: ComponentFixture<LoginRegisterComponent>;
   let routingService: RoutingService;
 
-  @Pipe({
-    name: 'cxUrl',
-    standalone: false,
-  })
-  class MockUrlPipe implements PipeTransform {
-    transform() {}
-  }
-
   class MockActivatedRoute {
     snapshot = {
       queryParams: {
@@ -29,15 +29,6 @@ describe('LoginRegisterComponent', () => {
       },
     };
   }
-
-  const testBedDefaults = {
-    imports: [I18nTestingModule],
-    declarations: [LoginRegisterComponent, MockUrlPipe, MockFeatureDirective],
-    providers: [
-      { provide: ActivatedRoute, useClass: MockActivatedRoute },
-      { provide: RoutingService, useClass: MockRoutingService },
-    ],
-  };
 
   function createComponent() {
     fixture = TestBed.createComponent(LoginRegisterComponent);
@@ -51,7 +42,21 @@ describe('LoginRegisterComponent', () => {
   }
 
   beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule(testBedDefaults).compileComponents();
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
+    })
+      .overrideComponent(LoginRegisterComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, FeatureDirective],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockFeatureDirective],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -82,7 +87,20 @@ describe('LoginRegisterComponent', () => {
 
     it('should show "Guest checkout" when forced flag is true', () => {
       TestBed.resetTestingModule();
-      TestBed.configureTestingModule(testBedDefaults);
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        providers: [
+          { provide: ActivatedRoute, useClass: MockActivatedRoute },
+          { provide: RoutingService, useClass: MockRoutingService },
+        ],
+      }).overrideComponent(LoginRegisterComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, FeatureDirective],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockFeatureDirective],
+        },
+      });
       TestBed.overrideProvider(ActivatedRoute, {
         useValue: {
           snapshot: {
@@ -118,7 +136,20 @@ describe('LoginRegisterComponent', () => {
 
     it('should navigate to checkout login for Guest Checkout', () => {
       TestBed.resetTestingModule();
-      TestBed.configureTestingModule(testBedDefaults);
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        providers: [
+          { provide: ActivatedRoute, useClass: MockActivatedRoute },
+          { provide: RoutingService, useClass: MockRoutingService },
+        ],
+      }).overrideComponent(LoginRegisterComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, FeatureDirective],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockFeatureDirective],
+        },
+      });
       TestBed.overrideProvider(ActivatedRoute, {
         useValue: {
           snapshot: {

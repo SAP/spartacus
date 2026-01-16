@@ -20,7 +20,14 @@ import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, SiteContextModule, IconModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    SiteContextModule,
+    IconModule,
+    SiteContextSelectorComponent,
+    LanguageCurrencyComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -41,7 +48,6 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
     }),
     SiteContextComponentService,
   ],
-  declarations: [SiteContextSelectorComponent, LanguageCurrencyComponent],
   exports: [SiteContextSelectorComponent, LanguageCurrencyComponent],
 })
 export class SiteContextSelectorModule {}

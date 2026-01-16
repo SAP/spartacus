@@ -81,8 +81,9 @@ const owner = ConfiguratorModelUtils.createOwner(
 describe('ConfigAttributeFooterComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
+        IconModule,
         ConfiguratorAttributeFooterComponent,
         MockFeatureLevelDirective,
       ],
@@ -92,7 +93,6 @@ describe('ConfigAttributeFooterComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfigUtilsService,
         },
-
         {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),
