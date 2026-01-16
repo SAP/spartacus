@@ -5,6 +5,7 @@
  */
 
 import { Component } from '@angular/core';
+import { StorefrontComponent } from '@spartacus/storefront';
 
 /**
  * Root component that belongs to the example app, not Spartacus libraries.
@@ -13,8 +14,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `<cx-storefront></cx-storefront>`,
-
-  // eslint-disable-next-line @angular-eslint/prefer-standalone -- This component must be non-standalone to support NgModule.bootstrap[] in the AppModule
-  standalone: false,
+  imports: [StorefrontComponent],
 })
 export class AppComponent {}

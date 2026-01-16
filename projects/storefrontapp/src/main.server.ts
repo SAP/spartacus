@@ -8,10 +8,19 @@
  * Load `$localize` onto the global scope - used if i18n tags appear in Angular templates.
  */
 import { enableProdMode } from '@angular/core';
+import {
+  BootstrapContext,
+  bootstrapApplication,
+} from '@angular/platform-browser';
+import { AppComponent } from './app/app.component';
+import { config } from './app/app.config.server';
 import { environment } from './environments/environment';
 
 if (environment.production) {
   enableProdMode();
 }
-export { renderModule } from '@angular/platform-server';
-export { AppServerModule as default } from './app/app.module.server';
+
+const bootstrap = (context: BootstrapContext) =>
+  bootstrapApplication(AppComponent, config, context);
+
+export default bootstrap;

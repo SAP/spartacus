@@ -5,18 +5,7 @@
  */
 
 import { NgModule } from '@angular/core';
-import { CartConfig } from '@spartacus/cart/base/root';
-import {
-  provideConfig,
-  provideConfigFactory,
-  SiteContextConfig,
-} from '@spartacus/core';
-import {
-  defaultCmsContentProviders,
-  layoutConfigFactory,
-  mediaConfig,
-  PWAModuleConfig,
-} from '@spartacus/storefront';
+import { provideConfig } from '@spartacus/core';
 import { environment } from '../../environments/environment';
 
 const defaultBaseSite = [
@@ -33,24 +22,14 @@ const baseSite = environment.epdVisualization
   ? ['electronics-epdvisualization-spa'].concat(defaultBaseSite)
   : defaultBaseSite;
 
-@NgModule({
-  providers: [
-    provideConfigFactory(layoutConfigFactory),
-    provideConfig(mediaConfig),
-    ...defaultCmsContentProviders,
-    provideConfig(<SiteContextConfig>{
+export const spartacusB2cConfigurationProviders = [
+    provideConfig({
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
         baseSite: baseSite,
       },
     }),
-    provideConfig(<PWAModuleConfig>{
-      pwa: {
-        enabled: true,
-        addToHomeScreen: true,
-      },
-    }),
-    provideConfig(<CartConfig>{
+    provideConfig({
       cart: {
         selectiveCart: {
           enabled: true,
@@ -58,5 +37,4 @@ const baseSite = environment.epdVisualization
       },
     }),
   ],
-})
-export class SpartacusB2cConfigurationModule {}
+];
