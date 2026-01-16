@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,7 +7,6 @@
 import {
   Component,
   EventEmitter,
-  inject,
   Input,
   OnChanges,
   OnInit,
@@ -18,7 +17,6 @@ import {
   AnonymousConsent,
   ANONYMOUS_CONSENT_STATUS,
   ConsentTemplate,
-  FeatureConfigService,
 } from '@spartacus/core';
 
 @Component({
@@ -49,10 +47,6 @@ export class ConsentManagementFormComponent implements OnInit, OnChanges {
     template: ConsentTemplate;
   }>();
 
-  private featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
-
   constructor() {
     // Intentional empty constructor
   }
@@ -62,10 +56,7 @@ export class ConsentManagementFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      this.featureConfigService?.isEnabled('updateConsentGivenInOnChanges') &&
-      (changes.consent || changes.consentTemplate)
-    ) {
+    if (changes.consent || changes.consentTemplate) {
       this.updateConsentGiven();
     }
   }

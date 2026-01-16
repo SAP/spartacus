@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -630,115 +630,6 @@ function replaceCaretWithTildeForSpartacusDependencies(
   };
 }
 
-/**
- * Applies the classic naming convention to the project.
- *
- * NOTE: This is a temporary solution for the apps created with Angular v20.
- *       Since v20, Angular CLI by default creates a file `app.ts` in the project.
- *       For v21, there is a dedicated flag `--file-name-style-guide` for the `ng new` command.
- */
-function applyClassicNamingConvention(options: SpartacusOptions): Rule {
-  return (tree: Tree, context: SchematicContext): Tree => {
-    if (options.debug) {
-      context.logger.info(`⌛️ Applying classic naming convention...`);
-    }
-
-    const project = getProjectFromWorkspace(tree, options);
-    const appDir = project.sourceRoot ? `${project.sourceRoot}/app` : 'src/app';
-
-    const renames = [
-      { old: 'app.ts', new: 'app.component.ts' },
-      { old: 'app.html', new: 'app.component.html' },
-      { old: 'app.scss', new: 'app.component.scss' },
-      { old: 'app-module.ts', new: 'app.module.ts' },
-      { old: 'app-routing-module.ts', new: 'app-routing.module.ts' },
-    ];
-
-    let performedRenames = false;
-
-    renames.forEach((rename) => {
-      const oldPath = `${appDir}/${rename.old}`;
-      const newPath = `${appDir}/${rename.new}`;
-      if (tree.exists(newPath) && tree.exists(oldPath)) {
-        // if the new file already exists and the old file exists, delete the old file to avoid conflicts
-        tree.delete(oldPath);
-        context.logger.info(
-          `✅ File ${newPath} already exists, skipping rename`
-        );
-        return;
-      }
-      if (tree.exists(oldPath)) {
-        tree.rename(oldPath, newPath);
-        performedRenames = true;
-        if (options.debug) {
-          context.logger.info(`Renamed ${oldPath} to ${newPath}`);
-        }
-      }
-    });
-
-    if (performedRenames) {
-      tree.visit((filePath) => {
-        if (!filePath.endsWith('.ts')) {
-          return;
-        }
-
-        const buffer = tree.read(filePath);
-        if (!buffer) {
-          return;
-        }
-
-        let content = buffer.toString();
-        let updated = false;
-
-        // app.ts -> app.component.ts
-        // Only match relative imports
-        if (content.match(/(['"])(\.\.?\/[^'"]*)app(['"])/)) {
-          content = content.replace(
-            /(['"])(\.\.?\/[^'"]*)app(['"])/g,
-            '$1$2app.component$3'
-          );
-          updated = true;
-        }
-
-        // app-module.ts -> app.module.ts
-        if (content.match(/(['"])(\.\.?\/[^'"]*)app-module(['"])/)) {
-          content = content.replace(
-            /(['"])(\.\.?\/[^'"]*)app-module(['"])/g,
-            '$1$2app.module$3'
-          );
-          updated = true;
-        }
-
-        // app-routing-module.ts -> app-routing.module.ts
-        if (content.match(/(['"])(\.\.?\/[^'"]*)app-routing-module(['"])/)) {
-          content = content.replace(
-            /(['"])(\.\.?\/[^'"]*)app-routing-module(['"])/g,
-            '$1$2app-routing.module$3'
-          );
-          updated = true;
-        }
-
-        if (filePath.endsWith('app.component.ts')) {
-          if (content.includes('app.html')) {
-            content = content.replace(/app\.html/g, 'app.component.html');
-            updated = true;
-          }
-          if (content.includes('app.scss')) {
-            content = content.replace(/app\.scss/g, 'app.component.scss');
-            updated = true;
-          }
-        }
-
-        if (updated) {
-          tree.overwrite(filePath, content);
-        }
-      });
-    }
-
-    return tree;
-  };
-}
-
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const features = analyzeCrossFeatureDependencies(options.features ?? []);
@@ -748,7 +639,6 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     ];
     const packageJsonFile = readPackageJson(tree);
     return chain([
-      applyClassicNamingConvention(options),
       verifyAppModuleExists(options),
 
       analyzeApplication(options, features),
