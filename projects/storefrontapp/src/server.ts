@@ -17,6 +17,29 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'path';
 import AppModuleServer from './main.server';
+import { isDevMode } from '@angular/core';
+import { Request, Response, NextFunction } from 'express';
+
+/**
+ * Middleware for handling Chrome DevTools endpoint in development mode.
+ */
+function getChromeDevtoolsExpressMiddleware() {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (
+      isDevMode() &&
+      req.path === '/.well-known/appspecific/com.chrome.devtools.json'
+    ) {
+      const root = process.cwd();
+      const uuid = crypto.randomUUID();
+
+      res.json({
+        workspace: { root, uuid },
+      });
+    } else {
+      next();
+    }
+  };
+}
 
 const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
@@ -50,6 +73,9 @@ export function app(): express.Express {
 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
+
+  // Handle Chrome DevTools requests
+  server.use(getChromeDevtoolsExpressMiddleware());
 
   // Serve static files from /browser
   server.get(
