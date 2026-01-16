@@ -65,7 +65,7 @@ describe('Import utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
-    standalone: false,
+    standalone: true,
     zoneless: false,
     fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
