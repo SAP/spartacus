@@ -16,10 +16,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import {
-  FeatureDirective,
-  TranslatePipe,
-} from '@spartacus/core';
+import { FeatureDirective, TranslatePipe } from '@spartacus/core';
 import {
   ICON_TYPE,
   IconComponent,

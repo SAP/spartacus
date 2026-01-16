@@ -25,10 +25,7 @@ import {
   TemplateRef,
   TrackByFunction,
 } from '@angular/core';
-import {
-  LoggerService,
-  TranslatePipe,
-} from '@spartacus/core';
+import { LoggerService, TranslatePipe } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
