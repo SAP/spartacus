@@ -43,6 +43,7 @@ import { ForgotPasswordComponent } from './forgot-password.component';
     BtnLikeLinkModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    ForgotPasswordComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -66,6 +67,5 @@ import { ForgotPasswordComponent } from './forgot-password.component';
       },
     }),
   ],
-  declarations: [ForgotPasswordComponent],
 })
 export class ForgotPasswordModule {}

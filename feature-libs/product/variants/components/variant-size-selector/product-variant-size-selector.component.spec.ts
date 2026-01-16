@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
 import {
   BaseOption,
@@ -13,7 +14,6 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ProductVariantSizeSelectorComponent } from './product-variant-size-selector.component';
-import { By } from '@angular/platform-browser';
 
 class MockTranslationService {
   translate() {
@@ -96,8 +96,7 @@ describe('ProductVariantSizeSelectorComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductVariantSizeSelectorComponent],
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, ProductVariantSizeSelectorComponent],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: RoutingService, useClass: MockRoutingService },

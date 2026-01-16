@@ -9,31 +9,31 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
+  CartNotEmptyGuard,
+  CheckoutAuthGuard,
+} from '@spartacus/checkout/base/components';
+import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import {
-  CardModule,
-  IconModule,
-  OutletModule,
-  PromotionsModule,
-} from '@spartacus/storefront';
-import { OpfB2bCheckoutPaymentAndReviewComponent } from './opf-b2b-checkout-payment-and-review.component';
-import { AddressFormModule } from '@spartacus/user/profile/components';
-import {
   OpfCheckoutBillingAddressFormModule,
-  OpfCheckoutPaymentWrapperModule,
   OpfCheckoutPaymentsModule,
+  OpfCheckoutPaymentWrapperModule,
   OpfCheckoutReviewCardModule,
   OpfCheckoutReviewCartDetailsModule,
   OpfCheckoutTermsAndConditionsAlertModule,
 } from '@spartacus/opf/checkout/components';
 import {
-  CartNotEmptyGuard,
-  CheckoutAuthGuard,
-} from '@spartacus/checkout/base/components';
+  CardModule,
+  IconModule,
+  OutletModule,
+  PromotionsModule,
+} from '@spartacus/storefront';
+import { AddressFormModule } from '@spartacus/user/profile/components';
+import { OpfB2bCheckoutPaymentAndReviewComponent } from './opf-b2b-checkout-payment-and-review.component';
 
 @NgModule({
   imports: [
@@ -53,6 +53,7 @@ import {
     OpfCheckoutPaymentWrapperModule,
     OpfCheckoutReviewCardModule,
     OpfCheckoutReviewCartDetailsModule,
+    OpfB2bCheckoutPaymentAndReviewComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -64,7 +65,6 @@ import {
       },
     }),
   ],
-  declarations: [OpfB2bCheckoutPaymentAndReviewComponent],
   exports: [OpfB2bCheckoutPaymentAndReviewComponent],
 })
 export class OpfB2bCheckoutPaymentAndReviewModule {}

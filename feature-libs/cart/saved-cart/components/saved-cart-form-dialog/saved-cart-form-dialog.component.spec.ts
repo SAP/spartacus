@@ -132,8 +132,9 @@ describe('SavedCartFormDialogComponent', () => {
         FormErrorsModule,
         KeyboardFocusTestingModule,
         IconTestingModule,
+        SavedCartFormDialogComponent,
+        MockFeatureDirective,
       ],
-      declarations: [SavedCartFormDialogComponent, MockFeatureDirective],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: SavedCartFacade, useClass: MockSavedCartFacade },

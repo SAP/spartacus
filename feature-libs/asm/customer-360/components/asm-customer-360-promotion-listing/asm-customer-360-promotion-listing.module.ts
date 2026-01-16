@@ -9,14 +9,13 @@ import { NgModule } from '@angular/core';
 import { ArgsModule } from '@spartacus/asm/core';
 import { I18nModule } from '@spartacus/core';
 import {
-  StarRatingModule,
   IconModule,
   MessageComponentModule,
+  StarRatingModule,
 } from '@spartacus/storefront';
 import { AsmCustomer360PromotionListingComponent } from './asm-customer-360-promotion-listing.component';
 
 @NgModule({
-  declarations: [AsmCustomer360PromotionListingComponent],
   exports: [AsmCustomer360PromotionListingComponent],
   imports: [
     CommonModule,
@@ -25,6 +24,7 @@ import { AsmCustomer360PromotionListingComponent } from './asm-customer-360-prom
     StarRatingModule,
     MessageComponentModule,
     IconModule,
+    AsmCustomer360PromotionListingComponent,
   ],
 })
 export class AsmCustomer360PromotionListingModule {}

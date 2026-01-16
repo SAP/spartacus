@@ -14,15 +14,16 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { PaginationModel } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { PaginationModel, TranslatePipe } from '@spartacus/core';
 import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core';
+import {
+  ICON_TYPE,
+  IconComponent,
+  PaginationComponent,
+} from '@spartacus/storefront';
 import { UnitLevelOrderHistoryFilterComponent } from './unit-level-order-history-filter.component';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -30,7 +31,7 @@ class MockTranslatePipe implements PipeTransform {
 @Component({
   template: '',
   selector: 'cx-pagination',
-  standalone: false,
+  imports: [ReactiveFormsModule],
 })
 class MockPaginationComponent {
   @Input() pagination: PaginationModel;
@@ -40,7 +41,7 @@ class MockPaginationComponent {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -66,14 +67,21 @@ describe('UnitLevelOrderHistoryFilterComponent', () => {
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        UnitLevelOrderHistoryFilterComponent,
-        MockTranslatePipe,
-        MockPaginationComponent,
-        MockCxIconComponent,
-      ],
-      imports: [ReactiveFormsModule],
-    }).compileComponents();
+      imports: [ReactiveFormsModule, UnitLevelOrderHistoryFilterComponent],
+    })
+      .overrideComponent(UnitLevelOrderHistoryFilterComponent, {
+        remove: {
+          imports: [TranslatePipe, PaginationComponent, IconComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockPaginationComponent,
+            MockCxIconComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(UnitLevelOrderHistoryFilterComponent);
     component = fixture.componentInstance;

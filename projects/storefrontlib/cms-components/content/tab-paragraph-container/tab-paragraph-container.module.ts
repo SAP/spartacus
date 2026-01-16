@@ -25,6 +25,7 @@ import { TabParagraphContainerComponent } from './tab-paragraph-container.compon
     I18nModule,
     TabModule,
     FeaturesConfigModule,
+    TabParagraphContainerComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -35,7 +36,6 @@ import { TabParagraphContainerComponent } from './tab-paragraph-container.compon
       },
     }),
   ],
-  declarations: [TabParagraphContainerComponent],
   exports: [TabParagraphContainerComponent],
 })
 export class TabParagraphContainerModule {}

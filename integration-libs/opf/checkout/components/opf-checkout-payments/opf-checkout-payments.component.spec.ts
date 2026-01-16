@@ -4,9 +4,11 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
+  MockTranslatePipe,
   PaginationModel,
   QueryState,
   Translatable,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   OpfActiveConfiguration,
@@ -25,15 +27,18 @@ import {
   Output,
 } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { PaginationComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
+import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper';
 import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-and-conditions-alert';
 import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
-import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 
 @Component({
   template: '',
   selector: 'cx-pagination',
-  standalone: false,
+  imports: [I18nTestingModule, OpfCheckoutTermsAndConditionsAlertModule],
 })
 class MockPaginationComponent {
   @Input() pagination: PaginationModel;
@@ -43,7 +48,7 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-opf-checkout-payment-wrapper',
-  standalone: false,
+  imports: [I18nTestingModule, OpfCheckoutTermsAndConditionsAlertModule],
 })
 class MockOpfCheckoutPaymentWrapperComponent {}
 
@@ -122,11 +127,11 @@ describe('OpfCheckoutPaymentsComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, OpfCheckoutTermsAndConditionsAlertModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
+        OpfCheckoutTermsAndConditionsAlertModule,
         OpfCheckoutPaymentsComponent,
-        MockOpfCheckoutPaymentWrapperComponent,
-        MockPaginationComponent,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -143,7 +148,24 @@ describe('OpfCheckoutPaymentsComponent', () => {
           useValue: mockBillingAddressFormService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OpfCheckoutPaymentsComponent, {
+        remove: {
+          imports: [
+            OpfCheckoutPaymentWrapperComponent,
+            PaginationComponent,
+            TranslatePipe,
+          ],
+        },
+        add: {
+          imports: [
+            MockOpfCheckoutPaymentWrapperComponent,
+            MockPaginationComponent,
+            MockTranslatePipe,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(OpfCheckoutPaymentsComponent);
     component = fixture.componentInstance;

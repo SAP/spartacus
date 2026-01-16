@@ -10,7 +10,6 @@ import { ListService } from '../list/list.service';
 @Component({
   selector: 'cx-org-sub-list',
   template: '',
-  standalone: false,
 })
 class MockSubListComponent {
   @Input() i18nRoot;
@@ -19,7 +18,7 @@ class MockSubListComponent {
 class MockListService {}
 
 @NgModule({
-  declarations: [MockSubListComponent],
+  imports: [MockSubListComponent],
   exports: [MockSubListComponent],
   providers: [
     {

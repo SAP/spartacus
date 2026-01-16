@@ -10,13 +10,12 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AsmCustomer360Connector } from '../connectors';
 
-import { AsmCustomer360Service } from './asm-customer-360.service';
 import { Component } from '@angular/core';
+import { AsmCustomer360Service } from './asm-customer-360.service';
 
 @Component({
   selector: 'cx-dummy',
   template: '<div>This is a dummy component</div>',
-  standalone: false,
 })
 export class DummyComponent {}
 

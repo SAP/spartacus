@@ -35,7 +35,7 @@ describe('OpfGooglePayComponent', () => {
     mockOpfGooglePayService = new MockOpfGooglePayService();
 
     TestBed.configureTestingModule({
-      declarations: [OpfGooglePayComponent],
+      imports: [OpfGooglePayComponent],
       providers: [
         { provide: OpfGooglePayService, useValue: mockOpfGooglePayService },
         { provide: ChangeDetectorRef, useValue: mockChangeDetectorRef },

@@ -1,10 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
+import {
+  ICON_TYPE,
+  IconComponent,
+  MockIconComponent,
+} from '../../../../cms-components/misc/icon';
 import { MessageEvent } from '../messaging';
 import { AvatarComponent } from './avatar.component';
-import { ICON_TYPE } from '../../../../cms-components/misc/icon';
-import { IconTestingModule } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
 
 const mockEvent: MessageEvent = {
   author: 'Mark Rivers',
@@ -17,9 +20,17 @@ describe('AvatarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconTestingModule],
-      declarations: [AvatarComponent],
-    }).compileComponents();
+      imports: [I18nTestingModule, AvatarComponent],
+    })
+      .overrideComponent(AvatarComponent, {
+        remove: {
+          imports: [IconComponent],
+        },
+        add: {
+          imports: [MockIconComponent],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

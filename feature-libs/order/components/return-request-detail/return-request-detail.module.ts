@@ -25,7 +25,14 @@ const components = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UrlModule, I18nModule, MediaModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    MediaModule,
+    ...components,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -41,7 +48,6 @@ const components = [
       },
     }),
   ],
-  declarations: [...components],
   exports: [...components],
 })
 export class ReturnRequestDetailModule {}

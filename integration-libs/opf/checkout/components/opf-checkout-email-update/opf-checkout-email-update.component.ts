@@ -4,8 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
@@ -18,15 +21,25 @@ import {
 import {
   RoutingService,
   SemanticPathService,
+  TranslatePipe,
   UserIdService,
 } from '@spartacus/core';
-import { CustomFormValidators } from '@spartacus/storefront';
+import {
+  CustomFormValidators,
+  FormErrorsComponent,
+} from '@spartacus/storefront';
 import { combineLatest, switchMap, take, tap } from 'rxjs';
 
 @Component({
   selector: 'cx-opf-checkout-email-update',
   templateUrl: './opf-checkout-email-update.component.html',
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgTemplateOutlet,
+    FormErrorsComponent,
+    TranslatePipe,
+  ],
 })
 export class OpfCheckoutEmailUpdateComponent {
   protected cartGuestUserFacade = inject(CartGuestUserFacade);

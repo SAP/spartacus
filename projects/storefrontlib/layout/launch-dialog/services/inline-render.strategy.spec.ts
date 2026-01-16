@@ -6,15 +6,12 @@ import {
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LayoutConfig } from '../../config/layout-config';
-import { LaunchInlineDialog, LAUNCH_CALLER } from '../config';
+import { LAUNCH_CALLER, LaunchInlineDialog } from '../config';
 import { InlineRenderStrategy } from './inline-render.strategy';
 
 const testTemplate = {} as ComponentFactory<any>;
 
-@Component({
-  template: '',
-  standalone: false,
-})
+@Component({ template: '' })
 class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}
 }
@@ -44,6 +41,7 @@ describe('InlineRenderStrategy', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [TestContainerComponent],
       providers: [
         InlineRenderStrategy,
         {
@@ -51,7 +49,6 @@ describe('InlineRenderStrategy', () => {
           useClass: MockComponentFactoryResolver,
         },
       ],
-      declarations: [TestContainerComponent],
     }).compileComponents();
 
     service = TestBed.inject(InlineRenderStrategy);

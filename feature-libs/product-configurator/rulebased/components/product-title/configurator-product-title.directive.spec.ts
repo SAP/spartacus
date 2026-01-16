@@ -5,8 +5,7 @@ import { ConfiguratorMainAriaLabelledByDirective } from './configurator-product-
 @Component({
   template: `<main></main>
     <span id="test" [cxConfiguratorMainAriaLabelledBy]="'test'"></span>`,
-  standalone: false,
-  // The directive will look for <main> in the DOM
+  imports: [ConfiguratorMainAriaLabelledByDirective],
 })
 class TestComponent {}
 
@@ -16,8 +15,7 @@ describe('ConfiguratorMainAriaLabelledByDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ConfiguratorMainAriaLabelledByDirective],
-      declarations: [TestComponent],
+      imports: [ConfiguratorMainAriaLabelledByDirective, TestComponent],
     });
     fixture = TestBed.createComponent(TestComponent);
     fixture.detectChanges();

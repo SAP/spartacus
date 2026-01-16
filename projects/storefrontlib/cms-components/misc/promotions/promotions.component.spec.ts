@@ -1,7 +1,7 @@
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { Promotion } from '@spartacus/core';
 import { PromotionsComponent } from './promotions.component';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 
 describe('PromotionsComponent', () => {
   let component: PromotionsComponent;
@@ -15,8 +15,7 @@ describe('PromotionsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [PromotionsComponent],
+      imports: [PromotionsComponent],
       providers: [],
     }).compileComponents();
   }));

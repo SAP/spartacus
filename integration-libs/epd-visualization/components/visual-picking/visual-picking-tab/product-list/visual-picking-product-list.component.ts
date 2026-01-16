@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,8 +12,13 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import { MediaComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { CompactAddToCartComponent } from './compact-add-to-cart/compact-add-to-cart.component';
 import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
+import { PagedListComponent } from './paged-list/paged-list.component';
 import { VisualPickingProductListService } from './visual-picking-product-list.service';
 
 /**
@@ -23,7 +29,16 @@ import { VisualPickingProductListService } from './visual-picking-product-list.s
   templateUrl: './visual-picking-product-list.component.html',
   providers: [VisualPickingProductListService],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    PagedListComponent,
+    NgIf,
+    MediaComponent,
+    RouterLink,
+    CompactAddToCartComponent,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class VisualPickingProductListComponent implements OnInit {
   constructor(

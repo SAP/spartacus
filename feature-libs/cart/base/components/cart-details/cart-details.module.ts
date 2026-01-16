@@ -16,8 +16,8 @@ import {
 import { PromotionsModule } from '@spartacus/storefront';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
-import { CartDetailsComponent } from './cart-details.component';
 import { CartValidationWarningsModule } from '../validation/cart-warnings/cart-validation-warnings.module';
+import { CartDetailsComponent } from './cart-details.component';
 
 @NgModule({
   imports: [
@@ -29,6 +29,7 @@ import { CartValidationWarningsModule } from '../validation/cart-warnings/cart-v
     PromotionsModule,
     I18nModule,
     CartValidationWarningsModule,
+    CartDetailsComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -39,7 +40,6 @@ import { CartValidationWarningsModule } from '../validation/cart-warnings/cart-v
       },
     }),
   ],
-  declarations: [CartDetailsComponent],
   exports: [CartDetailsComponent],
 })
 export class CartDetailsModule {}

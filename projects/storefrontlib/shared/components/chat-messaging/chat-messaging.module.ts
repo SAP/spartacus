@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nModule } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
+import { FileUploadModule, FormErrorsModule } from '../form';
 import { AvatarComponent } from './avatar';
 import { MessagingComponent } from './messaging';
-import { FileUploadModule, FormErrorsModule } from '../form';
 
 @NgModule({
   imports: [
@@ -22,8 +22,9 @@ import { FileUploadModule, FormErrorsModule } from '../form';
     ReactiveFormsModule,
     FileUploadModule,
     FormErrorsModule,
+    AvatarComponent,
+    MessagingComponent,
   ],
-  declarations: [AvatarComponent, MessagingComponent],
   exports: [AvatarComponent, MessagingComponent],
 })
 export class ChatMessagingModule {}

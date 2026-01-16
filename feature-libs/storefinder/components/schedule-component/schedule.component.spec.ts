@@ -51,8 +51,7 @@ describe('ScheduleComponent', () => {
 
   beforeEach(() => {
     const bed = TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ScheduleComponent],
+      imports: [I18nTestingModule, ScheduleComponent],
     });
 
     fixture = bed.createComponent(ScheduleComponent);

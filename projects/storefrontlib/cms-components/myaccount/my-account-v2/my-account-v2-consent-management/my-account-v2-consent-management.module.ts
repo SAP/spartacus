@@ -23,12 +23,10 @@ import { MyAccountV2ConsentManagementComponent } from './components/my-account-v
     I18nModule,
     IconModule,
     FeaturesConfigModule,
-  ],
-  providers: [ConsentManagementComponentService],
-  declarations: [
     MyAccountV2ConsentManagementComponent,
     MyAccountV2ConsentManagementFormComponent,
   ],
+  providers: [ConsentManagementComponentService],
   exports: [
     MyAccountV2ConsentManagementComponent,
     MyAccountV2ConsentManagementFormComponent,

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -25,6 +26,7 @@ import {
 } from '@spartacus/asm/root';
 import {
   AuthService,
+  FeatureDirective,
   FeatureModulesService,
   GlobalMessageService,
   GlobalMessageType,
@@ -32,12 +34,15 @@ import {
   HttpResponseStatus,
   OAuthLibWrapperService,
   RoutingService,
+  TranslatePipe,
   User,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
+  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
+  MessageComponent,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import {
@@ -56,7 +61,12 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
+import { AsmSessionTimerComponent } from '../asm-session-timer/asm-session-timer.component';
+import { AsmToggleUiComponent } from '../asm-toggle-ui/asm-toggle-ui.component';
+import { CSAgentLoginFormComponent } from '../csagent-login-form/csagent-login-form.component';
+import { CustomerEmulationComponent } from '../customer-emulation/customer-emulation.component';
 import { CustomerListAction } from '../customer-list/customer-list.model';
+import { CustomerSelectionComponent } from '../customer-selection/customer-selection.component';
 import { AsmComponentService } from '../services/asm-component.service';
 
 interface CartTypeKey {
@@ -70,7 +80,19 @@ export const CART_TYPE_KEY: CartTypeKey = {
 @Component({
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
-  standalone: false,
+  imports: [
+    IconComponent,
+    NgIf,
+    FeatureDirective,
+    AsmToggleUiComponent,
+    AsmSessionTimerComponent,
+    CustomerEmulationComponent,
+    MessageComponent,
+    CustomerSelectionComponent,
+    CSAgentLoginFormComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class AsmMainUiComponent implements OnInit, OnDestroy {
   customerSupportAgentLoggedIn$: Observable<boolean>;

@@ -1,8 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { I18nTestingModule } from '@spartacus/core';
-import { MessageService } from '@spartacus/organization/administration/components';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import {
+  CardComponent,
+  MessageService,
+} from '@spartacus/organization/administration/components';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { BehaviorSubject, EMPTY, of } from 'rxjs';
 import { CardTestingModule } from '../card/card.testing.module';
@@ -32,13 +40,7 @@ describe('FormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        I18nTestingModule,
-        ReactiveFormsModule,
-        CardTestingModule,
-      ],
-      declarations: [FormComponent],
+      imports: [CommonModule, ReactiveFormsModule, FormComponent],
       providers: [
         {
           provide: ItemService,
@@ -46,7 +48,12 @@ describe('FormComponent', () => {
         },
         MessageService,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(FormComponent, {
+        remove: { imports: [CardComponent, TranslatePipe, CxDatePipe] },
+        add: { imports: [CardTestingModule, MockTranslatePipe, MockDatePipe] },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(FormComponent);
     organizationItemService = TestBed.inject(ItemService);

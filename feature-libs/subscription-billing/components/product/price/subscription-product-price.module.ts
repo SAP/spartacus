@@ -7,12 +7,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
-import { SubscriptionProductPriceComponent } from './subscription-product-price.component';
 import { SubscriptionProductUsageChargeModule } from '../usage/subscription-product-usage-charge.module';
+import { SubscriptionProductPriceComponent } from './subscription-product-price.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, SubscriptionProductUsageChargeModule],
-  declarations: [SubscriptionProductPriceComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    SubscriptionProductUsageChargeModule,
+    SubscriptionProductPriceComponent,
+  ],
   exports: [SubscriptionProductPriceComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{

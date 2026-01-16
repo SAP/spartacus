@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,6 +12,8 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
+import { IconComponent } from '../../../misc/icon/icon.component';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 
 export enum ViewModes {
@@ -22,7 +25,7 @@ export enum ViewModes {
   selector: 'cx-product-view',
   templateUrl: './product-view.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgClass, NgIf, IconComponent, TranslatePipe],
 })
 export class ProductViewComponent {
   iconTypes = ICON_TYPE;

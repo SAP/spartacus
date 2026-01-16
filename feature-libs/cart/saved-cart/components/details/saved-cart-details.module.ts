@@ -56,8 +56,6 @@ import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview
       },
     }),
     FeaturesConfigModule,
-  ],
-  declarations: [
     SavedCartDetailsOverviewComponent,
     SavedCartDetailsActionComponent,
     SavedCartDetailsItemsComponent,

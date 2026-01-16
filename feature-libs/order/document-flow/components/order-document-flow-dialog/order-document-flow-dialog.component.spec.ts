@@ -1,7 +1,14 @@
 import { ChangeDetectorRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   IconModule,
   KeyboardFocusModule,
@@ -10,15 +17,16 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { Observable, of, throwError } from 'rxjs';
-
-import createSpy = jasmine.createSpy;
-import { By } from '@angular/platform-browser';
+import { OrderDocumentFlowFacade } from '../../root/facade';
 import {
   OrderSubsequentDocument,
   OrderSubsequentDocumentEntry,
-} from '@spartacus/order/document-flow/root';
+} from '../../root/model';
 import { OrderDocumentFlowDialogComponent } from './order-document-flow-dialog.component';
-import { OrderDocumentFlowFacade } from '@spartacus/order/document-flow/root';
+import { OrderSubsequentDocumentNodeComponent } from './order-document-flow-list';
+import { OrderDocumentOrderEntryListComponent } from './order-document-order-entry-list';
+
+import createSpy = jasmine.createSpy;
 
 const orderCode = '00001004';
 
@@ -111,7 +119,6 @@ describe('OrderDocumentFlowDialogComponent', () => {
         MessageComponentModule,
         StoreModule.forRoot({}),
       ],
-      declarations: [OrderDocumentFlowDialogComponent],
       providers: [
         {
           provide: OrderDocumentFlowFacade,
@@ -127,7 +134,32 @@ describe('OrderDocumentFlowDialogComponent', () => {
         },
       ],
       schemas: [NO_ERRORS_SCHEMA],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderDocumentFlowDialogComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe],
+        },
+      })
+      .overrideComponent(OrderDocumentOrderEntryListComponent, {
+        remove: {
+          imports: [CxDatePipe],
+        },
+        add: {
+          imports: [MockDatePipe],
+        },
+      })
+      .overrideComponent(OrderSubsequentDocumentNodeComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

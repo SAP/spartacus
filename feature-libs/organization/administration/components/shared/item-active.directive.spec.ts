@@ -14,7 +14,7 @@ const mockCode = 'mc1';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'cx-host',
   template: `<div cxOrgItemActive>TEST</div>`,
-  standalone: false,
+  imports: [ItemActiveDirective],
 })
 class TestComponent {}
 
@@ -61,7 +61,7 @@ describe('ItemActiveDirective', () => {
 
   function configureTestingModule(itemService) {
     TestBed.configureTestingModule({
-      declarations: [ItemActiveDirective, TestComponent],
+      imports: [TestComponent],
       providers: [
         {
           provide: ItemService,

@@ -27,7 +27,6 @@ import { ServiceOrderGuard } from '../guards';
 import { RescheduleServiceOrderComponent } from './reschedule-service-order.component';
 
 @NgModule({
-  declarations: [RescheduleServiceOrderComponent],
   imports: [
     CommonModule,
     CardModule,
@@ -40,6 +39,7 @@ import { RescheduleServiceOrderComponent } from './reschedule-service-order.comp
     ReactiveFormsModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    RescheduleServiceOrderComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

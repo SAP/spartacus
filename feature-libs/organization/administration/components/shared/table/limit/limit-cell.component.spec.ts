@@ -12,8 +12,7 @@ describe('LimitCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LimitCellComponent],
-      imports: [UrlTestingModule, I18nTestingModule],
+      imports: [UrlTestingModule, I18nTestingModule, LimitCellComponent],
       providers: [
         {
           provide: OutletContextData,

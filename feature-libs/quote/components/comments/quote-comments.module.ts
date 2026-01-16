@@ -16,7 +16,13 @@ import { ChatMessagingModule, IconModule } from '@spartacus/storefront';
 import { QuoteCommentsComponent } from './quote-comments.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule, ChatMessagingModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    ChatMessagingModule,
+    QuoteCommentsComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -27,7 +33,6 @@ import { QuoteCommentsComponent } from './quote-comments.component';
       },
     }),
   ],
-  declarations: [QuoteCommentsComponent],
   exports: [QuoteCommentsComponent],
 })
 export class QuoteCommentsModule {}

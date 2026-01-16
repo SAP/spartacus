@@ -32,8 +32,8 @@ import { CardComponent } from './card.component';
     MessageModule,
     PopoverModule,
     FeaturesConfigModule,
+    CardComponent,
   ],
-  declarations: [CardComponent],
   exports: [CardComponent],
 })
 export class CardModule {}
