@@ -17,7 +17,7 @@
     "test": "npm run clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "@angular/pwa": "^19.2.15",
+    "@angular/pwa": "^21.1.0",
     "@angular/ssr": "^19.2.16",
     "semver": "^7.5.2",
     "ts-morph": "^26.0.0",
