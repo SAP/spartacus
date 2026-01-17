@@ -31,7 +31,7 @@ jobs:
     # and the job returns a success code.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Prevent retries
         uses: ./.github/actions/prevent-retries
   validate_e2e_execution:
@@ -40,7 +40,7 @@ jobs:
     outputs:
       SHOULD_RUN_E2E: ${{ steps.save-e2e-output-result.outputs.SHOULD_RUN_E2E }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Determine whether to run e2es
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Setup Node and Cache
         uses: ./.github/actions/setup-node-and-cache
         with:
@@ -104,7 +104,7 @@ jobs:
             cache_key: ci-b2c
             name: B2C SSR
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Setup Node and Cache
         uses: ./.github/actions/setup-node-and-cache
         with:
@@ -142,7 +142,7 @@ jobs:
         containers: [1, 2, 3, 4, 5]
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: E2E Test Setup
         uses: ./.github/actions/e2e-setup
         with:
@@ -161,7 +161,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: E2E Test Setup
         uses: ./.github/actions/e2e-setup
         with:
@@ -183,7 +183,7 @@ jobs:
         containers: [1, 2, 3, 4]
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: E2E Test Setup
         uses: ./.github/actions/e2e-setup
         with:
@@ -205,7 +205,7 @@ jobs:
         containers: [1, 2, 3]
     if: ${{ needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: E2E Test Setup
         uses: ./.github/actions/e2e-setup
         with:
@@ -233,7 +233,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       # Currently only A11Y screenshots are collected, but this can be extended
       # to merge screenshots from other test suites (B2C, B2B, etc.) as needed
       - name: Merge A11Y screenshots
