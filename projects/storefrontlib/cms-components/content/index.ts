@@ -22,3 +22,4 @@ export * from './tab/tab.component';
 export * from './tab/tab.model';
 export * from './tab/tab.module';
 export * from './tab/panel/tab-panel.component';
+export * from './tab/panel/tab-panel.module';
