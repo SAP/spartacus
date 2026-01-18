@@ -8,11 +8,17 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { BypassSecurityTrustHtmlModule } from '../../../shared/pipes/bypass-security-trust-html/bypass-security-trust-html.module';
 import { SupplementHashAnchorsModule } from '../../../shared/pipes/suplement-hash-anchors/supplement-hash-anchors.module';
 import { ParagraphComponent } from './paragraph.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, SupplementHashAnchorsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    SupplementHashAnchorsModule,
+    BypassSecurityTrustHtmlModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

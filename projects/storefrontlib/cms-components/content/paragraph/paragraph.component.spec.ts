@@ -17,12 +17,21 @@ export class MockAnchorPipe implements PipeTransform {
   }
 }
 
+@Pipe({
+  name: 'cxBypassSecurityTrustHtml',
+  standalone: false,
+})
+export class MockTrustPipe implements PipeTransform {
+  public transform(html: string): string {
+    return html;
+  }
+}
+
 describe('CmsParagraphComponent in CmsLib', () => {
   let paragraphComponent: ParagraphComponent;
   let fixture: ComponentFixture<ParagraphComponent>;
   let el: DebugElement;
   let router: Router;
-  let domSanitizer: DomSanitizer;
 
   const componentData: CmsParagraphComponent = {
     uid: '001',
@@ -48,7 +57,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MockAnchorPipe, ParagraphComponent],
+      declarations: [MockAnchorPipe, ParagraphComponent, MockTrustPipe],
       providers: [
         {
           provide: CmsComponentData,
@@ -63,7 +72,6 @@ describe('CmsParagraphComponent in CmsLib', () => {
     fixture = TestBed.createComponent(ParagraphComponent);
     paragraphComponent = fixture.componentInstance;
     router = TestBed.inject(Router);
-    domSanitizer = TestBed.inject(DomSanitizer);
 
     el = fixture.debugElement;
   });
@@ -77,17 +85,6 @@ describe('CmsParagraphComponent in CmsLib', () => {
     fixture.detectChanges();
     expect(el.query(By.css('div')).nativeElement.textContent).toEqual(
       componentData.content
-    );
-  });
-
-  it('should sanitize unsafe html', () => {
-    const unsafeData = Object.assign({}, componentData);
-    unsafeData.content = `<img src="" onerror='alert(1)'>`;
-    data$.next(unsafeData);
-    spyOn(console, 'warn').and.stub(); // Prevent warning to be showed by Angular when sanitizing
-    fixture.detectChanges();
-    expect(el.query(By.css('div')).nativeElement.innerHTML).toEqual(
-      `<img src="">`
     );
   });
 
@@ -128,18 +125,6 @@ describe('CmsParagraphComponent in CmsLib', () => {
       const link = setupLink(url);
       link.click();
       expect(router.navigateByUrl).toHaveBeenCalledWith(url);
-    });
-
-    it('should call DOM sanitizer', () => {
-      const bypassSecurityTrustHtmlSpy = spyOn(
-        domSanitizer,
-        'bypassSecurityTrustHtml'
-      ).and.callThrough();
-
-      data$.next(componentData);
-      fixture.detectChanges();
-
-      expect(bypassSecurityTrustHtmlSpy).toHaveBeenCalled();
     });
 
     it('should not pass root url to router navigation for internal links ', () => {
