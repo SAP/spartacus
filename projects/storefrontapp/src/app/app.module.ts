@@ -39,10 +39,11 @@ import {
 } from '@spartacus/core';
 import { StoreFinderConfig } from '@spartacus/storefinder/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
-import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
+import { AppRoutingModule } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 import { SpartacusModule } from './spartacus/spartacus.module';
+import { AppComponent } from './app.component';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -54,6 +55,7 @@ if (!environment.production) {
 }
 
 @NgModule({
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -108,6 +110,6 @@ if (!environment.production) {
       googleMaps: { apiKey: GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG },
     }),
   ],
-  bootstrap: [StorefrontComponent],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
