@@ -20,7 +20,7 @@ export class MyAccountV2OrdersComponent implements OnDestroy {
   protected service = inject(MyAccountV2OrderHistoryService);
   protected PAGE_SIZE = 3;
   orders$: Observable<OrderHistoryListView | undefined> = this.service
-    .getOrderHistoryList(this.PAGE_SIZE)
+    .getOrderHistoryList()
     .pipe(tap(() => this.isLoaded$.next(true)));
   isLoaded$ = new BehaviorSubject<boolean>(false);
   getProduct(order: Order): Product | undefined {

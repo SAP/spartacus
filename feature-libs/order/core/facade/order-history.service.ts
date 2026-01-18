@@ -20,7 +20,7 @@ import {
   OrderHistoryList,
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { OrderActions } from '../store/actions/index';
 import { CANCEL_ORDER_PROCESS_ID, StateWithOrder } from '../store/order-state';
 import { OrderSelectors } from '../store/selectors/index';
@@ -68,21 +68,12 @@ export class OrderHistoryService implements OrderHistoryFacade {
   /**
    * Returns order history list
    */
-  getOrderHistoryList(
-    pageSize: number
-  ): Observable<OrderHistoryList | undefined> {
+  getOrderHistoryList(): Observable<OrderHistoryList | undefined> {
     return this.store.pipe(
       select(OrderSelectors.getOrdersState),
-      tap((orderListState) => {
-        const attemptedLoad =
-          orderListState.loading ||
-          orderListState.success ||
-          orderListState.error;
-        if (!attemptedLoad) {
-          this.loadOrderList(pageSize);
-        }
-      }),
-      map((orderListState) => orderListState.value)
+      map((orderListState) => {
+        return orderListState.value;
+      })
     );
   }
 
@@ -100,19 +91,19 @@ export class OrderHistoryService implements OrderHistoryFacade {
    * @param sort sort
    */
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
-    this.userIdService.takeUserId(true).subscribe({
-      next: (userId) => {
-        let replenishmentOrderCode: string | undefined;
+    let replenishmentOrderCode: string | undefined;
 
-        this.routingService
-          .getRouterState()
-          .pipe(take(1))
-          .subscribe((data) => {
-            replenishmentOrderCode =
-              data?.state?.params?.replenishmentOrderCode;
-          })
-          .unsubscribe();
+    this.routingService
+      .getRouterState()
+      .pipe(
+        switchMap((data) => {
+          replenishmentOrderCode = data?.state?.params?.replenishmentOrderCode;
 
+          return this.userIdService.takeUserId(true);
+        }),
+        take(1)
+      )
+      .subscribe((userId) => {
         this.store.dispatch(
           new OrderActions.LoadUserOrders({
             userId,
@@ -122,11 +113,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
             replenishmentOrderCode,
           })
         );
-      },
-      error: () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      },
-    });
+      });
   }
 
   /**

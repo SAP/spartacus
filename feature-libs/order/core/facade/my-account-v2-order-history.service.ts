@@ -43,6 +43,7 @@ export class MyAccountV2OrderHistoryService {
   clearOrderList(): void {
     this.orderHistoryService.clearOrderList();
   }
+
   getOrderDetailsWithTracking(
     orderCode: string
   ): Observable<OrderView | undefined> {
@@ -88,11 +89,11 @@ export class MyAccountV2OrderHistoryService {
     );
   }
 
-  getOrderHistoryListWithDetails(
-    pageSize: number
-  ): Observable<OrderHistoryListView | undefined> {
+  getOrderHistoryListWithDetails(): Observable<
+    OrderHistoryListView | undefined
+  > {
     const orderListView: OrderHistoryListView = {};
-    return this.orderHistoryService.getOrderHistoryList(pageSize).pipe(
+    return this.orderHistoryService.getOrderHistoryList().pipe(
       switchMap((orderList: OrderHistoryList | undefined) => {
         orderListView.pagination = orderList?.pagination;
         orderListView.sorts = orderList?.sorts;
@@ -132,11 +133,9 @@ export class MyAccountV2OrderHistoryService {
     );
   }
 
-  getOrderHistoryList(
-    pageSize: number
-  ): Observable<OrderHistoryListView | undefined> {
+  getOrderHistoryList(): Observable<OrderHistoryListView | undefined> {
     const orderHistoryListRequest =
-      this.getOrderHistoryListWithDetails(pageSize);
+      this.getOrderHistoryListWithDetails();
     const returnRequestListRequest =
       this.orderReturnRequestService.getOrderReturnRequestList();
     return combineLatest([
