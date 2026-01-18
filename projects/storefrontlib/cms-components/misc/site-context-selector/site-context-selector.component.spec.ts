@@ -14,6 +14,7 @@ import {
   CmsSiteContextSelectorComponent,
   contextServiceMapProvider,
   CurrencyService,
+  I18nTestingModule,
   Language,
   LANGUAGE_CONTEXT_ID,
   LanguageService,
@@ -84,7 +85,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule],
+      imports: [BrowserAnimationsModule, I18nTestingModule],
       declarations: [
         SiteContextSelectorComponent,
         MockUrlPipe,
