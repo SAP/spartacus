@@ -74,7 +74,11 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
 
-  // Handle Chrome DevTools requests
+  /**
+   * Handle Chrome DevTools requests
+   * TODO: after implementing a modern Angular SSR setup, this middleware should be removed due to ootb support:
+   * https://github.com/angular/angular-cli/blob/main/packages/angular/build/src/tools/vite/plugins/setup-middlewares-plugin.ts#L106
+   */
   server.use(getChromeDevtoolsExpressMiddleware());
 
   // Serve static files from /browser
