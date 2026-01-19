@@ -7,6 +7,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { FutureStockService } from '../../core/services';
 import { FutureStockAccordionComponent } from './future-stock-accordion.component';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 
 @Component({
   selector: 'cx-icon',
@@ -52,7 +53,11 @@ describe('FutureStockAccordionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [MockCxIconComponent, FutureStockAccordionComponent],
+      declarations: [
+        MockCxIconComponent,
+        FutureStockAccordionComponent,
+        MockFeatureDirective,
+      ],
       providers: [
         { provide: FutureStockFacade, useClass: MockFutureStockService },
       ],

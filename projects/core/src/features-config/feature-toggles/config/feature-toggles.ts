@@ -96,6 +96,15 @@ export interface FeatureTogglesInterface {
   a11yConfiguratorOverviewHeaderVPC?: boolean;
 
   /**
+   * Fixes accessibility issue in FutureStockAccordionComponent where aria-controls
+   * references a non-existent element when accordion is collapsed.
+   * When enabled, content element is always in DOM but hidden when collapsed,
+   * ensuring aria-controls always references a valid ID.
+   * Affects: FutureStockAccordionComponent
+   */
+  a11yFutureStockAccordionAriaControls?: boolean;
+
+  /**
    * Use unicode characters for ng-select dropdown carets so that OS themes can override the defaults
    * by targetting text. This is not possible when using borders to draw shapes.
    */
@@ -382,6 +391,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   productReviewCharactersLeft: false,
   a11yNgSelectAriaControls: true,
   a11yConfiguratorOverviewHeaderVPC: false,
+  a11yFutureStockAccordionAriaControls: false,
   enableReadDomainValuesOnDemand: true,
   opfEnablePreventingFromCheckoutWithoutEmail: true,
   storeFinderFacadeCleanup: false,

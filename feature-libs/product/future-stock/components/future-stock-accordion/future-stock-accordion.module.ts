@@ -8,10 +8,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FutureStockAccordionComponent } from './future-stock-accordion.component';
 import { IconModule } from '@spartacus/storefront';
-import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  CmsConfig,
+  FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule],
+  imports: [CommonModule, I18nModule, IconModule, FeaturesConfigModule],
   declarations: [FutureStockAccordionComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
