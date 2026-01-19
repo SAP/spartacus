@@ -61,15 +61,7 @@ import {
   of,
   throwError,
 } from 'rxjs';
-import {
-  filter,
-  finalize,
-  last,
-  map,
-  switchMap,
-  take,
-  skip,
-} from 'rxjs/operators';
+import { filter, finalize, last, map, switchMap, take } from 'rxjs/operators';
 
 @Injectable()
 export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
@@ -125,7 +117,6 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         this.registerCtaScriptReady(domain);
         this.registerGetCart(domain);
         this.registerSetBillingAddress(domain);
-        this.registerGetBillingAddress(domain);
         this.registerSetDeliveryAddress(domain);
         this.registerGetDeliveryAddress(domain);
         this.registerSetDeliveryMode(domain);
@@ -705,21 +696,10 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     ): Promise<unknown> => {
       return this.ngZone.run(() => {
         return lastValueFrom(
-          this.opfQuickBuyTransactionService
-            .setBillingAddress(address)
-            .pipe(switchMap(() => this.reloadCartAndWaitForStable()))
+          this.opfQuickBuyTransactionService.setBillingAddress(address)
         );
       });
     };
-  }
-
-  protected reloadCartAndWaitForStable(): Observable<boolean> {
-    this.activeCartFacade.reloadActiveCart();
-    return this.activeCartFacade.isStable().pipe(
-      skip(1), // Skip the initial stable state before reload
-      filter((isStable: boolean) => isStable),
-      take(1)
-    );
   }
 
   protected registerSetDeliveryAddress(domain: OpfGlobalFunctionsDomain): void {
@@ -729,21 +709,6 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       return this.ngZone.run(() => {
         return lastValueFrom(
           this.opfQuickBuyTransactionService.setDeliveryAddress(address)
-        );
-      });
-    };
-  }
-
-  protected registerGetBillingAddress(domain: OpfGlobalFunctionsDomain): void {
-    this.getGlobalFunctionContainer(domain).getBillingAddress = (): Promise<
-      Address | undefined
-    > => {
-      return this.ngZone.run(() => {
-        return lastValueFrom(
-          this.activeCartFacade.getActive().pipe(
-            map((cart: Cart) => cart.sapBillingAddress),
-            take(1)
-          )
         );
       });
     };

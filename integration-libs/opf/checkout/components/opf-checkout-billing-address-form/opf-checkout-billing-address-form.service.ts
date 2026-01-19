@@ -40,6 +40,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { OpfCheckoutPaymentWrapperService } from '../opf-checkout-payment-wrapper';
+import { PickupOptionFacade } from '@spartacus/pickup-in-store/root';
 
 @Injectable()
 export class OpfCheckoutBillingAddressFormService {
@@ -56,6 +57,7 @@ export class OpfCheckoutBillingAddressFormService {
   );
   protected userAddressService = inject(UserAddressService);
   protected _noDefaultAddressFoundForPickupMode$ = new Subject<void>();
+  protected pickupOptionFacade = inject(PickupOptionFacade);
 
   protected readonly _$billingAddressSub = new BehaviorSubject<
     Address | undefined

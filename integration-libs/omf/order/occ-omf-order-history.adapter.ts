@@ -69,7 +69,9 @@ export class OccOmfOrderHistoryAdapter extends OccOrderHistoryAdapter {
   public load(userId: string, orderCode: string): Observable<Order> {
     return this.getOrderGuid(orderCode).pipe(
       switchMap((guid) => {
-        const url = this.getOrderDetailUrl(userId, orderCode);
+        const url = this.occEndpoints.buildUrl('orderDetail', {
+          urlParams: { userId, orderId: orderCode },
+        });
         let headers = this.getRequestHeader(guid);
         if (userId === OCC_USER_ID_ANONYMOUS) {
           headers = InterceptorUtil.createHeader(
