@@ -878,6 +878,31 @@ export function removeImport(
   return new RemoveChange(source.fileName, position, toRemove);
 }
 
+export function removeImportUsingTsMorph(
+  fileSource: import('ts-morph').SourceFile,
+  { importPath, importName }: { importPath: string; importName: string }
+): void {
+  const importDeclaration = fileSource
+    .getImportDeclarations()
+    .find((imp) => imp.getModuleSpecifierValue() === importPath);
+
+  if (importDeclaration) {
+    const namedImports = importDeclaration.getNamedImports();
+    const targetImport = namedImports.find(
+      (imp) => imp.getName() === importName
+    );
+
+    if (targetImport) {
+      targetImport.remove();
+
+      // If no named imports left, remove the entire import declaration
+      if (importDeclaration.getNamedImports().length === 0) {
+        importDeclaration.remove();
+      }
+    }
+  }
+}
+
 export function removeImportFromContent(
   updatedContent: string,
   importToRemove: { symbolName?: string; importPath: string }

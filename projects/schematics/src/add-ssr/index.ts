@@ -34,6 +34,7 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import ts from 'typescript';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
+import { createAppServerModule } from '../add-spartacus/standalone';
 import collectedDependencies from '../dependencies.json';
 import {
   ANGULAR_CORE,
@@ -59,6 +60,7 @@ import {
   getPrefixedSpartacusSchematicsVersion,
   readPackageJson,
 } from '../shared/utils/package-utils';
+import { updateAppConfigServer } from './update-app-config-server';
 
 const DEPENDENCY_NAMES: string[] = ['@angular/platform-server', ANGULAR_SSR];
 
@@ -677,6 +679,8 @@ export function addSSR(options: SpartacusOptions): Rule {
       removeOutputModeSupportedOnlyInNewSsrApi(options),
       removeServerRoutesFile(options),
       addBuildSsrScript(options),
+      createAppServerModule(options),
+      updateAppConfigServer(options),
       modifyAppServerModuleFile(),
       modifyIndexHtmlFile(options),
       addWithNoHttpTransferCacheToAppModule(options),
