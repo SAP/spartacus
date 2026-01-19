@@ -8,7 +8,7 @@ import express from 'express';
 import { readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import AppServerModule from './main.server';
+import bootstrap from './main.server';
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, {
   ssrFeatureToggles: {
@@ -29,7 +29,7 @@ export function app(): express.Express {
   server.engine(
     'html',
     ngExpressEngine({
-      bootstrap: AppServerModule,
+      bootstrap
     })
   );
 
