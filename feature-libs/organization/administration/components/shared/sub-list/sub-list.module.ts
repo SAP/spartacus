@@ -26,8 +26,9 @@ import { SubListComponent } from './sub-list.component';
     PaginationModule,
     MessageModule,
     KeyboardFocusModule,
+    SubListComponent,
+    AssignCellComponent,
   ],
-  declarations: [SubListComponent, AssignCellComponent],
   exports: [SubListComponent],
 })
 export class SubListModule {}

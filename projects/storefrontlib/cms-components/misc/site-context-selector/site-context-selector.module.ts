@@ -26,6 +26,8 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
     RouterModule,
     SiteContextModule,
     IconModule,
+    SiteContextSelectorComponent,
+    LanguageCurrencyComponent,
     I18nModule,
   ],
   providers: [
@@ -48,7 +50,6 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
     }),
     SiteContextComponentService,
   ],
-  declarations: [SiteContextSelectorComponent, LanguageCurrencyComponent],
   exports: [SiteContextSelectorComponent, LanguageCurrencyComponent],
 })
 export class SiteContextSelectorModule {}

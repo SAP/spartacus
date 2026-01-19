@@ -4,7 +4,7 @@
     "baseUrl": "./",
     "outDir": "../../out-tsc/spec",
     "strict": false,
-    "module": "CommonJs",
+    "module": "preserve",
     "types": ["jest"],
     "paths": {
       "@spartacus/schematics": ["../../projects/schematics/index"],
@@ -790,7 +790,8 @@
       "@spartacus/storefront": ["../../projects/storefrontlib/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/assets": ["../../projects/assets/src/public_api"]
-    }
+    },
+    "moduleResolution": "bundler"
   },
   "include": ["ssr/**/*.spec.ts", "ssr/**/*.d.ts"]
 }

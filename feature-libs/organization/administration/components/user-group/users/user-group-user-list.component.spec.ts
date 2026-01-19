@@ -1,18 +1,23 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { Observable, of } from 'rxjs';
-import { SubListTestingModule } from '../../shared/sub-list/sub-list.testing.module';
-import { CurrentUserGroupService } from '../services/current-user-group.service';
-import { UserGroupUserListComponent } from './user-group-user-list.component';
-import { UserGroupUserListService } from './user-group-user-list.service';
+import { RouterModule } from '@angular/router';
+import {
+  I18nTestingModule,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { SubListComponent } from '@spartacus/organization/administration/components';
 import {
   LoadStatus,
   OrganizationItemStatus,
   UserGroup,
 } from '@spartacus/organization/administration/core';
-import { Component } from '@angular/core';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { Observable, of } from 'rxjs';
+import { CurrentUserGroupService } from '../services/current-user-group.service';
+import { UserGroupUserListComponent } from './user-group-user-list.component';
+import { UserGroupUserListService } from './user-group-user-list.service';
 const mockKey = 'mock';
 
 class MockCurrentUserGroupService {
@@ -22,7 +27,6 @@ class MockCurrentUserGroupService {
 @Component({
   selector: 'cx-org-sub-list',
   template: '',
-  standalone: false,
 })
 class MockSubListComponent {
   messageService = {
@@ -42,7 +46,11 @@ describe('UserGroupUserListComponent', () => {
   let userGroupUserListService: UserGroupUserListService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SubListTestingModule, UrlTestingModule, I18nTestingModule],
+      imports: [
+        UserGroupUserListComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         {
           provide: UserGroupUserListService,
@@ -53,8 +61,16 @@ describe('UserGroupUserListComponent', () => {
           useClass: MockCurrentUserGroupService,
         },
       ],
-      declarations: [UserGroupUserListComponent],
-    }).compileComponents();
+    })
+      .overrideComponent(UserGroupUserListComponent, {
+        remove: {
+          imports: [SubListComponent, TranslatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockSubListComponent, MockTranslatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
 
     userGroupUserListService = TestBed.inject(UserGroupUserListService);
     fixture = TestBed.createComponent(UserGroupUserListComponent);

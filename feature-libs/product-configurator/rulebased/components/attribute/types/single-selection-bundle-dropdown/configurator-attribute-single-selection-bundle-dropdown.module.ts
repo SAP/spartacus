@@ -27,6 +27,7 @@ import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './c
     ReactiveFormsModule,
     ConfiguratorAttributeQuantityModule,
     ConfiguratorPriceModule,
+    ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
@@ -38,7 +39,6 @@ import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './c
       },
     }),
   ],
-  declarations: [ConfiguratorAttributeSingleSelectionBundleDropdownComponent],
   exports: [ConfiguratorAttributeSingleSelectionBundleDropdownComponent],
 })
 export class ConfiguratorAttributeSingleSelectionBundleDropdownModule {}

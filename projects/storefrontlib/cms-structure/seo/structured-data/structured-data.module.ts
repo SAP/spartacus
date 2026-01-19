@@ -22,8 +22,7 @@ export function getStructuredDataFactory(injector: Injector): () => void {
 }
 
 @NgModule({
-  imports: [CommonModule],
-  declarations: [JsonLdDirective],
+  imports: [CommonModule, JsonLdDirective],
   exports: [JsonLdDirective],
   providers: [
     {

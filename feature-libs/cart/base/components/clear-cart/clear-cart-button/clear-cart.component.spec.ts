@@ -45,8 +45,7 @@ describe('ClearCartComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ClearCartComponent],
+      imports: [I18nTestingModule, ClearCartComponent],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },

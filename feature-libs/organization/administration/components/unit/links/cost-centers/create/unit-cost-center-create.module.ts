@@ -10,7 +10,6 @@ import { CostCenterFormModule } from '../../../../cost-center/form/cost-center-f
 import { UnitCostCenterCreateComponent } from './unit-cost-center-create.component';
 
 @NgModule({
-  imports: [CommonModule, CostCenterFormModule],
-  declarations: [UnitCostCenterCreateComponent],
+  imports: [CommonModule, CostCenterFormModule, UnitCostCenterCreateComponent],
 })
 export class UnitCostCenterCreateModule {}

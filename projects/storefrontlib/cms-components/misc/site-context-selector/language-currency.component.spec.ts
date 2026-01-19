@@ -24,7 +24,6 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type;
@@ -92,6 +91,7 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
       declarations: [
         LanguageCurrencyComponent,
         SiteContextSelectorComponent,
+        I18nTestingModule,
         MockCxIconComponent,
       ],
       providers: [

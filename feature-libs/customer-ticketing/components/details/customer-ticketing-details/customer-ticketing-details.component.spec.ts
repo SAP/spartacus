@@ -1,8 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  CxDatePipe,
   EventService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -52,8 +56,11 @@ describe('CustomerTicketingDetailsComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, CardModule],
-      declarations: [CustomerTicketingDetailsComponent],
+      imports: [
+        I18nTestingModule,
+        CardModule,
+        CustomerTicketingDetailsComponent,
+      ],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {
@@ -63,7 +70,16 @@ describe('CustomerTicketingDetailsComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: EventService, useClass: MockEventService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CustomerTicketingDetailsComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe],
+        },
+      })
+      .compileComponents();
     eventService = TestBed.inject(EventService);
     spyOn(eventService, 'dispatch').and.callThrough();
     routerParam$.next({ ticketCode: '1' });

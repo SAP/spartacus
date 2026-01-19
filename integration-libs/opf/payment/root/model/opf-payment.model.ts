@@ -4,11 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Cart, DeliveryMode } from '@spartacus/cart/base/root';
+import { Address } from '@spartacus/core';
 import {
   OpfDynamicScript,
   OpfErrorDialogOptions,
   OpfKeyValueMap,
 } from '@spartacus/opf/base/root';
+import {
+  OpfPaymentVerificationPayload,
+  OpfPaymentVerificationResponse,
+} from './opf-payment-verification.model';
 
 export type OpfPaymentMerchantCallback = (
   response?: OpfPaymentSubmitResponse | OpfPaymentSubmitCompleteResponse
@@ -17,19 +23,23 @@ export type OpfPaymentMerchantCallback = (
 export interface OpfPaymentGlobalMethods {
   getRedirectParams?(): Array<OpfKeyValueMap>;
   submit?(options: {
-    cartId: string;
+    cartId?: string;
     additionalData: Array<OpfKeyValueMap>;
     submitSuccess: OpfPaymentMerchantCallback;
     submitPending: OpfPaymentMerchantCallback;
     submitFailure: OpfPaymentMerchantCallback;
+    submitCancel?: OpfPaymentMerchantCallback;
     paymentMethod: OpfPaymentMethod;
+    paymentSessionId?: string;
   }): Promise<boolean>;
   submitComplete?(options: {
-    cartId: string;
+    cartId?: string;
     additionalData: Array<OpfKeyValueMap>;
     submitSuccess: OpfPaymentMerchantCallback;
     submitPending: OpfPaymentMerchantCallback;
     submitFailure: OpfPaymentMerchantCallback;
+    submitCancel?: OpfPaymentMerchantCallback;
+    paymentSessionId?: string;
   }): Promise<boolean>;
   submitCompleteRedirect?(options: {
     cartId: string;
@@ -43,6 +53,22 @@ export interface OpfPaymentGlobalMethods {
   stopLoadIndicator?(): void;
   scriptReady?(scriptIdentifier: string): void;
   reinitiatePaymentForm?(paymentOptionId?: number): Promise<boolean>;
+  getCart?(cartId?: string): Promise<Cart | undefined>;
+  setBillingAddress?(address: Address): Promise<unknown>;
+  setDeliveryAddress?(address: Address): Promise<string>;
+  getDeliveryAddress?(): Promise<Address | undefined>;
+  setDeliveryMode?(mode: string): Promise<DeliveryMode | undefined>;
+  getDeliveryMode?(): Promise<DeliveryMode | undefined>;
+  deleteAddress?(addressId: string): Promise<void>;
+  initiatePayment?(
+    configurationIdOrPaymentConfig: string | number | OpfPaymentConfig
+  ): Promise<OpfPaymentSessionData>;
+  verifyPayment?(
+    paymentSessionId: string,
+    paymentVerificationPayload: OpfPaymentVerificationPayload
+  ): Promise<OpfPaymentVerificationResponse>;
+  updateCartGuestUserEmail?(email: string): Promise<boolean>;
+  createCartGuestUser?(): Promise<boolean>;
 }
 
 export interface OpfPaymentBrowserInfo {

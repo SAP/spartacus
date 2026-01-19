@@ -4,19 +4,27 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject, Input, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Product } from '@spartacus/core';
+import { Product, TranslatePipe } from '@spartacus/core';
 import {
   OneTimeCharge,
   RecurringCharge,
   SubscriptionProductService,
 } from '@spartacus/subscription-billing/root';
+import { SubscriptionProductUsageChargeComponent } from '../usage/subscription-product-usage-charge.component';
 
 @Component({
   selector: 'cx-subscription-product-price',
-  standalone: false,
   templateUrl: './subscription-product-price.component.html',
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    SubscriptionProductUsageChargeComponent,
+    NgFor,
+    TranslatePipe,
+  ],
 })
 export class SubscriptionProductPriceComponent {
   @Input() productCode?: string;

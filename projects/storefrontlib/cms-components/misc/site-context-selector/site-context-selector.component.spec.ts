@@ -18,18 +18,19 @@ import {
   Language,
   LANGUAGE_CONTEXT_ID,
   LanguageService,
+  MockTranslatePipe,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import { MockTranslationService } from 'projects/core/src/i18n/testing/mock-translation.service';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
+import { IconComponent } from '../icon';
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -37,7 +38,6 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type;
@@ -85,12 +85,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, I18nTestingModule],
-      declarations: [
-        SiteContextSelectorComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-      ],
+      imports: [BrowserAnimationsModule, SiteContextSelectorComponent, I18nTestingModule],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         {
@@ -113,13 +108,17 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
       ],
     })
       .overrideComponent(SiteContextSelectorComponent, {
-        set: {
+        remove: {
+          imports: [UrlPipe, IconComponent, TranslatePipe],
+        },
+        add: {
           providers: [
             {
               provide: SiteContextComponentService,
               useClass: SiteContextComponentService,
             },
           ],
+          imports: [MockUrlPipe, MockCxIconComponent, MockTranslatePipe],
         },
       })
       .compileComponents();

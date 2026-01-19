@@ -92,8 +92,11 @@ describe('DpPaymentMethodComponent', () => {
   let fixture: ComponentFixture<DpPaymentMethodComponent>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DpPaymentMethodComponent],
-      imports: [StoreModule.forRoot({}), RouterModule.forRoot([])],
+      imports: [
+        StoreModule.forRoot({}),
+        RouterModule.forRoot([]),
+        DpPaymentMethodComponent,
+      ],
       providers: [
         { provide: UserPaymentService, useClass: MockUserPaymentService },
         {

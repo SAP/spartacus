@@ -21,6 +21,9 @@
             bindValue="isocode"
             placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
             (change)="countrySelected($event)"
+            ariaLabelDropdown="{{
+              'common.ngSelectDropdownOptionsList' | cxTranslate
+            }}"
             [cxNgSelectA11y]="{}"
           >
           </ng-select>
@@ -50,6 +53,9 @@
             bindLabel="name"
             bindValue="code"
             [placeholder]="'addressForm.title' | cxTranslate"
+            ariaLabelDropdown="{{
+              'common.ngSelectDropdownOptionsList' | cxTranslate
+            }}"
             [cxNgSelectA11y]="{
               ariaLabel: 'addressForm.title' | cxTranslate,
             }"
@@ -227,6 +233,9 @@
               bindValue="{{ regions[0].name ? 'isocode' : 'region' }}"
               placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
               id="region-select"
+              ariaLabelDropdown="{{
+                'common.ngSelectDropdownOptionsList' | cxTranslate
+              }}"
               [cxNgSelectA11y]="{
                 ariaLabel: 'addressForm.state' | cxTranslate,
               }"

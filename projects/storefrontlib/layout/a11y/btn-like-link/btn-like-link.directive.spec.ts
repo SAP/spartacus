@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BtnLikeLinkDirective } from './btn-like-link.directive';
 import { BtnLikeLinkModule } from './btn-like-link.module';
@@ -20,7 +20,7 @@ export const Mock = {
       Unaffected Link 2
     </a>
   `,
-  standalone: false,
+  imports: [BtnLikeLinkModule],
 })
 class TestContainerComponent {
   onClick(value: string) {
@@ -33,8 +33,11 @@ describe('BtnLikeLinkDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BtnLikeLinkModule],
-      declarations: [BtnLikeLinkDirective, TestContainerComponent],
+      imports: [
+        BtnLikeLinkModule,
+        BtnLikeLinkDirective,
+        TestContainerComponent,
+      ],
     }).compileComponents();
   }));
 

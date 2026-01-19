@@ -29,6 +29,7 @@ import { AddToCartComponent } from './add-to-cart.component';
     ItemCounterModule,
     OutletModule,
     FeaturesConfigModule,
+    AddToCartComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -42,7 +43,6 @@ import { AddToCartComponent } from './add-to-cart.component';
       },
     }),
   ],
-  declarations: [AddToCartComponent],
   exports: [AddToCartComponent],
 })
 export class AddToCartModule {}

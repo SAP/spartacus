@@ -31,8 +31,7 @@ describe('TrendingSearchesComponent', () => {
   };
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [TrendingSearchesComponent],
+      imports: [I18nTestingModule, TrendingSearchesComponent],
       providers: [
         {
           provide: TrendingSearchesService,

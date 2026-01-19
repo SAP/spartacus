@@ -25,6 +25,7 @@ import { BannerComponent } from './banner.component';
     MediaModule,
     FeaturesConfigModule,
     LcpContextDirectiveModule,
+    BannerComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -41,7 +42,6 @@ import { BannerComponent } from './banner.component';
       },
     }),
   ],
-  declarations: [BannerComponent],
   exports: [BannerComponent],
 })
 export class BannerModule {}

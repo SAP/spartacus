@@ -38,14 +38,10 @@
       "margin-inline"
     ],
     "declaration-property-value-disallowed-list": {
-      "text-align": [
-        "right",
-        "left"
-      ]
+      "text-align": ["right", "left"]
     },
-    "scss/comment-no-loud": true
+    "scss/comment-no-loud": true,
+    "selector-disallowed-list": ["/\\app-root/"]
   },
-  "ignoreFiles": [
-    "projects/storefrontstyles/vendor/**/*.scss"
-  ]
+  "ignoreFiles": ["projects/storefrontstyles/vendor/**/*.scss"]
 }

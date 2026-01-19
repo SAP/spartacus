@@ -25,8 +25,7 @@ describe('QuoteSummaryPricesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [QuoteSummaryPricesComponent],
+      imports: [I18nTestingModule, QuoteSummaryPricesComponent],
       providers: [
         {
           provide: QuoteFacade,

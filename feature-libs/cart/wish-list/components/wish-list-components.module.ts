@@ -37,6 +37,8 @@ import { WishListComponent } from './wish-list/wish-list.component';
     StarRatingModule,
     UrlModule,
     FeaturesConfigModule,
+    WishListComponent,
+    WishListItemComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -53,7 +55,6 @@ import { WishListComponent } from './wish-list/wish-list.component';
       },
     }),
   ],
-  declarations: [WishListComponent, WishListItemComponent],
   exports: [WishListComponent, WishListItemComponent],
 })
 export class WishListComponentsModule {}

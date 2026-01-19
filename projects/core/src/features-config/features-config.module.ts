@@ -21,7 +21,7 @@ import { populateFeatureTogglesToFeaturesConfig } from './feature-toggles/popula
 import { FeatureStylesService } from './services/feature-styles.service';
 
 @NgModule({
-  declarations: [FeatureLevelDirective, FeatureDirective],
+  imports: [FeatureLevelDirective, FeatureDirective],
   exports: [FeatureLevelDirective, FeatureDirective],
 })
 export class FeaturesConfigModule {

@@ -23,6 +23,7 @@ import { ConfiguratorMainAriaLabelledByDirective } from './configurator-product-
     IconModule,
     MediaModule,
     ConfiguratorMainAriaLabelledByDirective,
+    ConfiguratorProductTitleComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -33,7 +34,6 @@ import { ConfiguratorMainAriaLabelledByDirective } from './configurator-product-
       },
     }),
   ],
-  declarations: [ConfiguratorProductTitleComponent],
   exports: [ConfiguratorProductTitleComponent],
 })
 export class ConfiguratorProductTitleModule {}

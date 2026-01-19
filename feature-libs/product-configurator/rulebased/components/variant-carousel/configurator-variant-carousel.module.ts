@@ -19,6 +19,7 @@ import { ConfiguratorVariantCarouselComponent } from './configurator-variant-car
     I18nModule,
     CarouselModule,
     ProductCarouselModule,
+    ConfiguratorVariantCarouselComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -29,7 +30,6 @@ import { ConfiguratorVariantCarouselComponent } from './configurator-variant-car
       },
     }),
   ],
-  declarations: [ConfiguratorVariantCarouselComponent],
   exports: [ConfiguratorVariantCarouselComponent],
 })
 export class ConfiguratorVariantCarouselModule {}

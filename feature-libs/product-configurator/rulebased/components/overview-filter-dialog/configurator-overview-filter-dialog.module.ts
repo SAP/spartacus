@@ -24,11 +24,11 @@ import { defaultConfiguratorOverviewFilterDialogLayoutConfig } from './default-c
     ConfiguratorOverviewFilterModule,
     KeyboardFocusModule,
     FeaturesConfigModule,
+    ConfiguratorOverviewFilterDialogComponent,
   ],
   providers: [
     provideDefaultConfig(defaultConfiguratorOverviewFilterDialogLayoutConfig),
   ],
-  declarations: [ConfiguratorOverviewFilterDialogComponent],
   exports: [ConfiguratorOverviewFilterDialogComponent],
 })
 export class ConfiguratorOverviewFilterDialogModule {}

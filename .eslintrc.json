@@ -28,7 +28,7 @@
         "no-fallthrough": "off",
         "prefer-const": "off",
         "@angular-eslint/use-lifecycle-interface": "error",
-        "@angular-eslint/prefer-standalone": "off",
+        "@angular-eslint/prefer-standalone": "error",
         "@angular-eslint/prefer-inject": "off",
         "@stylistic/ts/quotes": "off",
         "@stylistic/ts/member-delimiter-style": [
@@ -109,7 +109,8 @@
       "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {
         "@angular-eslint/template/no-negated-async": "off",
-        "@angular-eslint/template/eqeqeq": "error"
+        "@angular-eslint/template/eqeqeq": "error",
+        "@angular-eslint/template/prefer-control-flow": "off"
       }
     },
     {

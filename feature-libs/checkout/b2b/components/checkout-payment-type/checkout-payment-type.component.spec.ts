@@ -20,7 +20,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockSpinnerComponent {}
 
@@ -94,8 +94,8 @@ describe('CheckoutOnePaymentTypeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         CheckoutPaymentTypeComponent,
         MockSpinnerComponent,
         MockFeatureDirective,
@@ -158,8 +158,11 @@ describe('CheckoutPaymentTypeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [CheckoutPaymentTypeComponent, MockSpinnerComponent],
+      imports: [
+        I18nTestingModule,
+        CheckoutPaymentTypeComponent,
+        MockSpinnerComponent,
+      ],
       providers: [
         {
           provide: CheckoutPaymentTypeFacade,

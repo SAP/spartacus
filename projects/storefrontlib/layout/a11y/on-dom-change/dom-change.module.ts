@@ -9,8 +9,7 @@ import { NgModule } from '@angular/core';
 import { DomChangeDirective } from './dom-change.directive';
 
 @NgModule({
-  imports: [CommonModule],
-  declarations: [DomChangeDirective],
+  imports: [CommonModule, DomChangeDirective],
   exports: [DomChangeDirective],
 })
 export class DomChangeModule {}

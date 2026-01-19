@@ -4,8 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import {
   AsmCreateCustomerFacade,
   CustomerRegistrationForm,
@@ -13,14 +19,19 @@ import {
 import {
   GlobalMessageType,
   HttpErrorModel,
+  TranslatePipe,
   TranslationService,
   User,
 } from '@spartacus/core';
 import {
   CustomFormValidators,
   FocusConfig,
+  FocusDirective,
+  FormErrorsComponent,
   ICON_TYPE,
   LaunchDialogService,
+  MessageComponent,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { first } from 'rxjs/operators';
@@ -29,7 +40,18 @@ import { CreatedCustomer } from './asm-create-customer-form.model';
 @Component({
   selector: 'cx-asm-create-customer-form',
   templateUrl: './asm-create-customer-form.component.html',
-  standalone: false,
+  imports: [
+    FocusDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    MessageComponent,
+    NgFor,
+    FormErrorsComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class AsmCreateCustomerFormComponent {
   createdCustomer: CreatedCustomer;

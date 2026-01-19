@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,10 +16,12 @@ import {
   TemplateRef,
   TrackByFunction,
 } from '@angular/core';
-import { LoggerService } from '@spartacus/core';
+import { LoggerService, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { disableTabbingForTick } from '../../../layout/a11y';
+import { HorizontalScrollingPositionDirective } from '../../directives/horizontal-scrolling-position/horizontal-scrolling-position.directive';
 
 /**
  * Context passed to the `template` for each carousel item.
@@ -51,7 +54,15 @@ enum KeyboardEventKeys {
   selector: 'cx-carousel-scrolling',
   templateUrl: './carousel-scrolling.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    HorizontalScrollingPositionDirective,
+    IconComponent,
+    NgFor,
+    NgTemplateOutlet,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CarouselScrollingComponent<Item = any> implements OnInit {
   protected logger = inject(LoggerService);

@@ -7,12 +7,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
-import { TabComponent } from './tab.component';
 import { TabPanelModule } from './panel/tab-panel.module';
+import { TabComponent } from './tab.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, TabPanelModule],
-  declarations: [TabComponent],
+  imports: [CommonModule, I18nModule, TabPanelModule, TabComponent],
   exports: [TabComponent],
 })
 export class TabModule {}

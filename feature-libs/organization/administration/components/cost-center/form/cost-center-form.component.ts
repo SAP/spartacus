@@ -4,16 +4,34 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { AbstractControl, UntypedFormGroup } from '@angular/forms';
-import { CostCenter, Currency, CurrencyService } from '@spartacus/core';
+import {
+  AbstractControl,
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import {
+  CostCenter,
+  Currency,
+  CurrencyService,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   B2BUnitNode,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';
+import { FormComponent } from '../../shared/form/form.component';
 import { ItemService } from '../../shared/item.service';
 import { createCodeForEntityName } from '../../shared/utility/entity-code';
 import { CostCenterItemService } from '../services/cost-center-item.service';
@@ -34,7 +52,18 @@ import { CurrentCostCenterService } from '../services/current-cost-center.servic
       useExisting: CurrentCostCenterService,
     },
   ],
-  standalone: false,
+  imports: [
+    FormComponent,
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    NgSelectComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CostCenterFormComponent {
   form: UntypedFormGroup | null = this.itemService.getForm();

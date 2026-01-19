@@ -44,6 +44,10 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
     UrlModule,
     AddToCartModule,
     FeaturesConfigModule,
+    CartItemComponent,
+    OrderSummaryComponent,
+    CartItemListComponent,
+    CartItemListRowComponent,
   ],
   providers: [
     provideOutlet({
@@ -54,12 +58,6 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
       id: CartOutlets.CART_ITEM_LIST,
       component: CartItemListComponent,
     }),
-  ],
-  declarations: [
-    CartItemComponent,
-    OrderSummaryComponent,
-    CartItemListComponent,
-    CartItemListRowComponent,
   ],
   exports: [
     CartItemComponent,
