@@ -55,24 +55,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
   ) {}
 
   public load(userId: string, orderCode: string): Observable<Order> {
-    const url = this.orderConfig.showOrderQuoteLink
-      ? (() => {
-          const scopes = ['orderDetail', 'quoteCode'];
-          const scopedDataWithUrls: ScopedDataWithUrl[] = scopes.map(
-            (scope) => ({
-              scopedData: { scope, userId, orderCode },
-              url: this.occEndpoints.buildUrl(scope, {
-                urlParams: { userId, orderId: orderCode },
-              }),
-            })
-          );
-          const mergedUrl =
-            this.occFieldsService.getOptimalUrlGroups(scopedDataWithUrls);
-          return Object.keys(mergedUrl)[0];
-        })()
-      : this.occEndpoints.buildUrl('orderDetail', {
-          urlParams: { userId, orderId: orderCode },
-        });
+    const url = this.getOrderDetailUrl(userId, orderCode);
 
     let headers = new HttpHeaders();
     if (userId === OCC_USER_ID_ANONYMOUS) {
@@ -224,5 +207,26 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
         throw tryNormalizeHttpError(error, this.logger);
       })
     );
+  }
+
+  protected getOrderDetailUrl(userId: string, orderCode: string): string {
+    return this.orderConfig.showOrderQuoteLink
+      ? (() => {
+          const scopes = ['orderDetail', 'quoteCode'];
+          const scopedDataWithUrls: ScopedDataWithUrl[] = scopes.map(
+            (scope) => ({
+              scopedData: { scope, userId, orderCode },
+              url: this.occEndpoints.buildUrl(scope, {
+                urlParams: { userId, orderId: orderCode },
+              }),
+            })
+          );
+          const mergedUrl =
+            this.occFieldsService.getOptimalUrlGroups(scopedDataWithUrls);
+          return Object.keys(mergedUrl)[0];
+        })()
+      : this.occEndpoints.buildUrl('orderDetail', {
+          urlParams: { userId, orderId: orderCode },
+        });
   }
 }
