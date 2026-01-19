@@ -8,6 +8,7 @@ import {
   GroupSkippingConfig,
   GroupSkippingPageConfig,
 } from './group-skipping.config';
+import { cmsEndpoints } from '../../cms-endpoints';
 
 export function verifyGroupSkippingFromConfig(config: GroupSkippingConfig) {
   Object.keys(config).forEach((page) => {
@@ -29,7 +30,7 @@ export function verifyGroupSkippingOnPageFromConfig(
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/components`,
+    )}/${cmsEndpoints.components}`,
   }).as('getComponents');
 
   checkGroupSkipperAnchorsHaveLoaded(config.expectedSkipperCount);

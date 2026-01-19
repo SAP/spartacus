@@ -13,7 +13,6 @@ import {
 } from '@spartacus/cart/base/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 import { TranslatePipe } from '@spartacus/core';
-import { PickUpItemsDetailsComponent } from '@spartacus/pickup-in-store/components';
 import { OutletDirective, PromotionsComponent } from '@spartacus/storefront';
 import { OpfCheckoutReviewCardComponent } from '../opf-checkout-review-card';
 
@@ -26,7 +25,6 @@ import { OpfCheckoutReviewCardComponent } from '../opf-checkout-review-card';
     OutletDirective,
     TranslatePipe,
     AsyncPipe,
-    PickUpItemsDetailsComponent,
     OpfCheckoutReviewCardComponent,
     NgIf,
   ],

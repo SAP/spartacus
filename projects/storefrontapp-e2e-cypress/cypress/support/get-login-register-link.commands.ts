@@ -6,6 +6,7 @@
 
 import { isMobile } from '../helpers/viewport-context';
 import { whenJDK17, whenJDK21 } from './utils/jdk-versions';
+import { cmsEndpoints } from '../helpers/cms-endpoints';
 
 declare global {
   namespace Cypress {
@@ -50,7 +51,7 @@ Cypress.Commands.add(
           method: 'GET',
           pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
             'BASE_SITE'
-          )}/cms/pages`,
+          )}/${cmsEndpoints.pages}`,
           query: {
             pageLabelOrId: '/login',
           },
