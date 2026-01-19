@@ -6,7 +6,8 @@ import {
 } from '@angular/common/http';
 import { ErrorHandler, Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
+import { UserIdService } from '../../auth';
 import { OccEndpointsService } from '../../occ';
 import { WindowRef } from '../../window';
 import { HttpErrorHandlerInterceptor } from './http-error-handler.interceptor';
@@ -22,7 +23,17 @@ class MockErrorHandler {
 
 @Injectable()
 class MockOccEndpointsService {
-  buildUrl = (val: string) => val;
+  buildUrl = (val: string, options?: { userId?: string }) => {
+    if (options?.userId) {
+      return `users/${options.userId}/cms/${val}`;
+    }
+    return val;
+  };
+}
+
+@Injectable()
+class MockUserIdService {
+  getUserId = () => of('anonymous');
 }
 
 describe('HttpErrorHandlerInterceptor', () => {
@@ -37,6 +48,7 @@ describe('HttpErrorHandlerInterceptor', () => {
       providers: [
         HttpErrorHandlerInterceptor,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        { provide: UserIdService, useClass: MockUserIdService },
         { provide: WindowRef, useValue: { isBrowser: () => false } },
         { provide: ErrorHandler, useClass: MockErrorHandler },
       ],
