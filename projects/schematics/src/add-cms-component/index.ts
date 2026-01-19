@@ -454,6 +454,7 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
         style,
         viewEncapsulation,
         skipImport,
+        standalone: false,
       }),
       mergeWith(templateSource, MergeStrategy.Overwrite),
       updateModule(options),

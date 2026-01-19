@@ -73,7 +73,6 @@ describe('scaffold app structure', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
-    standalone: true,
     zoneless: false,
     fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
