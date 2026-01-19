@@ -64,16 +64,14 @@ import {
   getWorkspace,
   scaffoldStructure,
 } from '../shared/utils/workspace-utils';
+import { addAppModuleToAppConfig } from './add-app-module-to-app-config';
+import { addStorefrontComponentToAppComponent } from './add-storefront-component-to-app-component';
 import { addSpartacusConfiguration } from './configuration';
+import { createAppModule } from './create-app-module';
 import { Schema as SpartacusOptions } from './schema';
 import { setupSpartacusModule } from './spartacus';
 import { addFeatureToggles } from './spartacus-feature-toggles';
 import { setupSpartacusFeaturesModule } from './spartacus-features';
-import {
-  addAppModuleToAppConfig,
-  addStorefrontComponentToAppComponent,
-  createAppModule,
-} from './standalone';
 import { setupStoreModules } from './store';
 
 function createStylesConfig(options: SpartacusOptions): Rule {
@@ -650,7 +648,6 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     return chain([
       detectAndSetupAppStructure(options),
 
-      // Support for standalone apps
       createAppModule(options),
       addAppModuleToAppConfig(options),
       addStorefrontComponentToAppComponent(options),

@@ -33,8 +33,8 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import ts from 'typescript';
+import { createAppServerModule } from '../add-spartacus/create-app-server-module';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
-import { createAppServerModule } from '../add-spartacus/standalone';
 import collectedDependencies from '../dependencies.json';
 import {
   ANGULAR_CORE,
