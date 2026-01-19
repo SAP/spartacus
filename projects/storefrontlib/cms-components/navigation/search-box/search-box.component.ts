@@ -23,7 +23,6 @@ import {
 import { RouterLink } from '@angular/router';
 import {
   CmsSearchBoxComponent,
-  FeatureConfigService,
   PageType,
   RoutingService,
   TranslatePipe,
@@ -151,17 +150,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();
 
   get isMobile(): Observable<boolean> | undefined {
-    return this.breakpointService?.isDown(BREAKPOINT.sm);
+    return this.breakpointService.isDown(BREAKPOINT.sm);
   }
 
-  // TODO: (CXSPA-6929) - Make dependencies no longer optional next major release
-  @Optional() changeDetecorRef = inject(ChangeDetectorRef, { optional: true });
-
-  @Optional() breakpointService = inject(BreakpointService, { optional: true });
-
-  @Optional() featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
+  protected breakpointService = inject(BreakpointService);
+  protected changeDetectorRef = inject(ChangeDetectorRef);
 
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
@@ -311,7 +304,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.softClose();
     this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
     this.searchBoxActive = false;
-    this.changeDetecorRef?.detectChanges();
+    this.changeDetectorRef.detectChanges();
     this.searchButton?.nativeElement.focus();
   }
 
@@ -673,10 +666,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       el.focus();
       this.ignoreCloseEvent = false;
     });
-  }
-
-  isEnabledFeature(feature: string) {
-    return this.featureConfigService?.isEnabled(feature);
   }
 
   ngOnDestroy(): void {
