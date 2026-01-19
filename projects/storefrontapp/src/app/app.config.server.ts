@@ -10,15 +10,15 @@ import {
   mergeApplicationConfig,
 } from '@angular/core';
 import { provideServerRendering } from '@angular/platform-server';
-import { provideServer, TestConfigServerModule } from '@spartacus/setup/ssr';
+import { TestConfigServerModule } from '@spartacus/setup/ssr';
 import { appConfig } from './app.config';
+import { AppServerModule } from './app.module.server';
 
 const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(),
-    ...provideServer({
-      serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
-    }),
+
+    importProvidersFrom(AppServerModule),
 
     importProvidersFrom(
       // DO NOT USE IN CUSTOMERS APPS:
