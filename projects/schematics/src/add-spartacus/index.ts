@@ -64,7 +64,6 @@ import {
   getWorkspace,
   scaffoldStructure,
 } from '../shared/utils/workspace-utils';
-import { addAppModuleToAppConfig } from './add-app-module-to-app-config';
 import { addStorefrontComponentToAppComponent } from './add-storefront-component-to-app-component';
 import { addSpartacusConfiguration } from './configuration';
 import { createAppModule } from './create-app-module';
@@ -73,6 +72,7 @@ import { setupSpartacusModule } from './spartacus';
 import { addFeatureToggles } from './spartacus-feature-toggles';
 import { setupSpartacusFeaturesModule } from './spartacus-features';
 import { setupStoreModules } from './store';
+import { updateAppConfig } from './update-app-config';
 
 function createStylesConfig(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
@@ -649,7 +649,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       detectAndSetupAppStructure(options),
 
       createAppModule(options),
-      addAppModuleToAppConfig(options),
+      updateAppConfig(options),
       addStorefrontComponentToAppComponent(options),
 
       analyzeApplication(options, features),

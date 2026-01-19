@@ -35,8 +35,8 @@ export function updateAppConfigServer(options: SpartacusOptions): Rule {
       );
 
       if (serverConfigFile) {
-        removeServerRoutes(serverConfigFile);
-        addAppServerModule(serverConfigFile);
+        removeProvideServerRenderingWithRoutes(serverConfigFile);
+        addImportProvidersFromAppServerModule(serverConfigFile);
 
         tree.overwrite(
           serverConfigFile.getFilePath(),
@@ -63,9 +63,9 @@ export function updateAppConfigServer(options: SpartacusOptions): Rule {
  * import { AppServerModule } from './app.module.server';
  * ```
  */
-function addAppServerModule(serverConfigFile: SourceFile): void {
+function addImportProvidersFromAppServerModule(file: SourceFile): void {
   // Add imports for AppServerModule and importProvidersFrom
-  createImports(serverConfigFile, [
+  createImports(file, [
     {
       moduleSpecifier: './app.module.server',
       namedImports: ['AppServerModule'],
@@ -77,7 +77,7 @@ function addAppServerModule(serverConfigFile: SourceFile): void {
   ]);
 
   // Add importProvidersFrom(AppServerModule) to providers array
-  const providersArray = getAppConfigServerProviders(serverConfigFile);
+  const providersArray = getAppConfigServerProviders(file);
 
   if (providersArray && Node.isArrayLiteralExpression(providersArray)) {
     const providerContent = 'importProvidersFrom(AppServerModule)';
@@ -100,20 +100,20 @@ function addAppServerModule(serverConfigFile: SourceFile): void {
  * import { withRoutes } from '@angular/ssr';
  * ```
  */
-function removeServerRoutes(serverConfigFile: SourceFile): void {
+function removeProvideServerRenderingWithRoutes(file: SourceFile): void {
   // Remove unused imports
-  removeImportUsingTsMorph(serverConfigFile, {
+  removeImportUsingTsMorph(file, {
     importPath: './app.routes.server',
     importName: 'serverRoutes',
   });
 
-  removeImportUsingTsMorph(serverConfigFile, {
+  removeImportUsingTsMorph(file, {
     importPath: '@angular/ssr',
     importName: 'withRoutes',
   });
 
   // Remove withRoutes argument from provideServerRendering
-  const providersArray = getAppConfigServerProviders(serverConfigFile);
+  const providersArray = getAppConfigServerProviders(file);
 
   if (providersArray && Node.isArrayLiteralExpression(providersArray)) {
     const elements = providersArray.getElements();
