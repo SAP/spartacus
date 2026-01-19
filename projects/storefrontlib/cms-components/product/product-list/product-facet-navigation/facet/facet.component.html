@@ -1,6 +1,5 @@
 <ng-container *ngIf="state$ | async as state">
   <div>
-    <!-- TODO: (CXSPA-6892) - Remove feature flag next major release. -->
     <a
       *ngFor="let value of facet.values | slice: 0 : state.topVisible"
       #facetValue

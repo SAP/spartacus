@@ -13,6 +13,7 @@ import {
 import { checkBanner } from './homepage';
 import { switchLanguage } from './language';
 import { clickHamburger, waitForPage } from './navigation';
+import { cmsEndpoints } from './cms-endpoints';
 
 const orderHistoryLink = '/my-account/orders';
 export const CART_PAGE_ALIAS = 'cartPage';
@@ -44,7 +45,7 @@ export function interceptCartPageEndpoint() {
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
+    )}/${cmsEndpoints.pages}?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
   ).as(CART_PAGE_ALIAS);
 
   return CART_PAGE_ALIAS;
