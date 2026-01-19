@@ -4,25 +4,43 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, CommonModule, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
+import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import {
   AbstractOrderType,
   CartOutlets,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { CmsOrderDetailItemsComponent } from '@spartacus/core';
+import { CmsOrderDetailItemsComponent, TranslatePipe } from '@spartacus/core';
 import { Consignment, Order, OrderOutlets } from '@spartacus/order/root';
-import { CmsComponentData } from '@spartacus/storefront';
+import {
+  CmsComponentData,
+  OutletDirective,
+  PromotionsComponent,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { MyAccountV2OrderConsignmentsService } from '../my-account-v2-order-consignments.service';
 import { OrderDetailsService } from '../order-details.service';
+import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
 
 @Component({
   selector: 'cx-order-details-items',
   templateUrl: './order-detail-items.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    PromotionsComponent,
+    OrderConsignedEntriesComponent,
+    OutletDirective,
+    AbstractOrderContextDirective,
+    AddToCartComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CommonModule,
+  ],
 })
 export class OrderDetailItemsComponent {
   protected orderConsignmentsService = inject(

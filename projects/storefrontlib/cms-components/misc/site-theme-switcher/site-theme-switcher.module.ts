@@ -13,12 +13,18 @@ import {
   SiteThemeModule,
 } from '@spartacus/core';
 
-import { SiteThemeSwitcherComponent } from './site-theme-switcher.component';
 import { IconModule } from '../icon/index';
+import { SiteThemeSwitcherComponent } from './site-theme-switcher.component';
 import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule, SiteThemeModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    SiteThemeModule,
+    SiteThemeSwitcherComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -29,7 +35,6 @@ import { SiteThemeSwitcherComponentService } from './site-theme-switcher.compone
     }),
     SiteThemeSwitcherComponentService,
   ],
-  declarations: [SiteThemeSwitcherComponent],
   exports: [SiteThemeSwitcherComponent],
 })
 export class SiteThemeSwitcherModule {}

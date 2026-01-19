@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   AfterViewChecked,
   Component,
@@ -14,15 +15,20 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { WindowRef } from '@spartacus/core';
+import { CxDatePipe, TranslatePipe, WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { IconComponent } from '../../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { FilesFormValidators } from '../../../services/file/files-form-validators';
 import { FileUploadComponent } from '../../form';
+import { FormErrorsComponent } from '../../form/form-errors/form-errors.component';
+import { AvatarComponent } from '../avatar/avatar.component';
 import {
   MessageEvent,
   MessageEventBoundItem,
@@ -32,7 +38,20 @@ import {
 @Component({
   selector: 'cx-messaging',
   templateUrl: './messaging.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    NgClass,
+    AvatarComponent,
+    IconComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FileUploadComponent,
+    FormErrorsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+  ],
 })
 export class MessagingComponent implements OnInit, AfterViewChecked {
   // can be undefined if you press add message button very fast on slow network

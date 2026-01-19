@@ -12,8 +12,14 @@ import { IconModule } from '@spartacus/storefront';
 import { CartItemValidationWarningComponent } from './cart-item-validation-warning.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, I18nModule, UrlModule, IconModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    I18nModule,
+    UrlModule,
+    IconModule,
+    CartItemValidationWarningComponent,
+  ],
   exports: [CartItemValidationWarningComponent],
-  declarations: [CartItemValidationWarningComponent],
 })
 export class CartItemValidationWarningModule {}

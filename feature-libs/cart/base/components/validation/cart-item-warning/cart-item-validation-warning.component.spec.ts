@@ -12,7 +12,8 @@ import {
   CartValidationFacade,
   CartValidationStatusCode,
 } from '@spartacus/cart/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { ReplaySubject } from 'rxjs';
 import { CartItemValidationWarningComponent } from './cart-item-validation-warning.component';
 
@@ -47,24 +48,17 @@ class MockCartValidationFacade {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -77,19 +71,23 @@ describe('CartItemValidationWarningComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CartItemValidationWarningComponent,
-        MockCxIconComponent,
-        MockTranslatePipe,
-        MockUrlPipe,
-      ],
+      imports: [CartItemValidationWarningComponent],
       providers: [
         {
           provide: CartValidationFacade,
           useClass: MockCartValidationFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CartItemValidationWarningComponent, {
+        remove: {
+          imports: [IconComponent, TranslatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockCxIconComponent, MockTranslatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(CartItemValidationWarningComponent);
     component = fixture.componentInstance;

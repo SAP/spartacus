@@ -4,21 +4,40 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   OnInit,
 } from '@angular/core';
-import { AbstractControl, UntypedFormGroup } from '@angular/forms';
-import { B2BApprovalProcess, B2BUnit, isNotUndefined } from '@spartacus/core';
+import {
+  AbstractControl,
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import {
+  B2BApprovalProcess,
+  B2BUnit,
+  isNotUndefined,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   B2BUnitNode,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  NgSelectA11yDirective,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';
+import { FormComponent } from '../../shared/form/form.component';
 import { ItemService } from '../../shared/item.service';
 import { createCodeForEntityName } from '../../shared/utility/entity-code';
 import { CurrentUnitService } from '../services/current-unit.service';
@@ -39,7 +58,19 @@ import { UnitItemService } from '../services/unit-item.service';
       useExisting: CurrentUnitService,
     },
   ],
-  standalone: false,
+  imports: [
+    FormComponent,
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class UnitFormComponent implements OnInit {
   @Input() i18nRoot = 'orgUnit';

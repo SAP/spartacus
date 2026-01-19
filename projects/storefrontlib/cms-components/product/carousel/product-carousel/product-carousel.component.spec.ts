@@ -1,3 +1,4 @@
+import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   Input,
@@ -10,15 +11,25 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CmsProductCarouselComponent,
+  CxDatePipe,
   FeatureConfigService,
   FeaturesConfigModule,
   FeatureToggles,
-  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Product,
   ProductSearchByCategoryService,
   ProductSearchByCodeService,
   ProductService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
+import {
+  CarouselComponent,
+  CarouselScrollingComponent,
+  MediaComponent,
+  ProductCarouselItemComponent,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { ProductCarouselComponent } from './product-carousel.component';
@@ -36,7 +47,7 @@ import { ProductCarouselComponent } from './product-carousel.component';
       ></ng-container>
     </ng-container>
   `,
-  standalone: false,
+  imports: [AsyncPipe, NgTemplateOutlet, NgFor],
 })
 class MockCarouselComponent {
   @Input() title: string;
@@ -58,7 +69,7 @@ class MockCarouselComponent {
       ></ng-container>
     </ng-container>
   `,
-  standalone: false,
+  imports: [AsyncPipe, NgTemplateOutlet, NgFor],
 })
 class MockCarouselScrollingComponent {
   @Input() title: string;
@@ -70,7 +81,6 @@ class MockCarouselScrollingComponent {
 @Component({
   selector: 'cx-product-carousel-item',
   template: '',
-  standalone: false,
 })
 class MockProductCarouselItemComponent {
   @Input() item: any;
@@ -79,7 +89,6 @@ class MockProductCarouselItemComponent {
 
 @Pipe({
   name: 'cxUrl',
-  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -88,7 +97,6 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-media',
   template: '',
-  standalone: false,
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -168,7 +176,6 @@ const mockComponentData: CmsProductCarouselComponent = {
   title: 'Mock Title',
   name: 'Mock Product Carousel',
   container: 'false',
-  categoryCodes: 'electronics',
 };
 const mockComponentWithAddCartData: CmsProductCarouselComponent = {
   ...mockComponentData,
@@ -180,6 +187,10 @@ const MockCmsProductCarouselComponent = <CmsComponentData<any>>{
 };
 const MockCmsProductCarouselComponentAddToCart = <CmsComponentData<any>>{
   data$: of(mockComponentWithAddCartData),
+};
+
+const MockCmsProductCarouselComponentCategoryCodes = <CmsComponentData<any>>{
+  data$: of({ ...mockComponentData, categoryCodes: 'electronics' }),
 };
 
 class MockProductService implements Partial<ProductService> {
@@ -230,47 +241,63 @@ describe('ProductCarouselComponent', () => {
   let productSearchByCodeService: MockProductSearchByCodeService;
   let productSearchByCategoryService: MockProductSearchByCategoryService;
 
-  const testBedDefaults = {
-    imports: [I18nTestingModule, FeaturesConfigModule],
-    declarations: [
-      ProductCarouselComponent,
-      MockProductCarouselItemComponent,
-      MockCarouselComponent,
-      MockCarouselScrollingComponent,
-      MockMediaComponent,
-      MockUrlPipe,
-    ],
-    providers: [
-      {
-        provide: CmsComponentData,
-        useValue: MockCmsProductCarouselComponent,
-      },
-      {
-        provide: ProductService,
-        useClass: MockProductService,
-      },
-      {
-        provide: FeatureConfigService,
-        useClass: MockFeatureConfigService,
-      },
-      {
-        provide: ProductSearchByCodeService,
-        useClass: MockProductSearchByCodeService,
-      },
-      {
-        provide: ProductSearchByCategoryService,
-        useClass: MockProductSearchByCategoryService,
-      },
-    ],
-  };
+  const mockProviders = [
+    {
+      provide: CmsComponentData,
+      useValue: MockCmsProductCarouselComponent,
+    },
+    {
+      provide: ProductService,
+      useClass: MockProductService,
+    },
+    {
+      provide: FeatureConfigService,
+      useClass: MockFeatureConfigService,
+    },
+    {
+      provide: ProductSearchByCodeService,
+      useClass: MockProductSearchByCodeService,
+    },
+    {
+      provide: ProductSearchByCategoryService,
+      useClass: MockProductSearchByCategoryService,
+    },
+  ];
 
   beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule(testBedDefaults).compileComponents();
+    TestBed.configureTestingModule({
+      imports: [FeaturesConfigModule, ProductCarouselComponent],
+      providers: mockProviders,
+    })
+      .overrideComponent(ProductCarouselComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            MediaComponent,
+            CarouselComponent,
+            CarouselScrollingComponent,
+            ProductCarouselItemComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockProductCarouselItemComponent,
+            MockCarouselComponent,
+            MockCarouselScrollingComponent,
+            MockMediaComponent,
+            MockUrlPipe,
+            MockTranslatePipe,
+            MockDatePipe,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
     mockFeatureToggles = {
-      enableCarouselCategoryProducts: false,
       productCarouselScrolling: true,
     };
     fixture = TestBed.createComponent(ProductCarouselComponent);
@@ -319,7 +346,6 @@ describe('ProductCarouselComponent', () => {
   });
 
   it('should have product code 111 in first product', waitForAsync(() => {
-    mockFeatureToggles.enableCarouselCategoryProducts = false;
     spyOn(featureConfigService, 'isEnabled').and.callThrough();
     fixture.detectChanges();
 
@@ -332,7 +358,6 @@ describe('ProductCarouselComponent', () => {
   }));
 
   it('Should use batch API with carouselMinimal scope when componentMappingExist is false', (done) => {
-    mockFeatureToggles.enableCarouselCategoryProducts = false;
     spyOn(featureConfigService, 'isEnabled').and.callThrough();
     fixture.detectChanges();
 
@@ -374,7 +399,33 @@ describe('ProductCarouselComponent', () => {
   describe('Carousel with inner component mapping', () => {
     beforeEach(() => {
       TestBed.resetTestingModule();
-      TestBed.configureTestingModule(testBedDefaults);
+      TestBed.configureTestingModule({
+        imports: [ProductCarouselComponent],
+        providers: mockProviders,
+      }).overrideComponent(ProductCarouselComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            MediaComponent,
+            CarouselComponent,
+            CarouselScrollingComponent,
+            ProductCarouselItemComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockProductCarouselItemComponent,
+            MockCarouselComponent,
+            MockCarouselScrollingComponent,
+            MockMediaComponent,
+            MockUrlPipe,
+            MockTranslatePipe,
+            MockDatePipe,
+          ],
+        },
+      });
 
       TestBed.overrideProvider(CmsComponentData, {
         useValue: MockCmsProductCarouselComponentAddToCart,
@@ -392,7 +443,6 @@ describe('ProductCarouselComponent', () => {
     });
 
     it('Should use batch API with carousel scope when componentMappingExist is true', (done) => {
-      mockFeatureToggles.enableCarouselCategoryProducts = false;
       spyOn(featureConfigService, 'isEnabled').and.callThrough();
       spyOn(productSearchByCodeService, 'get').and.callThrough();
       fixture.detectChanges();
@@ -414,10 +464,36 @@ describe('ProductCarouselComponent', () => {
   describe('Carousel with category products', () => {
     beforeEach(() => {
       TestBed.resetTestingModule();
-      TestBed.configureTestingModule(testBedDefaults);
+      TestBed.configureTestingModule({
+        imports: [ProductCarouselComponent],
+        providers: mockProviders,
+      }).overrideComponent(ProductCarouselComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            MediaComponent,
+            CarouselComponent,
+            CarouselScrollingComponent,
+            ProductCarouselItemComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockProductCarouselItemComponent,
+            MockCarouselComponent,
+            MockCarouselScrollingComponent,
+            MockMediaComponent,
+            MockUrlPipe,
+            MockTranslatePipe,
+            MockDatePipe,
+          ],
+        },
+      });
 
       TestBed.overrideProvider(CmsComponentData, {
-        useValue: MockCmsProductCarouselComponentAddToCart,
+        useValue: MockCmsProductCarouselComponentCategoryCodes,
       });
       TestBed.compileComponents();
       fixture = TestBed.createComponent(ProductCarouselComponent);
@@ -455,7 +531,6 @@ describe('ProductCarouselComponent', () => {
     });
 
     it('should retrieve products by category', (done) => {
-      mockFeatureToggles.enableCarouselCategoryProducts = true;
       spyOn(featureConfigService, 'isEnabled').and.callThrough();
 
       spyOn(productSearchByCategoryService, 'get').and.callThrough();

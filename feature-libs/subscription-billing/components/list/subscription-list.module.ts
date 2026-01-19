@@ -25,8 +25,8 @@ import { SubscriptionListComponent } from './subscription-list.component';
     RouterModule,
     SpinnerModule,
     CommonModule,
+    SubscriptionListComponent,
   ],
-  declarations: [SubscriptionListComponent],
   exports: [SubscriptionListComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{

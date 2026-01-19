@@ -4,19 +4,30 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { Consignment } from '@spartacus/order/root';
-import { Observable, combineLatest, map, tap } from 'rxjs';
-import { OrderAmendService } from '../../amend-order.service';
 import { FeatureConfigService } from '@spartacus/core';
+import { Consignment } from '@spartacus/order/root';
+import { FormErrorsComponent } from '@spartacus/storefront';
+import { Observable, combineLatest, map, tap } from 'rxjs';
+import { AmendOrderActionsComponent } from '../../amend-order-actions/amend-order-actions.component';
+import { CancelOrReturnItemsComponent } from '../../amend-order-items/amend-order-items.component';
+import { OrderAmendService } from '../../amend-order.service';
 
 @Component({
   selector: 'cx-return-order',
   templateUrl: './return-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    CancelOrReturnItemsComponent,
+    FormErrorsComponent,
+    AmendOrderActionsComponent,
+    AsyncPipe,
+  ],
 })
 export class ReturnOrderComponent {
   orderCode: string;

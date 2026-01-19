@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   PunchoutFacade,
   PunchoutUiRestrictionService,
 } from '@spartacus/punchout/root';
 import { of } from 'rxjs';
-import { PunchoutButtonsComponent } from './punchout-buttons.component';
-import { By } from '@angular/platform-browser';
 import { take } from 'rxjs/operators';
+import { PunchoutButtonsComponent } from './punchout-buttons.component';
 
 class MockPunchoutUiRestrictionService
   implements Partial<PunchoutUiRestrictionService>
@@ -28,8 +28,7 @@ describe('PunchoutButtonsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, CommonModule],
-      declarations: [PunchoutButtonsComponent],
+      imports: [I18nTestingModule, CommonModule, PunchoutButtonsComponent],
       providers: [
         { provide: PunchoutFacade, useClass: MockPunchoutFacade },
         {

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -28,9 +29,11 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { BREAKPOINT } from '../../../layout/config/layout-config';
+import { TabComponent } from '../tab/tab.component';
 import { Tab, TabConfig } from '../tab/tab.model';
 
 const defaultTabConfig = {
@@ -42,7 +45,14 @@ const defaultTabConfig = {
   selector: 'cx-tab-paragraph-container',
   templateUrl: './tab-paragraph-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    TabComponent,
+    NgFor,
+    OutletDirective,
+    ComponentWrapperDirective,
+    AsyncPipe,
+  ],
 })
 export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   protected cdr: ChangeDetectorRef = inject(ChangeDetectorRef);

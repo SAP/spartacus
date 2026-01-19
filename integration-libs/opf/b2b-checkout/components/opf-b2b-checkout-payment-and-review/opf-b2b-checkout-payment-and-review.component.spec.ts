@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/base/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
@@ -23,21 +25,15 @@ import {
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
 import {
-  OpfPaymentFacade,
   OpfPaymentAfterRedirectScriptResponse,
+  OpfPaymentFacade,
   OpfPaymentSessionData,
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
 import { of } from 'rxjs';
 import { OpfB2bCheckoutPaymentAndReviewComponent } from './opf-b2b-checkout-payment-and-review.component';
-import { Pipe, PipeTransform } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
-import { Component, Input } from '@angular/core';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -45,7 +41,7 @@ class MockTranslatePipe implements PipeTransform {
 @Component({
   selector: 'cx-opf-checkout-payments',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockOpfCheckoutPaymentsComponent {
   @Input() onlyPaymentWrapperMode: boolean;
@@ -115,8 +111,6 @@ describe('OpfB2bCheckoutPaymentAndReviewComponent', () => {
         ReactiveFormsModule,
         I18nTestingModule,
         StoreModule.forRoot({}),
-      ],
-      declarations: [
         OpfB2bCheckoutPaymentAndReviewComponent,
         MockTranslatePipe,
         MockOpfCheckoutPaymentsComponent,

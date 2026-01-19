@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import { AvatarComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { IconModule } from '../../../../cms-components';
@@ -45,15 +45,17 @@ describe('MessagingComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
+        ReactiveFormsModule,
         IconModule,
         FileUploadModule,
         FormErrorsModule,
-        ReactiveFormsModule,
       ],
-
-      declarations: [MessagingComponent, AvatarComponent],
-    }).compileComponents();
+    })
+      .overrideComponent(MessagingComponent, {
+        remove: { imports: [AvatarComponent, CxDatePipe, TranslatePipe] },
+        add: { imports: [AvatarComponent, I18nTestingModule] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

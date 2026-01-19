@@ -22,8 +22,8 @@ import { DpConfirmationDialogComponent } from './dp-confirmation-dialog.componen
     KeyboardFocusModule,
     IconModule,
     FeaturesConfigModule,
+    DpConfirmationDialogComponent,
   ],
   providers: [provideDefaultConfig(defaultDpConfirmationDialogConfig)],
-  declarations: [DpConfirmationDialogComponent],
 })
 export class DpConfirmationDialogModule {}

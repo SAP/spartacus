@@ -35,8 +35,6 @@ import { CustomerTicketingCreateComponent } from './customer-ticketing-create.co
     NgSelectA11yModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
-  ],
-  declarations: [
     CustomerTicketingCreateComponent,
     CustomerTicketingCreateDialogComponent,
   ],

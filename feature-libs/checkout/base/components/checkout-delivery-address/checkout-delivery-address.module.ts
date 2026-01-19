@@ -29,6 +29,7 @@ import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.co
     SpinnerModule,
     I18nModule,
     FeaturesConfigModule,
+    CheckoutDeliveryAddressComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -40,7 +41,6 @@ import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.co
       },
     }),
   ],
-  declarations: [CheckoutDeliveryAddressComponent],
   exports: [CheckoutDeliveryAddressComponent],
 })
 export class CheckoutDeliveryAddressModule {}

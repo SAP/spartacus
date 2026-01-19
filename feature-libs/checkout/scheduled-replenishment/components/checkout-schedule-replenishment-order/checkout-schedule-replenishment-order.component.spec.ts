@@ -38,8 +38,11 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconTestingModule],
-      declarations: [CheckoutScheduleReplenishmentOrderComponent],
+      imports: [
+        I18nTestingModule,
+        IconTestingModule,
+        CheckoutScheduleReplenishmentOrderComponent,
+      ],
       providers: [
         {
           provide: CheckoutReplenishmentFormService,

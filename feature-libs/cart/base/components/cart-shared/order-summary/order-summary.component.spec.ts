@@ -10,7 +10,7 @@ import { OrderSummaryComponent } from './order-summary.component';
 @Component({
   selector: 'cx-applied-coupons',
   template: '',
-  standalone: false,
+  imports: [CommonModule, PromotionsModule, I18nTestingModule],
 })
 class MockAppliedCouponsComponent {
   @Input()
@@ -33,8 +33,13 @@ describe('OrderSummary', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, PromotionsModule, I18nTestingModule],
-      declarations: [OrderSummaryComponent, MockAppliedCouponsComponent],
+      imports: [
+        CommonModule,
+        PromotionsModule,
+        I18nTestingModule,
+        OrderSummaryComponent,
+        MockAppliedCouponsComponent,
+      ],
       providers: [
         { provide: CartVoucherFacade, useValue: {} },
         {

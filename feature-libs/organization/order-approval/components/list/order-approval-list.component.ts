@@ -4,13 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
+  CxDatePipe,
   EntitiesModel,
   RoutingService,
   SearchConfig,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
+import { PaginationComponent, SortingComponent } from '@spartacus/storefront';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderApproval } from '../../core/model/order-approval.model';
@@ -20,7 +26,19 @@ import { OrderApprovalService } from '../../core/services/order-approval.service
   selector: 'cx-order-approval-list',
   templateUrl: './order-approval-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    SortingComponent,
+    PaginationComponent,
+    NgFor,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    CxDatePipe,
+
+    CxDatePipe,
+  ],
 })
 export class OrderApprovalListComponent implements OnInit {
   constructor(

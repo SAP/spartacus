@@ -17,7 +17,14 @@ import { IconModule } from '@spartacus/storefront';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, UrlModule, IconModule, RouterModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    UrlModule,
+    IconModule,
+    RouterModule,
+    ConfiguratorOverviewNotificationBannerComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -27,7 +34,6 @@ import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-
       },
     }),
   ],
-  declarations: [ConfiguratorOverviewNotificationBannerComponent],
   exports: [ConfiguratorOverviewNotificationBannerComponent],
 })
 export class ConfiguratorOverviewNotificationBannerModule {}

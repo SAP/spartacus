@@ -5,7 +5,10 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@spartacus/core';
 import { ListService } from '../../../shared/list/list.service';
+import { SubListComponent } from '../../../shared/sub-list/sub-list.component';
 import { UserAssignedUserGroupListService } from './user-assigned-user-group-list.service';
 
 @Component({
@@ -19,6 +22,6 @@ import { UserAssignedUserGroupListService } from './user-assigned-user-group-lis
       useExisting: UserAssignedUserGroupListService,
     },
   ],
-  standalone: false,
+  imports: [SubListComponent, RouterLink, TranslatePipe],
 })
 export class UserAssignedUserGroupListComponent {}

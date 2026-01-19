@@ -7,6 +7,7 @@
 import * as configuration from './product-configurator';
 import * as common from './common';
 import { registerCartRefreshRoute, removeCartItem } from './cart';
+import { cmsEndpoints } from './cms-endpoints';
 
 const addToCartButtonSelector =
   'cx-configurator-add-to-cart-button button.cx-add-to-cart-btn';
@@ -84,7 +85,7 @@ export function registerCMSPagesRoute() {
     method: 'GET',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}//cms/pages*`,
+    )}/${cmsEndpoints.pages}*`,
   }).as(CMS_PAGES_ALIAS.substring(1)); // strip the '@'
 }
 

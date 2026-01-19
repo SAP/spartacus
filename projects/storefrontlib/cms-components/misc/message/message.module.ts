@@ -18,8 +18,8 @@ import { MessageComponent } from './message.component';
     I18nModule,
     IconModule,
     FeaturesConfigModule,
+    MessageComponent,
   ],
-  declarations: [MessageComponent],
   exports: [MessageComponent],
 })
 export class MessageComponentModule {}

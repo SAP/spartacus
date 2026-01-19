@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Directive,
+  Injectable,
   Input,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
@@ -9,21 +10,27 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
+import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
+import {
+  DirectionMode,
+  DirectionService,
+  FocusDirective,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: string;
 }
@@ -31,7 +38,7 @@ export class MockFocusDirective {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -40,7 +47,7 @@ class MockConfiguratorPriceComponent {
 @Component({
   selector: 'cx-configurator-show-more',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
@@ -72,6 +79,13 @@ class MockConfiguratorAttributePriceChangeService {
   }
 }
 
+@Injectable()
+class MockDirectionService implements Partial<DirectionService> {
+  getDirection(): DirectionMode {
+    return DirectionMode.LTR;
+  }
+}
+
 describe('ConfigAttributeCheckBoxComponent', () => {
   let component: ConfiguratorAttributeCheckBoxComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxComponent>;
@@ -89,13 +103,12 @@ describe('ConfigAttributeCheckBoxComponent', () => {
       },
     });
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
         ConfiguratorAttributeCheckBoxComponent,
-        MockFocusDirective,
-        MockConfiguratorPriceComponent,
-        MockConfiguratorShowMoreComponent,
+        I18nTestingModule,
       ],
-      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
       providers: [
         {
           provide: ConfiguratorAttributeCompositionContext,
@@ -109,11 +122,27 @@ describe('ConfigAttributeCheckBoxComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfiguratorStorefrontUtilsService,
         },
+        {
+          provide: DirectionService,
+          useClass: MockDirectionService,
+        },
       ],
     })
       .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
-        set: {
+        add: {
           changeDetection: ChangeDetectionStrategy.Default,
+          imports: [
+            ConfiguratorPriceComponent,
+            ConfiguratorShowMoreComponent,
+            FocusDirective,
+          ],
+        },
+        remove: {
+          imports: [
+            MockFocusDirective,
+            MockConfiguratorPriceComponent,
+            MockConfiguratorShowMoreComponent,
+          ],
         },
       })
       .compileComponents();

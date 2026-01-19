@@ -1,4 +1,4 @@
-import { Component, Type } from '@angular/core';
+import { Component, Directive, Type } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -17,12 +17,20 @@ import {
 } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import {
+  CxDatePipe,
+  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   QueryState,
+  TranslatePipe,
 } from '@spartacus/core';
-import { OutletModule } from '@spartacus/storefront';
+import {
+  InnerComponentsHostDirective,
+  OutletModule,
+} from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, of, throwError } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
@@ -34,7 +42,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, I18nTestingModule, OutletModule],
 })
 class MockSpinnerComponent {}
 
@@ -115,6 +123,11 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
 }
 
+@Directive({
+  selector: '[cxInnerComponentsHost]',
+})
+class MockInnerComponentsHostDirective {}
+
 describe('CheckoutDeliveryModeComponent', () => {
   let component: CheckoutDeliveryModeComponent;
   let fixture: ComponentFixture<CheckoutDeliveryModeComponent>;
@@ -125,11 +138,10 @@ describe('CheckoutDeliveryModeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, OutletModule],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
+        OutletModule,
         CheckoutDeliveryModeComponent,
-        MockSpinnerComponent,
-        MockFeatureDirective,
       ],
       providers: [
         {
@@ -145,7 +157,27 @@ describe('CheckoutDeliveryModeComponent', () => {
         { provide: ActiveCartFacade, useClass: MockCartService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CheckoutDeliveryModeComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            FeatureDirective,
+            InnerComponentsHostDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockSpinnerComponent,
+            MockFeatureDirective,
+            MockInnerComponentsHostDirective,
+          ],
+        },
+      })
+      .compileComponents();
 
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);

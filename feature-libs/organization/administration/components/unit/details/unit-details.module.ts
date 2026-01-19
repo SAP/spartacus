@@ -26,8 +26,8 @@ import { UnitDetailsComponent } from './unit-details.component';
     ItemExistsModule,
     KeyboardFocusModule,
     DisableInfoModule,
+    UnitDetailsComponent,
   ],
-  declarations: [UnitDetailsComponent],
   exports: [UnitDetailsComponent],
 })
 export class UnitDetailsModule {}
