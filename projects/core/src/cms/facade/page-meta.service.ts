@@ -5,7 +5,7 @@
  */
 
 import { inject, Injectable } from '@angular/core';
-import { LanguageService } from '@spartacus/core';
+import { LanguageService } from '../../site-context/facade/language.service';
 import { defer, Observable, of } from 'rxjs';
 import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
