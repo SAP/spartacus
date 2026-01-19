@@ -40,10 +40,6 @@ export const defaultOpfCheckoutConfig: CheckoutConfig = {
         steps: opfCheckoutSteps,
         guest: false,
       },
-      'OPF-guest': {
-        steps: opfCheckoutSteps,
-        guest: true,
-      },
     },
   },
 };

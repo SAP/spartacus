@@ -74,16 +74,6 @@ export interface FeatureTogglesInterface {
   a11yNgSelectUnicodeCarets?: boolean;
 
   /**
-   * Enables the product carousel to include products based on specified category codes.
-   *
-   * - When this feature is enabled, the carousel will fetch and display products
-   *   associated with the `categoryCodes` provided.
-   * - The `categoryCodes` are configured and managed through SmartEdit
-   *
-   */
-  enableCarouselCategoryProducts?: boolean;
-
-  /**
    * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
    * a `ConfiguratorShowOptionsComponent` component underneath the attribute name.
    * The `ConfiguratorShowOptionsComponent` component allows to load the domain values
@@ -358,8 +348,7 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   readMoreDirective: true,
   productReviewCharactersLeft: true,
   a11yNgSelectAriaControls: true,
-  a11yConfiguratorOverviewHeaderVPC: true,
-  enableCarouselCategoryProducts: true,
+  a11yConfiguratorOverviewHeaderVPC: false,
   enableReadDomainValuesOnDemand: true,
   opfEnablePreventingFromCheckoutWithoutEmail: true,
   storeFinderFacadeCleanup: true,
