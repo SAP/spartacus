@@ -61,6 +61,7 @@ import {
   readPackageJson,
 } from '../shared/utils/package-utils';
 import { updateAppConfigServer } from './update-app-config-server';
+import { updateAppConfigInSsr } from './update-app-config-in-ssr';
 
 const DEPENDENCY_NAMES: string[] = ['@angular/platform-server', ANGULAR_SSR];
 
@@ -596,76 +597,6 @@ function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
   ]);
 }
 
-/**
- * Http Transfer Cache is temporarily disabled; https://jira.tools.sap/browse/CXSPA-10430
- */
-export function addWithNoHttpTransferCacheToAppModule(
-  spartacusOptions: SpartacusOptions
-): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const appModulePath = getPathResultsForFile(
-      tree,
-      'app.module.ts',
-      '/src'
-    )[0];
-    if (!appModulePath) {
-      throw new SchematicsException(
-        `AppModule file "app.module.ts" not found.`
-      );
-    }
-
-    const source = getTsSourceFile(tree, appModulePath);
-
-    const importChange = insertImport(
-      source,
-      appModulePath,
-      'withNoHttpTransferCache',
-      '@angular/platform-browser'
-    );
-
-    const fileBuffer = tree.read(appModulePath);
-    if (!fileBuffer) {
-      throw new SchematicsException(`Could not read file at ${appModulePath}`);
-    }
-    const fileContent = fileBuffer.toString();
-
-    // Regex to match provideClientHydration(...) with any arguments
-    const hydrationRegex = /provideClientHydration\s*\(\s*([^)]*)\)/m;
-    const match = hydrationRegex.exec(fileContent);
-
-    if (match) {
-      const args = match[1].trim();
-
-      const argList = args
-        .split(',')
-        .map((a) => a.trim())
-        .filter((a) => a.length > 0);
-
-      const idx = argList.findIndex((a) => a.startsWith('withEventReplay'));
-      if (idx !== -1) {
-        argList[idx] = 'withEventReplay()';
-        argList.splice(idx + 1, 0, 'withNoHttpTransferCache()');
-      } else {
-        argList.push('withNoHttpTransferCache()');
-      }
-      const newArgs = argList.join(', ');
-
-      const updatedContent = fileContent.replace(
-        hydrationRegex,
-        (_, _args) => `provideClientHydration(${newArgs}`
-      );
-      tree.overwrite(appModulePath, updatedContent);
-      if (spartacusOptions.debug) {
-        context.logger.info(
-          '✅ Added withNoHttpTransferCache() next to withEventReplay() in the parameter list of provideClientHydration'
-        );
-      }
-    }
-    commitChanges(tree, appModulePath, [importChange]);
-    return tree;
-  };
-}
-
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const serverTemplate = provideServerFile(options);
@@ -683,7 +614,7 @@ export function addSSR(options: SpartacusOptions): Rule {
       updateAppConfigServer(options),
       modifyAppServerModuleFile(),
       modifyIndexHtmlFile(options),
-      addWithNoHttpTransferCacheToAppModule(options),
+      updateAppConfigInSsr(options),
       branchAndMerge(
         chain([mergeWith(serverTemplate, MergeStrategy.Overwrite)]),
         MergeStrategy.Overwrite
