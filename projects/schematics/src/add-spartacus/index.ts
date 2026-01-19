@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Path } from '@angular-devkit/core';
 import {
   chain,
   noop,
@@ -15,15 +14,7 @@ import {
 } from '@angular-devkit/schematics';
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import { SourceFile } from 'ts-morph';
-import {
-  ANGULAR_HTTP,
-  APP_ROUTING_MODULE,
-  APP_ROUTING_MODULE_LOCAL_FILENAME,
-  APP_ROUTING_MODULE_LOCAL_PATH,
-  RXJS,
-} from '../shared/constants';
-import { SPARTACUS_STOREFRONTLIB } from '../shared/libs-constants';
+import { RXJS } from '../shared/constants';
 import {
   analyzeCrossFeatureDependencies,
   analyzeCrossLibraryDependenciesByFeatures,
@@ -37,11 +28,6 @@ import {
   installPackageJsonDependencies,
 } from '../shared/utils/lib-utils';
 import {
-  addModuleImport,
-  addModuleProvider,
-  removeModuleImport,
-} from '../shared/utils/new-module-utils';
-import {
   getPrefixedSpartacusSchematicsVersion,
   getSpartacusCurrentFeatureLevel,
   mapPackageToNodeDependencies,
@@ -50,7 +36,7 @@ import {
   readPackageJson,
   updatePackageJsonDependencies,
 } from '../shared/utils/package-utils';
-import { createProgram, saveAndFormat } from '../shared/utils/program';
+import { createProgram } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import {
   getRelativeStyleConfigImportPath,
@@ -73,6 +59,7 @@ import { addFeatureToggles } from './spartacus-feature-toggles';
 import { setupSpartacusFeaturesModule } from './spartacus-features';
 import { setupStoreModules } from './store';
 import { updateAppConfig } from './update-app-config';
+import { updateAppModule } from './update-app-module';
 
 function createStylesConfig(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
@@ -476,116 +463,6 @@ function prepareDependencies(features: string[]): NodeDependency[] {
     .concat(prepare3rdPartyDependencies());
 
   return dependencies;
-}
-
-function updateAppModule(options: SpartacusOptions): Rule {
-  return (tree: Tree, context: SchematicContext): Tree => {
-    if (options.debug) {
-      context.logger.info(`⌛️ Updating AppModule...`);
-    }
-
-    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
-
-    if (!buildPaths.length) {
-      throw new SchematicsException(
-        'Could not find any tsconfig file. Cannot configure AppModule.'
-      );
-    }
-
-    const basePath = process.cwd();
-    for (const tsconfigPath of buildPaths) {
-      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-
-      for (const sourceFile of appSourceFiles) {
-        if (sourceFile.getFilePath().includes(`app.module.ts`)) {
-          addModuleProvider(sourceFile, {
-            import: {
-              moduleSpecifier: ANGULAR_HTTP,
-              namedImports: [
-                'provideHttpClient',
-                'withFetch',
-                'withInterceptorsFromDi',
-              ],
-            },
-            content: 'provideHttpClient(withFetch(), withInterceptorsFromDi())',
-          });
-
-          addAppRoutingModuleImport(tree, context, sourceFile);
-
-          saveAndFormat(sourceFile);
-          break;
-        }
-      }
-    }
-
-    if (options.debug) {
-      context.logger.info(`✅ AppModule update complete.`);
-    }
-    return tree;
-  };
-}
-
-/**
- * Adds `import { AppRoutingModule } from "@spartacus/storefront"` to the given app.module sourceFile.
- *
- * If a local file with the same module name `AppRoutingModule` already exists in the project,
- * it will be removed first, and later the `AppRoutingModule` from `@spartacus/storefront` will be imported.
- *
- * Note: Since v17 Angular `ng new` command by default creates a local `AppRoutingModule` file in the project.
- *       So we have to replace it.
- *
- * See Angular enabling routing by default in v17: https://github.com/angular/angular-cli/commit/1a6a139aaf8d5a6947b399bbbd48bbfd9e52372c
- */
-function addAppRoutingModuleImport(
-  tree: Tree,
-  context: SchematicContext,
-  sourceFile: SourceFile
-) {
-  context.logger.info(
-    `⌛️ Removing from AppModule's imports array a local AppRoutingModule, if exists`
-  );
-  // remove import of AppRoutingModule (NgModule import and module path import), if exists
-  const removedImport = removeModuleImport(sourceFile, {
-    importPath: APP_ROUTING_MODULE_LOCAL_PATH,
-    content: APP_ROUTING_MODULE,
-  });
-  context.logger.info(
-    removedImport
-      ? `✅ Removed from AppModule's imports array a local AppRoutingModule`
-      : `✅ No local AppRoutingModule found im AppModule's imports array`
-  );
-
-  context.logger.info(
-    `⌛️ Deleting a local file "${APP_ROUTING_MODULE_LOCAL_FILENAME}", if exists`
-  );
-  // delete local file of AppRoutingModule, if exists
-  let deletedFile: Path | undefined;
-  tree.visit((filePath: Path) => {
-    if (filePath.endsWith(APP_ROUTING_MODULE_LOCAL_FILENAME)) {
-      tree.delete(filePath);
-      context.logger.info(`✅ Deleted a local file: ${filePath}`);
-      deletedFile = filePath;
-    }
-  });
-  if (!deletedFile) {
-    context.logger.info(
-      `✅ No local file found with the path "${APP_ROUTING_MODULE_LOCAL_FILENAME}"`
-    );
-  }
-
-  context.logger.info(
-    `⌛️ Importing AppRoutingModule of Spartacus in AppModule`
-  );
-  // add import of AppRoutingModule from Spartacus
-  addModuleImport(sourceFile, {
-    order: 2,
-    import: {
-      moduleSpecifier: SPARTACUS_STOREFRONTLIB,
-      namedImports: [APP_ROUTING_MODULE],
-    },
-    content: APP_ROUTING_MODULE,
-  });
-  context.logger.info(`✅ Imported AppRoutingModule of Spartacus in AppModule`);
 }
 
 /**

@@ -7,10 +7,10 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { Node, SourceFile } from 'ts-morph';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
+import { getAppConfigProviders } from '../add-ssr/get-app-config-providers';
 import { createImports } from '../shared/utils/import-utils';
 import { createProgram } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
-import { getAppConfigProviders } from '../add-ssr/get-app-config-providers';
 
 /**
  * Updates app.config.ts
@@ -30,17 +30,15 @@ export function updateAppConfig(options: SpartacusOptions): Rule {
       const appConfigFile = appSourceFiles.find((file) =>
         file.getFilePath().includes('app.config.ts')
       );
-      debugger;
       if (appConfigFile) {
-        addAppModule(appConfigFile);
+        addProvideHttpClient(appConfigFile);
+        addImportProvidersFromAppModule(appConfigFile);
         tree.overwrite(
           appConfigFile.getFilePath(),
           appConfigFile.getFullText()
         );
         if (options.debug) {
-          context.logger.info(
-            `✅ Updated app.config.ts in project using tsconfig: ${tsconfigPath}`
-          );
+          context.logger.info(`✅ Updated app.config.ts`);
         }
       }
     }
@@ -55,9 +53,9 @@ export function updateAppConfig(options: SpartacusOptions): Rule {
  * import { AppModule } from './app.module';
  * ```
  */
-function addAppModule(file: SourceFile): void {
+function addImportProvidersFromAppModule(sourceFile: SourceFile): void {
   // Add imports for AppModule and importProvidersFrom
-  createImports(file, [
+  createImports(sourceFile, [
     {
       moduleSpecifier: './app.module',
       namedImports: ['AppModule'],
@@ -69,10 +67,38 @@ function addAppModule(file: SourceFile): void {
   ]);
 
   // Add importProvidersFrom(AppModule) to providers array
-  const providersArray = getAppConfigProviders(file);
-  debugger;
+  const providersArray = getAppConfigProviders(sourceFile);
   if (providersArray && Node.isArrayLiteralExpression(providersArray)) {
     const providerContent = 'importProvidersFrom(AppModule)';
+    const elements = providersArray.getElements();
+    const alreadyExists = elements.some(
+      (element) => element.getText() === providerContent
+    );
+
+    if (!alreadyExists) {
+      providersArray.addElement(providerContent);
+    }
+  }
+}
+
+function addProvideHttpClient(sourceFile: SourceFile): void {
+  // Add imports for provideHttpClient, withFetch, withInterceptorsFromDi
+  createImports(sourceFile, [
+    {
+      moduleSpecifier: '@angular/common/http',
+      namedImports: [
+        'provideHttpClient',
+        'withFetch',
+        'withInterceptorsFromDi',
+      ],
+    },
+  ]);
+
+  // Add provideHttpClient(withFetch(), withInterceptorsFromDi()) to providers array
+  const providersArray = getAppConfigProviders(sourceFile);
+  if (providersArray && Node.isArrayLiteralExpression(providersArray)) {
+    const providerContent =
+      'provideHttpClient(withFetch(), withInterceptorsFromDi())';
     const elements = providersArray.getElements();
     const alreadyExists = elements.some(
       (element) => element.getText() === providerContent
