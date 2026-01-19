@@ -21,6 +21,7 @@ import {
 } from '../page';
 import { CmsService } from './cms.service';
 import { PageMetaService } from './page-meta.service';
+import { LanguageService } from '../../site-context/facade/language.service';
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -158,6 +159,7 @@ describe('PageMetaService', () => {
         providers: [
           PageMetaService,
           ContentPageResolver,
+          LanguageService,
           { provide: CmsService, useClass: MockCmsService },
           {
             provide: PageMetaResolver,
@@ -217,6 +219,7 @@ describe('PageMetaService', () => {
       TestBed.configureTestingModule({
         imports: [],
         providers: [
+          LanguageService,
           PageMetaService,
           ContentPageResolver,
           { provide: CmsService, useClass: MockCmsService },
@@ -312,6 +315,7 @@ describe('Custom PageTitleService', () => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
+        LanguageService,
         { provide: CmsService, useClass: MockCmsService },
         {
           provide: PageMetaResolver,

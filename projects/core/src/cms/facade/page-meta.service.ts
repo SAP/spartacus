@@ -28,8 +28,7 @@ export class PageMetaService {
   constructor(
     protected cms: CmsService,
     protected unifiedInjector: UnifiedInjector,
-    protected pageMetaConfig: PageMetaConfig,
-    
+    protected pageMetaConfig: PageMetaConfig
   ) {
     // NOTE: Solution to the issue: https://jira.tools.sap/browse/CXSPA-10923
     // Cause CMS page data refresh on language change (to update the title)

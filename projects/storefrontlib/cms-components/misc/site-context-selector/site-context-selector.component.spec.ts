@@ -85,7 +85,11 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, SiteContextSelectorComponent, I18nTestingModule],
+      imports: [
+        BrowserAnimationsModule,
+        SiteContextSelectorComponent,
+        I18nTestingModule,
+      ],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         {
