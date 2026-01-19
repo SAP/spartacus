@@ -1,7 +1,7 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { SPARTACUS_STOREFRONTLIB } from '../shared/libs-constants';
 import { createImports } from '../shared/utils/import-utils';
-import { createProgram } from '../shared/utils/program';
+import { createProgram, formatFile } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import { addToComponentDecorator } from './add-to-component-decorator';
 import { Schema as SpartacusOptions } from './schema';
@@ -39,8 +39,8 @@ export function addStorefrontComponentToAppComponent(
           addToComponentDecorator(sourceFile, 'imports', 'StorefrontComponent');
 
           // Save changes to tree
+          formatFile(sourceFile);
           tree.overwrite(sourceFile.getFilePath(), sourceFile.getFullText());
-
           context.logger.info(
             `✅ Added StorefrontComponent to app.component.ts imports`
           );

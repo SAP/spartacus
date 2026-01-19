@@ -34,6 +34,14 @@ export function createProgram(
   };
 }
 
+export function formatFile(sourceFile: SourceFile): void {
+  sourceFile.organizeImports();
+  sourceFile.formatText({
+    ensureNewLineAtEndOfFile: true,
+    indentSize: 2,
+  });
+}
+
 export function saveAndFormat(sourceFile: SourceFile): void {
   sourceFile.organizeImports();
   sourceFile.formatText({

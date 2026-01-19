@@ -1,4 +1,5 @@
 import { Node, SourceFile } from 'ts-morph';
+import { formatFile } from '../shared';
 
 /**
  * Helper function to add a value to a Component decorator property.
@@ -47,4 +48,5 @@ export function addToComponentDecorator(
       }
     }
   }
+  formatFile(sourceFile);
 }

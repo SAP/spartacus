@@ -9,7 +9,7 @@ import { Node, SourceFile } from 'ts-morph';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { removeImportUsingTsMorph } from '../shared';
 import { createImports } from '../shared/utils/import-utils';
-import { createProgram } from '../shared/utils/program';
+import { createProgram, formatFile } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import { getAppConfigServerProviders } from './get-app-config-server-providers';
 
@@ -37,7 +37,7 @@ export function updateAppConfigServer(options: SpartacusOptions): Rule {
       if (serverConfigFile) {
         removeProvideServerRenderingWithRoutes(serverConfigFile);
         addImportProvidersFromAppServerModule(serverConfigFile);
-
+        formatFile(serverConfigFile);
         tree.overwrite(
           serverConfigFile.getFilePath(),
           serverConfigFile.getFullText()
@@ -63,9 +63,9 @@ export function updateAppConfigServer(options: SpartacusOptions): Rule {
  * import { AppServerModule } from './app.module.server';
  * ```
  */
-function addImportProvidersFromAppServerModule(file: SourceFile): void {
+function addImportProvidersFromAppServerModule(sourceFile: SourceFile): void {
   // Add imports for AppServerModule and importProvidersFrom
-  createImports(file, [
+  createImports(sourceFile, [
     {
       moduleSpecifier: './app.module.server',
       namedImports: ['AppServerModule'],
@@ -77,7 +77,7 @@ function addImportProvidersFromAppServerModule(file: SourceFile): void {
   ]);
 
   // Add importProvidersFrom(AppServerModule) to providers array
-  const providersArray = getAppConfigServerProviders(file);
+  const providersArray = getAppConfigServerProviders(sourceFile);
 
   if (providersArray && Node.isArrayLiteralExpression(providersArray)) {
     const providerContent = 'importProvidersFrom(AppServerModule)';
@@ -100,20 +100,20 @@ function addImportProvidersFromAppServerModule(file: SourceFile): void {
  * import { withRoutes } from '@angular/ssr';
  * ```
  */
-function removeProvideServerRenderingWithRoutes(file: SourceFile): void {
+function removeProvideServerRenderingWithRoutes(sourceFile: SourceFile): void {
   // Remove unused imports
-  removeImportUsingTsMorph(file, {
+  removeImportUsingTsMorph(sourceFile, {
     importPath: './app.routes.server',
     importName: 'serverRoutes',
   });
 
-  removeImportUsingTsMorph(file, {
+  removeImportUsingTsMorph(sourceFile, {
     importPath: '@angular/ssr',
     importName: 'withRoutes',
   });
 
   // Remove withRoutes argument from provideServerRendering
-  const providersArray = getAppConfigServerProviders(file);
+  const providersArray = getAppConfigServerProviders(sourceFile);
 
   if (providersArray && Node.isArrayLiteralExpression(providersArray)) {
     const elements = providersArray.getElements();

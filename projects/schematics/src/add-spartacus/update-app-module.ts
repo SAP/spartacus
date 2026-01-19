@@ -22,7 +22,7 @@ import {
   addModuleImport,
   removeModuleImport,
 } from '../shared/utils/new-module-utils';
-import { createProgram, saveAndFormat } from '../shared/utils/program';
+import { createProgram, formatFile } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import { Schema as SpartacusOptions } from './schema';
 
@@ -48,7 +48,8 @@ export function updateAppModule(options: SpartacusOptions): Rule {
         if (sourceFile.getFilePath().includes(`app.module.ts`)) {
           addAppRoutingModuleImport(tree, context, sourceFile);
 
-          saveAndFormat(sourceFile);
+          formatFile(sourceFile);
+          tree.overwrite(sourceFile.getFilePath(), sourceFile.getFullText());
           break;
         }
       }

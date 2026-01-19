@@ -9,7 +9,7 @@ import { Node, SourceFile } from 'ts-morph';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { getAppConfigProviders } from '../add-ssr/get-app-config-providers';
 import { createImports } from '../shared/utils/import-utils';
-import { createProgram } from '../shared/utils/program';
+import { createProgram, formatFile } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 
 /**
@@ -27,16 +27,14 @@ export function updateAppConfig(options: SpartacusOptions): Rule {
     for (const tsconfigPath of buildPaths) {
       const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
-      const appConfigFile = appSourceFiles.find((file) =>
+      const sourceFile = appSourceFiles.find((file) =>
         file.getFilePath().includes('app.config.ts')
       );
-      if (appConfigFile) {
-        addProvideHttpClient(appConfigFile);
-        addImportProvidersFromAppModule(appConfigFile);
-        tree.overwrite(
-          appConfigFile.getFilePath(),
-          appConfigFile.getFullText()
-        );
+      if (sourceFile) {
+        addProvideHttpClient(sourceFile);
+        addImportProvidersFromAppModule(sourceFile);
+        formatFile(sourceFile);
+        tree.overwrite(sourceFile.getFilePath(), sourceFile.getFullText());
         if (options.debug) {
           context.logger.info(`✅ Updated app.config.ts`);
         }
