@@ -260,9 +260,9 @@
       "factory": "./221121_8/angular-providers/index#migrate",
       "description": "Add provideBrowserGlobalErrorListeners to app.module.ts"
     },
-    "01-migration-v221121_6-angular-config": {
-      "version": "221121.5",
-      "factory": "./221121_6/angular-config/index#migrate",
+    "01-migration-v221121_8-angular-config": {
+      "version": "221121.8",
+      "factory": "./221121_8/angular-config/index#migrate",
       "description": "Remove obsolete `index` property from angular.json build configuration"
     }
   }
