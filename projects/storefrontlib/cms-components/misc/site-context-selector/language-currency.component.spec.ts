@@ -87,8 +87,8 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, I18nTestingModule],
-      declarations: [
+      imports: [
+        BrowserAnimationsModule,
         LanguageCurrencyComponent,
         SiteContextSelectorComponent,
         I18nTestingModule,
