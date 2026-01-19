@@ -98,13 +98,11 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
       "schematics": {
         "@schematics/angular:component": {
           "addTypeToClassName": false,
-          "standalone": false,
           "style": "scss",
           "type": "component",
         },
         "@schematics/angular:directive": {
           "addTypeToClassName": false,
-          "standalone": false,
           "type": "directive",
         },
         "@schematics/angular:guard": {
@@ -117,7 +115,6 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
           "typeSeparator": ".",
         },
         "@schematics/angular:pipe": {
-          "standalone": false,
           "typeSeparator": ".",
         },
         "@schematics/angular:resolver": {
@@ -136,56 +133,31 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
 `;
 
 exports[`add-ssr app.module.server.ts should be updated 1`] = `
-"import { NgModule } from '@angular/core';
-
-import { App } from './app.component';
-import { AppModule } from './app.module';
+"
+import { NgModule } from '@angular/core';
 import { provideServer } from '@spartacus/setup/ssr';
 
-
 @NgModule({
-  imports: [AppModule],
   providers: [
     
      ...provideServer({
         serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
       }),
-  ],
-  bootstrap: [App],
+  ]
 })
 export class AppServerModule {}
 "
 `;
 
 exports[`add-ssr app.module.ts should be updated 1`] = `
-"import { NgModule, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
-import { BrowserModule, provideClientHydration, withEventReplay, withNoHttpTransferCache } from '@angular/platform-browser';
-
-import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
+"import { NgModule } from '@angular/core';
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { AppRoutingModule } from "@spartacus/storefront";
-import { App } from './app.component';
 import { SpartacusModule } from './spartacus/spartacus.module';
 
 @NgModule({
-  declarations: [
-    App
-  ],
-  imports: [
-    BrowserModule,
-    StoreModule.forRoot({}),
-    AppRoutingModule,
-    EffectsModule.forRoot([]),
-    SpartacusModule
-  ],
-  providers: [
-    provideBrowserGlobalErrorListeners(),
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(withFetch(), withInterceptorsFromDi()),
-    provideClientHydration(withEventReplay(), withNoHttpTransferCache())
-  ],
-  bootstrap: [App]
+  imports: [StoreModule.forRoot({}), EffectsModule.forRoot([]), AppRoutingModule, SpartacusModule]
 })
 export class AppModule { }
 "

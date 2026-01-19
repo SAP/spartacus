@@ -139,18 +139,12 @@ exports[`Lib utils assets options should update angular.json file with assets 1`
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false,
           "type": "component",
           "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false,
           "type": "directive",
           "addTypeToClassName": false
-        },
-        "@schematics/angular:pipe": {
-          "standalone": false,
-          "typeSeparator": "."
         },
         "@schematics/angular:service": {
           "type": "service",
@@ -163,6 +157,9 @@ exports[`Lib utils assets options should update angular.json file with assets 1`
           "typeSeparator": "."
         },
         "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:pipe": {
           "typeSeparator": "."
         },
         "@schematics/angular:resolver": {
@@ -265,18 +262,12 @@ exports[`Lib utils assets options should update angular.json file with assets 2`
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false,
           "type": "component",
           "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false,
           "type": "directive",
           "addTypeToClassName": false
-        },
-        "@schematics/angular:pipe": {
-          "standalone": false,
-          "typeSeparator": "."
         },
         "@schematics/angular:service": {
           "type": "service",
@@ -289,6 +280,9 @@ exports[`Lib utils assets options should update angular.json file with assets 2`
           "typeSeparator": "."
         },
         "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:pipe": {
           "typeSeparator": "."
         },
         "@schematics/angular:resolver": {
