@@ -43,8 +43,7 @@ export class HttpErrorHandlerInterceptor implements HttpInterceptor {
   protected occEndpointsService = inject(OccEndpointsService);
   protected windowRef = inject(WindowRef);
 
-  // userId to build correct pages endpoint URL
-  private userId = toSignal(inject(UserIdService).getUserId());
+  protected userId = toSignal(inject(UserIdService).getUserId());
 
   intercept(
     request: HttpRequest<unknown>,
