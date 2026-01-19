@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { SPARTACUS_STOREFRONTLIB } from '../shared/libs-constants';
 import { createImports } from '../shared/utils/import-utils';
