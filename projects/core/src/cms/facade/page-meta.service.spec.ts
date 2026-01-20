@@ -1,7 +1,7 @@
 import * as AngularCore from '@angular/core';
 import { Injectable, PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { firstValueFrom, Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of, Subject } from 'rxjs';
 import { PageType } from '../../model/cms.model';
 import {
   BreadcrumbMeta,
@@ -71,7 +71,18 @@ const mockPageMetaConfig: PageMetaConfig = {
   },
 };
 
+class MockLanguageService {
+  private active$ = new Subject<string>();
+  getActive() {
+    return this.active$.asObservable();
+  }
+  emitLanguage(lang: string) {
+    this.active$.next(lang);
+  }
+}
+
 class MockCmsService {
+  refreshLatestPage = jasmine.createSpy('refreshLatestPage');
   getCurrentPage(): Observable<Page> {
     return of(mockContentPage);
   }
@@ -159,7 +170,7 @@ describe('PageMetaService', () => {
         providers: [
           PageMetaService,
           ContentPageResolver,
-          LanguageService,
+          { provide: LanguageService, useClass: MockLanguageService },
           { provide: CmsService, useClass: MockCmsService },
           {
             provide: PageMetaResolver,
@@ -219,7 +230,7 @@ describe('PageMetaService', () => {
       TestBed.configureTestingModule({
         imports: [],
         providers: [
-          LanguageService,
+          { provide: LanguageService, useClass: MockLanguageService },
           PageMetaService,
           ContentPageResolver,
           { provide: CmsService, useClass: MockCmsService },
@@ -315,7 +326,7 @@ describe('Custom PageTitleService', () => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        LanguageService,
+        { provide: LanguageService, useClass: MockLanguageService },
         { provide: CmsService, useClass: MockCmsService },
         {
           provide: PageMetaResolver,
