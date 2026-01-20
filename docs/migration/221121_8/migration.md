@@ -334,7 +334,7 @@ export const appConfig: ApplicationConfig = {
 
 - **`withEventReplay()`**: Ensures that user interactions that occur before the application is fully hydrated are captured and replayed. This provides a seamless user experience even during the hydration process.
 
-- **`withNoHttpTransferCache()`**: Disables the HTTP transfer cache for hydration. This is required for Spartacus because Spartacus uses its own state transfer mechanism for OCC API calls. Without this option, there could be conflicts between Angular's built-in HTTP transfer cache and Spartacus's custom implementation.
+- **`withNoHttpTransferCache()`**: Disables the HTTP transfer cache for hydration. This is required for Spartacus because Spartacus uses its own state transfer mechanism. Without this option, there could be conflicts between Angular's built-in HTTP transfer cache and Spartacus's custom implementation.
 
 #### Important Notes
 
