@@ -350,24 +350,23 @@ NG05001: Configuration error: found both hydration and enabledBlocking initial n
 in the same application, which is a contradiction.
 ```
 
-**This warning is expected and will not cause any issues with your application.**
+**We didn't encounter any issues with this setup in practice.**
 
-This warning appears because Spartacus uses `initialNavigation: 'enabledBlocking'` in its router configuration to ensure proper CMS page loading during SSR. Angular's hydration system detects this and logs the warning, as `enabledBlocking` was the pre-hydration way of preventing UI flickering during initial navigation.
+This diagnostic was introduced by the Angular team in Angular 21 ([Angular issue #59624](https://github.com/angular/angular/issues/59624), [Angular PR #62963](https://github.com/angular/angular/pull/62963)). The warning appears because Spartacus uses `initialNavigation: 'enabledBlocking'` in its router configuration to ensure proper CMS page loading during SSR.
 
-**Why it's safe to ignore:**
+**Current Status:**
 
-- The warning is informational and does not indicate a functional problem
-- Both features work correctly together in Spartacus
-- Non-destructive hydration takes precedence and provides the smooth UI transition
-- The `enabledBlocking` configuration ensures CMS data is loaded before navigation completes
+We're not yet sure why this diagnostic was added by the Angular team. Since May 2025, we haven't observed any negative consequences with the current setup. We're still investigating the implications and will update our implementation if needed.
 
-**What happens in practice:**
+**Our Experience:**
 
-1. During SSR, `enabledBlocking` ensures all route guards (including `CmsPageGuard`) complete before rendering
-2. During hydration in the browser, Angular's hydration system prevents UI flickering by reusing the server-rendered DOM
-3. Both mechanisms complement each other without causing conflicts
+In practice, we've found that:
+- Since May 2025, no functional issues have been reported related to this warning
+- Both hydration and `enabledBlocking` work correctly together in Spartacus
+- During SSR, `enabledBlocking` ensures all route guards (including `CmsPageGuard`) complete before rendering
+- During hydration in the browser, Angular's hydration system prevents UI flickering by reusing the server-rendered DOM
 
-You can safely ignore this warning. It will be addressed in a future Spartacus release as part of the ongoing modernization of the SSR implementation.
+You can safely ignore this warning for now. We're actively monitoring this and will address it in a future Spartacus release if necessary as part of the ongoing modernization of the SSR implementation.
 
 ### Upgrade Express to Version 5
 
