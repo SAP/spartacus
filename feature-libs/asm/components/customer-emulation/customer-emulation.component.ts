@@ -13,12 +13,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AsmDialogActionEvent } from '@spartacus/asm/customer-360/root';
-import {
-  FeatureConfigService,
-  FeatureModulesService,
-  TranslatePipe,
-  User,
-} from '@spartacus/core';
+import { FeatureModulesService, TranslatePipe, User } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';

@@ -9,7 +9,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  inject,
   OnDestroy,
   OnInit,
   ViewChild,
