@@ -69,7 +69,12 @@ describe('FutureStockAccordionComponent', () => {
           imports: [TranslatePipe, CxDatePipe, IconComponent, FeatureDirective],
         },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockCxIconComponent, MockFeatureDirective],
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockFeatureDirective,
+          ],
         },
       })
       .compileComponents();
