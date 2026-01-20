@@ -4,7 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
   ActiveCartFacade,
   CartOutlets,
@@ -16,9 +18,20 @@ import {
   CheckoutDeliveryModesFacade,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { Address, TranslationService } from '@spartacus/core';
+import {
+  Address,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
+} from '@spartacus/core';
 import { deliveryAddressCard, deliveryModeCard } from '@spartacus/order/root';
-import { Card, ICON_TYPE } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  ICON_TYPE,
+  IconComponent,
+  OutletDirective,
+} from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
@@ -27,7 +40,16 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   selector: 'cx-checkout-review-shipping',
   templateUrl: './checkout-review-shipping.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    CardComponent,
+    RouterLink,
+    IconComponent,
+    OutletDirective,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+  ],
 })
 export class CheckoutReviewShippingComponent {
   readonly cartOutlets = CartOutlets;

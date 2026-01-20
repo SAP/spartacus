@@ -1,5 +1,5 @@
-import { TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
 import { PositioningService } from './positioning.service';
 
@@ -14,7 +14,6 @@ import { PositioningService } from './positioning.service';
       style="position:absolute;top:0;left:0; display: inline-block; height: 50px; width: 100px; margin-top: 10px; margin-left: 20px"
     ></div>
   `,
-  standalone: false,
 })
 class TestComponent {}
 
@@ -72,7 +71,7 @@ describe('PositioningService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestComponent],
+      imports: [TestComponent],
       providers: [{ provide: WindowRef, useClass: MockWindowRef }],
     });
     const fixture = TestBed.createComponent(TestComponent);

@@ -5,6 +5,7 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import { OutletContextData } from '../../../../cms-structure/outlet/outlet.model';
 import {
   TableFieldOptions,
@@ -16,7 +17,7 @@ import {
   selector: 'cx-table-header-cell',
   template: `{{ header || (localizedHeader | cxTranslate) }}`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [TranslatePipe],
 })
 export class TableHeaderCellComponent {
   constructor(protected outlet: OutletContextData<TableHeaderOutletContext>) {}

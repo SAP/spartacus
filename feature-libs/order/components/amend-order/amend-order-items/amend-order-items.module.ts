@@ -22,10 +22,9 @@ import { CancelOrReturnItemsComponent } from './amend-order-items.component';
     I18nModule,
     MediaModule,
     ItemCounterModule,
-
     FormErrorsModule,
+    CancelOrReturnItemsComponent,
   ],
-  declarations: [CancelOrReturnItemsComponent],
   exports: [CancelOrReturnItemsComponent],
 })
 export class AmendOrderItemsModule {}

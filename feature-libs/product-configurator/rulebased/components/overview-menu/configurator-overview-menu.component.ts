@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -12,7 +13,8 @@ import {
   HostListener,
   Input,
 } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
@@ -20,7 +22,14 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-overview-menu',
   templateUrl: './configurator-overview-menu.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    NgFor,
+    NgClass,
+    IconComponent,
+    TranslatePipe,
+  ],
 })
 export class ConfiguratorOverviewMenuComponent implements AfterViewInit {
   @HostBinding('style.height') height = this.getHeight();

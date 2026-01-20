@@ -10,8 +10,7 @@ describe('TableDataCellComponent', () => {
   describe('static field', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [TableDataCellComponent],
-        imports: [I18nTestingModule],
+        imports: [I18nTestingModule, TableDataCellComponent],
         providers: [
           {
             provide: OutletContextData,

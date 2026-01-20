@@ -12,7 +12,12 @@ import { PageComponentModule } from './../../../../cms-structure/page/component/
 import { ProductDetailsTabComponent } from './product-details-tab.component';
 
 @NgModule({
-  imports: [CommonModule, PageComponentModule, OutletModule],
+  imports: [
+    CommonModule,
+    PageComponentModule,
+    OutletModule,
+    ProductDetailsTabComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -22,7 +27,6 @@ import { ProductDetailsTabComponent } from './product-details-tab.component';
       },
     }),
   ],
-  declarations: [ProductDetailsTabComponent],
   exports: [ProductDetailsTabComponent],
 })
 export class ProductDetailsTabModule {}

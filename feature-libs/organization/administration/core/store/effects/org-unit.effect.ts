@@ -12,7 +12,6 @@ import {
   B2BUnit,
   B2BUser,
   EntitiesModel,
-  FeatureConfigService,
   LoggerService,
   StateUtils,
   tryNormalizeHttpError,
@@ -30,9 +29,6 @@ import {
 @Injectable()
 export class OrgUnitEffects {
   protected logger = inject(LoggerService);
-
-  // TODO (CXSPA-5630): Remove service in next major.
-  private featureConfigService = inject(FeatureConfigService);
 
   loadOrgUnit$: Observable<
     | OrgUnitActions.LoadOrgUnitSuccess
@@ -390,14 +386,9 @@ export class OrgUnitEffects {
           .pipe(
             switchMap((data) => [
               new OrgUnitActions.CreateAddressSuccess(data),
-              new OrgUnitActions.CreateAddressSuccess(
-                // TODO (CXSPA-5630): Remove feature flag in next major.
-                this.featureConfigService?.isEnabled(
-                  'fixMyCompanyUnitAddressCreation'
-                )
-                  ? { id: payload.address.id }
-                  : { id: undefined }
-              ),
+              new OrgUnitActions.CreateAddressSuccess({
+                id: payload.address.id,
+              }),
               new OrganizationActions.OrganizationClearData(),
             ]),
             catchError((error: HttpErrorResponse) =>

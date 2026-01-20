@@ -4,14 +4,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { CxDatePipe, UrlPipe } from '@spartacus/core';
 import { CellComponent } from '../cell.component';
 
 @Component({
   selector: 'cx-org-date-range-cell',
   templateUrl: './date-range-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    RouterLink,
+    NgTemplateOutlet,
+    UrlPipe,
+    CxDatePipe,
+    CxDatePipe,
+  ],
 })
 export class DateRangeCellComponent extends CellComponent {
   get linkable(): boolean {

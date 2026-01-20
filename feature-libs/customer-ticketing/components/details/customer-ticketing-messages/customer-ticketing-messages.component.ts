@@ -7,23 +7,23 @@
 import { Component, OnDestroy, ViewChild, inject } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import {
-  MessageEvent,
-  MessagingComponent,
-  MessagingConfigs,
-} from '@spartacus/storefront';
-import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
   TicketDetails,
   TicketEvent,
 } from '@spartacus/customer-ticketing/root';
+import {
+  MessageEvent,
+  MessagingComponent,
+  MessagingConfigs,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
 @Component({
   selector: 'cx-customer-ticketing-messages',
   templateUrl: './customer-ticketing-messages.component.html',
-  standalone: false,
+  imports: [MessagingComponent],
 })
 export class CustomerTicketingMessagesComponent implements OnDestroy {
   @ViewChild(MessagingComponent) messagingComponent: MessagingComponent;

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,6 +22,7 @@ import {
   Address,
   GlobalMessageService,
   GlobalMessageType,
+  TranslatePipe,
   TranslationService,
   UserAddressService,
   WindowRef,
@@ -28,9 +30,12 @@ import {
 } from '@spartacus/core';
 import {
   Card,
+  CardComponent,
   SelectFocusUtility,
+  SpinnerComponent,
   getAddressNumbers,
 } from '@spartacus/storefront';
+import { AddressFormComponent } from '@spartacus/user/profile/components';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -52,7 +57,15 @@ export interface CardWithAddress {
   selector: 'cx-delivery-address',
   templateUrl: './checkout-delivery-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    CardComponent,
+    AddressFormComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CheckoutDeliveryAddressComponent implements OnInit {
   protected checkoutConfigService = inject(CheckoutConfigService);

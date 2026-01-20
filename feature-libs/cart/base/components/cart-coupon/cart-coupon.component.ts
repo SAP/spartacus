@@ -4,8 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
@@ -19,14 +22,24 @@ import {
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { AppliedCouponsComponent } from './applied-coupons/applied-coupons.component';
 
 @Component({
   selector: 'cx-cart-coupon',
   templateUrl: './cart-coupon.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    AppliedCouponsComponent,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CartCouponComponent implements OnInit, OnDestroy {
   MAX_CUSTOMER_COUPON_PAGE = 100;

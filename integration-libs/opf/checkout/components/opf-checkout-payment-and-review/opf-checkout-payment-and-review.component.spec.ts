@@ -4,28 +4,27 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
-import { CheckoutPaymentFacade } from '@spartacus/checkout/base/root';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import { Observable, of } from 'rxjs';
-import { CheckoutFlowOrchestratorService } from '@spartacus/checkout/base/components';
-import { OPF_CHECKOUT_FLOW_NAME } from '../../root/model';
-import { Address, TranslationService, CmsService } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import { Store } from '@ngrx/store';
+import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
+import {
+  CheckoutFlowOrchestratorService,
+  CheckoutStepService,
+} from '@spartacus/checkout/base/components';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
+  CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
-import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Address, CmsService, TranslationService } from '@spartacus/core';
+import { Card } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { OPF_CHECKOUT_FLOW_NAME } from '../../root/model';
+import { OpfCheckoutPaymentAndReviewComponent } from './opf-checkout-payment-and-review.component';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -33,7 +32,6 @@ class MockTranslatePipe implements PipeTransform {
 @Component({
   selector: 'cx-opf-checkout-review-card',
   template: '',
-  standalone: false,
 })
 class MockReviewCardComponent {
   @Input() cardContent$: Observable<Card>;
@@ -43,7 +41,6 @@ class MockReviewCardComponent {
 @Component({
   selector: 'cx-opf-checkout-payments',
   template: '',
-  standalone: false,
 })
 class MockPaymentsComponent {
   @Input() elementsPerPage: number;
@@ -54,7 +51,6 @@ class MockPaymentsComponent {
 @Component({
   selector: 'cx-opf-checkout-terms-and-conditions-alert',
   template: '',
-  standalone: false,
 })
 class MockTermsAndConditionsAlertComponent {
   @Input() isDismissible: boolean;
@@ -65,14 +61,12 @@ class MockTermsAndConditionsAlertComponent {
 @Component({
   selector: 'cx-opf-checkout-billing-address-form',
   template: '',
-  standalone: false,
 })
 class MockBillingAddressFormComponent {}
 
 @Component({
   selector: 'cx-opf-checkout-review-cart-details',
   template: '',
-  standalone: false,
 })
 class MockReviewCartDetailsComponent {
   @Input() cart: any;
@@ -154,7 +148,7 @@ describe('OpfCheckoutPaymentAndReviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         OpfCheckoutPaymentAndReviewComponent,
         MockReviewCardComponent,
         MockPaymentsComponent,

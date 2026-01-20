@@ -31,6 +31,7 @@ import { AddToWishListComponent } from './add-to-wish-list.component';
     AtMessageModule,
     FeaturesConfigModule,
     BtnLikeLinkModule,
+    AddToWishListComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -41,7 +42,6 @@ import { AddToWishListComponent } from './add-to-wish-list.component';
       },
     }),
   ],
-  declarations: [AddToWishListComponent],
   exports: [AddToWishListComponent],
 })
 export class AddToWishListModule {}

@@ -26,6 +26,7 @@ import { LoginRegisterComponent } from './login-register.component';
     PageSlotModule,
     I18nModule,
     BtnLikeLinkModule,
+    LoginRegisterComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -37,6 +38,5 @@ import { LoginRegisterComponent } from './login-register.component';
       },
     }),
   ],
-  declarations: [LoginRegisterComponent],
 })
 export class LoginRegisterModule {}

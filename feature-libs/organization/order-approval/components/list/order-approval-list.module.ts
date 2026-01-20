@@ -35,8 +35,8 @@ import { OrderApprovalListComponent } from './order-approval-list.component';
     ListNavigationModule,
     I18nModule,
     FeaturesConfigModule,
+    OrderApprovalListComponent,
   ],
-  declarations: [OrderApprovalListComponent],
   exports: [OrderApprovalListComponent],
 })
 export class OrderApprovalListModule {}

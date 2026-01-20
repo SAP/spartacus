@@ -1,7 +1,7 @@
-import { Component, Input, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ProductImageZoomThumbnailsComponent } from './product-image-zoom-thumbnails.component';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { ProductImageZoomThumbnailsComponent } from './product-image-zoom-thumbnails.component';
 
 const firstImage = {
   zoom: {
@@ -33,7 +33,6 @@ const secondImage = {
       ></ng-container>
     </ng-container>
   `,
-  standalone: false,
 })
 class MockCarouselComponent {
   @Input() items;
@@ -48,7 +47,7 @@ describe('ProductImageZoomThumbnailsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         ProductImageZoomThumbnailsComponent,
         MockCarouselComponent,
         MockFeatureDirective,

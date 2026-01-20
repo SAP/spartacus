@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import { ReturnRequest } from '@spartacus/order/root';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -19,7 +21,7 @@ import { ReturnRequestService } from '../return-request.service';
   selector: 'cx-return-request-overview',
   templateUrl: './return-request-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class ReturnRequestOverviewComponent implements OnInit, OnDestroy {
   constructor(protected returnRequestService: ReturnRequestService) {}

@@ -16,13 +16,13 @@ import { ConfiguratorRestartDialogComponent } from './configurator-restart-dialo
 import { defaultConfiguratorRestartDialogLayoutConfig } from './default-configurator-restart-dialog-layout.config';
 
 @NgModule({
-  declarations: [ConfiguratorRestartDialogComponent],
   imports: [
     CommonModule,
     I18nModule,
     IconModule,
     KeyboardFocusModule,
     FeaturesConfigModule,
+    ConfiguratorRestartDialogComponent,
   ],
   providers: [
     provideDefaultConfig(defaultConfiguratorRestartDialogLayoutConfig),

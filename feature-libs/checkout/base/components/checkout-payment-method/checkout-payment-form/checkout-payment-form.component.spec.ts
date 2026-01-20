@@ -11,28 +11,45 @@ import {
   Address,
   CardType,
   Country,
+  CxDatePipe,
+  FeatureDirective,
   GlobalMessageService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   PaymentDetails,
+  TranslatePipe,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
 import {
+  CardComponent,
   FormErrorsModule,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
   NgSelectA11yModule,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, of } from 'rxjs';
-import { CheckoutBillingAddressFormService } from '../../checkout-billing-address';
+import {
+  CheckoutBillingAddressFormComponent,
+  CheckoutBillingAddressFormService,
+} from '../../checkout-billing-address';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    NgSelectA11yModule,
+    I18nTestingModule,
+    FormErrorsModule,
+  ],
 })
 class MockSpinnerComponent {}
 
@@ -92,7 +109,13 @@ const mockPayment: any = {
 @Component({
   selector: 'cx-billing-address-form',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    NgSelectA11yModule,
+    I18nTestingModule,
+    FormErrorsModule,
+  ],
 })
 class MockBillingAddressFormComponent {
   @Input()
@@ -104,7 +127,13 @@ class MockBillingAddressFormComponent {
 @Component({
   selector: 'cx-card',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    NgSelectA11yModule,
+    I18nTestingModule,
+    FormErrorsModule,
+  ],
 })
 class MockCardComponent {
   @Input()
@@ -114,7 +143,13 @@ class MockCardComponent {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    NgSelectA11yModule,
+    I18nTestingModule,
+    FormErrorsModule,
+  ],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -197,16 +232,8 @@ describe('CheckoutPaymentFormComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         NgSelectA11yModule,
-        I18nTestingModule,
         FormErrorsModule,
-      ],
-      declarations: [
         CheckoutPaymentFormComponent,
-        MockCardComponent,
-        MockBillingAddressFormComponent,
-        MockCxIconComponent,
-        MockSpinnerComponent,
-        MockFeatureDirective,
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -228,7 +255,29 @@ describe('CheckoutPaymentFormComponent', () => {
       ],
     })
       .overrideComponent(CheckoutPaymentFormComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CardComponent,
+            CheckoutBillingAddressFormComponent,
+            IconComponent,
+            SpinnerComponent,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          changeDetection: ChangeDetectionStrategy.Default,
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCardComponent,
+            MockBillingAddressFormComponent,
+            MockCxIconComponent,
+            MockSpinnerComponent,
+            MockFeatureDirective,
+          ],
+        },
       })
       .compileComponents();
   }));

@@ -13,9 +13,15 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
+import { TranslatePipe } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
+import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
 
 /**
  * Provides a UI to manage the count of the quantity, typically by using
@@ -25,7 +31,7 @@ import { startWith } from 'rxjs/operators';
 @Component({
   selector: 'cx-item-counter',
   templateUrl: './item-counter.component.html',
-  standalone: false,
+  imports: [FocusDirective, FormsModule, ReactiveFormsModule, TranslatePipe],
 })
 export class ItemCounterComponent implements OnInit, OnDestroy {
   /**

@@ -27,7 +27,6 @@ import { Directive } from '@angular/core';
     // Add Space keydown click mimic native Button's behaviour
     '(keydown.Space)': 'handleKeydown($event)',
   },
-  standalone: false,
 })
 export class BtnLikeLinkDirective {
   handleKeydown(event: KeyboardEvent): void {

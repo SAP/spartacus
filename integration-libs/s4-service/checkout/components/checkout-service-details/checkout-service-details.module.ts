@@ -27,6 +27,7 @@ import { CheckoutServiceDetailsComponent } from './checkout-service-details.comp
     ReactiveFormsModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    CheckoutServiceDetailsComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -39,6 +40,5 @@ import { CheckoutServiceDetailsComponent } from './checkout-service-details.comp
     }),
   ],
   exports: [CheckoutServiceDetailsComponent],
-  declarations: [CheckoutServiceDetailsComponent],
 })
 export class CheckoutServiceDetailsModule {}

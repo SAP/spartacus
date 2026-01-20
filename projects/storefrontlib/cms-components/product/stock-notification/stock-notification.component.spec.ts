@@ -8,15 +8,20 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  CxDatePipe,
+  FeatureDirective,
   GlobalMessageService,
-  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   NotificationPreference,
   NotificationType,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   Product,
   ProductInterestSearchResult,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
   UserIdService,
   UserInterestsService,
   UserNotificationPreferenceService,
@@ -27,6 +32,7 @@ import { CurrentProductService } from '../current-product.service';
 import { StockNotificationDialogComponent } from './stock-notification-dialog/stock-notification-dialog.component';
 import { StockNotificationComponent } from './stock-notification.component';
 
+import { RouterModule } from '@angular/router';
 import { FocusDirective } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/index';
@@ -109,10 +115,7 @@ describe('StockNotificationComponent', () => {
   const removeSuccess = new BehaviorSubject<boolean>(false);
   const addFail = new BehaviorSubject<boolean>(false);
 
-  @Pipe({
-    name: 'cxUrl',
-    standalone: false,
-  })
+  @Pipe({ name: 'cxUrl' })
   class MockUrlPipe implements PipeTransform {
     transform(): any {}
   }
@@ -121,13 +124,12 @@ describe('StockNotificationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, SpinnerModule],
-      declarations: [
+      imports: [
+        SpinnerModule,
         StockNotificationComponent,
         StockNotificationDialogComponent,
-        MockUrlPipe,
         FocusDirective,
-        MockFeatureDirective,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: UserIdService, useValue: userIdService },
@@ -145,7 +147,21 @@ describe('StockNotificationComponent', () => {
         },
         { provide: UserInterestsService, useValue: interestsService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(StockNotificationComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, FeatureDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

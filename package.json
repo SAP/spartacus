@@ -14,7 +14,7 @@
     "core-libs/*"
   ],
   "engines": {
-    "node": "^22.0.0"
+    "node": "^22.22.0"
   },
   "scripts": {
     "build:analyze": "npm run build -- --stats-json && npx esbuild-visualizer --metadata ./dist/storefrontapp/stats.json",
@@ -202,7 +202,7 @@
     "zone.js": "^0.16.0"
   },
   "devDependencies": {
-    "@angular-builders/custom-esbuild": "^21.0.0-beta.1",
+    "@angular-builders/custom-esbuild": "^21.0.3",
     "@angular-devkit/build-angular": "^21.0.5",
     "@angular-devkit/core": "^21.0.5",
     "@angular-devkit/schematics": "^21.0.5",

@@ -4,13 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { PointOfService, WeekdayOpeningDay } from '@spartacus/core';
+import {
+  PointOfService,
+  TranslatePipe,
+  WeekdayOpeningDay,
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-schedule',
   templateUrl: './schedule.component.html',
-  standalone: false,
+  imports: [NgIf, NgFor, TranslatePipe],
 })
 export class ScheduleComponent implements OnInit {
   @Input()

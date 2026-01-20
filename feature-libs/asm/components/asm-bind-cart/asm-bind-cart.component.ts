@@ -4,15 +4,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormControl, ValidatorFn, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { AsmBindCartFacade } from '@spartacus/asm/root';
 import {
   ActiveCartFacade,
@@ -26,6 +34,7 @@ import {
   HttpErrorModel,
   OCC_CART_ID_CURRENT,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import {
@@ -48,13 +57,22 @@ import {
 } from 'rxjs/operators';
 import { BIND_CART_DIALOG_ACTION } from '../asm-bind-cart-dialog/asm-bind-cart-dialog.component';
 import { SAVE_CART_DIALOG_ACTION } from '../asm-save-cart-dialog/asm-save-cart-dialog.component';
+import { DotSpinnerComponent } from '../dot-spinner/dot-spinner.component';
 import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
   selector: 'cx-asm-bind-cart',
   templateUrl: './asm-bind-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FormsModule,
+    NgClass,
+    ReactiveFormsModule,
+    NgIf,
+    DotSpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class AsmBindCartComponent implements OnInit, OnDestroy {
   activeCartValidator: ValidatorFn = (control) => {

@@ -4,8 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
+import { SpinnerComponent } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { delay, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -15,7 +18,7 @@ import { ConfiguratorMessageConfig } from '../config/configurator-message.config
   selector: 'cx-configurator-update-message',
   templateUrl: './configurator-update-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorUpdateMessageComponent {
   hasPendingChanges$: Observable<boolean> = this.configRouterExtractorService

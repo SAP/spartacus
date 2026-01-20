@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -16,13 +17,20 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { Facet, FacetValue } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import {
+  Facet,
+  FacetValue,
+  TranslatePipe,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import {
   FocusDirective,
   disableTabbingForTick,
 } from '../../../../../layout/a11y';
+import { FocusDirective as FocusDirective_1 } from '../../../../../layout/a11y/keyboard-focus/focus.directive';
+import { AtMessageDirective } from '../../../../../shared/components/assistive-technology-message/assistive-technology-message.directive';
 import { FacetCollapseState } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 
@@ -30,7 +38,16 @@ import { FacetService } from '../services/facet.service';
   selector: 'cx-facet',
   templateUrl: './facet.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    RouterLink,
+    FocusDirective_1,
+    AtMessageDirective,
+    AsyncPipe,
+    SlicePipe,
+    TranslatePipe,
+  ],
 })
 export class FacetComponent implements AfterViewInit {
   protected _facet: Facet;
