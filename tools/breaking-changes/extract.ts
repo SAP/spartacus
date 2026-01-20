@@ -17,6 +17,13 @@ import { escapePackageName } from './common';
 const spartacusHomeDir = process.argv[2];
 const distFolderPath = spartacusHomeDir + '/dist';
 
+// Modules to exclude due to external global types issues (e.g., ApplePayJS)
+// These are mainly aggregator modules - their sub-modules are still processed
+const EXCLUDED_MODULES = [
+  '/opf/quick-buy/components',
+  '/opf/quick-buy/public_api.d.ts'
+];
+
 console.log(`Extract public API for libs in ${spartacusHomeDir}/dist.`);
 
 //prepare dirs
@@ -28,13 +35,33 @@ if (!fs.existsSync(`${spartacusHomeDir}/temp`)) {
 }
 
 const files = globSync(`${spartacusHomeDir}/dist/**/public_api.d.ts`);
-console.log(`Found ${files.length} entry points to process.`);
-files.forEach((file: any, index: any) => {
-  console.log(
-    `Processing(${index + 1}/${files.length}): ${path.dirname(file)}`
-  );
-  runExtractor(path.dirname(file));
+const filteredFiles = files.filter((file: string) => {
+  return !EXCLUDED_MODULES.some(excluded => file.includes(excluded));
 });
+
+console.log(`Found ${files.length} entry points total.`);
+console.log(`Processing ${filteredFiles.length} entry points (${files.length - filteredFiles.length} excluded).`);
+
+const failedModules: string[] = [];
+filteredFiles.forEach((file: any, index: any) => {
+  const libPath = path.dirname(file);
+  console.log(`Processing(${index + 1}/${filteredFiles.length}): ${libPath}`);
+  try {
+    runExtractor(libPath);
+  } catch (error) {
+    console.error(
+      `Failed to process ${libPath}:`,
+      error instanceof Error ? error.message : error
+    );
+    failedModules.push(libPath);
+  }
+});
+
+if (failedModules.length > 0) {
+  console.log(`\n⚠️  Failed to process ${failedModules.length} module(s):`);
+  failedModules.forEach((module) => console.log(`  - ${module}`));
+  console.log(`\nContinuing with successfully processed modules...`);
+}
 
 function runExtractor(libPath: string) {
   preparePackageJson(libPath);
@@ -49,15 +76,15 @@ function runExtractor(libPath: string) {
     showVerboseMessages: true,
   });
 
+
   if (extractorResult.succeeded) {
     console.log(`API Extractor completed successfully`);
-    process.exitCode = 0;
   } else {
-    console.error(
+    const errorMsg =
       `API Extractor completed with ${extractorResult.errorCount} errors` +
-        ` and ${extractorResult.warningCount} warnings`
-    );
-    process.exitCode = 1;
+      ` and ${extractorResult.warningCount} warnings`;
+    console.error(errorMsg);
+    throw new Error(errorMsg);
   }
 }
 
@@ -90,6 +117,7 @@ function preparePackageJson(libPath: string): void {
   console.log(`update package name in file ${libPath}/package.json`);
   updateNameInPackageJson(libPath);
 }
+
 
 function createPackageJsonFile(libPath: string) {
   const beginIdx = libPath.indexOf(distFolderPath) + distFolderPath.length + 1;

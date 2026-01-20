@@ -63,7 +63,7 @@
      * DEFAULT VALUE: "<projectFolder>/tsconfig.json"
      * TODO: Remove this configuration when everything will support strict mode
      */
-    "tsconfigFilePath": "<projectFolder>/tsconfig.api-extractor.json"
+    "tsconfigFilePath": "<projectFolder>/tsconfig.api-extractor.json",
     /**
      * Provides a compiler configuration that will be used instead of reading the tsconfig.json file from disk.
      * The object must conform to the TypeScript tsconfig schema:
@@ -85,7 +85,7 @@
      *
      * DEFAULT VALUE: false
      */
-    // "skipLibCheck": true,
+    "skipLibCheck": true
   },
 
   /**
