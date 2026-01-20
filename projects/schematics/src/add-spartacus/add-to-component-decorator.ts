@@ -33,17 +33,8 @@ export function addToComponentDecorator(
           );
 
         if (importsProperty && Node.isPropertyAssignment(importsProperty)) {
-          const arrayLiteral = importsProperty.getInitializer();
-
-          if (arrayLiteral && Node.isArrayLiteralExpression(arrayLiteral)) {
-            const alreadyExists = arrayLiteral
-              .getElements()
-              .some((element) => element.getText() === value);
-
-            if (!alreadyExists) {
-              arrayLiteral.addElement(value);
-            }
-          }
+          // Replace the entire array with the new value
+          importsProperty.setInitializer(`[${value}]`);
         } else {
           // Add the property if it doesn't exist
           objLiteral.addPropertyAssignment({
