@@ -157,9 +157,80 @@ export class OpfCtaScriptsService {
           scriptsLocation,
           paymentAccountIds
         ),
+      [OpfCtaScriptsLocation.CART_QUICK_BUY]: () =>
+        this.opfDynamicCtaService.fillCtaRequestforCartPage(
+          scriptsLocation,
+          paymentAccountIds
+        ),
+      [OpfCtaScriptsLocation.PDP_QUICK_BUY]: () =>
+        this.opfDynamicCtaService.fillCtaRequestforProductPage(
+          scriptsLocation,
+          paymentAccountIds
+        ),
     };
     const selectedFunction = locationToFunctionMap[scriptsLocation];
     return selectedFunction();
+  }
+
+  getQuickBuyCtaHtmlList(): Observable<OpfDynamicScript[]> {
+    let isDynamicCtaLocation = false;
+    return this.fillQuickBuyCtaScriptRequest().pipe(
+      concatMap((opfCtaScriptsRequest) => {
+        isDynamicCtaLocation =
+          !!opfCtaScriptsRequest?.scriptLocations?.length &&
+          !!opfCtaScriptsRequest?.scriptLocations.find((location) =>
+            OpfCtaDynamicLocations.includes(location)
+          );
+        isDynamicCtaLocation &&
+          this.opfDynamicCtaService.registerScriptReadyEvent();
+        return this.fetchCtaScripts(opfCtaScriptsRequest);
+      }),
+      tap((scriptsResponse) => {
+        isDynamicCtaLocation &&
+          !!scriptsResponse.length &&
+          this.opfDynamicCtaService.initiateEvents();
+      }),
+      finalize(() => {
+        this.opfResourceLoaderService.clearAllResources();
+        isDynamicCtaLocation && this.opfDynamicCtaService.stopEvents();
+      })
+    );
+  }
+
+  protected fillQuickBuyCtaScriptRequest(): Observable<OpfCtaScriptsRequest> {
+    let paymentAccountIds: number[];
+
+    return this.getPaymentAccountIds().pipe(
+      concatMap((accIds) => {
+        paymentAccountIds = accIds;
+        return this.getQuickBuyScriptLocation();
+      }),
+      concatMap((scriptsLocation: OpfCtaScriptsLocation | undefined) => {
+        return this.fillRequestForTargetPage(
+          scriptsLocation,
+          paymentAccountIds
+        );
+      })
+    );
+  }
+
+  protected getQuickBuyScriptLocation(): Observable<
+    OpfCtaScriptsLocation | undefined
+  > {
+    const cmsToCtaLocationMap: Partial<
+      Record<OpfCtaCmsPageLocation, OpfCtaScriptsLocation>
+    > = {
+      [OpfCtaCmsPageLocation.CART_PAGE]: OpfCtaScriptsLocation.CART_QUICK_BUY,
+      [OpfCtaCmsPageLocation.PDP_PAGE]: OpfCtaScriptsLocation.PDP_QUICK_BUY,
+    };
+    return this.cmsService.getCurrentPage().pipe(
+      take(1),
+      map((page) =>
+        page.pageId
+          ? cmsToCtaLocationMap[page.pageId as OpfCtaCmsPageLocation]
+          : undefined
+      )
+    );
   }
 
   protected getScriptLocation(): Observable<OpfCtaScriptsLocation | undefined> {
