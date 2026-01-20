@@ -1,4 +1,4 @@
-# Migrating a custom app to use Spartacus 221121.8 with Angular 21
+# Migrating a custom app to use Spartacus 221121.8 with Angular 21 - TEST
 
 Before upgrading Spartacus to the new version with Angular 21, you need to first:
 
