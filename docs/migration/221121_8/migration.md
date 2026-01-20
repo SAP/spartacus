@@ -275,7 +275,7 @@ platformBrowser().bootstrapModule(AppModule, {
 
 ### Enable Non-Destructive Hydration (Required for SSR)
 
-If your application uses Server-Side Rendering (SSR), you **must** enable Angular's non-destructive hydration. This is now a requirement for Spartacus 221121_8.
+If your application uses Server-Side Rendering (SSR), you should enable Angular's non-destructive hydration. This is now a requirement for Spartacus 221121_8. This aligns your app with current Angular best practices, making maintenance and upgrades easier.
 
 #### What is non-destructive hydration?
 
