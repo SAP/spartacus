@@ -61,7 +61,7 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
 
     it('should import provideServerRendering from @angular/ssr or @angular/platform-server', () => {
       expect(content).toMatch(
-        /provideServerRendering.*from ['"@]angular\/(ssr|platform-server)/
+        /provideServerRendering.*from ['"]@angular\/(ssr|platform-server)/
       );
     });
 
@@ -87,28 +87,27 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
       content = tree.readContent('/src/app/app.module.server.ts');
     });
 
-    it('should remove imports: [AppModule] from @NgModule', () => {
-      expect(content).not.toContain('imports: [AppModule');
+    it('should remove AppModule from imports array', () => {
       expect(content).not.toContain('AppModule');
+    });
+
+    it('should remove ServerModule from imports array', () => {
+      expect(content).not.toMatch(/imports:\s*\[[^\]]*ServerModule/);
     });
 
     it('should remove bootstrap: [AppComponent] from @NgModule', () => {
       expect(content).not.toContain('bootstrap: [AppComponent]');
-      // AppComponent import may remain if needed for other purposes
+      expect(content).not.toContain('bootstrap:');
     });
 
     it('should remove AppModule import statement', () => {
       expect(content).not.toContain("import { AppModule } from './app.module'");
     });
 
-    it('should remove AppComponent import statement if not used elsewhere', () => {
-      // This may still exist if AppComponent is used elsewhere
-      // Just check that bootstrap is removed
-      expect(content).not.toContain('bootstrap:');
-    });
-
-    it('should preserve other imports like ServerModule', () => {
-      expect(content).toContain('ServerModule');
+    it('should remove ServerModule import statement', () => {
+      expect(content).not.toContain(
+        "import { ServerModule } from '@angular/platform-server'"
+      );
     });
 
     it('should preserve @NgModule decorator', () => {

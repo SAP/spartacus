@@ -54,10 +54,24 @@ export function updateAppModuleServer(): Rule {
       throw new Error('@NgModule decorator argument is not an object');
     }
 
-    // Remove imports property
+    // Remove specific elements from imports array (AppModule and ServerModule)
     const importsProp = configObject.getProperty('imports');
-    if (importsProp) {
-      importsProp.remove();
+    if (importsProp && importsProp.isKind(SyntaxKind.PropertyAssignment)) {
+      const initializer = importsProp.getInitializer();
+      if (
+        initializer &&
+        initializer.isKind(SyntaxKind.ArrayLiteralExpression)
+      ) {
+        const elements = initializer.getElements();
+        // Iterate backwards to safely remove elements
+        for (let i = elements.length - 1; i >= 0; i--) {
+          const element = elements[i];
+          const text = element.getText();
+          if (text === 'AppModule' || text === 'ServerModule') {
+            initializer.removeElement(i);
+          }
+        }
+      }
     }
 
     // Remove bootstrap property
@@ -70,6 +84,24 @@ export function updateAppModuleServer(): Rule {
     const appModuleImport = sourceFile.getImportDeclaration('./app.module');
     if (appModuleImport) {
       appModuleImport.remove();
+    }
+
+    // Remove ServerModule import
+    const serverModuleImport = sourceFile.getImportDeclaration(
+      '@angular/platform-server'
+    );
+    if (serverModuleImport) {
+      const namedImports = serverModuleImport.getNamedImports();
+      const serverModuleNamedImport = namedImports.find(
+        (imp) => imp.getName() === 'ServerModule'
+      );
+      if (serverModuleNamedImport) {
+        serverModuleNamedImport.remove();
+      }
+      // If no more named imports, remove the entire import declaration
+      if (serverModuleImport.getNamedImports().length === 0) {
+        serverModuleImport.remove();
+      }
     }
 
     tree.overwrite(appModuleServerPath, sourceFile.getFullText());
