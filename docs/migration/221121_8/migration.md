@@ -338,10 +338,8 @@ export const appConfig: ApplicationConfig = {
 
 #### Important Notes
 
-- Non-destructive hydration is **only required for SSR applications**. If your application does not use SSR, you can skip this step.
 - Make sure to test your application thoroughly after enabling hydration to ensure all components hydrate correctly.
 - For more details, refer to the official [Angular Hydration documentation](https://angular.dev/guide/hydration).
-
 
 ### Upgrade Express to Version 5
 
