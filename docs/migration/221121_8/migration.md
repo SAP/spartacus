@@ -273,6 +273,76 @@ platformBrowser().bootstrapModule(AppModule, {
 
 ## Additional migration steps if using Server Side Rendering (SSR)
 
+### Enable Non-Destructive Hydration (Required for SSR)
+
+If your application uses Server-Side Rendering (SSR), you **must** enable Angular's non-destructive hydration. This is now a requirement for Spartacus 221121_8.
+
+#### What is non-destructive hydration?
+
+Non-destructive hydration is an Angular feature that improves performance by reusing the server-rendered DOM instead of destroying and recreating it on the client side. This significantly reduces the time to interactive and provides a better user experience.
+
+For more information, see the [Angular Hydration Guide](https://angular.dev/guide/hydration).
+
+#### How to enable it
+
+In your `app.module.ts` (or `app.config.ts` for standalone applications), add `provideClientHydration()` with `withEventReplay()` and `withNoHttpTransferCache()`:
+
+**For module-based applications (app.module.ts):**
+
+```diff
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
++ import {
++   provideClientHydration,
++   withEventReplay,
++   withNoHttpTransferCache,
++ } from '@angular/platform-browser';
+
+@NgModule({
+  imports: [
+    BrowserModule,
+    // ...
+  ],
+  providers: [
++   provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
+    // ...
+  ],
+  // ...
+})
+export class AppModule { }
+```
+
+**For standalone applications (app.config.ts):**
+
+```typescript
+import { ApplicationConfig } from '@angular/core';
+import {
+  provideClientHydration,
+  withEventReplay,
+  withNoHttpTransferCache,
+} from '@angular/platform-browser';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
+    // ...
+  ]
+};
+```
+
+#### Why are these options required?
+
+- **`withEventReplay()`**: Ensures that user interactions that occur before the application is fully hydrated are captured and replayed. This provides a seamless user experience even during the hydration process.
+
+- **`withNoHttpTransferCache()`**: Disables the HTTP transfer cache for hydration. This is required for Spartacus because Spartacus uses its own state transfer mechanism for OCC API calls. Without this option, there could be conflicts between Angular's built-in HTTP transfer cache and Spartacus's custom implementation.
+
+#### Important Notes
+
+- Non-destructive hydration is **only required for SSR applications**. If your application does not use SSR, you can skip this step.
+- Make sure to test your application thoroughly after enabling hydration to ensure all components hydrate correctly.
+- For more details, refer to the official [Angular Hydration documentation](https://angular.dev/guide/hydration).
+
+
 ### Upgrade Express to Version 5
 
 Spartacus 221121.8 requires Express 5.x. Upgrade Express:
