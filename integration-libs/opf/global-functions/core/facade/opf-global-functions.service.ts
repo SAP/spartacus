@@ -493,11 +493,12 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       return this.ngZone.run(() => {
         if (cartId) {
           this.multiCartFacade.reloadCart(cartId);
-          return lastValueFrom(this.multiCartFacade.getCart(cartId).pipe(take(1)));
+          return lastValueFrom(
+            this.multiCartFacade.getCart(cartId).pipe(take(1))
+          );
         }
 
-      
-          return lastValueFrom(
+        return lastValueFrom(
           this.reloadCartAndWaitForStable().pipe(
             switchMap(() => this.activeCartFacade.takeActive()),
             take(1)
@@ -751,7 +752,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
             switchMap(() => this.activeCartFacade.takeActive()),
             map((cart: Cart | undefined) => cart?.sapBillingAddress),
             take(1)
-          ),
+          )
         );
       });
     };

@@ -5,5 +5,3 @@
  */
 
 export * from './default-occ-opf-cart-config';
-
-

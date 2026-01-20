@@ -117,12 +117,9 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   takeActive = jasmine.createSpy('takeActive').and.returnValue(of(mockCart));
   // isStable emits false first (skipped by skip(1)), then true (accepted by filter)
   // This simulates: initial state (false, skipped) -> stable after reload (true, taken)
-  isStable = jasmine
-    .createSpy('isStable')
-    .and.returnValue(of(false, true));
+  isStable = jasmine.createSpy('isStable').and.returnValue(of(false, true));
   reloadActiveCart = jasmine.createSpy('reloadActiveCart');
 }
-
 
 class MockUserIdService implements Partial<UserIdService> {
   getUserId() {
