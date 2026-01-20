@@ -9,9 +9,9 @@ import { CmsRoute, PageType } from '@spartacus/core';
 import { EMPTY, of } from 'rxjs';
 import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsComponentsService } from './cms-components.service';
-import { CmsGuardsService } from './cms-guards.service';
 import { CmsRoutesImplService } from './cms-routes-impl.service';
 import createSpy = jasmine.createSpy;
+import { GuardsComposer } from './guards-composer';
 
 describe('CmsRoutesImplService', () => {
   let service: CmsRoutesImplService;
@@ -224,14 +224,13 @@ describe('CmsRoutesImplService', () => {
     it('should wrap Cms Guard with a function', () => {
       const mockUrlTree = new UrlTree();
 
-      const cmsGuardsService = TestBed.inject(CmsGuardsService);
-      spyOn(cmsGuardsService, 'canActivateGuard').and.returnValue(
-        of(mockUrlTree)
-      );
+      const guardsComposer = TestBed.inject(GuardsComposer);
+      spyOn(guardsComposer, 'canActivate').and.returnValue(of(mockUrlTree));
 
-      class TestGuard {}
+      const canActivateGuardFn = () => true;
+
       spyOn(cmsMappingService, 'getChildRoutes').and.returnValue({
-        children: [{ path: 'test', canActivate: [TestGuard] }],
+        children: [{ path: 'test', canActivate: [canActivateGuardFn] }],
       });
 
       service.handleCmsRoutesInGuard(
@@ -260,16 +259,17 @@ describe('CmsRoutesImplService', () => {
       ).subscribe((result: any) => (guardResult = result));
       expect(guardResult).toBe(mockUrlTree);
 
-      expect(cmsGuardsService.canActivateGuard).toHaveBeenCalledWith(
-        TestGuard,
+      expect(guardsComposer.canActivate).toHaveBeenCalledWith(
+        [{ canActivate: canActivateGuardFn }],
         mockActivatedRouteSnapshot,
         mockRouterStateSnapshot
       );
     });
 
     it('should wrap Cms Guards recursively with a function', () => {
-      const cmsGuardsService = TestBed.inject(CmsGuardsService);
-      spyOn(cmsGuardsService, 'canActivateGuard').and.returnValue(EMPTY);
+      const guardsComposer = TestBed.inject(GuardsComposer);
+
+      spyOn(guardsComposer, 'canActivate').and.returnValue(EMPTY);
 
       class TestGuard1 {}
       class TestGuard2 {}

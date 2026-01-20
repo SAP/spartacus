@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { FeatureConfigService, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import {
   B2BUserService,
   Budget,
@@ -34,13 +34,6 @@ class MockB2bUserService {
 
 class MockUnitFormService {}
 
-// TODO (CXSPA-5630): Remove mock next major release
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 describe('ChildUnitItemService', () => {
   let service: UnitUserItemService;
   let userService: B2BUserService;
@@ -52,10 +45,6 @@ describe('ChildUnitItemService', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UnitFormService, useClass: MockUnitFormService },
         { provide: B2BUserService, useClass: MockB2bUserService },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
       ],
     });
 
