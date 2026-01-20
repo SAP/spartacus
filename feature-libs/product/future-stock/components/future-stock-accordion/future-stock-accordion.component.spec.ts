@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
+  FeatureDirective,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -58,17 +59,17 @@ describe('FutureStockAccordionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FutureStockAccordionComponent, MockFeatureDirective],
+      imports: [FutureStockAccordionComponent],
       providers: [
         { provide: FutureStockFacade, useClass: MockFutureStockService },
       ],
     })
       .overrideComponent(FutureStockAccordionComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, IconComponent],
+          imports: [TranslatePipe, CxDatePipe, IconComponent, FeatureDirective],
         },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockCxIconComponent],
+          imports: [MockTranslatePipe, MockDatePipe, MockCxIconComponent, MockFeatureDirective],
         },
       })
       .compileComponents();

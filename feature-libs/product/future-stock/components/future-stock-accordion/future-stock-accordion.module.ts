@@ -6,7 +6,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, FeaturesConfigModule, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 import { FutureStockAccordionComponent } from './future-stock-accordion.component';
 
@@ -15,7 +15,6 @@ import { FutureStockAccordionComponent } from './future-stock-accordion.componen
     CommonModule,
     I18nModule,
     IconModule,
-    FeaturesConfigModule,
     FutureStockAccordionComponent,
   ],
   providers: [
