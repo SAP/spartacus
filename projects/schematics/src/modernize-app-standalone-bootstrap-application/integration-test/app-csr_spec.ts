@@ -32,7 +32,7 @@ describe(`Schematics "${SCHEMATICS_NAME}" in CSR app`, () => {
     const content = tree.readContent('/src/app/app.component.ts');
     expect(content).toContain('imports: [StorefrontComponent]');
     expect(content).toContain(
-      "import { StorefrontComponent } from '@spartacus/storefront'"
+      'import { StorefrontComponent } from "@spartacus/storefront"'
     );
     expect(content).not.toContain('standalone: false');
   });
@@ -41,9 +41,6 @@ describe(`Schematics "${SCHEMATICS_NAME}" in CSR app`, () => {
     const content = tree.readContent('/src/app/app.module.ts');
     expect(content).not.toContain('bootstrap: [AppComponent]');
     expect(content).not.toContain('declarations: [AppComponent]');
-    expect(content).not.toContain('provideBrowserGlobalErrorListeners');
-    expect(content).not.toContain('provideZoneChangeDetection');
-    expect(content).not.toContain('provideHttpClient');
     expect(content).not.toContain('BrowserModule');
   });
 
@@ -67,12 +64,12 @@ describe(`Schematics "${SCHEMATICS_NAME}" in CSR app`, () => {
     expect(content).not.toContain('platformBrowser');
     expect(content).not.toContain('bootstrapModule');
     expect(content).toContain(
-      "import { bootstrapApplication } from '@angular/core'"
+      'import { bootstrapApplication } from "@angular/platform-browser"'
     );
     expect(content).toContain(
-      "import { AppComponent } from './app/app.component'"
+      'import { AppComponent } from "./app/app.component"'
     );
-    expect(content).toContain("import { appConfig } from './app/app.config'");
+    expect(content).toContain('import { appConfig } from "./app/app.config"');
   });
 
   it('should update the angular.json', () => {

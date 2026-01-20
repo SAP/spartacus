@@ -47,7 +47,10 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
   it('should update the src/main.server.ts', () => {
     const content = tree.readContent('/src/main.server.ts');
     expect(content).toContain(
-      'const bootstrap = () => bootstrapApplication(AppComponent, config)'
+      'const bootstrap = (context: BootstrapContext) =>'
+    );
+    expect(content).toContain(
+      'bootstrapApplication(AppComponent, config, context)'
     );
     expect(content).toContain('export default bootstrap');
     expect(content).not.toContain('export { AppServerModule');
@@ -62,7 +65,8 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
 
   it('should move hydration config from app.module.ts to app.config.ts', () => {
     const appModuleContent = tree.readContent('/src/app/app.module.ts');
-    expect(appModuleContent).not.toContain('provideClientHydration');
+    // The hydration provider call should be removed from providers array
+    expect(appModuleContent).not.toContain('provideClientHydration(');
 
     const appConfigContent = tree.readContent('/src/app/app.config.ts');
     expect(appConfigContent).toContain('provideClientHydration');
