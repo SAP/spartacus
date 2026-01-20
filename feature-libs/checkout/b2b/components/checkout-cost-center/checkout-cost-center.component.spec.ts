@@ -55,8 +55,7 @@ describe('CheckoutCostCenterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [CheckoutCostCenterComponent],
+      imports: [I18nTestingModule, CheckoutCostCenterComponent],
       providers: [
         {
           provide: UserCostCenterService,

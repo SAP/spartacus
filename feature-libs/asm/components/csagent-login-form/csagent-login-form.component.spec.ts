@@ -28,8 +28,6 @@ describe('CSAgentLoginFormComponent', () => {
         I18nTestingModule,
         FormErrorsModule,
         PasswordVisibilityToggleModule,
-      ],
-      declarations: [
         CSAgentLoginFormComponent,
         DotSpinnerComponent,
         MockFeatureDirective,

@@ -7,8 +7,15 @@
 
 import { CUSTOM_ELEMENTS_SCHEMA, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
 import {
+  I18nTestingModule,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import {
+  HighlightPipe,
   OutletContextData,
   SearchBoxComponentService,
 } from '@spartacus/storefront';
@@ -19,18 +26,12 @@ import {
 } from './recent-searches.component';
 import { RecentSearchesService } from './recent-searches.service';
 
-@Pipe({
-  name: 'cxHighlight',
-  standalone: false,
-})
+@Pipe({ name: 'cxHighlight' })
 class MockHighlightPipe implements PipeTransform {
   transform(): any {}
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {
     return ['test', 'url'];
@@ -59,8 +60,11 @@ describe('RecentSearchesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [RecentSearchesComponent, MockHighlightPipe, MockUrlPipe],
+      imports: [
+        I18nTestingModule,
+        RecentSearchesComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         {
           provide: RecentSearchesService,
@@ -73,7 +77,16 @@ describe('RecentSearchesComponent', () => {
         { provide: OutletContextData, useValue: { context$ } },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    }).compileComponents();
+    })
+      .overrideComponent(RecentSearchesComponent, {
+        remove: {
+          imports: [TranslatePipe, HighlightPipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockHighlightPipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -1,13 +1,13 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { FileUploadComponent } from './file-upload.component';
 
 @Component({
   selector: 'cx-form-errors',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockFormErrorComponent {
   @Input() control: UntypedFormControl;
@@ -35,8 +35,12 @@ describe('FileUploadComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule],
-      declarations: [FileUploadComponent, MockFormErrorComponent],
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        FileUploadComponent,
+        MockFormErrorComponent,
+      ],
     }).compileComponents();
   });
 

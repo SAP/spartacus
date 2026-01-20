@@ -1,25 +1,25 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  AsmCustomer360PromotionList,
-  AsmCustomer360Type,
   AsmCustomer360Facade,
+  AsmCustomer360PromotionList,
   AsmCustomer360Response,
+  AsmCustomer360Type,
 } from '@spartacus/asm/customer-360/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
 import { AsmCustomer360SectionContextSource } from '../asm-customer-360-section-context-source.model';
 import { AsmCustomer360SectionContext } from '../asm-customer-360-section-context.model';
 import { AsmCustomer360PromotionComponent } from './asm-customer-360-promotion.component';
-import { AsmCustomer360PromotionListingComponent } from '../../asm-customer-360-promotion-listing/asm-customer-360-promotion-listing.component';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { Observable, of } from 'rxjs';
-import { Component, Input } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
 
 describe('AsmCustomer360PromotionComponent', () => {
   @Component({
     selector: 'cx-icon',
     template: '',
-    standalone: false,
+    imports: [I18nTestingModule],
   })
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
@@ -95,8 +95,8 @@ describe('AsmCustomer360PromotionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         AsmCustomer360PromotionComponent,
         AsmCustomer360PromotionListingComponent,
         MockCxIconComponent,

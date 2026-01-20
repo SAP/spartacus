@@ -20,6 +20,7 @@ import { ReturnOrderComponent } from './return-order.component';
     AmendOrderItemsModule,
     AmendOrderActionsModule,
     FormErrorsModule,
+    ReturnOrderComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -37,7 +38,6 @@ import { ReturnOrderComponent } from './return-order.component';
       },
     }),
   ],
-  declarations: [ReturnOrderComponent],
   exports: [ReturnOrderComponent],
 })
 export class ReturnOrderModule {}

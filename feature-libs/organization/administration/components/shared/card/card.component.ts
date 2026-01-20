@@ -4,16 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   ViewChild,
 } from '@angular/core';
-import { ICON_TYPE, ViewComponent } from '@spartacus/storefront';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { TranslatePipe } from '@spartacus/core';
+import {
+  ICON_TYPE,
+  IconComponent,
+  PopoverDirective,
+  ViewComponent,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
+import { MessageComponent } from '../message/message.component';
 import { MessageService } from '../message/services/message.service';
 import { BaseItem } from '../organization.model';
 
@@ -23,7 +32,17 @@ import { BaseItem } from '../organization.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
   providers: [MessageService],
-  standalone: false,
+  imports: [
+    ViewComponent,
+    NgIf,
+    PopoverDirective,
+    IconComponent,
+    RouterLink,
+    MessageComponent,
+    RouterOutlet,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CardComponent<T extends BaseItem> {
   @Input() i18nRoot: string;

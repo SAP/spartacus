@@ -4,26 +4,48 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   inject,
   OnDestroy,
+  OnInit,
 } from '@angular/core';
-import { Address, Country, UserAddressService } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
-import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { ActivatedRoute } from '@angular/router';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import {
+  Address,
+  Country,
+  TranslatePipe,
+  UserAddressService,
+} from '@spartacus/core';
+import {
+  CardComponent,
+  ICON_TYPE,
+  IconComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
+import { AddressFormComponent } from '@spartacus/user/profile/components';
+import { Observable, Subscription } from 'rxjs';
+import { GetAddressCardContent } from './get-address-card-content.pipe';
+import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 
 @Component({
   selector: 'cx-opf-checkout-billing-address-form',
   templateUrl: './opf-checkout-billing-address-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    CardComponent,
+    IconComponent,
+    AddressFormComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    GetAddressCardContent,
+  ],
 })
 export class OpfCheckoutBillingAddressFormComponent
   implements OnInit, OnDestroy

@@ -9,10 +9,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
-import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
-import { ConfiguratorAttributeCompositionConfig } from '../../composition';
 import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show-more.module';
+import { ConfiguratorAttributeCompositionConfig } from '../../composition';
+import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
 
 @NgModule({
   imports: [
@@ -23,6 +23,7 @@ import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show
     I18nModule,
     ConfiguratorPriceModule,
     ConfiguratorShowMoreModule,
+    ConfiguratorAttributeCheckBoxComponent,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
@@ -33,7 +34,6 @@ import { ConfiguratorShowMoreModule } from '../../../show-more/configurator-show
       },
     }),
   ],
-  declarations: [ConfiguratorAttributeCheckBoxComponent],
   exports: [ConfiguratorAttributeCheckBoxComponent],
 })
 export class ConfiguratorAttributeCheckboxModule {}

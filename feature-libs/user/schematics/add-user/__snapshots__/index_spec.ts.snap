@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Spartacus User schematics: ng-add User Profile feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
@@ -103,13 +103,34 @@ exports[`Spartacus User schematics: ng-add User Profile feature general setup st
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false
+          "standalone": false,
+          "type": "component",
+          "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false
+          "standalone": false,
+          "type": "directive",
+          "addTypeToClassName": false
         },
         "@schematics/angular:pipe": {
-          "standalone": false
+          "standalone": false,
+          "typeSeparator": "."
+        },
+        "@schematics/angular:service": {
+          "type": "service",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+          "typeSeparator": "."
         }
       },
       "root": "",
@@ -117,10 +138,8 @@ exports[`Spartacus User schematics: ng-add User Profile feature general setup st
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/schematics-test",
-            "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -137,7 +156,6 @@ exports[`Spartacus User schematics: ng-add User Profile feature general setup st
               "src/styles.scss",
               "src/styles/spartacus/user.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -174,7 +192,7 @@ exports[`Spartacus User schematics: ng-add User Profile feature general setup st
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "schematics-test:build:production"
@@ -185,34 +203,17 @@ exports[`Spartacus User schematics: ng-add User Profile feature general setup st
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
-        },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": [
-              "src/styles.scss",
-              "src/styles/spartacus/user.scss"
-            ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
               ]
-            }
+            },
+            "styles": [
+              "src/styles/spartacus/user.scss"
+            ]
           }
         }
       }
@@ -293,13 +294,34 @@ exports[`Spartacus User schematics: ng-add User-Account feature general setup st
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false
+          "standalone": false,
+          "type": "component",
+          "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false
+          "standalone": false,
+          "type": "directive",
+          "addTypeToClassName": false
         },
         "@schematics/angular:pipe": {
-          "standalone": false
+          "standalone": false,
+          "typeSeparator": "."
+        },
+        "@schematics/angular:service": {
+          "type": "service",
+          "addTypeToClassName": false
+        },
+        "@schematics/angular:guard": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+          "typeSeparator": "."
         }
       },
       "root": "",
@@ -307,10 +329,8 @@ exports[`Spartacus User schematics: ng-add User-Account feature general setup st
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/schematics-test",
-            "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -327,7 +347,6 @@ exports[`Spartacus User schematics: ng-add User-Account feature general setup st
               "src/styles.scss",
               "src/styles/spartacus/user.scss"
             ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
@@ -364,7 +383,7 @@ exports[`Spartacus User schematics: ng-add User-Account feature general setup st
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "schematics-test:build:production"
@@ -375,34 +394,17 @@ exports[`Spartacus User schematics: ng-add User-Account feature general setup st
           },
           "defaultConfiguration": "development"
         },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
-        },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": [
-              "src/styles.scss",
-              "src/styles/spartacus/user.scss"
-            ],
-            "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "node_modules/"
               ]
-            }
+            },
+            "styles": [
+              "src/styles/spartacus/user.scss"
+            ]
           }
         }
       }

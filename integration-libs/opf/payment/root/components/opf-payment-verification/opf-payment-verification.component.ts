@@ -17,12 +17,13 @@ import { OpfKeyValueMap, OpfPage } from '@spartacus/opf/base/root';
 import { Observable, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
+import { SpinnerComponent } from '@spartacus/storefront';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
 
 @Component({
   selector: 'cx-opf-verify-payment',
   templateUrl: './opf-payment-verification.component.html',
-  standalone: false,
+  imports: [SpinnerComponent],
 })
 export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   protected route = inject(ActivatedRoute);

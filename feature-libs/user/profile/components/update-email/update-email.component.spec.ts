@@ -10,11 +10,22 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
+  SpinnerComponent,
 } from '@spartacus/storefront';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
@@ -25,7 +36,13 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    I18nTestingModule,
+    FormErrorsModule,
+    UrlTestingModule,
+    PasswordVisibilityToggleModule,
+  ],
 })
 class MockCxSpinnerComponent {}
 
@@ -52,15 +69,10 @@ describe('UpdateEmailComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
-        UrlTestingModule,
         PasswordVisibilityToggleModule,
-      ],
-      declarations: [
         UpdateEmailComponent,
-        MockCxSpinnerComponent,
-        MockFeatureDirective,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -70,7 +82,25 @@ describe('UpdateEmailComponent', () => {
       ],
     })
       .overrideComponent(UpdateEmailComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            SpinnerComponent,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockCxSpinnerComponent,
+            MockFeatureDirective,
+          ],
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
       })
       .compileComponents();
   }));

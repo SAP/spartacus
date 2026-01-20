@@ -34,6 +34,8 @@ import { SearchBoxComponent } from './search-box.component';
     FeaturesConfigModule,
     CarouselModule,
     KeyboardFocusModule,
+    SearchBoxComponent,
+    HighlightPipe,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -44,7 +46,6 @@ import { SearchBoxComponent } from './search-box.component';
       },
     }),
   ],
-  declarations: [SearchBoxComponent, HighlightPipe],
   exports: [SearchBoxComponent, HighlightPipe],
 })
 export class SearchBoxModule {}

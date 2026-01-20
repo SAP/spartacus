@@ -8,8 +8,7 @@ describe('TotalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [TotalComponent],
+      imports: [I18nTestingModule, TotalComponent],
     }).compileComponents();
   }));
 

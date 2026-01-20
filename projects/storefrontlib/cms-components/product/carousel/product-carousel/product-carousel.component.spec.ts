@@ -1,3 +1,4 @@
+import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   Input,
@@ -10,15 +11,25 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CmsProductCarouselComponent,
+  CxDatePipe,
   FeatureConfigService,
   FeaturesConfigModule,
   FeatureToggles,
-  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Product,
   ProductSearchByCategoryService,
   ProductSearchByCodeService,
   ProductService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
+import {
+  CarouselComponent,
+  CarouselScrollingComponent,
+  MediaComponent,
+  ProductCarouselItemComponent,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { ProductCarouselComponent } from './product-carousel.component';
@@ -36,7 +47,7 @@ import { ProductCarouselComponent } from './product-carousel.component';
       ></ng-container>
     </ng-container>
   `,
-  standalone: false,
+  imports: [AsyncPipe, NgTemplateOutlet, NgFor],
 })
 class MockCarouselComponent {
   @Input() title: string;
@@ -58,7 +69,7 @@ class MockCarouselComponent {
       ></ng-container>
     </ng-container>
   `,
-  standalone: false,
+  imports: [AsyncPipe, NgTemplateOutlet, NgFor],
 })
 class MockCarouselScrollingComponent {
   @Input() title: string;
@@ -70,7 +81,6 @@ class MockCarouselScrollingComponent {
 @Component({
   selector: 'cx-product-carousel-item',
   template: '',
-  standalone: false,
 })
 class MockProductCarouselItemComponent {
   @Input() item: any;
@@ -79,7 +89,6 @@ class MockProductCarouselItemComponent {
 
 @Pipe({
   name: 'cxUrl',
-  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
@@ -88,7 +97,6 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-media',
   template: '',
-  standalone: false,
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -233,42 +241,59 @@ describe('ProductCarouselComponent', () => {
   let productSearchByCodeService: MockProductSearchByCodeService;
   let productSearchByCategoryService: MockProductSearchByCategoryService;
 
-  const testBedDefaults = {
-    imports: [I18nTestingModule, FeaturesConfigModule],
-    declarations: [
-      ProductCarouselComponent,
-      MockProductCarouselItemComponent,
-      MockCarouselComponent,
-      MockCarouselScrollingComponent,
-      MockMediaComponent,
-      MockUrlPipe,
-    ],
-    providers: [
-      {
-        provide: CmsComponentData,
-        useValue: MockCmsProductCarouselComponent,
-      },
-      {
-        provide: ProductService,
-        useClass: MockProductService,
-      },
-      {
-        provide: FeatureConfigService,
-        useClass: MockFeatureConfigService,
-      },
-      {
-        provide: ProductSearchByCodeService,
-        useClass: MockProductSearchByCodeService,
-      },
-      {
-        provide: ProductSearchByCategoryService,
-        useClass: MockProductSearchByCategoryService,
-      },
-    ],
-  };
+  const mockProviders = [
+    {
+      provide: CmsComponentData,
+      useValue: MockCmsProductCarouselComponent,
+    },
+    {
+      provide: ProductService,
+      useClass: MockProductService,
+    },
+    {
+      provide: FeatureConfigService,
+      useClass: MockFeatureConfigService,
+    },
+    {
+      provide: ProductSearchByCodeService,
+      useClass: MockProductSearchByCodeService,
+    },
+    {
+      provide: ProductSearchByCategoryService,
+      useClass: MockProductSearchByCategoryService,
+    },
+  ];
 
   beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule(testBedDefaults).compileComponents();
+    TestBed.configureTestingModule({
+      imports: [FeaturesConfigModule, ProductCarouselComponent],
+      providers: mockProviders,
+    })
+      .overrideComponent(ProductCarouselComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            MediaComponent,
+            CarouselComponent,
+            CarouselScrollingComponent,
+            ProductCarouselItemComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockProductCarouselItemComponent,
+            MockCarouselComponent,
+            MockCarouselScrollingComponent,
+            MockMediaComponent,
+            MockUrlPipe,
+            MockTranslatePipe,
+            MockDatePipe,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -374,7 +399,33 @@ describe('ProductCarouselComponent', () => {
   describe('Carousel with inner component mapping', () => {
     beforeEach(() => {
       TestBed.resetTestingModule();
-      TestBed.configureTestingModule(testBedDefaults);
+      TestBed.configureTestingModule({
+        imports: [ProductCarouselComponent],
+        providers: mockProviders,
+      }).overrideComponent(ProductCarouselComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            MediaComponent,
+            CarouselComponent,
+            CarouselScrollingComponent,
+            ProductCarouselItemComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockProductCarouselItemComponent,
+            MockCarouselComponent,
+            MockCarouselScrollingComponent,
+            MockMediaComponent,
+            MockUrlPipe,
+            MockTranslatePipe,
+            MockDatePipe,
+          ],
+        },
+      });
 
       TestBed.overrideProvider(CmsComponentData, {
         useValue: MockCmsProductCarouselComponentAddToCart,
@@ -413,7 +464,33 @@ describe('ProductCarouselComponent', () => {
   describe('Carousel with category products', () => {
     beforeEach(() => {
       TestBed.resetTestingModule();
-      TestBed.configureTestingModule(testBedDefaults);
+      TestBed.configureTestingModule({
+        imports: [ProductCarouselComponent],
+        providers: mockProviders,
+      }).overrideComponent(ProductCarouselComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            MediaComponent,
+            CarouselComponent,
+            CarouselScrollingComponent,
+            ProductCarouselItemComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockProductCarouselItemComponent,
+            MockCarouselComponent,
+            MockCarouselScrollingComponent,
+            MockMediaComponent,
+            MockUrlPipe,
+            MockTranslatePipe,
+            MockDatePipe,
+          ],
+        },
+      });
 
       TestBed.overrideProvider(CmsComponentData, {
         useValue: MockCmsProductCarouselComponentCategoryCodes,

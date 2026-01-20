@@ -4,17 +4,27 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GeoPoint } from '@spartacus/core';
+import { GeoPoint, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
+import { SpinnerComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { StoreFinderListItemComponent } from '../store-finder-list-item/store-finder-list-item.component';
 
 @Component({
   selector: 'cx-store-finder-grid',
   templateUrl: './store-finder-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    StoreFinderListItemComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class StoreFinderGridComponent implements OnInit {
   defaultLocation: GeoPoint;

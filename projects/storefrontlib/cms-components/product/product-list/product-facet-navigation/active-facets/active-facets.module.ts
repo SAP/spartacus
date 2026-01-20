@@ -19,8 +19,8 @@ import { ActiveFacetsComponent } from './active-facets.component';
     I18nModule,
     IconModule,
     KeyboardFocusModule,
+    ActiveFacetsComponent,
   ],
-  declarations: [ActiveFacetsComponent],
   exports: [ActiveFacetsComponent],
 })
 export class ActiveFacetsModule {}

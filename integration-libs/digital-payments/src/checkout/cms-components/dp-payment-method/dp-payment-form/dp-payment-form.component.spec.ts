@@ -1,16 +1,18 @@
-import { DpPaymentRequest } from './../../../models/dp-checkout.model';
+import { Component } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { StoreModule } from '@ngrx/store';
 import {
-  MockTranslatePipe,
-  WindowRef,
   GlobalMessageService,
   GlobalMessageType,
+  MockTranslatePipe,
+  TranslatePipe,
+  WindowRef,
 } from '@spartacus/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DpPaymentFormComponent } from './dp-payment-form.component';
-import { DpCheckoutPaymentService } from '../../../facade';
+import { SpinnerComponent } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { Component } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
+import { DpCheckoutPaymentService } from '../../../facade';
+import { DpPaymentRequest } from './../../../models/dp-checkout.model';
+import { DpPaymentFormComponent } from './dp-payment-form.component';
 
 const postUrl = 'https://dummy.url';
 const mockDpPaymentRequest: DpPaymentRequest = {
@@ -36,7 +38,6 @@ class MockDpCheckoutPaymentService
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
 })
 class MockSpinnerComponent {}
 
@@ -49,12 +50,7 @@ describe('DpPaymentFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        DpPaymentFormComponent,
-        MockTranslatePipe,
-        MockSpinnerComponent,
-      ],
-      imports: [StoreModule.forRoot({})],
+      imports: [StoreModule.forRoot({}), DpPaymentFormComponent],
       providers: [
         {
           provide: DpCheckoutPaymentService,
@@ -70,7 +66,16 @@ describe('DpPaymentFormComponent', () => {
         },
         { provide: WindowRef, useValue: mockWinRef },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(DpPaymentFormComponent, {
+        remove: {
+          imports: [TranslatePipe, SpinnerComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockSpinnerComponent],
+        },
+      })
+      .compileComponents();
 
     dpPaymentService = TestBed.inject(DpCheckoutPaymentService);
     winRef = TestBed.inject(WindowRef);

@@ -52,7 +52,6 @@ import {
 @Directive({
   selector: '[cxHorizontalScrollingPosition]',
   exportAs: 'cxHorizontalScrollingPosition',
-  standalone: false,
 })
 export class HorizontalScrollingPositionDirective
   implements OnDestroy, OnChanges

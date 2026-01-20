@@ -5,10 +5,7 @@ import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { VisualViewerAnimationSliderComponent } from './visual-viewer-animation-slider.component';
 
-@Pipe({
-  name: 'cxNumeric',
-  standalone: false,
-})
+@Pipe({ name: 'cxNumeric' })
 class MockNumericPipe implements PipeTransform {
   transform(): any {}
 }
@@ -25,8 +22,7 @@ describe('VisualViewerAnimationSliderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MockNumericPipe],
-      imports: [CommonModule, I18nTestingModule],
+      imports: [CommonModule, I18nTestingModule, MockNumericPipe],
       providers: [
         {
           provide: LanguageService,

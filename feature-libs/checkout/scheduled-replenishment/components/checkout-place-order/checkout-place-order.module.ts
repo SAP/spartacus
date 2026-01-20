@@ -29,6 +29,7 @@ import { CheckoutScheduledReplenishmentPlaceOrderComponent } from './checkout-pl
     UrlModule,
     I18nModule,
     ReactiveFormsModule,
+    CheckoutScheduledReplenishmentPlaceOrderComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -40,7 +41,6 @@ import { CheckoutScheduledReplenishmentPlaceOrderComponent } from './checkout-pl
       },
     }),
   ],
-  declarations: [CheckoutScheduledReplenishmentPlaceOrderComponent],
   exports: [CheckoutScheduledReplenishmentPlaceOrderComponent],
 })
 export class CheckoutScheduledReplenishmentPlaceOrderModule {}

@@ -20,6 +20,7 @@ import { MerchandisingCarouselComponent } from './merchandising-carousel/merchan
     MediaModule,
     RouterModule,
     UrlModule,
+    MerchandisingCarouselComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -30,7 +31,6 @@ import { MerchandisingCarouselComponent } from './merchandising-carousel/merchan
       },
     }),
   ],
-  declarations: [MerchandisingCarouselComponent],
   exports: [MerchandisingCarouselComponent],
 })
 export class MerchandisingCarouselCmsModule {}

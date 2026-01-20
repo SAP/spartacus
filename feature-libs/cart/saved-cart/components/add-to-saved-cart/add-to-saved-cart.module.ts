@@ -23,6 +23,7 @@ import { AddToSavedCartComponent } from './add-to-saved-cart.component';
     I18nModule,
     UrlModule,
     FeaturesConfigModule,
+    AddToSavedCartComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -34,6 +35,5 @@ import { AddToSavedCartComponent } from './add-to-saved-cart.component';
     }),
   ],
   exports: [AddToSavedCartComponent],
-  declarations: [AddToSavedCartComponent],
 })
 export class AddToSavedCartModule {}

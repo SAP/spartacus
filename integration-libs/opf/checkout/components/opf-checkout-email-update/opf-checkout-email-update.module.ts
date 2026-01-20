@@ -18,8 +18,8 @@ import { OpfCheckoutEmailUpdateComponent } from './opf-checkout-email-update.com
     FormsModule,
     ReactiveFormsModule,
     FormErrorsModule,
+    OpfCheckoutEmailUpdateComponent,
   ],
-  declarations: [OpfCheckoutEmailUpdateComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

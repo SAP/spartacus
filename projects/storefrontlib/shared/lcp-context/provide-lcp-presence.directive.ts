@@ -30,7 +30,6 @@ import { LCP_PRESENCE } from './lcp-presence.token';
         inject(ProvideLcpPresenceDirective).lcpPresence$,
     },
   ],
-  standalone: false,
 })
 export class ProvideLcpPresenceDirective implements OnChanges {
   @Input() cxProvideLcpPresence?: LcpPresence | null;

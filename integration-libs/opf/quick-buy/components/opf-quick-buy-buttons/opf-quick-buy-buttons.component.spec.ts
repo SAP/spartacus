@@ -36,7 +36,7 @@ describe('OpfQuickBuyButtonsComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      declarations: [OpfQuickBuyButtonsComponent],
+      imports: [OpfQuickBuyButtonsComponent],
       providers: [
         {
           provide: OpfQuickBuyButtonsService,

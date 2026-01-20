@@ -17,6 +17,7 @@ import { visitLoginPage } from '../../../support/utils/login';
 import { AddressData, fillShippingAddress } from '../../checkout-forms';
 import * as alerts from '../../global-message';
 import { listenForTokenRevocationRequest } from '../../login';
+import { cmsEndpoints } from '../../cms-endpoints';
 
 export const updatedName = ' updated';
 export const updatedEmail = 'cypress_user_updated@sapcx.com';
@@ -85,7 +86,7 @@ export function updateCustomerIdForB2BUser(interceptName: string) {
 export function waitForCmsComponentsToLoad(baseSite: string) {
   cy.intercept({
     method: 'GET',
-    pathname: `${Cypress.env('OCC_PREFIX')}/${baseSite}/cms/components`,
+    pathname: `${Cypress.env('OCC_PREFIX')}/${baseSite}/${cmsEndpoints.components}`,
   }).as('getComponents');
   cy.wait('@getComponents').its('response.statusCode').should('eq', 200);
 }

@@ -4,20 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FutureStockAccordionComponent } from './future-stock-accordion.component';
+import { NgModule } from '@angular/core';
+import { CmsConfig, FeaturesConfigModule, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
-import {
-  CmsConfig,
-  FeaturesConfigModule,
-  I18nModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { FutureStockAccordionComponent } from './future-stock-accordion.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule, FeaturesConfigModule],
-  declarations: [FutureStockAccordionComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    FeaturesConfigModule,
+    FutureStockAccordionComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   GlobalMessageEntities,
   GlobalMessageService,
@@ -26,7 +26,7 @@ class MockMessageService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type;
@@ -39,8 +39,7 @@ describe('GlobalMessageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [GlobalMessageComponent, MockCxIconComponent],
+      imports: [I18nTestingModule, GlobalMessageComponent, MockCxIconComponent],
       providers: [
         { provide: GlobalMessageService, useClass: MockMessageService },
       ],

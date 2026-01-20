@@ -1,8 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { EMPTY } from 'rxjs';
-import { ItemService } from '../../../shared';
+import { ItemService, SubListComponent } from '../../../shared';
 import { DisableInfoModule } from '../../../shared/detail/disable-info/disable-info.module';
 import { SubListTestingModule } from '../../../shared/sub-list/sub-list.testing.module';
 import { CurrentUnitService } from '../../services/current-unit.service';
@@ -24,10 +32,10 @@ describe('UnitChildrenComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SubListTestingModule,
-        UrlTestingModule,
-        I18nTestingModule,
         DisableInfoModule,
+        UnitChildrenComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -43,8 +51,21 @@ describe('UnitChildrenComponent', () => {
           useClass: MockItemService,
         },
       ],
-      declarations: [UnitChildrenComponent],
-    }).compileComponents();
+    })
+      .overrideComponent(UnitChildrenComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SubListComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            SubListTestingModule,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(UnitChildrenComponent);
     component = fixture.componentInstance;

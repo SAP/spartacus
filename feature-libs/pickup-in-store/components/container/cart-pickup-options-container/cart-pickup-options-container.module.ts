@@ -13,9 +13,12 @@ import { PickupOptionsModule } from '../../presentational/index';
 import { CartPickupOptionsContainerComponent } from './cart-pickup-options-container.component';
 
 @NgModule({
-  imports: [CommonModule, PickupOptionsModule],
+  imports: [
+    CommonModule,
+    PickupOptionsModule,
+    CartPickupOptionsContainerComponent,
+  ],
   exports: [CartPickupOptionsContainerComponent],
-  declarations: [CartPickupOptionsContainerComponent],
   providers: [
     provideOutlet({
       id: CartOutlets.ITEM_DELIVERY_DETAILS,

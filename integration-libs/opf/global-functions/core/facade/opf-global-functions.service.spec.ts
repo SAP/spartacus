@@ -21,8 +21,10 @@ import { OpfCtaFacade } from '@spartacus/opf/cta/root';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import { defaultOpfErrorDialogOptions } from '@spartacus/opf/base/root';
 import { OpfGlobalFunctionsDomain } from '@spartacus/opf/global-functions/root';
-import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
-import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
+import {
+  OpfPaymentEventsService,
+  OpfPaymentFacade,
+} from '@spartacus/opf/payment/root';
 import { OpfQuickBuyProviderType } from '@spartacus/opf/quick-buy/root';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
@@ -36,10 +38,7 @@ import {
 } from '@spartacus/opf/payment/root';
 import { OpfGlobalFunctionsService } from './opf-global-functions.service';
 export const WINDOW = new InjectionToken<Window>('window');
-@Component({
-  template: '',
-  standalone: false,
-})
+@Component({ template: '' })
 class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}
 }
@@ -176,7 +175,7 @@ describe('OpfGlobalFunctionsService', () => {
   let launchDialogService: LaunchDialogService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestContainerComponent],
+      imports: [TestContainerComponent],
       providers: [
         OpfGlobalFunctionsService,
         WindowRef,

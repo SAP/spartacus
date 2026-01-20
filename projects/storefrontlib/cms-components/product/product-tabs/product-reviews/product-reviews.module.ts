@@ -35,6 +35,7 @@ import { ProductReviewsComponent } from './product-reviews.component';
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
     ReadMoreComponent,
+    ProductReviewsComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -45,7 +46,6 @@ import { ProductReviewsComponent } from './product-reviews.component';
       },
     }),
   ],
-  declarations: [ProductReviewsComponent],
   exports: [ProductReviewsComponent],
 })
 export class ProductReviewsModule {}

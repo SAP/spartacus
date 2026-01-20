@@ -35,7 +35,9 @@
     "expand": "Expand",
     "collapse": "Collapse",
     "readMore": "Read More",
-    "readLess": "Read Less"
+    "readLess": "Read Less",
+    "language": "Language",
+    "currency": "Currency"
   },
   "pageMetaResolver": {
     "category": {

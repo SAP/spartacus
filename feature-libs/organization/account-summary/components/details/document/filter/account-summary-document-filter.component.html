@@ -78,6 +78,9 @@
         [items]="statusOptions"
         bindLabel="name"
         bindValue="code"
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
         [cxNgSelectA11y]="{
           ariaLabel: 'orgAccountSummary.filter.status' | cxTranslate,
           ariaControls: cxNgSelectA11yAriaControls,
@@ -102,6 +105,9 @@
         [items]="filterByOptions"
         bindLabel="name"
         bindValue="code"
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
         [cxNgSelectA11y]="{
           ariaLabel: 'orgAccountSummary.filter.filterBy' | cxTranslate,
           ariaControls: cxNgSelectA11yAriaControls,
@@ -129,6 +135,9 @@
         bindLabel="name"
         bindValue="code"
         formControlName="documentType"
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
       >
       </ng-select>
 
