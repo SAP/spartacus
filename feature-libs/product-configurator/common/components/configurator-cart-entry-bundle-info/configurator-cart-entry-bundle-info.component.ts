@@ -4,14 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, Optional } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { TranslationService } from '@spartacus/core';
+import {
+  CxNumericPipe,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import { BreakpointService } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
+import { ConfigureCartEntryComponent } from '../configure-cart-entry/configure-cart-entry.component';
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
 import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
 
@@ -22,7 +28,14 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
 @Component({
   selector: 'cx-configurator-cart-entry-bundle-info',
   templateUrl: './configurator-cart-entry-bundle-info.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    ConfigureCartEntryComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxNumericPipe,
+  ],
 })
 export class ConfiguratorCartEntryBundleInfoComponent {
   constructor(

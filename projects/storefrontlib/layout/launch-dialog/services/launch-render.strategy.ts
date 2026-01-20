@@ -16,9 +16,9 @@ import { Applicable, Priority } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   DIALOG_TYPE,
+  LAUNCH_CALLER,
   LaunchDialog,
   LaunchOptions,
-  LAUNCH_CALLER,
 } from '../config';
 
 export abstract class LaunchRenderStrategy implements Applicable {

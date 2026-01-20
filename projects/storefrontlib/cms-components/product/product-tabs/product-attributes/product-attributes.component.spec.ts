@@ -59,8 +59,7 @@ describe('ProductAttributesComponent in product', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ProductAttributesComponent],
+      imports: [I18nTestingModule, ProductAttributesComponent],
       providers: [
         {
           provide: CurrentProductService,

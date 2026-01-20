@@ -1,17 +1,13 @@
 import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
-/*
- * We'll be able to import `firstValueFrom` directly from 'rxjs' only after we bump `@angular-devkit/schematics`,
- * because typings of `@angular-devkit/schematics/node_modules/rxjs@7.8.1` are not compatible with
- * typings of the `rxjs@7.8.2` globally installed in our repo.
- */
-import { firstValueFrom } from '@angular-devkit/schematics/node_modules/rxjs';
 import {
   Schema as ApplicationOptions,
+  FileNameStyleGuide,
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
+import { firstValueFrom } from 'rxjs';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import { CDS_CONFIG, UTF_8 } from '../constants';
 import {
@@ -51,6 +47,8 @@ describe('Lib utils', () => {
     skipTests: false,
     projectRoot: '',
     standalone: false,
+    zoneless: false,
+    fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {

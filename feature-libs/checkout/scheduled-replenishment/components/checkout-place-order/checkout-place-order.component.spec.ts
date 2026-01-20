@@ -1,12 +1,17 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import {
   CurrencyService,
+  CxDatePipe,
   GlobalMessageService,
-  I18nTestingModule,
   LanguageService,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   DaysOfWeek,
@@ -73,10 +78,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   clear = createSpy();
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform = createSpy();
 }
@@ -100,9 +102,10 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
       getActive: () => of('en'),
     };
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, AtMessageModule],
-      declarations: [
-        MockUrlPipe,
+      imports: [
+        RouterModule.forRoot([]),
+        ReactiveFormsModule,
+        AtMessageModule,
         CheckoutScheduledReplenishmentPlaceOrderComponent,
       ],
       providers: [
@@ -124,7 +127,16 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
         { provide: CurrencyService, useValue: mockCurrencyService },
         { provide: LanguageService, useValue: mockLanguageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CheckoutScheduledReplenishmentPlaceOrderComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

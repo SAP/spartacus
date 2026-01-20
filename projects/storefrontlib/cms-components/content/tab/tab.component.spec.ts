@@ -33,8 +33,7 @@ describe('TabComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [TabComponent],
+      imports: [I18nTestingModule, TabComponent],
     }).compileComponents();
   }));
 

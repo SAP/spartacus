@@ -28,8 +28,8 @@ import { ExportOrderEntriesComponent } from './export-order-entries.component';
         },
       },
     }),
+    ExportOrderEntriesComponent,
   ],
   exports: [ExportOrderEntriesComponent],
-  declarations: [ExportOrderEntriesComponent],
 })
 export class ExportOrderEntriesModule {}

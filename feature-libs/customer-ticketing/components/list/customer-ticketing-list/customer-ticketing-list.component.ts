@@ -4,8 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { RoutingService, TranslationService } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import {
+  CxDatePipe,
+  RoutingService,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   CustomerTicketingConfig,
   CustomerTicketingFacade,
@@ -13,14 +21,35 @@ import {
   TEXT_COLOR_CLASS,
   TicketList,
 } from '@spartacus/customer-ticketing/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  PaginationComponent,
+  SortingComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable, combineLatest } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { CustomerTicketingCreateComponent } from '../customer-ticketing-create/customer-ticketing-create.component';
 
 @Component({
   selector: 'cx-customer-ticketing-list',
   templateUrl: './customer-ticketing-list.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    SortingComponent,
+    CustomerTicketingCreateComponent,
+    NgFor,
+    RouterLink,
+    NgClass,
+    PaginationComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    UrlPipe,
+
+    CxDatePipe,
+  ],
 })
 export class CustomerTicketingListComponent {
   constructor(

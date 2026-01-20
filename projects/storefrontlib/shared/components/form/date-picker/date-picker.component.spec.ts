@@ -2,13 +2,14 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { CxDatePipe, I18nTestingModule, TranslatePipe } from '@spartacus/core';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import { FormErrorsComponent } from '../form-errors';
 import { DatePickerComponent } from './date-picker.component';
 
 @Component({
   selector: 'cx-form-errors',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockFormErrorComponent {
   @Input() control: UntypedFormControl;
@@ -29,13 +30,19 @@ describe('DatePickerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
         DatePickerComponent,
         MockFormErrorComponent,
         MockFeatureDirective,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(DatePickerComponent, {
+        remove: { imports: [FormErrorsComponent, CxDatePipe, TranslatePipe] },
+        add: { imports: [MockFormErrorComponent, I18nTestingModule] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

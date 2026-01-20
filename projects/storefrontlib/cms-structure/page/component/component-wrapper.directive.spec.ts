@@ -39,10 +39,10 @@ const testText = 'test text';
 
 @Component({
   selector: 'cx-test',
-  template: ` <div id="debugEl1">${testText}</div> `,
-  standalone: false,
+  template: ` <div id="debugEl1">{{ testText }}</div> `,
 })
 class TestComponent {
+  testText = testText;
   constructor(
     public cmsData: CmsComponentData<CmsComponent>,
     @Inject('testService') public testService
@@ -50,7 +50,7 @@ class TestComponent {
 }
 
 @NgModule({
-  declarations: [TestComponent],
+  imports: [TestComponent],
   exports: [TestComponent],
 })
 class TestModule {}
@@ -84,7 +84,7 @@ class MockDynamicAttributeService {
   >
     +
   </ng-container>`,
-  standalone: false,
+  imports: [ComponentWrapperDirective],
 })
 class TestWrapperComponent {
   component: ContentSlotComponentData = {
@@ -118,7 +118,6 @@ describe('ComponentWrapperDirective', () => {
   beforeEach(() => {
     testBedConfig = {
       imports: [PageComponentModule.forRoot(), TestModule],
-      declarations: [TestWrapperComponent, ComponentWrapperDirective],
       providers: [
         Renderer2,
         { provide: CmsConfig, useValue: MockCmsModuleConfig },

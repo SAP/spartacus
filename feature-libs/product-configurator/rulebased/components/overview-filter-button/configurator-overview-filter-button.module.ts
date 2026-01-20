@@ -11,7 +11,12 @@ import { ConfiguratorOverviewFilterBarModule } from '../overview-filter-bar/conf
 import { ConfiguratorOverviewFilterButtonComponent } from './configurator-overview-filter-button.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, ConfiguratorOverviewFilterBarModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    ConfiguratorOverviewFilterBarModule,
+    ConfiguratorOverviewFilterButtonComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -21,7 +26,6 @@ import { ConfiguratorOverviewFilterButtonComponent } from './configurator-overvi
       },
     }),
   ],
-  declarations: [ConfiguratorOverviewFilterButtonComponent],
   exports: [ConfiguratorOverviewFilterButtonComponent],
 })
 export class ConfiguratorOverviewFilterButtonModule {}

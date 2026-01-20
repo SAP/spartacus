@@ -28,6 +28,7 @@ import { CheckoutPaymentMethodComponent } from './checkout-payment-method.compon
     SpinnerModule,
     I18nModule,
     FeaturesConfigModule,
+    CheckoutPaymentMethodComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -39,7 +40,6 @@ import { CheckoutPaymentMethodComponent } from './checkout-payment-method.compon
       },
     }),
   ],
-  declarations: [CheckoutPaymentMethodComponent],
   exports: [CheckoutPaymentMethodComponent],
 })
 export class CheckoutPaymentMethodModule {}

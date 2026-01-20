@@ -11,7 +11,12 @@ import { IconModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfirmationMessageComponent } from './confirmation-message.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule, KeyboardFocusModule],
-  declarations: [ConfirmationMessageComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    KeyboardFocusModule,
+    ConfirmationMessageComponent,
+  ],
 })
 export class ConfirmationMessageModule {}

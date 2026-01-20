@@ -27,6 +27,7 @@ import { ProductReferencesComponent } from './product-references.component';
     RouterModule,
     UrlModule,
     FeaturesConfigModule,
+    ProductReferencesComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -37,7 +38,6 @@ import { ProductReferencesComponent } from './product-references.component';
       },
     }),
   ],
-  declarations: [ProductReferencesComponent],
   exports: [ProductReferencesComponent],
 })
 export class ProductReferencesModule {}

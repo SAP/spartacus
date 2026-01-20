@@ -4,15 +4,34 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { RoutingService } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import {
+  FeatureDirective,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-store-finder-search',
   templateUrl: './store-finder-search.component.html',
-  standalone: false,
+  imports: [
+    FeatureDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    IconComponent,
+    RouterLink,
+    NgClass,
+    NgTemplateOutlet,
+    TranslatePipe,
+  ],
 })
 export class StoreFinderSearchComponent {
   searchBox: UntypedFormControl = new UntypedFormControl();

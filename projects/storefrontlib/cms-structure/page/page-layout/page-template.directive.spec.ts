@@ -35,7 +35,7 @@ class MockPageLayoutService {
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [PageTemplateDirective],
 })
 class MockTemplateComponent {}
 
@@ -45,8 +45,7 @@ describe('PageTemplateDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [MockTemplateComponent, PageTemplateDirective],
+      imports: [MockTemplateComponent, PageTemplateDirective],
       providers: [
         {
           provide: PageLayoutService,

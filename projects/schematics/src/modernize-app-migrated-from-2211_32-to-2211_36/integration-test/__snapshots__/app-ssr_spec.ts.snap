@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Schematics "modernize-app-migrated-from-2211_32-to-2211_36" in SSR app should update the angular.json 1`] = `
 "{

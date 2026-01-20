@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { AddToHomeScreenService } from '../services/add-to-home-screen.service';
 import { AddToHomeScreenComponent } from './add-to-home-screen.component';
@@ -8,7 +8,6 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-add-to-home',
   template: 'test-add-to-home',
-  standalone: false,
 })
 class ExampleAddToHomeScreenComponent extends AddToHomeScreenComponent {
   constructor(protected addToHomeScreenService: AddToHomeScreenService) {
@@ -28,7 +27,7 @@ describe('AddToHomeScreenComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ExampleAddToHomeScreenComponent],
+      imports: [ExampleAddToHomeScreenComponent],
       providers: [
         {
           provide: AddToHomeScreenService,

@@ -1,18 +1,20 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import {
-  I18nTestingModule,
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingConfigService,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import { AmendOrderActionsComponent } from './amend-order-actions.component';
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -32,8 +34,11 @@ describe('AmendOrderActionsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, StoreModule.forRoot({})],
-      declarations: [MockUrlPipe, AmendOrderActionsComponent],
+      imports: [
+        StoreModule.forRoot({}),
+        RouterModule.forRoot([]),
+        AmendOrderActionsComponent,
+      ],
       providers: [
         {
           provide: RoutingConfigService,
@@ -41,7 +46,16 @@ describe('AmendOrderActionsComponent', () => {
         },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AmendOrderActionsComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
 
     routingService = TestBed.inject(RoutingService);
   }));

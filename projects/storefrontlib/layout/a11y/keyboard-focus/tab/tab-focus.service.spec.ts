@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SelectFocusUtility } from '../services';
 import { TabFocusService } from './tab-focus.service';
@@ -22,7 +22,6 @@ import { TabFocusService } from './tab-focus.service';
     </div>
     <div id="c"></div>
   `,
-  standalone: false,
 })
 class MockComponent {}
 
@@ -37,7 +36,7 @@ describe('TabFocusService', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent],
+      imports: [MockComponent],
       providers: [
         TabFocusService,
         {

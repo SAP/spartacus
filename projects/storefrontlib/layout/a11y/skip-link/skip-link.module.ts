@@ -28,8 +28,9 @@ import { SkipLinkDirective } from './directive/skip-link.directive';
     I18nModule,
     ConfigModule.withConfig(defaultSkipLinkConfig),
     KeyboardFocusModule,
+    SkipLinkComponent,
+    SkipLinkDirective,
   ],
-  declarations: [SkipLinkComponent, SkipLinkDirective],
   exports: [SkipLinkDirective],
   providers: [
     provideDefaultConfig(defaultSkipLinkConfig),

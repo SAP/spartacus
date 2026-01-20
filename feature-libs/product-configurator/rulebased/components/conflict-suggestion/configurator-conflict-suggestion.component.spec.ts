@@ -13,8 +13,7 @@ describe('ConfigurationConflictSuggestionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ConfiguratorConflictSuggestionComponent],
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, ConfiguratorConflictSuggestionComponent],
       providers: [],
     })
       .overrideComponent(ConfiguratorConflictSuggestionComponent, {

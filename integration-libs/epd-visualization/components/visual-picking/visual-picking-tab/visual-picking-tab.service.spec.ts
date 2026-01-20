@@ -157,7 +157,7 @@ describe('VisualPickingTabService', () => {
     mockCurrentProductService = new MockCurrentProductService();
 
     TestBed.configureTestingModule({
-      declarations: [MockTranslatePipe],
+      imports: [MockTranslatePipe],
       providers: [
         provideConfigFactory(getTestConfig),
         provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),

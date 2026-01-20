@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -12,7 +13,12 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   AsmConfig,
   AsmCustomerListFacade,
@@ -27,6 +33,7 @@ import {
   HttpResponseStatus,
   OccConfig,
   SortModel,
+  TranslatePipe,
   TranslationService,
   User,
 } from '@spartacus/core';
@@ -34,9 +41,15 @@ import {
   BREAKPOINT,
   BreakpointService,
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
+  NgSelectA11yDirective,
+  PaginationComponent,
+  SortingComponent,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
@@ -45,7 +58,22 @@ import { CustomerListAction } from './customer-list.model';
 @Component({
   selector: 'cx-customer-list',
   templateUrl: './customer-list.component.html',
-  standalone: false,
+  imports: [
+    FocusDirective,
+    NgTemplateOutlet,
+    NgIf,
+    SpinnerComponent,
+    NgFor,
+    PaginationComponent,
+    IconComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    SortingComponent,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CustomerListComponent implements OnInit, OnDestroy {
   protected DEFAULT_PAGE_SIZE = 5;

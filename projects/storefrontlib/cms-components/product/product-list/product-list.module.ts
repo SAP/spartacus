@@ -54,6 +54,11 @@ import { ProductViewComponent } from './product-view/product-view.component';
     UrlModule,
     FeaturesConfigModule,
     LcpContextDirectiveModule,
+    ProductListComponent,
+    ProductListItemComponent,
+    ProductGridItemComponent,
+    ProductViewComponent,
+    ProductScrollComponent,
   ],
   providers: [
     ProductListService,
@@ -86,13 +91,6 @@ import { ProductViewComponent } from './product-view/product-view.component';
         },
       },
     }),
-  ],
-  declarations: [
-    ProductListComponent,
-    ProductListItemComponent,
-    ProductGridItemComponent,
-    ProductViewComponent,
-    ProductScrollComponent,
   ],
   exports: [
     ProductListComponent,

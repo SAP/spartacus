@@ -12,8 +12,14 @@ import { PopoverModule } from '@spartacus/storefront';
 import { UserGroupDetailsCellComponent } from './user-group-details-cell.component';
 
 @NgModule({
-  imports: [CommonModule, PopoverModule, RouterModule, I18nModule, UrlModule],
-  declarations: [UserGroupDetailsCellComponent],
+  imports: [
+    CommonModule,
+    PopoverModule,
+    RouterModule,
+    I18nModule,
+    UrlModule,
+    UserGroupDetailsCellComponent,
+  ],
   exports: [UserGroupDetailsCellComponent],
 })
 export class UserGroupDetailsCellModule {}

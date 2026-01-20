@@ -17,11 +17,11 @@ import {
 } from '@spartacus/core';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { IconModule } from '../../misc/icon/icon.module';
+import { MyAccountV2ConsentManagementComponent } from '../my-account-v2/my-account-v2-consent-management';
+import { USE_MY_ACCOUNT_V2_CONSENT } from '../my-account-v2/use-my-account-v2-consent-notification-perference';
 import { ConsentManagementFormComponent } from './components/consent-form/consent-management-form.component';
 import { ConsentManagementComponent } from './components/consent-management.component';
 import { ConsentManagementComponentService } from './consent-management-component.service';
-import { USE_MY_ACCOUNT_V2_CONSENT } from '../my-account-v2/use-my-account-v2-consent-notification-perference';
-import { MyAccountV2ConsentManagementComponent } from '../my-account-v2/my-account-v2-consent-management';
 
 const myAccountV2CmsMapping: CmsConfig = {
   cmsComponents: {
@@ -41,6 +41,8 @@ const myAccountV2CmsMapping: CmsConfig = {
     I18nModule,
     IconModule,
     FeaturesConfigModule,
+    ConsentManagementComponent,
+    ConsentManagementFormComponent,
   ],
   providers: [
     ConsentManagementComponentService,
@@ -56,7 +58,6 @@ const myAccountV2CmsMapping: CmsConfig = {
       inject(USE_MY_ACCOUNT_V2_CONSENT) ? myAccountV2CmsMapping : {}
     ),
   ],
-  declarations: [ConsentManagementComponent, ConsentManagementFormComponent],
   exports: [ConsentManagementComponent, ConsentManagementFormComponent],
 })
 export class ConsentManagementModule {}

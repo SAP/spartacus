@@ -5,19 +5,17 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LayoutConfig } from '../../config/layout-config';
-import { LaunchInlineRootDialog, LAUNCH_CALLER } from '../config';
+import { LAUNCH_CALLER, LaunchInlineRootDialog } from '../config';
 import { InlineRootRenderStrategy } from './inline-root-render.strategy';
 
 @Component({
   template: '',
-  standalone: false,
 })
 class TestComponent {}
 
 @Component({
   selector: 'cx-root-app',
   template: '',
-  standalone: false,
 })
 class MockRootComponent {}
 
@@ -57,6 +55,7 @@ describe('InlineRootRenderStrategy', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [MockRootComponent],
       providers: [
         InlineRootRenderStrategy,
         {
@@ -64,7 +63,6 @@ describe('InlineRootRenderStrategy', () => {
           useClass: MockComponentFactoryResolver,
         },
       ],
-      declarations: [MockRootComponent],
     }).compileComponents();
 
     appRef = TestBed.inject(ApplicationRef);
