@@ -341,6 +341,34 @@ export const appConfig: ApplicationConfig = {
 - Make sure to test your application thoroughly after enabling hydration to ensure all components hydrate correctly.
 - For more details, refer to the official [Angular Hydration documentation](https://angular.dev/guide/hydration).
 
+#### Known Warning: NG05001
+
+After enabling hydration, you may see the following warning in your console:
+
+```
+NG05001: Configuration error: found both hydration and enabledBlocking initial navigation 
+in the same application, which is a contradiction.
+```
+
+**This warning is expected and will not cause any issues with your application.**
+
+This warning appears because Spartacus uses `initialNavigation: 'enabledBlocking'` in its router configuration to ensure proper CMS page loading during SSR. Angular's hydration system detects this and logs the warning, as `enabledBlocking` was the pre-hydration way of preventing UI flickering during initial navigation.
+
+**Why it's safe to ignore:**
+
+- The warning is informational and does not indicate a functional problem
+- Both features work correctly together in Spartacus
+- Non-destructive hydration takes precedence and provides the smooth UI transition
+- The `enabledBlocking` configuration ensures CMS data is loaded before navigation completes
+
+**What happens in practice:**
+
+1. During SSR, `enabledBlocking` ensures all route guards (including `CmsPageGuard`) complete before rendering
+2. During hydration in the browser, Angular's hydration system prevents UI flickering by reusing the server-rendered DOM
+3. Both mechanisms complement each other without causing conflicts
+
+You can safely ignore this warning. It will be addressed in a future Spartacus release as part of the ongoing modernization of the SSR implementation.
+
 ### Upgrade Express to Version 5
 
 Spartacus 221121.8 requires Express 5.x. Upgrade Express:
