@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
+  FeatureDirective,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -10,6 +11,7 @@ import {
 } from '@spartacus/core';
 import { FutureStockFacade } from '@spartacus/product/future-stock/root';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
+import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { FutureStockService } from '../../core/services';
 import { FutureStockAccordionComponent } from './future-stock-accordion.component';
@@ -64,10 +66,15 @@ describe('FutureStockAccordionComponent', () => {
     })
       .overrideComponent(FutureStockAccordionComponent, {
         remove: {
-          imports: [TranslatePipe, CxDatePipe, IconComponent],
+          imports: [TranslatePipe, CxDatePipe, IconComponent, FeatureDirective],
         },
         add: {
-          imports: [MockTranslatePipe, MockDatePipe, MockCxIconComponent],
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCxIconComponent,
+            MockFeatureDirective,
+          ],
         },
       })
       .compileComponents();
