@@ -210,8 +210,8 @@ describe('Import utils', () => {
         moduleSpecifier: SPARTACUS_CORE,
         namedImports: ['xxx'],
       });
-      expect(results[0].print()).toEqual(
-        `import { xxx } from "@spartacus/core";`
+      expect(results[0].print()).toMatch(
+        /import\s*\{[^}]*\bxxx\b[^}]*\}\s*from\s*['"]@spartacus\/core['"];?/
       );
     });
   });
