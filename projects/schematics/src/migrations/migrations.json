@@ -264,6 +264,11 @@
       "version": "221121.8.0",
       "factory": "./221121_8/angular-providers/index#migrate",
       "description": "Add provideBrowserGlobalErrorListeners to app.module.ts"
+    },
+    "02-migration-v221121_8-tsconfig-config": {
+      "version": "221121.8.0",
+      "factory": "./221121_8/tsconfig-config/index#migrate",
+      "description": "Update tsconfig.json for Angular 21 compatibility"
     }
   }
 }
