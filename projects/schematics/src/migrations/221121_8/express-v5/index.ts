@@ -128,42 +128,61 @@ interface Replacement {
   replacement: string;
 }
 
+function isServerGetCall(node: ts.Node): node is ts.CallExpression {
+  if (!ts.isCallExpression(node)) {
+    return false;
+  }
+  const expression = node.expression;
+  return (
+    ts.isPropertyAccessExpression(expression) &&
+    ts.isIdentifier(expression.expression) &&
+    expression.expression.text === 'server' &&
+    ts.isIdentifier(expression.name) &&
+    expression.name.text === 'get'
+  );
+}
+
+function getWildcardReplacement(argText: string): string | null {
+  if (argText === '*.*') {
+    return '/.*\\..*/';
+  }
+  if (argText === '*') {
+    return '/.*/';
+  }
+  return null;
+}
+
+function processServerGetCall(
+  node: ts.CallExpression,
+  sourceFile: ts.SourceFile,
+  replacements: Replacement[]
+): void {
+  if (node.arguments.length === 0) {
+    return;
+  }
+
+  const firstArg = node.arguments[0];
+  if (!ts.isStringLiteral(firstArg)) {
+    return;
+  }
+
+  const replacement = getWildcardReplacement(firstArg.text);
+  if (replacement) {
+    replacements.push({
+      start: firstArg.getStart(sourceFile),
+      end: firstArg.getEnd(),
+      replacement,
+    });
+  }
+}
+
 function collectServerGetReplacements(
   node: ts.Node,
   sourceFile: ts.SourceFile,
   replacements: Replacement[]
 ): void {
-  if (ts.isCallExpression(node)) {
-    const expression = node.expression;
-    if (
-      ts.isPropertyAccessExpression(expression) &&
-      ts.isIdentifier(expression.expression) &&
-      expression.expression.text === 'server' &&
-      ts.isIdentifier(expression.name) &&
-      expression.name.text === 'get'
-    ) {
-      if (node.arguments.length > 0) {
-        const firstArg = node.arguments[0];
-
-        if (ts.isStringLiteral(firstArg)) {
-          const argText = firstArg.text;
-
-          if (argText === '*.*') {
-            replacements.push({
-              start: firstArg.getStart(sourceFile),
-              end: firstArg.getEnd(),
-              replacement: '/.*\\..*/',
-            });
-          } else if (argText === '*') {
-            replacements.push({
-              start: firstArg.getStart(sourceFile),
-              end: firstArg.getEnd(),
-              replacement: '/.*/',
-            });
-          }
-        }
-      }
-    }
+  if (isServerGetCall(node)) {
+    processServerGetCall(node, sourceFile, replacements);
   }
 
   ts.forEachChild(node, (childNode) => {
@@ -253,7 +272,7 @@ export function migrate(): Rule {
 
     const packageJson = readPackageJson(tree);
     const hasExpress =
-      packageJson.dependencies?.express || packageJson.devDependencies?.express;
+      packageJson.dependencies?.express ?? packageJson.devDependencies?.express;
 
     if (!hasExpress) {
       context.logger.info(
