@@ -26,11 +26,27 @@ These will be the 2 versions compared for breaking changes.
 In both ./src/old and ./src/new, run `npm install` and `npm run build:libs`. 
 (Note if old release is < 6.0, it is `yarn install` and `yarn build:libs`)
 
-**Note**: The tool supports both build formats:
-- `augmented-types` - generates separate .d.ts files per sub-entry point (~296 API files)
-- `declaration-merging` - generates bundled types (~16 API files)
+**Important**: The tool works with both build formats:
 
-Both formats work correctly! The final comparison operates on the same data structure regardless of the number of intermediate files.
+### Standard workflow (recommended):
+```bash
+npm run extract-all  # Uses extract-old + extract-new-bundled
+npm run parse-all
+npm run compare
+```
+
+This works regardless of build format - `extract-all` now automatically uses the bundled extractor for the new version.
+
+### Manual extraction (advanced):
+If you need to extract specific versions manually:
+
+```bash
+npm run extract-old              # For augmented-types (standard API Extractor)
+npm run extract-new              # For augmented-types (standard API Extractor)
+npm run extract-new-bundled      # For declaration-merging (bundled types)
+```
+
+The bundled extractor (`extract-new-bundled`) uses TypeScript Compiler API directly and works around API Extractor limitations with bundled types.
 
 - Extract the public API.
 Run `npm run extract-all` in the breaking change tool home folder (tools/breaking-changes/).  This will extract the public api in ./src/*/temp folder into many files. (one per entry point)

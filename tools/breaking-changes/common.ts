@@ -21,7 +21,8 @@ export const SCHEMATICS_COMMENT_PREFIX = '// TODO:Spartacus -';
 // Shared Functions
 export function readAndParseDataFile(filePath: string): any {
   const parsedData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-  console.log(`Read: ${filePath}, ${parsedData.length} entries`);
+  const length = Array.isArray(parsedData) ? parsedData.length : 'unknown';
+  console.log(`Read: ${filePath}, ${length} entries`);
   return parsedData;
 }
 
@@ -38,7 +39,9 @@ export function readMemberMigrationCommentsFile(): any {
 }
 
 export function readRenamedApiLookupFile(): any {
-  return readAndParseDataFile(RENAMED_API_LOOKUP_FILE_PATH);
+  const data = readAndParseDataFile(RENAMED_API_LOOKUP_FILE_PATH);
+  // Ensure we always return an array, even if file is empty or undefined
+  return Array.isArray(data) ? data : [];
 }
 
 export function findApiElementMigrationComment(
@@ -136,9 +139,12 @@ export function printStatsForBreakingChangeList(
   globalBreakingChangeList: any
 ): void {
   const groupByCategory = globalBreakingChangeList.reduce((group, element) => {
-    const { change } = element;
-    group[change] = group[change] ?? [];
-    group[change].push(element);
+    // Skip undefined or null elements silently
+    if (!element || !element.change) {
+      return group;
+    }
+    group[element.change] = group[element.change] ?? [];
+    group[element.change].push(element);
     return group;
   }, {});
   Object.keys(groupByCategory)

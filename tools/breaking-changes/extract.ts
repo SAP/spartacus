@@ -18,7 +18,6 @@ const spartacusHomeDir = process.argv[2];
 const distFolderPath = spartacusHomeDir + '/dist';
 
 // Modules to exclude due to external global types issues (e.g., ApplePayJS)
-// These are mainly aggregator modules - their sub-modules are still processed
 const EXCLUDED_MODULES = [
   '/opf/quick-buy/components',
   '/opf/quick-buy/public_api.d.ts'
@@ -26,7 +25,7 @@ const EXCLUDED_MODULES = [
 
 console.log(`Extract public API for libs in ${spartacusHomeDir}/dist.`);
 
-//prepare dirs
+// Prepare directories
 if (!fs.existsSync(`${spartacusHomeDir}/etc`)) {
   fs.mkdirSync(`${spartacusHomeDir}/etc`);
 }
@@ -45,12 +44,7 @@ if (files.length === 0) {
   if (files.length > 0) {
     console.log(`Found ${files.length} bundled type files.`);
     console.log('\n⚠️  WARNING: Bundled types format detected.');
-    console.log('The new version uses bundled types which may not be fully compatible with API Extractor.');
-    console.log('Consider rebuilding with augmented-types builder for accurate comparison.\n');
-    console.log('To rebuild with old format:');
-    console.log(`  1. cd ${spartacusHomeDir}`);
-    console.log('  2. Modify project.json files to use "augmented-types" instead of "declaration-merging"');
-    console.log('  3. Run: npm run build:libs\n');
+    console.log('Use "npm run extract-new-bundled" instead of "npm run extract-new" for better results.\n');
   }
 }
 
@@ -223,7 +217,38 @@ function getExtractorConfig(libPath: string): ExtractorConfig {
     __dirname,
     `${libPath}/api-extractor.json`
   );
+
+  // Copy the template config first
   fs.copyFileSync('api-extractor.json', apiExtractorJsonPath);
 
-  return ExtractorConfig.loadFileAndPrepare(apiExtractorJsonPath);
+  // Now load it with API Extractor which handles JSONC format
+  const config = ExtractorConfig.loadFileAndPrepare(apiExtractorJsonPath);
+
+  // Override the output path for api.json to write to spartacusHomeDir/temp
+  // We need to get the package name to construct the filename
+  const packageJsonPath = `${libPath}/package.json`;
+  if (fs.existsSync(packageJsonPath)) {
+    const packageName = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8')).name;
+    const unscopedPackageName = escapePackageName(packageName);
+
+    // Read the config file as text and add the apiJsonFilePath override
+    let configText = fs.readFileSync(apiExtractorJsonPath, 'utf-8');
+
+    // Find the docModel section and uncomment/add apiJsonFilePath
+    const apiJsonPath = path.resolve(`${spartacusHomeDir}/temp/${unscopedPackageName}.api.json`);
+
+    // Replace the commented line with an active one
+    configText = configText.replace(
+      /\/\/ "apiJsonFilePath":.*$/m,
+      `"apiJsonFilePath": "${apiJsonPath.replace(/\\/g, '/')}"`
+    );
+
+    fs.writeFileSync(apiExtractorJsonPath, configText);
+
+    // Reload the config with the changes
+    return ExtractorConfig.loadFileAndPrepare(apiExtractorJsonPath);
+  }
+
+  return config;
 }
+
