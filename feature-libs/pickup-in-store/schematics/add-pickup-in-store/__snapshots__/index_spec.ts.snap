@@ -75,18 +75,12 @@ exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature g
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false,
           "type": "component",
           "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false,
           "type": "directive",
           "addTypeToClassName": false
-        },
-        "@schematics/angular:pipe": {
-          "standalone": false,
-          "typeSeparator": "."
         },
         "@schematics/angular:service": {
           "type": "service",
@@ -99,6 +93,9 @@ exports[`Spartacus Pickup in Store schematics: ng-add Pick Up In Store feature g
           "typeSeparator": "."
         },
         "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:pipe": {
           "typeSeparator": "."
         },
         "@schematics/angular:resolver": {

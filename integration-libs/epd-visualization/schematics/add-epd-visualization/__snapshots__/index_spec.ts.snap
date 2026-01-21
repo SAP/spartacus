@@ -134,18 +134,12 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false,
           "type": "component",
           "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false,
           "type": "directive",
           "addTypeToClassName": false
-        },
-        "@schematics/angular:pipe": {
-          "standalone": false,
-          "typeSeparator": "."
         },
         "@schematics/angular:service": {
           "type": "service",
@@ -158,6 +152,9 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
           "typeSeparator": "."
         },
         "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:pipe": {
           "typeSeparator": "."
         },
         "@schematics/angular:resolver": {
