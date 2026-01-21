@@ -20,7 +20,7 @@ describe('OpfCtaQuickBuyButtonsComponent', () => {
     ]);
 
     TestBed.configureTestingModule({
-      declarations: [OpfCtaQuickBuyButtonsComponent],
+      imports: [OpfCtaQuickBuyButtonsComponent],
       providers: [
         { provide: OpfCtaScriptsService, useValue: opfCtaScriptsService },
       ],

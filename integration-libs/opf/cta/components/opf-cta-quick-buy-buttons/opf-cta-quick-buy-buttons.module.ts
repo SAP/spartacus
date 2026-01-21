@@ -17,7 +17,7 @@ import { OpfCtaScriptsService } from '../opf-cta-scripts/opf-cta-scripts.service
 import { OpfCtaQuickBuyButtonsComponent } from './opf-cta-quick-buy-buttons.component';
 
 @NgModule({
-  declarations: [OpfCtaQuickBuyButtonsComponent],
+  imports: [CommonModule, OpfCtaElementModule, OpfCtaQuickBuyButtonsComponent],
   providers: [
     OpfCtaScriptsService,
     OpfDynamicCtaService,
@@ -31,6 +31,5 @@ import { OpfCtaQuickBuyButtonsComponent } from './opf-cta-quick-buy-buttons.comp
     }),
   ],
   exports: [OpfCtaQuickBuyButtonsComponent],
-  imports: [CommonModule, OpfCtaElementModule],
 })
 export class OpfCtaQuickBuyButtonsModule {}
