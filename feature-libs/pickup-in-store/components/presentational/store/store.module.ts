@@ -20,8 +20,10 @@ import { StoreComponent } from './store.component';
     IconModule,
     SpinnerModule,
     SetPreferredStoreModule,
+    StoreComponent,
+    StoreScheduleComponent,
+    StoreAddressComponent,
   ],
   exports: [StoreComponent, StoreScheduleComponent, StoreAddressComponent],
-  declarations: [StoreComponent, StoreScheduleComponent, StoreAddressComponent],
 })
 export class StoreModule {}

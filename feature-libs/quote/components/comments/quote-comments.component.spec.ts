@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, DOCUMENT } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -10,9 +9,10 @@ import {
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { EventService, I18nTestingModule } from '@spartacus/core';
 import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/core';
-import { QuoteComment, Quote, QuoteFacade } from '@spartacus/quote/root';
+import { Quote, QuoteComment, QuoteFacade } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
+  IconComponent,
   MessagingComponent,
   MessagingConfigs,
 } from '@spartacus/storefront';
@@ -33,7 +33,7 @@ const ALL_PRODUCTS_ID = '';
   providers: [
     { provide: MessagingComponent, useClass: MockCxMessagingComponent },
   ],
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCxMessagingComponent {
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
@@ -44,7 +44,7 @@ class MockCxMessagingComponent {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -66,12 +66,7 @@ describe('QuoteCommentsComponent', () => {
     initTestData();
     initMocks();
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        QuoteCommentsComponent,
-        MockCxMessagingComponent,
-        MockCxIconComponent,
-      ],
+      imports: [I18nTestingModule, QuoteCommentsComponent],
       providers: [
         {
           provide: QuoteFacade,
@@ -90,7 +85,12 @@ describe('QuoteCommentsComponent', () => {
           useValue: mockQuoteItemsComponentService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(QuoteCommentsComponent, {
+        remove: { imports: [MessagingComponent, IconComponent] },
+        add: { imports: [MockCxMessagingComponent, MockCxIconComponent] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -389,7 +389,7 @@ describe('QuoteCommentsComponent', () => {
       expect(mapCommentToMessageEvent(comment).item).toBeUndefined();
     });
     it('should throw an error if there is an entry but without entry number', () => {
-      expect(() => mapCommentToMessageEvent(comment, {})).toThrowError();
+      expect(() => mapCommentToMessageEvent(comment, {})).toThrow();
     });
   });
 

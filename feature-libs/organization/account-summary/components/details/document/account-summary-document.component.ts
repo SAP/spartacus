@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,8 +12,10 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  CxDatePipe,
   LanguageService,
   SortModel,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -24,15 +27,35 @@ import {
   DocumentStatus,
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
-import { FileDownloadService, ICON_TYPE } from '@spartacus/storefront';
+import {
+  FileDownloadService,
+  ICON_TYPE,
+  IconComponent,
+  PaginationComponent,
+  SortingComponent,
+} from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { skip, switchMap, take, tap } from 'rxjs/operators';
+import { AccountSummaryDocumentFilterComponent } from './filter/account-summary-document-filter.component';
 
 @Component({
   selector: 'cx-account-summary-document',
   templateUrl: './account-summary-document.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    AccountSummaryDocumentFilterComponent,
+    SortingComponent,
+    PaginationComponent,
+    IconComponent,
+    NgFor,
+    NgClass,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+
+    CxDatePipe,
+  ],
 })
 export class AccountSummaryDocumentComponent implements OnInit, OnDestroy {
   /* For Enum use in HTML */

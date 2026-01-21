@@ -16,9 +16,15 @@ import { VisualPickingProductFilterService } from './visual-picking-product-filt
  * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 @NgModule({
-  imports: [CommonModule, FormsModule, IconModule, UrlModule, I18nModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IconModule,
+    UrlModule,
+    I18nModule,
+    VisualPickingProductFilterComponent,
+  ],
   providers: [VisualPickingProductFilterService],
-  declarations: [VisualPickingProductFilterComponent],
   exports: [VisualPickingProductFilterComponent],
 })
 export class VisualPickingProductFilterModule {}

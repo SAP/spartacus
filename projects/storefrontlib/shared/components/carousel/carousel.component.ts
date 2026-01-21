@@ -5,6 +5,14 @@
  */
 
 import {
+  AsyncPipe,
+  NgClass,
+  NgFor,
+  NgIf,
+  NgTemplateOutlet,
+  SlicePipe,
+} from '@angular/common';
+import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -17,9 +25,10 @@ import {
   TemplateRef,
   TrackByFunction,
 } from '@angular/core';
-import { LoggerService, useFeatureStyles } from '@spartacus/core';
+import { LoggerService, TranslatePipe } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { disableTabbingForTick } from '../../../layout/a11y';
 import { CarouselService } from './carousel.service';
@@ -48,7 +57,16 @@ import { CarouselService } from './carousel.service';
   templateUrl: './carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { ngSkipHydration: 'true' },
-  standalone: false,
+  imports: [
+    NgIf,
+    NgClass,
+    IconComponent,
+    NgFor,
+    NgTemplateOutlet,
+    AsyncPipe,
+    SlicePipe,
+    TranslatePipe,
+  ],
 })
 export class CarouselComponent implements OnInit, OnChanges {
   @Output() keybordEvent = new BehaviorSubject<KeyboardEvent | null>(null);
@@ -113,9 +131,7 @@ export class CarouselComponent implements OnInit, OnChanges {
   constructor(
     protected el: ElementRef,
     protected service: CarouselService
-  ) {
-    useFeatureStyles('a11yAddPaddingToCarouselPanel');
-  }
+  ) {}
 
   ngOnInit() {
     if (!this.template && isDevMode()) {

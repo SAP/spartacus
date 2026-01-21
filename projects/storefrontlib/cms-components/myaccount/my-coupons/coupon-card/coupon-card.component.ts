@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, LowerCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,17 +15,17 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { CustomerCoupon } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '../../../../layout/index';
+import { CustomerCoupon, CxDatePipe, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { LAUNCH_CALLER, LaunchDialogService } from '../../../../layout/index';
 import { MyCouponsComponentService } from '../my-coupons.component.service';
 
 @Component({
   selector: 'cx-coupon-card',
   templateUrl: './coupon-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [AsyncPipe, LowerCasePipe, TranslatePipe, CxDatePipe],
 })
 export class CouponCardComponent {
   @Input() coupon: CustomerCoupon;

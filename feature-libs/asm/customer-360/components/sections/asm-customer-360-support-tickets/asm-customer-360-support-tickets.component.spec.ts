@@ -37,10 +37,7 @@ describe('AsmCustomer360SupportTicketsComponent', () => {
       return of('test');
     }
   }
-  @Pipe({
-    name: 'cxTranslate',
-    standalone: false,
-  })
+  @Pipe({ name: 'cxTranslate' })
   class MockTranslatePipe implements PipeTransform {
     transform(): any {}
   }
@@ -48,7 +45,7 @@ describe('AsmCustomer360SupportTicketsComponent', () => {
   @Component({
     selector: 'cx-icon',
     template: '',
-    standalone: false,
+    imports: [I18nTestingModule],
   })
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
@@ -95,8 +92,8 @@ describe('AsmCustomer360SupportTicketsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         AsmCustomer360SupportTicketsComponent,
         MockTranslatePipe,
         MockCxIconComponent,

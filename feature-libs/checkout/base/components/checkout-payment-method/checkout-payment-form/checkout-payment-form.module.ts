@@ -35,8 +35,8 @@ import { CheckoutPaymentFormComponent } from './checkout-payment-form.component'
     CheckoutBillingAddressFormModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    CheckoutPaymentFormComponent,
   ],
-  declarations: [CheckoutPaymentFormComponent],
   exports: [CheckoutPaymentFormComponent],
 })
 export class CheckoutPaymentFormModule {}

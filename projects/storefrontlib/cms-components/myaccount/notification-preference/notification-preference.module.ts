@@ -31,7 +31,6 @@ const myAccountV2CmsMapping: CmsConfig = {
   },
 };
 @NgModule({
-  declarations: [NotificationPreferenceComponent],
   imports: [
     CommonModule,
     SpinnerModule,
@@ -46,6 +45,7 @@ const myAccountV2CmsMapping: CmsConfig = {
         data: { cxRoute: 'notificationPreference' },
       },
     ]),
+    NotificationPreferenceComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

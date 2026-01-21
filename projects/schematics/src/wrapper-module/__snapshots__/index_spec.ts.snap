@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Checkout Scheduled Replenishment should create the checkout wrapper module and import Checkout features 1`] = `
 "import { NgModule } from '@angular/core';

@@ -6,11 +6,27 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule } from '@spartacus/core';
-import { MessageService } from '@spartacus/organization/administration/components';
-import { FocusConfig, FormErrorsComponent } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import {
+  CardComponent,
+  MessageService,
+} from '@spartacus/organization/administration/components';
+import {
+  FocusConfig,
+  FocusDirective,
+  FormErrorsComponent,
+} from '@spartacus/storefront';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
@@ -33,7 +49,6 @@ class MockUserChangePasswordFormService {
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[cxFocus]',
-  standalone: false,
 })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
@@ -47,30 +62,50 @@ describe('UserChangePasswordFormComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
-        UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        CardTestingModule,
-      ],
-      declarations: [
         UserChangePasswordFormComponent,
         FormErrorsComponent,
-        MockKeyboadFocusDirective,
-        MockFeatureDirective,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
-        {
-          provide: UserItemService,
-          useClass: MockUserItemService,
-        },
         {
           provide: UserChangePasswordFormService,
           useClass: MockUserChangePasswordFormService,
         },
         MessageService,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UserChangePasswordFormComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            FocusDirective,
+            FeatureDirective,
+            CardComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockKeyboadFocusDirective,
+            MockFeatureDirective,
+            CardTestingModule,
+          ],
+          providers: [
+            {
+              provide: UserItemService,
+              useClass: MockUserItemService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
     formService = TestBed.inject(UserChangePasswordFormService);
 
     fixture = TestBed.createComponent(UserChangePasswordFormComponent);

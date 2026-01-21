@@ -1,5 +1,4 @@
-import { DOCUMENT } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
+import { DOCUMENT, PLATFORM_ID } from '@angular/core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { Config, ScriptLoader } from '@spartacus/core';
 import {

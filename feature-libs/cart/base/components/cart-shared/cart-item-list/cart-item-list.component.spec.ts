@@ -11,14 +11,19 @@ import {
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
 import {
-  FeatureConfigService,
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Product,
   ProductCatalogService,
+  TranslatePipe,
   UserIdService,
 } from '@spartacus/core';
 import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
 import { Observable, Subject, of } from 'rxjs';
+import { CartItemListRowComponent } from '../cart-item-list-row';
+import { CartItemComponent } from '../cart-item/cart-item.component';
 import { CartItemListComponent } from './cart-item-list.component';
 
 class MockActiveCartService {
@@ -89,7 +94,7 @@ const mockUserId = 'test-user';
 @Component({
   template: '',
   selector: '[cx-cart-item-list-row], cx-cart-item-list-row',
-  standalone: false,
+  imports: [ReactiveFormsModule, PromotionsModule, I18nTestingModule],
 })
 class MockCartItemComponent {
   @Input() item;
@@ -113,12 +118,6 @@ const mockContext = {
 };
 const context$ = of(mockContext);
 
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
-}
-
 const mockProductCatalogService = {
   isProductInCatalog: (_product?: Product) => true,
 };
@@ -136,19 +135,29 @@ describe('CartItemListComponent', () => {
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, PromotionsModule, I18nTestingModule],
-      declarations: [CartItemListComponent, MockCartItemComponent],
+      imports: [ReactiveFormsModule, PromotionsModule, CartItemListComponent],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
         { provide: MultiCartFacade, useClass: MockMultiCartService },
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
           provide: ProductCatalogService,
           useValue: mockProductCatalogService,
         },
       ],
+    }).overrideComponent(CartItemListComponent, {
+      remove: {
+        imports: [
+          TranslatePipe,
+          CxDatePipe,
+          CartItemComponent,
+          CartItemListRowComponent,
+        ],
+      },
+      add: {
+        imports: [MockTranslatePipe, MockDatePipe, MockCartItemComponent],
+      },
     });
   }
 

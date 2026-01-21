@@ -59,8 +59,11 @@ describe('DpConfirmationDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [DpConfirmationDialogComponent, MockFeatureDirective],
+      imports: [
+        I18nTestingModule,
+        DpConfirmationDialogComponent,
+        MockFeatureDirective,
+      ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {

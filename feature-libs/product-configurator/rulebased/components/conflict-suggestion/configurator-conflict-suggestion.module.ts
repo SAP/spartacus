@@ -10,8 +10,7 @@ import { I18nModule } from '@spartacus/core';
 import { ConfiguratorConflictSuggestionComponent } from './configurator-conflict-suggestion.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
-  declarations: [ConfiguratorConflictSuggestionComponent],
+  imports: [CommonModule, I18nModule, ConfiguratorConflictSuggestionComponent],
   exports: [ConfiguratorConflictSuggestionComponent],
 })
 export class ConfiguratorConflictSuggestionModule {}

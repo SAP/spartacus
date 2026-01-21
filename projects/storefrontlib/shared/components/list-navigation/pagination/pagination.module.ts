@@ -23,9 +23,9 @@ import { PaginationComponent } from './pagination.component';
     I18nModule,
     FeaturesConfigModule,
     KeyboardFocusModule,
+    PaginationComponent,
   ],
   providers: [provideDefaultConfig(defaultPaginationConfig)],
-  declarations: [PaginationComponent],
   exports: [PaginationComponent],
 })
 export class PaginationModule {}

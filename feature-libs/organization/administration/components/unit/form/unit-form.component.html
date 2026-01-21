@@ -62,7 +62,7 @@
         formControlName="code"
         [searchable]="false"
         [clearable]="false"
-        [items]="approvalProcess$ | async"
+        [items]="(approvalProcess$ | async) ?? []"
         bindLabel="name"
         bindValue="code"
         appendTo="cx-org-list"
@@ -71,6 +71,9 @@
           form.get('code')?.touched && form.get('code')?.invalid
         "
         [attr.aria-errormessage]="'codeError'"
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
         [cxNgSelectA11y]="{}"
       >
       </ng-select>
@@ -94,11 +97,14 @@
           formControlName="uid"
           [searchable]="true"
           [clearable]="false"
-          [items]="(units$ | async) ?? null"
+          [items]="(units$ | async) ?? []"
           bindLabel="name"
           bindValue="id"
           appendTo="cx-org-list"
           [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
+          ariaLabelDropdown="{{
+            'common.ngSelectDropdownOptionsList' | cxTranslate
+          }}"
           [cxNgSelectA11y]="{}"
           [attr.aria-invalid]="
             form.get('uid')?.touched && form.get('uid')?.invalid

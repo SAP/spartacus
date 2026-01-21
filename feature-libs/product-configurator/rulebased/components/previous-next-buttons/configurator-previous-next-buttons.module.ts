@@ -11,7 +11,12 @@ import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previous-next-buttons.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, KeyboardFocusModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    KeyboardFocusModule,
+    ConfiguratorPreviousNextButtonsComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -21,7 +26,6 @@ import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previou
       },
     }),
   ],
-  declarations: [ConfiguratorPreviousNextButtonsComponent],
   exports: [ConfiguratorPreviousNextButtonsComponent],
 })
 export class ConfiguratorPreviousNextButtonsModule {}

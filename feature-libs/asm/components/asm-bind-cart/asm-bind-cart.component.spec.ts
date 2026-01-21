@@ -23,9 +23,11 @@ import {
   OCC_CART_ID_CURRENT,
   RoutingService,
   Translatable,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
+  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
@@ -48,7 +50,7 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [FormsModule, ReactiveFormsModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -83,10 +85,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   }
 }
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -164,11 +163,11 @@ describe('AsmBindCartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule],
-      declarations: [
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
         AsmBindCartComponent,
-        MockTranslatePipe,
-        MockCxIconComponent,
+
         DotSpinnerComponent,
       ],
       providers: [
@@ -183,7 +182,16 @@ describe('AsmBindCartComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: AsmComponentService, useClass: MockAsmComponentService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmBindCartComponent, {
+        remove: {
+          imports: [TranslatePipe, IconComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockCxIconComponent],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -6,13 +6,19 @@ import {
   tick,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
+  CxDatePipe,
   FeatureConfigService,
+  FeatureDirective,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
   WindowRef,
 } from '@spartacus/core';
+import { GenericLinkComponent, IconComponent } from '@spartacus/storefront';
 import { BreakpointService } from 'projects/storefrontlib/layout';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { of } from 'rxjs';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
@@ -21,7 +27,7 @@ import { NavigationUIComponent } from './navigation-ui.component';
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockIconComponent {
   @Input() type: string;
@@ -30,7 +36,7 @@ class MockIconComponent {
 @Component({
   selector: 'cx-generic-link',
   template: '<a href={{url}}>{{title}}</a>',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockGenericLinkComponent {
   @Input() url: string | any[];
@@ -43,7 +49,6 @@ class MockHamburgerMenuService {
   toggle(_forceCollapse?: boolean): void {}
 }
 
-// TODO: (CXSPA-5919) Remove mock next major release
 class MockFeatureConfigService {
   isEnabled() {
     return true;
@@ -118,14 +123,7 @@ describe('Navigation UI Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        NavigationUIComponent,
-        MockIconComponent,
-        MockGenericLinkComponent,
-        // TODO: (CXSPA-5919) Remove feature directive next major
-        MockFeatureDirective,
-      ],
+      imports: [NavigationUIComponent, RouterModule.forRoot([])],
       providers: [
         {
           provide: HamburgerMenuService,
@@ -144,7 +142,27 @@ describe('Navigation UI Component', () => {
           useClass: MockBreakpointService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(NavigationUIComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            GenericLinkComponent,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockIconComponent,
+            MockGenericLinkComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -328,9 +346,11 @@ describe('Navigation UI Component', () => {
       expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toBe(1);
       expect(element.queryAll(By.css('li.is-opened')).length).toBe(2);
 
-      element
-        .query(By.css('cx-generic-link[ng-reflect-url="/sub-sub-child-1a"]'))
-        .nativeElement.click();
+      const links = element.queryAll(By.css('cx-generic-link'));
+      const targetLink = links.find(
+        (link) => link.componentInstance.url === '/sub-sub-child-1a'
+      );
+      targetLink?.nativeElement.click();
       expect(
         navigationComponent.closeIfClickedTheSameLink
       ).toHaveBeenCalledWith({

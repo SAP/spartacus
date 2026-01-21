@@ -10,6 +10,7 @@ import { Observable, of } from 'rxjs';
 import { SkipLinkDirective } from '../../../layout/a11y/index';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../../outlet/index';
+import { ComponentWrapperDirective } from '../component';
 import { PageSlotComponent } from './page-slot.component';
 import { PageSlotService } from './page-slot.service';
 
@@ -56,7 +57,7 @@ class MockDynamicAttributeService {
       class="existing-style and-more"
     ></cx-page-slot>
   `,
-  standalone: false,
+  imports: [PageSlotComponent],
 })
 class MockHostComponent {}
 
@@ -64,7 +65,7 @@ class MockHostComponent {}
   template: `
     <div cx-page-slot position="Section2" class="existing-style and-more"></div>
   `,
-  standalone: false,
+  imports: [PageSlotComponent],
 })
 class MockHostWithDivComponent {}
 
@@ -77,10 +78,7 @@ class MockDeferLoaderService {
 class MockPageSlotService implements Partial<PageSlotService> {
   getComponentDeferOptions = () => undefined;
 }
-@Directive({
-  selector: '[cxComponentWrapper]',
-  standalone: false,
-})
+@Directive({ selector: '[cxComponentWrapper]' })
 class MockComponentWrapperDirective {
   @Input() cxComponentWrapper;
 }
@@ -114,16 +112,14 @@ describe('PageSlotComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PageSlotComponent,
-        OutletDirective,
-        SkipLinkDirective,
-        MockHostComponent,
-        MockHostWithDivComponent,
-        MockComponentWrapperDirective,
-      ],
+      imports: [PageSlotComponent, OutletDirective, SkipLinkDirective],
       providers,
-    }).compileComponents();
+    })
+      .overrideComponent(PageSlotComponent, {
+        remove: { imports: [ComponentWrapperDirective] },
+        add: { imports: [MockComponentWrapperDirective] },
+      })
+      .compileComponents();
 
     cmsService = TestBed.inject(CmsService);
     pageSlotService = TestBed.inject(PageSlotService);

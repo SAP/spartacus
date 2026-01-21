@@ -19,7 +19,13 @@ import { CheckoutStepsSetGuard } from '../../guards/checkout-steps-set.guard';
 import { CheckoutProgressMobileTopComponent } from './checkout-progress-mobile-top.component';
 
 @NgModule({
-  imports: [CommonModule, UrlModule, I18nModule, RouterModule],
+  imports: [
+    CommonModule,
+    UrlModule,
+    I18nModule,
+    RouterModule,
+    CheckoutProgressMobileTopComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -30,7 +36,6 @@ import { CheckoutProgressMobileTopComponent } from './checkout-progress-mobile-t
       },
     }),
   ],
-  declarations: [CheckoutProgressMobileTopComponent],
   exports: [CheckoutProgressMobileTopComponent],
 })
 export class CheckoutProgressMobileTopModule {}

@@ -1,8 +1,8 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { KeyboardFocusTestingModule } from '@spartacus/storefront';
 import { Tab, TAB_MODE } from '../tab.model';
 import { TabPanelComponent } from './tab-panel.component';
-import { KeyboardFocusTestingModule } from '@spartacus/storefront';
 
 const mockTab: Tab | any = {
   id: 1,
@@ -12,7 +12,7 @@ const mockTab: Tab | any = {
   template: `<ng-template #templateRef
     ><span id="tempRef">hello</span></ng-template
   >`,
-  standalone: false,
+  imports: [KeyboardFocusTestingModule],
 })
 class MockComponent {
   @ViewChild('templateRef') templateRef: TemplateRef<any>;
@@ -24,8 +24,7 @@ describe('TabPanelComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [KeyboardFocusTestingModule],
-      declarations: [TabPanelComponent, MockComponent],
+      imports: [KeyboardFocusTestingModule, TabPanelComponent, MockComponent],
     }).compileComponents();
   }));
 

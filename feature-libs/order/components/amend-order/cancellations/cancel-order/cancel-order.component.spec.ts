@@ -3,6 +3,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
+import {
+  AmendOrderActionsComponent,
+  CancelOrReturnItemsComponent,
+} from '@spartacus/order/components';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';
@@ -23,7 +27,7 @@ class MockOrderAmendService {
 @Component({
   template: '',
   selector: 'cx-amend-order-items',
-  standalone: false,
+  imports: [FormErrorsModule],
 })
 class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
@@ -32,7 +36,7 @@ class MockCancelOrReturnItemsComponent {
 @Component({
   template: '',
   selector: 'cx-amend-order-actions',
-  standalone: false,
+  imports: [FormErrorsModule],
 })
 class MockAmendOrderActionComponent {
   @Input() orderCode: string;
@@ -47,16 +51,23 @@ describe('CancelOrderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [FormErrorsModule],
+      imports: [FormErrorsModule, CancelOrderComponent],
       providers: [
         { provide: OrderAmendService, useClass: MockOrderAmendService },
       ],
-      declarations: [
-        CancelOrderComponent,
-        MockAmendOrderActionComponent,
-        MockCancelOrReturnItemsComponent,
-      ],
-    }).compileComponents();
+    })
+      .overrideComponent(CancelOrderComponent, {
+        remove: {
+          imports: [AmendOrderActionsComponent, CancelOrReturnItemsComponent],
+        },
+        add: {
+          imports: [
+            MockAmendOrderActionComponent,
+            MockCancelOrReturnItemsComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

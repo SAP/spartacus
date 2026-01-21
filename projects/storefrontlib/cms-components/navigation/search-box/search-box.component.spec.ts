@@ -17,7 +17,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {
   CmsSearchBoxComponent,
-  FeatureConfigService,
   I18nTestingModule,
   PageType,
   ProductSearchService,
@@ -25,7 +24,6 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { OutletDirective } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import {
   BehaviorSubject,
   delay,
@@ -64,20 +62,14 @@ class MockCmsComponentData {
   }
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {
     return ['test', 'url'];
   }
 }
 
-@Pipe({
-  name: 'cxHighlight',
-  standalone: false,
-})
+@Pipe({ name: 'cxHighlight' })
 class MockHighlightPipe implements PipeTransform {
   transform(): any {}
 }
@@ -85,7 +77,7 @@ class MockHighlightPipe implements PipeTransform {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type;
@@ -94,7 +86,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-media',
   template: '<img>',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container;
@@ -102,10 +94,7 @@ class MockMediaComponent {
   @Input() alt;
 }
 
-@Directive({
-  selector: '[cxOutlet]',
-  standalone: false,
-})
+@Directive({ selector: '[cxOutlet]' })
 class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
   @Input() cxOutletContext: string;
@@ -114,7 +103,7 @@ class MockOutletDirective implements Partial<OutletDirective> {
 @Component({
   selector: 'cx-carousel',
   template: ``,
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCarouselComponent {
   @Input() items: any;
@@ -142,12 +131,6 @@ const PRODUCT_SEARCH_STRING = 'camera';
 
 class MockRoutingService implements Partial<RoutingService> {
   getRouterState = () => routerState$.asObservable();
-}
-
-class MockFeatureConfigService {
-  isEnabled() {
-    return true;
-  }
 }
 
 describe('SearchBoxComponent', () => {
@@ -197,10 +180,7 @@ describe('SearchBoxComponent', () => {
         BrowserAnimationsModule,
         RouterModule.forRoot([]),
         I18nTestingModule,
-      ],
-      declarations: [
         SearchBoxComponent,
-        MockFeatureDirective,
         MockUrlPipe,
         MockHighlightPipe,
         MockCxIconComponent,
@@ -224,10 +204,6 @@ describe('SearchBoxComponent', () => {
         {
           provide: RoutingService,
           useClass: MockRoutingService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
         },
       ],
     }).compileComponents();

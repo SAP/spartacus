@@ -2,15 +2,21 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideRouter, RouterLink } from '@angular/router';
-import { I18nTestingModule, UrlCommandRoute } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlCommandRoute,
+  UrlPipe,
+} from '@spartacus/core';
+import { IconComponent } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { MiniCartComponentService } from './mini-cart-component.service';
 import { MiniCartComponent } from './mini-cart.component';
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(options: UrlCommandRoute): string {
     return options.cxRoute;
@@ -20,7 +26,7 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, RouterLink],
 })
 class MockCxIconComponent {
   @Input() type;
@@ -41,17 +47,29 @@ describe('MiniCartComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterLink],
-      declarations: [MiniCartComponent, MockUrlPipe, MockCxIconComponent],
+      imports: [RouterLink, MiniCartComponent],
       providers: [
         provideRouter([]),
-
         {
           provide: MiniCartComponentService,
           useValue: mockMiniCartComponentService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MiniCartComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, IconComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockCxIconComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
