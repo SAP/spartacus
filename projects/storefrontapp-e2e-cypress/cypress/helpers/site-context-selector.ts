@@ -5,9 +5,9 @@
  */
 
 import { user } from '../sample-data/checkout-flow';
-import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { switchSiteContext } from '../support/utils/switch-site-context';
 import { waitForPage } from './navigation';
+import { goToOrderHistoryWithConsignedOrder } from './order-history';
 
 export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
@@ -204,8 +204,7 @@ export function testLangSwitchOrderPage() {
     const deutschName = MONTH_DE;
 
     before(() => {
-      doPlaceOrder();
-      waitForOrderToBePlacedRequest();
+      goToOrderHistoryWithConsignedOrder();
     });
 
     it('should change language in the url', () => {

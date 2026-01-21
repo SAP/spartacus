@@ -4,22 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { goToOrderHistoryWithConsignedOrder } from '../../../helpers/order-history';
 import { viewportContext } from '../../../helpers/viewport-context';
-import { doPlaceOrder } from '../../../helpers/order-history';
+import { consignedOrderId } from '../../../sample-data/checkout-flow';
+import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe('Order History Page accessibility', { testIsolation: false }, () => {
+  isolateTestsBefore();
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.a11yContinuumSetup();
-      cy.requireLoggedIn();
-      doPlaceOrder().then((orderData: any) => {
-        cy.waitForOrderToBePlacedRequest(
-          undefined,
-          undefined,
-          orderData.body.code
-        );
-        cy.visit('/my-account/orders');
-      });
+      goToOrderHistoryWithConsignedOrder();
     });
 
     it('Order list', () => {
@@ -29,7 +24,7 @@ describe('Order History Page accessibility', { testIsolation: false }, () => {
 
     it('Order details', () => {
       cy.get('.cx-order-history-code > .cx-order-history-value')
-        .first()
+        .contains(consignedOrderId)
         .click();
 
       cy.get('.cx-order-details-cards'); // wait until content is loaded

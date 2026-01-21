@@ -20,6 +20,12 @@ export const ADD_TO_CART_ENDPOINT_ALIAS = 'addToCart';
 export const ORDERS_ALIAS = 'orders';
 export const CART_FROM_ORDER_ALIAS = 'cartFromOrder';
 
+export function goToOrderHistoryWithConsignedOrder() {
+  cy.login('test-user-with-orders@sap.cx.com', 'pw4all');
+  cy.visit('/my-account/orders');
+  cy.get('.cx-login-greet').should('contain', 'Test User');
+}
+
 export function doPlaceOrder(productData?: any) {
   let stateAuth: any;
 

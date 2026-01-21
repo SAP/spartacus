@@ -103,6 +103,9 @@ export function getSampleOrg() {
   };
 }
 
+export const consignedOrderId = '100002';
+export const unconsignedOrderId = '100003';
+
 export const product: SampleProduct = {
   name: 'Alpha 350',
   code: '1446509',
