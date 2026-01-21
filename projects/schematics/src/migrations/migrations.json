@@ -254,6 +254,16 @@
       "version": "2211.36.0",
       "factory": "./2211_36/silence-sass-deprecations/silence-sass-deprecations#migrate",
       "description": "Silence Sass deprecations about the `@import` directive"
+    },
+    "00-migration-v221121_7-angular-config": {
+      "version": "221121.7.0",
+      "factory": "./221121_7/angular-config/index#migrate",
+      "description": "Remove obsolete `index` property from angular.json build configuration"
+    },
+    "01-migration-v221121_7-angular-providers": {
+      "version": "221121.7.0",
+      "factory": "./221121_7/angular-providers/index#migrate",
+      "description": "Add provideBrowserGlobalErrorListeners to app.module.ts"
     }
   }
 }

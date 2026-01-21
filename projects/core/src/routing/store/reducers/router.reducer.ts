@@ -138,7 +138,11 @@ export class CustomSerializer
         !cmsRequired &&
         (context ||
           state.routeConfig?.canActivate?.find(
-            (x) => x && x.guardName === 'CmsPageGuard'
+            (x) =>
+              x &&
+              typeof x === 'function' &&
+              'guardName' in x &&
+              x.guardName === 'CmsPageGuard'
           ))
       ) {
         cmsRequired = true;

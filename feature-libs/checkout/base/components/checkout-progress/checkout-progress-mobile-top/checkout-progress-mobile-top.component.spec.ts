@@ -48,10 +48,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive = createSpy().and.returnValue(of(mockActiveCart));
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -62,8 +59,11 @@ describe('CheckoutProgressMobileTopComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [CheckoutProgressMobileTopComponent, MockTranslateUrlPipe],
+      imports: [
+        I18nTestingModule,
+        CheckoutProgressMobileTopComponent,
+        MockTranslateUrlPipe,
+      ],
       providers: [
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },

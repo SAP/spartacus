@@ -4,8 +4,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  BtnLikeLinkDirective,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  PasswordVisibilityToggleDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { UpdateEmailComponentService } from './update-email-component.service';
 
@@ -14,7 +29,21 @@ import { UpdateEmailComponentService } from './update-email-component.service';
   templateUrl: './update-email.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'user-form', ngSkipHydration: 'true' },
-  standalone: false,
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    FormRequiredLegendComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    PasswordVisibilityToggleDirective,
+    BtnLikeLinkDirective,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class UpdateEmailComponent {
   constructor(protected service: UpdateEmailComponentService) {}

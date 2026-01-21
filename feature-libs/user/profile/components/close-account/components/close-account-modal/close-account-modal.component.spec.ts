@@ -39,7 +39,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -48,7 +48,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCxSpinnerComponent {}
 
@@ -61,8 +61,8 @@ describe('CloseAccountModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         CloseAccountModalComponent,
         MockCxSpinnerComponent,
         MockCxIconComponent,

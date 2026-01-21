@@ -32,7 +32,6 @@ export const accountSummaryDocumentCmsConfig: CmsConfig = {
 };
 
 @NgModule({
-  declarations: [AccountSummaryDocumentComponent],
   imports: [
     AccountSummaryDocumentFilterModule,
     CommonModule,
@@ -41,6 +40,7 @@ export const accountSummaryDocumentCmsConfig: CmsConfig = {
     PaginationModule,
     IconModule,
     FeaturesConfigModule,
+    AccountSummaryDocumentComponent,
   ],
   providers: [provideDefaultConfig(accountSummaryDocumentCmsConfig)],
 })

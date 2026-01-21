@@ -1,4 +1,6 @@
+import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   CustomerTicketingFacade,
@@ -15,8 +17,6 @@ import {
 import { EMPTY, Observable } from 'rxjs';
 import { CustomerTicketingCloseDialogComponent } from './customer-ticketing-close-dialog.component';
 import createSpy = jasmine.createSpy;
-import { Component, Directive, Input } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
@@ -33,7 +33,7 @@ class MockRoutingService implements Partial<RoutingService> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -41,7 +41,7 @@ class MockCxIconComponent {
 
 @Component({
   selector: 'cx-messaging',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
 })
 class MockCxMessagingComponent {
   @Input() messageEvents$: Observable<Array<MessageEvent>>;
@@ -49,10 +49,7 @@ class MockCxMessagingComponent {
   @Input() messagingConfigs?: MessagingConfigs;
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockKeyboadFocusDirective {
   @Input('cxFocus') config: FocusConfig = {};
 }
@@ -64,8 +61,10 @@ describe('CustomerTicketingCloseDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
         CustomerTicketingCloseDialogComponent,
         MockCxIconComponent,
         MockCxMessagingComponent,

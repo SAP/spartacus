@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Spartacus S/4HANA Service Integration (S4-Service) Schematics: ng-add S4-Service feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';

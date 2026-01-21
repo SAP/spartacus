@@ -1,7 +1,7 @@
 import {
   HttpTestingController,
-  TestRequest,
   provideHttpClientTesting,
+  TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
@@ -14,7 +14,7 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
 import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { FeatureConfigService, UserIdService } from '@spartacus/core';
+import { UserIdService } from '@spartacus/core';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -64,7 +64,6 @@ describe('OccCmsComponentAdapter', () => {
   let converter: ConverterService;
   let endpointsService: OccEndpointsService;
   let userIdService: UserIdService;
-  let featureConfigService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -86,7 +85,6 @@ describe('OccCmsComponentAdapter', () => {
     converter = TestBed.inject(ConverterService);
     endpointsService = TestBed.inject(OccEndpointsService);
     userIdService = TestBed.inject(UserIdService);
-    featureConfigService = TestBed.inject(FeatureConfigService);
 
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
@@ -97,10 +95,6 @@ describe('OccCmsComponentAdapter', () => {
   });
 
   describe('user endpoints', () => {
-    beforeEach(() => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(true);
-    });
-
     describe('load', () => {
       it('should get cms component data', (done) => {
         spyOn(userIdService, 'getUserId').and.returnValue(of('anonymous'));
@@ -178,83 +172,6 @@ describe('OccCmsComponentAdapter', () => {
 
         assertGetSubscription(service).subscribe();
         assertNormalizer(spyOnGetEndpoint(userEndpoint));
-        assertConverterPipeableMany();
-        done();
-      });
-    });
-  });
-
-  describe('default endpoints', () => {
-    beforeEach(() => {
-      spyOn(featureConfigService, 'isEnabled').and.returnValue(false);
-    });
-
-    describe('load', () => {
-      it('should get cms component data', (done) => {
-        spyOnEndpoint(spyOnLoadEndpoint());
-
-        service.load('comp1', context).subscribe((result) => {
-          expect(result).toEqual(component);
-        });
-
-        const testRequest = mockHttpRequest('GET', spyOnLoadEndpoint());
-
-        expect(endpointsService.buildUrl).toHaveBeenCalledWith('component', {
-          urlParams: { id: 'comp1' },
-          queryParams: { productCode: '123' },
-        });
-
-        assertTestRequest(testRequest, component);
-        done();
-      });
-
-      it('should use normalizer', (done) => {
-        spyOnEndpoint(spyOnLoadEndpoint());
-
-        service.load('comp1', context).subscribe();
-
-        assertNormalizer(spyOnLoadEndpoint());
-
-        expect(converter.pipeable).toHaveBeenCalledWith(
-          CMS_COMPONENT_NORMALIZER
-        );
-        done();
-      });
-    });
-
-    describe('load list of cms component data using GET request', () => {
-      it('should get a list of cms component data using GET request without pagination parameters', (done) => {
-        spyOnEndpoint(spyOnGetEndpoint());
-
-        assertGetSubscription(service).subscribe();
-
-        const testRequest = mockHttpRequest('GET', spyOnGetEndpoint());
-
-        assertGetRequestGetUrl('DEFAULT', '2');
-
-        assertTestRequest(testRequest, componentList);
-        done();
-      });
-
-      it('should get a list of cms component data using GET request with pagination parameters', (done) => {
-        spyOnEndpoint(spyOnGetEndpoint());
-
-        assertGetSubscription(service, 'FULL', 0, 5).subscribe();
-
-        const testRequest = mockHttpRequest('GET', spyOnGetEndpoint());
-
-        assertGetRequestGetUrl('FULL', '5');
-
-        assertTestRequest(testRequest, componentList);
-        done();
-      });
-
-      it('should use normalizer', (done) => {
-        spyOnEndpoint(spyOnGetEndpoint());
-
-        assertGetSubscription(service).subscribe();
-
-        assertNormalizer(spyOnGetEndpoint());
         assertConverterPipeableMany();
         done();
       });

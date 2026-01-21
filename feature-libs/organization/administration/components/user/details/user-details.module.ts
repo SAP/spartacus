@@ -26,8 +26,8 @@ import { UserDetailsComponent } from './user-details.component';
     ItemExistsModule,
     DisableInfoModule,
     KeyboardFocusModule,
+    UserDetailsComponent,
   ],
-  declarations: [UserDetailsComponent],
   exports: [UserDetailsComponent],
 })
 export class UserDetailsModule {}

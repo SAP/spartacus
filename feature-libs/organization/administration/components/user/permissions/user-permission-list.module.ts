@@ -13,8 +13,11 @@ import { UserAssignedPermissionListComponent } from './assigned/user-assigned-pe
 import { UserPermissionListComponent } from './user-permission-list.component';
 
 @NgModule({
-  imports: [ListModule, I18nModule, RouterModule, SubListModule],
-  declarations: [
+  imports: [
+    ListModule,
+    I18nModule,
+    RouterModule,
+    SubListModule,
     UserPermissionListComponent,
     UserAssignedPermissionListComponent,
   ],

@@ -4,10 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { Price } from '@spartacus/core';
+import { Price, TranslatePipe } from '@spartacus/core';
+import { ItemCounterComponent, MediaComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OrderAmendService } from '../amend-order.service';
 
@@ -15,7 +17,14 @@ import { OrderAmendService } from '../amend-order.service';
   selector: 'cx-amend-order-items',
   templateUrl: './amend-order-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    MediaComponent,
+    ItemCounterComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];

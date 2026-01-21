@@ -47,10 +47,7 @@ class MockRoutingService implements Partial<RoutingService> {
   }
 }
 
-@Pipe({
-  name: 'formatTimer',
-  standalone: false,
-})
+@Pipe({ name: 'formatTimer' })
 class MockFormatTimerPipe implements PipeTransform {
   transform() {}
 }
@@ -65,8 +62,11 @@ describe('AsmSessionTimerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [AsmSessionTimerComponent, MockFormatTimerPipe],
+      imports: [
+        I18nTestingModule,
+        AsmSessionTimerComponent,
+        MockFormatTimerPipe,
+      ],
       providers: [
         {
           provide: ChangeDetectorRef,

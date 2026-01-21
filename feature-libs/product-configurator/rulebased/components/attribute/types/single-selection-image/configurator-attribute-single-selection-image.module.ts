@@ -13,9 +13,9 @@ import {
   KeyboardFocusModule,
   PopoverModule,
 } from '@spartacus/storefront';
-import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
+import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 
 @NgModule({
   imports: [
@@ -27,6 +27,7 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition/config
     IconModule,
     ConfiguratorPriceModule,
     PopoverModule,
+    ConfiguratorAttributeSingleSelectionImageComponent,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
@@ -40,7 +41,6 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition/config
       },
     }),
   ],
-  declarations: [ConfiguratorAttributeSingleSelectionImageComponent],
   exports: [ConfiguratorAttributeSingleSelectionImageComponent],
 })
 export class ConfiguratorAttributeSingleSelectionImageModule {}

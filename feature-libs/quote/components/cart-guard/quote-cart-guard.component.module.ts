@@ -11,7 +11,7 @@ import { QuoteCartGuardComponent } from './quote-cart-guard.component';
 import { QuoteCartGuard } from './quote-cart.guard';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
+  imports: [CommonModule, I18nModule, QuoteCartGuardComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -22,7 +22,6 @@ import { QuoteCartGuard } from './quote-cart.guard';
       },
     }),
   ],
-  declarations: [QuoteCartGuardComponent],
   exports: [QuoteCartGuardComponent],
 })
 export class QuoteCartGuardComponentModule {}

@@ -37,8 +37,7 @@ describe('OrderSubsequentDocumentListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OrderSubsequentDocumentListComponent],
+      imports: [I18nTestingModule, OrderSubsequentDocumentListComponent],
       providers: [],
     }).compileComponents();
   }));

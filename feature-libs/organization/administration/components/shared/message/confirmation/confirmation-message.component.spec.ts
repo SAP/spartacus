@@ -33,9 +33,8 @@ describe('ConfirmationMessageComponent', () => {
         KeyboardFocusTestingModule,
         I18nTestingModule,
         IconTestingModule,
+        ConfirmationMessageComponent,
       ],
-      declarations: [ConfirmationMessageComponent],
-
       providers: [
         {
           provide: MessageData,

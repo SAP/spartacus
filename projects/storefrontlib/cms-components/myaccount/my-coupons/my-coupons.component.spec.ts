@@ -1,23 +1,33 @@
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   DebugElement,
-  EventEmitter,
   ElementRef,
+  EventEmitter,
   Input,
   Output,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponService,
+  CxDatePipe,
   FeaturesConfig,
   I18nTestingModule,
+  TranslatePipe,
 } from '@spartacus/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '../../../layout/index';
+import {
+  CouponCardComponent,
+  IconComponent,
+  PaginationComponent,
+  SortingComponent,
+} from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { LAUNCH_CALLER, LaunchDialogService } from '../../../layout/index';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
 import { MyCouponsComponent } from './my-coupons.component';
@@ -35,7 +45,7 @@ import { MyCouponsComponentService } from './my-coupons.component.service';
       (click)="notificationChange()"
     />
   `,
-  standalone: false,
+  imports: [I18nTestingModule, SpinnerModule, AsyncPipe],
 })
 class MockedCouponCardComponent {
   @Input()
@@ -61,7 +71,7 @@ class MockedCouponCardComponent {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, SpinnerModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -128,7 +138,6 @@ const sortLabels = {
 @Component({
   template: '',
   selector: 'cx-pagination',
-  standalone: false,
 })
 class MockPaginationComponent {
   @Input() pagination;
@@ -138,7 +147,6 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  standalone: false,
 })
 class MockSortingComponent {
   @Input() sortOptions;
@@ -180,8 +188,10 @@ describe('MyCouponsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, SpinnerModule],
-      declarations: [
+      imports: [
+        RouterModule.forRoot([]),
+        I18nTestingModule,
+        SpinnerModule,
         MyCouponsComponent,
         MockedCouponCardComponent,
         MockCxIconComponent,
@@ -203,7 +213,31 @@ describe('MyCouponsComponent', () => {
           },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MyCouponsComponent, {
+        remove: {
+          imports: [
+            IconComponent,
+            TranslatePipe,
+            CxDatePipe,
+            SortingComponent,
+            PaginationComponent,
+            CouponCardComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockedCouponCardComponent,
+            MockCxIconComponent,
+            MockPaginationComponent,
+            MockSortingComponent,
+            I18nTestingModule,
+            SpinnerModule,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -5,12 +5,12 @@
  */
 
 import { Component, Input } from '@angular/core';
-import { PaginationModel } from '@spartacus/core';
+import { PaginationModel, TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-pagination-details',
   templateUrl: './store-finder-pagination-details.component.html',
-  standalone: false,
+  imports: [TranslatePipe],
 })
 export class StoreFinderPaginationDetailsComponent {
   @Input()

@@ -18,7 +18,6 @@ import { switchMap, take } from 'rxjs';
   selector: 'cx-punchout-session',
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
 })
 export class PunchoutSessionComponent implements OnInit {
   protected activatedRoute = inject(ActivatedRoute);

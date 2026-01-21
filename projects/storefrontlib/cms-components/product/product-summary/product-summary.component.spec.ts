@@ -24,8 +24,12 @@ describe('ProductSummaryComponent in product', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ItemCounterModule, I18nTestingModule],
-      declarations: [ProductSummaryComponent, OutletDirective],
+      imports: [
+        ItemCounterModule,
+        I18nTestingModule,
+        ProductSummaryComponent,
+        OutletDirective,
+      ],
       providers: [
         {
           provide: CurrentProductService,

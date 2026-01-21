@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,11 +26,18 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   PaymentDetails,
+  TranslatePipe,
   TranslationService,
   UserPaymentService,
   WindowRef,
 } from '@spartacus/core';
-import { Card, ICON_TYPE, SelectFocusUtility } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  ICON_TYPE,
+  SelectFocusUtility,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import {
   BehaviorSubject,
   combineLatest,
@@ -46,12 +54,21 @@ import {
   tap,
 } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
+import { CheckoutPaymentFormComponent } from './checkout-payment-form/checkout-payment-form.component';
 
 @Component({
   selector: 'cx-payment-method',
   templateUrl: './checkout-payment-method.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    CardComponent,
+    CheckoutPaymentFormComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();

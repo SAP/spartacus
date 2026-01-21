@@ -84,8 +84,6 @@ describe('TextfieldFormComponent', () => {
         ReactiveFormsModule,
         NgSelectModule,
         PageLayoutModule,
-      ],
-      declarations: [
         ConfiguratorTextfieldFormComponent,
         ConfiguratorTextfieldInputFieldComponent,
         ConfiguratorTextfieldAddToCartButtonComponent,

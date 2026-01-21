@@ -17,8 +17,8 @@ import {
 } from '@spartacus/core';
 import { ConfiguratorTextfieldAddToCartButtonComponent } from './add-to-cart-button/configurator-textfield-add-to-cart-button.component';
 import { ConfiguratorTextfieldFormComponent } from './form/configurator-textfield-form.component';
-import { ConfiguratorTextfieldInputFieldComponent } from './input-field/configurator-textfield-input-field.component';
 import { ConfiguratorTextfieldInputFieldReadonlyComponent } from './input-field-readonly/configurator-textfield-input-field-readonly.component';
+import { ConfiguratorTextfieldInputFieldComponent } from './input-field/configurator-textfield-input-field.component';
 
 @NgModule({
   imports: [
@@ -29,6 +29,10 @@ import { ConfiguratorTextfieldInputFieldReadonlyComponent } from './input-field-
     CommonModule,
     I18nModule,
     UrlModule,
+    ConfiguratorTextfieldFormComponent,
+    ConfiguratorTextfieldInputFieldComponent,
+    ConfiguratorTextfieldInputFieldReadonlyComponent,
+    ConfiguratorTextfieldAddToCartButtonComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -38,12 +42,6 @@ import { ConfiguratorTextfieldInputFieldReadonlyComponent } from './input-field-
         },
       },
     }),
-  ],
-  declarations: [
-    ConfiguratorTextfieldFormComponent,
-    ConfiguratorTextfieldInputFieldComponent,
-    ConfiguratorTextfieldInputFieldReadonlyComponent,
-    ConfiguratorTextfieldAddToCartButtonComponent,
   ],
   exports: [
     ConfiguratorTextfieldFormComponent,

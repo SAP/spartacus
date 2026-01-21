@@ -12,10 +12,11 @@ import {
   PLATFORM_ID,
   Renderer2,
   ViewContainerRef,
+  DOCUMENT,
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ComponentHandler } from './component-handler';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { CxApiService } from '../services/cx-api.service';
 import { CmsComponentMapping, Priority } from '@spartacus/core';
 import { CmsComponentData } from '../../model';

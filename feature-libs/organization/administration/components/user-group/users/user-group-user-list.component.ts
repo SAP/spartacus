@@ -5,6 +5,8 @@
  */
 
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@spartacus/core';
 import {
   LoadStatus,
   UserGroup,
@@ -26,7 +28,7 @@ import { UserGroupUserListService } from './user-group-user-list.service';
       useExisting: UserGroupUserListService,
     },
   ],
-  standalone: false,
+  imports: [SubListComponent, RouterLink, TranslatePipe],
 })
 export class UserGroupUserListComponent {
   constructor(

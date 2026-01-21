@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
   Component,
   DestroyRef,
+  DOCUMENT,
   ElementRef,
   HostBinding,
   HostListener,
@@ -18,22 +19,45 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterModule } from '@angular/router';
 import { RoutingService, useFeatureStyles } from '@spartacus/core';
 import { Observable, Subscription, tap } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { GlobalMessageComponent } from '../../cms-components/misc/global-message/global-message.component';
+import { OutletDirective } from '../../cms-structure/outlet/outlet.directive';
+import { PageLayoutComponent } from '../../cms-structure/page/page-layout/page-layout.component';
+import { PageTemplateDirective } from '../../cms-structure/page/page-layout/page-template.directive';
+import { PageSlotComponent } from '../../cms-structure/page/slot/page-slot.component';
 import {
   FocusConfig,
+  FocusDirective,
   KeyboardFocusService,
   SkipFocusConfig,
+  SkipFocusDirective,
 } from '../a11y/keyboard-focus/index';
-import { SkipLinkComponent, SkipLinkService } from '../a11y/skip-link/index';
+import {
+  SkipLinkComponent,
+  SkipLinkDirective,
+  SkipLinkService,
+} from '../a11y/skip-link/index';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontOutlets } from './storefront-outlets.model';
 
 @Component({
   selector: 'cx-storefront',
   templateUrl: './storefront.component.html',
-  standalone: false,
+  imports: [
+    RouterModule,
+    PageLayoutComponent,
+    PageSlotComponent,
+    FocusDirective,
+    SkipFocusDirective,
+    SkipLinkDirective,
+    GlobalMessageComponent,
+    AsyncPipe,
+    OutletDirective,
+    PageTemplateDirective,
+  ],
 })
 export class StorefrontComponent implements OnInit, OnDestroy {
   navigateSubscription: Subscription;

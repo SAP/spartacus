@@ -1,3 +1,4 @@
+import { Directive } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -7,12 +8,20 @@ import {
   CheckoutStepService,
 } from '@spartacus/checkout/base/components';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  I18nTestingModule,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CheckoutServiceDetailsFacade,
   S4ServiceDeliveryModeConfig,
 } from '@spartacus/s4-service/root';
-import { OutletModule } from '@spartacus/storefront';
+import {
+  InnerComponentsHostDirective,
+  OutletModule,
+} from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
 import { ServiceCheckoutDeliveryModeComponent } from './service-checkout-delivery-mode.component';
 import createSpy = jasmine.createSpy;
@@ -86,6 +95,11 @@ class MockCheckoutDeliveryModesFacade
     .and.returnValue(of(undefined));
 }
 
+@Directive({
+  selector: '[cxInnerComponentsHost]',
+})
+class MockInnerComponentsHostDirective {}
+
 describe('ServiceCheckoutDeliveryModeComponent', () => {
   let component: ServiceCheckoutDeliveryModeComponent;
   let fixture: ComponentFixture<ServiceCheckoutDeliveryModeComponent>;
@@ -93,8 +107,12 @@ describe('ServiceCheckoutDeliveryModeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, OutletModule],
-      declarations: [ServiceCheckoutDeliveryModeComponent],
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        OutletModule,
+        ServiceCheckoutDeliveryModeComponent,
+      ],
       providers: [
         {
           provide: CheckoutServiceDetailsFacade,
@@ -117,7 +135,16 @@ describe('ServiceCheckoutDeliveryModeComponent', () => {
           useClass: MockCheckoutDeliveryModesFacade,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ServiceCheckoutDeliveryModeComponent, {
+        remove: {
+          imports: [TranslatePipe, InnerComponentsHostDirective],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockInnerComponentsHostDirective],
+        },
+      })
+      .compileComponents();
     facade = TestBed.inject(CheckoutServiceDetailsFacade);
     spyOn(facade, 'hasServiceItems').and.callThrough();
     fixture = TestBed.createComponent(ServiceCheckoutDeliveryModeComponent);

@@ -17,7 +17,7 @@ import { UnitLevelOrderOverviewComponent } from './unit-level-order-overview.com
 @Component({
   selector: 'cx-card',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCardComponent {
   @Input()
@@ -133,8 +133,11 @@ describe('UnitLevelOrderOverviewComponent', () => {
   //TODO: investigate why 'waitForAsync' is not working in the spare time
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [UnitLevelOrderOverviewComponent, MockCardComponent],
+      imports: [
+        I18nTestingModule,
+        UnitLevelOrderOverviewComponent,
+        MockCardComponent,
+      ],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {

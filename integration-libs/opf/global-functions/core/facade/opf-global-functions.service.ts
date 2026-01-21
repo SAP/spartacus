@@ -12,18 +12,18 @@ import {
   inject,
 } from '@angular/core';
 import {
+  ActiveCartFacade,
+  Cart,
+  CartAccessCodeFacade,
+  DeliveryMode,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
+import {
   Address,
   RoutingService,
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
-import {
-  ActiveCartFacade,
-  Cart,
-  DeliveryMode,
-  MultiCartFacade,
-  CartAccessCodeFacade,
-} from '@spartacus/cart/base/root';
 import {
   OpfErrorDialogOptions,
   OpfKeyValueMap,
@@ -38,7 +38,9 @@ import {
   OpfGlobalFunctionsFacade,
   OpfRegisterGlobalFunctionsInput,
 } from '@spartacus/opf/global-functions/root';
+import { getBrowserInfo } from '@spartacus/opf/payment/core';
 import {
+  OpfPaymentConfig,
   OpfPaymentEventsService,
   OpfPaymentFacade,
   OpfPaymentGlobalMethods,
@@ -46,12 +48,10 @@ import {
   OpfPaymentMerchantCallback,
   OpfPaymentMethod,
   OpfPaymentSessionData,
-  OpfPaymentConfig,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
-import { getBrowserInfo } from '@spartacus/opf/payment/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import {
   Observable,
@@ -482,11 +482,19 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       cartId?: string
     ): Promise<Cart | undefined> => {
       return this.ngZone.run(() => {
-        const cart$ = cartId
-          ? this.multiCartFacade.getCart(cartId)
-          : this.opfQuickBuyTransactionService.getCurrentCart();
+        if (cartId) {
+          this.multiCartFacade.reloadCart(cartId);
+          return lastValueFrom(
+            this.multiCartFacade.getCart(cartId).pipe(take(1))
+          );
+        }
 
-        return lastValueFrom(cart$.pipe(take(1)));
+        return lastValueFrom(
+          this.reloadCartAndWaitForStable().pipe(
+            switchMap(() => this.activeCartFacade.takeActive()),
+            take(1)
+          )
+        );
       });
     };
   }
@@ -714,13 +722,33 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     };
   }
 
+  protected registerGetBillingAddress(domain: OpfGlobalFunctionsDomain): void {
+    this.getGlobalFunctionContainer(domain).getBillingAddress = (): Promise<
+      Address | undefined
+    > => {
+      return this.ngZone.run(() => {
+        return lastValueFrom(
+          this.reloadCartAndWaitForStable().pipe(
+            switchMap(() => this.activeCartFacade.takeActive()),
+            map((cart: Cart | undefined) => cart?.sapBillingAddress),
+            take(1)
+          )
+        );
+      });
+    };
+  }
+
   protected registerGetDeliveryAddress(domain: OpfGlobalFunctionsDomain): void {
     this.getGlobalFunctionContainer(domain).getDeliveryAddress = (): Promise<
       Address | undefined
     > => {
       return this.ngZone.run(() => {
         return lastValueFrom(
-          this.opfQuickBuyTransactionService.getDeliveryAddress().pipe(take(1))
+          this.reloadCartAndWaitForStable().pipe(
+            switchMap(() => this.activeCartFacade.takeActive()),
+            map((cart: Cart | undefined) => cart?.deliveryAddress),
+            take(1)
+          )
         );
       });
     };
@@ -744,9 +772,11 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     > => {
       return this.ngZone.run(() => {
         return lastValueFrom(
-          this.opfQuickBuyTransactionService
-            .getSelectedDeliveryMode()
-            .pipe(take(1))
+          this.reloadCartAndWaitForStable().pipe(
+            switchMap(() => this.activeCartFacade.takeActive()),
+            map((cart: Cart | undefined) => cart?.deliveryMode),
+            take(1)
+          )
         );
       });
     };

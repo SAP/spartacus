@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,28 +14,43 @@ import {
   Output,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { OrderEntriesSource, ProductData } from '@spartacus/cart/base/root';
 import { ImportExportConfig } from '@spartacus/cart/import-export/core';
+import { GlobalMessageType, TranslatePipe } from '@spartacus/core';
 import {
   FilesFormValidators,
+  FileUploadComponent,
+  FocusDirective,
+  FormErrorsComponent,
   FormUtils,
   ImportCsvFileService,
   LaunchDialogService,
+  MessageComponent,
 } from '@spartacus/storefront';
 import { of, Subject } from 'rxjs';
 import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
-import { GlobalMessageType } from '@spartacus/core';
 
 @Component({
   selector: 'cx-import-entries-form',
   templateUrl: './import-entries-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    MessageComponent,
+    FocusDirective,
+    FileUploadComponent,
+    FormErrorsComponent,
+    TranslatePipe,
+  ],
 })
 export class ImportEntriesFormComponent implements OnInit {
   form: UntypedFormGroup;

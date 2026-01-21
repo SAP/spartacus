@@ -22,23 +22,28 @@ import {
 } from '@spartacus/core';
 import { OrderOutlets, USE_MY_ACCOUNT_V2_ORDER } from '@spartacus/order/root';
 import {
+  BtnLikeLinkModule,
   CardModule,
   IconModule,
   KeyboardFocusModule,
+  MessageComponentModule,
   OutletModule,
   OutletPosition,
   OutletService,
   PromotionsModule,
   ProvideOutletOptions,
   SpinnerModule,
-  BtnLikeLinkModule,
-  MessageComponentModule,
 } from '@spartacus/storefront';
 import {
   MyAccountV2ConsignmentTrackingComponent,
   MyAccountV2DownloadInvoicesModule,
   MyAccountV2OrderDetailsActionsComponent,
 } from './my-account-v2';
+import {
+  OrderAttachmentsComponent,
+  OrderAttachmentsDialogComponent,
+} from './order-attachments';
+import { defaultOrderAttachmentsDialogLayoutConfig } from './order-attachments/default-order-attachments-dialog-layout.config';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { OrderDetailBillingComponent } from './order-detail-billing/order-detail-billing.component';
 import { ConsignmentTrackingComponent } from './order-detail-items/consignment-tracking/consignment-tracking.component';
@@ -49,14 +54,9 @@ import { OrderDetailItemsComponent } from './order-detail-items/order-detail-ite
 import { OrderDetailReorderComponent } from './order-detail-reorder/order-detail-reorder.component';
 import { ReorderDialogComponent } from './order-detail-reorder/reorder-dialog/reorder-dialog.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
+import { OrderOverviewComponentService } from './order-overview/order-overview-component.service';
 import { OrderOverviewComponent } from './order-overview/order-overview.component';
 import { defaultReorderLayoutConfig } from './reoder-layout.config';
-import { OrderOverviewComponentService } from './order-overview/order-overview-component.service';
-import {
-  OrderAttachmentsComponent,
-  OrderAttachmentsDialogComponent,
-} from './order-attachments';
-import { defaultOrderAttachmentsDialogLayoutConfig } from './order-attachments/default-order-attachments-dialog-layout.config';
 
 function registerOrderOutletFactory(): () => void {
   const isMyAccountV2 = inject(USE_MY_ACCOUNT_V2_ORDER);
@@ -121,6 +121,7 @@ const moduleComponents = [
     AbstractOrderContextModule,
     BtnLikeLinkModule,
     MessageComponentModule,
+    ...moduleComponents,
   ],
   providers: [
     OrderOverviewComponentService,
@@ -185,7 +186,6 @@ const moduleComponents = [
       multi: true,
     },
   ],
-  declarations: [...moduleComponents],
   exports: [...moduleComponents],
 })
 export class OrderDetailsModule {}

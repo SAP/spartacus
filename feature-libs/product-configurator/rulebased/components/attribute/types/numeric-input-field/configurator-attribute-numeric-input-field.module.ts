@@ -20,6 +20,7 @@ import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-
     CommonModule,
     I18nModule,
     IconModule,
+    ConfiguratorAttributeNumericInputFieldComponent,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
@@ -31,7 +32,6 @@ import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-
       },
     }),
   ],
-  declarations: [ConfiguratorAttributeNumericInputFieldComponent],
   exports: [ConfiguratorAttributeNumericInputFieldComponent],
 })
 export class ConfiguratorAttributeNumericInputFieldModule {}

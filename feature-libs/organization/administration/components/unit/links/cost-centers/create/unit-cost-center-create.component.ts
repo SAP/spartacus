@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CostCenterFormComponent } from '../../../../cost-center/form/cost-center-form.component';
 import { CostCenterItemService } from '../../../../cost-center/services/cost-center-item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitCostCenterItemService } from './unit-cost-center-item.service';
@@ -23,7 +25,7 @@ import { UnitCostCenterItemService } from './unit-cost-center-item.service';
       useExisting: UnitCostCenterItemService,
     },
   ],
-  standalone: false,
+  imports: [CostCenterFormComponent, AsyncPipe],
 })
 export class UnitCostCenterCreateComponent {
   unitKey$: Observable<string> = this.unitService.key$;

@@ -12,6 +12,7 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   ActiveCartFacade,
   Cart,
@@ -21,12 +22,19 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   ActivatedRouterStateSnapshot,
+  CxDatePipe,
+  FeatureDirective,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   RouterState,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
+  IconComponent,
   KeyboardFocusTestingModule,
   LaunchDialogService,
   PromotionsModule,
@@ -36,6 +44,7 @@ import { cold } from 'jasmine-marbles';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { skip, take } from 'rxjs/operators';
+import { CartItemComponent } from '../cart-shared';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
@@ -100,7 +109,14 @@ const mockOrderEntries: OrderEntry[] = [
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SpinnerModule,
+    I18nTestingModule,
+    PromotionsModule,
+    KeyboardFocusTestingModule,
+  ],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -118,7 +134,14 @@ class MockRoutingService implements Partial<RoutingService> {
 @Component({
   selector: 'cx-cart-item',
   template: '',
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    SpinnerModule,
+    I18nTestingModule,
+    PromotionsModule,
+    KeyboardFocusTestingModule,
+  ],
 })
 class MockCartItemComponent {
   @Input() compact = false;
@@ -128,10 +151,7 @@ class MockCartItemComponent {
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -150,16 +170,10 @@ describe('AddedToCartDialogComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         SpinnerModule,
-        I18nTestingModule,
         PromotionsModule,
         KeyboardFocusTestingModule,
-      ],
-      declarations: [
         AddedToCartDialogComponent,
-        MockCartItemComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-        MockFeatureDirective,
+        RouterModule,
       ],
       providers: [
         {
@@ -172,7 +186,30 @@ describe('AddedToCartDialogComponent', () => {
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AddedToCartDialogComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CartItemComponent,
+            UrlPipe,
+            IconComponent,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCartItemComponent,
+            MockUrlPipe,
+            MockCxIconComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

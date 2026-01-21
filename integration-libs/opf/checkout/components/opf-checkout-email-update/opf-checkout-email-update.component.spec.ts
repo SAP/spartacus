@@ -9,15 +9,14 @@ import {
 import {
   RoutingService,
   SemanticPathService,
+  TranslatePipe,
   UserIdService,
 } from '@spartacus/core';
+import { FormErrorsComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OpfCheckoutEmailUpdateComponent } from './opf-checkout-email-update.component';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -25,7 +24,6 @@ class MockTranslatePipe implements PipeTransform {
 @Component({
   selector: 'cx-form-errors',
   template: '',
-  standalone: false,
 })
 class MockFormErrorsComponent {
   @Input() control: UntypedFormControl;
@@ -62,11 +60,7 @@ describe('OpfCheckoutEmailUpdateComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      declarations: [
-        OpfCheckoutEmailUpdateComponent,
-        MockTranslatePipe,
-        MockFormErrorsComponent,
-      ],
+      imports: [OpfCheckoutEmailUpdateComponent],
       providers: [
         { provide: CartGuestUserFacade, useValue: cartGuestUserFacadeSpy },
         { provide: MultiCartFacade, useValue: multiCartFacadeSpy },
@@ -75,7 +69,16 @@ describe('OpfCheckoutEmailUpdateComponent', () => {
         { provide: SemanticPathService, useValue: semanticPathServiceSpy },
         { provide: ActiveCartFacade, useValue: activeCartFacadeSpy },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OpfCheckoutEmailUpdateComponent, {
+        remove: {
+          imports: [TranslatePipe, FormErrorsComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockFormErrorsComponent],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(OpfCheckoutEmailUpdateComponent);
     component = fixture.componentInstance;

@@ -39,7 +39,7 @@ describe('ViewComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ViewComponent],
+      imports: [ViewComponent],
       providers: [
         { provide: SplitViewService, useClass: MockSplitViewService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
