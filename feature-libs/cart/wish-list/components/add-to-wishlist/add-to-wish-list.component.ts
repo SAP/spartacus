@@ -16,7 +16,6 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import {
   AuthService,
-  FeatureDirective,
   Product,
   TranslatePipe,
   UrlPipe,
@@ -38,7 +37,6 @@ import { filter, map, take, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
-    FeatureDirective,
     AtMessageDirective,
     IconComponent,
     BtnLikeLinkDirective,
