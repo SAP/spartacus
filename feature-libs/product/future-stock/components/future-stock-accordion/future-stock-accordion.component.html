@@ -13,28 +13,55 @@
     ></cx-icon>
   </button>
 
-  <ng-container *ngIf="expanded">
-    <ng-container *ngIf="futureStocks?.futureStocks?.length; else noStocks">
-      <div
-        id="cx-future-stock-accordion-content"
-        class="cx-future-stock-accordion-content"
-        aria-labelledby="cx-future-stock-accordion-header"
-        *ngFor="let futureStock of futureStocks.futureStocks"
-      >
-        {{ futureStock.formattedDate }} -
-        {{ 'futureStockDropdown.quantity' | cxTranslate }}
-        {{ futureStock.stock.stockLevel }}
-      </div>
-    </ng-container>
+  <ng-container *cxFeature="'!a11yFutureStockAccordionAriaControls'">
+    <ng-container *ngIf="expanded">
+      <ng-container *ngIf="futureStocks?.futureStocks?.length; else noStocks">
+        <div
+          id="cx-future-stock-accordion-content"
+          class="cx-future-stock-accordion-content"
+          aria-labelledby="cx-future-stock-accordion-header"
+          *ngFor="let futureStock of futureStocks.futureStocks"
+        >
+          {{ futureStock.formattedDate }} -
+          {{ 'futureStockDropdown.quantity' | cxTranslate }}
+          {{ futureStock.stock.stockLevel }}
+        </div>
+      </ng-container>
 
-    <ng-template #noStocks>
-      <div
-        id="cx-future-stock-accordion-content"
-        class="cx-future-stock-accordion-content"
-        aria-labelledby="cx-future-stock-accordion-header"
-      >
-        {{ 'futureStockDropdown.noFutureStocks' | cxTranslate }}
-      </div>
-    </ng-template>
+      <ng-template #noStocks>
+        <div
+          id="cx-future-stock-accordion-content"
+          class="cx-future-stock-accordion-content"
+          aria-labelledby="cx-future-stock-accordion-header"
+        >
+          {{ 'futureStockDropdown.noFutureStocks' | cxTranslate }}
+        </div>
+      </ng-template>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *cxFeature="'a11yFutureStockAccordionAriaControls'">
+    <div id="cx-future-stock-accordion-content" [hidden]="!expanded">
+      <ng-container *ngIf="futureStocks?.futureStocks?.length; else noStocks">
+        <div
+          class="cx-future-stock-accordion-content"
+          aria-labelledby="cx-future-stock-accordion-header"
+          *ngFor="let futureStock of futureStocks.futureStocks"
+        >
+          {{ futureStock.formattedDate }} -
+          {{ 'futureStockDropdown.quantity' | cxTranslate }}
+          {{ futureStock.stock.stockLevel }}
+        </div>
+      </ng-container>
+
+      <ng-template #noStocks>
+        <div
+          class="cx-future-stock-accordion-content"
+          aria-labelledby="cx-future-stock-accordion-header"
+        >
+          {{ 'futureStockDropdown.noFutureStocks' | cxTranslate }}
+        </div>
+      </ng-template>
+    </div>
   </ng-container>
 </ng-container>

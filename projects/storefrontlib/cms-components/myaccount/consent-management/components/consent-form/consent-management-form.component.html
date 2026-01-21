@@ -1,4 +1,7 @@
-<div class="form-check">
+<div
+  class="form-check"
+  [class.disabled-consent]="disabled || isRequired(consentTemplate?.id)"
+>
   <label>
     <input
       type="checkbox"
@@ -13,10 +16,6 @@
         {{ consentTemplate?.name }}
         <br />
       </ng-container>
-    </span>
-    <span class="form-check-label">
-      {{ consentTemplate?.description }}
-      <ng-template [ngTemplateOutlet]="requiredAsterisk"></ng-template>
     </span>
   </label>
   <span class="form-check-label">
