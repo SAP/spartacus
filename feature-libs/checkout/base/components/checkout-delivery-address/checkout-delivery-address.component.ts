@@ -20,7 +20,6 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   TranslatePipe,
@@ -70,9 +69,6 @@ export interface CardWithAddress {
 })
 export class CheckoutDeliveryAddressComponent implements OnInit {
   protected checkoutConfigService = inject(CheckoutConfigService);
-  @Optional() protected featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
   protected busy$ = new BehaviorSubject<boolean>(false);
 
   cards$: Observable<CardWithAddress[]>;

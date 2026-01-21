@@ -16,7 +16,7 @@ import {
   ReactiveFormsModule,
   UntypedFormControl,
 } from '@angular/forms';
-import { Config, FeatureConfigService, TranslatePipe } from '@spartacus/core';
+import { Config, TranslatePipe } from '@spartacus/core';
 import {
   FocusDirective,
   ICON_TYPE,
@@ -64,7 +64,6 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
 
   iconTypes = ICON_TYPE;
   protected config = inject(Config);
-  protected featureConfigService = inject(FeatureConfigService);
 
   constructor(
     protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
