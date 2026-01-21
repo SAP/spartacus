@@ -8,12 +8,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import {
-  Card,
-  CardModule,
-  ICON_TYPE,
-  IconModule,
-} from '@spartacus/storefront';
+import { Card, CardModule, ICON_TYPE, IconModule } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { OpfCheckoutReviewCardEditConfig } from './opf-checkout-review-card.model';
 

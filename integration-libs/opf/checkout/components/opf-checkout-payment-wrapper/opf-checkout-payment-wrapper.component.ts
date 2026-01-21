@@ -29,11 +29,7 @@ import {
   SafeResourceUrl,
 } from '@angular/platform-browser';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import {
-  CurrencyService,
-  I18nModule,
-  LanguageService,
-} from '@spartacus/core';
+import { CurrencyService, I18nModule, LanguageService } from '@spartacus/core';
 import { OpfConfig } from '@spartacus/opf/base/root';
 import {
   OpfGlobalFunctionsDomain,

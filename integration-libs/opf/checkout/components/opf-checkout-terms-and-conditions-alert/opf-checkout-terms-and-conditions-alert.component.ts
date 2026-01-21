@@ -6,11 +6,11 @@
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import {
-    ChangeDetectionStrategy,
-    Component,
-    inject,
-    Input,
-    OnInit,
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+  OnInit,
 } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';

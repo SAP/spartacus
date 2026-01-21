@@ -20,12 +20,7 @@ import { AtMessageModule } from '@spartacus/storefront';
   standalone: true,
   templateUrl: './opf-b2b-checkout-place-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    AtMessageModule,
-    I18nModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, AtMessageModule, I18nModule],
 })
 export class OpfB2bCheckoutPlaceOrderComponent
   extends CheckoutPlaceOrderComponent

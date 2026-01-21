@@ -24,10 +24,7 @@ import {
   SemanticPathService,
   UserIdService,
 } from '@spartacus/core';
-import {
-  CustomFormValidators,
-  FormErrorsModule,
-} from '@spartacus/storefront';
+import { CustomFormValidators, FormErrorsModule } from '@spartacus/storefront';
 import { combineLatest, switchMap, take, tap } from 'rxjs';
 
 @Component({
