@@ -42,7 +42,6 @@ const appOptions: ApplicationOptions = {
   inlineTemplate: false,
   style: Style.Scss,
   skipTests: false,
-  standalone: true,
   zoneless: false,
   fileNameStyleGuide: FileNameStyleGuide.The2016,
 };

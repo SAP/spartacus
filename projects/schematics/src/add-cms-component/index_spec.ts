@@ -99,7 +99,6 @@ describe('add-cms-component', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
-    standalone: true,
     zoneless: false,
     fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
@@ -233,7 +232,6 @@ describe('add-cms-component', () => {
         name: 'dummy',
         module: moduleName,
         export: true,
-        standalone: true,
         type: 'component',
       };
       const modifiedOptions: CxCmsComponentSchema = {
