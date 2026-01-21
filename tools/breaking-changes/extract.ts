@@ -34,7 +34,26 @@ if (!fs.existsSync(`${spartacusHomeDir}/temp`)) {
   fs.mkdirSync(`${spartacusHomeDir}/temp`);
 }
 
-const files = globSync(`${spartacusHomeDir}/dist/**/public_api.d.ts`);
+// Try to find entry points in old format (public_api.d.ts)
+let files = globSync(`${spartacusHomeDir}/dist/**/public_api.d.ts`);
+
+// If no files found, try new format (bundled types in types/ folder)
+if (files.length === 0) {
+  console.log('No public_api.d.ts files found. Trying bundled types format...');
+  files = globSync(`${spartacusHomeDir}/dist/*/types/*.d.ts`);
+
+  if (files.length > 0) {
+    console.log(`Found ${files.length} bundled type files.`);
+    console.log('\n⚠️  WARNING: Bundled types format detected.');
+    console.log('The new version uses bundled types which may not be fully compatible with API Extractor.');
+    console.log('Consider rebuilding with augmented-types builder for accurate comparison.\n');
+    console.log('To rebuild with old format:');
+    console.log(`  1. cd ${spartacusHomeDir}`);
+    console.log('  2. Modify project.json files to use "augmented-types" instead of "declaration-merging"');
+    console.log('  3. Run: npm run build:libs\n');
+  }
+}
+
 const filteredFiles = files.filter((file: string) => {
   return !EXCLUDED_MODULES.some(excluded => file.includes(excluded));
 });
@@ -45,7 +64,10 @@ console.log(`Processing ${filteredFiles.length} entry points (${files.length - f
 const failedModules: string[] = [];
 filteredFiles.forEach((file: any, index: any) => {
   const libPath = path.dirname(file);
-  console.log(`Processing(${index + 1}/${filteredFiles.length}): ${libPath}`);
+  // Only log every 10th file to reduce noise
+  if (index % 10 === 0 || index === filteredFiles.length - 1) {
+    console.log(`Processing (${index + 1}/${filteredFiles.length}): ${libPath}`);
+  }
   try {
     runExtractor(libPath);
   } catch (error) {
@@ -57,6 +79,8 @@ filteredFiles.forEach((file: any, index: any) => {
   }
 });
 
+console.log(`\n✓ Successfully processed ${filteredFiles.length - failedModules.length}/${filteredFiles.length} modules`);
+
 if (failedModules.length > 0) {
   console.log(`\n⚠️  Failed to process ${failedModules.length} module(s):`);
   failedModules.forEach((module) => console.log(`  - ${module}`));
@@ -65,6 +89,20 @@ if (failedModules.length > 0) {
 
 function runExtractor(libPath: string) {
   preparePackageJson(libPath);
+
+  // For bundled types format, create a temporary public_api.d.ts that re-exports the bundled file
+  const publicApiPath = `${libPath}/public_api.d.ts`;
+  let createdTempFile = false;
+  if (!fs.existsSync(publicApiPath)) {
+    // Find the bundled type file in this directory
+    const bundledFiles = globSync(`${libPath}/*.d.ts`);
+    if (bundledFiles.length > 0) {
+      const bundledFile = path.basename(bundledFiles[0]);
+      fs.writeFileSync(publicApiPath, `export * from './${bundledFile.replace('.d.ts', '')}';\n`);
+      createdTempFile = true;
+    }
+  }
+
   const extractorConfig: ExtractorConfig = getExtractorConfig(libPath);
 
   // Invoke API Extractor
@@ -73,12 +111,19 @@ function runExtractor(libPath: string) {
     localBuild: true,
 
     // Equivalent to the "--verbose" command-line parameter
-    showVerboseMessages: true,
+    showVerboseMessages: false,
   });
 
+  // Clean up temporary file
+  if (createdTempFile && fs.existsSync(publicApiPath)) {
+    fs.unlinkSync(publicApiPath);
+  }
 
   if (extractorResult.succeeded) {
-    console.log(`API Extractor completed successfully`);
+    // Only log if there are errors (warnings are suppressed)
+    if (extractorResult.errorCount > 0) {
+      console.log(`✓ Completed with ${extractorResult.errorCount} errors`);
+    }
   } else {
     const errorMsg =
       `API Extractor completed with ${extractorResult.errorCount} errors` +
@@ -109,12 +154,10 @@ export function updateNameInPackageJson(libPath: string): {
 
 function preparePackageJson(libPath: string): void {
   if (!fs.existsSync(`${libPath}/package.json`)) {
-    console.log(`Create missing package.json in ${libPath}`);
     createPackageJsonFile(libPath);
   }
 
   // Update the package.json file
-  console.log(`update package name in file ${libPath}/package.json`);
   updateNameInPackageJson(libPath);
 }
 
@@ -143,13 +186,35 @@ function createPackageJsonFile(libPath: string) {
 }
 
 function getEntryPointName(libPath: string): string {
-  const indexFileContent = fs.readFileSync(`${libPath}/index.d.ts`, 'utf-8');
-  const startPos =
-    indexFileContent.indexOf('<amd-module name="') +
-    '<amd-module name='.length +
-    1;
-  const endPos = indexFileContent.indexOf('"', startPos);
-  return indexFileContent.substring(startPos, endPos);
+  // Try old format first (index.d.ts with amd-module)
+  const indexPath = `${libPath}/index.d.ts`;
+  if (fs.existsSync(indexPath)) {
+    const indexFileContent = fs.readFileSync(indexPath, 'utf-8');
+    const startPos =
+      indexFileContent.indexOf('<amd-module name="') +
+      '<amd-module name='.length +
+      1;
+    const endPos = indexFileContent.indexOf('"', startPos);
+    const name = indexFileContent.substring(startPos, endPos);
+    if (name) {
+      return name;
+    }
+  }
+
+  // For bundled types format, derive name from parent directory
+  // e.g., /dist/core/types -> @spartacus/core
+  const parentPath = path.dirname(libPath);
+  const packageJsonPath = `${parentPath}/package.json`;
+  if (fs.existsSync(packageJsonPath)) {
+    const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+    if (packageJson.name) {
+      return packageJson.name;
+    }
+  }
+
+  // Fallback: derive from directory structure
+  const beginIdx = parentPath.indexOf(distFolderPath) + distFolderPath.length + 1;
+  return `@spartacus/${parentPath.substring(beginIdx)}`;
 }
 
 function getExtractorConfig(libPath: string): ExtractorConfig {
