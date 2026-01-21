@@ -5,6 +5,7 @@
  */
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { APP_COMPONENT } from '../shared/constants';
 import { SPARTACUS_STOREFRONTLIB } from '../shared/libs-constants';
 import { createImports } from '../shared/utils/import-utils';
 import { createProgram, formatFile } from '../shared/utils/program';
@@ -21,7 +22,7 @@ export function addStorefrontComponentToAppComponent(
   return (tree: Tree, context: SchematicContext): Tree => {
     if (options.debug) {
       context.logger.info(
-        `⌛️ Adding StorefrontComponent to app.component.ts imports...`
+        `⌛️ Adding StorefrontComponent to ${APP_COMPONENT} imports...`
       );
     }
 
@@ -32,7 +33,7 @@ export function addStorefrontComponentToAppComponent(
       const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
       for (const sourceFile of appSourceFiles) {
-        if (sourceFile.getFilePath().includes('app.component.ts')) {
+        if (sourceFile.getFilePath().includes(APP_COMPONENT)) {
           // Add import for StorefrontComponent
           createImports(sourceFile, [
             {
@@ -48,7 +49,7 @@ export function addStorefrontComponentToAppComponent(
           formatFile(sourceFile);
           tree.overwrite(sourceFile.getFilePath(), sourceFile.getFullText());
           context.logger.info(
-            `✅ Added StorefrontComponent to app.component.ts imports`
+            `✅ Added StorefrontComponent to ${APP_COMPONENT} imports`
           );
           break;
         }

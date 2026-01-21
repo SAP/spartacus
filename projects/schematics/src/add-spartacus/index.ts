@@ -14,7 +14,12 @@ import {
 } from '@angular-devkit/schematics';
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import { RXJS } from '../shared/constants';
+import {
+  APP_COMPONENT_HTML,
+  APP_CONFIG,
+  APP_MODULE,
+  RXJS,
+} from '../shared/constants';
 import {
   analyzeCrossFeatureDependencies,
   analyzeCrossLibraryDependenciesByFeatures,
@@ -189,11 +194,11 @@ function updateMainComponent(
       context.logger.info(`⌛️ Updating main component...`);
     }
 
-    const filePath = project.sourceRoot + '/app/app.component.html';
+    const filePath = project.sourceRoot + `/app/${APP_COMPONENT_HTML}`;
     const buffer = host.read(filePath);
 
     if (!buffer) {
-      context.logger.warn(`Could not read app.component.html file.`);
+      context.logger.warn(`Could not read ${APP_COMPONENT_HTML} file.`);
       return;
     }
 
@@ -330,17 +335,17 @@ function detectAndSetupAppStructure(options: SpartacusOptions): Rule {
 
     // check if app module exists
     const appModule = appSourceFiles.find((sourceFile) =>
-      sourceFile.getFilePath().includes(`app.module.ts`)
+      sourceFile.getFilePath().includes(APP_MODULE)
     );
 
     // check if app.config.ts exists (standalone indicator)
     const appConfig = appSourceFiles.find((sourceFile) =>
-      sourceFile.getFilePath().includes(`app.config.ts`)
+      sourceFile.getFilePath().includes(APP_CONFIG)
     );
 
     if (!appModule && !appConfig) {
       throw new SchematicsException(
-        `Neither "app.module.ts" nor "app.config.ts" found. Please ensure your Angular application is properly set up.
+        `Neither "${APP_MODULE}" nor "${APP_CONFIG}" found. Please ensure your Angular application is properly set up.
 Please re-create your application:
 1. remove your application code
 2. make sure to pass the flag "--standalone=false --file-name-style-guide=2016" to the command "ng new". For more, see https://angular.io/cli/new#options

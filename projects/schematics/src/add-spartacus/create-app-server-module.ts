@@ -11,6 +11,7 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
+import { ANGULAR_SERVER_MODULE, APP_COMPONENT } from '../shared/constants';
 import { createProgram } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import { Schema as SpartacusOptions } from './schema';
@@ -22,7 +23,7 @@ export function createAppServerModule(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     if (options.debug) {
       context.logger.info(
-        `⌛️ Checking if app.module.server.ts needs to be created...`
+        `⌛️ Checking if ${ANGULAR_SERVER_MODULE} needs to be created...`
       );
     }
 
@@ -33,7 +34,7 @@ export function createAppServerModule(options: SpartacusOptions): Rule {
 
     // Check if app.module.server.ts already exists
     const appServerModuleExists = appSourceFiles.some((sourceFile) =>
-      sourceFile.getFilePath().includes('app.module.server.ts')
+      sourceFile.getFilePath().includes(ANGULAR_SERVER_MODULE)
     );
 
     if (!appServerModuleExists) {
@@ -44,7 +45,7 @@ export function createAppServerModule(options: SpartacusOptions): Rule {
       // Find the app directory
       let appDir: string | null = null;
       tree.visit((filePath: Path) => {
-        if (filePath.endsWith('/app/app.component.ts')) {
+        if (filePath.endsWith(`/${APP_COMPONENT}`)) {
           appDir = filePath.substring(0, filePath.lastIndexOf('/'));
         }
       });
@@ -53,13 +54,13 @@ export function createAppServerModule(options: SpartacusOptions): Rule {
         throw new SchematicsException('Could not find app directory');
       }
 
-      const appServerModulePath = `${appDir}/app.module.server.ts`;
+      const appServerModulePath = `${appDir}/${ANGULAR_SERVER_MODULE}`;
       const appServerModuleContent = `\nimport { NgModule } from '@angular/core';\n\n@NgModule({})\nexport class AppServerModule {}\n`;
 
       tree.create(appServerModulePath, appServerModuleContent);
       context.logger.info(`✅ Created ${appServerModulePath}`);
     } else {
-      context.logger.info(`✅ app.module.server.ts already exists`);
+      context.logger.info(`✅ ${ANGULAR_SERVER_MODULE} already exists`);
     }
 
     if (options.debug) {

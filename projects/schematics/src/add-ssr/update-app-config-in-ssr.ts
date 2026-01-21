@@ -7,6 +7,7 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { CallExpression, Node, SourceFile } from 'ts-morph';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
+import { APP_CONFIG } from '../shared/constants';
 import { createImports } from '../shared/utils/import-utils';
 import { createProgram, formatFile } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
@@ -18,7 +19,7 @@ import { getAppConfigProviders } from './get-app-config-providers';
 export function updateAppConfigInSsr(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     if (options.debug) {
-      context.logger.info(`⌛️ Updating app.config.ts...`);
+      context.logger.info(`⌛️ Updating ${APP_CONFIG}...`);
     }
 
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
@@ -28,14 +29,14 @@ export function updateAppConfigInSsr(options: SpartacusOptions): Rule {
       const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
       const sourceFile = appSourceFiles.find((file) =>
-        file.getFilePath().includes('app.config.ts')
+        file.getFilePath().includes(APP_CONFIG)
       );
       if (sourceFile) {
         addWithNoHttpTransferCacheToAppConfig(sourceFile);
         formatFile(sourceFile);
         tree.overwrite(sourceFile.getFilePath(), sourceFile.getFullText());
         if (options.debug) {
-          context.logger.info(`✅ Updated app.config.ts`);
+          context.logger.info(`✅ Updated ${APP_CONFIG}`);
         }
       }
     }

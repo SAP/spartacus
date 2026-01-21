@@ -8,6 +8,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { Node, SourceFile } from 'ts-morph';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { removeImportUsingTsMorph } from '../shared';
+import { APP_CONFIG_SERVER } from '../shared/constants';
 import { createImports } from '../shared/utils/import-utils';
 import { createProgram, formatFile } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
@@ -21,7 +22,7 @@ import { getAppConfigServerProviders } from './get-app-config-server-providers';
 export function updateAppConfigServer(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     if (options.debug) {
-      context.logger.info(`⌛️ Updating app.config.server.ts...`);
+      context.logger.info(`⌛️ Updating ${APP_CONFIG_SERVER}...`);
     }
 
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
@@ -31,7 +32,7 @@ export function updateAppConfigServer(options: SpartacusOptions): Rule {
       const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
       const serverConfigFile = appSourceFiles.find((file) =>
-        file.getFilePath().includes('app.config.server.ts')
+        file.getFilePath().includes(APP_CONFIG_SERVER)
       );
 
       if (serverConfigFile) {
@@ -43,7 +44,7 @@ export function updateAppConfigServer(options: SpartacusOptions): Rule {
           serverConfigFile.getFullText()
         );
 
-        context.logger.info(`✅ Updated app.config.server.ts`);
+        context.logger.info(`✅ Updated ${APP_CONFIG_SERVER}`);
         break;
       }
     }

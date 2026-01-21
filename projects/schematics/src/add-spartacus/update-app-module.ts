@@ -13,6 +13,7 @@ import {
 } from '@angular-devkit/schematics';
 import { SourceFile } from 'ts-morph';
 import {
+  APP_MODULE,
   APP_ROUTING_MODULE,
   APP_ROUTING_MODULE_LOCAL_FILENAME,
   APP_ROUTING_MODULE_LOCAL_PATH,
@@ -45,7 +46,7 @@ export function updateAppModule(options: SpartacusOptions): Rule {
       const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
       for (const sourceFile of appSourceFiles) {
-        if (sourceFile.getFilePath().includes(`app.module.ts`)) {
+        if (sourceFile.getFilePath().includes(APP_MODULE)) {
           addAppRoutingModuleImport(tree, context, sourceFile);
 
           formatFile(sourceFile);
