@@ -6,4 +6,3 @@
 
 export * from './opf-cta-quick-buy-buttons.component';
 export * from './opf-cta-quick-buy-buttons.module';
-

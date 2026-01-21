@@ -9,8 +9,8 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 
 import {
-    OpfDynamicCtaService,
-    OpfStaticCtaService,
+  OpfDynamicCtaService,
+  OpfStaticCtaService,
 } from '@spartacus/opf/cta/core';
 import { OpfCtaElementModule } from '../opf-cta-element';
 import { OpfCtaScriptsService } from '../opf-cta-scripts/opf-cta-scripts.service';
@@ -34,4 +34,3 @@ import { OpfCtaQuickBuyButtonsComponent } from './opf-cta-quick-buy-buttons.comp
   imports: [CommonModule, OpfCtaElementModule],
 })
 export class OpfCtaQuickBuyButtonsModule {}
-

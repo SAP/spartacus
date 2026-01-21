@@ -41,4 +41,3 @@ describe('OpfCtaQuickBuyButtonsComponent', () => {
     expect(opfCtaScriptsService.getQuickBuyCtaHtmlList).toHaveBeenCalled();
   });
 });
-
