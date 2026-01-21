@@ -281,13 +281,7 @@ describe('add-cms-component', () => {
       );
       assertContentExists(
         appTree,
-        [`declarations: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
-        existingModulePath
-      );
-      assertContentExists(appTree, [], existingModulePath);
-      assertContentExists(
-        appTree,
-        [`exports: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
+        [`exports: [`, `MyAwesomeCmsComponent`],
         existingModulePath
       );
       assertContentExists(
@@ -376,13 +370,7 @@ describe('add-cms-component', () => {
         );
         assertContentExists(
           appTree,
-          [`declarations: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
-          existingModulePath
-        );
-        assertContentExists(appTree, [], existingModulePath);
-        assertContentExists(
-          appTree,
-          [`exports: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
+          [`exports: [`, `MyAwesomeCmsComponent`],
           existingModulePath
         );
         assertContentExists(

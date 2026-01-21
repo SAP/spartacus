@@ -1045,7 +1045,7 @@ describe('File utils', () => {
           commentToInsert
         );
         expect(changes).toEqual([
-          new InsertChange(filePath, 187, commentToInsert),
+          new InsertChange(filePath, 261, commentToInsert),
         ]);
       });
     });
@@ -1064,7 +1064,7 @@ describe('File utils', () => {
           newName
         );
         expect(changes).toEqual([
-          new ReplaceChange(filePath, 200, oldName, newName),
+          new ReplaceChange(filePath, 274, oldName, newName),
         ]);
       });
     });
