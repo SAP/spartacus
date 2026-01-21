@@ -32,7 +32,7 @@ import { OccSubscriptionBillingAdapter } from './adapters/occ-subscription-billi
     {
       provide: SubscriptionBillingAdapter,
       useClass: OccSubscriptionBillingAdapter,
-    }
+    },
   ],
 })
 export class SubscriptionBillingOccModule {}

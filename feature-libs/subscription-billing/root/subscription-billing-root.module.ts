@@ -29,7 +29,7 @@ export function defaultSubscriptionBillingComponentsConfig(): CmsConfig {
           'SubscriptionHistoryComponent',
           'SubscriptionProductPriceComponent',
           'SubscriptionDetailsComponent',
-          'SubscriptionBillsHistoryComponent'
+          'SubscriptionBillsHistoryComponent',
         ],
       },
       [SUBSCRIPTION_BILLING_CORE_FEATURE]: SUBSCRIPTION_BILLING_FEATURE,

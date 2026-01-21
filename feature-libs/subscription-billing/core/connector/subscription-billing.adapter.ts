@@ -5,19 +5,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { SubscriptionBill, SubscriptionBillsList } from "@spartacus/subscription-billing/root";
-import { Observable } from "rxjs";
+import {
+  SubscriptionBill,
+  SubscriptionBillsList,
+} from '@spartacus/subscription-billing/root';
+import { Observable } from 'rxjs';
 
 export abstract class SubscriptionBillingAdapter {
-    abstract getSubscriptionBillsList(
-        userId: string,
-        pageSize?: number,
-        currentPage?: number,
-        sort?: string,
-        filter?: string
-    ): Observable<SubscriptionBillsList>;
-    abstract getSubscriptionBillByCode(
-        userId: string,
-        billId: string
-    ): Observable<SubscriptionBill>;
+  abstract getSubscriptionBillsList(
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string,
+    filter?: string
+  ): Observable<SubscriptionBillsList>;
+  abstract getSubscriptionBillByCode(
+    userId: string,
+    billId: string
+  ): Observable<SubscriptionBill>;
 }

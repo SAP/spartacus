@@ -55,7 +55,7 @@ export interface SubscriptionBillingOccEndpoints {
   /**
    * Endpoint for retrieving the list of subscription bills for a user.
    */
-  subscriptionBillList?: string | OccEndpoint;
+  subscriptionBillsList?: string | OccEndpoint;
 
   /**
    * Endpoint for retrieving a specific subscription bill by its ID.

@@ -1,91 +1,98 @@
 %cx-billing-list {
-    @mixin input-border {
-        border: 1px solid var(--cx-color-medium);
-        color: var(--cx-color-secondary);
+  margin-bottom: 10rem;
+
+  @mixin input-border {
+    border: 1px solid var(--cx-color-medium);
+    color: var(--cx-color-secondary);
+  }
+
+  @mixin table-first-col {
+    text-align: left;
+    padding-left: 10%;
+  }
+
+  .billing-list-title-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    background-color: var(--cx-color-light);
+    border-top: 1px solid var(--cx-color-medium);
+    border-bottom: 1px solid var(--cx-color-medium);
+    margin-bottom: 30px;
+
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0;
+      position: relative;
+      top: 2px;
+    }
+  }
+
+  .billing-list-filter-section {
+    .billing-list-sorting-bar {
+      .sort-label {
+        display: inline-block;
+        position: relative;
+        bottom: 4px;
+        font-weight: 600;
+      }
+      .ng-select-container {
+        @include input-border;
+      }
+      padding: 0 1rem 0 1.75rem;
+      width: 30%;
+      height: 40%;
     }
 
-    @mixin table-first-col {
-        text-align: left;
-        padding-left: 10%;
+    .date-filters {
+      input {
+        @include input-border;
+      }
+      font-weight: 600;
+      padding-left: 1rem;
     }
 
-    .billing-list-title-section {
-        display: flex;
-        justify-content: space-between;
-        padding: 2rem;
-        background-color: var(--cx-color-light);
-        border-top: 1px solid var(--cx-color-medium);
-        border-bottom: 1px solid var(--cx-color-medium);
-        margin-bottom: 30px;
-
-        h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin: 0;
-            position: relative;
-            top: 2px;
-        }
+    & .date-filters-wrapper,
+    & {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 1rem;
     }
+  }
 
-    .billing-list-filter-section {
-        .billing-list-sorting-bar {
-            .sort-label {
-                display: inline-block;
-                position: relative;
-                bottom: 4px;
-                font-weight: 600;
-            }
-            .ng-select-container {
-                @include input-border;
-            }
-            padding: 0 1rem 0 1.75rem;
-            width: 30%;
-            height: 40%;
-        }
+  .cx-billing-list-thead {
+    border-top: 1px solid var(--cx-color-medium);
 
-        .date-filters {
-            input {
-                @include input-border;
-            }
-            font-weight: 600;
-            padding-left: 1rem;
-        }
-
-        display: flex;
-        flex-direction: row;
-        margin-bottom: 1rem;
+    .bill-id-header {
+      width: 35%;
+      .cx-billing-list-table-header {
+        @include table-first-col;
+      }
     }
+  }
 
-    .cx-billing-list-thead {
-        border-top: 1px solid var(--cx-color-medium);
+  .cx-billing-list-table-header,
+  .cx-billing-list-table-col {
+    padding: 1rem 0px;
+    text-align: center;
+  }
 
-        .bill-id-header {
-            width: 35%;
-            .cx-billing-list-table-header {
-                @include table-first-col;
-            }
-        }
-    }
+  .cx-billing-list-table-col {
+    padding: 0.5rem 0;
+  }
 
-    .cx-billing-list-table-header, .cx-billing-list-table-col  {
-        padding: 1rem 0px;
-        text-align: center;
-    }
-
+  .bill-id-value {
     .cx-billing-list-table-col {
-        padding: 0.5rem 0;
+      @include table-first-col;
     }
+  }
 
-    .bill-id-value {
-        .cx-billing-list-table-col {
-            @include table-first-col;
-        }
-    }
-
-    .billing-list-pagination-bar {
-        margin-top: 20px;
-        padding-right: 24px;
-        display: flex;
-        justify-content: flex-end;
-    }
+  .billing-list-pagination-bar {
+    margin-top: 20px;
+    padding-right: 24px;
+    display: flex;
+    justify-content: flex-end;
+  }
 }

@@ -29,5 +29,5 @@ export const facadeProviders: Provider[] = [
   {
     provide: SubscriptionBillingFacade,
     useExisting: SubscriptionBillingService,
-  }
+  },
 ];

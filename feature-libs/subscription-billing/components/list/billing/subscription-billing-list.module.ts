@@ -15,8 +15,14 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { ListNavigationModule, SpinnerModule } from '@spartacus/storefront';
+import {
+  DatePickerModule,
+  FormErrorsModule,
+  ListNavigationModule,
+  SpinnerModule,
+} from '@spartacus/storefront';
 import { SubscriptionBillingListComponent } from './subscription-billing-list.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -26,6 +32,9 @@ import { SubscriptionBillingListComponent } from './subscription-billing-list.co
     RouterModule,
     SpinnerModule,
     CommonModule,
+    DatePickerModule,
+    FormErrorsModule,
+    ReactiveFormsModule,
   ],
   declarations: [SubscriptionBillingListComponent],
   exports: [SubscriptionBillingListComponent],

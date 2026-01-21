@@ -10,7 +10,8 @@
 $subscription-billing-components-allowlist:
   cx-subscription-product-price, cx-subscription-product-usage-charge,
   cx-subscription-list, cx-subscription-details, cx-subscription-cart-item-list,
-  cx-subscription-cart-price-body, cx-subscription-actions-modal, cx-billing-list !default;
+  cx-subscription-cart-price-body, cx-subscription-actions-modal,
+  cx-billing-list !default;
 
 $skipComponentStyles: () !default;
 

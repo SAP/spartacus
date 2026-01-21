@@ -22,7 +22,7 @@ export const defaultSubscriptionBillingRoutingConfig: RoutingConfig = {
       subscriptionBillDetails: {
         paths: ['my-account/subscription-bills/:billId'],
         paramsMapping: { billId: 'billId' },
-      }
+      },
     },
   },
 };

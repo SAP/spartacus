@@ -5,35 +5,123 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component } from '@angular/core';
-import { PaginationModel } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Component, inject } from '@angular/core';
+import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { CustomFormValidators, DatePickerService } from '@spartacus/storefront';
+import {
+  SubscriptionBillingFacade,
+  SubscriptionBillsList,
+} from '@spartacus/subscription-billing/root';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-billing-list',
-  templateUrl: './billing-list.component.html',
+  templateUrl: './subscription-billing-list.component.html',
   standalone: false,
 })
 export class SubscriptionBillingListComponent {
-  billingList$: Observable<{ id: string; date: string; status: string; totalAmount: string }[]> = of([
-    { id: 'BILL00', date: '2024-01-15', status: '1', totalAmount: '$100.00' },
-    { id: 'BILL0000000000000000', date: '2024-02-15', status: '2', totalAmount: '$150.00' },
-    { id: 'BILL00', date: '2024-03-15', status: '3', totalAmount: '$200.00' },
-    { id: 'BILL00', date: '2024-01-15', status: '3', totalAmount: '$100.00' },
-  ]);
+  protected subscriptionBillsFacade = inject(SubscriptionBillingFacade);
+  protected datePickerService = inject(DatePickerService);
 
-  pagination: PaginationModel = {
-    currentPage: 15,
-    pageSize: 10,
-    totalResults: 25,
-    totalPages: 36,
+  minDate: string | null = null;
+  maxDate: string | null = null;
+  PAGE_SIZE = 5;
+  listParams: {
+    sortCode?: string;
+    pageNumber?: number;
+    dateFilter?: string;
+  } = {
+    sortCode: undefined,
+    pageNumber: 0,
+    dateFilter: undefined,
   };
 
-  changeSortCode(sortCode: string): void {
-    console.log(sortCode);
+  constructor() {
+    this.billsDateFilterForm.addValidators(
+      CustomFormValidators.dateRange(
+        'from',
+        'to',
+        (value: string) => new Date(value)
+      ) as ValidatorFn
+    );
   }
 
-  pageChange(page: number): void {
-    console.log(page);
+  billingList$: Observable<SubscriptionBillsList | undefined> =
+    this.subscriptionBillsFacade.getSubscriptionBillsList(this.PAGE_SIZE);
+
+  billsDateFilterForm = new FormGroup({
+    from: new FormControl(''),
+    to: new FormControl(''),
+  });
+
+  onSortCodeChange(sort_code: string): void {
+    this.listParams = {
+      ...this.listParams,
+      sortCode: sort_code,
+      pageNumber: 0,
+    };
+    const { pageNumber, sortCode, dateFilter } = this.listParams;
+    this.billingList$ = this.subscriptionBillsFacade.getSubscriptionBillsList(
+      this.PAGE_SIZE,
+      pageNumber,
+      sortCode,
+      dateFilter
+    );
+  }
+
+  onPageChange(page_number: string): void {
+    this.listParams = {
+      ...this.listParams,
+      pageNumber: Number(page_number),
+    };
+    const { pageNumber, sortCode, dateFilter } = this.listParams;
+    this.billingList$ = this.subscriptionBillsFacade.getSubscriptionBillsList(
+      this.PAGE_SIZE,
+      pageNumber,
+      sortCode,
+      dateFilter
+    );
+  }
+
+  onDateFilterChange(): void {
+    this.minDate = this.billsDateFilterForm.controls['from'].value;
+    this.maxDate = this.billsDateFilterForm.controls['to'].value;
+
+    this.billsDateFilterForm.controls['from'].updateValueAndValidity();
+    this.billsDateFilterForm.controls['to'].updateValueAndValidity();
+
+    if (
+      this.minDate &&
+      this.maxDate &&
+      this.billsDateFilterForm.valid &&
+      !this.billsDateFilterForm.errors
+    ) {
+      const dateFilterParam = `startAt:${this.minDate}:endAt:${this.maxDate}`;
+      this.listParams = {
+        ...this.listParams,
+        dateFilter: dateFilterParam,
+        pageNumber: 0,
+      };
+      const { pageNumber, sortCode, dateFilter } = this.listParams;
+      this.billingList$ = this.subscriptionBillsFacade.getSubscriptionBillsList(
+        this.PAGE_SIZE,
+        pageNumber,
+        sortCode,
+        dateFilter
+      );
+    } else if (!this.minDate && !this.maxDate) {
+      this.listParams = {
+        ...this.listParams,
+        dateFilter: undefined,
+        pageNumber: 0,
+      };
+      const { pageNumber, sortCode, dateFilter } = this.listParams;
+      this.billingList$ = this.subscriptionBillsFacade.getSubscriptionBillsList(
+        this.PAGE_SIZE,
+        pageNumber,
+        sortCode,
+        dateFilter
+      );
+    }
   }
 }
