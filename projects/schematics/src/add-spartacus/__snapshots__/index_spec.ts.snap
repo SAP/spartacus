@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`add-spartacus on standalone Angular app app.component.html should match snapshot 1`] = `
+"<cx-storefront></cx-storefront>
+"
+`;
+
+exports[`add-spartacus on standalone Angular app app.component.ts should add StorefrontComponent to imports array 1`] = `
+"import { Component, signal } from '@angular/core';
+import { StorefrontComponent } from "@spartacus/storefront";
+
+@Component({
+  selector: 'app-root',
+  imports: [StorefrontComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
+})
+export class App {
+  protected readonly title = signal('standalone-test');
+}
+"
+`;
+
+exports[`add-spartacus on standalone Angular app app.config.ts should add provideHttpClient and importProvidersFrom(AppModule) 1`] = `
+"import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+
+import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
+import { AppModule } from "./app.module";
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
+    importProvidersFrom(AppModule)
+  ]
+};
+"
+`;
+
+exports[`add-spartacus on standalone Angular app app.module.ts should create empty app.module.ts for standalone app 1`] = `
+"import { NgModule } from '@angular/core';
+import { EffectsModule } from "@ngrx/effects";
+import { StoreModule } from "@ngrx/store";
+import { AppRoutingModule } from "@spartacus/storefront";
+import { SpartacusModule } from './spartacus/spartacus.module';
+
+@NgModule({
+  imports: [StoreModule.forRoot({}), EffectsModule.forRoot([]), AppRoutingModule, SpartacusModule]
+})
+export class AppModule { }
+"
+`;

@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`updateAppConfigInSsr - addWithNoHttpTransferCacheToAppConfig should add provideClientHydration with withEventReplay and withNoHttpTransferCache when not present 1`] = `
+"import { ApplicationConfig } from '@angular/core';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+        provideClientHydration(withEventReplay(), withNoHttpTransferCache())
+    ]
+};
+      "
+`;
+
+exports[`updateAppConfigInSsr - addWithNoHttpTransferCacheToAppConfig should handle existing provideClientHydration without arguments 1`] = `
+"import { ApplicationConfig } from '@angular/core';
+import { provideClientHydration } from '@angular/platform-browser';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideClientHydration()
+  ]
+};
+      "
+`;
+
+exports[`updateAppConfigInSsr - addWithNoHttpTransferCacheToAppConfig should not duplicate provideClientHydration if already exists with correct arguments 1`] = `
+"import { ApplicationConfig } from '@angular/core';
+import { provideClientHydration, withEventReplay, withNoHttpTransferCache } from '@angular/platform-browser';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideClientHydration(withEventReplay(), withNoHttpTransferCache())
+  ]
+};
+      "
+`;
