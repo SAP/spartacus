@@ -5,6 +5,7 @@
  */
 
 import * as fs from 'fs';
+import * as path from 'path';
 import { globSync } from 'glob';
 import { unEscapePackageName } from './common';
 /**
@@ -26,7 +27,10 @@ import { unEscapePackageName } from './common';
 const spartacusHomeDir = process.argv[2];
 console.log(`Parsing public API for libs in ${spartacusHomeDir}/temp.`);
 
-const files = globSync(`${spartacusHomeDir}/temp/*.api.json`);
+const tempDir = path.resolve(spartacusHomeDir, 'temp');
+const pattern = `${tempDir}/**/*.api.json`;
+console.log(`Looking for files with pattern: ${pattern}`);
+const files = globSync(pattern);
 console.log(`Found ${files.length} api.json files.`);
 const publicApiData: any[] = [];
 files.forEach((file) => {
