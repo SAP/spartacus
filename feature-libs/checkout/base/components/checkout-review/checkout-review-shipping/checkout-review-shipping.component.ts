@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   ActiveCartFacade,
@@ -20,7 +20,6 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  FeatureConfigService,
   TranslatePipe,
   TranslationService,
   UrlPipe,
@@ -53,8 +52,6 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
   ],
 })
 export class CheckoutReviewShippingComponent {
-  protected featureConfig = inject(FeatureConfigService);
-
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
 
