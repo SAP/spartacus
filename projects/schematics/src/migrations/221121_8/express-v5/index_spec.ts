@@ -11,7 +11,7 @@ import { join } from 'path';
 const collectionPath = join(__dirname, '../../migrations.json');
 const MIGRATION_SCRIPT_NAME = '02-migration-v221121_8-express-v5';
 
-fdescribe('Express v5 Migration', () => {
+describe('Express v5 Migration', () => {
   let tree: Tree;
   let runner: SchematicTestRunner;
 
