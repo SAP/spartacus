@@ -26,19 +26,11 @@ These will be the 2 versions compared for breaking changes.
 In both ./src/old and ./src/new, run `npm install` and `npm run build:libs`. 
 (Note if old release is < 6.0, it is `yarn install` and `yarn build:libs`)
 
-**Important**: If the new version uses `declaration-merging` builder (bundled types), you need to switch to `augmented-types` builder for accurate API comparison:
+**Note**: The tool supports both build formats:
+- `augmented-types` - generates separate .d.ts files per sub-entry point (~296 API files)
+- `declaration-merging` - generates bundled types (~16 API files)
 
-```bash
-# Run this script to switch all project.json files
-./switch-to-augmented-types.sh ../../src/new
-
-# Then rebuild the libraries
-cd ../../src/new
-npm run build:libs
-```
-
-This ensures that the public API is extracted in a format compatible with API Extractor.
-
+Both formats work correctly! The final comparison operates on the same data structure regardless of the number of intermediate files.
 
 - Extract the public API.
 Run `npm run extract-all` in the breaking change tool home folder (tools/breaking-changes/).  This will extract the public api in ./src/*/temp folder into many files. (one per entry point)
