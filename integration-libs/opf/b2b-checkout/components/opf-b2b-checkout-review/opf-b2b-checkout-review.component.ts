@@ -28,10 +28,10 @@ import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
   CmsService,
   CostCenter,
+  I18nModule,
   normalizeEmpty,
   Page,
-  TranslatePipe,
-  UrlPipe,
+  UrlModule,
 } from '@spartacus/core';
 import {
   OpfBaseFacade,
@@ -50,6 +50,7 @@ import { OpfB2bCheckoutPlaceOrderComponent } from '../opf-b2b-checkout-place-ord
 
 @Component({
   selector: 'cx-opf-b2b-checkout-review',
+  standalone: true,
   templateUrl: './opf-b2b-checkout-review.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -64,8 +65,8 @@ import { OpfB2bCheckoutPlaceOrderComponent } from '../opf-b2b-checkout-place-ord
     OpfCheckoutReviewCartDetailsComponent,
     OpfB2bCheckoutPlaceOrderComponent,
     AsyncPipe,
-    TranslatePipe,
-    UrlPipe,
+    I18nModule,
+    UrlModule,
   ],
 })
 export class OpfB2bCheckoutReviewComponent

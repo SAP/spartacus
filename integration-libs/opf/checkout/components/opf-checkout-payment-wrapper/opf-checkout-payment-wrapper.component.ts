@@ -31,8 +31,8 @@ import {
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CurrencyService,
+  I18nModule,
   LanguageService,
-  TranslatePipe,
 } from '@spartacus/core';
 import { OpfConfig } from '@spartacus/opf/base/root';
 import {
@@ -44,7 +44,7 @@ import {
   OpfPaymentRenderPattern,
   OpfPaymentSessionData,
 } from '@spartacus/opf/payment/root';
-import { SpinnerComponent } from '@spartacus/storefront';
+import { SpinnerModule } from '@spartacus/storefront';
 import { merge, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -57,6 +57,7 @@ import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper
 
 @Component({
   selector: 'cx-opf-checkout-payment-wrapper',
+  standalone: true,
   templateUrl: './opf-checkout-payment-wrapper.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -64,9 +65,9 @@ import { OpfCheckoutPaymentWrapperService } from './opf-checkout-payment-wrapper
     NgTemplateOutlet,
     NgFor,
     NgClass,
-    SpinnerComponent,
+    SpinnerModule,
     AsyncPipe,
-    TranslatePipe,
+    I18nModule,
   ],
 })
 export class OpfCheckoutPaymentWrapperComponent implements OnInit, OnDestroy {

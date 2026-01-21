@@ -3,12 +3,12 @@ import {
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
+  I18nModule,
   I18nTestingModule,
   MockTranslatePipe,
   PaginationModel,
   QueryState,
   Translatable,
-  TranslatePipe,
 } from '@spartacus/core';
 import {
   OpfActiveConfiguration,
@@ -28,7 +28,7 @@ import {
 } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { PaginationComponent } from '@spartacus/storefront';
+import { PaginationModule } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper';
@@ -38,6 +38,7 @@ import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component'
 @Component({
   template: '',
   selector: 'cx-pagination',
+  standalone: true,
   imports: [I18nTestingModule, OpfCheckoutTermsAndConditionsAlertModule],
 })
 class MockPaginationComponent {
@@ -48,6 +49,7 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-opf-checkout-payment-wrapper',
+  standalone: true,
   imports: [I18nTestingModule, OpfCheckoutTermsAndConditionsAlertModule],
 })
 class MockOpfCheckoutPaymentWrapperComponent {}
@@ -153,8 +155,8 @@ describe('OpfCheckoutPaymentsComponent', () => {
         remove: {
           imports: [
             OpfCheckoutPaymentWrapperComponent,
-            PaginationComponent,
-            TranslatePipe,
+            PaginationModule,
+            I18nModule,
           ],
         },
         add: {

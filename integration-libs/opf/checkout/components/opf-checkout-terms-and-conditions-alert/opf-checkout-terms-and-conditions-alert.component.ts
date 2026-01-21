@@ -6,23 +6,24 @@
 
 import { AsyncPipe, NgIf } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  Input,
-  OnInit,
+    ChangeDetectionStrategy,
+    Component,
+    inject,
+    Input,
+    OnInit,
 } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
+import { I18nModule } from '@spartacus/core';
 import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
-import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
+import { ICON_TYPE, IconModule } from '@spartacus/storefront';
 import { filter, take } from 'rxjs';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 
 @Component({
   selector: 'cx-opf-checkout-terms-and-conditions-alert',
+  standalone: true,
   templateUrl: './opf-checkout-terms-and-conditions-alert.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, IconComponent, TranslatePipe, AsyncPipe],
+  imports: [NgIf, IconModule, I18nModule, AsyncPipe],
 })
 export class OpfCheckoutTermsAndConditionsAlertComponent implements OnInit {
   protected opfMetadataStoreService = inject(OpfMetadataStoreService);

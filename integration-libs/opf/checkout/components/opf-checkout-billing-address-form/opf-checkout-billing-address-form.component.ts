@@ -18,32 +18,33 @@ import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import {
   Address,
   Country,
-  TranslatePipe,
+  I18nModule,
   UserAddressService,
 } from '@spartacus/core';
 import {
-  CardComponent,
+  CardModule,
   ICON_TYPE,
-  IconComponent,
-  SpinnerComponent,
+  IconModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
-import { AddressFormComponent } from '@spartacus/user/profile/components';
+import { AddressFormModule } from '@spartacus/user/profile/components';
 import { Observable, Subscription } from 'rxjs';
 import { GetAddressCardContent } from './get-address-card-content.pipe';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
 
 @Component({
   selector: 'cx-opf-checkout-billing-address-form',
+  standalone: true,
   templateUrl: './opf-checkout-billing-address-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
-    CardComponent,
-    IconComponent,
-    AddressFormComponent,
-    SpinnerComponent,
+    CardModule,
+    IconModule,
+    AddressFormModule,
+    SpinnerModule,
     AsyncPipe,
-    TranslatePipe,
+    I18nModule,
     GetAddressCardContent,
   ],
 })

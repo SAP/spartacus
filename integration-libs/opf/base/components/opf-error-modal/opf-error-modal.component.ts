@@ -17,7 +17,7 @@ import {
 import { OpfErrorDialogOptions } from '@spartacus/opf/base/root';
 import {
   FocusConfig,
-  FocusDirective,
+  KeyboardFocusModule,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, timer } from 'rxjs';
@@ -26,9 +26,10 @@ import { OpfErrorModalService } from './opf-error-modal.service';
 
 @Component({
   selector: 'cx-opf-error-modal',
+  standalone: true,
   templateUrl: './opf-error-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FocusDirective, NgIf, AsyncPipe],
+  imports: [KeyboardFocusModule, NgIf, AsyncPipe],
 })
 export class OpfErrorModalComponent implements OnInit {
   protected launchDialogService = inject(LaunchDialogService);

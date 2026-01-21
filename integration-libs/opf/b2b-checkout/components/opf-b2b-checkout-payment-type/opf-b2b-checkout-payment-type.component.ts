@@ -31,7 +31,7 @@ import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
   GlobalMessageService,
-  TranslatePipe,
+  I18nModule,
   UserIdService,
 } from '@spartacus/core';
 import {
@@ -40,7 +40,7 @@ import {
 } from '@spartacus/opf/base/root';
 import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
 import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
-import { SpinnerComponent } from '@spartacus/storefront';
+import { SpinnerModule } from '@spartacus/storefront';
 import {
   BehaviorSubject,
   filter,
@@ -53,6 +53,7 @@ import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-payment-type',
+  standalone: true,
   templateUrl: './opf-b2b-checkout-payment-type.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -60,9 +61,9 @@ import { map, tap } from 'rxjs/operators';
     ReactiveFormsModule,
     NgIf,
     OpfCheckoutPaymentsComponent,
-    SpinnerComponent,
+    SpinnerModule,
     AsyncPipe,
-    TranslatePipe,
+    I18nModule,
   ],
 })
 export class OpfB2bCheckoutPaymentTypeComponent

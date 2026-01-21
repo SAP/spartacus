@@ -12,18 +12,19 @@ import {
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
-import { TranslatePipe } from '@spartacus/core';
-import { AtMessageDirective } from '@spartacus/storefront';
+import { I18nModule } from '@spartacus/core';
+import { AtMessageModule } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-place-order',
+  standalone: true,
   templateUrl: './opf-b2b-checkout-place-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    AtMessageDirective,
-    TranslatePipe,
+    AtMessageModule,
+    I18nModule,
   ],
 })
 export class OpfB2bCheckoutPlaceOrderComponent

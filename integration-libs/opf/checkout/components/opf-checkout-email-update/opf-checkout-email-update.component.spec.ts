@@ -7,12 +7,12 @@ import {
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
 import {
+  I18nModule,
   RoutingService,
   SemanticPathService,
-  TranslatePipe,
   UserIdService,
 } from '@spartacus/core';
-import { FormErrorsComponent } from '@spartacus/storefront';
+import { FormErrorsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OpfCheckoutEmailUpdateComponent } from './opf-checkout-email-update.component';
 
@@ -72,7 +72,7 @@ describe('OpfCheckoutEmailUpdateComponent', () => {
     })
       .overrideComponent(OpfCheckoutEmailUpdateComponent, {
         remove: {
-          imports: [TranslatePipe, FormErrorsComponent],
+          imports: [I18nModule, FormErrorsModule],
         },
         add: {
           imports: [MockTranslatePipe, MockFormErrorsComponent],

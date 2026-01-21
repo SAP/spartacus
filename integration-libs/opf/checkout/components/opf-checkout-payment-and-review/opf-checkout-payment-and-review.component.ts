@@ -23,7 +23,7 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import { CmsService, Page, TranslatePipe, UrlPipe } from '@spartacus/core';
+import { CmsService, I18nModule, Page, UrlModule } from '@spartacus/core';
 import {
   OpfBaseFacade,
   OpfMetadataStoreService,
@@ -40,6 +40,7 @@ import { OpfCheckoutTermsAndConditionsAlertComponent } from '../opf-checkout-ter
 
 @Component({
   selector: 'cx-opf-checkout-payment-and-review',
+  standalone: true,
   templateUrl: './opf-checkout-payment-and-review.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -53,8 +54,8 @@ import { OpfCheckoutTermsAndConditionsAlertComponent } from '../opf-checkout-ter
     OpfCheckoutBillingAddressFormComponent,
     OpfCheckoutPaymentsComponent,
     AsyncPipe,
-    TranslatePipe,
-    UrlPipe,
+    I18nModule,
+    UrlModule,
     OpfCheckoutReviewCartDetailsComponent,
   ],
 })

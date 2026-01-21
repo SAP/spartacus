@@ -12,18 +12,19 @@ import {
   PromotionLocation,
 } from '@spartacus/cart/base/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
-import { TranslatePipe } from '@spartacus/core';
-import { OutletDirective, PromotionsComponent } from '@spartacus/storefront';
+import { I18nModule } from '@spartacus/core';
+import { OutletModule, PromotionsModule } from '@spartacus/storefront';
 import { OpfCheckoutReviewCardComponent } from '../opf-checkout-review-card';
 
 @Component({
   selector: 'cx-opf-checkout-review-cart-details',
+  standalone: true,
   templateUrl: './opf-checkout-review-cart-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    PromotionsComponent,
-    OutletDirective,
-    TranslatePipe,
+    PromotionsModule,
+    OutletModule,
+    I18nModule,
     AsyncPipe,
     OpfCheckoutReviewCardComponent,
     NgIf,

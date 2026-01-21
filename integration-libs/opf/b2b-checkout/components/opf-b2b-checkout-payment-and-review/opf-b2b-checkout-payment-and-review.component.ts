@@ -10,7 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Cart } from '@spartacus/cart/base/root';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { normalizeEmpty, TranslatePipe, UrlPipe } from '@spartacus/core';
+import { I18nModule, normalizeEmpty, UrlModule } from '@spartacus/core';
 import {
   OpfCheckoutBillingAddressFormComponent,
   OpfCheckoutPaymentAndReviewComponent,
@@ -24,6 +24,7 @@ import { combineLatest, filter, map, Observable, take } from 'rxjs';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-payment-and-review',
+  standalone: true,
   templateUrl: './opf-b2b-checkout-payment-and-review.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -38,8 +39,8 @@ import { combineLatest, filter, map, Observable, take } from 'rxjs';
     OpfCheckoutPaymentsComponent,
     OpfCheckoutReviewCartDetailsComponent,
     AsyncPipe,
-    TranslatePipe,
-    UrlPipe,
+    I18nModule,
+    UrlModule,
   ],
 })
 export class OpfB2bCheckoutPaymentAndReviewComponent

@@ -20,7 +20,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   BaseSiteService,
-  TranslatePipe,
+  I18nModule,
   TranslationService,
 } from '@spartacus/core';
 
@@ -31,7 +31,7 @@ import {
   OrderSummaryComponent,
 } from '@spartacus/cart/base/components';
 import { PickUpItemsDetailsComponent } from '@spartacus/pickup-in-store/components';
-import { OutletDirective, PromotionsComponent } from '@spartacus/storefront';
+import { OutletModule, PromotionsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OpfCheckoutReviewCartDetailsComponent } from './opf-checkout-review-cart-details.component';
 
@@ -162,12 +162,12 @@ describe('OpfCheckoutReviewCartDetailsComponent', () => {
       .overrideComponent(OpfCheckoutReviewCartDetailsComponent, {
         remove: {
           imports: [
-            TranslatePipe,
+            I18nModule,
             CartItemListComponent,
             OrderSummaryComponent,
             AppliedCouponsComponent,
-            PromotionsComponent,
-            OutletDirective,
+            PromotionsModule,
+            OutletModule,
             PickUpItemsDetailsComponent,
           ],
         },

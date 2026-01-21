@@ -19,26 +19,27 @@ import {
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
 import {
+  I18nModule,
   RoutingService,
   SemanticPathService,
-  TranslatePipe,
   UserIdService,
 } from '@spartacus/core';
 import {
   CustomFormValidators,
-  FormErrorsComponent,
+  FormErrorsModule,
 } from '@spartacus/storefront';
 import { combineLatest, switchMap, take, tap } from 'rxjs';
 
 @Component({
   selector: 'cx-opf-checkout-email-update',
+  standalone: true,
   templateUrl: './opf-checkout-email-update.component.html',
   imports: [
     FormsModule,
     ReactiveFormsModule,
     NgTemplateOutlet,
-    FormErrorsComponent,
-    TranslatePipe,
+    FormErrorsModule,
+    I18nModule,
   ],
 })
 export class OpfCheckoutEmailUpdateComponent {

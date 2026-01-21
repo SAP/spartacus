@@ -19,9 +19,9 @@ import {
 import {
   GlobalMessageService,
   GlobalMessageType,
+  I18nModule,
   PaginationModel,
   QueryState,
-  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -35,9 +35,9 @@ import {
 } from '@spartacus/opf/base/root';
 import {
   ICON_TYPE,
-  IconComponent,
-  PaginationComponent,
-  SpinnerComponent,
+  IconModule,
+  PaginationModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -46,18 +46,19 @@ import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrap
 
 @Component({
   selector: 'cx-opf-checkout-payments',
+  standalone: true,
   templateUrl: './opf-checkout-payments.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
     NgFor,
-    IconComponent,
+    IconModule,
     NgTemplateOutlet,
     OpfCheckoutPaymentWrapperComponent,
-    PaginationComponent,
-    SpinnerComponent,
+    PaginationModule,
+    SpinnerModule,
     AsyncPipe,
-    TranslatePipe,
+    I18nModule,
   ],
 })
 export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {

@@ -8,14 +8,15 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
-import { Card, CardComponent, OutletContextData } from '@spartacus/storefront';
+import { Card, CardModule, OutletContextData } from '@spartacus/storefront';
 import { filter, map, Observable, Subscription } from 'rxjs';
 import { OpfPaymentMethodDetails } from '../../model';
 
 @Component({
   selector: 'cx-opf-payment-method-details',
+  standalone: true,
   templateUrl: './opf-payment-method-details.component.html',
-  imports: [NgIf, CardComponent, AsyncPipe],
+  imports: [NgIf, CardModule, AsyncPipe],
 })
 export class OpfPaymentMethodDetailsComponent implements OnInit, OnDestroy {
   protected translationService = inject(TranslationService);
