@@ -5,8 +5,9 @@
 set -e
 
 # Configuration
-# File containing feature toggles
-TOGGLES_FILE="projects/core/src/features-config/feature-toggles/config/feature-toggles.ts"
+# Files containing feature toggles
+CSR_TOGGLES_FILE="projects/core/src/features-config/feature-toggles/config/feature-toggles.ts"
+SSR_TOGGLES_FILE="core-libs/setup/ssr/optimized-engine/ssr-optimization-options.ts"
 RELEASE_TRACKING_FILE="tools/config/const.ts"
 OVERRIDES_FILE="tools/config/feature-toggle-dates-overrides.json"
 
@@ -82,18 +83,19 @@ toggle_overrides=$(load_overrides)
 # Extract current toggles
 echo "📊 Analyzing current feature toggles..."
 
-# Function to extract feature toggles and their line numbers
-extract_toggles() {
+# Function to extract csr Spartacus feature toggles
+extract_csr_toggles() {
+    local file="$1"
     # Extract feature toggles from defaultFeatureToggles object
     # Find the start of the object (line with "export const defaultFeatureToggles")
-    local start_line=$(grep -n "export const defaultFeatureToggles" "$TOGGLES_FILE" | cut -d: -f1)
+    local start_line=$(grep -n "export const defaultFeatureToggles" "$file" | cut -d: -f1)
     if [ -z "$start_line" ]; then
-        echo "Error: Could not find defaultFeatureToggles object in $TOGGLES_FILE" >&2
+        echo "Error: Could not find defaultFeatureToggles object in $file" >&2
         return 1
     fi
     
     # Find the end of the object (closing brace followed by semicolon)
-    local end_line=$(sed -n "${start_line},\$p" "$TOGGLES_FILE" | grep -n "^};" | head -1 | cut -d: -f1)
+    local end_line=$(sed -n "${start_line},\$p" "$file" | grep -n "^};" | head -1 | cut -d: -f1)
     if [ -z "$end_line" ]; then
         echo "Error: Could not find end of defaultFeatureToggles object" >&2
         return 1
@@ -102,16 +104,55 @@ extract_toggles() {
     # Calculate actual line number
     end_line=$((start_line + end_line - 1))
     
-    # Extract the object content between the braces
-    sed -n "$((start_line + 1)),$((end_line - 1))p" "$TOGGLES_FILE" | \
+    # Extract the object content between the braces and prefix with source
+    sed -n "$((start_line + 1)),$((end_line - 1))p" "$file" | \
         grep -E "^\s*[a-zA-Z].*:\s*(true|false)" | \
         sed 's/^[[:space:]]*//' | \
-        sed 's/[[:space:]]*:[[:space:]]*/:/' | \
-        sed 's/,.*$//'
+        sed 's/,.*$//' | \
+        awk -F':' '{print "csr:" $1 ":" $2}'
 }
 
-current_toggles=$(extract_toggles)
-echo "Found $(echo "$current_toggles" | wc -l | tr -d ' ') feature toggles"
+# Function to extract SSR feature toggles  
+extract_ssr_toggles() {
+    local file="$1"
+    # Extract feature toggles from ssrFeatureToggles object in defaultSsrOptimizationOptions
+    # Find the start of ssrFeatureToggles
+    local start_line=$(grep -n "ssrFeatureToggles: {" "$file" | cut -d: -f1)
+    if [ -z "$start_line" ]; then
+        echo "Warning: Could not find ssrFeatureToggles object in $file" >&2
+        return 0  # Not an error, just no SSR toggles
+    fi
+    
+    # Find the end of the ssrFeatureToggles object (closing brace)
+    local end_line=$(sed -n "${start_line},\$p" "$file" | grep -n "^\s*}," | head -1 | cut -d: -f1)
+    if [ -z "$end_line" ]; then
+        echo "Warning: Could not find end of ssrFeatureToggles object" >&2
+        return 0
+    fi
+    
+    # Calculate actual line number
+    end_line=$((start_line + end_line - 1))
+    
+    # Extract the object content between the braces and prefix with source
+    sed -n "$((start_line + 1)),$((end_line - 1))p" "$file" | \
+        grep -E "^\s*[a-zA-Z].*:\s*(true|false)" | \
+        sed 's/^[[:space:]]*//' | \
+        sed 's/,.*$//' | \
+        awk -F':' '{print "ssr:" $1 ":" $2}'
+}
+
+# Extract toggles from both files
+csr_toggles=$(extract_csr_toggles "$CSR_TOGGLES_FILE")
+ssr_toggles=$(extract_ssr_toggles "$SSR_TOGGLES_FILE")
+
+# Combine all toggles
+current_toggles=$(printf "%s\n%s" "$csr_toggles" "$ssr_toggles" | grep -v "^$")
+
+csr_count=$(echo "$csr_toggles" | grep -c "^csr:" 2>/dev/null || echo 0)
+ssr_count=$(echo "$ssr_toggles" | grep -c "^ssr:" 2>/dev/null || echo 0)
+total_count=$((csr_count + ssr_count))
+
+echo "Found $csr_count CSR feature toggles and $ssr_count SSR feature toggles (total: $total_count)"
 echo ""
 
 # Arrays for results
@@ -119,22 +160,30 @@ declare -a TOGGLES_TO_REMOVE
 declare -a TOGGLES_TO_ENABLE
 
 # For each toggle, find when it was first released to customers
-while IFS=: read -r toggle_name current_value; do
-    if [[ -z "$toggle_name" ]]; then
+while IFS= read -r toggle_line; do
+    if [[ -z "$toggle_line" ]]; then
         continue
     fi
     
-    # Clean up toggle name and value
-    toggle_name=$(echo "$toggle_name" | sed 's/^[[:space:]]*//' | sed 's/[[:space:]]*$//')
-    current_value=$(echo "$current_value" | sed 's/^[[:space:]]*//' | sed 's/[[:space:]]*$//')
+    # Parse the line: source:name:value
+    source_type=$(echo "$toggle_line" | cut -d':' -f1)
+    toggle_name=$(echo "$toggle_line" | cut -d':' -f2)
+    current_value=$(echo "$toggle_line" | cut -d':' -f3 | sed 's/^[[:space:]]*//' | sed 's/[[:space:]]*$//')
     
     # Skip empty lines or invalid entries
     if [[ -z "$toggle_name" ]] || [[ "$toggle_name" =~ ^[[:space:]]*$ ]]; then
         continue
     fi
     
-    # Get current value
-    # We already have the current value from the parsing, no need to grep again
+    # Determine which file to search in based on source
+    if [[ "$source_type" == "csr" ]]; then
+        toggle_file="$CSR_TOGGLES_FILE"
+    elif [[ "$source_type" == "ssr" ]]; then
+        toggle_file="$SSR_TOGGLES_FILE"
+    else
+        echo "  ⚠️ Unknown source type '$source_type' for toggle '$toggle_name'" 
+        continue
+    fi
     
     # Find first release containing this toggle
     first_release_timestamp=""
@@ -147,7 +196,7 @@ while IFS=: read -r toggle_name current_value; do
         if [[ -n "$override_timestamp" ]]; then
             first_release_timestamp="$override_timestamp"
             first_release_date=$(format_date "$override_timestamp")
-            echo "  → Toggle '$toggle_name' has override date: $first_release_date"
+            echo "  → Toggle '$toggle_name' ($source_type) has override date: $first_release_date"
         fi
     fi
     
@@ -160,7 +209,7 @@ while IFS=: read -r toggle_name current_value; do
         fi
         
         # Check if toggle exists in this release
-        if git show "$commit_hash:$TOGGLES_FILE" 2>/dev/null | grep -q "$toggle_name:"; then
+        if git show "$commit_hash:$toggle_file" 2>/dev/null | grep -q "$toggle_name:"; then
             # Toggle exists in this release
             if [[ -z "$first_release_timestamp" ]]; then
                 # This is the first release we found it in
@@ -177,23 +226,22 @@ while IFS=: read -r toggle_name current_value; do
         done <<< "$(echo "$customer_releases" | sort -t'|' -k2 -n)"
     fi
     
-    # If no override and toggle was found in oldest release, use git blame for actual introduction date
+    # If no override and toggle was found in oldest release, use git log -S for actual introduction date
     if [[ -z "$override_date" ]] && [[ "$found_in_oldest" == "true" ]]; then
-        echo "  → Toggle '$toggle_name' exists in oldest release, using git blame for actual introduction date"
-        line_number=$(grep -n "$toggle_name:" "$TOGGLES_FILE" | head -1 | cut -d: -f1)
-        if [[ -n "$line_number" ]]; then
-            commit_hash=$(git blame -L "${line_number},${line_number}" "$TOGGLES_FILE" | awk '{print $1}')
+        echo "  → Toggle '$toggle_name' ($source_type) exists in oldest release, using git log -S for actual introduction date"
+        # Use git log -S to find when the toggle name was first introduced
+        commit_hash=$(git log -S "$toggle_name" --format="%H" -- "$toggle_file" | tail -1)
+        if [[ -n "$commit_hash" ]]; then
             first_release_timestamp=$(git show -s --format=%ct "$commit_hash" 2>/dev/null)
             first_release_date=$(format_date "$first_release_timestamp")
-            echo "    → Git blame result: $first_release_date (timestamp: $first_release_timestamp)"
+            echo "    → Git log -S result: $first_release_date (timestamp: $first_release_timestamp)"
         fi
     elif [[ -z "$override_date" ]] && [[ -n "$first_release_timestamp" ]]; then
-        echo "  → Toggle '$toggle_name' first appeared in release: $first_release_date"
+        echo "  → Toggle '$toggle_name' ($source_type) first appeared in release: $first_release_date"
     elif [[ -z "$override_date" ]] && [[ -z "$first_release_timestamp" ]]; then
-        echo "  → Toggle '$toggle_name' not found in any release - using git blame"
-        line_number=$(grep -n "$toggle_name:" "$TOGGLES_FILE" | head -1 | cut -d: -f1)
-        if [[ -n "$line_number" ]]; then
-            commit_hash=$(git blame -L "${line_number},${line_number}" "$TOGGLES_FILE" | awk '{print $1}')
+        echo "  → Toggle '$toggle_name' ($source_type) not found in any release - using git log -S"
+        commit_hash=$(git log -S "$toggle_name" --format="%H" -- "$toggle_file" | tail -1)
+        if [[ -n "$commit_hash" ]]; then
             first_release_timestamp=$(git show -s --format=%ct "$commit_hash" 2>/dev/null)
             first_release_date=$(format_date "$first_release_timestamp")
         fi
@@ -201,11 +249,11 @@ while IFS=: read -r toggle_name current_value; do
     
     # Categorize based on age
     if [[ $first_release_timestamp -lt $TWELVE_MONTHS_AGO ]]; then
-        TOGGLES_TO_REMOVE+=("$toggle_name|$current_value|$first_release_date")
+        TOGGLES_TO_REMOVE+=("$toggle_name ($source_type)|$current_value|$first_release_date")
     elif [[ $first_release_timestamp -lt $SIX_MONTHS_AGO ]]; then
         # Only add to enable list if currently false
         if [[ "$current_value" == "false" ]]; then
-            TOGGLES_TO_ENABLE+=("$toggle_name|$current_value|$first_release_date")
+            TOGGLES_TO_ENABLE+=("$toggle_name ($source_type)|$current_value|$first_release_date")
         fi
     fi
     
@@ -275,6 +323,7 @@ if [[ ${#TOGGLES_TO_REMOVE[@]} -gt 0 ]] || [[ ${#TOGGLES_TO_ENABLE[@]} -gt 0 ]];
     
     echo "💡 To apply changes, manually edit:"
     echo "   projects/core/src/features-config/feature-toggles/config/feature-toggles.ts"
+    echo "   core-libs/setup/ssr/optimized-engine/ssr-optimization-options.ts"
 fi
 
 # Exit with error code if action is needed
