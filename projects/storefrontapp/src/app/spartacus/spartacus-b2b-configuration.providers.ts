@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { makeEnvironmentProviders } from '@angular/core';
 import { defaultB2BCheckoutConfig } from '@spartacus/checkout/b2b/root';
 import { provideConfig } from '@spartacus/core';
 import { defaultB2bOccConfig } from '@spartacus/setup';
@@ -15,7 +16,7 @@ if (environment.epdVisualization) {
   baseSite.unshift('powertools-epdvisualization-spa');
 }
 
-export const spartacusB2bConfigurationProviders = [
+export const spartacusB2bConfigurationProviders = makeEnvironmentProviders([
   provideConfig(defaultB2bOccConfig),
   provideConfig(defaultB2BCheckoutConfig),
   provideConfig({
@@ -24,4 +25,4 @@ export const spartacusB2bConfigurationProviders = [
       baseSite: baseSite,
     },
   }),
-];
+]);

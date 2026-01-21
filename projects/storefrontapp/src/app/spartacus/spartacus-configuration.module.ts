@@ -66,7 +66,7 @@ let spartacusChannelSpecificConfigurationProviders = environment.b2b
       },
     }),
 
-    ...spartacusChannelSpecificConfigurationProviders,
+    spartacusChannelSpecificConfigurationProviders,
   ],
 })
 export class SpartacusConfigurationModule {}
