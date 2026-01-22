@@ -1,6 +1,6 @@
 # Modernizing Angular App Bootstrap with `bootstrapApplication()`
 
-Update your Spartacus app to use Angular’s modern `bootstrapApplication()` API (officially supported by Spartacus since v221121.8.0) instead of the legacy Angular's `bootstrapModule()` API. This aligns your app with current Angular best practices, making maintenance and upgrades easier.
+Update your Spartacus app to use Angular’s modern `bootstrapApplication()` API (officially supported by Spartacus since v221121.7.0) instead of the legacy Angular's `bootstrapModule()` API. This aligns your app with current Angular best practices, making maintenance and upgrades easier.
 
 ## File Changes for both CSR and SSR apps
 
