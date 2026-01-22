@@ -38,6 +38,10 @@ const breakingChangesData = common.readBreakingChangeFile();
 
 const apiElementsWithConstructorChanges = breakingChangesData.filter(
   (apiElement: any) => {
+    // Skip elements without breakingChanges array
+    if (!apiElement || !Array.isArray(apiElement.breakingChanges)) {
+      return false;
+    }
     return getConstructorChanges(apiElement).length > 0;
   }
 );
@@ -79,6 +83,9 @@ common.writeSchematicsDataOutput(
  * -----------
  */
 function getConstructorChanges(apiElement: any): any[] {
+  if (!apiElement || !Array.isArray(apiElement.breakingChanges)) {
+    return [];
+  }
   return apiElement.breakingChanges.filter((breakingChange: any) => {
     return (
       breakingChange.change === 'CONSTRUCTOR_CHANGED' &&
