@@ -7,6 +7,7 @@
 import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
 import { loginB2bUser } from '../../../../helpers/b2b/b2b-checkout';
 import * as cart from '../../../../helpers/cart';
+import { waitForPage } from '../../../../helpers/navigation';
 import {
   goToOrderDetails,
   interceptCartFromOrderEndpoint,
@@ -96,7 +97,15 @@ describe('Order History with orders', { testIsolation: false }, () => {
 
   describe('Order details - reorder', () => {
     it('should display order details page with the reorder button (CXSPA-1775)', () => {
+      const orderDetailsPage = waitForPage(
+        '/my-account/order/*',
+        'getOrderDetails'
+      );
       cy.get('.cx-order-history-value').first().click();
+
+      cy.wait(`@${orderDetailsPage}`)
+        .its('response.statusCode')
+        .should('eq', 200);
       cy.get('cx-order-details-reorder button').should('contain', 'Reorder');
     });
 
