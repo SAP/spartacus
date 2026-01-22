@@ -6,6 +6,7 @@
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { Project, SyntaxKind } from 'ts-morph';
+import { formatFile } from '../../shared';
 
 /**
  * Updates src/main.ts to use bootstrapApplication instead of bootstrapModule:
@@ -130,6 +131,7 @@ export function updateMainTs(): Rule {
       }
     }
 
+    formatFile(sourceFile);
     tree.overwrite(mainTsPath, sourceFile.getFullText());
 
     context.logger.info('✅ Updated main.ts');

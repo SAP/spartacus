@@ -6,6 +6,7 @@
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { Project, SyntaxKind } from 'ts-morph';
+import { formatFile } from '../../shared';
 
 /**
  * Moves provideClientHydration from app.module.ts to app.config.ts
@@ -94,6 +95,7 @@ export function moveHydrationConfig(): Rule {
 
     // If we found hydration config, move it to app.config.ts
     if (hydrationCallExpression) {
+      formatFile(appModuleSource);
       tree.overwrite(appModulePath, appModuleSource.getFullText());
 
       // Read app.config.ts
@@ -159,6 +161,7 @@ export function moveHydrationConfig(): Rule {
         }
       }
 
+      appConfigSource.formatText();
       tree.overwrite(appConfigPath, appConfigSource.getFullText());
 
       context.logger.info('✅ Moved hydration config to app.config.ts');

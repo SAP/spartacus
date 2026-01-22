@@ -6,6 +6,7 @@
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { Project, SyntaxKind } from 'ts-morph';
+import { formatFile } from '../../shared';
 
 /**
  * Updates src/main.server.ts:
@@ -116,6 +117,7 @@ export default bootstrap;
 
     sourceFile.addStatements(bootstrapFunction);
 
+    formatFile(sourceFile);
     tree.overwrite(mainServerPath, sourceFile.getFullText());
 
     context.logger.info('✅ Updated main.server.ts');

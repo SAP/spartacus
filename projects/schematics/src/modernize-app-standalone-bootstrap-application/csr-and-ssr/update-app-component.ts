@@ -6,6 +6,7 @@
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { Project, SyntaxKind } from 'ts-morph';
+import { formatFile } from '../../shared';
 
 /**
  * Updates src/app/app.component.ts to be a standalone component:
@@ -105,6 +106,7 @@ export function updateAppComponent(): Rule {
       });
     }
 
+    formatFile(sourceFile);
     tree.overwrite(appComponentPath, sourceFile.getFullText());
 
     context.logger.info('✅ Updated app.component.ts to standalone');

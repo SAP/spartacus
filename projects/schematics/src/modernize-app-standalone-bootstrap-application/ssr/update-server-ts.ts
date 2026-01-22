@@ -6,6 +6,7 @@
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { Project, SyntaxKind } from 'ts-morph';
+import { formatFile } from '../../shared';
 
 /**
  * Updates src/server.ts:
@@ -65,6 +66,7 @@ export function updateServerTs(): Rule {
       }
     }
 
+    formatFile(sourceFile);
     tree.overwrite(serverTsPath, sourceFile.getFullText());
 
     context.logger.info('✅ Updated server.ts');

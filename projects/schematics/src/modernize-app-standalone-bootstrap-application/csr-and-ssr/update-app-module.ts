@@ -6,6 +6,7 @@
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { Project, SyntaxKind } from 'ts-morph';
+import { formatFile } from '../../shared';
 
 /**
  * List of predefined providers to remove from AppModule.
@@ -155,6 +156,7 @@ export function updateAppModule(): Rule {
       }
     }
 
+    formatFile(sourceFile);
     tree.overwrite(appModulePath, sourceFile.getFullText());
 
     context.logger.info('✅ Updated app.module.ts');
