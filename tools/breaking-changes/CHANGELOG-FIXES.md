@@ -69,7 +69,7 @@ Successfully processed:
 - **src/new**: 319 files → 8,823 API elements
 - **Comparison**: ~28,000 individual breaking changes detected
 
-Output file: `data/221121_8/breaking-changes.json`
+Output file: `data/221121_7/breaking-changes.json`
 
 ---
 
