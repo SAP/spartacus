@@ -17,7 +17,7 @@ export abstract class SubscriptionBillingAdapter {
     pageSize?: number,
     currentPage?: number,
     sort?: string,
-    filter?: string
+    filters?: string
   ): Observable<SubscriptionBillsList>;
   abstract getSubscriptionBillByCode(
     userId: string,

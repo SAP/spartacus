@@ -46,7 +46,7 @@ export abstract class SubscriptionBillingFacade {
     pageSize?: number,
     currentPage?: number,
     sort?: string,
-    filter?: string
+    filters?: string
   ): Observable<SubscriptionBillsList | undefined>;
 
   abstract getSubscriptionBillCodeFromRoute(): Observable<string | undefined>;

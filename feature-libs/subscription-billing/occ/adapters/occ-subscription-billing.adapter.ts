@@ -32,7 +32,7 @@ export class OccSubscriptionBillingAdapter
     pageSize?: number,
     currentPage?: number,
     sort?: string,
-    filter?: string
+    filters?: string
   ): Observable<SubscriptionBillsList> {
     const url = this.occEndpoints.buildUrl('subscriptionBillsList', {
       urlParams: {
@@ -42,7 +42,7 @@ export class OccSubscriptionBillingAdapter
         pageSize,
         currentPage,
         sort,
-        filter,
+        filters,
       },
     });
     return this.http.get<SubscriptionBillsList>(url).pipe(

@@ -22,14 +22,14 @@ export class SubscriptionBillingConnector {
     pageSize?: number,
     currentPage?: number,
     sort?: string,
-    filter?: string
+    filters?: string
   ): Observable<SubscriptionBillsList> {
     return this.adapter.getSubscriptionBillsList(
       userId,
       pageSize,
       currentPage,
       sort,
-      filter
+      filters
     );
   }
 

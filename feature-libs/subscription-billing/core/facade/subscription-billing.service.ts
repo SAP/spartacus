@@ -90,13 +90,13 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
     pageSize?: number,
     currentPage?: number,
     sort?: string,
-    filter?: string
+    filters?: string
   ): Observable<SubscriptionBillsList | undefined> {
     return this.getSubscriptionBillsListState(
       pageSize,
       currentPage,
       sort,
-      filter
+      filters
     ).pipe(map((state) => state.data));
   }
 
