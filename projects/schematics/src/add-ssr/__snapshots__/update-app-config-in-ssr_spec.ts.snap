@@ -1,37 +1,21 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`updateAppConfigInSsr - addWithNoHttpTransferCacheToAppConfig should add provideClientHydration with withEventReplay and withNoHttpTransferCache when not present 1`] = `
-"import { ApplicationConfig } from '@angular/core';
+exports[`updateAppConfigInSsr should add provideClientHydration with withEventReplay and withNoHttpTransferCache to app.config.ts 1`] = `
+"import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+
+import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
+import { AppModule } from "./app.module";
+import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-        provideClientHydration(withEventReplay(), withNoHttpTransferCache())
-    ]
-};
-      "
-`;
-
-exports[`updateAppConfigInSsr - addWithNoHttpTransferCacheToAppConfig should handle existing provideClientHydration without arguments 1`] = `
-"import { ApplicationConfig } from '@angular/core';
-import { provideClientHydration } from '@angular/platform-browser';
-
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideClientHydration()
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
+    importProvidersFrom(AppModule)
   ]
 };
-      "
-`;
-
-exports[`updateAppConfigInSsr - addWithNoHttpTransferCacheToAppConfig should not duplicate provideClientHydration if already exists with correct arguments 1`] = `
-"import { ApplicationConfig } from '@angular/core';
-import { provideClientHydration, withEventReplay, withNoHttpTransferCache } from '@angular/platform-browser';
-
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideClientHydration(withEventReplay(), withNoHttpTransferCache())
-  ]
-};
-      "
+"
 `;

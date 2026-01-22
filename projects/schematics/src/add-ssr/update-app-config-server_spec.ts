@@ -20,7 +20,7 @@ import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-describe('updateAppConfigInSsr', () => {
+describe('updateAppConfigServer', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_SCHEMATICS,
     collectionPath
@@ -34,7 +34,7 @@ describe('updateAppConfigInSsr', () => {
   };
 
   const appOptions: ApplicationOptions = {
-    name: 'update-app-config-test',
+    name: 'update-app-config-server-test',
     inlineStyle: false,
     inlineTemplate: false,
     style: Style.Scss,
@@ -46,7 +46,7 @@ describe('updateAppConfigInSsr', () => {
   };
 
   const defaultOptions: SpartacusOptions = {
-    project: 'update-app-config-test',
+    project: 'update-app-config-server-test',
     baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
     lazy: true,
@@ -67,15 +67,21 @@ describe('updateAppConfigInSsr', () => {
       appTree
     );
 
-    tree = await schematicRunner.runSchematic(
+    appTree = await schematicRunner.runSchematic(
       'add-spartacus',
+      defaultOptions,
+      appTree
+    );
+
+    tree = await schematicRunner.runSchematic(
+      'add-ssr',
       defaultOptions,
       appTree
     );
   });
 
-  it('should add provideClientHydration with withEventReplay and withNoHttpTransferCache to app.config.ts', async () => {
-    const appConfig = tree.readContent('/src/app/app.config.ts');
-    expect(appConfig).toMatchSnapshot();
+  it('should add importProvidersFrom(AppServerModule) to app.config.server.ts', async () => {
+    const appConfigServer = tree.readContent('/src/app/app.config.server.ts');
+    expect(appConfigServer).toMatchSnapshot();
   });
 });

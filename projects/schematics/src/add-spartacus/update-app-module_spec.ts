@@ -75,8 +75,6 @@ describe('updateAppModule', () => {
   });
 
   it('should add imports of spartacus modules to app.module.ts', async () => {
-    const files = tree.files;
-    console.log('All files in the project:', files);
     const appModule = tree.readContent('/src/app/app.module.ts');
     expect(appModule).toMatchSnapshot();
   });
