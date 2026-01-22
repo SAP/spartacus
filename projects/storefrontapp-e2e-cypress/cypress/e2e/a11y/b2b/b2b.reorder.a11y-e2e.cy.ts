@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import * as b2bCheckout from '../../../helpers/b2b/b2b-checkout';
+import { interceptOrdersEndpoint } from '../../../helpers/order-history';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import {
@@ -15,7 +17,8 @@ export function waitUntilOrderIsPlaced() {
   cy.get('input[formcontrolname="termsAndConditions"]')
     .should('be.visible')
     .check();
-  cy.get('cx-place-order button').contains(' Place Order ').click();
+  // cy.get('cx-place-order button').contains(' Place Order ').click();
+  b2bCheckout.placeOrder('/order-confirmation');
   cy.get('main').contains('Thank you for your order!');
 }
 
@@ -31,7 +34,11 @@ describe('Reorder accessibility', () => {
     navigateToReviewOrderPage();
     waitUntilOrderIsPlaced();
     cy.visit('my-account/orders');
+    const ordersAlias = interceptOrdersEndpoint();
     cy.get('cx-order-history .cx-order-history-value').first().click();
+
+    cy.wait(`@${ordersAlias}`).its('response.statusCode').should('eq', 200);
+
     cy.get('button').contains(' Reorder ').click();
     cy.get('cx-reorder-dialog').a11yRunContinuumTest();
 
