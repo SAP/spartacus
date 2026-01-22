@@ -1,10 +1,27 @@
 # Modernizing Angular App Bootstrap with `bootstrapApplication()`
 
-Update your Spartacus app to use Angular’s modern `bootstrapApplication()` API (officially supported by Spartacus since v221121.7.0) instead of the legacy Angular's `bootstrapModule()` API. This aligns your app with current Angular best practices, making maintenance and upgrades easier.
+Modern Angular 21 apps are using Standalone Components and the `bootstrapApplication()` Angular API for bootstrapping root Standalone Component (instead of the old `bootstrapModule()`).
+This document is a migration guide for modernizing the apps migrated to v221121.7, to use the Angular `bootstrapApplication()` API.
 
-## File Changes for both CSR and SSR apps
+Note: This migration doesn't cover migrating all your custom components to Standalone Components, but only your root AppComponent.
 
-Apply these changes to both CSR and SSR Spartacus apps. For SSR, follow the additional steps at the end of this guide.
+Note 2: All Spartacus Components are already Standalone Components since v221121.7.0 You can read more on it in another doc: [Standalone Components in Spartacus since 221121.7.0](./standalone-components-in-spartacus.md).
+
+## Automatic migration
+The Spartacus team provides special schematics that automatically modernize the app to use the Angular `bootstrapApplication()` API and convert your root `AppComponent` to a Standalone Component.
+
+Please run the following command from your project root directory:
+
+```bash
+ng g @spartacus/schematics:modernize-app-standalone-bootstrap-application
+```
+
+In case of any issues during the automatic migration, you can always fall back to the manual migration steps below.
+
+
+# Manual migration
+
+Here are the migration steps in detail:
 
 ### `src/app/app.component.ts`
 
@@ -131,7 +148,7 @@ In the section `schematics`, remove `standalone: false` from component, directiv
 
 Note: it allows you in the future to create new custom components with Angular CLI (`ng generate component ...`) as _standalone_ by default.
 
-## Additional file changes only for SSR apps
+## For SSR projects, additionally:
 
 ### `src/app/app.config.server.ts`
 
@@ -235,3 +252,10 @@ Add to `app.config.ts` the configuration of non-destructive client hydration:
   ]
 };
 ```
+
+## Congratulations!
+
+Congratulations! You've modernized your app to use Angular's `bootstrapApplication()` API and converted your root `AppComponent` to a Standalone Component, aligning it with current Angular best practices.
+
+## Next
+Now, consider migrating your custom components to Standalone Components, by following the Angular Guide:
