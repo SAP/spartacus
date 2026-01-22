@@ -11,35 +11,31 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { RoutingService, UserIdService, WindowRef } from '@spartacus/core';
 import {
   ActiveCartFacade,
   CartAccessCodeFacade,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
-import {
-  Address,
-  RoutingService,
-  UserIdService,
-  WindowRef,
-} from '@spartacus/core';
-import {
-  defaultOpfErrorDialogOptions,
-  OpfMetadataModel,
-  OpfMetadataStoreService,
-} from '@spartacus/opf/base/root';
 import { OpfCtaFacade } from '@spartacus/opf/cta/root';
+import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
+import { defaultOpfErrorDialogOptions } from '@spartacus/opf/base/root';
 import { OpfGlobalFunctionsDomain } from '@spartacus/opf/global-functions/root';
 import {
   OpfPaymentEventsService,
   OpfPaymentFacade,
+} from '@spartacus/opf/payment/root';
+import { OpfQuickBuyProviderType } from '@spartacus/opf/quick-buy/root';
+import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { Address } from '@spartacus/core';
+import { OpfMetadataModel } from '@spartacus/opf/base/root';
+import {
   OpfPaymentSessionData,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
-import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
-import { OpfQuickBuyProviderType } from '@spartacus/opf/quick-buy/root';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { OpfGlobalFunctionsService } from './opf-global-functions.service';
 export const WINDOW = new InjectionToken<Window>('window');
 @Component({ template: '' })
@@ -159,6 +155,9 @@ class MockOpfQuickBuyTransactionService
       country: { isocode: 'US' },
     })
   );
+  setBillingAddress = jasmine
+    .createSpy('setBillingAddress')
+    .and.returnValue(of(true));
   setDeliveryMode = jasmine
     .createSpy('setDeliveryMode')
     .and.returnValue(of(mockDeliveryMode));

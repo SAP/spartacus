@@ -12,18 +12,18 @@ import {
   inject,
 } from '@angular/core';
 import {
-  ActiveCartFacade,
-  Cart,
-  CartAccessCodeFacade,
-  DeliveryMode,
-  MultiCartFacade,
-} from '@spartacus/cart/base/root';
-import {
   Address,
   RoutingService,
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
+import {
+  ActiveCartFacade,
+  Cart,
+  DeliveryMode,
+  MultiCartFacade,
+  CartAccessCodeFacade,
+} from '@spartacus/cart/base/root';
 import {
   OpfErrorDialogOptions,
   OpfKeyValueMap,
@@ -38,9 +38,7 @@ import {
   OpfGlobalFunctionsFacade,
   OpfRegisterGlobalFunctionsInput,
 } from '@spartacus/opf/global-functions/root';
-import { getBrowserInfo } from '@spartacus/opf/payment/core';
 import {
-  OpfPaymentConfig,
   OpfPaymentEventsService,
   OpfPaymentFacade,
   OpfPaymentGlobalMethods,
@@ -48,10 +46,12 @@ import {
   OpfPaymentMerchantCallback,
   OpfPaymentMethod,
   OpfPaymentSessionData,
+  OpfPaymentConfig,
   OpfPaymentVerificationPayload,
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
 import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
+import { getBrowserInfo } from '@spartacus/opf/payment/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import {
   Observable,
@@ -61,7 +61,15 @@ import {
   of,
   throwError,
 } from 'rxjs';
-import { filter, finalize, last, map, switchMap, take } from 'rxjs/operators';
+import {
+  filter,
+  finalize,
+  last,
+  map,
+  switchMap,
+  take,
+  skip,
+} from 'rxjs/operators';
 
 @Injectable()
 export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
@@ -117,6 +125,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         this.registerCtaScriptReady(domain);
         this.registerGetCart(domain);
         this.registerSetBillingAddress(domain);
+        this.registerGetBillingAddress(domain);
         this.registerSetDeliveryAddress(domain);
         this.registerGetDeliveryAddress(domain);
         this.registerSetDeliveryMode(domain);
@@ -704,10 +713,21 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     ): Promise<unknown> => {
       return this.ngZone.run(() => {
         return lastValueFrom(
-          this.opfQuickBuyTransactionService.setBillingAddress(address)
+          this.opfQuickBuyTransactionService
+            .setBillingAddress(address)
+            .pipe(switchMap(() => this.reloadCartAndWaitForStable()))
         );
       });
     };
+  }
+
+  protected reloadCartAndWaitForStable(): Observable<boolean> {
+    this.activeCartFacade.reloadActiveCart();
+    return this.activeCartFacade.isStable().pipe(
+      skip(1), // Skip the initial stable state before reload
+      filter((isStable: boolean) => isStable),
+      take(1)
+    );
   }
 
   protected registerSetDeliveryAddress(domain: OpfGlobalFunctionsDomain): void {
