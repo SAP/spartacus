@@ -9,7 +9,7 @@ import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import { join } from 'path';
 
 const collectionPath = join(__dirname, '../../migrations.json');
-const MIGRATION_SCRIPT_NAME = '02-migration-v221121_8-tsconfig-update';
+const MIGRATION_SCRIPT_NAME = '02-migration-v221121_7-tsconfig-update';
 
 describe('Update tsconfig.json for Angular 21 migration', () => {
   let tree: Tree;
