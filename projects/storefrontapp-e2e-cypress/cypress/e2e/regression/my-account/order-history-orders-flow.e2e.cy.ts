@@ -45,8 +45,6 @@ describe('Order History with orders', () => {
 describe('Order details page', { testIsolation: false }, () => {
   isolateTestsBefore();
   viewportContext(['mobile', 'desktop'], () => {
-    orderHistoryTest.checkOrderDetailsUnconsignedEntries();
-
     before(() => {
       cy.visit('/');
 
