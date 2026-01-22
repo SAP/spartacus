@@ -60,13 +60,7 @@ export class SubscriptionBillingListComponent {
       sortCode: sort_code,
       pageNumber: 0,
     };
-    const { pageNumber, sortCode, dateFilter } = this.listParams;
-    this.billingList$ = this.subscriptionBillsFacade.getSubscriptionBillsList(
-      this.PAGE_SIZE,
-      pageNumber,
-      sortCode,
-      dateFilter
-    );
+    this.getSubscriptionBillsList();
   }
 
   onPageChange(page_number: string): void {
@@ -74,13 +68,7 @@ export class SubscriptionBillingListComponent {
       ...this.listParams,
       pageNumber: Number(page_number),
     };
-    const { pageNumber, sortCode, dateFilter } = this.listParams;
-    this.billingList$ = this.subscriptionBillsFacade.getSubscriptionBillsList(
-      this.PAGE_SIZE,
-      pageNumber,
-      sortCode,
-      dateFilter
-    );
+    this.getSubscriptionBillsList();
   }
 
   onDateFilterChange(): void {
@@ -102,26 +90,24 @@ export class SubscriptionBillingListComponent {
         dateFilter: dateFilterParam,
         pageNumber: 0,
       };
-      const { pageNumber, sortCode, dateFilter } = this.listParams;
-      this.billingList$ = this.subscriptionBillsFacade.getSubscriptionBillsList(
-        this.PAGE_SIZE,
-        pageNumber,
-        sortCode,
-        dateFilter
-      );
+      this.getSubscriptionBillsList();
     } else if (!this.minDate && !this.maxDate) {
       this.listParams = {
         ...this.listParams,
         dateFilter: undefined,
         pageNumber: 0,
       };
-      const { pageNumber, sortCode, dateFilter } = this.listParams;
-      this.billingList$ = this.subscriptionBillsFacade.getSubscriptionBillsList(
-        this.PAGE_SIZE,
-        pageNumber,
-        sortCode,
-        dateFilter
-      );
+      this.getSubscriptionBillsList();
     }
+  }
+
+  private getSubscriptionBillsList(): void {
+    const { pageNumber, sortCode, dateFilter } = this.listParams;
+    this.billingList$ = this.subscriptionBillsFacade.getSubscriptionBillsList(
+      this.PAGE_SIZE,
+      pageNumber,
+      sortCode,
+      dateFilter
+    );
   }
 }
