@@ -11,14 +11,16 @@ import { SubscriptionDetailsModule } from './details/subscription-details.module
 import { SubscriptionProductPriceModule } from './product/price/subscription-product-price.module';
 import { SubscriptionListModule } from './list/subscription-list.module';
 import { SubscriptionActionsModalModule } from './actions-modal/subscription-actions-modal.module';
+import { SubscriptionBillingDetailsModule } from './billing-details/subscription-billing-details.module';
 
 @NgModule({
   imports: [
     SubscriptionListModule,
     SubscriptionDetailsModule,
+    SubscriptionBillingDetailsModule,
     SubscriptionProductPriceModule,
     SubscriptionProductUsageChargeModule,
-    SubscriptionActionsModalModule,
+    SubscriptionActionsModalModule
   ],
 })
 export class SubscriptionBillingComponentsModule {}
