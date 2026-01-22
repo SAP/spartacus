@@ -16,7 +16,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
@@ -111,13 +110,14 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   protected breakpointService = inject(BreakpointService);
   isDesktop$ = this.breakpointService.isUp(BREAKPOINT.lg);
 
+  private featureConfigService = inject(FeatureConfigService);
+
   constructor(
     private router: Router,
     private renderer: Renderer2,
     private elemRef: ElementRef,
     protected hamburgerMenuService: HamburgerMenuService,
-    protected winRef: WindowRef,
-    @Optional() protected featureConfigService?: FeatureConfigService
+    protected winRef: WindowRef
   ) {
     this.subscriptions.add(
       this.router.events
