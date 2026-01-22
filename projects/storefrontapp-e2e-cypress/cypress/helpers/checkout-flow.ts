@@ -24,10 +24,10 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
+import { cmsEndpoints } from './cms-endpoints';
 import { DeepPartial } from './form';
 import { waitForPage } from './navigation';
 import { productItemSelector } from './product-search';
-import { cmsEndpoints } from './cms-endpoints';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
 export const ELECTRONICS_CURRENCY = 'USD';
@@ -504,14 +504,9 @@ export function fillPaymentFormWithCheapProduct(
   if (isExpressCheckout) return;
 
   cy.wait(`@${getCheckoutDetailsAlias}`).then((xhr) => {
+    cy.wrap(xhr.response.body).should('exist');
     const response = xhr.response;
-    cy.log(
-      `Checkout details after payment step: ${JSON.stringify(
-        response.body,
-        null,
-        2
-      )}`
-    );
+    cy.log(`Checkout details after payment step`);
 
     expect(response.statusCode).to.equal(200);
 
