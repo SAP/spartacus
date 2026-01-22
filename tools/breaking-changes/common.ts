@@ -128,6 +128,7 @@ export function printStats(breakingChangeElements: any[]) {
   );
 
   const globalBreakingChangeList = breakingChangeElements
+    .filter((element) => element && Array.isArray(element.breakingChanges))
     .map((element) => element.breakingChanges)
     .flat();
   console.log(`${globalBreakingChangeList.length} individual breaking changes`);
@@ -272,6 +273,9 @@ export function getTopLevelBreakingChangeEntry(
 }
 
 export function getAllTopLevelBreakingChanges(apiElement: any): any[] {
+  if (!apiElement || !Array.isArray(apiElement.breakingChanges)) {
+    return [];
+  }
   return apiElement.breakingChanges.filter((breakingChange: any) =>
     isTopLevelApi(breakingChange.changeKind)
   );

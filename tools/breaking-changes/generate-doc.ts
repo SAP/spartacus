@@ -140,6 +140,10 @@ function getRenamedDoc(apiElement: any): string {
 function getMembersDoc(apiElement: any): string {
   let doc = '';
 
+  if (!apiElement || !Array.isArray(apiElement.breakingChanges)) {
+    return doc;
+  }
+
   const memberBreakingChanges = apiElement.breakingChanges.filter(
     (breakingChange: any) => isMember(breakingChange.changeKind)
   );
@@ -195,6 +199,10 @@ ${MD_CODEBLOCK}${common.getMemberStateDoc(
 
 function getChangedDoc(apiElement: any): string {
   let doc = '';
+
+  if (!apiElement || !Array.isArray(apiElement.breakingChanges)) {
+    return doc;
+  }
 
   const breakingChange = apiElement.breakingChanges.find(
     (breakingChange: any) =>

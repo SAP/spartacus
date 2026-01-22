@@ -31,7 +31,7 @@ for (let index = 0; index < breakingChangesData.length; index++) {
   const apiElement = breakingChangesData[index];
   // Skip elements without breakingChanges array
   if (!apiElement || !Array.isArray(apiElement.breakingChanges)) {
-    break;
+    continue;
   }
   if (common.isElementDeleted(apiElement)) {
     deletedApiSchematics.push(getSchematicsData(apiElement));

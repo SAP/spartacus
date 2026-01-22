@@ -98,7 +98,11 @@ function getSchematicsComment(breakingChange: any): string {
 
 function getUpdatedMembers(breakingChangesData: any) {
   return breakingChangesData
-    .filter((apiElement: any) => apiElement.kind === 'Class')
+    .filter((apiElement: any) =>
+      apiElement &&
+      apiElement.kind === 'Class' &&
+      Array.isArray(apiElement.breakingChanges)
+    )
     .map((apiElement: any) => {
       return apiElement.breakingChanges;
     })
