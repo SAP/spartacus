@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { normalize } from '@angular-devkit/core';
 import {
   chain,
   noop,
@@ -16,47 +15,20 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
-import * as ts from 'typescript';
-import { getServerTsPath } from '../../../shared/utils/file-utils';
+import { SyntaxKind, type SourceFile } from 'ts-morph';
 import {
   getServerTsPathForApplicationBuilder,
   isSsrUsed,
-  isUsingLegacyServerBuilder,
   readPackageJson,
   updatePackageJsonDependencies,
 } from '../../../shared/utils/package-utils';
-
-/**
- * Finds the server.ts file in the project.
- * Uses the appropriate method based on SSR configuration.
- */
-function findServerFile(tree: Tree): string | null {
-  if (isSsrUsed(tree)) {
-    const serverPath = getServerTsPathForApplicationBuilder(tree);
-    if (serverPath) {
-      return serverPath;
-    }
-  }
-
-  if (isUsingLegacyServerBuilder(tree)) {
-    const serverPath = getServerTsPath(tree);
-    if (serverPath) {
-      return serverPath;
-    }
-  }
-
-  const possiblePaths = ['./server.ts', './src/server.ts'];
-  for (const path of possiblePaths) {
-    if (tree.exists(normalize(path))) {
-      return path;
-    }
-  }
-
-  return null;
-}
+import { createProgram, saveAndFormat } from '../../../shared/utils/program';
+import { getProjectTsConfigPaths } from '../../../shared/utils/project-tsconfig-paths';
+import { getDefaultProjectNameFromWorkspace } from '../../../shared/utils/workspace-utils';
 
 /**
  * Updates server.ts file to replace wildcard strings with regex patterns for Express 5 compatibility.
+ * Uses ts-morph to parse and manipulate the AST.
  */
 function updateServerTsFile(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -64,148 +36,146 @@ function updateServerTsFile(): Rule {
       '\n⌛️ Updating server.ts for Express 5 compatibility...'
     );
 
-    const serverFilePath = findServerFile(tree);
-    if (!serverFilePath) {
+    const project = getDefaultProjectNameFromWorkspace(tree);
+    const { buildPaths } = getProjectTsConfigPaths(tree, project);
+
+    if (!buildPaths.length) {
       context.logger.info(
-        '  ↳ No server.ts file found - skipping server.ts updates'
+        '  ↳ No tsconfig.json found - skipping server.ts updates'
       );
       return tree;
     }
 
-    const fileContentBuffer = tree.read(serverFilePath);
-    if (!fileContentBuffer) {
+    const basePath = process.cwd();
+    let serverFileFound = false;
+
+    // Get the exact server.ts path from angular.json configuration
+    const expectedServerPath = getServerTsPathForApplicationBuilder(tree);
+    
+    if (!expectedServerPath) {
       context.logger.warn(
-        `  ↳ Could not read ${serverFilePath} - skipping update`
+        '  ↳ Could not determine server.ts path from angular.json - skipping server.ts updates'
       );
       return tree;
     }
 
-    const content = fileContentBuffer.toString('utf-8');
-    const originalContent = content;
+    // Iterate over tsconfig files to find server.ts
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
-    try {
-      const sourceFile = ts.createSourceFile(
-        serverFilePath,
-        content,
-        ts.ScriptTarget.Latest,
-        true
+      // Find server.ts file using the exact path from angular.json
+      const serverFile = appSourceFiles.find(
+        (sourceFile: SourceFile) =>
+          sourceFile.getFilePath().endsWith(expectedServerPath)
       );
 
-      const replacements: Replacement[] = [];
-      collectServerGetReplacements(sourceFile, sourceFile, replacements);
+      if (!serverFile) {
+        continue;
+      }
 
-      const updatedContent =
-        replacements.length > 0
-          ? applyReplacements(content, replacements)
-          : content;
+      serverFileFound = true;
 
-      if (updatedContent !== originalContent) {
-        tree.overwrite(serverFilePath, updatedContent);
+      // Find the Express app instance variable name (e.g., 'server', 'app', etc.)
+      const variableDeclarations = serverFile.getDescendantsOfKind(
+        SyntaxKind.VariableDeclaration
+      );
+
+      let expressInstanceName: string | undefined;
+      for (const varDecl of variableDeclarations) {
+        const initializer = varDecl.getInitializer();
+        if (
+          initializer &&
+          initializer.getKind() === SyntaxKind.CallExpression
+        ) {
+          const callExpr = initializer.asKind(SyntaxKind.CallExpression);
+          if (callExpr?.getExpression().getText() === 'express') {
+            expressInstanceName = varDecl.getName();
+            break;
+          }
+        }
+      }
+
+      if (!expressInstanceName) {
+        context.logger.warn(
+          `  ↳ Could not find Express app instance (e.g., 'const app = express()') in:`
+        );
+        context.logger.warn(`     ${serverFile.getFilePath()}`);
         context.logger.info(
-          `✅ Updated ${serverFilePath} for Express 5 compatibility`
+          `  ↳ Skipping server.ts update - please update manually if needed`
+        );
+        continue;
+      }
+
+      // Find all <expressInstanceName>.get() calls and replace wildcard patterns
+      const callExpressions = serverFile.getDescendantsOfKind(
+        SyntaxKind.CallExpression
+      );
+
+      let replacementsMade = false;
+      for (const callExpr of callExpressions) {
+        const expression = callExpr.getExpression();
+
+        // Check if it's a property access expression like 'server.get'
+        if (expression.getKind() !== SyntaxKind.PropertyAccessExpression) {
+          continue;
+        }
+
+        const propAccess = expression.asKind(
+          SyntaxKind.PropertyAccessExpression
+        );
+        if (
+          !propAccess ||
+          propAccess.getExpression().getText() !== expressInstanceName ||
+          propAccess.getName() !== 'get'
+        ) {
+          continue;
+        }
+
+        // Check first argument for wildcard patterns
+        const args = callExpr.getArguments();
+        if (args.length === 0) {
+          continue;
+        }
+
+        const firstArg = args[0];
+        if (firstArg.getKind() !== SyntaxKind.StringLiteral) {
+          continue;
+        }
+
+        const argText = firstArg.getText().slice(1, -1); // Remove quotes
+
+        if (argText === '*.*') {
+          firstArg.replaceWithText('/.*\\..*/');
+          replacementsMade = true;
+        } else if (argText === '*') {
+          firstArg.replaceWithText('/.*/');
+          replacementsMade = true;
+        }
+      }
+
+      if (replacementsMade) {
+        saveAndFormat(serverFile);
+        context.logger.info(
+          `✅ Updated ${serverFile.getFilePath()} for Express 5 compatibility`
         );
       } else {
         context.logger.info(
-          `  ↳ ${serverFilePath} already uses Express 5 compatible patterns or no changes needed`
+          `  ↳ ${serverFile.getFilePath()} already uses Express 5 compatible patterns or no changes needed`
         );
       }
-    } catch (error) {
-      context.logger.warn(
-        `  ↳ Failed to parse ${serverFilePath} - skipping update: ${error}`
+
+      // Process only the first server.ts found
+      return tree;
+    }
+
+    if (!serverFileFound) {
+      context.logger.info(
+        '  ↳ No server.ts file found - skipping server.ts updates'
       );
     }
 
     return tree;
   };
-}
-
-/**
- * Visits AST nodes to find server.get() calls and replace wildcard strings with regex patterns.
- */
-interface Replacement {
-  start: number;
-  end: number;
-  replacement: string;
-}
-
-function isServerGetCall(node: ts.Node): node is ts.CallExpression {
-  if (!ts.isCallExpression(node)) {
-    return false;
-  }
-  const expression = node.expression;
-  return (
-    ts.isPropertyAccessExpression(expression) &&
-    ts.isIdentifier(expression.expression) &&
-    expression.expression.text === 'server' &&
-    ts.isIdentifier(expression.name) &&
-    expression.name.text === 'get'
-  );
-}
-
-function getWildcardReplacement(argText: string): string | null {
-  if (argText === '*.*') {
-    return '/.*\\..*/';
-  }
-  if (argText === '*') {
-    return '/.*/';
-  }
-  return null;
-}
-
-function processServerGetCall(
-  node: ts.CallExpression,
-  sourceFile: ts.SourceFile,
-  replacements: Replacement[]
-): void {
-  if (node.arguments.length === 0) {
-    return;
-  }
-
-  const firstArg = node.arguments[0];
-  if (!ts.isStringLiteral(firstArg)) {
-    return;
-  }
-
-  const replacement = getWildcardReplacement(firstArg.text);
-  if (replacement) {
-    replacements.push({
-      start: firstArg.getStart(sourceFile),
-      end: firstArg.getEnd(),
-      replacement,
-    });
-  }
-}
-
-function collectServerGetReplacements(
-  node: ts.Node,
-  sourceFile: ts.SourceFile,
-  replacements: Replacement[]
-): void {
-  if (isServerGetCall(node)) {
-    processServerGetCall(node, sourceFile, replacements);
-  }
-
-  ts.forEachChild(node, (childNode) => {
-    collectServerGetReplacements(childNode, sourceFile, replacements);
-  });
-}
-
-function applyReplacements(
-  content: string,
-  replacements: Replacement[]
-): string {
-  const sortedReplacements = [...replacements].sort(
-    (a, b) => b.start - a.start
-  );
-
-  let updatedContent = content;
-  for (const replacement of sortedReplacements) {
-    const before = updatedContent.substring(0, replacement.start);
-    const after = updatedContent.substring(replacement.end);
-    updatedContent = before + replacement.replacement + after;
-  }
-
-  return updatedContent;
 }
 
 /**
@@ -261,12 +231,7 @@ function updateExpressDependency(): Rule {
  */
 export function migrate(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const hasSSR = isSsrUsed(tree) || isUsingLegacyServerBuilder(tree);
-
-    if (!hasSSR) {
-      context.logger.info(
-        '\n⏭️  Skipping Express v5 migration - SSR is not configured in this app'
-      );
+    if (!isSsrUsed(tree)) {
       return noop();
     }
 
