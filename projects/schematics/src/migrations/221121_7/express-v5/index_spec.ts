@@ -26,14 +26,25 @@ describe('Express v5 Migration', () => {
             options: {
               browser: 'src/main.ts',
               server: 'src/main.server.ts',
+              tsConfig: 'tsconfig.json',
               ssr: {
-                entry: 'server.ts',
+                entry: 'src/server.ts',
               },
             },
           },
         },
       },
     },
+  };
+
+  const tsConfigContent = {
+    compilerOptions: {
+      outDir: './out-tsc/app',
+      types: [],
+      lib: ['es2015'],
+    },
+    files: ['src/server.ts'],
+    include: ['src/**/*.ts'],
   };
 
   const serverTsWithWildcards = `
@@ -128,22 +139,24 @@ export function app(): express.Express {
 }
 `;
 
+  const createPackageJson = (express: string, isDev = false) => {
+    const packageJson = isDev
+      ? { devDependencies: { express } }
+      : { dependencies: { express } };
+    tree.create('/package.json', JSON.stringify(packageJson));
+  };
+
   beforeEach(() => {
     tree = Tree.empty();
     runner = new SchematicTestRunner('migrations', collectionPath);
     tree.create('/angular.json', JSON.stringify(workspaceContent));
-    tree.create('/server.ts', 'export const server = {};');
+    tree.create('/tsconfig.json', JSON.stringify(tsConfigContent));
+    tree.create('/src/server.ts', 'export const server = {};');
   });
 
   describe('Express dependency update', () => {
     it('should update Express to ^5.1.0 in package.json', async () => {
-      const packageJson = {
-        dependencies: {
-          express: '^4.18.0',
-        },
-      };
-
-      tree.create('/package.json', JSON.stringify(packageJson));
+      createPackageJson('^4.18.0');
 
       const newTree = await runner.runSchematic(
         MIGRATION_SCRIPT_NAME,
@@ -173,13 +186,7 @@ export function app(): express.Express {
     });
 
     it('should update Express in devDependencies if present', async () => {
-      const packageJson = {
-        devDependencies: {
-          express: '^4.18.0',
-        },
-      };
-
-      tree.create('/package.json', JSON.stringify(packageJson));
+      createPackageJson('^4.18.0', true);
 
       const newTree = await runner.runSchematic(
         MIGRATION_SCRIPT_NAME,
@@ -194,63 +201,8 @@ export function app(): express.Express {
 
   describe('server.ts file updates', () => {
     it('should replace wildcard strings with regex patterns in root server.ts', async () => {
-      const packageJson = {
-        dependencies: {
-          express: '^4.18.0',
-        },
-      };
-
-      tree.create('/package.json', JSON.stringify(packageJson));
-      if (tree.exists('/server.ts')) {
-        tree.delete('/server.ts');
-      }
-      tree.create('/server.ts', serverTsWithWildcards);
-
-      const newTree = await runner.runSchematic(
-        MIGRATION_SCRIPT_NAME,
-        {},
-        tree
-      );
-
-      const updatedContent = newTree.readText('/server.ts');
-      expect(updatedContent).toContain('server.get(/.*\\..*/,');
-      expect(updatedContent).toContain('server.get(/.*/,');
-      expect(updatedContent).not.toContain("server.get('*.*',");
-      expect(updatedContent).not.toContain("server.get('*',");
-    });
-
-    it('should replace wildcard strings with regex patterns in src/server.ts', async () => {
-      const packageJson = {
-        dependencies: {
-          express: '^4.18.0',
-        },
-      };
-
-      // Update workspace to point to src/server.ts
-      const workspaceWithSrcServer = {
-        ...workspaceContent,
-        projects: {
-          'test-app': {
-            ...workspaceContent.projects['test-app'],
-            architect: {
-              build: {
-                ...workspaceContent.projects['test-app'].architect.build,
-                options: {
-                  ...workspaceContent.projects['test-app'].architect.build
-                    .options,
-                  ssr: {
-                    entry: 'src/server.ts',
-                  },
-                },
-              },
-            },
-          },
-        },
-      };
-      tree.overwrite('/angular.json', JSON.stringify(workspaceWithSrcServer));
-
-      tree.create('/package.json', JSON.stringify(packageJson));
-      tree.create('/src/server.ts', serverTsWithWildcards);
+      createPackageJson('^4.18.0');
+      tree.overwrite('/src/server.ts', serverTsWithWildcards);
 
       const newTree = await runner.runSchematic(
         MIGRATION_SCRIPT_NAME,
@@ -259,25 +211,26 @@ export function app(): express.Express {
       );
 
       const updatedContent = newTree.readText('/src/server.ts');
-      // Check for regex pattern (may be on multiple lines)
-      expect(updatedContent).toMatch(/server\.get\s*\(\s*\/\.\*\\\.\.\*\/\s*,/);
-      expect(updatedContent).toMatch(/server\.get\s*\(\s*\/\.\*\/\s*,/);
-      expect(updatedContent).not.toContain("server.get('*.*',");
-      expect(updatedContent).not.toContain("server.get('*',");
+      expect(updatedContent).toMatchSnapshot();
+    });
+
+    it('should replace wildcard strings with regex patterns in src/server.ts', async () => {
+      createPackageJson('^4.18.0');
+      tree.overwrite('/src/server.ts', serverTsWithWildcards);
+
+      const newTree = await runner.runSchematic(
+        MIGRATION_SCRIPT_NAME,
+        {},
+        tree
+      );
+
+      const updatedContent = newTree.readText('/src/server.ts');
+      expect(updatedContent).toMatchSnapshot();
     });
 
     it('should handle double quotes in wildcard strings', async () => {
-      const packageJson = {
-        dependencies: {
-          express: '^4.18.0',
-        },
-      };
-
-      tree.create('/package.json', JSON.stringify(packageJson));
-      if (tree.exists('/server.ts')) {
-        tree.delete('/server.ts');
-      }
-      tree.create('/server.ts', serverTsWithDoubleQuotes);
+      createPackageJson('^4.18.0');
+      tree.overwrite('/src/server.ts', serverTsWithDoubleQuotes);
 
       const newTree = await runner.runSchematic(
         MIGRATION_SCRIPT_NAME,
@@ -285,25 +238,13 @@ export function app(): express.Express {
         tree
       );
 
-      const updatedContent = newTree.readText('/server.ts');
-      expect(updatedContent).toContain('server.get(/.*\\..*/,');
-      expect(updatedContent).toContain('server.get(/.*/,');
-      expect(updatedContent).not.toContain('server.get("*.*",');
-      expect(updatedContent).not.toContain('server.get("*",');
+      const updatedContent = newTree.readText('/src/server.ts');
+      expect(updatedContent).toMatchSnapshot();
     });
 
     it('should not modify server.ts if already updated', async () => {
-      const packageJson = {
-        dependencies: {
-          express: '^4.18.0',
-        },
-      };
-
-      tree.create('/package.json', JSON.stringify(packageJson));
-      if (tree.exists('/server.ts')) {
-        tree.delete('/server.ts');
-      }
-      tree.create('/server.ts', serverTsAlreadyUpdated);
+      createPackageJson('^4.18.0');
+      tree.overwrite('/src/server.ts', serverTsAlreadyUpdated);
 
       const newTree = await runner.runSchematic(
         MIGRATION_SCRIPT_NAME,
@@ -311,20 +252,13 @@ export function app(): express.Express {
         tree
       );
 
-      const updatedContent = newTree.readText('/server.ts');
-      expect(updatedContent).toBe(serverTsAlreadyUpdated);
+      const updatedContent = newTree.readText('/src/server.ts');
+      expect(updatedContent).toMatchSnapshot();
     });
 
     it('should skip migration if server.ts file does not exist', async () => {
-      const packageJson = {
-        dependencies: {
-          express: '^4.18.0',
-        },
-      };
-
-      tree.create('/package.json', JSON.stringify(packageJson));
-      // Remove server.ts files created in beforeEach to test this scenario
-      tree.delete('/server.ts');
+      createPackageJson('^4.18.0');
+      tree.delete('/src/server.ts');
 
       const newTree = await runner.runSchematic(
         MIGRATION_SCRIPT_NAME,
@@ -339,12 +273,6 @@ export function app(): express.Express {
     });
 
     it('should handle server.ts with only one wildcard pattern', async () => {
-      const packageJson = {
-        dependencies: {
-          express: '^4.18.0',
-        },
-      };
-
       const serverTsWithOnlyWildcard = `
 import express from 'express';
 
@@ -359,11 +287,8 @@ export function app(): express.Express {
 }
 `;
 
-      tree.create('/package.json', JSON.stringify(packageJson));
-      if (tree.exists('/server.ts')) {
-        tree.delete('/server.ts');
-      }
-      tree.create('/server.ts', serverTsWithOnlyWildcard);
+      createPackageJson('^4.18.0');
+      tree.overwrite('/src/server.ts', serverTsWithOnlyWildcard);
 
       const newTree = await runner.runSchematic(
         MIGRATION_SCRIPT_NAME,
@@ -371,18 +296,11 @@ export function app(): express.Express {
         tree
       );
 
-      const updatedContent = newTree.readText('/server.ts');
-      expect(updatedContent).toContain('server.get(/.*/,');
-      expect(updatedContent).not.toContain("server.get('*',");
+      const updatedContent = newTree.readText('/src/server.ts');
+      expect(updatedContent).toMatchSnapshot();
     });
 
     it('should handle server.ts with only wildcard dot pattern', async () => {
-      const packageJson = {
-        dependencies: {
-          express: '^4.18.0',
-        },
-      };
-
       const serverTsWithOnlyWildcardDot = `
 import express from 'express';
 
@@ -395,11 +313,8 @@ export function app(): express.Express {
 }
 `;
 
-      tree.create('/package.json', JSON.stringify(packageJson));
-      if (tree.exists('/server.ts')) {
-        tree.delete('/server.ts');
-      }
-      tree.create('/server.ts', serverTsWithOnlyWildcardDot);
+      createPackageJson('^4.18.0');
+      tree.overwrite('/src/server.ts', serverTsWithOnlyWildcardDot);
 
       const newTree = await runner.runSchematic(
         MIGRATION_SCRIPT_NAME,
@@ -407,23 +322,13 @@ export function app(): express.Express {
         tree
       );
 
-      const updatedContent = newTree.readText('/server.ts');
-      expect(updatedContent).toContain('server.get(/.*\\..*/,');
-      expect(updatedContent).not.toContain("server.get('*.*',");
+      const updatedContent = newTree.readText('/src/server.ts');
+      expect(updatedContent).toMatchSnapshot();
     });
 
     it('should handle multiline server.get calls with wildcard patterns', async () => {
-      const packageJson = {
-        dependencies: {
-          express: '^4.18.0',
-        },
-      };
-
-      tree.create('/package.json', JSON.stringify(packageJson));
-      if (tree.exists('/server.ts')) {
-        tree.delete('/server.ts');
-      }
-      tree.create('/server.ts', serverTsMultiline);
+      createPackageJson('^4.18.0');
+      tree.overwrite('/src/server.ts', serverTsMultiline);
 
       const newTree = await runner.runSchematic(
         MIGRATION_SCRIPT_NAME,
@@ -431,26 +336,13 @@ export function app(): express.Express {
         tree
       );
 
-      const updatedContent = newTree.readText('/server.ts');
-      // Check for regex pattern (may be on multiple lines)
-      expect(updatedContent).toMatch(/server\.get\s*\(\s*\/\.\*\\\.\.\*\/\s*,/);
-      expect(updatedContent).toMatch(/server\.get\s*\(\s*\/\.\*\/\s*,/);
-      expect(updatedContent).not.toContain("server.get('*.*',");
-      expect(updatedContent).not.toContain("server.get('*',");
+      const updatedContent = newTree.readText('/src/server.ts');
+      expect(updatedContent).toMatchSnapshot();
     });
 
     it('should handle multiline server.get calls with double quotes', async () => {
-      const packageJson = {
-        dependencies: {
-          express: '^4.18.0',
-        },
-      };
-
-      tree.create('/package.json', JSON.stringify(packageJson));
-      if (tree.exists('/server.ts')) {
-        tree.delete('/server.ts');
-      }
-      tree.create('/server.ts', serverTsMultilineDoubleQuotes);
+      createPackageJson('^4.18.0');
+      tree.overwrite('/src/server.ts', serverTsMultilineDoubleQuotes);
 
       const newTree = await runner.runSchematic(
         MIGRATION_SCRIPT_NAME,
@@ -458,28 +350,15 @@ export function app(): express.Express {
         tree
       );
 
-      const updatedContent = newTree.readText('/server.ts');
-      // Check for regex pattern (may be on multiple lines)
-      expect(updatedContent).toMatch(/server\.get\s*\(\s*\/\.\*\\\.\.\*\/\s*,/);
-      expect(updatedContent).toMatch(/server\.get\s*\(\s*\/\.\*\/\s*,/);
-      expect(updatedContent).not.toContain('server.get("*.*",');
-      expect(updatedContent).not.toContain('server.get("*",');
+      const updatedContent = newTree.readText('/src/server.ts');
+      expect(updatedContent).toMatchSnapshot();
     });
   });
 
   describe('combined migration', () => {
     it('should update both package.json and server.ts', async () => {
-      const packageJson = {
-        dependencies: {
-          express: '^4.18.0',
-        },
-      };
-
-      tree.create('/package.json', JSON.stringify(packageJson));
-      if (tree.exists('/server.ts')) {
-        tree.delete('/server.ts');
-      }
-      tree.create('/server.ts', serverTsWithWildcards);
+      createPackageJson('^4.18.0');
+      tree.overwrite('/src/server.ts', serverTsWithWildcards);
 
       const newTree = await runner.runSchematic(
         MIGRATION_SCRIPT_NAME,
@@ -490,9 +369,8 @@ export function app(): express.Express {
       const updatedPackageJson = JSON.parse(newTree.readText('/package.json'));
       expect(updatedPackageJson.dependencies.express).toBe('^5.1.0');
 
-      const updatedContent = newTree.readText('/server.ts');
-      expect(updatedContent).toContain('server.get(/.*\\..*/,');
-      expect(updatedContent).toContain('server.get(/.*/,');
+      const updatedContent = newTree.readText('/src/server.ts');
+      expect(updatedContent).toMatchSnapshot();
     });
   });
 });
