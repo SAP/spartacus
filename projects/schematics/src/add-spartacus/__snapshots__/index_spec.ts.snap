@@ -38,7 +38,8 @@ export const appConfig: ApplicationConfig = {
 `;
 
 exports[`add-spartacus on Angular app without routing app.module.ts should be created with necessary modules imported inside 1`] = `
-"import { NgModule } from '@angular/core';
+"
+import { NgModule } from '@angular/core';
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { AppRoutingModule } from "@spartacus/storefront";
