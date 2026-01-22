@@ -4,11 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  EnvironmentProviders,
-  importProvidersFrom,
-  Provider,
-} from '@angular/core';
+import { importProvidersFrom, makeEnvironmentProviders } from '@angular/core';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { provideConfig, TestConfigModule } from '@spartacus/core';
 import { GOOGLE_MAPS_DEVELOPMENT_KEY_CONFIG } from '@spartacus/storefinder/root';
@@ -20,7 +16,7 @@ import { TestOutletModule } from '../../test-outlets/test-outlet.module';
  *
  * CAUTION: IT IS NOT MEANT FOR CUSTOMERS' APPLICATIONS!
  */
-export const privateProviders: (Provider | EnvironmentProviders)[] = [
+export const privateProviders = makeEnvironmentProviders([
   provideConfig({
     // Custom OCC backend configuration:
     backend: {
@@ -54,4 +50,4 @@ export const privateProviders: (Provider | EnvironmentProviders)[] = [
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
     ...(environment.production ? [] : [StoreDevtoolsModule.instrument()]) // Enable Redux devtools only in non-production build
   ),
-];
+]);

@@ -12,7 +12,6 @@ import {
   TrackByFunction,
 } from '@angular/core';
 import {
-  FeatureConfigService,
   FeatureDirective,
   CmsProductCarouselComponent as model,
   Product,
@@ -45,8 +44,6 @@ import { ProductCarouselItemComponent } from '../product-carousel-item/product-c
   ],
 })
 export class ProductCarouselComponent {
-  private featureConfigService: FeatureConfigService =
-    inject(FeatureConfigService);
   protected productSearchByCodeService: ProductSearchByCodeService = inject(
     ProductSearchByCodeService
   );
@@ -102,12 +99,8 @@ export class ProductCarouselComponent {
 
   handleCategoryCodes(data: model): Observable<model> {
     const categoryCodes = data?.categoryCodes?.split(' ');
-
     // Try to add category codes to the carousel product codes
-    if (
-      categoryCodes &&
-      this.featureConfigService.isEnabled('enableCarouselCategoryProducts')
-    ) {
+    if (categoryCodes) {
       return zip(
         categoryCodes.map((categoryCode) =>
           this.productSearchByCategoryService.get({

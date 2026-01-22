@@ -68,20 +68,19 @@ export interface FeatureTogglesInterface {
   a11yConfiguratorOverviewHeaderVPC?: boolean;
 
   /**
+   * Fixes accessibility issue in FutureStockAccordionComponent where aria-controls
+   * references a non-existent element when accordion is collapsed.
+   * When enabled, content element is always in DOM but hidden when collapsed,
+   * ensuring aria-controls always references a valid ID.
+   * Affects: FutureStockAccordionComponent
+   */
+  a11yFutureStockAccordionAriaControls?: boolean;
+
+  /**
    * Use unicode characters for ng-select dropdown carets so that OS themes can override the defaults
    * by targetting text. This is not possible when using borders to draw shapes.
    */
   a11yNgSelectUnicodeCarets?: boolean;
-
-  /**
-   * Enables the product carousel to include products based on specified category codes.
-   *
-   * - When this feature is enabled, the carousel will fetch and display products
-   *   associated with the `categoryCodes` provided.
-   * - The `categoryCodes` are configured and managed through SmartEdit
-   *
-   */
-  enableCarouselCategoryProducts?: boolean;
 
   /**
    * When enabled, the `ConfiguratorAttributeHeaderComponent` component displays
@@ -358,8 +357,8 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   readMoreDirective: true,
   productReviewCharactersLeft: true,
   a11yNgSelectAriaControls: true,
-  a11yConfiguratorOverviewHeaderVPC: true,
-  enableCarouselCategoryProducts: true,
+  a11yConfiguratorOverviewHeaderVPC: false,
+  a11yFutureStockAccordionAriaControls: false,
   enableReadDomainValuesOnDemand: true,
   opfEnablePreventingFromCheckoutWithoutEmail: true,
   storeFinderFacadeCleanup: true,

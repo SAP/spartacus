@@ -11,6 +11,7 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
+import { APP_COMPONENT, APP_MODULE } from '../shared/constants';
 import { createProgram } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import { Schema as SpartacusOptions } from './schema';
@@ -22,7 +23,7 @@ export function createAppModule(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     if (options.debug) {
       context.logger.info(
-        `⌛️ Checking if app.module.ts needs to be created...`
+        `⌛️ Checking if ${APP_MODULE} needs to be created...`
       );
     }
 
@@ -33,7 +34,7 @@ export function createAppModule(options: SpartacusOptions): Rule {
 
     // Check if app.module.ts already exists
     const appModuleExists = appSourceFiles.some((sourceFile) =>
-      sourceFile.getFilePath().includes('app.module.ts')
+      sourceFile.getFilePath().includes(APP_MODULE)
     );
 
     if (!appModuleExists) {
@@ -44,7 +45,7 @@ export function createAppModule(options: SpartacusOptions): Rule {
       // Find the app directory
       let appDir: string | null = null;
       tree.visit((filePath: Path) => {
-        if (filePath.endsWith('/app/app.component.ts')) {
+        if (filePath.endsWith(`/app/${APP_COMPONENT}`)) {
           appDir = filePath.substring(0, filePath.lastIndexOf('/'));
         }
       });
@@ -53,13 +54,18 @@ export function createAppModule(options: SpartacusOptions): Rule {
         throw new SchematicsException('Could not find app directory');
       }
 
-      const appModulePath = `${appDir}/app.module.ts`;
-      const appModuleContent = `import { NgModule } from '@angular/core';\n\n@NgModule({})\nexport class AppModule {}\n`;
+      const appModulePath = `${appDir}/${APP_MODULE}`;
+      const appModuleContent = `
+import { NgModule } from '@angular/core';
+
+@NgModule({})
+export class AppModule {}
+`;
 
       tree.create(appModulePath, appModuleContent);
       context.logger.info(`✅ Created ${appModulePath}`);
     } else {
-      context.logger.info(`✅ app.module.ts already exists`);
+      context.logger.info(`✅ ${APP_MODULE} already exists`);
     }
 
     if (options.debug) {

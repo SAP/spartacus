@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { makeEnvironmentProviders } from '@angular/core';
 import { provideConfig } from '@spartacus/core';
 import { environment } from '../../environments/environment';
 
@@ -21,7 +22,7 @@ const baseSite = environment.epdVisualization
   ? ['electronics-epdvisualization-spa'].concat(defaultBaseSite)
   : defaultBaseSite;
 
-export const spartacusB2cConfigurationProviders = [
+export const spartacusB2cConfigurationProviders = makeEnvironmentProviders([
   provideConfig({
     context: {
       urlParameters: ['baseSite', 'language', 'currency'],
@@ -35,4 +36,4 @@ export const spartacusB2cConfigurationProviders = [
       },
     },
   }),
-];
+]);

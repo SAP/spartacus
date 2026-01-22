@@ -72,18 +72,12 @@ exports[`Spartacus Asm schematics: ng-add Asm feature general setup styling shou
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false,
           "type": "component",
           "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false,
           "type": "directive",
           "addTypeToClassName": false
-        },
-        "@schematics/angular:pipe": {
-          "standalone": false,
-          "typeSeparator": "."
         },
         "@schematics/angular:service": {
           "type": "service",
@@ -96,6 +90,9 @@ exports[`Spartacus Asm schematics: ng-add Asm feature general setup styling shou
           "typeSeparator": "."
         },
         "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:pipe": {
           "typeSeparator": "."
         },
         "@schematics/angular:resolver": {

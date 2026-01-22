@@ -42,7 +42,6 @@ const appOptions: ApplicationOptions = {
   inlineTemplate: false,
   style: Style.Scss,
   skipTests: false,
-  standalone: true,
   zoneless: false,
   fileNameStyleGuide: FileNameStyleGuide.The2016,
 };
@@ -680,5 +679,59 @@ describe('add-spartacus on Angular app without routing', () => {
     expect(
       tree.exists('/projects/schematics-test/src/app/app-routing.module.ts')
     ).toBe(false);
+  });
+
+  describe('app.config.ts', () => {
+    it('should be created with correct content', () => {
+      const appConfig = tree.readContent(
+        '/projects/schematics-test/src/app/app.config.ts'
+      );
+      expect(appConfig).toMatchSnapshot();
+    });
+  });
+
+  describe('app.component.ts', () => {
+    it('should be created with correct content', () => {
+      const appComponent = tree.readContent(
+        '/projects/schematics-test/src/app/app.component.ts'
+      );
+      expect(appComponent).toMatchSnapshot();
+    });
+  });
+
+  describe('app.module.ts', () => {
+    it('should be created with necessary modules imported inside', () => {
+      const appModule = tree.readContent(
+        '/projects/schematics-test/src/app/app.module.ts'
+      );
+      expect(appModule).toMatchSnapshot();
+    });
+  });
+
+  describe('app.component.html', () => {
+    it('should match snapshot', () => {
+      const appComponentHtml = tree.readContent(
+        '/projects/schematics-test/src/app/app.component.html'
+      );
+      expect(appComponentHtml).toMatchSnapshot();
+    });
+  });
+
+  describe('spartacus.module.ts', () => {
+    it('should be created with correct content', () => {
+      const spartacusModule = tree.readContent(
+        '/projects/schematics-test/src/app/spartacus/spartacus.module.ts'
+      );
+      expect(spartacusModule).toMatchSnapshot();
+    });
+  });
+
+  describe('spartacus-configuration.module.ts', () => {
+    it('should be created with correct content', () => {
+      const spartacusConfigModule = tree.readContent(
+        '/projects/schematics-test/src/app/spartacus/spartacus-configuration.module.ts'
+      );
+      expect(spartacusConfigModule).toMatchSnapshot();
+    });
   });
 });

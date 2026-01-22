@@ -43,10 +43,6 @@ export function formatFile(sourceFile: SourceFile): void {
 }
 
 export function saveAndFormat(sourceFile: SourceFile): void {
-  sourceFile.organizeImports();
-  sourceFile.formatText({
-    ensureNewLineAtEndOfFile: true,
-    indentSize: 2,
-  });
+  formatFile(sourceFile);
   sourceFile.saveSync();
 }

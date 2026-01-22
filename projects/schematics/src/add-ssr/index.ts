@@ -41,7 +41,12 @@ import {
   getDefaultProjectNameFromWorkspace,
   getWorkspace,
 } from '../shared';
-import { ANGULAR_SERVER_MODULE, ANGULAR_SSR } from '../shared/constants';
+import {
+  ANGULAR_SERVER_MODULE,
+  ANGULAR_SSR,
+  APP_ROUTES_SERVER,
+  INDEX_HTML,
+} from '../shared/constants';
 import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
   commitChanges,
@@ -75,7 +80,7 @@ export function modifyAppServerModuleFile(): Rule {
 
     if (!appServerModulePath) {
       throw new SchematicsException(
-        `Project file "app.module.server.ts" not found.`
+        `Project file "${ANGULAR_SERVER_MODULE}" not found.`
       );
     }
 
@@ -104,7 +109,7 @@ export function modifyAppServerModuleFile(): Rule {
 
 function modifyIndexHtmlFile(options: SpartacusOptions): Rule {
   return (tree: Tree) => {
-    const buffer = tree.read('src/index.html');
+    const buffer = tree.read(`src/${INDEX_HTML}`);
     if (buffer) {
       const indexContent = buffer.toString();
       if (!indexContent.includes('<meta name="occ-backend-base-url"')) {
@@ -427,7 +432,7 @@ function removeServerRoutesFileFromSrc(
   return (tree: Tree, context: SchematicContext): Tree => {
     const serverRoutesPath = getPathResultsForFile(
       tree,
-      'app.routes.server.ts',
+      APP_ROUTES_SERVER,
       '/src'
     )[0];
 

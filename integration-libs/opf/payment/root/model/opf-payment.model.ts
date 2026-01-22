@@ -55,6 +55,7 @@ export interface OpfPaymentGlobalMethods {
   reinitiatePaymentForm?(paymentOptionId?: number): Promise<boolean>;
   getCart?(cartId?: string): Promise<Cart | undefined>;
   setBillingAddress?(address: Address): Promise<unknown>;
+  getBillingAddress?(): Promise<Address | undefined>;
   setDeliveryAddress?(address: Address): Promise<string>;
   getDeliveryAddress?(): Promise<Address | undefined>;
   setDeliveryMode?(mode: string): Promise<DeliveryMode | undefined>;
