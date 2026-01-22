@@ -18,7 +18,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  FeatureDirective,
   ImageGroup,
   Product,
   TranslatePipe,
@@ -60,7 +59,6 @@ import { ProductImageZoomThumbnailsComponent } from '../product-image-zoom-thumb
   imports: [
     NgIf,
     IconComponent,
-    FeatureDirective,
     MediaComponent,
     ProductImageZoomThumbnailsComponent,
     AsyncPipe,

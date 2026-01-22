@@ -12,18 +12,13 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import {
-  FeatureDirective,
-  RoutingService,
-  TranslatePipe,
-} from '@spartacus/core';
+import { RoutingService, TranslatePipe } from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-store-finder-search',
   templateUrl: './store-finder-search.component.html',
   imports: [
-    FeatureDirective,
     FormsModule,
     ReactiveFormsModule,
     IconComponent,
