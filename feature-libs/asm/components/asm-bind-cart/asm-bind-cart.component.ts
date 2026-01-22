@@ -9,7 +9,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  inject,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -29,7 +28,6 @@ import {
 } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
-  FeatureConfigService,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorModel,
@@ -111,8 +109,6 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   saveInactiveCartElemRef: ElementRef<HTMLButtonElement>;
 
   protected subscription = new Subscription();
-
-  protected featureConfig = inject(FeatureConfigService);
 
   constructor(
     protected globalMessageService: GlobalMessageService,

@@ -13,19 +13,12 @@ import {
   ElementRef,
   HostBinding,
   Input,
-  Optional,
   QueryList,
   ViewChild,
   ViewChildren,
-  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import {
-  Facet,
-  FacetValue,
-  FeatureConfigService,
-  TranslatePipe,
-} from '@spartacus/core';
+import { Facet, FacetValue, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import {
@@ -78,10 +71,6 @@ export class FacetComponent implements AfterViewInit {
   get facet(): Facet {
     return this._facet;
   }
-
-  @Optional() featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
 
   constructor(
     protected facetService: FacetService,
