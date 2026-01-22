@@ -89,17 +89,3 @@ The alternative extractor:
 - Successfully processes all 319 bundled type files
 
 ---
-
-## Files Modified
-
-1. `common.ts` - Error handling improvements
-2. `extract.ts` - Cleaned up warnings and comments  
-3. `compare.ts` - Removed debug logging
-4. `extract-bundled.ts` - New file created
-5. `readme.md` - Already up to date
-
-## Files Removed
-
-1. `switch-to-augmented-types.sh` - No longer needed with extract-bundled.ts
-
-All changes are backward compatible - old workflow still works perfectly.

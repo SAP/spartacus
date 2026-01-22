@@ -8,6 +8,7 @@
     "extract-all": "npm run extract-old && npm run extract-new-bundled",
     "extract-old": "ts-node extract.ts ../../src/old",
     "extract-new": "ts-node extract.ts ../../src/new",
+    "extract-old-bundled": "ts-node extract-bundled.ts ../../src/old",
     "extract-new-bundled": "ts-node extract-bundled.ts ../../src/new",
     "parse-all": "npm run parse-old && npm run parse-new",
     "parse-old": "ts-node parse.ts ../../src/old",

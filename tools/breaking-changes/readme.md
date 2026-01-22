@@ -30,7 +30,7 @@ In both ./src/old and ./src/new, run `npm install` and `npm run build:libs`.
 
 ### Standard workflow (recommended):
 ```bash
-npm run extract-all  # Uses extract-old + extract-new-bundled
+npm run extract-all  # Uses extract-old + extract-new-bundled, for next major version (2027) please update to extract-old-bundled + extract-new-bundled
 npm run parse-all
 npm run compare
 ```
@@ -42,7 +42,8 @@ If you need to extract specific versions manually:
 
 ```bash
 npm run extract-old              # For augmented-types (standard API Extractor)
-npm run extract-new              # For augmented-types (standard API Extractor)
+npm run extract-new              # For augmented-types (standard API Extractor) - deprecated
+npm run extract-old-bundled      # For declaration-merging (bundled types) - for future purposes
 npm run extract-new-bundled      # For declaration-merging (bundled types)
 ```
 
