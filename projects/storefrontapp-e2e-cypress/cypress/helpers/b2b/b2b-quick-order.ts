@@ -204,8 +204,11 @@ export function addProductToCartWithQuickForm(
   quantity?: number
 ) {
   cy.get('cx-cart-quick-order-form .input-product-code')
+    .should('be.visible')
+    .and('be.enabled')
     .clear()
-    .type(`${productCode}`);
+    .type(`${productCode}`, { delay: 50 })
+    .should('have.value', `${productCode}`);
 
   if (quantity) {
     cy.get('cx-cart-quick-order-form .input-quantity')
