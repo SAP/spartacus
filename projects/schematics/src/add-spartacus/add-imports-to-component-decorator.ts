@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Node, SourceFile } from 'ts-morph';
+import {
+  Node,
+  ObjectLiteralExpression,
+  PropertyAssignment,
+  SourceFile,
+} from 'ts-morph';
 import { formatFile } from '../shared';
 
 /**
@@ -16,7 +21,6 @@ export function addImportsToComponentDecorator(
   options: { removeOldImports?: boolean } = {}
 ): void {
   const { removeOldImports = true } = options;
-  const propertyName = 'imports';
   const classes = sourceFile.getClasses();
 
   for (const classDeclaration of classes) {
@@ -26,44 +30,70 @@ export function addImportsToComponentDecorator(
       const args = decorator.getArguments();
 
       if (args.length > 0 && Node.isObjectLiteralExpression(args[0])) {
-        const objLiteral = args[0];
-        const importsProperty = objLiteral
-          .getProperties()
-          .find(
-            (prop) =>
-              Node.isPropertyAssignment(prop) && prop.getName() === propertyName
-          );
-
-        if (importsProperty && Node.isPropertyAssignment(importsProperty)) {
-          if (removeOldImports) {
-            // Replace the entire array with the new value
-            importsProperty.setInitializer(`[${value}]`);
-          } else {
-            // Append to existing imports
-            const currentInitializer = importsProperty.getInitializer();
-            if (
-              currentInitializer &&
-              Node.isArrayLiteralExpression(currentInitializer)
-            ) {
-              const existingElements = currentInitializer
-                .getElements()
-                .map((el) => el.getText());
-              const newImports = [...existingElements, value];
-              importsProperty.setInitializer(`[${newImports.join(', ')}]`);
-            } else {
-              // Fallback to replacement if not an array
-              importsProperty.setInitializer(`[${value}]`);
-            }
-          }
-        } else {
-          // Add the property if it doesn't exist
-          objLiteral.addPropertyAssignment({
-            name: propertyName,
-            initializer: `[${value}]`,
-          });
-        }
+        updateComponentImports(args[0], value, removeOldImports);
       }
     }
   }
   formatFile(sourceFile);
+}
+
+/**
+ * Updates or adds imports property to the Component decorator
+ */
+function updateComponentImports(
+  objLiteral: ObjectLiteralExpression,
+  value: string,
+  removeOldImports: boolean
+): void {
+  const propertyName = 'imports';
+  const importsProperty = objLiteral
+    .getProperties()
+    .find(
+      (prop) =>
+        Node.isPropertyAssignment(prop) && prop.getName() === propertyName
+    );
+
+  if (importsProperty && Node.isPropertyAssignment(importsProperty)) {
+    if (removeOldImports) {
+      replaceImportsProperty(importsProperty, value);
+    } else {
+      appendToImportsProperty(importsProperty, value);
+    }
+  } else {
+    // Add the property if it doesn't exist
+    objLiteral.addPropertyAssignment({
+      name: propertyName,
+      initializer: `[${value}]`,
+    });
+  }
+}
+
+/**
+ * Updates the imports property by replacing with new value
+ */
+function replaceImportsProperty(
+  importsProperty: PropertyAssignment,
+  value: string
+): void {
+  importsProperty.setInitializer(`[${value}]`);
+}
+
+/**
+ * Updates the imports property by appending new value to existing imports
+ */
+function appendToImportsProperty(
+  importsProperty: PropertyAssignment,
+  value: string
+): void {
+  const currentInitializer = importsProperty.getInitializer();
+  if (currentInitializer && Node.isArrayLiteralExpression(currentInitializer)) {
+    const existingElements = currentInitializer
+      .getElements()
+      .map((el) => el.getText());
+    const newImports = [...existingElements, value];
+    importsProperty.setInitializer(`[${newImports.join(', ')}]`);
+  } else {
+    // Fallback to replacement if not an array
+    importsProperty.setInitializer(`[${value}]`);
+  }
 }
