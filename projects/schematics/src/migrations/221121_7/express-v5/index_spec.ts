@@ -9,7 +9,7 @@ import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import { join } from 'path';
 
 const collectionPath = join(__dirname, '../../migrations.json');
-const MIGRATION_SCRIPT_NAME = '02-migration-v221121_8-express-v5';
+const MIGRATION_SCRIPT_NAME = '02-migration-v221121_7-express-v5';
 
 describe('Express v5 Migration', () => {
   let tree: Tree;
