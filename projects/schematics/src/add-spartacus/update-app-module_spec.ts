@@ -15,8 +15,10 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
+import { firstValueFrom } from 'rxjs';
 import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
 import { Schema as SpartacusOptions } from './schema';
+import { updateAppModule } from './update-app-module';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
@@ -53,8 +55,10 @@ describe('updateAppModule', () => {
     features: [],
   };
 
+  let appTree: UnitTestTree;
+
   beforeAll(async () => {
-    let appTree = await schematicRunner.runExternalSchematic(
+    appTree = await schematicRunner.runExternalSchematic(
       '@schematics/angular',
       'workspace',
       workspaceOptions
@@ -66,15 +70,45 @@ describe('updateAppModule', () => {
       appOptions,
       appTree
     );
-
-    tree = await schematicRunner.runSchematic(
-      'add-spartacus',
-      defaultOptions,
-      appTree
-    );
   });
 
   it('should add imports of spartacus modules to app.module.ts', async () => {
+    const appModuleContent = `
+import { NgModule } from '@angular/core';
+
+@NgModule({})
+export class AppModule {}
+`;
+    appTree.overwrite('/src/app/app.module.ts', appModuleContent);
+
+    tree = (await firstValueFrom(
+      schematicRunner.callRule(updateAppModule(defaultOptions), appTree)
+    )) as UnitTestTree;
+
+    const appModule = tree.readContent('/src/app/app.module.ts');
+    expect(appModule).toMatchSnapshot();
+  });
+
+  it('should add imports of spartacus modules to app.module.ts with customizations', async () => {
+    const appModuleContent = `
+import { NgModule } from '@angular/core';
+
+@NgModule({
+  imports: [
+  SomeCustomModule
+  ],
+  providers: [
+    someCustomProvider
+  ]
+})
+export class AppModule {}
+`;
+    appTree.overwrite('/src/app/app.module.ts', appModuleContent);
+
+    tree = (await firstValueFrom(
+      schematicRunner.callRule(updateAppModule(defaultOptions), appTree)
+    )) as UnitTestTree;
+
     const appModule = tree.readContent('/src/app/app.module.ts');
     expect(appModule).toMatchSnapshot();
   });

@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`updateAppConfigServer should add importProvidersFrom(AppServerModule) to app.config.server.ts 1`] = `
-"import { ApplicationConfig, importProvidersFrom, mergeApplicationConfig } from '@angular/core';
+exports[`updateAppConfigServer should add importProvidersFrom(AppServerModule), and remove remove withRoutes(serverRoutes from provideServerRendering from app.config.server.ts 1`] = `
+"
+import { ApplicationConfig, importProvidersFrom, mergeApplicationConfig } from '@angular/core';
 import { provideServerRendering } from '@angular/ssr';
 import { appConfig } from './app.config';
 import { AppServerModule } from "./app.module.server";

@@ -15,8 +15,10 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
+import { firstValueFrom } from 'rxjs';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
+import { updateAppConfigServer } from './update-app-config-server';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
@@ -67,21 +69,31 @@ describe('updateAppConfigServer', () => {
       appTree
     );
 
-    appTree = await schematicRunner.runSchematic(
-      'add-spartacus',
-      defaultOptions,
-      appTree
-    );
+    const appConfigServerContent = `
+import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
+import { provideServerRendering, withRoutes } from '@angular/ssr';
+import { appConfig } from './app.config';
+import { serverRoutes } from './app.routes.server';
 
-    tree = await schematicRunner.runSchematic(
-      'add-ssr',
-      defaultOptions,
-      appTree
-    );
+const serverConfig: ApplicationConfig = {
+  providers: [
+    provideServerRendering(withRoutes(serverRoutes))
+  ]
+};
+
+export const config = mergeApplicationConfig(appConfig, serverConfig);
+`;
+    appTree.create('/src/app/app.config.server.ts', appConfigServerContent);
+
+    tree = (await firstValueFrom(
+      schematicRunner.callRule(updateAppConfigServer(defaultOptions), appTree)
+    )) as UnitTestTree;
   });
 
-  it('should add importProvidersFrom(AppServerModule) to app.config.server.ts', async () => {
-    const appConfigServer = tree.readContent('/src/app/app.config.server.ts');
+  it('should add importProvidersFrom(AppServerModule), and remove remove withRoutes(serverRoutes from provideServerRendering from app.config.server.ts', async () => {
+    const appConfigServer = tree
+      .read('/src/app/app.config.server.ts')
+      ?.toString();
     expect(appConfigServer).toMatchSnapshot();
   });
 });

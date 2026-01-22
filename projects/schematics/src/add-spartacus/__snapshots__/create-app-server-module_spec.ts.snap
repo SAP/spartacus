@@ -3,16 +3,8 @@
 exports[`createAppServerModule should create app.module.server.ts with provideServer() using serverRequestOrigin: process.env["SERVER_REQUEST_ORIGIN"], 1`] = `
 "
 import { NgModule } from '@angular/core';
-import { provideServer } from '@spartacus/setup/ssr';
 
-@NgModule({
-  providers: [
-    
-     ...provideServer({
-        serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
-      }),
-  ]
-})
+@NgModule({})
 export class AppServerModule {}
 "
 `;

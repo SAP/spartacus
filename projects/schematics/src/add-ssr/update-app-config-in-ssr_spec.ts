@@ -15,8 +15,10 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
+import { firstValueFrom } from 'rxjs';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
+import { updateAppConfigInSsr } from './update-app-config-in-ssr';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
@@ -67,15 +69,25 @@ describe('updateAppConfigInSsr', () => {
       appTree
     );
 
-    tree = await schematicRunner.runSchematic(
-      'add-spartacus',
-      defaultOptions,
-      appTree
-    );
+    const appConfigContent = `
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+  ]
+};
+`;
+    appTree.overwrite('/src/app/app.config.ts', appConfigContent);
+
+    tree = (await firstValueFrom(
+      schematicRunner.callRule(updateAppConfigInSsr(defaultOptions), appTree)
+    )) as UnitTestTree;
   });
 
   it('should add provideClientHydration with withEventReplay and withNoHttpTransferCache to app.config.ts', async () => {
-    const appConfig = tree.readContent('/src/app/app.config.ts');
+    const appConfig = tree.readText('/src/app/app.config.ts');
     expect(appConfig).toMatchSnapshot();
   });
 });

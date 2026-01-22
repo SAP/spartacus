@@ -4,10 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  SchematicTestRunner,
-  UnitTestTree,
-} from '@angular-devkit/schematics/testing';
+import { Tree } from '@angular-devkit/schematics';
+import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
   FileNameStyleGuide,
@@ -15,8 +13,10 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
+import { firstValueFrom } from 'rxjs';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
+import { createAppServerModule } from './create-app-server-module';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
@@ -26,7 +26,7 @@ describe('createAppServerModule', () => {
     collectionPath
   );
 
-  let appTree: UnitTestTree;
+  let appTree: Tree;
 
   const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
@@ -67,18 +67,8 @@ describe('createAppServerModule', () => {
       appTree
     );
 
-    // Run add-spartacus first
-    appTree = await schematicRunner.runSchematic(
-      'add-spartacus',
-      defaultOptions,
-      appTree
-    );
-
-    // Then run add-ssr which calls createAppServerModule
-    appTree = await schematicRunner.runSchematic(
-      'add-ssr',
-      defaultOptions,
-      appTree
+    appTree = await firstValueFrom(
+      schematicRunner.callRule(createAppServerModule(defaultOptions), appTree)
     );
   });
 
@@ -87,16 +77,13 @@ describe('createAppServerModule', () => {
   });
 
   it('should create app.module.server.ts with provideServer() using serverRequestOrigin: process.env["SERVER_REQUEST_ORIGIN"],', async () => {
-    const appServerModule = appTree.readContent(
-      '/src/app/app.module.server.ts'
-    );
+    const appServerModule = appTree.readText('/src/app/app.module.server.ts');
     expect(appServerModule).toMatchSnapshot();
   });
 
   it('should contain NgModule decorator', async () => {
-    const appServerModule = appTree.readContent(
-      '/src/app/app.module.server.ts'
-    );
+    const appServerModule = appTree.readText('/src/app/app.module.server.ts');
+
     expect(appServerModule).toContain('@NgModule');
     expect(appServerModule).toContain('export class AppServerModule');
   });

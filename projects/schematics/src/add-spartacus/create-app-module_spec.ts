@@ -4,10 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  SchematicTestRunner,
-  UnitTestTree,
-} from '@angular-devkit/schematics/testing';
+import { Tree } from '@angular-devkit/schematics';
+import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
   FileNameStyleGuide,
@@ -15,7 +13,9 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
+import { firstValueFrom } from 'rxjs';
 import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
+import { createAppModule } from './create-app-module';
 import { Schema as SpartacusOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -26,7 +26,7 @@ describe('createAppModule', () => {
     collectionPath
   );
 
-  let appTree: UnitTestTree;
+  let appTree: Tree;
 
   const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
@@ -66,37 +66,23 @@ describe('createAppModule', () => {
       standaloneAppOptions,
       appTree
     );
+
+    appTree = await firstValueFrom(
+      schematicRunner.callRule(createAppModule(defaultOptions), appTree)
+    );
   });
 
   it('should create app.module.ts for standalone app', async () => {
-    const tree = await schematicRunner.runSchematic(
-      'add-spartacus',
-      defaultOptions,
-      appTree
-    );
-
-    expect(tree.exists('/src/app/app.module.ts')).toBe(true);
+    expect(appTree.exists('/src/app/app.module.ts')).toBe(true);
   });
 
   it('should create app.module.ts with imports of StoreModule.forRoot({}), AppRoutingModule, EffectsModule.forRoot([]), SpartacusModule', async () => {
-    const tree = await schematicRunner.runSchematic(
-      'add-spartacus',
-      defaultOptions,
-      appTree
-    );
-
-    const appModule = tree.readContent('/src/app/app.module.ts');
+    const appModule = appTree.readText('/src/app/app.module.ts');
     expect(appModule).toMatchSnapshot();
   });
 
   it('should contain NgModule decorator', async () => {
-    const tree = await schematicRunner.runSchematic(
-      'add-spartacus',
-      defaultOptions,
-      appTree
-    );
-
-    const appModule = tree.readContent('/src/app/app.module.ts');
+    const appModule = appTree.readText('/src/app/app.module.ts');
     expect(appModule).toContain('@NgModule');
     expect(appModule).toContain('export class AppModule');
   });
