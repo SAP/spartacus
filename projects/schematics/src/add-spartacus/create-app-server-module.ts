@@ -55,7 +55,12 @@ export function createAppServerModule(options: SpartacusOptions): Rule {
       }
 
       const appServerModulePath = `${appDir}/${ANGULAR_SERVER_MODULE}`;
-      const appServerModuleContent = `\nimport { NgModule } from '@angular/core';\n\n@NgModule({})\nexport class AppServerModule {}\n`;
+      const appServerModuleContent = `
+import { NgModule } from '@angular/core';
+
+@NgModule({})
+export class AppServerModule {}
+`;
 
       tree.create(appServerModulePath, appServerModuleContent);
       context.logger.info(`✅ Created ${appServerModulePath}`);
