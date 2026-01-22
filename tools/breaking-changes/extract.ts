@@ -19,8 +19,8 @@ const distFolderPath = spartacusHomeDir + '/dist';
 
 // Modules to exclude due to external global types issues (e.g., ApplePayJS)
 const EXCLUDED_MODULES = [
-  '/opf/quick-buy/components',
-  '/opf/quick-buy/public_api.d.ts'
+  // '/opf/quick-buy/components',
+  // '/opf/quick-buy/public_api.d.ts'
 ];
 
 console.log(`Extract public API for libs in ${spartacusHomeDir}/dist.`);
