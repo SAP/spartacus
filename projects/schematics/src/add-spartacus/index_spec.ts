@@ -684,7 +684,7 @@ describe('add-spartacus on Angular app without routing', () => {
   describe('app.config.ts', () => {
     it('should be created with correct content', () => {
       const appConfig = tree.readContent(
-        '/projects/standalone-test/src/app/app.config.ts'
+        '/projects/schematics-test/src/app/app.config.ts'
       );
       expect(appConfig).toMatchSnapshot();
     });
@@ -693,7 +693,7 @@ describe('add-spartacus on Angular app without routing', () => {
   describe('app.component.ts', () => {
     it('should be created with correct content', () => {
       const appComponent = tree.readContent(
-        '/projects/standalone-test/src/app/app.component.ts'
+        '/projects/schematics-test/src/app/app.component.ts'
       );
       expect(appComponent).toMatchSnapshot();
     });
@@ -702,7 +702,7 @@ describe('add-spartacus on Angular app without routing', () => {
   describe('app.module.ts', () => {
     it('should be created with necessary modules imported inside', () => {
       const appModule = tree.readContent(
-        '/projects/standalone-test/src/app/app.module.ts'
+        '/projects/schematics-test/src/app/app.module.ts'
       );
       expect(appModule).toMatchSnapshot();
     });
@@ -711,7 +711,7 @@ describe('add-spartacus on Angular app without routing', () => {
   describe('app.component.html', () => {
     it('should match snapshot', () => {
       const appComponentHtml = tree.readContent(
-        '/projects/standalone-test/src/app/app.component.html'
+        '/projects/schematics-test/src/app/app.component.html'
       );
       expect(appComponentHtml).toMatchSnapshot();
     });
@@ -720,7 +720,7 @@ describe('add-spartacus on Angular app without routing', () => {
   describe('spartacus.module.ts', () => {
     it('should be created with correct content', () => {
       const spartacusModule = tree.readContent(
-        '/projects/standalone-test/src/app/spartacus/spartacus.module.ts'
+        '/projects/schematics-test/src/app/spartacus/spartacus.module.ts'
       );
       expect(spartacusModule).toMatchSnapshot();
     });
@@ -729,7 +729,7 @@ describe('add-spartacus on Angular app without routing', () => {
   describe('spartacus-configuration.module.ts', () => {
     it('should be created with correct content', () => {
       const spartacusConfigModule = tree.readContent(
-        '/projects/standalone-test/src/app/spartacus/spartacus-configuration.module.ts'
+        '/projects/schematics-test/src/app/spartacus/spartacus-configuration.module.ts'
       );
       expect(spartacusConfigModule).toMatchSnapshot();
     });
