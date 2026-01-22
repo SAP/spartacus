@@ -54,4 +54,16 @@
 - **Reason:** Deprecated in favor of `GuardsComposer`.
 - **Action Required:** Use the `GuardsComposer` service to execute guards manually if needed.
 
+### 11. Global Changes
+
+#### `FeatureConfigService` Visibility Refactor
+- **Change**: The `FeatureConfigService` (often injected as `featureConfigService` or `featureConfig`) has been made **private** across all Spartacus components and services.
+- **Impact**: Any custom classes extending Spartacus components or services that relied on `protected` access to `FeatureConfigService` will now encounter compilation errors.
+- **Action Required**: Subclasses should no longer rely on the base class's `FeatureConfigService`. If feature configuration is needed in a subclass, it should be injected directly within that subclass.
+
+#### New ESLint Rule: `feature-config-service-must-be-private`
+- **Change**: A new ESLint rule has been introduced to enforce that `FeatureConfigService` is always injected as a `private` property.
+- **Reason**: To prevent the exposure of internal feature configuration logic in the public/protected API of components and services.
+- **Action Required**: Ensure that any manual injections of `FeatureConfigService` in your codebase use the `private` modifier. You can use `eslint --fix` to automatically resolve most violations.
+
 ---
