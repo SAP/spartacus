@@ -16,7 +16,7 @@ import {
 } from '../../../sample-data/b2b-checkout';
 import { user } from '../../../sample-data/checkout-flow';
 
-describe.skip('B2B Accessibility Checkout', () => {
+describe('B2B Accessibility Checkout', () => {
   before(() => {
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
     cy.a11yContinuumSetup();
