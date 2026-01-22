@@ -13,7 +13,7 @@
 - **Config Consolidation**: Removed `defaultUserCmsModuleConfig`.
 - **Breaking Impact**: `defaultCmsModuleConfig` was updated to include the configuration that was previously only in `defaultUserCmsModuleConfig`. If you were specifically relying on the old structure of `defaultCmsModuleConfig` (without the `pages` endpoint defined as it is now), this may affect CMS request building.
 
-### 4. `occ-cms-component.adapter.ts` (referenced as `cc-cms-component.adapter.ts`)
+### 4. `occ-cms-component.adapter.ts`
 - **Feature Toggle Removal**: Removed all logic related to the `USER_CMS_ENDPOINTS` feature toggle.
 - **Behavior Change**: The adapter now **always** uses the `userIdService` to determine the current user and builds the component request URL accordingly.
 - **API Cleanup**: Removed usage of `FeatureConfigService`.
@@ -40,11 +40,8 @@
 - **Internal Change**: This change primarily affects how Spartacus internally handles CMS-driven routes and guards, ensuring better support for both class-based and functional guards (`CanActivateFn`).
 
 ### 9. `ng-select-a11y.directive.ts`
-- **Standalone Migration**: Converted to a **standalone component** (implicit as `standalone: false` was removed and it's a Directive).
 - **Method Removal**: Removed deprecated `onOpen()` and `appendAriaLabelToOptions()` methods.
 - **Method Removal**: Removed `customizeNgSelectAriaLabelDropdown()` method.
-- **Logic Update**: Switched from direct event subscriptions to using `outputToObservable` for `openEvent` and `closeEvent`.
-- **Aria Attributes**: The logic for appending aria-labels to options was refactored/removed as it's now handled differently or considered standard.
 - **Breaking Impact**: If you were overriding or calling these deprecated methods in a custom directive extending this one, your code will fail to compile.
 
 ### 10. Removed Methods & APIs
