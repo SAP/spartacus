@@ -10,7 +10,7 @@ import { SPARTACUS_STOREFRONTLIB } from '../shared/libs-constants';
 import { createImports } from '../shared/utils/import-utils';
 import { createProgram, formatFile } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
-import { addToComponentDecorator } from './add-to-component-decorator';
+import { addImportsToComponentDecorator } from './add-imports-to-component-decorator';
 import { Schema as SpartacusOptions } from './schema';
 
 /**
@@ -43,7 +43,9 @@ export function addStorefrontComponentToAppComponent(
           ]);
 
           // Add StorefrontComponent to @Component imports array
-          addToComponentDecorator(sourceFile, 'imports', 'StorefrontComponent');
+          addImportsToComponentDecorator(sourceFile, 'StorefrontComponent', {
+            removeOldImports: true,
+          });
 
           // Save changes to tree
           formatFile(sourceFile);

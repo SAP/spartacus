@@ -132,6 +132,44 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
 }
 `;
 
+exports[`add-ssr app.config.server.ts should be updated 1`] = `
+"import { ApplicationConfig, importProvidersFrom, mergeApplicationConfig } from '@angular/core';
+import { provideServerRendering } from '@angular/ssr';
+import { appConfig } from './app.config';
+import { AppServerModule } from "./app.module.server";
+
+const serverConfig: ApplicationConfig = {
+  providers: [
+    provideServerRendering(),
+    importProvidersFrom(AppServerModule)
+  ]
+};
+
+export const config = mergeApplicationConfig(appConfig, serverConfig);
+"
+`;
+
+exports[`add-ssr app.config.ts should be updated 1`] = `
+"import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+
+import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
+import { provideClientHydration, withEventReplay, withNoHttpTransferCache } from '@angular/platform-browser';
+import { AppModule } from "./app.module";
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
+    importProvidersFrom(AppModule), provideClientHydration(withEventReplay(), withNoHttpTransferCache())
+  ]
+};
+"
+`;
+
 exports[`add-ssr app.module.server.ts should be updated 1`] = `
 "
 import { NgModule } from '@angular/core';

@@ -1,0 +1,81 @@
+/*
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {
+  SchematicTestRunner,
+  UnitTestTree,
+} from '@angular-devkit/schematics/testing';
+import {
+  Schema as ApplicationOptions,
+  FileNameStyleGuide,
+  Style,
+} from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
+import * as path from 'path';
+import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
+import { Schema as SpartacusOptions } from './schema';
+
+const collectionPath = path.join(__dirname, '../collection.json');
+
+describe('updateAppConfig', () => {
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_SCHEMATICS,
+    collectionPath
+  );
+
+  let appTree: UnitTestTree;
+
+  const workspaceOptions: WorkspaceOptions = {
+    name: 'workspace',
+    version: '0.5.0',
+  };
+
+  const appOptions: ApplicationOptions = {
+    name: 'update-app-config-test',
+    inlineStyle: false,
+    inlineTemplate: false,
+    style: Style.Scss,
+    skipTests: false,
+    projectRoot: '',
+    standalone: true,
+    zoneless: false,
+    fileNameStyleGuide: FileNameStyleGuide.The2016,
+  };
+
+  const defaultOptions: SpartacusOptions = {
+    project: 'update-app-config-test',
+    baseSite: 'electronics',
+    baseUrl: 'https://localhost:9002',
+    lazy: true,
+    features: [],
+  };
+
+  beforeAll(async () => {
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    );
+
+    appTree = await schematicRunner.runExternalSchematic(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    );
+  });
+
+  it('should add to app.config.ts the providers: provideHttpClient(withFetch(), withInterceptorsFromDi()), importProvidersFrom(AppModule)', async () => {
+    const tree = await schematicRunner.runSchematic(
+      'add-spartacus',
+      defaultOptions,
+      appTree
+    );
+
+    const appConfig = tree.readContent('/src/app/app.config.ts');
+    expect(appConfig).toMatchSnapshot();
+  });
+});

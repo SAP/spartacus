@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`updateAppConfig should add to app.config.ts the providers: provideHttpClient(withFetch(), withInterceptorsFromDi()), importProvidersFrom(AppModule) 1`] = `
+"import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+
+import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
+import { AppModule } from "./app.module";
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
+    importProvidersFrom(AppModule)
+  ]
+};
+"
+`;

@@ -5,9 +5,9 @@
  */
 
 import { Project } from 'ts-morph';
-import { addToComponentDecorator } from './add-to-component-decorator';
+import { addImportsToComponentDecorator } from './add-imports-to-component-decorator';
 
-describe('addToComponentDecorator', () => {
+describe('addImportsToComponentDecorator', () => {
   let project: Project;
 
   beforeEach(() => {
@@ -31,7 +31,9 @@ export class AppComponent {
       `
     );
 
-    addToComponentDecorator(sourceFile, 'imports', 'StorefrontComponent');
+    addImportsToComponentDecorator(sourceFile, 'StorefrontComponent', {
+      removeOldImports: true,
+    });
 
     const result = sourceFile.getText();
     expect(result).toMatchSnapshot();
@@ -53,7 +55,9 @@ export class AppComponent {}
       `
     );
 
-    addToComponentDecorator(sourceFile, 'imports', 'StorefrontComponent');
+    addImportsToComponentDecorator(sourceFile, 'StorefrontComponent', {
+      removeOldImports: true,
+    });
 
     const result = sourceFile.getText();
     expect(result).toMatchSnapshot();
@@ -70,7 +74,9 @@ export class AppComponent {}
       `
     );
 
-    addToComponentDecorator(sourceFile, 'imports', 'StorefrontComponent');
+    addImportsToComponentDecorator(sourceFile, 'StorefrontComponent', {
+      removeOldImports: true,
+    });
 
     const result = sourceFile.getText();
     expect(result).toMatchSnapshot();
@@ -90,7 +96,9 @@ export class AppComponent {}
       `
     );
 
-    addToComponentDecorator(sourceFile, 'imports', 'StorefrontComponent');
+    addImportsToComponentDecorator(sourceFile, 'StorefrontComponent', {
+      removeOldImports: true,
+    });
 
     const result = sourceFile.getText();
     expect(result).toMatchSnapshot();
@@ -111,7 +119,9 @@ export class AppComponent {}
       `
     );
 
-    addToComponentDecorator(sourceFile, 'imports', 'StorefrontComponent');
+    addImportsToComponentDecorator(sourceFile, 'StorefrontComponent', {
+      removeOldImports: true,
+    });
 
     const result = sourceFile.getText();
     expect(result).toMatchSnapshot();

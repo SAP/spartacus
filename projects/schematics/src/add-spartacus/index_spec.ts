@@ -680,40 +680,9 @@ describe('add-spartacus on Angular app without routing', () => {
       tree.exists('/projects/schematics-test/src/app/app-routing.module.ts')
     ).toBe(false);
   });
-});
-
-describe('add-spartacus on standalone Angular app', () => {
-  let tree: UnitTestTree;
-
-  const standaloneAppOptions: ApplicationOptions = {
-    ...appOptions,
-    name: 'standalone-test',
-    standalone: true,
-  };
-
-  beforeAll(async () => {
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'workspace',
-      workspaceOptions
-    );
-
-    appTree = await schematicRunner.runExternalSchematic(
-      '@schematics/angular',
-      'application',
-      standaloneAppOptions,
-      appTree
-    );
-
-    tree = await schematicRunner.runSchematic(
-      'add-spartacus',
-      { ...defaultOptions, project: 'standalone-test' },
-      appTree
-    );
-  });
 
   describe('app.config.ts', () => {
-    it('should add provideHttpClient and importProvidersFrom(AppModule)', () => {
+    it('should be created with correct content', () => {
       const appConfig = tree.readContent(
         '/projects/standalone-test/src/app/app.config.ts'
       );
@@ -722,7 +691,7 @@ describe('add-spartacus on standalone Angular app', () => {
   });
 
   describe('app.component.ts', () => {
-    it('should add StorefrontComponent to imports array', () => {
+    it('should be created with correct content', () => {
       const appComponent = tree.readContent(
         '/projects/standalone-test/src/app/app.component.ts'
       );
@@ -731,7 +700,7 @@ describe('add-spartacus on standalone Angular app', () => {
   });
 
   describe('app.module.ts', () => {
-    it('should create empty app.module.ts for standalone app', () => {
+    it('should be created with necessary modules imported inside', () => {
       const appModule = tree.readContent(
         '/projects/standalone-test/src/app/app.module.ts'
       );
@@ -748,29 +717,21 @@ describe('add-spartacus on standalone Angular app', () => {
     });
   });
 
-  describe('spartacus modules', () => {
-    it('should create spartacus.module.ts', () => {
-      expect(
-        tree.exists(
-          '/projects/standalone-test/src/app/spartacus/spartacus.module.ts'
-        )
-      ).toBe(true);
+  describe('spartacus.module.ts', () => {
+    it('should be created with correct content', () => {
+      const spartacusModule = tree.readContent(
+        '/projects/standalone-test/src/app/spartacus/spartacus.module.ts'
+      );
+      expect(spartacusModule).toMatchSnapshot();
     });
+  });
 
-    it('should create spartacus-features.module.ts', () => {
-      expect(
-        tree.exists(
-          '/projects/standalone-test/src/app/spartacus/spartacus-features.module.ts'
-        )
-      ).toBe(true);
-    });
-
-    it('should create spartacus-configuration.module.ts', () => {
-      expect(
-        tree.exists(
-          '/projects/standalone-test/src/app/spartacus/spartacus-configuration.module.ts'
-        )
-      ).toBe(true);
+  describe('spartacus-configuration.module.ts', () => {
+    it('should be created with correct content', () => {
+      const spartacusConfigModule = tree.readContent(
+        '/projects/standalone-test/src/app/spartacus/spartacus-configuration.module.ts'
+      );
+      expect(spartacusConfigModule).toMatchSnapshot();
     });
   });
 });

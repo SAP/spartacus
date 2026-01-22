@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`createAppModule should create app.module.ts with imports of StoreModule.forRoot({}), AppRoutingModule, EffectsModule.forRoot([]), SpartacusModule 1`] = `
+"import { NgModule } from '@angular/core';
+import { EffectsModule } from "@ngrx/effects";
+import { StoreModule } from "@ngrx/store";
+import { AppRoutingModule } from "@spartacus/storefront";
+import { SpartacusModule } from './spartacus/spartacus.module';
+
+@NgModule({
+  imports: [StoreModule.forRoot({}), EffectsModule.forRoot([]), AppRoutingModule, SpartacusModule]
+})
+export class AppModule { }
+"
+`;

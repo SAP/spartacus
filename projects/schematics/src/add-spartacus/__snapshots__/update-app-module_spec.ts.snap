@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`updateAppModule should add imports of spartacus modules to app.module.ts 1`] = `
+"import { NgModule, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { EffectsModule } from "@ngrx/effects";
+import { StoreModule } from "@ngrx/store";
+import { AppRoutingModule } from "@spartacus/storefront";
+import { App } from './app.component';
+import { SpartacusModule } from './spartacus/spartacus.module';
+
+@NgModule({
+  declarations: [
+    App
+  ],
+  imports: [
+    BrowserModule,
+    StoreModule.forRoot({}),
+    AppRoutingModule,
+    EffectsModule.forRoot([]),
+    SpartacusModule
+  ],
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+  ],
+  bootstrap: [App]
+})
+export class AppModule { }
+"
+`;
