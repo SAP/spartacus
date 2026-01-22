@@ -139,8 +139,6 @@ function updateModule(options: CxCmsComponentSchema): Rule {
     changes.push(...addToModuleExportsChanges);
     /*** updating the module's metadata end ***/
 
-    // For standalone components, we need to add the import statement to the module
-    // since the component is exported but not declared
     const componentFileName = `${strings.dasherize(
       options.name
     )}.${strings.dasherize(options.type)}.ts`;
