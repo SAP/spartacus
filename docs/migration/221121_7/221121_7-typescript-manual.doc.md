@@ -61,6 +61,6 @@
 #### New ESLint Rule: `feature-config-service-must-be-private`
 - **Change**: A new ESLint rule has been introduced to enforce that `FeatureConfigService` is always injected as a `private` property.
 - **Reason**: To prevent the exposure of internal feature configuration logic in the public/protected API of components and services.
-- **Action Required**: Ensure that any manual injections of `FeatureConfigService` in your codebase use the `private` modifier. You can use `eslint --fix` to automatically resolve most violations.
+- **Action Required**: Ensure that any manual injections of `FeatureConfigService` in your codebase use the `private` modifier.
 
 ---
