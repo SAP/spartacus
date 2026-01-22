@@ -2,16 +2,6 @@
 
 Update your Spartacus app to use Angular’s modern `bootstrapApplication()` API (officially supported by Spartacus since v221121.7.0) instead of the legacy Angular's `bootstrapModule()` API. This aligns your app with current Angular best practices, making maintenance and upgrades easier.
 
-## Run automated migration script
-To automate the migration, run the following command in your Spartacus app's root directory:
-
-```bash
-ng g @spartacus/schematics:migrate-modernize-bootstrap-application
-```
-
-Note: the migration is available only since Spartacus version 221121.7.0.
-
-
 ## File Changes for both CSR and SSR apps
 
 Apply these changes to both CSR and SSR Spartacus apps. For SSR, follow the additional steps at the end of this guide.
