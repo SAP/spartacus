@@ -17,7 +17,6 @@ export function waitUntilOrderIsPlaced() {
   cy.get('input[formcontrolname="termsAndConditions"]')
     .should('be.visible')
     .check();
-  // cy.get('cx-place-order button').contains(' Place Order ').click();
   b2bCheckout.placeOrder('/order-confirmation');
   cy.get('main').contains('Thank you for your order!');
 }
@@ -36,9 +35,7 @@ describe('Reorder accessibility', () => {
     cy.visit('my-account/orders');
     const ordersAlias = interceptOrdersEndpoint();
     cy.get('cx-order-history .cx-order-history-value').first().click();
-
     cy.wait(`@${ordersAlias}`).its('response.statusCode').should('eq', 200);
-
     cy.get('button').contains(' Reorder ').click();
     cy.get('cx-reorder-dialog').a11yRunContinuumTest();
 
