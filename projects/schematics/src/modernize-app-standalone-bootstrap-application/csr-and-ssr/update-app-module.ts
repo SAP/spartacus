@@ -83,27 +83,20 @@ export function updateAppModule(): Rule {
     if (providersProp && providersProp.isKind(SyntaxKind.PropertyAssignment)) {
       const initializer = providersProp.getInitializer();
       if (initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
-        const elementsToRemove = [];
-
-        for (const element of initializer.getElements()) {
+        // Iterate backwards to avoid index shifting when removing elements
+        const elements = initializer.getElements();
+        for (let i = elements.length - 1; i >= 0; i--) {
+          const element = elements[i];
           if (element.isKind(SyntaxKind.CallExpression)) {
             const expression = element.getExpression();
             if (expression.isKind(SyntaxKind.Identifier)) {
               const functionName = expression.getText();
               if (PROVIDERS_TO_REMOVE.includes(functionName)) {
-                elementsToRemove.push(element);
+                initializer.removeElement(i);
               }
             }
           }
         }
-
-        // Remove elements
-        elementsToRemove.forEach((el) => {
-          const index = initializer.getElements().indexOf(el);
-          if (index !== -1) {
-            initializer.removeElement(index);
-          }
-        });
 
         // If providers array is now empty, remove the property
         if (initializer.getElements().length === 0) {
@@ -117,24 +110,17 @@ export function updateAppModule(): Rule {
     if (importsProp && importsProp.isKind(SyntaxKind.PropertyAssignment)) {
       const initializer = importsProp.getInitializer();
       if (initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
-        const elementsToRemove = [];
-
-        for (const element of initializer.getElements()) {
+        // Iterate backwards to avoid index shifting when removing elements
+        const elements = initializer.getElements();
+        for (let i = elements.length - 1; i >= 0; i--) {
+          const element = elements[i];
           if (
             element.isKind(SyntaxKind.Identifier) &&
             element.getText() === 'BrowserModule'
           ) {
-            elementsToRemove.push(element);
+            initializer.removeElement(i);
           }
         }
-
-        // Remove elements
-        elementsToRemove.forEach((el) => {
-          const index = initializer.getElements().indexOf(el);
-          if (index !== -1) {
-            initializer.removeElement(index);
-          }
-        });
       }
     }
 
