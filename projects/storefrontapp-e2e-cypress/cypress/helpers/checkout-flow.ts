@@ -6,10 +6,10 @@
 
 import { products } from '../sample-data/apparel-checkout-flow';
 import {
+  buildCheckoutDetailsAfterPaymentMock,
   cart,
   cartWithCheapProduct,
   cheapProduct,
-  getCheckoutDetailsAfterPaymentMockResponse,
   product,
   SampleCartProduct,
   SampleProduct,
@@ -42,10 +42,8 @@ export function interceptCheckoutB2CDetailsEndpoint(newAlias?: string) {
     'BASE_SITE'
   )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`;
 
-  if (alias === 'GET_CHECKOUT_DETAILS_AFTER_PAYMENT_STEP') {
-    cy.intercept('GET', url, getCheckoutDetailsAfterPaymentMockResponse()).as(
-      alias
-    );
+  if (alias === 'GET_CHECKOUT_DETAILS_AFTER_PAYMENT_STEP_MOCK') {
+    cy.intercept('GET', url, buildCheckoutDetailsAfterPaymentMock()).as(alias);
   } else {
     cy.intercept('GET', url).as(alias);
   }
@@ -479,6 +477,47 @@ export function proceedWithIncorrectPaymentForm(
 
   fillPaymentDetails(paymentDetailsData);
   cy.get('cx-form-errors').should('exist');
+}
+
+export function fillPaymentFormWithCheapProductWithMock(
+  paymentDetailsData: DeepPartial<PaymentDetails> = user,
+  billingAddress?: AddressData,
+  isExpressCheckout?: boolean
+) {
+  cy.log('🛒 Filling payment method form');
+  cy.get('.cx-checkout-title').should('contain', 'Payment');
+  cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
+    .find('.cx-summary-amount')
+    .should('not.be.empty');
+
+  const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
+
+  cy.intercept({
+    method: 'POST',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/payment/sop/response*`,
+  }).as('submitPayment');
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint(
+    'GET_CHECKOUT_DETAILS_AFTER_PAYMENT_STEP_MOCK'
+  );
+
+  fillPaymentDetails(paymentDetailsData, billingAddress);
+  cy.wait('@submitPayment');
+  cy.wait(`@${reviewPage}`);
+
+  if (isExpressCheckout) return;
+
+  cy.wait(`@${getCheckoutDetailsAlias}`).then((xhr) => {
+    const response = xhr.response;
+    cy.log(`Checkout details after payment step`);
+
+    expect(response.statusCode).to.equal(200);
+
+    expect(response.body).to.have.property('deliveryAddress');
+    expect(response.body).to.have.property('deliveryMode');
+    expect(response.body).to.have.property('paymentInfo');
+  });
 }
 
 export function fillPaymentFormWithCheapProduct(

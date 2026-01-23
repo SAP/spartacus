@@ -129,7 +129,7 @@ export const cartWithCheapProduct: SampleCartProduct = {
   totalAndShipping: '$20.19',
 };
 
-export function getCheckoutDetailsAfterPaymentMockResponse() {
+export function buildCheckoutDetailsAfterPaymentMock() {
   return {
     statusCode: 200,
     body: {
