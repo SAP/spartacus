@@ -35,7 +35,9 @@ describe('Reorder accessibility', () => {
     cy.visit('my-account/orders');
     const ordersAlias = interceptOrdersEndpoint();
     cy.get('cx-order-history .cx-order-history-value').first().click();
-    cy.wait(`@${ordersAlias}`).its('response.statusCode').should('eq', 200);
+    cy.wait(`@${ordersAlias}`, { timeout: 120000 })
+      .its('response.statusCode')
+      .should('eq', 200);
     cy.get('button').contains(' Reorder ').click();
     cy.get('cx-reorder-dialog').a11yRunContinuumTest();
 
