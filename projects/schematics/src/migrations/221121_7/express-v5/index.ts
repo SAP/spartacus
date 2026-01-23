@@ -113,7 +113,7 @@ function updateExpressWildcardRoutes(
  * Uses ts-morph to parse and manipulate the AST.
  */
 function updateServerTsFile(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext): void => {
     context.logger.info(
       '\n⌛️ Updating server.ts for Express 5 compatibility...'
     );
@@ -177,12 +177,11 @@ function updateServerTsFile(): Rule {
         context.logger.info(
           `✅ Updated ${serverFile.getFilePath()} for Express 5 compatibility`
         );
-        return tree;
+      } else {
+        context.logger.info(
+          `  ↳ ${serverFile.getFilePath()} already uses Express 5 compatible patterns or no changes needed`
+        );
       }
-
-      context.logger.info(
-        `  ↳ ${serverFile.getFilePath()} already uses Express 5 compatible patterns or no changes needed`
-      );
       return;
     }
 
