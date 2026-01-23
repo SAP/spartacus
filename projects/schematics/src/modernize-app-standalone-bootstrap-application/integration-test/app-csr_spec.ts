@@ -140,13 +140,13 @@ describe(`Schematics "${SCHEMATICS_NAME}" in CSR app`, () => {
 
     it('should import provideHttpClient and related functions', () => {
       expect(content).toMatch(
-        /import.*provideHttpClient.*from ['"@]angular\/common\/http/
+        /import[\s\S]*provideHttpClient[\s\S]*from ['"]@angular\/common\/http/
       );
       expect(content).toMatch(
-        /import.*withFetch.*from ['"@]angular\/common\/http/
+        /import[\s\S]*withFetch[\s\S]*from ['"]@angular\/common\/http/
       );
       expect(content).toMatch(
-        /import.*withInterceptorsFromDi.*from ['"@]angular\/common\/http/
+        /import[\s\S]*withInterceptorsFromDi[\s\S]*from ['"]@angular\/common\/http/
       );
     });
 
