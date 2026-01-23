@@ -10,7 +10,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
  * URL where to find the manual migration steps.
  */
 export const DOCS_URL_FOR_MODERNIZING_STANDALONE_BOOTSTRAP =
-  'https://sap.github.io/spartacus-docs/modernize-bootstrap-application/';
+  '<TODO PUT ACTUAL URL HERE>';
 
 const FALLBACK_ADVICE_TO_FOLLOW_DOCS = `Could not complete this step automatically. To complete the migration, please follow the manual steps: ${DOCS_URL_FOR_MODERNIZING_STANDALONE_BOOTSTRAP}`;
 
