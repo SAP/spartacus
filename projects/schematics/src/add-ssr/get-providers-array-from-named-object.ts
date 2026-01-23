@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Node, ObjectLiteralExpression, SourceFile } from 'ts-morph';
+import {
+  ArrayLiteralExpression,
+  Node,
+  ObjectLiteralExpression,
+  SourceFile,
+} from 'ts-morph';
 
 /**
  * Helper function to get the providers array from a variable declaration
@@ -17,7 +22,7 @@ import { Node, ObjectLiteralExpression, SourceFile } from 'ts-morph';
 export function getProvidersFromNamedObject(
   sourceFile: SourceFile,
   variableName: string
-): Node | undefined {
+): ArrayLiteralExpression | undefined {
   const variableStatements = sourceFile.getVariableStatements();
 
   for (const statement of variableStatements) {
@@ -42,7 +47,7 @@ export function getProvidersFromNamedObject(
  */
 function extractProvidersArray(
   initializer: ObjectLiteralExpression
-): Node | undefined {
+): ArrayLiteralExpression | undefined {
   const providersProperty = initializer.getProperty('providers');
 
   if (providersProperty && Node.isPropertyAssignment(providersProperty)) {

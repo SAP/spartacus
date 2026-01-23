@@ -6,7 +6,8 @@
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { Project, SyntaxKind } from 'ts-morph';
-import { formatFile } from '../../shared';
+import { getAppConfigProviders } from '../../add-ssr/get-app-config-providers';
+import { createImports, formatFile } from '../../shared';
 
 /**
  * Moves provideClientHydration from app.module.ts to app.config.ts
@@ -59,32 +60,31 @@ export function moveHydrationConfig(): Rule {
             ) {
               const initializer = providersProp.getInitializer();
               if (initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
-                const elementsToRemove = [];
-
-                for (const element of initializer.getElements()) {
-                  if (element.isKind(SyntaxKind.CallExpression)) {
-                    const expression = element.getExpression();
-                    if (
-                      expression.isKind(SyntaxKind.Identifier) &&
-                      expression.getText() === 'provideClientHydration'
-                    ) {
-                      hydrationCallExpression = element.getText();
-                      elementsToRemove.push(element);
+                // Find the first provideClientHydration call
+                const hydrationElementIndex = initializer
+                  .getElements()
+                  .findIndex((element) => {
+                    if (element.isKind(SyntaxKind.CallExpression)) {
+                      const expression = element.getExpression();
+                      return (
+                        expression.isKind(SyntaxKind.Identifier) &&
+                        expression.getText() === 'provideClientHydration'
+                      );
                     }
-                  }
-                }
+                    return false;
+                  });
 
-                // Remove provideClientHydration from app.module.ts
-                elementsToRemove.forEach((el) => {
-                  const index = initializer.getElements().indexOf(el);
-                  if (index !== -1) {
-                    initializer.removeElement(index);
-                  }
-                });
+                // If found, capture it and remove it
+                if (hydrationElementIndex !== -1) {
+                  const hydrationElement =
+                    initializer.getElements()[hydrationElementIndex];
+                  hydrationCallExpression = hydrationElement.getText();
+                  initializer.removeElement(hydrationElementIndex);
 
-                // If providers array is now empty, remove the property
-                if (initializer.getElements().length === 0) {
-                  providersProp.remove();
+                  // If providers array is now empty, remove the property
+                  if (initializer.getElements().length === 0) {
+                    providersProp.remove();
+                  }
                 }
               }
             }
@@ -99,7 +99,7 @@ export function moveHydrationConfig(): Rule {
       tree.overwrite(appModulePath, appModuleSource.getFullText());
 
       // Read app.config.ts
-      const appConfigContent = tree.read(appConfigPath)?.toString('utf-8');
+      const appConfigContent = tree.readText(appConfigPath);
       if (!appConfigContent) {
         throw new Error(`Could not read ${appConfigPath}`);
       }
@@ -110,55 +110,22 @@ export function moveHydrationConfig(): Rule {
         { overwrite: true }
       );
 
-      // Add necessary imports
-      const platformBrowserImport = appConfigSource.getImportDeclaration(
-        '@angular/platform-browser'
-      );
-      if (!platformBrowserImport) {
-        appConfigSource.addImportDeclaration({
+      createImports(appConfigSource, [
+        {
           moduleSpecifier: '@angular/platform-browser',
           namedImports: [
             'provideClientHydration',
             'withEventReplay',
             'withNoHttpTransferCache',
           ],
-        });
-      } else {
-        const namedImports = [
-          'provideClientHydration',
-          'withEventReplay',
-          'withNoHttpTransferCache',
-        ];
-        const existingImports = platformBrowserImport
-          .getNamedImports()
-          .map((ni) => ni.getName());
-        const missingImports = namedImports.filter(
-          (ni) => !existingImports.includes(ni)
-        );
-        missingImports.forEach((ni) =>
-          platformBrowserImport.addNamedImport(ni)
-        );
-      }
+        },
+      ]);
 
       // Add hydration config to app.config.ts providers
-      const appConfigVar = appConfigSource.getVariableDeclaration('appConfig');
-      if (appConfigVar) {
-        const initializer = appConfigVar.getInitializer();
-        if (initializer?.isKind(SyntaxKind.ObjectLiteralExpression)) {
-          const providersProp = initializer.getProperty('providers');
-          if (
-            providersProp &&
-            providersProp.isKind(SyntaxKind.PropertyAssignment)
-          ) {
-            const providersInitializer = providersProp.getInitializer();
-            if (
-              providersInitializer?.isKind(SyntaxKind.ArrayLiteralExpression)
-            ) {
-              // Add at the beginning of the providers array
-              providersInitializer.insertElement(0, hydrationCallExpression);
-            }
-          }
-        }
+      const providersArray = getAppConfigProviders(appConfigSource);
+      if (providersArray) {
+        // Add at the beginning of the providers array
+        providersArray.insertElement(0, hydrationCallExpression);
       }
 
       appConfigSource.formatText();

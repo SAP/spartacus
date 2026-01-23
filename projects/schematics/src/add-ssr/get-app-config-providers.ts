@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Node, SourceFile } from 'ts-morph';
+import { ArrayLiteralExpression, SourceFile } from 'ts-morph';
 import { getProvidersFromNamedObject } from './get-providers-array-from-named-object';
 
 /**
@@ -12,6 +12,6 @@ import { getProvidersFromNamedObject } from './get-providers-array-from-named-ob
  */
 export function getAppConfigProviders(
   sourceFile: SourceFile
-): Node | undefined {
+): ArrayLiteralExpression | undefined {
   return getProvidersFromNamedObject(sourceFile, 'appConfig');
 }
