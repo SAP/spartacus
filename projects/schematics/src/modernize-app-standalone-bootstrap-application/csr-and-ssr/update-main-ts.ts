@@ -34,12 +34,23 @@ export function updateMainTs(): Rule {
       overwrite: true,
     });
 
-    // Remove platformBrowser import (from @angular/platform-browser)
+    // Remove platformBrowser named import (from @angular/platform-browser)
+    // but keep the import declaration if there are other named imports
     const platformBrowserImport = sourceFile.getImportDeclaration(
       '@angular/platform-browser'
     );
     if (platformBrowserImport) {
-      platformBrowserImport.remove();
+      const namedImports = platformBrowserImport.getNamedImports();
+      const platformBrowserNamedImport = namedImports.find(
+        (ni) => ni.getName() === 'platformBrowser'
+      );
+      if (platformBrowserNamedImport) {
+        platformBrowserNamedImport.remove();
+        // If no more named imports, remove the entire import declaration
+        if (platformBrowserImport.getNamedImports().length === 0) {
+          platformBrowserImport.remove();
+        }
+      }
     }
 
     // Remove AppModule import (from ./app/app.module)
