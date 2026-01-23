@@ -35,8 +35,8 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
       content = tree.readContent('/src/app/app.config.server.ts');
     });
 
-    it('should create the file', () => {
-      expect(tree.exists('/src/app/app.config.server.ts')).toBeTruthy();
+    it('should be created', () => {
+      expect(content).toMatchSnapshot();
     });
 
     it('should export config with mergeApplicationConfig', () => {
@@ -87,6 +87,10 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
       content = tree.readContent('/src/app/app.module.server.ts');
     });
 
+    it('should be edited', () => {
+      expect(content).toMatchSnapshot();
+    });
+
     it('should remove AppModule from imports array', () => {
       expect(content).not.toContain('AppModule');
     });
@@ -124,6 +128,10 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
 
     beforeAll(() => {
       content = tree.readContent('/src/main.server.ts');
+    });
+
+    it('should be edited', () => {
+      expect(content).toMatchSnapshot();
     });
 
     it('should remove export of AppServerModule', () => {
@@ -170,6 +178,10 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
 
     beforeAll(() => {
       content = tree.readContent('/src/server.ts');
+    });
+
+    it('should be edited', () => {
+      expect(content).toMatchSnapshot();
     });
 
     it('should import bootstrap instead of AppServerModule', () => {
@@ -258,6 +270,10 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
         content = tree.readContent('/src/app/app.component.ts');
       });
 
+      it('should be edited', () => {
+        expect(content).toMatchSnapshot();
+      });
+
       it('should remove standalone: false', () => {
         expect(content).not.toContain('standalone: false');
       });
@@ -278,6 +294,10 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
 
       beforeAll(() => {
         content = tree.readContent('/src/app/app.module.ts');
+      });
+
+      it('should be edited', () => {
+        expect(content).toMatchSnapshot();
       });
 
       it('should remove bootstrap: [AppComponent]', () => {
@@ -303,6 +323,10 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
 
       beforeAll(() => {
         content = tree.readContent('/src/app/app.config.ts');
+      });
+
+      it('should be created', () => {
+        expect(content).toMatchSnapshot();
       });
 
       it('should create the file', () => {
@@ -332,6 +356,10 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
         content = tree.readContent('/src/main.ts');
       });
 
+      it('should be edited', () => {
+        expect(content).toMatchSnapshot();
+      });
+
       it('should use bootstrapApplication', () => {
         expect(content).toContain(
           'bootstrapApplication(AppComponent, appConfig)'
@@ -356,6 +384,10 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
       beforeAll(() => {
         const content = tree.readContent('/angular.json');
         angularJson = JSON.parse(content);
+      });
+
+      it('should be edited', () => {
+        expect(angularJson).toMatchSnapshot();
       });
 
       it('should remove standalone: false from schematics', () => {

@@ -35,6 +35,10 @@ describe(`Schematics "${SCHEMATICS_NAME}" in CSR app`, () => {
       content = tree.readContent('/src/app/app.component.ts');
     });
 
+    it('should be edited', () => {
+      expect(content).toMatchSnapshot();
+    });
+
     it('should remove standalone: false from @Component decorator', () => {
       expect(content).not.toContain('standalone: false');
     });
@@ -68,6 +72,10 @@ describe(`Schematics "${SCHEMATICS_NAME}" in CSR app`, () => {
 
     beforeAll(() => {
       content = tree.readContent('/src/app/app.module.ts');
+    });
+
+    it('should be edited', () => {
+      expect(content).toMatchSnapshot();
     });
 
     it('should remove bootstrap: [AppComponent] from @NgModule', () => {
@@ -130,6 +138,10 @@ describe(`Schematics "${SCHEMATICS_NAME}" in CSR app`, () => {
       content = tree.readContent('/src/app/app.config.ts');
     });
 
+    it('should be created', () => {
+      expect(content).toMatchSnapshot();
+    });
+
     it('should create the file', () => {
       expect(tree.exists('/src/app/app.config.ts')).toBeTruthy();
     });
@@ -189,6 +201,10 @@ describe(`Schematics "${SCHEMATICS_NAME}" in CSR app`, () => {
       content = tree.readContent('/src/main.ts');
     });
 
+    it('should be edited', () => {
+      expect(content).toMatchSnapshot();
+    });
+
     it('should replace platformBrowser().bootstrapModule with bootstrapApplication', () => {
       expect(content).toContain(
         'bootstrapApplication(AppComponent, appConfig)'
@@ -236,6 +252,10 @@ describe(`Schematics "${SCHEMATICS_NAME}" in CSR app`, () => {
     beforeAll(() => {
       const content = tree.readContent('/angular.json');
       angularJson = JSON.parse(content);
+    });
+
+    it('should be edited', () => {
+      expect(angularJson).toMatchSnapshot();
     });
 
     it('should remove standalone: false from @schematics/angular:component', () => {
