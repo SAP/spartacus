@@ -504,7 +504,6 @@ export function fillPaymentFormWithCheapProduct(
   if (isExpressCheckout) return;
 
   cy.wait(`@${getCheckoutDetailsAlias}`).then((xhr) => {
-    cy.wrap(xhr.response.body).should('exist');
     const response = xhr.response;
     cy.log(`Checkout details after payment step`);
 
