@@ -27,10 +27,7 @@ import { updateServerTs } from './ssr/update-server-ts';
  * Migration schematic to modernize Angular apps to use standalone bootstrapApplication API.
  *
  * This migration automates the process of converting from:
- * - platformBrowser().bootstrapModule(AppModule) to bootstrapApplication(AppComponent, appConfig)
- *
- * See the manual migration guide for more details:
- * https://sap.github.io/spartacus-docs/modernize-bootstrap-application/
+ * - `platformBrowser().bootstrapModule(AppModule)` to `bootstrapApplication(AppComponent, appConfig)`
  */
 export function migrate(): Rule {
   return (tree: Tree, _context: SchematicContext) => {
