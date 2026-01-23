@@ -26,6 +26,90 @@ import { createProgram, saveAndFormat } from '../../../shared/utils/program';
 import { getProjectTsConfigPaths } from '../../../shared/utils/project-tsconfig-paths';
 import { getDefaultProjectNameFromWorkspace } from '../../../shared/utils/workspace-utils';
 
+function findServerFile(
+  tree: Tree,
+  basePath: string,
+  tsconfigPath: string,
+  expectedServerPath: string
+): SourceFile | undefined {
+  const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+  return appSourceFiles.find((sourceFile: SourceFile) =>
+    sourceFile.getFilePath().endsWith(expectedServerPath)
+  );
+}
+
+function getExpressInstanceName(serverFile: SourceFile): string | undefined {
+  const variableDeclarations = serverFile.getDescendantsOfKind(
+    SyntaxKind.VariableDeclaration
+  );
+
+  for (const varDecl of variableDeclarations) {
+    const initializer = varDecl.getInitializer();
+    if (initializer?.getKind() !== SyntaxKind.CallExpression) {
+      continue;
+    }
+
+    const callExpr = initializer.asKind(SyntaxKind.CallExpression);
+    if (callExpr?.getExpression().getText() === 'express') {
+      return varDecl.getName();
+    }
+  }
+
+  return;
+}
+
+function updateExpressWildcardRoutes(
+  serverFile: SourceFile,
+  expressInstanceName: string
+): boolean {
+  const callExpressions = serverFile.getDescendantsOfKind(
+    SyntaxKind.CallExpression
+  );
+
+  let replacementsMade = false;
+  for (const callExpr of callExpressions) {
+    const expression = callExpr.getExpression();
+
+    if (expression.getKind() !== SyntaxKind.PropertyAccessExpression) {
+      continue;
+    }
+
+    const propAccess = expression.asKind(SyntaxKind.PropertyAccessExpression);
+    if (
+      !propAccess ||
+      propAccess.getExpression().getText() !== expressInstanceName ||
+      propAccess.getName() !== 'get'
+    ) {
+      continue;
+    }
+
+    const args = callExpr.getArguments();
+    if (args.length === 0) {
+      continue;
+    }
+
+    const firstArg = args[0];
+    if (firstArg.getKind() !== SyntaxKind.StringLiteral) {
+      continue;
+    }
+
+    const argText = firstArg.getText().slice(1, -1);
+
+    if (argText === '*.*') {
+      firstArg.replaceWithText('/.*\\..*/');
+      replacementsMade = true;
+      continue;
+    }
+
+    if (argText === '*') {
+      firstArg.replaceWithText('/.*/');
+      replacementsMade = true;
+    }
+  }
+
+  return replacementsMade;
+}
+
 /**
  * Updates server.ts file to replace wildcard strings with regex patterns for Express 5 compatibility.
  * Uses ts-morph to parse and manipulate the AST.
@@ -43,7 +127,7 @@ function updateServerTsFile(): Rule {
       context.logger.info(
         '  ↳ No server.ts file found - skipping server.ts updates'
       );
-      return tree;
+      return;
     }
 
     const basePath = process.cwd();
@@ -55,14 +139,15 @@ function updateServerTsFile(): Rule {
       context.logger.warn(
         '  ↳ Could not determine server.ts path from angular.json - skipping server.ts updates'
       );
-      return tree;
+      return;
     }
 
     for (const tsconfigPath of buildPaths) {
-      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-
-      const serverFile = appSourceFiles.find((sourceFile: SourceFile) =>
-        sourceFile.getFilePath().endsWith(expectedServerPath)
+      const serverFile = findServerFile(
+        tree,
+        basePath,
+        tsconfigPath,
+        expectedServerPath
       );
 
       if (!serverFile) {
@@ -71,24 +156,7 @@ function updateServerTsFile(): Rule {
 
       serverFileFound = true;
 
-      const variableDeclarations = serverFile.getDescendantsOfKind(
-        SyntaxKind.VariableDeclaration
-      );
-
-      let expressInstanceName: string | undefined;
-      for (const varDecl of variableDeclarations) {
-        const initializer = varDecl.getInitializer();
-        if (
-          initializer &&
-          initializer.getKind() === SyntaxKind.CallExpression
-        ) {
-          const callExpr = initializer.asKind(SyntaxKind.CallExpression);
-          if (callExpr?.getExpression().getText() === 'express') {
-            expressInstanceName = varDecl.getName();
-            break;
-          }
-        }
-      }
+      const expressInstanceName = getExpressInstanceName(serverFile);
 
       if (!expressInstanceName) {
         context.logger.warn(
@@ -101,62 +169,23 @@ function updateServerTsFile(): Rule {
         continue;
       }
 
-      const callExpressions = serverFile.getDescendantsOfKind(
-        SyntaxKind.CallExpression
+      const replacementsMade = updateExpressWildcardRoutes(
+        serverFile,
+        expressInstanceName
       );
-
-      let replacementsMade = false;
-      for (const callExpr of callExpressions) {
-        const expression = callExpr.getExpression();
-
-        if (expression.getKind() !== SyntaxKind.PropertyAccessExpression) {
-          continue;
-        }
-
-        const propAccess = expression.asKind(
-          SyntaxKind.PropertyAccessExpression
-        );
-        if (
-          !propAccess ||
-          propAccess.getExpression().getText() !== expressInstanceName ||
-          propAccess.getName() !== 'get'
-        ) {
-          continue;
-        }
-
-        const args = callExpr.getArguments();
-        if (args.length === 0) {
-          continue;
-        }
-
-        const firstArg = args[0];
-        if (firstArg.getKind() !== SyntaxKind.StringLiteral) {
-          continue;
-        }
-
-        const argText = firstArg.getText().slice(1, -1);
-
-        if (argText === '*.*') {
-          firstArg.replaceWithText('/.*\\..*/');
-          replacementsMade = true;
-        } else if (argText === '*') {
-          firstArg.replaceWithText('/.*/');
-          replacementsMade = true;
-        }
-      }
 
       if (replacementsMade) {
         saveAndFormat(serverFile);
         context.logger.info(
           `✅ Updated ${serverFile.getFilePath()} for Express 5 compatibility`
         );
-      } else {
-        context.logger.info(
-          `  ↳ ${serverFile.getFilePath()} already uses Express 5 compatible patterns or no changes needed`
-        );
+        return tree;
       }
 
-      return tree;
+      context.logger.info(
+        `  ↳ ${serverFile.getFilePath()} already uses Express 5 compatible patterns or no changes needed`
+      );
+      return;
     }
 
     if (!serverFileFound) {
@@ -165,7 +194,7 @@ function updateServerTsFile(): Rule {
       );
     }
 
-    return tree;
+    return;
   };
 }
 
