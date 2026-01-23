@@ -119,7 +119,7 @@ describe(`Schematics "${SCHEMATICS_NAME}" in CSR app`, () => {
     });
 
     it('should preserve AppModule class definition', () => {
-      expect(content).toContain('export class AppModule {}');
+      expect(content).toContain('export class AppModule { }');
     });
   });
 

@@ -115,7 +115,7 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
     });
 
     it('should preserve AppServerModule class definition', () => {
-      expect(content).toContain('export class AppServerModule {}');
+      expect(content).toContain('export class AppServerModule { }');
     });
   });
 
