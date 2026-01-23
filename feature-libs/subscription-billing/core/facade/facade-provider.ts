@@ -11,6 +11,8 @@ import {
   SubscriptionFacade,
 } from '@spartacus/subscription-billing/root';
 import { SubscriptionActionsService } from './subscription-actions.service';
+import { PageMetaResolver } from '@spartacus/core';
+import { SubscriptionPageMetaResolver } from '../services/subscription-page-meta.resolver';
 
 export const facadeProviders: Provider[] = [
   SubscriptionService,
@@ -23,4 +25,9 @@ export const facadeProviders: Provider[] = [
     provide: SubscriptionActionsFacade,
     useExisting: SubscriptionActionsService,
   },
+  {
+    provide: PageMetaResolver,
+    useExisting: SubscriptionPageMetaResolver,
+    multi: true,
+  }
 ];

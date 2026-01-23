@@ -7,3 +7,4 @@
 export * from './subscription-billing-core.module';
 export * from './facade/index';
 export * from './connector/index';
+export * from './services/index';
