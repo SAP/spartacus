@@ -54,8 +54,6 @@ function getExpressInstanceName(serverFile: SourceFile): string | undefined {
       return varDecl.getName();
     }
   }
-
-  return;
 }
 
 function updateExpressWildcardRoutes(
@@ -193,8 +191,6 @@ function updateServerTsFile(): Rule {
         '  ↳ No server.ts file found - skipping server.ts updates'
       );
     }
-
-    return;
   };
 }
 
