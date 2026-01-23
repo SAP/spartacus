@@ -60,7 +60,7 @@ export function moveHydrationConfig(): Rule {
             ) {
               const initializer = providersProp.getInitializer();
               if (initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
-                // Find the first provideClientHydration call
+                // Find and remove the provideClientHydration call
                 const hydrationElementIndex = initializer
                   .getElements()
                   .findIndex((element) => {
