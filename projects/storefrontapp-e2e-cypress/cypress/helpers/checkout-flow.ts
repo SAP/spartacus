@@ -9,6 +9,7 @@ import {
   cart,
   cartWithCheapProduct,
   cheapProduct,
+  getCheckoutDetailsAfterPaymentMockResponse,
   product,
   SampleCartProduct,
   SampleProduct,
@@ -36,14 +37,20 @@ export const GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS = 'GET_CHECKOUT_DETAILS';
 export const firstAddToCartSelector = `${productItemSelector} cx-add-to-cart:first`;
 
 export function interceptCheckoutB2CDetailsEndpoint(newAlias?: string) {
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`
-  ).as(newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
+  const alias = newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
+  const url = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    'BASE_SITE'
+  )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`;
 
-  return newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
+  if (alias === 'GET_CHECKOUT_DETAILS_AFTER_PAYMENT_STEP') {
+    cy.intercept('GET', url, getCheckoutDetailsAfterPaymentMockResponse()).as(
+      alias
+    );
+  } else {
+    cy.intercept('GET', url).as(alias);
+  }
+
+  return alias;
 }
 
 /**
