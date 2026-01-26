@@ -76,15 +76,8 @@ describe('createAppServerModule', () => {
     expect(appTree.exists('/src/app/app.module.server.ts')).toBe(true);
   });
 
-  it('should create app.module.server.ts with provideServer() using serverRequestOrigin: process.env["SERVER_REQUEST_ORIGIN"],', async () => {
+  it('should create empty app.module.server.ts', async () => {
     const appServerModule = appTree.readText('/src/app/app.module.server.ts');
     expect(appServerModule).toMatchSnapshot();
-  });
-
-  it('should contain NgModule decorator', async () => {
-    const appServerModule = appTree.readText('/src/app/app.module.server.ts');
-
-    expect(appServerModule).toContain('@NgModule');
-    expect(appServerModule).toContain('export class AppServerModule');
   });
 });

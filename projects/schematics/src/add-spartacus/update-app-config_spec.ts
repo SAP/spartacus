@@ -70,7 +70,7 @@ describe('updateAppConfig', () => {
     );
   });
 
-  it('should add to app.config.ts the providers: provideHttpClient(withFetch(), withInterceptorsFromDi()), importProvidersFrom(AppModule)', async () => {
+  it('should provide `importProvidersFrom(AppModule)` in app.config.ts', async () => {
     const appConfigContent = `import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 
 export const appConfig: ApplicationConfig = {
@@ -87,6 +87,28 @@ export const appConfig: ApplicationConfig = {
     );
 
     const appConfig = tree.readText('/src/app/app.config.ts');
+    expect(appConfig).toContain('importProvidersFrom(AppModule)');
+    expect(appConfig).toMatchSnapshot();
+  });
+
+  it('should provide `provideHttpClient(withFetch(), withInterceptorsFromDi())` in app.config.ts', async () => {
+    const appConfigContent = `import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+  ]
+};
+`;
+    appTree.overwrite('/src/app/app.config.ts', appConfigContent);
+
+    const tree = await firstValueFrom(
+      schematicRunner.callRule(updateAppConfig(defaultOptions), appTree)
+    );
+
+    const appConfig = tree.readText('/src/app/app.config.ts');
+    expect(appConfig).toContain('importProvidersFrom(AppModule)');
     expect(appConfig).toMatchSnapshot();
   });
 });

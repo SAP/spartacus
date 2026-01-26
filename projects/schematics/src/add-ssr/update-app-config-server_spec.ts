@@ -90,10 +90,18 @@ export const config = mergeApplicationConfig(appConfig, serverConfig);
     )) as UnitTestTree;
   });
 
-  it('should add importProvidersFrom(AppServerModule), and remove remove withRoutes(serverRoutes from provideServerRendering from app.config.server.ts', async () => {
-    const appConfigServer = tree
-      .read('/src/app/app.config.server.ts')
-      ?.toString();
+  it('should provide `importProvidersFrom(AppServerModule)` in app.config.server.ts', async () => {
+    const appConfigServer = tree.readText('/src/app/app.config.server.ts');
+    expect(appConfigServer).toContain('importProvidersFrom(AppServerModule)');
+    expect(appConfigServer).toMatchSnapshot();
+  });
+
+  it('should remove `withRoutes(serverRoutes)` from `provideServerRendering()` in app.config.server.ts', async () => {
+    const appConfigServer = tree.readText('/src/app/app.config.server.ts');
+
+    expect(appConfigServer).toContain('provideServerRendering()');
+    expect(appConfigServer).not.toContain('withRoutes');
+    expect(appConfigServer).not.toContain('serverRoutes');
     expect(appConfigServer).toMatchSnapshot();
   });
 });

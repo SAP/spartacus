@@ -11,10 +11,10 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
+import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { ANGULAR_SERVER_MODULE, APP_COMPONENT } from '../shared/constants';
 import { createProgram } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
-import { Schema as SpartacusOptions } from './schema';
 
 /**
  * Creates app.module.server.ts file if it doesn't exist (for SSR standalone apps).

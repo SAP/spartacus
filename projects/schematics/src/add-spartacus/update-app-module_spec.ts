@@ -72,7 +72,7 @@ describe('updateAppModule', () => {
     );
   });
 
-  it('should add imports of spartacus modules to app.module.ts', async () => {
+  it('should add import of spartacus AppRoutingModule to app.module.ts', async () => {
     const appModuleContent = `
 import { NgModule } from '@angular/core';
 
@@ -86,10 +86,11 @@ export class AppModule {}
     )) as UnitTestTree;
 
     const appModule = tree.readContent('/src/app/app.module.ts');
+    expect(appModule).toContain('AppRoutingModule');
     expect(appModule).toMatchSnapshot();
   });
 
-  it('should add imports of spartacus modules to app.module.ts with customizations', async () => {
+  it('should add import of spartacus AppRoutingModule to app.module.ts with customizations', async () => {
     const appModuleContent = `
 import { NgModule } from '@angular/core';
 
@@ -110,6 +111,7 @@ export class AppModule {}
     )) as UnitTestTree;
 
     const appModule = tree.readContent('/src/app/app.module.ts');
+    expect(appModule).toContain('AppRoutingModule');
     expect(appModule).toMatchSnapshot();
   });
 });

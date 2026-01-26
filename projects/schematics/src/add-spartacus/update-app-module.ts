@@ -27,6 +27,9 @@ import { createProgram, formatFile } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import { Schema as SpartacusOptions } from './schema';
 
+/**
+ * Updates AppModule to import AppRoutingModule from Spartacus.
+ */
 export function updateAppModule(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     if (options.debug) {
