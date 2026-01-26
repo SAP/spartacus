@@ -15,9 +15,9 @@ import {
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import {
+  APP_COMPONENT,
   APP_COMPONENT_HTML,
   APP_CONFIG,
-  APP_MODULE,
   RXJS,
 } from '../shared/constants';
 import {
@@ -314,8 +314,8 @@ function increaseBudgets(options: SpartacusOptions): Rule {
 }
 
 /**
- * Checks if the app has an app.module.ts file.
- * If not, detects if it's a standalone app (has app.config.ts).
+ * Checks if the app is standalone (by checking existence of app.config.ts).
+ * Checks if the app uses Angular 2016 filename convention (by checking `component.ts` suffix in app.component.ts).
  *
  * @param options - The Spartacus options.
  * @returns A Rule function that checks the app structure and sets up accordingly.
@@ -333,25 +333,33 @@ function detectAndSetupAppStructure(options: SpartacusOptions): Rule {
     // get project structure based on current path and path of the first found tsconfig file
     const { appSourceFiles } = createProgram(tree, basePath, buildPaths[0]);
 
-    // check if app module exists
-    const appModule = appSourceFiles.find((sourceFile) =>
-      sourceFile.getFilePath().includes(APP_MODULE)
-    );
-
     // check if app.config.ts exists (standalone indicator)
     const appConfig = appSourceFiles.find((sourceFile) =>
       sourceFile.getFilePath().includes(APP_CONFIG)
     );
 
-    if (!appModule && !appConfig) {
+    const advice = `Please re-create your application:
+1. Remove your current application code.
+2. Re-create your app using "ng new" with these CLI flags:
+   - Use \`--file-name-style-guide=2016\`
+   - Avoid using \`--standalone=false\`
+3. try again installing Spartacus with a command "ng add @spartacus/schematics" ...`;
+
+    if (!appConfig) {
       throw new SchematicsException(
-        `Neither "${APP_MODULE}" nor "${APP_CONFIG}" found. Please ensure your Angular application is properly set up.
-Please re-create your application:
-1. remove your application code
-2. make sure to pass the flag "--standalone=false --file-name-style-guide=2016" to the command "ng new". For more, see https://angular.io/cli/new#options
-3. try again installing Spartacus with a command "ng add @spartacus/schematics" ...`
+        `Could not find ${APP_CONFIG} file. ${advice}`
       );
     }
+
+    const appComponent = appSourceFiles.find((sourceFile) =>
+      sourceFile.getFilePath().includes(APP_COMPONENT)
+    );
+    if (!appComponent) {
+      throw new SchematicsException(
+        `Could not find ${APP_COMPONENT} file. ${advice}`
+      );
+    }
+
     if (options.debug) {
       context.logger.info(`✅ App structure detection complete.`);
     }

@@ -8,7 +8,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { Node, SourceFile } from 'ts-morph';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { getAppConfigProviders } from '../add-ssr/get-app-config-providers';
-import { APP_CONFIG } from '../shared/constants';
+import { ANGULAR_HTTP, APP_CONFIG } from '../shared/constants';
 import { createImports } from '../shared/utils/import-utils';
 import { createProgram, formatFile } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
@@ -84,7 +84,7 @@ function addProvideHttpClient(sourceFile: SourceFile): void {
   // Add imports for provideHttpClient, withFetch, withInterceptorsFromDi
   createImports(sourceFile, [
     {
-      moduleSpecifier: '@angular/common/http',
+      moduleSpecifier: ANGULAR_HTTP,
       namedImports: [
         'provideHttpClient',
         'withFetch',
