@@ -192,26 +192,38 @@ function parseMethodParameters(method: any): any[] {
   method.parameters.forEach((rawParam: any) => {
     const parsedParam: any = {};
     parsedParam.name = rawParam.parameterName;
-    parsedParam.type = getParamType(
-      rawParam.parameterTypeTokenRange,
-      method.excerptTokens
-    );
-    parsedParam.isOptional = isParamDeclaredOptional(
-      rawParam.parameterTypeTokenRange,
-      method.excerptTokens
-    );
-    const typeToken = getTypeReferenceToken(
-      rawParam.parameterTypeTokenRange,
-      method.excerptTokens
-    );
-    // This if condition filters out anonymous types
-    // like `payload: { userid: string, cart: Cart }`
-    if (parsedParam.type?.startsWith(typeToken.text)) {
-      parsedParam.canonicalReference = typeToken.canonicalReference ?? '';
-      parsedParam.shortType = typeToken.text ?? '';
+
+    // If type information is directly available (from bundled types extractor), use it
+    if (rawParam.type !== undefined && rawParam.type !== '') {
+      parsedParam.type = rawParam.type;
+      parsedParam.canonicalReference = rawParam.canonicalReference || '';
+      parsedParam.shortType = rawParam.shortType || '';
+      parsedParam.importPath = rawParam.importPath || '';
+      parsedParam.isOptional = rawParam.isOptional || false;
     } else {
-      parsedParam.canonicalReference = '';
-      parsedParam.shortType = '';
+      // Otherwise, extract from excerptTokens (standard API Extractor format)
+      parsedParam.type = getParamType(
+        rawParam.parameterTypeTokenRange,
+        method.excerptTokens
+      );
+      parsedParam.isOptional = isParamDeclaredOptional(
+        rawParam.parameterTypeTokenRange,
+        method.excerptTokens
+      );
+      const typeToken = getTypeReferenceToken(
+        rawParam.parameterTypeTokenRange,
+        method.excerptTokens
+      );
+      // This if condition filters out anonymous types
+      // like `payload: { userid: string, cart: Cart }`
+      if (parsedParam.type?.startsWith(typeToken.text)) {
+        parsedParam.canonicalReference = typeToken.canonicalReference ?? '';
+        parsedParam.shortType = typeToken.text ?? '';
+      } else {
+        parsedParam.canonicalReference = '';
+        parsedParam.shortType = '';
+      }
+      parsedParam.importPath = ''; // Initialize importPath (will be filled by setParamsImportPath later)
     }
 
     parsedParams.push(parsedParam);
@@ -222,11 +234,11 @@ function parseMethodParameters(method: any): any[] {
 function getParamType(tokenRange: any, tokens: any[]): string {
   const startIndex: number = tokenRange.startIndex;
   const endIndex: number = tokenRange.endIndex;
-  const paramType = tokens
+  return tokens
     .slice(startIndex, endIndex)
     .map((token) => token.text)
-    .join('');
-  return paramType;
+    .join('')
+    .trim(); // Remove leading and trailing whitespace
 }
 
 function isParamDeclaredOptional(typeTokenRange: any, tokens: any[]): boolean {
@@ -235,9 +247,7 @@ function isParamDeclaredOptional(typeTokenRange: any, tokens: any[]): boolean {
     return false;
   }
   const declaration = tokens[typeStartIndex - 1];
-  const isDeclaredOptional =
-    declaration.kind === 'Content' && declaration.text.includes(`?:`);
-  return isDeclaredOptional;
+  return declaration.kind === 'Content' && declaration.text.includes(`?:`);
 }
 
 function getTypeReferenceToken(tokenRange: any, tokens: any[]): any {

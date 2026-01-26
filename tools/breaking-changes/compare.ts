@@ -307,11 +307,30 @@ function isParametersBreakingChangeDetected(
 }
 
 function isIdenticalParams(oldParam: any, newParam: any) {
-  return oldParam.name === newParam?.name && oldParam.type === newParam?.type;
+  return oldParam.name === newParam?.name && normalizeType(oldParam.type) === normalizeType(newParam?.type);
 }
 
 function isSameTypeParameter(oldParam: any, newParam: any) {
-  return oldParam.type === newParam?.type;
+  return normalizeType(oldParam.type) === normalizeType(newParam?.type);
+}
+
+/**
+ * Normalize type by removing JSDoc comments and extra whitespace.
+ * JSDoc changes (like adding/modifying comments) are not breaking changes.
+ */
+function normalizeType(type: string | undefined): string {
+  if (!type) return '';
+
+  // Replace literal \n with actual newlines for regex to work
+  let normalized = type.replace(/\\n/g, '\n');
+
+  // Remove JSDoc comments (/** ... */) including multi-line
+  normalized = normalized.replace(/\/\*\*[\s\S]*?\*\//g, '');
+
+  // Normalize whitespace - replace multiple spaces/newlines with single space
+  normalized = normalized.replace(/\s+/g, ' ').trim();
+
+  return normalized;
 }
 
 function addBreakingChanges(element: any, breakingChanges: any[]) {

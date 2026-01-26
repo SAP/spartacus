@@ -49,9 +49,30 @@ console.log(
   `Found ${apiElementsWithConstructorChanges.length} api elements with constructor changes.`
 );
 
+// Known false positives - classes with duplicate names in different files
+// that the comparison tool incorrectly flags as changed
+const KNOWN_FALSE_POSITIVES = [
+  { name: 'LoadPermissions', importPath: '@spartacus/organization/administration/core' },
+  { name: 'LoadPermissionsFail', importPath: '@spartacus/organization/administration/core' },
+  { name: 'LoadPermissionsSuccess', importPath: '@spartacus/organization/administration/core' },
+];
+
+function isKnownFalsePositive(apiElement: any): boolean {
+  return KNOWN_FALSE_POSITIVES.some(fp =>
+    fp.name === apiElement.name && fp.importPath === apiElement.entryPoint
+  );
+}
+
 const constructorSchematics = [];
 
 apiElementsWithConstructorChanges.forEach((apiElement: any) => {
+  if (isKnownFalsePositive(apiElement)) {
+    console.log(
+      `Warning: Skipped known false positive for ${apiElement.kind} ${apiElement.name} (duplicate class names in different files).`
+    );
+    return;
+  }
+
   getConstructorChanges(apiElement).forEach((constructorChange: any) => {
     if (schematicsParamsAreEqual(constructorChange)) {
       console.log(
@@ -115,9 +136,38 @@ function toSchematicsParam(param: any) {
   };
 }
 
+/**
+ * Normalize type by removing JSDoc comments and extra whitespace.
+ * JSDoc changes are not breaking changes.
+ */
+function normalizeType(type: string): string {
+  if (!type) return type;
+
+  // Replace literal \n with actual newlines for regex to work
+  let normalized = type.replace(/\\n/g, '\n');
+
+  // Remove JSDoc comments (/** ... */)
+  normalized = normalized.replace(/\/\*\*[\s\S]*?\*\//g, '');
+
+  // Normalize whitespace - replace multiple spaces/newlines with single space
+  normalized = normalized.replace(/\s+/g, ' ').trim();
+
+  return normalized;
+}
+
 function schematicsParamsAreEqual(constructorChanges: any): boolean {
-  return deepEqual(
-    constructorChanges.old.parameters.map(toSchematicsParam),
-    constructorChanges.new.parameters.map(toSchematicsParam)
-  );
+  const oldParams = constructorChanges.old.parameters.map(toSchematicsParam);
+  const newParams = constructorChanges.new.parameters.map(toSchematicsParam);
+
+  // Normalize types before comparison to ignore JSDoc changes
+  const normalizedOld = oldParams.map((p: any) => ({
+    ...p,
+    className: normalizeType(p.className)
+  }));
+  const normalizedNew = newParams.map((p: any) => ({
+    ...p,
+    className: normalizeType(p.className)
+  }));
+
+  return deepEqual(normalizedOld, normalizedNew);
 }
