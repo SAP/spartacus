@@ -37,7 +37,7 @@ Remove the following Angular configurations from your AppModule:
 
 ```diff
  @NgModule({
-  declarations: [App],
+-  declarations: [AppComponent],
   imports: [
 -   BrowserModule,
     StoreModule.forRoot({}),
@@ -155,7 +155,7 @@ export const config = mergeApplicationConfig(appConfig, serverConfig);
 Remove the following Angular configurations from your AppServerModule:
 
 - remove `imports: [AppModule]` from `@NgModule`
-- remove `bootstrap: [App]` from `@NgModule`
+- remove `bootstrap: [AppComponent]` from `@NgModule`
 
 ```diff
  import { NgModule } from '@angular/core';
@@ -168,7 +168,7 @@ Remove the following Angular configurations from your AppServerModule:
       serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
     }),
   ],
--  bootstrap: [App],
+-  bootstrap: [AppComponent],
   })
   export class AppServerModule {}
 ```
@@ -184,7 +184,7 @@ Replace the old default re-export `AppServerModule` to a function-based default 
 + import { config } from './app/app.config.server';
 +
 + const bootstrap = (context: BootstrapContext) =>
-+   bootstrapApplication(App, config, context);
++   bootstrapApplication(AppComponent, config, context);
 +
 + export default bootstrap;
 ```
