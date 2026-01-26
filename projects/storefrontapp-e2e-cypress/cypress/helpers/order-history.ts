@@ -10,10 +10,10 @@ import {
   replenishmentOrderHistoryHeaderValue,
   replenishmentOrderHistoryUrl,
 } from './b2b/b2b-replenishment-order-history';
+import { cmsEndpoints } from './cms-endpoints';
 import { checkBanner } from './homepage';
 import { switchLanguage } from './language';
 import { clickHamburger, waitForPage } from './navigation';
-import { cmsEndpoints } from './cms-endpoints';
 
 const orderHistoryLink = '/my-account/orders';
 export const CART_PAGE_ALIAS = 'cartPage';
@@ -23,6 +23,12 @@ export const CART_FROM_ORDER_ALIAS = 'cartFromOrder';
 
 export function goToOrderHistoryWithConsignedOrder() {
   cy.login('test-user-with-orders@sap.cx.com', 'pw4all');
+  cy.visit('/my-account/orders');
+  cy.get('.cx-login-greet').should('contain', 'Test User');
+}
+
+export function goToB2bOrderHistoryWithOrder() {
+  cy.login('powertools-test-user-with-orders@sap.cx.com', 'pw4all');
   cy.visit('/my-account/orders');
   cy.get('.cx-login-greet').should('contain', 'Test User');
 }

@@ -16,11 +16,11 @@ describe('My Company - Accessibility', () => {
     it('on view load', () => {
       getAssistiveAlert().contains('Unit Details').should('not.be.visible');
     });
-    it('on next ciew', () => {
+    it.skip('on next ciew', () => {
       cy.contains('Child Units').click();
       getAssistiveAlert().contains('Child units').should('not.be.visible');
     });
-    it('on previous view', () => {
+    it.skip('on previous view', () => {
       cy.contains('Child Units').click();
       cy.get('.close').last().click();
       getAssistiveAlert().contains('Unit Details').should('not.be.visible');

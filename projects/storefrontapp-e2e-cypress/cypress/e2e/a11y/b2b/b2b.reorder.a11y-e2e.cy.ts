@@ -5,13 +5,8 @@
  */
 
 import * as b2bCheckout from '../../../helpers/b2b/b2b-checkout';
-import { interceptOrdersEndpoint } from '../../../helpers/order-history';
+import { goToB2bOrderHistoryWithOrder } from '../../../helpers/order-history';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
-import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-import {
-  loginB2bUser,
-  navigateToReviewOrderPage,
-} from '../helpers/a11y-b2b.checkout';
 
 export function waitUntilOrderIsPlaced() {
   cy.get('input[formcontrolname="termsAndConditions"]')
@@ -22,22 +17,15 @@ export function waitUntilOrderIsPlaced() {
 }
 
 describe('Reorder accessibility', () => {
-  beforeEach(() => {
-    clearAllStorage();
+  before(() => {
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
     cy.a11yContinuumSetup();
-    loginB2bUser();
-    navigateToReviewOrderPage();
-    waitUntilOrderIsPlaced();
+    goToB2bOrderHistoryWithOrder();
   });
 
   it('Reorder', () => {
-    cy.visit('my-account/orders');
-    const ordersAlias = interceptOrdersEndpoint();
     cy.get('cx-order-history .cx-order-history-value').first().click();
-    cy.wait(`@${ordersAlias}`, { timeout: 2000 })
-      .its('response.statusCode')
-      .should('eq', 200);
+
     cy.get('button').contains(' Reorder ').click();
     cy.get('cx-reorder-dialog').a11yRunContinuumTest();
 
