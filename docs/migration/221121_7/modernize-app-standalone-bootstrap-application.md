@@ -258,4 +258,4 @@ Add to `app.config.ts` the configuration of non-destructive client hydration:
 Congratulations! You've modernized your app to use Angular's `bootstrapApplication()` API and converted your root `AppComponent` to a Standalone Component, aligning it with current Angular best practices.
 
 ## Next
-Now, consider migrating your custom components to Standalone Components, by following the Angular Guide:
+Now, consider migrating your custom components to Standalone Components, by following this guide: [Standalone Components in Spartacus since 221121.7.0 -> Migrating Your Custom Components to Standalone Components](./standalone-components-in-spartacus.md#migrating-your-custom-components-to-standalone-components).
