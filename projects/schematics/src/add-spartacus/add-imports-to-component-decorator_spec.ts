@@ -36,6 +36,9 @@ export class AppComponent {
     });
 
     const result = sourceFile.getText();
+    expect(result).toMatch(
+      /@Component\({[\s\S]*imports:\s*\[StorefrontComponent\]/
+    );
     expect(result).toMatchSnapshot();
   });
 
@@ -60,6 +63,9 @@ export class AppComponent {}
     });
 
     const result = sourceFile.getText();
+    expect(result).toContain('imports: [StorefrontComponent]');
+    expect(result).not.toContain('CommonModule');
+    expect(result).toContain('standalone: true');
     expect(result).toMatchSnapshot();
   });
 
@@ -79,6 +85,7 @@ export class AppComponent {}
     });
 
     const result = sourceFile.getText();
+    expect(result).toContain('imports: [StorefrontComponent]');
     expect(result).toMatchSnapshot();
   });
 
@@ -101,6 +108,9 @@ export class AppComponent {}
     });
 
     const result = sourceFile.getText();
+    expect(result).toContain('imports: [StorefrontComponent]');
+    expect(result).toContain("selector: 'app-root'");
+    expect(result).toContain('standalone: true');
     expect(result).toMatchSnapshot();
   });
 
@@ -124,6 +134,10 @@ export class AppComponent {}
     });
 
     const result = sourceFile.getText();
+    expect(result).toMatch(/export class OtherClass \{\s*\}/);
+    expect(result).toMatch(
+      /@Component\([\s\S]*imports:\s*\[StorefrontComponent\][\s\S]*export class AppComponent/
+    );
     expect(result).toMatchSnapshot();
   });
 });

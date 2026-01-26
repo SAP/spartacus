@@ -20,6 +20,6 @@ import { SpartacusModule } from './spartacus/spartacus.module';
     EffectsModule.forRoot([]),
     SpartacusModule,
   ],
-  providers: [...privateProviders],
+  providers: [privateProviders],
 })
 export class AppModule {}

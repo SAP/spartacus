@@ -33,7 +33,6 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import ts from 'typescript';
-import { createAppServerModule } from '../add-spartacus/create-app-server-module';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import collectedDependencies from '../dependencies.json';
 import {
@@ -65,8 +64,9 @@ import {
   getPrefixedSpartacusSchematicsVersion,
   readPackageJson,
 } from '../shared/utils/package-utils';
-import { updateAppConfigServer } from './update-app-config-server';
+import { createAppServerModule } from './create-app-server-module';
 import { updateAppConfigInSsr } from './update-app-config-in-ssr';
+import { updateAppConfigServer } from './update-app-config-server';
 
 const DEPENDENCY_NAMES: string[] = ['@angular/platform-server', ANGULAR_SSR];
 

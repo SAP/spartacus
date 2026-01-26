@@ -76,14 +76,8 @@ describe('createAppModule', () => {
     expect(appTree.exists('/src/app/app.module.ts')).toBe(true);
   });
 
-  it('should create app.module.ts with imports of StoreModule.forRoot({}), AppRoutingModule, EffectsModule.forRoot([]), SpartacusModule', async () => {
+  it('should create empty app.module.ts', async () => {
     const appModule = appTree.readText('/src/app/app.module.ts');
     expect(appModule).toMatchSnapshot();
-  });
-
-  it('should contain NgModule decorator', async () => {
-    const appModule = appTree.readText('/src/app/app.module.ts');
-    expect(appModule).toContain('@NgModule');
-    expect(appModule).toContain('export class AppModule');
   });
 });
