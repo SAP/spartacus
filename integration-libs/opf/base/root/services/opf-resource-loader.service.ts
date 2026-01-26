@@ -242,9 +242,7 @@ export class OpfResourceLoaderService {
         }
 
         nativeWindow.OpfContext = contextData ?? {};
-        if (!nativeWindow.OpfContext.additionalData) {
-          nativeWindow.OpfContext.additionalData = {};
-        }
+        nativeWindow.OpfContext.additionalData ??= {};
       }
 
       const scriptElement = this.document.createElement('script');
