@@ -128,7 +128,6 @@ export function printStats(breakingChangeElements: any[]) {
   );
 
   const globalBreakingChangeList = breakingChangeElements
-    .filter((element) => element && Array.isArray(element.breakingChanges))
     .map((element) => element.breakingChanges)
     .flat();
   console.log(`${globalBreakingChangeList.length} individual breaking changes`);
