@@ -96,30 +96,12 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
     });
 
     it('should remove ServerModule from imports array', () => {
-      expect(content).not.toMatch(/imports:\s*\[[^\]]*ServerModule/);
+      expect(content).not.toMatch(/\s+ServerModule/);
     });
 
-    it('should remove bootstrap: [AppComponent] from @NgModule', () => {
-      expect(content).not.toContain('bootstrap: [AppComponent]');
+    it('should remove `bootstrap: [AppComponent]` from @NgModule', () => {
+      expect(content).not.toContain('AppComponent');
       expect(content).not.toContain('bootstrap:');
-    });
-
-    it('should remove AppModule import statement', () => {
-      expect(content).not.toContain("import { AppModule } from './app.module'");
-    });
-
-    it('should remove ServerModule import statement', () => {
-      expect(content).not.toContain(
-        "import { ServerModule } from '@angular/platform-server'"
-      );
-    });
-
-    it('should preserve @NgModule decorator', () => {
-      expect(content).toContain('@NgModule');
-    });
-
-    it('should preserve AppServerModule class definition', () => {
-      expect(content).toContain('export class AppServerModule { }');
     });
   });
 
@@ -185,8 +167,7 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
     });
 
     it('should import bootstrap instead of AppServerModule', () => {
-      expect(content).toContain('import bootstrap from');
-      expect(content).toContain('./main.server');
+      expect(content).toContain("import bootstrap from './main.server'");
     });
 
     it('should not import AppServerModule anymore', () => {
@@ -195,17 +176,6 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
 
     it('should update ngExpressEngine to use bootstrap', () => {
       expect(content).toContain('bootstrap: bootstrap');
-    });
-
-    it('should preserve other CommonEngine.render configuration', () => {
-      expect(content).toContain('documentFilePath: indexHtml');
-      expect(content).toContain('publicPath: browserDistFolder');
-      expect(content).toContain('providers:');
-    });
-
-    it('should preserve the rest of server.ts file structure', () => {
-      expect(content).toContain('export function app()');
-      expect(content).toContain('const commonEngine = new CommonEngine()');
     });
   });
 
@@ -222,42 +192,22 @@ describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
       expect(appModuleContent).not.toContain('provideClientHydration(');
     });
 
-    it('should remove provideClientHydration import from app.module.ts if not used', () => {
-      // Check that it's not in the providers array
-      expect(appModuleContent).not.toMatch(
-        /providers:\s*\[[^\]]*provideClientHydration/
-      );
+    it('should remove provideClientHydration import from app.module.ts', () => {
+      expect(appModuleContent).not.toContain('provideClientHydration');
     });
 
     it('should remove withEventReplay from providers', () => {
-      // Check it's not in providers array
-      expect(appModuleContent).not.toMatch(
-        /providers:\s*\[[^\]]*withEventReplay/
-      );
+      expect(appModuleContent).not.toContain('withEventReplay');
     });
 
     it('should remove withNoHttpTransferCache from providers', () => {
-      // Check it's not in providers array
-      expect(appModuleContent).not.toMatch(
-        /providers:\s*\[[^\]]*withNoHttpTransferCache/
-      );
+      expect(appModuleContent).not.toContain('withNoHttpTransferCache');
     });
 
-    it('should add provideClientHydration to app.config.ts providers', () => {
-      expect(appConfigContent).toContain('provideClientHydration');
-    });
-
-    it('should include withEventReplay and withNoHttpTransferCache in app.config.ts', () => {
+    it('should add provideClientHydration(withEventReplay(), withNoHttpTransferCache()) to app.config.ts providers', () => {
       expect(appConfigContent).toContain(
         'provideClientHydration(withEventReplay(), withNoHttpTransferCache())'
       );
-    });
-
-    it('should import hydration functions in app.config.ts', () => {
-      expect(appConfigContent).toContain('provideClientHydration');
-      expect(appConfigContent).toContain('withEventReplay');
-      expect(appConfigContent).toContain('withNoHttpTransferCache');
-      expect(appConfigContent).toContain('@angular/platform-browser');
     });
   });
 

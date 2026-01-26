@@ -83,7 +83,7 @@ describe(`Schematics "${SCHEMATICS_NAME}" in CSR app`, () => {
     });
 
     it('should remove declarations: [AppComponent] from @NgModule', () => {
-      expect(content).not.toContain('declarations: [AppComponent]');
+      expect(content).not.toContain('AppComponent');
       expect(content).not.toContain('declarations:');
     });
 
@@ -91,26 +91,16 @@ describe(`Schematics "${SCHEMATICS_NAME}" in CSR app`, () => {
       expect(content).not.toContain('BrowserModule');
     });
 
-    it('should remove BrowserModule import statement', () => {
-      expect(content).not.toContain(
-        "import { BrowserModule } from '@angular/platform-browser'"
-      );
-    });
-
     it('should remove provideBrowserGlobalErrorListeners from providers', () => {
       expect(content).not.toContain('provideBrowserGlobalErrorListeners()');
     });
 
     it('should remove provideZoneChangeDetection from providers', () => {
-      // Check that it's not in the providers array (it may still be in imports)
-      expect(content).not.toMatch(
-        /providers:\s*\[[^\]]*provideZoneChangeDetection/
-      );
+      expect(content).not.toContain('provideZoneChangeDetection');
     });
 
     it('should remove provideHttpClient from providers', () => {
-      // Check that it's not in the providers array (it may still be in imports)
-      expect(content).not.toMatch(/providers:\s*\[[^\]]*provideHttpClient/);
+      expect(content).not.toContain('provideHttpClient');
     });
 
     it('should preserve other imports in imports array', () => {
@@ -123,7 +113,6 @@ describe(`Schematics "${SCHEMATICS_NAME}" in CSR app`, () => {
     it('should preserve @NgModule decorator with remaining properties', () => {
       expect(content).toContain('@NgModule');
       expect(content).toContain('imports:');
-      // providers may be removed if empty
     });
 
     it('should preserve AppModule class definition', () => {
@@ -240,9 +229,7 @@ describe(`Schematics "${SCHEMATICS_NAME}" in CSR app`, () => {
     });
 
     it('should not import AppModule anymore', () => {
-      expect(content).not.toContain(
-        "import { AppModule } from './app/app.module'"
-      );
+      expect(content).not.toContain('AppModule');
     });
   });
 
