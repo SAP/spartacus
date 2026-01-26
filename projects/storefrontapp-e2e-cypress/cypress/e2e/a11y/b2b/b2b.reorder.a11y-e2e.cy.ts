@@ -22,20 +22,20 @@ export function waitUntilOrderIsPlaced() {
 }
 
 describe('Reorder accessibility', () => {
-  before(() => {
+  beforeEach(() => {
     clearAllStorage();
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
     cy.a11yContinuumSetup();
     loginB2bUser();
+    navigateToReviewOrderPage();
+    waitUntilOrderIsPlaced();
   });
 
   it('Reorder', () => {
-    navigateToReviewOrderPage();
-    waitUntilOrderIsPlaced();
     cy.visit('my-account/orders');
     const ordersAlias = interceptOrdersEndpoint();
     cy.get('cx-order-history .cx-order-history-value').first().click();
-    cy.wait(`@${ordersAlias}`, { timeout: 120000 })
+    cy.wait(`@${ordersAlias}`, { timeout: 2000 })
       .its('response.statusCode')
       .should('eq', 200);
     cy.get('button').contains(' Reorder ').click();
