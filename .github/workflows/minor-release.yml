@@ -1,5 +1,10 @@
 name: Release snapshot (creates a snapshot from the develop branch or from the input-provided source)
 
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
 on:
   workflow_dispatch:
     inputs:
@@ -19,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 #v6.0.2
         with:
           ref: ${{ github.event.inputs.source || 'develop' }}
 

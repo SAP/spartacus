@@ -6,6 +6,10 @@ on:
     - cron: "0 10 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: read
+  actions: write
+
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: "20"
@@ -67,7 +71,7 @@ jobs:
           - suite: vendor:s4om
             spa_env: s4om,b2b
             test_name: E2E tests for s4om
-          - suite: vendor:estimated-delivery-date
+          - suite: vendor:estimated-delivery-datenode
             spa_env: estimated-delivery-date,b2c
             test_name: E2E tests for estimated delivery date
           - suite: vendor:pickup-in-store
@@ -81,15 +85,15 @@ jobs:
             test_name: E2E tests for punchout
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 #v6.0.2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 #v4.4.0
         with:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Cache dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 #v4.3.0
         with:
           path: |
             node_modules
@@ -111,7 +115,7 @@ jobs:
     if: ${{ always() }}
     steps:
       - name: Required build failed
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b #v7.1.0
         with:
           script: |
             core.setFailed('Build failed')
@@ -132,7 +136,7 @@ jobs:
       - name: Notify the slack channel of when build conclusion failed
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
-        uses: slackapi/slack-github-action@v2.1.1
+        uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a #v2.1.1
         with:
           channel-id: ${{ secrets.SLACK_NOTIFICATION_CHANNEL }}
           payload: |
