@@ -21,10 +21,10 @@ import {
   isSsrUsed,
   readPackageJson,
   updatePackageJsonDependencies,
-} from '../../../shared/utils/package-utils';
-import { createProgram, saveAndFormat } from '../../../shared/utils/program';
-import { getProjectTsConfigPaths } from '../../../shared/utils/project-tsconfig-paths';
-import { getDefaultProjectNameFromWorkspace } from '../../../shared/utils/workspace-utils';
+} from '../../../../shared/utils/package-utils';
+import { createProgram, saveAndFormat } from '../../../../shared/utils/program';
+import { getProjectTsConfigPaths } from '../../../../shared/utils/project-tsconfig-paths';
+import { getDefaultProjectNameFromWorkspace } from '../../../../shared/utils/workspace-utils';
 
 function findServerFile(
   tree: Tree,

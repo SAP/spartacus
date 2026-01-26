@@ -132,7 +132,7 @@ export function app(): express.Express {
 "
 `;
 
-exports[`Express v5 Migration server.ts file updates should replace wildcard strings with regex patterns in root server.ts 1`] = `
+exports[`Express v5 Migration server.ts file updates should replace wildcard strings with regex patterns in src/server.ts 1`] = `
 "
 import express from 'express';
 
@@ -150,20 +150,20 @@ export function app(): express.Express {
 "
 `;
 
-exports[`Express v5 Migration server.ts file updates should replace wildcard strings with regex patterns in src/server.ts 1`] = `
+exports[`Express v5 Migration server.ts file updates should update server.ts when Express instance name differs from server 1`] = `
 "
 import express from 'express';
 
 export function app(): express.Express {
-  const server = express();
+  const appServer = express();
 
-  server.get(/.*\\..*/, express.static('./browser', { maxAge: '1y' }));
+  appServer.get(/.*\\..*/, express.static('./browser', { maxAge: '1y' }));
 
-  server.get(/.*/, (req, res) => {
+  appServer.get(/.*/, (req, res) => {
     res.render('index', { req });
   });
 
-  return server;
+  return appServer;
 }
 "
 `;

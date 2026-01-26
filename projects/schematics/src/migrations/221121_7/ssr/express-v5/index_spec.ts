@@ -8,7 +8,7 @@ import { Tree } from '@angular-devkit/schematics';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import { join } from 'path';
 
-const collectionPath = join(__dirname, '../../migrations.json');
+const collectionPath = join(__dirname, '../../../migrations.json');
 const MIGRATION_SCRIPT_NAME = '02-migration-v221121_7-express-v5';
 
 describe('Express v5 Migration', () => {
@@ -76,6 +76,22 @@ export function app(): express.Express {
   });
 
   return server;
+}
+`;
+
+  const serverTsWithCustomExpressInstance = `
+import express from 'express';
+
+export function app(): express.Express {
+  const appServer = express();
+
+  appServer.get('*.*', express.static('./browser', { maxAge: '1y' }));
+
+  appServer.get('*', (req, res) => {
+    res.render('index', { req });
+  });
+
+  return appServer;
 }
 `;
 
@@ -200,7 +216,7 @@ export function app(): express.Express {
   });
 
   describe('server.ts file updates', () => {
-    it('should replace wildcard strings with regex patterns in root server.ts', async () => {
+    it('should replace wildcard strings with regex patterns in src/server.ts', async () => {
       createPackageJson('^4.18.0');
       tree.overwrite('/src/server.ts', serverTsWithWildcards);
 
@@ -214,9 +230,9 @@ export function app(): express.Express {
       expect(updatedContent).toMatchSnapshot();
     });
 
-    it('should replace wildcard strings with regex patterns in src/server.ts', async () => {
+    it('should update server.ts when Express instance name differs from server', async () => {
       createPackageJson('^4.18.0');
-      tree.overwrite('/src/server.ts', serverTsWithWildcards);
+      tree.overwrite('/src/server.ts', serverTsWithCustomExpressInstance);
 
       const newTree = await runner.runSchematic(
         MIGRATION_SCRIPT_NAME,
