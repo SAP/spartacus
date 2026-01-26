@@ -3,7 +3,7 @@
 
 ## Removed Constants
 - **`USER_CMS_ENDPOINTS`** (from `projects/core/src/model/cms.model.ts`):
-  - **Impact:** This feature toggle constant has been removed. The functionality is now always enabled.
+  - **Impact:** This config constant has been removed. The functionality is now always enabled.
   - **Action Required:** Remove any references to this constant in your code. The CMS adapters now always use user-specific endpoints.
 
 
@@ -24,7 +24,7 @@
 - **Breaking Impact**: `defaultCmsModuleConfig` was updated to include the configuration that was previously only in `defaultUserCmsModuleConfig`. If you were specifically relying on the old structure of `defaultCmsModuleConfig` (without the `/users/{userId}` defined as it is now), this may affect CMS request building.
 
 ### `occ-cms-component.adapter.ts`
-- **Feature Toggle Removal**: Removed all logic related to the `USER_CMS_ENDPOINTS` feature toggle.
+- **Config constant removal**: Removed all logic related to the `USER_CMS_ENDPOINTS` constant.
 - **Behavior Change**: The adapter now **always** uses the `userIdService` to determine the current user and builds the component request URL accordingly.
 - **API Cleanup**: Removed usage of `FeatureConfigService`.
 - **Outcome**:
@@ -32,12 +32,12 @@
   - Endpoint format is now standardized: `/users/{userId}/cms/components` is always used instead of the legacy `/cms/components` format.
 
 ### `occ-cms-page.adapter.ts`
-- **Feature Toggle Removal**: Removed all logic related to the `USER_CMS_ENDPOINTS` feature toggle.
+- **Config constant removal**: Removed all logic related to the `USER_CMS_ENDPOINTS` constant.
 - **Behavior Change**: Similar to the component adapter, it now always fetches the user ID to build CMS page request URLs.
 - **API Cleanup**: Removed usage of `FeatureConfigService`.
 - **Outcome**:
   - All CMS page requests now consistently include user context in the endpoint URL.
-  - The conditional branching based on `USER_CMS_ENDPOINTS` feature flag has been eliminated, simplifying the code path.
+  - The conditional branching based on `USER_CMS_ENDPOINTS` constant has been eliminated, simplifying the code path.
   - Endpoint format is now standardized: `/users/{userId}/cms/pages` is always used instead of the legacy `/cms/pages` format.
   - This ensures personalized CMS content is consistently served based on the authenticated or anonymous user context.
 
