@@ -21,25 +21,14 @@ import {
   template,
   url,
 } from '@angular-devkit/schematics';
-import {
-  getDecoratorMetadata,
-  getMetadataField,
-  insertImport,
-  isImported,
-} from '@schematics/angular/utility/ast-utils';
-import { RemoveChange } from '@schematics/angular/utility/change';
+import { insertImport } from '@schematics/angular/utility/ast-utils';
 import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
-import ts from 'typescript';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import collectedDependencies from '../dependencies.json';
-import {
-  ANGULAR_CORE,
-  getDefaultProjectNameFromWorkspace,
-  getWorkspace,
-} from '../shared';
+import { getDefaultProjectNameFromWorkspace, getWorkspace } from '../shared';
 import {
   ANGULAR_SERVER_MODULE,
   ANGULAR_SSR,
@@ -52,7 +41,6 @@ import {
   getIndexHtmlPath,
   getPathResultsForFile,
   getTsSourceFile,
-  removeImport,
 } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
@@ -425,10 +413,9 @@ function removeOutputModeSupportedOnlyInNewSsrApi(
 
 /**
  * Removes the `app.routes.server.ts` file.
+ * That file is not supported by Spartacus SSR.
  */
-function removeServerRoutesFileFromSrc(
-  spartacusOptions: SpartacusOptions
-): Rule {
+function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     const serverRoutesPath = getPathResultsForFile(
       tree,
@@ -445,161 +432,6 @@ function removeServerRoutesFileFromSrc(
 
     return tree;
   };
-}
-
-/**
- * Removes the import for `serverRoutes` from './app.routes.server' in app.module.server.ts.
- */
-function removeServerRoutesImport(spartacusOptions: SpartacusOptions): Rule {
-  return (tree: Tree, context: SchematicContext): Tree => {
-    const appServerModulePath = getPathResultsForFile(
-      tree,
-      ANGULAR_SERVER_MODULE,
-      '/src'
-    )[0];
-
-    if (!appServerModulePath) {
-      return tree;
-    }
-
-    const appServerModuleSource = getTsSourceFile(tree, appServerModulePath);
-
-    if (
-      isImported(appServerModuleSource, 'serverRoutes', './app.routes.server')
-    ) {
-      const serverRoutesImportRemoval = removeImport(appServerModuleSource, {
-        className: 'serverRoutes',
-        importPath: './app.routes.server',
-      });
-      commitChanges(tree, appServerModulePath, [serverRoutesImportRemoval]);
-
-      if (spartacusOptions.debug) {
-        context.logger.info(
-          `✅ Removed serverRoutes import from ${appServerModulePath}`
-        );
-      }
-    }
-
-    return tree;
-  };
-}
-
-/**
- * Removes the @angular/ssr import from app.module.server.ts.
- */
-function removeAngularSsrImport(spartacusOptions: SpartacusOptions): Rule {
-  return (tree: Tree, context: SchematicContext): Tree => {
-    const appServerModulePath = getPathResultsForFile(
-      tree,
-      ANGULAR_SERVER_MODULE,
-      '/src'
-    )[0];
-
-    if (!appServerModulePath) {
-      return tree;
-    }
-
-    const appServerModuleSource = getTsSourceFile(tree, appServerModulePath);
-
-    const hasProvideServerRendering = isImported(
-      appServerModuleSource,
-      'provideServerRendering',
-      ANGULAR_SSR
-    );
-    const hasWithRoutes = isImported(
-      appServerModuleSource,
-      'withRoutes',
-      ANGULAR_SSR
-    );
-
-    if (hasProvideServerRendering && hasWithRoutes) {
-      const angularSsrImportRemoval = removeImport(appServerModuleSource, {
-        importPath: ANGULAR_SSR,
-      });
-      commitChanges(tree, appServerModulePath, [angularSsrImportRemoval]);
-
-      if (spartacusOptions.debug) {
-        context.logger.info(
-          `✅ Removed @angular/ssr import from ${appServerModulePath}`
-        );
-      }
-    }
-
-    return tree;
-  };
-}
-
-/**
- * Removes the provideServerRendering provider from app.module.server.ts.
- */
-function removeProvideServerRenderingFromProviders(
-  spartacusOptions: SpartacusOptions
-): Rule {
-  return (tree: Tree, context: SchematicContext): Tree => {
-    const appServerModulePath = getPathResultsForFile(
-      tree,
-      ANGULAR_SERVER_MODULE,
-      '/src'
-    )[0];
-
-    if (!appServerModulePath) {
-      return tree;
-    }
-
-    const appServerModuleSource = getTsSourceFile(tree, appServerModulePath);
-
-    const ngModuleDecorator = getDecoratorMetadata(
-      appServerModuleSource,
-      'NgModule',
-      ANGULAR_CORE
-    )[0];
-
-    if (ngModuleDecorator) {
-      const providersAssignment = getMetadataField(
-        ngModuleDecorator as ts.ObjectLiteralExpression,
-        'providers'
-      )[0] as ts.PropertyAssignment;
-
-      if (providersAssignment) {
-        const providersArray =
-          providersAssignment.initializer as ts.ArrayLiteralExpression;
-
-        const providerToRemove = providersArray.elements.find((element) =>
-          element.getText().includes('provideServerRendering')
-        );
-
-        if (providerToRemove) {
-          const removeProviderChange = new RemoveChange(
-            appServerModulePath,
-            providerToRemove.getStart(),
-            providerToRemove.getFullText()
-          );
-          commitChanges(tree, appServerModulePath, [removeProviderChange]);
-
-          if (spartacusOptions.debug) {
-            context.logger.info(
-              `✅ Removed provideServerRendering(withRoutes(serverRoutes)) from ${appServerModulePath}`
-            );
-          }
-        }
-      }
-    }
-
-    return tree;
-  };
-}
-
-/**
- * Removes the `app.routes.server.ts` file and related code from the app.module.server.ts file.
- * This file is not supported by Spartacus SSR.
- */
-function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
-  return chain([
-    removeServerRoutesFileFromSrc(spartacusOptions),
-    removeServerRoutesImport(spartacusOptions),
-    removeAngularSsrImport(spartacusOptions),
-    removeProvideServerRenderingFromProviders(spartacusOptions),
-  ]);
 }
 
 export function addSSR(options: SpartacusOptions): Rule {
