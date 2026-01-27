@@ -477,9 +477,11 @@ function removeServerRoutesImport(spartacusOptions: SpartacusOptions): Rule {
 }
 
 /**
- * Removes the @angular/ssr import from app.module.server.ts.
+ * Removes the withRoutes import from @angular/ssr in app.module.server.ts.
  */
-function removeAngularSsrImport(spartacusOptions: SpartacusOptions): Rule {
+function removeWithRoutesFromAngularSsrImport(
+  spartacusOptions: SpartacusOptions
+): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     const appServerModulePath = getPathResultsForFile(
       tree,
@@ -493,26 +495,22 @@ function removeAngularSsrImport(spartacusOptions: SpartacusOptions): Rule {
 
     const appServerModuleSource = getTsSourceFile(tree, appServerModulePath);
 
-    const hasProvideServerRendering = isImported(
-      appServerModuleSource,
-      'provideServerRendering',
-      ANGULAR_SSR
-    );
     const hasWithRoutes = isImported(
       appServerModuleSource,
       'withRoutes',
       ANGULAR_SSR
     );
 
-    if (hasProvideServerRendering && hasWithRoutes) {
-      const angularSsrImportRemoval = removeImport(appServerModuleSource, {
+    if (hasWithRoutes) {
+      const withRoutesImportRemoval = removeImport(appServerModuleSource, {
+        className: 'withRoutes',
         importPath: ANGULAR_SSR,
       });
-      commitChanges(tree, appServerModulePath, [angularSsrImportRemoval]);
+      commitChanges(tree, appServerModulePath, [withRoutesImportRemoval]);
 
       if (spartacusOptions.debug) {
         context.logger.info(
-          `✅ Removed @angular/ssr import from ${appServerModulePath}`
+          `✅ Removed withRoutes from @angular/ssr import in ${appServerModulePath}`
         );
       }
     }
@@ -521,10 +519,65 @@ function removeAngularSsrImport(spartacusOptions: SpartacusOptions): Rule {
   };
 }
 
+function findProvideServerRenderingElement(
+  providersArray: ts.ArrayLiteralExpression
+): ts.CallExpression | undefined {
+  const providerElement = providersArray.elements.find((element) => {
+    if (!ts.isCallExpression(element)) {
+      return false;
+    }
+    const expression = element.expression;
+    return (
+      ts.isIdentifier(expression) &&
+      expression.text === 'provideServerRendering'
+    );
+  });
+
+  return providerElement as ts.CallExpression | undefined;
+}
+
+function isWithRoutesCallExpression(node: ts.Node): boolean {
+  return (
+    ts.isCallExpression(node) &&
+    ts.isIdentifier(node.expression) &&
+    node.expression.text === 'withRoutes'
+  );
+}
+
+function removeWithRoutesArgument(
+  tree: Tree,
+  appServerModulePath: string,
+  providerElement: ts.CallExpression,
+  spartacusOptions: SpartacusOptions,
+  context: SchematicContext
+): void {
+  if (providerElement.arguments.length === 0) {
+    return;
+  }
+
+  const firstArg = providerElement.arguments[0];
+  if (!isWithRoutesCallExpression(firstArg)) {
+    return;
+  }
+
+  const removeArgChange = new RemoveChange(
+    appServerModulePath,
+    firstArg.getStart(),
+    firstArg.getFullText()
+  );
+  commitChanges(tree, appServerModulePath, [removeArgChange]);
+
+  if (spartacusOptions.debug) {
+    context.logger.info(
+      `✅ Removed withRoutes(serverRoutes) from provideServerRendering in ${appServerModulePath}`
+    );
+  }
+}
+
 /**
- * Removes the provideServerRendering provider from app.module.server.ts.
+ * Removes the withRoutes(serverRoutes) parameter from provideServerRendering in app.module.server.ts.
  */
-function removeProvideServerRenderingFromProviders(
+function removeWithRoutesFromProvideServerRendering(
   spartacusOptions: SpartacusOptions
 ): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
@@ -546,36 +599,34 @@ function removeProvideServerRenderingFromProviders(
       ANGULAR_CORE
     )[0];
 
-    if (ngModuleDecorator) {
-      const providersAssignment = getMetadataField(
-        ngModuleDecorator as ts.ObjectLiteralExpression,
-        'providers'
-      )[0] as ts.PropertyAssignment;
-
-      if (providersAssignment) {
-        const providersArray =
-          providersAssignment.initializer as ts.ArrayLiteralExpression;
-
-        const providerToRemove = providersArray.elements.find((element) =>
-          element.getText().includes('provideServerRendering')
-        );
-
-        if (providerToRemove) {
-          const removeProviderChange = new RemoveChange(
-            appServerModulePath,
-            providerToRemove.getStart(),
-            providerToRemove.getFullText()
-          );
-          commitChanges(tree, appServerModulePath, [removeProviderChange]);
-
-          if (spartacusOptions.debug) {
-            context.logger.info(
-              `✅ Removed provideServerRendering(withRoutes(serverRoutes)) from ${appServerModulePath}`
-            );
-          }
-        }
-      }
+    if (!ngModuleDecorator) {
+      return tree;
     }
+
+    const providersAssignment = getMetadataField(
+      ngModuleDecorator as ts.ObjectLiteralExpression,
+      'providers'
+    )[0] as ts.PropertyAssignment;
+
+    if (!providersAssignment) {
+      return tree;
+    }
+
+    const providersArray =
+      providersAssignment.initializer as ts.ArrayLiteralExpression;
+    const providerElement = findProvideServerRenderingElement(providersArray);
+
+    if (!providerElement) {
+      return tree;
+    }
+
+    removeWithRoutesArgument(
+      tree,
+      appServerModulePath,
+      providerElement,
+      spartacusOptions,
+      context
+    );
 
     return tree;
   };
@@ -589,8 +640,8 @@ function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
   return chain([
     removeServerRoutesFileFromSrc(spartacusOptions),
     removeServerRoutesImport(spartacusOptions),
-    removeAngularSsrImport(spartacusOptions),
-    removeProvideServerRenderingFromProviders(spartacusOptions),
+    removeWithRoutesFromAngularSsrImport(spartacusOptions),
+    removeWithRoutesFromProvideServerRendering(spartacusOptions),
   ]);
 }
 
