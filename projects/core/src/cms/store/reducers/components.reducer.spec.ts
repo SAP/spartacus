@@ -145,4 +145,25 @@ describe('Components Reducer', () => {
       });
     });
   });
+
+  describe('CLEAR_CMS_COMPONENT action', () => {
+    it('should reset the component context to initial state', () => {
+      const stateWithComponent: ComponentsContext = {
+        component: { uid: 'comp1', typeCode: 'BannerComponent' },
+        pageContext: {
+          'ContentPage-homepage': {
+            error: false,
+            loading: false,
+            success: true,
+            value: true,
+          },
+        },
+      };
+
+      const action = new CmsActions.ClearCmsComponent({ uid: 'comp1' });
+      const state = fromComponents.reducer(stateWithComponent, action);
+
+      expect(state).toEqual(fromComponents.initialState);
+    });
+  });
 });

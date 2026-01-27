@@ -102,4 +102,18 @@ describe('Cms Component Actions', () => {
       });
     });
   });
+
+  describe('ClearCmsComponent Action', () => {
+    describe('ClearCmsComponent', () => {
+      it('should create an action', () => {
+        const payload = { uid: test_uid };
+        const action = new CmsActions.ClearCmsComponent(payload);
+        expect({ ...action }).toEqual({
+          type: CmsActions.CLEAR_CMS_COMPONENT,
+          payload: payload,
+          meta: StateUtils.entityResetMeta(COMPONENT_ENTITY, test_uid),
+        });
+      });
+    });
+  });
 });

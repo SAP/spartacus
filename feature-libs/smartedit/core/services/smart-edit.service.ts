@@ -13,8 +13,8 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
-import { filter, take } from 'rxjs/operators';
 import { SmartEditConfig } from '@spartacus/smartedit/root';
+import { filter, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -132,6 +132,8 @@ export class SmartEditService {
       this.zone.run(() => {
         // without parentId, it is slot
         if (!parentId) {
+          // Clear all cached component data to ensure child components are also refreshed
+          this.cmsService.clearComponentState();
           if (this._currentPageId) {
             this.cmsService.refreshPageById(this._currentPageId);
           } else {
