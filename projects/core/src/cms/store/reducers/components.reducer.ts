@@ -35,6 +35,9 @@ export function reducer<T extends CmsComponent>(
   action: CmsActions.CmsComponentAction<T>
 ): ComponentsContext {
   switch (action.type) {
+    case CmsActions.CLEAR_CMS_COMPONENT: {
+      return initialState;
+    }
     case CmsActions.LOAD_CMS_COMPONENT: {
       const pageContextReducer = loaderReducer<boolean, any>(
         action.meta.entityType,
