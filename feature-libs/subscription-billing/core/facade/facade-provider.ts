@@ -8,9 +8,11 @@ import { Provider } from '@angular/core';
 import { SubscriptionService } from './subscription.service';
 import {
   SubscriptionActionsFacade,
+  SubscriptionBillingFacade,
   SubscriptionFacade,
 } from '@spartacus/subscription-billing/root';
 import { SubscriptionActionsService } from './subscription-actions.service';
+import { SubscriptionBillingService } from './subscription-billing.service';
 import { PageMetaResolver } from '@spartacus/core';
 import { SubscriptionPageMetaResolver } from '../services/subscription-page-meta.resolver';
 
@@ -24,6 +26,11 @@ export const facadeProviders: Provider[] = [
   {
     provide: SubscriptionActionsFacade,
     useExisting: SubscriptionActionsService,
+  },
+  SubscriptionBillingService,
+  {
+    provide: SubscriptionBillingFacade,
+    useExisting: SubscriptionBillingService,
   },
   {
     provide: PageMetaResolver,

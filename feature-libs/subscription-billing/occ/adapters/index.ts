@@ -6,3 +6,4 @@
 
 export * from './occ-subscription.adapter';
 export * from './occ-subscription-actions.adapter';
+export * from './occ-subscription-billing.adapter';

@@ -51,6 +51,16 @@ export interface SubscriptionBillingOccEndpoints {
    * Endpoint for reversing a cancellation of a subscription.
    */
   reverseCancellation?: string | OccEndpoint;
+
+  /**
+   * Endpoint for retrieving the list of subscription bills for a user.
+   */
+  subscriptionBillsList?: string | OccEndpoint;
+
+  /**
+   * Endpoint for retrieving a specific subscription bill by its ID.
+   */
+  subscriptionBillByCode?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {
