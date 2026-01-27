@@ -20,6 +20,7 @@ class MockCmsService {
   refreshLatestPage() {}
   refreshPageById() {}
   refreshComponent() {}
+  clearComponentState() {}
 }
 class MockRoutingService {
   getRouterState(): Observable<any> {
@@ -148,14 +149,18 @@ describe('SmartEditService', () => {
 
   describe('should render cms components', () => {
     it('should render a slot (refresh page by Id)', () => {
+      spyOn(cmsService, 'clearComponentState').and.stub();
       spyOn(cmsService, 'refreshPageById').and.stub();
       service['_currentPageId'] = 'testPageId';
       service['renderComponent']('test-slot');
+      expect(cmsService.clearComponentState).toHaveBeenCalledWith();
       expect(cmsService.refreshPageById).toHaveBeenCalledWith('testPageId');
     });
     it('should render a slot (refresh latest page)', () => {
+      spyOn(cmsService, 'clearComponentState').and.stub();
       spyOn(cmsService, 'refreshLatestPage').and.stub();
       service['renderComponent']('test-slot');
+      expect(cmsService.clearComponentState).toHaveBeenCalledWith();
       expect(cmsService.refreshLatestPage).toHaveBeenCalled();
     });
     it('should render a component', () => {

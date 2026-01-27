@@ -14,6 +14,7 @@ export const LOAD_CMS_COMPONENT = '[Cms] Load Component';
 export const LOAD_CMS_COMPONENT_FAIL = '[Cms] Load Component Fail';
 export const LOAD_CMS_COMPONENT_SUCCESS = '[Cms] Load Component Success';
 export const CMS_GET_COMPONENT_FROM_PAGE = '[Cms] Get Component from Page';
+export const CLEAR_CMS_COMPONENT = '[Cms] Clear Component';
 
 export class LoadCmsComponent extends StateUtils.EntityLoadAction {
   readonly type = LOAD_CMS_COMPONENT;
@@ -78,9 +79,18 @@ export class CmsGetComponentFromPage<
   }
 }
 
+export class ClearCmsComponent extends StateUtils.EntityLoaderResetAction {
+  readonly type = CLEAR_CMS_COMPONENT;
+
+  constructor(public payload: { uid: string }) {
+    super(COMPONENT_ENTITY, payload.uid);
+  }
+}
+
 // action types
 export type CmsComponentAction<T extends CmsComponent> =
   | LoadCmsComponent
   | LoadCmsComponentFail
   | LoadCmsComponentSuccess<T>
-  | CmsGetComponentFromPage<T>;
+  | CmsGetComponentFromPage<T>
+  | ClearCmsComponent;
