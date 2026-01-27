@@ -1,9 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 //
 // Generated file, don't update manually.
 //
@@ -143,22 +137,10 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'update\' was removed from Class \'UserEmailService\'. '
 	},
 	{
-		class: 'UserEmailService',
-		importPath: '@spartacus/user/profile/core',
-		deprecatedNode: 'updateCommand',
-		comment: '// TODO:Spartacus - The type of property \'updateCommand: Command<{ password: string; newUid: string; }>\' changed to: \'updateCommand: Command<{ password: string\' '
-	},
-	{
 		class: 'UserPasswordService',
 		importPath: '@spartacus/user/profile/core',
 		deprecatedNode: 'requestForgotPasswordEmail',
 		comment: '// TODO:Spartacus - Method \'requestForgotPasswordEmail\' was removed from Class \'UserPasswordService\'. '
-	},
-	{
-		class: 'UserPasswordService',
-		importPath: '@spartacus/user/profile/core',
-		deprecatedNode: 'requestForgotPasswordEmailCommand',
-		comment: '// TODO:Spartacus - The type of property \'requestForgotPasswordEmailCommand: Command<{ email: string; }>\' changed to: \'requestForgotPasswordEmailCommand: Command<{ email: string\' '
 	},
 	{
 		class: 'UserPasswordService',
@@ -169,20 +151,8 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'UserPasswordService',
 		importPath: '@spartacus/user/profile/core',
-		deprecatedNode: 'resetCommand',
-		comment: '// TODO:Spartacus - The type of property \'resetCommand: Command<{ token: string; password: string; }>\' changed to: \'resetCommand: Command<{ token: string\' '
-	},
-	{
-		class: 'UserPasswordService',
-		importPath: '@spartacus/user/profile/core',
 		deprecatedNode: 'update',
 		comment: '// TODO:Spartacus - Method \'update\' was removed from Class \'UserPasswordService\'. '
-	},
-	{
-		class: 'UserPasswordService',
-		importPath: '@spartacus/user/profile/core',
-		deprecatedNode: 'updateCommand',
-		comment: '// TODO:Spartacus - The type of property \'updateCommand: Command<{ oldPassword: string; newPassword: string; }>\' changed to: \'updateCommand: Command<{ oldPassword: string\' '
 	},
 	{
 		class: 'UserProfileAdapter',
@@ -317,12 +287,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'update\' was removed from Class \'UserProfileService\'. '
 	},
 	{
-		class: 'UserProfileService',
-		importPath: '@spartacus/user/profile/core',
-		deprecatedNode: 'updateCommand',
-		comment: '// TODO:Spartacus - The type of property \'updateCommand: Command<{ details: User; }>\' changed to: \'updateCommand: Command<{ details: User\' '
-	},
-	{
 		class: 'UserRegisterService',
 		importPath: '@spartacus/user/profile/core',
 		deprecatedNode: 'getTitles',
@@ -337,20 +301,8 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'UserRegisterService',
 		importPath: '@spartacus/user/profile/core',
-		deprecatedNode: 'registerCommand',
-		comment: '// TODO:Spartacus - The type of property \'registerCommand: Command<{ user: UserSignUp; }, User>\' changed to: \'registerCommand: Command<{ user: UserSignUp\' '
-	},
-	{
-		class: 'UserRegisterService',
-		importPath: '@spartacus/user/profile/core',
 		deprecatedNode: 'registerGuest',
 		comment: '// TODO:Spartacus - Method \'registerGuest\' was removed from Class \'UserRegisterService\'. '
-	},
-	{
-		class: 'UserRegisterService',
-		importPath: '@spartacus/user/profile/core',
-		deprecatedNode: 'registerGuestCommand',
-		comment: '// TODO:Spartacus - The type of property \'registerGuestCommand: Command<{ guid: string; password: string; }, User>\' changed to: \'registerGuestCommand: Command<{ guid: string\' '
 	},
 	{
 		class: 'AddressBookComponent',
@@ -695,40 +647,10 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'onSubmit\' was removed from Class \'MyAccountV2ProfileComponent\'. '
 	},
 	{
-		class: 'MyAccountV2ProfileComponent',
-		importPath: '@spartacus/user/profile/components',
-		deprecatedNode: 'originalEditValue',
-		comment: '// TODO:Spartacus - The type of property \'originalEditValue: User\' changed to: \'originalEditValue: User$1\' '
-	},
-	{
-		class: 'MyAccountV2ProfileComponent',
-		importPath: '@spartacus/user/profile/components',
-		deprecatedNode: 'titles$',
-		comment: '// TODO:Spartacus - The type of property \'titles$: Observable<Title[]>\' changed to: \'titles$: Observable<Title$1[]>\' '
-	},
-	{
-		class: 'MyAccountV2ProfileComponent',
-		importPath: '@spartacus/user/profile/components',
-		deprecatedNode: 'user$',
-		comment: '// TODO:Spartacus - The type of property \'user$: Observable<User>\' changed to: \'user$: Observable<User$1>\' '
-	},
-	{
 		class: 'OneTimePasswordRegisterComponent',
 		importPath: '@spartacus/user/profile/components',
 		deprecatedNode: 'additionalConsents',
 		comment: '// TODO:Spartacus - Property \'additionalConsents\' was removed from Class \'OneTimePasswordRegisterComponent\'. '
-	},
-	{
-		class: 'OneTimePasswordRegisterComponent',
-		importPath: '@spartacus/user/profile/components',
-		deprecatedNode: 'additionalRegistrationConsents',
-		comment: '// TODO:Spartacus - The type of property \'additionalRegistrationConsents: { template: ConsentTemplate; required: boolean; }[]\' changed to: \'additionalRegistrationConsents: { template: ConsentTemplate\' '
-	},
-	{
-		class: 'OneTimePasswordRegisterComponent',
-		importPath: '@spartacus/user/profile/components',
-		deprecatedNode: 'anonymousConsent$',
-		comment: '// TODO:Spartacus - The type of property \'anonymousConsent$: Observable<{ consent: AnonymousConsent | undefined; template: string; }>\' changed to: \'anonymousConsent$: Observable<{ consent: AnonymousConsent | undefined\' '
 	},
 	{
 		class: 'OneTimePasswordRegisterComponent',
@@ -787,12 +709,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'OneTimePasswordRegisterComponent',
 		importPath: '@spartacus/user/profile/components',
-		deprecatedNode: 'titles$',
-		comment: '// TODO:Spartacus - The type of property \'titles$: Observable<Title[]>\' changed to: \'titles$: Observable<Title$1[]>\' '
-	},
-	{
-		class: 'OneTimePasswordRegisterComponent',
-		importPath: '@spartacus/user/profile/components',
 		deprecatedNode: 'toggleAnonymousConsent',
 		comment: '// TODO:Spartacus - Method \'toggleAnonymousConsent\' was removed from Class \'OneTimePasswordRegisterComponent\'. '
 	},
@@ -807,18 +723,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/user/profile/components',
 		deprecatedNode: 'additionalConsents',
 		comment: '// TODO:Spartacus - Property \'additionalConsents\' was removed from Class \'RegisterComponent\'. '
-	},
-	{
-		class: 'RegisterComponent',
-		importPath: '@spartacus/user/profile/components',
-		deprecatedNode: 'additionalRegistrationConsents',
-		comment: '// TODO:Spartacus - The type of property \'additionalRegistrationConsents: { template: ConsentTemplate; required: boolean; }[]\' changed to: \'additionalRegistrationConsents: { template: ConsentTemplate\' '
-	},
-	{
-		class: 'RegisterComponent',
-		importPath: '@spartacus/user/profile/components',
-		deprecatedNode: 'anonymousConsent$',
-		comment: '// TODO:Spartacus - The type of property \'anonymousConsent$: Observable<{ consent: AnonymousConsent | undefined; template: string; }>\' changed to: \'anonymousConsent$: Observable<{ consent: AnonymousConsent | undefined\' '
 	},
 	{
 		class: 'RegisterComponent',
@@ -867,12 +771,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/user/profile/components',
 		deprecatedNode: 'submitForm',
 		comment: '// TODO:Spartacus - Method \'submitForm\' was removed from Class \'RegisterComponent\'. '
-	},
-	{
-		class: 'RegisterComponent',
-		importPath: '@spartacus/user/profile/components',
-		deprecatedNode: 'titles$',
-		comment: '// TODO:Spartacus - The type of property \'titles$: Observable<Title[]>\' changed to: \'titles$: Observable<Title$1[]>\' '
 	},
 	{
 		class: 'RegisterComponent',
@@ -1163,12 +1061,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'onSubmit\' was removed from Class \'UpdateProfileComponent\'. '
 	},
 	{
-		class: 'UpdateProfileComponent',
-		importPath: '@spartacus/user/profile/components',
-		deprecatedNode: 'titles$',
-		comment: '// TODO:Spartacus - The type of property \'titles$: Observable<Title[]>\' changed to: \'titles$: Observable<Title$1[]>\' '
-	},
-	{
 		class: 'UpdateProfileComponentService',
 		importPath: '@spartacus/user/profile/components',
 		deprecatedNode: 'onError',
@@ -1183,20 +1075,8 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'UpdateProfileComponentService',
 		importPath: '@spartacus/user/profile/components',
-		deprecatedNode: 'titles$',
-		comment: '// TODO:Spartacus - The type of property \'titles$: Observable<Title[]>\' changed to: \'titles$: Observable<Title$1[]>\' '
-	},
-	{
-		class: 'UpdateProfileComponentService',
-		importPath: '@spartacus/user/profile/components',
 		deprecatedNode: 'updateProfile',
 		comment: '// TODO:Spartacus - Method \'updateProfile\' was removed from Class \'UpdateProfileComponentService\'. '
-	},
-	{
-		class: 'UpdateProfileComponentService',
-		importPath: '@spartacus/user/profile/components',
-		deprecatedNode: 'user$',
-		comment: '// TODO:Spartacus - The type of property \'user$: Observable<User>\' changed to: \'user$: Observable<User$1>\' '
 	},
 	{
 		class: 'UserAccountEventListener',
@@ -1281,12 +1161,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/user/account/core',
 		deprecatedNode: 'createVerificationToken',
 		comment: '// TODO:Spartacus - Method \'createVerificationToken\' was removed from Class \'VerificationTokenService\'. '
-	},
-	{
-		class: 'VerificationTokenService',
-		importPath: '@spartacus/user/account/core',
-		deprecatedNode: 'createVerificationTokenCommand',
-		comment: '// TODO:Spartacus - The type of property \'createVerificationTokenCommand: Command<{ verificationTokenCreation: VerificationTokenCreation; }, VerificationToken>\' changed to: \'createVerificationTokenCommand: Command<{ verificationTokenCreation: VerificationTokenCreation\' '
 	},
 	{
 		class: 'LoginAsGuestGuard',
@@ -1545,12 +1419,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/tracking/personalization/root',
 		deprecatedNode: 'intercept',
 		comment: '// TODO:Spartacus - Method \'intercept\' was removed from Class \'OccPersonalizationTimeInterceptor\'. '
-	},
-	{
-		class: 'PersonalizationConfig',
-		importPath: '@spartacus/tracking/personalization/root',
-		deprecatedNode: 'personalization',
-		comment: '// TODO:Spartacus - The type of property \'personalization: { enabled?: boolean; httpHeaderName?: { id: string; timestamp: string; }; context?: { slotPosition: string; componentId: string; }; }\' changed to: \'personalization: { enabled?: boolean\' '
 	},
 	{
 		class: 'PersonalizationContextService',
@@ -2012,7 +1880,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		class: 'SubscriptionActionsModalComponent',
 		importPath: '@spartacus/subscription-billing/components',
 		deprecatedNode: 'subscriptionDetailSignal',
-		comment: '// TODO:Spartacus - The type of property \'subscriptionDetailSignal: import("@angular/core").Signal<(SubscriptionDetail & { code?: string; mode?: SubscriptionActionMode; }) | undefined>\' changed to: \'subscriptionDetailSignal: i0.Signal<(SubscriptionDetail & { code?: string\' '
+		comment: '// TODO:Spartacus - The type of property \'subscriptionDetailSignal: import("@angular/core").Signal<(SubscriptionDetail & { code?: string; mode?: SubscriptionActionMode; }) | undefined>\' changed to: \'subscriptionDetailSignal: i0.Signal<(SubscriptionDetail & { code?: string; mode?: SubscriptionActionMode; }) | undefined>\' '
 	},
 	{
 		class: 'SubscriptionActionsModalComponentService',
@@ -2053,12 +1921,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'SubscriptionListComponent',
 		importPath: '@spartacus/subscription-billing/components',
-		deprecatedNode: 'listParams',
-		comment: '// TODO:Spartacus - The type of property \'listParams: WritableSignal<{ sortCode: string | undefined; currentPage: number; }>\' changed to: \'listParams: WritableSignal<{ sortCode: string | undefined\' '
-	},
-	{
-		class: 'SubscriptionListComponent',
-		importPath: '@spartacus/subscription-billing/components',
 		deprecatedNode: 'pageChange',
 		comment: '// TODO:Spartacus - Method \'pageChange\' was removed from Class \'SubscriptionListComponent\'. '
 	},
@@ -2091,12 +1953,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/subscription-billing/components',
 		deprecatedNode: 'isUsageChargePresent',
 		comment: '// TODO:Spartacus - Method \'isUsageChargePresent\' was removed from Class \'SubscriptionProductUsageChargeComponent\'. '
-	},
-	{
-		class: 'ActiveFacetsComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'closeIcon',
-		comment: '// TODO:Spartacus - The type of property \'closeIcon: ICON_TYPE\' changed to: \'closeIcon: ICON_TYPE$1\' '
 	},
 	{
 		class: 'ActiveFacetsComponent',
@@ -2185,18 +2041,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'AnonymousConsentDialogComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
-	},
-	{
-		class: 'AnonymousConsentDialogComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'message$',
-		comment: '// TODO:Spartacus - The type of property \'message$: Subject<{ type: GlobalMessageType; key: string; } | null>\' changed to: \'message$: Subject<{ type: GlobalMessageType\' '
-	},
-	{
-		class: 'AnonymousConsentDialogComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'ngOnDestroy',
 		comment: '// TODO:Spartacus - Method \'ngOnDestroy\' was removed from Class \'AnonymousConsentDialogComponent\'. '
 	},
@@ -2279,12 +2123,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'getInitials\' was removed from Class \'AvatarComponent\'. '
 	},
 	{
-		class: 'AvatarComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
-	},
-	{
 		class: 'BannerCarouselComponent',
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'getItems',
@@ -2330,7 +2168,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		class: 'BeforeCmsPageGuardService',
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'guards',
-		comment: '// TODO:Spartacus - The type of property \'guards: { canActivate: import("@angular/router").CanActivateFn; }[]\' changed to: \'guards: { canActivate: i2$1.CanActivateFn\' '
+		comment: '// TODO:Spartacus - The type of property \'guards: { canActivate: import("@angular/router").CanActivateFn; }[]\' changed to: \'guards: { canActivate: i2.CanActivateFn; }[]\' '
 	},
 	{
 		class: 'BreadcrumbComponent',
@@ -2415,12 +2253,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'resolveBreakpointsFromConfig',
 		comment: '// TODO:Spartacus - Method \'resolveBreakpointsFromConfig\' was removed from Class \'BreakpointService\'. '
-	},
-	{
-		class: 'CaptchaApiConfig',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'fields',
-		comment: '// TODO:Spartacus - The type of property \'fields: { [key: string]: string; }\' changed to: \'fields: { [key: string]: string\' '
 	},
 	{
 		class: 'CaptchaComponent',
@@ -2509,12 +2341,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'CardComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
-	},
-	{
-		class: 'CardComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'isCardAction',
 		comment: '// TODO:Spartacus - Method \'isCardAction\' was removed from Class \'CardComponent\'. '
 	},
@@ -2575,18 +2401,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'CarouselComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'indicatorIcon',
-		comment: '// TODO:Spartacus - The type of property \'indicatorIcon: ICON_TYPE\' changed to: \'indicatorIcon: ICON_TYPE$1\' '
-	},
-	{
-		class: 'CarouselComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'nextIcon',
-		comment: '// TODO:Spartacus - The type of property \'nextIcon: ICON_TYPE\' changed to: \'nextIcon: ICON_TYPE$1\' '
-	},
-	{
-		class: 'CarouselComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'ngOnChanges',
 		comment: '// TODO:Spartacus - Method \'ngOnChanges\' was removed from Class \'CarouselComponent\'. '
 	},
@@ -2601,12 +2415,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'onItemKeydown',
 		comment: '// TODO:Spartacus - Method \'onItemKeydown\' was removed from Class \'CarouselComponent\'. '
-	},
-	{
-		class: 'CarouselComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'previousIcon',
-		comment: '// TODO:Spartacus - The type of property \'previousIcon: ICON_TYPE\' changed to: \'previousIcon: ICON_TYPE$1\' '
 	},
 	{
 		class: 'CarouselComponent',
@@ -2635,12 +2443,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'CarouselScrollingComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'nextIcon',
-		comment: '// TODO:Spartacus - The type of property \'nextIcon: ICON_TYPE\' changed to: \'nextIcon: ICON_TYPE$1\' '
-	},
-	{
-		class: 'CarouselScrollingComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'ngOnInit',
 		comment: '// TODO:Spartacus - Method \'ngOnInit\' was removed from Class \'CarouselScrollingComponent\'. '
 	},
@@ -2655,12 +2457,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'onItemKeydown',
 		comment: '// TODO:Spartacus - Method \'onItemKeydown\' was removed from Class \'CarouselScrollingComponent\'. '
-	},
-	{
-		class: 'CarouselScrollingComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'previousIcon',
-		comment: '// TODO:Spartacus - The type of property \'previousIcon: ICON_TYPE\' changed to: \'previousIcon: ICON_TYPE$1\' '
 	},
 	{
 		class: 'CarouselScrollingComponent',
@@ -2685,12 +2481,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'close',
 		comment: '// TODO:Spartacus - Method \'close\' was removed from Class \'ClaimDialogComponent\'. '
-	},
-	{
-		class: 'ClaimDialogComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
 	},
 	{
 		class: 'ClaimDialogComponent',
@@ -2757,12 +2547,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'getStaticData',
 		comment: '// TODO:Spartacus - Method \'getStaticData\' was removed from Class \'CmsComponentsService\'. '
-	},
-	{
-		class: 'CmsComponentsService',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'mappings',
-		comment: '// TODO:Spartacus - The type of property \'mappings: { [componentType: string]: CmsComponentMapping; }\' changed to: \'mappings: { [componentType: string]: CmsComponentMapping\' '
 	},
 	{
 		class: 'CmsComponentsService',
@@ -2947,12 +2731,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'ConsentManagementFormComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'consentChanged',
-		comment: '// TODO:Spartacus - The type of property \'consentChanged: EventEmitter<{ given: boolean; template: ConsentTemplate; }>\' changed to: \'consentChanged: EventEmitter<{ given: boolean\' '
-	},
-	{
-		class: 'ConsentManagementFormComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'isRequired',
 		comment: '// TODO:Spartacus - Method \'isRequired\' was removed from Class \'ConsentManagementFormComponent\'. '
 	},
@@ -3001,12 +2779,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'CouponCardComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'notificationChanged',
-		comment: '// TODO:Spartacus - The type of property \'notificationChanged: EventEmitter<{ couponId: string; notification: boolean; }>\' changed to: \'notificationChanged: EventEmitter<{ couponId: string\' '
-	},
-	{
-		class: 'CouponCardComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'onSubscriptionChange',
 		comment: '// TODO:Spartacus - Method \'onSubscriptionChange\' was removed from Class \'CouponCardComponent\'. '
 	},
@@ -3039,12 +2811,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'handleClick',
 		comment: '// TODO:Spartacus - Method \'handleClick\' was removed from Class \'CouponDialogComponent\'. '
-	},
-	{
-		class: 'CouponDialogComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
 	},
 	{
 		class: 'CouponDialogComponent',
@@ -3307,20 +3073,8 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'FacetComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'collapseIcon',
-		comment: '// TODO:Spartacus - The type of property \'collapseIcon: ICON_TYPE\' changed to: \'collapseIcon: ICON_TYPE$1\' '
-	},
-	{
-		class: 'FacetComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'decreaseVisibleValues',
 		comment: '// TODO:Spartacus - Method \'decreaseVisibleValues\' was removed from Class \'FacetComponent\'. '
-	},
-	{
-		class: 'FacetComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'expandIcon',
-		comment: '// TODO:Spartacus - The type of property \'expandIcon: ICON_TYPE\' changed to: \'expandIcon: ICON_TYPE$1\' '
 	},
 	{
 		class: 'FacetComponent',
@@ -3423,12 +3177,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'handleDialogFocus',
 		comment: '// TODO:Spartacus - Method \'handleDialogFocus\' was removed from Class \'FacetListComponent\'. '
-	},
-	{
-		class: 'FacetListComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
 	},
 	{
 		class: 'FacetListComponent',
@@ -3617,12 +3365,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'canElementReceiveFocus\' was removed from Class \'FocusableCarouselItemDirective\'. '
 	},
 	{
-		class: 'FormConfig',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'form',
-		comment: '// TODO:Spartacus - The type of property \'form: { passwordVisibilityToggle: boolean; }\' changed to: \'form: { passwordVisibilityToggle: boolean\' '
-	},
-	{
 		class: 'FormErrorsComponent',
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'control',
@@ -3663,12 +3405,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'touched',
 		comment: '// TODO:Spartacus - Property \'touched\' was removed from Class \'FormErrorsComponent\'. '
-	},
-	{
-		class: 'FormErrorsComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'translationParams',
-		comment: '// TODO:Spartacus - The type of property \'translationParams: { [key: string]: string | null; }\' changed to: \'translationParams: { [key: string]: string | null\' '
 	},
 	{
 		class: 'GenericLinkComponent',
@@ -3735,12 +3471,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'clear',
 		comment: '// TODO:Spartacus - Method \'clear\' was removed from Class \'GlobalMessageComponent\'. '
-	},
-	{
-		class: 'GlobalMessageComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
 	},
 	{
 		class: 'GlobalMessageComponent',
@@ -4201,20 +3931,8 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'LaunchRenderStrategy',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'renderedCallers',
-		comment: '// TODO:Spartacus - The type of property \'renderedCallers: Array<{ caller: LAUNCH_CALLER | string; element?: any; component?: ComponentRef<any>; }>\' changed to: \'renderedCallers: Array<{ caller: LAUNCH_CALLER | string\' '
-	},
-	{
-		class: 'LaunchRenderStrategy',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'shouldRender',
 		comment: '// TODO:Spartacus - Method \'shouldRender\' was removed from Class \'LaunchRenderStrategy\'. '
-	},
-	{
-		class: 'LayoutConfig',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'deferredLoading',
-		comment: '// TODO:Spartacus - The type of property \'deferredLoading: { strategy?: DeferLoadingStrategy; intersectionMargin?: string; }\' changed to: \'deferredLoading: { /** * The global strategy will be used as a fallback strategy for all DOM creation, * but can be overridden by local configuration, i.e. for cms components. */ strategy?: DeferLoadingStrategy\' '
 	},
 	{
 		class: 'LazyComponentHandler',
@@ -4233,12 +3951,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'launcher',
 		comment: '// TODO:Spartacus - Method \'launcher\' was removed from Class \'LazyComponentHandler\'. '
-	},
-	{
-		class: 'LcpCmsComponentsConfig',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'lcpCmsComponents',
-		comment: '// TODO:Spartacus - The type of property \'lcpCmsComponents: { idMarker?: string; ids?: string[]; }\' changed to: \'lcpCmsComponents: { /** * If a CMS component ID includes this substring, Spartacus treats it as containing * the LCP (Largest Contentful Paint) element. You can append this substring * to certain CMS component IDs in your CMS data, so Spartacus will automatically * recognize them as containing the LCP element. * * For example, with a marker "__cxLCP__", an ID like "myComponentID__cxLCP__" * will be recognized as containing the LCP element. */ idMarker?: string\' '
 	},
 	{
 		class: 'LcpContextDirective',
@@ -4347,18 +4059,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'ngOnChanges',
 		comment: '// TODO:Spartacus - Method \'ngOnChanges\' was removed from Class \'MediaComponent\'. '
-	},
-	{
-		class: 'MediaConfig',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'media',
-		comment: '// TODO:Spartacus - The type of property \'media: { pictureElementFormats?: { [format: string]: { mediaQueries?: PictureElementQueries; }; }; pictureFormatsOrder?: string[]; }\' changed to: \'media: { /** * Picture element configuration holds the media queries assigned to * a format. * The order of formats matters. * <source> elements in <picture> will be sorted based on this order. * This is necessary because the browser evaluates each * <source> element in order and uses the first one that matches. */ pictureElementFormats?: { [format: string]: { mediaQueries?: PictureElementQueries\' '
-	},
-	{
-		class: 'MediaConfig',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'mediaFormats',
-		comment: '// TODO:Spartacus - The type of property \'mediaFormats: { [format: string]: MediaFormatSize; }\' changed to: \'mediaFormats: { /** * Represents the media format code, that is the key to distinguish different * media in a container. */ [format: string]: MediaFormatSize\' '
 	},
 	{
 		class: 'MediaModule',
@@ -4495,12 +4195,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'MessageComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
-	},
-	{
-		class: 'MessageComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'ngAfterViewInit',
 		comment: '// TODO:Spartacus - Method \'ngAfterViewInit\' was removed from Class \'MessageComponent\'. '
 	},
@@ -4515,12 +4209,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'buildForm',
 		comment: '// TODO:Spartacus - Method \'buildForm\' was removed from Class \'MessagingComponent\'. '
-	},
-	{
-		class: 'MessagingComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'downloadAttachment',
-		comment: '// TODO:Spartacus - The type of property \'downloadAttachment: EventEmitter<{ messageCode: string | undefined; attachmentId: string | undefined; fileName: string | undefined; }>\' changed to: \'downloadAttachment: EventEmitter<{ messageCode: string | undefined\' '
 	},
 	{
 		class: 'MessagingComponent',
@@ -4549,20 +4237,8 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'MessagingComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
-	},
-	{
-		class: 'MessagingComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'inputCharacterLeft',
 		comment: '// TODO:Spartacus - Property \'inputCharacterLeft\' was removed from Class \'MessagingComponent\'. '
-	},
-	{
-		class: 'MessagingComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'itemClicked',
-		comment: '// TODO:Spartacus - The type of property \'itemClicked: EventEmitter<{ item: MessageEventBoundItem; }>\' changed to: \'itemClicked: EventEmitter<{ item: MessageEventBoundItem\' '
 	},
 	{
 		class: 'MessagingComponent',
@@ -4627,12 +4303,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'MessagingComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'send',
-		comment: '// TODO:Spartacus - The type of property \'send: EventEmitter<{ files: File | undefined; message: string; itemId?: string; }>\' changed to: \'send: EventEmitter<{ files: File | undefined\' '
-	},
-	{
-		class: 'MessagingComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'triggerDownload',
 		comment: '// TODO:Spartacus - Method \'triggerDownload\' was removed from Class \'MessagingComponent\'. '
 	},
@@ -4675,12 +4345,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'MyCouponsComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
-	},
-	{
-		class: 'MyCouponsComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'ngOnDestroy',
 		comment: '// TODO:Spartacus - Method \'ngOnDestroy\' was removed from Class \'MyCouponsComponent\'. '
 	},
@@ -4709,16 +4373,10 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'sortChange\' was removed from Class \'MyCouponsComponent\'. '
 	},
 	{
-		class: 'MyCouponsComponent',
+		class: 'MyCouponsComponentService',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'sortLabels',
-		comment: '// TODO:Spartacus - The type of property \'sortLabels: Observable<{ byStartDateAsc: string; byStartDateDesc: string; byEndDateAsc: string; byEndDateDesc: string; }>\' changed to: \'sortLabels: Observable<{ byStartDateAsc: string\' '
-	},
-	{
-		class: 'MyCouponsComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'sortOptions',
-		comment: '// TODO:Spartacus - The type of property \'sortOptions: { code: string; selected: boolean; }[]\' changed to: \'sortOptions: { code: string\' '
+		deprecatedNode: 'CUSTOMER_COUPON_CODE',
+		comment: '// TODO:Spartacus - The type of property \'CUSTOMER_COUPON_CODE:\' changed to: \'CUSTOMER_COUPON_CODE: customerCouponCode:"\' '
 	},
 	{
 		class: 'MyCouponsComponentService',
@@ -4735,8 +4393,8 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'MyCouponsComponentService',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'sortLabels',
-		comment: '// TODO:Spartacus - The type of property \'sortLabels: Observable<{ byStartDateAsc: string; byStartDateDesc: string; byEndDateAsc: string; byEndDateDesc: string; }>\' changed to: \'sortLabels: Observable<{ byStartDateAsc: string\' '
+		deprecatedNode: 'RELEVANCE',
+		comment: '// TODO:Spartacus - The type of property \'RELEVANCE:\' changed to: \'RELEVANCE: relevance"\' '
 	},
 	{
 		class: 'MyInterestsComponent',
@@ -4767,18 +4425,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'sortChange',
 		comment: '// TODO:Spartacus - Method \'sortChange\' was removed from Class \'MyInterestsComponent\'. '
-	},
-	{
-		class: 'MyInterestsComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'sortLabels',
-		comment: '// TODO:Spartacus - The type of property \'sortLabels: Observable<{ byNameAsc: string; byNameDesc: string; }>\' changed to: \'sortLabels: Observable<{ byNameAsc: string\' '
-	},
-	{
-		class: 'MyInterestsComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'sortOptions',
-		comment: '// TODO:Spartacus - The type of property \'sortOptions: { code: string; selected: boolean; }[]\' changed to: \'sortOptions: { code: string\' '
 	},
 	{
 		class: 'NavigationEventBuilder',
@@ -4879,12 +4525,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'NavigationUIComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconType',
-		comment: '// TODO:Spartacus - The type of property \'iconType: typeof ICON_TYPE\' changed to: \'iconType: typeof ICON_TYPE$1\' '
-	},
-	{
-		class: 'NavigationUIComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'isDesktop$',
 		comment: '// TODO:Spartacus - The type of property \'isDesktop$: import("rxjs").Observable<boolean>\' changed to: \'isDesktop$: rxjs.Observable<boolean>\' '
 	},
@@ -4975,12 +4615,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'NgSelectA11yDirective',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'cxNgSelectA11y',
-		comment: '// TODO:Spartacus - The type of property \'cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string; }\' changed to: \'cxNgSelectA11y: { ariaLabel?: string\' '
-	},
-	{
-		class: 'NgSelectA11yDirective',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'ngAfterViewInit',
 		comment: '// TODO:Spartacus - Method \'ngAfterViewInit\' was removed from Class \'NgSelectA11yDirective\'. '
 	},
@@ -5015,12 +4649,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'updatePreference\' was removed from Class \'NotificationPreferenceComponent\'. '
 	},
 	{
-		class: 'OnNavigateConfig',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'enableResetViewOnNavigate',
-		comment: '// TODO:Spartacus - The type of property \'enableResetViewOnNavigate: { active?: boolean; ignoreQueryString?: boolean; ignoreRoutes?: string[]; selectedHostElement?: string; }\' changed to: \'enableResetViewOnNavigate: { active?: boolean\' '
-	},
-	{
 		class: 'OnNavigateService',
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'focusOnHostElement',
@@ -5042,7 +4670,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		class: 'OnNavigateService',
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'routerConfiguration',
-		comment: '// TODO:Spartacus - The type of property \'routerConfiguration: import("@angular/router").ExtraOptions\' changed to: \'routerConfiguration: i2$1.ExtraOptions\' '
+		comment: '// TODO:Spartacus - The type of property \'routerConfiguration: import("@angular/router").ExtraOptions\' changed to: \'routerConfiguration: i2.ExtraOptions\' '
 	},
 	{
 		class: 'OnNavigateService',
@@ -5533,12 +5161,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'PaymentMethodsComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
-	},
-	{
-		class: 'PaymentMethodsComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'ngOnInit',
 		comment: '// TODO:Spartacus - Method \'ngOnInit\' was removed from Class \'PaymentMethodsComponent\'. '
 	},
@@ -5571,12 +5193,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'escapeKeydown',
 		comment: '// TODO:Spartacus - Method \'escapeKeydown\' was removed from Class \'PopoverComponent\'. '
-	},
-	{
-		class: 'PopoverComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
 	},
 	{
 		class: 'PopoverComponent',
@@ -5839,12 +5455,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'ProductFacetNavigationComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
-	},
-	{
-		class: 'ProductFacetNavigationComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'launch',
 		comment: '// TODO:Spartacus - Method \'launch\' was removed from Class \'ProductFacetNavigationComponent\'. '
 	},
@@ -5937,6 +5547,12 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'getQueryFromRouteParams',
 		comment: '// TODO:Spartacus - Method \'getQueryFromRouteParams\' was removed from Class \'ProductListComponentService\'. '
+	},
+	{
+		class: 'ProductListComponentService',
+		importPath: '@spartacus/storefront',
+		deprecatedNode: 'RELEVANCE_ALLCATEGORIES',
+		comment: '// TODO:Spartacus - The type of property \'RELEVANCE_ALLCATEGORIES:\' changed to: \'RELEVANCE_ALLCATEGORIES: relevance:allCategories:"\' '
 	},
 	{
 		class: 'ProductListComponentService',
@@ -6115,12 +5731,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'ProductViewComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
-	},
-	{
-		class: 'ProductViewComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'viewMode',
 		comment: '// TODO:Spartacus - Property \'viewMode\' was removed from Class \'ProductViewComponent\'. '
 	},
@@ -6129,12 +5739,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'ngOnChanges',
 		comment: '// TODO:Spartacus - Method \'ngOnChanges\' was removed from Class \'ProvideLcpPresenceDirective\'. '
-	},
-	{
-		class: 'PWAModuleConfig',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'pwa',
-		comment: '// TODO:Spartacus - The type of property \'pwa: { enabled?: boolean; addToHomeScreen?: boolean; }\' changed to: \'pwa: { enabled?: boolean\' '
 	},
 	{
 		class: 'ReadMoreComponent',
@@ -6171,12 +5775,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'render',
 		comment: '// TODO:Spartacus - Method \'render\' was removed from Class \'RoutingRenderStrategy\'. '
-	},
-	{
-		class: 'ScrollToTopComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
 	},
 	{
 		class: 'ScrollToTopComponent',
@@ -6351,12 +5949,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'getTabIndex',
 		comment: '// TODO:Spartacus - Method \'getTabIndex\' was removed from Class \'SearchBoxComponent\'. '
-	},
-	{
-		class: 'SearchBoxComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
 	},
 	{
 		class: 'SearchBoxComponent',
@@ -6697,12 +6289,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'SiteContextSelectorComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
-	},
-	{
-		class: 'SiteContextSelectorComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'items$',
 		comment: '// TODO:Spartacus - Property \'items$\' was removed from Class \'SiteContextSelectorComponent\'. '
 	},
@@ -6729,12 +6315,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'ariaLabel$',
 		comment: '// TODO:Spartacus - Method \'ariaLabel$\' was removed from Class \'SiteThemeSwitcherComponent\'. '
-	},
-	{
-		class: 'SiteThemeSwitcherComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'iconTypes',
-		comment: '// TODO:Spartacus - The type of property \'iconTypes: typeof ICON_TYPE\' changed to: \'iconTypes: typeof ICON_TYPE$1\' '
 	},
 	{
 		class: 'SiteThemeSwitcherComponent',
@@ -6819,12 +6399,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'selectedLabel',
 		comment: '// TODO:Spartacus - Property \'selectedLabel\' was removed from Class \'SortingComponent\'. '
-	},
-	{
-		class: 'SortingComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'sortLabels',
-		comment: '// TODO:Spartacus - The type of property \'sortLabels: { [code: string]: string; } | null\' changed to: \'sortLabels: { [code: string]: string\' '
 	},
 	{
 		class: 'SortingComponent',
@@ -6915,12 +6489,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'views',
 		comment: '// TODO:Spartacus - Property \'views\' was removed from Class \'SplitViewService\'. '
-	},
-	{
-		class: 'StarRatingComponent',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'icon',
-		comment: '// TODO:Spartacus - The type of property \'icon: ICON_TYPE\' changed to: \'icon: ICON_TYPE$1\' '
 	},
 	{
 		class: 'StarRatingComponent',
@@ -7147,12 +6715,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'TableComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'currentItem',
-		comment: '// TODO:Spartacus - The type of property \'currentItem: { value: any; property: string; }\' changed to: \'currentItem: { value: any\' '
-	},
-	{
-		class: 'TableComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'getDataOutletContext',
 		comment: '// TODO:Spartacus - Method \'getDataOutletContext\' was removed from Class \'TableComponent\'. '
 	},
@@ -7203,18 +6765,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'trackData',
 		comment: '// TODO:Spartacus - Method \'trackData\' was removed from Class \'TableComponent\'. '
-	},
-	{
-		class: 'TableConfig',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'table',
-		comment: '// TODO:Spartacus - The type of property \'table: { [tableType: string]: ResponsiveTableConfiguration; }\' changed to: \'table: { [tableType: string]: ResponsiveTableConfiguration\' '
-	},
-	{
-		class: 'TableConfig',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'tableOptions',
-		comment: '// TODO:Spartacus - The type of property \'tableOptions: { headerComponent?: Type<any>; dataComponent?: Type<any>; }\' changed to: \'tableOptions: { /** * Global component to render table header _content_ (`<th>...</th>`). A specific component * can be configured alternatively per table or table field. */ headerComponent?: Type<any>\' '
 	},
 	{
 		class: 'TableDataCellComponent',
@@ -7517,12 +7067,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Property \'viewPosition\' was removed from Class \'ViewComponent\'. '
 	},
 	{
-		class: 'ViewConfig',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'view',
-		comment: '// TODO:Spartacus - The type of property \'view: { defaultPageSize?: number; infiniteScroll?: { active?: boolean; productLimit?: number; showMoreButton?: boolean; }; }\' changed to: \'view: { /** * Configurations related to the view of the application */ defaultPageSize?: number\' '
-	},
-	{
 		class: 'StoreFinderFacade',
 		importPath: '@spartacus/storefinder/root',
 		deprecatedNode: 'callFindStoresAction',
@@ -7637,18 +7181,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'renderMap\' was removed from Class \'GoogleMapRendererService\'. '
 	},
 	{
-		class: 'FindStoreById',
-		importPath: '@spartacus/storefinder/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { storeId: string; }\' changed to: \'payload: { storeId: string\' '
-	},
-	{
-		class: 'FindStores',
-		importPath: '@spartacus/storefinder/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { queryText: string; searchConfig?: SearchConfig; longitudeLatitude?: GeoPoint; useMyLocation?: boolean; countryIsoCode?: string; radius?: number; }\' changed to: \'payload: { queryText: string\' '
-	},
-	{
 		class: 'StoreFinderAdapter',
 		importPath: '@spartacus/storefinder/core',
 		deprecatedNode: 'load',
@@ -7665,12 +7197,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefinder/core',
 		deprecatedNode: 'search',
 		comment: '// TODO:Spartacus - Method \'search\' was removed from Class \'StoreFinderAdapter\'. '
-	},
-	{
-		class: 'StoreFinderConfig',
-		importPath: '@spartacus/storefinder/core',
-		deprecatedNode: 'googleMaps',
-		comment: '// TODO:Spartacus - The type of property \'googleMaps: { apiUrl?: string; apiKey?: string; scale?: number; selectedMarkerScale?: number; radius?: number; }\' changed to: \'googleMaps: { apiUrl?: string\' '
 	},
 	{
 		class: 'StoreFinderConnector',
@@ -7977,12 +7503,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/smartedit/root',
 		deprecatedNode: 'setRequestForProductListPage',
 		comment: '// TODO:Spartacus - Method \'setRequestForProductListPage\' was removed from Class \'CmsTicketInterceptor\'. '
-	},
-	{
-		class: 'SmartEditConfig',
-		importPath: '@spartacus/smartedit/root',
-		deprecatedNode: 'smartEdit',
-		comment: '// TODO:Spartacus - The type of property \'smartEdit: { storefrontPreviewRoute?: string; allowOrigin?: string; }\' changed to: \'smartEdit: { storefrontPreviewRoute?: string\' '
 	},
 	{
 		class: 'SmartEditLauncherService',
@@ -8489,12 +8009,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'rescheduleService\' was removed from Class \'RescheduleServiceOrderFacade\'. '
 	},
 	{
-		class: 'ServiceOrderConfiguration',
-		importPath: '@spartacus/s4-service/root',
-		deprecatedNode: 'serviceOrderConfiguration',
-		comment: '// TODO:Spartacus - The type of property \'serviceOrderConfiguration: { leadDays?: number; serviceScheduleTimes?: string[]; }\' changed to: \'serviceOrderConfiguration: { leadDays?: number\' '
-	},
-	{
 		class: 'CancelServiceOrderComponent',
 		importPath: '@spartacus/s4-service/order',
 		deprecatedNode: 'cancelServiceOrder',
@@ -8522,7 +8036,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		class: 'CancelServiceOrderHeadlineComponent',
 		importPath: '@spartacus/s4-service/order',
 		deprecatedNode: 'order$',
-		comment: '// TODO:Spartacus - The type of property \'order$: import("rxjs").Observable<{ entries: import("@spartacus/cart/base/root").OrderEntry[]; appliedOrderPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedProductPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedVouchers?: import("@spartacus/cart/base/root").Voucher[]; calculated?: boolean; code?: string; consignments?: import("@spartacus/order/root").Consignment[]; costCenter?: import("@spartacus/core").CostCenter; created?: Date; deliveryAddress?: import("@spartacus/core").Address; deliveryCost?: import("@spartacus/core").Price; deliveryItemsQuantity?: number; deliveryMode?: import("@spartacus/cart/base/root").DeliveryMode; deliveryOrderGroups?: import("@spartacus/cart/base/root").DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: import("@spartacus/core").Price; orgCustomer?: import("@spartacus/core").B2BUser; orgUnit?: import("@spartacus/core").B2BUnit; paymentInfo?: import("@spartacus/core").PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: import("@spartacus/cart/base/root").PickupOrderEntryGroup[]; productDiscounts?: import("@spartacus/core").Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: import("@spartacus/core").Price; totalDiscounts?: import("@spartacus/core").Price; totalItems?: number; totalPrice?: import("@spartacus/core").Price; totalPriceWithTax?: import("@spartacus/core").Price; totalTax?: import("@spartacus/core").Price; unconsignedEntries?: import("@spartacus/cart/base/root").OrderEntry[]; user?: import("@spartacus/core").Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: import("@spartacus/s4-service/root").ServiceDateTime; serviceCancellable?: import("@spartacus/s4-service/root").serviceCancellable; serviceReschedulable?: boolean; }>\' changed to: \'order$: rxjs.Observable<{ entries: _spartacus_cart_base_root.OrderEntry[]\' '
+		comment: '// TODO:Spartacus - The type of property \'order$: import("rxjs").Observable<{ entries: import("@spartacus/cart/base/root").OrderEntry[]; appliedOrderPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedProductPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedVouchers?: import("@spartacus/cart/base/root").Voucher[]; calculated?: boolean; code?: string; consignments?: import("@spartacus/order/root").Consignment[]; costCenter?: import("@spartacus/core").CostCenter; created?: Date; deliveryAddress?: import("@spartacus/core").Address; deliveryCost?: import("@spartacus/core").Price; deliveryItemsQuantity?: number; deliveryMode?: import("@spartacus/cart/base/root").DeliveryMode; deliveryOrderGroups?: import("@spartacus/cart/base/root").DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: import("@spartacus/core").Price; orgCustomer?: import("@spartacus/core").B2BUser; orgUnit?: import("@spartacus/core").B2BUnit; paymentInfo?: import("@spartacus/core").PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: import("@spartacus/cart/base/root").PickupOrderEntryGroup[]; productDiscounts?: import("@spartacus/core").Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: import("@spartacus/core").Price; totalDiscounts?: import("@spartacus/core").Price; totalItems?: number; totalPrice?: import("@spartacus/core").Price; totalPriceWithTax?: import("@spartacus/core").Price; totalTax?: import("@spartacus/core").Price; unconsignedEntries?: import("@spartacus/cart/base/root").OrderEntry[]; user?: import("@spartacus/core").Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: import("@spartacus/s4-service/root").ServiceDateTime; serviceCancellable?: import("@spartacus/s4-service/root").serviceCancellable; serviceReschedulable?: boolean; }>\' changed to: \'order$: rxjs.Observable<{ entries: _spartacus_cart_base_root.OrderEntry[]; appliedOrderPromotions?: _spartacus_cart_base_root.PromotionResult[]; appliedProductPromotions?: _spartacus_cart_base_root.PromotionResult[]; appliedVouchers?: _spartacus_cart_base_root.Voucher[]; calculated?: boolean; code?: string; consignments?: _spartacus_order_root.Consignment[]; costCenter?: _spartacus_core.CostCenter; created?: Date; deliveryAddress?: _spartacus_core.Address; deliveryCost?: _spartacus_core.Price; deliveryItemsQuantity?: number; deliveryMode?: _spartacus_cart_base_root.DeliveryMode; deliveryOrderGroups?: _spartacus_cart_base_root.DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: _spartacus_core.Price; orgCustomer?: _spartacus_core.B2BUser; orgUnit?: _spartacus_core.B2BUnit; paymentInfo?: _spartacus_core.PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: _spartacus_cart_base_root.PickupOrderEntryGroup[]; productDiscounts?: _spartacus_core.Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: _spartacus_core.Price; totalDiscounts?: _spartacus_core.Price; totalItems?: number; totalPrice?: _spartacus_core.Price; totalPriceWithTax?: _spartacus_core.Price; totalTax?: _spartacus_core.Price; unconsignedEntries?: _spartacus_cart_base_root.OrderEntry[]; user?: _spartacus_core.Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: _spartacus_s4_service_root.ServiceDateTime; serviceCancellable?: _spartacus_s4_service_root.serviceCancellable; serviceReschedulable?: boolean; }>\' '
 	},
 	{
 		class: 'RescheduleServiceOrderComponent',
@@ -8546,7 +8060,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		class: 'RescheduleServiceOrderComponent',
 		importPath: '@spartacus/s4-service/order',
 		deprecatedNode: 'order$',
-		comment: '// TODO:Spartacus - The type of property \'order$: Observable<{ entries: import("@spartacus/cart/base/root").OrderEntry[]; appliedOrderPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedProductPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedVouchers?: import("@spartacus/cart/base/root").Voucher[]; calculated?: boolean; code?: string; consignments?: import("@spartacus/order/root").Consignment[]; costCenter?: import("@spartacus/core").CostCenter; created?: Date; deliveryAddress?: import("@spartacus/core").Address; deliveryCost?: import("@spartacus/core").Price; deliveryItemsQuantity?: number; deliveryMode?: import("@spartacus/cart/base/root").DeliveryMode; deliveryOrderGroups?: import("@spartacus/cart/base/root").DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: import("@spartacus/core").Price; orgCustomer?: import("@spartacus/core").B2BUser; orgUnit?: import("@spartacus/core").B2BUnit; paymentInfo?: import("@spartacus/core").PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: import("@spartacus/cart/base/root").PickupOrderEntryGroup[]; productDiscounts?: import("@spartacus/core").Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: import("@spartacus/core").Price; totalDiscounts?: import("@spartacus/core").Price; totalItems?: number; totalPrice?: import("@spartacus/core").Price; totalPriceWithTax?: import("@spartacus/core").Price; totalTax?: import("@spartacus/core").Price; unconsignedEntries?: import("@spartacus/cart/base/root").OrderEntry[]; user?: import("@spartacus/core").Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: ServiceDateTime; serviceCancellable?: import("@spartacus/s4-service/root").serviceCancellable; serviceReschedulable?: boolean; }>\' changed to: \'order$: Observable<{ entries: _spartacus_cart_base_root.OrderEntry[]\' '
+		comment: '// TODO:Spartacus - The type of property \'order$: Observable<{ entries: import("@spartacus/cart/base/root").OrderEntry[]; appliedOrderPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedProductPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedVouchers?: import("@spartacus/cart/base/root").Voucher[]; calculated?: boolean; code?: string; consignments?: import("@spartacus/order/root").Consignment[]; costCenter?: import("@spartacus/core").CostCenter; created?: Date; deliveryAddress?: import("@spartacus/core").Address; deliveryCost?: import("@spartacus/core").Price; deliveryItemsQuantity?: number; deliveryMode?: import("@spartacus/cart/base/root").DeliveryMode; deliveryOrderGroups?: import("@spartacus/cart/base/root").DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: import("@spartacus/core").Price; orgCustomer?: import("@spartacus/core").B2BUser; orgUnit?: import("@spartacus/core").B2BUnit; paymentInfo?: import("@spartacus/core").PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: import("@spartacus/cart/base/root").PickupOrderEntryGroup[]; productDiscounts?: import("@spartacus/core").Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: import("@spartacus/core").Price; totalDiscounts?: import("@spartacus/core").Price; totalItems?: number; totalPrice?: import("@spartacus/core").Price; totalPriceWithTax?: import("@spartacus/core").Price; totalTax?: import("@spartacus/core").Price; unconsignedEntries?: import("@spartacus/cart/base/root").OrderEntry[]; user?: import("@spartacus/core").Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: ServiceDateTime; serviceCancellable?: import("@spartacus/s4-service/root").serviceCancellable; serviceReschedulable?: boolean; }>\' changed to: \'order$: Observable<{ entries: _spartacus_cart_base_root.OrderEntry[]; appliedOrderPromotions?: _spartacus_cart_base_root.PromotionResult[]; appliedProductPromotions?: _spartacus_cart_base_root.PromotionResult[]; appliedVouchers?: _spartacus_cart_base_root.Voucher[]; calculated?: boolean; code?: string; consignments?: _spartacus_order_root.Consignment[]; costCenter?: _spartacus_core.CostCenter; created?: Date; deliveryAddress?: _spartacus_core.Address; deliveryCost?: _spartacus_core.Price; deliveryItemsQuantity?: number; deliveryMode?: _spartacus_cart_base_root.DeliveryMode; deliveryOrderGroups?: _spartacus_cart_base_root.DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: _spartacus_core.Price; orgCustomer?: _spartacus_core.B2BUser; orgUnit?: _spartacus_core.B2BUnit; paymentInfo?: _spartacus_core.PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: _spartacus_cart_base_root.PickupOrderEntryGroup[]; productDiscounts?: _spartacus_core.Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: _spartacus_core.Price; totalDiscounts?: _spartacus_core.Price; totalItems?: number; totalPrice?: _spartacus_core.Price; totalPriceWithTax?: _spartacus_core.Price; totalTax?: _spartacus_core.Price; unconsignedEntries?: _spartacus_cart_base_root.OrderEntry[]; user?: _spartacus_core.Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: ServiceDateTime; serviceCancellable?: _spartacus_s4_service_root.serviceCancellable; serviceReschedulable?: boolean; }>\' '
 	},
 	{
 		class: 'RescheduleServiceOrderComponent',
@@ -9335,22 +8849,10 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'performQuoteAction\' was removed from Class \'QuoteConnector\'. '
 	},
 	{
-		class: 'QuoteCoreConfig',
-		importPath: '@spartacus/quote/core',
-		deprecatedNode: 'quote',
-		comment: '// TODO:Spartacus - The type of property \'quote: { actions?: QuoteActionsConfig; }\' changed to: \'quote: { actions?: QuoteActionsConfig\' '
-	},
-	{
 		class: 'QuoteService',
 		importPath: '@spartacus/quote/core',
 		deprecatedNode: 'addDiscount',
 		comment: '// TODO:Spartacus - Method \'addDiscount\' was removed from Class \'QuoteService\'. '
-	},
-	{
-		class: 'QuoteService',
-		importPath: '@spartacus/quote/core',
-		deprecatedNode: 'addDiscountCommand',
-		comment: '// TODO:Spartacus - The type of property \'addDiscountCommand: Command<{ quoteCode: string; quoteDiscount: QuoteDiscount; }>\' changed to: \'addDiscountCommand: Command<{ quoteCode: string\' '
 	},
 	{
 		class: 'QuoteService',
@@ -9361,20 +8863,8 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'QuoteService',
 		importPath: '@spartacus/quote/core',
-		deprecatedNode: 'addQuoteCommentCommand',
-		comment: '// TODO:Spartacus - The type of property \'addQuoteCommentCommand: Command<{ quoteCode: string; quoteComment: QuoteComment; entryNumber?: string; }>\' changed to: \'addQuoteCommentCommand: Command<{ quoteCode: string\' '
-	},
-	{
-		class: 'QuoteService',
-		importPath: '@spartacus/quote/core',
 		deprecatedNode: 'createQuote',
 		comment: '// TODO:Spartacus - Method \'createQuote\' was removed from Class \'QuoteService\'. '
-	},
-	{
-		class: 'QuoteService',
-		importPath: '@spartacus/quote/core',
-		deprecatedNode: 'createQuoteCommand',
-		comment: '// TODO:Spartacus - The type of property \'createQuoteCommand: Command<{ quoteMetadata: QuoteMetadata; }, Quote>\' changed to: \'createQuoteCommand: Command<{ quoteMetadata: QuoteMetadata\' '
 	},
 	{
 		class: 'QuoteService',
@@ -9387,12 +8877,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/quote/core',
 		deprecatedNode: 'editQuote',
 		comment: '// TODO:Spartacus - Method \'editQuote\' was removed from Class \'QuoteService\'. '
-	},
-	{
-		class: 'QuoteService',
-		importPath: '@spartacus/quote/core',
-		deprecatedNode: 'editQuoteCommand',
-		comment: '// TODO:Spartacus - The type of property \'editQuoteCommand: Command<{ quoteCode: string; quoteMetadata: QuoteMetadata; }>\' changed to: \'editQuoteCommand: Command<{ quoteCode: string\' '
 	},
 	{
 		class: 'QuoteService',
@@ -9433,20 +8917,8 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'QuoteService',
 		importPath: '@spartacus/quote/core',
-		deprecatedNode: 'performQuoteActionCommand',
-		comment: '// TODO:Spartacus - The type of property \'performQuoteActionCommand: Command<{ quote: Quote; quoteAction: QuoteActionType; }>\' changed to: \'performQuoteActionCommand: Command<{ quote: Quote\' '
-	},
-	{
-		class: 'QuoteService',
-		importPath: '@spartacus/quote/core',
 		deprecatedNode: 'requote',
 		comment: '// TODO:Spartacus - Method \'requote\' was removed from Class \'QuoteService\'. '
-	},
-	{
-		class: 'QuoteService',
-		importPath: '@spartacus/quote/core',
-		deprecatedNode: 'requoteCommand',
-		comment: '// TODO:Spartacus - The type of property \'requoteCommand: Command<{ quoteStarter: QuoteStarter; }, Quote>\' changed to: \'requoteCommand: Command<{ quoteStarter: QuoteStarter\' '
 	},
 	{
 		class: 'QuoteService',
@@ -9818,7 +9290,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		class: 'QuoteListComponent',
 		importPath: '@spartacus/quote/components',
 		deprecatedNode: 'sortLabels$',
-		comment: '// TODO:Spartacus - The type of property \'sortLabels$: import("rxjs").Observable<{ [key: string]: string; }>\' changed to: \'sortLabels$: rxjs.Observable<{ [key: string]: string\' '
+		comment: '// TODO:Spartacus - The type of property \'sortLabels$: import("rxjs").Observable<{ [key: string]: string; }>\' changed to: \'sortLabels$: rxjs.Observable<{ [key: string]: string; }>\' '
 	},
 	{
 		class: 'QuoteListComponent',
@@ -9837,12 +9309,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/quote/components',
 		deprecatedNode: 'setSorting',
 		comment: '// TODO:Spartacus - Method \'setSorting\' was removed from Class \'QuoteListComponentService\'. '
-	},
-	{
-		class: 'QuoteListComponentService',
-		importPath: '@spartacus/quote/components',
-		deprecatedNode: 'sortLabels$',
-		comment: '// TODO:Spartacus - The type of property \'sortLabels$: Observable<{ [key: string]: string; }>\' changed to: \'sortLabels$: Observable<{ [key: string]: string\' '
 	},
 	{
 		class: 'QuoteSummaryActionsComponent',
@@ -10009,12 +9475,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'QuoteSummarySellerEditComponent',
 		importPath: '@spartacus/quote/components',
-		deprecatedNode: 'dateUpdates',
-		comment: '// TODO:Spartacus - The type of property \'dateUpdates: Subject<{ quoteCode: string; date: string; }>\' changed to: \'dateUpdates: Subject<{ quoteCode: string\' '
-	},
-	{
-		class: 'QuoteSummarySellerEditComponent',
-		importPath: '@spartacus/quote/components',
 		deprecatedNode: 'fillFormAttributes',
 		comment: '// TODO:Spartacus - Method \'fillFormAttributes\' was removed from Class \'QuoteSummarySellerEditComponent\'. '
 	},
@@ -10131,12 +9591,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/quote/components',
 		deprecatedNode: 'retrieveMaxNumberOfDecimalPlaces',
 		comment: '// TODO:Spartacus - Method \'retrieveMaxNumberOfDecimalPlaces\' was removed from Class \'QuoteSummarySellerEditComponentService\'. '
-	},
-	{
-		class: 'QualtricsConfig',
-		importPath: '@spartacus/qualtrics/components',
-		deprecatedNode: 'qualtrics',
-		comment: '// TODO:Spartacus - The type of property \'qualtrics: { scriptSource?: string; }\' changed to: \'qualtrics: { /** * Deployment script, loaded from a resource, to integrate the deployment of the qualtrics project. * You would typically store the file in the local assets folder. * */ scriptSource?: string\' '
 	},
 	{
 		class: 'QualtricsLoaderService',
@@ -10269,12 +9723,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/punchout/root',
 		deprecatedNode: 'isAllowedUrls',
 		comment: '// TODO:Spartacus - Method \'isAllowedUrls\' was removed from Class \'PunchoutNavigationGuard\'. '
-	},
-	{
-		class: 'PunchoutNavigationGuardConfig',
-		importPath: '@spartacus/punchout/root',
-		deprecatedNode: 'punchoutNavigation',
-		comment: '// TODO:Spartacus - The type of property \'punchoutNavigation: { [PunchOutOperation.EDIT]: { allowedUrls?: string[]; allowedCxRoutes?: string[]; redirectPage: string | LaunchRoute; }; [PunchOutOperation.CREATE]: { allowedUrls?: string[]; allowedCxRoutes?: string[]; redirectPage: string | LaunchRoute; }; [PunchOutOperation.INSPECT]: { allowedUrls?: string[]; allowedCxRoutes?: string[]; redirectPage: string | LaunchRoute; }; }\' changed to: \'punchoutNavigation: { [PunchOutOperation.EDIT]: { allowedUrls?: string[]\' '
 	},
 	{
 		class: 'PunchoutStatePersistenceService',
@@ -10495,12 +9943,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'PunchoutRequisitionComponent',
 		importPath: '@spartacus/punchout/components',
-		deprecatedNode: 'FORM_CONTROL_NAME',
-		comment: '// TODO:Spartacus - The type of property \'FORM_CONTROL_NAME: { readonly ORDER: "order"; }\' changed to: \'FORM_CONTROL_NAME: { readonly ORDER: "order"\' '
-	},
-	{
-		class: 'PunchoutRequisitionComponent',
-		importPath: '@spartacus/punchout/components',
 		deprecatedNode: 'isFormNativeElementAccessible',
 		comment: '// TODO:Spartacus - Method \'isFormNativeElementAccessible\' was removed from Class \'PunchoutRequisitionComponent\'. '
 	},
@@ -10541,12 +9983,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'ngOnInit\' was removed from Class \'ProductVariantStyleIconsComponent\'. '
 	},
 	{
-		class: 'ProductVariantStyleIconsComponent',
-		importPath: '@spartacus/product/variants/root',
-		deprecatedNode: 'variantNames',
-		comment: '// TODO:Spartacus - The type of property \'variantNames: { [key: string]: string; }\' changed to: \'variantNames: { [key: string]: string\' '
-	},
-	{
 		class: 'ProductVariantColorSelectorComponent',
 		importPath: '@spartacus/product/variants/components',
 		deprecatedNode: 'changeColor',
@@ -10563,12 +9999,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/product/variants/components',
 		deprecatedNode: 'ngOnInit',
 		comment: '// TODO:Spartacus - Method \'ngOnInit\' was removed from Class \'ProductVariantsContainerComponent\'. '
-	},
-	{
-		class: 'ProductVariantsContainerComponent',
-		importPath: '@spartacus/product/variants/components',
-		deprecatedNode: 'variants',
-		comment: '// TODO:Spartacus - The type of property \'variants: { [key: string]: BaseOption; }\' changed to: \'variants: { [key: string]: BaseOption\' '
 	},
 	{
 		class: 'ProductVariantsGuard',
@@ -10665,12 +10095,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/product/image-zoom/components',
 		deprecatedNode: 'openImage',
 		comment: '// TODO:Spartacus - Method \'openImage\' was removed from Class \'ProductImageZoomThumbnailsComponent\'. '
-	},
-	{
-		class: 'ProductImageZoomThumbnailsComponent',
-		importPath: '@spartacus/product/image-zoom/components',
-		deprecatedNode: 'productImage',
-		comment: '// TODO:Spartacus - The type of property \'productImage: EventEmitter<{ image: any; index: number; }>\' changed to: \'productImage: EventEmitter<{ image: any\' '
 	},
 	{
 		class: 'ProductImageZoomTriggerComponent',
@@ -10773,12 +10197,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/product/image-zoom/components',
 		deprecatedNode: 'pointerMove',
 		comment: '// TODO:Spartacus - Method \'pointerMove\' was removed from Class \'ProductImageZoomViewComponent\'. '
-	},
-	{
-		class: 'ProductImageZoomViewComponent',
-		importPath: '@spartacus/product/image-zoom/components',
-		deprecatedNode: 'startCoords',
-		comment: '// TODO:Spartacus - The type of property \'startCoords: { x: number; y: number; } | null\' changed to: \'startCoords: { x: number\' '
 	},
 	{
 		class: 'ProductImageZoomViewComponent',
@@ -10917,12 +10335,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/product/bulk-pricing/components',
 		deprecatedNode: 'ngOnInit',
 		comment: '// TODO:Spartacus - Method \'ngOnInit\' was removed from Class \'BulkPricingTableComponent\'. '
-	},
-	{
-		class: 'ProductMultiDimensionalConfig',
-		importPath: '@spartacus/product-multi-dimensional/selector/root',
-		deprecatedNode: 'multiDimensional',
-		comment: '// TODO:Spartacus - The type of property \'multiDimensional: { imageFormat?: VariantQualifier; }\' changed to: \'multiDimensional: { imageFormat?: VariantQualifier\' '
 	},
 	{
 		class: 'ProductMultiDimensionalSelectorImagesService',
@@ -11685,150 +11097,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/product-configurator/rulebased/cpq',
 		deprecatedNode: 'convert',
 		comment: '// TODO:Spartacus - Method \'convert\' was removed from Class \'OccConfiguratorCpqUpdateCartEntrySerializer\'. '
-	},
-	{
-		class: 'AddNextOwner',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { ownerKey: string; cartEntryNo: string; }\' changed to: \'payload: { ownerKey: string\' '
-	},
-	{
-		class: 'ChangeGroup',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { configuration: Configurator.Configuration; groupId: string; parentGroupId?: string; conflictResolutionMode?: boolean; }\' changed to: \'payload: { configuration: Configurator.Configuration\' '
-	},
-	{
-		class: 'CreateConfiguration',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { owner: CommonConfigurator.Owner; configIdTemplate?: string; forceReset?: boolean; }\' changed to: \'payload: { owner: CommonConfigurator.Owner\' '
-	},
-	{
-		class: 'CreateConfigurationFail',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { ownerKey: string; error: any; }\' changed to: \'payload: { ownerKey: string\' '
-	},
-	{
-		class: 'GetConfigurationOverviewFail',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { ownerKey: string; error: any; }\' changed to: \'payload: { ownerKey: string\' '
-	},
-	{
-		class: 'GetConfigurationOverviewSuccess',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { ownerKey: string; overview: Configurator.Overview; }\' changed to: \'payload: { ownerKey: string\' '
-	},
-	{
-		class: 'ReadAttributeDomain',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { configuration: Configurator.Configuration; groupId: string; attributeKey: string; }\' changed to: \'payload: { configuration: Configurator.Configuration\' '
-	},
-	{
-		class: 'ReadCartEntryConfigurationFail',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { ownerKey: string; error: any; }\' changed to: \'payload: { ownerKey: string\' '
-	},
-	{
-		class: 'ReadConfiguration',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { configuration: Configurator.Configuration; groupId: string; }\' changed to: \'payload: { configuration: Configurator.Configuration\' '
-	},
-	{
-		class: 'ReadConfigurationFail',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { ownerKey: string; error: any; }\' changed to: \'payload: { ownerKey: string\' '
-	},
-	{
-		class: 'ReadOrderEntryConfigurationFail',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { ownerKey: string; error: any; }\' changed to: \'payload: { ownerKey: string\' '
-	},
-	{
-		class: 'RemoveConfiguration',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { ownerKey: string | string[]; }\' changed to: \'payload: { ownerKey: string | string[]\' '
-	},
-	{
-		class: 'SearchVariantsFail',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { ownerKey: string; error: any; }\' changed to: \'payload: { ownerKey: string\' '
-	},
-	{
-		class: 'SearchVariantsSuccess',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { ownerKey: string; variants: Configurator.Variant[]; }\' changed to: \'payload: { ownerKey: string\' '
-	},
-	{
-		class: 'SetCurrentGroup',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { entityKey: string | string[]; currentGroup: string; }\' changed to: \'payload: { entityKey: string | string[]\' '
-	},
-	{
-		class: 'SetGroupsVisited',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { entityKey: string; visitedGroups: string[]; }\' changed to: \'payload: { entityKey: string\' '
-	},
-	{
-		class: 'SetInteractionState',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { entityKey: string | string[]; interactionState: Configurator.InteractionState; }\' changed to: \'payload: { entityKey: string | string[]\' '
-	},
-	{
-		class: 'SetMenuParentGroup',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { entityKey: string | string[]; menuParentGroup?: string; }\' changed to: \'payload: { entityKey: string | string[]\' '
-	},
-	{
-		class: 'SetNextOwnerCartEntry',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { configuration: Configurator.Configuration; cartEntryNo: string; }\' changed to: \'payload: { configuration: Configurator.Configuration\' '
-	},
-	{
-		class: 'UpdateConfigurationFail',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { configuration: Configurator.Configuration; error: any; }\' changed to: \'payload: { configuration: Configurator.Configuration\' '
-	},
-	{
-		class: 'UpdateConfigurationOverviewFail',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { ownerKey: string; error: any; }\' changed to: \'payload: { ownerKey: string\' '
-	},
-	{
-		class: 'UpdateConfigurationOverviewSuccess',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { ownerKey: string; overview: Configurator.Overview; }\' changed to: \'payload: { ownerKey: string\' '
-	},
-	{
-		class: 'UpdatePriceSummaryFail',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { ownerKey: string; error: any; }\' changed to: \'payload: { ownerKey: string\' '
-	},
-	{
-		class: 'ConfiguratorAddToCartButtonComponent',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'container$',
-		comment: '// TODO:Spartacus - The type of property \'container$: Observable<{ routerData: ConfiguratorRouter.Data; configuration: Configurator.Configuration; hasPendingChanges: boolean; }>\' changed to: \'container$: Observable<{ routerData: ConfiguratorRouter.Data\' '
 	},
 	{
 		class: 'ConfiguratorAddToCartButtonComponent',
@@ -13357,12 +12625,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'ConfiguratorExitButtonComponent',
 		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'container$',
-		comment: '// TODO:Spartacus - The type of property \'container$: Observable<{ routerData: ConfiguratorRouter.Data; configuration: Configurator.Configuration; product: Product | undefined; }>\' changed to: \'container$: Observable<{ routerData: ConfiguratorRouter.Data\' '
-	},
-	{
-		class: 'ConfiguratorExitButtonComponent',
-		importPath: '@spartacus/product-configurator/rulebased',
 		deprecatedNode: 'exitConfiguration',
 		comment: '// TODO:Spartacus - Method \'exitConfiguration\' was removed from Class \'ConfiguratorExitButtonComponent\'. '
 	},
@@ -14401,12 +13663,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'ConfiguratorRestartDialogComponent',
 		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'dialogData$',
-		comment: '// TODO:Spartacus - The type of property \'dialogData$: Observable<{ owner: CommonConfigurator.Owner; }>\' changed to: \'dialogData$: Observable<{ owner: CommonConfigurator.Owner\' '
-	},
-	{
-		class: 'ConfiguratorRestartDialogComponent',
-		importPath: '@spartacus/product-configurator/rulebased',
 		deprecatedNode: 'restart',
 		comment: '// TODO:Spartacus - Method \'restart\' was removed from Class \'ConfiguratorRestartDialogComponent\'. '
 	},
@@ -14631,12 +13887,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/product-configurator/rulebased',
 		deprecatedNode: 'isLastSelected',
 		comment: '// TODO:Spartacus - Method \'isLastSelected\' was removed from Class \'ConfiguratorStorefrontUtilsService\'. '
-	},
-	{
-		class: 'ConfiguratorStorefrontUtilsService',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'lastSelected',
-		comment: '// TODO:Spartacus - The type of property \'lastSelected: { attributeName: string; valueCode: string; }\' changed to: \'lastSelected: { attributeName: string\' '
 	},
 	{
 		class: 'ConfiguratorStorefrontUtilsService',
@@ -15589,12 +14839,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'ConfigureCartEntryComponent',
 		importPath: '@spartacus/product-configurator/common',
-		deprecatedNode: 'queryParams$',
-		comment: '// TODO:Spartacus - The type of property \'queryParams$: Observable<{ forceReload: boolean; resolveIssues: boolean; navigateToCheckout: boolean; productCode: string | undefined; }>\' changed to: \'queryParams$: Observable<{ forceReload: boolean\' '
-	},
-	{
-		class: 'ConfigureCartEntryComponent',
-		importPath: '@spartacus/product-configurator/common',
 		deprecatedNode: 'retrieveEntityKey',
 		comment: '// TODO:Spartacus - Method \'retrieveEntityKey\' was removed from Class \'ConfigureCartEntryComponent\'. '
 	},
@@ -15830,19 +15074,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		class: 'DefaultPointOfServiceEffect',
 		importPath: '@spartacus/pickup-in-store/core',
 		deprecatedNode: 'loadDefaultPointOfService$',
-		comment: '// TODO:Spartacus - The type of property \'loadDefaultPointOfService$: import("rxjs").Observable<{ payload: PointOfServiceNames; } & import("@ngrx/store").Action<"[Default Point Of Service] Load Default Point Of Service Success">> & import("@ngrx/effects").CreateEffectMetadata\' changed to: \'loadDefaultPointOfService$: rxjs.Observable<{ payload: PointOfServiceNames\' '
+		comment: '// TODO:Spartacus - The type of property \'loadDefaultPointOfService$: import("rxjs").Observable<{ payload: PointOfServiceNames; } & import("@ngrx/store").Action<"[Default Point Of Service] Load Default Point Of Service Success">> & import("@ngrx/effects").CreateEffectMetadata\' changed to: \'loadDefaultPointOfService$: rxjs.Observable<{ payload: PointOfServiceNames; } & _ngrx_store.Action<"[Default Point Of Service] Load Default Point Of Service Success">> & _ngrx_effects.CreateEffectMetadata\' '
 	},
 	{
 		class: 'DefaultPointOfServiceEffect',
 		importPath: '@spartacus/pickup-in-store/core',
 		deprecatedNode: 'setDefaultPointOfService$',
 		comment: '// TODO:Spartacus - The type of property \'setDefaultPointOfService$: import("rxjs").Observable<import("@ngrx/store").Action<"[Default Point Of Service] Load Default Point Of Service">> & import("@ngrx/effects").CreateEffectMetadata\' changed to: \'setDefaultPointOfService$: rxjs.Observable<_ngrx_store.Action<"[Default Point Of Service] Load Default Point Of Service">> & _ngrx_effects.CreateEffectMetadata\' '
-	},
-	{
-		class: 'PickupInStoreConfig',
-		importPath: '@spartacus/pickup-in-store/core',
-		deprecatedNode: 'pickupInStore',
-		comment: '// TODO:Spartacus - The type of property \'pickupInStore: { consentTemplateId?: string; }\' changed to: \'pickupInStore: { consentTemplateId?: string\' '
 	},
 	{
 		class: 'PickupLocationAdapter',
@@ -15860,7 +15098,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		class: 'PickupLocationEffect',
 		importPath: '@spartacus/pickup-in-store/core',
 		deprecatedNode: 'storeDetails$',
-		comment: '// TODO:Spartacus - The type of property \'storeDetails$: import("rxjs").Observable<({ payload: any; error: any; } & import("@ngrx/store").Action<"[Pickup Locations] Get Store Details Fail">) | ({ payload: import("@spartacus/core").PointOfService; } & import("@ngrx/store").Action<"[Pickup Locations] Get Store Details Success">)> & import("@ngrx/effects").CreateEffectMetadata\' changed to: \'storeDetails$: rxjs.Observable<({ payload: any\' '
+		comment: '// TODO:Spartacus - The type of property \'storeDetails$: import("rxjs").Observable<({ payload: any; error: any; } & import("@ngrx/store").Action<"[Pickup Locations] Get Store Details Fail">) | ({ payload: import("@spartacus/core").PointOfService; } & import("@ngrx/store").Action<"[Pickup Locations] Get Store Details Success">)> & import("@ngrx/effects").CreateEffectMetadata\' changed to: \'storeDetails$: rxjs.Observable<({ payload: any; error: any; } & _ngrx_store.Action<"[Pickup Locations] Get Store Details Fail">) | ({ payload: _spartacus_core.PointOfService; } & _ngrx_store.Action<"[Pickup Locations] Get Store Details Success">)> & _ngrx_effects.CreateEffectMetadata\' '
 	},
 	{
 		class: 'PickupLocationsSearchService',
@@ -16022,7 +15260,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		class: 'StockEffect',
 		importPath: '@spartacus/pickup-in-store/core',
 		deprecatedNode: 'loadStockLevelAtStore$',
-		comment: '// TODO:Spartacus - The type of property \'loadStockLevelAtStore$: import("rxjs").Observable<{ payload: { productCode: string; storeName: string; } & { stockLevel: import("@spartacus/core").Stock; }; } & import("@ngrx/store").Action<"[Stock] Get Stock Level at Store Success">> & import("@ngrx/effects").CreateEffectMetadata\' changed to: \'loadStockLevelAtStore$: rxjs.Observable<{ payload: { productCode: string\' '
+		comment: '// TODO:Spartacus - The type of property \'loadStockLevelAtStore$: import("rxjs").Observable<{ payload: { productCode: string; storeName: string; } & { stockLevel: import("@spartacus/core").Stock; }; } & import("@ngrx/store").Action<"[Stock] Get Stock Level at Store Success">> & import("@ngrx/effects").CreateEffectMetadata\' changed to: \'loadStockLevelAtStore$: rxjs.Observable<{ payload: { productCode: string; storeName: string; } & { stockLevel: _spartacus_core.Stock; }; } & _ngrx_store.Action<"[Stock] Get Stock Level at Store Success">> & _ngrx_effects.CreateEffectMetadata\' '
 	},
 	{
 		class: 'StockEffect',
@@ -16053,18 +15291,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/pickup-in-store/components',
 		deprecatedNode: 'openDialog',
 		comment: '// TODO:Spartacus - Method \'openDialog\' was removed from Class \'CartPickupOptionsContainerComponent\'. '
-	},
-	{
-		class: 'CartPickupOptionsContainerComponent',
-		importPath: '@spartacus/pickup-in-store/components',
-		deprecatedNode: 'outlet',
-		comment: '// TODO:Spartacus - The type of property \'outlet: OutletContextData<{ item: OrderEntry; cartType: CartType; }>\' changed to: \'outlet: OutletContextData<{ item: OrderEntry\' '
-	},
-	{
-		class: 'CartPickupOptionsContainerComponent',
-		importPath: '@spartacus/pickup-in-store/components',
-		deprecatedNode: 'storeDetails$',
-		comment: '// TODO:Spartacus - The type of property \'storeDetails$: Observable<{ name: string | undefined; displayName: string | undefined; }>\' changed to: \'storeDetails$: Observable<{ name: string | undefined\' '
 	},
 	{
 		class: 'MyPreferredStoreComponent',
@@ -16227,18 +15453,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/pickup-in-store/components',
 		deprecatedNode: 'onSelectedOptionChange',
 		comment: '// TODO:Spartacus - Method \'onSelectedOptionChange\' was removed from Class \'PickupOptionsComponent\'. '
-	},
-	{
-		class: 'PickupOptionsComponent',
-		importPath: '@spartacus/pickup-in-store/components',
-		deprecatedNode: 'pickupOptionChange',
-		comment: '// TODO:Spartacus - The type of property \'pickupOptionChange: EventEmitter<{ option: PickupOption; triggerElement: ElementRef; }>\' changed to: \'pickupOptionChange: EventEmitter<{ option: PickupOption\' '
-	},
-	{
-		class: 'PickupOptionsComponent',
-		importPath: '@spartacus/pickup-in-store/components',
-		deprecatedNode: 'pickupOptionsForm',
-		comment: '// TODO:Spartacus - The type of property \'pickupOptionsForm: FormGroup<{ pickupOption: FormControl<PickupOption | null>; }>\' changed to: \'pickupOptionsForm: FormGroup<{ pickupOption: FormControl<PickupOption | null>\' '
 	},
 	{
 		class: 'PickupOptionsComponent',
@@ -16461,12 +15675,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/pdf-invoices/components',
 		deprecatedNode: 'sortChange',
 		comment: '// TODO:Spartacus - Method \'sortChange\' was removed from Class \'InvoicesListComponent\'. '
-	},
-	{
-		class: 'InvoicesListComponent',
-		importPath: '@spartacus/pdf-invoices/components',
-		deprecatedNode: 'sortMapping',
-		comment: '// TODO:Spartacus - The type of property \'sortMapping: { [key: string]: string; }\' changed to: \'sortMapping: { [key: string]: string\' '
 	},
 	{
 		class: 'InvoicesListComponent',
@@ -16757,18 +15965,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'canActivate\' was removed from Class \'UnitLevelOrdersViewerGuard\'. '
 	},
 	{
-		class: 'LoadOrderDetails',
-		importPath: '@spartacus/organization/unit-order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orderCode: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadUnitOrders',
-		importPath: '@spartacus/organization/unit-order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; pageSize?: number; currentPage?: number; filters?: string; sort?: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
 		class: 'UnitOrderAdapter',
 		importPath: '@spartacus/organization/unit-order/core',
 		deprecatedNode: 'loadUnitOrderDetail',
@@ -16949,54 +16145,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'convert\' was removed from Class \'OccOrderApprovalNormalizer\'. '
 	},
 	{
-		class: 'LoadOrderApproval',
-		importPath: '@spartacus/organization/order-approval',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orderApprovalCode: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadOrderApprovalFail',
-		importPath: '@spartacus/organization/order-approval',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orderApprovalCode: string; error: any; }\' changed to: \'payload: { orderApprovalCode: string\' '
-	},
-	{
-		class: 'LoadOrderApprovals',
-		importPath: '@spartacus/organization/order-approval',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; params: SearchConfig; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadOrderApprovalsFail',
-		importPath: '@spartacus/organization/order-approval',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { params: SearchConfig; error: any; }\' changed to: \'payload: { params: SearchConfig\' '
-	},
-	{
-		class: 'LoadOrderApprovalsSuccess',
-		importPath: '@spartacus/organization/order-approval',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { page: ListModel; params: SearchConfig; }\' changed to: \'payload: { page: ListModel\' '
-	},
-	{
-		class: 'MakeDecision',
-		importPath: '@spartacus/organization/order-approval',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orderApprovalCode: string; orderApprovalDecision: OrderApprovalDecision; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'MakeDecisionFail',
-		importPath: '@spartacus/organization/order-approval',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orderApprovalCode: string; error: any; }\' changed to: \'payload: { orderApprovalCode: string\' '
-	},
-	{
-		class: 'MakeDecisionSuccess',
-		importPath: '@spartacus/organization/order-approval',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orderApprovalCode: string; orderApprovalDecision: OrderApprovalDecision; }\' changed to: \'payload: { orderApprovalCode: string\' '
-	},
-	{
 		class: 'OrderApprovalAdapter',
 		importPath: '@spartacus/organization/order-approval',
 		deprecatedNode: 'load',
@@ -17103,12 +16251,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/organization/order-approval',
 		deprecatedNode: 'pageChange',
 		comment: '// TODO:Spartacus - Method \'pageChange\' was removed from Class \'OrderApprovalListComponent\'. '
-	},
-	{
-		class: 'OrderApprovalListComponent',
-		importPath: '@spartacus/organization/order-approval',
-		deprecatedNode: 'sortLabels$',
-		comment: '// TODO:Spartacus - The type of property \'sortLabels$: Observable<{ byDate: string; byOrderNumber: string; }>\' changed to: \'sortLabels$: Observable<{ byDate: string\' '
 	},
 	{
 		class: 'OrderApprovalService',
@@ -17843,222 +16985,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'forRoot\' was removed from Class \'AdministrationCoreModule\'. '
 	},
 	{
-		class: 'AssignB2BUserApprover',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgCustomerId: string; approverId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'AssignB2BUserApproverFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; approverId: string; error: any; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'AssignB2BUserApproverSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { approverId: string; selected: boolean; }\' changed to: \'payload: { approverId: string\' '
-	},
-	{
-		class: 'AssignB2BUserPermission',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgCustomerId: string; permissionId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'AssignB2BUserPermissionFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; permissionId: string; error: any; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'AssignB2BUserPermissionSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { permissionId: string; selected: boolean; }\' changed to: \'payload: { permissionId: string\' '
-	},
-	{
-		class: 'AssignB2BUserUserGroup',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgCustomerId: string; userGroupId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'AssignB2BUserUserGroupFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; userGroupId: string; error: any; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'AssignB2BUserUserGroupSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { uid: string; selected: boolean; }\' changed to: \'payload: { uid: string\' '
-	},
-	{
-		class: 'CreateB2BUser',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgCustomer: B2BUser; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CreateB2BUserFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; error: any; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'LoadB2BUser',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgCustomerId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadB2BUserApprovers',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgCustomerId: string; params: SearchConfig; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadB2BUserApproversFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; params: SearchConfig; error: any; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'LoadB2BUserApproversSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; page: ListModel; params: SearchConfig; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'LoadB2BUserFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; error: any; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'LoadB2BUserPermissions',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgCustomerId: string; params: SearchConfig; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadB2BUserPermissionsFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; params: SearchConfig; error: any; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'LoadB2BUserPermissionsSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; page: ListModel; params: SearchConfig; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'LoadB2BUsers',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; params: SearchConfig; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadB2BUsersFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { params: SearchConfig; error: any; }\' changed to: \'payload: { params: SearchConfig\' '
-	},
-	{
-		class: 'LoadB2BUsersSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { page: ListModel; params: SearchConfig; }\' changed to: \'payload: { page: ListModel\' '
-	},
-	{
-		class: 'LoadB2BUserUserGroups',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgCustomerId: string; params: SearchConfig; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadB2BUserUserGroupsFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; params: SearchConfig; error: any; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'LoadB2BUserUserGroupsSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; page: ListModel; params: SearchConfig; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'UnassignB2BUserApprover',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgCustomerId: string; approverId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UnassignB2BUserApproverFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; approverId: string; error: any; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'UnassignB2BUserApproverSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { approverId: string; selected: boolean; }\' changed to: \'payload: { approverId: string\' '
-	},
-	{
-		class: 'UnassignB2BUserPermission',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgCustomerId: string; permissionId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UnassignB2BUserPermissionFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; permissionId: string; error: any; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'UnassignB2BUserPermissionSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { permissionId: string; selected: boolean; }\' changed to: \'payload: { permissionId: string\' '
-	},
-	{
-		class: 'UnassignB2BUserUserGroup',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgCustomerId: string; userGroupId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UnassignB2BUserUserGroupFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; userGroupId: string; error: any; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'UnassignB2BUserUserGroupSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { uid: string; selected: boolean; }\' changed to: \'payload: { uid: string\' '
-	},
-	{
-		class: 'UpdateB2BUser',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgCustomerId: string; orgCustomer: B2BUser; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UpdateB2BUserFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; error: any; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
 		class: 'B2BUserAdapter',
 		importPath: '@spartacus/organization/administration/core',
 		deprecatedNode: 'assignApprover',
@@ -18353,60 +17279,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'update\' was removed from Class \'B2BUserService\'. '
 	},
 	{
-		class: 'CreateBudget',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; budget: Budget; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CreateBudgetFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { budgetCode: string; error: any; }\' changed to: \'payload: { budgetCode: string\' '
-	},
-	{
-		class: 'LoadBudget',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; budgetCode: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadBudgetFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { budgetCode: string; error: any; }\' changed to: \'payload: { budgetCode: string\' '
-	},
-	{
-		class: 'LoadBudgets',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; params: SearchConfig; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadBudgetsFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { params: SearchConfig; error: any; }\' changed to: \'payload: { params: SearchConfig\' '
-	},
-	{
-		class: 'LoadBudgetsSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { page: ListModel; params: SearchConfig; }\' changed to: \'payload: { page: ListModel\' '
-	},
-	{
-		class: 'UpdateBudget',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; budgetCode: string; budget: Budget; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UpdateBudgetFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { budgetCode: string; error: any; }\' changed to: \'payload: { budgetCode: string\' '
-	},
-	{
 		class: 'BudgetAdapter',
 		importPath: '@spartacus/organization/administration/core',
 		deprecatedNode: 'create',
@@ -18507,114 +17379,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/organization/administration/core',
 		deprecatedNode: 'update',
 		comment: '// TODO:Spartacus - Method \'update\' was removed from Class \'BudgetService\'. '
-	},
-	{
-		class: 'AssignBudget',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; costCenterCode: string; budgetCode: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'AssignBudgetFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { budgetCode: string; error: any; }\' changed to: \'payload: { budgetCode: string\' '
-	},
-	{
-		class: 'AssignBudgetSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { code: string; selected: boolean; }\' changed to: \'payload: { code: string\' '
-	},
-	{
-		class: 'CreateCostCenter',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; costCenter: CostCenter; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CreateCostCenterFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { costCenterCode: string; error: any; }\' changed to: \'payload: { costCenterCode: string\' '
-	},
-	{
-		class: 'LoadAssignedBudgets',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; costCenterCode: string; params: SearchConfig; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadAssignedBudgetsFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { costCenterCode: string; params: SearchConfig; error: any; }\' changed to: \'payload: { costCenterCode: string\' '
-	},
-	{
-		class: 'LoadAssignedBudgetsSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { costCenterCode: string; page: ListModel; params: SearchConfig; }\' changed to: \'payload: { costCenterCode: string\' '
-	},
-	{
-		class: 'LoadCostCenter',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; costCenterCode: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadCostCenterFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { costCenterCode: string; error: any; }\' changed to: \'payload: { costCenterCode: string\' '
-	},
-	{
-		class: 'LoadCostCenters',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; params: SearchConfig; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadCostCentersFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { params: SearchConfig; error: any; }\' changed to: \'payload: { params: SearchConfig\' '
-	},
-	{
-		class: 'LoadCostCentersSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { page: ListModel; params: SearchConfig; }\' changed to: \'payload: { page: ListModel\' '
-	},
-	{
-		class: 'UnassignBudget',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; costCenterCode: string; budgetCode: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UnassignBudgetFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { budgetCode: string; error: any; }\' changed to: \'payload: { budgetCode: string\' '
-	},
-	{
-		class: 'UnassignBudgetSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { code: string; selected: boolean; }\' changed to: \'payload: { code: string\' '
-	},
-	{
-		class: 'UpdateCostCenter',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; costCenterCode: string; costCenter: CostCenter; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UpdateCostCenterFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { costCenterCode: string; error: any; }\' changed to: \'payload: { costCenterCode: string\' '
 	},
 	{
 		class: 'CostCenterAdapter',
@@ -18867,222 +17631,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/organization/administration/core',
 		deprecatedNode: 'resolveTitle',
 		comment: '// TODO:Spartacus - Method \'resolveTitle\' was removed from Class \'OrganizationPageMetaResolver\'. '
-	},
-	{
-		class: 'AssignApprover',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgUnitId: string; orgCustomerId: string; roleId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'AssignApproverFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; error: any; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'AssignApproverSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { uid: string; roleId: string; selected: boolean; }\' changed to: \'payload: { uid: string\' '
-	},
-	{
-		class: 'AssignRole',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgCustomerId: string; roleId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'AssignRoleFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; error: any; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'AssignRoleSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { uid: string; roleId: string; selected: boolean; }\' changed to: \'payload: { uid: string\' '
-	},
-	{
-		class: 'ClearAssignedUsers',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgUnitId: string; roleId: string; params: SearchConfig; }\' changed to: \'payload: { orgUnitId: string\' '
-	},
-	{
-		class: 'CreateAddress',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgUnitId: string; address: Address; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CreateAddressFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { addressId: string; error: any; }\' changed to: \'payload: { addressId: string\' '
-	},
-	{
-		class: 'CreateUnit',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; unit: B2BUnit; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CreateUnitFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { unitCode: string; error: any; }\' changed to: \'payload: { unitCode: string\' '
-	},
-	{
-		class: 'DeleteAddress',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgUnitId: string; addressId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'DeleteAddressFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { addressId: string; error: any; }\' changed to: \'payload: { addressId: string\' '
-	},
-	{
-		class: 'LoadAddresses',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgUnitId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadAddressesFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgUnitId: string; error: any; }\' changed to: \'payload: { orgUnitId: string\' '
-	},
-	{
-		class: 'LoadAddressesSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { page: ListModel; orgUnitId: string; }\' changed to: \'payload: { page: ListModel\' '
-	},
-	{
-		class: 'LoadApprovalProcesses',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadApprovalProcessesFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { error: any; }\' changed to: \'payload: { error: any\' '
-	},
-	{
-		class: 'LoadAssignedUsers',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgUnitId: string; roleId: string; params: SearchConfig; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadAssignedUsersFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgUnitId: string; roleId: string; params: SearchConfig; error: any; }\' changed to: \'payload: { orgUnitId: string\' '
-	},
-	{
-		class: 'LoadAssignedUsersSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgUnitId: string; roleId: string; page: ListModel; params: SearchConfig; }\' changed to: \'payload: { orgUnitId: string\' '
-	},
-	{
-		class: 'LoadOrgUnit',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgUnitId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadOrgUnitFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgUnitId: string; error: any; }\' changed to: \'payload: { orgUnitId: string\' '
-	},
-	{
-		class: 'LoadOrgUnitNodes',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadTree',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadTreeFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { error: any; }\' changed to: \'payload: { error: any\' '
-	},
-	{
-		class: 'UnassignApprover',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgUnitId: string; orgCustomerId: string; roleId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UnassignApproverFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; error: any; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'UnassignApproverSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { uid: string; roleId: string; selected: boolean; }\' changed to: \'payload: { uid: string\' '
-	},
-	{
-		class: 'UnassignRole',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgCustomerId: string; roleId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UnassignRoleFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orgCustomerId: string; error: any; }\' changed to: \'payload: { orgCustomerId: string\' '
-	},
-	{
-		class: 'UnassignRoleSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { uid: string; roleId: string; selected: boolean; }\' changed to: \'payload: { uid: string\' '
-	},
-	{
-		class: 'UpdateAddress',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orgUnitId: string; addressId: string; address: Address; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UpdateAddressFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { addressId: string; error: any; }\' changed to: \'payload: { addressId: string\' '
-	},
-	{
-		class: 'UpdateUnit',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; unitCode: string; unit: B2BUnit; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UpdateUnitFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { unitCode: string; error: any; }\' changed to: \'payload: { unitCode: string\' '
 	},
 	{
 		class: 'OrgUnitAdapter',
@@ -19463,60 +18011,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'updateAddress\' was removed from Class \'OrgUnitService\'. '
 	},
 	{
-		class: 'CreatePermission',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; permission: Permission; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CreatePermissionFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { permissionCode: string; error: any; }\' changed to: \'payload: { permissionCode: string\' '
-	},
-	{
-		class: 'LoadPermission',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; permissionCode: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadPermissionFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { permissionCode: string; error: any; }\' changed to: \'payload: { permissionCode: string\' '
-	},
-	{
-		class: 'LoadPermissions',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; params: SearchConfig; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadPermissionsFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { params: SearchConfig; error: any; }\' changed to: \'payload: { params: SearchConfig\' '
-	},
-	{
-		class: 'LoadPermissionsSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { page: ListModel; params: SearchConfig; }\' changed to: \'payload: { page: ListModel\' '
-	},
-	{
-		class: 'UpdatePermission',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; permissionCode: string; permission: Permission; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UpdatePermissionFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { permissionCode: string; error: any; }\' changed to: \'payload: { permissionCode: string\' '
-	},
-	{
 		class: 'PermissionAdapter',
 		importPath: '@spartacus/organization/administration/core',
 		deprecatedNode: 'create',
@@ -19637,190 +18131,22 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'update\' was removed from Class \'PermissionService\'. '
 	},
 	{
-		class: 'AssignMember',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; userGroupId: string; customerId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'AssignMemberFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userGroupId: string; customerId: string; error: any; }\' changed to: \'payload: { userGroupId: string\' '
-	},
-	{
-		class: 'AssignMemberSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { customerId: string; selected: boolean; }\' changed to: \'payload: { customerId: string\' '
-	},
-	{
-		class: 'AssignPermission',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; userGroupId: string; permissionUid: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'AssignPermissionFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userGroupId: string; permissionUid: string; error: any; }\' changed to: \'payload: { userGroupId: string\' '
-	},
-	{
-		class: 'AssignPermissionSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { permissionUid: string; selected: boolean; }\' changed to: \'payload: { permissionUid: string\' '
-	},
-	{
-		class: 'CreateUserGroup',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; userGroup: UserGroup; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CreateUserGroupFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userGroupId: string; error: any; }\' changed to: \'payload: { userGroupId: string\' '
-	},
-	{
-		class: 'DeleteUserGroup',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; userGroupId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'DeleteUserGroupFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userGroupId: string; error: any; }\' changed to: \'payload: { userGroupId: string\' '
-	},
-	{
-		class: 'LoadAvailableOrgCustomers',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; userGroupId: string; params: SearchConfig; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadAvailableOrgCustomersFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userGroupId: string; params: SearchConfig; error: any; }\' changed to: \'payload: { userGroupId: string\' '
-	},
-	{
-		class: 'LoadAvailableOrgCustomersSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userGroupId: string; page: ListModel; params: SearchConfig; }\' changed to: \'payload: { userGroupId: string\' '
-	},
-	{
 		class: 'LoadPermissions',
 		importPath: '@spartacus/organization/administration/core',
 		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; userGroupId: string; params: SearchConfig; }\' changed to: \'payload: { userId: string\' '
+		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; userGroupId: string; params: SearchConfig; }\' changed to: \'payload: { userId: string; params: SearchConfig; }\' '
 	},
 	{
 		class: 'LoadPermissionsFail',
 		importPath: '@spartacus/organization/administration/core',
 		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userGroupId: string; params: SearchConfig; error: any; }\' changed to: \'payload: { params: SearchConfig\' '
+		comment: '// TODO:Spartacus - The type of property \'payload: { userGroupId: string; params: SearchConfig; error: any; }\' changed to: \'payload: { params: SearchConfig; error: any; }\' '
 	},
 	{
 		class: 'LoadPermissionsSuccess',
 		importPath: '@spartacus/organization/administration/core',
 		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userGroupId: string; page: ListModel; params: SearchConfig; }\' changed to: \'payload: { page: ListModel\' '
-	},
-	{
-		class: 'LoadUserGroup',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; userGroupId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadUserGroupFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userGroupId: string; error: any; }\' changed to: \'payload: { userGroupId: string\' '
-	},
-	{
-		class: 'LoadUserGroups',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; params: SearchConfig; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadUserGroupsFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { params: SearchConfig; error: any; }\' changed to: \'payload: { params: SearchConfig\' '
-	},
-	{
-		class: 'LoadUserGroupsSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { page: ListModel; params: SearchConfig; }\' changed to: \'payload: { page: ListModel\' '
-	},
-	{
-		class: 'UnassignAllMembers',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; userGroupId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UnassignAllMembersFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userGroupId: string; error: any; }\' changed to: \'payload: { userGroupId: string\' '
-	},
-	{
-		class: 'UnassignMember',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; userGroupId: string; customerId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UnassignMemberFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userGroupId: string; customerId: string; error: any; }\' changed to: \'payload: { userGroupId: string\' '
-	},
-	{
-		class: 'UnassignMemberSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { customerId: string; selected: boolean; }\' changed to: \'payload: { customerId: string\' '
-	},
-	{
-		class: 'UnassignPermission',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; userGroupId: string; permissionUid: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UnassignPermissionFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userGroupId: string; permissionUid: string; error: any; }\' changed to: \'payload: { userGroupId: string\' '
-	},
-	{
-		class: 'UnassignPermissionSuccess',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { permissionUid: string; selected: boolean; }\' changed to: \'payload: { permissionUid: string\' '
-	},
-	{
-		class: 'UpdateUserGroup',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; userGroupId: string; userGroup: UserGroup; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UpdateUserGroupFail',
-		importPath: '@spartacus/organization/administration/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userGroupId: string; error: any; }\' changed to: \'payload: { userGroupId: string\' '
+		comment: '// TODO:Spartacus - The type of property \'payload: { userGroupId: string; page: ListModel; params: SearchConfig; }\' changed to: \'payload: { page: ListModel; params: SearchConfig; }\' '
 	},
 	{
 		class: 'UserGroupAdapter',
@@ -20637,12 +18963,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/organization/administration/components',
 		deprecatedNode: 'displayDisabledEnable',
 		comment: '// TODO:Spartacus - Method \'displayDisabledEnable\' was removed from Class \'DisableInfoComponent\'. '
-	},
-	{
-		class: 'DisableInfoComponent',
-		importPath: '@spartacus/organization/administration/components',
-		deprecatedNode: 'displayInfoConfig',
-		comment: '// TODO:Spartacus - The type of property \'displayInfoConfig: { disabledCreate?: boolean; disabledEdit?: boolean; disabledEnable?: boolean; disabledDisable?: boolean; }\' changed to: \'displayInfoConfig: { disabledCreate?: boolean\' '
 	},
 	{
 		class: 'DisableInfoComponent',
@@ -22241,12 +20561,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'getOrderAttachments\' was removed from Class \'OrderAttachmentsFacade\'. '
 	},
 	{
-		class: 'OrderConfig',
-		importPath: '@spartacus/order/root',
-		deprecatedNode: 'orderAttachments',
-		comment: '// TODO:Spartacus - The type of property \'orderAttachments: { previewMimeTypes: string[]; }\' changed to: \'orderAttachments: { previewMimeTypes: string[]\' '
-	},
-	{
 		class: 'OrderFacade',
 		importPath: '@spartacus/order/root',
 		deprecatedNode: 'clearPlacedOrder',
@@ -22955,102 +21269,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'loadOrderDetails\' was removed from Class \'MyAccountV2OrderHistoryService\'. '
 	},
 	{
-		class: 'CancelOrder',
-		importPath: '@spartacus/order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orderCode: string; cancelRequestInput: CancellationRequestEntryInputList; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CancelOrderReturnRequest',
-		importPath: '@spartacus/order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; returnRequestCode: string; returnRequestModification: ReturnRequestModification; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CancelReplenishmentOrder',
-		importPath: '@spartacus/order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; replenishmentOrderCode: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CreateOrderReturnRequest',
-		importPath: '@spartacus/order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; returnRequestInput: ReturnRequestEntryInputList; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadConsignmentTracking',
-		importPath: '@spartacus/order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId?: string; orderCode: string; consignmentCode: string; }\' changed to: \'payload: { userId?: string\' '
-	},
-	{
-		class: 'LoadConsignmentTrackingById',
-		importPath: '@spartacus/order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orderCode: string; consignmentCode: string; userId: string; }\' changed to: \'payload: { orderCode: string\' '
-	},
-	{
-		class: 'LoadConsignmentTrackingByIdFail',
-		importPath: '@spartacus/order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orderCode: string; consignmentCode: string; error: any; }\' changed to: \'payload: { orderCode: string\' '
-	},
-	{
-		class: 'LoadConsignmentTrackingByIdSuccess',
-		importPath: '@spartacus/order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { orderCode: string; consignmentCode: string; consignmentTracking: ConsignmentTracking; }\' changed to: \'payload: { orderCode: string\' '
-	},
-	{
-		class: 'LoadOrderById',
-		importPath: '@spartacus/order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; code: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadOrderByIdFail',
-		importPath: '@spartacus/order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { code: string; error: any; }\' changed to: \'payload: { code: string\' '
-	},
-	{
-		class: 'LoadOrderDetails',
-		importPath: '@spartacus/order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; orderCode: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadOrderReturnRequest',
-		importPath: '@spartacus/order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; returnRequestCode: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadOrderReturnRequestList',
-		importPath: '@spartacus/order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; pageSize?: number; currentPage?: number; sort?: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadReplenishmentOrderDetails',
-		importPath: '@spartacus/order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; replenishmentOrderCode: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadUserOrders',
-		importPath: '@spartacus/order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; pageSize?: number; currentPage?: number; sort?: string; replenishmentOrderCode?: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadUserReplenishmentOrders',
-		importPath: '@spartacus/order/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; pageSize?: number; currentPage?: number; sort?: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
 		class: 'OrderAdapter',
 		importPath: '@spartacus/order/core',
 		deprecatedNode: 'placeOrder',
@@ -23449,12 +21667,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'ReorderOrderService',
 		importPath: '@spartacus/order/core',
-		deprecatedNode: 'reorderCommand',
-		comment: '// TODO:Spartacus - The type of property \'reorderCommand: Command<{ orderId: string; }, CartModificationList>\' changed to: \'reorderCommand: Command<{ orderId: string\' '
-	},
-	{
-		class: 'ReorderOrderService',
-		importPath: '@spartacus/order/core',
 		deprecatedNode: 'reorderPreconditions',
 		comment: '// TODO:Spartacus - Method \'reorderPreconditions\' was removed from Class \'ReorderOrderService\'. '
 	},
@@ -23631,12 +21843,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/order/core',
 		deprecatedNode: 'scheduleReplenishmentOrder',
 		comment: '// TODO:Spartacus - Method \'scheduleReplenishmentOrder\' was removed from Class \'ScheduledReplenishmentOrderService\'. '
-	},
-	{
-		class: 'ScheduledReplenishmentOrderService',
-		importPath: '@spartacus/order/core',
-		deprecatedNode: 'scheduleReplenishmentOrderCommand',
-		comment: '// TODO:Spartacus - The type of property \'scheduleReplenishmentOrderCommand: Command<{ termsChecked: boolean; form: ScheduleReplenishmentForm; }, ReplenishmentOrder>\' changed to: \'scheduleReplenishmentOrderCommand: Command<{ termsChecked: boolean\' '
 	},
 	{
 		class: 'AmendOrderActionsComponent',
@@ -24021,12 +22227,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/order/components',
 		deprecatedNode: 'ngOnInit',
 		comment: '// TODO:Spartacus - Method \'ngOnInit\' was removed from Class \'OrderConfirmationShippingComponent\'. '
-	},
-	{
-		class: 'OrderConfirmationShippingComponent',
-		importPath: '@spartacus/order/components',
-		deprecatedNode: 'outlet',
-		comment: '// TODO:Spartacus - The type of property \'outlet: OutletContextData<{ showItemList?: boolean; order?: any; }> | undefined\' changed to: \'outlet: OutletContextData<{ showItemList?: boolean\' '
 	},
 	{
 		class: 'OrderConfirmationThankYouMessageComponent',
@@ -24563,12 +22763,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'intercept\' was removed from Class \'OccOppsCouponCodesInterceptor\'. '
 	},
 	{
-		class: 'OppsConfig',
-		importPath: '@spartacus/opps/root',
-		deprecatedNode: 'opps',
-		comment: '// TODO:Spartacus - The type of property \'opps: { couponcodes?: { httpHeaderName?: string; urlParameter?: string; localStorageKey?: string; }; loginRequired?: { urlParameter?: string; }; }\' changed to: \'opps: { couponcodes?: { httpHeaderName?: string\' '
-	},
-	{
 		class: 'OppsLoginRequiredGuard',
 		importPath: '@spartacus/opps/root',
 		deprecatedNode: 'canActivate',
@@ -24585,12 +22779,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/opps',
 		deprecatedNode: 'intercept',
 		comment: '// TODO:Spartacus - Method \'intercept\' was removed from Class \'OccOppsCouponCodesInterceptor\'. '
-	},
-	{
-		class: 'OppsConfig',
-		importPath: '@spartacus/opps',
-		deprecatedNode: 'opps',
-		comment: '// TODO:Spartacus - The type of property \'opps: { couponcodes?: { httpHeaderName?: string; urlParameter?: string; localStorageKey?: string; }; loginRequired?: { urlParameter?: string; }; }\' changed to: \'opps: { couponcodes?: { httpHeaderName?: string\' '
 	},
 	{
 		class: 'OppsLoginRequiredGuard',
@@ -24615,12 +22803,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/opf/quick-buy/core',
 		deprecatedNode: 'getApplePayWebSession',
 		comment: '// TODO:Spartacus - Method \'getApplePayWebSession\' was removed from Class \'OpfQuickBuyConnector\'. '
-	},
-	{
-		class: 'OpfQuickBuyService',
-		importPath: '@spartacus/opf/quick-buy/core',
-		deprecatedNode: 'applePaySessionCommand',
-		comment: '// TODO:Spartacus - The type of property \'applePaySessionCommand: Command<{ applePayWebSessionRequest: ApplePaySessionVerificationRequest; }, ApplePaySessionVerificationResponse>\' changed to: \'applePaySessionCommand: Command<{ applePayWebSessionRequest: ApplePaySessionVerificationRequest\' '
 	},
 	{
 		class: 'OpfQuickBuyService',
@@ -25051,20 +23233,8 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'OpfPaymentService',
 		importPath: '@spartacus/opf/payment/core',
-		deprecatedNode: 'getAfterRedirectScriptsCommand',
-		comment: '// TODO:Spartacus - The type of property \'getAfterRedirectScriptsCommand: Command<{ paymentSessionId: string; }, OpfPaymentAfterRedirectScriptResponse>\' changed to: \'getAfterRedirectScriptsCommand: Command<{ paymentSessionId: string\' '
-	},
-	{
-		class: 'OpfPaymentService',
-		importPath: '@spartacus/opf/payment/core',
 		deprecatedNode: 'initiatePayment',
 		comment: '// TODO:Spartacus - Method \'initiatePayment\' was removed from Class \'OpfPaymentService\'. '
-	},
-	{
-		class: 'OpfPaymentService',
-		importPath: '@spartacus/opf/payment/core',
-		deprecatedNode: 'initiatePaymentCommand',
-		comment: '// TODO:Spartacus - The type of property \'initiatePaymentCommand: Command<{ paymentConfig: OpfPaymentInitiationConfig; }, OpfPaymentSessionData>\' changed to: \'initiatePaymentCommand: Command<{ paymentConfig: OpfPaymentInitiationConfig\' '
 	},
 	{
 		class: 'OpfPaymentService',
@@ -25075,20 +23245,8 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'OpfPaymentService',
 		importPath: '@spartacus/opf/payment/core',
-		deprecatedNode: 'setCartPaymentOptionCommand',
-		comment: '// TODO:Spartacus - The type of property \'setCartPaymentOptionCommand: Command<{ userId: string; cartId: string; sapPaymentOptionId: string; purchaseOrderNumber?: string; }, Cart>\' changed to: \'setCartPaymentOptionCommand: Command<{ userId: string\' '
-	},
-	{
-		class: 'OpfPaymentService',
-		importPath: '@spartacus/opf/payment/core',
 		deprecatedNode: 'submitCompletePayment',
 		comment: '// TODO:Spartacus - Method \'submitCompletePayment\' was removed from Class \'OpfPaymentService\'. '
-	},
-	{
-		class: 'OpfPaymentService',
-		importPath: '@spartacus/opf/payment/core',
-		deprecatedNode: 'submitCompletePaymentCommand',
-		comment: '// TODO:Spartacus - The type of property \'submitCompletePaymentCommand: Command<{ submitCompleteInput: OpfPaymentSubmitCompleteInput; }, boolean>\' changed to: \'submitCompletePaymentCommand: Command<{ submitCompleteInput: OpfPaymentSubmitCompleteInput\' '
 	},
 	{
 		class: 'OpfPaymentService',
@@ -25099,20 +23257,8 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'OpfPaymentService',
 		importPath: '@spartacus/opf/payment/core',
-		deprecatedNode: 'submitPaymentCommand',
-		comment: '// TODO:Spartacus - The type of property \'submitPaymentCommand: Command<{ submitInput: OpfPaymentSubmitInput; }, boolean>\' changed to: \'submitPaymentCommand: Command<{ submitInput: OpfPaymentSubmitInput\' '
-	},
-	{
-		class: 'OpfPaymentService',
-		importPath: '@spartacus/opf/payment/core',
 		deprecatedNode: 'verifyPayment',
 		comment: '// TODO:Spartacus - Method \'verifyPayment\' was removed from Class \'OpfPaymentService\'. '
-	},
-	{
-		class: 'OpfPaymentService',
-		importPath: '@spartacus/opf/payment/core',
-		deprecatedNode: 'verifyPaymentCommand',
-		comment: '// TODO:Spartacus - The type of property \'verifyPaymentCommand: Command<{ paymentSessionId: string; paymentVerificationPayload: OpfPaymentVerificationPayload; }, OpfPaymentVerificationResponse>\' changed to: \'verifyPaymentCommand: Command<{ paymentSessionId: string\' '
 	},
 	{
 		class: 'OpfOccOrderNormalizer',
@@ -25257,12 +23403,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/opf/cta/core',
 		deprecatedNode: 'getCtaScripts',
 		comment: '// TODO:Spartacus - Method \'getCtaScripts\' was removed from Class \'OpfCtaConnector\'. '
-	},
-	{
-		class: 'OpfCtaService',
-		importPath: '@spartacus/opf/cta/core',
-		deprecatedNode: 'ctaScriptsCommand',
-		comment: '// TODO:Spartacus - The type of property \'ctaScriptsCommand: Command<{ opfCtaScriptsRequest: OpfCtaScriptsRequest; }, OpfCtaScriptsResponse>\' changed to: \'ctaScriptsCommand: Command<{ opfCtaScriptsRequest: OpfCtaScriptsRequest\' '
 	},
 	{
 		class: 'OpfCtaService',
@@ -25856,7 +23996,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		class: 'OpfConfig',
 		importPath: '@spartacus/opf/base/root',
 		deprecatedNode: 'opf',
-		comment: '// TODO:Spartacus - The type of property \'opf: { opfBaseUrl?: string; commerceCloudPublicKey?: string; paymentOption?: { paymentInfoMessagesMap?: Record<number, string>; enableInfoMessage?: boolean; }; localPspResources?: Record<number, { jsFiles: string[]; cssFiles: string[]; }>; }\' changed to: \'opf: { opfBaseUrl?: string\' '
+		comment: '// TODO:Spartacus - The type of property \'opf: { opfBaseUrl?: string; commerceCloudPublicKey?: string; paymentOption?: { paymentInfoMessagesMap?: Record<number, string>; enableInfoMessage?: boolean; }; localPspResources?: Record<number, { jsFiles: string[]; cssFiles: string[]; }>; }\' changed to: \'opf: { opfBaseUrl?: string; commerceCloudPublicKey?: string; paymentOption?: { /** * The map of info message translation keys for specific payment configuration IDs * @example * ```ts * const opfConfig = { * opf: { * paymentInfoMessagesMap: { * 213: \'opfCheckout.payPalPaymentInfoMessage\' // Message key for payment method ID 213 * } * } * }; * ``` */ paymentInfoMessagesMap?: Record<number, string>; /** * Enables the payment info message section within the payment options */ enableInfoMessage?: boolean; /** * Iframe sandbox permissions per payment option id. * Useful when specific PSPs require different sandbox flags. * @example * ```ts * const opfConfig = { * opf: { * paymentOption: { * iframeSandboxMap: { * 123: \'allow-scripts allow-same-origin\', // PSP 1 * 456: \'allow-scripts allow-same-origin allow-forms\' // PSP 2 * } * } * } * }; * ``` */ iframeSandboxMap?: Record<number, string>; }; /** * Local PSP resource configuration for faster loading * @example * ```ts * const opfConfig = { * opf: { * localPspResources: { * 213: { // paymentOptionId for Adyen * jsFiles: [\'/assets/adyen-payment.js\'], * cssFiles: [\'/assets/adyen-styles.css\'] * }, * 456: { // paymentOptionId for Stripe * jsFiles: [\'/assets/stripe-payment.js\'], * cssFiles: [\'/assets/stripe-styles.css\'] * } * } * } * }; * ``` */ localPspResources?: Record<number, { jsFiles: string[]; cssFiles: string[]; }>; }\' '
 	},
 	{
 		class: 'OpfEventListenerService',
@@ -26117,12 +24257,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'setPaymentType\' was removed from Class \'OpfB2bCheckoutPaymentTypeService\'. '
 	},
 	{
-		class: 'OpfB2bCheckoutPaymentTypeService',
-		importPath: '@spartacus/opf/b2b-checkout/core',
-		deprecatedNode: 'setPaymentTypeCommand',
-		comment: '// TODO:Spartacus - The type of property \'setPaymentTypeCommand: Command<{ paymentTypeCode: string; purchaseOrderNumber?: string; }>\' changed to: \'setPaymentTypeCommand: Command<{ paymentTypeCode: string\' '
-	},
-	{
 		class: 'OpfB2bCheckoutPaymentAndReviewComponent',
 		importPath: '@spartacus/opf/b2b-checkout/components',
 		deprecatedNode: 'getPaymentMethodNameCard',
@@ -26222,7 +24356,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		class: 'OpfB2bCheckoutReviewComponent',
 		importPath: '@spartacus/opf/b2b-checkout/components',
 		deprecatedNode: 'checkoutSubmitForm',
-		comment: '// TODO:Spartacus - The type of property \'checkoutSubmitForm: import("@angular/forms").FormGroup<{ termsAndConditions: import("@angular/forms").FormControl<boolean | null>; }>\' changed to: \'checkoutSubmitForm: i5.FormGroup<{ termsAndConditions: i5.FormControl<boolean | null>\' '
+		comment: '// TODO:Spartacus - The type of property \'checkoutSubmitForm: import("@angular/forms").FormGroup<{ termsAndConditions: import("@angular/forms").FormControl<boolean | null>; }>\' changed to: \'checkoutSubmitForm: i5.FormGroup<{ termsAndConditions: i5.FormControl<boolean | null>; }>\' '
 	},
 	{
 		class: 'OpfB2bCheckoutReviewComponent',
@@ -27097,20 +25231,8 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'DpCheckoutPaymentService',
 		importPath: '@spartacus/digital-payments',
-		deprecatedNode: 'createPaymentDetailsCommand',
-		comment: '// TODO:Spartacus - The type of property \'createPaymentDetailsCommand: Command<{ sessionId: string; signature: string; billingAddress?: Address; }, PaymentDetails>\' changed to: \'createPaymentDetailsCommand: Command<{ sessionId: string\' '
-	},
-	{
-		class: 'DpCheckoutPaymentService',
-		importPath: '@spartacus/digital-payments',
 		deprecatedNode: 'getCardRegistrationDetails',
 		comment: '// TODO:Spartacus - Method \'getCardRegistrationDetails\' was removed from Class \'DpCheckoutPaymentService\'. '
-	},
-	{
-		class: 'CustomerTicketingConfig',
-		importPath: '@spartacus/customer-ticketing/root',
-		deprecatedNode: 'customerTicketing',
-		comment: '// TODO:Spartacus - The type of property \'customerTicketing: { agentSessionTimer?: { startingDelayInSeconds?: number; }; attachmentRestrictions?: { maxSize?: number; allowedTypes?: string[]; }; inputCharactersLimit?: number; inputCharactersLimitForSubject?: number; listViewPageSize?: number; }\' changed to: \'customerTicketing: { agentSessionTimer?: { startingDelayInSeconds?: number\' '
 	},
 	{
 		class: 'CustomerTicketingEventListener',
@@ -27469,12 +25591,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'CustomerTicketingService',
 		importPath: '@spartacus/customer-ticketing/core',
-		deprecatedNode: 'createTicketEventCommand',
-		comment: '// TODO:Spartacus - The type of property \'createTicketEventCommand: Command<{ ticketEvent: TicketEvent; containsAttachment?: boolean; }, TicketEvent>\' changed to: \'createTicketEventCommand: Command<{ ticketEvent: TicketEvent\' '
-	},
-	{
-		class: 'CustomerTicketingService',
-		importPath: '@spartacus/customer-ticketing/core',
 		deprecatedNode: 'customerTicketingListPreConditions',
 		comment: '// TODO:Spartacus - Method \'customerTicketingListPreConditions\' was removed from Class \'CustomerTicketingService\'. '
 	},
@@ -27489,12 +25605,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/customer-ticketing/core',
 		deprecatedNode: 'downloadAttachment',
 		comment: '// TODO:Spartacus - Method \'downloadAttachment\' was removed from Class \'CustomerTicketingService\'. '
-	},
-	{
-		class: 'CustomerTicketingService',
-		importPath: '@spartacus/customer-ticketing/core',
-		deprecatedNode: 'downloadAttachmentCommand',
-		comment: '// TODO:Spartacus - The type of property \'downloadAttachmentCommand: Command<{ eventCode: string; attachmentId: string; }>\' changed to: \'downloadAttachmentCommand: Command<{ eventCode: string\' '
 	},
 	{
 		class: 'CustomerTicketingService',
@@ -27603,12 +25713,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/customer-ticketing/core',
 		deprecatedNode: 'uploadAttachment',
 		comment: '// TODO:Spartacus - Method \'uploadAttachment\' was removed from Class \'CustomerTicketingService\'. '
-	},
-	{
-		class: 'CustomerTicketingService',
-		importPath: '@spartacus/customer-ticketing/core',
-		deprecatedNode: 'uploadAttachmentCommand',
-		comment: '// TODO:Spartacus - The type of property \'uploadAttachmentCommand: Command<{ file: File; eventCode: string; ticketId?: string; }>\' changed to: \'uploadAttachmentCommand: Command<{ file: File\' '
 	},
 	{
 		class: 'NotFoundTicketRequestHandler',
@@ -27989,18 +26093,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'ngOnInit\' was removed from Class \'CpqQuoteDiscountComponent\'. '
 	},
 	{
-		class: 'CpqQuoteDiscountComponent',
-		importPath: '@spartacus/cpq-quote/cpq-quote-discount',
-		deprecatedNode: 'orderEntry$',
-		comment: '// TODO:Spartacus - The type of property \'orderEntry$: Observable<ExtendedOrderEntry>\' changed to: \'orderEntry$: Observable<ExtendedOrderEntry$1>\' '
-	},
-	{
-		class: 'CpqQuoteDiscountComponent',
-		importPath: '@spartacus/cpq-quote/cpq-quote-discount',
-		deprecatedNode: 'quoteDiscountData',
-		comment: '// TODO:Spartacus - The type of property \'quoteDiscountData: ExtendedOrderEntry | null\' changed to: \'quoteDiscountData: ExtendedOrderEntry$1 | null\' '
-	},
-	{
 		class: 'CpqQuoteHeadingComponent',
 		importPath: '@spartacus/cpq-quote/cpq-quote-discount',
 		deprecatedNode: 'ngOnDestroy',
@@ -28079,18 +26171,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'ngOnInit\' was removed from Class \'CpqQuoteDiscountComponent\'. '
 	},
 	{
-		class: 'CpqQuoteDiscountComponent',
-		importPath: '@spartacus/cpq-quote',
-		deprecatedNode: 'orderEntry$',
-		comment: '// TODO:Spartacus - The type of property \'orderEntry$: Observable<ExtendedOrderEntry>\' changed to: \'orderEntry$: Observable<ExtendedOrderEntry$1>\' '
-	},
-	{
-		class: 'CpqQuoteDiscountComponent',
-		importPath: '@spartacus/cpq-quote',
-		deprecatedNode: 'quoteDiscountData',
-		comment: '// TODO:Spartacus - The type of property \'quoteDiscountData: ExtendedOrderEntry | null\' changed to: \'quoteDiscountData: ExtendedOrderEntry$1 | null\' '
-	},
-	{
 		class: 'CpqQuoteHeadingComponent',
 		importPath: '@spartacus/cpq-quote',
 		deprecatedNode: 'ngOnDestroy',
@@ -28155,12 +26235,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/core',
 		deprecatedNode: 'convert',
 		comment: '// TODO:Spartacus - Method \'convert\' was removed from Class \'AnonymousConsentNormalizer\'. '
-	},
-	{
-		class: 'AnonymousConsentsConfig',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'anonymousConsents',
-		comment: '// TODO:Spartacus - The type of property \'anonymousConsents: { registerConsent?: string; showLegalDescriptionInDialog?: boolean; requiredConsents?: string[]; consentManagementPage?: { showAnonymousConsents?: boolean; hideConsents?: string[]; }; }\' changed to: \'anonymousConsents: { /** * Specify the consent template ID to be show on the registration page. */ registerConsent?: string\' '
 	},
 	{
 		class: 'AnonymousConsentsInterceptor',
@@ -28371,12 +26445,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/core',
 		deprecatedNode: 'loadAnonymousConsentTemplates',
 		comment: '// TODO:Spartacus - Method \'loadAnonymousConsentTemplates\' was removed from Class \'AnonymousConsentTemplatesConnector\'. '
-	},
-	{
-		class: 'AuthConfig',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'authentication',
-		comment: '// TODO:Spartacus - The type of property \'authentication: { client_id?: string; client_secret?: string; baseUrl?: string; tokenEndpoint?: string; revokeEndpoint?: string; sendAuthHeaderOnRevoke?: boolean; useClientTokens?: boolean; loginUrl?: string; logoutUrl?: string; userinfoEndpoint?: string; OAuthLibConfig?: AuthLibConfig; customLoginPage?: { csrfEndpoint?: string; loginFormEndpoint?: string; }; }\' changed to: \'authentication: { /** * OAuth client id. */ client_id?: string\' '
 	},
 	{
 		class: 'AuthConfigService',
@@ -28713,12 +26781,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/core',
 		deprecatedNode: 'isUsingASMClient',
 		comment: '// TODO:Spartacus - Method \'isUsingASMClient\' was removed from Class \'AuthService\'. '
-	},
-	{
-		class: 'AuthService',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'location',
-		comment: '// TODO:Spartacus - The type of property \'location: Location\' changed to: \'location: Location$1\' '
 	},
 	{
 		class: 'AuthService',
@@ -29123,42 +27185,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'refreshClientToken\' was removed from Class \'ClientTokenService\'. '
 	},
 	{
-		class: 'CmsGetComponentFromPage',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { component: T; pageContext: PageContext; } | { component: T; pageContext: PageContext; }[]\' changed to: \'payload: { component: T\' '
-	},
-	{
-		class: 'LoadCmsComponent',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { uid: string; pageContext?: PageContext; }\' changed to: \'payload: { uid: string\' '
-	},
-	{
-		class: 'LoadCmsComponentFail',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { uid: string; error: any; pageContext: PageContext; }\' changed to: \'payload: { uid: string\' '
-	},
-	{
-		class: 'LoadCmsComponentSuccess',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { component: T; uid?: string; pageContext: PageContext; }\' changed to: \'payload: { component: T\' '
-	},
-	{
-		class: 'LoadCmsNavigationItems',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { nodeId: string; items: any[]; }\' changed to: \'payload: { nodeId: string\' '
-	},
-	{
-		class: 'LoadCmsNavigationItemsSuccess',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { nodeId: string; components: any[]; }\' changed to: \'payload: { nodeId: string\' '
-	},
-	{
 		class: 'CmsComponentAdapter',
 		importPath: '@spartacus/core',
 		deprecatedNode: 'findComponentsByIds',
@@ -29181,18 +27207,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/core',
 		deprecatedNode: 'getList',
 		comment: '// TODO:Spartacus - Method \'getList\' was removed from Class \'CmsComponentConnector\'. '
-	},
-	{
-		class: 'CmsConfig',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'componentsLoading',
-		comment: '// TODO:Spartacus - The type of property \'componentsLoading: { pageSize?: number; }\' changed to: \'componentsLoading: { pageSize?: number\' '
-	},
-	{
-		class: 'CmsConfig',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'featureModules',
-		comment: '// TODO:Spartacus - The type of property \'featureModules: { [featureName: string]: FeatureModuleConfig | string; }\' changed to: \'featureModules: { [featureName: string]: FeatureModuleConfig | string\' '
 	},
 	{
 		class: 'CmsModule',
@@ -29295,12 +27309,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/core',
 		deprecatedNode: 'setPageFailIndex',
 		comment: '// TODO:Spartacus - Method \'setPageFailIndex\' was removed from Class \'CmsService\'. '
-	},
-	{
-		class: 'CmsStructureConfig',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'cmsStructure',
-		comment: '// TODO:Spartacus - The type of property \'cmsStructure: { components?: { [key: string]: ContentSlotComponentData | any; }; pages?: CmsPageConfig[]; slots?: CmsPageSlotsConfig; }\' changed to: \'cmsStructure: { components?: { [key: string]: ContentSlotComponentData | any\' '
 	},
 	{
 		class: 'CmsStructureConfigService',
@@ -30185,12 +28193,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'resolveFeatureAlias\' was removed from Class \'FeatureModulesService\'. '
 	},
 	{
-		class: 'FeaturesConfig',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'features',
-		comment: '// TODO:Spartacus - The type of property \'features: { level?: string; [_: string]: string | boolean | undefined; consignmentTracking?: boolean; disableConfigUpdates?: boolean; }\' changed to: \'features: { /** * Configure feature level. * Value corresponds to a specific release version number: \'1.0\', \'1.1\', etc. * Each subsequent level contains all of the features from previous one. * * @deprecated Please use named feature flags instead of feature level. * Moreover, please use a different util to provide values of feature toggles: * ```ts * provideFeatureToggles({ * [string]: boolean * }) * ``` * instead of * ```ts * provideConfig({ * features: { * [string]: boolean * } * }) * ``` */ level?: string\' '
-	},
-	{
 		class: 'FeaturesConfigModule',
 		importPath: '@spartacus/core',
 		deprecatedNode: 'forRoot',
@@ -30267,18 +28269,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/core',
 		deprecatedNode: 'handleError',
 		comment: '// TODO:Spartacus - Method \'handleError\' was removed from Class \'GatewayTimeoutHandler\'. '
-	},
-	{
-		class: 'RemoveMessage',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { type: GlobalMessageType; index: number; }\' changed to: \'payload: { type: GlobalMessageType\' '
-	},
-	{
-		class: 'GlobalMessageConfig',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'globalMessages',
-		comment: '// TODO:Spartacus - The type of property \'globalMessages: { [GlobalMessageType.MSG_TYPE_CONFIRMATION]?: GlobalMessageTypeConfig; [GlobalMessageType.MSG_TYPE_INFO]?: GlobalMessageTypeConfig; [GlobalMessageType.MSG_TYPE_ERROR]?: GlobalMessageTypeConfig; [GlobalMessageType.MSG_TYPE_WARNING]?: GlobalMessageTypeConfig; [GlobalMessageType.MSG_TYPE_ASSISTIVE]?: GlobalMessageTypeConfig; }\' changed to: \'globalMessages: { [GlobalMessageType.MSG_TYPE_CONFIRMATION]?: GlobalMessageTypeConfig\' '
 	},
 	{
 		class: 'GlobalMessageModule',
@@ -30425,12 +28415,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'intercept\' was removed from Class \'HttpTimeoutInterceptor\'. '
 	},
 	{
-		class: 'I18nConfig',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'i18n',
-		comment: '// TODO:Spartacus - The type of property \'i18n: { fallbackLang?: string | false; backend?: { loadPath?: string; loader?: (language: string, chunkName: string) => Promise<TranslationResourceKey>; }; resources?: TranslationResources; debug?: boolean; chunks?: { [chunk: string]: string[]; }; }\' changed to: \'i18n: { /** * When there are missing translation resources for the active language, the fallback language will be used. */ fallbackLang?: string | false\' '
-	},
-	{
 		class: 'I18nConfigInitializer',
 		importPath: '@spartacus/core',
 		deprecatedNode: 'resolveConfig',
@@ -30537,6 +28521,12 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/core',
 		deprecatedNode: 'loadChunks',
 		comment: '// TODO:Spartacus - Method \'loadChunks\' was removed from Class \'I18nextTranslationService\'. '
+	},
+	{
+		class: 'I18nextTranslationService',
+		importPath: '@spartacus/core',
+		deprecatedNode: 'NAMESPACE_SEPARATOR',
+		comment: '// TODO:Spartacus - The type of property \'NAMESPACE_SEPARATOR:\' changed to: \'NAMESPACE_SEPARATOR: "\' '
 	},
 	{
 		class: 'I18nextTranslationService',
@@ -31439,54 +29429,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'forRoot\' was removed from Class \'ProcessModule\'. '
 	},
 	{
-		class: 'GetProductSuggestions',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { term: string; searchConfig?: SearchConfig; }\' changed to: \'payload: { term: string\' '
-	},
-	{
-		class: 'LoadProductReferences',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { productCode: string; referenceType?: string; pageSize?: number; }\' changed to: \'payload: { productCode: string\' '
-	},
-	{
-		class: 'LoadProductReferencesSuccess',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { productCode: string; list: ProductReference[]; }\' changed to: \'payload: { productCode: string\' '
-	},
-	{
-		class: 'LoadProductReviewsSuccess',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { productCode: string; list: Review[]; }\' changed to: \'payload: { productCode: string\' '
-	},
-	{
-		class: 'PostProductReview',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { productCode: string; review: Review; }\' changed to: \'payload: { productCode: string\' '
-	},
-	{
-		class: 'ProductSearchLoadByCategory',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { categoryCode: string; scope: string; }\' changed to: \'payload: { categoryCode: string\' '
-	},
-	{
-		class: 'ProductSearchLoadByCode',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { code: string; scope: string; }\' changed to: \'payload: { code: string\' '
-	},
-	{
-		class: 'SearchProducts',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { queryText: string; searchConfig?: SearchConfig; }\' changed to: \'payload: { queryText: string\' '
-	},
-	{
 		class: 'ProductAdapter',
 		importPath: '@spartacus/core',
 		deprecatedNode: 'load',
@@ -31515,12 +29457,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/core',
 		deprecatedNode: 'getRealTimeStock',
 		comment: '// TODO:Spartacus - Method \'getRealTimeStock\' was removed from Class \'ProductAvailabilityService\'. '
-	},
-	{
-		class: 'ProductAvailabilityService',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'getRealTimeStockCommand',
-		comment: '// TODO:Spartacus - The type of property \'getRealTimeStockCommand: Command<{ productCode: string; unitSapCode: string; }, ProductAvailabilities>\' changed to: \'getRealTimeStockCommand: Command<{ productCode: string\' '
 	},
 	{
 		class: 'ProductCatalogService',
@@ -31605,12 +29541,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/core',
 		deprecatedNode: 'initProductScopes',
 		comment: '// TODO:Spartacus - Method \'initProductScopes\' was removed from Class \'ProductLoadingService\'. '
-	},
-	{
-		class: 'ProductLoadingService',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'products',
-		comment: '// TODO:Spartacus - The type of property \'products: { [code: string]: { [scope: string]: Observable<Product>; }; }\' changed to: \'products: { [code: string]: { [scope: string]: Observable<Product>\' '
 	},
 	{
 		class: 'ProductModule',
@@ -31985,12 +29915,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'initRouteNamesByPath\' was removed from Class \'RoutingConfigService\'. '
 	},
 	{
-		class: 'RoutingConfigService',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'routeNamesByPath',
-		comment: '// TODO:Spartacus - The type of property \'routeNamesByPath: { [path: string]: string; }\' changed to: \'routeNamesByPath: { [path: string]: string\' '
-	},
-	{
 		class: 'RoutingModule',
 		importPath: '@spartacus/core',
 		deprecatedNode: 'forRoot',
@@ -32031,12 +29955,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/core',
 		deprecatedNode: 'getParams',
 		comment: '// TODO:Spartacus - Method \'getParams\' was removed from Class \'RoutingParamsService\'. '
-	},
-	{
-		class: 'RoutingParamsService',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'params$',
-		comment: '// TODO:Spartacus - The type of property \'params$: Observable<{ [key: string]: string; }>\' changed to: \'params$: Observable<{ [key: string]: string\' '
 	},
 	{
 		class: 'RoutingService',
@@ -32109,12 +30027,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/core',
 		deprecatedNode: 'isNavigating',
 		comment: '// TODO:Spartacus - Method \'isNavigating\' was removed from Class \'RoutingService\'. '
-	},
-	{
-		class: 'RoutingService',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'location',
-		comment: '// TODO:Spartacus - The type of property \'location: Location\' changed to: \'location: Location$1\' '
 	},
 	{
 		class: 'RoutingService',
@@ -32291,24 +30203,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'getRegions\' was removed from Class \'SiteConnector\'. '
 	},
 	{
-		class: 'CurrencyChange',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { previous: string | null; current: string | null; }\' changed to: \'payload: { previous: string | null\' '
-	},
-	{
-		class: 'LanguageChange',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { previous: string | null; current: string | null; }\' changed to: \'payload: { previous: string | null\' '
-	},
-	{
-		class: 'SiteContextConfig',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'context',
-		comment: '// TODO:Spartacus - The type of property \'context: { urlParameters?: string[]; [contextName: string]: string[] | undefined; }\' changed to: \'context: { urlParameters?: string[]\' '
-	},
-	{
 		class: 'SiteContextConfigInitializer',
 		importPath: '@spartacus/core',
 		deprecatedNode: 'getConfig',
@@ -32447,18 +30341,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'urlTreeIncludeContextParameters\' was removed from Class \'SiteContextUrlSerializer\'. '
 	},
 	{
-		class: 'SiteThemeChange',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { previous: string | null; current: string | null; }\' changed to: \'payload: { previous: string | null\' '
-	},
-	{
-		class: 'SiteThemeConfig',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'siteTheme',
-		comment: '// TODO:Spartacus - The type of property \'siteTheme: { optionalThemes?: Array<SiteTheme>; }\' changed to: \'siteTheme: { optionalThemes?: Array<SiteTheme>\' '
-	},
-	{
 		class: 'SiteThemeModule',
 		importPath: '@spartacus/core',
 		deprecatedNode: 'forRoot',
@@ -32511,12 +30393,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/core',
 		deprecatedNode: 'decorate',
 		comment: '// TODO:Spartacus - Method \'decorate\' was removed from Class \'SlotDecorator\'. '
-	},
-	{
-		class: 'StateConfig',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'state',
-		comment: '// TODO:Spartacus - The type of property \'state: { ssrTransfer?: { keys?: { [key: string]: StateTransferType | undefined; }; }; }\' changed to: \'state: { ssrTransfer?: { keys?: { /** * A set of state keys that should be transferred from server. */ [key: string]: StateTransferType | undefined\' '
 	},
 	{
 		class: 'StateEventService',
@@ -32629,18 +30505,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'TranslationChunkService',
 		importPath: '@spartacus/core',
-		deprecatedNode: 'chunks',
-		comment: '// TODO:Spartacus - The type of property \'chunks: { [key: string]: string; }\' changed to: \'chunks: { [key: string]: string\' '
-	},
-	{
-		class: 'TranslationChunkService',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'duplicates',
-		comment: '// TODO:Spartacus - The type of property \'duplicates: { [key: string]: string[]; }\' changed to: \'duplicates: { [key: string]: string[]\' '
-	},
-	{
-		class: 'TranslationChunkService',
-		importPath: '@spartacus/core',
 		deprecatedNode: 'getChunkNameForKey',
 		comment: '// TODO:Spartacus - Method \'getChunkNameForKey\' was removed from Class \'TranslationChunkService\'. '
 	},
@@ -32733,96 +30597,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/core',
 		deprecatedNode: 'transform',
 		comment: '// TODO:Spartacus - Method \'transform\' was removed from Class \'UrlPipe\'. '
-	},
-	{
-		class: 'AddProductInterest',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; productCode: string; notificationType: NotificationType; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'AddUserAddress',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; address: Address; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'ClaimCustomerCoupon',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; couponCode: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'DisclaimCustomerCoupon',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; couponCode: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'GiveUserConsent',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; consentTemplateId: string | undefined; consentTemplateVersion: number | undefined; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadCustomerCoupons',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; pageSize: number; currentPage?: number; sort?: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadProductInterests',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; pageSize?: number; currentPage?: number; sort?: string; productCode?: string; notificationType?: NotificationType; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadRegionsSuccess',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { entities: Region[]; country: string; }\' changed to: \'payload: { entities: Region[]\' '
-	},
-	{
-		class: 'RemoveProductInterest',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; item: ProductInterestEntryRelation; singleDelete?: boolean; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'SubscribeCustomerCoupon',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; couponCode: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'TransferAnonymousConsent',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; consentTemplateId: string | undefined; consentTemplateVersion: number | undefined; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UnsubscribeCustomerCoupon',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; couponCode: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UpdateNotificationPreferences',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; preferences: NotificationPreference[]; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'UpdateUserAddress',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; addressId: string; address: Address; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'WithdrawUserConsent',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; consentCode: string; consentId?: string; }\' changed to: \'payload: { userId: string\' '
 	},
 	{
 		class: 'UserAddressAdapter',
@@ -32973,12 +30747,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/core',
 		deprecatedNode: 'updateUserAddress',
 		comment: '// TODO:Spartacus - Method \'updateUserAddress\' was removed from Class \'UserAddressService\'. '
-	},
-	{
-		class: 'UserAddressService',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'userAddressVerificationCommand',
-		comment: '// TODO:Spartacus - The type of property \'userAddressVerificationCommand: Command<{ address: Address; }, AddressValidation>\' changed to: \'userAddressVerificationCommand: Command<{ address: Address\' '
 	},
 	{
 		class: 'UserAddressService',
@@ -33705,12 +31473,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/checkout/base/root',
 		deprecatedNode: 'setBillingAddress',
 		comment: '// TODO:Spartacus - Method \'setBillingAddress\' was removed from Class \'CheckoutBillingAddressFacade\'. '
-	},
-	{
-		class: 'CheckoutConfig',
-		importPath: '@spartacus/checkout/base/root',
-		deprecatedNode: 'checkout',
-		comment: '// TODO:Spartacus - The type of property \'checkout: { steps?: Array<CheckoutStep>; express?: boolean; defaultDeliveryMode?: Array<DeliveryModePreferences | string>; guest?: boolean; guestUseSavedAddress?: boolean; flows?: { [key: string]: CheckoutFlow; }; }\' changed to: \'checkout: { /** * Set checkout steps as ordered array of pages. */ steps?: Array<CheckoutStep>\' '
 	},
 	{
 		class: 'CheckoutDeliveryAddressEventListener',
@@ -34789,12 +32551,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'CheckoutPaymentMethodComponent',
 		importPath: '@spartacus/checkout/base/components',
-		deprecatedNode: 'cards$',
-		comment: '// TODO:Spartacus - The type of property \'cards$: Observable<{ content: Card; paymentMethod: PaymentDetails; }[]>\' changed to: \'cards$: Observable<{ content: Card\' '
-	},
-	{
-		class: 'CheckoutPaymentMethodComponent',
-		importPath: '@spartacus/checkout/base/components',
 		deprecatedNode: 'createCard',
 		comment: '// TODO:Spartacus - Method \'createCard\' was removed from Class \'CheckoutPaymentMethodComponent\'. '
 	},
@@ -35405,12 +33161,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'setPaymentType\' was removed from Class \'CheckoutPaymentTypeService\'. '
 	},
 	{
-		class: 'CheckoutPaymentTypeService',
-		importPath: '@spartacus/checkout/b2b/core',
-		deprecatedNode: 'setPaymentTypeCommand',
-		comment: '// TODO:Spartacus - The type of property \'setPaymentTypeCommand: Command<{ paymentTypeCode: string; purchaseOrderNumber?: string; }, unknown>\' changed to: \'setPaymentTypeCommand: Command<{ paymentTypeCode: string\' '
-	},
-	{
 		class: 'B2BCheckoutDeliveryAddressComponent',
 		importPath: '@spartacus/checkout/b2b/components',
 		deprecatedNode: 'getAddressLoading',
@@ -35587,12 +33337,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'AttributesDirective',
 		importPath: '@spartacus/cds',
-		deprecatedNode: 'cxAttributes',
-		comment: '// TODO:Spartacus - The type of property \'cxAttributes: { [attribute: string]: any; }\' changed to: \'cxAttributes: { [attribute: string]: any\' '
-	},
-	{
-		class: 'AttributesDirective',
-		importPath: '@spartacus/cds',
 		deprecatedNode: 'cxAttributesNamePrefix',
 		comment: '// TODO:Spartacus - Property \'cxAttributesNamePrefix\' was removed from Class \'AttributesDirective\'. '
 	},
@@ -35601,12 +33345,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/cds',
 		deprecatedNode: 'ngOnChanges',
 		comment: '// TODO:Spartacus - Method \'ngOnChanges\' was removed from Class \'AttributesDirective\'. '
-	},
-	{
-		class: 'BrandPageVisitedEvent',
-		importPath: '@spartacus/cds',
-		deprecatedNode: 'data',
-		comment: '// TODO:Spartacus - The type of property \'data: { brandCode: string; brandName: string; }\' changed to: \'data: { brandCode: string\' '
 	},
 	{
 		class: 'CdsBackendConnector',
@@ -35619,12 +33357,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/cds',
 		deprecatedNode: 'notifySuccessfulLogin',
 		comment: '// TODO:Spartacus - Method \'notifySuccessfulLogin\' was removed from Class \'CdsBackendNotificationAdapter\'. '
-	},
-	{
-		class: 'CdsConfig',
-		importPath: '@spartacus/cds',
-		deprecatedNode: 'cds',
-		comment: '// TODO:Spartacus - The type of property \'cds: { baseSite?: string[]; tenant?: string; baseUrl?: string; consentTemplateId?: string; endpoints?: CdsEndpoints; merchandising?: MerchandisingConfig; profileTag?: ProfileTagConfig; }\' changed to: \'cds: { baseSite?: string[]\' '
 	},
 	{
 		class: 'CdsMerchandisingProductService',
@@ -35655,12 +33387,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/cds',
 		deprecatedNode: 'forRoot',
 		comment: '// TODO:Spartacus - Method \'forRoot\' was removed from Class \'CdsModule\'. '
-	},
-	{
-		class: 'ConsentChangedPushEvent',
-		importPath: '@spartacus/cds',
-		deprecatedNode: 'data',
-		comment: '// TODO:Spartacus - The type of property \'data: { granted?: boolean; }\' changed to: \'data: { granted?: boolean\' '
 	},
 	{
 		class: 'ConsentReferenceInterceptor',
@@ -35963,12 +33689,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'register\' was removed from Class \'CDCRegisterComponentService\'. '
 	},
 	{
-		class: 'CDCRegisterComponentService',
-		importPath: '@spartacus/cdc/user-profile',
-		deprecatedNode: 'registerCommand',
-		comment: '// TODO:Spartacus - The type of property \'registerCommand: Command<{ user: UserSignUp; }, User>\' changed to: \'registerCommand: Command<{ user: UserSignUp\' '
-	},
-	{
 		class: 'CdcLoginFormComponentService',
 		importPath: '@spartacus/cdc/user-account',
 		deprecatedNode: 'initCustomLogin',
@@ -36077,12 +33797,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'loginWithToken\' was removed from Class \'CdcAuthFacade\'. '
 	},
 	{
-		class: 'CdcConfig',
-		importPath: '@spartacus/cdc/root',
-		deprecatedNode: 'cdc',
-		comment: '// TODO:Spartacus - The type of property \'cdc: { baseSite: string; javascriptUrl: string; sessionExpiration: number; }[]\' changed to: \'cdc: { baseSite: string\' '
-	},
-	{
 		class: 'CdcConsentManagementComponentService',
 		importPath: '@spartacus/cdc/root',
 		deprecatedNode: 'getCdcConsentIDs',
@@ -36171,12 +33885,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/cdc/root',
 		deprecatedNode: 'getSiteConsentDetails',
 		comment: '// TODO:Spartacus - Method \'getSiteConsentDetails\' was removed from Class \'CdcJsService\'. '
-	},
-	{
-		class: 'CdcJsService',
-		importPath: '@spartacus/cdc/root',
-		deprecatedNode: 'gigyaSDK',
-		comment: '// TODO:Spartacus - The type of property \'gigyaSDK: { [key: string]: any; }\' changed to: \'gigyaSDK: { [key: string]: any\' '
 	},
 	{
 		class: 'CdcJsService',
@@ -36403,12 +34111,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'CDCB2BRegisterComponentService',
 		importPath: '@spartacus/cdc/organization/user-registration',
-		deprecatedNode: 'registerCommand',
-		comment: '// TODO:Spartacus - The type of property \'registerCommand: Command<{ orgInfo: OrganizationUserRegistrationForm; }, OrganizationUserRegistrationForm>\' changed to: \'registerCommand: Command<{ orgInfo: OrganizationUserRegistrationForm\' '
-	},
-	{
-		class: 'CDCB2BRegisterComponentService',
-		importPath: '@spartacus/cdc/organization/user-registration',
 		deprecatedNode: 'registerUser',
 		comment: '// TODO:Spartacus - Method \'registerUser\' was removed from Class \'CDCB2BRegisterComponentService\'. '
 	},
@@ -36561,30 +34263,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/cart/wish-list/root',
 		deprecatedNode: 'removeEntry',
 		comment: '// TODO:Spartacus - Method \'removeEntry\' was removed from Class \'WishListFacade\'. '
-	},
-	{
-		class: 'CreateWishList',
-		importPath: '@spartacus/cart/wish-list/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; name?: string; description?: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CreateWishListFail',
-		importPath: '@spartacus/cart/wish-list/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { cartId: string; error: any; }\' changed to: \'payload: { cartId: string\' '
-	},
-	{
-		class: 'CreateWishListSuccess',
-		importPath: '@spartacus/cart/wish-list/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { cart: Cart; cartId: string; }\' changed to: \'payload: { cart: Cart\' '
-	},
-	{
-		class: 'LoadWishListSuccess',
-		importPath: '@spartacus/cart/wish-list/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { cart: Cart; cartId: string; }\' changed to: \'payload: { cart: Cart\' '
 	},
 	{
 		class: 'WishListService',
@@ -36891,114 +34569,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/cart/saved-cart/occ',
 		deprecatedNode: 'restoreSavedCart',
 		comment: '// TODO:Spartacus - Method \'restoreSavedCart\' was removed from Class \'OccSavedCartAdapter\'. '
-	},
-	{
-		class: 'CloneSavedCart',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; saveCartName?: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CloneSavedCartFail',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; saveCartName?: string; error: any; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CloneSavedCartSuccess',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; saveCartName?: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'EditSavedCart',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; saveCartName?: string; saveCartDescription?: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'EditSavedCartFail',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; saveCartName?: string; saveCartDescription?: string; error: any; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'EditSavedCartSuccess',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; saveCartName?: string; saveCartDescription?: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadSavedCart',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadSavedCartFail',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; error: any; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadSavedCarts',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadSavedCartsFail',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; error: any; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadSavedCartsSuccess',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'LoadSavedCartSuccess',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'RestoreSavedCart',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'RestoreSavedCartFail',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; error: any; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'RestoreSavedCartSuccess',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'SaveCart',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; saveCartName?: string; saveCartDescription?: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'SaveCartFail',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; saveCartName?: string; saveCartDescription?: string; error: any; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'SaveCartSuccess',
-		importPath: '@spartacus/cart/saved-cart/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; saveCartName?: string; saveCartDescription?: string; }\' changed to: \'payload: { userId: string\' '
 	},
 	{
 		class: 'SavedCartAdapter',
@@ -37509,12 +35079,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/cart/saved-cart/components',
 		deprecatedNode: 'getEntries',
 		comment: '// TODO:Spartacus - Method \'getEntries\' was removed from Class \'SavedCartOrderEntriesContext\'. '
-	},
-	{
-		class: 'QuickOrderConfig',
-		importPath: '@spartacus/cart/quick-order/root',
-		deprecatedNode: 'quickOrder',
-		comment: '// TODO:Spartacus - The type of property \'quickOrder: { searchForm?: { displayProductImages: boolean; maxProducts: number; minCharactersBeforeRequest: number; }; list?: { hardDeleteTimeout: number; }; }\' changed to: \'quickOrder: { searchForm?: { displayProductImages: boolean\' '
 	},
 	{
 		class: 'QuickOrderFacade',
@@ -38231,12 +35795,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'handleResults\' was removed from Class \'QuickOrderOrderEntriesContext\'. '
 	},
 	{
-		class: 'ImportExportConfig',
-		importPath: '@spartacus/cart/import-export/core',
-		deprecatedNode: 'cartImportExport',
-		comment: '// TODO:Spartacus - The type of property \'cartImportExport: { file: { separator: string; }; import?: ImportConfig; export: ExportConfig; }\' changed to: \'cartImportExport: { file: { separator: string\' '
-	},
-	{
 		class: 'ImportExportCoreModule',
 		importPath: '@spartacus/cart/import-export/core',
 		deprecatedNode: 'forRoot',
@@ -38381,12 +35939,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Property \'separator\' was removed from Class \'ImportEntriesFormComponent\'. '
 	},
 	{
-		class: 'ImportEntriesFormComponent',
-		importPath: '@spartacus/cart/import-export/components',
-		deprecatedNode: 'submitEvent',
-		comment: '// TODO:Spartacus - The type of property \'submitEvent: EventEmitter<{ products: ProductData[]; }>\' changed to: \'submitEvent: EventEmitter<{ products: ProductData[]\' '
-	},
-	{
 		class: 'ImportEntriesSummaryComponent',
 		importPath: '@spartacus/cart/import-export/components',
 		deprecatedNode: 'close',
@@ -38457,12 +36009,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/cart/import-export/components',
 		deprecatedNode: 'setFieldValueByFileName',
 		comment: '// TODO:Spartacus - Method \'setFieldValueByFileName\' was removed from Class \'ImportToNewSavedCartFormComponent\'. '
-	},
-	{
-		class: 'ImportToNewSavedCartFormComponent',
-		importPath: '@spartacus/cart/import-export/components',
-		deprecatedNode: 'submitEvent',
-		comment: '// TODO:Spartacus - The type of property \'submitEvent: EventEmitter<{ products: ProductData[]; savedCartInfo?: { name: string; description: string; }; }>\' changed to: \'submitEvent: EventEmitter<{ products: ProductData[]\' '
 	},
 	{
 		class: 'ImportToNewSavedCartFormComponent',
@@ -38609,12 +36155,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'getCartAccessCode\' was removed from Class \'CartAccessCodeFacade\'. '
 	},
 	{
-		class: 'CartConfig',
-		importPath: '@spartacus/cart/base/root',
-		deprecatedNode: 'cart',
-		comment: '// TODO:Spartacus - The type of property \'cart: { selectiveCart?: { enabled?: boolean; }; validation?: { enabled?: boolean; }; showRealTimeStockInPDP?: { enabled?: boolean; }; }\' changed to: \'cart: { selectiveCart?: { enabled?: boolean\' '
-	},
-	{
 		class: 'CartGuestUserFacade',
 		importPath: '@spartacus/cart/base/root',
 		deprecatedNode: 'createCartGuestUser',
@@ -38673,12 +36213,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/cart/base/root',
 		deprecatedNode: 'resetAddVoucherProcessingState',
 		comment: '// TODO:Spartacus - Method \'resetAddVoucherProcessingState\' was removed from Class \'CartVoucherFacade\'. '
-	},
-	{
-		class: 'MergeCartSuccessEvent',
-		importPath: '@spartacus/cart/base/root',
-		deprecatedNode: 'extraData',
-		comment: '// TODO:Spartacus - The type of property \'extraData: { active?: boolean; }\' changed to: \'extraData: { active?: boolean\' '
 	},
 	{
 		class: 'MultiCartEventListener',
@@ -39221,156 +36755,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'getCartAccessCode\' was removed from Class \'CartAccessCodeService\'. '
 	},
 	{
-		class: 'CartAccessCodeService',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'getCartAccessCodeCommand',
-		comment: '// TODO:Spartacus - The type of property \'getCartAccessCodeCommand: Command<{ userId: string; cartId: string; }, string | undefined>\' changed to: \'getCartAccessCodeCommand: Command<{ userId: string\' '
-	},
-	{
-		class: 'AddEmailToCart',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; email: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'AddEmailToCartFail',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; error: any; email: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'AddEmailToCartSuccess',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; email: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CartAddEntry',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { cartId: string; userId: string; productCode: string; quantity: number; pickupStore?: string; }\' changed to: \'payload: { cartId: string\' '
-	},
-	{
-		class: 'CartAddEntryFail',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { error: any; userId: string; cartId: string; productCode: string; quantity: number; pickupStore?: string; }\' changed to: \'payload: { error: any\' '
-	},
-	{
-		class: 'CartAddEntrySuccess',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; productCode: string; quantity: number; pickupStore?: string; deliveryModeChanged?: boolean; entry?: OrderEntry; quantityAdded?: number; statusCode?: string; statusMessage?: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CartAddVoucher',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; voucherId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CartAddVoucherFail',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; voucherId: string; error: any; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CartAddVoucherSuccess',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; voucherId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CartRemoveEntry',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { cartId: string; userId: string; entryNumber: string; }\' changed to: \'payload: { cartId: string\' '
-	},
-	{
-		class: 'CartRemoveEntryFail',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { error: any; cartId: string; userId: string; entryNumber: string; }\' changed to: \'payload: { error: any\' '
-	},
-	{
-		class: 'CartRemoveEntrySuccess',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; entryNumber: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CartRemoveVoucher',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; voucherId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CartRemoveVoucherFail',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { error: any; cartId: string; userId: string; voucherId: string; }\' changed to: \'payload: { error: any\' '
-	},
-	{
-		class: 'CartRemoveVoucherSuccess',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; voucherId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CartUpdateEntry',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; entryNumber: string; quantity?: number; pickupStore?: string; pickupToDelivery?: boolean; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'CartUpdateEntryFail',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { error: any; userId: string; cartId: string; entryNumber: string; quantity?: number; pickupStore?: string; pickupToDelivery?: boolean; }\' changed to: \'payload: { error: any\' '
-	},
-	{
-		class: 'CartUpdateEntrySuccess',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; entryNumber: string; quantity?: number; pickupStore?: string; pickupToDelivery?: boolean; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'DeleteCart',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'DeleteCartFail',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; error: any; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'DeleteCartSuccess',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { userId: string; cartId: string; }\' changed to: \'payload: { userId: string\' '
-	},
-	{
-		class: 'RemoveCart',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { cartId: string; }\' changed to: \'payload: { cartId: string\' '
-	},
-	{
-		class: 'SetCartData',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { cart: Cart; cartId: string; }\' changed to: \'payload: { cart: Cart\' '
-	},
-	{
-		class: 'SetCartTypeIndex',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'payload',
-		comment: '// TODO:Spartacus - The type of property \'payload: { cartType: CartType; cartId: string | undefined; }\' changed to: \'payload: { cartType: CartType\' '
-	},
-	{
 		class: 'CartAdapter',
 		importPath: '@spartacus/cart/base/core',
 		deprecatedNode: 'addEmail',
@@ -39589,20 +36973,8 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'CartGuestUserService',
 		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'createCartGuestUserCommand',
-		comment: '// TODO:Spartacus - The type of property \'createCartGuestUserCommand: Command<{ userId: string; cartId: string; guestUserDetails?: CartGuestUser; }, CartGuestUser>\' changed to: \'createCartGuestUserCommand: Command<{ userId: string\' '
-	},
-	{
-		class: 'CartGuestUserService',
-		importPath: '@spartacus/cart/base/core',
 		deprecatedNode: 'updateCartGuestUser',
 		comment: '// TODO:Spartacus - Method \'updateCartGuestUser\' was removed from Class \'CartGuestUserService\'. '
-	},
-	{
-		class: 'CartGuestUserService',
-		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'updateCartGuestUserCommand',
-		comment: '// TODO:Spartacus - The type of property \'updateCartGuestUserCommand: Command<{ userId: string; cartId: string; guestUserDetails: CartGuestUser; }, CartGuestUser>\' changed to: \'updateCartGuestUserCommand: Command<{ userId: string\' '
 	},
 	{
 		class: 'CartPageEventBuilder',
@@ -40598,7 +37970,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		class: 'AsmConfig',
 		importPath: '@spartacus/asm/root',
 		deprecatedNode: 'asm',
-		comment: '// TODO:Spartacus - The type of property \'asm: { agentSessionTimer?: { startingDelayInSeconds?: number; }; customerSearch?: { maxResults?: number; }; customerList?: { pageSize?: number; showAvatar?: boolean; columns?: { headerLocalizationKey: string; icon?: { symbol?: ICON_TYPE; captionLocalizationKey?: string; }; renderer?: (customer: User) => string; actionType?: CustomerListColumnActionType; }[]; }; userIdHttpHeader?: { enable?: boolean; }; }\' changed to: \'asm: { agentSessionTimer?: { startingDelayInSeconds?: number\' '
+		comment: '// TODO:Spartacus - The type of property \'asm: { agentSessionTimer?: { startingDelayInSeconds?: number; }; customerSearch?: { maxResults?: number; }; customerList?: { pageSize?: number; showAvatar?: boolean; columns?: { headerLocalizationKey: string; icon?: { symbol?: ICON_TYPE; captionLocalizationKey?: string; }; renderer?: (customer: User) => string; actionType?: CustomerListColumnActionType; }[]; }; userIdHttpHeader?: { enable?: boolean; }; }\' changed to: \'asm: { agentSessionTimer?: { startingDelayInSeconds?: number; }; customerSearch?: { maxResults?: number; }; customerList?: { pageSize?: number; showAvatar?: boolean; columns?: { headerLocalizationKey: string; icon?: { symbol?: ICON_TYPE; captionLocalizationKey?: string; }; renderer?: (customer: User) => string; actionType?: CustomerListColumnActionType; }[]; }; asmSessionSupport?: { enabled?: boolean; }; userIdHttpHeader?: { /** * To fix certain features when a customer agent is emulating a user, we must send a header called * "sap-commerce-cloud-user-id" to the backend fetching certain data as the user, rather than the * agent. However, the header will break instances of Commerce Cloud who do not allow requests with * this header. (For example, the configuration "corsfilter.commercewebservices.allowedHeaders" will * need to allow it.) * * Enabling this feature will send the emulated user\'s IDs on requests that need it as context. */ enable?: boolean; }; createCustomer?: { enable?: boolean; }; }\' '
 	},
 	{
 		class: 'AsmCreateCustomerFacade',
@@ -41195,12 +38567,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'createCustomer\' was removed from Class \'AsmCreateCustomerService\'. '
 	},
 	{
-		class: 'AsmCreateCustomerService',
-		importPath: '@spartacus/asm/core',
-		deprecatedNode: 'createCustomerCommand',
-		comment: '// TODO:Spartacus - The type of property \'createCustomerCommand: Command<{ user: CustomerRegistrationForm; }, User>\' changed to: \'createCustomerCommand: Command<{ user: CustomerRegistrationForm\' '
-	},
-	{
 		class: 'AsmCustomerListService',
 		importPath: '@spartacus/asm/core',
 		deprecatedNode: 'customerListCustomersSearch',
@@ -41516,7 +38882,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		class: 'AsmCreateCustomerFormComponent',
 		importPath: '@spartacus/asm/components',
 		deprecatedNode: 'registerForm',
-		comment: '// TODO:Spartacus - The type of property \'registerForm: import("@angular/forms").FormGroup<{ firstName: import("@angular/forms").FormControl<string | null>; lastName: import("@angular/forms").FormControl<string | null>; email: import("@angular/forms").FormControl<string | null>; }>\' changed to: \'registerForm: _angular_forms.FormGroup<{ firstName: _angular_forms.FormControl<string | null>\' '
+		comment: '// TODO:Spartacus - The type of property \'registerForm: import("@angular/forms").FormGroup<{ firstName: import("@angular/forms").FormControl<string | null>; lastName: import("@angular/forms").FormControl<string | null>; email: import("@angular/forms").FormControl<string | null>; }>\' changed to: \'registerForm: _angular_forms.FormGroup<{ firstName: _angular_forms.FormControl<string | null>; lastName: _angular_forms.FormControl<string | null>; email: _angular_forms.FormControl<string | null>; }>\' '
 	},
 	{
 		class: 'AsmCreateCustomerFormComponent',
@@ -41751,12 +39117,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/asm/components',
 		deprecatedNode: 'onSubmit',
 		comment: '// TODO:Spartacus - Method \'onSubmit\' was removed from Class \'CSAgentLoginFormComponent\'. '
-	},
-	{
-		class: 'CSAgentLoginFormComponent',
-		importPath: '@spartacus/asm/components',
-		deprecatedNode: 'submitEvent',
-		comment: '// TODO:Spartacus - The type of property \'submitEvent: EventEmitter<{ userId: string; password: string; }>\' changed to: \'submitEvent: EventEmitter<{ userId: string\' '
 	},
 	{
 		class: 'CustomerEmulationComponent',
@@ -42027,12 +39387,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/asm/components',
 		deprecatedNode: 'setSelectionEnd',
 		comment: '// TODO:Spartacus - Method \'setSelectionEnd\' was removed from Class \'CustomerSelectionComponent\'. '
-	},
-	{
-		class: 'CustomerSelectionComponent',
-		importPath: '@spartacus/asm/components',
-		deprecatedNode: 'submitEvent',
-		comment: '// TODO:Spartacus - The type of property \'submitEvent: EventEmitter<{ customerId?: string; parameters?: AsmDeepLinkParameters; }>\' changed to: \'submitEvent: EventEmitter<{ customerId?: string\' '
 	},
 	{
 		class: 'CustomerSelectionComponent',

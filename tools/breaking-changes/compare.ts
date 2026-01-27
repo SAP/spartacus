@@ -7,6 +7,7 @@
 import deepEqual from 'deep-equal';
 import * as fs from 'fs';
 import * as common from './common';
+
 // --------------------------------------------------
 // Main Logic
 // --------------------------------------------------
@@ -162,7 +163,11 @@ function compareElements(oldElement: any, newElement: any): any[] {
 }
 
 function getVariableBreakingChange(oldElement: any, newElement: any): any[] {
-  if (oldElement.type !== newElement.type) {
+  // Normalize types before comparison (remove trailing semicolons and whitespace)
+  const oldType = normalizeType(oldElement.type || '');
+  const newType = normalizeType(newElement.type || '');
+
+  if (oldType !== newType) {
     return [
       {
         ...getChangeDesc(oldElement, 'CHANGED'),
@@ -315,8 +320,10 @@ function isSameTypeParameter(oldParam: any, newParam: any) {
 }
 
 /**
- * Normalize type by removing JSDoc comments and extra whitespace.
+ * Normalize type by removing JSDoc comments, extra whitespace, and TypeScript-generated suffixes.
  * JSDoc changes (like adding/modifying comments) are not breaking changes.
+ * TypeScript suffixes like $1, $2 are generated during bundling when there are naming conflicts
+ * and should not be treated as breaking changes.
  */
 function normalizeType(type: string | undefined): string {
   if (!type) return '';
@@ -326,6 +333,16 @@ function normalizeType(type: string | undefined): string {
 
   // Remove JSDoc comments (/** ... */) including multi-line
   normalized = normalized.replace(/\/\*\*[\s\S]*?\*\//g, '');
+
+  // Remove TypeScript-generated suffixes like $1, $2, etc.
+  // These are added by TypeScript Compiler API during bundling when there are naming conflicts
+  // Match pattern: Type$1, User$2, ICON_TYPE$1, etc.
+  // Use word boundary to avoid matching valid identifiers that naturally contain $
+  normalized = normalized.replace(/\b([A-Za-z_][A-Za-z0-9_]*)\$\d+\b/g, '$1');
+
+  // Remove trailing semicolons (formatting differences) - but only at the very end
+  // This handles cases like `string` vs `string;` but preserves semicolons in complex types
+  normalized = normalized.replace(/;+\s*$/, '');
 
   // Normalize whitespace - replace multiple spaces/newlines with single space
   normalized = normalized.replace(/\s+/g, ' ').trim();

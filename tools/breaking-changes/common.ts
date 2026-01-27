@@ -349,6 +349,16 @@ function getEnumStateDoc(apiElement): string {
 }
 
 function getTypeAliasStateDoc(apiElement): string {
+  if (!apiElement.members || apiElement.members.length === 0) {
+    return '';
+  }
+
+  // If members is an array with a single string (normalized type), return it
+  if (apiElement.members.length === 1 && typeof apiElement.members[0] === 'string') {
+    return apiElement.members[0];
+  }
+
+  // Otherwise join with commas (fallback for old format)
   return apiElement.members.join(',\n');
 }
 

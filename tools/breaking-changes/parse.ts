@@ -232,13 +232,38 @@ function parseMethodParameters(method: any): any[] {
 }
 
 function getParamType(tokenRange: any, tokens: any[]): string {
-  const startIndex: number = tokenRange.startIndex;
-  const endIndex: number = tokenRange.endIndex;
-  return tokens
+  const startIndex: number = tokenRange?.startIndex ?? -1;
+  const endIndex: number = tokenRange?.endIndex ?? -1;
+
+  // Validate token range
+  if (!tokenRange || startIndex < 0 || endIndex < 0) {
+    return '';
+  }
+
+  if (startIndex >= endIndex) {
+    return '';
+  }
+
+  if (!tokens || tokens.length === 0 || endIndex > tokens.length) {
+    return '';
+  }
+
+  const rawType = tokens
     .slice(startIndex, endIndex)
     .map((token) => token.text)
     .join('')
     .trim(); // Remove leading and trailing whitespace
+
+  // Normalize the type by removing TypeScript-generated suffixes like $1, $2
+  return normalizeTypeString(rawType);
+}
+
+/**
+ * Normalize a type string by removing TypeScript-generated suffixes like $1, $2, etc.
+ */
+function normalizeTypeString(typeString: string): string {
+  // Remove $1, $2, etc. suffixes from type names
+  return typeString.replace(/([A-Za-z_][A-Za-z0-9_]*)\$\d+/g, '$1');
 }
 
 function isParamDeclaredOptional(typeTokenRange: any, tokens: any[]): boolean {
@@ -261,12 +286,32 @@ function getTypeReferenceToken(tokenRange: any, tokens: any[]): any {
 }
 
 function getTypeAliases(rawElement: any): any {
-  return rawElement.excerptTokens
-    .slice(
-      rawElement.typeTokenRange.startIndex,
-      rawElement.typeTokenRange.endIndex
-    )
-    .map((token: any) => token.text);
+  if (!rawElement.excerptTokens || !rawElement.typeTokenRange) {
+    return [];
+  }
+
+  const startIndex = rawElement.typeTokenRange.startIndex;
+  const endIndex = rawElement.typeTokenRange.endIndex;
+
+  // Validate range
+  if (startIndex < 0 || endIndex < 0 || startIndex >= endIndex) {
+    return [];
+  }
+
+  const tokens = rawElement.excerptTokens.slice(startIndex, endIndex);
+
+  // Join tokens into a single string, then normalize
+  const fullTypeString = tokens
+    .map((token: any) => token.text)
+    .join('')
+    .trim();
+
+  // Normalize the type string
+  const normalized = normalizeTypeString(fullTypeString);
+
+  // Return as array with single normalized string
+  // (matches expected format for type alias comparison)
+  return [normalized];
 }
 
 function getEnumMembers(rawElement: any): any {

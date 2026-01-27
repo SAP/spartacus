@@ -246,9 +246,21 @@ function extractApiElement(node: ts.Node, packageName: string): any {
     element.variableTypeTokenRange = findTokenRange(excerptTokens, 'type');
   }
 
-  // Add typeTokenRange for TypeAlias
+  // Add typeTokenRange for TypeAlias (uses '=' separator, not ':')
   if (kind === 'TypeAlias') {
-    element.typeTokenRange = findTokenRange(excerptTokens, 'type');
+    let typeRange = findTokenRange(excerptTokens, 'typealias');
+
+    // Fallback: if '=' not found, try to extract everything after the type name
+    if (typeRange.startIndex === 0 && typeRange.endIndex === 0 && excerptTokens.length > 0) {
+      // Find the type name in tokens
+      const nameIndex = excerptTokens.findIndex((t: any) => t.text === name);
+      if (nameIndex >= 0 && nameIndex < excerptTokens.length - 1) {
+        // Use everything after the name as the type
+        typeRange = { startIndex: nameIndex + 1, endIndex: excerptTokens.length };
+      }
+    }
+
+    element.typeTokenRange = typeRange;
   }
 
   return element;
@@ -371,7 +383,7 @@ function getMemberKind(member: ts.Node): string {
   return 'Unknown';
 }
 
-function getFunctionParameters(node: ts.FunctionDeclaration, excerptTokens: any[], packageName: string): any[] {
+function getFunctionParameters(node: ts.FunctionDeclaration, excerptTokens: any[], packageName: string): any[] { // eslint-disable-line @typescript-eslint/no-unused-vars
   if (!node.parameters) return [];
 
   return node.parameters.map((param, index) => {
@@ -413,7 +425,36 @@ function extractTypeInfo(param: ts.ParameterDeclaration, packageName: string): {
   shortType: string;
   importPath: string;
 } {
-  if (!param.type) {
+  let fullType = '';
+
+  // First try to get the explicit type annotation
+  if (param.type) {
+    const rawFullType = param.type.getText();
+    fullType = normalizeTypeString(rawFullType);
+  } else if (param.initializer) {
+    // If no explicit type but has a default value, infer the type
+    // For example: startIndex = 0 -> number
+    const initializerText = param.initializer.getText();
+
+    // Simple type inference based on initializer
+    if (/^\d+$/.test(initializerText)) {
+      fullType = 'number';
+    } else if (initializerText === 'true' || initializerText === 'false') {
+      fullType = 'boolean';
+    } else if (initializerText.startsWith("'") || initializerText.startsWith('"') || initializerText.startsWith('`')) {
+      fullType = 'string';
+    } else if (initializerText === 'null') {
+      fullType = 'null';
+    } else if (initializerText === 'undefined') {
+      fullType = 'undefined';
+    } else {
+      // For more complex initializers, try to extract type from the expression
+      // This is a best-effort approach
+      fullType = 'any';
+    }
+  }
+
+  if (!fullType) {
     return {
       type: '',
       canonicalReference: '',
@@ -421,8 +462,6 @@ function extractTypeInfo(param: ts.ParameterDeclaration, packageName: string): {
       importPath: ''
     };
   }
-
-  const fullType = param.type.getText();
 
   // Extract the main type name (before generics or unions)
   const mainType = extractMainType(fullType);
@@ -436,6 +475,20 @@ function extractTypeInfo(param: ts.ParameterDeclaration, packageName: string): {
     shortType: mainType,
     importPath: importInfo.importPath
   };
+}
+
+/**
+ * Normalize a type string by removing TypeScript-generated suffixes like $1, $2, etc.
+ * and trailing semicolons (formatting differences).
+ */
+function normalizeTypeString(typeString: string): string {
+  // Remove $1, $2, etc. suffixes from type names
+  let normalized = typeString.replace(/([A-Za-z_][A-Za-z0-9_]*)\$\d+/g, '$1');
+
+  // Remove trailing semicolons (formatting differences)
+  normalized = normalized.replace(/;+\s*$/, '');
+
+  return normalized;
 }
 
 /**
@@ -564,35 +617,169 @@ function generateExcerptTokens(node: ts.Node): any[] {
   const tokens: any[] = [];
   const sourceFile = node.getSourceFile();
 
-  // Get the full text of the node
-  const fullText = node.getText(sourceFile);
+  // Get the full text of the node and normalize it
+  const fullText = normalizeTypeString(node.getText(sourceFile));
 
-  // Use TypeScript's scanner to tokenize
-  const scanner = ts.createScanner(
-    ts.ScriptTarget.Latest,
-    false,
-    ts.LanguageVariant.Standard,
-    fullText
-  );
+  // Instead of using scanner which tokenizes too granularly,
+  // we'll create meaningful tokens based on the text structure
 
-  while (scanner.scan() !== ts.SyntaxKind.EndOfFileToken) {
-    const tokenText = scanner.getTokenText();
-    const tokenKind = scanner.getToken();
-    const tokenPos = scanner.getTokenPos();
+  // For simple cases, create a single content token
+  // This prevents the issue of having every character/keyword as a separate token
 
-    // Skip empty tokens
-    if (!tokenText) {
+  // Check if this is a type-related node (TypeAlias, Variable, Property, Method, etc.)
+  if (ts.isTypeAliasDeclaration(node) ||
+      ts.isPropertyDeclaration(node) ||
+      ts.isPropertySignature(node) ||
+      ts.isMethodDeclaration(node) ||
+      ts.isMethodSignature(node) ||
+      ts.isFunctionDeclaration(node) ||
+      ts.isConstructorDeclaration(node) ||
+      ts.isVariableStatement(node)) {
+
+    // For these nodes, we'll parse more carefully to identify type references
+    return generateStructuredTokens(fullText);
+  }
+
+  // For other nodes, create a single token with the full text
+  tokens.push({
+    kind: 'Content',
+    text: fullText
+  });
+
+  return tokens;
+}
+
+/**
+ * Generate structured tokens that properly identify type references.
+ * This function tokenizes the text more carefully to preserve important characters
+ * like : = ; that are needed by findTokenRange().
+ *
+ * IMPROVED: Instead of tokenizing every single character, we now parse more intelligently
+ * to keep type annotations intact and avoid fragmenting them.
+ */
+function generateStructuredTokens(text: string): any[] {
+  const tokens: any[] = [];
+  let i = 0;
+
+  while (i < text.length) {
+    const char = text[i];
+    const nextChar = i + 1 < text.length ? text[i + 1] : '';
+
+    // Check for => (arrow function)
+    if (char === '=' && nextChar === '>') {
+      tokens.push({ kind: 'Content', text: '=>' });
+      i += 2;
       continue;
     }
 
-    // Determine if this is a reference (type identifier) or content
-    // This is a simplified heuristic - in real API Extractor this is more sophisticated
-    const isTypeReference = tokenKind === ts.SyntaxKind.Identifier && isLikelyTypeReference(fullText, tokenPos, tokenText);
+    // Check for special single characters that are important for parsing
+    if ('=;,():'.includes(char)) {
+      tokens.push({ kind: 'Content', text: char });
+      i++;
+      continue;
+    }
 
+    // For angle brackets, track depth to preserve full generic types
+    if (char === '<') {
+      let genericType = '<';
+      let depth = 1;
+      i++;
+      while (i < text.length && depth > 0) {
+        if (text[i] === '<') depth++;
+        if (text[i] === '>') depth--;
+        genericType += text[i];
+        i++;
+      }
+      // Normalize $1, $2, etc. suffixes inside generic types
+      genericType = normalizeTypeString(genericType);
+      tokens.push({ kind: 'Content', text: genericType });
+      continue;
+    }
+
+    // Skip '>' if standalone (already handled in generic parsing)
+    if (char === '>') {
+      tokens.push({ kind: 'Content', text: '>' });
+      i++;
+      continue;
+    }
+
+    // Check for whitespace - preserve as single token
+    if (/\s/.test(char)) {
+      let whitespace = '';
+      while (i < text.length && /\s/.test(text[i])) {
+        whitespace += text[i];
+        i++;
+      }
+      tokens.push({ kind: 'Content', text: whitespace });
+      continue;
+    }
+
+    // Check for brackets/braces - track depth to preserve object/array types
+    if (char === '[' || char === '{') {
+      const openChar = char;
+      const closeChar = char === '[' ? ']' : '}';
+      let complexType = char;
+      let depth = 1;
+      i++;
+      while (i < text.length && depth > 0) {
+        if (text[i] === openChar) depth++;
+        if (text[i] === closeChar) depth--;
+        complexType += text[i];
+        i++;
+      }
+      // Normalize $1, $2, etc. suffixes inside complex types
+      complexType = normalizeTypeString(complexType);
+      tokens.push({ kind: 'Content', text: complexType });
+      continue;
+    }
+
+    // Check for | (union types) and & (intersection types)
+    if (char === '|' || char === '&') {
+      tokens.push({ kind: 'Content', text: char });
+      i++;
+      continue;
+    }
+
+    // Check for identifiers (type names, keywords, etc.)
+    // Handle full qualified names like "Observable<T>" or "Promise<void>"
+    if (/[A-Za-z_$]/.test(char)) {
+      let identifier = '';
+      while (i < text.length && /[A-Za-z0-9_$]/.test(text[i])) {
+        identifier += text[i];
+        i++;
+      }
+
+      // Normalize identifier to remove $1, $2, etc. suffixes
+      const normalizedIdentifier = normalizeTypeName(identifier);
+
+      // Check if this is a type reference (starts with uppercase or is a known type)
+      const isTypeKeyword = ['void', 'any', 'unknown', 'never', 'string', 'number', 'boolean', 'null', 'undefined'].includes(normalizedIdentifier);
+      const isUpperCase = /^[A-Z]/.test(normalizedIdentifier);
+
+      if (isUpperCase && !isTypeKeyword) {
+        // Uppercase identifier - likely a type reference
+        tokens.push({
+          kind: 'Reference',
+          text: normalizedIdentifier,
+          canonicalReference: `${normalizedIdentifier}:type`
+        });
+      } else {
+        // Lowercase identifier or type keyword
+        tokens.push({ kind: 'Content', text: normalizedIdentifier });
+      }
+      continue;
+    }
+
+    // Any other character - add as content
+    tokens.push({ kind: 'Content', text: char });
+    i++;
+  }
+
+  // If no tokens were generated, create a single content token
+  if (tokens.length === 0) {
     tokens.push({
-      kind: isTypeReference ? 'Reference' : 'Content',
-      text: tokenText,
-      canonicalReference: isTypeReference ? `${tokenText}:type` : undefined
+      kind: 'Content',
+      text: text
     });
   }
 
@@ -600,31 +787,8 @@ function generateExcerptTokens(node: ts.Node): any[] {
 }
 
 /**
- * Heuristic to determine if an identifier is likely a type reference.
- */
-function isLikelyTypeReference(fullText: string, tokenPos: number, tokenText: string): boolean {
-  // Check what comes before the identifier
-  const before = fullText.substring(Math.max(0, tokenPos - 20), tokenPos).trim();
-
-  // Type references typically appear after: :, <, extends, implements, |, &, typeof
-  if (before.endsWith(':') ||
-      before.endsWith('<') ||
-      before.endsWith('extends') ||
-      before.endsWith('implements') ||
-      before.endsWith('|') ||
-      before.endsWith('&') ||
-      before.endsWith('typeof')) {
-    return true;
-  }
-
-  // Also check if the identifier starts with an uppercase letter (common for types)
-  // But exclude keywords
-  const keywords = ['constructor', 'function', 'class', 'interface', 'type', 'enum'];
-  return !keywords.includes(tokenText.toLowerCase()) && /^[A-Z]/.test(tokenText);
-}
-
-/**
  * Find the token range for a specific parameter type in the excerpt tokens.
+ * IMPROVED: Better handling of generic types that are now kept as single tokens (e.g., "<T>", "{...}")
  */
 function findParamTypeRange(tokens: any[], paramName: string, paramIndex: number): any {
   // Find the parameter name in tokens
@@ -645,9 +809,17 @@ function findParamTypeRange(tokens: any[], paramName: string, paramIndex: number
     return { startIndex: 0, endIndex: 0 };
   }
 
-  // Find the colon after parameter name
+  // Find the colon after parameter name (could be '?' followed by ':' for optional params)
   let colonIndex = paramNameIndex + 1;
-  while (colonIndex < tokens.length && tokens[colonIndex].text.trim() !== ':') {
+  while (colonIndex < tokens.length) {
+    const text = tokens[colonIndex].text.trim();
+    if (text === ':') {
+      break;
+    }
+    // Handle optional parameter marker '?'
+    if (text === '?' || text.includes(':')) {
+      break;
+    }
     colonIndex++;
   }
 
@@ -655,20 +827,42 @@ function findParamTypeRange(tokens: any[], paramName: string, paramIndex: number
     return { startIndex: 0, endIndex: 0 };
   }
 
-  // Start of type is after the colon
-  const startIndex = colonIndex + 1;
+  // Start of type is after the colon (skip whitespace)
+  let startIndex = colonIndex + 1;
+  while (startIndex < tokens.length && tokens[startIndex].text.trim() === '') {
+    startIndex++;
+  }
 
-  // Find end of type (before comma, closing paren, or =)
+  // Find end of type (before comma, closing paren, or = at depth 0)
+  // Note: With improved tokenization, generics like "<T>" are single tokens,
+  // so we don't need to track depth for them - they're atomic
   let endIndex = startIndex;
   let depth = 0;
 
   while (endIndex < tokens.length) {
     const text = tokens[endIndex].text;
 
-    if (text === '<' || text === '(' || text === '[') {
+    // Generic types like "<...>" are now single tokens, so check if it starts with '<'
+    if (text.startsWith('<') && text.endsWith('>')) {
+      // This is a complete generic type token, just include it
+      endIndex++;
+      continue;
+    }
+
+    // Object/array types like "{...}" or "[...]" are now single tokens
+    if ((text.startsWith('{') && text.endsWith('}')) ||
+        (text.startsWith('[') && text.endsWith(']'))) {
+      endIndex++;
+      continue;
+    }
+
+    // Track depth for any remaining nested structures
+    if (text === '(' || text === '<' || text === '[' || text === '{') {
       depth++;
-    } else if (text === '>' || text === ')' || text === ']') {
+    } else if (text === ')' || text === '>' || text === ']' || text === '}') {
       depth--;
+      // Don't break on closing paren at depth 0 - it's the method's closing paren
+      if (depth < 0) break;
     } else if (depth === 0 && (text === ',' || text === ')' || text === '=' || text === ';')) {
       break;
     }
@@ -681,31 +875,100 @@ function findParamTypeRange(tokens: any[], paramName: string, paramIndex: number
 
 /**
  * Find token range for return type or property type.
+ * IMPROVED: Better handling of complete generic/object/array types that are now single tokens
  */
-function findTokenRange(tokens: any[], rangeType: 'return' | 'type'): any {
-  if (rangeType === 'return') {
+function findTokenRange(tokens: any[], rangeType: 'return' | 'type' | 'typealias'): any {
+  if (rangeType === 'typealias') {
+    // For TypeAlias, find '=' (not ':')
+    // Syntax: type MyType = string | number
+    for (let i = 0; i < tokens.length; i++) {
+      const tokenText = tokens[i].text;
+
+      if (tokenText === '=' || tokenText.includes('=')) {
+        let startIndex = i + 1;
+
+        // Skip whitespace tokens
+        while (startIndex < tokens.length && tokens[startIndex].text.trim() === '') {
+          startIndex++;
+        }
+
+        let endIndex = startIndex;
+        let depth = 0;
+
+        // Find end (before ; at depth 0)
+        while (endIndex < tokens.length) {
+          const text = tokens[endIndex].text;
+
+          // Complete generic/object/array types are single tokens now
+          if ((text.startsWith('<') && text.endsWith('>')) ||
+              (text.startsWith('{') && text.endsWith('}')) ||
+              (text.startsWith('[') && text.endsWith(']'))) {
+            endIndex++;
+            continue;
+          }
+
+          // Track nesting depth for remaining cases
+          if (text === '<' || text === '(' || text === '[' || text === '{') {
+            depth++;
+          } else if (text === '>' || text === ')' || text === ']' || text === '}') {
+            depth--;
+          } else if (depth === 0 && (text === ';' || text.includes(';'))) {
+            break;
+          }
+
+          endIndex++;
+        }
+
+        return { startIndex, endIndex };
+      }
+    }
+  } else if (rangeType === 'return') {
     // Find ':' after closing ')' for return type
     let parenDepth = 0;
     let foundClosingParen = false;
 
     for (let i = 0; i < tokens.length; i++) {
-      if (tokens[i].text === '(') parenDepth++;
-      if (tokens[i].text === ')') {
+      const tokenText = tokens[i].text;
+
+      if (tokenText === '(' || tokenText.includes('(')) parenDepth++;
+      if (tokenText === ')' || tokenText.includes(')')) {
         parenDepth--;
         if (parenDepth === 0) foundClosingParen = true;
       }
 
-      if (foundClosingParen && tokens[i].text === ':') {
+      if (foundClosingParen && (tokenText === ':' || tokenText.includes(':'))) {
         // Return type starts after this colon
-        const startIndex = i + 1;
-        let endIndex = startIndex;
+        let startIndex = i + 1;
 
-        // Find end (before => or ; or {)
+        // Skip whitespace tokens
+        while (startIndex < tokens.length && tokens[startIndex].text.trim() === '') {
+          startIndex++;
+        }
+
+        let endIndex = startIndex;
+        let depth = 0;
+
+        // Find end (before => or ; or { at depth 0)
         while (endIndex < tokens.length) {
           const text = tokens[endIndex].text;
-          if (text === '=>' || text === ';' || text === '{') {
+
+          // Complete generic/object/array types are single tokens now
+          if ((text.startsWith('<') && text.endsWith('>')) ||
+              (text.startsWith('{') && text.endsWith('}')) ||
+              (text.startsWith('[') && text.endsWith(']'))) {
+            endIndex++;
+            continue;
+          }
+
+          // Track nesting depth for remaining cases
+          if (text === '<' || text === '(' || text === '[' || text === '{') {
+            depth++;
+          } else if (text === '>' || text === ')' || text === ']' || text === '}') {
+            depth--;
+          } else if (depth === 0 && (text === '=>' || text === ';' || text === '{' || text.includes('=>') || text.includes(';') || text.includes('{'))) {
             break;
           }
+
           endIndex++;
         }
 
@@ -715,16 +978,48 @@ function findTokenRange(tokens: any[], rangeType: 'return' | 'type'): any {
   } else if (rangeType === 'type') {
     // Find ':' for property/variable type
     for (let i = 0; i < tokens.length; i++) {
-      if (tokens[i].text === ':') {
-        const startIndex = i + 1;
-        let endIndex = startIndex;
+      const tokenText = tokens[i].text;
 
-        // Find end (before = or ;)
+      if (tokenText === ':' || tokenText.includes(':')) {
+        let startIndex = i + 1;
+
+        // Skip whitespace tokens
+        while (startIndex < tokens.length && tokens[startIndex].text.trim() === '') {
+          startIndex++;
+        }
+
+        let endIndex = startIndex;
+        let depth = 0;
+        let insideArrowFunction = false; // Track if we're parsing arrow function type
+
+        // Find end (before = or ; at depth 0)
         while (endIndex < tokens.length) {
           const text = tokens[endIndex].text;
-          if (text === '=' || text === ';') {
+
+          // Complete generic/object/array types are single tokens now
+          if ((text.startsWith('<') && text.endsWith('>')) ||
+              (text.startsWith('{') && text.endsWith('}')) ||
+              (text.startsWith('[') && text.endsWith(']'))) {
+            endIndex++;
+            continue;
+          }
+
+          // Track nesting depth for remaining cases
+          if (text === '<' || text === '(' || text === '[' || text === '{') {
+            depth++;
+          } else if (text === '>' || text === ')' || text === ']' || text === '}') {
+            depth--;
+          } else if (depth === 0 && (text === '=>' || text.includes('=>'))) {
+            // We found arrow function operator at depth 0, continue to get return type
+            insideArrowFunction = true;
+          } else if (depth === 0 && !insideArrowFunction && (text === '=' || text.includes('='))) {
+            // Assignment operator (not arrow function) - stop here
+            break;
+          } else if (depth === 0 && (text === ';' || text.includes(';'))) {
+            // Semicolon at depth 0 - always stop
             break;
           }
+
           endIndex++;
         }
 

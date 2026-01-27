@@ -218,27 +218,6 @@ This document contains a list of breaking changes or potentially breaking change
 
 
 
-### Property updateCommand changed.
-
-
-Previous version:
-
-```
-updateCommand: Command<{
-        password: string;
-        newUid: string;
-    }>
-```
-
-
-Current version:
-
-```
-updateCommand: Command<{
-        password: string
-```
-
-
 
 
 # Class UserPasswordService
@@ -249,74 +228,12 @@ updateCommand: Command<{
 
 
 
-### Property requestForgotPasswordEmailCommand changed.
-
-
-Previous version:
-
-```
-requestForgotPasswordEmailCommand: Command<{
-        email: string;
-    }>
-```
-
-
-Current version:
-
-```
-requestForgotPasswordEmailCommand: Command<{
-        email: string
-```
-
-
 ### Method reset is removed.
 
 
 
-### Property resetCommand changed.
-
-
-Previous version:
-
-```
-resetCommand: Command<{
-        token: string;
-        password: string;
-    }>
-```
-
-
-Current version:
-
-```
-resetCommand: Command<{
-        token: string
-```
-
-
 ### Method update is removed.
 
-
-
-### Property updateCommand changed.
-
-
-Previous version:
-
-```
-updateCommand: Command<{
-        oldPassword: string;
-        newPassword: string;
-    }>
-```
-
-
-Current version:
-
-```
-updateCommand: Command<{
-        oldPassword: string
-```
 
 
 
@@ -425,26 +342,6 @@ updateCommand: Command<{
 
 
 
-### Property updateCommand changed.
-
-
-Previous version:
-
-```
-updateCommand: Command<{
-        details: User;
-    }>
-```
-
-
-Current version:
-
-```
-updateCommand: Command<{
-        details: User
-```
-
-
 
 
 # Class UserRegisterService
@@ -459,49 +356,8 @@ updateCommand: Command<{
 
 
 
-### Property registerCommand changed.
-
-
-Previous version:
-
-```
-registerCommand: Command<{
-        user: UserSignUp;
-    }, User>
-```
-
-
-Current version:
-
-```
-registerCommand: Command<{
-        user: UserSignUp
-```
-
-
 ### Method registerGuest is removed.
 
-
-
-### Property registerGuestCommand changed.
-
-
-Previous version:
-
-```
-registerGuestCommand: Command<{
-        guid: string;
-        password: string;
-    }, User>
-```
-
-
-Current version:
-
-```
-registerGuestCommand: Command<{
-        guid: string
-```
 
 
 
@@ -805,57 +661,6 @@ isUpdating$: rxjs.Observable<boolean>
 
 
 
-### Property originalEditValue changed.
-
-
-Previous version:
-
-```
-originalEditValue: User
-```
-
-
-Current version:
-
-```
-originalEditValue: User$1
-```
-
-
-### Property titles$ changed.
-
-
-Previous version:
-
-```
-titles$: Observable<Title[]>
-```
-
-
-Current version:
-
-```
-titles$: Observable<Title$1[]>
-```
-
-
-### Property user$ changed.
-
-
-Previous version:
-
-```
-user$: Observable<User>
-```
-
-
-Current version:
-
-```
-user$: Observable<User$1>
-```
-
-
 
 
 # Class OneTimePasswordRegisterComponent
@@ -864,48 +669,6 @@ user$: Observable<User$1>
 
 ### Property additionalConsents is removed.
 
-
-
-### Property additionalRegistrationConsents changed.
-
-
-Previous version:
-
-```
-additionalRegistrationConsents: {
-        template: ConsentTemplate;
-        required: boolean;
-    }[]
-```
-
-
-Current version:
-
-```
-additionalRegistrationConsents: {
-        template: ConsentTemplate
-```
-
-
-### Property anonymousConsent$ changed.
-
-
-Previous version:
-
-```
-anonymousConsent$: Observable<{
-        consent: AnonymousConsent | undefined;
-        template: string;
-    }>
-```
-
-
-Current version:
-
-```
-anonymousConsent$: Observable<{
-        consent: AnonymousConsent | undefined
-```
 
 
 ### Method captchaConfirmed is removed.
@@ -944,23 +707,6 @@ anonymousConsent$: Observable<{
 
 
 
-### Property titles$ changed.
-
-
-Previous version:
-
-```
-titles$: Observable<Title[]>
-```
-
-
-Current version:
-
-```
-titles$: Observable<Title$1[]>
-```
-
-
 ### Method toggleAnonymousConsent is removed.
 
 
@@ -977,48 +723,6 @@ titles$: Observable<Title$1[]>
 
 ### Property additionalConsents is removed.
 
-
-
-### Property additionalRegistrationConsents changed.
-
-
-Previous version:
-
-```
-additionalRegistrationConsents: {
-        template: ConsentTemplate;
-        required: boolean;
-    }[]
-```
-
-
-Current version:
-
-```
-additionalRegistrationConsents: {
-        template: ConsentTemplate
-```
-
-
-### Property anonymousConsent$ changed.
-
-
-Previous version:
-
-```
-anonymousConsent$: Observable<{
-        consent: AnonymousConsent | undefined;
-        template: string;
-    }>
-```
-
-
-Current version:
-
-```
-anonymousConsent$: Observable<{
-        consent: AnonymousConsent | undefined
-```
 
 
 ### Method captchaConfirmed is removed.
@@ -1051,23 +755,6 @@ anonymousConsent$: Observable<{
 
 ### Method submitForm is removed.
 
-
-
-### Property titles$ changed.
-
-
-Previous version:
-
-```
-titles$: Observable<Title[]>
-```
-
-
-Current version:
-
-```
-titles$: Observable<Title$1[]>
-```
 
 
 ### Method titleSelected is removed.
@@ -1367,23 +1054,6 @@ isUpdating$: rxjs.Observable<boolean>
 
 
 
-### Property titles$ changed.
-
-
-Previous version:
-
-```
-titles$: Observable<Title[]>
-```
-
-
-Current version:
-
-```
-titles$: Observable<Title$1[]>
-```
-
-
 
 
 # Class UpdateProfileComponentService
@@ -1398,282 +1068,8 @@ titles$: Observable<Title$1[]>
 
 
 
-### Property titles$ changed.
-
-
-Previous version:
-
-```
-titles$: Observable<Title[]>
-```
-
-
-Current version:
-
-```
-titles$: Observable<Title$1[]>
-```
-
-
 ### Method updateProfile is removed.
 
-
-
-### Property user$ changed.
-
-
-Previous version:
-
-```
-user$: Observable<User>
-```
-
-
-Current version:
-
-```
-user$: Observable<User$1>
-```
-
-
-
-
-# Variable userProfileTranslations
-## @spartacus/user/profile/assets
-
-
-Variable userProfileTranslations changed.
-
-Previous version:
-
-```
-userProfileTranslations: {
-    en: {
-        address: {
-            addressForm: {
-                title: string;
-                titleOptional: string;
-                defaultTitle: string;
-                firstName: {
-                    label: string;
-                    placeholder: string;
-                };
-                lastName: {
-                    label: string;
-                    placeholder: string;
-                };
-                address1: string;
-                address2: string;
-                country: string;
-                city: {
-                    label: string;
-                    placeholder: string;
-                };
-                state: string;
-                zipCode: {
-                    label: string;
-                    placeholder: string;
-                };
-                phoneNumber: {
-                    label: string;
-                    placeholder: string;
-                };
-                cellphone: {
-                    label: string;
-                    placeholder: string;
-                };
-                saveAsDefault: string;
-                chooseAddress: string;
-                streetAddress: string;
-                aptSuite: string;
-                selectOne: string;
-                setAsDefault: string;
-                titleRequired: string;
-                userAddressAddSuccess: string;
-                userAddressUpdateSuccess: string;
-                userAddressDeleteSuccess: string;
-                invalidAddress: string;
-            };
-            addressBook: {
-                addNewDeliveryAddress: string;
-                editDeliveryAddress: string;
-                areYouSureToDeleteAddress: string;
-                addNewAddress: string;
-                addAddress: string;
-                updateAddress: string;
-                backToAddressList: string;
-                defaultDeliveryAddress: string;
-                additionalDeliveryAddress: string;
-            };
-            addressCard: {
-                default: string;
-                selected: string;
-                selectedAddress: string;
-                setAsDefault: string;
-                shipTo: string;
-                billTo: string;
-                phoneNumber: string;
-                mobileNumber: string;
-            };
-            addressSuggestion: {
-                verifyYourAddress: string;
-                ensureAccuracySuggestChange: string;
-                chooseAddressToUse: string;
-                suggestedAddress: string;
-                enteredAddress: string;
-                editAddress: string;
-                saveAddress: string;
-            };
-            addressMessages: {
-                setAsDefaultSuccessfully: string;
-            };
-        };
-        myAccountV2Email: {
-            myAccountV2Email: {
-                myEmailAddress: string;
-                email: string;
-                emailAddress: string;
-                newEmailAddress: string;
-                confirmNewEmailAddress: string;
-                emailPlaceHolder: string;
-                passwordPlaceHolder: string;
-                password: string;
-                reloginIndicator: string;
-            };
-        };
-        myAccountV2Password: {
-            myAccountV2PasswordForm: {
-                oldPassword: {
-                    label: string;
-                    placeholder: string;
-                };
-                oldPasswordIsRequired: string;
-                newPassword: {
-                    label: string;
-                    placeholder: string;
-                };
-                passwordMinRequirements: string;
-                confirmPassword: {
-                    label: string;
-                    placeholder: string;
-                };
-                reloginIndicator: string;
-                bothPasswordMustMatch: string;
-                passwordUpdateSuccess: string;
-                accessDeniedError: string;
-                newPasswordTitle: string;
-            };
-        };
-        myAccountV2UserProfile: {
-            myAccountV2UserProfile: {
-                myEmailAddress: string;
-                myInformation: string;
-                name: string;
-                customerId: string;
-                title: string;
-                firstName: string;
-                lastName: string;
-            };
-        };
-        userProfile: {
-            updateEmailForm: {
-                newEmailAddress: {
-                    label: string;
-                    placeholder: string;
-                };
-                confirmNewEmailAddress: {
-                    label: string;
-                    placeholder: string;
-                };
-                enterValidEmail: string;
-                bothEmailMustMatch: string;
-                password: {
-                    label: string;
-                    placeholder: string;
-                };
-                pleaseInputPassword: string;
-                emailUpdateSuccess: string;
-            };
-            register: {
-                confirmPassword: {
-                    action: string;
-                    label: string;
-                    placeholder: string;
-                };
-                managementInMyAccount: string;
-                termsAndConditions: string;
-                signIn: string;
-                register: string;
-                furtherRegistration: string;
-                confirmNewPassword: string;
-                resetPassword: string;
-                createAccount: string;
-                title: string;
-                titleOptional: string;
-                firstName: {
-                    label: string;
-                    placeholder: string;
-                };
-                lastName: {
-                    label: string;
-                    placeholder: string;
-                };
-                emailAddress: {
-                    label: string;
-                    placeholder: string;
-                };
-                password: {
-                    label: string;
-                    placeholder: string;
-                };
-                newPassword: string;
-                emailMarketing: string;
-                confirmThatRead: string;
-                selectTitle: string;
-                passwordMinRequirements: string;
-                passwordStrengthRequirements: string;
-                bothPasswordMustMatch: string;
-                titleRequired: string;
-                postRegisterMessage: string;
-                postRegisterSuccessMessage: string;
-                rateLimitForRegistrationMessage: string;
-                verificationTokenForm: {
-                    createVerificationToken: string;
-                    sendRateLime: string;
-                    resend: string;
-                    verificationCode: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    back: string;
-                };
-            };
-            forgottenPassword: {
-                resetPassword: string;
-                enterEmailAddressAssociatedWithYourAccount: string;
-                emailAddress: {
-                    label: string;
-                    placeholder: string;
-                };
-                enterValidEmail: string;
-                passwordResetEmailSent: string;
-                passwordResetSuccess: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-userProfileTranslations: {
-    en: {
-        address: {
-            addressForm: {
-                title: string
-```
 
 
 
@@ -2013,26 +1409,6 @@ Variable userProfileTranslationsZh has been removed and is no longer part of the
 
 
 
-### Property createVerificationTokenCommand changed.
-
-
-Previous version:
-
-```
-createVerificationTokenCommand: Command<{
-        verificationTokenCreation: VerificationTokenCreation;
-    }, VerificationToken>
-```
-
-
-Current version:
-
-```
-createVerificationTokenCommand: Command<{
-        verificationTokenCreation: VerificationTokenCreation
-```
-
-
 
 
 # Class LoginAsGuestGuard
@@ -2263,83 +1639,6 @@ isUpdating$: rxjs.Observable<boolean>
 
 ### Method onSuccess is removed.
 
-
-
-
-
-# Variable userAccountTranslations
-## @spartacus/user/account/assets
-
-
-Variable userAccountTranslations changed.
-
-Previous version:
-
-```
-userAccountTranslations: {
-    en: {
-        userAccount: {
-            loginForm: {
-                forgotPassword: string;
-                signIn: string;
-                register: string;
-                dontHaveAccount: string;
-                guestCheckout: string;
-                emailAddress: {
-                    label: string;
-                    placeholder: string;
-                };
-                password: {
-                    label: string;
-                    placeholder: string;
-                };
-                wrongEmailFormat: string;
-            };
-            verificationTokenForm: {
-                createVerificationToken: string;
-                needInputCredentials: string;
-                sendRateLime: string;
-                resend: string;
-                verificationCode: {
-                    label: string;
-                    placeholder: string;
-                };
-                noReceiveCode: string;
-                verify: string;
-                registerVerify: string;
-                back: string;
-                tokenInputHint: string;
-            };
-            verificationTokenDialog: {
-                title: string;
-                noReceiveCode: string;
-                contentLine1: string;
-                contentLine2: string;
-                contentLine3: string;
-                close: string;
-            };
-            miniLogin: {
-                userGreeting: string;
-                signInRegister: string;
-            };
-            myAccountV2User: {
-                signOut: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-userAccountTranslations: {
-    en: {
-        userAccount: {
-            loginForm: {
-                forgotPassword: string
-```
 
 
 
@@ -2609,7 +1908,7 @@ Current version:
 ```
 
 tmsFactory(
-  service: TmsService): () => void;
+  service: TmsService
 ): ()
 
 ```
@@ -2675,40 +1974,6 @@ tmsFactory(
 
 ### Method intercept is removed.
 
-
-
-
-
-# Class PersonalizationConfig
-## @spartacus/tracking/personalization/root
-
-
-### Property personalization changed.
-
-
-Previous version:
-
-```
-personalization: {
-        enabled?: boolean;
-        httpHeaderName?: {
-            id: string;
-            timestamp: string;
-        };
-        context?: {
-            slotPosition: string;
-            componentId: string;
-        };
-    }
-```
-
-
-Current version:
-
-```
-personalization: {
-        enabled?: boolean
-```
 
 
 
@@ -2959,22 +2224,6 @@ moved to @spartacus/subscription/billing/root
 ## @spartacus/subscription-billing/root
 
 moved to @spartacus/subscription/billing/root
-
-
-TypeAlias SubscriptionActionMode changed.
-
-Previous version:
-
-```
-'cancel' | 'withdraw' | 'resubscribe' | 'extend'
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -3959,7 +3208,9 @@ Current version:
 
 ```
 subscriptionDetailSignal: i0.Signal<(SubscriptionDetail & {
-        code?: string
+        code?: string;
+        mode?: SubscriptionActionMode;
+    }) | undefined>
 ```
 
 
@@ -4041,27 +3292,6 @@ moved to @spartacus/subscription/billing/components
 
 ### Method changeSortCode is removed.
 
-
-
-### Property listParams changed.
-
-
-Previous version:
-
-```
-listParams: WritableSignal<{
-        sortCode: string | undefined;
-        currentPage: number;
-    }>
-```
-
-
-Current version:
-
-```
-listParams: WritableSignal<{
-        sortCode: string | undefined
-```
 
 
 ### Method pageChange is removed.
@@ -4185,23 +3415,6 @@ moved to @spartacus/subscription/billing
 ## @spartacus/storefront
 
 
-### Property closeIcon changed.
-
-
-Previous version:
-
-```
-closeIcon: ICON_TYPE
-```
-
-
-Current version:
-
-```
-closeIcon: ICON_TYPE$1
-```
-
-
 ### Method getFocusKey is removed.
 
 
@@ -4274,44 +3487,6 @@ closeIcon: ICON_TYPE$1
 
 ### Method handleClick is removed.
 
-
-
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
-
-
-### Property message$ changed.
-
-
-Previous version:
-
-```
-message$: Subject<{
-        type: GlobalMessageType;
-        key: string;
-    } | null>
-```
-
-
-Current version:
-
-```
-message$: Subject<{
-        type: GlobalMessageType
-```
 
 
 ### Method ngOnDestroy is removed.
@@ -4426,23 +3601,6 @@ message$: Subject<{
 
 
 
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
-
-
 
 
 # Class BannerCarouselComponent
@@ -4508,31 +3666,6 @@ constructor(
 
 
 
-# Variable BEFORE_CMS_PAGE_GUARD
-## @spartacus/storefront
-
-
-Variable BEFORE_CMS_PAGE_GUARD changed.
-
-Previous version:
-
-```
-BEFORE_CMS_PAGE_GUARD: InjectionToken<{
-    canActivate: CanActivateFn;
-}[]>
-```
-
-
-Current version:
-
-```
-BEFORE_CMS_PAGE_GUARD: InjectionToken<{
-    canActivate: CanActivateFn
-```
-
-
-
-
 # Class BeforeCmsPageGuardService
 ## @spartacus/storefront
 
@@ -4557,7 +3690,8 @@ Current version:
 
 ```
 guards: {
-        canActivate: i2$1.CanActivateFn
+        canActivate: i2.CanActivateFn;
+    }[]
 ```
 
 
@@ -4647,32 +3781,6 @@ guards: {
 
 ### Method resolveBreakpointsFromConfig is removed.
 
-
-
-
-
-# Class CaptchaApiConfig
-## @spartacus/storefront
-
-
-### Property fields changed.
-
-
-Previous version:
-
-```
-fields: {
-        [key: string]: string;
-    }
-```
-
-
-Current version:
-
-```
-fields: {
-        [key: string]: string
-```
 
 
 
@@ -4835,23 +3943,6 @@ fields: {
 
 
 
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
-
-
 ### Method isCardAction is removed.
 
 
@@ -4920,40 +4011,6 @@ iconTypes: typeof ICON_TYPE$1
 
 
 
-### Property indicatorIcon changed.
-
-
-Previous version:
-
-```
-indicatorIcon: ICON_TYPE
-```
-
-
-Current version:
-
-```
-indicatorIcon: ICON_TYPE$1
-```
-
-
-### Property nextIcon changed.
-
-
-Previous version:
-
-```
-nextIcon: ICON_TYPE
-```
-
-
-Current version:
-
-```
-nextIcon: ICON_TYPE$1
-```
-
-
 ### Method ngOnChanges is removed.
 
 
@@ -4964,23 +4021,6 @@ nextIcon: ICON_TYPE$1
 
 ### Method onItemKeydown is removed.
 
-
-
-### Property previousIcon changed.
-
-
-Previous version:
-
-```
-previousIcon: ICON_TYPE
-```
-
-
-Current version:
-
-```
-previousIcon: ICON_TYPE$1
-```
 
 
 ### Property setItems is removed.
@@ -5005,23 +4045,6 @@ previousIcon: ICON_TYPE$1
 
 
 
-### Property nextIcon changed.
-
-
-Previous version:
-
-```
-nextIcon: ICON_TYPE
-```
-
-
-Current version:
-
-```
-nextIcon: ICON_TYPE$1
-```
-
-
 ### Method ngOnInit is removed.
 
 
@@ -5032,23 +4055,6 @@ nextIcon: ICON_TYPE$1
 
 ### Method onItemKeydown is removed.
 
-
-
-### Property previousIcon changed.
-
-
-Previous version:
-
-```
-previousIcon: ICON_TYPE
-```
-
-
-Current version:
-
-```
-previousIcon: ICON_TYPE$1
-```
 
 
 ### Method skipTabForCarouselItems is removed.
@@ -5091,23 +4097,6 @@ previousIcon: ICON_TYPE$1
 
 ### Method close is removed.
 
-
-
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
 
 
 ### Method ngOnDestroy is removed.
@@ -5158,26 +4147,6 @@ iconTypes: typeof ICON_TYPE$1
 
 ### Method getStaticData is removed.
 
-
-
-### Property mappings changed.
-
-
-Previous version:
-
-```
-mappings: {
-        [componentType: string]: CmsComponentMapping;
-    }
-```
-
-
-Current version:
-
-```
-mappings: {
-        [componentType: string]: CmsComponentMapping
-```
 
 
 ### Method shouldRender is removed.
@@ -5416,27 +4385,6 @@ mappings: {
 ## @spartacus/storefront
 
 
-### Property consentChanged changed.
-
-
-Previous version:
-
-```
-consentChanged: EventEmitter<{
-        given: boolean;
-        template: ConsentTemplate;
-    }>
-```
-
-
-Current version:
-
-```
-consentChanged: EventEmitter<{
-        given: boolean
-```
-
-
 ### Method isRequired is removed.
 
 
@@ -5519,27 +4467,6 @@ controlsMustMatch(
 
 
 
-### Property notificationChanged changed.
-
-
-Previous version:
-
-```
-notificationChanged: EventEmitter<{
-        couponId: string;
-        notification: boolean;
-    }>
-```
-
-
-Current version:
-
-```
-notificationChanged: EventEmitter<{
-        couponId: string
-```
-
-
 ### Method onSubscriptionChange is removed.
 
 
@@ -5574,23 +4501,6 @@ notificationChanged: EventEmitter<{
 
 ### Method handleClick is removed.
 
-
-
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
 
 
 ### Method ngOnDestroy is removed.
@@ -5914,42 +4824,8 @@ Function disableTabbingForTick has been removed and is no longer part of the pub
 ## @spartacus/storefront
 
 
-### Property collapseIcon changed.
-
-
-Previous version:
-
-```
-collapseIcon: ICON_TYPE
-```
-
-
-Current version:
-
-```
-collapseIcon: ICON_TYPE$1
-```
-
-
 ### Method decreaseVisibleValues is removed.
 
-
-
-### Property expandIcon changed.
-
-
-Previous version:
-
-```
-expandIcon: ICON_TYPE
-```
-
-
-Current version:
-
-```
-expandIcon: ICON_TYPE$1
-```
 
 
 ### Property facet is removed.
@@ -6038,23 +4914,6 @@ expandIcon: ICON_TYPE$1
 
 ### Method handleDialogFocus is removed.
 
-
-
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
 
 
 ### Method isCollapsed is removed.
@@ -6219,32 +5078,6 @@ iconTypes: typeof ICON_TYPE$1
 
 
 
-# Class FormConfig
-## @spartacus/storefront
-
-
-### Property form changed.
-
-
-Previous version:
-
-```
-form: {
-        passwordVisibilityToggle: boolean;
-    }
-```
-
-
-Current version:
-
-```
-form: {
-        passwordVisibilityToggle: boolean
-```
-
-
-
-
 # Class FormErrorsComponent
 ## @spartacus/storefront
 
@@ -6275,26 +5108,6 @@ form: {
 
 ### Property touched is removed.
 
-
-
-### Property translationParams changed.
-
-
-Previous version:
-
-```
-translationParams: {
-        [key: string]: string | null;
-    }
-```
-
-
-Current version:
-
-```
-translationParams: {
-        [key: string]: string | null
-```
 
 
 
@@ -6403,70 +5216,12 @@ getAddressNumbers(
 
 
 
-# Function getSuffixUrlMatcher
-## @spartacus/storefront
-
-
-Function getSuffixUrlMatcher changed.
-
-Previous version:
-
-```
-
-getSuffixUrlMatcher(
-  { marker, paramName, precedingParamName, }: {
-    marker: string;
-    paramName: string;
-    precedingParamName?: string;
-}
-): {
-    (segments: UrlSegment[]): UrlMatchResult | null;
-    _suffixRouteConfig: {
-        marker: string;
-        paramName: string;
-        precedingParamName: string;
-    };
-}
-
-```
-
-
-Current version:
-
-```
-
-getSuffixUrlMatcher(
-  { marker, paramName, precedingParamName, }: 
-)
-
-```
-
-
-
-
 # Class GlobalMessageComponent
 ## @spartacus/storefront
 
 
 ### Method clear is removed.
 
-
-
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
 
 
 ### Method ngOnInit is removed.
@@ -6706,7 +5461,7 @@ Current version:
 ```
 
 initSeoService(
-  injector: Injector): () => void;
+  injector: Injector
 ): ()
 
 ```
@@ -7039,34 +5794,6 @@ innerComponents$: rxjs.Observable<string[]>
 
 
 
-# TypeAlias LaunchOptions
-## @spartacus/storefront
-
-
-TypeAlias LaunchOptions changed.
-
-Previous version:
-
-```
-LaunchOutletDialog,
- | ,
-LaunchInlineDialog,
- | ,
-LaunchRoute,
- | ,
-LaunchInlineRootDialog
-```
-
-
-Current version:
-
-```
-
-```
-
-
-
-
 # Interface LaunchOutletDialog
 ## @spartacus/storefront
 
@@ -7105,28 +5832,6 @@ Current version:
 
 
 
-### Property renderedCallers changed.
-
-
-Previous version:
-
-```
-renderedCallers: Array<{
-        caller: LAUNCH_CALLER | string;
-        element?: any;
-        component?: ComponentRef<any>;
-    }>
-```
-
-
-Current version:
-
-```
-renderedCallers: Array<{
-        caller: LAUNCH_CALLER | string
-```
-
-
 ### Method shouldRender is removed.
 
 
@@ -7147,133 +5852,6 @@ renderedCallers: Array<{
 
 
 
-# TypeAlias LayoutBreakPoints
-## @spartacus/storefront
-
-
-TypeAlias LayoutBreakPoints changed.
-
-Previous version:
-
-```
-{
-    [t in ,
-BREAKPOINT,
-]?: number | ,
-BreakPoint,
-;
-}
-```
-
-
-Current version:
-
-```
- ,
-number,
- ,
-|,
- ,
-BreakPoint
-```
-
-
-
-
-# Class LayoutConfig
-## @spartacus/storefront
-
-
-### Property deferredLoading changed.
-
-
-Previous version:
-
-```
-deferredLoading: {
-        strategy?: DeferLoadingStrategy;
-        intersectionMargin?: string;
-    }
-```
-
-
-Current version:
-
-```
-deferredLoading: {
-        /**
-         * The global strategy will be used as a fallback strategy for all DOM creation,
-         * but can be overridden by local configuration, i.e. for cms components.
-         */
-        strategy?: DeferLoadingStrategy
-```
-
-
-
-
-# TypeAlias LayoutSections
-## @spartacus/storefront
-
-
-TypeAlias LayoutSections changed.
-
-Previous version:
-
-```
-'header' | 'footer' | 'LandingPage2Template' | string
-```
-
-
-Current version:
-
-```
-
-```
-
-
-
-
-# TypeAlias LayoutSlotConfig
-## @spartacus/storefront
-
-
-TypeAlias LayoutSlotConfig changed.
-
-Previous version:
-
-```
-{
-    [section in ,
-LayoutSections,
-]: ,
-SlotConfig,
- | ,
-SlotGroup,
- | ,
-LayoutSlotConfig,
-;
-}
-```
-
-
-Current version:
-
-```
- ,
-SlotConfig,
- ,
-|,
- ,
-SlotGroup,
- ,
-|,
- ,
-LayoutSlotConfig
-```
-
-
-
-
 # Class LazyComponentHandler
 ## @spartacus/storefront
 
@@ -7288,42 +5866,6 @@ LayoutSlotConfig
 
 ### Method launcher is removed.
 
-
-
-
-
-# Class LcpCmsComponentsConfig
-## @spartacus/storefront
-
-
-### Property lcpCmsComponents changed.
-
-
-Previous version:
-
-```
-lcpCmsComponents: {
-        idMarker?: string;
-        ids?: string[];
-    }
-```
-
-
-Current version:
-
-```
-lcpCmsComponents: {
-        /**
-         * If a CMS component ID includes this substring, Spartacus treats it as containing
-         * the LCP (Largest Contentful Paint) element. You can append this substring
-         * to certain CMS component IDs in your CMS data, so Spartacus will automatically
-         * recognize them as containing the LCP element.
-         *
-         * For example, with a marker "__cxLCP__", an ID like "myComponentID__cxLCP__"
-         * will be recognized as containing the LCP element.
-         */
-        idMarker?: string
-```
 
 
 
@@ -7470,71 +6012,6 @@ lcpCmsComponents: {
 
 
 
-# Class MediaConfig
-## @spartacus/storefront
-
-
-### Property media changed.
-
-
-Previous version:
-
-```
-media: {
-        pictureElementFormats?: {
-            [format: string]: {
-                mediaQueries?: PictureElementQueries;
-            };
-        };
-        pictureFormatsOrder?: string[];
-    }
-```
-
-
-Current version:
-
-```
-media: {
-        /**
-         * Picture element configuration holds the media queries assigned to
-         * a format.
-         * The order of formats matters.
-         * <source> elements in <picture> will be sorted based on this order.
-         * This is necessary because the browser evaluates each
-         * <source> element in order and uses the first one that matches.
-         */
-        pictureElementFormats?: {
-            [format: string]: {
-                mediaQueries?: PictureElementQueries
-```
-
-
-### Property mediaFormats changed.
-
-
-Previous version:
-
-```
-mediaFormats: {
-        [format: string]: MediaFormatSize;
-    }
-```
-
-
-Current version:
-
-```
-mediaFormats: {
-        /**
-         * Represents the media format code, that is the key to distinguish different
-         * media in a container.
-         */
-        [format: string]: MediaFormatSize
-```
-
-
-
-
 # Interface MediaContainer
 ## @spartacus/storefront
 
@@ -7587,7 +6064,7 @@ Current version:
 ```
 
 mediaPreconnectInitializer(
-  mediaPreconnectService: MediaPreconnectService): () => void;
+  mediaPreconnectService: MediaPreconnectService
 ): ()
 
 ```
@@ -7701,23 +6178,6 @@ mediaPreconnectInitializer(
 
 
 
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
-
-
 ### Method ngAfterViewInit is removed.
 
 
@@ -7759,28 +6219,6 @@ Interface MessageEvent_2 has been removed and is no longer part of the public AP
 
 
 
-### Property downloadAttachment changed.
-
-
-Previous version:
-
-```
-downloadAttachment: EventEmitter<{
-        messageCode: string | undefined;
-        attachmentId: string | undefined;
-        fileName: string | undefined;
-    }>
-```
-
-
-Current version:
-
-```
-downloadAttachment: EventEmitter<{
-        messageCode: string | undefined
-```
-
-
 ### Method focusNextChild is removed.
 
 
@@ -7797,45 +6235,8 @@ downloadAttachment: EventEmitter<{
 
 
 
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
-
-
 ### Property inputCharacterLeft is removed.
 
-
-
-### Property itemClicked changed.
-
-
-Previous version:
-
-```
-itemClicked: EventEmitter<{
-        item: MessageEventBoundItem;
-    }>
-```
-
-
-Current version:
-
-```
-itemClicked: EventEmitter<{
-        item: MessageEventBoundItem
-```
 
 
 ### Property maxEntries is removed.
@@ -7876,28 +6277,6 @@ itemClicked: EventEmitter<{
 
 ### Method scrollToBottom is removed.
 
-
-
-### Property send changed.
-
-
-Previous version:
-
-```
-send: EventEmitter<{
-        files: File | undefined;
-        message: string;
-        itemId?: string;
-    }>
-```
-
-
-Current version:
-
-```
-send: EventEmitter<{
-        files: File | undefined
-```
 
 
 ### Method triggerDownload is removed.
@@ -7988,23 +6367,6 @@ send: EventEmitter<{
 
 
 
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
-
-
 ### Method ngOnDestroy is removed.
 
 
@@ -8025,54 +6387,27 @@ iconTypes: typeof ICON_TYPE$1
 
 
 
-### Property sortLabels changed.
-
-
-Previous version:
-
-```
-sortLabels: Observable<{
-        byStartDateAsc: string;
-        byStartDateDesc: string;
-        byEndDateAsc: string;
-        byEndDateDesc: string;
-    }>
-```
-
-
-Current version:
-
-```
-sortLabels: Observable<{
-        byStartDateAsc: string
-```
-
-
-### Property sortOptions changed.
-
-
-Previous version:
-
-```
-sortOptions: {
-        code: string;
-        selected: boolean;
-    }[]
-```
-
-
-Current version:
-
-```
-sortOptions: {
-        code: string
-```
-
-
 
 
 # Class MyCouponsComponentService
 ## @spartacus/storefront
+
+
+### Property CUSTOMER_COUPON_CODE changed.
+
+
+Previous version:
+
+```
+CUSTOMER_COUPON_CODE: 
+```
+
+
+Current version:
+
+```
+CUSTOMER_COUPON_CODE: customerCouponCode:"
+```
 
 
 ### Method getSortLabels is removed.
@@ -8083,26 +6418,20 @@ sortOptions: {
 
 
 
-### Property sortLabels changed.
+### Property RELEVANCE changed.
 
 
 Previous version:
 
 ```
-sortLabels: Observable<{
-        byStartDateAsc: string;
-        byStartDateDesc: string;
-        byEndDateAsc: string;
-        byEndDateDesc: string;
-    }>
+RELEVANCE: 
 ```
 
 
 Current version:
 
 ```
-sortLabels: Observable<{
-        byStartDateAsc: string
+RELEVANCE: relevance"
 ```
 
 
@@ -8130,48 +6459,6 @@ sortLabels: Observable<{
 
 ### Method sortChange is removed.
 
-
-
-### Property sortLabels changed.
-
-
-Previous version:
-
-```
-sortLabels: Observable<{
-        byNameAsc: string;
-        byNameDesc: string;
-    }>
-```
-
-
-Current version:
-
-```
-sortLabels: Observable<{
-        byNameAsc: string
-```
-
-
-### Property sortOptions changed.
-
-
-Previous version:
-
-```
-sortOptions: {
-        code: string;
-        selected: boolean;
-    }[]
-```
-
-
-Current version:
-
-```
-sortOptions: {
-        code: string
-```
 
 
 
@@ -8286,23 +6573,6 @@ sortOptions: {
 
 
 
-### Property iconType changed.
-
-
-Previous version:
-
-```
-iconType: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconType: typeof ICON_TYPE$1
-```
-
-
 ### Property isDesktop$ changed.
 
 
@@ -8382,27 +6652,6 @@ isDesktop$: rxjs.Observable<boolean>
 
 
 
-### Property cxNgSelectA11y changed.
-
-
-Previous version:
-
-```
-cxNgSelectA11y: {
-        ariaLabel?: string;
-        ariaControls?: string;
-    }
-```
-
-
-Current version:
-
-```
-cxNgSelectA11y: {
-        ariaLabel?: string
-```
-
-
 ### Method ngAfterViewInit is removed.
 
 
@@ -8435,35 +6684,6 @@ cxNgSelectA11y: {
 
 
 
-# Class OnNavigateConfig
-## @spartacus/storefront
-
-
-### Property enableResetViewOnNavigate changed.
-
-
-Previous version:
-
-```
-enableResetViewOnNavigate: {
-        active?: boolean;
-        ignoreQueryString?: boolean;
-        ignoreRoutes?: string[];
-        selectedHostElement?: string;
-    }
-```
-
-
-Current version:
-
-```
-enableResetViewOnNavigate: {
-        active?: boolean
-```
-
-
-
-
 # Function onNavigateFactory
 ## @spartacus/storefront
 
@@ -8486,7 +6706,7 @@ Current version:
 ```
 
 onNavigateFactory(
-  onNavigateService: OnNavigateService): () => void;
+  onNavigateService: OnNavigateService
 ): ()
 
 ```
@@ -8523,7 +6743,7 @@ routerConfiguration: import("@angular/router").ExtraOptions
 Current version:
 
 ```
-routerConfiguration: i2$1.ExtraOptions
+routerConfiguration: i2.ExtraOptions
 ```
 
 
@@ -9083,23 +7303,6 @@ routerConfiguration: i2$1.ExtraOptions
 
 
 
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
-
-
 ### Method ngOnInit is removed.
 
 
@@ -9120,28 +7323,6 @@ iconTypes: typeof ICON_TYPE$1
 
 ### Method addPdfExtension is removed.
 
-
-
-
-
-# TypeAlias PictureElementQueries
-## @spartacus/storefront
-
-
-TypeAlias PictureElementQueries changed.
-
-Previous version:
-
-```
-string
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -9178,23 +7359,6 @@ Current version:
 
 ### Method escapeKeydown is removed.
 
-
-
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
 
 
 ### Method insideClick is removed.
@@ -9319,55 +7483,6 @@ iconTypes: typeof ICON_TYPE$1
 
 ### PropertySignature positionOnScroll is removed.
 
-
-
-
-
-# TypeAlias PopoverPosition
-## @spartacus/storefront
-
-
-TypeAlias PopoverPosition changed.
-
-Previous version:
-
-```
-'auto' | 'top' | 'bottom' | 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'left-top' | 'left-bottom' | 'right-top' | 'right-bottom'
-```
-
-
-Current version:
-
-```
-
-```
-
-
-
-
-# TypeAlias PopoverPositionArray
-## @spartacus/storefront
-
-
-TypeAlias PopoverPositionArray changed.
-
-Previous version:
-
-```
-PopoverPosition,
- | ,
-Array,
-<,
-PopoverPosition,
-> | string
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -9562,23 +7677,6 @@ componentData: CmsComponentData<CmsProductCarouselComponent>
 
 
 
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
-
-
 ### Method launch is removed.
 
 
@@ -9677,6 +7775,23 @@ iconTypes: typeof ICON_TYPE$1
 
 ### Method getQueryFromRouteParams is removed.
 
+
+
+### Property RELEVANCE_ALLCATEGORIES changed.
+
+
+Previous version:
+
+```
+RELEVANCE_ALLCATEGORIES: 
+```
+
+
+Current version:
+
+```
+RELEVANCE_ALLCATEGORIES: relevance:allCategories:"
+```
 
 
 ### Method route is removed.
@@ -9861,55 +7976,8 @@ iconTypes: typeof ICON_TYPE$1
 
 
 
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
-
-
 ### Property viewMode is removed.
 
-
-
-
-
-# Function provideCmsStructure
-## @spartacus/storefront
-
-
-Function provideCmsStructure changed.
-
-Previous version:
-
-```
-
-provideCmsStructure(
-  options: CmsStructureOptions
-): ValueProvider
-
-```
-
-
-Current version:
-
-```
-
-provideCmsStructure(
-  options: CmsStructureOptions): ValueProvider;
-): ValueProvider
-
-```
 
 
 
@@ -9933,36 +8001,6 @@ Function provideLcpPresenceForCmsComponent has been removed and is no longer par
 
 
 
-# Function provideOutlet
-## @spartacus/storefront
-
-
-Function provideOutlet changed.
-
-Previous version:
-
-```
-
-provideOutlet(
-  options: ProvideOutletOptions
-): StaticProvider
-
-```
-
-
-Current version:
-
-```
-
-provideOutlet(
-  options: ProvideOutletOptions): StaticProvider;
-): StaticProvider
-
-```
-
-
-
-
 # Interface ProvideOutletOptions
 ## @spartacus/storefront
 
@@ -9977,33 +8015,6 @@ provideOutlet(
 
 ### PropertySignature position is removed.
 
-
-
-
-
-# Class PWAModuleConfig
-## @spartacus/storefront
-
-
-### Property pwa changed.
-
-
-Previous version:
-
-```
-pwa: {
-        enabled?: boolean;
-        addToHomeScreen?: boolean;
-    }
-```
-
-
-Current version:
-
-```
-pwa: {
-        enabled?: boolean
-```
 
 
 
@@ -10108,23 +8119,6 @@ pwa: {
 
 # Class ScrollToTopComponent
 ## @spartacus/storefront
-
-
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
 
 
 ### Method ngOnInit is removed.
@@ -10260,23 +8254,6 @@ breakpointService: BreakpointService
 
 ### Method getTabIndex is removed.
 
-
-
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
 
 
 ### Method isEnabledFeature is removed.
@@ -10633,23 +8610,6 @@ iconTypes: typeof ICON_TYPE$1
 
 
 
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
-
-
 ### Property items$ is removed.
 
 
@@ -10674,23 +8634,6 @@ iconTypes: typeof ICON_TYPE$1
 
 ### Method ariaLabel$ is removed.
 
-
-
-### Property iconTypes changed.
-
-
-Previous version:
-
-```
-iconTypes: typeof ICON_TYPE
-```
-
-
-Current version:
-
-```
-iconTypes: typeof ICON_TYPE$1
-```
 
 
 ### Property items$ is removed.
@@ -10804,10 +8747,16 @@ Previous version:
 Current version:
 
 ```
- ,
-string,
-[,
-]
+{
+    /** The cms page slots are mapped by the `slot.position`. */
+    slots?: string[];
+    /**
+     * The page fold identifies the last expected page slot above-the-fold.
+     * It's perfectly fine to specify this by indication, but keep in mind that
+     * a more precise indication will gain a more positive impact on performance.
+     */
+    pageFold?: string;
+}
 ```
 
 
@@ -10823,26 +8772,10 @@ Previous version:
 
 ```
 {
-    [,
-BREAKPOINT.lg,
-]?: ,
-SlotConfig,
-;
-    [,
-BREAKPOINT.md,
-]?: ,
-SlotConfig,
-;
-    [,
-BREAKPOINT.sm,
-]?: ,
-SlotConfig,
-;
-    [,
-BREAKPOINT.xs,
-]?: ,
-SlotConfig,
-;
+    [BREAKPOINT.lg]?: SlotConfig;
+    [BREAKPOINT.md]?: SlotConfig;
+    [BREAKPOINT.sm]?: SlotConfig;
+    [BREAKPOINT.xs]?: SlotConfig;
 }
 ```
 
@@ -10850,8 +8783,16 @@ SlotConfig,
 Current version:
 
 ```
- ,
-SlotConfig
+{
+    /** The page slot configuration for large screens */
+    [BREAKPOINT.lg]?: SlotConfig;
+    /** The page slot configuration for medium screens */
+    [BREAKPOINT.md]?: SlotConfig;
+    /** The page slot configuration for small screens */
+    [BREAKPOINT.sm]?: SlotConfig;
+    /** The page slot configuration for extra small screens */
+    [BREAKPOINT.xs]?: SlotConfig;
+}
 ```
 
 
@@ -10863,26 +8804,6 @@ SlotConfig
 
 ### Property selectedLabel is removed.
 
-
-
-### Property sortLabels changed.
-
-
-Previous version:
-
-```
-sortLabels: {
-        [code: string]: string;
-    } | null
-```
-
-
-Current version:
-
-```
-sortLabels: {
-        [code: string]: string
-```
 
 
 ### Method sortList is removed.
@@ -10914,7 +8835,7 @@ Current version:
 ```
 
 sortTitles(
-  title1: Title$1,
+  title1: Title,
   title2: 
 ): number
 
@@ -11003,23 +8924,6 @@ sortTitles(
 
 # Class StarRatingComponent
 ## @spartacus/storefront
-
-
-### Property icon changed.
-
-
-Previous version:
-
-```
-icon: ICON_TYPE
-```
-
-
-Current version:
-
-```
-icon: ICON_TYPE$1
-```
 
 
 ### Method reset is removed.
@@ -11294,27 +9198,6 @@ icon: ICON_TYPE$1
 
 
 
-### Property currentItem changed.
-
-
-Previous version:
-
-```
-currentItem: {
-        value: any;
-        property: string;
-    }
-```
-
-
-Current version:
-
-```
-currentItem: {
-        value: any
-```
-
-
 ### Method getDataOutletContext is removed.
 
 
@@ -11349,57 +9232,6 @@ currentItem: {
 
 ### Method trackData is removed.
 
-
-
-
-
-# Class TableConfig
-## @spartacus/storefront
-
-
-### Property table changed.
-
-
-Previous version:
-
-```
-table: {
-        [tableType: string]: ResponsiveTableConfiguration;
-    }
-```
-
-
-Current version:
-
-```
-table: {
-        [tableType: string]: ResponsiveTableConfiguration
-```
-
-
-### Property tableOptions changed.
-
-
-Previous version:
-
-```
-tableOptions: {
-        headerComponent?: Type<any>;
-        dataComponent?: Type<any>;
-    }
-```
-
-
-Current version:
-
-```
-tableOptions: {
-        /**
-         * Global component to render table header _content_ (`<th>...</th>`). A specific component
-         * can be configured alternatively per table or table field.
-         */
-        headerComponent?: Type<any>
-```
 
 
 
@@ -11682,31 +9514,6 @@ tableOptions: {
 
 
 
-# Variable titleScores
-## @spartacus/storefront
-
-
-Variable titleScores changed.
-
-Previous version:
-
-```
-titleScores: {
-    [code: string]: number;
-}
-```
-
-
-Current version:
-
-```
-titleScores: {
-    [code: string]: number
-```
-
-
-
-
 # Class TotalComponent
 ## @spartacus/storefront
 
@@ -11733,33 +9540,6 @@ titleScores: {
 
 ### Property totalResults is removed.
 
-
-
-
-
-# TypeAlias TrapFocusType
-## @spartacus/storefront
-
-
-TypeAlias TrapFocusType changed.
-
-Previous version:
-
-```
-boolean | ,
-TrapFocus.start,
- | ,
-TrapFocus.end,
- | ,
-TrapFocus.both
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -11862,40 +9642,6 @@ Current version:
 
 ### Property viewPosition is removed.
 
-
-
-
-
-# Class ViewConfig
-## @spartacus/storefront
-
-
-### Property view changed.
-
-
-Previous version:
-
-```
-view: {
-        defaultPageSize?: number;
-        infiniteScroll?: {
-            active?: boolean;
-            productLimit?: number;
-            showMoreButton?: boolean;
-        };
-    }
-```
-
-
-Current version:
-
-```
-view: {
-        /**
-         * Configurations related to the view of the application
-         */
-        defaultPageSize?: number
-```
 
 
 
@@ -12117,26 +9863,6 @@ Namespace StoreFinderActions has been removed and is no longer part of the publi
 ## @spartacus/storefinder/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        storeId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        storeId: string
-```
-
-
 
 
 # Class StoreFinderActions.FindStoreByIdFail
@@ -12155,63 +9881,10 @@ payload: {
 ## @spartacus/storefinder/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        queryText: string;
-        searchConfig?: SearchConfig;
-        longitudeLatitude?: GeoPoint;
-        useMyLocation?: boolean;
-        countryIsoCode?: string;
-        radius?: number;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        queryText: string
-```
-
-
 
 
 # TypeAlias StoreFinderActions.FindStoresAction
 ## @spartacus/storefinder/core
-
-
-TypeAlias FindStoresAction changed.
-
-Previous version:
-
-```
-FindStoresOnHold,
- | ,
-FindStores,
- | ,
-FindStoresFail,
- | ,
-FindStoresSuccess,
- | ,
-FindStoreById,
- | ,
-FindStoreByIdFail,
- | ,
-FindStoreByIdSuccess
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -12262,28 +9935,6 @@ Current version:
 ## @spartacus/storefinder/core
 
 
-TypeAlias ViewAllStoresAction changed.
-
-Previous version:
-
-```
-ViewAllStores,
- | ,
-ViewAllStoresFail,
- | ,
-ViewAllStoresSuccess,
- | ,
-ClearStoreFinderData
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Class StoreFinderActions.ViewAllStoresFail
@@ -12312,36 +9963,6 @@ Current version:
 
 ### Method search is removed.
 
-
-
-
-
-# Class StoreFinderConfig
-## @spartacus/storefinder/core
-
-
-### Property googleMaps changed.
-
-
-Previous version:
-
-```
-googleMaps: {
-        apiUrl?: string;
-        apiKey?: string;
-        scale?: number;
-        selectedMarkerScale?: number;
-        radius?: number;
-    }
-```
-
-
-Current version:
-
-```
-googleMaps: {
-        apiUrl?: string
-```
 
 
 
@@ -12769,68 +10390,6 @@ Namespace StoreFinderSelectors has been removed and is no longer part of the pub
 
 
 
-# Variable storeFinderTranslations
-## @spartacus/storefinder/assets
-
-
-Variable storeFinderTranslations changed.
-
-Previous version:
-
-```
-storeFinderTranslations: {
-    en: {
-        storeFinder: {
-            storeFinder: {
-                openUntil: string;
-                closed: string;
-                back: string;
-                call: string;
-                getDirections: string;
-                ariaLabelGetDirections: string;
-                ariaLabelCountriesCount: string;
-                listView: string;
-                mapView: string;
-                noStoresFound: string;
-                storeHours: string;
-                storeFeatures: string;
-                storeFinder: string;
-                storesFoundTitle: string;
-                storesFound: string;
-                storesFound_other: string;
-                fromStoresFound: string;
-                fromStoresFound_other: string;
-                findStore: string;
-                findStoreBy: string;
-                useMyLocation: string;
-                viewAllStores: string;
-                contactUs: string;
-                searchBox: string;
-                backToList: string;
-                noStoresMessage: string;
-                geolocationNotEnabled: string;
-                searchNearestStores: string;
-                searchBoxLabel: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-storeFinderTranslations: {
-    en: {
-        storeFinder: {
-            storeFinder: {
-                openUntil: string
-```
-
-
-
-
 # Variable storeFinderTranslationsCs
 ## @spartacus/storefinder/assets
 
@@ -12998,33 +10557,6 @@ Variable storeFinderTranslationsZh has been removed and is no longer part of the
 
 
 
-# Class SmartEditConfig
-## @spartacus/smartedit/root
-
-
-### Property smartEdit changed.
-
-
-Previous version:
-
-```
-smartEdit: {
-        storefrontPreviewRoute?: string;
-        allowOrigin?: string;
-    }
-```
-
-
-Current version:
-
-```
-smartEdit: {
-        storefrontPreviewRoute?: string
-```
-
-
-
-
 # Function smartEditFactory
 ## @spartacus/smartedit/root
 
@@ -13047,7 +10579,7 @@ Current version:
 ```
 
 smartEditFactory(
-  smartEditLauncherService: SmartEditLauncherService): () => void;
+  smartEditLauncherService: SmartEditLauncherService
 ): ()
 
 ```
@@ -13340,8 +10872,8 @@ Current version:
 ```
 
 ngExpressEngine(
-  setupOptions: NgSetupOptions): (filePath: string
-): (filePath: string, options: object, callback: (err?: Error | null, html?: string)
+  setupOptions: NgSetupOptions
+): (filePath: string, options: object, callback: (err?: Error | null, html?: string) => void)
 
 ```
 
@@ -13354,32 +10886,6 @@ ngExpressEngine(
 
 ### Method get is removed.
 
-
-
-
-
-# TypeAlias NgSetupOptions
-## @spartacus/setup/ssr
-
-
-TypeAlias NgSetupOptions changed.
-
-Previous version:
-
-```
-Pick,
-<,
-CommonEngineRenderOptions,
-, 'providers' | 'publicPath' | 'inlineCriticalCss'> & ,
-CommonEngineOptions
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -13496,7 +11002,7 @@ Current version:
 ```
 
 provideServer(
-  options: ServerOptions): Provider[];
+  options: : ServerOptions
 ): Provider[]
 
 ```
@@ -13665,9 +11171,7 @@ Previous version:
 
 ```
 (
-err?: ,
-Error,
- | null | undefined, 
+err?: Error | null | undefined, 
 html?: string | undefined) => void
 ```
 
@@ -13675,39 +11179,15 @@ html?: string | undefined) => void
 Current version:
 
 ```
- ,
-Error,
- ,
-|,
- ,
-null,
- ,
-|,
- ,
-undefined,
-,,
- ,
-
-,
+(
+/**
+ * Error that might've occurred while rendering.
+ */
+err?: Error | null | undefined, 
 /**
  * HTML response.
- */,
-
-,
-html,
-?,
-:,
- ,
-string,
- ,
-|,
- ,
-undefined,
-),
- ,
-=>,
- ,
-void
+ */
+html?: string | undefined) => void
 ```
 
 
@@ -13847,43 +11327,6 @@ moved to @spartacus/segment/refs/root
 
 ### Method hasScheduleLines is removed.
 
-
-
-
-
-# Variable s4omTranslations
-## @spartacus/s4om/assets
-
-
-Variable s4omTranslations changed.
-
-Previous version:
-
-```
-s4omTranslations: {
-    en: {
-        s4omScheduleLines: {
-            s4omScheduleLines: {
-                quantity: string;
-                a11y: {
-                    scheduleLineEntryInfo: string;
-                };
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-s4omTranslations: {
-    en: {
-        s4omScheduleLines: {
-            s4omScheduleLines: {
-                quantity: string
-```
 
 
 
@@ -14287,44 +11730,12 @@ moved to @spartacus/s4/service/root
 moved to @spartacus/s4/service/root
 
 
-TypeAlias serviceCancellable changed.
-
-Previous version:
-
-```
-boolean
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # TypeAlias ServiceDateTime
 ## @spartacus/s4-service/root
 
 moved to @spartacus/s4/service/root
-
-
-TypeAlias ServiceDateTime changed.
-
-Previous version:
-
-```
-string
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -14361,27 +11772,6 @@ moved to @spartacus/s4/service/root
 ## @spartacus/s4-service/root
 
 moved to @spartacus/s4/service/root
-
-
-### Property serviceOrderConfiguration changed.
-
-
-Previous version:
-
-```
-serviceOrderConfiguration: {
-        leadDays?: number;
-        serviceScheduleTimes?: string[];
-    }
-```
-
-
-Current version:
-
-```
-serviceOrderConfiguration: {
-        leadDays?: number
-```
 
 
 
@@ -14484,7 +11874,52 @@ Current version:
 
 ```
 order$: rxjs.Observable<{
-        entries: _spartacus_cart_base_root.OrderEntry[]
+        entries: _spartacus_cart_base_root.OrderEntry[];
+        appliedOrderPromotions?: _spartacus_cart_base_root.PromotionResult[];
+        appliedProductPromotions?: _spartacus_cart_base_root.PromotionResult[];
+        appliedVouchers?: _spartacus_cart_base_root.Voucher[];
+        calculated?: boolean;
+        code?: string;
+        consignments?: _spartacus_order_root.Consignment[];
+        costCenter?: _spartacus_core.CostCenter;
+        created?: Date;
+        deliveryAddress?: _spartacus_core.Address;
+        deliveryCost?: _spartacus_core.Price;
+        deliveryItemsQuantity?: number;
+        deliveryMode?: _spartacus_cart_base_root.DeliveryMode;
+        deliveryOrderGroups?: _spartacus_cart_base_root.DeliveryOrderEntryGroup[];
+        deliveryStatus?: string;
+        deliveryStatusDisplay?: string;
+        guestCustomer?: boolean;
+        guid?: string;
+        net?: boolean;
+        orderDiscounts?: _spartacus_core.Price;
+        orgCustomer?: _spartacus_core.B2BUser;
+        orgUnit?: _spartacus_core.B2BUnit;
+        paymentInfo?: _spartacus_core.PaymentDetails;
+        pickupItemsQuantity?: number;
+        pickupOrderGroups?: _spartacus_cart_base_root.PickupOrderEntryGroup[];
+        productDiscounts?: _spartacus_core.Price;
+        purchaseOrderNumber?: string;
+        site?: string;
+        status?: string;
+        statusDisplay?: string;
+        store?: string;
+        subTotal?: _spartacus_core.Price;
+        totalDiscounts?: _spartacus_core.Price;
+        totalItems?: number;
+        totalPrice?: _spartacus_core.Price;
+        totalPriceWithTax?: _spartacus_core.Price;
+        totalTax?: _spartacus_core.Price;
+        unconsignedEntries?: _spartacus_cart_base_root.OrderEntry[];
+        user?: _spartacus_core.Principal;
+        returnable?: boolean;
+        cancellable?: boolean;
+        sapQuoteCode?: string;
+        servicedAt?: _spartacus_s4_service_root.ServiceDateTime;
+        serviceCancellable?: _spartacus_s4_service_root.serviceCancellable;
+        serviceReschedulable?: boolean;
+    }>
 ```
 
 
@@ -14584,7 +12019,52 @@ Current version:
 
 ```
 order$: Observable<{
-        entries: _spartacus_cart_base_root.OrderEntry[]
+        entries: _spartacus_cart_base_root.OrderEntry[];
+        appliedOrderPromotions?: _spartacus_cart_base_root.PromotionResult[];
+        appliedProductPromotions?: _spartacus_cart_base_root.PromotionResult[];
+        appliedVouchers?: _spartacus_cart_base_root.Voucher[];
+        calculated?: boolean;
+        code?: string;
+        consignments?: _spartacus_order_root.Consignment[];
+        costCenter?: _spartacus_core.CostCenter;
+        created?: Date;
+        deliveryAddress?: _spartacus_core.Address;
+        deliveryCost?: _spartacus_core.Price;
+        deliveryItemsQuantity?: number;
+        deliveryMode?: _spartacus_cart_base_root.DeliveryMode;
+        deliveryOrderGroups?: _spartacus_cart_base_root.DeliveryOrderEntryGroup[];
+        deliveryStatus?: string;
+        deliveryStatusDisplay?: string;
+        guestCustomer?: boolean;
+        guid?: string;
+        net?: boolean;
+        orderDiscounts?: _spartacus_core.Price;
+        orgCustomer?: _spartacus_core.B2BUser;
+        orgUnit?: _spartacus_core.B2BUnit;
+        paymentInfo?: _spartacus_core.PaymentDetails;
+        pickupItemsQuantity?: number;
+        pickupOrderGroups?: _spartacus_cart_base_root.PickupOrderEntryGroup[];
+        productDiscounts?: _spartacus_core.Price;
+        purchaseOrderNumber?: string;
+        site?: string;
+        status?: string;
+        statusDisplay?: string;
+        store?: string;
+        subTotal?: _spartacus_core.Price;
+        totalDiscounts?: _spartacus_core.Price;
+        totalItems?: number;
+        totalPrice?: _spartacus_core.Price;
+        totalPriceWithTax?: _spartacus_core.Price;
+        totalTax?: _spartacus_core.Price;
+        unconsignedEntries?: _spartacus_cart_base_root.OrderEntry[];
+        user?: _spartacus_core.Principal;
+        returnable?: boolean;
+        cancellable?: boolean;
+        sapQuoteCode?: string;
+        servicedAt?: ServiceDateTime;
+        serviceCancellable?: _spartacus_s4_service_root.serviceCancellable;
+        serviceReschedulable?: boolean;
+    }>
 ```
 
 
@@ -14957,75 +12437,6 @@ moved to @spartacus/s4/service/assets
 moved to @spartacus/s4/service/assets
 
 
-Variable s4ServiceTranslations changed.
-
-Previous version:
-
-```
-s4ServiceTranslations: {
-    en: {
-        s4Service: {
-            serviceOrderCheckout: {
-                serviceDetails: string;
-                serviceScheduleHeading: string;
-                address: string;
-                serviceLocationHeading: string;
-                datePickerLabel: string;
-                timePickerLabel: string;
-                unknownError: string;
-                productDeliveryOptions: string;
-                serviceDeliveryOption: string;
-                productDeliveryMethods: string;
-                serviceDeliveryMethod: string;
-            };
-            cancelService: {
-                heading: string;
-                cancelReason: string;
-                optional: string;
-                action: string;
-                back: string;
-                Submit: string;
-                cancelServiceSuccess: string;
-                unknownError: string;
-                ServiceTime: string;
-                ServiceLocation: string;
-                ServiceDate: string;
-                SubmitRequest: string;
-                serviceNotRcancelable: string;
-                charactersLeft: string;
-                Services: string;
-            };
-            rescheduleService: {
-                actionButtonLabel: string;
-                headerLabel: string;
-                contentLabel: string;
-                datePickerLabel: string;
-                timePickerLabel: string;
-                backButtonLabel: string;
-                submitButtonLabel: string;
-                note: string;
-                unknownError: string;
-                serviceNotReschedulable: string;
-                serviceNotAmendable: string;
-                rescheduleSuccess: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-s4ServiceTranslations: {
-    en: {
-        s4Service: {
-            serviceOrderCheckout: {
-                serviceDetails: string
-```
-
-
 
 
 # Variable s4ServiceTranslationsCs
@@ -15387,37 +12798,6 @@ moved to @spartacus/requested/delivery/date/assets
 moved to @spartacus/requested/delivery/date/assets
 
 
-Variable requestedDeliveryDateTranslations changed.
-
-Previous version:
-
-```
-requestedDeliveryDateTranslations: {
-    en: {
-        requestedDeliveryDate: {
-            requestedDeliveryDate: {
-                datePickerLabel: string;
-                readOnlyTextLabel: string;
-                successMessage: string;
-                errorMessage: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-requestedDeliveryDateTranslations: {
-    en: {
-        requestedDeliveryDate: {
-            requestedDeliveryDate: {
-                datePickerLabel: string
-```
-
-
 
 
 # Variable requestedDeliveryDateTranslationsCs
@@ -15581,102 +12961,6 @@ moved to @spartacus/requested/delivery/date
 
 
 
-# Function defaultQuoteCartGuardComponentConfig
-## @spartacus/quote/root
-
-
-Function defaultQuoteCartGuardComponentConfig changed.
-
-Previous version:
-
-```
-
-defaultQuoteCartGuardComponentConfig(): {
-    featureModules: {
-        quote_cart_guard: {
-            cmsComponents: string[];
-        };
-    };
-}
-
-```
-
-
-Current version:
-
-```
-
-defaultQuoteCartGuardComponentConfig()
-
-```
-
-
-
-
-# Function defaultQuoteComponentsConfig
-## @spartacus/quote/root
-
-
-Function defaultQuoteComponentsConfig changed.
-
-Previous version:
-
-```
-
-defaultQuoteComponentsConfig(): {
-    featureModules: {
-        quote: {
-            cmsComponents: string[];
-        };
-    };
-}
-
-```
-
-
-Current version:
-
-```
-
-defaultQuoteComponentsConfig()
-
-```
-
-
-
-
-# Function defaultQuoteRequestComponentsConfig
-## @spartacus/quote/root
-
-
-Function defaultQuoteRequestComponentsConfig changed.
-
-Previous version:
-
-```
-
-defaultQuoteRequestComponentsConfig(): {
-    featureModules: {
-        quote_request: {
-            cmsComponents: string[];
-        };
-    };
-}
-
-```
-
-
-Current version:
-
-```
-
-defaultQuoteRequestComponentsConfig()
-
-```
-
-
-
-
 # Interface OccQuote
 ## @spartacus/quote/root
 
@@ -15787,37 +13071,6 @@ defaultQuoteRequestComponentsConfig()
 
 
 
-# TypeAlias Quote
-## @spartacus/quote/root
-
-
-TypeAlias Quote changed.
-
-Previous version:
-
-```
-Omit,
-<,
-OccQuote,
-, 'allowedActions'> & {
-    isEditable: boolean;
-    allowedActions: ,
-QuoteAction,
-[];
-}
-```
-
-
-Current version:
-
-```
- ,
-boolean
-```
-
-
-
-
 # Interface QuoteAction
 ## @spartacus/quote/root
 
@@ -15828,37 +13081,6 @@ boolean
 
 ### PropertySignature type is removed.
 
-
-
-
-
-# TypeAlias QuoteActionsByState
-## @spartacus/quote/root
-
-
-TypeAlias QuoteActionsByState changed.
-
-Previous version:
-
-```
-{
-    [key in ,
-QuoteState,
-]: ,
-QuoteActionType,
-[];
-}
-```
-
-
-Current version:
-
-```
- ,
-QuoteActionType,
-[,
-]
-```
 
 
 
@@ -16407,32 +13629,6 @@ QuoteActionType,
 
 
 
-# Class QuoteCoreConfig
-## @spartacus/quote/core
-
-
-### Property quote changed.
-
-
-Previous version:
-
-```
-quote: {
-        actions?: QuoteActionsConfig;
-    }
-```
-
-
-Current version:
-
-```
-quote: {
-        actions?: QuoteActionsConfig
-```
-
-
-
-
 # Class QuoteService
 ## @spartacus/quote/core
 
@@ -16441,75 +13637,12 @@ quote: {
 
 
 
-### Property addDiscountCommand changed.
-
-
-Previous version:
-
-```
-addDiscountCommand: Command<{
-        quoteCode: string;
-        quoteDiscount: QuoteDiscount;
-    }>
-```
-
-
-Current version:
-
-```
-addDiscountCommand: Command<{
-        quoteCode: string
-```
-
-
 ### Method addQuoteComment is removed.
 
 
 
-### Property addQuoteCommentCommand changed.
-
-
-Previous version:
-
-```
-addQuoteCommentCommand: Command<{
-        quoteCode: string;
-        quoteComment: QuoteComment;
-        entryNumber?: string;
-    }>
-```
-
-
-Current version:
-
-```
-addQuoteCommentCommand: Command<{
-        quoteCode: string
-```
-
-
 ### Method createQuote is removed.
 
-
-
-### Property createQuoteCommand changed.
-
-
-Previous version:
-
-```
-createQuoteCommand: Command<{
-        quoteMetadata: QuoteMetadata;
-    }, Quote>
-```
-
-
-Current version:
-
-```
-createQuoteCommand: Command<{
-        quoteMetadata: QuoteMetadata
-```
 
 
 ### Method downloadAttachment is removed.
@@ -16518,27 +13651,6 @@ createQuoteCommand: Command<{
 
 ### Method editQuote is removed.
 
-
-
-### Property editQuoteCommand changed.
-
-
-Previous version:
-
-```
-editQuoteCommand: Command<{
-        quoteCode: string;
-        quoteMetadata: QuoteMetadata;
-    }>
-```
-
-
-Current version:
-
-```
-editQuoteCommand: Command<{
-        quoteCode: string
-```
 
 
 ### Method getQuoteDetails is removed.
@@ -16565,49 +13677,8 @@ editQuoteCommand: Command<{
 
 
 
-### Property performQuoteActionCommand changed.
-
-
-Previous version:
-
-```
-performQuoteActionCommand: Command<{
-        quote: Quote;
-        quoteAction: QuoteActionType;
-    }>
-```
-
-
-Current version:
-
-```
-performQuoteActionCommand: Command<{
-        quote: Quote
-```
-
-
 ### Method requote is removed.
 
-
-
-### Property requoteCommand changed.
-
-
-Previous version:
-
-```
-requoteCommand: Command<{
-        quoteStarter: QuoteStarter;
-    }, Quote>
-```
-
-
-Current version:
-
-```
-requoteCommand: Command<{
-        quoteStarter: QuoteStarter
-```
 
 
 ### Method saveActiveCart is removed.
@@ -16727,84 +13798,6 @@ moved to @spartacus/quote/components/cart/guard
 
 
 
-# TypeAlias ConfirmActionDialogConfig
-## @spartacus/quote/components
-
-
-TypeAlias ConfirmActionDialogConfig changed.
-
-Previous version:
-
-```
-{
-    i18nKeyPrefix: string;
-    showWarningNote: boolean;
-    showExpirationDate: boolean;
-    showSuccessMessage: boolean;
-    showOnlyWhenCartIsNotEmpty: boolean;
-}
-```
-
-
-Current version:
-
-```
- ,
-string
-```
-
-
-
-
-# TypeAlias ConfirmActionDialogMappingConfig
-## @spartacus/quote/components
-
-
-TypeAlias ConfirmActionDialogMappingConfig changed.
-
-Previous version:
-
-```
-{
-    [stateKey in ,
-QuoteState,
- | ,
-QuoteRoleType,
-]?: {
-        [actionKey in ,
-QuoteActionType,
-]?: ,
-ConfirmActionDialogConfig,
-;
-    };
-}
-```
-
-
-Current version:
-
-```
- ,
-{,
-
-,
-        ,
-[,
-actionKey,
- ,
-in,
- ,
-QuoteActionType,
-],
-?,
-:,
- ,
-ConfirmActionDialogConfig
-```
-
-
-
-
 # Interface ConfirmationContext
 ## @spartacus/quote/components
 
@@ -16857,35 +13850,6 @@ ConfirmActionDialogConfig
 
 ### PropertySignature purchaseOrderNumber is removed.
 
-
-
-
-
-# TypeAlias LocalizationElements
-## @spartacus/quote/components
-
-
-TypeAlias LocalizationElements changed.
-
-Previous version:
-
-```
-{
-    locale: string;
-    formatter: ,
-Intl.NumberFormat,
-;
-    percentageSign: string;
-}
-```
-
-
-Current version:
-
-```
- ,
-string
-```
 
 
 
@@ -17175,7 +14139,8 @@ Current version:
 
 ```
 sortLabels$: rxjs.Observable<{
-        [key: string]: string
+        [key: string]: string;
+    }>
 ```
 
 
@@ -17208,26 +14173,6 @@ sorts: i2.SortModel[]
 
 ### Method setSorting is removed.
 
-
-
-### Property sortLabels$ changed.
-
-
-Previous version:
-
-```
-sortLabels$: Observable<{
-        [key: string]: string;
-    }>
-```
-
-
-Current version:
-
-```
-sortLabels$: Observable<{
-        [key: string]: string
-```
 
 
 
@@ -17388,27 +14333,6 @@ quoteDetails$: rxjs.Observable<_spartacus_quote_root.Quote>
 ## @spartacus/quote/components
 
 
-### Property dateUpdates changed.
-
-
-Previous version:
-
-```
-dateUpdates: Subject<{
-        quoteCode: string;
-        date: string;
-    }>
-```
-
-
-Current version:
-
-```
-dateUpdates: Subject<{
-        quoteCode: string
-```
-
-
 ### Method fillFormAttributes is removed.
 
 
@@ -17537,291 +14461,6 @@ dateUpdates: Subject<{
 
 ### PropertySignature purchaseOrderNumber is removed.
 
-
-
-
-
-# Variable quoteTranslations
-## @spartacus/quote/assets
-
-
-Variable quoteTranslations changed.
-
-Previous version:
-
-```
-quoteTranslations: {
-    en: {
-        quote: {
-            quote: {
-                confirmDialog: {
-                    name: string;
-                    description: string;
-                    validity: string;
-                    option: {
-                        yes: string;
-                        no: string;
-                    };
-                    buyer: {
-                        submit: {
-                            a11y: {
-                                close: string;
-                            };
-                            title: string;
-                            confirmNote: string;
-                            successMessage: string;
-                        };
-                        cancel: {
-                            a11y: {
-                                close: string;
-                            };
-                            title: string;
-                            confirmNote: string;
-                            successMessage: string;
-                        };
-                    };
-                    buyer_offer: {
-                        edit: {
-                            a11y: {
-                                close: string;
-                            };
-                            title: string;
-                            confirmNote: string;
-                            warningNote: string;
-                        };
-                        cancel: {
-                            a11y: {
-                                close: string;
-                            };
-                            title: string;
-                            confirmNote: string;
-                            successMessage: string;
-                        };
-                        checkout: {
-                            a11y: {
-                                close: string;
-                            };
-                            title: string;
-                            confirmNote: string;
-                        };
-                    };
-                    expired: {
-                        edit: {
-                            a11y: {
-                                close: string;
-                            };
-                            title: string;
-                            confirmNote: string;
-                            warningNote: string;
-                        };
-                        requote: {
-                            a11y: {
-                                close: string;
-                            };
-                            title: string;
-                            confirmNote: string;
-                            warningNote: string;
-                        };
-                    };
-                    seller: {
-                        submit: {
-                            a11y: {
-                                close: string;
-                            };
-                            title: string;
-                            confirmNote: string;
-                            warningNote: string;
-                            successMessage: string;
-                        };
-                    };
-                    sellerapprover: {
-                        approve: {
-                            a11y: {
-                                close: string;
-                            };
-                            title: string;
-                            confirmNote: string;
-                            successMessage: string;
-                        };
-                        reject: {
-                            a11y: {
-                                close: string;
-                            };
-                            title: string;
-                            confirmNote: string;
-                            successMessage: string;
-                        };
-                    };
-                    cancelled: {
-                        requote: {
-                            a11y: {
-                                close: string;
-                            };
-                            title: string;
-                            confirmNote: string;
-                            warningNote: string;
-                        };
-                    };
-                    all: {
-                        edit: {
-                            a11y: {
-                                close: string;
-                            };
-                            title: string;
-                            confirmNote: string;
-                            warningNote: string;
-                        };
-                    };
-                };
-                comments: {
-                    regionTitle: string;
-                    title: string;
-                    invalidComment: string;
-                    allProducts: string;
-                };
-                commons: {
-                    requestQuote: string;
-                    cart: string;
-                    minRequestInitiationNote: string;
-                    savedActiveCart: string;
-                };
-                header: {
-                    buyerEdit: {
-                        a11y: {
-                            cancel: string;
-                            save: string;
-                        };
-                    };
-                    overview: {
-                        regionTitle: string;
-                        id: string;
-                        status: string;
-                        information: string;
-                        name: string;
-                        description: string;
-                        purchaseOrderNumber: string;
-                        optional: string;
-                        charactersLeft: string;
-                        priceAndExpiry: string;
-                        estimatedTotal: string;
-                        total: string;
-                        expirationTime: string;
-                        a11y: {
-                            edit: string;
-                        };
-                        createdAndUpdated: string;
-                        createdDate: string;
-                        lastUpdatedDate: string;
-                    };
-                };
-                httpHandlers: {
-                    cartValidationIssue: string;
-                    quoteCartIssue: string;
-                    absoluteDiscountIssue: string;
-                    expirationDateIssue: string;
-                    threshold: {
-                        underThresholdError: string;
-                    };
-                    expired: string;
-                    downloadPDFError: string;
-                };
-                items: {
-                    regionTitle: string;
-                };
-                links: {
-                    newCart: string;
-                    quotes: string;
-                    download: string;
-                    order: string;
-                    a11y: {
-                        newCart: string;
-                        quotes: string;
-                        download: string;
-                        order: string;
-                    };
-                };
-                list: {
-                    regionTitle: string;
-                    title: string;
-                    name: string;
-                    updated: string;
-                    sortBy: string;
-                    sortQuotes: string;
-                    empty: string;
-                    quoteId: string;
-                    status: string;
-                    clickableRow: string;
-                };
-                states: {
-                    BUYER_DRAFT: string;
-                    BUYER_SUBMITTED: string;
-                    BUYER_ACCEPTED: string;
-                    BUYER_APPROVED: string;
-                    BUYER_REJECTED: string;
-                    BUYER_OFFER: string;
-                    BUYER_ORDERED: string;
-                    SELLER_DRAFT: string;
-                    SELLER_REQUEST: string;
-                    SELLER_SUBMITTED: string;
-                    SELLERAPPROVER_DRAFT: string;
-                    SELLERAPPROVER_PENDING: string;
-                    SELLERAPPROVER_APPROVED: string;
-                    SELLERAPPROVER_REJECTED: string;
-                    CREATED: string;
-                    CANCELLED: string;
-                    EXPIRED: string;
-                };
-                summary: {
-                    regionTitle: string;
-                    actions: {
-                        APPROVE: string;
-                        CANCEL: string;
-                        CHECKOUT: string;
-                        EDIT: string;
-                        REJECT: string;
-                        REQUOTE: string;
-                        SAVE: string;
-                        SUBMIT: string;
-                        VIEW: string;
-                    };
-                    prices: {
-                        title: string;
-                        subtotal: string;
-                        productDiscount: string;
-                        orderDiscount: string;
-                        quoteDiscount: string;
-                        total: string;
-                        hint: string;
-                    };
-                    sellerEdit: {
-                        discount: string;
-                        apply: string;
-                        expiryDate: string;
-                        discountValidationText: string;
-                        a11y: {
-                            apply: string;
-                            discount: string;
-                            expiryDate: string;
-                        };
-                    };
-                };
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-quoteTranslations: {
-    en: {
-        quote: {
-            quote: {
-                confirmDialog: {
-                    name: string
-```
 
 
 
@@ -17979,37 +14618,6 @@ Variable quoteTranslationsZh has been removed and is no longer part of the publi
 
 
 
-# Class QualtricsConfig
-## @spartacus/qualtrics/components
-
-
-### Property qualtrics changed.
-
-
-Previous version:
-
-```
-qualtrics: {
-        scriptSource?: string;
-    }
-```
-
-
-Current version:
-
-```
-qualtrics: {
-        /**
-         * Deployment script, loaded from a resource, to integrate the deployment of the qualtrics project.
-         * You would typically store the file in the local assets folder.
-         *
-         */
-        scriptSource?: string
-```
-
-
-
-
 # Class QualtricsLoaderService
 ## @spartacus/qualtrics/components
 
@@ -18124,47 +14732,6 @@ qualtrics: {
 
 ### Method isAllowedUrls is removed.
 
-
-
-
-
-# Class PunchoutNavigationGuardConfig
-## @spartacus/punchout/root
-
-
-### Property punchoutNavigation changed.
-
-
-Previous version:
-
-```
-punchoutNavigation: {
-        [PunchOutOperation.EDIT]: {
-            allowedUrls?: string[];
-            allowedCxRoutes?: string[];
-            redirectPage: string | LaunchRoute;
-        };
-        [PunchOutOperation.CREATE]: {
-            allowedUrls?: string[];
-            allowedCxRoutes?: string[];
-            redirectPage: string | LaunchRoute;
-        };
-        [PunchOutOperation.INSPECT]: {
-            allowedUrls?: string[];
-            allowedCxRoutes?: string[];
-            redirectPage: string | LaunchRoute;
-        };
-    }
-```
-
-
-Current version:
-
-```
-punchoutNavigation: {
-        [PunchOutOperation.EDIT]: {
-            allowedUrls?: string[]
-```
 
 
 
@@ -18488,26 +15055,6 @@ renderer: i0.Renderer2
 ## @spartacus/punchout/components
 
 
-### Property FORM_CONTROL_NAME changed.
-
-
-Previous version:
-
-```
-FORM_CONTROL_NAME: {
-        readonly ORDER: "order";
-    }
-```
-
-
-Current version:
-
-```
-FORM_CONTROL_NAME: {
-        readonly ORDER: "order"
-```
-
-
 ### Method isFormNativeElementAccessible is removed.
 
 
@@ -18528,46 +15075,6 @@ FORM_CONTROL_NAME: {
 
 ### Method ngOnInit is removed.
 
-
-
-
-
-# Variable punchoutTranslations
-## @spartacus/punchout/assets
-
-
-Variable punchoutTranslations changed.
-
-Previous version:
-
-```
-punchoutTranslations: {
-    en: {
-        punchout: {
-            punchout: {
-                backToRequisition: string;
-                cancel: string;
-                redirectToProcurementSystem: string;
-                closeSession: string;
-                initiatingUserSession: string;
-                error: string;
-                noSufficientPermissions: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-punchoutTranslations: {
-    en: {
-        punchout: {
-            punchout: {
-                backToRequisition: string
-```
 
 
 
@@ -18741,26 +15248,6 @@ Variable punchoutTranslationsZh has been removed and is no longer part of the pu
 
 
 
-### Property variantNames changed.
-
-
-Previous version:
-
-```
-variantNames: {
-        [key: string]: string;
-    }
-```
-
-
-Current version:
-
-```
-variantNames: {
-        [key: string]: string
-```
-
-
 
 
 # Class ProductVariantColorSelectorComponent
@@ -18783,26 +15270,6 @@ variantNames: {
 
 ### Method ngOnInit is removed.
 
-
-
-### Property variants changed.
-
-
-Previous version:
-
-```
-variants: {
-        [key: string]: BaseOption;
-    }
-```
-
-
-Current version:
-
-```
-variants: {
-        [key: string]: BaseOption
-```
 
 
 
@@ -18853,44 +15320,6 @@ variants: {
 
 ### Method getVariantThumbnailUrl is removed.
 
-
-
-
-
-# Variable productVariantsTranslations
-## @spartacus/product/variants/assets
-
-
-Variable productVariantsTranslations changed.
-
-Previous version:
-
-```
-productVariantsTranslations: {
-    en: {
-        productVariants: {
-            productVariants: {
-                style: string;
-                selectedStyle: string;
-                size: string;
-                color: string;
-                sizeGuideLabel: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-productVariantsTranslations: {
-    en: {
-        productVariants: {
-            productVariants: {
-                style: string
-```
 
 
 
@@ -19054,32 +15483,6 @@ Variable productVariantsTranslationsZh has been removed and is no longer part of
 moved to @spartacus/product/image/zoom/root
 
 
-Function defaultImageZoomComponentsConfig changed.
-
-Previous version:
-
-```
-
-defaultImageZoomComponentsConfig(): {
-    featureModules: {
-        productImageZoom: {
-            cmsComponents: string[];
-        };
-    };
-}
-
-```
-
-
-Current version:
-
-```
-
-defaultImageZoomComponentsConfig()
-
-```
-
-
 
 
 # Variable PRODUCT_IMAGE_ZOOM_FEATURE
@@ -19188,27 +15591,6 @@ moved to @spartacus/product/image/zoom/components
 
 
 
-### Property productImage changed.
-
-
-Previous version:
-
-```
-productImage: EventEmitter<{
-        image: any;
-        index: number;
-    }>
-```
-
-
-Current version:
-
-```
-productImage: EventEmitter<{
-        image: any
-```
-
-
 
 
 # Class ProductImageZoomTriggerComponent
@@ -19293,27 +15675,6 @@ moved to @spartacus/product/image/zoom/components
 
 
 
-### Property startCoords changed.
-
-
-Previous version:
-
-```
-startCoords: {
-        x: number;
-        y: number;
-    } | null
-```
-
-
-Current version:
-
-```
-startCoords: {
-        x: number
-```
-
-
 ### Method touchMove is removed.
 
 
@@ -19340,40 +15701,6 @@ moved to @spartacus/product/image/zoom/assets
 ## @spartacus/product/image-zoom/assets
 
 moved to @spartacus/product/image/zoom/assets
-
-
-Variable productImageZoomTranslations changed.
-
-Previous version:
-
-```
-productImageZoomTranslations: {
-    en: {
-        productImageZoom: {
-            productImageZoomTrigger: {
-                expand: string;
-            };
-            productImageZoomDialog: {
-                zoomedInImage: string;
-                previousSlide: string;
-                nextSlide: string;
-                close: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-productImageZoomTranslations: {
-    en: {
-        productImageZoom: {
-            productImageZoomTrigger: {
-                expand: string
-```
 
 
 
@@ -19543,32 +15870,6 @@ moved to @spartacus/product/image/zoom/components
 ## @spartacus/product/future-stock/root
 
 moved to @spartacus/product/future/stock/root
-
-
-Function defaultFutureStockComponentsConfig changed.
-
-Previous version:
-
-```
-
-defaultFutureStockComponentsConfig(): {
-    featureModules: {
-        productFutureStock: {
-            cmsComponents: string[];
-        };
-    };
-}
-
-```
-
-
-Current version:
-
-```
-
-defaultFutureStockComponentsConfig()
-
-```
 
 
 
@@ -19814,36 +16115,6 @@ moved to @spartacus/product/future/stock/assets
 ## @spartacus/product/future-stock/assets
 
 moved to @spartacus/product/future/stock/assets
-
-
-Variable futureStockTranslations changed.
-
-Previous version:
-
-```
-futureStockTranslations: {
-    en: {
-        futureStock: {
-            futureStockDropdown: {
-                header: string;
-                quantity: string;
-                noFutureStocks: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-futureStockTranslations: {
-    en: {
-        futureStock: {
-            futureStockDropdown: {
-                header: string
-```
 
 
 
@@ -20147,36 +16418,6 @@ moved to @spartacus/product/bulk/pricing/assets
 moved to @spartacus/product/bulk/pricing/assets
 
 
-Variable bulkPricingTranslations changed.
-
-Previous version:
-
-```
-bulkPricingTranslations: {
-    en: {
-        bulkPricing: {
-            bulkPricingTable: {
-                quantity: string;
-                price: string;
-                discount: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-bulkPricingTranslations: {
-    en: {
-        bulkPricing: {
-            bulkPricingTable: {
-                quantity: string
-```
-
-
 
 
 # Variable bulkPricingTranslationsCs
@@ -20354,32 +16595,6 @@ moved to @spartacus/product/multi/dimensional/selector/root
 moved to @spartacus/product/multi/dimensional/selector/root
 
 
-Function defaultProductMultiDimensionalSelectorComponentsConfig changed.
-
-Previous version:
-
-```
-
-defaultProductMultiDimensionalSelectorComponentsConfig(): {
-    featureModules: {
-        productMultiDimensionalSelector: {
-            cmsComponents: string[];
-        };
-    };
-}
-
-```
-
-
-Current version:
-
-```
-
-defaultProductMultiDimensionalSelectorComponentsConfig()
-
-```
-
-
 
 
 # Variable PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE
@@ -20394,26 +16609,6 @@ moved to @spartacus/product/multi/dimensional/selector/root
 ## @spartacus/product-multi-dimensional/selector/root
 
 moved to @spartacus/product/multi/dimensional/selector/root
-
-
-### Property multiDimensional changed.
-
-
-Previous version:
-
-```
-multiDimensional: {
-        imageFormat?: VariantQualifier;
-    }
-```
-
-
-Current version:
-
-```
-multiDimensional: {
-        imageFormat?: VariantQualifier
-```
 
 
 
@@ -20480,58 +16675,12 @@ moved to @spartacus/product/multi/dimensional/selector/core
 moved to @spartacus/product/multi/dimensional/selector/core
 
 
-TypeAlias VariantCategoryGroup changed.
-
-Previous version:
-
-```
-{
-    name: string;
-    variantOptions: ,
-VariantCategoryOption,
-[];
-    hasImages: boolean;
-}
-```
-
-
-Current version:
-
-```
- ,
-string
-```
-
-
 
 
 # TypeAlias VariantCategoryOption
 ## @spartacus/product-multi-dimensional/selector/core
 
 moved to @spartacus/product/multi/dimensional/selector/core
-
-
-TypeAlias VariantCategoryOption changed.
-
-Previous version:
-
-```
-{
-    value: string;
-    code: string;
-    image?: ,
-Image,
-;
-}
-```
-
-
-Current version:
-
-```
- ,
-string
-```
 
 
 
@@ -20620,35 +16769,6 @@ moved to @spartacus/product/multi/dimensional/selector/assets
 ## @spartacus/product-multi-dimensional/selector/assets
 
 moved to @spartacus/product/multi/dimensional/selector/assets
-
-
-Variable multiDimensionalSelectorTranslations changed.
-
-Previous version:
-
-```
-multiDimensionalSelectorTranslations: {
-    en: {
-        multiDimensionalSelector: {
-            multiDimensionalSelector: {
-                variantThumbnailTitle: string;
-                selectedVariant: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-multiDimensionalSelectorTranslations: {
-    en: {
-        multiDimensionalSelector: {
-            multiDimensionalSelector: {
-                variantThumbnailTitle: string
-```
 
 
 
@@ -20818,32 +16938,6 @@ moved to @spartacus/product/multi/dimensional/selector
 ## @spartacus/product-multi-dimensional/list/root
 
 moved to @spartacus/product/multi/dimensional/list/root
-
-
-Function defaultProductMultiDimensionalListConfig changed.
-
-Previous version:
-
-```
-
-defaultProductMultiDimensionalListConfig(): {
-    featureModules: {
-        productMultiDimensionalList: {
-            cmsComponents: string[];
-        };
-    };
-}
-
-```
-
-
-Current version:
-
-```
-
-defaultProductMultiDimensionalListConfig()
-
-```
 
 
 
@@ -22289,27 +18383,6 @@ moved to @spartacus/product/configurator/rulebased
 moved to @spartacus/product/configurator/rulebased
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        ownerKey: string;
-        cartEntryNo: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        ownerKey: string
-```
-
-
 
 
 # Class ConfiguratorActions.AddToCart
@@ -22340,29 +18413,6 @@ moved to @spartacus/product/configurator/rulebased
 ## @spartacus/product-configurator/rulebased
 
 moved to @spartacus/product/configurator/rulebased
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        configuration: Configurator.Configuration;
-        groupId: string;
-        parentGroupId?: string;
-        conflictResolutionMode?: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        configuration: Configurator.Configuration
-```
 
 
 
@@ -22397,82 +18447,6 @@ moved to @spartacus/product/configurator/rulebased
 moved to @spartacus/product/configurator/rulebased
 
 
-TypeAlias ConfiguratorAction changed.
-
-Previous version:
-
-```
-CreateConfiguration,
- | ,
-CreateConfigurationFail,
- | ,
-CreateConfigurationSuccess,
- | ,
-ReadConfiguration,
- | ,
-ReadConfigurationFail,
- | ,
-ReadConfigurationSuccess,
- | ,
-UpdateConfiguration,
- | ,
-UpdateConfigurationFail,
- | ,
-UpdateConfigurationSuccess,
- | ,
-UpdateConfigurationFinalizeFail,
- | ,
-UpdateConfigurationFinalizeSuccess,
- | ,
-UpdatePriceSummary,
- | ,
-UpdatePriceSummaryFail,
- | ,
-UpdatePriceSummarySuccess,
- | ,
-ChangeGroup,
- | ,
-ChangeGroupFinalize,
- | ,
-GetConfigurationOverview,
- | ,
-GetConfigurationOverviewFail,
- | ,
-GetConfigurationOverviewSuccess,
- | ,
-UpdateConfigurationOverview,
- | ,
-UpdateConfigurationOverviewFail,
- | ,
-UpdateConfigurationOverviewSuccess,
- | ,
-RemoveConfiguration,
- | ,
-SetInteractionState,
- | ,
-SetMenuParentGroup,
- | ,
-SetCurrentGroup,
- | ,
-SetGroupsVisited,
- | ,
-RemoveProductBoundConfigurations,
- | ,
-CheckConflictDialoge,
- | ,
-DissmissConflictDialoge,
- | ,
-ReadAttributeDomain
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # TypeAlias ConfiguratorActions.ConfiguratorCartAction
@@ -22481,66 +18455,12 @@ Current version:
 moved to @spartacus/product/configurator/rulebased
 
 
-TypeAlias ConfiguratorCartAction changed.
-
-Previous version:
-
-```
-AddNextOwner,
- | ,
-SetNextOwnerCartEntry,
- | ,
-ReadCartEntryConfiguration,
- | ,
-ReadCartEntryConfigurationSuccess,
- | ,
-ReadCartEntryConfigurationFail,
- | ,
-ReadOrderEntryConfiguration,
- | ,
-ReadOrderEntryConfigurationSuccess,
- | ,
-ReadOrderEntryConfigurationFail,
- | ,
-RemoveCartBoundConfigurations,
- | ,
-UpdateCartEntry
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # TypeAlias ConfiguratorActions.ConfiguratorVariantAction
 ## @spartacus/product-configurator/rulebased
 
 moved to @spartacus/product/configurator/rulebased
-
-
-TypeAlias ConfiguratorVariantAction changed.
-
-Previous version:
-
-```
-SearchVariants,
- | ,
-SearchVariantsFail,
- | ,
-SearchVariantsSuccess
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -22575,55 +18495,12 @@ moved to @spartacus/product/configurator/rulebased
 moved to @spartacus/product/configurator/rulebased
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        owner: CommonConfigurator.Owner;
-        configIdTemplate?: string;
-        forceReset?: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        owner: CommonConfigurator.Owner
-```
-
-
 
 
 # Class ConfiguratorActions.CreateConfigurationFail
 ## @spartacus/product-configurator/rulebased
 
 moved to @spartacus/product/configurator/rulebased
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        ownerKey: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        ownerKey: string
-```
 
 
 
@@ -22690,54 +18567,12 @@ moved to @spartacus/product/configurator/rulebased
 moved to @spartacus/product/configurator/rulebased
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        ownerKey: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        ownerKey: string
-```
-
-
 
 
 # Class ConfiguratorActions.GetConfigurationOverviewSuccess
 ## @spartacus/product-configurator/rulebased
 
 moved to @spartacus/product/configurator/rulebased
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        ownerKey: string;
-        overview: Configurator.Overview;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        ownerKey: string
-```
 
 
 
@@ -22828,28 +18663,6 @@ moved to @spartacus/product/configurator/rulebased
 moved to @spartacus/product/configurator/rulebased
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        configuration: Configurator.Configuration;
-        groupId: string;
-        attributeKey: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        configuration: Configurator.Configuration
-```
-
-
 
 
 # Class ConfiguratorActions.ReadCartEntryConfiguration
@@ -22864,27 +18677,6 @@ moved to @spartacus/product/configurator/rulebased
 ## @spartacus/product-configurator/rulebased
 
 moved to @spartacus/product/configurator/rulebased
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        ownerKey: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        ownerKey: string
-```
 
 
 
@@ -22903,54 +18695,12 @@ moved to @spartacus/product/configurator/rulebased
 moved to @spartacus/product/configurator/rulebased
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        configuration: Configurator.Configuration;
-        groupId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        configuration: Configurator.Configuration
-```
-
-
 
 
 # Class ConfiguratorActions.ReadConfigurationFail
 ## @spartacus/product-configurator/rulebased
 
 moved to @spartacus/product/configurator/rulebased
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        ownerKey: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        ownerKey: string
-```
 
 
 
@@ -22975,27 +18725,6 @@ moved to @spartacus/product/configurator/rulebased
 ## @spartacus/product-configurator/rulebased
 
 moved to @spartacus/product/configurator/rulebased
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        ownerKey: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        ownerKey: string
-```
 
 
 
@@ -23046,26 +18775,6 @@ moved to @spartacus/product/configurator/rulebased
 moved to @spartacus/product/configurator/rulebased
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        ownerKey: string | string[];
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        ownerKey: string | string[]
-```
-
-
 
 
 # Class ConfiguratorActions.RemoveProductBoundConfigurations
@@ -23114,54 +18823,12 @@ moved to @spartacus/product/configurator/rulebased
 moved to @spartacus/product/configurator/rulebased
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        ownerKey: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        ownerKey: string
-```
-
-
 
 
 # Class ConfiguratorActions.SearchVariantsSuccess
 ## @spartacus/product-configurator/rulebased
 
 moved to @spartacus/product/configurator/rulebased
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        ownerKey: string;
-        variants: Configurator.Variant[];
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        ownerKey: string
-```
 
 
 
@@ -23212,54 +18879,12 @@ moved to @spartacus/product/configurator/rulebased
 moved to @spartacus/product/configurator/rulebased
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        entityKey: string | string[];
-        currentGroup: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        entityKey: string | string[]
-```
-
-
 
 
 # Class ConfiguratorActions.SetGroupsVisited
 ## @spartacus/product-configurator/rulebased
 
 moved to @spartacus/product/configurator/rulebased
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        entityKey: string;
-        visitedGroups: string[];
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        entityKey: string
-```
 
 
 
@@ -23270,27 +18895,6 @@ payload: {
 moved to @spartacus/product/configurator/rulebased
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        entityKey: string | string[];
-        interactionState: Configurator.InteractionState;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        entityKey: string | string[]
-```
-
-
 
 
 # Class ConfiguratorActions.SetMenuParentGroup
@@ -23299,54 +18903,12 @@ payload: {
 moved to @spartacus/product/configurator/rulebased
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        entityKey: string | string[];
-        menuParentGroup?: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        entityKey: string | string[]
-```
-
-
 
 
 # Class ConfiguratorActions.SetNextOwnerCartEntry
 ## @spartacus/product-configurator/rulebased
 
 moved to @spartacus/product/configurator/rulebased
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        configuration: Configurator.Configuration;
-        cartEntryNo: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        configuration: Configurator.Configuration
-```
 
 
 
@@ -23477,27 +19039,6 @@ moved to @spartacus/product/configurator/rulebased
 moved to @spartacus/product/configurator/rulebased
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        configuration: Configurator.Configuration;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        configuration: Configurator.Configuration
-```
-
-
 
 
 # Class ConfiguratorActions.UpdateConfigurationFinalizeFail
@@ -23530,54 +19071,12 @@ moved to @spartacus/product/configurator/rulebased
 moved to @spartacus/product/configurator/rulebased
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        ownerKey: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        ownerKey: string
-```
-
-
 
 
 # Class ConfiguratorActions.UpdateConfigurationOverviewSuccess
 ## @spartacus/product-configurator/rulebased
 
 moved to @spartacus/product/configurator/rulebased
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        ownerKey: string;
-        overview: Configurator.Overview;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        ownerKey: string
-```
 
 
 
@@ -23604,27 +19103,6 @@ moved to @spartacus/product/configurator/rulebased
 moved to @spartacus/product/configurator/rulebased
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        ownerKey: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        ownerKey: string
-```
-
-
 
 
 # Class ConfiguratorActions.UpdatePriceSummarySuccess
@@ -23639,28 +19117,6 @@ moved to @spartacus/product/configurator/rulebased
 ## @spartacus/product-configurator/rulebased
 
 moved to @spartacus/product/configurator/rulebased
-
-
-### Property container$ changed.
-
-
-Previous version:
-
-```
-container$: Observable<{
-        routerData: ConfiguratorRouter.Data;
-        configuration: Configurator.Configuration;
-        hasPendingChanges: boolean;
-    }>
-```
-
-
-Current version:
-
-```
-container$: Observable<{
-        routerData: ConfiguratorRouter.Data
-```
 
 
 ### Method displayConfirmationMessage is removed.
@@ -25267,28 +20723,6 @@ moved to @spartacus/product/configurator/rulebased
 moved to @spartacus/product/configurator/rulebased
 
 
-### Property container$ changed.
-
-
-Previous version:
-
-```
-container$: Observable<{
-        routerData: ConfiguratorRouter.Data;
-        configuration: Configurator.Configuration;
-        product: Product | undefined;
-    }>
-```
-
-
-Current version:
-
-```
-container$: Observable<{
-        routerData: ConfiguratorRouter.Data
-```
-
-
 ### Method exitConfiguration is removed.
 
 
@@ -26378,26 +21812,6 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-### Property dialogData$ changed.
-
-
-Previous version:
-
-```
-dialogData$: Observable<{
-        owner: CommonConfigurator.Owner;
-    }>
-```
-
-
-Current version:
-
-```
-dialogData$: Observable<{
-        owner: CommonConfigurator.Owner
-```
-
-
 ### Method restart is removed.
 
 
@@ -26703,27 +22117,6 @@ moved to @spartacus/product/configurator/rulebased
 
 ### Method isLastSelected is removed.
 
-
-
-### Property lastSelected changed.
-
-
-Previous version:
-
-```
-lastSelected: {
-        attributeName: string;
-        valueCode: string;
-    }
-```
-
-
-Current version:
-
-```
-lastSelected: {
-        attributeName: string
-```
 
 
 ### Method removeStyling is removed.
@@ -27733,273 +23126,6 @@ moved to @spartacus/product/configurator/common/assets
 moved to @spartacus/product/configurator/common/assets
 
 
-Variable configuratorTranslations changed.
-
-Previous version:
-
-```
-configuratorTranslations: {
-    en: {
-        configurator: {
-            configurator: {
-                header: {
-                    consistent: string;
-                    complete: string;
-                    configId: string;
-                    toconfig: string;
-                    toConfigReadOnly: string;
-                    editConfiguration: string;
-                    displayConfiguration: string;
-                    resolveIssues: string;
-                    resolveIssue: string;
-                    resolveConflicts: string;
-                    conflictWarning: string;
-                    updateMessage: string;
-                    conflictsResolved: string;
-                    showMore: string;
-                    showLess: string;
-                    items: string;
-                    items_other: string;
-                    show: string;
-                    hide: string;
-                    multipleWarnings: string;
-                    reviewWarnings: string;
-                    multipleErrors: string;
-                    reviewErrors: string;
-                    kbKeyName: string;
-                    kbKeyLogsys: string;
-                    kbKeyVersion: string;
-                    kbKeyBuildNr: string;
-                };
-                tabBar: {
-                    configuration: string;
-                    overview: string;
-                };
-                notificationBanner: {
-                    numberOfIssues: string;
-                    numberOfIssues_other: string;
-                    numberOfConflicts: string;
-                    numberOfConflicts_other: string;
-                };
-                attribute: {
-                    id: string;
-                    quantity: string;
-                    caption: string;
-                    notSupported: string;
-                    requiredAttribute: string;
-                    defaultRequiredMessage: string;
-                    singleSelectRequiredMessage: string;
-                    singleSelectAdditionalRequiredMessage: string;
-                    multiSelectRequiredMessage: string;
-                    wrongNumericFormat: string;
-                    wrongNumericFormatMessage: string;
-                    wrongIntervalFormat: string;
-                    deselectionNotPossible: string;
-                    dropDownSelectMsg: string;
-                    noOptionSelectedMsg: string;
-                    notVisibleAttributeMsg: string;
-                };
-                button: {
-                    previous: string;
-                    next: string;
-                    back: string;
-                    more: string;
-                    less: string;
-                    deselect: string;
-                    select: string;
-                    add: string;
-                    remove: string;
-                    exit: string;
-                    exitMobile: string;
-                    cancelConfiguration: string;
-                    cancelConfigurationMobile: string;
-                    filterOverview: string;
-                    filterOverviewWithCount: string;
-                    showOptions: string;
-                };
-                icon: {
-                    groupComplete: string;
-                    groupIncomplete: string;
-                    groupConflict: string;
-                    subgroup: string;
-                };
-                priceSummary: {
-                    basePrice: string;
-                    selectedOptions: string;
-                    totalPrice: string;
-                    totalPricePerItem: string;
-                };
-                addToCart: {
-                    button: string;
-                    buttonAfterAddToCart: string;
-                    buttonForQuote: string;
-                    buttonUpdateCart: string;
-                    buttonDisplayOnly: string;
-                    buttonClose: string;
-                    confirmation: string;
-                    confirmationUpdate: string;
-                    confirmationQuoteUpdate: string;
-                    quantity: string;
-                };
-                overviewForm: {
-                    noAttributeHeader: string;
-                    noAttributeText: string;
-                    itemPrice: string;
-                };
-                overviewSidebar: {
-                    menu: string;
-                    filter: string;
-                };
-                overviewFilter: {
-                    title: string;
-                    byOption: string;
-                    byGroup: string;
-                    byPrice: string;
-                    mySelections: string;
-                    removeAll: string;
-                    removeAllFilters: string;
-                    removeByPrice: string;
-                    removeMySelections: string;
-                    removeByGroup: string;
-                    noFiltersAvailable: string;
-                };
-                group: {
-                    general: string;
-                    conflictHeader: string;
-                    conflictGroup: string;
-                };
-                conflict: {
-                    suggestionTitle: string;
-                    suggestionText: string;
-                    viewConflictDetails: string;
-                    conflictDetected: string;
-                    viewConfigurationDetails: string;
-                };
-                restartDialog: {
-                    title: string;
-                    description: string;
-                    restartButton: string;
-                    resumeButton: string;
-                };
-                httpHandlers: {
-                    makeToStockBaseProductIssue: string;
-                };
-                a11y: {
-                    configureProduct: string;
-                    showDetailsProduct: string;
-                    cartEntryBundleInfo: string;
-                    cartEntryBundleInfo_other: string;
-                    cartEntryBundleName: string;
-                    cartEntryBundleNameWithQuantity: string;
-                    cartEntryBundleNameWithPrice: string;
-                    cartEntryBundle: string;
-                    cartEntryInfoIntro: string;
-                    cartEntryInfo: string;
-                    nameOfAttribute: string;
-                    valueOfAttribute: string;
-                    forAttribute: string;
-                    valueOfAttributeFull: string;
-                    valueOfDateAttributeFull: string;
-                    valueOfAttributeFullWithPrice: string;
-                    selectedValueOfAttributeFull: string;
-                    selectedValueOfAttributeFullWithPrice: string;
-                    readOnlyValueOfAttributeFullWithPrice: string;
-                    readOnlyValueOfAttributeFull: string;
-                    valueOfAttributeBlank: string;
-                    valueOfDateAttributeBlank: string;
-                    value: string;
-                    attribute: string;
-                    requiredAttribute: string;
-                    listOfAttributesAndValues: string;
-                    editAttributesAndValues: string;
-                    group: string;
-                    itemOfAttributeSelected: string;
-                    itemOfAttributeSelectedWithPrice: string;
-                    itemOfAttributeSelectedPressToUnselect: string;
-                    itemOfAttributeSelectedPressToUnselectWithPrice: string;
-                    itemOfAttributeUnselected: string;
-                    itemOfAttributeUnselectedWithPrice: string;
-                    selectNoItemOfAttribute: string;
-                    itemOfAttribute: string;
-                    itemOfAttributeFull: string;
-                    itemOfAttributeFullWithPrice: string;
-                    itemOfAttributeFullWithQuantity: string;
-                    itemOfAttributeFullWithPriceAndQuantity: string;
-                    itemDescription: string;
-                    listbox: string;
-                    valueSurcharge: string;
-                    conflictDetected: string;
-                    conflictsInConfiguration: string;
-                    listOfGroups: string;
-                    inListOfGroups: string;
-                    groupName: string;
-                    groupBack: string;
-                    conflictBack: string;
-                    iconConflict: string;
-                    iconIncomplete: string;
-                    iconComplete: string;
-                    iconSubGroup: string;
-                    next: string;
-                    previous: string;
-                    showMoreProductInfo: string;
-                    showLessProductInfo: string;
-                    productName: string;
-                    productCode: string;
-                    productDescription: string;
-                    kbKeyName: string;
-                    kbKeyLogsys: string;
-                    kbKeyVersion: string;
-                    kbKeyBuildNr: string;
-                    configurationPage: string;
-                    configurationPageLink: string;
-                    overviewPage: string;
-                    overviewPageLink: string;
-                    navigateToConflict: string;
-                    numericIntervalStandard: string;
-                    numericIntervalStandardOpen: string;
-                    numericIntervalStandardLowerEndpointNotIncluded: string;
-                    numericIntervalStandardUpperEndpointNotIncluded: string;
-                    numericInfiniteIntervalMinValueIncluded: string;
-                    numericInfiniteIntervalMinValue: string;
-                    numericInfiniteIntervalMaxValueIncluded: string;
-                    numericInfiniteIntervalMaxValue: string;
-                    numericIntervalSingleValue: string;
-                    combinedIntervalsText: string;
-                    additionalValue: string;
-                    addToCartPrices: string;
-                    filterOverview: string;
-                    filterOverviewWithCount: string;
-                    closeFilterMenu: string;
-                    filterOverviewByPrice: string;
-                    filterOverviewByMySelections: string;
-                    filterOverviewByGroup: string;
-                    closeConflictSolverModal: string;
-                    closeRestartDialog: string;
-                    description: string;
-                    showOptionsForAttribute: string;
-                };
-                variantCarousel: {
-                    title: string;
-                };
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-configuratorTranslations: {
-    en: {
-        configurator: {
-            configurator: {
-                header: {
-                    consistent: string
-```
-
-
 
 
 # Variable configuratorTranslationsCs
@@ -28584,29 +23710,6 @@ moved to @spartacus/product/configurator/common
 
 
 
-### Property queryParams$ changed.
-
-
-Previous version:
-
-```
-queryParams$: Observable<{
-        forceReload: boolean;
-        resolveIssues: boolean;
-        navigateToCheckout: boolean;
-        productCode: string | undefined;
-    }>
-```
-
-
-Current version:
-
-```
-queryParams$: Observable<{
-        forceReload: boolean
-```
-
-
 ### Method retrieveEntityKey is removed.
 
 
@@ -28739,28 +23842,6 @@ moved to @spartacus/product/configurator/common
 moved to @spartacus/pickup/in/store/root
 
 
-TypeAlias AugmentedPointOfService changed.
-
-Previous version:
-
-```
-PointOfService,
- & {
-    pickupOption: ,
-PickupOption,
-;
-}
-```
-
-
-Current version:
-
-```
- ,
-PickupOption
-```
-
-
 
 
 # Function cartWithIdAndUserId
@@ -28769,55 +23850,12 @@ PickupOption
 moved to @spartacus/pickup/in/store/root
 
 
-Function cartWithIdAndUserId changed.
-
-Previous version:
-
-```
-
-cartWithIdAndUserId(
-  cart: Cart | undefined
-): cart is CartWithIdAndUserId
-
-```
-
-
-Current version:
-
-```
-
-cartWithIdAndUserId(
-  cart: Cart | undefined): cart is CartWithIdAndUserId;
-): cart is CartWithIdAndUserId
-
-```
-
-
 
 
 # TypeAlias CartWithIdAndUserId
 ## @spartacus/pickup-in-store/root
 
 moved to @spartacus/pickup/in/store/root
-
-
-TypeAlias CartWithIdAndUserId changed.
-
-Previous version:
-
-```
-RequiredDeepPath,
-<,
-Cart,
-, 'guid' | 'user.uid' | 'code'>
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -28836,66 +23874,12 @@ moved to @spartacus/pickup/in/store/root
 moved to @spartacus/pickup/in/store/root
 
 
-TypeAlias DeliveryPointOfService changed.
-
-Previous version:
-
-```
-{
-    name: string;
-    value: ,
-Array,
-<,
-OrderEntry,
->;
-    storeDetails: ,
-PointOfService,
-;
-}
-```
-
-
-Current version:
-
-```
- ,
-string
-```
-
-
 
 
 # TypeAlias DeliveryPointOfServiceItems
 ## @spartacus/pickup-in-store/root
 
 moved to @spartacus/pickup/in/store/root
-
-
-TypeAlias DeliveryPointOfServiceItems changed.
-
-Previous version:
-
-```
-{
-    name: string;
-    storeDetails: ,
-PointOfService,
-;
-    value: ,
-Array,
-<,
-OrderEntry,
->;
-}
-```
-
-
-Current version:
-
-```
- ,
-string
-```
 
 
 
@@ -28943,49 +23927,12 @@ moved to @spartacus/pickup/in/store/root
 moved to @spartacus/pickup/in/store/root
 
 
-TypeAlias LocationSearchParams changed.
-
-Previous version:
-
-```
-BrowserLocationSearchParameters,
- | ,
-FreeTextSearchParameters
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # TypeAlias PickRequiredDeep
 ## @spartacus/pickup-in-store/root
 
 moved to @spartacus/pickup/in/store/root
-
-
-TypeAlias PickRequiredDeep changed.
-
-Previous version:
-
-```
-PickRequiredDeepArray,
-<T, ,
-PathToStringArray,
-<P>>
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -29080,22 +24027,6 @@ moved to @spartacus/pickup/in/store/root
 moved to @spartacus/pickup/in/store/root
 
 
-TypeAlias PickupOption changed.
-
-Previous version:
-
-```
-'delivery' | 'pickup'
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Class PickupOptionFacade
@@ -29126,25 +24057,6 @@ moved to @spartacus/pickup/in/store/root
 ## @spartacus/pickup-in-store/root
 
 moved to @spartacus/pickup/in/store/root
-
-
-TypeAlias PointOfServiceNames changed.
-
-Previous version:
-
-```
-PickRequiredDeep,
-<,
-PointOfServiceStock,
-, 'name' | 'displayName'>
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -29187,51 +24099,12 @@ moved to @spartacus/pickup/in/store/root
 moved to @spartacus/pickup/in/store/root
 
 
-TypeAlias RequiredDeepPath changed.
-
-Previous version:
-
-```
-RequiredDeepArray,
-<T, ,
-PathToStringArray,
-<P>>
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # TypeAlias StockLocationSearchParams
 ## @spartacus/pickup-in-store/root
 
 moved to @spartacus/pickup/in/store/root
-
-
-TypeAlias StockLocationSearchParams changed.
-
-Previous version:
-
-```
-{
-    productCode: string;
-} & ,
-LocationSearchParams
-```
-
-
-Current version:
-
-```
- ,
-string
-```
 
 
 
@@ -29344,7 +24217,10 @@ Current version:
 
 ```
 AddBrowserLocation: _ngrx_store.ActionCreator<"[Pickup Locations] Add Browser Location", (props: {
-    payload: AddBrowserLocationProps
+    payload: AddBrowserLocationProps;
+}) => {
+    payload: AddBrowserLocationProps;
+} & _ngrx_store.Action<"[Pickup Locations] Add Browser Location">>
 ```
 
 
@@ -29356,56 +24232,12 @@ AddBrowserLocation: _ngrx_store.ActionCreator<"[Pickup Locations] Add Browser Lo
 moved to @spartacus/pickup/in/store/core
 
 
-TypeAlias AddBrowserLocationProps changed.
-
-Previous version:
-
-```
-{
-    longitude: number;
-    latitude: number;
-}
-```
-
-
-Current version:
-
-```
- ,
-number
-```
-
-
 
 
 # Function clearStockState
 ## @spartacus/pickup-in-store/core
 
 moved to @spartacus/pickup/in/store/core
-
-
-Function clearStockState changed.
-
-Previous version:
-
-```
-
-clearStockState(
-  reducer: ActionReducer<StockState, Action>
-): ActionReducer<StockState, Action>
-
-```
-
-
-Current version:
-
-```
-
-clearStockState(
-  reducer: ActionReducer<StockState, Action>): ActionReducer<StockState
-): ActionReducer<StockState, Action>
-
-```
 
 
 
@@ -29490,7 +24322,10 @@ Current version:
 
 ```
 LoadDefaultPointOfServiceSuccess: _ngrx_store.ActionCreator<"[Default Point Of Service] Load Default Point Of Service Success", (props: {
-    payload: PointOfServiceNames
+    payload: PointOfServiceNames;
+}) => {
+    payload: PointOfServiceNames;
+} & _ngrx_store.Action<"[Default Point Of Service] Load Default Point Of Service Success">>
 ```
 
 
@@ -29527,7 +24362,10 @@ Current version:
 
 ```
 SetDefaultPointOfService: _ngrx_store.ActionCreator<"[Default Point Of Service] Set Default Point Of Service", (props: {
-    payload: PointOfServiceNames
+    payload: PointOfServiceNames;
+}) => {
+    payload: PointOfServiceNames;
+} & _ngrx_store.Action<"[Default Point Of Service] Set Default Point Of Service">>
 ```
 
 
@@ -29555,7 +24393,8 @@ Current version:
 
 ```
 loadDefaultPointOfService$: rxjs.Observable<{
-        payload: PointOfServiceNames
+        payload: PointOfServiceNames;
+    } & _ngrx_store.Action<"[Default Point Of Service] Load Default Point Of Service Success">> & _ngrx_effects.CreateEffectMetadata
 ```
 
 
@@ -29609,28 +24448,6 @@ moved to @spartacus/pickup/in/store/core
 moved to @spartacus/pickup/in/store/core
 
 
-TypeAlias EntryPickupOption changed.
-
-Previous version:
-
-```
-{
-    entryNumber: number;
-    pickupOption: ,
-PickupOption,
-;
-}
-```
-
-
-Current version:
-
-```
- ,
-number
-```
-
-
 
 
 # Variable facadeProviders
@@ -29680,61 +24497,12 @@ moved to @spartacus/pickup/in/store/core
 moved to @spartacus/pickup/in/store/core
 
 
-TypeAlias IntendedPickupLocationsState changed.
-
-Previous version:
-
-```
-{
-    [productCode: string]: ,
-AugmentedPointOfService,
-;
-}
-```
-
-
-Current version:
-
-```
- ,
-string,
-],
-:,
- ,
-AugmentedPointOfService
-```
-
-
 
 
 # Function isInStock
 ## @spartacus/pickup-in-store/core
 
 moved to @spartacus/pickup/in/store/core
-
-
-Function isInStock changed.
-
-Previous version:
-
-```
-
-isInStock(
-  stockInfo: Stock | undefined
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isInStock(
-  stockInfo: Stock | undefined): boolean;
-): boolean
-
-```
 
 
 
@@ -29759,26 +24527,6 @@ moved to @spartacus/pickup/in/store/core
 ## @spartacus/pickup-in-store/core
 
 moved to @spartacus/pickup/in/store/core
-
-
-### Property pickupInStore changed.
-
-
-Previous version:
-
-```
-pickupInStore: {
-        consentTemplateId?: string;
-    }
-```
-
-
-Current version:
-
-```
-pickupInStore: {
-        consentTemplateId?: string
-```
 
 
 
@@ -29846,37 +24594,6 @@ AddLocation: _ngrx_store.ActionCreator<"[Pickup Locations] Add Location", (props
 moved to @spartacus/pickup/in/store/core
 
 
-TypeAlias AddLocationProps changed.
-
-Previous version:
-
-```
-{
-    payload: {
-        productCode: string;
-        location: ,
-AugmentedPointOfService,
-;
-    };
-}
-```
-
-
-Current version:
-
-```
- ,
-{,
-
-,
-        ,
-productCode,
-:,
- ,
-string
-```
-
-
 
 
 # Variable PickupLocationActions.CART_RELOAD_SUCCESS
@@ -29926,7 +24643,10 @@ Current version:
 
 ```
 GetStoreDetailsById: _ngrx_store.ActionCreator<"[Pickup Locations] Get Store Details", (props: {
-    payload: string
+    payload: string;
+}) => {
+    payload: string;
+} & Action<"[Pickup Locations] Get Store Details">>
 ```
 
 
@@ -29963,7 +24683,10 @@ Current version:
 
 ```
 RemoveLocation: _ngrx_store.ActionCreator<"[Pickup Locations] Remove Location", (props: {
-    payload: string
+    payload: string;
+}) => {
+    payload: string;
+} & Action<"[Pickup Locations] Remove Location">>
 ```
 
 
@@ -30033,7 +24756,15 @@ Current version:
 ```
 SetPickupOption: _ngrx_store.ActionCreator<"[PickupOption] Set Pickup Option", (props: {
     payload: {
-        entryNumber: number
+        entryNumber: number;
+        pickupOption: PickupOption;
+    };
+}) => {
+    payload: {
+        entryNumber: number;
+        pickupOption: PickupOption;
+    };
+} & _ngrx_store.Action<"[PickupOption] Set Pickup Option">>
 ```
 
 
@@ -30043,28 +24774,6 @@ SetPickupOption: _ngrx_store.ActionCreator<"[PickupOption] Set Pickup Option", (
 ## @spartacus/pickup-in-store/core
 
 moved to @spartacus/pickup/in/store/core
-
-
-TypeAlias SetPickupOptionProps changed.
-
-Previous version:
-
-```
-{
-    productCode: string;
-    pickupOption: ,
-PickupOption,
-;
-}
-```
-
-
-Current version:
-
-```
- ,
-string
-```
 
 
 
@@ -30101,7 +24810,10 @@ Current version:
 
 ```
 SetStoreDetailsSuccess: _ngrx_store.ActionCreator<"[Pickup Locations] Get Store Details Success", (props: {
-    payload: PointOfService
+    payload: PointOfService;
+}) => {
+    payload: PointOfService;
+} & Action<"[Pickup Locations] Get Store Details Success">>
 ```
 
 
@@ -30172,7 +24884,11 @@ Current version:
 
 ```
 storeDetails$: rxjs.Observable<({
-        payload: any
+        payload: any;
+        error: any;
+    } & _ngrx_store.Action<"[Pickup Locations] Get Store Details Fail">) | ({
+        payload: _spartacus_core.PointOfService;
+    } & _ngrx_store.Action<"[Pickup Locations] Get Store Details Success">)> & _ngrx_effects.CreateEffectMetadata
 ```
 
 
@@ -30391,7 +25107,13 @@ Current version:
 ```
 RemovePickupOption: _ngrx_store.ActionCreator<"[PickupOption] Remove Pickup Option", (props: {
     payload: {
-        entryNumber: number
+        entryNumber: number;
+    };
+}) => {
+    payload: {
+        entryNumber: number;
+    };
+} & _ngrx_store.Action<"[PickupOption] Remove Pickup Option">>
 ```
 
 
@@ -30425,7 +25147,13 @@ Current version:
 ```
 SetPageContext: _ngrx_store.ActionCreator<"[PickupOption] Set Page Context", (props: {
     payload: {
-        pageContext: string
+        pageContext: string;
+    };
+}) => {
+    payload: {
+        pageContext: string;
+    };
+} & _ngrx_store.Action<"[PickupOption] Set Page Context">>
 ```
 
 
@@ -30461,7 +25189,15 @@ Current version:
 ```
 SetPickupOption: _ngrx_store.ActionCreator<"[PickupOption] Set Pickup Option", (props: {
     payload: {
-        entryNumber: number
+        entryNumber: number;
+        pickupOption: PickupOption;
+    };
+}) => {
+    payload: {
+        entryNumber: number;
+        pickupOption: PickupOption;
+    };
+} & _ngrx_store.Action<"[PickupOption] Set Pickup Option">>
 ```
 
 
@@ -30694,7 +25430,12 @@ Current version:
 ```
 loadStockLevelAtStore$: rxjs.Observable<{
         payload: {
-            productCode: string
+            productCode: string;
+            storeName: string;
+        } & {
+            stockLevel: _spartacus_core.Stock;
+        };
+    } & _ngrx_store.Action<"[Stock] Get Stock Level at Store Success">> & _ngrx_effects.CreateEffectMetadata
 ```
 
 
@@ -30804,30 +25545,6 @@ moved to @spartacus/pickup/in/store/core
 moved to @spartacus/pickup/in/store/core
 
 
-TypeAlias StockLevelAction changed.
-
-Previous version:
-
-```
-StockLevel,
- | ,
-StockLevelOnHold,
- | ,
-StockLevelFail,
- | ,
-StockLevelSuccess,
- | ,
-ClearStockData
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Variable StockLevelActions.StockLevelAtStore
@@ -30853,7 +25570,10 @@ Current version:
 
 ```
 StockLevelAtStore: _ngrx_store.ActionCreator<"[Stock] Get Stock Level at Store", (props: {
-    payload: StockLevelAtStorePayload
+    payload: StockLevelAtStorePayload;
+}) => {
+    payload: StockLevelAtStorePayload;
+} & _ngrx_store.Action<"[Stock] Get Stock Level at Store">>
 ```
 
 
@@ -30863,25 +25583,6 @@ StockLevelAtStore: _ngrx_store.ActionCreator<"[Stock] Get Stock Level at Store",
 ## @spartacus/pickup-in-store/core
 
 moved to @spartacus/pickup/in/store/core
-
-
-TypeAlias StockLevelAtStoreAction changed.
-
-Previous version:
-
-```
-ReturnType,
-<typeof ,
-StockLevelAtStore,
->
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -30909,7 +25610,10 @@ Current version:
 
 ```
 StockLevelAtStoreSuccess: _ngrx_store.ActionCreator<"[Stock] Get Stock Level at Store Success", (props: {
-    payload: StockLevelAtStoreSuccessPayload
+    payload: StockLevelAtStoreSuccessPayload;
+}) => {
+    payload: StockLevelAtStoreSuccessPayload;
+} & _ngrx_store.Action<"[Stock] Get Stock Level at Store Success">>
 ```
 
 
@@ -30945,53 +25649,12 @@ moved to @spartacus/pickup/in/store/core
 moved to @spartacus/pickup/in/store/core
 
 
-TypeAlias StockLevelSuccessPayload changed.
-
-Previous version:
-
-```
-{
-    productCode: string;
-    stockLevels: ,
-StoreFinderStockSearchPage,
-;
-}
-```
-
-
-Current version:
-
-```
- ,
-string
-```
-
-
 
 
 # TypeAlias StockLevelState
 ## @spartacus/pickup-in-store/core
 
 moved to @spartacus/pickup/in/store/core
-
-
-TypeAlias StockLevelState changed.
-
-Previous version:
-
-```
-Record,
-<string, ,
-StoreFinderStockSearchPage,
->
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -31134,30 +25797,6 @@ moved to @spartacus/pickup/in/store/core
 moved to @spartacus/pickup/in/store/core
 
 
-Function storeHasStock changed.
-
-Previous version:
-
-```
-
-storeHasStock(
-  { stockInfo }: PointOfServiceStock
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-storeHasStock(
-  { stockInfo }: 
-): boolean
-
-```
-
-
 
 
 # Variable TOGGLE_HIDE_OUT_OF_STOCK_OPTIONS
@@ -31214,48 +25853,6 @@ moved to @spartacus/pickup/in/store/components
 
 
 
-### Property outlet changed.
-
-
-Previous version:
-
-```
-outlet: OutletContextData<{
-        item: OrderEntry;
-        cartType: CartType;
-    }>
-```
-
-
-Current version:
-
-```
-outlet: OutletContextData<{
-        item: OrderEntry
-```
-
-
-### Property storeDetails$ changed.
-
-
-Previous version:
-
-```
-storeDetails$: Observable<{
-        name: string | undefined;
-        displayName: string | undefined;
-    }>
-```
-
-
-Current version:
-
-```
-storeDetails$: Observable<{
-        name: string | undefined
-```
-
-
 
 
 # Class CartPickupOptionsContainerModule
@@ -31278,27 +25875,6 @@ moved to @spartacus/pickup/in/store/components
 ## @spartacus/pickup-in-store/components
 
 moved to @spartacus/pickup/in/store/components
-
-
-TypeAlias IOutletContextData changed.
-
-Previous version:
-
-```
-{
-    item: ,
-Consignment,
-;
-}
-```
-
-
-Current version:
-
-```
- ,
-Consignment
-```
 
 
 
@@ -31347,30 +25923,6 @@ moved to @spartacus/pickup/in/store/components
 ## @spartacus/pickup-in-store/components
 
 moved to @spartacus/pickup/in/store/components
-
-
-Function orderEntryWithRequiredFields changed.
-
-Previous version:
-
-```
-
-orderEntryWithRequiredFields(
-  orderEntry: OrderEntry | undefined
-): orderEntry is OrderEntryWithRequiredFields
-
-```
-
-
-Current version:
-
-```
-
-orderEntryWithRequiredFields(
-  orderEntry: OrderEntry | undefined): orderEntry is OrderEntryWithRequiredFields;
-): orderEntry is OrderEntryWithRequiredFields
-
-```
 
 
 
@@ -31569,47 +26121,6 @@ moved to @spartacus/pickup/in/store/components
 
 
 
-### Property pickupOptionChange changed.
-
-
-Previous version:
-
-```
-pickupOptionChange: EventEmitter<{
-        option: PickupOption;
-        triggerElement: ElementRef;
-    }>
-```
-
-
-Current version:
-
-```
-pickupOptionChange: EventEmitter<{
-        option: PickupOption
-```
-
-
-### Property pickupOptionsForm changed.
-
-
-Previous version:
-
-```
-pickupOptionsForm: FormGroup<{
-        pickupOption: FormControl<PickupOption | null>;
-    }>
-```
-
-
-Current version:
-
-```
-pickupOptionsForm: FormGroup<{
-        pickupOption: FormControl<PickupOption | null>
-```
-
-
 ### Property validationError is removed.
 
 
@@ -31736,118 +26247,6 @@ moved to @spartacus/pickup/in/store/assets
 ## @spartacus/pickup-in-store/assets
 
 moved to @spartacus/pickup/in/store/assets
-
-
-Variable pickupInStoreTranslations changed.
-
-Previous version:
-
-```
-pickupInStoreTranslations: {
-    en: {
-        pickupInStore: {
-            pickupInfo: {
-                inStorePickup: string;
-                pickupBy: string;
-                pickupFrom: string;
-            };
-            pickupOptionDialog: {
-                close: string;
-                modalHeader: string;
-            };
-            pickupOptions: {
-                legend: string;
-                changeStore: string;
-                delivery: string;
-                pickup: string;
-                shipIt: string;
-                selectStore: string;
-                freeReturn: string;
-                storeIsNotSelected: string;
-            };
-            setPreferredStore: {
-                makeThisMyStore: string;
-                myStore: string;
-            };
-            store: {
-                pickupFromHere: string;
-                stockLevel_inStock: string;
-                stockLevel_outOfStock: string;
-                viewHours: string;
-            };
-            storeList: {
-                noStoresMessage: string;
-            };
-            storeSchedule: {
-                closed: string;
-                storeHours: string;
-            };
-            storeSearch: {
-                findAStore: string;
-                findStores: string;
-                hideOutOfStockOptions: string;
-                searchPlaceholder: string;
-                useMyLocation: string;
-            };
-            addressBookPickupInStore: {
-                heading: string;
-            };
-            storeFinderPickupInStore: {
-                heading: string;
-            };
-            checkoutPickupInStore: {
-                heading: string;
-                storeItemHeading: string;
-            };
-            cardActions: {
-                getDirections: string;
-            };
-            deliveryPointOfServiceDetails: {
-                itemsToBePickUp: string;
-                pickUpInStoreAddress: string;
-                itemsToBeShipped: string;
-                shippingAddress: string;
-                deliveryMethod: string;
-                deliveryOptions: string;
-                statusDisplay_cancelled: string;
-                statusDisplay_cancelling: string;
-                statusDisplay_completed: string;
-                statusDisplay_created: string;
-                statusDisplay_error: string;
-                statusDisplay_Error: string;
-                statusDisplay_processing: string;
-                statusDisplay_open: string;
-                statusDisplay_pending: {
-                    approval: string;
-                    merchant: {
-                        approval: string;
-                    };
-                };
-                statusDisplay_approved: string;
-                statusDisplay_rejected: string;
-                statusDisplay_merchant: {
-                    approved: string;
-                    rejected: string;
-                };
-                statusDisplay_assigned: {
-                    admin: string;
-                };
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-pickupInStoreTranslations: {
-    en: {
-        pickupInStore: {
-            pickupInfo: {
-                inStorePickup: string
-```
 
 
 
@@ -32319,26 +26718,6 @@ moved to @spartacus/pdf/invoices/components
 
 
 
-### Property sortMapping changed.
-
-
-Previous version:
-
-```
-sortMapping: {
-        [key: string]: string;
-    }
-```
-
-
-Current version:
-
-```
-sortMapping: {
-        [key: string]: string
-```
-
-
 ### Method updateQueryParams is removed.
 
 
@@ -32365,60 +26744,6 @@ moved to @spartacus/pdf/invoices/assets
 ## @spartacus/pdf-invoices/assets
 
 moved to @spartacus/pdf/invoices/assets
-
-
-Variable pdfInvoicesTranslations changed.
-
-Previous version:
-
-```
-pdfInvoicesTranslations: {
-    en: {
-        pdfInvoices: {
-            pdfInvoices: {
-                featureNotEnabled: string;
-                invoicesLoadingError: string;
-                invoicesTable: {
-                    header: string;
-                    label: string;
-                    invoiceId: string;
-                    createdAt: string;
-                    netAmount: string;
-                    totalAmount: string;
-                    attachment: string;
-                    download: string;
-                    attachmentDescription: string;
-                    noneFound: string;
-                };
-                downloadPDFError: string;
-                sortBy: string;
-                sortInvoices: string;
-                sorts: {
-                    byCreatedAtAsc: string;
-                    byCreatedAtDesc: string;
-                    byInvoiceIdAsc: string;
-                    byInvoiceIdDesc: string;
-                    byNetAmountAsc: string;
-                    byNetAmountDesc: string;
-                    byTotalAmountAsc: string;
-                    byTotalAmountDesc: string;
-                };
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-pdfInvoicesTranslations: {
-    en: {
-        pdfInvoices: {
-            pdfInvoices: {
-                featureNotEnabled: string
-```
 
 
 
@@ -32982,134 +27307,6 @@ moved to @spartacus/organization/user/registration/assets
 moved to @spartacus/organization/user/registration/assets
 
 
-Variable organizationUserRegistrationTranslations changed.
-
-Previous version:
-
-```
-organizationUserRegistrationTranslations: {
-    en: {
-        userRegistration: {
-            userRegistrationForm: {
-                fields: {
-                    titleCode: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    titleCodeOnOTPForm: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    firstName: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    lastName: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    companyName: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    email: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    city: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    cityOnOTPForm: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    country: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    countryOnOTPForm: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    state: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    stateOnOTPForm: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    postalCode: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    postalCodeOnOTPForm: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    addressLine: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    addressLineOnOTPForm: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    secondAddressLine: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    secondAddressLineOnOTPForm: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    phoneNumber: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    phoneNumberOnOTPForm: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    message: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    messageOnOTPForm: {
-                        label: string;
-                        placeholder: string;
-                    };
-                };
-                messageToApproverTemplate: string;
-                successFormSubmitMessage: string;
-                formSubmitButtonLabel: string;
-                continueWithOTP: string;
-                goToLoginButtonLabel: string;
-                httpHandlers: {
-                    conflict: string;
-                };
-                messageToFailedToRegister: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-organizationUserRegistrationTranslations: {
-    en: {
-        userRegistration: {
-            userRegistrationForm: {
-                fields: {
-                    titleCode: {
-                        label: string
-```
-
-
 
 
 # Variable organizationUserRegistrationTranslationsCs
@@ -33500,27 +27697,6 @@ moved to @spartacus/organization/unit/order/core
 moved to @spartacus/organization/unit/order/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orderCode: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class UnitOrderActions.LoadOrderDetailsFail
@@ -33545,30 +27721,6 @@ moved to @spartacus/organization/unit/order/core
 moved to @spartacus/organization/unit/order/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        pageSize?: number;
-        currentPage?: number;
-        filters?: string;
-        sort?: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class UnitOrderActions.LoadUnitOrdersFail
@@ -33591,36 +27743,6 @@ moved to @spartacus/organization/unit/order/core
 ## @spartacus/organization/unit-order/core
 
 moved to @spartacus/organization/unit/order/core
-
-
-TypeAlias UnitOrdersAction changed.
-
-Previous version:
-
-```
-LoadUnitOrders,
- | ,
-LoadUnitOrdersFail,
- | ,
-LoadUnitOrdersSuccess,
- | ,
-ClearUnitOrders,
- | ,
-LoadOrderDetails,
- | ,
-LoadOrderDetailsFail,
- | ,
-LoadOrderDetailsSuccess,
- | ,
-ClearOrderDetails
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -33856,76 +27978,6 @@ moved to @spartacus/organization/unit/order/assets
 moved to @spartacus/organization/unit/order/assets
 
 
-Variable unitOrderTranslations changed.
-
-Previous version:
-
-```
-unitOrderTranslations: {
-    en: {
-        unitOrder: {
-            unitLevelOrderHistory: {
-                orderHistory: string;
-                orderId: string;
-                emptyPurchaseOrderId: string;
-                date: string;
-                status: string;
-                buyer: string;
-                unit: string;
-                total: string;
-                noOrders: string;
-                startShopping: string;
-                sortBy: string;
-                sortOrders: string;
-                purchaseOrderNumber: string;
-                startOn: string;
-                frequency: string;
-                nextOrderDate: string;
-                notFound: string;
-                applyFilter: string;
-                filterBy: string;
-                filterByBuyer: string;
-                filterByBuyerLabel: string;
-                filterByBuyerPlaceholder: string;
-                filterByBuyerAriaLabel: string;
-                filterByUnit: string;
-                filterByUnitLabel: string;
-                filterByUnitPlaceholder: string;
-                filterByUnitAriaLabel: string;
-                search: string;
-                clearAll: string;
-                removeAppliedFilters: string;
-                yourFilters: string;
-                and: string;
-            };
-            unitLevelOrderHistorySorting: {
-                date: string;
-                orderNumber: string;
-                buyer: string;
-                buyerDesc: string;
-                orgUnit: string;
-                orgUnitDesc: string;
-            };
-            unitLevelOrderDetails: {
-                buyer: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-unitOrderTranslations: {
-    en: {
-        unitOrder: {
-            unitLevelOrderHistory: {
-                orderHistory: string
-```
-
-
 
 
 # Variable unitOrderTranslationsCs
@@ -34125,78 +28177,6 @@ moved to @spartacus/organization/order/approval/assets
 ## @spartacus/organization/order-approval/assets
 
 moved to @spartacus/organization/order/approval/assets
-
-
-Variable orderApprovalTranslations changed.
-
-Previous version:
-
-```
-orderApprovalTranslations: {
-    en: {
-        orderApproval: {
-            orderApprovalDetails: {
-                back: string;
-                showForm_APPROVE: string;
-                showForm_REJECT: string;
-                form: {
-                    title_APPROVE: string;
-                    title_REJECT: string;
-                    submit_APPROVE: string;
-                    submit_REJECT: string;
-                    cancel: string;
-                    comment_APPROVE: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    comment_REJECT: {
-                        label: string;
-                        placeholder: string;
-                    };
-                };
-                permissionResults: {
-                    header: string;
-                    permission: string;
-                    approver: string;
-                    status: string;
-                    approverComments: string;
-                    noApprovalComments: string;
-                    permissionType_B2BBudgetExceededPermission: string;
-                    permissionType_B2BOrderThresholdPermission: string;
-                    permissionType_B2BOrderThresholdTimespanPermission: string;
-                };
-            };
-            orderApprovalList: {
-                orderCode: string;
-                POCode: string;
-                placedBy: string;
-                date: string;
-                status: string;
-                total: string;
-                none: string;
-                emptyList: string;
-                orderApprovalList: string;
-            };
-            orderApprovalGlobal: {
-                notification: {
-                    noSufficientPermissions: string;
-                };
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-orderApprovalTranslations: {
-    en: {
-        orderApproval: {
-            orderApprovalDetails: {
-                back: string
-```
 
 
 
@@ -34585,54 +28565,12 @@ moved to @spartacus/organization/order/approval
 moved to @spartacus/organization/order/approval
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orderApprovalCode: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrderApprovalActions.LoadOrderApprovalFail
 ## @spartacus/organization/order-approval
 
 moved to @spartacus/organization/order/approval
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orderApprovalCode: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orderApprovalCode: string
-```
 
 
 
@@ -34643,27 +28581,6 @@ payload: {
 moved to @spartacus/organization/order/approval
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrderApprovalActions.LoadOrderApprovalsFail
@@ -34672,54 +28589,12 @@ payload: {
 moved to @spartacus/organization/order/approval
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        params: SearchConfig;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        params: SearchConfig
-```
-
-
 
 
 # Class OrderApprovalActions.LoadOrderApprovalsSuccess
 ## @spartacus/organization/order-approval
 
 moved to @spartacus/organization/order/approval
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        page: ListModel;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        page: ListModel
-```
 
 
 
@@ -34770,55 +28645,12 @@ moved to @spartacus/organization/order/approval
 moved to @spartacus/organization/order/approval
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orderApprovalCode: string;
-        orderApprovalDecision: OrderApprovalDecision;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrderApprovalActions.MakeDecisionFail
 ## @spartacus/organization/order-approval
 
 moved to @spartacus/organization/order/approval
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orderApprovalCode: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orderApprovalCode: string
-```
 
 
 
@@ -34837,67 +28669,12 @@ moved to @spartacus/organization/order/approval
 moved to @spartacus/organization/order/approval
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orderApprovalCode: string;
-        orderApprovalDecision: OrderApprovalDecision;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orderApprovalCode: string
-```
-
-
 
 
 # TypeAlias OrderApprovalActions.OrderApprovalAction
 ## @spartacus/organization/order-approval
 
 moved to @spartacus/organization/order/approval
-
-
-TypeAlias OrderApprovalAction changed.
-
-Previous version:
-
-```
-LoadOrderApproval,
- | ,
-LoadOrderApprovalFail,
- | ,
-LoadOrderApprovalSuccess,
- | ,
-LoadOrderApprovals,
- | ,
-LoadOrderApprovalsFail,
- | ,
-LoadOrderApprovalsSuccess,
- | ,
-MakeDecision,
- | ,
-MakeDecisionFail,
- | ,
-MakeDecisionSuccess,
- | ,
-MakeDecisionReset
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -35050,27 +28827,6 @@ moved to @spartacus/organization/order/approval
 
 ### Method pageChange is removed.
 
-
-
-### Property sortLabels$ changed.
-
-
-Previous version:
-
-```
-sortLabels$: Observable<{
-        byDate: string;
-        byOrderNumber: string;
-    }>
-```
-
-
-Current version:
-
-```
-sortLabels$: Observable<{
-        byDate: string
-```
 
 
 
@@ -35286,37 +29042,6 @@ moved to @spartacus/organization/order/approval
 ## @spartacus/organization/order-approval
 
 moved to @spartacus/organization/order/approval
-
-
-
-
-# Variable ROUTE_PARAMS
-## @spartacus/organization/administration/root
-
-
-Variable ROUTE_PARAMS changed.
-
-Previous version:
-
-```
-ROUTE_PARAMS: {
-    budgetCode: string;
-    unitCode: string;
-    costCenterCode: string;
-    userCode: string;
-    userGroupCode: string;
-    permissionCode: string;
-    addressCode: string;
-}
-```
-
-
-Current version:
-
-```
-ROUTE_PARAMS: {
-    budgetCode: string
-```
 
 
 
@@ -36028,54 +29753,10 @@ Namespace B2BUserActions has been removed and is no longer part of the public AP
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgCustomerId: string;
-        approverId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class B2BUserActions.AssignB2BUserApproverFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        approverId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
 
 
 
@@ -36084,53 +29765,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        approverId: string;
-        selected: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        approverId: string
-```
-
-
 
 
 # Class B2BUserActions.AssignB2BUserPermission
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgCustomerId: string;
-        permissionId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -36139,53 +29777,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        permissionId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
-
-
 
 
 # Class B2BUserActions.AssignB2BUserPermissionSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        permissionId: string;
-        selected: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        permissionId: string
-```
 
 
 
@@ -36194,54 +29789,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgCustomerId: string;
-        userGroupId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class B2BUserActions.AssignB2BUserUserGroupFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        userGroupId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
 
 
 
@@ -36250,123 +29801,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        uid: string;
-        selected: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        uid: string
-```
-
-
 
 
 # TypeAlias B2BUserActions.B2BUserAction
 ## @spartacus/organization/administration/core
-
-
-TypeAlias B2BUserAction changed.
-
-Previous version:
-
-```
-LoadB2BUser,
- | ,
-LoadB2BUserFail,
- | ,
-LoadB2BUserSuccess,
- | ,
-CreateB2BUser,
- | ,
-CreateB2BUserFail,
- | ,
-CreateB2BUserSuccess,
- | ,
-UpdateB2BUser,
- | ,
-UpdateB2BUserFail,
- | ,
-UpdateB2BUserSuccess,
- | ,
-LoadB2BUsers,
- | ,
-LoadB2BUsersFail,
- | ,
-LoadB2BUsersSuccess,
- | ,
-LoadB2BUserApprovers,
- | ,
-LoadB2BUserApproversFail,
- | ,
-LoadB2BUserApproversSuccess,
- | ,
-AssignB2BUserApprover,
- | ,
-AssignB2BUserApproverFail,
- | ,
-AssignB2BUserApproverSuccess,
- | ,
-UnassignB2BUserApprover,
- | ,
-UnassignB2BUserApproverFail,
- | ,
-UnassignB2BUserApproverSuccess,
- | ,
-LoadB2BUserPermissions,
- | ,
-LoadB2BUserPermissionsFail,
- | ,
-LoadB2BUserPermissionsSuccess,
- | ,
-AssignB2BUserPermission,
- | ,
-AssignB2BUserPermissionFail,
- | ,
-AssignB2BUserPermissionSuccess,
- | ,
-UnassignB2BUserPermission,
- | ,
-UnassignB2BUserPermissionFail,
- | ,
-UnassignB2BUserPermissionSuccess,
- | ,
-LoadB2BUserUserGroups,
- | ,
-LoadB2BUserUserGroupsFail,
- | ,
-LoadB2BUserUserGroupsSuccess,
- | ,
-AssignB2BUserUserGroup,
- | ,
-AssignB2BUserUserGroupFail,
- | ,
-AssignB2BUserUserGroupSuccess,
- | ,
-UnassignB2BUserUserGroup,
- | ,
-UnassignB2BUserUserGroupFail,
- | ,
-UnassignB2BUserUserGroupSuccess
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -36393,52 +29831,10 @@ Current version:
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgCustomer: B2BUser;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class B2BUserActions.CreateB2BUserFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
 
 
 
@@ -36543,53 +29939,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgCustomerId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class B2BUserActions.LoadB2BUserApprovers
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgCustomerId: string;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -36598,54 +29951,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        params: SearchConfig;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
-
-
 
 
 # Class B2BUserActions.LoadB2BUserApproversSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        page: ListModel;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
 
 
 
@@ -36654,53 +29963,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
-
-
 
 
 # Class B2BUserActions.LoadB2BUserPermissions
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgCustomerId: string;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -36709,54 +29975,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        params: SearchConfig;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
-
-
 
 
 # Class B2BUserActions.LoadB2BUserPermissionsSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        page: ListModel;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
 
 
 
@@ -36765,79 +29987,16 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class B2BUserActions.LoadB2BUsersFail
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        params: SearchConfig;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        params: SearchConfig
-```
-
-
 
 
 # Class B2BUserActions.LoadB2BUsersSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        page: ListModel;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        page: ListModel
-```
 
 
 
@@ -36852,82 +30011,16 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgCustomerId: string;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class B2BUserActions.LoadB2BUserUserGroupsFail
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        params: SearchConfig;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
-
-
 
 
 # Class B2BUserActions.LoadB2BUserUserGroupsSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        page: ListModel;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
 
 
 
@@ -36990,54 +30083,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgCustomerId: string;
-        approverId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class B2BUserActions.UnassignB2BUserApproverFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        approverId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
 
 
 
@@ -37046,53 +30095,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        approverId: string;
-        selected: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        approverId: string
-```
-
-
 
 
 # Class B2BUserActions.UnassignB2BUserPermission
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgCustomerId: string;
-        permissionId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -37101,53 +30107,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        permissionId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
-
-
 
 
 # Class B2BUserActions.UnassignB2BUserPermissionSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        permissionId: string;
-        selected: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        permissionId: string
-```
 
 
 
@@ -37156,81 +30119,16 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgCustomerId: string;
-        userGroupId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class B2BUserActions.UnassignB2BUserUserGroupFail
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        userGroupId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
-
-
 
 
 # Class B2BUserActions.UnassignB2BUserUserGroupSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        uid: string;
-        selected: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        uid: string
-```
 
 
 
@@ -37257,53 +30155,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgCustomerId: string;
-        orgCustomer: B2BUser;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class B2BUserActions.UpdateB2BUserFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
 
 
 
@@ -37680,44 +30535,6 @@ Namespace BudgetActions has been removed and is no longer part of the public API
 ## @spartacus/organization/administration/core
 
 
-TypeAlias BudgetAction changed.
-
-Previous version:
-
-```
-LoadBudget,
- | ,
-LoadBudgetFail,
- | ,
-LoadBudgetSuccess,
- | ,
-LoadBudgets,
- | ,
-LoadBudgetsFail,
- | ,
-LoadBudgetsSuccess,
- | ,
-CreateBudget,
- | ,
-CreateBudgetFail,
- | ,
-CreateBudgetSuccess,
- | ,
-UpdateBudget,
- | ,
-UpdateBudgetFail,
- | ,
-UpdateBudgetSuccess
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Variable BudgetActions.CREATE_BUDGET_FAIL
@@ -37742,52 +30559,10 @@ Current version:
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        budget: Budget;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class BudgetActions.CreateBudgetFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        budgetCode: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        budgetCode: string
-```
 
 
 
@@ -37838,52 +30613,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        budgetCode: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class BudgetActions.LoadBudgetFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        budgetCode: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        budgetCode: string
-```
 
 
 
@@ -37892,79 +30625,16 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class BudgetActions.LoadBudgetsFail
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        params: SearchConfig;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        params: SearchConfig
-```
-
-
 
 
 # Class BudgetActions.LoadBudgetsSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        page: ListModel;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        page: ListModel
-```
 
 
 
@@ -37997,53 +30667,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        budgetCode: string;
-        budget: Budget;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class BudgetActions.UpdateBudgetFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        budgetCode: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        budgetCode: string
-```
 
 
 
@@ -38219,53 +30846,10 @@ Namespace CostCenterActions has been removed and is no longer part of the public
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        costCenterCode: string;
-        budgetCode: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class CostCenterActions.AssignBudgetFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        budgetCode: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        budgetCode: string
-```
 
 
 
@@ -38274,87 +30858,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        code: string;
-        selected: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        code: string
-```
-
-
 
 
 # TypeAlias CostCenterActions.CostCenterAction
 ## @spartacus/organization/administration/core
-
-
-TypeAlias CostCenterAction changed.
-
-Previous version:
-
-```
-LoadCostCenter,
- | ,
-LoadCostCenterFail,
- | ,
-LoadCostCenterSuccess,
- | ,
-LoadCostCenters,
- | ,
-LoadCostCentersFail,
- | ,
-LoadCostCentersSuccess,
- | ,
-CreateCostCenter,
- | ,
-CreateCostCenterFail,
- | ,
-CreateCostCenterSuccess,
- | ,
-UpdateCostCenter,
- | ,
-UpdateCostCenterFail,
- | ,
-UpdateCostCenterSuccess,
- | ,
-LoadAssignedBudgets,
- | ,
-LoadAssignedBudgetsSuccess,
- | ,
-LoadAssignedBudgetsFail,
- | ,
-AssignBudget,
- | ,
-AssignBudgetFail,
- | ,
-AssignBudgetSuccess,
- | ,
-UnassignBudget,
- | ,
-UnassignBudgetFail,
- | ,
-UnassignBudgetSuccess
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -38381,52 +30888,10 @@ Current version:
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        costCenter: CostCenter;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class CostCenterActions.CreateCostCenterFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        costCenterCode: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        costCenterCode: string
-```
 
 
 
@@ -38495,54 +30960,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        costCenterCode: string;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class CostCenterActions.LoadAssignedBudgetsFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        costCenterCode: string;
-        params: SearchConfig;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        costCenterCode: string
-```
 
 
 
@@ -38551,53 +30972,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        costCenterCode: string;
-        page: ListModel;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        costCenterCode: string
-```
-
-
 
 
 # Class CostCenterActions.LoadCostCenter
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        costCenterCode: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -38606,52 +30984,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        costCenterCode: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        costCenterCode: string
-```
-
-
 
 
 # Class CostCenterActions.LoadCostCenters
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -38660,52 +30996,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        params: SearchConfig;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        params: SearchConfig
-```
-
-
 
 
 # Class CostCenterActions.LoadCostCentersSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        page: ListModel;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        page: ListModel
-```
 
 
 
@@ -38738,80 +31032,16 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        costCenterCode: string;
-        budgetCode: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class CostCenterActions.UnassignBudgetFail
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        budgetCode: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        budgetCode: string
-```
-
-
 
 
 # Class CostCenterActions.UnassignBudgetSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        code: string;
-        selected: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        code: string
-```
 
 
 
@@ -38838,53 +31068,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        costCenterCode: string;
-        costCenter: CostCenter;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class CostCenterActions.UpdateCostCenterFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        costCenterCode: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        costCenterCode: string
-```
 
 
 
@@ -39112,22 +31299,6 @@ Namespace OrganizationActions has been removed and is no longer part of the publ
 ## @spartacus/organization/administration/core
 
 
-TypeAlias OrganizationAction changed.
-
-Previous version:
-
-```
-OrganizationClearData
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Class OrganizationActions.OrganizationClearData
@@ -39311,54 +31482,10 @@ Namespace OrgUnitActions has been removed and is no longer part of the public AP
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgUnitId: string;
-        orgCustomerId: string;
-        roleId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrgUnitActions.AssignApproverFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
 
 
 
@@ -39367,54 +31494,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        uid: string;
-        roleId: string;
-        selected: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        uid: string
-```
-
-
 
 
 # Class OrgUnitActions.AssignRole
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgCustomerId: string;
-        roleId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -39423,53 +31506,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
-
-
 
 
 # Class OrgUnitActions.AssignRoleSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        uid: string;
-        roleId: string;
-        selected: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        uid: string
-```
 
 
 
@@ -39482,28 +31522,6 @@ payload: {
 
 # Class OrgUnitActions.ClearAssignedUsers
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgUnitId: string;
-        roleId: string;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgUnitId: string
-```
 
 
 
@@ -39548,53 +31566,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgUnitId: string;
-        address: Address;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrgUnitActions.CreateAddressFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        addressId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        addressId: string
-```
 
 
 
@@ -39609,52 +31584,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        unit: B2BUnit;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrgUnitActions.CreateUnitFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        unitCode: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        unitCode: string
-```
 
 
 
@@ -39687,53 +31620,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgUnitId: string;
-        addressId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrgUnitActions.DeleteAddressFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        addressId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        addressId: string
-```
 
 
 
@@ -39880,79 +31770,16 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgUnitId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrgUnitActions.LoadAddressesFail
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgUnitId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgUnitId: string
-```
-
-
 
 
 # Class OrgUnitActions.LoadAddressesSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        page: ListModel;
-        orgUnitId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        page: ListModel
-```
 
 
 
@@ -39967,50 +31794,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrgUnitActions.LoadApprovalProcessesFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        error: any
-```
 
 
 
@@ -40025,56 +31812,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgUnitId: string;
-        roleId: string;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrgUnitActions.LoadAssignedUsersFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgUnitId: string;
-        roleId: string;
-        params: SearchConfig;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgUnitId: string
-```
 
 
 
@@ -40083,54 +31824,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgUnitId: string;
-        roleId: string;
-        page: ListModel;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgUnitId: string
-```
-
-
 
 
 # Class OrgUnitActions.LoadOrgUnit
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgUnitId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -40139,51 +31836,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgUnitId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgUnitId: string
-```
-
-
 
 
 # Class OrgUnitActions.LoadOrgUnitNodes
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -40210,50 +31866,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrgUnitActions.LoadTreeFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        error: any
-```
 
 
 
@@ -40266,108 +31882,6 @@ payload: {
 
 # TypeAlias OrgUnitActions.OrgUnitAction
 ## @spartacus/organization/administration/core
-
-
-TypeAlias OrgUnitAction changed.
-
-Previous version:
-
-```
-LoadOrgUnitNodes,
- | ,
-LoadOrgUnitNodesFail,
- | ,
-LoadOrgUnitNodesSuccess,
- | ,
-LoadOrgUnit,
- | ,
-LoadOrgUnitFail,
- | ,
-LoadOrgUnitSuccess,
- | ,
-CreateUnit,
- | ,
-CreateUnitFail,
- | ,
-CreateUnitSuccess,
- | ,
-UpdateUnit,
- | ,
-UpdateUnitFail,
- | ,
-UpdateUnitSuccess,
- | ,
-LoadTree,
- | ,
-LoadTreeSuccess,
- | ,
-LoadTreeFail,
- | ,
-LoadApprovalProcesses,
- | ,
-LoadApprovalProcessesSuccess,
- | ,
-LoadApprovalProcessesFail,
- | ,
-AssignRole,
- | ,
-AssignRoleSuccess,
- | ,
-AssignRoleFail,
- | ,
-UnassignRole,
- | ,
-UnassignRoleSuccess,
- | ,
-UnassignRoleFail,
- | ,
-AssignApprover,
- | ,
-AssignApproverSuccess,
- | ,
-AssignApproverFail,
- | ,
-UnassignApprover,
- | ,
-UnassignApproverSuccess,
- | ,
-UnassignApproverFail,
- | ,
-CreateAddress,
- | ,
-CreateAddressSuccess,
- | ,
-CreateAddressFail,
- | ,
-UpdateAddress,
- | ,
-UpdateAddressSuccess,
- | ,
-UpdateAddressFail,
- | ,
-DeleteAddress,
- | ,
-DeleteAddressSuccess,
- | ,
-DeleteAddressFail,
- | ,
-LoadAddresses,
- | ,
-LoadAddressesFail,
- | ,
-LoadAddressesSuccess,
- | ,
-LoadAddressSuccess,
- | ,
-ClearAssignedUsers
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -40412,54 +31926,10 @@ Current version:
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgUnitId: string;
-        orgCustomerId: string;
-        roleId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrgUnitActions.UnassignApproverFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
 
 
 
@@ -40468,54 +31938,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        uid: string;
-        roleId: string;
-        selected: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        uid: string
-```
-
-
 
 
 # Class OrgUnitActions.UnassignRole
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgCustomerId: string;
-        roleId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -40524,53 +31950,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orgCustomerId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orgCustomerId: string
-```
-
-
 
 
 # Class OrgUnitActions.UnassignRoleSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        uid: string;
-        roleId: string;
-        selected: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        uid: string
-```
 
 
 
@@ -40615,54 +31998,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orgUnitId: string;
-        addressId: string;
-        address: Address;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrgUnitActions.UpdateAddressFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        addressId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        addressId: string
-```
 
 
 
@@ -40677,53 +32016,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        unitCode: string;
-        unit: B2BUnit;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrgUnitActions.UpdateUnitFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        unitCode: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        unitCode: string
-```
 
 
 
@@ -41239,52 +32535,10 @@ Namespace PermissionActions has been removed and is no longer part of the public
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        permission: Permission;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class PermissionActions.CreatePermissionFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        permissionCode: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        permissionCode: string
-```
 
 
 
@@ -41353,52 +32607,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        permissionCode: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class PermissionActions.LoadPermissionFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        permissionCode: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        permissionCode: string
-```
 
 
 
@@ -41407,79 +32619,16 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class PermissionActions.LoadPermissionsFail
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        params: SearchConfig;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        params: SearchConfig
-```
-
-
 
 
 # Class PermissionActions.LoadPermissionsSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        page: ListModel;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        page: ListModel
-```
 
 
 
@@ -41512,50 +32661,6 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-TypeAlias PermissionAction changed.
-
-Previous version:
-
-```
-LoadPermission,
- | ,
-LoadPermissionFail,
- | ,
-LoadPermissionSuccess,
- | ,
-LoadPermissions,
- | ,
-LoadPermissionsFail,
- | ,
-LoadPermissionsSuccess,
- | ,
-CreatePermission,
- | ,
-CreatePermissionFail,
- | ,
-CreatePermissionSuccess,
- | ,
-UpdatePermission,
- | ,
-UpdatePermissionFail,
- | ,
-UpdatePermissionSuccess,
- | ,
-LoadPermissionTypes,
- | ,
-LoadPermissionTypesFail,
- | ,
-LoadPermissionTypesSuccess
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Variable PermissionActions.UPDATE_PERMISSION_FAIL
@@ -41580,53 +32685,10 @@ Current version:
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        permissionCode: string;
-        permission: Permission;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class PermissionActions.UpdatePermissionFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        permissionCode: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        permissionCode: string
-```
 
 
 
@@ -41882,54 +32944,10 @@ Namespace UserGroupActions has been removed and is no longer part of the public 
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        userGroupId: string;
-        customerId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class UserGroupActions.AssignMemberFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userGroupId: string;
-        customerId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userGroupId: string
-```
 
 
 
@@ -41938,53 +32956,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        customerId: string;
-        selected: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        customerId: string
-```
-
-
 
 
 # Class UserGroupActions.AssignPermission
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        userGroupId: string;
-        permissionUid: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -41993,53 +32968,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userGroupId: string;
-        permissionUid: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userGroupId: string
-```
-
-
 
 
 # Class UserGroupActions.AssignPermissionSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        permissionUid: string;
-        selected: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        permissionUid: string
-```
 
 
 
@@ -42066,52 +32998,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        userGroup: UserGroup;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class UserGroupActions.CreateUserGroupFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userGroupId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userGroupId: string
-```
 
 
 
@@ -42144,52 +33034,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        userGroupId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class UserGroupActions.DeleteUserGroupFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userGroupId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userGroupId: string
-```
 
 
 
@@ -42276,82 +33124,16 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        userGroupId: string;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class UserGroupActions.LoadAvailableOrgCustomersFail
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userGroupId: string;
-        params: SearchConfig;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userGroupId: string
-```
-
-
 
 
 # Class UserGroupActions.LoadAvailableOrgCustomersSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userGroupId: string;
-        page: ListModel;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userGroupId: string
-```
 
 
 
@@ -42410,7 +33192,9 @@ Current version:
 
 ```
 payload: {
-        userId: string
+        userId: string;
+        params: SearchConfig;
+    }
 ```
 
 
@@ -42470,7 +33254,9 @@ Current version:
 
 ```
 payload: {
-        params: SearchConfig
+        params: SearchConfig;
+        error: any;
+    }
 ```
 
 
@@ -42530,7 +33316,9 @@ Current version:
 
 ```
 payload: {
-        page: ListModel
+        page: ListModel;
+        params: SearchConfig;
+    }
 ```
 
 
@@ -42540,52 +33328,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        userGroupId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class UserGroupActions.LoadUserGroupFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userGroupId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userGroupId: string
-```
 
 
 
@@ -42594,79 +33340,16 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class UserGroupActions.LoadUserGroupsFail
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        params: SearchConfig;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        params: SearchConfig
-```
-
-
 
 
 # Class UserGroupActions.LoadUserGroupsSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        page: ListModel;
-        params: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        page: ListModel
-```
 
 
 
@@ -42681,52 +33364,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        userGroupId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class UserGroupActions.UnassignAllMembersFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userGroupId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userGroupId: string
-```
 
 
 
@@ -42741,54 +33382,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        userGroupId: string;
-        customerId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class UserGroupActions.UnassignMemberFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userGroupId: string;
-        customerId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userGroupId: string
-```
 
 
 
@@ -42797,53 +33394,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        customerId: string;
-        selected: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        customerId: string
-```
-
-
 
 
 # Class UserGroupActions.UnassignPermission
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        userGroupId: string;
-        permissionUid: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -42852,53 +33406,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userGroupId: string;
-        permissionUid: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userGroupId: string
-```
-
-
 
 
 # Class UserGroupActions.UnassignPermissionSuccess
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        permissionUid: string;
-        selected: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        permissionUid: string
-```
 
 
 
@@ -42925,53 +33436,10 @@ payload: {
 ## @spartacus/organization/administration/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        userGroupId: string;
-        userGroup: UserGroup;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class UserGroupActions.UpdateUserGroupFail
 ## @spartacus/organization/administration/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userGroupId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userGroupId: string
-```
 
 
 
@@ -43074,92 +33542,6 @@ payload: {
 
 # TypeAlias UserGroupActions.UserGroupAction
 ## @spartacus/organization/administration/core
-
-
-TypeAlias UserGroupAction changed.
-
-Previous version:
-
-```
-LoadUserGroup,
- | ,
-LoadUserGroupFail,
- | ,
-LoadUserGroupSuccess,
- | ,
-LoadUserGroups,
- | ,
-LoadUserGroupsFail,
- | ,
-LoadUserGroupsSuccess,
- | ,
-LoadPermissions,
- | ,
-LoadPermissionsFail,
- | ,
-LoadPermissionsSuccess,
- | ,
-LoadAvailableOrgCustomers,
- | ,
-LoadAvailableOrgCustomersFail,
- | ,
-LoadAvailableOrgCustomersSuccess,
- | ,
-CreateUserGroup,
- | ,
-CreateUserGroupFail,
- | ,
-CreateUserGroupSuccess,
- | ,
-AssignMember,
- | ,
-AssignMemberFail,
- | ,
-AssignMemberSuccess,
- | ,
-AssignPermission,
- | ,
-AssignPermissionFail,
- | ,
-AssignPermissionSuccess,
- | ,
-UpdateUserGroup,
- | ,
-UpdateUserGroupFail,
- | ,
-UpdateUserGroupSuccess,
- | ,
-DeleteUserGroup,
- | ,
-DeleteUserGroupFail,
- | ,
-DeleteUserGroupSuccess,
- | ,
-UnassignMember,
- | ,
-UnassignMemberFail,
- | ,
-UnassignMemberSuccess,
- | ,
-UnassignAllMembers,
- | ,
-UnassignAllMembersFail,
- | ,
-UnassignAllMembersSuccess,
- | ,
-UnassignPermission,
- | ,
-UnassignPermissionFail,
- | ,
-UnassignPermissionSuccess
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -43503,45 +33885,6 @@ Function UserGroupSelectors.getUserGroupValue has been removed and is no longer 
 
 ### Method unassign is removed.
 
-
-
-
-
-# TypeAlias BaseItem
-## @spartacus/organization/administration/components
-
-
-TypeAlias BaseItem changed.
-
-Previous version:
-
-```
-{
-    code?: string;
-    selected?: boolean;
-    customerId?: string;
-    uid?: string;
-    id?: string;
-    active?: boolean;
-    orgUnit?: ,
-B2BUnit,
-;
-    parentOrgUnit?: ,
-B2BUnit,
-;
-    unit?: ,
-B2BUnit,
-;
-}
-```
-
-
-Current version:
-
-```
- ,
-string
-```
 
 
 
@@ -44078,29 +34421,6 @@ string
 
 ### Method displayDisabledEnable is removed.
 
-
-
-### Property displayInfoConfig changed.
-
-
-Previous version:
-
-```
-displayInfoConfig: {
-        disabledCreate?: boolean;
-        disabledEdit?: boolean;
-        disabledEnable?: boolean;
-        disabledDisable?: boolean;
-    }
-```
-
-
-Current version:
-
-```
-displayInfoConfig: {
-        disabledCreate?: boolean
-```
 
 
 ### Method ngOnInit is removed.
@@ -45477,698 +35797,6 @@ displayInfoConfig: {
 
 
 
-# Variable organizationTranslations
-## @spartacus/organization/administration/assets
-
-
-Variable organizationTranslations changed.
-
-Previous version:
-
-```
-organizationTranslations: {
-    en: {
-        organization: {
-            organization: {
-                enabled: string;
-                disabled: string;
-                enable: string;
-                disable: string;
-                name: string;
-                code: string;
-                done: string;
-                cancel: string;
-                add: string;
-                manageUsers: string;
-                create: string;
-                edit: string;
-                save: string;
-                delete: string;
-                assign: string;
-                active: string;
-                status: string;
-                details: string;
-                messages: {
-                    emptyList: string;
-                };
-                userRoles: {
-                    b2bcustomergroup: string;
-                    b2bapprovergroup: string;
-                    b2bmanagergroup: string;
-                    b2badmingroup: string;
-                };
-                userRights: {
-                    unitorderviewergroup: string;
-                };
-                breadcrumb: string;
-                notification: {
-                    noSufficientPermissions: string;
-                    notExist: string;
-                    disabled: string;
-                };
-                confirmation: {
-                    cancel: string;
-                    confirm: string;
-                    disable: string;
-                    delete: string;
-                };
-                httpHandlers: {
-                    conflict: {
-                        budget: string;
-                        costCenter: string;
-                        unit: string;
-                        user: string;
-                        userGroup: string;
-                        permission: string;
-                        unknown: string;
-                    };
-                };
-                information: string;
-            };
-            orgCostCenter: {
-                groupName: string;
-                header: string;
-                code: string;
-                active: string;
-                name: string;
-                currency: string;
-                unit: string;
-                actions: string;
-                sortBy: string;
-                sort: {
-                    byName: string;
-                    byUnitName: string;
-                    byCode: string;
-                };
-                hint: string;
-                disable: {
-                    confirm: string;
-                };
-                messages: {
-                    deactivateTitle: string;
-                    deactivate: string;
-                    confirmEnabled: string;
-                    confirmDisabled: string;
-                    update: string;
-                    create: string;
-                };
-                info: {
-                    disabledEdit: string;
-                    disabledEnable: string;
-                };
-                details: {
-                    title: string;
-                    subtitle: string;
-                };
-                edit: {
-                    title: string;
-                    subtitle: string;
-                };
-                create: {
-                    title: string;
-                    subtitle: string;
-                };
-                budget: {
-                    link: string;
-                };
-                breadcrumbs: {
-                    list: string;
-                    details: string;
-                    budgets: string;
-                };
-            };
-            orgCostCenterBudgets: {
-                title: string;
-                subtitle: string;
-                assigned: string;
-                unassigned: string;
-            };
-            orgCostCenterAssignedBudgets: {
-                title: string;
-                subtitle: string;
-                assigned: string;
-                unassigned: string;
-            };
-            orgBudget: {
-                groupName: string;
-                header: string;
-                code: string;
-                name: string;
-                active: string;
-                currency: string;
-                amount: string;
-                unit: string;
-                businessUnits: string;
-                dateRange: string;
-                startDate: string;
-                endDate: string;
-                actions: string;
-                sortBy: string;
-                sort: {
-                    byName: string;
-                    byUnitName: string;
-                    byCode: string;
-                    byValue: string;
-                };
-                hint: string;
-                details: {
-                    title: string;
-                    subtitle: string;
-                };
-                edit: {
-                    title: string;
-                    subtitle: string;
-                };
-                create: {
-                    title: string;
-                    subtitle: string;
-                };
-                messages: {
-                    deactivateTitle: string;
-                    deactivate: string;
-                    confirmEnabled: string;
-                    confirmDisabled: string;
-                    update: string;
-                    create: string;
-                };
-                info: {
-                    disabledEdit: string;
-                    disabledEnable: string;
-                };
-                links: {
-                    costCenters: string;
-                };
-                breadcrumbs: {
-                    list: string;
-                    details: string;
-                };
-            };
-            orgBudgetAssignedCostCenters: {
-                title: string;
-                subtitle: string;
-            };
-            orgUnit: {
-                groupName: string;
-                header: string;
-                unit: string;
-                name: string;
-                uid: string;
-                approvalProcess: string;
-                parentUnit: string;
-                active: string;
-                hint: string;
-                details: {
-                    title: string;
-                    subtitle: string;
-                    hint: string;
-                };
-                edit: {
-                    title: string;
-                    subtitle: string;
-                };
-                create: {
-                    title: string;
-                    subtitle: string;
-                };
-                messages: {
-                    deactivateTitle: string;
-                    deactivate: string;
-                    confirmEnabled: string;
-                    confirmDisabled: string;
-                    update: string;
-                    create: string;
-                };
-                info: {
-                    disabledEdit: string;
-                    disabledEnable: string;
-                    disabledDisable: string;
-                };
-                links: {
-                    units: string;
-                    users: string;
-                    approvers: string;
-                    shippingAddresses: string;
-                    costCenters: string;
-                };
-                tree: {
-                    expandAll: string;
-                    collapseAll: string;
-                    expand: string;
-                    collapse: string;
-                    explore: string;
-                };
-                children: {
-                    create: {
-                        title: string;
-                        subtitle: string;
-                    };
-                    messages: {
-                        create: string;
-                    };
-                };
-                costCenters: {
-                    create: {
-                        title: string;
-                        subtitle: string;
-                    };
-                };
-                form: {
-                    parentOrgUnit: string;
-                    create: string;
-                    parentOrgUnitNotes: string;
-                };
-                users: {
-                    header: string;
-                    changeUserRoles: string;
-                    newUser: string;
-                };
-                assignRoles: {
-                    header: string;
-                    instructions: {
-                        check: string;
-                        uncheck: string;
-                        changes: string;
-                    };
-                };
-                approvers: {
-                    header: string;
-                    assign: string;
-                    new: string;
-                };
-                assignApprovers: {
-                    header: string;
-                    instructions: {
-                        check: string;
-                        uncheck: string;
-                        changes: string;
-                    };
-                    hint: string;
-                };
-                breadcrumbs: {
-                    list: string;
-                    details: string;
-                    children: string;
-                    users: string;
-                    approvers: string;
-                    addresses: string;
-                    addressDetails: string;
-                    costCenters: string;
-                };
-            };
-            orgUnitChildren: {
-                title: string;
-                subtitle: string;
-                info: {
-                    disabledCreate: string;
-                };
-                hint: string;
-            };
-            orgUnitApprovers: {
-                title: string;
-                subtitle: string;
-                assigned: string;
-                unassigned: string;
-            };
-            orgUnitAssignedApprovers: {
-                title: string;
-                subtitle: string;
-                assigned: string;
-                unassigned: string;
-                hint: string;
-            };
-            orgUnitAssignedRoles: {
-                header: string;
-                name: string;
-                email: string;
-                roles: string;
-                roleCustomer: string;
-                roleApprover: string;
-                roleManager: string;
-                roleAdministrator: string;
-            };
-            orgUnitUsers: {
-                title: string;
-                subtitle: string;
-                info: {
-                    disabledCreate: string;
-                };
-                hint: string;
-            };
-            orgUnitUserRoles: {
-                title: string;
-                subtitle: string;
-                messages: {
-                    rolesUpdated: string;
-                };
-            };
-            orgUnitAssignedUsers: {
-                title: string;
-                subtitle: string;
-            };
-            orgUnitCostCenters: {
-                title: string;
-                subtitle: string;
-                info: {
-                    disabledCreate: string;
-                };
-                hint: string;
-            };
-            orgUnitAddress: {
-                title: string;
-                subtitle: string;
-                country: string;
-                titles: string;
-                firstName: string;
-                lastName: string;
-                formattedAddress: string;
-                address1: string;
-                address2: string;
-                city: string;
-                state: string;
-                zipCode: string;
-                phoneNumber: string;
-                streetAddress: string;
-                aptSuite: string;
-                selectOne: string;
-                hint: string;
-                details: {
-                    title: string;
-                    subtitle: string;
-                };
-                edit: {
-                    title: string;
-                };
-                create: {
-                    title: string;
-                };
-                form: {
-                    subtitle: string;
-                };
-                messages: {
-                    create: string;
-                    update: string;
-                    delete: string;
-                    deleteTitle: string;
-                    deleted: string;
-                };
-            };
-            orgUserGroup: {
-                groupName: string;
-                header: string;
-                disabled: string;
-                uid: string;
-                name: string;
-                unit: string;
-                orgUnit: string;
-                actions: string;
-                sortBy: string;
-                sort: {
-                    byName: string;
-                    byUnitName: string;
-                    byGroupID: string;
-                };
-                hint: string;
-                details: {
-                    title: string;
-                    subtitle: string;
-                };
-                edit: {
-                    title: string;
-                    subtitle: string;
-                };
-                create: {
-                    title: string;
-                    subtitle: string;
-                };
-                links: {
-                    user: string;
-                    permission: string;
-                };
-                messages: {
-                    update: string;
-                    create: string;
-                    deleteTitle: string;
-                    delete: string;
-                    deleted: string;
-                };
-                breadcrumbs: {
-                    list: string;
-                    details: string;
-                    users: string;
-                    permissions: string;
-                };
-            };
-            orgUserGroupUsers: {
-                title: string;
-                subtitle: string;
-                assigned: string;
-                unassigned: string;
-                unassignAll: string;
-                unassignAllConfirmation: string;
-            };
-            orgUserGroupAssignedUsers: {
-                title: string;
-                subtitle: string;
-                assigned: string;
-                unassigned: string;
-            };
-            orgUserGroupPermissions: {
-                title: string;
-                subtitle: string;
-                assigned: string;
-                unassigned: string;
-            };
-            orgUserGroupAssignedPermissions: {
-                title: string;
-                subtitle: string;
-                assigned: string;
-                unassigned: string;
-            };
-            orgUser: {
-                groupName: string;
-                header: string;
-                disabled: string;
-                uid: string;
-                active: string;
-                name: string;
-                firstName: string;
-                lastName: string;
-                email: string;
-                orgUnit: string;
-                unit: string;
-                roles: string;
-                rights: string;
-                title: string;
-                hint: string;
-                unitApprover: string;
-                assignApprover: string;
-                actions: string;
-                sortBy: string;
-                sort: {
-                    byName: string;
-                    byUnit: string;
-                };
-                details: {
-                    title: string;
-                    subtitle: string;
-                };
-                edit: {
-                    title: string;
-                    subtitle: string;
-                };
-                create: {
-                    title: string;
-                    subtitle: string;
-                };
-                links: {
-                    password: string;
-                    approvers: string;
-                    userGroup: string;
-                    permission: string;
-                    rolesAndRights: string;
-                };
-                messages: {
-                    deactivateTitle: string;
-                    deactivate: string;
-                    confirmEnabled: string;
-                    confirmDisabled: string;
-                    update: string;
-                    create: string;
-                    updatePassword: string;
-                };
-                info: {
-                    disabledEdit: string;
-                    disabledEnable: string;
-                };
-                approver: {
-                    link: string;
-                    header: string;
-                    assign: string;
-                    assignHeader: string;
-                    back: string;
-                    new: string;
-                    instructions: {
-                        check: string;
-                        uncheck: string;
-                        changes: string;
-                    };
-                };
-                userGroup: {
-                    link: string;
-                    header: string;
-                    assign: string;
-                    assignHeader: string;
-                    back: string;
-                    instructions: {
-                        check: string;
-                        uncheck: string;
-                        changes: string;
-                    };
-                };
-                permission: {
-                    link: string;
-                    header: string;
-                    assign: string;
-                    assignHeader: string;
-                    back: string;
-                    instructions: {
-                        check: string;
-                        uncheck: string;
-                        changes: string;
-                    };
-                    per: {
-                        undefined: string;
-                        MONTH: string;
-                        YEAR: string;
-                        WEEK: string;
-                        QUARTER: string;
-                    };
-                };
-                password: {
-                    title: string;
-                    subtitle: string;
-                    newPassword: string;
-                    confirmPassword: string;
-                };
-                breadcrumbs: {
-                    list: string;
-                    details: string;
-                    userGroups: string;
-                    approvers: string;
-                    permissions: string;
-                };
-            };
-            orgUserUserGroups: {
-                title: string;
-                subtitle: string;
-                assigned: string;
-                unassigned: string;
-            };
-            orgUserAssignedUserGroups: {
-                title: string;
-                subtitle: string;
-                assigned: string;
-                unassigned: string;
-            };
-            orgUserApprovers: {
-                title: string;
-                subtitle: string;
-                assigned: string;
-                unassigned: string;
-            };
-            orgUserAssignedApprovers: {
-                title: string;
-                subtitle: string;
-                assigned: string;
-                unassigned: string;
-            };
-            orgUserPermissions: {
-                title: string;
-                subtitle: string;
-                assigned: string;
-                unassigned: string;
-            };
-            orgUserAssignedPermissions: {
-                title: string;
-                subtitle: string;
-                assigned: string;
-                unassigned: string;
-            };
-            orgPurchaseLimit: {
-                groupName: string;
-                header: string;
-                name: string;
-                code: string;
-                active: string;
-                limit: string;
-                orderApprovalPermissionType: string;
-                threshold: string;
-                periodRange: string;
-                currency: string;
-                orgUnit: string;
-                unit: string;
-                actions: string;
-                hint: string;
-                details: {
-                    title: string;
-                    subtitle: string;
-                };
-                edit: {
-                    title: string;
-                    subtitle: string;
-                };
-                create: {
-                    title: string;
-                    subtitle: string;
-                };
-                sortBy: string;
-                sort: {
-                    byName: string;
-                    byUnitName: string;
-                };
-                messages: {
-                    deactivateTitle: string;
-                    deactivate: string;
-                    confirmEnabled: string;
-                    confirmDisabled: string;
-                    update: string;
-                    create: string;
-                };
-                info: {
-                    disabledEdit: string;
-                    disabledEnable: string;
-                };
-                per: {
-                    DAY: string;
-                    WEEK: string;
-                    MONTH: string;
-                    QUARTER: string;
-                    YEAR: string;
-                };
-                breadcrumbs: {
-                    list: string;
-                    details: string;
-                };
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-organizationTranslations: {
-    en: {
-        organization: {
-            organization: {
-                enabled: string
-```
-
-
-
-
 # Variable organizationTranslationsCs
 ## @spartacus/organization/administration/assets
 
@@ -47012,117 +36640,6 @@ moved to @spartacus/organization/account/summary/assets
 moved to @spartacus/organization/account/summary/assets
 
 
-Variable accountSummaryTranslations changed.
-
-Previous version:
-
-```
-accountSummaryTranslations: {
-    en: {
-        accountSummary: {
-            orgAccountSummary: {
-                groupName: string;
-                header: string;
-                name: string;
-                details: {
-                    header: string;
-                    uid: string;
-                    name: string;
-                    address: string;
-                    creditRep: string;
-                    creditLine: string;
-                    currentBalance: string;
-                    openBalance: string;
-                    pastDueBalance: string;
-                    dayRange: string;
-                    dayPlus: string;
-                    notApplicable: string;
-                };
-                document: {
-                    header: string;
-                    id: string;
-                    type: string;
-                    date: string;
-                    dueDate: string;
-                    originalAmount: string;
-                    openAmount: string;
-                    status: string;
-                    attachment: string;
-                    download: string;
-                    attachmentDescription: string;
-                    noneFound: string;
-                };
-                sorts: {
-                    byCreatedAtDateAsc: string;
-                    byCreatedAtDateDesc: string;
-                    byDueAtDateAsc: string;
-                    byDueAtDateDesc: string;
-                    byOriginalAmountAsc: string;
-                    byOriginalAmountDesc: string;
-                    byOpenAmountAsc: string;
-                    byOpenAmountDesc: string;
-                    byOrgDocumentTypeAsc: string;
-                    byOrgDocumentTypeDesc: string;
-                    byStatusAsc: string;
-                    byStatusDesc: string;
-                    byOrgDocumentIdAsc: string;
-                    byOrgDocumentIdDesc: string;
-                };
-                statuses: {
-                    open: string;
-                    closed: string;
-                    all: string;
-                };
-                filterByOptions: {
-                    orgDocumentId: string;
-                    orgDocumentIdRange: string;
-                    orgDocumentType: string;
-                    createdAtDateRange: string;
-                    dueAtDateRange: string;
-                    amountRange: string;
-                    openAmountRange: string;
-                };
-                sortBy: string;
-                sortDocuments: string;
-                filter: {
-                    status: string;
-                    filterBy: string;
-                    documentNumber: string;
-                    documentType: string;
-                    startRange: string;
-                    endRange: string;
-                    clear: string;
-                    search: string;
-                    errors: {
-                        toDateMustComeAfterFrom: string;
-                        toAmountMustBeLargeThanFrom: string;
-                    };
-                };
-                hint: string;
-            };
-            orgAccountSummaryList: {
-                breadcrumbs: {
-                    list: string;
-                    details: string;
-                };
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-accountSummaryTranslations: {
-    en: {
-        accountSummary: {
-            orgAccountSummary: {
-                groupName: string
-```
-
-
 
 
 # Variable accountSummaryTranslationsCs
@@ -47744,32 +37261,6 @@ deliveryModeCard(
 
 
 
-# Class OrderConfig
-## @spartacus/order/root
-
-
-### Property orderAttachments changed.
-
-
-Previous version:
-
-```
-orderAttachments: {
-        previewMimeTypes: string[];
-    }
-```
-
-
-Current version:
-
-```
-orderAttachments: {
-        previewMimeTypes: string[]
-```
-
-
-
-
 # Class OrderFacade
 ## @spartacus/order/root
 
@@ -48075,33 +37566,6 @@ paymentMethodCard(
   paymentDetails: 
 ): Card
 
-```
-
-
-
-
-# Variable recurrencePeriod
-## @spartacus/order/root
-
-
-Variable recurrencePeriod changed.
-
-Previous version:
-
-```
-recurrencePeriod: {
-    DAILY: string;
-    WEEKLY: string;
-    MONTHLY: string;
-}
-```
-
-
-Current version:
-
-```
-recurrencePeriod: {
-    DAILY: string
 ```
 
 
@@ -49103,51 +38567,6 @@ moved to @spartacus/order/document/flow/components
 moved to @spartacus/order/document/flow/assets
 
 
-Variable documentFlowTranslations changed.
-
-Previous version:
-
-```
-documentFlowTranslations: {
-    en: {
-        documentFlow: {
-            documentFlow: {
-                button: string;
-                dialog: {
-                    title: string;
-                    closeModal: string;
-                    name: string;
-                    date: string;
-                    time: string;
-                    status: string;
-                    status_OPEN: string;
-                    status_IN_PROCESS: string;
-                    status_COMPLETED: string;
-                    status_NOT_RELEVANT: string;
-                    orderItems: string;
-                    deliveryItemId: string;
-                    orderItemId: string;
-                    error: string;
-                    empty: string;
-                };
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-documentFlowTranslations: {
-    en: {
-        documentFlow: {
-            documentFlow: {
-                button: string
-```
-
-
 
 
 # Variable documentFlowTranslationsEn
@@ -49338,28 +38757,6 @@ Namespace OrderActions has been removed and is no longer part of the public API.
 ## @spartacus/order/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orderCode: string;
-        cancelRequestInput: CancellationRequestEntryInputList;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrderActions.CancelOrderFail
@@ -49370,28 +38767,6 @@ payload: {
 
 # Class OrderActions.CancelOrderReturnRequest
 ## @spartacus/order/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        returnRequestCode: string;
-        returnRequestModification: ReturnRequestModification;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -49416,27 +38791,6 @@ payload: {
 
 # Class OrderActions.CancelReplenishmentOrder
 ## @spartacus/order/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        replenishmentOrderCode: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -49557,52 +38911,10 @@ moved to @spartacus/organization/unit/order/core
 ## @spartacus/order/core
 
 
-TypeAlias ConsignmentTrackingAction changed.
-
-Previous version:
-
-```
-LoadConsignmentTracking,
- | ,
-LoadConsignmentTrackingFail,
- | ,
-LoadConsignmentTrackingSuccess,
- | ,
-ClearConsignmentTracking
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # TypeAlias OrderActions.ConsignmentTrackingByIdAction
 ## @spartacus/order/core
-
-
-TypeAlias ConsignmentTrackingByIdAction changed.
-
-Previous version:
-
-```
-LoadConsignmentTrackingById,
- | ,
-LoadConsignmentTrackingByIdFail,
- | ,
-LoadConsignmentTrackingByIdSuccess
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -49627,27 +38939,6 @@ Current version:
 
 # Class OrderActions.CreateOrderReturnRequest
 ## @spartacus/order/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        returnRequestInput: ReturnRequestEntryInputList;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -49836,54 +39127,10 @@ moved to @spartacus/organization/unit/order/core
 ## @spartacus/order/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId?: string;
-        orderCode: string;
-        consignmentCode: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId?: string
-```
-
-
 
 
 # Class OrderActions.LoadConsignmentTrackingById
 ## @spartacus/order/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orderCode: string;
-        consignmentCode: string;
-        userId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orderCode: string
-```
 
 
 
@@ -49892,54 +39139,10 @@ payload: {
 ## @spartacus/order/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orderCode: string;
-        consignmentCode: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orderCode: string
-```
-
-
 
 
 # Class OrderActions.LoadConsignmentTrackingByIdSuccess
 ## @spartacus/order/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        orderCode: string;
-        consignmentCode: string;
-        consignmentTracking: ConsignmentTracking;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        orderCode: string
-```
 
 
 
@@ -49960,52 +39163,10 @@ payload: {
 ## @spartacus/order/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        code: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrderActions.LoadOrderByIdFail
 ## @spartacus/order/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        code: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        code: string
-```
 
 
 
@@ -50020,27 +39181,6 @@ payload: {
 ## @spartacus/order/core
 
 moved to @spartacus/organization/unit/order/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        orderCode: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -50065,27 +39205,6 @@ moved to @spartacus/organization/unit/order/core
 ## @spartacus/order/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        returnRequestCode: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrderActions.LoadOrderReturnRequestFail
@@ -50096,29 +39215,6 @@ payload: {
 
 # Class OrderActions.LoadOrderReturnRequestList
 ## @spartacus/order/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        pageSize?: number;
-        currentPage?: number;
-        sort?: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -50145,27 +39241,6 @@ payload: {
 ## @spartacus/order/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        replenishmentOrderCode: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrderActions.LoadReplenishmentOrderDetailsFail
@@ -50182,30 +39257,6 @@ payload: {
 
 # Class OrderActions.LoadUserOrders
 ## @spartacus/order/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        pageSize?: number;
-        currentPage?: number;
-        sort?: string;
-        replenishmentOrderCode?: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -50226,29 +39277,6 @@ payload: {
 ## @spartacus/order/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        pageSize?: number;
-        currentPage?: number;
-        sort?: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class OrderActions.LoadUserReplenishmentOrdersFail
@@ -50267,58 +39295,10 @@ payload: {
 ## @spartacus/order/core
 
 
-TypeAlias OrderByIdAction changed.
-
-Previous version:
-
-```
-LoadOrderById,
- | ,
-LoadOrderByIdFail,
- | ,
-LoadOrderByIdSuccess
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # TypeAlias OrderActions.OrderDetailsAction
 ## @spartacus/order/core
-
-
-TypeAlias OrderDetailsAction changed.
-
-Previous version:
-
-```
-LoadOrderDetails,
- | ,
-LoadOrderDetailsFail,
- | ,
-LoadOrderDetailsSuccess,
- | ,
-ClearOrderDetails,
- | ,
-CancelOrder,
- | ,
-CancelOrderFail,
- | ,
-CancelOrderSuccess
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -50327,84 +39307,10 @@ Current version:
 ## @spartacus/order/core
 
 
-TypeAlias OrderReturnRequestAction changed.
-
-Previous version:
-
-```
-CreateOrderReturnRequest,
- | ,
-CreateOrderReturnRequestFail,
- | ,
-CreateOrderReturnRequestSuccess,
- | ,
-LoadOrderReturnRequest,
- | ,
-LoadOrderReturnRequestFail,
- | ,
-LoadOrderReturnRequestSuccess,
- | ,
-CancelOrderReturnRequest,
- | ,
-CancelOrderReturnRequestFail,
- | ,
-CancelOrderReturnRequestSuccess,
- | ,
-LoadOrderReturnRequestList,
- | ,
-LoadOrderReturnRequestListFail,
- | ,
-LoadOrderReturnRequestListSuccess,
- | ,
-ClearOrderReturnRequest,
- | ,
-ClearOrderReturnRequestList,
- | ,
-ResetCancelReturnProcess
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # TypeAlias OrderActions.ReplenishmentOrderDetailsAction
 ## @spartacus/order/core
-
-
-TypeAlias ReplenishmentOrderDetailsAction changed.
-
-Previous version:
-
-```
-LoadReplenishmentOrderDetails,
- | ,
-LoadReplenishmentOrderDetailsSuccess,
- | ,
-LoadReplenishmentOrderDetailsFail,
- | ,
-ClearReplenishmentOrderDetails,
- | ,
-CancelReplenishmentOrder,
- | ,
-CancelReplenishmentOrderSuccess,
- | ,
-CancelReplenishmentOrderFail,
- | ,
-ClearCancelReplenishmentOrder
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -50437,54 +39343,10 @@ Current version:
 ## @spartacus/order/core
 
 
-TypeAlias UserOrdersAction changed.
-
-Previous version:
-
-```
-LoadUserOrders,
- | ,
-LoadUserOrdersFail,
- | ,
-LoadUserOrdersSuccess,
- | ,
-ClearUserOrders
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # TypeAlias OrderActions.UserReplenishmentOrdersAction
 ## @spartacus/order/core
-
-
-TypeAlias UserReplenishmentOrdersAction changed.
-
-Previous version:
-
-```
-LoadUserReplenishmentOrders,
- | ,
-LoadUserReplenishmentOrdersFail,
- | ,
-LoadUserReplenishmentOrdersSuccess,
- | ,
-ClearUserReplenishmentOrders
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -51222,26 +40084,6 @@ getOrderState: MemoizedSelector<StateWithUnitOrder, UnitOrderState>
 
 
 
-### Property reorderCommand changed.
-
-
-Previous version:
-
-```
-reorderCommand: Command<{
-        orderId: string;
-    }, CartModificationList>
-```
-
-
-Current version:
-
-```
-reorderCommand: Command<{
-        orderId: string
-```
-
-
 ### Method reorderPreconditions is removed.
 
 
@@ -51396,27 +40238,6 @@ reorderCommand: Command<{
 
 ### Method scheduleReplenishmentOrder is removed.
 
-
-
-### Property scheduleReplenishmentOrderCommand changed.
-
-
-Previous version:
-
-```
-scheduleReplenishmentOrderCommand: Command<{
-        termsChecked: boolean;
-        form: ScheduleReplenishmentForm;
-    }, ReplenishmentOrder>
-```
-
-
-Current version:
-
-```
-scheduleReplenishmentOrderCommand: Command<{
-        termsChecked: boolean
-```
 
 
 
@@ -51841,27 +40662,6 @@ loadError: i0.WritableSignal<boolean>
 
 ### Method ngOnInit is removed.
 
-
-
-### Property outlet changed.
-
-
-Previous version:
-
-```
-outlet: OutletContextData<{
-        showItemList?: boolean;
-        order?: any;
-    }> | undefined
-```
-
-
-Current version:
-
-```
-outlet: OutletContextData<{
-        showItemList?: boolean
-```
 
 
 
@@ -52407,292 +41207,6 @@ data$: rxjs.Observable<any>
 
 
 
-# Variable orderTranslations
-## @spartacus/order/assets
-
-
-Variable orderTranslations changed.
-
-Previous version:
-
-```
-orderTranslations: {
-    en: {
-        myAccountV2Order: {
-            myAccountV2OrderHistory: {
-                heading: string;
-                item: string;
-                items: string;
-                totalPrice: string;
-                consignmentCode: string;
-                statusDate: string;
-                returnProcessed: string;
-                deliveryPointOfServiceDetails: {
-                    itemsToBePickUp: string;
-                };
-                checkoutMode: {
-                    deliveryEntries: string;
-                };
-                checkoutPickupInStore: {
-                    heading: string;
-                };
-                orderListResults: string;
-                orderListPagination: string;
-                totalPriceLabel: string;
-                orderPlaced: string;
-                orderCodeLabel: string;
-                consignmentDetailLabel: string;
-                consignmentNumberLabel: string;
-                consignmentStatusLabel: string;
-                consignmentStatusDateLabel: string;
-                estimateDeliveryLabel: string;
-            };
-            myAccountV2OrderDetails: {
-                returnItems: string;
-                cancelItems: string;
-                downloadInvoices: string;
-                viewAllOrders: string;
-                noInvoices: string;
-            };
-            myAccountV2Orders: {
-                item: string;
-                items: string;
-                heading: string;
-                orderNumber: string;
-                purchasedOn: string;
-                orderedItems: string;
-                totalPrice: string;
-                orderDetails: string;
-                orderDetailsLabel: string;
-                orderStatusLabel: string;
-                returnOrder: string;
-                showMore: string;
-                showMoreLabel: string;
-            };
-        };
-        order: {
-            orderDetails: {
-                orderId: string;
-                orderNumber: string;
-                replenishmentId: string;
-                purchaseOrderId: string;
-                purchaseOrderNumber: string;
-                emptyPurchaseOrderId: string;
-                none: string;
-                placed: string;
-                placedBy: string;
-                unit: string;
-                quoteCode: string;
-                quoteDetail: string;
-                costCenter: string;
-                costCenterAndUnit: string;
-                costCenterAndUnitValue: string;
-                methodOfPayment: string;
-                payByAccount: string;
-                paidByCreditCard: string;
-                status: string;
-                active: string;
-                shippedOn: string;
-                shippingMethod: string;
-                placedOn: string;
-                startOn: string;
-                nextOrderDate: string;
-                frequency: string;
-                cancelled: string;
-                deliveryStatus_IN_TRANSIT: string;
-                deliveryStatus_READY_FOR_PICKUP: string;
-                deliveryStatus_READY_FOR_SHIPPING: string;
-                deliveryStatus_WAITING: string;
-                deliveryStatus_DELIVERING: string;
-                deliveryStatus_PICKPACK: string;
-                deliveryStatus_PICKUP_COMPLETE: string;
-                deliveryStatus_DELIVERY_COMPLETED: string;
-                deliveryStatus_PAYMENT_NOT_CAPTURED: string;
-                deliveryStatus_IN_PROCESS: string;
-                deliveryStatus_READY: string;
-                deliveryStatus_DELIVERY_REJECTED: string;
-                deliveryStatus_SHIPPED: string;
-                deliveryStatus_TAX_NOT_COMMITTED: string;
-                deliveryStatus_CANCELLED: string;
-                statusDisplay_cancelled: string;
-                statusDisplay_cancelling: string;
-                statusDisplay_completed: string;
-                statusDisplay_created: string;
-                statusDisplay_error: string;
-                statusDisplay_Error: string;
-                statusDisplay_processing: string;
-                statusDisplay_open: string;
-                statusDisplay_pending: {
-                    approval: string;
-                    merchant: {
-                        approval: string;
-                    };
-                };
-                statusDisplay_approved: string;
-                statusDisplay_rejected: string;
-                statusDisplay_merchant: {
-                    approved: string;
-                    rejected: string;
-                };
-                statusDisplay_assigned: {
-                    admin: string;
-                };
-                consignmentTracking: {
-                    action: string;
-                    dialog: {
-                        header: string;
-                        shipped: string;
-                        estimate: string;
-                        carrier: string;
-                        trackingId: string;
-                        noTracking: string;
-                        loadingHeader: string;
-                    };
-                };
-                cancellationAndReturn: {
-                    returnAction: string;
-                    cancelAction: string;
-                    item: string;
-                    itemPrice: string;
-                    quantity: string;
-                    returnQty: string;
-                    cancelQty: string;
-                    setAll: string;
-                    totalPrice: string;
-                    submit: string;
-                    submitDescription: string;
-                    returnSuccess: string;
-                    cancelSuccess: string;
-                };
-                cancelReplenishment: {
-                    title: string;
-                    description: string;
-                    accept: string;
-                    reject: string;
-                    cancelSuccess: string;
-                };
-                caption: string;
-            };
-            orderHistory: {
-                orderHistory: string;
-                orderId: string;
-                emptyPurchaseOrderId: string;
-                date: string;
-                status: string;
-                PONumber: string;
-                total: string;
-                noOrders: string;
-                noReplenishmentOrders: string;
-                startShopping: string;
-                sortBy: string;
-                sortOrders: string;
-                replenishmentOrderHistory: string;
-                replenishmentOrderId: string;
-                purchaseOrderNumber: string;
-                costCenter: string;
-                startOn: string;
-                frequency: string;
-                nextOrderDate: string;
-                cancel: string;
-                cancelled: string;
-                replenishmentHistory: string;
-                notFound: string;
-                actions: string;
-            };
-            AccountOrderHistoryTabContainer: {
-                tabs: {
-                    AccountOrderHistoryComponent: string;
-                    OrderReturnRequestListComponent: string;
-                };
-                tabPanelContainerRegion: string;
-                tabPanelContainerRegionGroup: string;
-            };
-            returnRequestList: {
-                returnRequestId: string;
-                orderId: string;
-                date: string;
-                status: string;
-                sortBy: string;
-                sortReturns: string;
-                statusDisplay_APPROVAL_PENDING: string;
-                statusDisplay_CANCELED: string;
-                statusDisplay_CANCELLING: string;
-                statusDisplay_WAIT: string;
-                statusDisplay_RECEIVED: string;
-                statusDisplay_RECEIVING: string;
-                statusDisplay_APPROVING: string;
-                statusDisplay_REVERSING_PAYMENT: string;
-                statusDisplay_PAYMENT_REVERSED: string;
-                statusDisplay_PAYMENT_REVERSAL_FAILED: string;
-                statusDisplay_REVERSING_TAX: string;
-                statusDisplay_TAX_REVERSED: string;
-                statusDisplay_TAX_REVERSAL_FAILED: string;
-                statusDisplay_COMPLETED: string;
-            };
-            returnRequest: {
-                returnRequestId: string;
-                orderCode: string;
-                status: string;
-                cancel: string;
-                item: string;
-                itemPrice: string;
-                returnQty: string;
-                total: string;
-                summary: string;
-                subtotal: string;
-                deliveryCode: string;
-                estimatedRefund: string;
-                note: string;
-                cancelSuccess: string;
-                caption: string;
-            };
-            reorder: {
-                button: string;
-                dialog: {
-                    reorderProducts: string;
-                    messages: {
-                        reviewConfiguration: string;
-                        lowStock: string;
-                        noStock: string;
-                        pricingError: string;
-                        unresolvableIssues: string;
-                        success: string;
-                    };
-                    areYouSureToReplaceCart: string;
-                    cancel: string;
-                    continue: string;
-                };
-            };
-            attachments: {
-                button: string;
-                dialog: {
-                    title: string;
-                    preview: string;
-                    closeModal: string;
-                    error: string;
-                    empty: string;
-                    downloadError: string;
-                };
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-orderTranslations: {
-    en: {
-        myAccountV2Order: {
-            myAccountV2OrderHistory: {
-                heading: string
-```
-
-
-
-
 # Variable orderTranslationsCs
 ## @spartacus/order/assets
 
@@ -52860,40 +41374,6 @@ Variable orderTranslationsZh has been removed and is no longer part of the publi
 
 
 
-# Class OppsConfig
-## @spartacus/opps/root
-
-
-### Property opps changed.
-
-
-Previous version:
-
-```
-opps: {
-        couponcodes?: {
-            httpHeaderName?: string;
-            urlParameter?: string;
-            localStorageKey?: string;
-        };
-        loginRequired?: {
-            urlParameter?: string;
-        };
-    }
-```
-
-
-Current version:
-
-```
-opps: {
-        couponcodes?: {
-            httpHeaderName?: string
-```
-
-
-
-
 # Class OppsLoginRequiredGuard
 ## @spartacus/opps/root
 
@@ -52940,40 +41420,6 @@ saveCouponCodesFactory(): ()
 
 ### Method intercept is removed.
 
-
-
-
-
-# Class OppsConfig
-## @spartacus/opps
-
-
-### Property opps changed.
-
-
-Previous version:
-
-```
-opps: {
-        couponcodes?: {
-            httpHeaderName?: string;
-            urlParameter?: string;
-            localStorageKey?: string;
-        };
-        loginRequired?: {
-            urlParameter?: string;
-        };
-    }
-```
-
-
-Current version:
-
-```
-opps: {
-        couponcodes?: {
-            httpHeaderName?: string
-```
 
 
 
@@ -53420,26 +41866,6 @@ moved to @spartacus/opf/quick/buy/core
 moved to @spartacus/opf/quick/buy/core
 
 
-### Property applePaySessionCommand changed.
-
-
-Previous version:
-
-```
-applePaySessionCommand: Command<{
-        applePayWebSessionRequest: ApplePaySessionVerificationRequest;
-    }, ApplePaySessionVerificationResponse>
-```
-
-
-Current version:
-
-```
-applePaySessionCommand: Command<{
-        applePayWebSessionRequest: ApplePaySessionVerificationRequest
-```
-
-
 ### Method getApplePayWebSession is removed.
 
 
@@ -53838,51 +42264,6 @@ moved to @spartacus/opf/quick/buy/core
 
 
 
-# TypeAlias OpfPaymentMerchantCallback
-## @spartacus/opf/payment/root
-
-
-TypeAlias OpfPaymentMerchantCallback changed.
-
-Previous version:
-
-```
-(response?: ,
-OpfPaymentSubmitResponse,
- | ,
-OpfPaymentSubmitCompleteResponse,
-) => void | ,
-Promise,
-<void>
-```
-
-
-Current version:
-
-```
- ,
-OpfPaymentSubmitResponse,
- ,
-|,
- ,
-OpfPaymentSubmitCompleteResponse,
-),
- ,
-=>,
- ,
-void,
- ,
-|,
- ,
-Promise,
-<,
-void,
->
-```
-
-
-
-
 # Interface OpfPaymentMethodDetails
 ## @spartacus/opf/payment/root
 
@@ -54271,36 +42652,6 @@ moved to @spartacus/opf/payment/opf/api
 
 
 
-# Function getBrowserInfo
-## @spartacus/opf/payment/core
-
-
-Function getBrowserInfo changed.
-
-Previous version:
-
-```
-
-getBrowserInfo(
-  nativeWindow: Window | undefined
-): OpfPaymentBrowserInfo
-
-```
-
-
-Current version:
-
-```
-
-getBrowserInfo(
-  nativeWindow: Window | undefined): OpfPaymentBrowserInfo;
-): OpfPaymentBrowserInfo
-
-```
-
-
-
-
 # Class OpfPaymentAdapter
 ## @spartacus/opf/payment/core
 
@@ -54421,191 +42772,24 @@ getBrowserInfo(
 
 
 
-### Property getAfterRedirectScriptsCommand changed.
-
-
-Previous version:
-
-```
-getAfterRedirectScriptsCommand: Command<{
-        paymentSessionId: string;
-    }, OpfPaymentAfterRedirectScriptResponse>
-```
-
-
-Current version:
-
-```
-getAfterRedirectScriptsCommand: Command<{
-        paymentSessionId: string
-```
-
-
 ### Method initiatePayment is removed.
 
-
-
-### Property initiatePaymentCommand changed.
-
-
-Previous version:
-
-```
-initiatePaymentCommand: Command<{
-        paymentConfig: OpfPaymentInitiationConfig;
-    }, OpfPaymentSessionData>
-```
-
-
-Current version:
-
-```
-initiatePaymentCommand: Command<{
-        paymentConfig: OpfPaymentInitiationConfig
-```
 
 
 ### Method setCartPaymentOption is removed.
 
 
 
-### Property setCartPaymentOptionCommand changed.
-
-
-Previous version:
-
-```
-setCartPaymentOptionCommand: Command<{
-        userId: string;
-        cartId: string;
-        sapPaymentOptionId: string;
-        purchaseOrderNumber?: string;
-    }, Cart>
-```
-
-
-Current version:
-
-```
-setCartPaymentOptionCommand: Command<{
-        userId: string
-```
-
-
 ### Method submitCompletePayment is removed.
 
-
-
-### Property submitCompletePaymentCommand changed.
-
-
-Previous version:
-
-```
-submitCompletePaymentCommand: Command<{
-        submitCompleteInput: OpfPaymentSubmitCompleteInput;
-    }, boolean>
-```
-
-
-Current version:
-
-```
-submitCompletePaymentCommand: Command<{
-        submitCompleteInput: OpfPaymentSubmitCompleteInput
-```
 
 
 ### Method submitPayment is removed.
 
 
 
-### Property submitPaymentCommand changed.
-
-
-Previous version:
-
-```
-submitPaymentCommand: Command<{
-        submitInput: OpfPaymentSubmitInput;
-    }, boolean>
-```
-
-
-Current version:
-
-```
-submitPaymentCommand: Command<{
-        submitInput: OpfPaymentSubmitInput
-```
-
-
 ### Method verifyPayment is removed.
 
-
-
-### Property verifyPaymentCommand changed.
-
-
-Previous version:
-
-```
-verifyPaymentCommand: Command<{
-        paymentSessionId: string;
-        paymentVerificationPayload: OpfPaymentVerificationPayload;
-    }, OpfPaymentVerificationResponse>
-```
-
-
-Current version:
-
-```
-verifyPaymentCommand: Command<{
-        paymentSessionId: string
-```
-
-
-
-
-# Variable opfPaymentTranslations
-## @spartacus/opf/payment/assets
-
-
-Variable opfPaymentTranslations changed.
-
-Previous version:
-
-```
-opfPaymentTranslations: {
-    en: {
-        opfPayment: {
-            opfPayment: {
-                errors: {
-                    proceedPayment: string;
-                    cancelPayment: string;
-                    cardExpired: string;
-                    insufficientFunds: string;
-                    invalidCreditCard: string;
-                    unknown: string;
-                    cardReportedLost: string;
-                };
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-opfPaymentTranslations: {
-    en: {
-        opfPayment: {
-            opfPayment: {
-                errors: {
-                    proceedPayment: string
-```
 
 
 
@@ -54925,28 +43109,6 @@ moved to @spartacus/opf/global/functions
 
 
 
-# TypeAlias OpfCtaAdditionalDataKey
-## @spartacus/opf/cta/root
-
-
-TypeAlias OpfCtaAdditionalDataKey changed.
-
-Previous version:
-
-```
-'divisionId' | 'experienceId' | 'currency' | 'fulfillmentLocationId' | 'locale' | 'scriptIdentifier'
-```
-
-
-Current version:
-
-```
-
-```
-
-
-
-
 # Class OpfCtaFacade
 ## @spartacus/opf/cta/root
 
@@ -55063,26 +43225,6 @@ moved to @spartacus/opf/cta/opf/api
 
 # Class OpfCtaService
 ## @spartacus/opf/cta/core
-
-
-### Property ctaScriptsCommand changed.
-
-
-Previous version:
-
-```
-ctaScriptsCommand: Command<{
-        opfCtaScriptsRequest: OpfCtaScriptsRequest;
-    }, OpfCtaScriptsResponse>
-```
-
-
-Current version:
-
-```
-ctaScriptsCommand: Command<{
-        opfCtaScriptsRequest: OpfCtaScriptsRequest
-```
 
 
 ### Method emitScriptReadyEvent is removed.
@@ -55610,75 +43752,6 @@ paymentDisabled$: rxjs.Observable<boolean>
 
 
 
-# Variable opfCheckoutTranslations
-## @spartacus/opf/checkout/assets
-
-
-Variable opfCheckoutTranslations changed.
-
-Previous version:
-
-```
-opfCheckoutTranslations: {
-    en: {
-        opfCheckout: {
-            opfCheckout: {
-                tabs: {
-                    paymentType: string;
-                    shipping: string;
-                    deliveryMethod: string;
-                    paymentAndReview: string;
-                    review: string;
-                };
-                paymentAndReviewTitle: string;
-                billingAddress: string;
-                paymentOption: string;
-                paymentMethod: string;
-                noPaymentMethod: string;
-                editCardDefaultLabel: string;
-                editPaymentMethod: string;
-                poNumber: string;
-                noPoNumber: string;
-                editPoNumber: string;
-                costCenter: string;
-                editCostCenter: string;
-                termsAndConditions: string;
-                closeTermsAndConditionsAlert: string;
-                itemsToBeShipped: string;
-                proceedPayment: string;
-                defaultPaymentInfoMessage: string;
-                proceedPaymentButtonLabel: string;
-                retryPayment: string;
-                checkTermsAndConditionsExplicit: string;
-                checkTermsAndConditionsImplicit: string;
-                termsAndConditionsDisclaimer: string;
-                errors: {
-                    loadActiveConfigurations: string;
-                    noActiveConfigurations: string;
-                    updateBillingAddress: string;
-                    noBillingAddress: string;
-                };
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-opfCheckoutTranslations: {
-    en: {
-        opfCheckout: {
-            opfCheckout: {
-                tabs: {
-                    paymentType: string
-```
-
-
-
-
 # Variable opfCheckoutTranslationsCs
 ## @spartacus/opf/checkout/assets
 
@@ -55991,7 +44064,71 @@ Current version:
 
 ```
 opf: {
-        opfBaseUrl?: string
+        opfBaseUrl?: string;
+        commerceCloudPublicKey?: string;
+        paymentOption?: {
+            /**
+             * The map of info message translation keys for specific payment configuration IDs
+             * @example
+             * ```ts
+             * const opfConfig = {
+             *   opf: {
+             *     paymentInfoMessagesMap: {
+             *       213: 'opfCheckout.payPalPaymentInfoMessage' // Message key for payment method ID 213
+             *     }
+             *   }
+             * };
+             * ```
+             */
+            paymentInfoMessagesMap?: Record<number, string>;
+            /**
+             * Enables the payment info message section within the payment options
+             */
+            enableInfoMessage?: boolean;
+            /**
+             * Iframe sandbox permissions per payment option id.
+             * Useful when specific PSPs require different sandbox flags.
+             * @example
+             * ```ts
+             * const opfConfig = {
+             *   opf: {
+             *     paymentOption: {
+             *       iframeSandboxMap: {
+             *         123: 'allow-scripts allow-same-origin', // PSP 1
+             *         456: 'allow-scripts allow-same-origin allow-forms' // PSP 2
+             *       }
+             *     }
+             *   }
+             * };
+             * ```
+             */
+            iframeSandboxMap?: Record<number, string>;
+        };
+        /**
+         * Local PSP resource configuration for faster loading
+         * @example
+         * ```ts
+         * const opfConfig = {
+         *   opf: {
+         *     localPspResources: {
+         *       213: { // paymentOptionId for Adyen
+         *         jsFiles: ['/assets/adyen-payment.js'],
+         *         cssFiles: ['/assets/adyen-styles.css']
+         *       },
+         *       456: { // paymentOptionId for Stripe
+         *         jsFiles: ['/assets/stripe-payment.js'],
+         *         cssFiles: ['/assets/stripe-styles.css']
+         *       }
+         *     }
+         *   }
+         * };
+         * ```
+         */
+        localPspResources?: Record<number, {
+            jsFiles: string[];
+            cssFiles: string[];
+        }>;
+    }
 ```
 
 
@@ -56057,36 +44194,6 @@ opf: {
 
 ### PropertySignature url is removed.
 
-
-
-
-
-# TypeAlias OpfErrorDialogOptions
-## @spartacus/opf/base/root
-
-
-TypeAlias OpfErrorDialogOptions changed.
-
-Previous version:
-
-```
-{
-    confirmString?: string;
-    confirmKey?: string;
-    confirmReplacements?: any;
-    messageString?: string;
-    messageKey?: string;
-    messageReplacements?: any;
-}
-```
-
-
-Current version:
-
-```
- ,
-string
-```
 
 
 
@@ -56480,27 +44587,6 @@ moved to @spartacus/opf/b2b/checkout/core
 
 
 
-### Property setPaymentTypeCommand changed.
-
-
-Previous version:
-
-```
-setPaymentTypeCommand: Command<{
-        paymentTypeCode: string;
-        purchaseOrderNumber?: string;
-    }>
-```
-
-
-Current version:
-
-```
-setPaymentTypeCommand: Command<{
-        paymentTypeCode: string
-```
-
-
 
 
 # Class OpfB2bCheckoutComponentsModule
@@ -56703,7 +44789,8 @@ Current version:
 
 ```
 checkoutSubmitForm: i5.FormGroup<{
-        termsAndConditions: i5.FormControl<boolean | null>
+        termsAndConditions: i5.FormControl<boolean | null>;
+    }>
 ```
 
 
@@ -56881,37 +44968,6 @@ moved to @spartacus/estimated/delivery/date/assets
 ## @spartacus/estimated-delivery-date/assets
 
 moved to @spartacus/estimated/delivery/date/assets
-
-
-Variable estimatedDeliveryDateTranslations changed.
-
-Previous version:
-
-```
-estimatedDeliveryDateTranslations: {
-    en: {
-        estimatedDeliveryDate: {
-            estimatedDeliveryDate: {
-                quantity: string;
-                quantityFull: string;
-                ETA: string;
-                estimatedDeliveryDateEntryInfo: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-estimatedDeliveryDateTranslations: {
-    en: {
-        estimatedDeliveryDate: {
-            estimatedDeliveryDate: {
-                quantity: string
-```
 
 
 
@@ -57147,30 +45203,6 @@ moved to @spartacus/epd/visualization/root
 moved to @spartacus/epd/visualization/root
 
 
-Function epdVisualizationConfigValidator changed.
-
-Previous version:
-
-```
-
-epdVisualizationConfigValidator(
-  epdVisualizationConfig: EpdVisualizationConfig
-): string | void
-
-```
-
-
-Current version:
-
-```
-
-epdVisualizationConfigValidator(
-  epdVisualizationConfig: EpdVisualizationConfig): string | void;
-): string | void
-
-```
-
-
 
 
 # Interface EpdVisualizationInnerConfig
@@ -57247,60 +45279,12 @@ moved to @spartacus/epd/visualization/root
 moved to @spartacus/epd/visualization/root
 
 
-Function getUrl changed.
-
-Previous version:
-
-```
-
-getUrl(
-  urlString: string
-): URL | null
-
-```
-
-
-Current version:
-
-```
-
-getUrl(
-  urlString: string): URL | null;
-): URL | null
-
-```
-
-
 
 
 # Function isHttpOrHttps
 ## @spartacus/epd-visualization/root
 
 moved to @spartacus/epd/visualization/root
-
-
-Function isHttpOrHttps changed.
-
-Previous version:
-
-```
-
-isHttpOrHttps(
-  url: URL
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isHttpOrHttps(
-  url: URL): boolean;
-): boolean
-
-```
 
 
 
@@ -58447,102 +46431,6 @@ moved to @spartacus/epd/visualization/assets
 moved to @spartacus/epd/visualization/assets
 
 
-Variable epdVisualizationTranslations changed.
-
-Previous version:
-
-```
-epdVisualizationTranslations: {
-    en: {
-        epdVisualization: {
-            epdVisualization: {
-                visualViewer: {
-                    contentType: {
-                        drawing2D: string;
-                        model3D: string;
-                    };
-                    toolbar: {
-                        homeButton: {
-                            label: string;
-                        };
-                        zoomButton: {
-                            label: string;
-                        };
-                        panButton: {
-                            label: string;
-                        };
-                        rotateButton: {
-                            label: string;
-                        };
-                        isolateButton: {
-                            label: string;
-                        };
-                        playButton: {
-                            label: string;
-                        };
-                        pauseButton: {
-                            label: string;
-                        };
-                        hotspotsButton: {
-                            label: string;
-                            show: string;
-                            hide: string;
-                        };
-                        visualViewerAnimationSlider: {
-                            label: string;
-                            role: string;
-                        };
-                    };
-                };
-                visualPicking: {
-                    visualPickingTab: {
-                        noProductReferences: string;
-                    };
-                    visualPickingProductList: {
-                        description: string;
-                        itemPrice: string;
-                        outOfStock: string;
-                        id: string;
-                    };
-                    visualPickingProductFilter: {
-                        input: {
-                            placeholder: string;
-                        };
-                        searchButton: {
-                            label: string;
-                        };
-                        resetButton: {
-                            label: string;
-                        };
-                    };
-                };
-                errors: {
-                    visualLoad: {
-                        noMatchingVisualFound: string;
-                        multipleMatchingVisualsFound: string;
-                        unexpectedLoadError: string;
-                    };
-                };
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-epdVisualizationTranslations: {
-    en: {
-        epdVisualization: {
-            epdVisualization: {
-                visualViewer: {
-                    contentType: {
-                        drawing2D: string
-```
-
-
 
 
 # Variable epdVisualizationTranslationsCs
@@ -58718,45 +46606,6 @@ moved to @spartacus/digital/payments/assets
 ## @spartacus/digital-payments/assets
 
 moved to @spartacus/digital/payments/assets
-
-
-Variable dpTranslations changed.
-
-Previous version:
-
-```
-dpTranslations: {
-    en: {
-        dpPaymentForm: {
-            dpPaymentForm: {
-                redirect: string;
-                callback: string;
-                cancelledOrFailed: string;
-                error: {
-                    redirect: string;
-                    paymentFetch: string;
-                    unknown: string;
-                };
-                confirmation: {
-                    heading: string;
-                    text: string;
-                };
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-dpTranslations: {
-    en: {
-        dpPaymentForm: {
-            dpPaymentForm: {
-                redirect: string
-```
 
 
 
@@ -58944,28 +46793,6 @@ moved to @spartacus/digital/payments
 
 
 
-### Property createPaymentDetailsCommand changed.
-
-
-Previous version:
-
-```
-createPaymentDetailsCommand: Command<{
-        sessionId: string;
-        signature: string;
-        billingAddress?: Address;
-    }, PaymentDetails>
-```
-
-
-Current version:
-
-```
-createPaymentDetailsCommand: Command<{
-        sessionId: string
-```
-
-
 ### Method getCardRegistrationDetails is removed.
 
 
@@ -59098,36 +46925,6 @@ moved to @spartacus/customer/ticketing/root
 moved to @spartacus/customer/ticketing/root
 
 
-### Property customerTicketing changed.
-
-
-Previous version:
-
-```
-customerTicketing: {
-        agentSessionTimer?: {
-            startingDelayInSeconds?: number;
-        };
-        attachmentRestrictions?: {
-            maxSize?: number;
-            allowedTypes?: string[];
-        };
-        inputCharactersLimit?: number;
-        inputCharactersLimitForSubject?: number;
-        listViewPageSize?: number;
-    }
-```
-
-
-Current version:
-
-```
-customerTicketing: {
-        agentSessionTimer?: {
-            startingDelayInSeconds?: number
-```
-
-
 
 
 # Class CustomerTicketingEventListener
@@ -59246,6 +47043,22 @@ moved to @spartacus/customer/ticketing/root
 ## @spartacus/customer-ticketing/root
 
 moved to @spartacus/customer/ticketing/root
+
+
+Variable DATE_FORMAT changed.
+
+Previous version:
+
+```
+DATE_FORMAT: 
+```
+
+
+Current version:
+
+```
+DATE_FORMAT: mm aa"
+```
 
 
 
@@ -59860,27 +47673,6 @@ moved to @spartacus/customer/ticketing/core
 
 
 
-### Property createTicketEventCommand changed.
-
-
-Previous version:
-
-```
-createTicketEventCommand: Command<{
-        ticketEvent: TicketEvent;
-        containsAttachment?: boolean;
-    }, TicketEvent>
-```
-
-
-Current version:
-
-```
-createTicketEventCommand: Command<{
-        ticketEvent: TicketEvent
-```
-
-
 ### Method customerTicketingListPreConditions is removed.
 
 
@@ -59891,27 +47683,6 @@ createTicketEventCommand: Command<{
 
 ### Method downloadAttachment is removed.
 
-
-
-### Property downloadAttachmentCommand changed.
-
-
-Previous version:
-
-```
-downloadAttachmentCommand: Command<{
-        eventCode: string;
-        attachmentId: string;
-    }>
-```
-
-
-Current version:
-
-```
-downloadAttachmentCommand: Command<{
-        eventCode: string
-```
 
 
 ### Method getTicket is removed.
@@ -59986,58 +47757,12 @@ downloadAttachmentCommand: Command<{
 
 
 
-### Property uploadAttachmentCommand changed.
-
-
-Previous version:
-
-```
-uploadAttachmentCommand: Command<{
-        file: File;
-        eventCode: string;
-        ticketId?: string;
-    }>
-```
-
-
-Current version:
-
-```
-uploadAttachmentCommand: Command<{
-        file: File
-```
-
-
 
 
 # Function isNotFoundError
 ## @spartacus/customer-ticketing/core
 
 moved to @spartacus/customer/ticketing/core
-
-
-Function isNotFoundError changed.
-
-Previous version:
-
-```
-
-isNotFoundError(
-  error: ErrorModel
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isNotFoundError(
-  error: ErrorModel): boolean;
-): boolean
-
-```
 
 
 
@@ -60488,88 +48213,6 @@ moved to @spartacus/customer/ticketing/assets
 moved to @spartacus/customer/ticketing/assets
 
 
-Variable customerTicketingTranslations changed.
-
-Previous version:
-
-```
-customerTicketingTranslations: {
-    en: {
-        customerTicketing: {
-            customerTicketing: {
-                mainLogoLabel: string;
-                mainTitle: string;
-                ticketId: string;
-                createdOn: string;
-                changedOn: string;
-                status: string;
-                message: string;
-                cancel: string;
-                submit: string;
-                uploadFile: string;
-                fileSizeLimit: string;
-                maximumAttachment: string;
-                errorMessage: string;
-                charactersLeft: string;
-                customerService: string;
-            };
-            customerTicketingList: {
-                subject: string;
-                ticketCategory: string;
-                sortSubtitle: string;
-                sortOrders: string;
-                noTickets: string;
-                requestTitle: string;
-                mobile: {
-                    ticketIdFull: string;
-                };
-            };
-            createCustomerTicket: {
-                createNewTicket: string;
-                addNewRequest: string;
-                addRequest: string;
-                subject: string;
-                category: string;
-                associateTo: string;
-                ticketCreated: string;
-                optionallySelectAssociatedObject: string;
-                selectCategory: string;
-            };
-            customerTicketingDetails: {
-                requestReopened: string;
-                requestClosed: string;
-                reopenRequest: string;
-                closeRequest: string;
-                ticketNotFound: string;
-            };
-        };
-        myAccountV2CustomerTicketing: {
-            myAccountV2CustomerTicketing: {
-                heading: string;
-                showMore: string;
-                showMoreLabel: string;
-                changedOn: string;
-                ticketId: string;
-                subjectLabel: string;
-                idLabel: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-customerTicketingTranslations: {
-    en: {
-        customerTicketing: {
-            customerTicketing: {
-                mainLogoLabel: string
-```
-
-
 
 
 # Variable customerTicketingTranslationsCs
@@ -60795,40 +48438,6 @@ moved to @spartacus/cpq/quote/cpq/quote/discount
 
 
 
-### Property orderEntry$ changed.
-
-
-Previous version:
-
-```
-orderEntry$: Observable<ExtendedOrderEntry>
-```
-
-
-Current version:
-
-```
-orderEntry$: Observable<ExtendedOrderEntry$1>
-```
-
-
-### Property quoteDiscountData changed.
-
-
-Previous version:
-
-```
-quoteDiscountData: ExtendedOrderEntry | null
-```
-
-
-Current version:
-
-```
-quoteDiscountData: ExtendedOrderEntry$1 | null
-```
-
-
 
 
 # Class CpqQuoteHeadingComponent
@@ -60928,32 +48537,6 @@ moved to @spartacus/cpq/quote/assets
 ## @spartacus/cpq-quote/assets
 
 moved to @spartacus/cpq/quote/assets
-
-
-Variable cpqquoteTranslations changed.
-
-Previous version:
-
-```
-cpqquoteTranslations: {
-    en: {
-        cpqQuote: {
-            cpqQuoteHeading: string;
-            discountCaption: string;
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-cpqquoteTranslations: {
-    en: {
-        cpqQuote: {
-            cpqQuoteHeading: string
-```
 
 
 
@@ -61135,40 +48718,6 @@ moved to @spartacus/cpq/quote/cpq/quote/discount
 
 ### Method ngOnInit is removed.
 
-
-
-### Property orderEntry$ changed.
-
-
-Previous version:
-
-```
-orderEntry$: Observable<ExtendedOrderEntry>
-```
-
-
-Current version:
-
-```
-orderEntry$: Observable<ExtendedOrderEntry$1>
-```
-
-
-### Property quoteDiscountData changed.
-
-
-Previous version:
-
-```
-quoteDiscountData: ExtendedOrderEntry | null
-```
-
-
-Current version:
-
-```
-quoteDiscountData: ExtendedOrderEntry$1 | null
-```
 
 
 
@@ -61481,44 +49030,6 @@ Namespace AnonymousConsentsActions has been removed and is no longer part of the
 ## @spartacus/core
 
 
-TypeAlias AnonymousConsentsActions changed.
-
-Previous version:
-
-```
-LoadAnonymousConsentTemplates,
- | ,
-LoadAnonymousConsentTemplatesSuccess,
- | ,
-LoadAnonymousConsentTemplatesFail,
- | ,
-ResetLoadAnonymousConsentTemplates,
- | ,
-GetAllAnonymousConsents,
- | ,
-SetAnonymousConsents,
- | ,
-GetAnonymousConsent,
- | ,
-GiveAnonymousConsent,
- | ,
-WithdrawAnonymousConsent,
- | ,
-ToggleAnonymousConsentsBannerDissmissed,
- | ,
-ToggleAnonymousConsentTemplatesUpdated,
- | ,
-AnonymousConsentCheckUpdatedVersions
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Variable AnonymousConsentsActions.GET_ALL_ANONYMOUS_CONSENTS
@@ -61649,41 +49160,6 @@ Current version:
 
 # Class AnonymousConsentsActions.WithdrawAnonymousConsent
 ## @spartacus/core
-
-
-
-
-# Class AnonymousConsentsConfig
-## @spartacus/core
-
-
-### Property anonymousConsents changed.
-
-
-Previous version:
-
-```
-anonymousConsents: {
-        registerConsent?: string;
-        showLegalDescriptionInDialog?: boolean;
-        requiredConsents?: string[];
-        consentManagementPage?: {
-            showAnonymousConsents?: boolean;
-            hideConsents?: string[];
-        };
-    }
-```
-
-
-Current version:
-
-```
-anonymousConsents: {
-        /**
-         * Specify the consent template ID to be show on the registration page.
-         */
-        registerConsent?: string
-```
 
 
 
@@ -62002,24 +49478,6 @@ Namespace AuthActions has been removed and is no longer part of the public API.
 ## @spartacus/core
 
 
-TypeAlias LoginLogoutAction changed.
-
-Previous version:
-
-```
-Login,
- | ,
-Logout
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Class AuthActions.Logout
@@ -62030,49 +49488,6 @@ Current version:
 
 # Variable AuthActions.LOGOUT
 ## @spartacus/core
-
-
-
-
-# Class AuthConfig
-## @spartacus/core
-
-
-### Property authentication changed.
-
-
-Previous version:
-
-```
-authentication: {
-        client_id?: string;
-        client_secret?: string;
-        baseUrl?: string;
-        tokenEndpoint?: string;
-        revokeEndpoint?: string;
-        sendAuthHeaderOnRevoke?: boolean;
-        useClientTokens?: boolean;
-        loginUrl?: string;
-        logoutUrl?: string;
-        userinfoEndpoint?: string;
-        OAuthLibConfig?: AuthLibConfig;
-        customLoginPage?: {
-            csrfEndpoint?: string;
-            loginFormEndpoint?: string;
-        };
-    }
-```
-
-
-Current version:
-
-```
-authentication: {
-        /**
-         * OAuth client id.
-         */
-        client_id?: string
-```
 
 
 
@@ -62256,17 +49671,14 @@ TypeAlias AuthLibConfig changed.
 Previous version:
 
 ```
-Omit,
-<,
-LibConfig,
-, 'clientId' | 'dummyClientSecret' | 'siletRefreshTimeout' | 'loginUrl' | 'logoutUrl' | 'tokenEndpoint' | 'revocationEndpoint' | 'userinfoEndpoint'>
+Omit<LibConfig, 'clientId' | 'dummyClientSecret' | 'siletRefreshTimeout' | 'loginUrl' | 'logoutUrl' | 'tokenEndpoint' | 'revocationEndpoint' | 'userinfoEndpoint'>
 ```
 
 
 Current version:
 
 ```
-
+Omit<AuthConfig, 'clientId' | 'dummyClientSecret' | 'siletRefreshTimeout' | 'loginUrl' | 'logoutUrl' | 'tokenEndpoint' | 'revocationEndpoint' | 'userinfoEndpoint'>
 ```
 
 
@@ -62395,23 +49807,6 @@ csrfToken$: Observable<_spartacus_core.CSRFResponse>
 
 ### Method isUsingASMClient is removed.
 
-
-
-### Property location changed.
-
-
-Previous version:
-
-```
-location: Location
-```
-
-
-Current version:
-
-```
-location: Location$1
-```
 
 
 ### Method loginWithCredentials is removed.
@@ -62632,7 +50027,7 @@ Current version:
 ```
 
 backOff(
-  options: BackOffOptions): OperatorFunction<T
+  options: : BackOffOptions
 ): OperatorFunction<T, T>
 
 ```
@@ -63203,26 +50598,6 @@ Namespace ClientAuthActions has been removed and is no longer part of the public
 ## @spartacus/core
 
 
-TypeAlias ClientTokenAction changed.
-
-Previous version:
-
-```
-LoadClientToken,
- | ,
-LoadClientTokenFail,
- | ,
-LoadClientTokenSuccess
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Variable ClientAuthActions.LOAD_CLIENT_TOKEN_FAIL
@@ -63419,57 +50794,10 @@ Namespace CmsActions has been removed and is no longer part of the public API.
 ## @spartacus/core
 
 
-TypeAlias CmsComponentAction changed.
-
-Previous version:
-
-```
-LoadCmsComponent,
- | ,
-LoadCmsComponentFail,
- | ,
-LoadCmsComponentSuccess,
-<T> | ,
-CmsGetComponentFromPage,
-<T>
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Class CmsActions.CmsGetComponentFromPage
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        component: T;
-        pageContext: PageContext;
-    } | {
-        component: T;
-        pageContext: PageContext;
-    }[]
-```
-
-
-Current version:
-
-```
-payload: {
-        component: T
-```
 
 
 
@@ -63478,52 +50806,10 @@ payload: {
 ## @spartacus/core
 
 
-TypeAlias CmsNavigationEntryItemAction changed.
-
-Previous version:
-
-```
-LoadCmsNavigationItems,
- | ,
-LoadCmsNavigationItemsFail,
- | ,
-LoadCmsNavigationItemsSuccess
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # TypeAlias CmsActions.CmsPageAction
 ## @spartacus/core
-
-
-TypeAlias CmsPageAction changed.
-
-Previous version:
-
-```
-LoadCmsPageData,
- | ,
-LoadCmsPageDataFail,
- | ,
-LoadCmsPageDataSuccess,
- | ,
-CmsSetPageFailIndex
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -63598,53 +50884,10 @@ Current version:
 ## @spartacus/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        uid: string;
-        pageContext?: PageContext;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        uid: string
-```
-
-
 
 
 # Class CmsActions.LoadCmsComponentFail
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        uid: string;
-        error: any;
-        pageContext: PageContext;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        uid: string
-```
 
 
 
@@ -63653,53 +50896,10 @@ payload: {
 ## @spartacus/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        component: T;
-        uid?: string;
-        pageContext: PageContext;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        component: T
-```
-
-
 
 
 # Class CmsActions.LoadCmsNavigationItems
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        nodeId: string;
-        items: any[];
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        nodeId: string
-```
 
 
 
@@ -63712,27 +50912,6 @@ payload: {
 
 # Class CmsActions.LoadCmsNavigationItemsSuccess
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        nodeId: string;
-        components: any[];
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        nodeId: string
-```
 
 
 
@@ -63983,52 +51162,6 @@ payload: {
 
 ### PropertySignature children is removed.
 
-
-
-
-
-# Class CmsConfig
-## @spartacus/core
-
-
-### Property componentsLoading changed.
-
-
-Previous version:
-
-```
-componentsLoading: {
-        pageSize?: number;
-    }
-```
-
-
-Current version:
-
-```
-componentsLoading: {
-        pageSize?: number
-```
-
-
-### Property featureModules changed.
-
-
-Previous version:
-
-```
-featureModules: {
-        [featureName: string]: FeatureModuleConfig | string;
-    }
-```
-
-
-Current version:
-
-```
-featureModules: {
-        [featureName: string]: FeatureModuleConfig | string
-```
 
 
 
@@ -64647,25 +51780,6 @@ Function CmsSelectors.getPageData has been removed and is no longer part of the 
 ## @spartacus/core
 
 
-Variable getPageEntities changed.
-
-Previous version:
-
-```
-getPageEntities: MemoizedSelector<StateWithCms, {
-    [id: string]: Page;
-}>
-```
-
-
-Current version:
-
-```
-getPageEntities: MemoizedSelector<StateWithCms, {
-    [id: string]: Page
-```
-
-
 
 
 # Variable CmsSelectors.getPageState
@@ -64802,37 +51916,6 @@ Function CmsSelectors.getSelectedNavigationEntryItemState has been removed and i
 
 ### PropertySignature page is removed.
 
-
-
-
-
-# Class CmsStructureConfig
-## @spartacus/core
-
-
-### Property cmsStructure changed.
-
-
-Previous version:
-
-```
-cmsStructure: {
-        components?: {
-            [key: string]: ContentSlotComponentData | any;
-        };
-        pages?: CmsPageConfig[];
-        slots?: CmsPageSlotsConfig;
-    }
-```
-
-
-Current version:
-
-```
-cmsStructure: {
-        components?: {
-            [key: string]: ContentSlotComponentData | any
-```
 
 
 
@@ -65034,48 +52117,14 @@ TypeAlias ComponentsState changed.
 Previous version:
 
 ```
-StateUtils.EntityState,
-<,
-ComponentsContext,
->
+StateUtils.EntityState<ComponentsContext>
 ```
 
 
 Current version:
 
 ```
-
-```
-
-
-
-
-# TypeAlias ConfigFactory
-## @spartacus/core
-
-
-TypeAlias ConfigFactory changed.
-
-Previous version:
-
-```
-(...props: any[]) => ,
-Config
-```
-
-
-Current version:
-
-```
- ,
-any,
-[,
-],
-),
- ,
-=>,
- ,
-Config
+EntityState<ComponentsContext>
 ```
 
 
@@ -65225,40 +52274,6 @@ configInitializerFactory(
 
 ### Method ngOnDestroy is removed.
 
-
-
-
-
-# TypeAlias ConfigValidator
-## @spartacus/core
-
-
-TypeAlias ConfigValidator changed.
-
-Previous version:
-
-```
-(config: ,
-Config,
-) => string | void
-```
-
-
-Current version:
-
-```
- ,
-Config,
-),
- ,
-=>,
- ,
-string,
- ,
-|,
- ,
-void
-```
 
 
 
@@ -65593,33 +52608,6 @@ createFrom(
 
 ### Method getCsrfToken is removed.
 
-
-
-
-
-# TypeAlias CSRFResponse
-## @spartacus/core
-
-
-TypeAlias CSRFResponse changed.
-
-Previous version:
-
-```
-{
-    headerName: string;
-    parameterName: string;
-    token: string;
-}
-```
-
-
-Current version:
-
-```
- ,
-string
-```
 
 
 
@@ -66096,7 +53084,7 @@ Current version:
 ```
 
 deepMerge(
-  target: Record<string, unknown>,
+  target: : Record<string, unknown>,
   sources: 
 ): any
 
@@ -66398,36 +53386,6 @@ extractFields(
 
 
 
-# Function facadeFactory
-## @spartacus/core
-
-
-Function facadeFactory changed.
-
-Previous version:
-
-```
-
-facadeFactory(
-  descriptor: FacadeDescriptor<T>
-): T
-
-```
-
-
-Current version:
-
-```
-
-facadeFactory(
-  descriptor: FacadeDescriptor<T>): T;
-): T
-
-```
-
-
-
-
 # Class FacadeFactoryService
 ## @spartacus/core
 
@@ -66634,56 +53592,6 @@ facadeFactory(
 
 
 
-# Class FeaturesConfig
-## @spartacus/core
-
-
-### Property features changed.
-
-
-Previous version:
-
-```
-features: {
-        level?: string;
-        [_: string]: string | boolean | undefined;
-        consignmentTracking?: boolean;
-        disableConfigUpdates?: boolean;
-    }
-```
-
-
-Current version:
-
-```
-features: {
-        /**
-         * Configure feature level.
-         * Value corresponds to a specific release version number: '1.0', '1.1', etc.
-         * Each subsequent level contains all of the features from previous one.
-         *
-         * @deprecated Please use named feature flags instead of feature level.
-         *             Moreover, please use a different util to provide values of feature toggles:
-         *             ```ts
-         *             provideFeatureToggles({
-         *               [string]: boolean
-         *             })
-         *             ```
-         *             instead of
-         *             ```ts
-         *             provideConfig({
-         *               features: {
-         *                 [string]: boolean
-         *               }
-         *             })
-         *             ```
-         */
-        level?: string
-```
-
-
-
-
 # Class FeaturesConfigModule
 ## @spartacus/core
 
@@ -66741,37 +53649,6 @@ renderer: i0.Renderer2
 
 ### Method unregisterUsage is removed.
 
-
-
-
-
-# TypeAlias FeatureTogglesFactory
-## @spartacus/core
-
-
-TypeAlias FeatureTogglesFactory changed.
-
-Previous version:
-
-```
-(...props: any[]) => ,
-FeatureToggles
-```
-
-
-Current version:
-
-```
- ,
-any,
-[,
-],
-),
- ,
-=>,
- ,
-FeatureToggles
-```
 
 
 
@@ -66928,36 +53805,6 @@ getContextParameterValues(
 
 
 
-# Function getLastValueSync
-## @spartacus/core
-
-
-Function getLastValueSync changed.
-
-Previous version:
-
-```
-
-getLastValueSync(
-  source: Observable<T>
-): T | undefined
-
-```
-
-
-Current version:
-
-```
-
-getLastValueSync(
-  source: Observable<T>): T | undefined;
-): T | undefined
-
-```
-
-
-
-
 # Interface GlobalMessage
 ## @spartacus/core
 
@@ -67001,26 +53848,6 @@ Namespace GlobalMessageActions has been removed and is no longer part of the pub
 ## @spartacus/core
 
 
-TypeAlias GlobalMessageAction changed.
-
-Previous version:
-
-```
-AddMessage,
- | ,
-RemoveMessage,
- | ,
-RemoveMessagesByType
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Variable GlobalMessageActions.REMOVE_MESSAGE
@@ -67039,61 +53866,10 @@ Current version:
 ## @spartacus/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        type: GlobalMessageType;
-        index: number;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        type: GlobalMessageType
-```
-
-
 
 
 # Class GlobalMessageActions.RemoveMessagesByType
 ## @spartacus/core
-
-
-
-
-# Class GlobalMessageConfig
-## @spartacus/core
-
-
-### Property globalMessages changed.
-
-
-Previous version:
-
-```
-globalMessages: {
-        [GlobalMessageType.MSG_TYPE_CONFIRMATION]?: GlobalMessageTypeConfig;
-        [GlobalMessageType.MSG_TYPE_INFO]?: GlobalMessageTypeConfig;
-        [GlobalMessageType.MSG_TYPE_ERROR]?: GlobalMessageTypeConfig;
-        [GlobalMessageType.MSG_TYPE_WARNING]?: GlobalMessageTypeConfig;
-        [GlobalMessageType.MSG_TYPE_ASSISTIVE]?: GlobalMessageTypeConfig;
-    }
-```
-
-
-Current version:
-
-```
-globalMessages: {
-        [GlobalMessageType.MSG_TYPE_CONFIRMATION]?: GlobalMessageTypeConfig
-```
 
 
 
@@ -67181,31 +53957,6 @@ Function GlobalMessageSelectors.getGlobalMessageEntitiesByType has been removed 
 
 ### PropertySignature entities is removed.
 
-
-
-
-
-# TypeAlias GlobalMessageTypeConfig
-## @spartacus/core
-
-
-TypeAlias GlobalMessageTypeConfig changed.
-
-Previous version:
-
-```
-{
-    timeout?: number;
-}
-```
-
-
-Current version:
-
-```
- ,
-number
-```
 
 
 
@@ -67346,44 +54097,6 @@ number
 
 
 
-# Class I18nConfig
-## @spartacus/core
-
-
-### Property i18n changed.
-
-
-Previous version:
-
-```
-i18n: {
-        fallbackLang?: string | false;
-        backend?: {
-            loadPath?: string;
-            loader?: (language: string, chunkName: string) => Promise<TranslationResourceKey>;
-        };
-        resources?: TranslationResources;
-        debug?: boolean;
-        chunks?: {
-            [chunk: string]: string[];
-        };
-    }
-```
-
-
-Current version:
-
-```
-i18n: {
-        /**
-         * When there are missing translation resources for the active language, the fallback language will be used.
-         */
-        fallbackLang?: string | false
-```
-
-
-
-
 # Class I18nConfigInitializer
 ## @spartacus/core
 
@@ -67436,29 +54149,6 @@ I18NEXT_HTTP_BACKEND_CLIENT: InjectionToken<((options: i18next_http_backend.Http
 
 ### Method initialize is removed.
 
-
-
-
-
-# TypeAlias I18nextHttpBackendClient
-## @spartacus/core
-
-
-TypeAlias I18nextHttpBackendClient changed.
-
-Previous version:
-
-```
-HttpBackendOptions,
-['request']
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -67554,6 +54244,23 @@ loggerPlugin: node_modules_i18next.LoggerModule
 
 
 
+### Property NAMESPACE_SEPARATOR changed.
+
+
+Previous version:
+
+```
+NAMESPACE_SEPARATOR: 
+```
+
+
+Current version:
+
+```
+NAMESPACE_SEPARATOR: "
+```
+
+
 ### Method translate is removed.
 
 
@@ -67609,18 +54316,10 @@ Previous version:
 
 ```
 {
-    content: ,
-StateUtils.EntityLoaderState,
-<string>;
-    product: ,
-StateUtils.EntityLoaderState,
-<string>;
-    category: ,
-StateUtils.EntityLoaderState,
-<string>;
-    catalog: ,
-StateUtils.EntityLoaderState,
-<string>;
+    content: StateUtils.EntityLoaderState<string>;
+    product: StateUtils.EntityLoaderState<string>;
+    category: StateUtils.EntityLoaderState<string>;
+    catalog: StateUtils.EntityLoaderState<string>;
 }
 ```
 
@@ -67628,11 +54327,12 @@ StateUtils.EntityLoaderState,
 Current version:
 
 ```
- ,
-EntityLoaderState,
-<,
-string,
->
+{
+    content: EntityLoaderState<string>;
+    product: EntityLoaderState<string>;
+    category: EntityLoaderState<string>;
+    catalog: EntityLoaderState<string>;
+}
 ```
 
 
@@ -67660,7 +54360,7 @@ Current version:
 ```
 
 initConfigurableRoutes(
-  service: ConfigurableRoutesService): () => void;
+  service: ConfigurableRoutesService
 ): ()
 
 ```
@@ -67732,36 +54432,6 @@ initSecurePortalConfig(
 
 
 
-# Function isAuthorizationError
-## @spartacus/core
-
-
-Function isAuthorizationError changed.
-
-Previous version:
-
-```
-
-isAuthorizationError(
-  err: HttpErrorModel
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isAuthorizationError(
-  err: HttpErrorModel): boolean;
-): boolean
-
-```
-
-
-
-
 # Function isFeatureEnabled
 ## @spartacus/core
 
@@ -67820,216 +54490,6 @@ isFeatureLevel(
   config: Config,
   level: 
 ): boolean
-
-```
-
-
-
-
-# Function isJaloError
-## @spartacus/core
-
-
-Function isJaloError changed.
-
-Previous version:
-
-```
-
-isJaloError(
-  err: HttpErrorModel
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isJaloError(
-  err: HttpErrorModel): boolean;
-): boolean
-
-```
-
-
-
-
-# Function isKeyInvalid
-## @spartacus/core
-
-
-Function isKeyInvalid changed.
-
-Previous version:
-
-```
-
-isKeyInvalid(
-  key: string
-): void
-
-```
-
-
-Current version:
-
-```
-
-isKeyInvalid(
-  key: string): void;
-): void
-
-```
-
-
-
-
-# Function isNotNullable
-## @spartacus/core
-
-
-Function isNotNullable changed.
-
-Previous version:
-
-```
-
-isNotNullable(
-  value: T
-): value is NonNullable<T>
-
-```
-
-
-Current version:
-
-```
-
-isNotNullable(
-  value: T): value is NonNullable<T>;
-): value is NonNullable<T>
-
-```
-
-
-
-
-# Function isNotUndefined
-## @spartacus/core
-
-
-Function isNotUndefined changed.
-
-Previous version:
-
-```
-
-isNotUndefined(
-  value: T | undefined
-): value is T
-
-```
-
-
-Current version:
-
-```
-
-isNotUndefined(
-  value: T | undefined): value is T;
-): value is T
-
-```
-
-
-
-
-# Function isObject
-## @spartacus/core
-
-
-Function isObject changed.
-
-Previous version:
-
-```
-
-isObject(
-  item: any
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isObject(
-  item: any): boolean;
-): boolean
-
-```
-
-
-
-
-# Function isServerError
-## @spartacus/core
-
-
-Function isServerError changed.
-
-Previous version:
-
-```
-
-isServerError(
-  err: HttpErrorModel
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isServerError(
-  err: HttpErrorModel): boolean;
-): boolean
-
-```
-
-
-
-
-# Function isTranslatable
-## @spartacus/core
-
-
-Function isTranslatable changed.
-
-Previous version:
-
-```
-
-isTranslatable(
-  input: any
-): input is Translatable
-
-```
-
-
-Current version:
-
-```
-
-isTranslatable(
-  input: any): input is Translatable;
-): input is Translatable
 
 ```
 
@@ -68256,36 +54716,6 @@ isTranslatable(
 
 
 
-# Function locationInitializedFactory
-## @spartacus/core
-
-
-Function locationInitializedFactory changed.
-
-Previous version:
-
-```
-
-locationInitializedFactory(
-  configInitializer: ConfigInitializerService
-): Promise<Config>
-
-```
-
-
-Current version:
-
-```
-
-locationInitializedFactory(
-  configInitializer: ConfigInitializerService): Promise<Config>;
-): Promise<Config>
-
-```
-
-
-
-
 # Class LoggerService
 ## @spartacus/core
 
@@ -68318,66 +54748,6 @@ locationInitializedFactory(
 
 ### Method handleError is removed.
 
-
-
-
-
-# Function mediaServerConfigFromMetaTagFactory
-## @spartacus/core
-
-
-Function mediaServerConfigFromMetaTagFactory changed.
-
-Previous version:
-
-```
-
-mediaServerConfigFromMetaTagFactory(
-  meta: Meta
-): OccConfig
-
-```
-
-
-Current version:
-
-```
-
-mediaServerConfigFromMetaTagFactory(
-  meta: Meta): OccConfig;
-): OccConfig
-
-```
-
-
-
-
-# Function mergeFields
-## @spartacus/core
-
-
-Function mergeFields changed.
-
-Previous version:
-
-```
-
-mergeFields(
-  fields: (string | object)[]
-): string
-
-```
-
-
-Current version:
-
-```
-
-mergeFields(
-  fields: (string | object)[]): string;
-): string
-
-```
 
 
 
@@ -68438,36 +54808,6 @@ mergeFields(
 
 ### IndexSignature undefined is removed.
 
-
-
-
-
-# Function normalizeEmpty
-## @spartacus/core
-
-
-Function normalizeEmpty changed.
-
-Previous version:
-
-```
-
-normalizeEmpty(
-  str: string | undefined | null
-): string | undefined | null
-
-```
-
-
-Current version:
-
-```
-
-normalizeEmpty(
-  str: string | undefined | null): string | undefined | null;
-): string | undefined | null
-
-```
 
 
 
@@ -68614,31 +54954,6 @@ normalizeEmpty(
 
 ### Method shallowEqualObjects is removed.
 
-
-
-
-
-# Variable OCC_USER_ID_CONSTANTS
-## @spartacus/core
-
-
-Variable OCC_USER_ID_CONSTANTS changed.
-
-Previous version:
-
-```
-OCC_USER_ID_CONSTANTS: InjectionToken<{
-    [identifier: string]: string;
-}>
-```
-
-
-Current version:
-
-```
-OCC_USER_ID_CONSTANTS: InjectionToken<{
-    [identifier: string]: string
-```
 
 
 
@@ -73135,36 +59450,6 @@ Interface Occ.VoucherList has been removed and is no longer part of the public A
 
 
 
-# Function occConfigValidator
-## @spartacus/core
-
-
-Function occConfigValidator changed.
-
-Previous version:
-
-```
-
-occConfigValidator(
-  config: OccConfig
-): "Please configure backend.occ.baseUrl before using storefront library!" | undefined
-
-```
-
-
-Current version:
-
-```
-
-occConfigValidator(
-  config: OccConfig): "Please configure backend.occ.baseUrl before using storefront library!" | undefined;
-): "Please configure backend.occ.baseUrl before using storefront library!" | undefined
-
-```
-
-
-
-
 # Class OccCostCenterListNormalizer
 ## @spartacus/core
 
@@ -73643,36 +59928,6 @@ occConfigValidator(
 
 
 
-# Function occServerConfigFromMetaTagFactory
-## @spartacus/core
-
-
-Function occServerConfigFromMetaTagFactory changed.
-
-Previous version:
-
-```
-
-occServerConfigFromMetaTagFactory(
-  meta: Meta
-): OccConfig
-
-```
-
-
-Current version:
-
-```
-
-occServerConfigFromMetaTagFactory(
-  meta: Meta): OccConfig;
-): OccConfig
-
-```
-
-
-
-
 # Class OccSiteAdapter
 ## @spartacus/core
 
@@ -73851,7 +60106,7 @@ Current version:
 ```
 
 optimizeFields(
-  fields: object): object;
+  fields: : object
 ): object
 
 ```
@@ -74458,58 +60713,10 @@ Namespace ProcessSelectors has been removed and is no longer part of the public 
 ## @spartacus/core
 
 
-Function getProcessErrorFactory changed.
-
-Previous version:
-
-```
-
-getProcessErrorFactory(
-  processId: string
-): MemoizedSelector<StateWithProcess<T>, boolean>
-
-```
-
-
-Current version:
-
-```
-
-getProcessErrorFactory(
-  processId: string): MemoizedSelector<StateWithProcess<T>
-): MemoizedSelector<StateWithProcess<T>, boolean>
-
-```
-
-
 
 
 # Function ProcessSelectors.getProcessLoadingFactory
 ## @spartacus/core
-
-
-Function getProcessLoadingFactory changed.
-
-Previous version:
-
-```
-
-getProcessLoadingFactory(
-  processId: string
-): MemoizedSelector<StateWithProcess<T>, boolean>
-
-```
-
-
-Current version:
-
-```
-
-getProcessLoadingFactory(
-  processId: string): MemoizedSelector<StateWithProcess<T>
-): MemoizedSelector<StateWithProcess<T>, boolean>
-
-```
 
 
 
@@ -74518,58 +60725,10 @@ getProcessLoadingFactory(
 ## @spartacus/core
 
 
-Function getProcessStateFactory changed.
-
-Previous version:
-
-```
-
-getProcessStateFactory(
-  processId: string
-): MemoizedSelector<StateWithProcess<T>, LoaderState<T>>
-
-```
-
-
-Current version:
-
-```
-
-getProcessStateFactory(
-  processId: string): MemoizedSelector<StateWithProcess<T>
-): MemoizedSelector<StateWithProcess<T>, LoaderState<T>>
-
-```
-
-
 
 
 # Function ProcessSelectors.getProcessSuccessFactory
 ## @spartacus/core
-
-
-Function getProcessSuccessFactory changed.
-
-Previous version:
-
-```
-
-getProcessSuccessFactory(
-  processId: string
-): MemoizedSelector<StateWithProcess<T>, boolean>
-
-```
-
-
-Current version:
-
-```
-
-getProcessSuccessFactory(
-  processId: string): MemoizedSelector<StateWithProcess<T>
-): MemoizedSelector<StateWithProcess<T>, boolean>
-
-```
 
 
 
@@ -74797,27 +60956,6 @@ Namespace ProductActions has been removed and is no longer part of the public AP
 ## @spartacus/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        term: string;
-        searchConfig?: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        term: string
-```
-
-
 
 
 # Class ProductActions.GetProductSuggestionsFail
@@ -74902,28 +61040,6 @@ payload: {
 ## @spartacus/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        productCode: string;
-        referenceType?: string;
-        pageSize?: number;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        productCode: string
-```
-
-
 
 
 # Class ProductActions.LoadProductReferencesFail
@@ -74934,27 +61050,6 @@ payload: {
 
 # Class ProductActions.LoadProductReferencesSuccess
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        productCode: string;
-        list: ProductReference[];
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        productCode: string
-```
 
 
 
@@ -74973,27 +61068,6 @@ payload: {
 
 # Class ProductActions.LoadProductReviewsSuccess
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        productCode: string;
-        list: Review[];
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        productCode: string
-```
 
 
 
@@ -75024,27 +61098,6 @@ payload: {
 
 # Class ProductActions.PostProductReview
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        productCode: string;
-        review: Review;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        productCode: string
-```
 
 
 
@@ -75101,28 +61154,6 @@ payload: {
 ## @spartacus/core
 
 
-TypeAlias ProductAction changed.
-
-Previous version:
-
-```
-LoadProduct,
- | ,
-LoadProductFail,
- | ,
-LoadProductSuccess,
- | ,
-ClearProductPrice
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Interface ProductActions.ProductMeta
@@ -75139,58 +61170,10 @@ Current version:
 ## @spartacus/core
 
 
-TypeAlias ProductReferencesAction changed.
-
-Previous version:
-
-```
-LoadProductReferences,
- | ,
-LoadProductReferencesFail,
- | ,
-LoadProductReferencesSuccess,
- | ,
-CleanProductReferences
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # TypeAlias ProductActions.ProductReviewsAction
 ## @spartacus/core
-
-
-TypeAlias ProductReviewsAction changed.
-
-Previous version:
-
-```
-LoadProductReviews,
- | ,
-LoadProductReviewsFail,
- | ,
-LoadProductReviewsSuccess,
- | ,
-PostProductReview,
- | ,
-PostProductReviewFail,
- | ,
-PostProductReviewSuccess
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -75199,58 +61182,10 @@ Current version:
 ## @spartacus/core
 
 
-TypeAlias ProductSearchAction changed.
-
-Previous version:
-
-```
-SearchProducts,
- | ,
-SearchProductsFail,
- | ,
-SearchProductsSuccess,
- | ,
-GetProductSuggestions,
- | ,
-GetProductSuggestionsSuccess,
- | ,
-GetProductSuggestionsFail,
- | ,
-ClearProductSearchResult
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # TypeAlias ProductActions.ProductSearchByCategoryAction
 ## @spartacus/core
-
-
-TypeAlias ProductSearchByCategoryAction changed.
-
-Previous version:
-
-```
-ProductSearchLoadByCategory,
- | ,
-ProductSearchLoadByCategorySuccess,
- | ,
-ProductSearchLoadByCategoryFail
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -75259,53 +61194,10 @@ Current version:
 ## @spartacus/core
 
 
-TypeAlias ProductSearchByCodeAction changed.
-
-Previous version:
-
-```
-ProductSearchLoadByCode,
- | ,
-ProductSearchLoadByCodeSuccess,
- | ,
-ProductSearchLoadByCodeFail,
- | ,
-ClearProductSearchByCodeState
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Class ProductActions.ProductSearchLoadByCategory
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        categoryCode: string;
-        scope: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        categoryCode: string
-```
 
 
 
@@ -75324,27 +61216,6 @@ payload: {
 
 # Class ProductActions.ProductSearchLoadByCode
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        code: string;
-        scope: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        code: string
-```
 
 
 
@@ -75381,27 +61252,6 @@ payload: {
 
 # Class ProductActions.SearchProducts
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        queryText: string;
-        searchConfig?: SearchConfig;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        queryText: string
-```
 
 
 
@@ -75472,27 +61322,6 @@ payload: {
 
 ### Method getRealTimeStock is removed.
 
-
-
-### Property getRealTimeStockCommand changed.
-
-
-Previous version:
-
-```
-getRealTimeStockCommand: Command<{
-        productCode: string;
-        unitSapCode: string;
-    }, ProductAvailabilities>
-```
-
-
-Current version:
-
-```
-getRealTimeStockCommand: Command<{
-        productCode: string
-```
 
 
 
@@ -75629,29 +61458,6 @@ getRealTimeStockCommand: Command<{
 
 ### Method initProductScopes is removed.
 
-
-
-### Property products changed.
-
-
-Previous version:
-
-```
-products: {
-        [code: string]: {
-            [scope: string]: Observable<Product>;
-        };
-    }
-```
-
-
-Current version:
-
-```
-products: {
-        [code: string]: {
-            [scope: string]: Observable<Product>
-```
 
 
 
@@ -76421,7 +62227,7 @@ Current version:
 ```
 
 provideConfig(
-  config: Config,
+  config: : Config,
   defaultConfig: 
 ): ValueProvider
 
@@ -76464,36 +62270,6 @@ provideConfigFactory(
 
 
 
-# Function provideConfigValidator
-## @spartacus/core
-
-
-Function provideConfigValidator changed.
-
-Previous version:
-
-```
-
-provideConfigValidator(
-  configValidator: ConfigValidator
-): Provider
-
-```
-
-
-Current version:
-
-```
-
-provideConfigValidator(
-  configValidator: ConfigValidator): Provider;
-): Provider
-
-```
-
-
-
-
 # Function provideDefaultConfig
 ## @spartacus/core
 
@@ -76516,7 +62292,7 @@ Current version:
 ```
 
 provideDefaultConfig(
-  config: Config): ValueProvider;
+  config: : Config
 ): ValueProvider
 
 ```
@@ -76578,38 +62354,8 @@ Current version:
 ```
 
 provideDefaultFeatureToggles(
-  toggles: FeatureToggles): ValueProvider;
+  toggles: : FeatureToggles
 ): ValueProvider
-
-```
-
-
-
-
-# Function provideDefaultFeatureTogglesFactory
-## @spartacus/core
-
-
-Function provideDefaultFeatureTogglesFactory changed.
-
-Previous version:
-
-```
-
-provideDefaultFeatureTogglesFactory(
-  featureTogglesFactory: FeatureTogglesFactory
-): FactoryProvider
-
-```
-
-
-Current version:
-
-```
-
-provideDefaultFeatureTogglesFactory(
-  featureTogglesFactory: FeatureTogglesFactory): FactoryProvider;
-): FactoryProvider
 
 ```
 
@@ -76638,38 +62384,8 @@ Current version:
 ```
 
 provideFeatureToggles(
-  toggles: FeatureToggles): ValueProvider;
+  toggles: : FeatureToggles
 ): ValueProvider
-
-```
-
-
-
-
-# Function provideFeatureTogglesFactory
-## @spartacus/core
-
-
-Function provideFeatureTogglesFactory changed.
-
-Previous version:
-
-```
-
-provideFeatureTogglesFactory(
-  featureTogglesFactory: FeatureTogglesFactory
-): FactoryProvider
-
-```
-
-
-Current version:
-
-```
-
-provideFeatureTogglesFactory(
-  featureTogglesFactory: FeatureTogglesFactory): FactoryProvider;
-): FactoryProvider
 
 ```
 
@@ -76686,33 +62402,6 @@ provideFeatureTogglesFactory(
 
 ### MethodSignature getState is removed.
 
-
-
-
-
-# TypeAlias QueryNotifier
-## @spartacus/core
-
-
-TypeAlias QueryNotifier changed.
-
-Previous version:
-
-```
-Observable,
-<unknown> | ,
-Type,
-<,
-CxEvent,
->
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -76798,19 +62487,14 @@ TypeAlias RequiredPick changed.
 Previous version:
 
 ```
-Omit,
-<T, K> & ,
-Required,
-<,
-Pick,
-<T, K>>
+Omit<T, K> & Required<Pick<T, K>>
 ```
 
 
 Current version:
 
 ```
-
+= Omit<T, K> & Required<Pick<T, K>>
 ```
 
 
@@ -77015,22 +62699,6 @@ Namespace RoutingActions has been removed and is no longer part of the public AP
 ## @spartacus/core
 
 
-TypeAlias RoutingAction changed.
-
-Previous version:
-
-```
-ChangeNextPageContext
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Interface RoutingConfigDefinition
@@ -77069,26 +62737,6 @@ Current version:
 
 ### Method initRouteNamesByPath is removed.
 
-
-
-### Property routeNamesByPath changed.
-
-
-Previous version:
-
-```
-routeNamesByPath: {
-        [path: string]: string;
-    }
-```
-
-
-Current version:
-
-```
-routeNamesByPath: {
-        [path: string]: string
-```
 
 
 
@@ -77135,26 +62783,6 @@ routeNamesByPath: {
 
 ### Method getParams is removed.
 
-
-
-### Property params$ changed.
-
-
-Previous version:
-
-```
-params$: Observable<{
-        [key: string]: string;
-    }>
-```
-
-
-Current version:
-
-```
-params$: Observable<{
-        [key: string]: string
-```
 
 
 
@@ -77236,41 +62864,6 @@ getPageContext: () => MemoizedSelector<StateWithPickupOption, string>
 ## @spartacus/core
 
 
-### Constructor changed.
-
-
-Previous version:
-
-```
-
-constructor(
-  store: Store<RouterState>,
-  winRef: WindowRef,
-  semanticPathService: SemanticPathService,
-  routingParamsService: RoutingParamsService,
-  router: Router,
-  location: Location
-)
-
-```
-
-
-Current version:
-
-```
-
-constructor(
-  store: Store<RouterState>,
-  winRef: WindowRef,
-  semanticPathService: SemanticPathService,
-  routingParamsService: RoutingParamsService,
-  router: Router,
-  location: Location$1
-)
-
-```
-
-
 ### Method back is removed.
 
 
@@ -77317,23 +62910,6 @@ constructor(
 
 ### Method isNavigating is removed.
 
-
-
-### Property location changed.
-
-
-Previous version:
-
-```
-location: Location
-```
-
-
-Current version:
-
-```
-location: Location$1
-```
 
 
 ### Method navigate is removed.
@@ -77551,36 +63127,6 @@ Enum ScrollBehavior_2 has been removed and is no longer part of the public API.
 
 
 
-# Function serviceMapFactory
-## @spartacus/core
-
-
-Function serviceMapFactory changed.
-
-Previous version:
-
-```
-
-serviceMapFactory(): {
-    language: typeof LanguageService;
-    currency: typeof CurrencyService;
-    baseSite: typeof BaseSiteService;
-}
-
-```
-
-
-Current version:
-
-```
-
-serviceMapFactory()
-
-```
-
-
-
-
 # Class SiteAdapter
 ## @spartacus/core
 
@@ -77678,36 +63224,6 @@ Namespace SiteContextActions has been removed and is no longer part of the publi
 ## @spartacus/core
 
 
-TypeAlias BaseSiteAction changed.
-
-Previous version:
-
-```
-LoadBaseSite,
- | ,
-LoadBaseSiteFail,
- | ,
-LoadBaseSiteSuccess,
- | ,
-LoadBaseSites,
- | ,
-LoadBaseSitesFail,
- | ,
-LoadBaseSitesSuccess,
- | ,
-SetActiveBaseSite,
- | ,
-BaseSiteChange
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Class SiteContextActions.BaseSiteChange
@@ -77718,30 +63234,6 @@ Current version:
 
 # TypeAlias SiteContextActions.CurrenciesAction
 ## @spartacus/core
-
-
-TypeAlias CurrenciesAction changed.
-
-Previous version:
-
-```
-LoadCurrencies,
- | ,
-LoadCurrenciesFail,
- | ,
-LoadCurrenciesSuccess,
- | ,
-SetActiveCurrency,
- | ,
-CurrencyChange
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -77756,27 +63248,6 @@ Current version:
 ## @spartacus/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        previous: string | null;
-        current: string | null;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        previous: string | null
-```
-
-
 
 
 # Variable SiteContextActions.LANGUAGE_CHANGE
@@ -77789,55 +63260,10 @@ payload: {
 ## @spartacus/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        previous: string | null;
-        current: string | null;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        previous: string | null
-```
-
-
 
 
 # TypeAlias SiteContextActions.LanguagesAction
 ## @spartacus/core
-
-
-TypeAlias LanguagesAction changed.
-
-Previous version:
-
-```
-LoadLanguages,
- | ,
-LoadLanguagesFail,
- | ,
-LoadLanguagesSuccess,
- | ,
-SetActiveLanguage,
- | ,
-LanguageChange
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -78018,33 +63444,6 @@ Current version:
 
 # Class SiteContextActions.SetActiveLanguage
 ## @spartacus/core
-
-
-
-
-# Class SiteContextConfig
-## @spartacus/core
-
-
-### Property context changed.
-
-
-Previous version:
-
-```
-context: {
-        urlParameters?: string[];
-        [contextName: string]: string[] | undefined;
-    }
-```
-
-
-Current version:
-
-```
-context: {
-        urlParameters?: string[]
-```
 
 
 
@@ -78343,75 +63742,10 @@ Namespace SiteThemeActions has been removed and is no longer part of the public 
 ## @spartacus/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        previous: string | null;
-        current: string | null;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        previous: string | null
-```
-
-
 
 
 # TypeAlias SiteThemeActions.SiteThemesAction
 ## @spartacus/core
-
-
-TypeAlias SiteThemesAction changed.
-
-Previous version:
-
-```
-SetActiveSiteTheme,
- | ,
-SiteThemeChange
-```
-
-
-Current version:
-
-```
-
-```
-
-
-
-
-# Class SiteThemeConfig
-## @spartacus/core
-
-
-### Property siteTheme changed.
-
-
-Previous version:
-
-```
-siteTheme: {
-        optionalThemes?: Array<SiteTheme>;
-    }
-```
-
-
-Current version:
-
-```
-siteTheme: {
-        optionalThemes?: Array<SiteTheme>
-```
 
 
 
@@ -78682,41 +64016,6 @@ Variable SMART_EDIT_DUMMY_COMPONENT_TYPE has been removed and is no longer part 
 
 ### PropertySignature router is removed.
 
-
-
-
-
-# Class StateConfig
-## @spartacus/core
-
-
-### Property state changed.
-
-
-Previous version:
-
-```
-state: {
-        ssrTransfer?: {
-            keys?: {
-                [key: string]: StateTransferType | undefined;
-            };
-        };
-    }
-```
-
-
-Current version:
-
-```
-state: {
-        ssrTransfer?: {
-            keys?: {
-                /**
-                 * A set of state keys that should be transferred from server.
-                 */
-                [key: string]: StateTransferType | undefined
-```
 
 
 
@@ -79020,22 +64319,6 @@ entityHasPendingProcessesSelector(
 ## @spartacus/core
 
 
-TypeAlias EntityId changed.
-
-Previous version:
-
-```
-string | string[] | null
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Function StateUtils.entityIsStableSelector
@@ -79150,25 +64433,6 @@ entityLoaderReducer(
 
 # TypeAlias StateUtils.EntityLoaderState
 ## @spartacus/core
-
-
-TypeAlias EntityLoaderState changed.
-
-Previous version:
-
-```
-EntityState,
-<,
-LoaderState,
-<T>>
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -79489,25 +64753,6 @@ entityProcessesLoaderResetMeta(
 ## @spartacus/core
 
 
-TypeAlias EntityProcessesLoaderState changed.
-
-Previous version:
-
-```
-EntityState,
-<,
-ProcessesLoaderState,
-<T>>
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Function StateUtils.entityProcessesLoaderStateSelector
@@ -79588,30 +64833,6 @@ entityReducer(
 
 # Function StateUtils.entityRemoveAllMeta
 ## @spartacus/core
-
-
-Function entityRemoveAllMeta changed.
-
-Previous version:
-
-```
-
-entityRemoveAllMeta(
-  type: string
-): EntityMeta
-
-```
-
-
-Current version:
-
-```
-
-entityRemoveAllMeta(
-  type: string): EntityMeta;
-): EntityMeta
-
-```
 
 
 
@@ -79894,30 +65115,6 @@ getStateSlice(
 ## @spartacus/core
 
 
-Function hasPendingProcessesSelector changed.
-
-Previous version:
-
-```
-
-hasPendingProcessesSelector(
-  state: ProcessesLoaderState<T>
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-hasPendingProcessesSelector(
-  state: ProcessesLoaderState<T>): boolean;
-): boolean
-
-```
-
-
 
 
 # Variable StateUtils.initialEntityState
@@ -79940,30 +65137,6 @@ hasPendingProcessesSelector(
 
 # Function StateUtils.isStableSelector
 ## @spartacus/core
-
-
-Function isStableSelector changed.
-
-Previous version:
-
-```
-
-isStableSelector(
-  state: ProcessesLoaderState<T>
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isStableSelector(
-  state: ProcessesLoaderState<T>): boolean;
-): boolean
-
-```
 
 
 
@@ -80010,30 +65183,6 @@ isStableSelector(
 ## @spartacus/core
 
 
-Function loaderErrorSelector changed.
-
-Previous version:
-
-```
-
-loaderErrorSelector(
-  state: LoaderState<T>
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-loaderErrorSelector(
-  state: LoaderState<T>): boolean;
-): boolean
-
-```
-
-
 
 
 # Class StateUtils.LoaderFailAction
@@ -80050,30 +65199,6 @@ loaderErrorSelector(
 
 # Function StateUtils.loaderLoadingSelector
 ## @spartacus/core
-
-
-Function loaderLoadingSelector changed.
-
-Previous version:
-
-```
-
-loaderLoadingSelector(
-  state: LoaderState<T>
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-loaderLoadingSelector(
-  state: LoaderState<T>): boolean;
-): boolean
-
-```
 
 
 
@@ -80162,88 +65287,16 @@ loaderReducer(
 ## @spartacus/core
 
 
-Function loaderSuccessSelector changed.
-
-Previous version:
-
-```
-
-loaderSuccessSelector(
-  state: LoaderState<T>
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-loaderSuccessSelector(
-  state: LoaderState<T>): boolean;
-): boolean
-
-```
-
-
 
 
 # Function StateUtils.loaderValueSelector
 ## @spartacus/core
 
 
-Function loaderValueSelector changed.
-
-Previous version:
-
-```
-
-loaderValueSelector(
-  state: LoaderState<T>
-): T
-
-```
-
-
-Current version:
-
-```
-
-loaderValueSelector(
-  state: LoaderState<T>): T;
-): T
-
-```
-
-
 
 
 # Function StateUtils.loadMeta
 ## @spartacus/core
-
-
-Function loadMeta changed.
-
-Previous version:
-
-```
-
-loadMeta(
-  entityType: string
-): LoaderMeta
-
-```
-
-
-Current version:
-
-```
-
-loadMeta(
-  entityType: string): LoaderMeta;
-): LoaderMeta
-
-```
 
 
 
@@ -80276,7 +65329,10 @@ Current version:
 normalizeListPage(
   list: EntitiesModel<T>,
   id: 
-)
+): {
+    values: T[];
+    page: ListModel;
+}
 
 ```
 
@@ -80311,30 +65367,6 @@ normalizeListPage(
 ## @spartacus/core
 
 
-Function processesDecrementMeta changed.
-
-Previous version:
-
-```
-
-processesDecrementMeta(
-  entityType: string
-): ProcessesLoaderMeta
-
-```
-
-
-Current version:
-
-```
-
-processesDecrementMeta(
-  entityType: string): ProcessesLoaderMeta;
-): ProcessesLoaderMeta
-
-```
-
-
 
 
 # Class StateUtils.ProcessesIncrementAction
@@ -80345,30 +65377,6 @@ processesDecrementMeta(
 
 # Function StateUtils.processesIncrementMeta
 ## @spartacus/core
-
-
-Function processesIncrementMeta changed.
-
-Previous version:
-
-```
-
-processesIncrementMeta(
-  entityType: string
-): ProcessesLoaderMeta
-
-```
-
-
-Current version:
-
-```
-
-processesIncrementMeta(
-  entityType: string): ProcessesLoaderMeta;
-): ProcessesLoaderMeta
-
-```
 
 
 
@@ -80443,30 +65451,6 @@ processesLoaderReducer(
 ## @spartacus/core
 
 
-Function processesLoaderResetMeta changed.
-
-Previous version:
-
-```
-
-processesLoaderResetMeta(
-  entityType: string
-): ProcessesLoaderMeta
-
-```
-
-
-Current version:
-
-```
-
-processesLoaderResetMeta(
-  entityType: string): ProcessesLoaderMeta;
-): ProcessesLoaderMeta
-
-```
-
-
 
 
 # Interface StateUtils.ProcessesLoaderState
@@ -80481,30 +65465,6 @@ processesLoaderResetMeta(
 
 # Function StateUtils.resetMeta
 ## @spartacus/core
-
-
-Function resetMeta changed.
-
-Previous version:
-
-```
-
-resetMeta(
-  entityType: string
-): LoaderMeta
-
-```
-
-
-Current version:
-
-```
-
-resetMeta(
-  entityType: string): LoaderMeta;
-): LoaderMeta
-
-```
 
 
 
@@ -80575,30 +65535,6 @@ serializeSearchConfig(
 
 # Function StateUtils.successMeta
 ## @spartacus/core
-
-
-Function successMeta changed.
-
-Previous version:
-
-```
-
-successMeta(
-  entityType: string
-): LoaderMeta
-
-```
-
-
-Current version:
-
-```
-
-successMeta(
-  entityType: string): LoaderMeta;
-): LoaderMeta
-
-```
 
 
 
@@ -80757,36 +65693,6 @@ successMeta(
 
 
 
-# Function stringifyFields
-## @spartacus/core
-
-
-Function stringifyFields changed.
-
-Previous version:
-
-```
-
-stringifyFields(
-  fields: object
-): string
-
-```
-
-
-Current version:
-
-```
-
-stringifyFields(
-  fields: object): string;
-): string
-
-```
-
-
-
-
 # Class StringTemplate
 ## @spartacus/core
 
@@ -80803,31 +65709,6 @@ stringifyFields(
 
 ### PropertySignature value is removed.
 
-
-
-
-
-# TypeAlias SyncedAnonymousConsentsState
-## @spartacus/core
-
-
-TypeAlias SyncedAnonymousConsentsState changed.
-
-Previous version:
-
-```
-Partial,
-<,
-AnonymousConsentsState,
->
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -81014,46 +65895,6 @@ Current version:
 ## @spartacus/core
 
 
-### Property chunks changed.
-
-
-Previous version:
-
-```
-chunks: {
-        [key: string]: string;
-    }
-```
-
-
-Current version:
-
-```
-chunks: {
-        [key: string]: string
-```
-
-
-### Property duplicates changed.
-
-
-Previous version:
-
-```
-duplicates: {
-        [key: string]: string[];
-    }
-```
-
-
-Current version:
-
-```
-duplicates: {
-        [key: string]: string[]
-```
-
-
 ### Method getChunkNameForKey is removed.
 
 
@@ -81130,36 +65971,6 @@ tryNormalizeHttpError(
 
 
 
-# Function uniteLatest
-## @spartacus/core
-
-
-Function uniteLatest changed.
-
-Previous version:
-
-```
-
-uniteLatest(
-  sources: R
-): Observable<ReturnTypes<R>>
-
-```
-
-
-Current version:
-
-```
-
-uniteLatest(
-  sources: R): Observable<ReturnTypes<R>>;
-): Observable<ReturnTypes<R>>
-
-```
-
-
-
-
 # Class UnknownErrorHandler
 ## @spartacus/core
 
@@ -81178,29 +65989,6 @@ uniteLatest(
 
 
 
-# TypeAlias UrlCommand
-## @spartacus/core
-
-
-TypeAlias UrlCommand changed.
-
-Previous version:
-
-```
-UrlCommandRoute,
- | any
-```
-
-
-Current version:
-
-```
-
-```
-
-
-
-
 # Interface UrlCommandRoute
 ## @spartacus/core
 
@@ -81211,62 +65999,6 @@ Current version:
 
 ### PropertySignature params is removed.
 
-
-
-
-
-# TypeAlias UrlCommands
-## @spartacus/core
-
-
-TypeAlias UrlCommands changed.
-
-Previous version:
-
-```
-UrlCommand,
- | ,
-UrlCommand,
-[]
-```
-
-
-Current version:
-
-```
-
-```
-
-
-
-
-# TypeAlias UrlMatcherFactory
-## @spartacus/core
-
-
-TypeAlias UrlMatcherFactory changed.
-
-Previous version:
-
-```
-(route: ,
-Route,
-) => ,
-UrlMatcher
-```
-
-
-Current version:
-
-```
- ,
-Route,
-),
- ,
-=>,
- ,
-UrlMatcher
-```
 
 
 
@@ -81315,36 +66047,6 @@ UrlMatcher
 
 
 
-# Function urlPathJoin
-## @spartacus/core
-
-
-Function urlPathJoin changed.
-
-Previous version:
-
-```
-
-urlPathJoin(
-  parts: string[]
-): string
-
-```
-
-
-Current version:
-
-```
-
-urlPathJoin(
-  parts: string[]): string;
-): string
-
-```
-
-
-
-
 # Class UrlPipe
 ## @spartacus/core
 
@@ -81361,36 +66063,6 @@ urlPathJoin(
 
 ### PropertySignature siteContext is removed.
 
-
-
-
-
-# Function useFeatureStyles
-## @spartacus/core
-
-
-Function useFeatureStyles changed.
-
-Previous version:
-
-```
-
-useFeatureStyles(
-  feature: string
-): void
-
-```
-
-
-Current version:
-
-```
-
-useFeatureStyles(
-  feature: string): void;
-): void
-
-```
 
 
 
@@ -81533,28 +66205,6 @@ Namespace UserActions has been removed and is no longer part of the public API.
 ## @spartacus/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        productCode: string;
-        notificationType: NotificationType;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class UserActions.AddProductInterestFail
@@ -81573,27 +66223,6 @@ payload: {
 ## @spartacus/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        address: Address;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class UserActions.AddUserAddressFail
@@ -81610,26 +66239,6 @@ payload: {
 
 # TypeAlias UserActions.BillingCountriesAction
 ## @spartacus/core
-
-
-TypeAlias BillingCountriesAction changed.
-
-Previous version:
-
-```
-LoadBillingCountries,
- | ,
-LoadBillingCountriesFail,
- | ,
-LoadBillingCountriesSuccess
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -81654,27 +66263,6 @@ Current version:
 
 # Class UserActions.ClaimCustomerCoupon
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        couponCode: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -81741,58 +66329,6 @@ payload: {
 
 # TypeAlias UserActions.CustomerCouponAction
 ## @spartacus/core
-
-
-TypeAlias CustomerCouponAction changed.
-
-Previous version:
-
-```
-LoadCustomerCoupons,
- | ,
-LoadCustomerCouponsFail,
- | ,
-LoadCustomerCouponsSuccess,
- | ,
-ResetLoadCustomerCoupons,
- | ,
-SubscribeCustomerCoupon,
- | ,
-SubscribeCustomerCouponFail,
- | ,
-SubscribeCustomerCouponSuccess,
- | ,
-ResetSubscribeCustomerCouponProcess,
- | ,
-UnsubscribeCustomerCoupon,
- | ,
-UnsubscribeCustomerCouponFail,
- | ,
-UnsubscribeCustomerCouponSuccess,
- | ,
-ResetUnsubscribeCustomerCouponProcess,
- | ,
-ClaimCustomerCoupon,
- | ,
-ClaimCustomerCouponFail,
- | ,
-ClaimCustomerCouponSuccess,
- | ,
-DisclaimCustomerCoupon,
- | ,
-DisclaimCustomerCouponFail,
- | ,
-DisclaimCustomerCouponSuccess,
- | ,
-ResetDisclaimCustomerCoupon
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -81873,26 +66409,6 @@ Current version:
 ## @spartacus/core
 
 
-TypeAlias DeliveryCountriesAction changed.
-
-Previous version:
-
-```
-LoadDeliveryCountries,
- | ,
-LoadDeliveryCountriesFail,
- | ,
-LoadDeliveryCountriesSuccess
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Variable UserActions.DISCLAIM_CUSTOMER_COUPON_FAIL
@@ -81915,27 +66431,6 @@ Current version:
 
 # Class UserActions.DisclaimCustomerCoupon
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        couponCode: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -81972,28 +66467,6 @@ payload: {
 
 # Class UserActions.GiveUserConsent
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        consentTemplateId: string | undefined;
-        consentTemplateVersion: number | undefined;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -82230,29 +66703,6 @@ payload: {
 ## @spartacus/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        pageSize: number;
-        currentPage?: number;
-        sort?: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class UserActions.LoadCustomerCouponsFail
@@ -82307,31 +66757,6 @@ payload: {
 ## @spartacus/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        pageSize?: number;
-        currentPage?: number;
-        sort?: string;
-        productCode?: string;
-        notificationType?: NotificationType;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class UserActions.LoadProductInterestsFail
@@ -82360,27 +66785,6 @@ payload: {
 
 # Class UserActions.LoadRegionsSuccess
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        entities: Region[];
-        country: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        entities: Region[]
-```
 
 
 
@@ -82443,106 +66847,16 @@ payload: {
 ## @spartacus/core
 
 
-TypeAlias NotificationPreferenceAction changed.
-
-Previous version:
-
-```
-LoadNotificationPreferences,
- | ,
-LoadNotificationPreferencesFail,
- | ,
-LoadNotificationPreferencesSuccess,
- | ,
-UpdateNotificationPreferences,
- | ,
-UpdateNotificationPreferencesFail,
- | ,
-UpdateNotificationPreferencesSuccess,
- | ,
-ResetNotificationPreferences,
- | ,
-ClearNotificationPreferences
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # TypeAlias UserActions.ProductInterestsAction
 ## @spartacus/core
 
 
-TypeAlias ProductInterestsAction changed.
-
-Previous version:
-
-```
-LoadProductInterests,
- | ,
-LoadProductInterestsFail,
- | ,
-LoadProductInterestsSuccess,
- | ,
-RemoveProductInterest,
- | ,
-RemoveProductInterestSuccess,
- | ,
-RemoveProductInterestFail,
- | ,
-AddProductInterest,
- | ,
-AddProductInterestFail,
- | ,
-AddProductInterestSuccess,
- | ,
-ResetAddInterestState,
- | ,
-ResetRemoveInterestState,
- | ,
-ClearProductInterests
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # TypeAlias UserActions.RegionsAction
 ## @spartacus/core
-
-
-TypeAlias RegionsAction changed.
-
-Previous version:
-
-```
-LoadRegions,
- | ,
-LoadRegionsFail,
- | ,
-LoadRegionsSuccess,
- | ,
-ClearRegions
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -82585,28 +66899,6 @@ Current version:
 
 # Class UserActions.RemoveProductInterest
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        item: ProductInterestEntryRelation;
-        singleDelete?: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -82789,27 +67081,6 @@ payload: {
 ## @spartacus/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        couponCode: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class UserActions.SubscribeCustomerCouponFail
@@ -82834,28 +67105,6 @@ payload: {
 ## @spartacus/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        consentTemplateId: string | undefined;
-        consentTemplateVersion: number | undefined;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Variable UserActions.UNSUBSCRIBE_CUSTOMER_COUPON_FAIL
@@ -82878,27 +67127,6 @@ payload: {
 
 # Class UserActions.UnsubscribeCustomerCoupon
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        couponCode: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -82955,27 +67183,6 @@ payload: {
 ## @spartacus/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        preferences: NotificationPreference[];
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class UserActions.UpdateNotificationPreferencesFail
@@ -82992,28 +67199,6 @@ payload: {
 
 # Class UserActions.UpdateUserAddress
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        addressId: string;
-        address: Address;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -83034,86 +67219,10 @@ payload: {
 ## @spartacus/core
 
 
-TypeAlias UserAddressesAction changed.
-
-Previous version:
-
-```
-LoadUserAddresses,
- | ,
-LoadUserAddressesFail,
- | ,
-LoadUserAddressesSuccess,
- | ,
-AddUserAddress,
- | ,
-AddUserAddressFail,
- | ,
-AddUserAddressSuccess,
- | ,
-UpdateUserAddress,
- | ,
-UpdateUserAddressFail,
- | ,
-UpdateUserAddressSuccess,
- | ,
-DeleteUserAddress,
- | ,
-DeleteUserAddressFail,
- | ,
-DeleteUserAddressSuccess
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # TypeAlias UserActions.UserConsentsAction
 ## @spartacus/core
-
-
-TypeAlias UserConsentsAction changed.
-
-Previous version:
-
-```
-LoadUserConsents,
- | ,
-LoadUserConsentsFail,
- | ,
-LoadUserConsentsSuccess,
- | ,
-ResetLoadUserConsents,
- | ,
-GiveUserConsent,
- | ,
-GiveUserConsentFail,
- | ,
-GiveUserConsentSuccess,
- | ,
-ResetGiveUserConsentProcess,
- | ,
-WithdrawUserConsent,
- | ,
-WithdrawUserConsentFail,
- | ,
-WithdrawUserConsentSuccess,
- | ,
-ResetWithdrawUserConsentProcess
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -83122,84 +67231,16 @@ Current version:
 ## @spartacus/core
 
 
-TypeAlias UserCostCenterAction changed.
-
-Previous version:
-
-```
-LoadActiveCostCenters,
- | ,
-LoadActiveCostCentersFail,
- | ,
-LoadActiveCostCentersSuccess
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # TypeAlias UserActions.UserPaymentMethodsAction
 ## @spartacus/core
 
 
-TypeAlias UserPaymentMethodsAction changed.
-
-Previous version:
-
-```
-LoadUserPaymentMethods,
- | ,
-LoadUserPaymentMethodsFail,
- | ,
-LoadUserPaymentMethodsSuccess,
- | ,
-SetDefaultUserPaymentMethod,
- | ,
-SetDefaultUserPaymentMethodFail,
- | ,
-SetDefaultUserPaymentMethodSuccess,
- | ,
-DeleteUserPaymentMethod,
- | ,
-DeleteUserPaymentMethodFail,
- | ,
-DeleteUserPaymentMethodSuccess
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # TypeAlias UserActions.UserRegisterOrRemoveAction
 ## @spartacus/core
-
-
-TypeAlias UserRegisterOrRemoveAction changed.
-
-Previous version:
-
-```
-RegisterUserSuccess
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -83224,28 +67265,6 @@ Current version:
 
 # Class UserActions.WithdrawUserConsent
 ## @spartacus/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        consentCode: string;
-        consentId?: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -83376,26 +67395,6 @@ payload: {
 
 ### Method updateUserAddress is removed.
 
-
-
-### Property userAddressVerificationCommand changed.
-
-
-Previous version:
-
-```
-userAddressVerificationCommand: Command<{
-        address: Address;
-    }, AddressValidation>
-```
-
-
-Current version:
-
-```
-userAddressVerificationCommand: Command<{
-        address: Address
-```
 
 
 ### Method verifyAddress is removed.
@@ -84123,28 +68122,6 @@ getCostCentersState: MemoizedSelector<StateWithOrganization, StateUtils.EntityLo
 ## @spartacus/core
 
 
-Variable getRegionsDataAndLoading changed.
-
-Previous version:
-
-```
-getRegionsDataAndLoading: MemoizedSelector<StateWithUser, {
-    loaded: boolean;
-    loading: boolean;
-    regions: Region[];
-    country: string | null;
-}>
-```
-
-
-Current version:
-
-```
-getRegionsDataAndLoading: MemoizedSelector<StateWithUser, {
-    loaded: boolean
-```
-
-
 
 
 # Variable UsersSelectors.getRegionsLoaded
@@ -84427,66 +68404,6 @@ validateConfig(
 
 
 
-# Function withdrawOn
-## @spartacus/core
-
-
-Function withdrawOn changed.
-
-Previous version:
-
-```
-
-withdrawOn(
-  notifier: Observable<any>
-): OperatorFunction<T, T>
-
-```
-
-
-Current version:
-
-```
-
-withdrawOn(
-  notifier: Observable<any>): OperatorFunction<T
-): OperatorFunction<T, T>
-
-```
-
-
-
-
-# Function wrapIntoObservable
-## @spartacus/core
-
-
-Function wrapIntoObservable changed.
-
-Previous version:
-
-```
-
-wrapIntoObservable(
-  value: T | Promise<T> | Observable<T>
-): Observable<T>
-
-```
-
-
-Current version:
-
-```
-
-wrapIntoObservable(
-  value: T | Promise<T> | Observable<T>): Observable<T>;
-): Observable<T>
-
-```
-
-
-
-
 # Variable CHECKOUT_SCHEDULED_REPLENISHMENT_CMS_COMPONENTS
 ## @spartacus/checkout/scheduled-replenishment/root
 
@@ -84681,44 +68598,6 @@ moved to @spartacus/checkout/scheduled/replenishment/assets
 moved to @spartacus/checkout/scheduled/replenishment/assets
 
 
-Variable checkoutScheduledReplenishmentTranslations changed.
-
-Previous version:
-
-```
-checkoutScheduledReplenishmentTranslations: {
-    en: {
-        checkoutScheduledReplenishment: {
-            checkoutScheduledReplenishment: {
-                autoReplenishOrder: string;
-                orderType_PLACE_ORDER: string;
-                orderType_SCHEDULE_REPLENISHMENT_ORDER: string;
-                every: string;
-                recurrencePeriodType_DAILY: string;
-                recurrencePeriodType_WEEKLY: string;
-                recurrencePeriodType_MONTHLY: string;
-                dayOfMonth: string;
-                startOn: string;
-                repeatOnDays: string;
-                duration: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-checkoutScheduledReplenishmentTranslations: {
-    en: {
-        checkoutScheduledReplenishment: {
-            checkoutScheduledReplenishment: {
-                autoReplenishOrder: string
-```
-
-
 
 
 # Variable checkoutScheduledReplenishmentTranslationsCs
@@ -84888,42 +68767,6 @@ moved to @spartacus/checkout/scheduled/replenishment
 
 ### Method setBillingAddress is removed.
 
-
-
-
-
-# Class CheckoutConfig
-## @spartacus/checkout/base/root
-
-
-### Property checkout changed.
-
-
-Previous version:
-
-```
-checkout: {
-        steps?: Array<CheckoutStep>;
-        express?: boolean;
-        defaultDeliveryMode?: Array<DeliveryModePreferences | string>;
-        guest?: boolean;
-        guestUseSavedAddress?: boolean;
-        flows?: {
-            [key: string]: CheckoutFlow;
-        };
-    }
-```
-
-
-Current version:
-
-```
-checkout: {
-        /**
-         * Set checkout steps as ordered array of pages.
-         */
-        steps?: Array<CheckoutStep>
-```
 
 
 
@@ -86061,27 +69904,6 @@ supportedDeliveryModes$: Observable<_spartacus_cart_base_root.DeliveryMode[]>
 
 
 
-### Property cards$ changed.
-
-
-Previous version:
-
-```
-cards$: Observable<{
-        content: Card;
-        paymentMethod: PaymentDetails;
-    }[]>
-```
-
-
-Current version:
-
-```
-cards$: Observable<{
-        content: Card
-```
-
-
 ### Method createCard is removed.
 
 
@@ -86390,90 +70212,6 @@ cards$: Observable<{
 
 ### Method canActivate is removed.
 
-
-
-
-
-# Variable checkoutTranslations
-## @spartacus/checkout/base/assets
-
-
-Variable checkoutTranslations changed.
-
-Previous version:
-
-```
-checkoutTranslations: {
-    en: {
-        checkout: {
-            checkout: {
-                backToCart: string;
-            };
-            checkoutProgress: {
-                label: string;
-                deliveryAddress: string;
-                deliveryMode: string;
-                paymentDetails: string;
-                reviewOrder: string;
-                state: {
-                    completed: string;
-                    selected: string;
-                    disabled: string;
-                };
-            };
-            checkoutAddress: {
-                shippingAddress: string;
-                selectYourDeliveryAddress: string;
-                defaultDeliveryAddress: string;
-                addNewAddress: string;
-                shipToThisAddress: string;
-                deliveryAddressSelected: string;
-            };
-            checkoutMode: {
-                deliveryMethod: string;
-                deliveryOptions: string;
-                standardDelivery: string;
-                premiumDelivery: string;
-                deliveryEntries: string;
-            };
-            checkoutReview: {
-                review: string;
-                reviewOrder: string;
-                orderItems: string;
-                confirmThatRead: string;
-                placeOrder: string;
-                termsAndConditions: string;
-                editDeliveryAddressDetails: string;
-                editBillingDetails: string;
-                editPaymentDetails: string;
-                editPaymentType: string;
-                editDeliveryMode: string;
-                orderInProcess: string;
-            };
-            checkoutOrderConfirmation: {
-                confirmationOfOrder: string;
-                thankYou: string;
-                invoiceHasBeenSentByEmail: string;
-                orderItems: string;
-                orderPlacedSuccessfully: string;
-                createAccount: string;
-                createAccountForNext: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-checkoutTranslations: {
-    en: {
-        checkout: {
-            checkout: {
-                backToCart: string
-```
 
 
 
@@ -86871,27 +70609,6 @@ Variable checkoutTranslationsZh has been removed and is no longer part of the pu
 
 
 
-### Property setPaymentTypeCommand changed.
-
-
-Previous version:
-
-```
-setPaymentTypeCommand: Command<{
-        paymentTypeCode: string;
-        purchaseOrderNumber?: string;
-    }, unknown>
-```
-
-
-Current version:
-
-```
-setPaymentTypeCommand: Command<{
-        paymentTypeCode: string
-```
-
-
 
 
 # Class B2BCheckoutDeliveryAddressComponent
@@ -87060,57 +70777,6 @@ setPaymentTypeCommand: Command<{
 
 
 
-# Variable checkoutB2BTranslations
-## @spartacus/checkout/b2b/assets
-
-
-Variable checkoutB2BTranslations changed.
-
-Previous version:
-
-```
-checkoutB2BTranslations: {
-    en: {
-        checkoutB2B: {
-            checkoutB2B: {
-                noPoNumber: string;
-                poNumber: string;
-                costCenter: string;
-                placeholder: string;
-                availableLabel: string;
-                invalid: {
-                    accountType: string;
-                };
-                methodOfPayment: {
-                    paymentType: string;
-                };
-                review: {
-                    poNumber: string;
-                };
-                progress: {
-                    methodOfPayment: string;
-                };
-                invalidCostCenter: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-checkoutB2BTranslations: {
-    en: {
-        checkoutB2B: {
-            checkoutB2B: {
-                noPoNumber: string
-```
-
-
-
-
 # Variable checkoutB2BTranslationsCs
 ## @spartacus/checkout/b2b/assets
 
@@ -87260,43 +70926,6 @@ Variable checkoutB2BTranslationsZh_TW has been removed and is no longer part of 
 
 
 Variable checkoutB2BTranslationsZh has been removed and is no longer part of the public API.
-
-
-
-
-# Variable cdsTranslations
-## @spartacus/cds/assets
-
-
-Variable cdsTranslations changed.
-
-Previous version:
-
-```
-cdsTranslations: {
-    en: {
-        cds: {
-            cdsRecentSearches: {
-                ariaRecentSearches: string;
-            };
-            cdsTrendingSearches: {
-                ariaTrendingSearches: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-cdsTranslations: {
-    en: {
-        cds: {
-            cdsRecentSearches: {
-                ariaRecentSearches: string
-```
 
 
 
@@ -87458,59 +71087,12 @@ Variable cdsTranslationsZh has been removed and is no longer part of the public 
 ## @spartacus/cds
 
 
-### Property cxAttributes changed.
-
-
-Previous version:
-
-```
-cxAttributes: {
-        [attribute: string]: any;
-    }
-```
-
-
-Current version:
-
-```
-cxAttributes: {
-        [attribute: string]: any
-```
-
-
 ### Property cxAttributesNamePrefix is removed.
 
 
 
 ### Method ngOnChanges is removed.
 
-
-
-
-
-# Class BrandPageVisitedEvent
-## @spartacus/cds
-
-
-### Property data changed.
-
-
-Previous version:
-
-```
-data: {
-        brandCode: string;
-        brandName: string;
-    }
-```
-
-
-Current version:
-
-```
-data: {
-        brandCode: string
-```
 
 
 
@@ -87553,68 +71135,6 @@ data: {
 
 ### Method notifySuccessfulLogin is removed.
 
-
-
-
-
-# Class CdsConfig
-## @spartacus/cds
-
-
-### Property cds changed.
-
-
-Previous version:
-
-```
-cds: {
-        baseSite?: string[];
-        tenant?: string;
-        baseUrl?: string;
-        consentTemplateId?: string;
-        endpoints?: CdsEndpoints;
-        merchandising?: MerchandisingConfig;
-        profileTag?: ProfileTagConfig;
-    }
-```
-
-
-Current version:
-
-```
-cds: {
-        baseSite?: string[]
-```
-
-
-
-
-# Function cdsConfigValidator
-## @spartacus/cds
-
-
-Function cdsConfigValidator changed.
-
-Previous version:
-
-```
-
-cdsConfigValidator(
-  config: CdsConfig
-): string | void
-
-```
-
-
-Current version:
-
-```
-
-cdsConfigValidator(
-  config: CdsConfig): string | void;
-): string | void
-
-```
 
 
 
@@ -87717,32 +71237,6 @@ cdsConfigValidator(
 
 ### PropertySignature viewportPercentage is removed.
 
-
-
-
-
-# Class ConsentChangedPushEvent
-## @spartacus/cds
-
-
-### Property data changed.
-
-
-Previous version:
-
-```
-data: {
-        granted?: boolean;
-    }
-```
-
-
-Current version:
-
-```
-data: {
-        granted?: boolean
-```
 
 
 
@@ -88455,26 +71949,6 @@ moved to @spartacus/cdc/user/profile
 
 
 
-### Property registerCommand changed.
-
-
-Previous version:
-
-```
-registerCommand: Command<{
-        user: UserSignUp;
-    }, User>
-```
-
-
-Current version:
-
-```
-registerCommand: Command<{
-        user: UserSignUp
-```
-
-
 
 
 # Class CDCRegisterModule
@@ -88644,34 +72118,6 @@ Variable CDC_USER_PREFERENCE_SERIALIZER has been removed and is no longer part o
 
 
 
-# Class CdcConfig
-## @spartacus/cdc/root
-
-
-### Property cdc changed.
-
-
-Previous version:
-
-```
-cdc: {
-        baseSite: string;
-        javascriptUrl: string;
-        sessionExpiration: number;
-    }[]
-```
-
-
-Current version:
-
-```
-cdc: {
-        baseSite: string
-```
-
-
-
-
 # Interface CdcConsent
 ## @spartacus/cdc/root
 
@@ -88792,26 +72238,6 @@ cdcJsFactory(
 
 ### Method getSiteConsentDetails is removed.
 
-
-
-### Property gigyaSDK changed.
-
-
-Previous version:
-
-```
-gigyaSDK: {
-        [key: string]: any;
-    }
-```
-
-
-Current version:
-
-```
-gigyaSDK: {
-        [key: string]: any
-```
 
 
 ### Method handleLoginError is removed.
@@ -89039,26 +72465,6 @@ moved to @spartacus/cdc/organization/user/registration
 
 
 
-### Property registerCommand changed.
-
-
-Previous version:
-
-```
-registerCommand: Command<{
-        orgInfo: OrganizationUserRegistrationForm;
-    }, OrganizationUserRegistrationForm>
-```
-
-
-Current version:
-
-```
-registerCommand: Command<{
-        orgInfo: OrganizationUserRegistrationForm
-```
-
-
 ### Method registerUser is removed.
 
 
@@ -89247,48 +72653,6 @@ moved to @spartacus/cdc/organization/user/registration
 
 
 
-# Variable cdcTranslations
-## @spartacus/cdc/assets
-
-
-Variable cdcTranslations changed.
-
-Previous version:
-
-```
-cdcTranslations: {
-    en: {
-        cdc: {
-            reconsent: {
-                dialog: {
-                    title: string;
-                    description: string;
-                };
-            };
-            cdcProfile: {
-                profileUpdateSuccess: string;
-                profileUpdateFailure: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-cdcTranslations: {
-    en: {
-        cdc: {
-            reconsent: {
-                dialog: {
-                    title: string
-```
-
-
-
-
 # Variable cdcTranslationsCs
 ## @spartacus/cdc/assets
 
@@ -89472,37 +72836,6 @@ moved to @spartacus/cart/wish/list/root
 moved to @spartacus/cart/wish/list/root
 
 
-Function defaultCartWishListComponentsConfig changed.
-
-Previous version:
-
-```
-
-defaultCartWishListComponentsConfig(): {
-    featureModules: {
-        cartWishList: {
-            cmsComponents: string[];
-            dependencies: string[];
-        };
-        addToWishList: {
-            cmsComponents: string[];
-        };
-        cartWishListCore: string;
-    };
-}
-
-```
-
-
-Current version:
-
-```
-
-defaultCartWishListComponentsConfig()
-
-```
-
-
 
 
 # Class WishListFacade
@@ -89551,30 +72884,6 @@ moved to @spartacus/cart/wish/list/root
 moved to @spartacus/cart/wish/list/core
 
 
-Function getWishlistName changed.
-
-Previous version:
-
-```
-
-getWishlistName(
-  customerId: string
-): string
-
-```
-
-
-Current version:
-
-```
-
-getWishlistName(
-  customerId: string): string;
-): string
-
-```
-
-
 
 
 # Namespace WishListActions
@@ -89616,28 +72925,6 @@ moved to @spartacus/cart/wish/list/core
 moved to @spartacus/cart/wish/list/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        name?: string;
-        description?: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class WishListActions.CreateWishListFail
@@ -89646,54 +72933,12 @@ payload: {
 moved to @spartacus/cart/wish/list/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        cartId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        cartId: string
-```
-
-
 
 
 # Class WishListActions.CreateWishListSuccess
 ## @spartacus/cart/wish-list/core
 
 moved to @spartacus/cart/wish/list/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        cart: Cart;
-        cartId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        cart: Cart
-```
 
 
 
@@ -89744,59 +72989,12 @@ moved to @spartacus/cart/wish/list/core
 moved to @spartacus/cart/wish/list/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        cart: Cart;
-        cartId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        cart: Cart
-```
-
-
 
 
 # TypeAlias WishListActions.WishListActions
 ## @spartacus/cart/wish-list/core
 
 moved to @spartacus/cart/wish/list/core
-
-
-TypeAlias WishListActions changed.
-
-Previous version:
-
-```
-CreateWishList,
- | ,
-CreateWishListSuccess,
- | ,
-CreateWishListFail,
- | ,
-LoadWishList,
- | ,
-LoadWishListSuccess,
- | ,
-LoadWishListFail
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -89933,36 +73131,6 @@ moved to @spartacus/cart/wish/list/assets
 ## @spartacus/cart/wish-list/assets
 
 moved to @spartacus/cart/wish/list/assets
-
-
-Variable wishListTranslations changed.
-
-Previous version:
-
-```
-wishListTranslations: {
-    en: {
-        wishlist: {
-            wishlist: {
-                empty: string;
-                itemRemoved: string;
-                caption: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-wishListTranslations: {
-    en: {
-        wishlist: {
-            wishlist: {
-                empty: string
-```
 
 
 
@@ -90587,28 +73755,6 @@ moved to @spartacus/cart/saved/cart/core
 moved to @spartacus/cart/saved/cart/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        saveCartName?: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class SavedCartActions.CloneSavedCartFail
@@ -90617,57 +73763,12 @@ payload: {
 moved to @spartacus/cart/saved/cart/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        saveCartName?: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class SavedCartActions.CloneSavedCartSuccess
 ## @spartacus/cart/saved-cart/core
 
 moved to @spartacus/cart/saved/cart/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        saveCartName?: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -90702,29 +73803,6 @@ moved to @spartacus/cart/saved/cart/core
 moved to @spartacus/cart/saved/cart/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        saveCartName?: string;
-        saveCartDescription?: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class SavedCartActions.EditSavedCartFail
@@ -90733,59 +73811,12 @@ payload: {
 moved to @spartacus/cart/saved/cart/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        saveCartName?: string;
-        saveCartDescription?: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class SavedCartActions.EditSavedCartSuccess
 ## @spartacus/cart/saved-cart/core
 
 moved to @spartacus/cart/saved/cart/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        saveCartName?: string;
-        saveCartDescription?: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -90844,55 +73875,12 @@ moved to @spartacus/cart/saved/cart/core
 moved to @spartacus/cart/saved/cart/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class SavedCartActions.LoadSavedCartFail
 ## @spartacus/cart/saved-cart/core
 
 moved to @spartacus/cart/saved/cart/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -90903,53 +73891,12 @@ payload: {
 moved to @spartacus/cart/saved/cart/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class SavedCartActions.LoadSavedCartsFail
 ## @spartacus/cart/saved-cart/core
 
 moved to @spartacus/cart/saved/cart/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -90960,53 +73907,12 @@ payload: {
 moved to @spartacus/cart/saved/cart/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class SavedCartActions.LoadSavedCartSuccess
 ## @spartacus/cart/saved-cart/core
 
 moved to @spartacus/cart/saved/cart/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -91041,27 +73947,6 @@ moved to @spartacus/cart/saved/cart/core
 moved to @spartacus/cart/saved/cart/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class SavedCartActions.RestoreSavedCartFail
@@ -91070,55 +73955,12 @@ payload: {
 moved to @spartacus/cart/saved/cart/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class SavedCartActions.RestoreSavedCartSuccess
 ## @spartacus/cart/saved-cart/core
 
 moved to @spartacus/cart/saved/cart/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -91153,59 +73995,12 @@ moved to @spartacus/cart/saved/cart/core
 moved to @spartacus/cart/saved/cart/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        saveCartName?: string;
-        saveCartDescription?: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class SavedCartActions.SaveCartFail
 ## @spartacus/cart/saved-cart/core
 
 moved to @spartacus/cart/saved/cart/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        saveCartName?: string;
-        saveCartDescription?: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -91216,93 +74011,12 @@ payload: {
 moved to @spartacus/cart/saved/cart/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        saveCartName?: string;
-        saveCartDescription?: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # TypeAlias SavedCartActions.SavedCartActions
 ## @spartacus/cart/saved-cart/core
 
 moved to @spartacus/cart/saved/cart/core
-
-
-TypeAlias SavedCartActions changed.
-
-Previous version:
-
-```
-LoadSavedCart,
- | ,
-LoadSavedCartSuccess,
- | ,
-LoadSavedCartFail,
- | ,
-LoadSavedCarts,
- | ,
-LoadSavedCartsSuccess,
- | ,
-LoadSavedCartsFail,
- | ,
-ClearSavedCarts,
- | ,
-RestoreSavedCart,
- | ,
-RestoreSavedCartSuccess,
- | ,
-RestoreSavedCartFail,
- | ,
-ClearRestoreSavedCart,
- | ,
-SaveCart,
- | ,
-SaveCartSuccess,
- | ,
-SaveCartFail,
- | ,
-ClearSaveCart,
- | ,
-EditSavedCart,
- | ,
-EditSavedCartSuccess,
- | ,
-EditSavedCartFail,
- | ,
-CloneSavedCart,
- | ,
-CloneSavedCartSuccess,
- | ,
-CloneSavedCartFail,
- | ,
-ClearCloneSavedCart
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -91845,96 +74559,6 @@ moved to @spartacus/cart/saved/cart/assets
 moved to @spartacus/cart/saved/cart/assets
 
 
-Variable savedCartTranslations changed.
-
-Previous version:
-
-```
-savedCartTranslations: {
-    en: {
-        savedCart: {
-            savedCartDetails: {
-                cartName: string;
-                cartDescription: string;
-                cartId: string;
-                dateSaved: string;
-                items: string;
-                quantity: string;
-                total: string;
-                editSavedCart: string;
-                deleteSavedCart: string;
-                addSelectedItems: string;
-                emptyCartItems: string;
-            };
-            savedCartList: {
-                savedCarts: string;
-                cartName: string;
-                cartId: string;
-                dateSaved: string;
-                cartDescription: string;
-                quantity: string;
-                quantityFull: string;
-                total: string;
-                actions: string;
-                makeCartActive: string;
-                notFound: string;
-                swapCartNoActiveCart: string;
-                swapCartWithActiveCart: string;
-            };
-            savedCartCartPage: {
-                messages: {
-                    cartSaved: string;
-                };
-            };
-            savedCartDialog: {
-                saveForLater: string;
-                itemsSavedForLater: string;
-                savedCartName: string;
-                savedCartDescription: string;
-                optional: string;
-                charactersLeft: string;
-                cancel: string;
-                save: string;
-                restore: string;
-                followingCartDelete: string;
-                followingCartRestore: string;
-                delete: string;
-                deleteCartSuccess: string;
-                editCartSuccess: string;
-                editSavedCart: string;
-                deleteSavedCart: string;
-                restoreSavedCart: string;
-                name: string;
-                id: string;
-                description: string;
-                quantity: string;
-                quantityFull: string;
-                total: string;
-                keepCopySavedCart: string;
-                defaultCloneCartName: string;
-                nameOfCloneCart: string;
-            };
-            addToSavedCart: {
-                savedCarts: string;
-                saveCartForLater: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-savedCartTranslations: {
-    en: {
-        savedCart: {
-            savedCartDetails: {
-                cartName: string
-```
-
-
 
 
 # Variable savedCartTranslationsCs
@@ -92120,33 +74744,6 @@ moved to @spartacus/cart/quick/order/root
 moved to @spartacus/cart/quick/order/root
 
 
-Function defaultQuickOrderComponentsConfig changed.
-
-Previous version:
-
-```
-
-defaultQuickOrderComponentsConfig(): {
-    featureModules: {
-        cartQuickOrder: {
-            cmsComponents: string[];
-        };
-        cartQuickOrderCore: string;
-    };
-}
-
-```
-
-
-Current version:
-
-```
-
-defaultQuickOrderComponentsConfig()
-
-```
-
-
 
 
 # Variable defaultQuickOrderConfig
@@ -92171,67 +74768,12 @@ moved to @spartacus/cart/quick/order/root
 moved to @spartacus/cart/quick/order/root
 
 
-TypeAlias QuickOrderAddEntryEvent changed.
-
-Previous version:
-
-```
-{
-    productCode: string;
-    entry?: ,
-OrderEntry,
-;
-    quantityAdded?: number;
-    quantity: number;
-    error?: ,
-HttpErrorModel,
-;
-}
-```
-
-
-Current version:
-
-```
- ,
-string
-```
-
-
 
 
 # Class QuickOrderConfig
 ## @spartacus/cart/quick-order/root
 
 moved to @spartacus/cart/quick/order/root
-
-
-### Property quickOrder changed.
-
-
-Previous version:
-
-```
-quickOrder: {
-        searchForm?: {
-            displayProductImages: boolean;
-            maxProducts: number;
-            minCharactersBeforeRequest: number;
-        };
-        list?: {
-            hardDeleteTimeout: number;
-        };
-    }
-```
-
-
-Current version:
-
-```
-quickOrder: {
-        searchForm?: {
-            displayProductImages: boolean
-```
 
 
 
@@ -92866,109 +75408,6 @@ moved to @spartacus/cart/quick/order/assets
 moved to @spartacus/cart/quick/order/assets
 
 
-Variable quickOrderTranslations changed.
-
-Previous version:
-
-```
-quickOrderTranslations: {
-    en: {
-        quickOrder: {
-            quickOrderCartForm: {
-                entriesWereAdded: string;
-                entryWasAdded: string;
-                noResults: string;
-                stockLevelReached: string;
-                title: string;
-                productCodePlaceholder: string;
-                entryProductCode: string;
-                quantity: string;
-                addToCart: string;
-                add: string;
-                product: string;
-                products: string;
-                productCodeLabel: string;
-                quantityLabel: string;
-                quantityFullLabel: string;
-            };
-            quickOrderForm: {
-                placeholder: string;
-                searchBoxLabel: string;
-                listLimitReached: string;
-                id: string;
-                noResults: string;
-                addProduct: string;
-                initialDescription: string;
-                productsResults: string;
-                quickOrderSearch: string;
-            };
-            quickOrderList: {
-                addToCart: string;
-                emptyList: string;
-                header: string;
-                subHeader: string;
-                errorProceedingToCart: string;
-                warningProceedingToCart: string;
-                successfullyAddedToCart: string;
-                errors: {
-                    productIsOutOfStock: string;
-                    reviewErrors: string;
-                    listIsFull: string;
-                    nonPurchasableError: string;
-                    outOfStockErrorFound: string;
-                    outOfStockErrorFound_other: string;
-                };
-                warnings: {
-                    productWasReduced: string;
-                    reviewWarnings: string;
-                    reduceWarningFound: string;
-                    reduceWarningFound_other: string;
-                };
-                successes: {
-                    productAddedToCart: string;
-                    addedToCartFound: string;
-                    addedToCartFound_other: string;
-                };
-                informations: {
-                    addProductBeforeAddingToCart: string;
-                };
-                undo: string;
-                revokeUndo: string;
-                productWasDeleted: string;
-            };
-            quickOrderTable: {
-                product: string;
-                id: string;
-                price: string;
-                quantity: string;
-                quantityFull: string;
-                itemPrice: string;
-                qty: string;
-                actions: string;
-                inStock: string;
-                lowStock: string;
-                outOfStock: string;
-                listCleared: string;
-                addedtoCart: string;
-                caption: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-quickOrderTranslations: {
-    en: {
-        quickOrder: {
-            quickOrderCartForm: {
-                entriesWereAdded: string
-```
-
-
 
 
 # Variable quickOrderTranslationsCs
@@ -93266,31 +75705,6 @@ moved to @spartacus/cart/import/export/core
 moved to @spartacus/cart/import/export/core
 
 
-### Property cartImportExport changed.
-
-
-Previous version:
-
-```
-cartImportExport: {
-        file: {
-            separator: string;
-        };
-        import?: ImportConfig;
-        export: ExportConfig;
-    }
-```
-
-
-Current version:
-
-```
-cartImportExport: {
-        file: {
-            separator: string
-```
-
-
 
 
 # Class ImportExportCoreModule
@@ -93435,26 +75849,6 @@ moved to @spartacus/cart/import/export/components
 
 
 
-### Property submitEvent changed.
-
-
-Previous version:
-
-```
-submitEvent: EventEmitter<{
-        products: ProductData[];
-    }>
-```
-
-
-Current version:
-
-```
-submitEvent: EventEmitter<{
-        products: ProductData[]
-```
-
-
 
 
 # Class ImportEntriesSummaryComponent
@@ -93559,30 +75953,6 @@ moved to @spartacus/cart/import/export/components
 
 
 
-### Property submitEvent changed.
-
-
-Previous version:
-
-```
-submitEvent: EventEmitter<{
-        products: ProductData[];
-        savedCartInfo?: {
-            name: string;
-            description: string;
-        };
-    }>
-```
-
-
-Current version:
-
-```
-submitEvent: EventEmitter<{
-        products: ProductData[]
-```
-
-
 ### Method updateCartName is removed.
 
 
@@ -93601,80 +75971,6 @@ moved to @spartacus/cart/import/export/assets
 ## @spartacus/cart/import-export/assets
 
 moved to @spartacus/cart/import/export/assets
-
-
-Variable importExportTranslations changed.
-
-Previous version:
-
-```
-importExportTranslations: {
-    en: {
-        importExport: {
-            exportEntries: {
-                exportToCsv: string;
-                exportMessage: string;
-                columnNames: {
-                    code: string;
-                    quantity: string;
-                    name: string;
-                    price: string;
-                };
-                exportProductToCsv: string;
-            };
-            importEntries: {
-                importProducts: string;
-            };
-            importEntriesDialog: {
-                importProducts: string;
-                importProductsSubtitle: string;
-                importProductsNewSavedCartSubtitle: string;
-                importProductFileDetails: string;
-                selectFile: string;
-                selectedSuccessfully: string;
-                savedCartName: string;
-                savedCartDescription: string;
-                optional: string;
-                charactersLeft: string;
-                cancel: string;
-                upload: string;
-                close: string;
-                summary: {
-                    info: string;
-                    loadedToCart: string;
-                    loaded: string;
-                    loading: string;
-                    successes: string;
-                    warning: string;
-                    warning_other: string;
-                    error: string;
-                    error_other: string;
-                    messages: {
-                        unknownIdentifier: string;
-                        lowStock: string;
-                        noStock: string;
-                        unknownError: string;
-                        limitExceeded: string;
-                    };
-                    show: string;
-                    hide: string;
-                };
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-importExportTranslations: {
-    en: {
-        importExport: {
-            exportEntries: {
-                exportToCsv: string
-```
 
 
 
@@ -93836,50 +76132,6 @@ Variable importExportTranslationsZh has been removed and is no longer part of th
 ## @spartacus/cart/import-export
 
 moved to @spartacus/cart/import/export
-
-
-
-
-# TypeAlias AbstractOrderKey
-## @spartacus/cart/base/root
-
-
-TypeAlias AbstractOrderKey changed.
-
-Previous version:
-
-```
-{
-    type: ,
-AbstractOrderType.CART,
-;
-} | {
-    type: ,
-AbstractOrderType.ORDER,
-;
-    id: string;
-} | {
-    type: ,
-AbstractOrderType.QUOTE,
-;
-    id: string;
-} | {
-    type: ,
-AbstractOrderType.SAVED_CART,
-;
-    id: string;
-}
-```
-
-
-Current version:
-
-```
- ,
-AbstractOrderType,
-.,
-CART
-```
 
 
 
@@ -94176,41 +76428,6 @@ CART
 
 
 
-# Class CartConfig
-## @spartacus/cart/base/root
-
-
-### Property cart changed.
-
-
-Previous version:
-
-```
-cart: {
-        selectiveCart?: {
-            enabled?: boolean;
-        };
-        validation?: {
-            enabled?: boolean;
-        };
-        showRealTimeStockInPDP?: {
-            enabled?: boolean;
-        };
-    }
-```
-
-
-Current version:
-
-```
-cart: {
-        selectiveCart?: {
-            enabled?: boolean
-```
-
-
-
-
 # Interface CartGuestUser
 ## @spartacus/cart/base/root
 
@@ -94367,45 +76584,6 @@ cart: {
 
 
 
-# Function defaultCartComponentsConfig
-## @spartacus/cart/base/root
-
-
-Function defaultCartComponentsConfig changed.
-
-Previous version:
-
-```
-
-defaultCartComponentsConfig(): {
-    featureModules: {
-        cartBase: {
-            cmsComponents: string[];
-        };
-        miniCart: {
-            cmsComponents: string[];
-        };
-        addToCart: {
-            cmsComponents: string[];
-        };
-        cartBaseCore: string;
-    };
-}
-
-```
-
-
-Current version:
-
-```
-
-defaultCartComponentsConfig()
-
-```
-
-
-
-
 # Interface DeliveryMode
 ## @spartacus/cart/base/root
 
@@ -94456,32 +76634,6 @@ defaultCartComponentsConfig()
 
 ### MethodSignature getEntries is removed.
 
-
-
-
-
-# Class MergeCartSuccessEvent
-## @spartacus/cart/base/root
-
-
-### Property extraData changed.
-
-
-Previous version:
-
-```
-extraData: {
-        active?: boolean;
-    }
-```
-
-
-Current version:
-
-```
-extraData: {
-        active?: boolean
-```
 
 
 
@@ -94578,33 +76730,6 @@ extraData: {
 
 ### Method updateEntry is removed.
 
-
-
-
-
-# TypeAlias OrderEntriesContext
-## @spartacus/cart/base/root
-
-
-TypeAlias OrderEntriesContext changed.
-
-Previous version:
-
-```
-Partial,
-<,
-AddOrderEntriesContext,
- & ,
-GetOrderEntriesContext,
->
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -94707,32 +76832,6 @@ Current version:
 
 ### PropertySignature totalPriceWithTax is removed.
 
-
-
-
-
-# TypeAlias ProductData
-## @spartacus/cart/base/root
-
-
-TypeAlias ProductData changed.
-
-Previous version:
-
-```
-{
-    productCode: string;
-    quantity: number;
-}
-```
-
-
-Current version:
-
-```
- ,
-string
-```
 
 
 
@@ -95303,27 +77402,6 @@ string
 
 
 
-### Property getCartAccessCodeCommand changed.
-
-
-Previous version:
-
-```
-getCartAccessCodeCommand: Command<{
-        userId: string;
-        cartId: string;
-    }, string | undefined>
-```
-
-
-Current version:
-
-```
-getCartAccessCodeCommand: Command<{
-        userId: string
-```
-
-
 
 
 # Namespace CartActions
@@ -95357,83 +77435,16 @@ Namespace CartActions has been removed and is no longer part of the public API.
 ## @spartacus/cart/base/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        email: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class CartActions.AddEmailToCartFail
 ## @spartacus/cart/base/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        error: any;
-        email: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class CartActions.AddEmailToCartSuccess
 ## @spartacus/cart/base/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        email: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -95550,82 +77561,10 @@ payload: {
 ## @spartacus/cart/base/core
 
 
-TypeAlias CartAction changed.
-
-Previous version:
-
-```
-CreateCart,
- | ,
-CreateCartFail,
- | ,
-CreateCartSuccess,
- | ,
-LoadCart,
- | ,
-LoadCartFail,
- | ,
-LoadCartSuccess,
- | ,
-LoadCartsSuccess,
- | ,
-MergeCart,
- | ,
-MergeCartSuccess,
- | ,
-ResetCartDetails,
- | ,
-AddEmailToCart,
- | ,
-AddEmailToCartFail,
- | ,
-AddEmailToCartSuccess,
- | ,
-DeleteCart,
- | ,
-DeleteCartSuccess,
- | ,
-DeleteCartFail,
- | ,
-RemoveCart
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Class CartActions.CartAddEntry
 ## @spartacus/cart/base/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        cartId: string;
-        userId: string;
-        productCode: string;
-        quantity: number;
-        pickupStore?: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        cartId: string
-```
 
 
 
@@ -95634,64 +77573,10 @@ payload: {
 ## @spartacus/cart/base/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        error: any;
-        userId: string;
-        cartId: string;
-        productCode: string;
-        quantity: number;
-        pickupStore?: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        error: any
-```
-
-
 
 
 # Class CartActions.CartAddEntrySuccess
 ## @spartacus/cart/base/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        productCode: string;
-        quantity: number;
-        pickupStore?: string;
-        deliveryModeChanged?: boolean;
-        entry?: OrderEntry;
-        quantityAdded?: number;
-        statusCode?: string;
-        statusMessage?: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -95700,55 +77585,10 @@ payload: {
 ## @spartacus/cart/base/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        voucherId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class CartActions.CartAddVoucherFail
 ## @spartacus/cart/base/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        voucherId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -95757,64 +77597,10 @@ payload: {
 ## @spartacus/cart/base/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        voucherId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # TypeAlias CartActions.CartEntryAction
 ## @spartacus/cart/base/core
-
-
-TypeAlias CartEntryAction changed.
-
-Previous version:
-
-```
-CartAddEntry,
- | ,
-CartAddEntrySuccess,
- | ,
-CartAddEntryFail,
- | ,
-CartRemoveEntry,
- | ,
-CartRemoveEntrySuccess,
- | ,
-CartRemoveEntryFail,
- | ,
-CartUpdateEntry,
- | ,
-CartUpdateEntrySuccess,
- | ,
-CartUpdateEntryFail
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -95835,55 +77621,10 @@ Current version:
 ## @spartacus/cart/base/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        cartId: string;
-        userId: string;
-        entryNumber: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        cartId: string
-```
-
-
 
 
 # Class CartActions.CartRemoveEntryFail
 ## @spartacus/cart/base/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        error: any;
-        cartId: string;
-        userId: string;
-        entryNumber: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        error: any
-```
 
 
 
@@ -95892,54 +77633,10 @@ payload: {
 ## @spartacus/cart/base/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        entryNumber: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class CartActions.CartRemoveVoucher
 ## @spartacus/cart/base/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        voucherId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -95948,55 +77645,10 @@ payload: {
 ## @spartacus/cart/base/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        error: any;
-        cartId: string;
-        userId: string;
-        voucherId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        error: any
-```
-
-
 
 
 # Class CartActions.CartRemoveVoucherSuccess
 ## @spartacus/cart/base/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        voucherId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -96011,61 +77663,10 @@ payload: {
 ## @spartacus/cart/base/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        entryNumber: string;
-        quantity?: number;
-        pickupStore?: string;
-        pickupToDelivery?: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class CartActions.CartUpdateEntryFail
 ## @spartacus/cart/base/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        error: any;
-        userId: string;
-        cartId: string;
-        entryNumber: string;
-        quantity?: number;
-        pickupStore?: string;
-        pickupToDelivery?: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        error: any
-```
 
 
 
@@ -96074,63 +77675,10 @@ payload: {
 ## @spartacus/cart/base/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        entryNumber: string;
-        quantity?: number;
-        pickupStore?: string;
-        pickupToDelivery?: boolean;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # TypeAlias CartActions.CartVoucherAction
 ## @spartacus/cart/base/core
-
-
-TypeAlias CartVoucherAction changed.
-
-Previous version:
-
-```
-CartAddVoucher,
- | ,
-CartAddVoucherFail,
- | ,
-CartAddVoucherSuccess,
- | ,
-CartResetAddVoucher,
- | ,
-CartRemoveVoucher,
- | ,
-CartRemoveVoucherFail,
- | ,
-CartRemoveVoucherSuccess
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -96205,80 +77753,16 @@ Current version:
 ## @spartacus/cart/base/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class CartActions.DeleteCartFail
 ## @spartacus/cart/base/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-        error: any;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
-
-
 
 
 # Class CartActions.DeleteCartSuccess
 ## @spartacus/cart/base/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        userId: string;
-        cartId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        userId: string
-```
 
 
 
@@ -96391,32 +77875,6 @@ payload: {
 ## @spartacus/cart/base/core
 
 
-TypeAlias MultiCartActions changed.
-
-Previous version:
-
-```
-CartProcessesIncrement,
- | ,
-CartProcessesDecrement,
- | ,
-SetActiveCartId,
- | ,
-ClearCartState,
- | ,
-SetCartTypeIndex,
- | ,
-SetCartData
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Variable CartActions.REMOVE_CART
@@ -96427,26 +77885,6 @@ Current version:
 
 # Class CartActions.RemoveCart
 ## @spartacus/cart/base/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        cartId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        cartId: string
-```
 
 
 
@@ -96491,52 +77929,10 @@ payload: {
 ## @spartacus/cart/base/core
 
 
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        cart: Cart;
-        cartId: string;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        cart: Cart
-```
-
-
 
 
 # Class CartActions.SetCartTypeIndex
 ## @spartacus/cart/base/core
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: {
-        cartType: CartType;
-        cartId: string | undefined;
-    }
-```
-
-
-Current version:
-
-```
-payload: {
-        cartType: CartType
-```
 
 
 
@@ -96737,52 +78133,8 @@ payload: {
 
 
 
-### Property createCartGuestUserCommand changed.
-
-
-Previous version:
-
-```
-createCartGuestUserCommand: Command<{
-        userId: string;
-        cartId: string;
-        guestUserDetails?: CartGuestUser;
-    }, CartGuestUser>
-```
-
-
-Current version:
-
-```
-createCartGuestUserCommand: Command<{
-        userId: string
-```
-
-
 ### Method updateCartGuestUser is removed.
 
-
-
-### Property updateCartGuestUserCommand changed.
-
-
-Previous version:
-
-```
-updateCartGuestUserCommand: Command<{
-        userId: string;
-        cartId: string;
-        guestUserDetails: CartGuestUser;
-    }, CartGuestUser>
-```
-
-
-Current version:
-
-```
-updateCartGuestUserCommand: Command<{
-        userId: string
-```
 
 
 
@@ -96997,69 +78349,9 @@ Current version:
 ```
 
 getCartIdByUserId(
-  cart: Cart,
+  cart: : Cart,
   userId: 
 ): string
-
-```
-
-
-
-
-# Function isCartError
-## @spartacus/cart/base/core
-
-
-Function isCartError changed.
-
-Previous version:
-
-```
-
-isCartError(
-  error: ErrorModel
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isCartError(
-  error: ErrorModel): boolean;
-): boolean
-
-```
-
-
-
-
-# Function isCartNotFoundError
-## @spartacus/cart/base/core
-
-
-Function isCartNotFoundError changed.
-
-Previous version:
-
-```
-
-isCartNotFoundError(
-  error: ErrorModel
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isCartNotFoundError(
-  error: ErrorModel): boolean;
-): boolean
 
 ```
 
@@ -97088,7 +78380,7 @@ Current version:
 ```
 
 isEmail(
-  str: string): boolean;
+  str: : string
 ): boolean
 
 ```
@@ -97118,7 +78410,7 @@ Current version:
 ```
 
 isEmpty(
-  cart: Cart): boolean;
+  cart: : Cart
 ): boolean
 
 ```
@@ -97180,67 +78472,7 @@ Current version:
 ```
 
 isSelectiveCart(
-  cartId: string): boolean;
-): boolean
-
-```
-
-
-
-
-# Function isTempCartId
-## @spartacus/cart/base/core
-
-
-Function isTempCartId changed.
-
-Previous version:
-
-```
-
-isTempCartId(
-  cartId: string
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isTempCartId(
-  cartId: string): boolean;
-): boolean
-
-```
-
-
-
-
-# Function isVoucherError
-## @spartacus/cart/base/core
-
-
-Function isVoucherError changed.
-
-Previous version:
-
-```
-
-isVoucherError(
-  error: ErrorModel
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isVoucherError(
-  error: ErrorModel): boolean;
+  cartId: : string
 ): boolean
 
 ```
@@ -97338,25 +78570,6 @@ Function MultiCartSelectors.getCartSelectorFactory has been removed and is no lo
 
 # Variable MultiCartSelectors.getCartTypeIndex
 ## @spartacus/cart/base/core
-
-
-Variable getCartTypeIndex changed.
-
-Previous version:
-
-```
-getCartTypeIndex: MemoizedSelector<StateWithMultiCart, {
-    [cartType: string]: string;
-}>
-```
-
-
-Current version:
-
-```
-getCartTypeIndex: MemoizedSelector<StateWithMultiCart, {
-    [cartType: string]: string
-```
 
 
 
@@ -97553,66 +78766,6 @@ getCartTypeIndex: MemoizedSelector<StateWithMultiCart, {
 
 ### PropertySignature cart is removed.
 
-
-
-
-
-# Function voucherExceededError
-## @spartacus/cart/base/core
-
-
-Function voucherExceededError changed.
-
-Previous version:
-
-```
-
-voucherExceededError(
-  error: ErrorModel
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-voucherExceededError(
-  error: ErrorModel): boolean;
-): boolean
-
-```
-
-
-
-
-# Function voucherInvalidError
-## @spartacus/cart/base/core
-
-
-Function voucherInvalidError changed.
-
-Previous version:
-
-```
-
-voucherInvalidError(
-  error: ErrorModel
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-voucherInvalidError(
-  error: ErrorModel): boolean;
-): boolean
-
-```
 
 
 
@@ -98207,111 +79360,6 @@ cartModifications$: rxjs.Observable<CartModification[]>
 
 
 
-# Variable cartBaseTranslations
-## @spartacus/cart/base/assets
-
-
-Variable cartBaseTranslations changed.
-
-Previous version:
-
-```
-cartBaseTranslations: {
-    en: {
-        cart: {
-            cartDetails: {
-                id: string;
-                proceedToCheckout: string;
-                cartName: string;
-            };
-            cartItems: {
-                id: string;
-                description: string;
-                item: string;
-                itemPrice: string;
-                quantity: string;
-                quantityFull: string;
-                quantityTitle: string;
-                total: string;
-                dueNow: string;
-                actions: string;
-                cartTotal: string;
-                cartTotal_other: string;
-                itemRemoved: string;
-                caption: string;
-            };
-            orderCost: {
-                orderSummary: string;
-                subtotal: string;
-                shipping: string;
-                estimatedShipping: string;
-                discount: string;
-                salesTax: string;
-                grossTax: string;
-                grossIncludeTax: string;
-                total: string;
-                toBeDetermined: string;
-            };
-            voucher: {
-                coupon: string;
-                coupon_other: string;
-                couponLabel: string;
-                addCoupon: string;
-                apply: string;
-                placeholder: string;
-                applyVoucherSuccess: string;
-                removeVoucherSuccess: string;
-                anchorLabel: string;
-                vouchersApplied: string;
-                availableCoupons: string;
-                availableCouponsLabel: string;
-            };
-            saveForLaterItems: {
-                itemTotal: string;
-                itemTotal_other: string;
-                cartTitle: string;
-                saveForLater: string;
-                moveToCart: string;
-                stock: string;
-                forceInStock: string;
-            };
-            clearCart: {
-                clearCart: string;
-                clearingCart: string;
-                cartClearedSuccessfully: string;
-                areYouSureToClearCart: string;
-                allItemsWillBeRemoved: string;
-            };
-            validation: {
-                cartEntriesChangeDuringCheckout: string;
-                cartEntryRemoved: string;
-                productOutOfStock: string;
-                lowStock: string;
-                reviewConfiguration: string;
-                configurationError: string;
-                pricingError: string;
-                unresolvableIssues: string;
-                inProgress: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-cartBaseTranslations: {
-    en: {
-        cart: {
-            cartDetails: {
-                id: string
-```
-
-
-
-
 # Variable cartBaseTranslationsCs
 ## @spartacus/cart/base/assets
 
@@ -98471,42 +79519,6 @@ Variable cartBaseTranslationsZh has been removed and is no longer part of the pu
 
 ### IndexSignature undefined is removed.
 
-
-
-
-
-# Variable translationChunksConfig
-## @spartacus/assets
-
-
-Variable translationChunksConfig changed.
-
-Previous version:
-
-```
-translationChunksConfig: {
-    common: string[];
-    deliveryMode: string[];
-    myAccountV2Consent: string[];
-    myAccountV2NotificationPreference: string[];
-    myAccount: string[];
-    payment: string[];
-    pdf: string[];
-    product: string[];
-    pwa: string[];
-    siteThemeSwitcher: string[];
-    user: string[];
-    video: string[];
-}
-```
-
-
-Current version:
-
-```
-translationChunksConfig: {
-    common: string[]
-```
 
 
 
@@ -99229,7 +80241,703 @@ translations: {
     en: {
         common: {
             common: {
-                cancel: string
+                cancel: string;
+                delete: string;
+                remove: string;
+                edit: string;
+                restore: string;
+                back: string;
+                submit: string;
+                continue: string;
+                save: string;
+                done: string;
+                home: string;
+                noData: string;
+                confirm: string;
+                more: string;
+                close: string;
+                loading: string;
+                menu: string;
+                reset: string;
+                search: string;
+                add: string;
+                breadcrumbs: string;
+                breadcrumbsCurrentPage: string;
+                selectFile: string;
+                clear: string;
+                loaded: string;
+                results: string;
+                of: string;
+                ngSelectDropdownOptionsList: string;
+                required: string;
+                zoomIn: string;
+                zoomOut: string;
+                selected: string;
+                expand: string;
+                collapse: string;
+                readMore: string;
+                readLess: string;
+                language: string;
+                currency: string;
+            };
+            pageMetaResolver: {
+                category: {
+                    title: string;
+                    title_other: string;
+                };
+                checkout: {
+                    title: string;
+                };
+                search: {
+                    title: string;
+                    title_other: string;
+                    findProductTitle: string;
+                    findProductTitle_other: string;
+                    default_title: string;
+                };
+                product: {
+                    description: string;
+                    heading: string;
+                    title: string;
+                };
+            };
+            spinner: {
+                loading: string;
+            };
+            navigation: {
+                categoryNavLabel: string;
+                footerNavLabel: string;
+                goTo: string;
+                navigateTo: string;
+                scrollToTop: string;
+                linkItemInList: string;
+                menuButonTitle: string;
+            };
+            searchBox: {
+                placeholder: string;
+                productSearch: string;
+                ariaLabelInput: string;
+                ariaLabelSuggestions: string;
+                ariaLabelProducts: string;
+                initialDescription: string;
+                suggestions: string;
+                recentSearches: string;
+                trendingSearches: string;
+                suggestionsResult: string;
+                suggestionsResult_other: string;
+                products: string;
+                productsResult: string;
+                productsResult_other: string;
+                resetLabel: string;
+                help: {
+                    insufficientChars: string;
+                    noMatch: string;
+                    exactMatch: string;
+                    empty: string;
+                };
+                closeSearchPanel: string;
+                queryError: string;
+            };
+            sorting: {
+                date: string;
+                orderNumber: string;
+                rma: string;
+                replenishmentNumber: string;
+                nextOrderDate: string;
+                pageViewUpdated: string;
+            };
+            customLoginPage: {
+                badRequest: {
+                    bad_credentials: string;
+                    account_disabled: string;
+                    unknown_error: string;
+                };
+            };
+            httpHandlers: {
+                badRequest: {
+                    bad_credentials: string;
+                    password_expired: string;
+                    user_is_disabled: string;
+                };
+                badGateway: string;
+                badRequestPleaseLoginAgain: string;
+                badRequestOldPasswordIncorrect: string;
+                badRequestGuestDuplicateEmail: string;
+                conflict: string;
+                forbidden: string;
+                gatewayTimeout: string;
+                internalServerError: string;
+                sessionExpired: string;
+                unknownError: string;
+                unauthorized: {
+                    common: string;
+                    invalid_client: string;
+                };
+                validationErrors: {
+                    missing: {
+                        card_cardType: string;
+                        card_accountNumber: string;
+                        card_cvNumber: string;
+                        card_expirationMonth: string;
+                        card_expirationYear: string;
+                        billTo_firstName: string;
+                        billTo_lastName: string;
+                        billTo_street1: string;
+                        billTo_street2: string;
+                        billTo_city: string;
+                        billTo_state: string;
+                        billTo_country: string;
+                        billTo_postalCode: string;
+                        country: {
+                            isocode: string;
+                        };
+                    };
+                    invalid: {
+                        card_expirationMonth: string;
+                        firstName: string;
+                        lastName: string;
+                        password: string;
+                        uid: string;
+                        code: string;
+                        email: string;
+                        loginId: string;
+                    };
+                };
+                cartNotFound: string;
+                invalidCodeProvided: string;
+                voucherExceeded: string;
+                unknownIdentifier: string;
+                otherCartErrors: string;
+            };
+            miniCart: {
+                item: string;
+                item_other: string;
+                total: string;
+                count: string;
+            };
+            skipLink: {
+                skipTo: string;
+                labels: {
+                    header: string;
+                    main: string;
+                    footer: string;
+                    productFacets: string;
+                    productList: string;
+                };
+            };
+            carousel: {
+                previousSlide: string;
+                nextSlide: string;
+                scrollForward: string;
+                scrollBackward: string;
+                slideNumber: string;
+                carouselForProduct: string;
+            };
+            formErrors: {
+                labeled: {
+                    required: string;
+                    cxInvalidEmail: string;
+                    cxInvalidPassword: string;
+                    cxMinOneUpperCaseCharacter: string;
+                    cxMinOneDigit: string;
+                    cxMinOneSpecialCharacter: string;
+                    cxMinSixCharactersLength: string;
+                    cxMinEightCharactersLength: string;
+                    cxMaxCharactersLength: string;
+                    cxContainsSpecialCharacters: string;
+                    cxNoConsecutiveCharacters: string;
+                    invalidTokenCodeError: string;
+                    date: {
+                        required: string;
+                        min: string;
+                        max: string;
+                        pattern: string;
+                        invalid: string;
+                    };
+                };
+                globalMessage: string;
+                required: string;
+                cxInvalidEmail: string;
+                cxInvalidPassword: string;
+                cxPasswordsMustMatch: string;
+                cxPasswordsCannotMatch: string;
+                cxEmailsMustMatch: string;
+                cxStarRatingEmpty: string;
+                cxNoSelectedItemToCancel: string;
+                cxNegativeAmount: string;
+                cxContainsSpecialCharacters: string;
+                date: {
+                    required: string;
+                    min: string;
+                    max: string;
+                    pattern: string;
+                    invalid: string;
+                };
+                file: {
+                    required: string;
+                    empty: string;
+                    invalidExtension: string;
+                    tooLarge: string;
+                    tooManyEntries: string;
+                    notParsable: string;
+                    fileNotAllowed: string;
+                };
+            };
+            errorHandlers: {
+                scriptFailedToLoad: string;
+                refreshThePage: string;
+            };
+            assistiveMessage: {
+                actionCancelled: string;
+            };
+            passwordVisibility: {
+                showPassword: string;
+                hidePassword: string;
+            };
+            generalErrors: {
+                pageFailure: string;
+            };
+            formLegend: {
+                required: string;
+            };
+            chatMessaging: {
+                charactersLeft: string;
+                addNewMessage: string;
+                send: string;
+                uploadFile: string;
+                informationLabel: string;
+                messages: string;
+                addMessagePlaceHolder: string;
+                characterLimitAlert: string;
+                a11y: {
+                    itemListBoxLabel: string;
+                };
+            };
+        };
+        deliveryMode: {
+            setDeliveryMode: {
+                unknownError: string;
+            };
+        };
+        myAccountV2Consent: {
+            myAccountV2Consent: {
+                header: string;
+                dateDescription: string;
+                clearAll: string;
+                selectAll: string;
+                message: {
+                    success: {
+                        given: string;
+                        withdrawn: string;
+                    };
+                };
+            };
+        };
+        myAccountV2NotificationPreference: {
+            myAccountV2NotificationPreference: {
+                header: string;
+                message: string;
+                note: string;
+                noteMessage: string;
+                EMAIL: string;
+            };
+        };
+        myAccount: {
+            closeAccount: {
+                confirmAccountClosure: string;
+                confirmAccountClosureMessage: string;
+                closeMyAccount: string;
+                accountClosedSuccessfully: string;
+                accountClosedFailure: string;
+            };
+            updatePasswordForm: {
+                oldPassword: {
+                    label: string;
+                    placeholder: string;
+                };
+                oldPasswordIsRequired: string;
+                newPassword: {
+                    label: string;
+                    placeholder: string;
+                };
+                passwordMinRequirements: string;
+                passwordStrengthRequirements: string;
+                confirmPassword: {
+                    label: string;
+                    placeholder: string;
+                };
+                bothPasswordMustMatch: string;
+                passwordUpdateSuccess: string;
+                accessDeniedError: string;
+            };
+            updateProfileForm: {
+                title: string;
+                none: string;
+                firstName: {
+                    label: string;
+                    placeholder: string;
+                };
+                firstNameIsRequired: string;
+                lastName: {
+                    label: string;
+                    placeholder: string;
+                };
+                lastNameIsRequired: string;
+                profileUpdateSuccess: string;
+                customerId: string;
+            };
+            consentManagementForm: {
+                clearAll: string;
+                selectAll: string;
+                message: {
+                    success: {
+                        given: string;
+                        withdrawn: string;
+                    };
+                };
+            };
+            myCoupons: {
+                noCouponsMessage: string;
+                effectiveTitle: string;
+                Effective: string;
+                PreSession: string;
+                ExpireSoon: string;
+                readMore: string;
+                notification: string;
+                findProducts: string;
+                status: string;
+                dialogTitle: string;
+                claimCoupondialogTitle: string;
+                claimCouponCode: {
+                    label: string;
+                    placeholder: string;
+                };
+                reset: string;
+                claim: string;
+                claimCustomerCoupon: string;
+                myCoupons: string;
+                startDateAsc: string;
+                startDateDesc: string;
+                endDateAsc: string;
+                endDateDesc: string;
+                sortBy: string;
+                sortCoupons: string;
+                notesPreffix: string;
+                notesLink: string;
+                notesSuffix: string;
+            };
+            notificationPreference: {
+                message: string;
+                note: string;
+                noteMessage: string;
+                EMAIL: string;
+                SMS: string;
+                SITE_MESSAGE: string;
+            };
+            myInterests: {
+                header: string;
+                item: string;
+                price: string;
+                notifications: string;
+                noInterests: string;
+                inStock: string;
+                lowStock: string;
+                outOfStock: string;
+                BACK_IN_STOCK: string;
+                sortBy: string;
+                sortInterests: string;
+                expirationDate: string;
+                productId: string;
+                remove: string;
+                sorting: {
+                    byNameAsc: string;
+                    byNameDesc: string;
+                };
+                actions: string;
+                caption: string;
+                itemRemoved: string;
+            };
+        };
+        payment: {
+            paymentForm: {
+                payment: string;
+                choosePaymentMethod: string;
+                paymentType: string;
+                accountHolderName: {
+                    label: string;
+                    placeholder: string;
+                };
+                cardNumber: string;
+                expirationDate: string;
+                securityCode: string;
+                securityCodeTitle: string;
+                saveAsDefault: string;
+                setAsDefault: string;
+                billingAddress: string;
+                editBillingAddress: string;
+                sameAsDeliveryAddress: string;
+                billingAddressSameAsShipping: string;
+                selectOne: string;
+                monthMask: string;
+                yearMask: string;
+                expirationYear: string;
+                expirationMonth: string;
+                useThisPayment: string;
+                addNewPayment: string;
+                paymentAddedSuccessfully: string;
+                changePayment: string;
+            };
+            paymentMethods: {
+                paymentMethods: string;
+                paymentMethodSelected: string;
+                newPaymentMethodsAreAddedDuringCheckout: string;
+                invalidField: string;
+            };
+            paymentCard: {
+                deleteConfirmation: string;
+                setAsDefault: string;
+                expires: string;
+                defaultPaymentMethod: string;
+                defaultPaymentLabel: string;
+                additionalPaymentLabel: string;
+                selected: string;
+                selectedPayment: string;
+                deletePaymentSuccess: string;
+                visa: string;
+                master: string;
+                masterEuro: string;
+                dinersClub: string;
+                switch: string;
+                maestro: string;
+                amex: string;
+                credit: string;
+            };
+            paymentTypes: {
+                title: string;
+                paymentType_CARD: string;
+                paymentType_ACCOUNT: string;
+            };
+            paymentMessages: {
+                setAsDefaultSuccessfully: string;
+            };
+        };
+        pdf: {
+            pdf: {
+                defaultTitle: string;
+            };
+        };
+        product: {
+            productDetails: {
+                id: string;
+                quantity: string;
+                quantityFull: string;
+                productDetails: string;
+                specification: string;
+                reviews: string;
+                shipping: string;
+                share: string;
+                showReviews: string;
+                noReviews: string;
+                productPrice: string;
+                noProductImage: string;
+            };
+            productList: {
+                filterBy: {
+                    label: string;
+                    action: string;
+                };
+                activeFilter: string;
+                appliedFilter: string;
+                showLess: string;
+                showMore: string;
+                sortBy: string;
+                sortResults: string;
+                backToTopBtn: string;
+                showMoreBtn: string;
+                productSearchPagination: string;
+                productListResults: string;
+            };
+            productFacetNavigation: {
+                filterBy: {
+                    label: string;
+                    action: string;
+                    facet: string;
+                    name: string;
+                };
+                appliedFilter: string;
+                showLess: string;
+                showMore: string;
+                sortBy: string;
+                ariaLabelShowLess: string;
+                ariaLabelShowMore: string;
+                ariaLabelItemsAvailable: string;
+                ariaLabelItemsAvailable_other: string;
+                decreaseOptionsVisibility: string;
+                increaseOptionsVisibility: string;
+                backToResults: string;
+                productFacets: string;
+            };
+            productSummary: {
+                id: string;
+                showReviews: string;
+                showReviewsDetailed: string;
+                share: string;
+                newItemPrice: string;
+            };
+            productReview: {
+                overallRating: string;
+                reviewTitle: string;
+                writeYourComments: string;
+                commentPlaceholder: string;
+                rating: string;
+                ratingRequired: string;
+                addRate: string;
+                addRate_other: string;
+                reviewerName: string;
+                writeReview: string;
+                more: string;
+                less: string;
+                thankYouForReview: string;
+                postReviewFail: string;
+                ratedOutOf: string;
+                charactersLeft: string;
+            };
+            productCarousel: {
+                carouselLabel: string;
+            };
+            addToCart: {
+                itemAddedToYourCart: string;
+                itemsAddedToYourCart: string;
+                itemsIncrementedInYourCart: string;
+                items: string;
+                updatingCart: string;
+                addToCart: string;
+                viewCart: string;
+                proceedToCheckout: string;
+                quantity: string;
+                quantityFull: string;
+                outOfStock: string;
+                inStock: string;
+                selectStyleAndSize: string;
+                removeFromCart: string;
+                closeModal: string;
+                buyItAgain: string;
+                addToActiveCart: string;
+                unavailable: string;
+            };
+            TabPanelContainer: {
+                tabs: {
+                    ProductDetailsTabComponent: string;
+                    ProductSpecsTabComponent: string;
+                    ProductReviewsTabComponent: string;
+                    deliveryTab: string;
+                    SparePartsTabComponent: string;
+                };
+                tabPanelContainerRegion: string;
+                tabPanelContainerRegionGroup: string;
+            };
+            addToWishList: {
+                add: string;
+                remove: string;
+                anonymous: string;
+                addedToWishList: string;
+                removedFromWishList: string;
+            };
+            stockNotification: {
+                notifyMe: string;
+                stopNotify: string;
+                getNotify: string;
+                getNotifySuffix: string;
+                activateChannelsPrefix: string;
+                channelsLink: string;
+                activateChannelsSuffix: string;
+                notified: string;
+                getNotified: string;
+                unsubscribeSuccess: string;
+                subscriptionDialog: {
+                    header: string;
+                    notifiedPrefix: string;
+                    notifiedSuffix: string;
+                    manageChannelsPrefix: string;
+                    manageChannelsLink: string;
+                    manageChannelsSuffix: string;
+                    manageSubscriptionsPrefix: string;
+                    manageSubscriptionsLink: string;
+                    manageSubscriptionsSuffix: string;
+                    okBtn: string;
+                    subscribing: string;
+                };
+            };
+            itemCounter: {
+                removeOne: string;
+                addOneMore: string;
+                quantity: string;
+            };
+            productView: {
+                gridView: string;
+                listView: string;
+            };
+        };
+        pwa: {
+            pwa: {
+                addToHomeScreenDescription: string;
+                noInstallationNeeded: string;
+                fastAccessToApplication: string;
+                addToHomeScreen: string;
+                addedToHomeScreen: string;
+            };
+        };
+        siteThemeSwitcher: {
+            siteThemeSwitcher: {
+                theme: string;
+                themes: {
+                    default: string;
+                    highContrastDark: string;
+                    highContrastLight: string;
+                };
+            };
+        };
+        user: {
+            anonymousConsents: {
+                dialog: {
+                    title: string;
+                    legalDescription: string;
+                    selectAll: string;
+                    clearAll: string;
+                };
+                banner: {
+                    title: string;
+                    description: string;
+                    allowAll: string;
+                    viewDetails: string;
+                    consentManagement: string;
+                };
+            };
+            checkoutLogin: {
+                emailAddress: {
+                    label: string;
+                    placeholder: string;
+                };
+                confirmEmail: {
+                    label: string;
+                    placeholder: string;
+                };
+                continue: string;
+                emailIsRequired: string;
+                emailsMustMatch: string;
+            };
+            authMessages: {
+                signedOutSuccessfully: string;
+                unrecoverableError: string;
+            };
+        };
+        video: {
+            player: {
+                label: string;
+            };
+        };
+    };
+}
 ```
 
 
@@ -99530,7 +81238,43 @@ Current version:
 ```
 asm: {
         agentSessionTimer?: {
-            startingDelayInSeconds?: number
+            startingDelayInSeconds?: number;
+        };
+        customerSearch?: {
+            maxResults?: number;
+        };
+        customerList?: {
+            pageSize?: number;
+            showAvatar?: boolean;
+            columns?: {
+                headerLocalizationKey: string;
+                icon?: {
+                    symbol?: ICON_TYPE;
+                    captionLocalizationKey?: string;
+                };
+                renderer?: (customer: User) => string;
+                actionType?: CustomerListColumnActionType;
+            }[];
+        };
+        asmSessionSupport?: {
+            enabled?: boolean;
+        };
+        userIdHttpHeader?: {
+            /**
+             * To fix certain features when a customer agent is emulating a user, we must send a header called
+             * "sap-commerce-cloud-user-id" to the backend fetching certain data as the user, rather than the
+             * agent. However, the header will break instances of Commerce Cloud who do not allow requests with
+             * this header. (For example, the configuration "corsfilter.commercewebservices.allowedHeaders" will
+             * need to allow it.)
+             *
+             * Enabling this feature will send the emulated user's IDs on requests that need it as context.
+             */
+            enable?: boolean;
+        };
+        createCustomer?: {
+            enable?: boolean;
+        };
+    }
 ```
 
 
@@ -99680,7 +81424,7 @@ Current version:
 ```
 
 asmFactory(
-  asmEnablerService: AsmEnablerService): () => void;
+  asmEnablerService: AsmEnablerService
 ): ()
 
 ```
@@ -99712,31 +81456,6 @@ asmFactory(
 
 ### PropertySignature customerId is removed.
 
-
-
-
-
-# Variable CLOSE_DIALOG_REASON
-## @spartacus/asm/root
-
-
-Variable CLOSE_DIALOG_REASON changed.
-
-Previous version:
-
-```
-CLOSE_DIALOG_REASON: {
-    FORBIDDEN: string;
-}
-```
-
-
-Current version:
-
-```
-CLOSE_DIALOG_REASON: {
-    FORBIDDEN: string
-```
 
 
 
@@ -100237,44 +81956,6 @@ moved to @spartacus/asm/customer/360/root
 ## @spartacus/asm/customer-360/root
 
 moved to @spartacus/asm/customer/360/root
-
-
-TypeAlias AsmCustomer360Data changed.
-
-Previous version:
-
-```
-AsmCustomer360ActiveCart,
- | ,
-AsmCustomer360ProductInterestList,
- | ,
-AsmCustomer360ReviewList,
- | ,
-AsmCustomer360StoreLocation,
- | ,
-AsmCustomer360SupportTicketList,
- | ,
-AsmCustomer360CustomerProfile,
- | ,
-AsmCustomer360SavedCart,
- | ,
-AsmCustomer360Overview,
- | ,
-AsmCustomer360ActivityList,
- | ,
-AsmCustomer360CouponList,
- | ,
-AsmCustomer360PromotionList,
- | ,
-AsmCustomer360CustomerCouponList
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -101325,158 +83006,6 @@ moved to @spartacus/asm/customer/360/assets
 moved to @spartacus/asm/customer/360/assets
 
 
-Variable asmCustomer360Translations changed.
-
-Previous version:
-
-```
-asmCustomer360Translations: {
-    en: {
-        asmCustomer360: {
-            asmCustomer360: {
-                alertErrorMessage: string;
-                errorMessageHeader: string;
-                applyActionAlter: string;
-                header: {
-                    title: string;
-                    newTitle: string;
-                    subTitle: string;
-                    newSubTitle: string;
-                    activeCartLabel: string;
-                    recentOrderLabel: string;
-                    recentTicketLabel: string;
-                    signedUpAt: string;
-                };
-                productListing: {
-                    totalNoItems: string;
-                    totalPrice: string;
-                    showMore: string;
-                    showLess: string;
-                };
-                productItem: {
-                    outOfStock: string;
-                    quantity: string;
-                    itemPrice: string;
-                };
-                activeCart: {
-                    header: string;
-                    emptyDescription: string;
-                    aria: {
-                        linkLabel: string;
-                    };
-                };
-                savedCart: {
-                    header: string;
-                    emptyDescription: string;
-                    aria: {
-                        linkLabel: string;
-                    };
-                };
-                productInterests: {
-                    header: string;
-                    emptyDescription: string;
-                };
-                profile: {
-                    address: string;
-                    billingAddress: string;
-                    deliveryAddress: string;
-                    phone1: string;
-                    phone2: string;
-                    paymentMethodHeader: string;
-                };
-                activity: {
-                    type: string;
-                    id: string;
-                    description: string;
-                    status: string;
-                    created: string;
-                    updated: string;
-                    numberOfCartItems: string;
-                    cart: string;
-                    order: string;
-                    savedCart: string;
-                    emptyStateText: string;
-                    headerText: string;
-                };
-                productReviews: {
-                    columnHeaders: {
-                        item: string;
-                        dateAndStatus: string;
-                        rating: string;
-                        review: string;
-                    };
-                    header: string;
-                    emptyDescription: string;
-                    sku: string;
-                };
-                supportTickets: {
-                    columnHeaders: {
-                        id: string;
-                        headline: string;
-                        category: string;
-                    };
-                    header: string;
-                    emptyDescription: string;
-                };
-                coupons: {
-                    headerText: string;
-                    emptyDescription: string;
-                    applyButtonText: string;
-                    applied: string;
-                    removeButtonText: string;
-                };
-                promotions: {
-                    headerText: string;
-                    emptyDescription: string;
-                    applied: string;
-                    headerName: string;
-                    headerAction: string;
-                };
-                customerCoupons: {
-                    headerText: string;
-                    emptyDescription: string;
-                    applyButtonText: string;
-                    removeButtonText: string;
-                    availableTab: string;
-                    sentTab: string;
-                    searchBox: string;
-                };
-                maps: {
-                    storeClosed: string;
-                    storesFound: string;
-                };
-                overviewTab: string;
-                profileTab: string;
-                activityTab: string;
-                feedbackTab: string;
-                promotionsTab: string;
-                mapsTab: string;
-                storeLocationsTab: string;
-                aria: {
-                    activeCartCode: string;
-                    recentOrderCode: string;
-                };
-                pagination: string;
-                page: string;
-                emptyCellValue: string;
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-asmCustomer360Translations: {
-    en: {
-        asmCustomer360: {
-            asmCustomer360: {
-                alertErrorMessage: string
-```
-
-
 
 
 # Variable asmCustomer360TranslationsCs
@@ -101669,22 +83198,6 @@ Namespace AsmActions has been removed and is no longer part of the public API.
 ## @spartacus/asm/core
 
 
-TypeAlias AsmUiAction changed.
-
-Previous version:
-
-```
-AsmUiUpdate
-```
-
-
-Current version:
-
-```
-
-```
-
-
 
 
 # Class AsmActions.AsmUiUpdate
@@ -101743,36 +83256,6 @@ Current version:
 
 # TypeAlias AsmActions.CustomerAction
 ## @spartacus/asm/core
-
-
-TypeAlias CustomerAction changed.
-
-Previous version:
-
-```
-CustomerSearch,
- | ,
-CustomerSearchFail,
- | ,
-CustomerSearchSuccess,
- | ,
-CustomerSearchReset,
- | ,
-CustomerListCustomersSearch,
- | ,
-CustomerListCustomersSearchFail,
- | ,
-CustomerListCustomersSearchSuccess,
- | ,
-CustomerListCustomersSearchReset
-```
-
-
-Current version:
-
-```
-
-```
 
 
 
@@ -101887,26 +83370,6 @@ Current version:
 
 ### Method createCustomer is removed.
 
-
-
-### Property createCustomerCommand changed.
-
-
-Previous version:
-
-```
-createCustomerCommand: Command<{
-        user: CustomerRegistrationForm;
-    }, User>
-```
-
-
-Current version:
-
-```
-createCustomerCommand: Command<{
-        user: CustomerRegistrationForm
-```
 
 
 
@@ -102078,7 +83541,7 @@ Current version:
 ```
 
 asmStatePersistenceFactory(
-  asmStatePersistenceService: AsmStatePersistenceService): () => void;
+  asmStatePersistenceService: AsmStatePersistenceService
 ): ()
 
 ```
@@ -102130,7 +83593,7 @@ Current version:
 ```
 
 byBoolean(
-  ordering: SortOrder): Comparator<boolean>;
+  ordering: : SortOrder
 ): Comparator<boolean>
 
 ```
@@ -102160,7 +83623,7 @@ Current version:
 ```
 
 byComparison(
-  ordering: SortOrder): Comparator<T>;
+  ordering: : SortOrder
 ): Comparator<T>
 
 ```
@@ -102190,7 +83653,7 @@ Current version:
 ```
 
 byNullish(
-  ordering: SortOrder): Comparator<T>;
+  ordering: : SortOrder
 ): Comparator<T>
 
 ```
@@ -102220,7 +83683,7 @@ Current version:
 ```
 
 byNumber(
-  ordering: SortOrder): Comparator<number>;
+  ordering: : SortOrder
 ): Comparator<number>
 
 ```
@@ -102252,75 +83715,10 @@ Current version:
 ```
 
 byString(
-  ordering: SortOrder,
+  ordering: : SortOrder,
   locales: ,
   opts: 
 ): Comparator<string>
-
-```
-
-
-
-
-# TypeAlias Comparator
-## @spartacus/asm/core
-
-
-TypeAlias Comparator changed.
-
-Previous version:
-
-```
-(a: T, b: T) => -1 | 0 | 1
-```
-
-
-Current version:
-
-```
- ,
-T,
-,,
- ,
-b,
-:,
- ,
-T,
-),
- ,
-=>,
- ,
--,
-1,
- ,
-|,
- ,
-0,
- ,
-|,
- ,
-1
-```
-
-
-
-
-# TypeAlias ComparatorResult
-## @spartacus/asm/core
-
-
-TypeAlias ComparatorResult changed.
-
-Previous version:
-
-```
--1 | 0 | 1
-```
-
-
-Current version:
-
-```
 
 ```
 
@@ -102376,7 +83774,7 @@ Current version:
 ```
 
 itemsWith(
-  fns: Array<Comparator<T>>): (a: T
+  fns: Array<Comparator<T>>
 ): (a: T, b: T)
 
 ```
@@ -102689,7 +84087,10 @@ Current version:
 
 ```
 registerForm: _angular_forms.FormGroup<{
-        firstName: _angular_forms.FormControl<string | null>
+        firstName: _angular_forms.FormControl<string | null>;
+        lastName: _angular_forms.FormControl<string | null>;
+        email: _angular_forms.FormControl<string | null>;
+    }>
 ```
 
 
@@ -102883,27 +84284,6 @@ registerForm: _angular_forms.FormGroup<{
 
 ### Method onSubmit is removed.
 
-
-
-### Property submitEvent changed.
-
-
-Previous version:
-
-```
-submitEvent: EventEmitter<{
-        userId: string;
-        password: string;
-    }>
-```
-
-
-Current version:
-
-```
-submitEvent: EventEmitter<{
-        userId: string
-```
 
 
 
@@ -103104,27 +84484,6 @@ submitEvent: EventEmitter<{
 
 
 
-### Property submitEvent changed.
-
-
-Previous version:
-
-```
-submitEvent: EventEmitter<{
-        customerId?: string;
-        parameters?: AsmDeepLinkParameters;
-    }>
-```
-
-
-Current version:
-
-```
-submitEvent: EventEmitter<{
-        customerId?: string
-```
-
-
 ### Method updateItemIndex is removed.
 
 
@@ -103151,212 +84510,6 @@ submitEvent: EventEmitter<{
 
 ### PropertySignature switchCustomer is removed.
 
-
-
-
-
-# Variable asmTranslations
-## @spartacus/asm/assets
-
-
-Variable asmTranslations changed.
-
-Previous version:
-
-```
-asmTranslations: {
-    en: {
-        asm: {
-            asm: {
-                mainLogoLabel: string;
-                mainTitle: string;
-                logout: string;
-                hideUi: string;
-                helpPortalUrl: string;
-                customers: string;
-                asmCustomer360Button: string;
-                asmCustomer360ViewButton: string;
-                asmSignIn: string;
-                createCustomerSuccessfullyAlert: string;
-                saveInactiveCartAlertInfo: string;
-                activeCartAlertInfo: string;
-                startCustomerEmulationAlertInfo: string;
-                toggleUi: {
-                    collapse: string;
-                    expand: string;
-                };
-                loginForm: {
-                    submit: string;
-                    userId: {
-                        label: string;
-                    };
-                    password: {
-                        label: string;
-                    };
-                };
-                customerSearch: {
-                    searchTerm: {
-                        label: string;
-                    };
-                    searchCustomer: {
-                        label: string;
-                    };
-                    searchOrder: {
-                        label: string;
-                    };
-                    submit: string;
-                    startEmulation: string;
-                    noMatch: string;
-                    noMatchResult: string;
-                    noCustomerMatchResult: string;
-                    noOrderMatchResult: string;
-                    createCustomer: string;
-                    customer: string;
-                    orderID: string;
-                };
-                createCustomerForm: {
-                    title: string;
-                    createAccount: string;
-                    cancel: string;
-                    firstName: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    lastName: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    emailAddress: {
-                        label: string;
-                        placeholder: string;
-                    };
-                    createAccountAlert: string;
-                    validationErrors: {
-                        firstName: string;
-                        lastName: string;
-                        emailAddress: string;
-                    };
-                    badRequestDuplicatedEmail: string;
-                };
-                customerList: {
-                    title: string;
-                    description: string;
-                    createCustomer: string;
-                    cancel: string;
-                    tableHeader: {
-                        customer: string;
-                        customerName: string;
-                        name: string;
-                        email: string;
-                        emailId: string;
-                        phone: string;
-                        account: string;
-                        cart: string;
-                        order: string;
-                        view: string;
-                        activeCart: string;
-                        viewActiveCart: string;
-                        orders: string;
-                        viewOrders: string;
-                        customer360: string;
-                        viewCustomer360: string;
-                    };
-                    tableSort: {
-                        sortBy: string;
-                        byName: string;
-                        byNameAsc: string;
-                        byNameDesc: string;
-                        byDateAsc: string;
-                        byDateDesc: string;
-                        byOrderDateAsc: string;
-                        byOrderDateDesc: string;
-                        byUnit: string;
-                        byUnitDesc: string;
-                    };
-                    page: {
-                        page: string;
-                        previous: string;
-                        next: string;
-                    };
-                    noOfCustomers: string;
-                    oneCustomer: string;
-                    noCustomers: string;
-                    noLists: string;
-                    listsError: string;
-                    searchBox: string;
-                    enterSearchBox: string;
-                };
-                switchCustomer: {
-                    dialog: {
-                        title: string;
-                        body: string;
-                        actions: {
-                            switch: string;
-                        };
-                    };
-                };
-                saveCart: {
-                    saveCartBtn: string;
-                    dialog: {
-                        saveInfo: string;
-                        disableInfo: string;
-                        title: string;
-                        row: {
-                            id: string;
-                            qty: string;
-                            qtyFull: string;
-                            total: string;
-                        };
-                        actions: {
-                            save: string;
-                        };
-                    };
-                };
-                bindCart: {
-                    cartNumber: string;
-                    bindCartToCustomer: string;
-                    success: string;
-                    assignCartId: string;
-                    enterCartId: string;
-                    resetCartId: string;
-                    dialog: {
-                        title: string;
-                        body: string;
-                        actions: {
-                            replace: string;
-                        };
-                    };
-                };
-                csagentTokenExpired: string;
-                endSession: string;
-                endEmulation: string;
-                agentSessionTimer: {
-                    label: string;
-                    minutes: string;
-                    reset: string;
-                };
-                auth: {
-                    agentLoggedInError: string;
-                };
-                error: {
-                    noCustomerId: string;
-                };
-            };
-        };
-    };
-}
-```
-
-
-Current version:
-
-```
-asmTranslations: {
-    en: {
-        asm: {
-            asm: {
-                mainLogoLabel: string
-```
 
 
 
