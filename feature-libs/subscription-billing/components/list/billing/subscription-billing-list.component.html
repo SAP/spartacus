@@ -50,7 +50,7 @@
     <table id="billing-list-table" class="table cx-billing-list-table">
       <thead class="cx-billing-list-thead">
         <tr scope="row">
-          <th scope="col" class="bill-id-header">
+          <th scope="col">
             <div class="cx-billing-list-table-header">
               {{ 'subscriptionBillsList.tableHeaderColId' | cxTranslate }}
             </div>
@@ -79,17 +79,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let billing of billingList.results">
-          <td class="bill-id-value">
-            <a
-              [routerLink]="
-                {
-                  cxRoute: 'subscriptionBillDetails',
-                  params: { billId: billing.id },
-                } | cxUrl
-              "
-            >
-              <div class="cx-billing-list-table-col">{{ billing.id }}</div>
-            </a>
+          <td>
+            <div class="cx-billing-list-table-col">{{ billing.documentNumber }}</div>
           </td>
           <td>
             <div class="cx-billing-list-table-col">

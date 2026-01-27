@@ -6,11 +6,6 @@
     color: var(--cx-color-secondary);
   }
 
-  @mixin table-first-col {
-    text-align: left;
-    padding-left: 10%;
-  }
-
   .billing-list-title-section {
     display: flex;
     justify-content: space-between;
@@ -64,13 +59,6 @@
 
   .cx-billing-list-thead {
     border-top: 1px solid var(--cx-color-medium);
-
-    .bill-id-header {
-      width: 35%;
-      .cx-billing-list-table-header {
-        @include table-first-col;
-      }
-    }
   }
 
   .cx-billing-list-table-header,
@@ -81,12 +69,6 @@
 
   .cx-billing-list-table-col {
     padding: 0.5rem 0;
-  }
-
-  .bill-id-value {
-    .cx-billing-list-table-col {
-      @include table-first-col;
-    }
   }
 
   .billing-list-pagination-bar {
