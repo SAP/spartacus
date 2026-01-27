@@ -10,7 +10,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
  * URL where to find the manual migration steps.
  */
 export const DOCS_URL_FOR_MODERNIZING_STANDALONE_BOOTSTRAP =
-  '<TODO PUT ACTUAL URL HERE>';
+  'https://help.sap.com/docs/SAP_COMMERCE_COMPOSABLE_STOREFRONT/10a8bc7f635b4e3db6f6bb7880e58a7d/f33df55121a1426eacb600ca1246203d.html';
 
 const FALLBACK_ADVICE_TO_FOLLOW_DOCS = `Could not complete this step automatically. To complete the migration, please follow the manual steps: ${DOCS_URL_FOR_MODERNIZING_STANDALONE_BOOTSTRAP}`;
 
