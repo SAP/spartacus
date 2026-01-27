@@ -517,6 +517,61 @@ function removeWithRoutesFromAngularSsrImport(spartacusOptions: SpartacusOptions
   };
 }
 
+function findProvideServerRenderingElement(
+  providersArray: ts.ArrayLiteralExpression
+): ts.CallExpression | undefined {
+  const providerElement = providersArray.elements.find((element) => {
+    if (!ts.isCallExpression(element)) {
+      return false;
+    }
+    const expression = element.expression;
+    return (
+      ts.isIdentifier(expression) &&
+      expression.text === 'provideServerRendering'
+    );
+  });
+
+  return providerElement as ts.CallExpression | undefined;
+}
+
+function isWithRoutesCallExpression(node: ts.Node): boolean {
+  return (
+    ts.isCallExpression(node) &&
+    ts.isIdentifier(node.expression) &&
+    node.expression.text === 'withRoutes'
+  );
+}
+
+function removeWithRoutesArgument(
+  tree: Tree,
+  appServerModulePath: string,
+  providerElement: ts.CallExpression,
+  spartacusOptions: SpartacusOptions,
+  context: SchematicContext
+): void {
+  if (providerElement.arguments.length === 0) {
+    return;
+  }
+
+  const firstArg = providerElement.arguments[0];
+  if (!isWithRoutesCallExpression(firstArg)) {
+    return;
+  }
+
+  const removeArgChange = new RemoveChange(
+    appServerModulePath,
+    firstArg.getStart(),
+    firstArg.getFullText()
+  );
+  commitChanges(tree, appServerModulePath, [removeArgChange]);
+
+  if (spartacusOptions.debug) {
+    context.logger.info(
+      `✅ Removed withRoutes(serverRoutes) from provideServerRendering in ${appServerModulePath}`
+    );
+  }
+}
+
 /**
  * Removes the withRoutes(serverRoutes) parameter from provideServerRendering in app.module.server.ts.
  */
@@ -542,54 +597,34 @@ function removeWithRoutesFromProvideServerRendering(
       ANGULAR_CORE
     )[0];
 
-    if (ngModuleDecorator) {
-      const providersAssignment = getMetadataField(
-        ngModuleDecorator as ts.ObjectLiteralExpression,
-        'providers'
-      )[0] as ts.PropertyAssignment;
-
-      if (providersAssignment) {
-        const providersArray =
-          providersAssignment.initializer as ts.ArrayLiteralExpression;
-
-        const providerElement = providersArray.elements.find((element) => {
-          if (ts.isCallExpression(element)) {
-            const expression = element.expression;
-            return (
-              ts.isIdentifier(expression) &&
-              expression.text === 'provideServerRendering'
-            );
-          }
-          return false;
-        });
-
-        if (
-          providerElement &&
-          ts.isCallExpression(providerElement) &&
-          providerElement.arguments.length > 0
-        ) {
-          const firstArg = providerElement.arguments[0];
-          if (
-            ts.isCallExpression(firstArg) &&
-            ts.isIdentifier(firstArg.expression) &&
-            firstArg.expression.text === 'withRoutes'
-          ) {
-            const removeArgChange = new RemoveChange(
-              appServerModulePath,
-              firstArg.getStart(),
-              firstArg.getFullText()
-            );
-            commitChanges(tree, appServerModulePath, [removeArgChange]);
-
-            if (spartacusOptions.debug) {
-              context.logger.info(
-                `✅ Removed withRoutes(serverRoutes) from provideServerRendering in ${appServerModulePath}`
-              );
-            }
-          }
-        }
-      }
+    if (!ngModuleDecorator) {
+      return tree;
     }
+
+    const providersAssignment = getMetadataField(
+      ngModuleDecorator as ts.ObjectLiteralExpression,
+      'providers'
+    )[0] as ts.PropertyAssignment;
+
+    if (!providersAssignment) {
+      return tree;
+    }
+
+    const providersArray =
+      providersAssignment.initializer as ts.ArrayLiteralExpression;
+    const providerElement = findProvideServerRenderingElement(providersArray);
+
+    if (!providerElement) {
+      return tree;
+    }
+
+    removeWithRoutesArgument(
+      tree,
+      appServerModulePath,
+      providerElement,
+      spartacusOptions,
+      context
+    );
 
     return tree;
   };
