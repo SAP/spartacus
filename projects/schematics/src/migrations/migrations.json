@@ -79,6 +79,11 @@
       "version": "221121.7.0",
       "factory": "./221121_7/angular-providers/index#migrate",
       "description": "Add provideBrowserGlobalErrorListeners to app.module.ts"
+    },
+    "02-migration-v221121_7-express-v5": {
+      "version": "221121.7.0",
+      "factory": "./221121_7/ssr/express-v5/index#migrate",
+      "description": "Upgrade Express to v5.1.0 and update server.ts for Express 5 compatibility"
     }
   }
 }
