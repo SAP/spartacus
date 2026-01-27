@@ -240,7 +240,9 @@ export class OpfResourceLoaderService {
         if (nativeWindow.OpfContext) {
           delete nativeWindow.OpfContext;
         }
-        nativeWindow.OpfContext = contextData;
+
+        nativeWindow.OpfContext = contextData ?? {};
+        nativeWindow.OpfContext.additionalData ??= {};
       }
 
       const scriptElement = this.document.createElement('script');

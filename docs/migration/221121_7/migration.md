@@ -1,4 +1,4 @@
-# Migrating a custom app to use Spartacus 221121.8 with Angular 21
+# Migrating a custom app to use Spartacus 221121.7.0 with Angular 21
 
 Before upgrading Spartacus to the new version with Angular 21, you need to first:
 
@@ -108,7 +108,7 @@ If you didn't run it during Angular 20 migration, let's select this migration to
 After successfully updating the application to Angular 20 and Express 5, execute this command to initiate the Spartacus update process.
 
 ```bash
-ng update @spartacus/schematics@221121.8
+ng update @spartacus/schematics@221121.7
 ```
 
 ### Manual changes
@@ -275,7 +275,7 @@ platformBrowser().bootstrapModule(AppModule, {
 
 ### Upgrade Express to Version 5
 
-Spartacus 221121.8 requires Express 5.x. Upgrade Express:
+Spartacus 221121.7 requires Express 5.x. Upgrade Express:
 
 ```bash
 ng update express@5.1.0
