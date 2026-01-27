@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Node, SourceFile } from 'ts-morph';
+import { Node, ObjectLiteralExpression, SourceFile } from 'ts-morph';
 
 /**
  * Helper function to get the providers array from a variable declaration
@@ -24,28 +24,35 @@ export function getProvidersFromNamedObject(
     const declarations = statement.getDeclarations();
 
     for (const declaration of declarations) {
-      if (declaration.getName() === variableName) {
-        const initializer = declaration.getInitializer();
+      if (declaration.getName() !== variableName) {
+        continue;
+      }
 
-        if (initializer && Node.isObjectLiteralExpression(initializer)) {
-          const providersProperty = initializer.getProperty('providers');
-
-          if (
-            providersProperty &&
-            Node.isPropertyAssignment(providersProperty)
-          ) {
-            const providersArray = providersProperty.getInitializer();
-
-            if (
-              providersArray &&
-              Node.isArrayLiteralExpression(providersArray)
-            ) {
-              return providersArray;
-            }
-          }
-        }
+      const initializer = declaration.getInitializer();
+      if (initializer && Node.isObjectLiteralExpression(initializer)) {
+        return extractProvidersArray(initializer);
       }
     }
+  }
+
+  return undefined;
+}
+
+/**
+ * Extracts the providers array from an object literal expression.
+ */
+function extractProvidersArray(
+  initializer: ObjectLiteralExpression
+): Node | undefined {
+  const providersProperty = initializer.getProperty('providers');
+
+  if (!providersProperty || !Node.isPropertyAssignment(providersProperty)) {
+    return undefined;
+  }
+
+  const providersArray = providersProperty.getInitializer();
+  if (providersArray && Node.isArrayLiteralExpression(providersArray)) {
+    return providersArray;
   }
 
   return undefined;
