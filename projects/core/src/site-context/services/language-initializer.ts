@@ -13,6 +13,7 @@ import { SiteContextConfig } from '../config/site-context-config';
 import { LanguageService } from '../facade/language.service';
 import { LANGUAGE_CONTEXT_ID } from '../providers/context-ids';
 import { LanguageStatePersistenceService } from './language-state-persistence.service';
+//import { isPlatformServer } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class LanguageInitializer implements OnDestroy {
@@ -22,20 +23,24 @@ export class LanguageInitializer implements OnDestroy {
     protected configInit: ConfigInitializerService
   ) {}
 
+  //private platformId = inject(PLATFORM_ID);
   protected subscription: Subscription;
 
   /**
    * Initializes the value of the active language.
    */
   initialize(): void {
-    this.subscription = this.configInit
-      .getStable('context')
-      .pipe(
-        // TODO(#12351): <--- plug here explicitly SiteContextRoutesHandler
-        switchMap(() => this.languageStatePersistenceService.initSync()),
-        switchMap(() => this.setFallbackValue())
-      )
-      .subscribe();
+      this.subscription = this.configInit
+        .getStable('context')
+        .pipe(
+          // TODO(#12351): <--- plug here explicitly SiteContextRoutesHandler
+          switchMap(() => this.languageStatePersistenceService.initSync()),
+          switchMap(() => this.setFallbackValue()),
+          tap((value)=>{
+            console.log(`Wait for language context:`);
+            console.log(value);
+            }))
+        .subscribe();
   }
 
   /**

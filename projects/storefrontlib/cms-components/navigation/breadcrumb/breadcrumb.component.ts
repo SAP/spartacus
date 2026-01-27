@@ -4,12 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgFor } from '@angular/common';
+import {
+  AsyncPipe,
+  isPlatformBrowser,
+  NgFor,
+} from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   OnInit,
+  PLATFORM_ID,
 } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import {
@@ -18,7 +23,7 @@ import {
   TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { PageTitleComponent } from '../page-header/page-title.component';
@@ -31,15 +36,19 @@ import { PageTitleComponent } from '../page-header/page-title.component';
 })
 export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   crumbs$: Observable<any[]>;
+  private platformId = inject(PLATFORM_ID);
 
   protected router = inject(Router);
 
-  ariaLive$: Observable<boolean> = this.router.events.pipe(
-    filter((e) => e instanceof NavigationEnd),
-    map(() => {
-      return document.activeElement !== document.body;
-    })
-  );
+  // Skip router event subscription during SSR - aria-live is browser-specific
+  ariaLive$: Observable<boolean> = isPlatformBrowser(this.platformId)
+    ? this.router.events.pipe(
+        filter((e) => e instanceof NavigationEnd),
+        map(() => {
+          return document.activeElement !== document.body;
+        })
+      )
+    : of(false);
 
   constructor(
     public component: CmsComponentData<CmsBreadcrumbsComponent>,

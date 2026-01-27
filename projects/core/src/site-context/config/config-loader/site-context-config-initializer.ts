@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { lastValueFrom, Observable } from 'rxjs';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { lastValueFrom, Observable, of } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
 import { BaseSite } from '../../../model/misc.model';
@@ -19,12 +19,13 @@ import {
   THEME_CONTEXT_ID,
 } from '../../providers/context-ids';
 import { SiteContextConfig } from '../site-context-config';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class SiteContextConfigInitializer implements ConfigInitializer {
   readonly scopes = ['context'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
-
+  protected platformId = inject(PLATFORM_ID);
   constructor(
     protected baseSiteService: BaseSiteService,
     protected javaRegExpConverter: JavaRegExpConverter,
@@ -39,8 +40,16 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
    * Emits the site context config basing on the current base site data.
    *
    * Completes after emitting the value.
+   *
+   * During SSR, returns empty config immediately to prevent blocking
+   * since bas site data required HTTP calls that my not be viable
+   * Static config from SiteContextConfig providers will be used.
    */
   protected resolveConfig(): Observable<SiteContextConfig> {
+    if (!isPlatformBrowser(this.platformId)) {
+      console.log('SSR execution');
+      return of({} as SiteContextConfig);
+    }
     return this.baseSiteService.getAll().pipe(
       map((baseSites) =>
         baseSites?.find((site) => this.isCurrentBaseSite(site))

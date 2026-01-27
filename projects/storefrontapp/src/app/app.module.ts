@@ -16,6 +16,7 @@ import localeZh from '@angular/common/locales/zh';
 import {
   NgModule,
   provideBrowserGlobalErrorListeners,
+  provideStabilityDebugging,
   provideZoneChangeDetection,
 } from '@angular/core';
 import {
@@ -34,6 +35,7 @@ import {
   translationsJa,
   translationsZh,
 } from '@spartacus/assets';
+import 'zone.js/plugins/task-tracking';
 import {
   I18nConfig,
   OccConfig,
@@ -73,6 +75,7 @@ if (!environment.production) {
   providers: [
     provideHttpClient(withFetch(), withInterceptorsFromDi()),
     provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
+    provideStabilityDebugging(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideBrowserGlobalErrorListeners(),
     provideConfig(<OccConfig>{

@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
 } from '../../../occ/utils/occ-constants';
+import { isPlatformServer } from '@angular/common';
 
 /**
  * This implementation is OCC specific.
@@ -22,7 +23,15 @@ import {
   providedIn: 'root',
 })
 export class UserIdService {
+  protected platformId = inject(PLATFORM_ID);
   private _userId: Observable<string> = new ReplaySubject<string>(1);
+
+  constructor(){
+    //Initialize with anonymous user during SSR rendering to unblock HTTP requests
+    if(isPlatformServer(this.platformId)){
+      this.setUserId(OCC_USER_ID_ANONYMOUS);
+    }
+  }
 
   /**
    * Sets current user id.

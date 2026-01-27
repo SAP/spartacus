@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
 import {
   isNotNullable,
@@ -13,8 +13,9 @@ import {
   PageRobotsMeta,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { PageMetaLinkService } from './page-meta-link.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -26,14 +27,26 @@ export class SeoMetaService implements OnDestroy {
     protected pageMetaService: PageMetaService,
     protected pageMetaLinkService?: PageMetaLinkService
   ) {}
-
+  private platformId = inject(PLATFORM_ID);
   private subscription: Subscription;
 
   init() {
-    this.subscription = this.pageMetaService
-      .getMeta()
-      .pipe(filter(isNotNullable))
-      .subscribe((meta) => (this.meta = meta));
+    if (isPlatformBrowser(this.platformId)) {
+      // In the browser, subscribe to ongoing meta updates
+      this.subscription = this.pageMetaService
+        .getMeta()
+        .pipe(filter(isNotNullable))
+        .subscribe((meta) => (this.meta = meta));
+    } else {
+      // During SSR, set meta tags once without creating an ongoing subscription
+      this.subscription = this.pageMetaService
+        .getMeta()
+        .pipe(
+          filter(isNotNullable),
+          take(1) // Complete after first emission to avoid pending tasks
+        )
+        .subscribe((meta) => (this.meta = meta));
+    }
   }
 
   protected set meta(meta: PageMeta) {

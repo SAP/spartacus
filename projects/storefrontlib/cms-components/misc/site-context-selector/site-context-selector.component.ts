@@ -49,6 +49,7 @@ export class SiteContextSelectorComponent {
   }
 
   set active(value: string) {
+    console.log('Active selected: ', value);
     this.componentService.setActive(value, this.context);
   }
 

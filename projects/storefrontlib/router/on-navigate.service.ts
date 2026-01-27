@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT, ViewportScroller } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser, ViewportScroller } from '@angular/common';
 import {
   ApplicationRef,
   ComponentRef,
   Injectable,
   Injector,
+  PLATFORM_ID,
   inject,
 } from '@angular/core';
 import {
@@ -32,6 +33,7 @@ export class OnNavigateService {
     inject(ROUTER_CONFIGURATION, { optional: true }) || {};
 
   protected subscription: Subscription;
+  private platformId = inject(PLATFORM_ID);
 
   get hostComponent(): ComponentRef<any> {
     return this.injector.get(ApplicationRef)?.components?.[0];
@@ -56,8 +58,16 @@ export class OnNavigateService {
 
   /**
    * Reads configuration and enables features based on flags set.
+   *
+   * Note: This initialization is skipped during SSR as it deals with browser-specific
+   * concerns (scrolling, focus management) and subscribes to router events which
+   * would create pending tasks preventing application stabilization during SSR.
    */
   initializeWithConfig(): void {
+    // Skip initialization during SSR - this service handles browser-specific navigation concerns
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
     if (this.config?.enableResetViewOnNavigate?.active) {
       this.setResetViewOnNavigate(this.config.enableResetViewOnNavigate.active);
     }
@@ -69,6 +79,10 @@ export class OnNavigateService {
    * @param enable Enable or disable this feature
    */
   setResetViewOnNavigate(enable: boolean): void {
+    // Skip this feature during SSR - it's browser-specific
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
     this.subscription?.unsubscribe();
 
     if (enable) {

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { GuardResult, RouterStateSnapshot } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
@@ -15,16 +15,18 @@ import {
   RoutingService,
   isNotUndefined,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { filter, first, switchMap, take } from 'rxjs/operators';
 import { BeforeCmsPageGuardService } from './before-cms-page-guard.service';
 import { CmsPageGuardService } from './cms-page-guard.service';
+import { isPlatformServer } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CmsPageGuard {
   static guardName = 'CmsPageGuard';
+  protected platformId = inject(PLATFORM_ID);
 
   constructor(
     protected routingService: RoutingService,
@@ -52,32 +54,63 @@ export class CmsPageGuard {
     route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<GuardResult> {
+    if (isPlatformServer(this.platformId)) {
+      console.log(`[CmsPageGuard] SSR - canActivate called for: ${state.url}`);
+    }
     return this.beforeCmsPageGuardService.canActivate(route, state).pipe(
+      tap((canActivate) => {
+        if (isPlatformServer(this.platformId)) {
+          console.log(`[CmsPageGuard] SSR - beforeGuard result: ${canActivate}`);
+        }
+      }),
       switchMap((canActivate) =>
         canActivate === true
           ? this.routingService.getNextPageContext().pipe(
-              filter(isNotUndefined),
-              take(1),
-              switchMap((pageContext) =>
-                this.cmsService.getPage(pageContext, this.shouldReload()).pipe(
-                  first(),
-                  switchMap((pageData) =>
-                    pageData
-                      ? this.service.canActivatePage(
-                          pageContext,
-                          pageData,
-                          route,
-                          state
-                        )
-                      : this.service.canActivateNotFoundPage(
-                          pageContext,
-                          route,
-                          state
-                        )
-                  )
-                )
-              )
-            )
+            tap(() => {
+              if (isPlatformServer(this.platformId)) {
+                console.log(`[CmsPageGuard] SSR - getting page context...`);
+              }
+            }),
+            filter(isNotUndefined),
+            tap((pageContext) => {
+              if (isPlatformServer(this.platformId)) {
+                console.log(`[CmsPageGuard] SSR - page context received: ${JSON.stringify(pageContext)}`);
+              }
+            }),
+            take(1),
+            switchMap((pageContext) => {
+              if (isPlatformServer(this.platformId)) {
+                console.log(`[CmsPageGuard] SSR - loading CMS page...`);
+              }
+              return this.cmsService.getPage(pageContext, this.shouldReload()).pipe(
+                tap((page) => {
+                  if (isPlatformServer(this.platformId)) {
+                    console.log(`[CmsPageGuard] SSR - CMS page loaded: ${!!page}`);
+                  }
+                }),
+                first(),
+                switchMap((pageData) =>
+                  pageData
+                    ? this.service.canActivatePage(
+                      pageContext,
+                      pageData,
+                      route,
+                      state
+                    )
+                    : this.service.canActivateNotFoundPage(
+                      pageContext,
+                      route,
+                      state
+                    )
+                ),
+                tap((result) => {
+                  if (isPlatformServer(this.platformId)) {
+                    console.log(`[CmsPageGuard] SSR - final result: ${result}`);
+                  }
+                })
+              );
+            })
+          )
           : of(canActivate)
       )
     );

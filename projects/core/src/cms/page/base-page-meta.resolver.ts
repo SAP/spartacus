@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { combineLatest, defer, Observable } from 'rxjs';
+import { combineLatest, defer, Observable, of } from 'rxjs';
 import { filter, map, shareReplay, startWith } from 'rxjs/operators';
 import { TranslationService } from '../../i18n/translation.service';
 import { CmsService } from '../facade/cms.service';
@@ -21,6 +21,7 @@ import {
 } from './page.resolvers';
 import { PageLinkService } from './routing/page-link.service';
 import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +34,7 @@ export class BasePageMetaResolver
     PageRobotsResolver,
     CanonicalPageResolver
 {
+  protected platformId = inject(PLATFORM_ID);
   constructor(
     protected cmsService: CmsService,
     protected translation: TranslationService,
@@ -70,13 +72,19 @@ export class BasePageMetaResolver
   /**
    * All the resolved breadcrumbs (including those from Angular child routes).
    */
-  protected breadcrumb$: Observable<BreadcrumbMeta[]> = combineLatest([
-    this.homeBreadcrumb$,
-    defer(() => this.routingPageMetaResolver?.resolveBreadcrumbs()),
-  ]).pipe(
-    map((breadcrumbs) => breadcrumbs.flat()),
-    shareReplay({ bufferSize: 1, refCount: true })
-  );
+  protected breadcrumb$: Observable<BreadcrumbMeta[]> = defer(()=> {
+    //During SSR, skip router-based breadcrumbs might not be needed
+    if(!isPlatformBrowser(this.platformId)){
+      return this.homeBreadcrumb$;
+    }
+    return combineLatest([
+      this.homeBreadcrumb$,
+      this.routingPageMetaResolver?.resolveBreadcrumbs() || of([]),
+    ]).pipe(
+      map((breadcrumbs) => breadcrumbs.flat()),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
+  });
 
   resolveTitle(): Observable<string | undefined> {
     return this.title$;
@@ -99,6 +107,11 @@ export class BasePageMetaResolver
   }
 
   resolveCanonicalUrl(options?: CanonicalUrlOptions): Observable<string> {
+    //During SSR, it should return with the canonical URL immediatly instead of subscribing to router events
+    if(!isPlatformBrowser(this.platformId)){
+      return of(this.pageLinkService.getCanonicalUrl(options));
+    }
+
     return this.router.events.pipe(
       filter((ev) => ev instanceof NavigationEnd),
       startWith(null),

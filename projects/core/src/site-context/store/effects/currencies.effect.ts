@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
@@ -25,6 +26,7 @@ import { StateWithSiteContext } from '../state';
 @Injectable()
 export class CurrenciesEffects {
   protected logger = inject(LoggerService);
+  protected platformId = inject(PLATFORM_ID);
 
   loadCurrencies$: Observable<
     | SiteContextActions.LoadCurrenciesSuccess
@@ -50,19 +52,20 @@ export class CurrenciesEffects {
     )
   );
 
-  activateCurrency$: Observable<SiteContextActions.CurrencyChange> =
-    createEffect(() =>
-      this.state.select(getActiveCurrency).pipe(
-        bufferCount(2, 1),
+  activateCurrency$ = createEffect(() => {
+    return this.state.select(getActiveCurrency).pipe(
+      // Filter out emissions during SSR to avoid pending subscriptions
+      filter(() => !isPlatformServer(this.platformId)),
+      bufferCount(2, 1),
 
-        // avoid dispatching `change` action when we're just setting the initial value:
-        filter(([previous]) => !!previous),
-        map(
-          ([previous, current]) =>
-            new SiteContextActions.CurrencyChange({ previous, current })
-        )
+      // avoid dispatching `change` action when we're just setting the initial value:
+      filter(([previous]) => !!previous),
+      map(
+        ([previous, current]) =>
+          new SiteContextActions.CurrencyChange({ previous, current })
       )
     );
+  });
 
   constructor(
     private actions$: Actions,

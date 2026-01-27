@@ -57,13 +57,28 @@ export class ConfigInitializerService {
    */
   getStable(...scopes: string[]): Observable<Config> {
     if (this.isStable) {
+      console.log(
+        `[ConfigInitializerService] getStable(${scopes.join(', ') || 'ALL'}) - already stable`
+      );
       return of(this.config);
     }
+    console.log(
+      `[ConfigInitializerService] getStable(${scopes.join(', ') || 'ALL'}) - waiting for stability, ongoing: ${JSON.stringify(this.ongoingScopes$.value)}`
+    );
     return this.ongoingScopes$.pipe(
-      filter(
-        (ongoingScopes) =>
-          !!ongoingScopes && this.areReady(scopes, ongoingScopes)
-      ),
+      filter((ongoingScopes) => {
+        const ready = !!ongoingScopes && this.areReady(scopes, ongoingScopes);
+        if (!ready) {
+          console.log(
+            `[ConfigInitializerService] getStable(${scopes.join(', ') || 'ALL'}) - not ready yet, ongoing: ${JSON.stringify(ongoingScopes)}`
+          );
+        } else {
+          console.log(
+            `[ConfigInitializerService] getStable(${scopes.join(', ') || 'ALL'}) - NOW READY!`
+          );
+        }
+        return ready;
+      }),
       take(1),
       map(() => this.config)
     );
@@ -155,15 +170,36 @@ export class ConfigInitializerService {
 
       asyncConfigs.push(
         (async () => {
-          const initializerConfig = await initializer.configFactory();
-          // contribute configuration to rootConfig
-          deepMerge(
-            this.rootConfig as Record<string, unknown>,
-            initializerConfig
+          console.log(
+            `[ConfigInitializerService] Starting initializer for scopes: ${JSON.stringify(initializer.scopes)}`
           );
-          // contribute configuration to global config
-          deepMerge(this.config as Record<string, unknown>, initializerConfig);
-          this.finishScopes(initializer.scopes);
+          try {
+            const initializerConfig = await initializer.configFactory();
+            console.log(
+              `[ConfigInitializerService] Initializer completed for scopes: ${JSON.stringify(initializer.scopes)}`
+            );
+            // contribute configuration to rootConfig
+            deepMerge(
+              this.rootConfig as Record<string, unknown>,
+              initializerConfig
+            );
+            // contribute configuration to global config
+            deepMerge(
+              this.config as Record<string, unknown>,
+              initializerConfig
+            );
+            this.finishScopes(initializer.scopes);
+            console.log(
+              `[ConfigInitializerService] Finished scopes: ${JSON.stringify(initializer.scopes)}`
+            );
+          } catch (error) {
+            console.error(
+              `[ConfigInitializerService] ERROR in initializer for scopes ${JSON.stringify(initializer.scopes)}:`,
+              error
+            );
+            // Still finish scopes even on error to prevent deadlock
+            this.finishScopes(initializer.scopes);
+          }
         })()
       );
     }

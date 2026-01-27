@@ -4,19 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { Observable, lastValueFrom } from 'rxjs';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Observable, lastValueFrom, of } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
 import { ConfigInitializerService } from '../../../config/config-initializer/config-initializer.service';
 import { BaseSite } from '../../../model/misc.model';
 import { BaseSiteService } from '../../../site-context/facade/base-site.service';
 import { RoutingConfig } from '../config/routing-config';
+import { isPlatformServer } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class SecurePortalConfigInitializer implements ConfigInitializer {
   readonly scopes = ['routing'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
+  protected platformId = inject(PLATFORM_ID);
 
   constructor(
     protected baseSiteService: BaseSiteService,
@@ -29,6 +31,10 @@ export class SecurePortalConfigInitializer implements ConfigInitializer {
    * Completes after emitting the value.
    */
   protected resolveConfig(): Observable<RoutingConfig> {
+    if(isPlatformServer(this.platformId)){
+      console.log('[SecurePortlaInitializer] SSR detected, using default config');
+      return of(this.getRoutingConfig(undefined));
+    }
     return this.baseSiteService.get().pipe(
       tap((baseSite) => {
         if (!baseSite) {

@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, PLATFORM_ID, inject } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthFlowRoutesService } from './auth-flow-routes.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
+import { isPlatformServer } from '@angular/common';
 
 /**
  * Responsible for saving last accessed page (or attempted) before login and for redirecting to that page after login.
@@ -19,6 +20,7 @@ import { AuthRedirectStorageService } from './auth-redirect-storage.service';
   providedIn: 'root',
 })
 export class AuthRedirectService implements OnDestroy {
+  protected platformId = inject(PLATFORM_ID);
   /**
    * This service is responsible for remembering the last page before the authentication. "The last page" can be:
    * 1. Just the previously opened page; or
@@ -45,6 +47,10 @@ export class AuthRedirectService implements OnDestroy {
   protected subscription: Subscription;
 
   protected init() {
+    //No point during SSR
+    if(!isPlatformServer(this.platformId)){
+      return;
+    }
     this.subscription = this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         this.setRedirectUrl(event.urlAfterRedirects);

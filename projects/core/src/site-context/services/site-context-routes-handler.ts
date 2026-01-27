@@ -4,8 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Location } from '@angular/common';
-import { Injectable, Injector, OnDestroy } from '@angular/core';
+import { Location, isPlatformBrowser } from '@angular/common';
+import {
+  Injectable,
+  Injector,
+  OnDestroy,
+  PLATFORM_ID,
+  inject,
+} from '@angular/core';
 import {
   NavigationCancel,
   NavigationEnd,
@@ -23,6 +29,7 @@ import { SiteContextUrlSerializer } from './site-context-url-serializer';
   providedIn: 'root',
 })
 export class SiteContextRoutesHandler implements OnDestroy {
+  protected platformId = inject(PLATFORM_ID);
   constructor(
     private siteContextParams: SiteContextParamsService,
     private serializer: SiteContextUrlSerializer,
@@ -47,6 +54,9 @@ export class SiteContextRoutesHandler implements OnDestroy {
 
   /**
    * Initializes the two-way synchronization between the site context state and the URL.
+   *
+   * Note: During SSR, we only extract the initial context from the URL without setting up
+   * subscriptions to router events, as those would create pending tasks preventing
    */
   init() {
     this.router = this.injector.get<Router>(Router);
@@ -55,9 +65,14 @@ export class SiteContextRoutesHandler implements OnDestroy {
     const routingParams = this.siteContextParams.getUrlEncodingParameters();
 
     if (routingParams.length) {
+      // Always set context from initial URL (needed for SSR)
       this.setContextParamsFromRoute(this.location.path(true));
-      this.subscribeChanges(routingParams);
-      this.subscribeRouting();
+
+      // Only set up subscriptions in the browser (not needed for SSR)
+      if (isPlatformBrowser(this.platformId)) {
+        this.subscribeChanges(routingParams);
+        this.subscribeRouting();
+      }
     }
   }
 

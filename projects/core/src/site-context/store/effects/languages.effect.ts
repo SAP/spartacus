@@ -4,10 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
+/*import { isPlatformServer } from '@angular/common';*/
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import {
   bufferCount,
   catchError,
@@ -21,10 +23,12 @@ import { SiteConnector } from '../../connectors/site.connector';
 import { SiteContextActions } from '../actions/index';
 import { getActiveLanguage } from '../selectors/languages.selectors';
 import { StateWithSiteContext } from '../state';
+import { isPlatformServer } from '@angular/common';
 
 @Injectable()
 export class LanguagesEffects {
   protected logger = inject(LoggerService);
+  protected platformId = inject(PLATFORM_ID);
 
   loadLanguages$: Observable<
     | SiteContextActions.LoadLanguagesSuccess
@@ -50,19 +54,39 @@ export class LanguagesEffects {
     )
   );
 
-  activateLanguage$: Observable<SiteContextActions.LanguageChange> =
-    createEffect(() =>
-      this.state.select(getActiveLanguage).pipe(
-        bufferCount(2, 1),
+  activateLanguage$ = createEffect(() => {
+    const source$ = this.state.select(getActiveLanguage);
 
-        // avoid dispatching `change` action when we're just setting the initial value:
+    // Skip during SSR - complete immediately to avoid pending subscriptions
+    if (isPlatformServer(this.platformId)) {
+      console.log('[LanguagesEffect] - executed on server side');
+      return source$.pipe(
+        bufferCount(2, 1),
         filter(([previous]) => !!previous),
         map(
           ([previous, current]) =>
-            new SiteContextActions.LanguageChange({ previous, current })
+            new SiteContextActions.LanguageChange({
+              previous: previous,
+              current: current,
+            })
         )
+      );
+    } else {
+      console.log('[LanguagesEffect] - executed on browser side');
+    }
+
+    return source$.pipe(
+      bufferCount(2, 1),
+
+      // avoid dispatching `change` action when we're just setting the initial value:
+      filter(([previous]) => !!previous),
+      tap(([previous, current]) =>console.log(`[LanguagesEffect] - executed on server side ${previous} ${current}`)),
+      map(
+        ([previous, current]) =>
+          new SiteContextActions.LanguageChange({ previous, current })
       )
     );
+  });
 
   constructor(
     private actions$: Actions,
