@@ -300,7 +300,7 @@ export class CmsService {
    * @param uids Optional array of component UIDs to clear. If not provided, clears all cached components.
    */
   clearComponentState(uids?: string[]): void {
-    const componentUids = uids || Object.keys(this.components);
+    const componentUids = uids ?? Object.keys(this.components);
 
     componentUids.forEach((uid) => {
       delete this.components[uid];
