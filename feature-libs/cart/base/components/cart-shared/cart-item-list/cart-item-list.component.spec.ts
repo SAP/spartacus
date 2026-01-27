@@ -12,6 +12,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   CxDatePipe,
+  FeatureConfigService,
   I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
@@ -118,6 +119,12 @@ const mockContext = {
 };
 const context$ = of(mockContext);
 
+class MockFeatureConfigService {
+  isEnabled() {
+    return true;
+  }
+}
+
 const mockProductCatalogService = {
   isProductInCatalog: (_product?: Product) => true,
 };
@@ -141,6 +148,7 @@ describe('CartItemListComponent', () => {
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartService },
         { provide: MultiCartFacade, useClass: MockMultiCartService },
         { provide: UserIdService, useClass: MockUserIdService },
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         {
           provide: ProductCatalogService,
           useValue: mockProductCatalogService,

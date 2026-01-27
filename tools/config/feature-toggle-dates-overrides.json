@@ -1,4 +1,25 @@
 {
   "description": "Override dates for feature toggles that have special circumstances",
-  "overrides": {}
+  "overrides": {
+    "a11yKeyboardAccessibleZoom": {
+      "policyStartDate": "2026-02-10",
+      "reason": "Not documented to customers when created - treating as documented on 2026-02-10"
+    },
+    "a11yPreventCartItemsFormRedundantRecreation": {
+      "policyStartDate": "2026-02-10",
+      "reason": "Not documented to customers when created - treating as documented on 2026-02-10"
+    },
+    "a11yLinkBtnsToTertiaryBtns": {
+      "policyStartDate": "2026-02-10",
+      "reason": "Not documented to customers when created - treating as documented on 2026-02-10"
+    },
+    "a11yStoreFinderLabel": {
+      "policyStartDate": "2026-02-10",
+      "reason": "Not documented to customers when created - treating as documented on 2026-02-10"
+    },
+    "a11yAddPaddingToCarouselPanel": {
+      "policyStartDate": "2026-02-10",
+      "reason": "Not documented to customers when created - treating as documented on 2026-02-10"
+    }
+  }
 }
