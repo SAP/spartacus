@@ -22342,44 +22342,6 @@ moved to @spartacus/product/configurator/rulebased
 moved to @spartacus/product/configurator/rulebased
 
 
-### Constructor changed.
-
-
-Previous version:
-
-```
-
-constructor(
-  payload: {
-        configuration: Configurator.Configuration;
-        groupId: string;
-        parentGroupId?: string;
-        conflictResolutionMode?: boolean;
-    }
-)
-
-```
-
-
-Current version:
-
-```
-
-constructor(
-  payload: {
-        configuration: Configurator.Configuration;
-        groupId: string;
-        /**
-         * Id of parent group. Can be undefined for groups on root level
-         */
-        parentGroupId?: string;
-        conflictResolutionMode?: boolean;
-    }
-)
-
-```
-
-
 ### Property payload changed.
 
 
@@ -23335,40 +23297,6 @@ payload: {
 ## @spartacus/product-configurator/rulebased
 
 moved to @spartacus/product/configurator/rulebased
-
-
-### Constructor changed.
-
-
-Previous version:
-
-```
-
-constructor(
-  payload: {
-        entityKey: string | string[];
-        menuParentGroup?: string;
-    }
-)
-
-```
-
-
-Current version:
-
-```
-
-constructor(
-  payload: {
-        entityKey: string | string[];
-        /**
-         * Id of parent group. Can be undefined for groups on root level
-         */
-        menuParentGroup?: string;
-    }
-)
-
-```
 
 
 ### Property payload changed.

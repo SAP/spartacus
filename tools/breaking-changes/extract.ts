@@ -20,7 +20,7 @@ const distFolderPath = spartacusHomeDir + '/dist';
 // Modules to exclude due to external global types issues (e.g., ApplePayJS)
 const EXCLUDED_MODULES = [
   '/opf/quick-buy/components',
-  '/opf/quick-buy/public_api.d.ts'
+  '/opf/quick-buy/public_api.d.ts',
 ];
 
 console.log(`Extract public API for libs in ${spartacusHomeDir}/dist.`);
@@ -35,43 +35,17 @@ if (!fs.existsSync(`${spartacusHomeDir}/temp`)) {
 }
 
 const files = globSync(`${spartacusHomeDir}/dist/**/public_api.d.ts`);
-const filteredFiles = files.filter((file: string) => {
-  return !EXCLUDED_MODULES.some((excluded) => file.includes(excluded));
-});
-
-console.log(`Found ${filteredFiles.length} entry points total.`);
-
-const excludedCount = files.length - filteredFiles.length;
-console.log(`Processing ${filteredFiles.length} entry points (${excludedCount} excluded).`);
-
-let successCount = 0;
-let failedCount = 0;
-const failedEntries: string[] = [];
-
-filteredFiles.forEach((file: string, index: number) => {
-  if ((index + 1) % 10 === 0 || index === 0) {
+console.log(`Found ${files.length} entry points to process.`);
+files
+  .filter((file: string) => {
+    return !EXCLUDED_MODULES.some((excluded) => file.includes(excluded));
+  })
+  .forEach((file: any, index: any) => {
     console.log(
-      `Processing (${index + 1}/${filteredFiles.length}): ${path.dirname(file)}`
+      `Processing(${index + 1}/${files.length}): ${path.dirname(file)}`
     );
-  }
-
-  try {
     runExtractor(path.dirname(file));
-    successCount++;
-  } catch (error: any) {
-    console.error(`Failed to process ${path.dirname(file)}: ${error.message}`);
-    failedEntries.push(path.dirname(file));
-    failedCount++;
-  }
-});
-
-console.log(`\n✓ Successfully processed ${successCount}/${filteredFiles.length} modules`);
-
-if (failedCount > 0) {
-  console.log(`\n⚠️  Failed to process ${failedCount} module(s):`);
-  failedEntries.forEach(entry => console.log(`  - ${entry}`));
-  console.log('\nContinuing with successfully processed modules...');
-}
+  });
 
 function runExtractor(libPath: string) {
   preparePackageJson(libPath);
