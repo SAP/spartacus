@@ -6,7 +6,7 @@ Since version 221121.7.0, all Spartacus OOTB components are [Angular Standalone 
 ## Fresh Spartacus apps are created with without `--standalone=false` flag
 Since version 221121.7.0, when you create a new Spartacus app with the Spartacus schematics, the Angular CLI command `ng new` is invoked **without** the `--standalone=false` flag. It means your fresh application will use modern `bootstrpApplication()` API for bootstrapping a Standalone root `AppComponent`.
 
-Apps migrated to version 221121.7.0 need to be modernized by following the steps described in the document: [Modernizing Angular App Bootstrap with `bootstrapApplication()`](./modernize-app-standalone-bootstrap-application.md).
+Apps migrated to version 221121.7.0 need to be modernized by following the steps described in the document: [Modernizing Angular App Bootstrap with `bootstrapApplication()`](./modernize-app-to-standalone-bootstrap-application.md).
 
 ## Remaining non-Standalone APIs in Spartacus
 
@@ -40,4 +40,4 @@ Don't follow this step because Spartacus still uses NgModules for organizing fea
 
 > 3. Run ng g @angular/core:standalone and select "Bootstrap the project using standalone APIs"
 
-Don't follow this step because it is already covered by the Spartacus migration guide: [Modernizing Angular App Bootstrap with `bootstrapApplication()`](./modernize-app-standalone-bootstrap-application.md).
+Don't follow this step because it is already covered by the Spartacus migration guide: [Modernizing Angular App Bootstrap with `bootstrapApplication()`](./modernize-app-to-standalone-bootstrap-application.md).

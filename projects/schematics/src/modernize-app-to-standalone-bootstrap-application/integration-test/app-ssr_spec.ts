@@ -9,7 +9,7 @@ import { loadFixturesIntoTree } from '../../test/fixtures-test-utils';
 
 const collectionPath = join(__dirname, '../../collection.json');
 
-const SCHEMATICS_NAME = 'modernize-app-standalone-bootstrap-application';
+const SCHEMATICS_NAME = 'modernize-app-to-standalone-bootstrap-application';
 
 describe(`Schematics "${SCHEMATICS_NAME}" in SSR app`, () => {
   let host: TempScopedNodeJsSyncHost;

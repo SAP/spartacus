@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Schematics "modernize-app-standalone-bootstrap-application" in CSR app angular.json should be edited 1`] = `
+exports[`Schematics "modernize-app-to-standalone-bootstrap-application" in CSR app angular.json should be edited 1`] = `
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "newProjectRoot": "projects",
@@ -40,7 +40,7 @@ exports[`Schematics "modernize-app-standalone-bootstrap-application" in CSR app 
 }
 `;
 
-exports[`Schematics "modernize-app-standalone-bootstrap-application" in CSR app src/app/app.component.ts should be edited 1`] = `
+exports[`Schematics "modernize-app-to-standalone-bootstrap-application" in CSR app src/app/app.component.ts should be edited 1`] = `
 "import { Component } from '@angular/core';
 import { StorefrontComponent } from "@spartacus/storefront";
 
@@ -54,7 +54,7 @@ export class AppComponent {
 "
 `;
 
-exports[`Schematics "modernize-app-standalone-bootstrap-application" in CSR app src/app/app.config.ts should be created 1`] = `
+exports[`Schematics "modernize-app-to-standalone-bootstrap-application" in CSR app src/app/app.config.ts should be created 1`] = `
 "
 import {
   ApplicationConfig,
@@ -80,7 +80,7 @@ export const appConfig: ApplicationConfig = {
 "
 `;
 
-exports[`Schematics "modernize-app-standalone-bootstrap-application" in CSR app src/app/app.module.ts should be edited 1`] = `
+exports[`Schematics "modernize-app-to-standalone-bootstrap-application" in CSR app src/app/app.module.ts should be edited 1`] = `
 "import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -99,7 +99,7 @@ export class AppModule { }
 "
 `;
 
-exports[`Schematics "modernize-app-standalone-bootstrap-application" in CSR app src/main.ts should be edited 1`] = `
+exports[`Schematics "modernize-app-to-standalone-bootstrap-application" in CSR app src/main.ts should be edited 1`] = `
 "import { bootstrapApplication } from "@angular/platform-browser";
 import { AppComponent } from "./app/app.component";
 import { appConfig } from "./app/app.config";
