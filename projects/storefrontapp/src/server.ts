@@ -17,29 +17,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'path';
 import AppModuleServer from './main.server';
-import { isDevMode } from '@angular/core';
-import { Request, Response, NextFunction } from 'express';
-
-/**
- * Middleware for handling Chrome DevTools endpoint in development mode.
- */
-function getChromeDevtoolsExpressMiddleware() {
-  return (req: Request, res: Response, next: NextFunction) => {
-    if (
-      isDevMode() &&
-      req.path === '/.well-known/appspecific/com.chrome.devtools.json'
-    ) {
-      const root = process.cwd();
-      const uuid = crypto.randomUUID();
-
-      res.json({
-        workspace: { root, uuid },
-      });
-    } else {
-      next();
-    }
-  };
-}
+import { getChromeDevtoolsExpressMiddleware } from './internal';
 
 const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
@@ -75,7 +53,6 @@ export function app(): express.Express {
   server.set('views', browserDistFolder);
 
   /**
-   * Handle Chrome DevTools requests
    * TODO: after implementing a modern Angular SSR setup, this middleware should be removed due to ootb support:
    * https://github.com/angular/angular-cli/blob/main/packages/angular/build/src/tools/vite/plugins/setup-middlewares-plugin.ts#L106
    */
