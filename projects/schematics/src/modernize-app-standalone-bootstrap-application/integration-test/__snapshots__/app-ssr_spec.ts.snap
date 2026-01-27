@@ -57,27 +57,27 @@ export class AppComponent {
 exports[`Schematics "modernize-app-standalone-bootstrap-application" in SSR app Common transformations (also applied to SSR apps) src/app/app.config.ts should be created 1`] = `
 "
 import {
-    ApplicationConfig,
-    importProvidersFrom,
-    provideBrowserGlobalErrorListeners,
-    provideZoneChangeDetection
-} from '@angular/core';
-import {
-    provideHttpClient,
-    withFetch,
-    withInterceptorsFromDi,
+  provideHttpClient,
+  withFetch,
+  withInterceptorsFromDi,
 } from '@angular/common/http';
-import { AppModule } from './app.module';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  provideBrowserGlobalErrorListeners,
+  provideZoneChangeDetection
+} from '@angular/core';
 import { provideClientHydration, withEventReplay, withNoHttpTransferCache } from "@angular/platform-browser";
+import { AppModule } from './app.module';
 
 export const appConfig: ApplicationConfig = {
-    providers: [
-        provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
-        provideBrowserGlobalErrorListeners(),
-        provideZoneChangeDetection({ eventCoalescing: true }),
-        provideHttpClient(withFetch(), withInterceptorsFromDi()),
-        importProvidersFrom(AppModule),
-    ],
+  providers: [
+    provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
+    provideBrowserGlobalErrorListeners(),
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideHttpClient(withFetch(), withInterceptorsFromDi()),
+    importProvidersFrom(AppModule),
+  ],
 };
 "
 `;
