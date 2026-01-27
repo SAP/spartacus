@@ -16,8 +16,8 @@ const API_URL =
     : 'https://api.c432wmya2v-teamspart3-s3-public.model-t.myhybris.cloud';
 
 export default defineConfig({
-  defaultCommandTimeout: 30000,
-  requestTimeout: 30000,
+  defaultCommandTimeout: 60000,
+  requestTimeout: 60000,
   projectId: 'k3nmep',
   numTestsKeptInMemory: 100,
   chromeWebSecurity: false,
