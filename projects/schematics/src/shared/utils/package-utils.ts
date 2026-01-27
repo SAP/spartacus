@@ -200,7 +200,10 @@ export function isSsrUsed(tree: Tree): boolean {
 
   if (
     typeof builderType !== 'string' ||
-    builderType !== '@angular-devkit/build-angular:application'
+    ![
+      '@angular-devkit/build-angular:application',
+      '@angular/build:application',
+    ].includes(builderType)
   ) {
     return false;
   }
