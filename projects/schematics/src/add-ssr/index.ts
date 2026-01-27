@@ -479,7 +479,9 @@ function removeServerRoutesImport(spartacusOptions: SpartacusOptions): Rule {
 /**
  * Removes the withRoutes import from @angular/ssr in app.module.server.ts.
  */
-function removeWithRoutesFromAngularSsrImport(spartacusOptions: SpartacusOptions): Rule {
+function removeWithRoutesFromAngularSsrImport(
+  spartacusOptions: SpartacusOptions
+): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     const appServerModulePath = getPathResultsForFile(
       tree,
