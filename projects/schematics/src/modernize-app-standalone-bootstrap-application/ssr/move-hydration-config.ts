@@ -5,7 +5,7 @@
  */
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { Project, SyntaxKind } from 'ts-morph';
+import { Project, SourceFile, SyntaxKind } from 'ts-morph';
 import { getAppConfigProviders } from '../../add-ssr/get-app-config-providers';
 import { createImports, formatFile } from '../../shared';
 
@@ -43,93 +43,20 @@ export function moveHydrationConfig(): Rule {
       { overwrite: true }
     );
 
-    // Find provideClientHydration in app.module.ts
-    let hydrationCallExpression: string | null = null;
-    const classDeclaration = appModuleSource.getClass('AppModule');
-    if (classDeclaration) {
-      const decorator = classDeclaration.getDecorator('NgModule');
-      if (decorator) {
-        const decoratorArgs = decorator.getArguments();
-        if (decoratorArgs.length > 0) {
-          const configObject = decoratorArgs[0];
-          if (configObject.isKind(SyntaxKind.ObjectLiteralExpression)) {
-            const providersProp = configObject.getProperty('providers');
-            if (
-              providersProp &&
-              providersProp.isKind(SyntaxKind.PropertyAssignment)
-            ) {
-              const initializer = providersProp.getInitializer();
-              if (initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
-                // Find and remove the provideClientHydration call
-                const hydrationElementIndex = initializer
-                  .getElements()
-                  .findIndex((element) => {
-                    if (element.isKind(SyntaxKind.CallExpression)) {
-                      const expression = element.getExpression();
-                      return (
-                        expression.isKind(SyntaxKind.Identifier) &&
-                        expression.getText() === 'provideClientHydration'
-                      );
-                    }
-                    return false;
-                  });
-
-                // If found, capture it and remove it
-                if (hydrationElementIndex !== -1) {
-                  const hydrationElement =
-                    initializer.getElements()[hydrationElementIndex];
-                  hydrationCallExpression = hydrationElement.getText();
-                  initializer.removeElement(hydrationElementIndex);
-
-                  // If providers array is now empty, remove the property
-                  if (initializer.getElements().length === 0) {
-                    providersProp.remove();
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+    const hydrationCallExpression = findAndRemoveHydrationConfigInAppModule(
+      appModuleSource,
+      appModulePath,
+      tree
+    );
 
     // If we found hydration config, move it to app.config.ts
     if (hydrationCallExpression) {
-      formatFile(appModuleSource);
-      tree.overwrite(appModulePath, appModuleSource.getFullText());
-
-      // Read app.config.ts
-      const appConfigContent = tree.readText(appConfigPath);
-      if (!appConfigContent) {
-        throw new Error(`Could not read ${appConfigPath}`);
-      }
-
-      const appConfigSource = project.createSourceFile(
+      addHydrationConfigToAppConfig(
         appConfigPath,
-        appConfigContent,
-        { overwrite: true }
+        hydrationCallExpression,
+        tree,
+        project
       );
-
-      createImports(appConfigSource, [
-        {
-          moduleSpecifier: '@angular/platform-browser',
-          namedImports: [
-            'provideClientHydration',
-            'withEventReplay',
-            'withNoHttpTransferCache',
-          ],
-        },
-      ]);
-
-      // Add hydration config to app.config.ts providers
-      const providersArray = getAppConfigProviders(appConfigSource);
-      if (providersArray) {
-        // Add at the beginning of the providers array
-        providersArray.insertElement(0, hydrationCallExpression);
-      }
-
-      appConfigSource.formatText();
-      tree.overwrite(appConfigPath, appConfigSource.getFullText());
 
       context.logger.info('✅ Moved hydration config to app.config.ts');
     } else {
@@ -140,4 +67,106 @@ export function moveHydrationConfig(): Rule {
 
     return tree;
   };
+}
+
+/**
+ * Finds and removes provideClientHydration in app.module.ts
+ * Returns the removed expression as string, or null if not found
+ */
+function findAndRemoveHydrationConfigInAppModule(
+  appModuleSource: SourceFile,
+  appModulePath: string,
+  tree: Tree
+): string | null {
+  let hydrationCallExpression: string | null = null;
+
+  const classDeclaration = appModuleSource.getClass('AppModule');
+  if (classDeclaration) {
+    const decorator = classDeclaration.getDecorator('NgModule');
+    if (decorator) {
+      const decoratorArgs = decorator.getArguments();
+      if (decoratorArgs.length > 0) {
+        const configObject = decoratorArgs[0];
+        if (configObject.isKind(SyntaxKind.ObjectLiteralExpression)) {
+          const providersProp = configObject.getProperty('providers');
+          if (
+            providersProp &&
+            providersProp.isKind(SyntaxKind.PropertyAssignment)
+          ) {
+            const initializer = providersProp.getInitializer();
+            if (initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
+              // Find and remove the provideClientHydration call
+              const hydrationElementIndex = initializer
+                .getElements()
+                .findIndex((element) => {
+                  if (element.isKind(SyntaxKind.CallExpression)) {
+                    const expression = element.getExpression();
+                    return (
+                      expression.isKind(SyntaxKind.Identifier) &&
+                      expression.getText() === 'provideClientHydration'
+                    );
+                  }
+                  return false;
+                });
+
+              // If found, capture it and remove it
+              if (hydrationElementIndex !== -1) {
+                const hydrationElement =
+                  initializer.getElements()[hydrationElementIndex];
+                hydrationCallExpression = hydrationElement.getText();
+                initializer.removeElement(hydrationElementIndex);
+
+                // If providers array is now empty, remove the property
+                if (initializer.getElements().length === 0) {
+                  providersProp.remove();
+                }
+                formatFile(appModuleSource);
+                tree.overwrite(appModulePath, appModuleSource.getFullText());
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return hydrationCallExpression;
+}
+
+function addHydrationConfigToAppConfig(
+  appConfigPath: string,
+  hydrationCallExpression: string,
+  tree: Tree,
+  project: Project
+): void {
+  const appConfigContent = tree.readText(appConfigPath);
+  if (!appConfigContent) {
+    throw new Error(`Could not read ${appConfigPath}`);
+  }
+
+  const appConfigSource = project.createSourceFile(
+    appConfigPath,
+    appConfigContent,
+    { overwrite: true }
+  );
+
+  createImports(appConfigSource, [
+    {
+      moduleSpecifier: '@angular/platform-browser',
+      namedImports: [
+        'provideClientHydration',
+        'withEventReplay',
+        'withNoHttpTransferCache',
+      ],
+    },
+  ]);
+
+  // Add hydration config to app.config.ts providers
+  const providersArray = getAppConfigProviders(appConfigSource);
+  if (providersArray) {
+    // Add at the beginning of the providers array
+    providersArray.insertElement(0, hydrationCallExpression);
+  }
+
+  formatFile(appConfigSource);
+  tree.overwrite(appConfigPath, appConfigSource.getFullText());
 }

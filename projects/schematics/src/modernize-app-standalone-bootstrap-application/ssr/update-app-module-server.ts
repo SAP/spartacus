@@ -5,8 +5,8 @@
  */
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { Project, SyntaxKind } from 'ts-morph';
-import { formatFile } from '../../shared';
+import { ObjectLiteralExpression, Project, SyntaxKind } from 'ts-morph';
+import { formatFile, removeImportUsingTsMorph } from '../../shared';
 
 /**
  * Updates src/app/app.module.server.ts:
@@ -55,55 +55,16 @@ export function updateAppModuleServer(): Rule {
       throw new Error('@NgModule decorator argument is not an object');
     }
 
-    // Remove specific elements from imports array (AppModule and ServerModule)
-    const importsProp = configObject.getProperty('imports');
-    if (importsProp && importsProp.isKind(SyntaxKind.PropertyAssignment)) {
-      const initializer = importsProp.getInitializer();
-      if (
-        initializer &&
-        initializer.isKind(SyntaxKind.ArrayLiteralExpression)
-      ) {
-        const elements = initializer.getElements();
-        // Iterate backwards to safely remove elements
-        for (let i = elements.length - 1; i >= 0; i--) {
-          const element = elements[i];
-          const text = element.getText();
-          if (text === 'AppModule' || text === 'ServerModule') {
-            initializer.removeElement(i);
-          }
-        }
-      }
-    }
-
-    // Remove bootstrap property
-    const bootstrapProp = configObject.getProperty('bootstrap');
-    if (bootstrapProp) {
-      bootstrapProp.remove();
-    }
-
-    // Remove AppModule import if no longer used
-    const appModuleImport = sourceFile.getImportDeclaration('./app.module');
-    if (appModuleImport) {
-      appModuleImport.remove();
-    }
-
-    // Remove ServerModule import
-    const serverModuleImport = sourceFile.getImportDeclaration(
-      '@angular/platform-server'
-    );
-    if (serverModuleImport) {
-      const namedImports = serverModuleImport.getNamedImports();
-      const serverModuleNamedImport = namedImports.find(
-        (imp) => imp.getName() === 'ServerModule'
-      );
-      if (serverModuleNamedImport) {
-        serverModuleNamedImport.remove();
-      }
-      // If no more named imports, remove the entire import declaration
-      if (serverModuleImport.getNamedImports().length === 0) {
-        serverModuleImport.remove();
-      }
-    }
+    removeAppModuleAndServerModuleFromImports(configObject);
+    removeBootstrapArray(configObject);
+    removeImportUsingTsMorph(sourceFile, {
+      importPath: 'src/app/app.module',
+      importName: 'AppModule',
+    });
+    removeImportUsingTsMorph(sourceFile, {
+      importPath: '@angular/platform-server',
+      importName: 'ServerModule',
+    });
 
     formatFile(sourceFile);
     tree.overwrite(appModuleServerPath, sourceFile.getFullText());
@@ -112,4 +73,33 @@ export function updateAppModuleServer(): Rule {
 
     return tree;
   };
+}
+
+function removeAppModuleAndServerModuleFromImports(
+  configObject: ObjectLiteralExpression
+): void {
+  // Remove specific elements from imports array (AppModule and ServerModule)
+  const importsProp = configObject.getProperty('imports');
+  if (importsProp && importsProp.isKind(SyntaxKind.PropertyAssignment)) {
+    const initializer = importsProp.getInitializer();
+    if (initializer && initializer.isKind(SyntaxKind.ArrayLiteralExpression)) {
+      const elements = initializer.getElements();
+      // Iterate backwards to safely remove elements
+      for (let i = elements.length - 1; i >= 0; i--) {
+        const element = elements[i];
+        const text = element.getText();
+        if (text === 'AppModule' || text === 'ServerModule') {
+          initializer.removeElement(i);
+        }
+      }
+    }
+  }
+}
+
+function removeBootstrapArray(configObject: ObjectLiteralExpression): void {
+  // Remove bootstrap property
+  const bootstrapProp = configObject.getProperty('bootstrap');
+  if (bootstrapProp) {
+    bootstrapProp.remove();
+  }
 }

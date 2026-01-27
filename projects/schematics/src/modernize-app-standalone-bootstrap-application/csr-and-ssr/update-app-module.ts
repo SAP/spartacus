@@ -5,18 +5,13 @@
  */
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { Project, SyntaxKind } from 'ts-morph';
+import {
+  ObjectLiteralExpression,
+  Project,
+  SourceFile,
+  SyntaxKind,
+} from 'ts-morph';
 import { formatFile } from '../../shared';
-
-/**
- * List of predefined providers to remove from AppModule.
- * These will be moved to app.config.ts
- */
-const PROVIDERS_TO_REMOVE = [
-  'provideBrowserGlobalErrorListeners',
-  'provideZoneChangeDetection',
-  'provideHttpClient',
-];
 
 /**
  * Updates src/app/app.module.ts:
@@ -66,81 +61,10 @@ export function updateAppModule(): Rule {
       throw new Error('@NgModule decorator argument is not an object');
     }
 
-    // Remove bootstrap property
-    const bootstrapProp = configObject.getProperty('bootstrap');
-    if (bootstrapProp) {
-      bootstrapProp.remove();
-    }
-
-    // Remove declarations property
-    const declarationsProp = configObject.getProperty('declarations');
-    if (declarationsProp) {
-      declarationsProp.remove();
-    }
-
-    // Remove predefined providers
-    const providersProp = configObject.getProperty('providers');
-    if (providersProp && providersProp.isKind(SyntaxKind.PropertyAssignment)) {
-      const initializer = providersProp.getInitializer();
-      if (initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
-        // Iterate backwards to avoid index shifting when removing elements
-        const elements = initializer.getElements();
-        for (let i = elements.length - 1; i >= 0; i--) {
-          const element = elements[i];
-          if (element.isKind(SyntaxKind.CallExpression)) {
-            const expression = element.getExpression();
-            if (expression.isKind(SyntaxKind.Identifier)) {
-              const functionName = expression.getText();
-              if (PROVIDERS_TO_REMOVE.includes(functionName)) {
-                initializer.removeElement(i);
-              }
-            }
-          }
-        }
-
-        // If providers array is now empty, remove the property
-        if (initializer.getElements().length === 0) {
-          providersProp.remove();
-        }
-      }
-    }
-
-    // Remove BrowserModule from imports
-    const importsProp = configObject.getProperty('imports');
-    if (importsProp && importsProp.isKind(SyntaxKind.PropertyAssignment)) {
-      const initializer = importsProp.getInitializer();
-      if (initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
-        // Iterate backwards to avoid index shifting when removing elements
-        const elements = initializer.getElements();
-        for (let i = elements.length - 1; i >= 0; i--) {
-          const element = elements[i];
-          if (
-            element.isKind(SyntaxKind.Identifier) &&
-            element.getText() === 'BrowserModule'
-          ) {
-            initializer.removeElement(i);
-          }
-        }
-      }
-    }
-
-    // Remove BrowserModule import if no longer used
-    const browserModuleImport = sourceFile.getImportDeclaration(
-      '@angular/platform-browser'
-    );
-    if (browserModuleImport) {
-      const namedImports = browserModuleImport.getNamedImports();
-      const browserModuleNamedImport = namedImports.find(
-        (ni) => ni.getName() === 'BrowserModule'
-      );
-      if (browserModuleNamedImport) {
-        browserModuleNamedImport.remove();
-        // If no more named imports, remove the entire import declaration
-        if (browserModuleImport.getNamedImports().length === 0) {
-          browserModuleImport.remove();
-        }
-      }
-    }
+    removeBootstrapArray(configObject);
+    removeDeclarationsArray(configObject);
+    removePredefinedProviders(configObject);
+    removeBrowserModule(configObject, sourceFile);
 
     formatFile(sourceFile);
     tree.overwrite(appModulePath, sourceFile.getFullText());
@@ -149,4 +73,94 @@ export function updateAppModule(): Rule {
 
     return tree;
   };
+}
+
+function removeBootstrapArray(configObject: ObjectLiteralExpression): void {
+  const bootstrapProp = configObject.getProperty('bootstrap');
+  if (bootstrapProp) {
+    bootstrapProp.remove();
+  }
+}
+
+function removeDeclarationsArray(configObject: ObjectLiteralExpression): void {
+  const declarationsProp = configObject.getProperty('declarations');
+  if (declarationsProp) {
+    declarationsProp.remove();
+  }
+}
+
+function removePredefinedProviders(
+  configObject: ObjectLiteralExpression
+): void {
+  const PROVIDERS_TO_REMOVE = [
+    'provideBrowserGlobalErrorListeners',
+    'provideZoneChangeDetection',
+    'provideHttpClient',
+  ];
+  const providersProp = configObject.getProperty('providers');
+  if (providersProp && providersProp.isKind(SyntaxKind.PropertyAssignment)) {
+    const initializer = providersProp.getInitializer();
+    if (initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
+      // Iterate backwards to avoid index shifting when removing elements
+      const elements = initializer.getElements();
+      for (let i = elements.length - 1; i >= 0; i--) {
+        const element = elements[i];
+        if (element.isKind(SyntaxKind.CallExpression)) {
+          const expression = element.getExpression();
+          if (expression.isKind(SyntaxKind.Identifier)) {
+            const functionName = expression.getText();
+            if (PROVIDERS_TO_REMOVE.includes(functionName)) {
+              initializer.removeElement(i);
+            }
+          }
+        }
+      }
+
+      // If providers array is now empty, remove the property
+      if (initializer.getElements().length === 0) {
+        providersProp.remove();
+      }
+    }
+  }
+}
+
+function removeBrowserModule(
+  configObject: ObjectLiteralExpression,
+  sourceFile: SourceFile
+): void {
+  const importsProp = configObject.getProperty('imports');
+  if (importsProp && importsProp.isKind(SyntaxKind.PropertyAssignment)) {
+    const initializer = importsProp.getInitializer();
+    if (initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
+      // Iterate backwards to avoid index shifting when removing elements
+      const elements = initializer.getElements();
+      for (let i = elements.length - 1; i >= 0; i--) {
+        const element = elements[i];
+        if (
+          element.isKind(SyntaxKind.Identifier) &&
+          element.getText() === 'BrowserModule'
+        ) {
+          initializer.removeElement(i);
+        }
+      }
+    }
+  }
+
+  // Remove BrowserModule import if no longer used
+  const browserModuleImport = sourceFile.getImportDeclaration(
+    '@angular/platform-browser'
+  );
+  if (browserModuleImport) {
+    const namedImports = browserModuleImport.getNamedImports();
+    const browserModuleNamedImport = namedImports.find(
+      (ni) => ni.getName() === 'BrowserModule'
+    );
+    if (browserModuleNamedImport) {
+      browserModuleNamedImport.remove();
+      // If no more named imports, remove the entire import declaration
+      if (browserModuleImport.getNamedImports().length === 0) {
+        browserModuleImport.remove();
+      }
+    }
+  }
 }

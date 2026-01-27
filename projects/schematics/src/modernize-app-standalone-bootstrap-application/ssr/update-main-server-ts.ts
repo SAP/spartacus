@@ -5,8 +5,8 @@
  */
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { Project, SyntaxKind } from 'ts-morph';
-import { formatFile } from '../../shared';
+import { Project, SourceFile, SyntaxKind } from 'ts-morph';
+import { createImports, formatFile } from '../../shared';
 
 /**
  * Updates src/main.server.ts:
@@ -35,87 +35,9 @@ export function updateMainServerTs(): Rule {
       overwrite: true,
     });
 
-    // Remove the export { AppServerModule as default } or export default AppServerModule
-    const exportDeclarations = sourceFile.getExportDeclarations();
-    for (const exportDecl of exportDeclarations) {
-      const moduleSpecifier = exportDecl.getModuleSpecifier()?.getText();
-      if (moduleSpecifier?.includes('app.module.server')) {
-        exportDecl.remove();
-      }
-    }
-
-    // Also check for export assignments
-    const exportAssignments = sourceFile.getDescendantsOfKind(
-      SyntaxKind.ExportAssignment
-    );
-    for (const exportAssignment of exportAssignments) {
-      exportAssignment.remove();
-    }
-
-    // Remove AppServerModule import
-    const appServerModuleImport = sourceFile.getImportDeclaration(
-      './app/app.module.server'
-    );
-    if (appServerModuleImport) {
-      appServerModuleImport.remove();
-    }
-
-    // Add necessary imports
-    const platformBrowserImport = sourceFile.getImportDeclaration(
-      '@angular/platform-browser'
-    );
-    if (!platformBrowserImport) {
-      sourceFile.addImportDeclaration({
-        moduleSpecifier: '@angular/platform-browser',
-        namedImports: ['BootstrapContext', 'bootstrapApplication'],
-      });
-    } else {
-      const namedImports = platformBrowserImport.getNamedImports();
-      const hasBootstrapApplication = namedImports.some(
-        (ni) => ni.getName() === 'bootstrapApplication'
-      );
-      const hasBootstrapContext = namedImports.some(
-        (ni) => ni.getName() === 'BootstrapContext'
-      );
-      if (!hasBootstrapApplication) {
-        platformBrowserImport.addNamedImport('bootstrapApplication');
-      }
-      if (!hasBootstrapContext) {
-        platformBrowserImport.addNamedImport('BootstrapContext');
-      }
-    }
-
-    // Add AppComponent import
-    const appComponentImport = sourceFile.getImportDeclaration(
-      './app/app.component'
-    );
-    if (!appComponentImport) {
-      sourceFile.addImportDeclaration({
-        moduleSpecifier: './app/app.component',
-        namedImports: ['AppComponent'],
-      });
-    }
-
-    // Add config import
-    const configImport = sourceFile.getImportDeclaration(
-      './app/app.config.server'
-    );
-    if (!configImport) {
-      sourceFile.addImportDeclaration({
-        moduleSpecifier: './app/app.config.server',
-        namedImports: ['config'],
-      });
-    }
-
-    // Add bootstrap function export
-    const bootstrapFunction = `
-const bootstrap = (context: BootstrapContext) =>
-  bootstrapApplication(AppComponent, config, context);
-
-export default bootstrap;
-`;
-
-    sourceFile.addStatements(bootstrapFunction);
+    removeAppServerModuleDefaultExport(sourceFile);
+    removeAppServerModuleImport(sourceFile);
+    addBootstrapFunctionExport(sourceFile);
 
     formatFile(sourceFile);
     tree.overwrite(mainServerPath, sourceFile.getFullText());
@@ -124,4 +46,60 @@ export default bootstrap;
 
     return tree;
   };
+}
+
+function removeAppServerModuleDefaultExport(sourceFile: SourceFile) {
+  // Remove the export { AppServerModule as default } or export default AppServerModule
+  const exportDeclarations = sourceFile.getExportDeclarations();
+  for (const exportDecl of exportDeclarations) {
+    const moduleSpecifier = exportDecl.getModuleSpecifier()?.getText();
+    if (moduleSpecifier?.includes('app.module.server')) {
+      exportDecl.remove();
+    }
+  }
+
+  // Also check for export assignments
+  const exportAssignments = sourceFile.getDescendantsOfKind(
+    SyntaxKind.ExportAssignment
+  );
+  for (const exportAssignment of exportAssignments) {
+    exportAssignment.remove();
+  }
+}
+
+function removeAppServerModuleImport(sourceFile: SourceFile) {
+  // Remove AppServerModule import
+  const appServerModuleImport = sourceFile.getImportDeclaration(
+    './app/app.module.server'
+  );
+  if (appServerModuleImport) {
+    appServerModuleImport.remove();
+  }
+}
+
+function addBootstrapFunctionExport(sourceFile: SourceFile) {
+  createImports(sourceFile, [
+    {
+      moduleSpecifier: '@angular/platform-browser',
+      namedImports: ['BootstrapContext', 'bootstrapApplication'],
+    },
+    {
+      moduleSpecifier: './app/app.component',
+      namedImports: ['AppComponent'],
+    },
+    {
+      moduleSpecifier: './app/app.config.server',
+      namedImports: ['config'],
+    },
+  ]);
+
+  // Add bootstrap function export
+  const bootstrapFunction = `
+const bootstrap = (context: BootstrapContext) =>
+  bootstrapApplication(AppComponent, config, context);
+
+export default bootstrap;
+`;
+
+  sourceFile.addStatements(bootstrapFunction);
 }

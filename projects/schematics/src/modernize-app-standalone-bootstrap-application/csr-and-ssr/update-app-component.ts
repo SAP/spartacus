@@ -6,7 +6,12 @@
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { Project, SyntaxKind } from 'ts-morph';
-import { formatFile } from '../../shared';
+import {
+  createImports,
+  formatFile,
+  SPARTACUS_STOREFRONTLIB,
+  STOREFRONT_COMPONENT_CLASS,
+} from '../../shared';
 
 /**
  * Updates src/app/app.component.ts to be a standalone component:
@@ -35,23 +40,12 @@ export function updateAppComponent(): Rule {
     });
 
     // Add import for StorefrontComponent
-    const existingImport = sourceFile.getImportDeclaration(
-      '@spartacus/storefront'
-    );
-    if (existingImport) {
-      const namedImports = existingImport.getNamedImports();
-      const hasStorefrontComponent = namedImports.some(
-        (ni) => ni.getName() === 'StorefrontComponent'
-      );
-      if (!hasStorefrontComponent) {
-        existingImport.addNamedImport('StorefrontComponent');
-      }
-    } else {
-      sourceFile.addImportDeclaration({
-        moduleSpecifier: '@spartacus/storefront',
-        namedImports: ['StorefrontComponent'],
-      });
-    }
+    createImports(sourceFile, [
+      {
+        moduleSpecifier: SPARTACUS_STOREFRONTLIB,
+        namedImports: [STOREFRONT_COMPONENT_CLASS],
+      },
+    ]);
 
     // Find the @Component decorator
     const classDeclaration = sourceFile.getClass('AppComponent');
@@ -91,10 +85,10 @@ export function updateAppComponent(): Rule {
           const hasStorefrontComponent = elements.some(
             (el) =>
               el.isKind(SyntaxKind.Identifier) &&
-              el.getText() === 'StorefrontComponent'
+              el.getText() === STOREFRONT_COMPONENT_CLASS
           );
           if (!hasStorefrontComponent) {
-            initializer.addElement('StorefrontComponent');
+            initializer.addElement(STOREFRONT_COMPONENT_CLASS);
           }
         }
       }
@@ -102,7 +96,7 @@ export function updateAppComponent(): Rule {
       // Add imports property
       configObject.addPropertyAssignment({
         name: 'imports',
-        initializer: '[StorefrontComponent]',
+        initializer: `[${STOREFRONT_COMPONENT_CLASS}]`,
       });
     }
 

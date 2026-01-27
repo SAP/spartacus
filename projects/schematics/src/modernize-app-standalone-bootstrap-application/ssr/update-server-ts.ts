@@ -5,7 +5,7 @@
  */
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { Project, SyntaxKind } from 'ts-morph';
+import { Project, SourceFile, SyntaxKind } from 'ts-morph';
 import { formatFile } from '../../shared';
 
 /**
@@ -34,37 +34,8 @@ export function updateServerTs(): Rule {
       overwrite: true,
     });
 
-    // Find and update the import from main.server
-    const mainServerImport = sourceFile.getImportDeclaration('./main.server');
-    if (mainServerImport) {
-      const defaultImport = mainServerImport.getDefaultImport();
-      if (defaultImport) {
-        // Rename AppServerModule to bootstrap
-        const currentName = defaultImport.getText();
-        if (currentName === 'AppServerModule') {
-          defaultImport.rename('bootstrap');
-        }
-      } else {
-        // If no default import exists, add it
-        mainServerImport.setDefaultImport('bootstrap');
-      }
-
-      // Remove named imports if any (AppServerModule)
-      const namedImports = mainServerImport.getNamedImports();
-      for (const namedImport of namedImports) {
-        if (namedImport.getName() === 'AppServerModule') {
-          namedImport.remove();
-        }
-      }
-    }
-
-    // Update any references to AppServerModule to bootstrap
-    const identifiers = sourceFile.getDescendantsOfKind(SyntaxKind.Identifier);
-    for (const identifier of identifiers) {
-      if (identifier.getText() === 'AppServerModule') {
-        identifier.replaceWithText('bootstrap');
-      }
-    }
+    renameDefaultImportFromAppServerModuleToBootstrap(sourceFile);
+    renameReferencesOfAppServerModuleToBootstrap(sourceFile);
 
     formatFile(sourceFile);
     tree.overwrite(serverTsPath, sourceFile.getFullText());
@@ -73,4 +44,42 @@ export function updateServerTs(): Rule {
 
     return tree;
   };
+}
+
+function renameDefaultImportFromAppServerModuleToBootstrap(
+  sourceFile: SourceFile
+) {
+  // Find and update the import from main.server
+  const mainServerImport = sourceFile.getImportDeclaration('./main.server');
+  if (mainServerImport) {
+    const defaultImport = mainServerImport.getDefaultImport();
+    if (defaultImport) {
+      // Rename AppServerModule to bootstrap
+      const currentName = defaultImport.getText();
+      if (currentName === 'AppServerModule') {
+        defaultImport.rename('bootstrap');
+      }
+    } else {
+      // If no default import exists, add it
+      mainServerImport.setDefaultImport('bootstrap');
+    }
+
+    // Remove named imports if any (AppServerModule)
+    const namedImports = mainServerImport.getNamedImports();
+    for (const namedImport of namedImports) {
+      if (namedImport.getName() === 'AppServerModule') {
+        namedImport.remove();
+      }
+    }
+  }
+}
+
+function renameReferencesOfAppServerModuleToBootstrap(sourceFile: SourceFile) {
+  // Update any references to AppServerModule to bootstrap
+  const identifiers = sourceFile.getDescendantsOfKind(SyntaxKind.Identifier);
+  for (const identifier of identifiers) {
+    if (identifier.getText() === 'AppServerModule') {
+      identifier.replaceWithText('bootstrap');
+    }
+  }
 }
