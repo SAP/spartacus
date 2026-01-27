@@ -137,7 +137,7 @@ exports[`add-ssr angular.json should be configured properly 1`] = `
 
 exports[`add-ssr app.module.server.ts should be updated 1`] = `
 "import { NgModule } from '@angular/core';
-
+import { provideServerRendering,  } from '@angular/ssr';
 import { App } from './app.component';
 import { AppModule } from './app.module';
 import { provideServer } from '@spartacus/setup/ssr';
@@ -145,12 +145,10 @@ import { provideServer } from '@spartacus/setup/ssr';
 
 @NgModule({
   imports: [AppModule],
-  providers: [
-    
+  providers: [provideServerRendering(), 
      ...provideServer({
         serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
-      }),
-  ],
+      }),],
   bootstrap: [App],
 })
 export class AppServerModule {}

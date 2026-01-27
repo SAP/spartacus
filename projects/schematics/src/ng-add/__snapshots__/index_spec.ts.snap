@@ -112,7 +112,7 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
 
 exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 3`] = `
 "import { NgModule } from '@angular/core';
-
+import { provideServerRendering,  } from '@angular/ssr';
 import { App } from './app.component';
 import { AppModule } from './app.module';
 import { provideServer } from '@spartacus/setup/ssr';
@@ -120,12 +120,10 @@ import { provideServer } from '@spartacus/setup/ssr';
 
 @NgModule({
   imports: [AppModule],
-  providers: [
-    
+  providers: [provideServerRendering(), 
      ...provideServer({
         serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
-      }),
-  ],
+      }),],
   bootstrap: [App],
 })
 export class AppServerModule {}
