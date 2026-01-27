@@ -20,6 +20,7 @@ import {
   TranslatePipe,
   UrlPipe,
   isNotNullable,
+  FeatureDirective,
 } from '@spartacus/core';
 import {
   AtMessageDirective,
@@ -44,6 +45,7 @@ import { filter, map, take, tap } from 'rxjs/operators';
     AsyncPipe,
     TranslatePipe,
     UrlPipe,
+    FeatureDirective,
   ],
 })
 export class AddToWishListComponent {
