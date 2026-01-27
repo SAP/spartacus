@@ -6,7 +6,7 @@
  */
 
 import { PaginationModel, SortModel } from '@spartacus/core';
-import { UsageCharge } from './subscription-product.model';
+import { UsageUnit } from './subscription-product.model';
 
 export interface SubscriptionBillsList {
   results?: SubscriptionBill[];
@@ -25,6 +25,7 @@ export interface SubscriptionBill {
   grossAmount?: string;
   numberOfSubscriptions?: number;
   items?: SubscriptionBillItem[];
+  status?: SubscriptionBillStatus;
 }
 
 export interface SubscriptionBillItem {
@@ -34,5 +35,19 @@ export interface SubscriptionBillItem {
   productName?: string;
   netAmount?: string;
   grossAmount?: string;
-  usageCharges?: UsageCharge[];
+  usageCharges?: BillUsageCharge[];
+}
+
+export enum SubscriptionBillStatus {
+  PAID = 'Paid',
+  DUE = 'Due'
+}
+
+export interface BillUsageCharge {
+  name?: string;
+  typeName?: string;
+  usageQuantity?: number;
+  usageUnit?: UsageUnit;
+  netAmount?: string;
+  grossAmount?: string;
 }

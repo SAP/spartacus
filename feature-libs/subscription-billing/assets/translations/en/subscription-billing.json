@@ -75,6 +75,7 @@
     "filterFromDateLabel": "From",
     "filterToDateLabel": "To",
     "sortLabel": "Sort By",
+    "noSubscriptionBills": "You don't have any subscription bills",
     "tableHeaderColId": "Bill ID/Number",
     "tableHeaderColDate": "Billing Date",
     "tableHeaderColSubscriptions": "Subscriptions",

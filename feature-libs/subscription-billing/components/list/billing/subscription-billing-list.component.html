@@ -1,111 +1,85 @@
 <ng-container *ngIf="billingList$ | async as billingList; else loading">
-  <div class="billing-list-title-section">
-    <h3>{{ 'subscriptionBillsList.title' | cxTranslate }}</h3>
-  </div>
-  <div class="billing-list-filter-section">
-    <div class="date-filters-wrapper">
-      <div class="from-date-filter date-filters">
-        <span class="sort-label label-text">
-          {{ 'subscriptionBillsList.filterFromDateLabel' | cxTranslate }}
-        </span>
-        <cx-date-picker
-          [control]="$any(billsDateFilterForm.get('from'))"
-          (update)="onDateFilterChange()"
-          [label]="'subscriptionBillsList.filterFromDateLabel'"
-          [min]="minDate"
-          [max]="maxDate"
-        ></cx-date-picker>
+  @if(billingList.results?.length > 0) {
+    <div class="billing-list-title-section">
+      <h3>{{ 'subscriptionBillsList.title' | cxTranslate }}</h3>
+    </div>
+ 
+    <div class="billing-list-filter-section">
+      <div class="date-filters-wrapper">
+        <div class="from-date-filter date-filters">
+          <span class="sort-label label-text">
+            {{ 'subscriptionBillsList.filterFromDateLabel' | cxTranslate }}
+          </span>
+          <cx-date-picker
+            [control]="$any(billsDateFilterForm.get('from'))"
+            (update)="onDateFilterChange()"
+            [label]="'subscriptionBillsList.filterFromDateLabel'"
+            [min]="minDate"
+            [max]="maxDate"
+          ></cx-date-picker>
+        </div>
+        <div class="to-date-filter date-filters">
+          <span class="sort-label label-text">
+            {{ 'subscriptionBillsList.filterToDateLabel' | cxTranslate }}
+          </span>
+          <cx-date-picker
+            [control]="$any(billsDateFilterForm.get('to'))"
+            (update)="onDateFilterChange()"
+            [label]="'subscriptionBillsList.filterToDateLabel'"
+            [min]="minDate"
+            [max]="maxDate"
+          ></cx-date-picker>
+        </div>
       </div>
-      <div class="to-date-filter date-filters">
+
+      <div class="billing-list-sorting-bar">
         <span class="sort-label label-text">
-          {{ 'subscriptionBillsList.filterToDateLabel' | cxTranslate }}
+          {{ 'subscriptionBillsList.sortLabel' | cxTranslate }}
         </span>
-        <cx-date-picker
-          [control]="$any(billsDateFilterForm.get('to'))"
-          (update)="onDateFilterChange()"
-          [label]="'subscriptionBillsList.filterToDateLabel'"
-          [min]="minDate"
-          [max]="maxDate"
-        ></cx-date-picker>
+        <cx-sorting
+          [sortOptions]="billingList.sorts"
+          (sortListEvent)="onSortCodeChange($event)"
+          [selectedOption]="billingList.pagination?.sort"
+          placeholder="{{ 'subscriptionBillsList.sortLabel' | cxTranslate }}"
+          [ariaLabel]="'subscriptionBillsList.sortOrders'"
+        ></cx-sorting>
       </div>
     </div>
 
-    <div class="billing-list-sorting-bar">
-      <span class="sort-label label-text">
-        {{ 'subscriptionBillsList.sortLabel' | cxTranslate }}
-      </span>
-      <cx-sorting
-        [sortOptions]="billingList.sorts"
-        (sortListEvent)="onSortCodeChange($event)"
-        [selectedOption]="billingList.pagination?.sort"
-        placeholder="{{ 'subscriptionBillsList.sortLabel' | cxTranslate }}"
-        [ariaLabel]="'subscriptionBillsList.sortOrders'"
-      ></cx-sorting>
-    </div>
-  </div>
-
-  <!-- table starts -->
-  <table id="billing-list-table" class="table cx-billing-list-table">
-    <thead class="cx-billing-list-thead">
-      <tr scope="row">
-        <th scope="col" class="bill-id-header">
-          <div class="cx-billing-list-table-header">
-            {{ 'subscriptionBillsList.tableHeaderColId' | cxTranslate }}
-          </div>
-        </th>
-        <th scope="col">
-          <div class="cx-billing-list-table-header">
-            {{ 'subscriptionBillsList.tableHeaderColDate' | cxTranslate }}
-          </div>
-        </th>
-        <th scope="col">
-          <div class="cx-billing-list-table-header">
-            {{
-              'subscriptionBillsList.tableHeaderColSubscriptions' | cxTranslate
-            }}
-          </div>
-        </th>
-        <th scope="col">
-          <div class="cx-billing-list-table-header">
-            {{ 'subscriptionBillsList.tableHeaderColTotal' | cxTranslate }}
-          </div>
-        </th>
-        <th scope="col">
-          <div class="cx-billing-list-table-header"></div>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let billing of billingList.results">
-        <td class="bill-id-value">
-          <a
-            [routerLink]="
-              {
-                cxRoute: 'subscriptionBillDetails',
-                params: { billId: billing.id },
-              } | cxUrl
-            "
-          >
-            <div class="cx-billing-list-table-col">{{ billing.id }}</div>
-          </a>
-        </td>
-        <td>
-          <div class="cx-billing-list-table-col">
-            {{ billing.billAt | cxDate }}
-          </div>
-        </td>
-        <td>
-          <div class="cx-billing-list-table-col">
-            {{ billing.numberOfSubscriptions }}
-          </div>
-        </td>
-        <td>
-          <div class="cx-billing-list-table-col">
-            {{ billing.netAmount.replace('USD', '$') }}
-          </div>
-        </td>
-        <td>
-          <div class="cx-billing-list-table-col">
+    <!-- table starts -->
+    <table id="billing-list-table" class="table cx-billing-list-table">
+      <thead class="cx-billing-list-thead">
+        <tr scope="row">
+          <th scope="col" class="bill-id-header">
+            <div class="cx-billing-list-table-header">
+              {{ 'subscriptionBillsList.tableHeaderColId' | cxTranslate }}
+            </div>
+          </th>
+          <th scope="col">
+            <div class="cx-billing-list-table-header">
+              {{ 'subscriptionBillsList.tableHeaderColDate' | cxTranslate }}
+            </div>
+          </th>
+          <th scope="col">
+            <div class="cx-billing-list-table-header">
+              {{
+                'subscriptionBillsList.tableHeaderColSubscriptions' | cxTranslate
+              }}
+            </div>
+          </th>
+          <th scope="col">
+            <div class="cx-billing-list-table-header">
+              {{ 'subscriptionBillsList.tableHeaderColTotal' | cxTranslate }}
+            </div>
+          </th>
+          <th scope="col">
+            <div class="cx-billing-list-table-header"></div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let billing of billingList.results">
+          <td class="bill-id-value">
             <a
               [routerLink]="
                 {
@@ -114,24 +88,57 @@
                 } | cxUrl
               "
             >
-              <div class="cx-billing-list-table-col">
-                {{ 'subscriptionBillsList.tableViewBillCol' | cxTranslate }}
-              </div>
+              <div class="cx-billing-list-table-col">{{ billing.id }}</div>
             </a>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+          </td>
+          <td>
+            <div class="cx-billing-list-table-col">
+              {{ billing.billAt | cxDate }}
+            </div>
+          </td>
+          <td>
+            <div class="cx-billing-list-table-col">
+              {{ billing.numberOfSubscriptions }}
+            </div>
+          </td>
+          <td>
+            <div class="cx-billing-list-table-col">
+              {{ billing.netAmount.replace('USD', '$') }}
+            </div>
+          </td>
+          <td>
+            <div class="cx-billing-list-table-col">
+              <a
+                [routerLink]="
+                  {
+                    cxRoute: 'subscriptionBillDetails',
+                    params: { billId: billing.id },
+                  } | cxUrl
+                "
+              >
+                <div class="cx-billing-list-table-col">
+                  {{ 'subscriptionBillsList.tableViewBillCol' | cxTranslate }}
+                </div>
+              </a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-  <div class="billing-list-pagination-bar">
-    <ng-container *ngIf="(billingList.pagination?.totalPages ?? 0) > 1">
-      <cx-pagination
-        [pagination]="billingList.pagination"
-        (viewPageEvent)="onPageChange($event)"
-      ></cx-pagination>
-    </ng-container>
-  </div>
+    <div class="billing-list-pagination-bar">
+      <ng-container *ngIf="(billingList.pagination?.totalPages ?? 0) > 1">
+        <cx-pagination
+          [pagination]="billingList.pagination"
+          (viewPageEvent)="onPageChange($event)"
+        ></cx-pagination>
+      </ng-container>
+    </div>
+  } @else {
+    <div class="text-center">
+      <h3>{{ 'subscriptionBillsList.noSubscriptionBills' | cxTranslate }}</h3>
+    </div>
+  }
 </ng-container>
 
 <ng-template #loading>
