@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Schematics "modernize-app-standalone-bootstrap-application" in SSR app Common transformations (also applied to SSR apps) angular.json should be edited 1`] = `
+exports[`Schematics "modernize-app-to-standalone-bootstrap-application" in SSR app Common transformations (also applied to SSR apps) angular.json should be edited 1`] = `
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "newProjectRoot": "projects",
@@ -40,7 +40,7 @@ exports[`Schematics "modernize-app-standalone-bootstrap-application" in SSR app 
 }
 `;
 
-exports[`Schematics "modernize-app-standalone-bootstrap-application" in SSR app Common transformations (also applied to SSR apps) src/app/app.component.ts should be edited 1`] = `
+exports[`Schematics "modernize-app-to-standalone-bootstrap-application" in SSR app Common transformations (also applied to SSR apps) src/app/app.component.ts should be edited 1`] = `
 "import { Component } from '@angular/core';
 import { StorefrontComponent } from "@spartacus/storefront";
 
@@ -54,7 +54,7 @@ export class AppComponent {
 "
 `;
 
-exports[`Schematics "modernize-app-standalone-bootstrap-application" in SSR app Common transformations (also applied to SSR apps) src/app/app.config.ts should be created 1`] = `
+exports[`Schematics "modernize-app-to-standalone-bootstrap-application" in SSR app Common transformations (also applied to SSR apps) src/app/app.config.ts should be created 1`] = `
 "
 import {
   provideHttpClient,
@@ -82,7 +82,7 @@ export const appConfig: ApplicationConfig = {
 "
 `;
 
-exports[`Schematics "modernize-app-standalone-bootstrap-application" in SSR app Common transformations (also applied to SSR apps) src/app/app.module.ts should be edited 1`] = `
+exports[`Schematics "modernize-app-to-standalone-bootstrap-application" in SSR app Common transformations (also applied to SSR apps) src/app/app.module.ts should be edited 1`] = `
 "import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -101,7 +101,7 @@ export class AppModule { }
 "
 `;
 
-exports[`Schematics "modernize-app-standalone-bootstrap-application" in SSR app Common transformations (also applied to SSR apps) src/main.ts should be edited 1`] = `
+exports[`Schematics "modernize-app-to-standalone-bootstrap-application" in SSR app Common transformations (also applied to SSR apps) src/main.ts should be edited 1`] = `
 "import { bootstrapApplication } from "@angular/platform-browser";
 import { AppComponent } from "./app/app.component";
 import { appConfig } from "./app/app.config";
@@ -111,7 +111,7 @@ bootstrapApplication(AppComponent, appConfig)
 "
 `;
 
-exports[`Schematics "modernize-app-standalone-bootstrap-application" in SSR app src/app/app.config.server.ts should be created 1`] = `
+exports[`Schematics "modernize-app-to-standalone-bootstrap-application" in SSR app src/app/app.config.server.ts should be created 1`] = `
 "import { mergeApplicationConfig, ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideServerRendering } from '@angular/platform-server';
 import { appConfig } from './app.config';
@@ -128,7 +128,7 @@ export const config = mergeApplicationConfig(appConfig, serverConfig);
 "
 `;
 
-exports[`Schematics "modernize-app-standalone-bootstrap-application" in SSR app src/app/app.module.server.ts should be edited 1`] = `
+exports[`Schematics "modernize-app-to-standalone-bootstrap-application" in SSR app src/app/app.module.server.ts should be edited 1`] = `
 "import { NgModule } from '@angular/core';
 
 @NgModule({
@@ -138,7 +138,7 @@ export class AppServerModule { }
 "
 `;
 
-exports[`Schematics "modernize-app-standalone-bootstrap-application" in SSR app src/main.server.ts should be edited 1`] = `
+exports[`Schematics "modernize-app-to-standalone-bootstrap-application" in SSR app src/main.server.ts should be edited 1`] = `
 "import { BootstrapContext, bootstrapApplication } from "@angular/platform-browser";
 import { AppComponent } from "./app/app.component";
 import { config } from "./app/app.config.server";
@@ -151,7 +151,7 @@ export default bootstrap;
 "
 `;
 
-exports[`Schematics "modernize-app-standalone-bootstrap-application" in SSR app src/server.ts should be edited 1`] = `
+exports[`Schematics "modernize-app-to-standalone-bootstrap-application" in SSR app src/server.ts should be edited 1`] = `
 "import { APP_BASE_HREF } from '@angular/common';
 import { CommonEngine } from '@angular/ssr';
 import express from 'express';

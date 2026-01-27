@@ -13,7 +13,7 @@ The Spartacus team provides special schematics that automatically modernize the 
 Please run the following command from your project root directory:
 
 ```bash
-ng g @spartacus/schematics:modernize-app-standalone-bootstrap-application
+ng g @spartacus/schematics:modernize-app-to-standalone-bootstrap-application
 ```
 
 In case of any issues during the automatic migration, you can always fall back to the manual migration steps below.
