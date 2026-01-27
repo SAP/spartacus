@@ -8,7 +8,6 @@ import { AsyncPipe, DecimalPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   EventService,
-  FeatureDirective,
   Product,
   TranslatePipe,
   TranslationService,
@@ -27,14 +26,7 @@ import { CurrentProductService } from '../current-product.service';
   selector: 'cx-product-intro',
   templateUrl: './product-intro.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    StarRatingComponent,
-    FeatureDirective,
-    AsyncPipe,
-    DecimalPipe,
-    TranslatePipe,
-  ],
+  imports: [NgIf, StarRatingComponent, AsyncPipe, DecimalPipe, TranslatePipe],
 })
 export class ProductIntroComponent {
   product$: Observable<Product | null> =

@@ -5,7 +5,7 @@
  */
 
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, OnDestroy, OnInit, Optional, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -22,7 +22,6 @@ import {
   CustomerCoupon,
   CustomerCouponSearchResult,
   CustomerCouponService,
-  FeatureConfigService,
   TranslatePipe,
 } from '@spartacus/core';
 import { Observable, Subscription, combineLatest } from 'rxjs';
@@ -55,10 +54,6 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   couponBoxIsActive = false;
-
-  @Optional() protected featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
 
   constructor(
     protected cartVoucherService: CartVoucherFacade,
