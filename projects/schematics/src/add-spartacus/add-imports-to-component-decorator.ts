@@ -25,25 +25,25 @@ export function addImportsToComponentDecorator(
 
   for (const classDeclaration of classes) {
     const decorator = classDeclaration.getDecorator('Component');
+    if (!decorator) {
+      continue;
+    }
 
-    if (decorator) {
-      const args = decorator.getArguments();
-
-      if (args.length > 0 && Node.isObjectLiteralExpression(args[0])) {
-        updateComponentImports(args[0], value, removeOldImports);
-      }
+    const args = decorator.getArguments();
+    if (args.length > 0 && Node.isObjectLiteralExpression(args[0])) {
+      processComponentDecorator(args[0], value, { removeOldImports });
     }
   }
   formatFile(sourceFile);
 }
 
 /**
- * Updates or adds imports property to the Component decorator
+ * Processes the Component decorator's object literal to add imports.
  */
-function updateComponentImports(
+function processComponentDecorator(
   objLiteral: ObjectLiteralExpression,
   value: string,
-  removeOldImports: boolean
+  options: { removeOldImports?: boolean }
 ): void {
   const propertyName = 'imports';
   const importsProperty = objLiteral
@@ -54,13 +54,8 @@ function updateComponentImports(
     );
 
   if (importsProperty && Node.isPropertyAssignment(importsProperty)) {
-    if (removeOldImports) {
-      replaceImportsProperty(importsProperty, value);
-    } else {
-      appendToImportsProperty(importsProperty, value);
-    }
+    updateImportsProperty(importsProperty, value, options);
   } else {
-    // Add the property if it doesn't exist
     objLiteral.addPropertyAssignment({
       name: propertyName,
       initializer: `[${value}]`,
@@ -69,22 +64,18 @@ function updateComponentImports(
 }
 
 /**
- * Updates the imports property by replacing with new value
+ * Updates an existing imports property with the new value.
  */
-function replaceImportsProperty(
+function updateImportsProperty(
   importsProperty: PropertyAssignment,
-  value: string
+  value: string,
+  options: { removeOldImports?: boolean }
 ): void {
-  importsProperty.setInitializer(`[${value}]`);
-}
+  if (options.removeOldImports) {
+    importsProperty.setInitializer(`[${value}]`);
+    return;
+  }
 
-/**
- * Updates the imports property by appending new value to existing imports
- */
-function appendToImportsProperty(
-  importsProperty: PropertyAssignment,
-  value: string
-): void {
   const currentInitializer = importsProperty.getInitializer();
   if (currentInitializer && Node.isArrayLiteralExpression(currentInitializer)) {
     const existingElements = currentInitializer
@@ -93,7 +84,6 @@ function appendToImportsProperty(
     const newImports = [...existingElements, value];
     importsProperty.setInitializer(`[${newImports.join(', ')}]`);
   } else {
-    // Fallback to replacement if not an array
     importsProperty.setInitializer(`[${value}]`);
   }
 }

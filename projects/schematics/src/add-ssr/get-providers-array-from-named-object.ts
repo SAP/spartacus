@@ -29,12 +29,13 @@ export function getProvidersFromNamedObject(
     const declarations = statement.getDeclarations();
 
     for (const declaration of declarations) {
-      if (declaration.getName() === variableName) {
-        const initializer = declaration.getInitializer();
+      if (declaration.getName() !== variableName) {
+        continue;
+      }
 
-        if (initializer && Node.isObjectLiteralExpression(initializer)) {
-          return extractProvidersArray(initializer);
-        }
+      const initializer = declaration.getInitializer();
+      if (initializer && Node.isObjectLiteralExpression(initializer)) {
+        return extractProvidersArray(initializer);
       }
     }
   }
@@ -43,19 +44,20 @@ export function getProvidersFromNamedObject(
 }
 
 /**
- * Extracts the providers array from an object literal expression
+ * Extracts the providers array from an object literal expression.
  */
 function extractProvidersArray(
   initializer: ObjectLiteralExpression
 ): ArrayLiteralExpression | undefined {
   const providersProperty = initializer.getProperty('providers');
 
-  if (providersProperty && Node.isPropertyAssignment(providersProperty)) {
-    const providersArray = providersProperty.getInitializer();
+  if (!providersProperty || !Node.isPropertyAssignment(providersProperty)) {
+    return undefined;
+  }
 
-    if (providersArray && Node.isArrayLiteralExpression(providersArray)) {
-      return providersArray;
-    }
+  const providersArray = providersProperty.getInitializer();
+  if (providersArray && Node.isArrayLiteralExpression(providersArray)) {
+    return providersArray;
   }
 
   return undefined;
