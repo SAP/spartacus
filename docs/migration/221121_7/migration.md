@@ -275,11 +275,11 @@ platformBrowser().bootstrapModule(AppModule, {
 
 ### Enable Non-Destructive Hydration (Required for SSR)
 
-If your application uses Server-Side Rendering (SSR), you should enable Angular's non-destructive hydration. This is now a requirement for Spartacus 221121_8. This aligns your app with current Angular best practices, making maintenance and upgrades easier.
+If your application uses Server-Side Rendering (SSR), you should enable Angular's non-destructive hydration. This is now a requirement for Spartacus 221121_7. This aligns your app with current Angular best practices, making maintenance and upgrades easier.
 
 #### What is non-destructive hydration?
 
-Non-destructive hydration is an Angular feature that improves performance by reusing the server-rendered DOM instead of destroying and recreating it on the client side. This significantly reduces the time to interactive and provides a better user experience.
+Non-destructive hydration is an Angular feature that improves UX and performance by reusing the server-rendered DOM instead of destroying and recreating it on the client side. This reduces the time to interactive and provides a better user experience.
 
 For more information, see the [Angular Hydration Guide](https://angular.dev/guide/hydration).
 
@@ -352,7 +352,7 @@ in the same application, which is a contradiction.
 
 **We didn't encounter any issues with this setup in practice.**
 
-This diagnostic was introduced by the Angular team in Angular 21 ([Angular issue #59624](https://github.com/angular/angular/issues/59624), [Angular PR #62963](https://github.com/angular/angular/pull/62963)). The warning appears because Spartacus uses `initialNavigation: 'enabledBlocking'` in its router configuration to ensure proper CMS page loading during SSR.
+This diagnostic was introduced by the Angular team in Angular 21 ([Angular issue #59624](https://github.com/angular/angular/issues/59624), [Angular PR #62963](https://github.com/angular/angular/pull/62963)). The warning appears because Spartacus uses `initialNavigation: 'enabledBlocking'` in its router configuration to ensure proper CMS page loading and lazy-loading of JS chunks before rendering the components.
 
 **Current Status:**
 
