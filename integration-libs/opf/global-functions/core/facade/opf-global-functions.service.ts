@@ -268,7 +268,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       submitCancel?: OpfPaymentMerchantCallback;
       paymentMethod: OpfPaymentMethod;
       paymentSessionId?: string;
-      savePaymentMethod?: boolean; // Optional parameter to indicate if the payment method should be saved
+      savePaymentMethod?: boolean;
     }): Promise<boolean> => {
       return this.ngZone.run(() => {
         const finalPaymentSessionId =

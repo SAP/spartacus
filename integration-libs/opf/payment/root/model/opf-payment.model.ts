@@ -92,7 +92,7 @@ export interface OpfPaymentSubmitRequest {
   encryptedToken?: string;
   channel?: string;
   additionalData?: Array<OpfKeyValueMap>;
-  savePaymentMethod?: boolean; // Optional parameter to indicate if the payment method should be saved
+  savePaymentMethod?: boolean;
 }
 
 export interface OpfPaymentSubmitInput {
@@ -106,7 +106,7 @@ export interface OpfPaymentSubmitInput {
   returnPath?: string;
   paymentMethod: OpfPaymentMethod;
   encryptedToken?: string;
-  savePaymentMethod?: boolean; // Optional parameter to indicate if the payment method should be saved
+  savePaymentMethod?: boolean;
 }
 
 export enum OpfPaymentSubmitStatus {

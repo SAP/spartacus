@@ -65,7 +65,7 @@ export class OpfPaymentHostedFieldsService {
       paymentSessionId,
       returnPath,
       encryptedToken,
-      savePaymentMethod, // Optional parameter to indicate if the payment method should be saved
+      savePaymentMethod,
     } = submitInput;
 
     const submitRequest: OpfPaymentSubmitRequest = {
