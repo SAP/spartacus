@@ -9,7 +9,7 @@ import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import { join } from 'path';
 
 const collectionPath = join(__dirname, '../../migrations.json');
-const MIGRATION_SCRIPT_NAME = '02-migration-v221121_7-tsconfig-update';
+const MIGRATION_SCRIPT_NAME = '03-migration-v221121_7-tsconfig-update';
 
 describe('Update tsconfig.json for Angular 21 migration', () => {
   let tree: Tree;
@@ -48,12 +48,7 @@ describe('Update tsconfig.json for Angular 21 migration', () => {
       );
 
       const updatedConfig = JSON.parse(newTree.readText('/tsconfig.json'));
-
-      expect(updatedConfig.compilerOptions.outDir).toBeUndefined();
-      expect(updatedConfig.compilerOptions.esModuleInterop).toBeUndefined();
-      expect(updatedConfig.compilerOptions.moduleResolution).toBeUndefined();
-      expect(updatedConfig.compilerOptions.strict).toBe(true);
-      expect(updatedConfig.compilerOptions.target).toBe('ES2022');
+      expect(updatedConfig).toMatchSnapshot();
     });
 
     it('should update module to "preserve"', async () => {
@@ -75,6 +70,7 @@ describe('Update tsconfig.json for Angular 21 migration', () => {
 
       const updatedConfig = JSON.parse(newTree.readText('/tsconfig.json'));
       expect(updatedConfig.compilerOptions.module).toBe('preserve');
+      expect(updatedConfig).toMatchSnapshot();
     });
 
     it('should not update module if it is already "preserve"', async () => {
@@ -96,6 +92,7 @@ describe('Update tsconfig.json for Angular 21 migration', () => {
 
       const updatedConfig = JSON.parse(newTree.readText('/tsconfig.json'));
       expect(updatedConfig.compilerOptions.module).toBe('preserve');
+      expect(updatedConfig).toMatchSnapshot();
     });
   });
 
@@ -121,11 +118,7 @@ describe('Update tsconfig.json for Angular 21 migration', () => {
       );
 
       const updatedConfig = JSON.parse(newTree.readText('/tsconfig.json'));
-      expect(updatedConfig.files).toEqual([]);
-      expect(updatedConfig.references).toEqual([
-        { path: './tsconfig.app.json' },
-        { path: './tsconfig.spec.json' },
-      ]);
+      expect(updatedConfig).toMatchSnapshot();
     });
 
     it('should not override existing files and references', async () => {
@@ -149,8 +142,7 @@ describe('Update tsconfig.json for Angular 21 migration', () => {
       );
 
       const updatedConfig = JSON.parse(newTree.readText('/tsconfig.json'));
-      expect(updatedConfig.files).toEqual(['src/main.ts']);
-      expect(updatedConfig.references).toEqual(existingReferences);
+      expect(updatedConfig).toMatchSnapshot();
     });
   });
 
@@ -162,7 +154,6 @@ describe('Update tsconfig.json for Angular 21 migration', () => {
         tree
       );
 
-      // Tree should remain empty if tsconfig.json doesn't exist
       expect(newTree.exists('/tsconfig.json')).toBe(false);
     });
 
@@ -180,11 +171,7 @@ describe('Update tsconfig.json for Angular 21 migration', () => {
       );
 
       const updatedConfig = JSON.parse(newTree.readText('/tsconfig.json'));
-      // compilerOptions should not be created if it doesn't exist
-      // since there's nothing to remove or modify
-      expect(updatedConfig.compilerOptions).toBeUndefined();
-      expect(updatedConfig.files).toEqual([]);
-      expect(updatedConfig.references).toBeDefined();
+      expect(updatedConfig).toMatchSnapshot();
     });
 
     it('should apply all transformations in a single migration', async () => {
@@ -223,29 +210,7 @@ describe('Update tsconfig.json for Angular 21 migration', () => {
       );
 
       const updatedConfig = JSON.parse(newTree.readText('/tsconfig.json'));
-
-      // Verify removed properties
-      expect(updatedConfig.compilerOptions.outDir).toBeUndefined();
-      expect(updatedConfig.compilerOptions.esModuleInterop).toBeUndefined();
-      expect(updatedConfig.compilerOptions.moduleResolution).toBeUndefined();
-
-      // Verify updated properties
-      expect(updatedConfig.compilerOptions.module).toBe('preserve');
-
-      // Verify added properties
-      expect(updatedConfig.files).toEqual([]);
-      expect(updatedConfig.references).toEqual([
-        { path: './tsconfig.app.json' },
-        { path: './tsconfig.spec.json' },
-      ]);
-
-      // Verify unmodified properties are intact
-      expect(updatedConfig.compilerOptions.strict).toBe(true);
-      expect(updatedConfig.compilerOptions.noImplicitOverride).toBe(true);
-      expect(updatedConfig.compilerOptions.experimentalDecorators).toBe(true);
-      expect(
-        updatedConfig.angularCompilerOptions.enableI18nLegacyMessageIdFormat
-      ).toBe(false);
+      expect(updatedConfig).toMatchSnapshot();
     });
   });
 });
