@@ -1,5 +1,171 @@
 # Breaking Changes Tool - Fixes and Improvements
 
+## Date: January 27, 2026 (Update 4 - FINAL FIXES)
+
+### Fixed Three Critical Issues
+
+#### Issue 6: `regenerate.sh` Not Running `extract-all`
+**Problem**: Script skipped extraction, parsed old data  
+**Fix**: Added `npm run extract-all` as Step 2 in regenerate.sh
+
+#### Issue 7: False Breaking Changes from Semicolon Differences
+**Problem**: 
+```
+Previous: saveCouponCodesFactory(): () => void
+Current:  saveCouponCodesFactory(): () => void;
+```
+Reported as breaking change when only `;` differs.
+
+**Fix**: 
+- Updated `getFunctionBreakingChange()` and `getVariableBreakingChange()` in `compare.ts`
+- Both now use `normalizeType()` before comparison
+- Added `.replace(/;+$/, '')` to `normalizeType()` to remove trailing semicolons
+
+#### Issue 8: 93 Empty TypeAlias Definitions
+**Problem**: TypeAlias members were empty, showing blank "Current version"
+```
+Previous: StockLevel | StockLevelOnHold | ...
+Current:  [EMPTY]
+```
+
+**Root Cause**: 
+- TypeAlias syntax: `type MyType = string` (uses `=`)
+- `findTokenRange()` was looking for `:` (like Variables)
+- Returned `{startIndex: 0, endIndex: 0}` = empty range
+
+**Fix**:
+- Added new range type `'typealias'` to `findTokenRange()`
+- `'typealias'` searches for `=` instead of `:`
+- TypeAlias now uses: `findTokenRange(excerptTokens, 'typealias')`
+- Correctly extracts type between `=` and `;`
+
+#### Files Changed
+- `regenerate.sh` - Added extract-all step
+- `compare.ts` - Normalize types before comparison, remove trailing semicolons
+- `extract-bundled.ts` - Handle TypeAlias with `=` separator
+
+---
+
+## Date: January 27, 2026 (Update 3 - FINAL)
+
+### Fixed `actualStart` Bug in `findTokenRange()`
+
+#### Critical Bug Found
+After Update 2, types were still missing. Root cause: `findTokenRange()` had logic error:
+
+```typescript
+// BUG:
+const actualStart = endIndex;  // actualStart === endIndex!
+return { startIndex: actualStart, endIndex };  // Empty range!
+```
+
+When `actualStart` was assigned to `endIndex`, the range became empty (`startIndex === endIndex`), causing `getParamType()` to return empty string.
+
+#### Solution
+Fixed the logic to properly skip whitespace:
+
+```typescript
+// FIXED:
+let startIndex = i + 1;
+// Skip whitespace tokens
+while (startIndex < tokens.length && tokens[startIndex].text.trim() === '') {
+  startIndex++;
+}
+let endIndex = startIndex;
+// ... find end ...
+return { startIndex, endIndex };  // ✅ Correct range!
+```
+
+#### Also Fixed
+- `parse.ts` - Better validation in `getParamType()` using optional chaining
+- Now checks `startIndex < 0` and `endIndex < 0` separately
+
+#### IMPORTANT
+**You MUST regenerate files** to apply these fixes:
+```bash
+npm run extract-all  # Re-extract with fixed code
+npm run parse-all    # Re-parse with fixed validation
+npm run compare
+npm run gen-all
+```
+
+---
+
+## Date: January 27, 2026 (Update 2)
+
+### Fixed Missing Types in Variable Declarations
+
+#### Issue Fixed
+After initial fix, some variable declarations had missing types in generated documentation:
+```markdown
+Previous version:
+defaultOccUserProfileConfig: OccConfig
+
+Current version:
+defaultOccUserProfileConfig:
+```
+
+#### Root Cause
+The improved `generateStructuredTokens()` function was too aggressive in splitting tokens, but wasn't consistently generating tokens that `findTokenRange()` could process. Special characters like `:` needed to be separate tokens.
+
+#### Solution
+- Refined `generateStructuredTokens()` regex pattern to properly tokenize special characters
+- Pattern now matches: identifiers, special chars (`:=;,()[]{}< >|&`), whitespace, other content
+- Updated `findTokenRange()` to handle tokens that may contain `:` within them
+- Added fallback logic to search for `:` both as separate token and within tokens
+
+#### Testing
+Added `test-tokenization.ts` to verify token generation:
+```bash
+npm run test-tokens
+```
+
+---
+
+## Date: January 27, 2026
+
+### Type Normalization and Token Generation Fixes
+
+#### Issues Fixed
+
+1. **Types with $1, $2 suffixes appearing in documentation**
+   - Root cause: TypeScript compiler adds `$1`, `$2` suffixes during declaration merging when type names conflict
+   - Impact: Generated docs and schematics contained invalid type names like `Location$1`, `User$1`
+   - Fix: Added `normalizeTypeString()` function that removes these suffixes
+
+2. **Truncated types in documentation**
+   - Root cause: `getParamType()` didn't validate token ranges before processing
+   - Impact: Type declarations were cut off, e.g., `Command<{ email: string` instead of `Command<{ email: string; }>`
+   - Fix: Added validation in `getParamType()` to check range validity
+
+3. **Broken tokens creating unreadable code blocks**
+   - Root cause: `generateExcerptTokens()` used TypeScript Scanner which tokenizes at lexical level
+   - Impact: Code was rendered as individual characters/punctuation on separate lines
+   - Fix: Completely rewrote `generateExcerptTokens()` to use structured token generation
+
+4. **TypeAlias rendered as array of individual tokens**
+   - Fix: Modified `getTypeAliases()` to join tokens; updated `getTypeAliasStateDoc()` to handle both formats
+
+#### Files Modified
+- `/tools/breaking-changes/extract-bundled.ts` - Added normalization, rewrote token generation
+- `/tools/breaking-changes/parse.ts` - Added normalization and validation
+- `/tools/breaking-changes/common.ts` - Updated TypeAlias rendering
+- `/tools/breaking-changes/package.json` - Added `validate` and `test` scripts
+- `/tools/breaking-changes/readme.md` - Added validation documentation
+
+#### Files Added
+- `/tools/breaking-changes/test-normalize.ts` - Unit tests for normalization
+- `/tools/breaking-changes/validate-generated-files.sh` - Validation script
+- `/tools/breaking-changes/BREAKING_CHANGES_FIX_SUMMARY.md` - Comprehensive fix documentation
+
+#### Testing
+```bash
+npm test       # Run unit tests
+npm run validate  # Validate generated files
+```
+
+---
+
 ## Date: January 21, 2026
 
 ### Summary
