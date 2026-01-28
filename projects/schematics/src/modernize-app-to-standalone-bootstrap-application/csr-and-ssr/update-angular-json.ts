@@ -26,7 +26,7 @@ export function updateAngularJson(): Rule {
 
     // Update schematics configuration in each project
     if (workspace.projects) {
-      for (const projectName in workspace.projects) {
+      for (const projectName of Object.keys(workspace.projects)) {
         const project = workspace.projects[projectName];
         if ((project as any).schematics) {
           removeStandaloneFalse((project as any).schematics);
