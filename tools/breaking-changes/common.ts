@@ -18,6 +18,73 @@ export const RENAMED_API_LOOKUP_FILE_PATH = `${NEW_VERSION_DOC_HOME}/renamed-api
 export const MIGRATION_SCHEMATICS_HOME = `../../projects/schematics/src/migrations/${NEW_VERSION}`;
 export const SCHEMATICS_COMMENT_PREFIX = '// TODO:Spartacus -';
 
+/**
+ * Normalize type for display in documentation.
+ * Removes import() statements and namespace aliases to make types more readable.
+ */
+export function normalizeTypeForDisplay(type: string | undefined): string {
+  if (!type) return '';
+
+  let normalized = type;
+
+  // Replace literal \n with actual newlines for regex to work
+  normalized = normalized.replace(/\\n/g, '\n');
+
+  // Remove JSDoc comments (/** ... */) including multi-line
+  normalized = normalized.replace(/\/\*\*[\s\S]*?\*\//g, '');
+
+  // Remove TypeScript-generated suffixes like $1, $2, etc.
+  // These are added by TypeScript Compiler API during bundling when there are naming conflicts
+  // Match pattern: Type$1, User$2, ICON_TYPE$1, etc.
+  // Use word boundary to avoid matching valid identifiers that naturally contain $
+  normalized = normalized.replace(/\b([A-Za-z_][A-Za-z0-9_]*)\$\d+\b/g, '$1');
+
+  // Remove import() statements: import("package"). → (empty)
+  // Example: import("@angular/core").WritableSignal → WritableSignal
+  normalized = normalized.replace(/import\s*\(\s*["'][^"']+["']\s*\)\s*\./g, '');
+
+  // Remove namespace aliases: i0., rxjs., etc.
+  // Match single lowercase/number identifiers followed by dot (common pattern for generated aliases)
+  // Example: i0.WritableSignal → WritableSignal, rxjs.Observable → Observable
+  normalized = normalized.replace(/\b[a-z]\d*\./g, '');
+
+  // Remove common known package namespace prefixes
+  normalized = normalized.replace(/\b(rxjs|core|common|forms|router|platform_browser)\./g, '');
+
+  // Remove external library namespace aliases (express, qs, etc.)
+  normalized = normalized.replace(/\b(express|qs|express_serve_static_core)\./g, '');
+
+  // Remove ANY underscore-prefixed namespace aliases (more generic approach)
+  // This catches: _angular_forms., _spartacus_*, _ngrx_*, _platform_browser., etc.
+  // Pattern: underscore followed by word characters (letters, numbers, underscores) ending with dot
+  normalized = normalized.replace(/\b_[a-z][a-z0-9_]*\./gi, '');
+
+  // Remove dist namespace aliases: dist_cart_types_spartacus_*, etc.
+  normalized = normalized.replace(/\bdist_[a-z_]+\./g, '');
+
+  // Remove Spartacus internal namespace aliases: StateUtils., etc.
+  normalized = normalized.replace(/\bStateUtils\./g, '');
+
+  // Remove i18next namespace aliases: i18next_http_backend., node_modules_i18next., etc.
+  normalized = normalized.replace(/\bi18next[a-z0-9_]*\./gi, '');
+
+  // Remove node_modules namespace aliases: node_modules_i18next., node_modules_*, etc.
+  normalized = normalized.replace(/\bnode_modules_[a-z0-9_]*\./gi, '');
+
+  // Remove leading equals sign (artifact from type alias parsing)
+  // Example: "= Omit<T, K>" → "Omit<T, K>"
+  normalized = normalized.replace(/^=\s+/, '');
+
+  // Remove trailing semicolons (formatting differences) - but only at the very end
+  // This handles cases like `string` vs `string;` but preserves semicolons in complex types
+  normalized = normalized.replace(/;+\s*$/, '');
+
+  // Normalize whitespace - replace multiple spaces/newlines with single space
+  normalized = normalized.replace(/\s+/g, ' ').trim();
+
+  return normalized;
+}
+
 // Shared Functions
 export function readAndParseDataFile(filePath: string): any {
   const parsedData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
@@ -193,9 +260,10 @@ export function getSignatureDoc(
 ): string {
   const lineEnding = getLineEnding(multiLine);
   const parameterDoc = getParameterDoc(functonElement, multiLine);
-  const doc = `${lineEnding}${functonElement.name}(${parameterDoc})${
-    functonElement.returnType ? ': ' + functonElement.returnType : ''
-  }${lineEnding}`;
+  const returnType = functonElement.returnType
+    ? ': ' + normalizeTypeForDisplay(functonElement.returnType)
+    : '';
+  const doc = `${lineEnding}${functonElement.name}(${parameterDoc})${returnType}${lineEnding}`;
 
   return doc;
 }
@@ -208,9 +276,8 @@ export function getParameterDoc(
   if (functonElement.parameters?.length) {
     let parameterDoc = lineEnding;
     functonElement.parameters.forEach((parameter: any, index: number) => {
-      parameterDoc += `  ${parameter.name}${parameter.isOptional ? '?' : ''}: ${
-        parameter.type
-      }${
+      const normalizedType = normalizeTypeForDisplay(parameter.type);
+      parameterDoc += `  ${parameter.name}${parameter.isOptional ? '?' : ''}: ${normalizedType}${
         index + 1 >= functonElement.parameters.length ? '' : ','
       }${lineEnding}`;
     });
@@ -309,7 +376,7 @@ export function getMemberStateDoc(member: any): string {
     }
     case 'PropertySignature':
     case 'Property': {
-      return `${member.name}: ${member.type}`;
+      return `${member.name}: ${normalizeTypeForDisplay(member.type)}`;
     }
     default: {
       throw Error(
@@ -328,7 +395,7 @@ export function getTopLevelApiStateDoc(apiElement: any): string {
       return getTypeAliasStateDoc(apiElement);
     }
     case 'Variable': {
-      return `${apiElement.name}: ${apiElement.type}`;
+      return `${apiElement.name}: ${normalizeTypeForDisplay(apiElement.type)}`;
     }
     case 'Function': {
       return getSignatureDoc(apiElement);

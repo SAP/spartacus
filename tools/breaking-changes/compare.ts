@@ -8,6 +8,10 @@ import deepEqual from 'deep-equal';
 import * as fs from 'fs';
 import * as common from './common';
 
+// Use the shared normalization function for type comparison
+// This ensures consistency between comparison and documentation generation
+const normalizeType = common.normalizeTypeForDisplay;
+
 // --------------------------------------------------
 // Main Logic
 // --------------------------------------------------
@@ -324,36 +328,6 @@ function isSameTypeParameter(oldParam: any, newParam: any) {
   return normalizeType(oldParam.type) === normalizeType(newParam?.type);
 }
 
-/**
- * Normalize type by removing JSDoc comments, extra whitespace, and TypeScript-generated suffixes.
- * JSDoc changes (like adding/modifying comments) are not breaking changes.
- * TypeScript suffixes like $1, $2 are generated during bundling when there are naming conflicts
- * and should not be treated as breaking changes.
- */
-function normalizeType(type: string | undefined): string {
-  if (!type) return '';
-
-  // Replace literal \n with actual newlines for regex to work
-  let normalized = type.replace(/\\n/g, '\n');
-
-  // Remove JSDoc comments (/** ... */) including multi-line
-  normalized = normalized.replace(/\/\*\*[\s\S]*?\*\//g, '');
-
-  // Remove TypeScript-generated suffixes like $1, $2, etc.
-  // These are added by TypeScript Compiler API during bundling when there are naming conflicts
-  // Match pattern: Type$1, User$2, ICON_TYPE$1, etc.
-  // Use word boundary to avoid matching valid identifiers that naturally contain $
-  normalized = normalized.replace(/\b([A-Za-z_][A-Za-z0-9_]*)\$\d+\b/g, '$1');
-
-  // Remove trailing semicolons (formatting differences) - but only at the very end
-  // This handles cases like `string` vs `string;` but preserves semicolons in complex types
-  normalized = normalized.replace(/;+\s*$/, '');
-
-  // Normalize whitespace - replace multiple spaces/newlines with single space
-  normalized = normalized.replace(/\s+/g, ' ').trim();
-
-  return normalized;
-}
 
 function addBreakingChanges(element: any, breakingChanges: any[]) {
   if (!breakingChanges) {

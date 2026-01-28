@@ -9,7 +9,7 @@
 //
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
-export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] = 
+export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
 [
 	{
 		class: 'OrderGuestRegisterFormComponent',

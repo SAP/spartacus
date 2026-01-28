@@ -553,12 +553,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'ForgotPasswordComponentService',
 		importPath: '@spartacus/user/profile/components',
-		deprecatedNode: 'isUpdating$',
-		comment: '// TODO:Spartacus - The type of property \'isUpdating$: import("rxjs").Observable<boolean>\' changed to: \'isUpdating$: rxjs.Observable<boolean>\' '
-	},
-	{
-		class: 'ForgotPasswordComponentService',
-		importPath: '@spartacus/user/profile/components',
 		deprecatedNode: 'onError',
 		comment: '// TODO:Spartacus - Method \'onError\' was removed from Class \'ForgotPasswordComponentService\'. '
 	},
@@ -961,12 +955,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'SuggestedAddressDialogComponent',
 		importPath: '@spartacus/user/profile/components',
-		deprecatedNode: 'data$',
-		comment: '// TODO:Spartacus - The type of property \'data$: import("rxjs").Observable<any>\' changed to: \'data$: rxjs.Observable<any>\' '
-	},
-	{
-		class: 'SuggestedAddressDialogComponent',
-		importPath: '@spartacus/user/profile/components',
 		deprecatedNode: 'handleClick',
 		comment: '// TODO:Spartacus - Method \'handleClick\' was removed from Class \'SuggestedAddressDialogComponent\'. '
 	},
@@ -987,12 +975,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/user/profile/components',
 		deprecatedNode: 'onSubmit',
 		comment: '// TODO:Spartacus - Method \'onSubmit\' was removed from Class \'UpdateEmailComponent\'. '
-	},
-	{
-		class: 'UpdateEmailComponentService',
-		importPath: '@spartacus/user/profile/components',
-		deprecatedNode: 'isUpdating$',
-		comment: '// TODO:Spartacus - The type of property \'isUpdating$: import("rxjs").Observable<boolean>\' changed to: \'isUpdating$: rxjs.Observable<boolean>\' '
 	},
 	{
 		class: 'UpdateEmailComponentService',
@@ -1029,12 +1011,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/user/profile/components',
 		deprecatedNode: 'getPasswordValidators',
 		comment: '// TODO:Spartacus - Method \'getPasswordValidators\' was removed from Class \'UpdatePasswordComponentService\'. '
-	},
-	{
-		class: 'UpdatePasswordComponentService',
-		importPath: '@spartacus/user/profile/components',
-		deprecatedNode: 'isUpdating$',
-		comment: '// TODO:Spartacus - The type of property \'isUpdating$: import("rxjs").Observable<boolean>\' changed to: \'isUpdating$: rxjs.Observable<boolean>\' '
 	},
 	{
 		class: 'UpdatePasswordComponentService',
@@ -1195,12 +1171,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'LoginFormComponent',
 		importPath: '@spartacus/user/account/components',
-		deprecatedNode: 'csrf',
-		comment: '// TODO:Spartacus - The type of property \'csrf: import("@spartacus/core").CSRFResponse\' changed to: \'csrf: i3.CSRFResponse\' '
-	},
-	{
-		class: 'LoginFormComponent',
-		importPath: '@spartacus/user/account/components',
 		deprecatedNode: 'onSubmit',
 		comment: '// TODO:Spartacus - Method \'onSubmit\' was removed from Class \'LoginFormComponent\'. '
 	},
@@ -1221,12 +1191,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/user/account/components',
 		deprecatedNode: 'initCustomLogin',
 		comment: '// TODO:Spartacus - Method \'initCustomLogin\' was removed from Class \'LoginFormComponentService\'. '
-	},
-	{
-		class: 'LoginFormComponentService',
-		importPath: '@spartacus/user/account/components',
-		deprecatedNode: 'isUpdating$',
-		comment: '// TODO:Spartacus - The type of property \'isUpdating$: import("rxjs").Observable<boolean>\' changed to: \'isUpdating$: rxjs.Observable<boolean>\' '
 	},
 	{
 		class: 'LoginFormComponentService',
@@ -1275,12 +1239,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/user/account/components',
 		deprecatedNode: 'onSubmit',
 		comment: '// TODO:Spartacus - Method \'onSubmit\' was removed from Class \'OneTimePasswordLoginFormComponent\'. '
-	},
-	{
-		class: 'VerificationTokenFormComponent',
-		importPath: '@spartacus/user/account/components',
-		deprecatedNode: 'csrf',
-		comment: '// TODO:Spartacus - The type of property \'csrf: import("@spartacus/core").CSRFResponse\' changed to: \'csrf: i3.CSRFResponse\' '
 	},
 	{
 		class: 'VerificationTokenFormComponent',
@@ -1347,12 +1305,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/user/account/components',
 		deprecatedNode: 'initCustomLogin',
 		comment: '// TODO:Spartacus - Method \'initCustomLogin\' was removed from Class \'VerificationTokenFormComponentService\'. '
-	},
-	{
-		class: 'VerificationTokenFormComponentService',
-		importPath: '@spartacus/user/account/components',
-		deprecatedNode: 'isUpdating$',
-		comment: '// TODO:Spartacus - The type of property \'isUpdating$: import("rxjs").Observable<boolean>\' changed to: \'isUpdating$: rxjs.Observable<boolean>\' '
 	},
 	{
 		class: 'VerificationTokenFormComponentService',
@@ -1479,42 +1431,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/subscription-billing/root',
 		deprecatedNode: 'onLanguageAndCurrencySetEvent',
 		comment: '// TODO:Spartacus - Method \'onLanguageAndCurrencySetEvent\' was removed from Class \'SubscriptionBillingEventListener\'. '
-	},
-	{
-		class: 'SubscriptionCartPriceBodyComponent',
-		importPath: '@spartacus/subscription-billing/root',
-		deprecatedNode: 'item',
-		comment: '// TODO:Spartacus - The type of property \'item: import("@angular/core").Signal<any>\' changed to: \'item: i0.Signal<any>\' '
-	},
-	{
-		class: 'SubscriptionCartPriceBodyComponent',
-		importPath: '@spartacus/subscription-billing/root',
-		deprecatedNode: 'outletData',
-		comment: '// TODO:Spartacus - The type of property \'outletData: import("@angular/core").Signal<any>\' changed to: \'outletData: i0.Signal<any>\' '
-	},
-	{
-		class: 'SubscriptionCartPriceBodyComponent',
-		importPath: '@spartacus/subscription-billing/root',
-		deprecatedNode: 'parent',
-		comment: '// TODO:Spartacus - The type of property \'parent: import("@angular/core").Signal<any>\' changed to: \'parent: i0.Signal<any>\' '
-	},
-	{
-		class: 'SubscriptionCartPriceBodyComponent',
-		importPath: '@spartacus/subscription-billing/root',
-		deprecatedNode: 'subscriptionItemExists',
-		comment: '// TODO:Spartacus - The type of property \'subscriptionItemExists: import("@angular/core").Signal<any>\' changed to: \'subscriptionItemExists: i0.Signal<any>\' '
-	},
-	{
-		class: 'SubscriptionCartPriceHeadingComponent',
-		importPath: '@spartacus/subscription-billing/root',
-		deprecatedNode: 'cartItems',
-		comment: '// TODO:Spartacus - The type of property \'cartItems: import("@angular/core").Signal<any>\' changed to: \'cartItems: i0.Signal<any>\' '
-	},
-	{
-		class: 'SubscriptionCartPriceHeadingComponent',
-		importPath: '@spartacus/subscription-billing/root',
-		deprecatedNode: 'subscriptionItem',
-		comment: '// TODO:Spartacus - The type of property \'subscriptionItem: import("@angular/core").Signal<any>\' changed to: \'subscriptionItem: i0.Signal<any>\' '
 	},
 	{
 		class: 'SubscriptionFacade',
@@ -1807,24 +1723,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'SubscriptionActionsModalComponent',
 		importPath: '@spartacus/subscription-billing/components',
-		deprecatedNode: 'cancelData',
-		comment: '// TODO:Spartacus - The type of property \'cancelData: import("@angular/core").WritableSignal<SubscriptionCancelData | undefined>\' changed to: \'cancelData: i0.WritableSignal<SubscriptionCancelData | undefined>\' '
-	},
-	{
-		class: 'SubscriptionActionsModalComponent',
-		importPath: '@spartacus/subscription-billing/components',
-		deprecatedNode: 'extensionData',
-		comment: '// TODO:Spartacus - The type of property \'extensionData: import("@angular/core").WritableSignal<SubscriptionExtensionEffectiveDate | undefined>\' changed to: \'extensionData: i0.WritableSignal<SubscriptionExtensionEffectiveDate | undefined>\' '
-	},
-	{
-		class: 'SubscriptionActionsModalComponent',
-		importPath: '@spartacus/subscription-billing/components',
-		deprecatedNode: 'extensionEffectiveDate',
-		comment: '// TODO:Spartacus - The type of property \'extensionEffectiveDate: import("@angular/core").WritableSignal<string | undefined>\' changed to: \'extensionEffectiveDate: i0.WritableSignal<string | undefined>\' '
-	},
-	{
-		class: 'SubscriptionActionsModalComponent',
-		importPath: '@spartacus/subscription-billing/components',
 		deprecatedNode: 'getExtensionEffectiveDate',
 		comment: '// TODO:Spartacus - Method \'getExtensionEffectiveDate\' was removed from Class \'SubscriptionActionsModalComponent\'. '
 	},
@@ -1833,24 +1731,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/subscription-billing/components',
 		deprecatedNode: 'initExtendDurationOptions',
 		comment: '// TODO:Spartacus - Method \'initExtendDurationOptions\' was removed from Class \'SubscriptionActionsModalComponent\'. '
-	},
-	{
-		class: 'SubscriptionActionsModalComponent',
-		importPath: '@spartacus/subscription-billing/components',
-		deprecatedNode: 'isExtendSubscriptionBtnClicked',
-		comment: '// TODO:Spartacus - The type of property \'isExtendSubscriptionBtnClicked: import("@angular/core").WritableSignal<boolean>\' changed to: \'isExtendSubscriptionBtnClicked: i0.WritableSignal<boolean>\' '
-	},
-	{
-		class: 'SubscriptionActionsModalComponent',
-		importPath: '@spartacus/subscription-billing/components',
-		deprecatedNode: 'isExtensionEffectiveDateAvailable',
-		comment: '// TODO:Spartacus - The type of property \'isExtensionEffectiveDateAvailable: import("@angular/core").WritableSignal<boolean>\' changed to: \'isExtensionEffectiveDateAvailable: i0.WritableSignal<boolean>\' '
-	},
-	{
-		class: 'SubscriptionActionsModalComponent',
-		importPath: '@spartacus/subscription-billing/components',
-		deprecatedNode: 'mode',
-		comment: '// TODO:Spartacus - The type of property \'mode: import("@angular/core").Signal<SubscriptionActionMode>\' changed to: \'mode: i0.Signal<SubscriptionActionMode>\' '
 	},
 	{
 		class: 'SubscriptionActionsModalComponent',
@@ -1875,18 +1755,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/subscription-billing/components',
 		deprecatedNode: 'registerSubscriptionCancellationEffect',
 		comment: '// TODO:Spartacus - Method \'registerSubscriptionCancellationEffect\' was removed from Class \'SubscriptionActionsModalComponent\'. '
-	},
-	{
-		class: 'SubscriptionActionsModalComponent',
-		importPath: '@spartacus/subscription-billing/components',
-		deprecatedNode: 'subscriptionCode',
-		comment: '// TODO:Spartacus - The type of property \'subscriptionCode: import("@angular/core").Signal<string>\' changed to: \'subscriptionCode: i0.Signal<string>\' '
-	},
-	{
-		class: 'SubscriptionActionsModalComponent',
-		importPath: '@spartacus/subscription-billing/components',
-		deprecatedNode: 'subscriptionDetailSignal',
-		comment: '// TODO:Spartacus - The type of property \'subscriptionDetailSignal: import("@angular/core").Signal<(SubscriptionDetail & { code?: string; mode?: SubscriptionActionMode; }) | undefined>\' changed to: \'subscriptionDetailSignal: i0.Signal<(SubscriptionDetail & { code?: string; mode?: SubscriptionActionMode; }) | undefined>\' '
 	},
 	{
 		class: 'SubscriptionActionsModalComponentService',
@@ -1929,18 +1797,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/subscription-billing/components',
 		deprecatedNode: 'pageChange',
 		comment: '// TODO:Spartacus - Method \'pageChange\' was removed from Class \'SubscriptionListComponent\'. '
-	},
-	{
-		class: 'SubscriptionListComponent',
-		importPath: '@spartacus/subscription-billing/components',
-		deprecatedNode: 'subscriptions',
-		comment: '// TODO:Spartacus - The type of property \'subscriptions: import("@angular/core").Signal<SubscriptionList | null | undefined>\' changed to: \'subscriptions: i0.Signal<SubscriptionList | null | undefined>\' '
-	},
-	{
-		class: 'SubscriptionListComponent',
-		importPath: '@spartacus/subscription-billing/components',
-		deprecatedNode: 'subscriptions$',
-		comment: '// TODO:Spartacus - The type of property \'subscriptions$: import("rxjs").Observable<SubscriptionList | undefined>\' changed to: \'subscriptions$: rxjs.Observable<SubscriptionList | undefined>\' '
 	},
 	{
 		class: 'SubscriptionProductUsageChargeComponent',
@@ -2169,12 +2025,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'canActivate',
 		comment: '// TODO:Spartacus - Method \'canActivate\' was removed from Class \'BeforeCmsPageGuardService\'. '
-	},
-	{
-		class: 'BeforeCmsPageGuardService',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'guards',
-		comment: '// TODO:Spartacus - The type of property \'guards: { canActivate: import("@angular/router").CanActivateFn; }[]\' changed to: \'guards: { canActivate: i2.CanActivateFn; }[]\' '
 	},
 	{
 		class: 'BreadcrumbComponent',
@@ -3697,12 +3547,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'InnerComponentsHostDirective',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'innerComponents$',
-		comment: '// TODO:Spartacus - The type of property \'innerComponents$: import("rxjs").Observable<string[]>\' changed to: \'innerComponents$: rxjs.Observable<string[]>\' '
-	},
-	{
-		class: 'InnerComponentsHostDirective',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'ngOnDestroy',
 		comment: '// TODO:Spartacus - Method \'ngOnDestroy\' was removed from Class \'InnerComponentsHostDirective\'. '
 	},
@@ -4519,12 +4363,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'NavigationUIComponent',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'isDesktop$',
-		comment: '// TODO:Spartacus - The type of property \'isDesktop$: import("rxjs").Observable<boolean>\' changed to: \'isDesktop$: rxjs.Observable<boolean>\' '
-	},
-	{
-		class: 'NavigationUIComponent',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'ngOnDestroy',
 		comment: '// TODO:Spartacus - Method \'ngOnDestroy\' was removed from Class \'NavigationUIComponent\'. '
 	},
@@ -4659,12 +4497,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'initializeWithConfig',
 		comment: '// TODO:Spartacus - Method \'initializeWithConfig\' was removed from Class \'OnNavigateService\'. '
-	},
-	{
-		class: 'OnNavigateService',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'routerConfiguration',
-		comment: '// TODO:Spartacus - The type of property \'routerConfiguration: import("@angular/router").ExtraOptions\' changed to: \'routerConfiguration: i2.ExtraOptions\' '
 	},
 	{
 		class: 'OnNavigateService',
@@ -7663,18 +7495,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'ExpressLoggerService',
 		importPath: '@spartacus/setup/ssr',
-		deprecatedNode: 'request',
-		comment: '// TODO:Spartacus - The type of property \'request: import("express").Request<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>>\' changed to: \'request: express.Request<express_serve_static_core.ParamsDictionary, any, any, qs.ParsedQs, Record<string, any>>\' '
-	},
-	{
-		class: 'ExpressLoggerService',
-		importPath: '@spartacus/setup/ssr',
-		deprecatedNode: 'serverLogger',
-		comment: '// TODO:Spartacus - The type of property \'serverLogger: import("../loggers").ExpressServerLogger\' changed to: \'serverLogger: _spartacus_setup_ssr.ExpressServerLogger\' '
-	},
-	{
-		class: 'ExpressLoggerService',
-		importPath: '@spartacus/setup/ssr',
 		deprecatedNode: 'warn',
 		comment: '// TODO:Spartacus - Method \'warn\' was removed from Class \'ExpressLoggerService\'. '
 	},
@@ -8021,12 +7841,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'canActivate\' was removed from Class \'CancelServiceOrderGuard\'. '
 	},
 	{
-		class: 'CancelServiceOrderHeadlineComponent',
-		importPath: '@spartacus/s4-service/order',
-		deprecatedNode: 'order$',
-		comment: '// TODO:Spartacus - The type of property \'order$: import("rxjs").Observable<{ entries: import("@spartacus/cart/base/root").OrderEntry[]; appliedOrderPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedProductPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedVouchers?: import("@spartacus/cart/base/root").Voucher[]; calculated?: boolean; code?: string; consignments?: import("@spartacus/order/root").Consignment[]; costCenter?: import("@spartacus/core").CostCenter; created?: Date; deliveryAddress?: import("@spartacus/core").Address; deliveryCost?: import("@spartacus/core").Price; deliveryItemsQuantity?: number; deliveryMode?: import("@spartacus/cart/base/root").DeliveryMode; deliveryOrderGroups?: import("@spartacus/cart/base/root").DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: import("@spartacus/core").Price; orgCustomer?: import("@spartacus/core").B2BUser; orgUnit?: import("@spartacus/core").B2BUnit; paymentInfo?: import("@spartacus/core").PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: import("@spartacus/cart/base/root").PickupOrderEntryGroup[]; productDiscounts?: import("@spartacus/core").Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: import("@spartacus/core").Price; totalDiscounts?: import("@spartacus/core").Price; totalItems?: number; totalPrice?: import("@spartacus/core").Price; totalPriceWithTax?: import("@spartacus/core").Price; totalTax?: import("@spartacus/core").Price; unconsignedEntries?: import("@spartacus/cart/base/root").OrderEntry[]; user?: import("@spartacus/core").Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: import("@spartacus/s4-service/root").ServiceDateTime; serviceCancellable?: import("@spartacus/s4-service/root").serviceCancellable; serviceReschedulable?: boolean; }>\' changed to: \'order$: rxjs.Observable<{ entries: _spartacus_cart_base_root.OrderEntry[]; appliedOrderPromotions?: _spartacus_cart_base_root.PromotionResult[]; appliedProductPromotions?: _spartacus_cart_base_root.PromotionResult[]; appliedVouchers?: _spartacus_cart_base_root.Voucher[]; calculated?: boolean; code?: string; consignments?: _spartacus_order_root.Consignment[]; costCenter?: _spartacus_core.CostCenter; created?: Date; deliveryAddress?: _spartacus_core.Address; deliveryCost?: _spartacus_core.Price; deliveryItemsQuantity?: number; deliveryMode?: _spartacus_cart_base_root.DeliveryMode; deliveryOrderGroups?: _spartacus_cart_base_root.DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: _spartacus_core.Price; orgCustomer?: _spartacus_core.B2BUser; orgUnit?: _spartacus_core.B2BUnit; paymentInfo?: _spartacus_core.PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: _spartacus_cart_base_root.PickupOrderEntryGroup[]; productDiscounts?: _spartacus_core.Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: _spartacus_core.Price; totalDiscounts?: _spartacus_core.Price; totalItems?: number; totalPrice?: _spartacus_core.Price; totalPriceWithTax?: _spartacus_core.Price; totalTax?: _spartacus_core.Price; unconsignedEntries?: _spartacus_cart_base_root.OrderEntry[]; user?: _spartacus_core.Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: _spartacus_s4_service_root.ServiceDateTime; serviceCancellable?: _spartacus_s4_service_root.serviceCancellable; serviceReschedulable?: boolean; }>\' '
-	},
-	{
 		class: 'RescheduleServiceOrderComponent',
 		importPath: '@spartacus/s4-service/order',
 		deprecatedNode: 'initializeForm',
@@ -8043,12 +7857,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/s4-service/order',
 		deprecatedNode: 'ngOnInit',
 		comment: '// TODO:Spartacus - Method \'ngOnInit\' was removed from Class \'RescheduleServiceOrderComponent\'. '
-	},
-	{
-		class: 'RescheduleServiceOrderComponent',
-		importPath: '@spartacus/s4-service/order',
-		deprecatedNode: 'order$',
-		comment: '// TODO:Spartacus - The type of property \'order$: Observable<{ entries: import("@spartacus/cart/base/root").OrderEntry[]; appliedOrderPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedProductPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedVouchers?: import("@spartacus/cart/base/root").Voucher[]; calculated?: boolean; code?: string; consignments?: import("@spartacus/order/root").Consignment[]; costCenter?: import("@spartacus/core").CostCenter; created?: Date; deliveryAddress?: import("@spartacus/core").Address; deliveryCost?: import("@spartacus/core").Price; deliveryItemsQuantity?: number; deliveryMode?: import("@spartacus/cart/base/root").DeliveryMode; deliveryOrderGroups?: import("@spartacus/cart/base/root").DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: import("@spartacus/core").Price; orgCustomer?: import("@spartacus/core").B2BUser; orgUnit?: import("@spartacus/core").B2BUnit; paymentInfo?: import("@spartacus/core").PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: import("@spartacus/cart/base/root").PickupOrderEntryGroup[]; productDiscounts?: import("@spartacus/core").Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: import("@spartacus/core").Price; totalDiscounts?: import("@spartacus/core").Price; totalItems?: number; totalPrice?: import("@spartacus/core").Price; totalPriceWithTax?: import("@spartacus/core").Price; totalTax?: import("@spartacus/core").Price; unconsignedEntries?: import("@spartacus/cart/base/root").OrderEntry[]; user?: import("@spartacus/core").Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: ServiceDateTime; serviceCancellable?: import("@spartacus/s4-service/root").serviceCancellable; serviceReschedulable?: boolean; }>\' changed to: \'order$: Observable<{ entries: _spartacus_cart_base_root.OrderEntry[]; appliedOrderPromotions?: _spartacus_cart_base_root.PromotionResult[]; appliedProductPromotions?: _spartacus_cart_base_root.PromotionResult[]; appliedVouchers?: _spartacus_cart_base_root.Voucher[]; calculated?: boolean; code?: string; consignments?: _spartacus_order_root.Consignment[]; costCenter?: _spartacus_core.CostCenter; created?: Date; deliveryAddress?: _spartacus_core.Address; deliveryCost?: _spartacus_core.Price; deliveryItemsQuantity?: number; deliveryMode?: _spartacus_cart_base_root.DeliveryMode; deliveryOrderGroups?: _spartacus_cart_base_root.DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: _spartacus_core.Price; orgCustomer?: _spartacus_core.B2BUser; orgUnit?: _spartacus_core.B2BUnit; paymentInfo?: _spartacus_core.PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: _spartacus_cart_base_root.PickupOrderEntryGroup[]; productDiscounts?: _spartacus_core.Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: _spartacus_core.Price; totalDiscounts?: _spartacus_core.Price; totalItems?: number; totalPrice?: _spartacus_core.Price; totalPriceWithTax?: _spartacus_core.Price; totalTax?: _spartacus_core.Price; unconsignedEntries?: _spartacus_cart_base_root.OrderEntry[]; user?: _spartacus_core.Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: ServiceDateTime; serviceCancellable?: _spartacus_s4_service_root.serviceCancellable; serviceReschedulable?: boolean; }>\' '
 	},
 	{
 		class: 'RescheduleServiceOrderComponent',
@@ -8241,12 +8049,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/s4-service/checkout',
 		deprecatedNode: 'setServiceScheduleSlot',
 		comment: '// TODO:Spartacus - Method \'setServiceScheduleSlot\' was removed from Class \'OccCheckoutServiceDetailsAdapter\'. '
-	},
-	{
-		class: 'ServiceCheckoutDeliveryModeComponent',
-		importPath: '@spartacus/s4-service/checkout',
-		deprecatedNode: 'serviceDeliveryConfig',
-		comment: '// TODO:Spartacus - The type of property \'serviceDeliveryConfig: import("@spartacus/cart/base/root").DeliveryMode | undefined\' changed to: \'serviceDeliveryConfig: dist_cart_types_spartacus_cart_base_root.DeliveryMode | undefined\' '
 	},
 	{
 		class: 'ServiceCheckoutReviewSubmitComponent',
@@ -8971,12 +8773,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'QuoteRequestButtonComponent',
 		importPath: '@spartacus/quote/components/request-button',
-		deprecatedNode: 'isLoggedIn$',
-		comment: '// TODO:Spartacus - The type of property \'isLoggedIn$: import("rxjs").Observable<boolean>\' changed to: \'isLoggedIn$: rxjs.Observable<boolean>\' '
-	},
-	{
-		class: 'QuoteRequestButtonComponent',
-		importPath: '@spartacus/quote/components/request-button',
 		deprecatedNode: 'ngOnDestroy',
 		comment: '// TODO:Spartacus - Method \'ngOnDestroy\' was removed from Class \'QuoteRequestButtonComponent\'. '
 	},
@@ -9269,24 +9065,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'ngOnInit\' was removed from Class \'QuoteListComponent\'. '
 	},
 	{
-		class: 'QuoteListComponent',
-		importPath: '@spartacus/quote/components',
-		deprecatedNode: 'quotesState$',
-		comment: '// TODO:Spartacus - The type of property \'quotesState$: import("rxjs").Observable<import("@spartacus/core").QueryState<import("@spartacus/quote/root").QuoteList | undefined>>\' changed to: \'quotesState$: rxjs.Observable<i2.QueryState<_spartacus_quote_root.QuoteList | undefined>>\' '
-	},
-	{
-		class: 'QuoteListComponent',
-		importPath: '@spartacus/quote/components',
-		deprecatedNode: 'sortLabels$',
-		comment: '// TODO:Spartacus - The type of property \'sortLabels$: import("rxjs").Observable<{ [key: string]: string; }>\' changed to: \'sortLabels$: rxjs.Observable<{ [key: string]: string; }>\' '
-	},
-	{
-		class: 'QuoteListComponent',
-		importPath: '@spartacus/quote/components',
-		deprecatedNode: 'sorts',
-		comment: '// TODO:Spartacus - The type of property \'sorts: import("@spartacus/core").SortModel[]\' changed to: \'sorts: i2.SortModel[]\' '
-	},
-	{
 		class: 'QuoteListComponentService',
 		importPath: '@spartacus/quote/components',
 		deprecatedNode: 'setPage',
@@ -9443,22 +9221,10 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'stateToRoleTypeForDialogConfig\' was removed from Class \'QuoteSummaryActionsComponent\'. '
 	},
 	{
-		class: 'QuoteSummaryComponent',
-		importPath: '@spartacus/quote/components',
-		deprecatedNode: 'quoteDetails$',
-		comment: '// TODO:Spartacus - The type of property \'quoteDetails$: import("rxjs").Observable<import("@spartacus/quote/root").Quote>\' changed to: \'quoteDetails$: rxjs.Observable<_spartacus_quote_root.Quote>\' '
-	},
-	{
 		class: 'QuoteSummaryPricesComponent',
 		importPath: '@spartacus/quote/components',
 		deprecatedNode: 'hasNonZeroPriceValue',
 		comment: '// TODO:Spartacus - Method \'hasNonZeroPriceValue\' was removed from Class \'QuoteSummaryPricesComponent\'. '
-	},
-	{
-		class: 'QuoteSummaryPricesComponent',
-		importPath: '@spartacus/quote/components',
-		deprecatedNode: 'quoteDetails$',
-		comment: '// TODO:Spartacus - The type of property \'quoteDetails$: import("rxjs").Observable<import("@spartacus/quote/root").Quote>\' changed to: \'quoteDetails$: rxjs.Observable<_spartacus_quote_root.Quote>\' '
 	},
 	{
 		class: 'QuoteSummarySellerEditComponent',
@@ -9777,12 +9543,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/punchout/root',
 		deprecatedNode: 'isPunchoutSessionActive',
 		comment: '// TODO:Spartacus - Method \'isPunchoutSessionActive\' was removed from Class \'PunchoutUiRestrictionService\'. '
-	},
-	{
-		class: 'PunchoutUiRestrictionService',
-		importPath: '@spartacus/punchout/root',
-		deprecatedNode: 'renderer',
-		comment: '// TODO:Spartacus - The type of property \'renderer: import("@angular/core").Renderer2\' changed to: \'renderer: i0.Renderer2\' '
 	},
 	{
 		class: 'PunchoutUiRestrictionService',
@@ -10269,12 +10029,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/product/future-stock/core',
 		deprecatedNode: 'getFutureStock',
 		comment: '// TODO:Spartacus - Method \'getFutureStock\' was removed from Class \'FutureStockService\'. '
-	},
-	{
-		class: 'FutureStockAccordionComponent',
-		importPath: '@spartacus/product/future-stock/components',
-		deprecatedNode: 'futureStocks$',
-		comment: '// TODO:Spartacus - The type of property \'futureStocks$: import("rxjs").Observable<any>\' changed to: \'futureStocks$: rxjs.Observable<any>\' '
 	},
 	{
 		class: 'FutureStockAccordionComponent',
@@ -13307,12 +13061,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'closeFilterModal\' was removed from Class \'ConfiguratorOverviewFilterDialogComponent\'. '
 	},
 	{
-		class: 'ConfiguratorOverviewFilterDialogComponent',
-		importPath: '@spartacus/product-configurator/rulebased',
-		deprecatedNode: 'config$',
-		comment: '// TODO:Spartacus - The type of property \'config$: import("rxjs").Observable<any>\' changed to: \'config$: rxjs.Observable<any>\' '
-	},
-	{
 		class: 'ConfiguratorOverviewFormComponent',
 		importPath: '@spartacus/product-configurator/rulebased',
 		deprecatedNode: 'getGroupId',
@@ -15059,18 +14807,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'loadStockLevels\' was removed from Class \'OccStockAdapter\'. '
 	},
 	{
-		class: 'DefaultPointOfServiceEffect',
-		importPath: '@spartacus/pickup-in-store/core',
-		deprecatedNode: 'loadDefaultPointOfService$',
-		comment: '// TODO:Spartacus - The type of property \'loadDefaultPointOfService$: import("rxjs").Observable<{ payload: PointOfServiceNames; } & import("@ngrx/store").Action<"[Default Point Of Service] Load Default Point Of Service Success">> & import("@ngrx/effects").CreateEffectMetadata\' changed to: \'loadDefaultPointOfService$: rxjs.Observable<{ payload: PointOfServiceNames; } & _ngrx_store.Action<"[Default Point Of Service] Load Default Point Of Service Success">> & _ngrx_effects.CreateEffectMetadata\' '
-	},
-	{
-		class: 'DefaultPointOfServiceEffect',
-		importPath: '@spartacus/pickup-in-store/core',
-		deprecatedNode: 'setDefaultPointOfService$',
-		comment: '// TODO:Spartacus - The type of property \'setDefaultPointOfService$: import("rxjs").Observable<import("@ngrx/store").Action<"[Default Point Of Service] Load Default Point Of Service">> & import("@ngrx/effects").CreateEffectMetadata\' changed to: \'setDefaultPointOfService$: rxjs.Observable<_ngrx_store.Action<"[Default Point Of Service] Load Default Point Of Service">> & _ngrx_effects.CreateEffectMetadata\' '
-	},
-	{
 		class: 'PickupLocationAdapter',
 		importPath: '@spartacus/pickup-in-store/core',
 		deprecatedNode: 'getStoreDetails',
@@ -15086,7 +14822,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		class: 'PickupLocationEffect',
 		importPath: '@spartacus/pickup-in-store/core',
 		deprecatedNode: 'storeDetails$',
-		comment: '// TODO:Spartacus - The type of property \'storeDetails$: import("rxjs").Observable<({ payload: any; error: any; } & import("@ngrx/store").Action<"[Pickup Locations] Get Store Details Fail">) | ({ payload: import("@spartacus/core").PointOfService; } & import("@ngrx/store").Action<"[Pickup Locations] Get Store Details Success">)> & import("@ngrx/effects").CreateEffectMetadata\' changed to: \'storeDetails$: rxjs.Observable<({ payload: any; error: any; } & _ngrx_store.Action<"[Pickup Locations] Get Store Details Fail">) | ({ payload: _spartacus_core.PointOfService; } & _ngrx_store.Action<"[Pickup Locations] Get Store Details Success">)> & _ngrx_effects.CreateEffectMetadata\' '
+		comment: '// TODO:Spartacus - The type of property \'storeDetails$: Observable<({ payload: any; error: any; } & Action<"[Pickup Locations] Get Store Details Fail">) | ({ payload: PointOfService; } & Action<"[Pickup Locations] Get Store Details Success">)> & CreateEffectMetadata\' changed to: \'storeDetails$: Observable<({ payload: PointOfService; } & Action<"[Pickup Locations] Get Store Details Success">) | ({ payload: any; error: any; } & Action<"[Pickup Locations] Get Store Details Fail">)> & CreateEffectMetadata\' '
 	},
 	{
 		class: 'PickupLocationsSearchService',
@@ -15247,14 +14983,8 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'StockEffect',
 		importPath: '@spartacus/pickup-in-store/core',
-		deprecatedNode: 'loadStockLevelAtStore$',
-		comment: '// TODO:Spartacus - The type of property \'loadStockLevelAtStore$: import("rxjs").Observable<{ payload: { productCode: string; storeName: string; } & { stockLevel: import("@spartacus/core").Stock; }; } & import("@ngrx/store").Action<"[Stock] Get Stock Level at Store Success">> & import("@ngrx/effects").CreateEffectMetadata\' changed to: \'loadStockLevelAtStore$: rxjs.Observable<{ payload: { productCode: string; storeName: string; } & { stockLevel: _spartacus_core.Stock; }; } & _ngrx_store.Action<"[Stock] Get Stock Level at Store Success">> & _ngrx_effects.CreateEffectMetadata\' '
-	},
-	{
-		class: 'StockEffect',
-		importPath: '@spartacus/pickup-in-store/core',
 		deprecatedNode: 'loadStockLevels$',
-		comment: '// TODO:Spartacus - The type of property \'loadStockLevels$: import("rxjs").Observable<StockLevelActions.StockLevelFail | StockLevelActions.StockLevelSuccess> & import("@ngrx/effects").CreateEffectMetadata\' changed to: \'loadStockLevels$: rxjs.Observable<StockLevelFail | StockLevelSuccess> & _ngrx_effects.CreateEffectMetadata\' '
+		comment: '// TODO:Spartacus - The type of property \'loadStockLevels$: Observable<StockLevelActions.StockLevelFail | StockLevelActions.StockLevelSuccess> & CreateEffectMetadata\' changed to: \'loadStockLevels$: Observable<StockLevelFail | StockLevelSuccess> & CreateEffectMetadata\' '
 	},
 	{
 		class: 'CartPickupOptionsContainerComponent',
@@ -21127,12 +20857,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'OrderDocumentFlowDialogComponent',
 		importPath: '@spartacus/order/document-flow/components',
-		deprecatedNode: 'displayDocumentEntries',
-		comment: '// TODO:Spartacus - The type of property \'displayDocumentEntries: import("@angular/core").WritableSignal<boolean>\' changed to: \'displayDocumentEntries: i0.WritableSignal<boolean>\' '
-	},
-	{
-		class: 'OrderDocumentFlowDialogComponent',
-		importPath: '@spartacus/order/document-flow/components',
 		deprecatedNode: 'getDocumentTitle',
 		comment: '// TODO:Spartacus - Method \'getDocumentTitle\' was removed from Class \'OrderDocumentFlowDialogComponent\'. '
 	},
@@ -21141,12 +20865,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/order/document-flow/components',
 		deprecatedNode: 'goBack',
 		comment: '// TODO:Spartacus - Method \'goBack\' was removed from Class \'OrderDocumentFlowDialogComponent\'. '
-	},
-	{
-		class: 'OrderDocumentFlowDialogComponent',
-		importPath: '@spartacus/order/document-flow/components',
-		deprecatedNode: 'loadError',
-		comment: '// TODO:Spartacus - The type of property \'loadError: import("@angular/core").WritableSignal<boolean>\' changed to: \'loadError: i0.WritableSignal<boolean>\' '
 	},
 	{
 		class: 'OrderDocumentFlowDialogComponent',
@@ -22105,12 +21823,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'OrderAttachmentsDialogComponent',
 		importPath: '@spartacus/order/components',
-		deprecatedNode: 'attachmentsCount',
-		comment: '// TODO:Spartacus - The type of property \'attachmentsCount: import("@angular/core").Signal<number>\' changed to: \'attachmentsCount: i0.Signal<number>\' '
-	},
-	{
-		class: 'OrderAttachmentsDialogComponent',
-		importPath: '@spartacus/order/components',
 		deprecatedNode: 'close',
 		comment: '// TODO:Spartacus - Method \'close\' was removed from Class \'OrderAttachmentsDialogComponent\'. '
 	},
@@ -22125,12 +21837,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/order/components',
 		deprecatedNode: 'downloadFile',
 		comment: '// TODO:Spartacus - Method \'downloadFile\' was removed from Class \'OrderAttachmentsDialogComponent\'. '
-	},
-	{
-		class: 'OrderAttachmentsDialogComponent',
-		importPath: '@spartacus/order/components',
-		deprecatedNode: 'loadError',
-		comment: '// TODO:Spartacus - The type of property \'loadError: import("@angular/core").WritableSignal<boolean>\' changed to: \'loadError: i0.WritableSignal<boolean>\' '
 	},
 	{
 		class: 'OrderAttachmentsDialogComponent',
@@ -22569,12 +22275,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/order/components',
 		deprecatedNode: 'createCartFromOrder',
 		comment: '// TODO:Spartacus - Method \'createCartFromOrder\' was removed from Class \'ReorderDialogComponent\'. '
-	},
-	{
-		class: 'ReorderDialogComponent',
-		importPath: '@spartacus/order/components',
-		deprecatedNode: 'data$',
-		comment: '// TODO:Spartacus - The type of property \'data$: import("rxjs").Observable<any>\' changed to: \'data$: rxjs.Observable<any>\' '
 	},
 	{
 		class: 'ReorderDialogComponent',
@@ -23671,12 +23371,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'OpfCheckoutPaymentAndReviewComponent',
 		importPath: '@spartacus/opf/checkout/components',
-		deprecatedNode: 'getSelectedPayment$',
-		comment: '// TODO:Spartacus - The type of property \'getSelectedPayment$: Observable<import("@spartacus/core").QueryState<import("@spartacus/opf/base/root").OpfActiveConfigurationsResponse | undefined>>\' changed to: \'getSelectedPayment$: Observable<i2.QueryState<_spartacus_opf_base_root.OpfActiveConfigurationsResponse | undefined>>\' '
-	},
-	{
-		class: 'OpfCheckoutPaymentAndReviewComponent',
-		importPath: '@spartacus/opf/checkout/components',
 		deprecatedNode: 'isCmsComponentInPage',
 		comment: '// TODO:Spartacus - Method \'isCmsComponentInPage\' was removed from Class \'OpfCheckoutPaymentAndReviewComponent\'. '
 	},
@@ -23863,12 +23557,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'OpfCheckoutPaymentWrapperComponent',
 		importPath: '@spartacus/opf/checkout/components',
-		deprecatedNode: 'renderPaymentMethodEvent$',
-		comment: '// TODO:Spartacus - The type of property \'renderPaymentMethodEvent$: import("rxjs").Observable<import("@spartacus/opf/payment/root").OpfPaymentRenderMethodEvent>\' changed to: \'renderPaymentMethodEvent$: rxjs.Observable<_spartacus_opf_payment_root.OpfPaymentRenderMethodEvent>\' '
-	},
-	{
-		class: 'OpfCheckoutPaymentWrapperComponent',
-		importPath: '@spartacus/opf/checkout/components',
 		deprecatedNode: 'retryInitiatePayment',
 		comment: '// TODO:Spartacus - Method \'retryInitiatePayment\' was removed from Class \'OpfCheckoutPaymentWrapperComponent\'. '
 	},
@@ -23967,12 +23655,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/opf/checkout/components',
 		deprecatedNode: 'ngOnInit',
 		comment: '// TODO:Spartacus - Method \'ngOnInit\' was removed from Class \'OpfCheckoutTermsAndConditionsAlertComponent\'. '
-	},
-	{
-		class: 'OpfCheckoutTermsAndConditionsAlertComponent',
-		importPath: '@spartacus/opf/checkout/components',
-		deprecatedNode: 'paymentDisabled$',
-		comment: '// TODO:Spartacus - The type of property \'paymentDisabled$: import("rxjs").Observable<boolean>\' changed to: \'paymentDisabled$: rxjs.Observable<boolean>\' '
 	},
 	{
 		class: 'OpfBaseFacade',
@@ -24175,12 +23857,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'OpfBaseService',
 		importPath: '@spartacus/opf/base/core',
-		deprecatedNode: 'activeConfigurationsQuery',
-		comment: '// TODO:Spartacus - The type of property \'activeConfigurationsQuery: (query?: OpfActiveConfigurationsQuery) => import("@spartacus/core").Query<OpfActiveConfigurationsResponse, []>\' changed to: \'activeConfigurationsQuery: (query?: OpfActiveConfigurationsQuery) => _spartacus_core.Query<OpfActiveConfigurationsResponse, []>\' '
-	},
-	{
-		class: 'OpfBaseService',
-		importPath: '@spartacus/opf/base/core',
 		deprecatedNode: 'getActiveConfigurationsState',
 		comment: '// TODO:Spartacus - Method \'getActiveConfigurationsState\' was removed from Class \'OpfBaseService\'. '
 	},
@@ -24257,18 +23933,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'getPoNumberCard\' was removed from Class \'OpfB2bCheckoutPaymentAndReviewComponent\'. '
 	},
 	{
-		class: 'OpfB2bCheckoutPaymentAndReviewComponent',
-		importPath: '@spartacus/opf/b2b-checkout/components',
-		deprecatedNode: 'getSelectedPayment$',
-		comment: '// TODO:Spartacus - The type of property \'getSelectedPayment$: Observable<import("@spartacus/core").QueryState<import("@spartacus/opf/base/root").OpfActiveConfigurationsResponse | undefined>>\' changed to: \'getSelectedPayment$: Observable<i2.QueryState<_spartacus_opf_base_root.OpfActiveConfigurationsResponse | undefined>>\' '
-	},
-	{
-		class: 'OpfB2bCheckoutPaymentAndReviewComponent',
-		importPath: '@spartacus/opf/b2b-checkout/components',
-		deprecatedNode: 'paymentType$',
-		comment: '// TODO:Spartacus - The type of property \'paymentType$: Observable<import("@spartacus/cart/base/root").PaymentType | undefined>\' changed to: \'paymentType$: Observable<_spartacus_cart_base_root.PaymentType | undefined>\' '
-	},
-	{
 		class: 'OpfB2bCheckoutPaymentTypeComponent',
 		importPath: '@spartacus/opf/b2b-checkout/components',
 		deprecatedNode: 'adaptCheckoutSteps',
@@ -24339,12 +24003,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/opf/b2b-checkout/components',
 		deprecatedNode: 'ngOnInit',
 		comment: '// TODO:Spartacus - Method \'ngOnInit\' was removed from Class \'OpfB2bCheckoutPlaceOrderComponent\'. '
-	},
-	{
-		class: 'OpfB2bCheckoutReviewComponent',
-		importPath: '@spartacus/opf/b2b-checkout/components',
-		deprecatedNode: 'checkoutSubmitForm',
-		comment: '// TODO:Spartacus - The type of property \'checkoutSubmitForm: import("@angular/forms").FormGroup<{ termsAndConditions: import("@angular/forms").FormControl<boolean | null>; }>\' changed to: \'checkoutSubmitForm: i5.FormGroup<{ termsAndConditions: i5.FormControl<boolean | null>; }>\' '
 	},
 	{
 		class: 'OpfB2bCheckoutReviewComponent',
@@ -24635,12 +24293,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Property \'selectedProductCodes\' was removed from Class \'VisualPickingProductListComponent\'. '
 	},
 	{
-		class: 'VisualPickingProductListComponent',
-		importPath: '@spartacus/epd-visualization/components',
-		deprecatedNode: 'selectedProductCodesChange',
-		comment: '// TODO:Spartacus - The type of property \'selectedProductCodesChange: import("@angular/core").EventEmitter<string[]>\' changed to: \'selectedProductCodesChange: i0.EventEmitter<string[]>\' '
-	},
-	{
 		class: 'VisualPickingProductListService',
 		importPath: '@spartacus/epd-visualization/components',
 		deprecatedNode: 'getFilteredProductReferences',
@@ -24889,32 +24541,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'VisualViewerComponent',
 		importPath: '@spartacus/epd-visualization/components',
-		deprecatedNode: 'animationPlayingChange',
-		comment: '// TODO:Spartacus - The type of property \'animationPlayingChange: import("@angular/core").EventEmitter<boolean>\' changed to: \'animationPlayingChange: i0.EventEmitter<boolean>\' '
-	},
-	{
-		class: 'VisualViewerComponent',
-		importPath: '@spartacus/epd-visualization/components',
 		deprecatedNode: 'animationPosition',
 		comment: '// TODO:Spartacus - Property \'animationPosition\' was removed from Class \'VisualViewerComponent\'. '
 	},
 	{
 		class: 'VisualViewerComponent',
 		importPath: '@spartacus/epd-visualization/components',
-		deprecatedNode: 'animationPositionChange',
-		comment: '// TODO:Spartacus - The type of property \'animationPositionChange: import("@angular/core").EventEmitter<number>\' changed to: \'animationPositionChange: i0.EventEmitter<number>\' '
-	},
-	{
-		class: 'VisualViewerComponent',
-		importPath: '@spartacus/epd-visualization/components',
 		deprecatedNode: 'animationTime',
 		comment: '// TODO:Spartacus - Property \'animationTime\' was removed from Class \'VisualViewerComponent\'. '
-	},
-	{
-		class: 'VisualViewerComponent',
-		importPath: '@spartacus/epd-visualization/components',
-		deprecatedNode: 'animationTimeChange',
-		comment: '// TODO:Spartacus - The type of property \'animationTimeChange: import("@angular/core").EventEmitter<number>\' changed to: \'animationTimeChange: i0.EventEmitter<number>\' '
 	},
 	{
 		class: 'VisualViewerComponent',
@@ -24967,12 +24601,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'VisualViewerComponent',
 		importPath: '@spartacus/epd-visualization/components',
-		deprecatedNode: 'isolateModeEnabledChange',
-		comment: '// TODO:Spartacus - The type of property \'isolateModeEnabledChange: import("@angular/core").EventEmitter<boolean>\' changed to: \'isolateModeEnabledChange: i0.EventEmitter<boolean>\' '
-	},
-	{
-		class: 'VisualViewerComponent',
-		importPath: '@spartacus/epd-visualization/components',
 		deprecatedNode: 'loadVisualization',
 		comment: '// TODO:Spartacus - Method \'loadVisualization\' was removed from Class \'VisualViewerComponent\'. '
 	},
@@ -25015,12 +24643,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'VisualViewerComponent',
 		importPath: '@spartacus/epd-visualization/components',
-		deprecatedNode: 'selectedProductCodesChange',
-		comment: '// TODO:Spartacus - The type of property \'selectedProductCodesChange: import("@angular/core").EventEmitter<string[]>\' changed to: \'selectedProductCodesChange: i0.EventEmitter<string[]>\' '
-	},
-	{
-		class: 'VisualViewerComponent',
-		importPath: '@spartacus/epd-visualization/components',
 		deprecatedNode: 'selectionMode',
 		comment: '// TODO:Spartacus - Property \'selectionMode\' was removed from Class \'VisualViewerComponent\'. '
 	},
@@ -25041,12 +24663,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/epd-visualization/components',
 		deprecatedNode: 'viewportReady',
 		comment: '// TODO:Spartacus - Property \'viewportReady\' was removed from Class \'VisualViewerComponent\'. '
-	},
-	{
-		class: 'VisualViewerComponent',
-		importPath: '@spartacus/epd-visualization/components',
-		deprecatedNode: 'viewportReadyChange',
-		comment: '// TODO:Spartacus - The type of property \'viewportReadyChange: import("@angular/core").EventEmitter<boolean>\' changed to: \'viewportReadyChange: i0.EventEmitter<boolean>\' '
 	},
 	{
 		class: 'VisualViewerService',
@@ -26125,12 +25741,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'CpqQuoteService',
 		importPath: '@spartacus/cpq-quote/cpq-quote-discount',
-		deprecatedNode: 'isFlag$',
-		comment: '// TODO:Spartacus - The type of property \'isFlag$: import("rxjs").Observable<boolean>\' changed to: \'isFlag$: rxjs.Observable<boolean>\' '
-	},
-	{
-		class: 'CpqQuoteService',
-		importPath: '@spartacus/cpq-quote/cpq-quote-discount',
 		deprecatedNode: 'setFlag',
 		comment: '// TODO:Spartacus - Method \'setFlag\' was removed from Class \'CpqQuoteService\'. '
 	},
@@ -26199,12 +25809,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/cpq-quote',
 		deprecatedNode: 'getFlag$',
 		comment: '// TODO:Spartacus - Method \'getFlag$\' was removed from Class \'CpqQuoteService\'. '
-	},
-	{
-		class: 'CpqQuoteService',
-		importPath: '@spartacus/cpq-quote',
-		deprecatedNode: 'isFlag$',
-		comment: '// TODO:Spartacus - The type of property \'isFlag$: import("rxjs").Observable<boolean>\' changed to: \'isFlag$: rxjs.Observable<boolean>\' '
 	},
 	{
 		class: 'CpqQuoteService',
@@ -26721,12 +26325,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/core',
 		deprecatedNode: 'coreLogout',
 		comment: '// TODO:Spartacus - Method \'coreLogout\' was removed from Class \'AuthService\'. '
-	},
-	{
-		class: 'AuthService',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'csrfToken$',
-		comment: '// TODO:Spartacus - The type of property \'csrfToken$: Observable<import("@spartacus/core").CSRFResponse>\' changed to: \'csrfToken$: Observable<_spartacus_core.CSRFResponse>\' '
 	},
 	{
 		class: 'AuthService',
@@ -27937,12 +27535,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'CxErrorHandler',
 		importPath: '@spartacus/core',
-		deprecatedNode: 'errorHandlers',
-		comment: '// TODO:Spartacus - The type of property \'errorHandlers: import("./multi-error-handler").MultiErrorHandler[]\' changed to: \'errorHandlers: _spartacus_core.MultiErrorHandler[]\' '
-	},
-	{
-		class: 'CxErrorHandler',
-		importPath: '@spartacus/core',
 		deprecatedNode: 'handleError',
 		comment: '// TODO:Spartacus - Method \'handleError\' was removed from Class \'CxErrorHandler\'. '
 	},
@@ -28225,12 +27817,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'FeatureStylesService',
 		importPath: '@spartacus/core',
-		deprecatedNode: 'renderer',
-		comment: '// TODO:Spartacus - The type of property \'renderer: import("@angular/core").Renderer2\' changed to: \'renderer: i0.Renderer2\' '
-	},
-	{
-		class: 'FeatureStylesService',
-		importPath: '@spartacus/core',
 		deprecatedNode: 'unregisterUsage',
 		comment: '// TODO:Spartacus - Method \'unregisterUsage\' was removed from Class \'FeatureStylesService\'. '
 	},
@@ -28467,12 +28053,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/core',
 		deprecatedNode: 'initialize',
 		comment: '// TODO:Spartacus - Method \'initialize\' was removed from Class \'I18nextInitializer\'. '
-	},
-	{
-		class: 'I18nextInitializer',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'loggerPlugin',
-		comment: '// TODO:Spartacus - The type of property \'loggerPlugin: import("i18next").LoggerModule\' changed to: \'loggerPlugin: node_modules_i18next.LoggerModule\' '
 	},
 	{
 		class: 'I18nextInitializer',
@@ -31829,12 +31409,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		comment: '// TODO:Spartacus - Method \'setBillingAddress\' was removed from Class \'CheckoutBillingAddressService\'. '
 	},
 	{
-		class: 'CheckoutBillingAddressService',
-		importPath: '@spartacus/checkout/base/core',
-		deprecatedNode: 'setBillingAddressCommand',
-		comment: '// TODO:Spartacus - The type of property \'setBillingAddressCommand: import("@spartacus/core").Command<Address, unknown>\' changed to: \'setBillingAddressCommand: _spartacus_core.Command<Address, unknown>\' '
-	},
-	{
 		class: 'CheckoutConnector',
 		importPath: '@spartacus/checkout/base/core',
 		deprecatedNode: 'getCheckoutDetails',
@@ -32221,12 +31795,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'CheckoutConfigService',
 		importPath: '@spartacus/checkout/base/components',
-		deprecatedNode: 'checkoutFlow',
-		comment: '// TODO:Spartacus - The type of property \'checkoutFlow: import("@spartacus/checkout/base/root").CheckoutFlow | undefined\' changed to: \'checkoutFlow: _spartacus_checkout_base_root.CheckoutFlow | undefined\' '
-	},
-	{
-		class: 'CheckoutConfigService',
-		importPath: '@spartacus/checkout/base/components',
 		deprecatedNode: 'compareDeliveryCost',
 		comment: '// TODO:Spartacus - Method \'compareDeliveryCost\' was removed from Class \'CheckoutConfigService\'. '
 	},
@@ -32445,12 +32013,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/checkout/base/components',
 		deprecatedNode: 'restoreFocus',
 		comment: '// TODO:Spartacus - Method \'restoreFocus\' was removed from Class \'CheckoutDeliveryModeComponent\'. '
-	},
-	{
-		class: 'CheckoutDeliveryModeComponent',
-		importPath: '@spartacus/checkout/base/components',
-		deprecatedNode: 'supportedDeliveryModes$',
-		comment: '// TODO:Spartacus - The type of property \'supportedDeliveryModes$: Observable<import("@spartacus/cart/base/root").DeliveryMode[]>\' changed to: \'supportedDeliveryModes$: Observable<_spartacus_cart_base_root.DeliveryMode[]>\' '
 	},
 	{
 		class: 'CheckoutFlowOrchestratorService',
@@ -37003,12 +36565,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'CartValidationStateService',
 		importPath: '@spartacus/cart/base/core',
-		deprecatedNode: 'checkForValidationResultClear$',
-		comment: '// TODO:Spartacus - The type of property \'checkForValidationResultClear$: Observable<[import("@spartacus/core").RouterState, CartModification[]]>\' changed to: \'checkForValidationResultClear$: Observable<[i2.RouterState, CartModification[]]>\' '
-	},
-	{
-		class: 'CartValidationStateService',
-		importPath: '@spartacus/cart/base/core',
 		deprecatedNode: 'ngOnDestroy',
 		comment: '// TODO:Spartacus - Method \'ngOnDestroy\' was removed from Class \'CartValidationStateService\'. '
 	},
@@ -37743,12 +37299,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/cart/base/components',
 		deprecatedNode: 'ngOnInit',
 		comment: '// TODO:Spartacus - Method \'ngOnInit\' was removed from Class \'CartTotalsComponent\'. '
-	},
-	{
-		class: 'CartValidationWarningsComponent',
-		importPath: '@spartacus/cart/base/components',
-		deprecatedNode: 'cartModifications$',
-		comment: '// TODO:Spartacus - The type of property \'cartModifications$: import("rxjs").Observable<CartModification[]>\' changed to: \'cartModifications$: rxjs.Observable<CartModification[]>\' '
 	},
 	{
 		class: 'CartValidationWarningsComponent',
@@ -38859,12 +38409,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/asm/components',
 		deprecatedNode: 'onRegisterUserSuccess',
 		comment: '// TODO:Spartacus - Method \'onRegisterUserSuccess\' was removed from Class \'AsmCreateCustomerFormComponent\'. '
-	},
-	{
-		class: 'AsmCreateCustomerFormComponent',
-		importPath: '@spartacus/asm/components',
-		deprecatedNode: 'registerForm',
-		comment: '// TODO:Spartacus - The type of property \'registerForm: import("@angular/forms").FormGroup<{ firstName: import("@angular/forms").FormControl<string | null>; lastName: import("@angular/forms").FormControl<string | null>; email: import("@angular/forms").FormControl<string | null>; }>\' changed to: \'registerForm: _angular_forms.FormGroup<{ firstName: _angular_forms.FormControl<string | null>; lastName: _angular_forms.FormControl<string | null>; email: _angular_forms.FormControl<string | null>; }>\' '
 	},
 	{
 		class: 'AsmCreateCustomerFormComponent',

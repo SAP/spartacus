@@ -562,23 +562,6 @@ This document contains a list of breaking changes or potentially breaking change
 ## @spartacus/user/profile/components
 
 
-### Property isUpdating$ changed.
-
-
-Previous version:
-
-```
-isUpdating$: import("rxjs").Observable<boolean>
-```
-
-
-Current version:
-
-```
-isUpdating$: rxjs.Observable<boolean>
-```
-
-
 ### Method onError is removed.
 
 
@@ -913,23 +896,6 @@ isUpdating$: rxjs.Observable<boolean>
 
 
 
-### Property data$ changed.
-
-
-Previous version:
-
-```
-data$: import("rxjs").Observable<any>
-```
-
-
-Current version:
-
-```
-data$: rxjs.Observable<any>
-```
-
-
 ### Method handleClick is removed.
 
 
@@ -956,23 +922,6 @@ data$: rxjs.Observable<any>
 
 # Class UpdateEmailComponentService
 ## @spartacus/user/profile/components
-
-
-### Property isUpdating$ changed.
-
-
-Previous version:
-
-```
-isUpdating$: import("rxjs").Observable<boolean>
-```
-
-
-Current version:
-
-```
-isUpdating$: rxjs.Observable<boolean>
-```
 
 
 ### Method onError is removed.
@@ -1009,23 +958,6 @@ isUpdating$: rxjs.Observable<boolean>
 
 ### Method getPasswordValidators is removed.
 
-
-
-### Property isUpdating$ changed.
-
-
-Previous version:
-
-```
-isUpdating$: import("rxjs").Observable<boolean>
-```
-
-
-Current version:
-
-```
-isUpdating$: rxjs.Observable<boolean>
-```
 
 
 ### Method onError is removed.
@@ -1443,23 +1375,6 @@ Variable userProfileTranslationsZh has been removed and is no longer part of the
 ## @spartacus/user/account/components
 
 
-### Property csrf changed.
-
-
-Previous version:
-
-```
-csrf: import("@spartacus/core").CSRFResponse
-```
-
-
-Current version:
-
-```
-csrf: i3.CSRFResponse
-```
-
-
 ### Method onSubmit is removed.
 
 
@@ -1480,23 +1395,6 @@ csrf: i3.CSRFResponse
 
 ### Method initCustomLogin is removed.
 
-
-
-### Property isUpdating$ changed.
-
-
-Previous version:
-
-```
-isUpdating$: import("rxjs").Observable<boolean>
-```
-
-
-Current version:
-
-```
-isUpdating$: rxjs.Observable<boolean>
-```
 
 
 ### Method login is removed.
@@ -1549,23 +1447,6 @@ isUpdating$: rxjs.Observable<boolean>
 ## @spartacus/user/account/components
 
 
-### Property csrf changed.
-
-
-Previous version:
-
-```
-csrf: import("@spartacus/core").CSRFResponse
-```
-
-
-Current version:
-
-```
-csrf: i3.CSRFResponse
-```
-
-
 ### Method ngOnInit is removed.
 
 
@@ -1614,23 +1495,6 @@ csrf: i3.CSRFResponse
 
 ### Method initCustomLogin is removed.
 
-
-
-### Property isUpdating$ changed.
-
-
-Previous version:
-
-```
-isUpdating$: import("rxjs").Observable<boolean>
-```
-
-
-Current version:
-
-```
-isUpdating$: rxjs.Observable<boolean>
-```
 
 
 ### Method login is removed.
@@ -2292,114 +2156,12 @@ moved to @spartacus/subscription/billing/root
 moved to @spartacus/subscription/billing/root
 
 
-### Property item changed.
-
-
-Previous version:
-
-```
-item: import("@angular/core").Signal<any>
-```
-
-
-Current version:
-
-```
-item: i0.Signal<any>
-```
-
-
-### Property outletData changed.
-
-
-Previous version:
-
-```
-outletData: import("@angular/core").Signal<any>
-```
-
-
-Current version:
-
-```
-outletData: i0.Signal<any>
-```
-
-
-### Property parent changed.
-
-
-Previous version:
-
-```
-parent: import("@angular/core").Signal<any>
-```
-
-
-Current version:
-
-```
-parent: i0.Signal<any>
-```
-
-
-### Property subscriptionItemExists changed.
-
-
-Previous version:
-
-```
-subscriptionItemExists: import("@angular/core").Signal<any>
-```
-
-
-Current version:
-
-```
-subscriptionItemExists: i0.Signal<any>
-```
-
-
 
 
 # Class SubscriptionCartPriceHeadingComponent
 ## @spartacus/subscription-billing/root
 
 moved to @spartacus/subscription/billing/root
-
-
-### Property cartItems changed.
-
-
-Previous version:
-
-```
-cartItems: import("@angular/core").Signal<any>
-```
-
-
-Current version:
-
-```
-cartItems: i0.Signal<any>
-```
-
-
-### Property subscriptionItem changed.
-
-
-Previous version:
-
-```
-subscriptionItem: import("@angular/core").Signal<any>
-```
-
-
-Current version:
-
-```
-subscriptionItem: i0.Signal<any>
-```
 
 
 
@@ -3018,114 +2780,12 @@ moved to @spartacus/subscription/billing/core
 moved to @spartacus/subscription/billing/components
 
 
-### Property cancelData changed.
-
-
-Previous version:
-
-```
-cancelData: import("@angular/core").WritableSignal<SubscriptionCancelData | undefined>
-```
-
-
-Current version:
-
-```
-cancelData: i0.WritableSignal<SubscriptionCancelData | undefined>
-```
-
-
-### Property extensionData changed.
-
-
-Previous version:
-
-```
-extensionData: import("@angular/core").WritableSignal<SubscriptionExtensionEffectiveDate | undefined>
-```
-
-
-Current version:
-
-```
-extensionData: i0.WritableSignal<SubscriptionExtensionEffectiveDate | undefined>
-```
-
-
-### Property extensionEffectiveDate changed.
-
-
-Previous version:
-
-```
-extensionEffectiveDate: import("@angular/core").WritableSignal<string | undefined>
-```
-
-
-Current version:
-
-```
-extensionEffectiveDate: i0.WritableSignal<string | undefined>
-```
-
-
 ### Method getExtensionEffectiveDate is removed.
 
 
 
 ### Method initExtendDurationOptions is removed.
 
-
-
-### Property isExtendSubscriptionBtnClicked changed.
-
-
-Previous version:
-
-```
-isExtendSubscriptionBtnClicked: import("@angular/core").WritableSignal<boolean>
-```
-
-
-Current version:
-
-```
-isExtendSubscriptionBtnClicked: i0.WritableSignal<boolean>
-```
-
-
-### Property isExtensionEffectiveDateAvailable changed.
-
-
-Previous version:
-
-```
-isExtensionEffectiveDateAvailable: import("@angular/core").WritableSignal<boolean>
-```
-
-
-Current version:
-
-```
-isExtensionEffectiveDateAvailable: i0.WritableSignal<boolean>
-```
-
-
-### Property mode changed.
-
-
-Previous version:
-
-```
-mode: import("@angular/core").Signal<SubscriptionActionMode>
-```
-
-
-Current version:
-
-```
-mode: i0.Signal<SubscriptionActionMode>
-```
 
 
 ### Method onConfirm is removed.
@@ -3142,40 +2802,6 @@ mode: i0.Signal<SubscriptionActionMode>
 
 ### Method registerSubscriptionCancellationEffect is removed.
 
-
-
-### Property subscriptionCode changed.
-
-
-Previous version:
-
-```
-subscriptionCode: import("@angular/core").Signal<string>
-```
-
-
-Current version:
-
-```
-subscriptionCode: i0.Signal<string>
-```
-
-
-### Property subscriptionDetailSignal changed.
-
-
-Previous version:
-
-```
-subscriptionDetailSignal: import("@angular/core").Signal<(SubscriptionDetail & { code?: string; mode?: SubscriptionActionMode; }) | undefined>
-```
-
-
-Current version:
-
-```
-subscriptionDetailSignal: i0.Signal<(SubscriptionDetail & { code?: string; mode?: SubscriptionActionMode; }) | undefined>
-```
 
 
 
@@ -3260,40 +2886,6 @@ moved to @spartacus/subscription/billing/components
 
 ### Method pageChange is removed.
 
-
-
-### Property subscriptions changed.
-
-
-Previous version:
-
-```
-subscriptions: import("@angular/core").Signal<SubscriptionList | null | undefined>
-```
-
-
-Current version:
-
-```
-subscriptions: i0.Signal<SubscriptionList | null | undefined>
-```
-
-
-### Property subscriptions$ changed.
-
-
-Previous version:
-
-```
-subscriptions$: import("rxjs").Observable<SubscriptionList | undefined>
-```
-
-
-Current version:
-
-```
-subscriptions$: rxjs.Observable<SubscriptionList | undefined>
-```
 
 
 
@@ -3636,23 +3228,6 @@ constructor(
 
 ### Method canActivate is removed.
 
-
-
-### Property guards changed.
-
-
-Previous version:
-
-```
-guards: { canActivate: import("@angular/router").CanActivateFn; }[]
-```
-
-
-Current version:
-
-```
-guards: { canActivate: i2.CanActivateFn; }[]
-```
 
 
 
@@ -5367,23 +4942,6 @@ Enum ICON_TYPE has been removed and is no longer part of the public API.
 
 
 
-### Property innerComponents$ changed.
-
-
-Previous version:
-
-```
-innerComponents$: import("rxjs").Observable<string[]>
-```
-
-
-Current version:
-
-```
-innerComponents$: rxjs.Observable<string[]>
-```
-
-
 ### Method ngOnDestroy is removed.
 
 
@@ -6367,23 +5925,6 @@ Interface MessageEvent_2 has been removed and is no longer part of the public AP
 
 
 
-### Property isDesktop$ changed.
-
-
-Previous version:
-
-```
-isDesktop$: import("rxjs").Observable<boolean>
-```
-
-
-Current version:
-
-```
-isDesktop$: rxjs.Observable<boolean>
-```
-
-
 ### Method ngOnDestroy is removed.
 
 
@@ -6492,23 +6033,6 @@ isDesktop$: rxjs.Observable<boolean>
 
 ### Method initializeWithConfig is removed.
 
-
-
-### Property routerConfiguration changed.
-
-
-Previous version:
-
-```
-routerConfiguration: import("@angular/router").ExtraOptions
-```
-
-
-Current version:
-
-```
-routerConfiguration: i2.ExtraOptions
-```
 
 
 ### Property selectedHostElement is removed.
@@ -10376,40 +9900,6 @@ Function defaultRenderingStrategyResolver has been removed and is no longer part
 
 
 
-### Property request changed.
-
-
-Previous version:
-
-```
-request: import("express").Request<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>>
-```
-
-
-Current version:
-
-```
-request: express.Request<express_serve_static_core.ParamsDictionary, any, any, qs.ParsedQs, Record<string, any>>
-```
-
-
-### Property serverLogger changed.
-
-
-Previous version:
-
-```
-serverLogger: import("../loggers").ExpressServerLogger
-```
-
-
-Current version:
-
-```
-serverLogger: _spartacus_setup_ssr.ExpressServerLogger
-```
-
-
 ### Method warn is removed.
 
 
@@ -11337,23 +10827,6 @@ moved to @spartacus/s4/service/order
 moved to @spartacus/s4/service/order
 
 
-### Property order$ changed.
-
-
-Previous version:
-
-```
-order$: import("rxjs").Observable<{ entries: import("@spartacus/cart/base/root").OrderEntry[]; appliedOrderPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedProductPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedVouchers?: import("@spartacus/cart/base/root").Voucher[]; calculated?: boolean; code?: string; consignments?: import("@spartacus/order/root").Consignment[]; costCenter?: import("@spartacus/core").CostCenter; created?: Date; deliveryAddress?: import("@spartacus/core").Address; deliveryCost?: import("@spartacus/core").Price; deliveryItemsQuantity?: number; deliveryMode?: import("@spartacus/cart/base/root").DeliveryMode; deliveryOrderGroups?: import("@spartacus/cart/base/root").DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: import("@spartacus/core").Price; orgCustomer?: import("@spartacus/core").B2BUser; orgUnit?: import("@spartacus/core").B2BUnit; paymentInfo?: import("@spartacus/core").PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: import("@spartacus/cart/base/root").PickupOrderEntryGroup[]; productDiscounts?: import("@spartacus/core").Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: import("@spartacus/core").Price; totalDiscounts?: import("@spartacus/core").Price; totalItems?: number; totalPrice?: import("@spartacus/core").Price; totalPriceWithTax?: import("@spartacus/core").Price; totalTax?: import("@spartacus/core").Price; unconsignedEntries?: import("@spartacus/cart/base/root").OrderEntry[]; user?: import("@spartacus/core").Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: import("@spartacus/s4-service/root").ServiceDateTime; serviceCancellable?: import("@spartacus/s4-service/root").serviceCancellable; serviceReschedulable?: boolean; }>
-```
-
-
-Current version:
-
-```
-order$: rxjs.Observable<{ entries: _spartacus_cart_base_root.OrderEntry[]; appliedOrderPromotions?: _spartacus_cart_base_root.PromotionResult[]; appliedProductPromotions?: _spartacus_cart_base_root.PromotionResult[]; appliedVouchers?: _spartacus_cart_base_root.Voucher[]; calculated?: boolean; code?: string; consignments?: _spartacus_order_root.Consignment[]; costCenter?: _spartacus_core.CostCenter; created?: Date; deliveryAddress?: _spartacus_core.Address; deliveryCost?: _spartacus_core.Price; deliveryItemsQuantity?: number; deliveryMode?: _spartacus_cart_base_root.DeliveryMode; deliveryOrderGroups?: _spartacus_cart_base_root.DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: _spartacus_core.Price; orgCustomer?: _spartacus_core.B2BUser; orgUnit?: _spartacus_core.B2BUnit; paymentInfo?: _spartacus_core.PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: _spartacus_cart_base_root.PickupOrderEntryGroup[]; productDiscounts?: _spartacus_core.Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: _spartacus_core.Price; totalDiscounts?: _spartacus_core.Price; totalItems?: number; totalPrice?: _spartacus_core.Price; totalPriceWithTax?: _spartacus_core.Price; totalTax?: _spartacus_core.Price; unconsignedEntries?: _spartacus_cart_base_root.OrderEntry[]; user?: _spartacus_core.Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: _spartacus_s4_service_root.ServiceDateTime; serviceCancellable?: _spartacus_s4_service_root.serviceCancellable; serviceReschedulable?: boolean; }>
-```
-
-
 
 
 # Class CancelServiceOrderHeadlineModule
@@ -11388,23 +10861,6 @@ moved to @spartacus/s4/service/order
 
 ### Method ngOnInit is removed.
 
-
-
-### Property order$ changed.
-
-
-Previous version:
-
-```
-order$: Observable<{ entries: import("@spartacus/cart/base/root").OrderEntry[]; appliedOrderPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedProductPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedVouchers?: import("@spartacus/cart/base/root").Voucher[]; calculated?: boolean; code?: string; consignments?: import("@spartacus/order/root").Consignment[]; costCenter?: import("@spartacus/core").CostCenter; created?: Date; deliveryAddress?: import("@spartacus/core").Address; deliveryCost?: import("@spartacus/core").Price; deliveryItemsQuantity?: number; deliveryMode?: import("@spartacus/cart/base/root").DeliveryMode; deliveryOrderGroups?: import("@spartacus/cart/base/root").DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: import("@spartacus/core").Price; orgCustomer?: import("@spartacus/core").B2BUser; orgUnit?: import("@spartacus/core").B2BUnit; paymentInfo?: import("@spartacus/core").PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: import("@spartacus/cart/base/root").PickupOrderEntryGroup[]; productDiscounts?: import("@spartacus/core").Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: import("@spartacus/core").Price; totalDiscounts?: import("@spartacus/core").Price; totalItems?: number; totalPrice?: import("@spartacus/core").Price; totalPriceWithTax?: import("@spartacus/core").Price; totalTax?: import("@spartacus/core").Price; unconsignedEntries?: import("@spartacus/cart/base/root").OrderEntry[]; user?: import("@spartacus/core").Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: ServiceDateTime; serviceCancellable?: import("@spartacus/s4-service/root").serviceCancellable; serviceReschedulable?: boolean; }>
-```
-
-
-Current version:
-
-```
-order$: Observable<{ entries: _spartacus_cart_base_root.OrderEntry[]; appliedOrderPromotions?: _spartacus_cart_base_root.PromotionResult[]; appliedProductPromotions?: _spartacus_cart_base_root.PromotionResult[]; appliedVouchers?: _spartacus_cart_base_root.Voucher[]; calculated?: boolean; code?: string; consignments?: _spartacus_order_root.Consignment[]; costCenter?: _spartacus_core.CostCenter; created?: Date; deliveryAddress?: _spartacus_core.Address; deliveryCost?: _spartacus_core.Price; deliveryItemsQuantity?: number; deliveryMode?: _spartacus_cart_base_root.DeliveryMode; deliveryOrderGroups?: _spartacus_cart_base_root.DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: _spartacus_core.Price; orgCustomer?: _spartacus_core.B2BUser; orgUnit?: _spartacus_core.B2BUnit; paymentInfo?: _spartacus_core.PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: _spartacus_cart_base_root.PickupOrderEntryGroup[]; productDiscounts?: _spartacus_core.Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: _spartacus_core.Price; totalDiscounts?: _spartacus_core.Price; totalItems?: number; totalPrice?: _spartacus_core.Price; totalPriceWithTax?: _spartacus_core.Price; totalTax?: _spartacus_core.Price; unconsignedEntries?: _spartacus_cart_base_root.OrderEntry[]; user?: _spartacus_core.Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: ServiceDateTime; serviceCancellable?: _spartacus_s4_service_root.serviceCancellable; serviceReschedulable?: boolean; }>
-```
 
 
 ### Method rescheduleServiceOrder is removed.
@@ -11701,23 +11157,6 @@ moved to @spartacus/s4/service/checkout
 ## @spartacus/s4-service/checkout
 
 moved to @spartacus/s4/service/checkout
-
-
-### Property serviceDeliveryConfig changed.
-
-
-Previous version:
-
-```
-serviceDeliveryConfig: import("@spartacus/cart/base/root").DeliveryMode | undefined
-```
-
-
-Current version:
-
-```
-serviceDeliveryConfig: dist_cart_types_spartacus_cart_base_root.DeliveryMode | undefined
-```
 
 
 
@@ -13074,23 +12513,6 @@ moved to @spartacus/quote/components/request/button
 
 
 
-### Property isLoggedIn$ changed.
-
-
-Previous version:
-
-```
-isLoggedIn$: import("rxjs").Observable<boolean>
-```
-
-
-Current version:
-
-```
-isLoggedIn$: rxjs.Observable<boolean>
-```
-
-
 ### Method ngOnDestroy is removed.
 
 
@@ -13445,57 +12867,6 @@ moved to @spartacus/quote/components/cart/guard
 
 
 
-### Property quotesState$ changed.
-
-
-Previous version:
-
-```
-quotesState$: import("rxjs").Observable<import("@spartacus/core").QueryState<import("@spartacus/quote/root").QuoteList | undefined>>
-```
-
-
-Current version:
-
-```
-quotesState$: rxjs.Observable<i2.QueryState<_spartacus_quote_root.QuoteList | undefined>>
-```
-
-
-### Property sortLabels$ changed.
-
-
-Previous version:
-
-```
-sortLabels$: import("rxjs").Observable<{ [key: string]: string; }>
-```
-
-
-Current version:
-
-```
-sortLabels$: rxjs.Observable<{ [key: string]: string; }>
-```
-
-
-### Property sorts changed.
-
-
-Previous version:
-
-```
-sorts: import("@spartacus/core").SortModel[]
-```
-
-
-Current version:
-
-```
-sorts: i2.SortModel[]
-```
-
-
 
 
 # Class QuoteListComponentService
@@ -13614,52 +12985,12 @@ sorts: i2.SortModel[]
 
 
 
-# Class QuoteSummaryComponent
-## @spartacus/quote/components
-
-
-### Property quoteDetails$ changed.
-
-
-Previous version:
-
-```
-quoteDetails$: import("rxjs").Observable<import("@spartacus/quote/root").Quote>
-```
-
-
-Current version:
-
-```
-quoteDetails$: rxjs.Observable<_spartacus_quote_root.Quote>
-```
-
-
-
-
 # Class QuoteSummaryPricesComponent
 ## @spartacus/quote/components
 
 
 ### Method hasNonZeroPriceValue is removed.
 
-
-
-### Property quoteDetails$ changed.
-
-
-Previous version:
-
-```
-quoteDetails$: import("rxjs").Observable<import("@spartacus/quote/root").Quote>
-```
-
-
-Current version:
-
-```
-quoteDetails$: rxjs.Observable<_spartacus_quote_root.Quote>
-```
 
 
 
@@ -14213,23 +13544,6 @@ Variable quoteTranslationsZh has been removed and is no longer part of the publi
 
 ### Method isPunchoutSessionActive is removed.
 
-
-
-### Property renderer changed.
-
-
-Previous version:
-
-```
-renderer: import("@angular/core").Renderer2
-```
-
-
-Current version:
-
-```
-renderer: i0.Renderer2
-```
 
 
 ### Method updateClass is removed.
@@ -15405,23 +14719,6 @@ moved to @spartacus/product/future/stock/core
 ## @spartacus/product/future-stock/components
 
 moved to @spartacus/product/future/stock/components
-
-
-### Property futureStocks$ changed.
-
-
-Previous version:
-
-```
-futureStocks$: import("rxjs").Observable<any>
-```
-
-
-Current version:
-
-```
-futureStocks$: rxjs.Observable<any>
-```
 
 
 ### Method toggle is removed.
@@ -20722,23 +20019,6 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-### Property config$ changed.
-
-
-Previous version:
-
-```
-config$: import("rxjs").Observable<any>
-```
-
-
-Current version:
-
-```
-config$: rxjs.Observable<any>
-```
-
-
 
 
 # Class ConfiguratorOverviewFilterDialogModule
@@ -23535,22 +22815,6 @@ moved to @spartacus/pickup/in/store/core
 moved to @spartacus/pickup/in/store/core
 
 
-Variable AddBrowserLocation changed.
-
-Previous version:
-
-```
-AddBrowserLocation: import("@ngrx/store").ActionCreator<"[Pickup Locations] Add Browser Location", (props: { payload: AddBrowserLocationProps; }) => { payload: AddBrowserLocationProps; } & import("@ngrx/store").Action<"[Pickup Locations] Add Browser Location">>
-```
-
-
-Current version:
-
-```
-AddBrowserLocation: _ngrx_store.ActionCreator<"[Pickup Locations] Add Browser Location", (props: { payload: AddBrowserLocationProps; }) => { payload: AddBrowserLocationProps; } & _ngrx_store.Action<"[Pickup Locations] Add Browser Location">>
-```
-
-
 
 
 # TypeAlias BrowserLocationActions.AddBrowserLocationProps
@@ -23608,44 +22872,12 @@ moved to @spartacus/pickup/in/store/core
 moved to @spartacus/pickup/in/store/core
 
 
-Variable LoadDefaultPointOfService changed.
-
-Previous version:
-
-```
-LoadDefaultPointOfService: import("@ngrx/store").ActionCreator<"[Default Point Of Service] Load Default Point Of Service", () => import("@ngrx/store").Action<"[Default Point Of Service] Load Default Point Of Service">>
-```
-
-
-Current version:
-
-```
-LoadDefaultPointOfService: _ngrx_store.ActionCreator<"[Default Point Of Service] Load Default Point Of Service", () => _ngrx_store.Action<"[Default Point Of Service] Load Default Point Of Service">>
-```
-
-
 
 
 # Variable DefaultPointOfServiceActions.LoadDefaultPointOfServiceSuccess
 ## @spartacus/pickup-in-store/core
 
 moved to @spartacus/pickup/in/store/core
-
-
-Variable LoadDefaultPointOfServiceSuccess changed.
-
-Previous version:
-
-```
-LoadDefaultPointOfServiceSuccess: import("@ngrx/store").ActionCreator<"[Default Point Of Service] Load Default Point Of Service Success", (props: { payload: PointOfServiceNames; }) => { payload: PointOfServiceNames; } & import("@ngrx/store").Action<"[Default Point Of Service] Load Default Point Of Service Success">>
-```
-
-
-Current version:
-
-```
-LoadDefaultPointOfServiceSuccess: _ngrx_store.ActionCreator<"[Default Point Of Service] Load Default Point Of Service Success", (props: { payload: PointOfServiceNames; }) => { payload: PointOfServiceNames; } & _ngrx_store.Action<"[Default Point Of Service] Load Default Point Of Service Success">>
-```
 
 
 
@@ -23664,62 +22896,12 @@ moved to @spartacus/pickup/in/store/core
 moved to @spartacus/pickup/in/store/core
 
 
-Variable SetDefaultPointOfService changed.
-
-Previous version:
-
-```
-SetDefaultPointOfService: import("@ngrx/store").ActionCreator<"[Default Point Of Service] Set Default Point Of Service", (props: { payload: PointOfServiceNames; }) => { payload: PointOfServiceNames; } & import("@ngrx/store").Action<"[Default Point Of Service] Set Default Point Of Service">>
-```
-
-
-Current version:
-
-```
-SetDefaultPointOfService: _ngrx_store.ActionCreator<"[Default Point Of Service] Set Default Point Of Service", (props: { payload: PointOfServiceNames; }) => { payload: PointOfServiceNames; } & _ngrx_store.Action<"[Default Point Of Service] Set Default Point Of Service">>
-```
-
-
 
 
 # Class DefaultPointOfServiceEffect
 ## @spartacus/pickup-in-store/core
 
 moved to @spartacus/pickup/in/store/core
-
-
-### Property loadDefaultPointOfService$ changed.
-
-
-Previous version:
-
-```
-loadDefaultPointOfService$: import("rxjs").Observable<{ payload: PointOfServiceNames; } & import("@ngrx/store").Action<"[Default Point Of Service] Load Default Point Of Service Success">> & import("@ngrx/effects").CreateEffectMetadata
-```
-
-
-Current version:
-
-```
-loadDefaultPointOfService$: rxjs.Observable<{ payload: PointOfServiceNames; } & _ngrx_store.Action<"[Default Point Of Service] Load Default Point Of Service Success">> & _ngrx_effects.CreateEffectMetadata
-```
-
-
-### Property setDefaultPointOfService$ changed.
-
-
-Previous version:
-
-```
-setDefaultPointOfService$: import("rxjs").Observable<import("@ngrx/store").Action<"[Default Point Of Service] Load Default Point Of Service">> & import("@ngrx/effects").CreateEffectMetadata
-```
-
-
-Current version:
-
-```
-setDefaultPointOfService$: rxjs.Observable<_ngrx_store.Action<"[Default Point Of Service] Load Default Point Of Service">> & _ngrx_effects.CreateEffectMetadata
-```
 
 
 
@@ -23877,22 +23059,6 @@ moved to @spartacus/pickup/in/store/core
 moved to @spartacus/pickup/in/store/core
 
 
-Variable AddLocation changed.
-
-Previous version:
-
-```
-AddLocation: import("@ngrx/store").ActionCreator<"[Pickup Locations] Add Location", (props: AddLocationProps) => AddLocationProps & Action<"[Pickup Locations] Add Location">>
-```
-
-
-Current version:
-
-```
-AddLocation: _ngrx_store.ActionCreator<"[Pickup Locations] Add Location", (props: AddLocationProps) => AddLocationProps & Action<"[Pickup Locations] Add Location">>
-```
-
-
 
 
 # TypeAlias PickupLocationActions.AddLocationProps
@@ -23933,22 +23099,6 @@ moved to @spartacus/pickup/in/store/core
 moved to @spartacus/pickup/in/store/core
 
 
-Variable GetStoreDetailsById changed.
-
-Previous version:
-
-```
-GetStoreDetailsById: import("@ngrx/store").ActionCreator<"[Pickup Locations] Get Store Details", (props: { payload: string; }) => { payload: string; } & Action<"[Pickup Locations] Get Store Details">>
-```
-
-
-Current version:
-
-```
-GetStoreDetailsById: _ngrx_store.ActionCreator<"[Pickup Locations] Get Store Details", (props: { payload: string; }) => { payload: string; } & Action<"[Pickup Locations] Get Store Details">>
-```
-
-
 
 
 # Variable PickupLocationActions.REMOVE_LOCATION
@@ -23963,22 +23113,6 @@ moved to @spartacus/pickup/in/store/core
 ## @spartacus/pickup-in-store/core
 
 moved to @spartacus/pickup/in/store/core
-
-
-Variable RemoveLocation changed.
-
-Previous version:
-
-```
-RemoveLocation: import("@ngrx/store").ActionCreator<"[Pickup Locations] Remove Location", (props: { payload: string; }) => { payload: string; } & Action<"[Pickup Locations] Remove Location">>
-```
-
-
-Current version:
-
-```
-RemoveLocation: _ngrx_store.ActionCreator<"[Pickup Locations] Remove Location", (props: { payload: string; }) => { payload: string; } & Action<"[Pickup Locations] Remove Location">>
-```
 
 
 
@@ -24034,14 +23168,14 @@ Variable SetPickupOption changed.
 Previous version:
 
 ```
-SetPickupOption: import("@ngrx/store").ActionCreator<"[Pickup Locations] Set Pickup Option", (props: { payload: SetPickupOptionProps; }) => { payload: SetPickupOptionProps; } & Action<"[Pickup Locations] Set Pickup Option">>
+SetPickupOption: ActionCreator<"[Pickup Locations] Set Pickup Option", (props: { payload: SetPickupOptionProps; }) => { payload: SetPickupOptionProps; } & Action<"[Pickup Locations] Set Pickup Option">>
 ```
 
 
 Current version:
 
 ```
-SetPickupOption: _ngrx_store.ActionCreator<"[PickupOption] Set Pickup Option", (props: { payload: { entryNumber: number; pickupOption: PickupOption; }; }) => { payload: { entryNumber: number; pickupOption: PickupOption; }; } & _ngrx_store.Action<"[PickupOption] Set Pickup Option">>
+SetPickupOption: ActionCreator<"[PickupOption] Set Pickup Option", (props: { payload: { entryNumber: number; pickupOption: PickupOption; }; }) => { payload: { entryNumber: number; pickupOption: PickupOption; }; } & Action<"[PickupOption] Set Pickup Option">>
 ```
 
 
@@ -24068,22 +23202,6 @@ Function PickupLocationActions.SetStoreDetailsFailure has been removed and is no
 ## @spartacus/pickup-in-store/core
 
 moved to @spartacus/pickup/in/store/core
-
-
-Variable SetStoreDetailsSuccess changed.
-
-Previous version:
-
-```
-SetStoreDetailsSuccess: import("@ngrx/store").ActionCreator<"[Pickup Locations] Get Store Details Success", (props: { payload: PointOfService; }) => { payload: PointOfService; } & Action<"[Pickup Locations] Get Store Details Success">>
-```
-
-
-Current version:
-
-```
-SetStoreDetailsSuccess: _ngrx_store.ActionCreator<"[Pickup Locations] Get Store Details Success", (props: { payload: PointOfService; }) => { payload: PointOfService; } & Action<"[Pickup Locations] Get Store Details Success">>
-```
 
 
 
@@ -24140,14 +23258,14 @@ moved to @spartacus/pickup/in/store/core
 Previous version:
 
 ```
-storeDetails$: import("rxjs").Observable<({ payload: any; error: any; } & import("@ngrx/store").Action<"[Pickup Locations] Get Store Details Fail">) | ({ payload: import("@spartacus/core").PointOfService; } & import("@ngrx/store").Action<"[Pickup Locations] Get Store Details Success">)> & import("@ngrx/effects").CreateEffectMetadata
+storeDetails$: Observable<({ payload: any; error: any; } & Action<"[Pickup Locations] Get Store Details Fail">) | ({ payload: PointOfService; } & Action<"[Pickup Locations] Get Store Details Success">)> & CreateEffectMetadata
 ```
 
 
 Current version:
 
 ```
-storeDetails$: rxjs.Observable<({ payload: any; error: any; } & _ngrx_store.Action<"[Pickup Locations] Get Store Details Fail">) | ({ payload: _spartacus_core.PointOfService; } & _ngrx_store.Action<"[Pickup Locations] Get Store Details Success">)> & _ngrx_effects.CreateEffectMetadata
+storeDetails$: Observable<({ payload: PointOfService; } & Action<"[Pickup Locations] Get Store Details Success">) | ({ payload: any; error: any; } & Action<"[Pickup Locations] Get Store Details Fail">)> & CreateEffectMetadata
 ```
 
 
@@ -24320,44 +23438,12 @@ Namespace PickupOptionActions has been removed and is no longer part of the publ
 moved to @spartacus/pickup/in/store/core
 
 
-Variable RemoveAllPickupOptions changed.
-
-Previous version:
-
-```
-RemoveAllPickupOptions: import("@ngrx/store").ActionCreator<"[PickupOption] Remove All Pickup Option", () => import("@ngrx/store").Action<"[PickupOption] Remove All Pickup Option">>
-```
-
-
-Current version:
-
-```
-RemoveAllPickupOptions: _ngrx_store.ActionCreator<"[PickupOption] Remove All Pickup Option", () => _ngrx_store.Action<"[PickupOption] Remove All Pickup Option">>
-```
-
-
 
 
 # Variable PickupOptionActions.RemovePickupOption
 ## @spartacus/pickup-in-store/core
 
 moved to @spartacus/pickup/in/store/core
-
-
-Variable RemovePickupOption changed.
-
-Previous version:
-
-```
-RemovePickupOption: import("@ngrx/store").ActionCreator<"[PickupOption] Remove Pickup Option", (props: { payload: { entryNumber: number; }; }) => { payload: { entryNumber: number; }; } & import("@ngrx/store").Action<"[PickupOption] Remove Pickup Option">>
-```
-
-
-Current version:
-
-```
-RemovePickupOption: _ngrx_store.ActionCreator<"[PickupOption] Remove Pickup Option", (props: { payload: { entryNumber: number; }; }) => { payload: { entryNumber: number; }; } & _ngrx_store.Action<"[PickupOption] Remove Pickup Option">>
-```
 
 
 
@@ -24368,44 +23454,12 @@ RemovePickupOption: _ngrx_store.ActionCreator<"[PickupOption] Remove Pickup Opti
 moved to @spartacus/pickup/in/store/core
 
 
-Variable SetPageContext changed.
-
-Previous version:
-
-```
-SetPageContext: import("@ngrx/store").ActionCreator<"[PickupOption] Set Page Context", (props: { payload: { pageContext: string; }; }) => { payload: { pageContext: string; }; } & import("@ngrx/store").Action<"[PickupOption] Set Page Context">>
-```
-
-
-Current version:
-
-```
-SetPageContext: _ngrx_store.ActionCreator<"[PickupOption] Set Page Context", (props: { payload: { pageContext: string; }; }) => { payload: { pageContext: string; }; } & _ngrx_store.Action<"[PickupOption] Set Page Context">>
-```
-
-
 
 
 # Variable PickupOptionActions.SetPickupOption
 ## @spartacus/pickup-in-store/core
 
 moved to @spartacus/pickup/in/store/core
-
-
-Variable SetPickupOption changed.
-
-Previous version:
-
-```
-SetPickupOption: import("@ngrx/store").ActionCreator<"[PickupOption] Set Pickup Option", (props: { payload: { entryNumber: number; pickupOption: PickupOption; }; }) => { payload: { entryNumber: number; pickupOption: PickupOption; }; } & import("@ngrx/store").Action<"[PickupOption] Set Pickup Option">>
-```
-
-
-Current version:
-
-```
-SetPickupOption: _ngrx_store.ActionCreator<"[PickupOption] Set Pickup Option", (props: { payload: { entryNumber: number; pickupOption: PickupOption; }; }) => { payload: { entryNumber: number; pickupOption: PickupOption; }; } & _ngrx_store.Action<"[PickupOption] Set Pickup Option">>
-```
 
 
 
@@ -24615,37 +23669,20 @@ moved to @spartacus/pickup/in/store/core
 moved to @spartacus/pickup/in/store/core
 
 
-### Property loadStockLevelAtStore$ changed.
-
-
-Previous version:
-
-```
-loadStockLevelAtStore$: import("rxjs").Observable<{ payload: { productCode: string; storeName: string; } & { stockLevel: import("@spartacus/core").Stock; }; } & import("@ngrx/store").Action<"[Stock] Get Stock Level at Store Success">> & import("@ngrx/effects").CreateEffectMetadata
-```
-
-
-Current version:
-
-```
-loadStockLevelAtStore$: rxjs.Observable<{ payload: { productCode: string; storeName: string; } & { stockLevel: _spartacus_core.Stock; }; } & _ngrx_store.Action<"[Stock] Get Stock Level at Store Success">> & _ngrx_effects.CreateEffectMetadata
-```
-
-
 ### Property loadStockLevels$ changed.
 
 
 Previous version:
 
 ```
-loadStockLevels$: import("rxjs").Observable<StockLevelActions.StockLevelFail | StockLevelActions.StockLevelSuccess> & import("@ngrx/effects").CreateEffectMetadata
+loadStockLevels$: Observable<StockLevelActions.StockLevelFail | StockLevelActions.StockLevelSuccess> & CreateEffectMetadata
 ```
 
 
 Current version:
 
 ```
-loadStockLevels$: rxjs.Observable<StockLevelFail | StockLevelSuccess> & _ngrx_effects.CreateEffectMetadata
+loadStockLevels$: Observable<StockLevelFail | StockLevelSuccess> & CreateEffectMetadata
 ```
 
 
@@ -24746,22 +23783,6 @@ moved to @spartacus/pickup/in/store/core
 moved to @spartacus/pickup/in/store/core
 
 
-Variable StockLevelAtStore changed.
-
-Previous version:
-
-```
-StockLevelAtStore: import("@ngrx/store").ActionCreator<"[Stock] Get Stock Level at Store", (props: { payload: StockLevelAtStorePayload; }) => { payload: StockLevelAtStorePayload; } & import("@ngrx/store").Action<"[Stock] Get Stock Level at Store">>
-```
-
-
-Current version:
-
-```
-StockLevelAtStore: _ngrx_store.ActionCreator<"[Stock] Get Stock Level at Store", (props: { payload: StockLevelAtStorePayload; }) => { payload: StockLevelAtStorePayload; } & _ngrx_store.Action<"[Stock] Get Stock Level at Store">>
-```
-
-
 
 
 # TypeAlias StockLevelActions.StockLevelAtStoreAction
@@ -24776,22 +23797,6 @@ moved to @spartacus/pickup/in/store/core
 ## @spartacus/pickup-in-store/core
 
 moved to @spartacus/pickup/in/store/core
-
-
-Variable StockLevelAtStoreSuccess changed.
-
-Previous version:
-
-```
-StockLevelAtStoreSuccess: import("@ngrx/store").ActionCreator<"[Stock] Get Stock Level at Store Success", (props: { payload: StockLevelAtStoreSuccessPayload; }) => { payload: StockLevelAtStoreSuccessPayload; } & import("@ngrx/store").Action<"[Stock] Get Stock Level at Store Success">>
-```
-
-
-Current version:
-
-```
-StockLevelAtStoreSuccess: _ngrx_store.ActionCreator<"[Stock] Get Stock Level at Store Success", (props: { payload: StockLevelAtStoreSuccessPayload; }) => { payload: StockLevelAtStoreSuccessPayload; } & _ngrx_store.Action<"[Stock] Get Stock Level at Store Success">>
-```
 
 
 
@@ -24988,22 +23993,6 @@ moved to @spartacus/pickup/in/store/core
 ## @spartacus/pickup-in-store/core
 
 moved to @spartacus/pickup/in/store/core
-
-
-Variable ToggleHideOutOfStockOptionsAction changed.
-
-Previous version:
-
-```
-ToggleHideOutOfStockOptionsAction: import("@ngrx/store").ActionCreator<"[Stock] Toggle Hide Out Of Stock Options", () => import("@ngrx/store").Action<"[Stock] Toggle Hide Out Of Stock Options">>
-```
-
-
-Current version:
-
-```
-ToggleHideOutOfStockOptionsAction: _ngrx_store.ActionCreator<"[Stock] Toggle Hide Out Of Stock Options", () => _ngrx_store.Action<"[Stock] Toggle Hide Out Of Stock Options">>
-```
 
 
 
@@ -32338,10 +31327,7 @@ Current version:
 ```
 
 constructor(
-  payload: {
-        userId: string;
-        params: SearchConfig;
-    }
+  payload: { userId: string; params: SearchConfig; }
 )
 
 ```
@@ -32389,10 +31375,7 @@ Current version:
 ```
 
 constructor(
-  payload: {
-        params: SearchConfig;
-        error: any;
-    }
+  payload: { params: SearchConfig; error: any; }
 )
 
 ```
@@ -32440,10 +31423,7 @@ Current version:
 ```
 
 constructor(
-  payload: {
-        page: ListModel;
-        params: SearchConfig;
-    }
+  payload: { page: ListModel; params: SearchConfig; }
 )
 
 ```
@@ -37475,46 +36455,12 @@ moved to @spartacus/order/document/flow/components
 
 
 
-### Property displayDocumentEntries changed.
-
-
-Previous version:
-
-```
-displayDocumentEntries: import("@angular/core").WritableSignal<boolean>
-```
-
-
-Current version:
-
-```
-displayDocumentEntries: i0.WritableSignal<boolean>
-```
-
-
 ### Method getDocumentTitle is removed.
 
 
 
 ### Method goBack is removed.
 
-
-
-### Property loadError changed.
-
-
-Previous version:
-
-```
-loadError: import("@angular/core").WritableSignal<boolean>
-```
-
-
-Current version:
-
-```
-loadError: i0.WritableSignal<boolean>
-```
 
 
 ### Method onDocumentSelection is removed.
@@ -38745,14 +37691,14 @@ Variable getOrderDetailState changed.
 Previous version:
 
 ```
-getOrderDetailState: MemoizedSelector<StateWithOrder, StateUtils.LoaderState<Order>>
+getOrderDetailState: MemoizedSelector<StateWithOrder, LoaderState<Order>>
 ```
 
 
 Current version:
 
 ```
-getOrderDetailState: MemoizedSelector<StateWithUnitOrder, StateUtils.LoaderState<Order>>
+getOrderDetailState: MemoizedSelector<StateWithUnitOrder, LoaderState<Order>>
 ```
 
 
@@ -38853,14 +37799,14 @@ Variable getOrdersState changed.
 Previous version:
 
 ```
-getOrdersState: MemoizedSelector<StateWithOrder, StateUtils.LoaderState<OrderHistoryList>>
+getOrdersState: MemoizedSelector<StateWithOrder, LoaderState<OrderHistoryList>>
 ```
 
 
 Current version:
 
 ```
-getOrdersState: MemoizedSelector<StateWithUnitOrder, StateUtils.LoaderState<OrderHistoryList>>
+getOrdersState: MemoizedSelector<StateWithUnitOrder, LoaderState<OrderHistoryList>>
 ```
 
 
@@ -39500,23 +38446,6 @@ getOrderState: MemoizedSelector<StateWithUnitOrder, UnitOrderState>
 
 
 
-### Property attachmentsCount changed.
-
-
-Previous version:
-
-```
-attachmentsCount: import("@angular/core").Signal<number>
-```
-
-
-Current version:
-
-```
-attachmentsCount: i0.Signal<number>
-```
-
-
 ### Method close is removed.
 
 
@@ -39527,23 +38456,6 @@ attachmentsCount: i0.Signal<number>
 
 ### Method downloadFile is removed.
 
-
-
-### Property loadError changed.
-
-
-Previous version:
-
-```
-loadError: import("@angular/core").WritableSignal<boolean>
-```
-
-
-Current version:
-
-```
-loadError: i0.WritableSignal<boolean>
-```
 
 
 ### Method onMouseDown is removed.
@@ -40004,23 +38916,6 @@ constructor(
 
 ### Method createCartFromOrder is removed.
 
-
-
-### Property data$ changed.
-
-
-Previous version:
-
-```
-data$: import("rxjs").Observable<any>
-```
-
-
-Current version:
-
-```
-data$: rxjs.Observable<any>
-```
 
 
 ### Method recaptureFocus is removed.
@@ -42391,23 +41286,6 @@ moved to @spartacus/opf/cta/opf/api
 ## @spartacus/opf/checkout/components
 
 
-### Property getSelectedPayment$ changed.
-
-
-Previous version:
-
-```
-getSelectedPayment$: Observable<import("@spartacus/core").QueryState<import("@spartacus/opf/base/root").OpfActiveConfigurationsResponse | undefined>>
-```
-
-
-Current version:
-
-```
-getSelectedPayment$: Observable<i2.QueryState<_spartacus_opf_base_root.OpfActiveConfigurationsResponse | undefined>>
-```
-
-
 ### Method isCmsComponentInPage is removed.
 
 
@@ -42544,23 +41422,6 @@ getSelectedPayment$: Observable<i2.QueryState<_spartacus_opf_base_root.OpfActive
 
 
 
-### Property renderPaymentMethodEvent$ changed.
-
-
-Previous version:
-
-```
-renderPaymentMethodEvent$: import("rxjs").Observable<import("@spartacus/opf/payment/root").OpfPaymentRenderMethodEvent>
-```
-
-
-Current version:
-
-```
-renderPaymentMethodEvent$: rxjs.Observable<_spartacus_opf_payment_root.OpfPaymentRenderMethodEvent>
-```
-
-
 ### Method retryInitiatePayment is removed.
 
 
@@ -42653,23 +41514,6 @@ renderPaymentMethodEvent$: rxjs.Observable<_spartacus_opf_payment_root.OpfPaymen
 
 ### Method ngOnInit is removed.
 
-
-
-### Property paymentDisabled$ changed.
-
-
-Previous version:
-
-```
-paymentDisabled$: import("rxjs").Observable<boolean>
-```
-
-
-Current version:
-
-```
-paymentDisabled$: rxjs.Observable<boolean>
-```
 
 
 
@@ -43276,23 +42120,6 @@ moved to @spartacus/opf/base/opf/api
 ## @spartacus/opf/base/core
 
 
-### Property activeConfigurationsQuery changed.
-
-
-Previous version:
-
-```
-activeConfigurationsQuery: (query?: OpfActiveConfigurationsQuery) => import("@spartacus/core").Query<OpfActiveConfigurationsResponse, []>
-```
-
-
-Current version:
-
-```
-activeConfigurationsQuery: (query?: OpfActiveConfigurationsQuery) => _spartacus_core.Query<OpfActiveConfigurationsResponse, []>
-```
-
-
 ### Method getActiveConfigurationsState is removed.
 
 
@@ -43463,40 +42290,6 @@ moved to @spartacus/opf/b2b/checkout/components
 
 
 
-### Property getSelectedPayment$ changed.
-
-
-Previous version:
-
-```
-getSelectedPayment$: Observable<import("@spartacus/core").QueryState<import("@spartacus/opf/base/root").OpfActiveConfigurationsResponse | undefined>>
-```
-
-
-Current version:
-
-```
-getSelectedPayment$: Observable<i2.QueryState<_spartacus_opf_base_root.OpfActiveConfigurationsResponse | undefined>>
-```
-
-
-### Property paymentType$ changed.
-
-
-Previous version:
-
-```
-paymentType$: Observable<import("@spartacus/cart/base/root").PaymentType | undefined>
-```
-
-
-Current version:
-
-```
-paymentType$: Observable<_spartacus_cart_base_root.PaymentType | undefined>
-```
-
-
 
 
 # Class OpfB2bCheckoutPaymentAndReviewModule
@@ -43591,23 +42384,6 @@ moved to @spartacus/opf/b2b/checkout/components
 ## @spartacus/opf/b2b-checkout/components
 
 moved to @spartacus/opf/b2b/checkout/components
-
-
-### Property checkoutSubmitForm changed.
-
-
-Previous version:
-
-```
-checkoutSubmitForm: import("@angular/forms").FormGroup<{ termsAndConditions: import("@angular/forms").FormControl<boolean | null>; }>
-```
-
-
-Current version:
-
-```
-checkoutSubmitForm: i5.FormGroup<{ termsAndConditions: i5.FormControl<boolean | null>; }>
-```
 
 
 ### Method getCostCenterCard is removed.
@@ -44640,23 +43416,6 @@ moved to @spartacus/epd/visualization/components
 
 
 
-### Property selectedProductCodesChange changed.
-
-
-Previous version:
-
-```
-selectedProductCodesChange: import("@angular/core").EventEmitter<string[]>
-```
-
-
-Current version:
-
-```
-selectedProductCodesChange: i0.EventEmitter<string[]>
-```
-
-
 
 
 # Interface VisualPickingProductListItem
@@ -44909,63 +43668,12 @@ moved to @spartacus/epd/visualization/components
 
 
 
-### Property animationPlayingChange changed.
-
-
-Previous version:
-
-```
-animationPlayingChange: import("@angular/core").EventEmitter<boolean>
-```
-
-
-Current version:
-
-```
-animationPlayingChange: i0.EventEmitter<boolean>
-```
-
-
 ### Property animationPosition is removed.
 
 
 
-### Property animationPositionChange changed.
-
-
-Previous version:
-
-```
-animationPositionChange: import("@angular/core").EventEmitter<number>
-```
-
-
-Current version:
-
-```
-animationPositionChange: i0.EventEmitter<number>
-```
-
-
 ### Property animationTime is removed.
 
-
-
-### Property animationTimeChange changed.
-
-
-Previous version:
-
-```
-animationTimeChange: import("@angular/core").EventEmitter<number>
-```
-
-
-Current version:
-
-```
-animationTimeChange: i0.EventEmitter<number>
-```
 
 
 ### Property animationTotalDuration is removed.
@@ -45000,23 +43708,6 @@ animationTimeChange: i0.EventEmitter<number>
 
 
 
-### Property isolateModeEnabledChange changed.
-
-
-Previous version:
-
-```
-isolateModeEnabledChange: import("@angular/core").EventEmitter<boolean>
-```
-
-
-Current version:
-
-```
-isolateModeEnabledChange: i0.EventEmitter<boolean>
-```
-
-
 ### Method loadVisualization is removed.
 
 
@@ -45045,23 +43736,6 @@ isolateModeEnabledChange: i0.EventEmitter<boolean>
 
 
 
-### Property selectedProductCodesChange changed.
-
-
-Previous version:
-
-```
-selectedProductCodesChange: import("@angular/core").EventEmitter<string[]>
-```
-
-
-Current version:
-
-```
-selectedProductCodesChange: i0.EventEmitter<string[]>
-```
-
-
 ### Property selectionMode is removed.
 
 
@@ -45076,23 +43750,6 @@ selectedProductCodesChange: i0.EventEmitter<string[]>
 
 ### Property viewportReady is removed.
 
-
-
-### Property viewportReadyChange changed.
-
-
-Previous version:
-
-```
-viewportReadyChange: import("@angular/core").EventEmitter<boolean>
-```
-
-
-Current version:
-
-```
-viewportReadyChange: i0.EventEmitter<boolean>
-```
 
 
 
@@ -47290,23 +45947,6 @@ moved to @spartacus/cpq/quote/cpq/quote/discount
 
 
 
-### Property isFlag$ changed.
-
-
-Previous version:
-
-```
-isFlag$: import("rxjs").Observable<boolean>
-```
-
-
-Current version:
-
-```
-isFlag$: rxjs.Observable<boolean>
-```
-
-
 ### Method setFlag is removed.
 
 
@@ -47578,23 +46218,6 @@ moved to @spartacus/cpq/quote/cpq/quote/discount
 
 ### Method getFlag$ is removed.
 
-
-
-### Property isFlag$ changed.
-
-
-Previous version:
-
-```
-isFlag$: import("rxjs").Observable<boolean>
-```
-
-
-Current version:
-
-```
-isFlag$: rxjs.Observable<boolean>
-```
 
 
 ### Method setFlag is removed.
@@ -48562,23 +47185,6 @@ Omit<AuthConfig, 'clientId' | 'dummyClientSecret' | 'siletRefreshTimeout' | 'log
 
 ### Method coreLogout is removed.
 
-
-
-### Property csrfToken$ changed.
-
-
-Previous version:
-
-```
-csrfToken$: Observable<import("@spartacus/core").CSRFResponse>
-```
-
-
-Current version:
-
-```
-csrfToken$: Observable<_spartacus_core.CSRFResponse>
-```
 
 
 ### Method getCsrfToken is removed.
@@ -50510,22 +49116,6 @@ Function CmsSelectors.getNavigationEntryItems has been removed and is no longer 
 ## @spartacus/core
 
 
-Variable getNavigationEntryItemState changed.
-
-Previous version:
-
-```
-getNavigationEntryItemState: MemoizedSelector<StateWithCms, StateUtils.EntityLoaderState<NodeItem>>
-```
-
-
-Current version:
-
-```
-getNavigationEntryItemState: MemoizedSelector<StateWithCms, EntityLoaderState<NodeItem>>
-```
-
-
 
 
 # Function CmsSelectors.getPageComponentTypes
@@ -50874,28 +49464,6 @@ Function CmsSelectors.getSelectedNavigationEntryItemState has been removed and i
 
 ### PropertySignature pageContext is removed.
 
-
-
-
-
-# TypeAlias ComponentsState
-## @spartacus/core
-
-
-TypeAlias ComponentsState changed.
-
-Previous version:
-
-```
-StateUtils.EntityState<ComponentsContext>
-```
-
-
-Current version:
-
-```
-EntityState<ComponentsContext>
-```
 
 
 
@@ -51686,23 +50254,6 @@ EntityState<ComponentsContext>
 ## @spartacus/core
 
 
-### Property errorHandlers changed.
-
-
-Previous version:
-
-```
-errorHandlers: import("./multi-error-handler").MultiErrorHandler[]
-```
-
-
-Current version:
-
-```
-errorHandlers: _spartacus_core.MultiErrorHandler[]
-```
-
-
 ### Method handleError is removed.
 
 
@@ -52240,23 +50791,6 @@ Variable defaultUserCmsModuleConfig has been removed and is no longer part of th
 
 
 
-### Property renderer changed.
-
-
-Previous version:
-
-```
-renderer: import("@angular/core").Renderer2
-```
-
-
-Current version:
-
-```
-renderer: i0.Renderer2
-```
-
-
 ### Method unregisterUsage is removed.
 
 
@@ -52653,28 +51187,6 @@ Function GlobalMessageSelectors.getGlobalMessageEntitiesByType has been removed 
 
 
 
-# Variable I18NEXT_HTTP_BACKEND_CLIENT
-## @spartacus/core
-
-
-Variable I18NEXT_HTTP_BACKEND_CLIENT changed.
-
-Previous version:
-
-```
-I18NEXT_HTTP_BACKEND_CLIENT: InjectionToken<((options: import("i18next-http-backend").HttpBackendOptions, url: string, payload: {} | string, callback: import("i18next-http-backend").RequestCallback) => void) | undefined>
-```
-
-
-Current version:
-
-```
-I18NEXT_HTTP_BACKEND_CLIENT: InjectionToken<((options: i18next_http_backend.HttpBackendOptions, url: string, payload: {} | string, callback: i18next_http_backend.RequestCallback) => void) | undefined>
-```
-
-
-
-
 # Class I18nextBackendInitializer
 ## @spartacus/core
 
@@ -52735,23 +51247,6 @@ I18NEXT_HTTP_BACKEND_CLIENT: InjectionToken<((options: i18next_http_backend.Http
 
 ### Method initialize is removed.
 
-
-
-### Property loggerPlugin changed.
-
-
-Previous version:
-
-```
-loggerPlugin: import("i18next").LoggerModule
-```
-
-
-Current version:
-
-```
-loggerPlugin: node_modules_i18next.LoggerModule
-```
 
 
 ### Method ngOnDestroy is removed.
@@ -52831,28 +51326,6 @@ Interface Image_2 has been removed and is no longer part of the public API.
 
 ### IndexSignature undefined is removed.
 
-
-
-
-
-# TypeAlias IndexType
-## @spartacus/core
-
-
-TypeAlias IndexType changed.
-
-Previous version:
-
-```
-{ content: StateUtils.EntityLoaderState<string>; product: StateUtils.EntityLoaderState<string>; category: StateUtils.EntityLoaderState<string>; catalog: StateUtils.EntityLoaderState<string>; }
-```
-
-
-Current version:
-
-```
-{ content: EntityLoaderState<string>; product: EntityLoaderState<string>; category: EntityLoaderState<string>; catalog: EntityLoaderState<string>; }
-```
 
 
 
@@ -60621,28 +59094,6 @@ Function ProductSelectors.getSelectedProductSuccessFactory has been removed and 
 
 
 
-# TypeAlias RequiredPick
-## @spartacus/core
-
-
-TypeAlias RequiredPick changed.
-
-Previous version:
-
-```
-Omit<T, K> & Required<Pick<T, K>>
-```
-
-
-Current version:
-
-```
-= Omit<T, K> & Required<Pick<T, K>>
-```
-
-
-
-
 # Interface Review
 ## @spartacus/core
 
@@ -65287,7 +63738,7 @@ getCostCentersState: MemoizedSelector<StateWithUser, LoaderState<CostCenter[]>>
 Current version:
 
 ```
-getCostCentersState: MemoizedSelector<StateWithOrganization, StateUtils.EntityLoaderState<CostCenter>>
+getCostCentersState: MemoizedSelector<StateWithOrganization, EntityLoaderState<CostCenter>>
 ```
 
 
@@ -66488,23 +64939,6 @@ moved to @spartacus/checkout/scheduled/replenishment
 
 
 
-### Property setBillingAddressCommand changed.
-
-
-Previous version:
-
-```
-setBillingAddressCommand: import("@spartacus/core").Command<Address, unknown>
-```
-
-
-Current version:
-
-```
-setBillingAddressCommand: _spartacus_core.Command<Address, unknown>
-```
-
-
 
 
 # Class CheckoutConnector
@@ -66877,23 +65311,6 @@ setBillingAddressCommand: _spartacus_core.Command<Address, unknown>
 ## @spartacus/checkout/base/components
 
 
-### Property checkoutFlow changed.
-
-
-Previous version:
-
-```
-checkoutFlow: import("@spartacus/checkout/base/root").CheckoutFlow | undefined
-```
-
-
-Current version:
-
-```
-checkoutFlow: _spartacus_checkout_base_root.CheckoutFlow | undefined
-```
-
-
 ### Method compareDeliveryCost is removed.
 
 
@@ -67052,23 +65469,6 @@ checkoutFlow: _spartacus_checkout_base_root.CheckoutFlow | undefined
 
 ### Method restoreFocus is removed.
 
-
-
-### Property supportedDeliveryModes$ changed.
-
-
-Previous version:
-
-```
-supportedDeliveryModes$: Observable<import("@spartacus/cart/base/root").DeliveryMode[]>
-```
-
-
-Current version:
-
-```
-supportedDeliveryModes$: Observable<_spartacus_cart_base_root.DeliveryMode[]>
-```
 
 
 
@@ -75418,23 +73818,6 @@ Namespace CartActions has been removed and is no longer part of the public API.
 ## @spartacus/cart/base/core
 
 
-### Property checkForValidationResultClear$ changed.
-
-
-Previous version:
-
-```
-checkForValidationResultClear$: Observable<[import("@spartacus/core").RouterState, CartModification[]]>
-```
-
-
-Current version:
-
-```
-checkForValidationResultClear$: Observable<[i2.RouterState, CartModification[]]>
-```
-
-
 ### Method ngOnDestroy is removed.
 
 
@@ -76284,23 +74667,6 @@ constructor(
 
 # Class CartValidationWarningsComponent
 ## @spartacus/cart/base/components
-
-
-### Property cartModifications$ changed.
-
-
-Previous version:
-
-```
-cartModifications$: import("rxjs").Observable<CartModification[]>
-```
-
-
-Current version:
-
-```
-cartModifications$: rxjs.Observable<CartModification[]>
-```
 
 
 ### Method removeMessage is removed.
@@ -79303,23 +77669,6 @@ property(
 
 ### Method onRegisterUserSuccess is removed.
 
-
-
-### Property registerForm changed.
-
-
-Previous version:
-
-```
-registerForm: import("@angular/forms").FormGroup<{ firstName: import("@angular/forms").FormControl<string | null>; lastName: import("@angular/forms").FormControl<string | null>; email: import("@angular/forms").FormControl<string | null>; }>
-```
-
-
-Current version:
-
-```
-registerForm: _angular_forms.FormGroup<{ firstName: _angular_forms.FormControl<string | null>; lastName: _angular_forms.FormControl<string | null>; email: _angular_forms.FormControl<string | null>; }>
-```
 
 
 ### Method registerUser is removed.

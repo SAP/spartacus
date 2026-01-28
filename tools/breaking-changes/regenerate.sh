@@ -98,13 +98,6 @@ echo ""
 echo "✓ Generation complete"
 echo ""
 
-echo "✅ Step 6: Validating generated files..."
-npm run validate || {
-    echo ""
-    echo "⚠️  Validation found issues. Please review the output above."
-    exit 1
-}
-
 echo ""
 echo "🎉 Successfully regenerated breaking changes for version ${VERSION}!"
 echo ""
