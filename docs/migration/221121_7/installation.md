@@ -21,7 +21,7 @@ npm install -g @angular/cli@21.0.5
 Create a new Angular 21 application:
 
 ```bash
-ng new my-spartacus-app --style=scss --ssr=false --zoneless=false --standalone=false --file-name-style-guide=2016
+ng new my-spartacus-app --style=scss --ssr=false --zoneless=false --file-name-style-guide=2016
 cd my-spartacus-app
 ```
 
