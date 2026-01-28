@@ -181,7 +181,11 @@ function getVariableBreakingChange(oldElement: any, newElement: any): any[] {
 }
 
 function getTypeAliasBreakingChange(oldElement: any, newElement: any): any[] {
-  if (!deepEqual(oldElement.members, newElement.members)) {
+  // Normalize type alias members before comparison to ignore JSDoc comments and whitespace changes
+  const oldNormalized = oldElement.members?.map((m: string) => normalizeType(m)) || [];
+  const newNormalized = newElement.members?.map((m: string) => normalizeType(m)) || [];
+
+  if (!deepEqual(oldNormalized, newNormalized)) {
     return [
       {
         ...getChangeDesc(oldElement, 'CHANGED'),
@@ -196,7 +200,8 @@ function getFunctionBreakingChange(oldElement: any, newElement: any): any[] {
     oldElement,
     newElement
   );
-  const returnTypeChanged = oldElement.returnType !== newElement.returnType;
+  // Normalize return types before comparison to ignore JSDoc comments and whitespace changes
+  const returnTypeChanged = normalizeType(oldElement.returnType) !== normalizeType(newElement.returnType);
   if (paramBreakingChanges.length > 0 || returnTypeChanged) {
     return [
       {

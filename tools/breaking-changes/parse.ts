@@ -260,10 +260,19 @@ function getParamType(tokenRange: any, tokens: any[]): string {
 
 /**
  * Normalize a type string by removing TypeScript-generated suffixes like $1, $2, etc.
+ * and JSDoc comments.
  */
 function normalizeTypeString(typeString: string): string {
+  // Remove JSDoc comments (/** ... */)
+  let normalized = typeString.replace(/\/\*\*[\s\S]*?\*\//g, '');
+
   // Remove $1, $2, etc. suffixes from type names
-  return typeString.replace(/([A-Za-z_][A-Za-z0-9_]*)\$\d+/g, '$1');
+  normalized = normalized.replace(/([A-Za-z_][A-Za-z0-9_]*)\$\d+/g, '$1');
+
+  // Normalize whitespace (multiple spaces/newlines to single space)
+  normalized = normalized.replace(/\s+/g, ' ').trim();
+
+  return normalized;
 }
 
 function isParamDeclaredOptional(typeTokenRange: any, tokens: any[]): boolean {

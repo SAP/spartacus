@@ -4375,12 +4375,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 	{
 		class: 'MyCouponsComponentService',
 		importPath: '@spartacus/storefront',
-		deprecatedNode: 'CUSTOMER_COUPON_CODE',
-		comment: '// TODO:Spartacus - The type of property \'CUSTOMER_COUPON_CODE:\' changed to: \'CUSTOMER_COUPON_CODE: customerCouponCode:"\' '
-	},
-	{
-		class: 'MyCouponsComponentService',
-		importPath: '@spartacus/storefront',
 		deprecatedNode: 'getSortLabels',
 		comment: '// TODO:Spartacus - Method \'getSortLabels\' was removed from Class \'MyCouponsComponentService\'. '
 	},
@@ -4389,12 +4383,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'launchSearchPage',
 		comment: '// TODO:Spartacus - Method \'launchSearchPage\' was removed from Class \'MyCouponsComponentService\'. '
-	},
-	{
-		class: 'MyCouponsComponentService',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'RELEVANCE',
-		comment: '// TODO:Spartacus - The type of property \'RELEVANCE:\' changed to: \'RELEVANCE: relevance"\' '
 	},
 	{
 		class: 'MyInterestsComponent',
@@ -5547,12 +5535,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/storefront',
 		deprecatedNode: 'getQueryFromRouteParams',
 		comment: '// TODO:Spartacus - Method \'getQueryFromRouteParams\' was removed from Class \'ProductListComponentService\'. '
-	},
-	{
-		class: 'ProductListComponentService',
-		importPath: '@spartacus/storefront',
-		deprecatedNode: 'RELEVANCE_ALLCATEGORIES',
-		comment: '// TODO:Spartacus - The type of property \'RELEVANCE_ALLCATEGORIES:\' changed to: \'RELEVANCE_ALLCATEGORIES: relevance:allCategories:"\' '
 	},
 	{
 		class: 'ProductListComponentService',
@@ -23996,7 +23978,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		class: 'OpfConfig',
 		importPath: '@spartacus/opf/base/root',
 		deprecatedNode: 'opf',
-		comment: '// TODO:Spartacus - The type of property \'opf: { opfBaseUrl?: string; commerceCloudPublicKey?: string; paymentOption?: { paymentInfoMessagesMap?: Record<number, string>; enableInfoMessage?: boolean; }; localPspResources?: Record<number, { jsFiles: string[]; cssFiles: string[]; }>; }\' changed to: \'opf: { opfBaseUrl?: string; commerceCloudPublicKey?: string; paymentOption?: { /** * The map of info message translation keys for specific payment configuration IDs * @example * ```ts * const opfConfig = { * opf: { * paymentInfoMessagesMap: { * 213: \'opfCheckout.payPalPaymentInfoMessage\' // Message key for payment method ID 213 * } * } * }; * ``` */ paymentInfoMessagesMap?: Record<number, string>; /** * Enables the payment info message section within the payment options */ enableInfoMessage?: boolean; /** * Iframe sandbox permissions per payment option id. * Useful when specific PSPs require different sandbox flags. * @example * ```ts * const opfConfig = { * opf: { * paymentOption: { * iframeSandboxMap: { * 123: \'allow-scripts allow-same-origin\', // PSP 1 * 456: \'allow-scripts allow-same-origin allow-forms\' // PSP 2 * } * } * } * }; * ``` */ iframeSandboxMap?: Record<number, string>; }; /** * Local PSP resource configuration for faster loading * @example * ```ts * const opfConfig = { * opf: { * localPspResources: { * 213: { // paymentOptionId for Adyen * jsFiles: [\'/assets/adyen-payment.js\'], * cssFiles: [\'/assets/adyen-styles.css\'] * }, * 456: { // paymentOptionId for Stripe * jsFiles: [\'/assets/stripe-payment.js\'], * cssFiles: [\'/assets/stripe-styles.css\'] * } * } * } * }; * ``` */ localPspResources?: Record<number, { jsFiles: string[]; cssFiles: string[]; }>; }\' '
+		comment: '// TODO:Spartacus - The type of property \'opf: { opfBaseUrl?: string; commerceCloudPublicKey?: string; paymentOption?: { paymentInfoMessagesMap?: Record<number, string>; enableInfoMessage?: boolean; }; localPspResources?: Record<number, { jsFiles: string[]; cssFiles: string[]; }>; }\' changed to: \'opf: { opfBaseUrl?: string; commerceCloudPublicKey?: string; paymentOption?: { paymentInfoMessagesMap?: Record<number, string>; enableInfoMessage?: boolean; iframeSandboxMap?: Record<number, string>; }; localPspResources?: Record<number, { jsFiles: string[]; cssFiles: string[]; }>; }\' '
 	},
 	{
 		class: 'OpfEventListenerService',
@@ -28521,12 +28503,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		importPath: '@spartacus/core',
 		deprecatedNode: 'loadChunks',
 		comment: '// TODO:Spartacus - Method \'loadChunks\' was removed from Class \'I18nextTranslationService\'. '
-	},
-	{
-		class: 'I18nextTranslationService',
-		importPath: '@spartacus/core',
-		deprecatedNode: 'NAMESPACE_SEPARATOR',
-		comment: '// TODO:Spartacus - The type of property \'NAMESPACE_SEPARATOR:\' changed to: \'NAMESPACE_SEPARATOR: "\' '
 	},
 	{
 		class: 'I18nextTranslationService',
@@ -37970,7 +37946,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
 		class: 'AsmConfig',
 		importPath: '@spartacus/asm/root',
 		deprecatedNode: 'asm',
-		comment: '// TODO:Spartacus - The type of property \'asm: { agentSessionTimer?: { startingDelayInSeconds?: number; }; customerSearch?: { maxResults?: number; }; customerList?: { pageSize?: number; showAvatar?: boolean; columns?: { headerLocalizationKey: string; icon?: { symbol?: ICON_TYPE; captionLocalizationKey?: string; }; renderer?: (customer: User) => string; actionType?: CustomerListColumnActionType; }[]; }; userIdHttpHeader?: { enable?: boolean; }; }\' changed to: \'asm: { agentSessionTimer?: { startingDelayInSeconds?: number; }; customerSearch?: { maxResults?: number; }; customerList?: { pageSize?: number; showAvatar?: boolean; columns?: { headerLocalizationKey: string; icon?: { symbol?: ICON_TYPE; captionLocalizationKey?: string; }; renderer?: (customer: User) => string; actionType?: CustomerListColumnActionType; }[]; }; asmSessionSupport?: { enabled?: boolean; }; userIdHttpHeader?: { /** * To fix certain features when a customer agent is emulating a user, we must send a header called * "sap-commerce-cloud-user-id" to the backend fetching certain data as the user, rather than the * agent. However, the header will break instances of Commerce Cloud who do not allow requests with * this header. (For example, the configuration "corsfilter.commercewebservices.allowedHeaders" will * need to allow it.) * * Enabling this feature will send the emulated user\'s IDs on requests that need it as context. */ enable?: boolean; }; createCustomer?: { enable?: boolean; }; }\' '
+		comment: '// TODO:Spartacus - The type of property \'asm: { agentSessionTimer?: { startingDelayInSeconds?: number; }; customerSearch?: { maxResults?: number; }; customerList?: { pageSize?: number; showAvatar?: boolean; columns?: { headerLocalizationKey: string; icon?: { symbol?: ICON_TYPE; captionLocalizationKey?: string; }; renderer?: (customer: User) => string; actionType?: CustomerListColumnActionType; }[]; }; userIdHttpHeader?: { enable?: boolean; }; }\' changed to: \'asm: { agentSessionTimer?: { startingDelayInSeconds?: number; }; customerSearch?: { maxResults?: number; }; customerList?: { pageSize?: number; showAvatar?: boolean; columns?: { headerLocalizationKey: string; icon?: { symbol?: ICON_TYPE; captionLocalizationKey?: string; }; renderer?: (customer: User) => string; actionType?: CustomerListColumnActionType; }[]; }; asmSessionSupport?: { enabled?: boolean; }; userIdHttpHeader?: { enable?: boolean; }; createCustomer?: { enable?: boolean; }; }\' '
 	},
 	{
 		class: 'AsmCreateCustomerFacade',

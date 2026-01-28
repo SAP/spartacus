@@ -324,9 +324,17 @@ function getMembers(node: ts.Node, packageName: string): any[] {
           }
         }
 
-        // Properties need propertyTypeTokenRange
+        // Properties need propertyTypeTokenRange only if they have an explicit type annotation
         if (ts.isPropertyDeclaration(member) || ts.isPropertySignature(member)) {
-          memberData.propertyTypeTokenRange = findTokenRange(excerptTokens, 'type');
+          // Check if property has explicit type annotation in AST
+          // For properties without explicit type (e.g., readonly RELEVANCE = ':relevance'),
+          // TypeScript infers the type from the initializer, and we shouldn't extract a type range
+          if (member.type) {
+            memberData.propertyTypeTokenRange = findTokenRange(excerptTokens, 'type');
+          } else {
+            // No explicit type - set empty range
+            memberData.propertyTypeTokenRange = { startIndex: 0, endIndex: 0 };
+          }
         }
 
         members.push(memberData);
@@ -383,16 +391,21 @@ function getMemberKind(member: ts.Node): string {
   return 'Unknown';
 }
 
-function getFunctionParameters(node: ts.FunctionDeclaration, excerptTokens: any[], packageName: string): any[] { // eslint-disable-line @typescript-eslint/no-unused-vars
+function getFunctionParameters(node: ts.FunctionDeclaration, excerptTokens: any[], packageName: string): any[] {
   if (!node.parameters) return [];
 
   return node.parameters.map((param, index) => {
     const paramName = param.name.getText();
     const paramTypeRange = findParamTypeRange(excerptTokens, paramName, index);
 
+    // Extract type information from parameter (same as for methods)
+    const typeInfo = extractTypeInfo(param, packageName);
+
     return {
       parameterName: paramName,
-      parameterTypeTokenRange: paramTypeRange
+      parameterTypeTokenRange: paramTypeRange,
+      isOptional: !!param.questionToken,
+      ...typeInfo
     };
   });
 }
@@ -665,6 +678,33 @@ function generateStructuredTokens(text: string): any[] {
     const char = text[i];
     const nextChar = i + 1 < text.length ? text[i + 1] : '';
 
+    // Check for string literals (single or double quotes)
+    if (char === "'" || char === '"' || char === '`') {
+      const quoteChar = char;
+      let stringLiteral = char;
+      i++;
+
+      // Consume entire string literal, handling escape sequences
+      while (i < text.length) {
+        if (text[i] === '\\' && i + 1 < text.length) {
+          // Escape sequence - include both backslash and next char
+          stringLiteral += text[i] + text[i + 1];
+          i += 2;
+        } else if (text[i] === quoteChar) {
+          // End of string literal
+          stringLiteral += text[i];
+          i++;
+          break;
+        } else {
+          stringLiteral += text[i];
+          i++;
+        }
+      }
+
+      tokens.push({ kind: 'Content', text: stringLiteral });
+      continue;
+    }
+
     // Check for => (arrow function)
     if (char === '=' && nextChar === '>') {
       tokens.push({ kind: 'Content', text: '=>' });
@@ -812,18 +852,25 @@ function findParamTypeRange(tokens: any[], paramName: string, paramIndex: number
   // Find the colon after parameter name (could be '?' followed by ':' for optional params)
   let colonIndex = paramNameIndex + 1;
   while (colonIndex < tokens.length) {
-    const text = tokens[colonIndex].text.trim();
+    const text = tokens[colonIndex].text;
     if (text === ':') {
       break;
     }
     // Handle optional parameter marker '?'
-    if (text === '?' || text.includes(':')) {
-      break;
+    if (text === '?') {
+      colonIndex++;
+      // After '?', look for ':'
+      while (colonIndex < tokens.length && tokens[colonIndex].text.trim() === '') {
+        colonIndex++;
+      }
+      if (colonIndex < tokens.length && tokens[colonIndex].text === ':') {
+        break;
+      }
     }
     colonIndex++;
   }
 
-  if (colonIndex >= tokens.length) {
+  if (colonIndex >= tokens.length || tokens[colonIndex].text !== ':') {
     return { startIndex: 0, endIndex: 0 };
   }
 
@@ -831,6 +878,10 @@ function findParamTypeRange(tokens: any[], paramName: string, paramIndex: number
   let startIndex = colonIndex + 1;
   while (startIndex < tokens.length && tokens[startIndex].text.trim() === '') {
     startIndex++;
+  }
+
+  if (startIndex >= tokens.length) {
+    return { startIndex: 0, endIndex: 0 };
   }
 
   // Find end of type (before comma, closing paren, or = at depth 0)
@@ -948,7 +999,8 @@ function findTokenRange(tokens: any[], rangeType: 'return' | 'type' | 'typealias
         let endIndex = startIndex;
         let depth = 0;
 
-        // Find end (before => or ; or { at depth 0)
+        // Find end (before ; or { at depth 0)
+        // Note: arrow function types like "() => ReturnType" should be included entirely
         while (endIndex < tokens.length) {
           const text = tokens[endIndex].text;
 
@@ -965,7 +1017,12 @@ function findTokenRange(tokens: any[], rangeType: 'return' | 'type' | 'typealias
             depth++;
           } else if (text === '>' || text === ')' || text === ']' || text === '}') {
             depth--;
-          } else if (depth === 0 && (text === '=>' || text === ';' || text === '{' || text.includes('=>') || text.includes(';') || text.includes('{'))) {
+          } else if (text === '=>' || text.includes('=>')) {
+            // Arrow operator - this is part of arrow function type, continue
+            endIndex++;
+            continue;
+          } else if (depth === 0 && (text === ';' || text === '{' || text.includes(';') || text.includes('{'))) {
+            // End of return type
             break;
           }
 

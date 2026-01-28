@@ -1886,36 +1886,6 @@ moved to @spartacus/user/profile
 
 
 
-# Function tmsFactory
-## @spartacus/tracking/tms/core
-
-
-Function tmsFactory changed.
-
-Previous version:
-
-```
-
-tmsFactory(
-  service: TmsService
-): () => void
-
-```
-
-
-Current version:
-
-```
-
-tmsFactory(
-  service: TmsService
-): ()
-
-```
-
-
-
-
 # Class TmsService
 ## @spartacus/tracking/tms/core
 
@@ -3197,20 +3167,14 @@ subscriptionCode: i0.Signal<string>
 Previous version:
 
 ```
-subscriptionDetailSignal: import("@angular/core").Signal<(SubscriptionDetail & {
-        code?: string;
-        mode?: SubscriptionActionMode;
-    }) | undefined>
+subscriptionDetailSignal: import("@angular/core").Signal<(SubscriptionDetail & { code?: string; mode?: SubscriptionActionMode; }) | undefined>
 ```
 
 
 Current version:
 
 ```
-subscriptionDetailSignal: i0.Signal<(SubscriptionDetail & {
-        code?: string;
-        mode?: SubscriptionActionMode;
-    }) | undefined>
+subscriptionDetailSignal: i0.Signal<(SubscriptionDetail & { code?: string; mode?: SubscriptionActionMode; }) | undefined>
 ```
 
 
@@ -3680,18 +3644,14 @@ constructor(
 Previous version:
 
 ```
-guards: {
-        canActivate: import("@angular/router").CanActivateFn;
-    }[]
+guards: { canActivate: import("@angular/router").CanActivateFn; }[]
 ```
 
 
 Current version:
 
 ```
-guards: {
-        canActivate: i2.CanActivateFn;
-    }[]
+guards: { canActivate: i2.CanActivateFn; }[]
 ```
 
 
@@ -4421,44 +4381,6 @@ guards: {
 
 
 
-# Function controlsMustMatch
-## @spartacus/storefront
-
-
-Function controlsMustMatch changed.
-
-Previous version:
-
-```
-
-controlsMustMatch(
-  formGroup: UntypedFormGroup,
-  firstControlName: string,
-  secondControlName: string,
-  errorName: string,
-  cannotMatch?: boolean
-): void
-
-```
-
-
-Current version:
-
-```
-
-controlsMustMatch(
-  formGroup: UntypedFormGroup,
-  firstControlName: ,
-  secondControlName: ,
-  errorName: ,
-  cannotMatch: 
-): void
-
-```
-
-
-
-
 # Class CouponCardComponent
 ## @spartacus/storefront
 
@@ -5182,40 +5104,6 @@ Function FormUtils.deepUpdateValueAndValidity has been removed and is no longer 
 
 
 
-# Function getAddressNumbers
-## @spartacus/storefront
-
-
-Function getAddressNumbers changed.
-
-Previous version:
-
-```
-
-getAddressNumbers(
-  address: Address,
-  textPhone: string,
-  textMobile: string
-): string | undefined
-
-```
-
-
-Current version:
-
-```
-
-getAddressNumbers(
-  address: Address,
-  textPhone: ,
-  textMobile: 
-): string | undefined
-
-```
-
-
-
-
 # Class GlobalMessageComponent
 ## @spartacus/storefront
 
@@ -5435,36 +5323,6 @@ Enum ICON_TYPE has been removed and is no longer part of the public API.
 
 ### Method validateTooManyEntries is removed.
 
-
-
-
-
-# Function initSeoService
-## @spartacus/storefront
-
-
-Function initSeoService changed.
-
-Previous version:
-
-```
-
-initSeoService(
-  injector: Injector
-): () => void
-
-```
-
-
-Current version:
-
-```
-
-initSeoService(
-  injector: Injector
-): ()
-
-```
 
 
 
@@ -6042,36 +5900,6 @@ innerComponents$: rxjs.Observable<string[]>
 
 
 
-# Function mediaPreconnectInitializer
-## @spartacus/storefront
-
-
-Function mediaPreconnectInitializer changed.
-
-Previous version:
-
-```
-
-mediaPreconnectInitializer(
-  mediaPreconnectService: MediaPreconnectService
-): () => void
-
-```
-
-
-Current version:
-
-```
-
-mediaPreconnectInitializer(
-  mediaPreconnectService: MediaPreconnectService
-): ()
-
-```
-
-
-
-
 # Class MediaPreconnectService
 ## @spartacus/storefront
 
@@ -6393,46 +6221,12 @@ Interface MessageEvent_2 has been removed and is no longer part of the public AP
 ## @spartacus/storefront
 
 
-### Property CUSTOMER_COUPON_CODE changed.
-
-
-Previous version:
-
-```
-CUSTOMER_COUPON_CODE: 
-```
-
-
-Current version:
-
-```
-CUSTOMER_COUPON_CODE: customerCouponCode:"
-```
-
-
 ### Method getSortLabels is removed.
 
 
 
 ### Method launchSearchPage is removed.
 
-
-
-### Property RELEVANCE changed.
-
-
-Previous version:
-
-```
-RELEVANCE: 
-```
-
-
-Current version:
-
-```
-RELEVANCE: relevance"
-```
 
 
 
@@ -6680,36 +6474,6 @@ isDesktop$: rxjs.Observable<boolean>
 
 ### Method updatePreference is removed.
 
-
-
-
-
-# Function onNavigateFactory
-## @spartacus/storefront
-
-
-Function onNavigateFactory changed.
-
-Previous version:
-
-```
-
-onNavigateFactory(
-  onNavigateService: OnNavigateService
-): () => void
-
-```
-
-
-Current version:
-
-```
-
-onNavigateFactory(
-  onNavigateService: OnNavigateService
-): ()
-
-```
 
 
 
@@ -7777,23 +7541,6 @@ componentData: CmsComponentData<CmsProductCarouselComponent>
 
 
 
-### Property RELEVANCE_ALLCATEGORIES changed.
-
-
-Previous version:
-
-```
-RELEVANCE_ALLCATEGORIES: 
-```
-
-
-Current version:
-
-```
-RELEVANCE_ALLCATEGORIES: relevance:allCategories:"
-```
-
-
 ### Method route is removed.
 
 
@@ -8728,76 +8475,6 @@ breakpointService: BreakpointService
 
 
 
-# TypeAlias SlotConfig
-## @spartacus/storefront
-
-
-TypeAlias SlotConfig changed.
-
-Previous version:
-
-```
-{
-    slots?: string[];
-    pageFold?: string;
-}
-```
-
-
-Current version:
-
-```
-{
-    /** The cms page slots are mapped by the `slot.position`. */
-    slots?: string[];
-    /**
-     * The page fold identifies the last expected page slot above-the-fold.
-     * It's perfectly fine to specify this by indication, but keep in mind that
-     * a more precise indication will gain a more positive impact on performance.
-     */
-    pageFold?: string;
-}
-```
-
-
-
-
-# TypeAlias SlotGroup
-## @spartacus/storefront
-
-
-TypeAlias SlotGroup changed.
-
-Previous version:
-
-```
-{
-    [BREAKPOINT.lg]?: SlotConfig;
-    [BREAKPOINT.md]?: SlotConfig;
-    [BREAKPOINT.sm]?: SlotConfig;
-    [BREAKPOINT.xs]?: SlotConfig;
-}
-```
-
-
-Current version:
-
-```
-{
-    /** The page slot configuration for large screens */
-    [BREAKPOINT.lg]?: SlotConfig;
-    /** The page slot configuration for medium screens */
-    [BREAKPOINT.md]?: SlotConfig;
-    /** The page slot configuration for small screens */
-    [BREAKPOINT.sm]?: SlotConfig;
-    /** The page slot configuration for extra small screens */
-    [BREAKPOINT.xs]?: SlotConfig;
-}
-```
-
-
-
-
 # Class SortingComponent
 ## @spartacus/storefront
 
@@ -8808,38 +8485,6 @@ Current version:
 
 ### Method sortList is removed.
 
-
-
-
-
-# Function sortTitles
-## @spartacus/storefront
-
-
-Function sortTitles changed.
-
-Previous version:
-
-```
-
-sortTitles(
-  title1: Title,
-  title2: Title
-): number
-
-```
-
-
-Current version:
-
-```
-
-sortTitles(
-  title1: Title,
-  title2: 
-): number
-
-```
 
 
 
@@ -10557,36 +10202,6 @@ Variable storeFinderTranslationsZh has been removed and is no longer part of the
 
 
 
-# Function smartEditFactory
-## @spartacus/smartedit/root
-
-
-Function smartEditFactory changed.
-
-Previous version:
-
-```
-
-smartEditFactory(
-  smartEditLauncherService: SmartEditLauncherService
-): () => void
-
-```
-
-
-Current version:
-
-```
-
-smartEditFactory(
-  smartEditLauncherService: SmartEditLauncherService
-): ()
-
-```
-
-
-
-
 # Class SmartEditLauncherService
 ## @spartacus/smartedit/root
 
@@ -10850,36 +10465,6 @@ Function getRequestContext has been removed and is no longer part of the public 
 
 
 
-# Function ngExpressEngine
-## @spartacus/setup/ssr
-
-
-Function ngExpressEngine changed.
-
-Previous version:
-
-```
-
-ngExpressEngine(
-  setupOptions: NgSetupOptions
-): (filePath: string, options: object, callback: (err?: Error | null, html?: string) => void) => void
-
-```
-
-
-Current version:
-
-```
-
-ngExpressEngine(
-  setupOptions: NgSetupOptions
-): (filePath: string, options: object, callback: (err?: Error | null, html?: string) => void)
-
-```
-
-
-
-
 # Class NgExpressEngineDecorator
 ## @spartacus/setup/ssr
 
@@ -10976,36 +10561,6 @@ ngExpressEngine(
 
 ### Method handleError is removed.
 
-
-
-
-
-# Function provideServer
-## @spartacus/setup/ssr
-
-
-Function provideServer changed.
-
-Previous version:
-
-```
-
-provideServer(
-  options?: ServerOptions
-): Provider[]
-
-```
-
-
-Current version:
-
-```
-
-provideServer(
-  options: : ServerOptions
-): Provider[]
-
-```
 
 
 
@@ -11157,38 +10712,6 @@ Function serverLoggerServiceFactory has been removed and is no longer part of th
 
 ### PropertySignature serverRequestOrigin is removed.
 
-
-
-
-
-# TypeAlias SsrCallbackFn
-## @spartacus/setup/ssr
-
-
-TypeAlias SsrCallbackFn changed.
-
-Previous version:
-
-```
-(
-err?: Error | null | undefined, 
-html?: string | undefined) => void
-```
-
-
-Current version:
-
-```
-(
-/**
- * Error that might've occurred while rendering.
- */
-err?: Error | null | undefined, 
-/**
- * HTML response.
- */
-html?: string | undefined) => void
-```
 
 
 
@@ -11820,106 +11343,14 @@ moved to @spartacus/s4/service/order
 Previous version:
 
 ```
-order$: import("rxjs").Observable<{
-        entries: import("@spartacus/cart/base/root").OrderEntry[];
-        appliedOrderPromotions?: import("@spartacus/cart/base/root").PromotionResult[];
-        appliedProductPromotions?: import("@spartacus/cart/base/root").PromotionResult[];
-        appliedVouchers?: import("@spartacus/cart/base/root").Voucher[];
-        calculated?: boolean;
-        code?: string;
-        consignments?: import("@spartacus/order/root").Consignment[];
-        costCenter?: import("@spartacus/core").CostCenter;
-        created?: Date;
-        deliveryAddress?: import("@spartacus/core").Address;
-        deliveryCost?: import("@spartacus/core").Price;
-        deliveryItemsQuantity?: number;
-        deliveryMode?: import("@spartacus/cart/base/root").DeliveryMode;
-        deliveryOrderGroups?: import("@spartacus/cart/base/root").DeliveryOrderEntryGroup[];
-        deliveryStatus?: string;
-        deliveryStatusDisplay?: string;
-        guestCustomer?: boolean;
-        guid?: string;
-        net?: boolean;
-        orderDiscounts?: import("@spartacus/core").Price;
-        orgCustomer?: import("@spartacus/core").B2BUser;
-        orgUnit?: import("@spartacus/core").B2BUnit;
-        paymentInfo?: import("@spartacus/core").PaymentDetails;
-        pickupItemsQuantity?: number;
-        pickupOrderGroups?: import("@spartacus/cart/base/root").PickupOrderEntryGroup[];
-        productDiscounts?: import("@spartacus/core").Price;
-        purchaseOrderNumber?: string;
-        site?: string;
-        status?: string;
-        statusDisplay?: string;
-        store?: string;
-        subTotal?: import("@spartacus/core").Price;
-        totalDiscounts?: import("@spartacus/core").Price;
-        totalItems?: number;
-        totalPrice?: import("@spartacus/core").Price;
-        totalPriceWithTax?: import("@spartacus/core").Price;
-        totalTax?: import("@spartacus/core").Price;
-        unconsignedEntries?: import("@spartacus/cart/base/root").OrderEntry[];
-        user?: import("@spartacus/core").Principal;
-        returnable?: boolean;
-        cancellable?: boolean;
-        sapQuoteCode?: string;
-        servicedAt?: import("@spartacus/s4-service/root").ServiceDateTime;
-        serviceCancellable?: import("@spartacus/s4-service/root").serviceCancellable;
-        serviceReschedulable?: boolean;
-    }>
+order$: import("rxjs").Observable<{ entries: import("@spartacus/cart/base/root").OrderEntry[]; appliedOrderPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedProductPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedVouchers?: import("@spartacus/cart/base/root").Voucher[]; calculated?: boolean; code?: string; consignments?: import("@spartacus/order/root").Consignment[]; costCenter?: import("@spartacus/core").CostCenter; created?: Date; deliveryAddress?: import("@spartacus/core").Address; deliveryCost?: import("@spartacus/core").Price; deliveryItemsQuantity?: number; deliveryMode?: import("@spartacus/cart/base/root").DeliveryMode; deliveryOrderGroups?: import("@spartacus/cart/base/root").DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: import("@spartacus/core").Price; orgCustomer?: import("@spartacus/core").B2BUser; orgUnit?: import("@spartacus/core").B2BUnit; paymentInfo?: import("@spartacus/core").PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: import("@spartacus/cart/base/root").PickupOrderEntryGroup[]; productDiscounts?: import("@spartacus/core").Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: import("@spartacus/core").Price; totalDiscounts?: import("@spartacus/core").Price; totalItems?: number; totalPrice?: import("@spartacus/core").Price; totalPriceWithTax?: import("@spartacus/core").Price; totalTax?: import("@spartacus/core").Price; unconsignedEntries?: import("@spartacus/cart/base/root").OrderEntry[]; user?: import("@spartacus/core").Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: import("@spartacus/s4-service/root").ServiceDateTime; serviceCancellable?: import("@spartacus/s4-service/root").serviceCancellable; serviceReschedulable?: boolean; }>
 ```
 
 
 Current version:
 
 ```
-order$: rxjs.Observable<{
-        entries: _spartacus_cart_base_root.OrderEntry[];
-        appliedOrderPromotions?: _spartacus_cart_base_root.PromotionResult[];
-        appliedProductPromotions?: _spartacus_cart_base_root.PromotionResult[];
-        appliedVouchers?: _spartacus_cart_base_root.Voucher[];
-        calculated?: boolean;
-        code?: string;
-        consignments?: _spartacus_order_root.Consignment[];
-        costCenter?: _spartacus_core.CostCenter;
-        created?: Date;
-        deliveryAddress?: _spartacus_core.Address;
-        deliveryCost?: _spartacus_core.Price;
-        deliveryItemsQuantity?: number;
-        deliveryMode?: _spartacus_cart_base_root.DeliveryMode;
-        deliveryOrderGroups?: _spartacus_cart_base_root.DeliveryOrderEntryGroup[];
-        deliveryStatus?: string;
-        deliveryStatusDisplay?: string;
-        guestCustomer?: boolean;
-        guid?: string;
-        net?: boolean;
-        orderDiscounts?: _spartacus_core.Price;
-        orgCustomer?: _spartacus_core.B2BUser;
-        orgUnit?: _spartacus_core.B2BUnit;
-        paymentInfo?: _spartacus_core.PaymentDetails;
-        pickupItemsQuantity?: number;
-        pickupOrderGroups?: _spartacus_cart_base_root.PickupOrderEntryGroup[];
-        productDiscounts?: _spartacus_core.Price;
-        purchaseOrderNumber?: string;
-        site?: string;
-        status?: string;
-        statusDisplay?: string;
-        store?: string;
-        subTotal?: _spartacus_core.Price;
-        totalDiscounts?: _spartacus_core.Price;
-        totalItems?: number;
-        totalPrice?: _spartacus_core.Price;
-        totalPriceWithTax?: _spartacus_core.Price;
-        totalTax?: _spartacus_core.Price;
-        unconsignedEntries?: _spartacus_cart_base_root.OrderEntry[];
-        user?: _spartacus_core.Principal;
-        returnable?: boolean;
-        cancellable?: boolean;
-        sapQuoteCode?: string;
-        servicedAt?: _spartacus_s4_service_root.ServiceDateTime;
-        serviceCancellable?: _spartacus_s4_service_root.serviceCancellable;
-        serviceReschedulable?: boolean;
-    }>
+order$: rxjs.Observable<{ entries: _spartacus_cart_base_root.OrderEntry[]; appliedOrderPromotions?: _spartacus_cart_base_root.PromotionResult[]; appliedProductPromotions?: _spartacus_cart_base_root.PromotionResult[]; appliedVouchers?: _spartacus_cart_base_root.Voucher[]; calculated?: boolean; code?: string; consignments?: _spartacus_order_root.Consignment[]; costCenter?: _spartacus_core.CostCenter; created?: Date; deliveryAddress?: _spartacus_core.Address; deliveryCost?: _spartacus_core.Price; deliveryItemsQuantity?: number; deliveryMode?: _spartacus_cart_base_root.DeliveryMode; deliveryOrderGroups?: _spartacus_cart_base_root.DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: _spartacus_core.Price; orgCustomer?: _spartacus_core.B2BUser; orgUnit?: _spartacus_core.B2BUnit; paymentInfo?: _spartacus_core.PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: _spartacus_cart_base_root.PickupOrderEntryGroup[]; productDiscounts?: _spartacus_core.Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: _spartacus_core.Price; totalDiscounts?: _spartacus_core.Price; totalItems?: number; totalPrice?: _spartacus_core.Price; totalPriceWithTax?: _spartacus_core.Price; totalTax?: _spartacus_core.Price; unconsignedEntries?: _spartacus_cart_base_root.OrderEntry[]; user?: _spartacus_core.Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: _spartacus_s4_service_root.ServiceDateTime; serviceCancellable?: _spartacus_s4_service_root.serviceCancellable; serviceReschedulable?: boolean; }>
 ```
 
 
@@ -11965,106 +11396,14 @@ moved to @spartacus/s4/service/order
 Previous version:
 
 ```
-order$: Observable<{
-        entries: import("@spartacus/cart/base/root").OrderEntry[];
-        appliedOrderPromotions?: import("@spartacus/cart/base/root").PromotionResult[];
-        appliedProductPromotions?: import("@spartacus/cart/base/root").PromotionResult[];
-        appliedVouchers?: import("@spartacus/cart/base/root").Voucher[];
-        calculated?: boolean;
-        code?: string;
-        consignments?: import("@spartacus/order/root").Consignment[];
-        costCenter?: import("@spartacus/core").CostCenter;
-        created?: Date;
-        deliveryAddress?: import("@spartacus/core").Address;
-        deliveryCost?: import("@spartacus/core").Price;
-        deliveryItemsQuantity?: number;
-        deliveryMode?: import("@spartacus/cart/base/root").DeliveryMode;
-        deliveryOrderGroups?: import("@spartacus/cart/base/root").DeliveryOrderEntryGroup[];
-        deliveryStatus?: string;
-        deliveryStatusDisplay?: string;
-        guestCustomer?: boolean;
-        guid?: string;
-        net?: boolean;
-        orderDiscounts?: import("@spartacus/core").Price;
-        orgCustomer?: import("@spartacus/core").B2BUser;
-        orgUnit?: import("@spartacus/core").B2BUnit;
-        paymentInfo?: import("@spartacus/core").PaymentDetails;
-        pickupItemsQuantity?: number;
-        pickupOrderGroups?: import("@spartacus/cart/base/root").PickupOrderEntryGroup[];
-        productDiscounts?: import("@spartacus/core").Price;
-        purchaseOrderNumber?: string;
-        site?: string;
-        status?: string;
-        statusDisplay?: string;
-        store?: string;
-        subTotal?: import("@spartacus/core").Price;
-        totalDiscounts?: import("@spartacus/core").Price;
-        totalItems?: number;
-        totalPrice?: import("@spartacus/core").Price;
-        totalPriceWithTax?: import("@spartacus/core").Price;
-        totalTax?: import("@spartacus/core").Price;
-        unconsignedEntries?: import("@spartacus/cart/base/root").OrderEntry[];
-        user?: import("@spartacus/core").Principal;
-        returnable?: boolean;
-        cancellable?: boolean;
-        sapQuoteCode?: string;
-        servicedAt?: ServiceDateTime;
-        serviceCancellable?: import("@spartacus/s4-service/root").serviceCancellable;
-        serviceReschedulable?: boolean;
-    }>
+order$: Observable<{ entries: import("@spartacus/cart/base/root").OrderEntry[]; appliedOrderPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedProductPromotions?: import("@spartacus/cart/base/root").PromotionResult[]; appliedVouchers?: import("@spartacus/cart/base/root").Voucher[]; calculated?: boolean; code?: string; consignments?: import("@spartacus/order/root").Consignment[]; costCenter?: import("@spartacus/core").CostCenter; created?: Date; deliveryAddress?: import("@spartacus/core").Address; deliveryCost?: import("@spartacus/core").Price; deliveryItemsQuantity?: number; deliveryMode?: import("@spartacus/cart/base/root").DeliveryMode; deliveryOrderGroups?: import("@spartacus/cart/base/root").DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: import("@spartacus/core").Price; orgCustomer?: import("@spartacus/core").B2BUser; orgUnit?: import("@spartacus/core").B2BUnit; paymentInfo?: import("@spartacus/core").PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: import("@spartacus/cart/base/root").PickupOrderEntryGroup[]; productDiscounts?: import("@spartacus/core").Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: import("@spartacus/core").Price; totalDiscounts?: import("@spartacus/core").Price; totalItems?: number; totalPrice?: import("@spartacus/core").Price; totalPriceWithTax?: import("@spartacus/core").Price; totalTax?: import("@spartacus/core").Price; unconsignedEntries?: import("@spartacus/cart/base/root").OrderEntry[]; user?: import("@spartacus/core").Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: ServiceDateTime; serviceCancellable?: import("@spartacus/s4-service/root").serviceCancellable; serviceReschedulable?: boolean; }>
 ```
 
 
 Current version:
 
 ```
-order$: Observable<{
-        entries: _spartacus_cart_base_root.OrderEntry[];
-        appliedOrderPromotions?: _spartacus_cart_base_root.PromotionResult[];
-        appliedProductPromotions?: _spartacus_cart_base_root.PromotionResult[];
-        appliedVouchers?: _spartacus_cart_base_root.Voucher[];
-        calculated?: boolean;
-        code?: string;
-        consignments?: _spartacus_order_root.Consignment[];
-        costCenter?: _spartacus_core.CostCenter;
-        created?: Date;
-        deliveryAddress?: _spartacus_core.Address;
-        deliveryCost?: _spartacus_core.Price;
-        deliveryItemsQuantity?: number;
-        deliveryMode?: _spartacus_cart_base_root.DeliveryMode;
-        deliveryOrderGroups?: _spartacus_cart_base_root.DeliveryOrderEntryGroup[];
-        deliveryStatus?: string;
-        deliveryStatusDisplay?: string;
-        guestCustomer?: boolean;
-        guid?: string;
-        net?: boolean;
-        orderDiscounts?: _spartacus_core.Price;
-        orgCustomer?: _spartacus_core.B2BUser;
-        orgUnit?: _spartacus_core.B2BUnit;
-        paymentInfo?: _spartacus_core.PaymentDetails;
-        pickupItemsQuantity?: number;
-        pickupOrderGroups?: _spartacus_cart_base_root.PickupOrderEntryGroup[];
-        productDiscounts?: _spartacus_core.Price;
-        purchaseOrderNumber?: string;
-        site?: string;
-        status?: string;
-        statusDisplay?: string;
-        store?: string;
-        subTotal?: _spartacus_core.Price;
-        totalDiscounts?: _spartacus_core.Price;
-        totalItems?: number;
-        totalPrice?: _spartacus_core.Price;
-        totalPriceWithTax?: _spartacus_core.Price;
-        totalTax?: _spartacus_core.Price;
-        unconsignedEntries?: _spartacus_cart_base_root.OrderEntry[];
-        user?: _spartacus_core.Principal;
-        returnable?: boolean;
-        cancellable?: boolean;
-        sapQuoteCode?: string;
-        servicedAt?: ServiceDateTime;
-        serviceCancellable?: _spartacus_s4_service_root.serviceCancellable;
-        serviceReschedulable?: boolean;
-    }>
+order$: Observable<{ entries: _spartacus_cart_base_root.OrderEntry[]; appliedOrderPromotions?: _spartacus_cart_base_root.PromotionResult[]; appliedProductPromotions?: _spartacus_cart_base_root.PromotionResult[]; appliedVouchers?: _spartacus_cart_base_root.Voucher[]; calculated?: boolean; code?: string; consignments?: _spartacus_order_root.Consignment[]; costCenter?: _spartacus_core.CostCenter; created?: Date; deliveryAddress?: _spartacus_core.Address; deliveryCost?: _spartacus_core.Price; deliveryItemsQuantity?: number; deliveryMode?: _spartacus_cart_base_root.DeliveryMode; deliveryOrderGroups?: _spartacus_cart_base_root.DeliveryOrderEntryGroup[]; deliveryStatus?: string; deliveryStatusDisplay?: string; guestCustomer?: boolean; guid?: string; net?: boolean; orderDiscounts?: _spartacus_core.Price; orgCustomer?: _spartacus_core.B2BUser; orgUnit?: _spartacus_core.B2BUnit; paymentInfo?: _spartacus_core.PaymentDetails; pickupItemsQuantity?: number; pickupOrderGroups?: _spartacus_cart_base_root.PickupOrderEntryGroup[]; productDiscounts?: _spartacus_core.Price; purchaseOrderNumber?: string; site?: string; status?: string; statusDisplay?: string; store?: string; subTotal?: _spartacus_core.Price; totalDiscounts?: _spartacus_core.Price; totalItems?: number; totalPrice?: _spartacus_core.Price; totalPriceWithTax?: _spartacus_core.Price; totalTax?: _spartacus_core.Price; unconsignedEntries?: _spartacus_cart_base_root.OrderEntry[]; user?: _spartacus_core.Principal; returnable?: boolean; cancellable?: boolean; sapQuoteCode?: string; servicedAt?: ServiceDateTime; serviceCancellable?: _spartacus_s4_service_root.serviceCancellable; serviceReschedulable?: boolean; }>
 ```
 
 
@@ -14129,18 +13468,14 @@ quotesState$: rxjs.Observable<i2.QueryState<_spartacus_quote_root.QuoteList | un
 Previous version:
 
 ```
-sortLabels$: import("rxjs").Observable<{
-        [key: string]: string;
-    }>
+sortLabels$: import("rxjs").Observable<{ [key: string]: string; }>
 ```
 
 
 Current version:
 
 ```
-sortLabels$: rxjs.Observable<{
-        [key: string]: string;
-    }>
+sortLabels$: rxjs.Observable<{ [key: string]: string; }>
 ```
 
 
@@ -24205,22 +23540,14 @@ Variable AddBrowserLocation changed.
 Previous version:
 
 ```
-AddBrowserLocation: import("@ngrx/store").ActionCreator<"[Pickup Locations] Add Browser Location", (props: {
-    payload: AddBrowserLocationProps;
-}) => {
-    payload: AddBrowserLocationProps;
-} & import("@ngrx/store").Action<"[Pickup Locations] Add Browser Location">>
+AddBrowserLocation: import("@ngrx/store").ActionCreator<"[Pickup Locations] Add Browser Location", (props: { payload: AddBrowserLocationProps; }) => { payload: AddBrowserLocationProps; } & import("@ngrx/store").Action<"[Pickup Locations] Add Browser Location">>
 ```
 
 
 Current version:
 
 ```
-AddBrowserLocation: _ngrx_store.ActionCreator<"[Pickup Locations] Add Browser Location", (props: {
-    payload: AddBrowserLocationProps;
-}) => {
-    payload: AddBrowserLocationProps;
-} & _ngrx_store.Action<"[Pickup Locations] Add Browser Location">>
+AddBrowserLocation: _ngrx_store.ActionCreator<"[Pickup Locations] Add Browser Location", (props: { payload: AddBrowserLocationProps; }) => { payload: AddBrowserLocationProps; } & _ngrx_store.Action<"[Pickup Locations] Add Browser Location">>
 ```
 
 
@@ -24310,22 +23637,14 @@ Variable LoadDefaultPointOfServiceSuccess changed.
 Previous version:
 
 ```
-LoadDefaultPointOfServiceSuccess: import("@ngrx/store").ActionCreator<"[Default Point Of Service] Load Default Point Of Service Success", (props: {
-    payload: PointOfServiceNames;
-}) => {
-    payload: PointOfServiceNames;
-} & import("@ngrx/store").Action<"[Default Point Of Service] Load Default Point Of Service Success">>
+LoadDefaultPointOfServiceSuccess: import("@ngrx/store").ActionCreator<"[Default Point Of Service] Load Default Point Of Service Success", (props: { payload: PointOfServiceNames; }) => { payload: PointOfServiceNames; } & import("@ngrx/store").Action<"[Default Point Of Service] Load Default Point Of Service Success">>
 ```
 
 
 Current version:
 
 ```
-LoadDefaultPointOfServiceSuccess: _ngrx_store.ActionCreator<"[Default Point Of Service] Load Default Point Of Service Success", (props: {
-    payload: PointOfServiceNames;
-}) => {
-    payload: PointOfServiceNames;
-} & _ngrx_store.Action<"[Default Point Of Service] Load Default Point Of Service Success">>
+LoadDefaultPointOfServiceSuccess: _ngrx_store.ActionCreator<"[Default Point Of Service] Load Default Point Of Service Success", (props: { payload: PointOfServiceNames; }) => { payload: PointOfServiceNames; } & _ngrx_store.Action<"[Default Point Of Service] Load Default Point Of Service Success">>
 ```
 
 
@@ -24350,22 +23669,14 @@ Variable SetDefaultPointOfService changed.
 Previous version:
 
 ```
-SetDefaultPointOfService: import("@ngrx/store").ActionCreator<"[Default Point Of Service] Set Default Point Of Service", (props: {
-    payload: PointOfServiceNames;
-}) => {
-    payload: PointOfServiceNames;
-} & import("@ngrx/store").Action<"[Default Point Of Service] Set Default Point Of Service">>
+SetDefaultPointOfService: import("@ngrx/store").ActionCreator<"[Default Point Of Service] Set Default Point Of Service", (props: { payload: PointOfServiceNames; }) => { payload: PointOfServiceNames; } & import("@ngrx/store").Action<"[Default Point Of Service] Set Default Point Of Service">>
 ```
 
 
 Current version:
 
 ```
-SetDefaultPointOfService: _ngrx_store.ActionCreator<"[Default Point Of Service] Set Default Point Of Service", (props: {
-    payload: PointOfServiceNames;
-}) => {
-    payload: PointOfServiceNames;
-} & _ngrx_store.Action<"[Default Point Of Service] Set Default Point Of Service">>
+SetDefaultPointOfService: _ngrx_store.ActionCreator<"[Default Point Of Service] Set Default Point Of Service", (props: { payload: PointOfServiceNames; }) => { payload: PointOfServiceNames; } & _ngrx_store.Action<"[Default Point Of Service] Set Default Point Of Service">>
 ```
 
 
@@ -24383,18 +23694,14 @@ moved to @spartacus/pickup/in/store/core
 Previous version:
 
 ```
-loadDefaultPointOfService$: import("rxjs").Observable<{
-        payload: PointOfServiceNames;
-    } & import("@ngrx/store").Action<"[Default Point Of Service] Load Default Point Of Service Success">> & import("@ngrx/effects").CreateEffectMetadata
+loadDefaultPointOfService$: import("rxjs").Observable<{ payload: PointOfServiceNames; } & import("@ngrx/store").Action<"[Default Point Of Service] Load Default Point Of Service Success">> & import("@ngrx/effects").CreateEffectMetadata
 ```
 
 
 Current version:
 
 ```
-loadDefaultPointOfService$: rxjs.Observable<{
-        payload: PointOfServiceNames;
-    } & _ngrx_store.Action<"[Default Point Of Service] Load Default Point Of Service Success">> & _ngrx_effects.CreateEffectMetadata
+loadDefaultPointOfService$: rxjs.Observable<{ payload: PointOfServiceNames; } & _ngrx_store.Action<"[Default Point Of Service] Load Default Point Of Service Success">> & _ngrx_effects.CreateEffectMetadata
 ```
 
 
@@ -24631,22 +23938,14 @@ Variable GetStoreDetailsById changed.
 Previous version:
 
 ```
-GetStoreDetailsById: import("@ngrx/store").ActionCreator<"[Pickup Locations] Get Store Details", (props: {
-    payload: string;
-}) => {
-    payload: string;
-} & Action<"[Pickup Locations] Get Store Details">>
+GetStoreDetailsById: import("@ngrx/store").ActionCreator<"[Pickup Locations] Get Store Details", (props: { payload: string; }) => { payload: string; } & Action<"[Pickup Locations] Get Store Details">>
 ```
 
 
 Current version:
 
 ```
-GetStoreDetailsById: _ngrx_store.ActionCreator<"[Pickup Locations] Get Store Details", (props: {
-    payload: string;
-}) => {
-    payload: string;
-} & Action<"[Pickup Locations] Get Store Details">>
+GetStoreDetailsById: _ngrx_store.ActionCreator<"[Pickup Locations] Get Store Details", (props: { payload: string; }) => { payload: string; } & Action<"[Pickup Locations] Get Store Details">>
 ```
 
 
@@ -24671,22 +23970,14 @@ Variable RemoveLocation changed.
 Previous version:
 
 ```
-RemoveLocation: import("@ngrx/store").ActionCreator<"[Pickup Locations] Remove Location", (props: {
-    payload: string;
-}) => {
-    payload: string;
-} & Action<"[Pickup Locations] Remove Location">>
+RemoveLocation: import("@ngrx/store").ActionCreator<"[Pickup Locations] Remove Location", (props: { payload: string; }) => { payload: string; } & Action<"[Pickup Locations] Remove Location">>
 ```
 
 
 Current version:
 
 ```
-RemoveLocation: _ngrx_store.ActionCreator<"[Pickup Locations] Remove Location", (props: {
-    payload: string;
-}) => {
-    payload: string;
-} & Action<"[Pickup Locations] Remove Location">>
+RemoveLocation: _ngrx_store.ActionCreator<"[Pickup Locations] Remove Location", (props: { payload: string; }) => { payload: string; } & Action<"[Pickup Locations] Remove Location">>
 ```
 
 
@@ -24743,28 +24034,14 @@ Variable SetPickupOption changed.
 Previous version:
 
 ```
-SetPickupOption: import("@ngrx/store").ActionCreator<"[Pickup Locations] Set Pickup Option", (props: {
-    payload: SetPickupOptionProps;
-}) => {
-    payload: SetPickupOptionProps;
-} & Action<"[Pickup Locations] Set Pickup Option">>
+SetPickupOption: import("@ngrx/store").ActionCreator<"[Pickup Locations] Set Pickup Option", (props: { payload: SetPickupOptionProps; }) => { payload: SetPickupOptionProps; } & Action<"[Pickup Locations] Set Pickup Option">>
 ```
 
 
 Current version:
 
 ```
-SetPickupOption: _ngrx_store.ActionCreator<"[PickupOption] Set Pickup Option", (props: {
-    payload: {
-        entryNumber: number;
-        pickupOption: PickupOption;
-    };
-}) => {
-    payload: {
-        entryNumber: number;
-        pickupOption: PickupOption;
-    };
-} & _ngrx_store.Action<"[PickupOption] Set Pickup Option">>
+SetPickupOption: _ngrx_store.ActionCreator<"[PickupOption] Set Pickup Option", (props: { payload: { entryNumber: number; pickupOption: PickupOption; }; }) => { payload: { entryNumber: number; pickupOption: PickupOption; }; } & _ngrx_store.Action<"[PickupOption] Set Pickup Option">>
 ```
 
 
@@ -24798,22 +24075,14 @@ Variable SetStoreDetailsSuccess changed.
 Previous version:
 
 ```
-SetStoreDetailsSuccess: import("@ngrx/store").ActionCreator<"[Pickup Locations] Get Store Details Success", (props: {
-    payload: PointOfService;
-}) => {
-    payload: PointOfService;
-} & Action<"[Pickup Locations] Get Store Details Success">>
+SetStoreDetailsSuccess: import("@ngrx/store").ActionCreator<"[Pickup Locations] Get Store Details Success", (props: { payload: PointOfService; }) => { payload: PointOfService; } & Action<"[Pickup Locations] Get Store Details Success">>
 ```
 
 
 Current version:
 
 ```
-SetStoreDetailsSuccess: _ngrx_store.ActionCreator<"[Pickup Locations] Get Store Details Success", (props: {
-    payload: PointOfService;
-}) => {
-    payload: PointOfService;
-} & Action<"[Pickup Locations] Get Store Details Success">>
+SetStoreDetailsSuccess: _ngrx_store.ActionCreator<"[Pickup Locations] Get Store Details Success", (props: { payload: PointOfService; }) => { payload: PointOfService; } & Action<"[Pickup Locations] Get Store Details Success">>
 ```
 
 
@@ -24871,24 +24140,14 @@ moved to @spartacus/pickup/in/store/core
 Previous version:
 
 ```
-storeDetails$: import("rxjs").Observable<({
-        payload: any;
-        error: any;
-    } & import("@ngrx/store").Action<"[Pickup Locations] Get Store Details Fail">) | ({
-        payload: import("@spartacus/core").PointOfService;
-    } & import("@ngrx/store").Action<"[Pickup Locations] Get Store Details Success">)> & import("@ngrx/effects").CreateEffectMetadata
+storeDetails$: import("rxjs").Observable<({ payload: any; error: any; } & import("@ngrx/store").Action<"[Pickup Locations] Get Store Details Fail">) | ({ payload: import("@spartacus/core").PointOfService; } & import("@ngrx/store").Action<"[Pickup Locations] Get Store Details Success">)> & import("@ngrx/effects").CreateEffectMetadata
 ```
 
 
 Current version:
 
 ```
-storeDetails$: rxjs.Observable<({
-        payload: any;
-        error: any;
-    } & _ngrx_store.Action<"[Pickup Locations] Get Store Details Fail">) | ({
-        payload: _spartacus_core.PointOfService;
-    } & _ngrx_store.Action<"[Pickup Locations] Get Store Details Success">)> & _ngrx_effects.CreateEffectMetadata
+storeDetails$: rxjs.Observable<({ payload: any; error: any; } & _ngrx_store.Action<"[Pickup Locations] Get Store Details Fail">) | ({ payload: _spartacus_core.PointOfService; } & _ngrx_store.Action<"[Pickup Locations] Get Store Details Success">)> & _ngrx_effects.CreateEffectMetadata
 ```
 
 
@@ -25090,30 +24349,14 @@ Variable RemovePickupOption changed.
 Previous version:
 
 ```
-RemovePickupOption: import("@ngrx/store").ActionCreator<"[PickupOption] Remove Pickup Option", (props: {
-    payload: {
-        entryNumber: number;
-    };
-}) => {
-    payload: {
-        entryNumber: number;
-    };
-} & import("@ngrx/store").Action<"[PickupOption] Remove Pickup Option">>
+RemovePickupOption: import("@ngrx/store").ActionCreator<"[PickupOption] Remove Pickup Option", (props: { payload: { entryNumber: number; }; }) => { payload: { entryNumber: number; }; } & import("@ngrx/store").Action<"[PickupOption] Remove Pickup Option">>
 ```
 
 
 Current version:
 
 ```
-RemovePickupOption: _ngrx_store.ActionCreator<"[PickupOption] Remove Pickup Option", (props: {
-    payload: {
-        entryNumber: number;
-    };
-}) => {
-    payload: {
-        entryNumber: number;
-    };
-} & _ngrx_store.Action<"[PickupOption] Remove Pickup Option">>
+RemovePickupOption: _ngrx_store.ActionCreator<"[PickupOption] Remove Pickup Option", (props: { payload: { entryNumber: number; }; }) => { payload: { entryNumber: number; }; } & _ngrx_store.Action<"[PickupOption] Remove Pickup Option">>
 ```
 
 
@@ -25130,30 +24373,14 @@ Variable SetPageContext changed.
 Previous version:
 
 ```
-SetPageContext: import("@ngrx/store").ActionCreator<"[PickupOption] Set Page Context", (props: {
-    payload: {
-        pageContext: string;
-    };
-}) => {
-    payload: {
-        pageContext: string;
-    };
-} & import("@ngrx/store").Action<"[PickupOption] Set Page Context">>
+SetPageContext: import("@ngrx/store").ActionCreator<"[PickupOption] Set Page Context", (props: { payload: { pageContext: string; }; }) => { payload: { pageContext: string; }; } & import("@ngrx/store").Action<"[PickupOption] Set Page Context">>
 ```
 
 
 Current version:
 
 ```
-SetPageContext: _ngrx_store.ActionCreator<"[PickupOption] Set Page Context", (props: {
-    payload: {
-        pageContext: string;
-    };
-}) => {
-    payload: {
-        pageContext: string;
-    };
-} & _ngrx_store.Action<"[PickupOption] Set Page Context">>
+SetPageContext: _ngrx_store.ActionCreator<"[PickupOption] Set Page Context", (props: { payload: { pageContext: string; }; }) => { payload: { pageContext: string; }; } & _ngrx_store.Action<"[PickupOption] Set Page Context">>
 ```
 
 
@@ -25170,34 +24397,14 @@ Variable SetPickupOption changed.
 Previous version:
 
 ```
-SetPickupOption: import("@ngrx/store").ActionCreator<"[PickupOption] Set Pickup Option", (props: {
-    payload: {
-        entryNumber: number;
-        pickupOption: PickupOption;
-    };
-}) => {
-    payload: {
-        entryNumber: number;
-        pickupOption: PickupOption;
-    };
-} & import("@ngrx/store").Action<"[PickupOption] Set Pickup Option">>
+SetPickupOption: import("@ngrx/store").ActionCreator<"[PickupOption] Set Pickup Option", (props: { payload: { entryNumber: number; pickupOption: PickupOption; }; }) => { payload: { entryNumber: number; pickupOption: PickupOption; }; } & import("@ngrx/store").Action<"[PickupOption] Set Pickup Option">>
 ```
 
 
 Current version:
 
 ```
-SetPickupOption: _ngrx_store.ActionCreator<"[PickupOption] Set Pickup Option", (props: {
-    payload: {
-        entryNumber: number;
-        pickupOption: PickupOption;
-    };
-}) => {
-    payload: {
-        entryNumber: number;
-        pickupOption: PickupOption;
-    };
-} & _ngrx_store.Action<"[PickupOption] Set Pickup Option">>
+SetPickupOption: _ngrx_store.ActionCreator<"[PickupOption] Set Pickup Option", (props: { payload: { entryNumber: number; pickupOption: PickupOption; }; }) => { payload: { entryNumber: number; pickupOption: PickupOption; }; } & _ngrx_store.Action<"[PickupOption] Set Pickup Option">>
 ```
 
 
@@ -25414,28 +24621,14 @@ moved to @spartacus/pickup/in/store/core
 Previous version:
 
 ```
-loadStockLevelAtStore$: import("rxjs").Observable<{
-        payload: {
-            productCode: string;
-            storeName: string;
-        } & {
-            stockLevel: import("@spartacus/core").Stock;
-        };
-    } & import("@ngrx/store").Action<"[Stock] Get Stock Level at Store Success">> & import("@ngrx/effects").CreateEffectMetadata
+loadStockLevelAtStore$: import("rxjs").Observable<{ payload: { productCode: string; storeName: string; } & { stockLevel: import("@spartacus/core").Stock; }; } & import("@ngrx/store").Action<"[Stock] Get Stock Level at Store Success">> & import("@ngrx/effects").CreateEffectMetadata
 ```
 
 
 Current version:
 
 ```
-loadStockLevelAtStore$: rxjs.Observable<{
-        payload: {
-            productCode: string;
-            storeName: string;
-        } & {
-            stockLevel: _spartacus_core.Stock;
-        };
-    } & _ngrx_store.Action<"[Stock] Get Stock Level at Store Success">> & _ngrx_effects.CreateEffectMetadata
+loadStockLevelAtStore$: rxjs.Observable<{ payload: { productCode: string; storeName: string; } & { stockLevel: _spartacus_core.Stock; }; } & _ngrx_store.Action<"[Stock] Get Stock Level at Store Success">> & _ngrx_effects.CreateEffectMetadata
 ```
 
 
@@ -25558,22 +24751,14 @@ Variable StockLevelAtStore changed.
 Previous version:
 
 ```
-StockLevelAtStore: import("@ngrx/store").ActionCreator<"[Stock] Get Stock Level at Store", (props: {
-    payload: StockLevelAtStorePayload;
-}) => {
-    payload: StockLevelAtStorePayload;
-} & import("@ngrx/store").Action<"[Stock] Get Stock Level at Store">>
+StockLevelAtStore: import("@ngrx/store").ActionCreator<"[Stock] Get Stock Level at Store", (props: { payload: StockLevelAtStorePayload; }) => { payload: StockLevelAtStorePayload; } & import("@ngrx/store").Action<"[Stock] Get Stock Level at Store">>
 ```
 
 
 Current version:
 
 ```
-StockLevelAtStore: _ngrx_store.ActionCreator<"[Stock] Get Stock Level at Store", (props: {
-    payload: StockLevelAtStorePayload;
-}) => {
-    payload: StockLevelAtStorePayload;
-} & _ngrx_store.Action<"[Stock] Get Stock Level at Store">>
+StockLevelAtStore: _ngrx_store.ActionCreator<"[Stock] Get Stock Level at Store", (props: { payload: StockLevelAtStorePayload; }) => { payload: StockLevelAtStorePayload; } & _ngrx_store.Action<"[Stock] Get Stock Level at Store">>
 ```
 
 
@@ -25598,22 +24783,14 @@ Variable StockLevelAtStoreSuccess changed.
 Previous version:
 
 ```
-StockLevelAtStoreSuccess: import("@ngrx/store").ActionCreator<"[Stock] Get Stock Level at Store Success", (props: {
-    payload: StockLevelAtStoreSuccessPayload;
-}) => {
-    payload: StockLevelAtStoreSuccessPayload;
-} & import("@ngrx/store").Action<"[Stock] Get Stock Level at Store Success">>
+StockLevelAtStoreSuccess: import("@ngrx/store").ActionCreator<"[Stock] Get Stock Level at Store Success", (props: { payload: StockLevelAtStoreSuccessPayload; }) => { payload: StockLevelAtStoreSuccessPayload; } & import("@ngrx/store").Action<"[Stock] Get Stock Level at Store Success">>
 ```
 
 
 Current version:
 
 ```
-StockLevelAtStoreSuccess: _ngrx_store.ActionCreator<"[Stock] Get Stock Level at Store Success", (props: {
-    payload: StockLevelAtStoreSuccessPayload;
-}) => {
-    payload: StockLevelAtStoreSuccessPayload;
-} & _ngrx_store.Action<"[Stock] Get Stock Level at Store Success">>
+StockLevelAtStoreSuccess: _ngrx_store.ActionCreator<"[Stock] Get Stock Level at Store Success", (props: { payload: StockLevelAtStoreSuccessPayload; }) => { payload: StockLevelAtStoreSuccessPayload; } & _ngrx_store.Action<"[Stock] Get Stock Level at Store Success">>
 ```
 
 
@@ -33150,11 +32327,7 @@ Previous version:
 ```
 
 constructor(
-  payload: {
-        userId: string;
-        userGroupId: string;
-        params: SearchConfig;
-    }
+  payload: { userId: string; userGroupId: string; params: SearchConfig; }
 )
 
 ```
@@ -33180,21 +32353,14 @@ constructor(
 Previous version:
 
 ```
-payload: {
-        userId: string;
-        userGroupId: string;
-        params: SearchConfig;
-    }
+payload: { userId: string; userGroupId: string; params: SearchConfig; }
 ```
 
 
 Current version:
 
 ```
-payload: {
-        userId: string;
-        params: SearchConfig;
-    }
+payload: { userId: string; params: SearchConfig; }
 ```
 
 
@@ -33212,11 +32378,7 @@ Previous version:
 ```
 
 constructor(
-  payload: {
-        userGroupId: string;
-        params: SearchConfig;
-        error: any;
-    }
+  payload: { userGroupId: string; params: SearchConfig; error: any; }
 )
 
 ```
@@ -33242,21 +32404,14 @@ constructor(
 Previous version:
 
 ```
-payload: {
-        userGroupId: string;
-        params: SearchConfig;
-        error: any;
-    }
+payload: { userGroupId: string; params: SearchConfig; error: any; }
 ```
 
 
 Current version:
 
 ```
-payload: {
-        params: SearchConfig;
-        error: any;
-    }
+payload: { params: SearchConfig; error: any; }
 ```
 
 
@@ -33274,11 +32429,7 @@ Previous version:
 ```
 
 constructor(
-  payload: {
-        userGroupId: string;
-        page: ListModel;
-        params: SearchConfig;
-    }
+  payload: { userGroupId: string; page: ListModel; params: SearchConfig; }
 )
 
 ```
@@ -33304,21 +32455,14 @@ constructor(
 Previous version:
 
 ```
-payload: {
-        userGroupId: string;
-        page: ListModel;
-        params: SearchConfig;
-    }
+payload: { userGroupId: string; page: ListModel; params: SearchConfig; }
 ```
 
 
 Current version:
 
 ```
-payload: {
-        page: ListModel;
-        params: SearchConfig;
-    }
+payload: { page: ListModel; params: SearchConfig; }
 ```
 
 
@@ -36811,40 +35955,6 @@ moved to @spartacus/organization/administration
 
 
 
-# Function billingAddressCard
-## @spartacus/order/root
-
-
-Function billingAddressCard changed.
-
-Previous version:
-
-```
-
-billingAddressCard(
-  textTitle: string,
-  textBillTo: string,
-  paymentDetails: PaymentDetails
-): Card
-
-```
-
-
-Current version:
-
-```
-
-billingAddressCard(
-  textTitle: string,
-  textBillTo: ,
-  paymentDetails: 
-): Card
-
-```
-
-
-
-
 # Interface CancellationRequestEntryInputList
 ## @spartacus/order/root
 
@@ -36975,76 +36085,6 @@ billingAddressCard(
 
 ### PropertySignature consignmentTracking is removed.
 
-
-
-
-
-# Function deliveryAddressCard
-## @spartacus/order/root
-
-
-Function deliveryAddressCard changed.
-
-Previous version:
-
-```
-
-deliveryAddressCard(
-  textTitle: string,
-  textPhone: string,
-  textMobile: string,
-  deliveryAddress: Address,
-  countryName?: string
-): Card
-
-```
-
-
-Current version:
-
-```
-
-deliveryAddressCard(
-  textTitle: string,
-  textPhone: ,
-  textMobile: ,
-  deliveryAddress: ,
-  countryName: 
-): Card
-
-```
-
-
-
-
-# Function deliveryModeCard
-## @spartacus/order/root
-
-
-Function deliveryModeCard changed.
-
-Previous version:
-
-```
-
-deliveryModeCard(
-  textTitle: string,
-  deliveryMode: DeliveryMode
-): Card
-
-```
-
-
-Current version:
-
-```
-
-deliveryModeCard(
-  textTitle: string,
-  deliveryMode: 
-): Card
-
-```
 
 
 
@@ -37533,40 +36573,6 @@ deliveryModeCard(
 
 ### PropertySignature consignments is removed.
 
-
-
-
-
-# Function paymentMethodCard
-## @spartacus/order/root
-
-
-Function paymentMethodCard changed.
-
-Previous version:
-
-```
-
-paymentMethodCard(
-  textTitle: string,
-  textExpires: string,
-  paymentDetails: PaymentDetails
-): Card
-
-```
-
-
-Current version:
-
-```
-
-paymentMethodCard(
-  textTitle: string,
-  textExpires: ,
-  paymentDetails: 
-): Card
-
-```
 
 
 
@@ -38600,38 +37606,6 @@ moved to @spartacus/order/document/flow
 
 ### PropertySignature tracking is removed.
 
-
-
-
-
-# Function getConsignmentTrackingByIdEntityKey
-## @spartacus/order/core
-
-
-Function getConsignmentTrackingByIdEntityKey changed.
-
-Previous version:
-
-```
-
-getConsignmentTrackingByIdEntityKey(
-  orderCode: string,
-  consignmentCode: string
-): string
-
-```
-
-
-Current version:
-
-```
-
-getConsignmentTrackingByIdEntityKey(
-  orderCode: string,
-  consignmentCode: 
-): string
-
-```
 
 
 
@@ -41384,32 +40358,6 @@ Variable orderTranslationsZh has been removed and is no longer part of the publi
 
 
 
-# Function saveCouponCodesFactory
-## @spartacus/opps/root
-
-
-Function saveCouponCodesFactory changed.
-
-Previous version:
-
-```
-
-saveCouponCodesFactory(): () => void
-
-```
-
-
-Current version:
-
-```
-
-saveCouponCodesFactory(): ()
-
-```
-
-
-
-
 # Class OccOppsCouponCodesInterceptor
 ## @spartacus/opps
 
@@ -41430,32 +40378,6 @@ saveCouponCodesFactory(): ()
 
 ### Method canActivate is removed.
 
-
-
-
-
-# Function saveCouponCodesFactory
-## @spartacus/opps
-
-
-Function saveCouponCodesFactory changed.
-
-Previous version:
-
-```
-
-saveCouponCodesFactory(): () => void
-
-```
-
-
-Current version:
-
-```
-
-saveCouponCodesFactory(): ()
-
-```
 
 
 
@@ -44045,90 +42967,14 @@ Variable opfCheckoutTranslationsZh has been removed and is no longer part of the
 Previous version:
 
 ```
-opf: {
-        opfBaseUrl?: string;
-        commerceCloudPublicKey?: string;
-        paymentOption?: {
-            paymentInfoMessagesMap?: Record<number, string>;
-            enableInfoMessage?: boolean;
-        };
-        localPspResources?: Record<number, {
-            jsFiles: string[];
-            cssFiles: string[];
-        }>;
-    }
+opf: { opfBaseUrl?: string; commerceCloudPublicKey?: string; paymentOption?: { paymentInfoMessagesMap?: Record<number, string>; enableInfoMessage?: boolean; }; localPspResources?: Record<number, { jsFiles: string[]; cssFiles: string[]; }>; }
 ```
 
 
 Current version:
 
 ```
-opf: {
-        opfBaseUrl?: string;
-        commerceCloudPublicKey?: string;
-        paymentOption?: {
-            /**
-             * The map of info message translation keys for specific payment configuration IDs
-             * @example
-             * ```ts
-             * const opfConfig = {
-             *   opf: {
-             *     paymentInfoMessagesMap: {
-             *       213: 'opfCheckout.payPalPaymentInfoMessage' // Message key for payment method ID 213
-             *     }
-             *   }
-             * };
-             * ```
-             */
-            paymentInfoMessagesMap?: Record<number, string>;
-            /**
-             * Enables the payment info message section within the payment options
-             */
-            enableInfoMessage?: boolean;
-            /**
-             * Iframe sandbox permissions per payment option id.
-             * Useful when specific PSPs require different sandbox flags.
-             * @example
-             * ```ts
-             * const opfConfig = {
-             *   opf: {
-             *     paymentOption: {
-             *       iframeSandboxMap: {
-             *         123: 'allow-scripts allow-same-origin', // PSP 1
-             *         456: 'allow-scripts allow-same-origin allow-forms' // PSP 2
-             *       }
-             *     }
-             *   }
-             * };
-             * ```
-             */
-            iframeSandboxMap?: Record<number, string>;
-        };
-        /**
-         * Local PSP resource configuration for faster loading
-         * @example
-         * ```ts
-         * const opfConfig = {
-         *   opf: {
-         *     localPspResources: {
-         *       213: { // paymentOptionId for Adyen
-         *         jsFiles: ['/assets/adyen-payment.js'],
-         *         cssFiles: ['/assets/adyen-styles.css']
-         *       },
-         *       456: { // paymentOptionId for Stripe
-         *         jsFiles: ['/assets/stripe-payment.js'],
-         *         cssFiles: ['/assets/stripe-styles.css']
-         *       }
-         *     }
-         *   }
-         * };
-         * ```
-         */
-        localPspResources?: Record<number, {
-            jsFiles: string[];
-            cssFiles: string[];
-        }>;
-    }
+opf: { opfBaseUrl?: string; commerceCloudPublicKey?: string; paymentOption?: { paymentInfoMessagesMap?: Record<number, string>; enableInfoMessage?: boolean; iframeSandboxMap?: Record<number, string>; }; localPspResources?: Record<number, { jsFiles: string[]; cssFiles: string[]; }>; }
 ```
 
 
@@ -44384,32 +43230,6 @@ opf: {
 
 ### Method parseContext is removed.
 
-
-
-
-
-# Function opfStatePersistenceFactory
-## @spartacus/opf/base/root
-
-
-Function opfStatePersistenceFactory changed.
-
-Previous version:
-
-```
-
-opfStatePersistenceFactory(): () => void
-
-```
-
-
-Current version:
-
-```
-
-opfStatePersistenceFactory(): ()
-
-```
 
 
 
@@ -44779,18 +43599,14 @@ moved to @spartacus/opf/b2b/checkout/components
 Previous version:
 
 ```
-checkoutSubmitForm: import("@angular/forms").FormGroup<{
-        termsAndConditions: import("@angular/forms").FormControl<boolean | null>;
-    }>
+checkoutSubmitForm: import("@angular/forms").FormGroup<{ termsAndConditions: import("@angular/forms").FormControl<boolean | null>; }>
 ```
 
 
 Current version:
 
 ```
-checkoutSubmitForm: i5.FormGroup<{
-        termsAndConditions: i5.FormControl<boolean | null>;
-    }>
+checkoutSubmitForm: i5.FormGroup<{ termsAndConditions: i5.FormControl<boolean | null>; }>
 ```
 
 
@@ -47043,22 +45859,6 @@ moved to @spartacus/customer/ticketing/root
 ## @spartacus/customer-ticketing/root
 
 moved to @spartacus/customer/ticketing/root
-
-
-Variable DATE_FORMAT changed.
-
-Previous version:
-
-```
-DATE_FORMAT: 
-```
-
-
-Current version:
-
-```
-DATE_FORMAT: mm aa"
-```
 
 
 
@@ -50005,36 +48805,6 @@ csrfToken$: Observable<_spartacus_core.CSRFResponse>
 
 
 
-# Function backOff
-## @spartacus/core
-
-
-Function backOff changed.
-
-Previous version:
-
-```
-
-backOff(
-  options?: BackOffOptions
-): OperatorFunction<T, T>
-
-```
-
-
-Current version:
-
-```
-
-backOff(
-  options: : BackOffOptions
-): OperatorFunction<T, T>
-
-```
-
-
-
-
 # Interface BackOffOptions
 ## @spartacus/core
 
@@ -52144,38 +50914,6 @@ EntityState<ComponentsContext>
 
 
 
-# Function configInitializerFactory
-## @spartacus/core
-
-
-Function configInitializerFactory changed.
-
-Previous version:
-
-```
-
-configInitializerFactory(
-  configInitializer: ConfigInitializerService,
-  initializers: ConfigInitializer[]
-): () => Promise<void>
-
-```
-
-
-Current version:
-
-```
-
-configInitializerFactory(
-  configInitializer: ConfigInitializerService,
-  initializers: 
-): ()
-
-```
-
-
-
-
 # Class ConfigInitializerModule
 ## @spartacus/core
 
@@ -52274,38 +51012,6 @@ configInitializerFactory(
 
 ### Method ngOnDestroy is removed.
 
-
-
-
-
-# Function configValidatorFactory
-## @spartacus/core
-
-
-Function configValidatorFactory changed.
-
-Previous version:
-
-```
-
-configValidatorFactory(
-  configInitializer: ConfigInitializerService,
-  validators: ConfigValidator[]
-): () => void
-
-```
-
-
-Current version:
-
-```
-
-configValidatorFactory(
-  configInitializer: ConfigInitializerService,
-  validators: 
-): ()
-
-```
 
 
 
@@ -52566,38 +51272,6 @@ configValidatorFactory(
 
 ### PropertySignature name is removed.
 
-
-
-
-
-# Function createFrom
-## @spartacus/core
-
-
-Function createFrom changed.
-
-Previous version:
-
-```
-
-createFrom(
-  type: Type<T>,
-  data: T
-): T
-
-```
-
-
-Current version:
-
-```
-
-createFrom(
-  type: Type<T>,
-  data: 
-): T
-
-```
 
 
 
@@ -53061,38 +51735,6 @@ errorHandlers: _spartacus_core.MultiErrorHandler[]
 
 
 
-# Function deepMerge
-## @spartacus/core
-
-
-Function deepMerge changed.
-
-Previous version:
-
-```
-
-deepMerge(
-  target?: Record<string, unknown>,
-  sources: any[]
-): any
-
-```
-
-
-Current version:
-
-```
-
-deepMerge(
-  target: : Record<string, unknown>,
-  sources: 
-): any
-
-```
-
-
-
-
 # Class DefaultRoutePageMetaResolver
 ## @spartacus/core
 
@@ -53324,38 +51966,6 @@ Variable defaultUserCmsModuleConfig has been removed and is no longer part of th
 
 ### Property internalUrlPatterns is removed.
 
-
-
-
-
-# Function extractFields
-## @spartacus/core
-
-
-Function extractFields changed.
-
-Previous version:
-
-```
-
-extractFields(
-  data: T,
-  fields: string | object
-): T
-
-```
-
-
-Current version:
-
-```
-
-extractFields(
-  data: T,
-  fields: 
-): T
-
-```
 
 
 
@@ -53737,70 +52347,6 @@ renderer: i0.Renderer2
 
 ### PropertySignature longitude is removed.
 
-
-
-
-
-# Function getContextParameterDefault
-## @spartacus/core
-
-
-Function getContextParameterDefault changed.
-
-Previous version:
-
-```
-
-getContextParameterDefault(
-  config: SiteContextConfig,
-  parameter: string
-): string | undefined
-
-```
-
-
-Current version:
-
-```
-
-getContextParameterDefault(
-  config: SiteContextConfig,
-  parameter: 
-): string | undefined
-
-```
-
-
-
-
-# Function getContextParameterValues
-## @spartacus/core
-
-
-Function getContextParameterValues changed.
-
-Previous version:
-
-```
-
-getContextParameterValues(
-  config: SiteContextConfig,
-  parameter: string
-): string[]
-
-```
-
-
-Current version:
-
-```
-
-getContextParameterValues(
-  config: SiteContextConfig,
-  parameter: 
-): string[]
-
-```
 
 
 
@@ -54244,23 +52790,6 @@ loggerPlugin: node_modules_i18next.LoggerModule
 
 
 
-### Property NAMESPACE_SEPARATOR changed.
-
-
-Previous version:
-
-```
-NAMESPACE_SEPARATOR: 
-```
-
-
-Current version:
-
-```
-NAMESPACE_SEPARATOR: "
-```
-
-
 ### Method translate is removed.
 
 
@@ -54315,86 +52844,14 @@ TypeAlias IndexType changed.
 Previous version:
 
 ```
-{
-    content: StateUtils.EntityLoaderState<string>;
-    product: StateUtils.EntityLoaderState<string>;
-    category: StateUtils.EntityLoaderState<string>;
-    catalog: StateUtils.EntityLoaderState<string>;
-}
+{ content: StateUtils.EntityLoaderState<string>; product: StateUtils.EntityLoaderState<string>; category: StateUtils.EntityLoaderState<string>; catalog: StateUtils.EntityLoaderState<string>; }
 ```
 
 
 Current version:
 
 ```
-{
-    content: EntityLoaderState<string>;
-    product: EntityLoaderState<string>;
-    category: EntityLoaderState<string>;
-    catalog: EntityLoaderState<string>;
-}
-```
-
-
-
-
-# Function initConfigurableRoutes
-## @spartacus/core
-
-
-Function initConfigurableRoutes changed.
-
-Previous version:
-
-```
-
-initConfigurableRoutes(
-  service: ConfigurableRoutesService
-): () => void
-
-```
-
-
-Current version:
-
-```
-
-initConfigurableRoutes(
-  service: ConfigurableRoutesService
-): ()
-
-```
-
-
-
-
-# Function initSecurePortalConfig
-## @spartacus/core
-
-
-Function initSecurePortalConfig changed.
-
-Previous version:
-
-```
-
-initSecurePortalConfig(
-  configInitializer: SecurePortalConfigInitializer,
-  routingConfig: RoutingConfig
-): ConfigInitializer | null
-
-```
-
-
-Current version:
-
-```
-
-initSecurePortalConfig(
-  configInitializer: SecurePortalConfigInitializer,
-  routingConfig: 
-): ConfigInitializer | null
-
+{ content: EntityLoaderState<string>; product: EntityLoaderState<string>; category: EntityLoaderState<string>; catalog: EntityLoaderState<string>; }
 ```
 
 
@@ -54428,70 +52885,6 @@ initSecurePortalConfig(
 
 ### Method handleError is removed.
 
-
-
-
-
-# Function isFeatureEnabled
-## @spartacus/core
-
-
-Function isFeatureEnabled changed.
-
-Previous version:
-
-```
-
-isFeatureEnabled(
-  config: Config,
-  feature: string
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isFeatureEnabled(
-  config: Config,
-  feature: 
-): boolean
-
-```
-
-
-
-
-# Function isFeatureLevel
-## @spartacus/core
-
-
-Function isFeatureLevel changed.
-
-Previous version:
-
-```
-
-isFeatureLevel(
-  config: Config,
-  level: string
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isFeatureLevel(
-  config: Config,
-  level: 
-): boolean
-
-```
 
 
 
@@ -60084,36 +58477,6 @@ Interface Occ.VoucherList has been removed and is no longer part of the public A
 
 
 
-# Function optimizeFields
-## @spartacus/core
-
-
-Function optimizeFields changed.
-
-Previous version:
-
-```
-
-optimizeFields(
-  fields?: object
-): object
-
-```
-
-
-Current version:
-
-```
-
-optimizeFields(
-  fields: : object
-): object
-
-```
-
-
-
-
 # Interface OrderApprovalPermissionType
 ## @spartacus/core
 
@@ -60414,38 +58777,6 @@ optimizeFields(
 
 ### IndexSignature undefined is removed.
 
-
-
-
-
-# Function parseFields
-## @spartacus/core
-
-
-Function parseFields changed.
-
-Previous version:
-
-```
-
-parseFields(
-  fields: string,
-  startIndex?: number
-): [object, number] | object
-
-```
-
-
-Current version:
-
-```
-
-parseFields(
-  fields: string,
-  startIndex: 
-): [object, number] | object
-
-```
 
 
 
@@ -62204,194 +60535,6 @@ Function ProductSelectors.getSelectedProductSuccessFactory has been removed and 
 
 
 
-# Function provideConfig
-## @spartacus/core
-
-
-Function provideConfig changed.
-
-Previous version:
-
-```
-
-provideConfig(
-  config?: Config,
-  defaultConfig?: boolean
-): ValueProvider
-
-```
-
-
-Current version:
-
-```
-
-provideConfig(
-  config: : Config,
-  defaultConfig: 
-): ValueProvider
-
-```
-
-
-
-
-# Function provideConfigFactory
-## @spartacus/core
-
-
-Function provideConfigFactory changed.
-
-Previous version:
-
-```
-
-provideConfigFactory(
-  configFactory: ConfigFactory,
-  deps?: any[],
-  defaultConfig?: boolean
-): FactoryProvider
-
-```
-
-
-Current version:
-
-```
-
-provideConfigFactory(
-  configFactory: ConfigFactory,
-  deps: ,
-  defaultConfig: 
-): FactoryProvider
-
-```
-
-
-
-
-# Function provideDefaultConfig
-## @spartacus/core
-
-
-Function provideDefaultConfig changed.
-
-Previous version:
-
-```
-
-provideDefaultConfig(
-  config?: Config
-): ValueProvider
-
-```
-
-
-Current version:
-
-```
-
-provideDefaultConfig(
-  config: : Config
-): ValueProvider
-
-```
-
-
-
-
-# Function provideDefaultConfigFactory
-## @spartacus/core
-
-
-Function provideDefaultConfigFactory changed.
-
-Previous version:
-
-```
-
-provideDefaultConfigFactory(
-  configFactory: ConfigFactory,
-  deps?: any[]
-): FactoryProvider
-
-```
-
-
-Current version:
-
-```
-
-provideDefaultConfigFactory(
-  configFactory: ConfigFactory,
-  deps: 
-): FactoryProvider
-
-```
-
-
-
-
-# Function provideDefaultFeatureToggles
-## @spartacus/core
-
-
-Function provideDefaultFeatureToggles changed.
-
-Previous version:
-
-```
-
-provideDefaultFeatureToggles(
-  toggles?: FeatureToggles
-): ValueProvider
-
-```
-
-
-Current version:
-
-```
-
-provideDefaultFeatureToggles(
-  toggles: : FeatureToggles
-): ValueProvider
-
-```
-
-
-
-
-# Function provideFeatureToggles
-## @spartacus/core
-
-
-Function provideFeatureToggles changed.
-
-Previous version:
-
-```
-
-provideFeatureToggles(
-  toggles?: FeatureToggles
-): ValueProvider
-
-```
-
-
-Current version:
-
-```
-
-provideFeatureToggles(
-  toggles: : FeatureToggles
-): ValueProvider
-
-```
-
-
-
-
 # Interface Query
 ## @spartacus/core
 
@@ -62495,40 +60638,6 @@ Current version:
 
 ```
 = Omit<T, K> & Required<Pick<T, K>>
-```
-
-
-
-
-# Function resolveApplicable
-## @spartacus/core
-
-
-Function resolveApplicable changed.
-
-Previous version:
-
-```
-
-resolveApplicable(
-  applicables: T[],
-  matchParams?: any[],
-  priorityParams?: any[]
-): T | undefined
-
-```
-
-
-Current version:
-
-```
-
-resolveApplicable(
-  applicables: T[],
-  matchParams: ,
-  priorityParams: 
-): T | undefined
-
 ```
 
 
@@ -64079,66 +62188,10 @@ Namespace StateUtils has been removed and is no longer part of the public API.
 ## @spartacus/core
 
 
-Function denormalizeCustomB2BSearch changed.
-
-Previous version:
-
-```
-
-denormalizeCustomB2BSearch(
-  list: EntityLoaderState<ListModel>,
-  entities: EntityLoaderState<T>,
-  params?: SearchConfig,
-  id?: string
-): LoaderState<EntitiesModel<T>>
-
-```
-
-
-Current version:
-
-```
-
-denormalizeCustomB2BSearch(
-  list: EntityLoaderState<ListModel>,
-  entities: ,
-  params: ,
-  id: 
-): LoaderState<EntitiesModel<T>>
-
-```
-
-
 
 
 # Function StateUtils.denormalizeSearch
 ## @spartacus/core
-
-
-Function denormalizeSearch changed.
-
-Previous version:
-
-```
-
-denormalizeSearch(
-  state: EntityListState<T>,
-  params?: SearchConfig
-): LoaderState<EntitiesModel<T>>
-
-```
-
-
-Current version:
-
-```
-
-denormalizeSearch(
-  state: EntityListState<T>,
-  params: 
-): LoaderState<EntitiesModel<T>>
-
-```
 
 
 
@@ -64215,32 +62268,6 @@ denormalizeSearch(
 ## @spartacus/core
 
 
-Function entityErrorSelector changed.
-
-Previous version:
-
-```
-
-entityErrorSelector(
-  state: EntityLoaderState<T>,
-  id: string
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-entityErrorSelector(
-  state: EntityLoaderState<T>,
-  id: 
-): boolean
-
-```
-
-
 
 
 # Class StateUtils.EntityFailAction
@@ -64253,64 +62280,10 @@ entityErrorSelector(
 ## @spartacus/core
 
 
-Function entityFailMeta changed.
-
-Previous version:
-
-```
-
-entityFailMeta(
-  entityType: string,
-  id: EntityId,
-  error: any
-): EntityLoaderMeta
-
-```
-
-
-Current version:
-
-```
-
-entityFailMeta(
-  entityType: string,
-  id: ,
-  error: 
-): EntityLoaderMeta
-
-```
-
-
 
 
 # Function StateUtils.entityHasPendingProcessesSelector
 ## @spartacus/core
-
-
-Function entityHasPendingProcessesSelector changed.
-
-Previous version:
-
-```
-
-entityHasPendingProcessesSelector(
-  state: EntityProcessesLoaderState<T>,
-  id: string
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-entityHasPendingProcessesSelector(
-  state: EntityProcessesLoaderState<T>,
-  id: 
-): boolean
-
-```
 
 
 
@@ -64323,32 +62296,6 @@ entityHasPendingProcessesSelector(
 
 # Function StateUtils.entityIsStableSelector
 ## @spartacus/core
-
-
-Function entityIsStableSelector changed.
-
-Previous version:
-
-```
-
-entityIsStableSelector(
-  state: EntityProcessesLoaderState<T>,
-  id: string
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-entityIsStableSelector(
-  state: EntityProcessesLoaderState<T>,
-  id: 
-): boolean
-
-```
 
 
 
@@ -64397,32 +62344,6 @@ entityIsStableSelector(
 ## @spartacus/core
 
 
-Function entityLoaderReducer changed.
-
-Previous version:
-
-```
-
-entityLoaderReducer(
-  entityType: string,
-  reducer?: (state: T | undefined, action: V | LoaderAction) => T | undefined
-): (state: EntityLoaderState<T> | undefined, action: EntityLoaderAction) => EntityLoaderState<T>
-
-```
-
-
-Current version:
-
-```
-
-entityLoaderReducer(
-  entityType: string,
-  reducer: 
-): (state: EntityLoaderState<T> | undefined, action: EntityLoaderAction)
-
-```
-
-
 
 
 # Class StateUtils.EntityLoaderResetAction
@@ -64441,62 +62362,10 @@ entityLoaderReducer(
 ## @spartacus/core
 
 
-Function entityLoaderStateSelector changed.
-
-Previous version:
-
-```
-
-entityLoaderStateSelector(
-  state: EntityLoaderState<T>,
-  id: string
-): LoaderState<T>
-
-```
-
-
-Current version:
-
-```
-
-entityLoaderStateSelector(
-  state: EntityLoaderState<T>,
-  id: 
-): LoaderState<T>
-
-```
-
-
 
 
 # Function StateUtils.entityLoadingSelector
 ## @spartacus/core
-
-
-Function entityLoadingSelector changed.
-
-Previous version:
-
-```
-
-entityLoadingSelector(
-  state: EntityLoaderState<T>,
-  id: string
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-entityLoadingSelector(
-  state: EntityLoaderState<T>,
-  id: 
-): boolean
-
-```
 
 
 
@@ -64505,62 +62374,10 @@ entityLoadingSelector(
 ## @spartacus/core
 
 
-Function entityLoadMeta changed.
-
-Previous version:
-
-```
-
-entityLoadMeta(
-  entityType: string,
-  id: EntityId
-): EntityLoaderMeta
-
-```
-
-
-Current version:
-
-```
-
-entityLoadMeta(
-  entityType: string,
-  id: 
-): EntityLoaderMeta
-
-```
-
-
 
 
 # Function StateUtils.entityMeta
 ## @spartacus/core
-
-
-Function entityMeta changed.
-
-Previous version:
-
-```
-
-entityMeta(
-  type: string,
-  id?: EntityId
-): EntityMeta
-
-```
-
-
-Current version:
-
-```
-
-entityMeta(
-  type: string,
-  id: 
-): EntityMeta
-
-```
 
 
 
@@ -64593,32 +62410,6 @@ entityMeta(
 ## @spartacus/core
 
 
-Function entityProcessesDecrementMeta changed.
-
-Previous version:
-
-```
-
-entityProcessesDecrementMeta(
-  entityType: string,
-  id: string | string[]
-): EntityProcessesLoaderMeta
-
-```
-
-
-Current version:
-
-```
-
-entityProcessesDecrementMeta(
-  entityType: string,
-  id: 
-): EntityProcessesLoaderMeta
-
-```
-
-
 
 
 # Class StateUtils.EntityProcessesIncrementAction
@@ -64629,32 +62420,6 @@ entityProcessesDecrementMeta(
 
 # Function StateUtils.entityProcessesIncrementMeta
 ## @spartacus/core
-
-
-Function entityProcessesIncrementMeta changed.
-
-Previous version:
-
-```
-
-entityProcessesIncrementMeta(
-  entityType: string,
-  id: string | string[]
-): EntityProcessesLoaderMeta
-
-```
-
-
-Current version:
-
-```
-
-entityProcessesIncrementMeta(
-  entityType: string,
-  id: 
-): EntityProcessesLoaderMeta
-
-```
 
 
 
@@ -64683,32 +62448,6 @@ entityProcessesIncrementMeta(
 ## @spartacus/core
 
 
-Function entityProcessesLoaderReducer changed.
-
-Previous version:
-
-```
-
-entityProcessesLoaderReducer(
-  entityType: string,
-  reducer?: (state: T | undefined, action: ProcessesLoaderAction) => T
-): (state: EntityProcessesLoaderState<T> | undefined, action: EntityProcessesLoaderAction) => EntityProcessesLoaderState<T>
-
-```
-
-
-Current version:
-
-```
-
-entityProcessesLoaderReducer(
-  entityType: string,
-  reducer: 
-): (state: EntityProcessesLoaderState<T> | undefined, action: EntityProcessesLoaderAction)
-
-```
-
-
 
 
 # Class StateUtils.EntityProcessesLoaderResetAction
@@ -64719,32 +62458,6 @@ entityProcessesLoaderReducer(
 
 # Function StateUtils.entityProcessesLoaderResetMeta
 ## @spartacus/core
-
-
-Function entityProcessesLoaderResetMeta changed.
-
-Previous version:
-
-```
-
-entityProcessesLoaderResetMeta(
-  entityType: string,
-  id: string | string[]
-): EntityProcessesLoaderMeta
-
-```
-
-
-Current version:
-
-```
-
-entityProcessesLoaderResetMeta(
-  entityType: string,
-  id: 
-): EntityProcessesLoaderMeta
-
-```
 
 
 
@@ -64759,62 +62472,10 @@ entityProcessesLoaderResetMeta(
 ## @spartacus/core
 
 
-Function entityProcessesLoaderStateSelector changed.
-
-Previous version:
-
-```
-
-entityProcessesLoaderStateSelector(
-  state: EntityProcessesLoaderState<T>,
-  id: string
-): ProcessesLoaderState<T>
-
-```
-
-
-Current version:
-
-```
-
-entityProcessesLoaderStateSelector(
-  state: EntityProcessesLoaderState<T>,
-  id: 
-): ProcessesLoaderState<T>
-
-```
-
-
 
 
 # Function StateUtils.entityReducer
 ## @spartacus/core
-
-
-Function entityReducer changed.
-
-Previous version:
-
-```
-
-entityReducer(
-  entityType: string,
-  reducer: (state: T, action: Action | V) => T
-): (state: EntityState<T> | undefined, action: EntityAction) => EntityState<T>
-
-```
-
-
-Current version:
-
-```
-
-entityReducer(
-  entityType: string,
-  reducer: 
-): (state: EntityState<T> | undefined, action: EntityAction)
-
-```
 
 
 
@@ -64841,94 +62502,16 @@ entityReducer(
 ## @spartacus/core
 
 
-Function entityRemoveMeta changed.
-
-Previous version:
-
-```
-
-entityRemoveMeta(
-  type: string,
-  id: EntityId
-): EntityMeta
-
-```
-
-
-Current version:
-
-```
-
-entityRemoveMeta(
-  type: string,
-  id: 
-): EntityMeta
-
-```
-
-
 
 
 # Function StateUtils.entityResetMeta
 ## @spartacus/core
 
 
-Function entityResetMeta changed.
-
-Previous version:
-
-```
-
-entityResetMeta(
-  entityType: string,
-  id?: EntityId
-): EntityLoaderMeta
-
-```
-
-
-Current version:
-
-```
-
-entityResetMeta(
-  entityType: string,
-  id: 
-): EntityLoaderMeta
-
-```
-
-
 
 
 # Function StateUtils.entitySelector
 ## @spartacus/core
-
-
-Function entitySelector changed.
-
-Previous version:
-
-```
-
-entitySelector(
-  state: EntityState<T>,
-  id: string
-): T | undefined
-
-```
-
-
-Current version:
-
-```
-
-entitySelector(
-  state: EntityState<T>,
-  id: 
-): T | undefined
-
-```
 
 
 
@@ -64953,62 +62536,10 @@ entitySelector(
 ## @spartacus/core
 
 
-Function entitySuccessMeta changed.
-
-Previous version:
-
-```
-
-entitySuccessMeta(
-  entityType: string,
-  id: EntityId
-): EntityLoaderMeta
-
-```
-
-
-Current version:
-
-```
-
-entitySuccessMeta(
-  entityType: string,
-  id: 
-): EntityLoaderMeta
-
-```
-
-
 
 
 # Function StateUtils.entitySuccessSelector
 ## @spartacus/core
-
-
-Function entitySuccessSelector changed.
-
-Previous version:
-
-```
-
-entitySuccessSelector(
-  state: EntityLoaderState<T>,
-  id: string
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-entitySuccessSelector(
-  state: EntityLoaderState<T>,
-  id: 
-): boolean
-
-```
 
 
 
@@ -65017,96 +62548,16 @@ entitySuccessSelector(
 ## @spartacus/core
 
 
-Function entityValueSelector changed.
-
-Previous version:
-
-```
-
-entityValueSelector(
-  state: EntityLoaderState<T>,
-  id: string
-): T
-
-```
-
-
-Current version:
-
-```
-
-entityValueSelector(
-  state: EntityLoaderState<T>,
-  id: 
-): T
-
-```
-
-
 
 
 # Function StateUtils.failMeta
 ## @spartacus/core
 
 
-Function failMeta changed.
-
-Previous version:
-
-```
-
-failMeta(
-  entityType: string,
-  error: any
-): LoaderMeta
-
-```
-
-
-Current version:
-
-```
-
-failMeta(
-  entityType: string,
-  error: 
-): LoaderMeta
-
-```
-
-
 
 
 # Function StateUtils.getStateSlice
 ## @spartacus/core
-
-
-Function getStateSlice changed.
-
-Previous version:
-
-```
-
-getStateSlice(
-  keys: string[],
-  excludeKeys: string[],
-  state: T
-): E
-
-```
-
-
-Current version:
-
-```
-
-getStateSlice(
-  keys: string[],
-  excludeKeys: ,
-  state: 
-): E
-
-```
 
 
 
@@ -65221,32 +62672,6 @@ getStateSlice(
 ## @spartacus/core
 
 
-Function loaderReducer changed.
-
-Previous version:
-
-```
-
-loaderReducer(
-  entityType: string,
-  reducer?: (state: T | undefined, action: Action | V) => T | undefined
-): (state: LoaderState<T> | undefined, action: LoaderAction) => LoaderState<T>
-
-```
-
-
-Current version:
-
-```
-
-loaderReducer(
-  entityType: string,
-  reducer: 
-): (state: LoaderState<T> | undefined, action: LoaderAction)
-
-```
-
-
 
 
 # Class StateUtils.LoaderResetAction
@@ -65303,38 +62728,6 @@ loaderReducer(
 
 # Function StateUtils.normalizeListPage
 ## @spartacus/core
-
-
-Function normalizeListPage changed.
-
-Previous version:
-
-```
-
-normalizeListPage(
-  list: EntitiesModel<T>,
-  id: string
-): {
-    values: T[];
-    page: ListModel;
-}
-
-```
-
-
-Current version:
-
-```
-
-normalizeListPage(
-  list: EntitiesModel<T>,
-  id: 
-): {
-    values: T[];
-    page: ListModel;
-}
-
-```
 
 
 
@@ -65413,32 +62806,6 @@ normalizeListPage(
 ## @spartacus/core
 
 
-Function processesLoaderReducer changed.
-
-Previous version:
-
-```
-
-processesLoaderReducer(
-  entityType: string,
-  reducer?: (state: T | undefined, action: Action) => T
-): (state: ProcessesLoaderState<T>, action: ProcessesLoaderAction) => ProcessesLoaderState<T>
-
-```
-
-
-Current version:
-
-```
-
-processesLoaderReducer(
-  entityType: string,
-  reducer: 
-): (state: ProcessesLoaderState<T>, action: ProcessesLoaderAction)
-
-```
-
-
 
 
 # Class StateUtils.ProcessesLoaderResetAction
@@ -65473,62 +62840,10 @@ processesLoaderReducer(
 ## @spartacus/core
 
 
-Function serializeParams changed.
-
-Previous version:
-
-```
-
-serializeParams(
-  params: string | string[],
-  searchConfig: SearchConfig
-): string
-
-```
-
-
-Current version:
-
-```
-
-serializeParams(
-  params: string | string[],
-  searchConfig: 
-): string
-
-```
-
-
 
 
 # Function StateUtils.serializeSearchConfig
 ## @spartacus/core
-
-
-Function serializeSearchConfig changed.
-
-Previous version:
-
-```
-
-serializeSearchConfig(
-  config: SearchConfig,
-  id?: string
-): string
-
-```
-
-
-Current version:
-
-```
-
-serializeSearchConfig(
-  config: SearchConfig,
-  id: 
-): string
-
-```
 
 
 
@@ -65917,38 +63232,6 @@ serializeSearchConfig(
 
 ### IndexSignature undefined is removed.
 
-
-
-
-
-# Function tryNormalizeHttpError
-## @spartacus/core
-
-
-Function tryNormalizeHttpError changed.
-
-Previous version:
-
-```
-
-tryNormalizeHttpError(
-  error: HttpErrorResponse | HttpErrorModel | any,
-  logger: LoggerService
-): HttpErrorModel | Error
-
-```
-
-
-Current version:
-
-```
-
-tryNormalizeHttpError(
-  error: HttpErrorResponse | HttpErrorModel | any,
-  logger: 
-): HttpErrorModel | Error
-
-```
 
 
 
@@ -68190,40 +65473,6 @@ getCostCentersState: MemoizedSelector<StateWithOrganization, StateUtils.EntityLo
 
 ### PropertySignature regions is removed.
 
-
-
-
-
-# Function validateConfig
-## @spartacus/core
-
-
-Function validateConfig changed.
-
-Previous version:
-
-```
-
-validateConfig(
-  config: Config,
-  configValidators: ConfigValidator[],
-  logger: LoggerService
-): void
-
-```
-
-
-Current version:
-
-```
-
-validateConfig(
-  config: Config,
-  configValidators: ,
-  logger: 
-): void
-
-```
 
 
 
@@ -72168,38 +69417,6 @@ Variable CDC_USER_PREFERENCE_SERIALIZER has been removed and is no longer part o
 
 ### Method readCdcConsentsFromStorage is removed.
 
-
-
-
-
-# Function cdcJsFactory
-## @spartacus/cdc/root
-
-
-Function cdcJsFactory changed.
-
-Previous version:
-
-```
-
-cdcJsFactory(
-  cdcJsService: CdcJsService,
-  configInit: ConfigInitializerService
-): () => Promise<Config>
-
-```
-
-
-Current version:
-
-```
-
-cdcJsFactory(
-  cdcJsService: CdcJsService,
-  configInit: 
-): ()
-
-```
 
 
 
@@ -78153,38 +75370,6 @@ Namespace CartActions has been removed and is no longer part of the public API.
 
 
 
-# Function cartStatePersistenceFactory
-## @spartacus/cart/base/core
-
-
-Function cartStatePersistenceFactory changed.
-
-Previous version:
-
-```
-
-cartStatePersistenceFactory(
-  cartStatePersistenceService: MultiCartStatePersistenceService,
-  configInit: ConfigInitializerService
-): () => Promise<Config>
-
-```
-
-
-Current version:
-
-```
-
-cartStatePersistenceFactory(
-  cartStatePersistenceService: MultiCartStatePersistenceService,
-  configInit: 
-): ()
-
-```
-
-
-
-
 # Class CartValidationAdapter
 ## @spartacus/cart/base/core
 
@@ -78322,160 +75507,6 @@ checkForValidationResultClear$: Observable<[i2.RouterState, CartModification[]]>
 
 ### Method resetAddVoucherProcessingState is removed.
 
-
-
-
-
-# Function getCartIdByUserId
-## @spartacus/cart/base/core
-
-
-Function getCartIdByUserId changed.
-
-Previous version:
-
-```
-
-getCartIdByUserId(
-  cart?: Cart,
-  userId?: string
-): string
-
-```
-
-
-Current version:
-
-```
-
-getCartIdByUserId(
-  cart: : Cart,
-  userId: 
-): string
-
-```
-
-
-
-
-# Function isEmail
-## @spartacus/cart/base/core
-
-
-Function isEmail changed.
-
-Previous version:
-
-```
-
-isEmail(
-  str?: string
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isEmail(
-  str: : string
-): boolean
-
-```
-
-
-
-
-# Function isEmpty
-## @spartacus/cart/base/core
-
-
-Function isEmpty changed.
-
-Previous version:
-
-```
-
-isEmpty(
-  cart?: Cart
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isEmpty(
-  cart: : Cart
-): boolean
-
-```
-
-
-
-
-# Function isJustLoggedIn
-## @spartacus/cart/base/core
-
-
-Function isJustLoggedIn changed.
-
-Previous version:
-
-```
-
-isJustLoggedIn(
-  userId: string,
-  previousUserId: string
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isJustLoggedIn(
-  userId: string,
-  previousUserId: 
-): boolean
-
-```
-
-
-
-
-# Function isSelectiveCart
-## @spartacus/cart/base/core
-
-
-Function isSelectiveCart changed.
-
-Previous version:
-
-```
-
-isSelectiveCart(
-  cartId?: string
-): boolean
-
-```
-
-
-Current version:
-
-```
-
-isSelectiveCart(
-  cartId: : string
-): boolean
-
-```
 
 
 
@@ -79532,1412 +76563,14 @@ Variable translations changed.
 Previous version:
 
 ```
-translations: {
-    en: {
-        common: {
-            common: {
-                cancel: string;
-                delete: string;
-                remove: string;
-                edit: string;
-                restore: string;
-                back: string;
-                submit: string;
-                continue: string;
-                save: string;
-                done: string;
-                home: string;
-                noData: string;
-                confirm: string;
-                more: string;
-                close: string;
-                loading: string;
-                menu: string;
-                reset: string;
-                search: string;
-                add: string;
-                breadcrumbs: string;
-                breadcrumbsCurrentPage: string;
-                selectFile: string;
-                clear: string;
-                loaded: string;
-                results: string;
-                of: string;
-                ngSelectDropdownOptionsList: string;
-                required: string;
-                zoomIn: string;
-                zoomOut: string;
-                selected: string;
-                expand: string;
-                collapse: string;
-                readMore: string;
-                readLess: string;
-            };
-            pageMetaResolver: {
-                category: {
-                    title: string;
-                    title_other: string;
-                };
-                checkout: {
-                    title: string;
-                };
-                search: {
-                    title: string;
-                    title_other: string;
-                    findProductTitle: string;
-                    findProductTitle_other: string;
-                    default_title: string;
-                };
-                product: {
-                    description: string;
-                    heading: string;
-                    title: string;
-                };
-            };
-            spinner: {
-                loading: string;
-            };
-            navigation: {
-                categoryNavLabel: string;
-                footerNavLabel: string;
-                goTo: string;
-                navigateTo: string;
-                scrollToTop: string;
-                linkItemInList: string;
-                menuButonTitle: string;
-            };
-            searchBox: {
-                placeholder: string;
-                productSearch: string;
-                ariaLabelInput: string;
-                ariaLabelSuggestions: string;
-                ariaLabelProducts: string;
-                initialDescription: string;
-                suggestions: string;
-                recentSearches: string;
-                trendingSearches: string;
-                suggestionsResult: string;
-                suggestionsResult_other: string;
-                products: string;
-                productsResult: string;
-                productsResult_other: string;
-                resetLabel: string;
-                help: {
-                    insufficientChars: string;
-                    noMatch: string;
-                    exactMatch: string;
-                    empty: string;
-                };
-                closeSearchPanel: string;
-                queryError: string;
-            };
-            sorting: {
-                date: string;
-                orderNumber: string;
-                rma: string;
-                replenishmentNumber: string;
-                nextOrderDate: string;
-                pageViewUpdated: string;
-            };
-            customLoginPage: {
-                badRequest: {
-                    bad_credentials: string;
-                    account_disabled: string;
-                    unknown_error: string;
-                };
-            };
-            httpHandlers: {
-                badRequest: {
-                    bad_credentials: string;
-                    password_expired: string;
-                    user_is_disabled: string;
-                };
-                badGateway: string;
-                badRequestPleaseLoginAgain: string;
-                badRequestOldPasswordIncorrect: string;
-                badRequestGuestDuplicateEmail: string;
-                conflict: string;
-                forbidden: string;
-                gatewayTimeout: string;
-                internalServerError: string;
-                sessionExpired: string;
-                unknownError: string;
-                unauthorized: {
-                    common: string;
-                    invalid_client: string;
-                };
-                validationErrors: {
-                    missing: {
-                        card_cardType: string;
-                        card_accountNumber: string;
-                        card_cvNumber: string;
-                        card_expirationMonth: string;
-                        card_expirationYear: string;
-                        billTo_firstName: string;
-                        billTo_lastName: string;
-                        billTo_street1: string;
-                        billTo_street2: string;
-                        billTo_city: string;
-                        billTo_state: string;
-                        billTo_country: string;
-                        billTo_postalCode: string;
-                        country: {
-                            isocode: string;
-                        };
-                    };
-                    invalid: {
-                        card_expirationMonth: string;
-                        firstName: string;
-                        lastName: string;
-                        password: string;
-                        uid: string;
-                        code: string;
-                        email: string;
-                        loginId: string;
-                    };
-                };
-                cartNotFound: string;
-                invalidCodeProvided: string;
-                voucherExceeded: string;
-                unknownIdentifier: string;
-                otherCartErrors: string;
-            };
-            miniCart: {
-                item: string;
-                item_other: string;
-                total: string;
-                count: string;
-            };
-            skipLink: {
-                skipTo: string;
-                labels: {
-                    header: string;
-                    main: string;
-                    footer: string;
-                    productFacets: string;
-                    productList: string;
-                };
-            };
-            carousel: {
-                previousSlide: string;
-                nextSlide: string;
-                scrollForward: string;
-                scrollBackward: string;
-                slideNumber: string;
-                carouselForProduct: string;
-            };
-            formErrors: {
-                labeled: {
-                    required: string;
-                    cxInvalidEmail: string;
-                    cxInvalidPassword: string;
-                    cxMinOneUpperCaseCharacter: string;
-                    cxMinOneDigit: string;
-                    cxMinOneSpecialCharacter: string;
-                    cxMinSixCharactersLength: string;
-                    cxMinEightCharactersLength: string;
-                    cxMaxCharactersLength: string;
-                    cxContainsSpecialCharacters: string;
-                    cxNoConsecutiveCharacters: string;
-                    invalidTokenCodeError: string;
-                    date: {
-                        required: string;
-                        min: string;
-                        max: string;
-                        pattern: string;
-                        invalid: string;
-                    };
-                };
-                globalMessage: string;
-                required: string;
-                cxInvalidEmail: string;
-                cxInvalidPassword: string;
-                cxPasswordsMustMatch: string;
-                cxPasswordsCannotMatch: string;
-                cxEmailsMustMatch: string;
-                cxStarRatingEmpty: string;
-                cxNoSelectedItemToCancel: string;
-                cxNegativeAmount: string;
-                cxContainsSpecialCharacters: string;
-                date: {
-                    required: string;
-                    min: string;
-                    max: string;
-                    pattern: string;
-                    invalid: string;
-                };
-                file: {
-                    required: string;
-                    empty: string;
-                    invalidExtension: string;
-                    tooLarge: string;
-                    tooManyEntries: string;
-                    notParsable: string;
-                    fileNotAllowed: string;
-                };
-            };
-            errorHandlers: {
-                scriptFailedToLoad: string;
-                refreshThePage: string;
-            };
-            assistiveMessage: {
-                actionCancelled: string;
-            };
-            passwordVisibility: {
-                showPassword: string;
-                hidePassword: string;
-            };
-            generalErrors: {
-                pageFailure: string;
-            };
-            formLegend: {
-                required: string;
-            };
-            chatMessaging: {
-                charactersLeft: string;
-                addNewMessage: string;
-                send: string;
-                uploadFile: string;
-                informationLabel: string;
-                messages: string;
-                addMessagePlaceHolder: string;
-                characterLimitAlert: string;
-                a11y: {
-                    itemListBoxLabel: string;
-                };
-            };
-        };
-        deliveryMode: {
-            setDeliveryMode: {
-                unknownError: string;
-            };
-        };
-        myAccountV2Consent: {
-            myAccountV2Consent: {
-                header: string;
-                dateDescription: string;
-                clearAll: string;
-                selectAll: string;
-                message: {
-                    success: {
-                        given: string;
-                        withdrawn: string;
-                    };
-                };
-            };
-        };
-        myAccountV2NotificationPreference: {
-            myAccountV2NotificationPreference: {
-                header: string;
-                message: string;
-                note: string;
-                noteMessage: string;
-                EMAIL: string;
-            };
-        };
-        myAccount: {
-            closeAccount: {
-                confirmAccountClosure: string;
-                confirmAccountClosureMessage: string;
-                closeMyAccount: string;
-                accountClosedSuccessfully: string;
-                accountClosedFailure: string;
-            };
-            updatePasswordForm: {
-                oldPassword: {
-                    label: string;
-                    placeholder: string;
-                };
-                oldPasswordIsRequired: string;
-                newPassword: {
-                    label: string;
-                    placeholder: string;
-                };
-                passwordMinRequirements: string;
-                passwordStrengthRequirements: string;
-                confirmPassword: {
-                    label: string;
-                    placeholder: string;
-                };
-                bothPasswordMustMatch: string;
-                passwordUpdateSuccess: string;
-                accessDeniedError: string;
-            };
-            updateProfileForm: {
-                title: string;
-                none: string;
-                firstName: {
-                    label: string;
-                    placeholder: string;
-                };
-                firstNameIsRequired: string;
-                lastName: {
-                    label: string;
-                    placeholder: string;
-                };
-                lastNameIsRequired: string;
-                profileUpdateSuccess: string;
-                customerId: string;
-            };
-            consentManagementForm: {
-                clearAll: string;
-                selectAll: string;
-                message: {
-                    success: {
-                        given: string;
-                        withdrawn: string;
-                    };
-                };
-            };
-            myCoupons: {
-                noCouponsMessage: string;
-                effectiveTitle: string;
-                Effective: string;
-                PreSession: string;
-                ExpireSoon: string;
-                readMore: string;
-                notification: string;
-                findProducts: string;
-                status: string;
-                dialogTitle: string;
-                claimCoupondialogTitle: string;
-                claimCouponCode: {
-                    label: string;
-                    placeholder: string;
-                };
-                reset: string;
-                claim: string;
-                claimCustomerCoupon: string;
-                myCoupons: string;
-                startDateAsc: string;
-                startDateDesc: string;
-                endDateAsc: string;
-                endDateDesc: string;
-                sortBy: string;
-                sortCoupons: string;
-                notesPreffix: string;
-                notesLink: string;
-                notesSuffix: string;
-            };
-            notificationPreference: {
-                message: string;
-                note: string;
-                noteMessage: string;
-                EMAIL: string;
-                SMS: string;
-                SITE_MESSAGE: string;
-            };
-            myInterests: {
-                header: string;
-                item: string;
-                price: string;
-                notifications: string;
-                noInterests: string;
-                inStock: string;
-                lowStock: string;
-                outOfStock: string;
-                BACK_IN_STOCK: string;
-                sortBy: string;
-                sortInterests: string;
-                expirationDate: string;
-                productId: string;
-                remove: string;
-                sorting: {
-                    byNameAsc: string;
-                    byNameDesc: string;
-                };
-                actions: string;
-                caption: string;
-                itemRemoved: string;
-            };
-        };
-        payment: {
-            paymentForm: {
-                payment: string;
-                choosePaymentMethod: string;
-                paymentType: string;
-                accountHolderName: {
-                    label: string;
-                    placeholder: string;
-                };
-                cardNumber: string;
-                expirationDate: string;
-                securityCode: string;
-                securityCodeTitle: string;
-                saveAsDefault: string;
-                setAsDefault: string;
-                billingAddress: string;
-                editBillingAddress: string;
-                sameAsDeliveryAddress: string;
-                billingAddressSameAsShipping: string;
-                selectOne: string;
-                monthMask: string;
-                yearMask: string;
-                expirationYear: string;
-                expirationMonth: string;
-                useThisPayment: string;
-                addNewPayment: string;
-                paymentAddedSuccessfully: string;
-                changePayment: string;
-            };
-            paymentMethods: {
-                paymentMethods: string;
-                paymentMethodSelected: string;
-                newPaymentMethodsAreAddedDuringCheckout: string;
-                invalidField: string;
-            };
-            paymentCard: {
-                deleteConfirmation: string;
-                setAsDefault: string;
-                expires: string;
-                defaultPaymentMethod: string;
-                defaultPaymentLabel: string;
-                additionalPaymentLabel: string;
-                selected: string;
-                selectedPayment: string;
-                deletePaymentSuccess: string;
-                visa: string;
-                master: string;
-                masterEuro: string;
-                dinersClub: string;
-                switch: string;
-                maestro: string;
-                amex: string;
-                credit: string;
-            };
-            paymentTypes: {
-                title: string;
-                paymentType_CARD: string;
-                paymentType_ACCOUNT: string;
-            };
-            paymentMessages: {
-                setAsDefaultSuccessfully: string;
-            };
-        };
-        pdf: {
-            pdf: {
-                defaultTitle: string;
-            };
-        };
-        product: {
-            productDetails: {
-                id: string;
-                quantity: string;
-                quantityFull: string;
-                productDetails: string;
-                specification: string;
-                reviews: string;
-                shipping: string;
-                share: string;
-                showReviews: string;
-                noReviews: string;
-                productPrice: string;
-                noProductImage: string;
-            };
-            productList: {
-                filterBy: {
-                    label: string;
-                    action: string;
-                };
-                activeFilter: string;
-                appliedFilter: string;
-                showLess: string;
-                showMore: string;
-                sortBy: string;
-                sortResults: string;
-                backToTopBtn: string;
-                showMoreBtn: string;
-                productSearchPagination: string;
-                productListResults: string;
-            };
-            productFacetNavigation: {
-                filterBy: {
-                    label: string;
-                    action: string;
-                    facet: string;
-                    name: string;
-                };
-                appliedFilter: string;
-                showLess: string;
-                showMore: string;
-                sortBy: string;
-                ariaLabelShowLess: string;
-                ariaLabelShowMore: string;
-                ariaLabelItemsAvailable: string;
-                ariaLabelItemsAvailable_other: string;
-                decreaseOptionsVisibility: string;
-                increaseOptionsVisibility: string;
-                backToResults: string;
-                productFacets: string;
-            };
-            productSummary: {
-                id: string;
-                showReviews: string;
-                showReviewsDetailed: string;
-                share: string;
-                newItemPrice: string;
-            };
-            productReview: {
-                overallRating: string;
-                reviewTitle: string;
-                writeYourComments: string;
-                commentPlaceholder: string;
-                rating: string;
-                ratingRequired: string;
-                addRate: string;
-                addRate_other: string;
-                reviewerName: string;
-                writeReview: string;
-                more: string;
-                less: string;
-                thankYouForReview: string;
-                postReviewFail: string;
-                ratedOutOf: string;
-                charactersLeft: string;
-            };
-            productCarousel: {
-                carouselLabel: string;
-            };
-            addToCart: {
-                itemAddedToYourCart: string;
-                itemsAddedToYourCart: string;
-                itemsIncrementedInYourCart: string;
-                items: string;
-                updatingCart: string;
-                addToCart: string;
-                viewCart: string;
-                proceedToCheckout: string;
-                quantity: string;
-                quantityFull: string;
-                outOfStock: string;
-                inStock: string;
-                selectStyleAndSize: string;
-                removeFromCart: string;
-                closeModal: string;
-                buyItAgain: string;
-                addToActiveCart: string;
-                unavailable: string;
-            };
-            TabPanelContainer: {
-                tabs: {
-                    ProductDetailsTabComponent: string;
-                    ProductSpecsTabComponent: string;
-                    ProductReviewsTabComponent: string;
-                    deliveryTab: string;
-                    SparePartsTabComponent: string;
-                };
-                tabPanelContainerRegion: string;
-                tabPanelContainerRegionGroup: string;
-            };
-            addToWishList: {
-                add: string;
-                remove: string;
-                anonymous: string;
-                addedToWishList: string;
-                removedFromWishList: string;
-            };
-            stockNotification: {
-                notifyMe: string;
-                stopNotify: string;
-                getNotify: string;
-                getNotifySuffix: string;
-                activateChannelsPrefix: string;
-                channelsLink: string;
-                activateChannelsSuffix: string;
-                notified: string;
-                getNotified: string;
-                unsubscribeSuccess: string;
-                subscriptionDialog: {
-                    header: string;
-                    notifiedPrefix: string;
-                    notifiedSuffix: string;
-                    manageChannelsPrefix: string;
-                    manageChannelsLink: string;
-                    manageChannelsSuffix: string;
-                    manageSubscriptionsPrefix: string;
-                    manageSubscriptionsLink: string;
-                    manageSubscriptionsSuffix: string;
-                    okBtn: string;
-                    subscribing: string;
-                };
-            };
-            itemCounter: {
-                removeOne: string;
-                addOneMore: string;
-                quantity: string;
-            };
-            productView: {
-                gridView: string;
-                listView: string;
-            };
-        };
-        pwa: {
-            pwa: {
-                addToHomeScreenDescription: string;
-                noInstallationNeeded: string;
-                fastAccessToApplication: string;
-                addToHomeScreen: string;
-                addedToHomeScreen: string;
-            };
-        };
-        siteThemeSwitcher: {
-            siteThemeSwitcher: {
-                theme: string;
-                themes: {
-                    default: string;
-                    highContrastDark: string;
-                    highContrastLight: string;
-                };
-            };
-        };
-        user: {
-            anonymousConsents: {
-                dialog: {
-                    title: string;
-                    legalDescription: string;
-                    selectAll: string;
-                    clearAll: string;
-                };
-                banner: {
-                    title: string;
-                    description: string;
-                    allowAll: string;
-                    viewDetails: string;
-                    consentManagement: string;
-                };
-            };
-            checkoutLogin: {
-                emailAddress: {
-                    label: string;
-                    placeholder: string;
-                };
-                confirmEmail: {
-                    label: string;
-                    placeholder: string;
-                };
-                continue: string;
-                emailIsRequired: string;
-                emailsMustMatch: string;
-            };
-            authMessages: {
-                signedOutSuccessfully: string;
-                unrecoverableError: string;
-            };
-        };
-        video: {
-            player: {
-                label: string;
-            };
-        };
-    };
-}
+translations: { en: { common: { common: { cancel: string; delete: string; remove: string; edit: string; restore: string; back: string; submit: string; continue: string; save: string; done: string; home: string; noData: string; confirm: string; more: string; close: string; loading: string; menu: string; reset: string; search: string; add: string; breadcrumbs: string; breadcrumbsCurrentPage: string; selectFile: string; clear: string; loaded: string; results: string; of: string; ngSelectDropdownOptionsList: string; required: string; zoomIn: string; zoomOut: string; selected: string; expand: string; collapse: string; readMore: string; readLess: string; }; pageMetaResolver: { category: { title: string; title_other: string; }; checkout: { title: string; }; search: { title: string; title_other: string; findProductTitle: string; findProductTitle_other: string; default_title: string; }; product: { description: string; heading: string; title: string; }; }; spinner: { loading: string; }; navigation: { categoryNavLabel: string; footerNavLabel: string; goTo: string; navigateTo: string; scrollToTop: string; linkItemInList: string; menuButonTitle: string; }; searchBox: { placeholder: string; productSearch: string; ariaLabelInput: string; ariaLabelSuggestions: string; ariaLabelProducts: string; initialDescription: string; suggestions: string; recentSearches: string; trendingSearches: string; suggestionsResult: string; suggestionsResult_other: string; products: string; productsResult: string; productsResult_other: string; resetLabel: string; help: { insufficientChars: string; noMatch: string; exactMatch: string; empty: string; }; closeSearchPanel: string; queryError: string; }; sorting: { date: string; orderNumber: string; rma: string; replenishmentNumber: string; nextOrderDate: string; pageViewUpdated: string; }; customLoginPage: { badRequest: { bad_credentials: string; account_disabled: string; unknown_error: string; }; }; httpHandlers: { badRequest: { bad_credentials: string; password_expired: string; user_is_disabled: string; }; badGateway: string; badRequestPleaseLoginAgain: string; badRequestOldPasswordIncorrect: string; badRequestGuestDuplicateEmail: string; conflict: string; forbidden: string; gatewayTimeout: string; internalServerError: string; sessionExpired: string; unknownError: string; unauthorized: { common: string; invalid_client: string; }; validationErrors: { missing: { card_cardType: string; card_accountNumber: string; card_cvNumber: string; card_expirationMonth: string; card_expirationYear: string; billTo_firstName: string; billTo_lastName: string; billTo_street1: string; billTo_street2: string; billTo_city: string; billTo_state: string; billTo_country: string; billTo_postalCode: string; country: { isocode: string; }; }; invalid: { card_expirationMonth: string; firstName: string; lastName: string; password: string; uid: string; code: string; email: string; loginId: string; }; }; cartNotFound: string; invalidCodeProvided: string; voucherExceeded: string; unknownIdentifier: string; otherCartErrors: string; }; miniCart: { item: string; item_other: string; total: string; count: string; }; skipLink: { skipTo: string; labels: { header: string; main: string; footer: string; productFacets: string; productList: string; }; }; carousel: { previousSlide: string; nextSlide: string; scrollForward: string; scrollBackward: string; slideNumber: string; carouselForProduct: string; }; formErrors: { labeled: { required: string; cxInvalidEmail: string; cxInvalidPassword: string; cxMinOneUpperCaseCharacter: string; cxMinOneDigit: string; cxMinOneSpecialCharacter: string; cxMinSixCharactersLength: string; cxMinEightCharactersLength: string; cxMaxCharactersLength: string; cxContainsSpecialCharacters: string; cxNoConsecutiveCharacters: string; invalidTokenCodeError: string; date: { required: string; min: string; max: string; pattern: string; invalid: string; }; }; globalMessage: string; required: string; cxInvalidEmail: string; cxInvalidPassword: string; cxPasswordsMustMatch: string; cxPasswordsCannotMatch: string; cxEmailsMustMatch: string; cxStarRatingEmpty: string; cxNoSelectedItemToCancel: string; cxNegativeAmount: string; cxContainsSpecialCharacters: string; date: { required: string; min: string; max: string; pattern: string; invalid: string; }; file: { required: string; empty: string; invalidExtension: string; tooLarge: string; tooManyEntries: string; notParsable: string; fileNotAllowed: string; }; }; errorHandlers: { scriptFailedToLoad: string; refreshThePage: string; }; assistiveMessage: { actionCancelled: string; }; passwordVisibility: { showPassword: string; hidePassword: string; }; generalErrors: { pageFailure: string; }; formLegend: { required: string; }; chatMessaging: { charactersLeft: string; addNewMessage: string; send: string; uploadFile: string; informationLabel: string; messages: string; addMessagePlaceHolder: string; characterLimitAlert: string; a11y: { itemListBoxLabel: string; }; }; }; deliveryMode: { setDeliveryMode: { unknownError: string; }; }; myAccountV2Consent: { myAccountV2Consent: { header: string; dateDescription: string; clearAll: string; selectAll: string; message: { success: { given: string; withdrawn: string; }; }; }; }; myAccountV2NotificationPreference: { myAccountV2NotificationPreference: { header: string; message: string; note: string; noteMessage: string; EMAIL: string; }; }; myAccount: { closeAccount: { confirmAccountClosure: string; confirmAccountClosureMessage: string; closeMyAccount: string; accountClosedSuccessfully: string; accountClosedFailure: string; }; updatePasswordForm: { oldPassword: { label: string; placeholder: string; }; oldPasswordIsRequired: string; newPassword: { label: string; placeholder: string; }; passwordMinRequirements: string; passwordStrengthRequirements: string; confirmPassword: { label: string; placeholder: string; }; bothPasswordMustMatch: string; passwordUpdateSuccess: string; accessDeniedError: string; }; updateProfileForm: { title: string; none: string; firstName: { label: string; placeholder: string; }; firstNameIsRequired: string; lastName: { label: string; placeholder: string; }; lastNameIsRequired: string; profileUpdateSuccess: string; customerId: string; }; consentManagementForm: { clearAll: string; selectAll: string; message: { success: { given: string; withdrawn: string; }; }; }; myCoupons: { noCouponsMessage: string; effectiveTitle: string; Effective: string; PreSession: string; ExpireSoon: string; readMore: string; notification: string; findProducts: string; status: string; dialogTitle: string; claimCoupondialogTitle: string; claimCouponCode: { label: string; placeholder: string; }; reset: string; claim: string; claimCustomerCoupon: string; myCoupons: string; startDateAsc: string; startDateDesc: string; endDateAsc: string; endDateDesc: string; sortBy: string; sortCoupons: string; notesPreffix: string; notesLink: string; notesSuffix: string; }; notificationPreference: { message: string; note: string; noteMessage: string; EMAIL: string; SMS: string; SITE_MESSAGE: string; }; myInterests: { header: string; item: string; price: string; notifications: string; noInterests: string; inStock: string; lowStock: string; outOfStock: string; BACK_IN_STOCK: string; sortBy: string; sortInterests: string; expirationDate: string; productId: string; remove: string; sorting: { byNameAsc: string; byNameDesc: string; }; actions: string; caption: string; itemRemoved: string; }; }; payment: { paymentForm: { payment: string; choosePaymentMethod: string; paymentType: string; accountHolderName: { label: string; placeholder: string; }; cardNumber: string; expirationDate: string; securityCode: string; securityCodeTitle: string; saveAsDefault: string; setAsDefault: string; billingAddress: string; editBillingAddress: string; sameAsDeliveryAddress: string; billingAddressSameAsShipping: string; selectOne: string; monthMask: string; yearMask: string; expirationYear: string; expirationMonth: string; useThisPayment: string; addNewPayment: string; paymentAddedSuccessfully: string; changePayment: string; }; paymentMethods: { paymentMethods: string; paymentMethodSelected: string; newPaymentMethodsAreAddedDuringCheckout: string; invalidField: string; }; paymentCard: { deleteConfirmation: string; setAsDefault: string; expires: string; defaultPaymentMethod: string; defaultPaymentLabel: string; additionalPaymentLabel: string; selected: string; selectedPayment: string; deletePaymentSuccess: string; visa: string; master: string; masterEuro: string; dinersClub: string; switch: string; maestro: string; amex: string; credit: string; }; paymentTypes: { title: string; paymentType_CARD: string; paymentType_ACCOUNT: string; }; paymentMessages: { setAsDefaultSuccessfully: string; }; }; pdf: { pdf: { defaultTitle: string; }; }; product: { productDetails: { id: string; quantity: string; quantityFull: string; productDetails: string; specification: string; reviews: string; shipping: string; share: string; showReviews: string; noReviews: string; productPrice: string; noProductImage: string; }; productList: { filterBy: { label: string; action: string; }; activeFilter: string; appliedFilter: string; showLess: string; showMore: string; sortBy: string; sortResults: string; backToTopBtn: string; showMoreBtn: string; productSearchPagination: string; productListResults: string; }; productFacetNavigation: { filterBy: { label: string; action: string; facet: string; name: string; }; appliedFilter: string; showLess: string; showMore: string; sortBy: string; ariaLabelShowLess: string; ariaLabelShowMore: string; ariaLabelItemsAvailable: string; ariaLabelItemsAvailable_other: string; decreaseOptionsVisibility: string; increaseOptionsVisibility: string; backToResults: string; productFacets: string; }; productSummary: { id: string; showReviews: string; showReviewsDetailed: string; share: string; newItemPrice: string; }; productReview: { overallRating: string; reviewTitle: string; writeYourComments: string; commentPlaceholder: string; rating: string; ratingRequired: string; addRate: string; addRate_other: string; reviewerName: string; writeReview: string; more: string; less: string; thankYouForReview: string; postReviewFail: string; ratedOutOf: string; charactersLeft: string; }; productCarousel: { carouselLabel: string; }; addToCart: { itemAddedToYourCart: string; itemsAddedToYourCart: string; itemsIncrementedInYourCart: string; items: string; updatingCart: string; addToCart: string; viewCart: string; proceedToCheckout: string; quantity: string; quantityFull: string; outOfStock: string; inStock: string; selectStyleAndSize: string; removeFromCart: string; closeModal: string; buyItAgain: string; addToActiveCart: string; unavailable: string; }; TabPanelContainer: { tabs: { ProductDetailsTabComponent: string; ProductSpecsTabComponent: string; ProductReviewsTabComponent: string; deliveryTab: string; SparePartsTabComponent: string; }; tabPanelContainerRegion: string; tabPanelContainerRegionGroup: string; }; addToWishList: { add: string; remove: string; anonymous: string; addedToWishList: string; removedFromWishList: string; }; stockNotification: { notifyMe: string; stopNotify: string; getNotify: string; getNotifySuffix: string; activateChannelsPrefix: string; channelsLink: string; activateChannelsSuffix: string; notified: string; getNotified: string; unsubscribeSuccess: string; subscriptionDialog: { header: string; notifiedPrefix: string; notifiedSuffix: string; manageChannelsPrefix: string; manageChannelsLink: string; manageChannelsSuffix: string; manageSubscriptionsPrefix: string; manageSubscriptionsLink: string; manageSubscriptionsSuffix: string; okBtn: string; subscribing: string; }; }; itemCounter: { removeOne: string; addOneMore: string; quantity: string; }; productView: { gridView: string; listView: string; }; }; pwa: { pwa: { addToHomeScreenDescription: string; noInstallationNeeded: string; fastAccessToApplication: string; addToHomeScreen: string; addedToHomeScreen: string; }; }; siteThemeSwitcher: { siteThemeSwitcher: { theme: string; themes: { default: string; highContrastDark: string; highContrastLight: string; }; }; }; user: { anonymousConsents: { dialog: { title: string; legalDescription: string; selectAll: string; clearAll: string; }; banner: { title: string; description: string; allowAll: string; viewDetails: string; consentManagement: string; }; }; checkoutLogin: { emailAddress: { label: string; placeholder: string; }; confirmEmail: { label: string; placeholder: string; }; continue: string; emailIsRequired: string; emailsMustMatch: string; }; authMessages: { signedOutSuccessfully: string; unrecoverableError: string; }; }; video: { player: { label: string; }; }; }; }
 ```
 
 
 Current version:
 
 ```
-translations: {
-    en: {
-        common: {
-            common: {
-                cancel: string;
-                delete: string;
-                remove: string;
-                edit: string;
-                restore: string;
-                back: string;
-                submit: string;
-                continue: string;
-                save: string;
-                done: string;
-                home: string;
-                noData: string;
-                confirm: string;
-                more: string;
-                close: string;
-                loading: string;
-                menu: string;
-                reset: string;
-                search: string;
-                add: string;
-                breadcrumbs: string;
-                breadcrumbsCurrentPage: string;
-                selectFile: string;
-                clear: string;
-                loaded: string;
-                results: string;
-                of: string;
-                ngSelectDropdownOptionsList: string;
-                required: string;
-                zoomIn: string;
-                zoomOut: string;
-                selected: string;
-                expand: string;
-                collapse: string;
-                readMore: string;
-                readLess: string;
-                language: string;
-                currency: string;
-            };
-            pageMetaResolver: {
-                category: {
-                    title: string;
-                    title_other: string;
-                };
-                checkout: {
-                    title: string;
-                };
-                search: {
-                    title: string;
-                    title_other: string;
-                    findProductTitle: string;
-                    findProductTitle_other: string;
-                    default_title: string;
-                };
-                product: {
-                    description: string;
-                    heading: string;
-                    title: string;
-                };
-            };
-            spinner: {
-                loading: string;
-            };
-            navigation: {
-                categoryNavLabel: string;
-                footerNavLabel: string;
-                goTo: string;
-                navigateTo: string;
-                scrollToTop: string;
-                linkItemInList: string;
-                menuButonTitle: string;
-            };
-            searchBox: {
-                placeholder: string;
-                productSearch: string;
-                ariaLabelInput: string;
-                ariaLabelSuggestions: string;
-                ariaLabelProducts: string;
-                initialDescription: string;
-                suggestions: string;
-                recentSearches: string;
-                trendingSearches: string;
-                suggestionsResult: string;
-                suggestionsResult_other: string;
-                products: string;
-                productsResult: string;
-                productsResult_other: string;
-                resetLabel: string;
-                help: {
-                    insufficientChars: string;
-                    noMatch: string;
-                    exactMatch: string;
-                    empty: string;
-                };
-                closeSearchPanel: string;
-                queryError: string;
-            };
-            sorting: {
-                date: string;
-                orderNumber: string;
-                rma: string;
-                replenishmentNumber: string;
-                nextOrderDate: string;
-                pageViewUpdated: string;
-            };
-            customLoginPage: {
-                badRequest: {
-                    bad_credentials: string;
-                    account_disabled: string;
-                    unknown_error: string;
-                };
-            };
-            httpHandlers: {
-                badRequest: {
-                    bad_credentials: string;
-                    password_expired: string;
-                    user_is_disabled: string;
-                };
-                badGateway: string;
-                badRequestPleaseLoginAgain: string;
-                badRequestOldPasswordIncorrect: string;
-                badRequestGuestDuplicateEmail: string;
-                conflict: string;
-                forbidden: string;
-                gatewayTimeout: string;
-                internalServerError: string;
-                sessionExpired: string;
-                unknownError: string;
-                unauthorized: {
-                    common: string;
-                    invalid_client: string;
-                };
-                validationErrors: {
-                    missing: {
-                        card_cardType: string;
-                        card_accountNumber: string;
-                        card_cvNumber: string;
-                        card_expirationMonth: string;
-                        card_expirationYear: string;
-                        billTo_firstName: string;
-                        billTo_lastName: string;
-                        billTo_street1: string;
-                        billTo_street2: string;
-                        billTo_city: string;
-                        billTo_state: string;
-                        billTo_country: string;
-                        billTo_postalCode: string;
-                        country: {
-                            isocode: string;
-                        };
-                    };
-                    invalid: {
-                        card_expirationMonth: string;
-                        firstName: string;
-                        lastName: string;
-                        password: string;
-                        uid: string;
-                        code: string;
-                        email: string;
-                        loginId: string;
-                    };
-                };
-                cartNotFound: string;
-                invalidCodeProvided: string;
-                voucherExceeded: string;
-                unknownIdentifier: string;
-                otherCartErrors: string;
-            };
-            miniCart: {
-                item: string;
-                item_other: string;
-                total: string;
-                count: string;
-            };
-            skipLink: {
-                skipTo: string;
-                labels: {
-                    header: string;
-                    main: string;
-                    footer: string;
-                    productFacets: string;
-                    productList: string;
-                };
-            };
-            carousel: {
-                previousSlide: string;
-                nextSlide: string;
-                scrollForward: string;
-                scrollBackward: string;
-                slideNumber: string;
-                carouselForProduct: string;
-            };
-            formErrors: {
-                labeled: {
-                    required: string;
-                    cxInvalidEmail: string;
-                    cxInvalidPassword: string;
-                    cxMinOneUpperCaseCharacter: string;
-                    cxMinOneDigit: string;
-                    cxMinOneSpecialCharacter: string;
-                    cxMinSixCharactersLength: string;
-                    cxMinEightCharactersLength: string;
-                    cxMaxCharactersLength: string;
-                    cxContainsSpecialCharacters: string;
-                    cxNoConsecutiveCharacters: string;
-                    invalidTokenCodeError: string;
-                    date: {
-                        required: string;
-                        min: string;
-                        max: string;
-                        pattern: string;
-                        invalid: string;
-                    };
-                };
-                globalMessage: string;
-                required: string;
-                cxInvalidEmail: string;
-                cxInvalidPassword: string;
-                cxPasswordsMustMatch: string;
-                cxPasswordsCannotMatch: string;
-                cxEmailsMustMatch: string;
-                cxStarRatingEmpty: string;
-                cxNoSelectedItemToCancel: string;
-                cxNegativeAmount: string;
-                cxContainsSpecialCharacters: string;
-                date: {
-                    required: string;
-                    min: string;
-                    max: string;
-                    pattern: string;
-                    invalid: string;
-                };
-                file: {
-                    required: string;
-                    empty: string;
-                    invalidExtension: string;
-                    tooLarge: string;
-                    tooManyEntries: string;
-                    notParsable: string;
-                    fileNotAllowed: string;
-                };
-            };
-            errorHandlers: {
-                scriptFailedToLoad: string;
-                refreshThePage: string;
-            };
-            assistiveMessage: {
-                actionCancelled: string;
-            };
-            passwordVisibility: {
-                showPassword: string;
-                hidePassword: string;
-            };
-            generalErrors: {
-                pageFailure: string;
-            };
-            formLegend: {
-                required: string;
-            };
-            chatMessaging: {
-                charactersLeft: string;
-                addNewMessage: string;
-                send: string;
-                uploadFile: string;
-                informationLabel: string;
-                messages: string;
-                addMessagePlaceHolder: string;
-                characterLimitAlert: string;
-                a11y: {
-                    itemListBoxLabel: string;
-                };
-            };
-        };
-        deliveryMode: {
-            setDeliveryMode: {
-                unknownError: string;
-            };
-        };
-        myAccountV2Consent: {
-            myAccountV2Consent: {
-                header: string;
-                dateDescription: string;
-                clearAll: string;
-                selectAll: string;
-                message: {
-                    success: {
-                        given: string;
-                        withdrawn: string;
-                    };
-                };
-            };
-        };
-        myAccountV2NotificationPreference: {
-            myAccountV2NotificationPreference: {
-                header: string;
-                message: string;
-                note: string;
-                noteMessage: string;
-                EMAIL: string;
-            };
-        };
-        myAccount: {
-            closeAccount: {
-                confirmAccountClosure: string;
-                confirmAccountClosureMessage: string;
-                closeMyAccount: string;
-                accountClosedSuccessfully: string;
-                accountClosedFailure: string;
-            };
-            updatePasswordForm: {
-                oldPassword: {
-                    label: string;
-                    placeholder: string;
-                };
-                oldPasswordIsRequired: string;
-                newPassword: {
-                    label: string;
-                    placeholder: string;
-                };
-                passwordMinRequirements: string;
-                passwordStrengthRequirements: string;
-                confirmPassword: {
-                    label: string;
-                    placeholder: string;
-                };
-                bothPasswordMustMatch: string;
-                passwordUpdateSuccess: string;
-                accessDeniedError: string;
-            };
-            updateProfileForm: {
-                title: string;
-                none: string;
-                firstName: {
-                    label: string;
-                    placeholder: string;
-                };
-                firstNameIsRequired: string;
-                lastName: {
-                    label: string;
-                    placeholder: string;
-                };
-                lastNameIsRequired: string;
-                profileUpdateSuccess: string;
-                customerId: string;
-            };
-            consentManagementForm: {
-                clearAll: string;
-                selectAll: string;
-                message: {
-                    success: {
-                        given: string;
-                        withdrawn: string;
-                    };
-                };
-            };
-            myCoupons: {
-                noCouponsMessage: string;
-                effectiveTitle: string;
-                Effective: string;
-                PreSession: string;
-                ExpireSoon: string;
-                readMore: string;
-                notification: string;
-                findProducts: string;
-                status: string;
-                dialogTitle: string;
-                claimCoupondialogTitle: string;
-                claimCouponCode: {
-                    label: string;
-                    placeholder: string;
-                };
-                reset: string;
-                claim: string;
-                claimCustomerCoupon: string;
-                myCoupons: string;
-                startDateAsc: string;
-                startDateDesc: string;
-                endDateAsc: string;
-                endDateDesc: string;
-                sortBy: string;
-                sortCoupons: string;
-                notesPreffix: string;
-                notesLink: string;
-                notesSuffix: string;
-            };
-            notificationPreference: {
-                message: string;
-                note: string;
-                noteMessage: string;
-                EMAIL: string;
-                SMS: string;
-                SITE_MESSAGE: string;
-            };
-            myInterests: {
-                header: string;
-                item: string;
-                price: string;
-                notifications: string;
-                noInterests: string;
-                inStock: string;
-                lowStock: string;
-                outOfStock: string;
-                BACK_IN_STOCK: string;
-                sortBy: string;
-                sortInterests: string;
-                expirationDate: string;
-                productId: string;
-                remove: string;
-                sorting: {
-                    byNameAsc: string;
-                    byNameDesc: string;
-                };
-                actions: string;
-                caption: string;
-                itemRemoved: string;
-            };
-        };
-        payment: {
-            paymentForm: {
-                payment: string;
-                choosePaymentMethod: string;
-                paymentType: string;
-                accountHolderName: {
-                    label: string;
-                    placeholder: string;
-                };
-                cardNumber: string;
-                expirationDate: string;
-                securityCode: string;
-                securityCodeTitle: string;
-                saveAsDefault: string;
-                setAsDefault: string;
-                billingAddress: string;
-                editBillingAddress: string;
-                sameAsDeliveryAddress: string;
-                billingAddressSameAsShipping: string;
-                selectOne: string;
-                monthMask: string;
-                yearMask: string;
-                expirationYear: string;
-                expirationMonth: string;
-                useThisPayment: string;
-                addNewPayment: string;
-                paymentAddedSuccessfully: string;
-                changePayment: string;
-            };
-            paymentMethods: {
-                paymentMethods: string;
-                paymentMethodSelected: string;
-                newPaymentMethodsAreAddedDuringCheckout: string;
-                invalidField: string;
-            };
-            paymentCard: {
-                deleteConfirmation: string;
-                setAsDefault: string;
-                expires: string;
-                defaultPaymentMethod: string;
-                defaultPaymentLabel: string;
-                additionalPaymentLabel: string;
-                selected: string;
-                selectedPayment: string;
-                deletePaymentSuccess: string;
-                visa: string;
-                master: string;
-                masterEuro: string;
-                dinersClub: string;
-                switch: string;
-                maestro: string;
-                amex: string;
-                credit: string;
-            };
-            paymentTypes: {
-                title: string;
-                paymentType_CARD: string;
-                paymentType_ACCOUNT: string;
-            };
-            paymentMessages: {
-                setAsDefaultSuccessfully: string;
-            };
-        };
-        pdf: {
-            pdf: {
-                defaultTitle: string;
-            };
-        };
-        product: {
-            productDetails: {
-                id: string;
-                quantity: string;
-                quantityFull: string;
-                productDetails: string;
-                specification: string;
-                reviews: string;
-                shipping: string;
-                share: string;
-                showReviews: string;
-                noReviews: string;
-                productPrice: string;
-                noProductImage: string;
-            };
-            productList: {
-                filterBy: {
-                    label: string;
-                    action: string;
-                };
-                activeFilter: string;
-                appliedFilter: string;
-                showLess: string;
-                showMore: string;
-                sortBy: string;
-                sortResults: string;
-                backToTopBtn: string;
-                showMoreBtn: string;
-                productSearchPagination: string;
-                productListResults: string;
-            };
-            productFacetNavigation: {
-                filterBy: {
-                    label: string;
-                    action: string;
-                    facet: string;
-                    name: string;
-                };
-                appliedFilter: string;
-                showLess: string;
-                showMore: string;
-                sortBy: string;
-                ariaLabelShowLess: string;
-                ariaLabelShowMore: string;
-                ariaLabelItemsAvailable: string;
-                ariaLabelItemsAvailable_other: string;
-                decreaseOptionsVisibility: string;
-                increaseOptionsVisibility: string;
-                backToResults: string;
-                productFacets: string;
-            };
-            productSummary: {
-                id: string;
-                showReviews: string;
-                showReviewsDetailed: string;
-                share: string;
-                newItemPrice: string;
-            };
-            productReview: {
-                overallRating: string;
-                reviewTitle: string;
-                writeYourComments: string;
-                commentPlaceholder: string;
-                rating: string;
-                ratingRequired: string;
-                addRate: string;
-                addRate_other: string;
-                reviewerName: string;
-                writeReview: string;
-                more: string;
-                less: string;
-                thankYouForReview: string;
-                postReviewFail: string;
-                ratedOutOf: string;
-                charactersLeft: string;
-            };
-            productCarousel: {
-                carouselLabel: string;
-            };
-            addToCart: {
-                itemAddedToYourCart: string;
-                itemsAddedToYourCart: string;
-                itemsIncrementedInYourCart: string;
-                items: string;
-                updatingCart: string;
-                addToCart: string;
-                viewCart: string;
-                proceedToCheckout: string;
-                quantity: string;
-                quantityFull: string;
-                outOfStock: string;
-                inStock: string;
-                selectStyleAndSize: string;
-                removeFromCart: string;
-                closeModal: string;
-                buyItAgain: string;
-                addToActiveCart: string;
-                unavailable: string;
-            };
-            TabPanelContainer: {
-                tabs: {
-                    ProductDetailsTabComponent: string;
-                    ProductSpecsTabComponent: string;
-                    ProductReviewsTabComponent: string;
-                    deliveryTab: string;
-                    SparePartsTabComponent: string;
-                };
-                tabPanelContainerRegion: string;
-                tabPanelContainerRegionGroup: string;
-            };
-            addToWishList: {
-                add: string;
-                remove: string;
-                anonymous: string;
-                addedToWishList: string;
-                removedFromWishList: string;
-            };
-            stockNotification: {
-                notifyMe: string;
-                stopNotify: string;
-                getNotify: string;
-                getNotifySuffix: string;
-                activateChannelsPrefix: string;
-                channelsLink: string;
-                activateChannelsSuffix: string;
-                notified: string;
-                getNotified: string;
-                unsubscribeSuccess: string;
-                subscriptionDialog: {
-                    header: string;
-                    notifiedPrefix: string;
-                    notifiedSuffix: string;
-                    manageChannelsPrefix: string;
-                    manageChannelsLink: string;
-                    manageChannelsSuffix: string;
-                    manageSubscriptionsPrefix: string;
-                    manageSubscriptionsLink: string;
-                    manageSubscriptionsSuffix: string;
-                    okBtn: string;
-                    subscribing: string;
-                };
-            };
-            itemCounter: {
-                removeOne: string;
-                addOneMore: string;
-                quantity: string;
-            };
-            productView: {
-                gridView: string;
-                listView: string;
-            };
-        };
-        pwa: {
-            pwa: {
-                addToHomeScreenDescription: string;
-                noInstallationNeeded: string;
-                fastAccessToApplication: string;
-                addToHomeScreen: string;
-                addedToHomeScreen: string;
-            };
-        };
-        siteThemeSwitcher: {
-            siteThemeSwitcher: {
-                theme: string;
-                themes: {
-                    default: string;
-                    highContrastDark: string;
-                    highContrastLight: string;
-                };
-            };
-        };
-        user: {
-            anonymousConsents: {
-                dialog: {
-                    title: string;
-                    legalDescription: string;
-                    selectAll: string;
-                    clearAll: string;
-                };
-                banner: {
-                    title: string;
-                    description: string;
-                    allowAll: string;
-                    viewDetails: string;
-                    consentManagement: string;
-                };
-            };
-            checkoutLogin: {
-                emailAddress: {
-                    label: string;
-                    placeholder: string;
-                };
-                confirmEmail: {
-                    label: string;
-                    placeholder: string;
-                };
-                continue: string;
-                emailIsRequired: string;
-                emailsMustMatch: string;
-            };
-            authMessages: {
-                signedOutSuccessfully: string;
-                unrecoverableError: string;
-            };
-        };
-        video: {
-            player: {
-                label: string;
-            };
-        };
-    };
-}
+translations: { en: { common: { common: { cancel: string; delete: string; remove: string; edit: string; restore: string; back: string; submit: string; continue: string; save: string; done: string; home: string; noData: string; confirm: string; more: string; close: string; loading: string; menu: string; reset: string; search: string; add: string; breadcrumbs: string; breadcrumbsCurrentPage: string; selectFile: string; clear: string; loaded: string; results: string; of: string; ngSelectDropdownOptionsList: string; required: string; zoomIn: string; zoomOut: string; selected: string; expand: string; collapse: string; readMore: string; readLess: string; language: string; currency: string; }; pageMetaResolver: { category: { title: string; title_other: string; }; checkout: { title: string; }; search: { title: string; title_other: string; findProductTitle: string; findProductTitle_other: string; default_title: string; }; product: { description: string; heading: string; title: string; }; }; spinner: { loading: string; }; navigation: { categoryNavLabel: string; footerNavLabel: string; goTo: string; navigateTo: string; scrollToTop: string; linkItemInList: string; menuButonTitle: string; }; searchBox: { placeholder: string; productSearch: string; ariaLabelInput: string; ariaLabelSuggestions: string; ariaLabelProducts: string; initialDescription: string; suggestions: string; recentSearches: string; trendingSearches: string; suggestionsResult: string; suggestionsResult_other: string; products: string; productsResult: string; productsResult_other: string; resetLabel: string; help: { insufficientChars: string; noMatch: string; exactMatch: string; empty: string; }; closeSearchPanel: string; queryError: string; }; sorting: { date: string; orderNumber: string; rma: string; replenishmentNumber: string; nextOrderDate: string; pageViewUpdated: string; }; customLoginPage: { badRequest: { bad_credentials: string; account_disabled: string; unknown_error: string; }; }; httpHandlers: { badRequest: { bad_credentials: string; password_expired: string; user_is_disabled: string; }; badGateway: string; badRequestPleaseLoginAgain: string; badRequestOldPasswordIncorrect: string; badRequestGuestDuplicateEmail: string; conflict: string; forbidden: string; gatewayTimeout: string; internalServerError: string; sessionExpired: string; unknownError: string; unauthorized: { common: string; invalid_client: string; }; validationErrors: { missing: { card_cardType: string; card_accountNumber: string; card_cvNumber: string; card_expirationMonth: string; card_expirationYear: string; billTo_firstName: string; billTo_lastName: string; billTo_street1: string; billTo_street2: string; billTo_city: string; billTo_state: string; billTo_country: string; billTo_postalCode: string; country: { isocode: string; }; }; invalid: { card_expirationMonth: string; firstName: string; lastName: string; password: string; uid: string; code: string; email: string; loginId: string; }; }; cartNotFound: string; invalidCodeProvided: string; voucherExceeded: string; unknownIdentifier: string; otherCartErrors: string; }; miniCart: { item: string; item_other: string; total: string; count: string; }; skipLink: { skipTo: string; labels: { header: string; main: string; footer: string; productFacets: string; productList: string; }; }; carousel: { previousSlide: string; nextSlide: string; scrollForward: string; scrollBackward: string; slideNumber: string; carouselForProduct: string; }; formErrors: { labeled: { required: string; cxInvalidEmail: string; cxInvalidPassword: string; cxMinOneUpperCaseCharacter: string; cxMinOneDigit: string; cxMinOneSpecialCharacter: string; cxMinSixCharactersLength: string; cxMinEightCharactersLength: string; cxMaxCharactersLength: string; cxContainsSpecialCharacters: string; cxNoConsecutiveCharacters: string; invalidTokenCodeError: string; date: { required: string; min: string; max: string; pattern: string; invalid: string; }; }; globalMessage: string; required: string; cxInvalidEmail: string; cxInvalidPassword: string; cxPasswordsMustMatch: string; cxPasswordsCannotMatch: string; cxEmailsMustMatch: string; cxStarRatingEmpty: string; cxNoSelectedItemToCancel: string; cxNegativeAmount: string; cxContainsSpecialCharacters: string; date: { required: string; min: string; max: string; pattern: string; invalid: string; }; file: { required: string; empty: string; invalidExtension: string; tooLarge: string; tooManyEntries: string; notParsable: string; fileNotAllowed: string; }; }; errorHandlers: { scriptFailedToLoad: string; refreshThePage: string; }; assistiveMessage: { actionCancelled: string; }; passwordVisibility: { showPassword: string; hidePassword: string; }; generalErrors: { pageFailure: string; }; formLegend: { required: string; }; chatMessaging: { charactersLeft: string; addNewMessage: string; send: string; uploadFile: string; informationLabel: string; messages: string; addMessagePlaceHolder: string; characterLimitAlert: string; a11y: { itemListBoxLabel: string; }; }; }; deliveryMode: { setDeliveryMode: { unknownError: string; }; }; myAccountV2Consent: { myAccountV2Consent: { header: string; dateDescription: string; clearAll: string; selectAll: string; message: { success: { given: string; withdrawn: string; }; }; }; }; myAccountV2NotificationPreference: { myAccountV2NotificationPreference: { header: string; message: string; note: string; noteMessage: string; EMAIL: string; }; }; myAccount: { closeAccount: { confirmAccountClosure: string; confirmAccountClosureMessage: string; closeMyAccount: string; accountClosedSuccessfully: string; accountClosedFailure: string; }; updatePasswordForm: { oldPassword: { label: string; placeholder: string; }; oldPasswordIsRequired: string; newPassword: { label: string; placeholder: string; }; passwordMinRequirements: string; passwordStrengthRequirements: string; confirmPassword: { label: string; placeholder: string; }; bothPasswordMustMatch: string; passwordUpdateSuccess: string; accessDeniedError: string; }; updateProfileForm: { title: string; none: string; firstName: { label: string; placeholder: string; }; firstNameIsRequired: string; lastName: { label: string; placeholder: string; }; lastNameIsRequired: string; profileUpdateSuccess: string; customerId: string; }; consentManagementForm: { clearAll: string; selectAll: string; message: { success: { given: string; withdrawn: string; }; }; }; myCoupons: { noCouponsMessage: string; effectiveTitle: string; Effective: string; PreSession: string; ExpireSoon: string; readMore: string; notification: string; findProducts: string; status: string; dialogTitle: string; claimCoupondialogTitle: string; claimCouponCode: { label: string; placeholder: string; }; reset: string; claim: string; claimCustomerCoupon: string; myCoupons: string; startDateAsc: string; startDateDesc: string; endDateAsc: string; endDateDesc: string; sortBy: string; sortCoupons: string; notesPreffix: string; notesLink: string; notesSuffix: string; }; notificationPreference: { message: string; note: string; noteMessage: string; EMAIL: string; SMS: string; SITE_MESSAGE: string; }; myInterests: { header: string; item: string; price: string; notifications: string; noInterests: string; inStock: string; lowStock: string; outOfStock: string; BACK_IN_STOCK: string; sortBy: string; sortInterests: string; expirationDate: string; productId: string; remove: string; sorting: { byNameAsc: string; byNameDesc: string; }; actions: string; caption: string; itemRemoved: string; }; }; payment: { paymentForm: { payment: string; choosePaymentMethod: string; paymentType: string; accountHolderName: { label: string; placeholder: string; }; cardNumber: string; expirationDate: string; securityCode: string; securityCodeTitle: string; saveAsDefault: string; setAsDefault: string; billingAddress: string; editBillingAddress: string; sameAsDeliveryAddress: string; billingAddressSameAsShipping: string; selectOne: string; monthMask: string; yearMask: string; expirationYear: string; expirationMonth: string; useThisPayment: string; addNewPayment: string; paymentAddedSuccessfully: string; changePayment: string; }; paymentMethods: { paymentMethods: string; paymentMethodSelected: string; newPaymentMethodsAreAddedDuringCheckout: string; invalidField: string; }; paymentCard: { deleteConfirmation: string; setAsDefault: string; expires: string; defaultPaymentMethod: string; defaultPaymentLabel: string; additionalPaymentLabel: string; selected: string; selectedPayment: string; deletePaymentSuccess: string; visa: string; master: string; masterEuro: string; dinersClub: string; switch: string; maestro: string; amex: string; credit: string; }; paymentTypes: { title: string; paymentType_CARD: string; paymentType_ACCOUNT: string; }; paymentMessages: { setAsDefaultSuccessfully: string; }; }; pdf: { pdf: { defaultTitle: string; }; }; product: { productDetails: { id: string; quantity: string; quantityFull: string; productDetails: string; specification: string; reviews: string; shipping: string; share: string; showReviews: string; noReviews: string; productPrice: string; noProductImage: string; }; productList: { filterBy: { label: string; action: string; }; activeFilter: string; appliedFilter: string; showLess: string; showMore: string; sortBy: string; sortResults: string; backToTopBtn: string; showMoreBtn: string; productSearchPagination: string; productListResults: string; }; productFacetNavigation: { filterBy: { label: string; action: string; facet: string; name: string; }; appliedFilter: string; showLess: string; showMore: string; sortBy: string; ariaLabelShowLess: string; ariaLabelShowMore: string; ariaLabelItemsAvailable: string; ariaLabelItemsAvailable_other: string; decreaseOptionsVisibility: string; increaseOptionsVisibility: string; backToResults: string; productFacets: string; }; productSummary: { id: string; showReviews: string; showReviewsDetailed: string; share: string; newItemPrice: string; }; productReview: { overallRating: string; reviewTitle: string; writeYourComments: string; commentPlaceholder: string; rating: string; ratingRequired: string; addRate: string; addRate_other: string; reviewerName: string; writeReview: string; more: string; less: string; thankYouForReview: string; postReviewFail: string; ratedOutOf: string; charactersLeft: string; }; productCarousel: { carouselLabel: string; }; addToCart: { itemAddedToYourCart: string; itemsAddedToYourCart: string; itemsIncrementedInYourCart: string; items: string; updatingCart: string; addToCart: string; viewCart: string; proceedToCheckout: string; quantity: string; quantityFull: string; outOfStock: string; inStock: string; selectStyleAndSize: string; removeFromCart: string; closeModal: string; buyItAgain: string; addToActiveCart: string; unavailable: string; }; TabPanelContainer: { tabs: { ProductDetailsTabComponent: string; ProductSpecsTabComponent: string; ProductReviewsTabComponent: string; deliveryTab: string; SparePartsTabComponent: string; }; tabPanelContainerRegion: string; tabPanelContainerRegionGroup: string; }; addToWishList: { add: string; remove: string; anonymous: string; addedToWishList: string; removedFromWishList: string; }; stockNotification: { notifyMe: string; stopNotify: string; getNotify: string; getNotifySuffix: string; activateChannelsPrefix: string; channelsLink: string; activateChannelsSuffix: string; notified: string; getNotified: string; unsubscribeSuccess: string; subscriptionDialog: { header: string; notifiedPrefix: string; notifiedSuffix: string; manageChannelsPrefix: string; manageChannelsLink: string; manageChannelsSuffix: string; manageSubscriptionsPrefix: string; manageSubscriptionsLink: string; manageSubscriptionsSuffix: string; okBtn: string; subscribing: string; }; }; itemCounter: { removeOne: string; addOneMore: string; quantity: string; }; productView: { gridView: string; listView: string; }; }; pwa: { pwa: { addToHomeScreenDescription: string; noInstallationNeeded: string; fastAccessToApplication: string; addToHomeScreen: string; addedToHomeScreen: string; }; }; siteThemeSwitcher: { siteThemeSwitcher: { theme: string; themes: { default: string; highContrastDark: string; highContrastLight: string; }; }; }; user: { anonymousConsents: { dialog: { title: string; legalDescription: string; selectAll: string; clearAll: string; }; banner: { title: string; description: string; allowAll: string; viewDetails: string; consentManagement: string; }; }; checkoutLogin: { emailAddress: { label: string; placeholder: string; }; confirmEmail: { label: string; placeholder: string; }; continue: string; emailIsRequired: string; emailsMustMatch: string; }; authMessages: { signedOutSuccessfully: string; unrecoverableError: string; }; }; video: { player: { label: string; }; }; }; }
 ```
 
 
@@ -81206,75 +76839,14 @@ Variable translationsZh has been removed and is no longer part of the public API
 Previous version:
 
 ```
-asm: {
-        agentSessionTimer?: {
-            startingDelayInSeconds?: number;
-        };
-        customerSearch?: {
-            maxResults?: number;
-        };
-        customerList?: {
-            pageSize?: number;
-            showAvatar?: boolean;
-            columns?: {
-                headerLocalizationKey: string;
-                icon?: {
-                    symbol?: ICON_TYPE;
-                    captionLocalizationKey?: string;
-                };
-                renderer?: (customer: User) => string;
-                actionType?: CustomerListColumnActionType;
-            }[];
-        };
-        userIdHttpHeader?: {
-            enable?: boolean;
-        };
-    }
+asm: { agentSessionTimer?: { startingDelayInSeconds?: number; }; customerSearch?: { maxResults?: number; }; customerList?: { pageSize?: number; showAvatar?: boolean; columns?: { headerLocalizationKey: string; icon?: { symbol?: ICON_TYPE; captionLocalizationKey?: string; }; renderer?: (customer: User) => string; actionType?: CustomerListColumnActionType; }[]; }; userIdHttpHeader?: { enable?: boolean; }; }
 ```
 
 
 Current version:
 
 ```
-asm: {
-        agentSessionTimer?: {
-            startingDelayInSeconds?: number;
-        };
-        customerSearch?: {
-            maxResults?: number;
-        };
-        customerList?: {
-            pageSize?: number;
-            showAvatar?: boolean;
-            columns?: {
-                headerLocalizationKey: string;
-                icon?: {
-                    symbol?: ICON_TYPE;
-                    captionLocalizationKey?: string;
-                };
-                renderer?: (customer: User) => string;
-                actionType?: CustomerListColumnActionType;
-            }[];
-        };
-        asmSessionSupport?: {
-            enabled?: boolean;
-        };
-        userIdHttpHeader?: {
-            /**
-             * To fix certain features when a customer agent is emulating a user, we must send a header called
-             * "sap-commerce-cloud-user-id" to the backend fetching certain data as the user, rather than the
-             * agent. However, the header will break instances of Commerce Cloud who do not allow requests with
-             * this header. (For example, the configuration "corsfilter.commercewebservices.allowedHeaders" will
-             * need to allow it.)
-             *
-             * Enabling this feature will send the emulated user's IDs on requests that need it as context.
-             */
-            enable?: boolean;
-        };
-        createCustomer?: {
-            enable?: boolean;
-        };
-    }
+asm: { agentSessionTimer?: { startingDelayInSeconds?: number; }; customerSearch?: { maxResults?: number; }; customerList?: { pageSize?: number; showAvatar?: boolean; columns?: { headerLocalizationKey: string; icon?: { symbol?: ICON_TYPE; captionLocalizationKey?: string; }; renderer?: (customer: User) => string; actionType?: CustomerListColumnActionType; }[]; }; asmSessionSupport?: { enabled?: boolean; }; userIdHttpHeader?: { enable?: boolean; }; createCustomer?: { enable?: boolean; }; }
 ```
 
 
@@ -81398,36 +76970,6 @@ asm: {
 
 ### Method load is removed.
 
-
-
-
-
-# Function asmFactory
-## @spartacus/asm/root
-
-
-Function asmFactory changed.
-
-Previous version:
-
-```
-
-asmFactory(
-  asmEnablerService: AsmEnablerService
-): () => void
-
-```
-
-
-Current version:
-
-```
-
-asmFactory(
-  asmEnablerService: AsmEnablerService
-): ()
-
-```
 
 
 
@@ -82622,34 +78164,6 @@ moved to @spartacus/asm/customer/360/core
 moved to @spartacus/asm/customer/360/core
 
 
-Function getAsmDialogActionEvent changed.
-
-Previous version:
-
-```
-
-getAsmDialogActionEvent(
-  customerEntry: User,
-  action: AsmDialogActionType,
-  route?: UrlCommand
-): AsmDialogActionEvent
-
-```
-
-
-Current version:
-
-```
-
-getAsmDialogActionEvent(
-  customerEntry: User,
-  action: ,
-  route: 
-): AsmDialogActionEvent
-
-```
-
-
 
 
 # Class AsmCustomer360ActiveCartComponent
@@ -83519,36 +79033,6 @@ Namespace AsmSelectors has been removed and is no longer part of the public API.
 
 
 
-# Function asmStatePersistenceFactory
-## @spartacus/asm/core
-
-
-Function asmStatePersistenceFactory changed.
-
-Previous version:
-
-```
-
-asmStatePersistenceFactory(
-  asmStatePersistenceService: AsmStatePersistenceService
-): () => void
-
-```
-
-
-Current version:
-
-```
-
-asmStatePersistenceFactory(
-  asmStatePersistenceService: AsmStatePersistenceService
-): ()
-
-```
-
-
-
-
 # Class AsmStatePersistenceService
 ## @spartacus/asm/core
 
@@ -83567,160 +79051,6 @@ asmStatePersistenceFactory(
 
 ### Method onRead is removed.
 
-
-
-
-
-# Function byBoolean
-## @spartacus/asm/core
-
-
-Function byBoolean changed.
-
-Previous version:
-
-```
-
-byBoolean(
-  ordering?: SortOrder
-): Comparator<boolean>
-
-```
-
-
-Current version:
-
-```
-
-byBoolean(
-  ordering: : SortOrder
-): Comparator<boolean>
-
-```
-
-
-
-
-# Function byComparison
-## @spartacus/asm/core
-
-
-Function byComparison changed.
-
-Previous version:
-
-```
-
-byComparison(
-  ordering?: SortOrder
-): Comparator<T>
-
-```
-
-
-Current version:
-
-```
-
-byComparison(
-  ordering: : SortOrder
-): Comparator<T>
-
-```
-
-
-
-
-# Function byNullish
-## @spartacus/asm/core
-
-
-Function byNullish changed.
-
-Previous version:
-
-```
-
-byNullish(
-  ordering?: SortOrder
-): Comparator<T>
-
-```
-
-
-Current version:
-
-```
-
-byNullish(
-  ordering: : SortOrder
-): Comparator<T>
-
-```
-
-
-
-
-# Function byNumber
-## @spartacus/asm/core
-
-
-Function byNumber changed.
-
-Previous version:
-
-```
-
-byNumber(
-  ordering?: SortOrder
-): Comparator<number>
-
-```
-
-
-Current version:
-
-```
-
-byNumber(
-  ordering: : SortOrder
-): Comparator<number>
-
-```
-
-
-
-
-# Function byString
-## @spartacus/asm/core
-
-
-Function byString changed.
-
-Previous version:
-
-```
-
-byString(
-  ordering?: SortOrder,
-  locales?: string | Array<string>,
-  opts?: Intl.CollatorOptions
-): Comparator<string>
-
-```
-
-
-Current version:
-
-```
-
-byString(
-  ordering: : SortOrder,
-  locales: ,
-  opts: 
-): Comparator<string>
-
-```
 
 
 
@@ -83752,68 +79082,6 @@ Function isString has been removed and is no longer part of the public API.
 
 
 
-# Function itemsWith
-## @spartacus/asm/core
-
-
-Function itemsWith changed.
-
-Previous version:
-
-```
-
-itemsWith(
-  fns: Array<Comparator<T>>
-): (a: T, b: T) => -1 | 0 | 1
-
-```
-
-
-Current version:
-
-```
-
-itemsWith(
-  fns: Array<Comparator<T>>
-): (a: T, b: T)
-
-```
-
-
-
-
-# Function property
-## @spartacus/asm/core
-
-
-Function property changed.
-
-Previous version:
-
-```
-
-property(
-  prop: P,
-  comparator: Comparator<T[P]>
-): Comparator<T>
-
-```
-
-
-Current version:
-
-```
-
-property(
-  prop: P,
-  comparator: 
-): Comparator<T>
-
-```
-
-
-
-
 # Function property
 ## @spartacus/asm/core
 
@@ -83839,7 +79107,7 @@ Current version:
 
 property(
   prop: P,
-  comparator: 
+  comparator: Comparator<T[P]>
 ): Comparator<T>
 
 ```
@@ -83871,38 +79139,6 @@ property(
 
 ### PropertySignature ui is removed.
 
-
-
-
-
-# Function whenType
-## @spartacus/asm/core
-
-
-Function whenType changed.
-
-Previous version:
-
-```
-
-whenType(
-  typeGuard: (value: T) => value is S,
-  comparator: Comparator<S>
-): Comparator<T>
-
-```
-
-
-Current version:
-
-```
-
-whenType(
-  typeGuard: (value: T) => value is S,
-  comparator: 
-): Comparator<T>
-
-```
 
 
 
@@ -84075,22 +79311,14 @@ whenType(
 Previous version:
 
 ```
-registerForm: import("@angular/forms").FormGroup<{
-        firstName: import("@angular/forms").FormControl<string | null>;
-        lastName: import("@angular/forms").FormControl<string | null>;
-        email: import("@angular/forms").FormControl<string | null>;
-    }>
+registerForm: import("@angular/forms").FormGroup<{ firstName: import("@angular/forms").FormControl<string | null>; lastName: import("@angular/forms").FormControl<string | null>; email: import("@angular/forms").FormControl<string | null>; }>
 ```
 
 
 Current version:
 
 ```
-registerForm: _angular_forms.FormGroup<{
-        firstName: _angular_forms.FormControl<string | null>;
-        lastName: _angular_forms.FormControl<string | null>;
-        email: _angular_forms.FormControl<string | null>;
-    }>
+registerForm: _angular_forms.FormGroup<{ firstName: _angular_forms.FormControl<string | null>; lastName: _angular_forms.FormControl<string | null>; email: _angular_forms.FormControl<string | null>; }>
 ```
 
 
