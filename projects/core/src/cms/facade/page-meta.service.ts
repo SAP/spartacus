@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { inject, Injectable } from '@angular/core';
-import { LanguageService } from '../../site-context/facade/language.service';
+import { inject, Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { defer, Observable, of } from 'rxjs';
 import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
+import { LanguageService } from '../../site-context/facade/language.service';
 import { resolveApplicable } from '../../util/applicable';
 import { uniteLatest } from '../../util/rxjs/unite-latest';
 import { Page, PageMeta } from '../model/page.model';
@@ -28,7 +28,9 @@ export class PageMetaService {
   constructor(
     protected cms: CmsService,
     protected unifiedInjector: UnifiedInjector,
-    protected pageMetaConfig: PageMetaConfig
+    protected pageMetaConfig: PageMetaConfig,
+    // @deprecated since 4.3.8 - to be removed in 5.0
+    @Inject(PLATFORM_ID) protected platformId: string
   ) {
     // NOTE: Solution to the issue: https://jira.tools.sap/browse/CXSPA-10923
     // Cause CMS page data refresh on language change (to update the title)
