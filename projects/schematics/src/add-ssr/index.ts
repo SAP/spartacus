@@ -21,33 +21,26 @@ import {
   template,
   url,
 } from '@angular-devkit/schematics';
-import {
-  getDecoratorMetadata,
-  getMetadataField,
-  insertImport,
-  isImported,
-} from '@schematics/angular/utility/ast-utils';
-import { RemoveChange } from '@schematics/angular/utility/change';
+import { insertImport } from '@schematics/angular/utility/ast-utils';
 import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
-import ts from 'typescript';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import collectedDependencies from '../dependencies.json';
+import { getDefaultProjectNameFromWorkspace, getWorkspace } from '../shared';
 import {
-  ANGULAR_CORE,
-  getDefaultProjectNameFromWorkspace,
-  getWorkspace,
-} from '../shared';
-import { ANGULAR_SERVER_MODULE, ANGULAR_SSR } from '../shared/constants';
+  ANGULAR_SERVER_MODULE,
+  ANGULAR_SSR,
+  APP_ROUTES_SERVER,
+  INDEX_HTML,
+} from '../shared/constants';
 import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
   commitChanges,
   getIndexHtmlPath,
   getPathResultsForFile,
   getTsSourceFile,
-  removeImport,
 } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
@@ -59,6 +52,9 @@ import {
   getPrefixedSpartacusSchematicsVersion,
   readPackageJson,
 } from '../shared/utils/package-utils';
+import { createAppServerModule } from './create-app-server-module';
+import { updateAppConfigInSsr } from './update-app-config-in-ssr';
+import { updateAppConfigServer } from './update-app-config-server';
 
 const DEPENDENCY_NAMES: string[] = ['@angular/platform-server', ANGULAR_SSR];
 
@@ -72,7 +68,7 @@ export function modifyAppServerModuleFile(): Rule {
 
     if (!appServerModulePath) {
       throw new SchematicsException(
-        `Project file "app.module.server.ts" not found.`
+        `Project file "${ANGULAR_SERVER_MODULE}" not found.`
       );
     }
 
@@ -101,7 +97,7 @@ export function modifyAppServerModuleFile(): Rule {
 
 function modifyIndexHtmlFile(options: SpartacusOptions): Rule {
   return (tree: Tree) => {
-    const buffer = tree.read('src/index.html');
+    const buffer = tree.read(`src/${INDEX_HTML}`);
     if (buffer) {
       const indexContent = buffer.toString();
       if (!indexContent.includes('<meta name="occ-backend-base-url"')) {
@@ -417,14 +413,13 @@ function removeOutputModeSupportedOnlyInNewSsrApi(
 
 /**
  * Removes the `app.routes.server.ts` file.
+ * That file is not supported by Spartacus SSR.
  */
-function removeServerRoutesFileFromSrc(
-  spartacusOptions: SpartacusOptions
-): Rule {
+function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     const serverRoutesPath = getPathResultsForFile(
       tree,
-      'app.routes.server.ts',
+      APP_ROUTES_SERVER,
       '/src'
     )[0];
 
@@ -435,282 +430,6 @@ function removeServerRoutesFileFromSrc(
       }
     }
 
-    return tree;
-  };
-}
-
-/**
- * Removes the import for `serverRoutes` from './app.routes.server' in app.module.server.ts.
- */
-function removeServerRoutesImport(spartacusOptions: SpartacusOptions): Rule {
-  return (tree: Tree, context: SchematicContext): Tree => {
-    const appServerModulePath = getPathResultsForFile(
-      tree,
-      ANGULAR_SERVER_MODULE,
-      '/src'
-    )[0];
-
-    if (!appServerModulePath) {
-      return tree;
-    }
-
-    const appServerModuleSource = getTsSourceFile(tree, appServerModulePath);
-
-    if (
-      isImported(appServerModuleSource, 'serverRoutes', './app.routes.server')
-    ) {
-      const serverRoutesImportRemoval = removeImport(appServerModuleSource, {
-        className: 'serverRoutes',
-        importPath: './app.routes.server',
-      });
-      commitChanges(tree, appServerModulePath, [serverRoutesImportRemoval]);
-
-      if (spartacusOptions.debug) {
-        context.logger.info(
-          `✅ Removed serverRoutes import from ${appServerModulePath}`
-        );
-      }
-    }
-
-    return tree;
-  };
-}
-
-/**
- * Removes the withRoutes import from @angular/ssr in app.module.server.ts.
- */
-function removeWithRoutesFromAngularSsrImport(
-  spartacusOptions: SpartacusOptions
-): Rule {
-  return (tree: Tree, context: SchematicContext): Tree => {
-    const appServerModulePath = getPathResultsForFile(
-      tree,
-      ANGULAR_SERVER_MODULE,
-      '/src'
-    )[0];
-
-    if (!appServerModulePath) {
-      return tree;
-    }
-
-    const appServerModuleSource = getTsSourceFile(tree, appServerModulePath);
-
-    const hasWithRoutes = isImported(
-      appServerModuleSource,
-      'withRoutes',
-      ANGULAR_SSR
-    );
-
-    if (hasWithRoutes) {
-      const withRoutesImportRemoval = removeImport(appServerModuleSource, {
-        className: 'withRoutes',
-        importPath: ANGULAR_SSR,
-      });
-      commitChanges(tree, appServerModulePath, [withRoutesImportRemoval]);
-
-      if (spartacusOptions.debug) {
-        context.logger.info(
-          `✅ Removed withRoutes from @angular/ssr import in ${appServerModulePath}`
-        );
-      }
-    }
-
-    return tree;
-  };
-}
-
-function findProvideServerRenderingElement(
-  providersArray: ts.ArrayLiteralExpression
-): ts.CallExpression | undefined {
-  const providerElement = providersArray.elements.find((element) => {
-    if (!ts.isCallExpression(element)) {
-      return false;
-    }
-    const expression = element.expression;
-    return (
-      ts.isIdentifier(expression) &&
-      expression.text === 'provideServerRendering'
-    );
-  });
-
-  return providerElement as ts.CallExpression | undefined;
-}
-
-function isWithRoutesCallExpression(node: ts.Node): boolean {
-  return (
-    ts.isCallExpression(node) &&
-    ts.isIdentifier(node.expression) &&
-    node.expression.text === 'withRoutes'
-  );
-}
-
-function removeWithRoutesArgument(
-  tree: Tree,
-  appServerModulePath: string,
-  providerElement: ts.CallExpression,
-  spartacusOptions: SpartacusOptions,
-  context: SchematicContext
-): void {
-  if (providerElement.arguments.length === 0) {
-    return;
-  }
-
-  const firstArg = providerElement.arguments[0];
-  if (!isWithRoutesCallExpression(firstArg)) {
-    return;
-  }
-
-  const removeArgChange = new RemoveChange(
-    appServerModulePath,
-    firstArg.getStart(),
-    firstArg.getFullText()
-  );
-  commitChanges(tree, appServerModulePath, [removeArgChange]);
-
-  if (spartacusOptions.debug) {
-    context.logger.info(
-      `✅ Removed withRoutes(serverRoutes) from provideServerRendering in ${appServerModulePath}`
-    );
-  }
-}
-
-/**
- * Removes the withRoutes(serverRoutes) parameter from provideServerRendering in app.module.server.ts.
- */
-function removeWithRoutesFromProvideServerRendering(
-  spartacusOptions: SpartacusOptions
-): Rule {
-  return (tree: Tree, context: SchematicContext): Tree => {
-    const appServerModulePath = getPathResultsForFile(
-      tree,
-      ANGULAR_SERVER_MODULE,
-      '/src'
-    )[0];
-
-    if (!appServerModulePath) {
-      return tree;
-    }
-
-    const appServerModuleSource = getTsSourceFile(tree, appServerModulePath);
-
-    const ngModuleDecorator = getDecoratorMetadata(
-      appServerModuleSource,
-      'NgModule',
-      ANGULAR_CORE
-    )[0];
-
-    if (!ngModuleDecorator) {
-      return tree;
-    }
-
-    const providersAssignment = getMetadataField(
-      ngModuleDecorator as ts.ObjectLiteralExpression,
-      'providers'
-    )[0] as ts.PropertyAssignment;
-
-    if (!providersAssignment) {
-      return tree;
-    }
-
-    const providersArray =
-      providersAssignment.initializer as ts.ArrayLiteralExpression;
-    const providerElement = findProvideServerRenderingElement(providersArray);
-
-    if (!providerElement) {
-      return tree;
-    }
-
-    removeWithRoutesArgument(
-      tree,
-      appServerModulePath,
-      providerElement,
-      spartacusOptions,
-      context
-    );
-
-    return tree;
-  };
-}
-
-/**
- * Removes the `app.routes.server.ts` file and related code from the app.module.server.ts file.
- * This file is not supported by Spartacus SSR.
- */
-function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
-  return chain([
-    removeServerRoutesFileFromSrc(spartacusOptions),
-    removeServerRoutesImport(spartacusOptions),
-    removeWithRoutesFromAngularSsrImport(spartacusOptions),
-    removeWithRoutesFromProvideServerRendering(spartacusOptions),
-  ]);
-}
-
-/**
- * Http Transfer Cache is temporarily disabled; https://jira.tools.sap/browse/CXSPA-10430
- */
-export function addWithNoHttpTransferCacheToAppModule(
-  spartacusOptions: SpartacusOptions
-): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const appModulePath = getPathResultsForFile(
-      tree,
-      'app.module.ts',
-      '/src'
-    )[0];
-    if (!appModulePath) {
-      throw new SchematicsException(
-        `AppModule file "app.module.ts" not found.`
-      );
-    }
-
-    const source = getTsSourceFile(tree, appModulePath);
-
-    const importChange = insertImport(
-      source,
-      appModulePath,
-      'withNoHttpTransferCache',
-      '@angular/platform-browser'
-    );
-
-    const fileBuffer = tree.read(appModulePath);
-    if (!fileBuffer) {
-      throw new SchematicsException(`Could not read file at ${appModulePath}`);
-    }
-    const fileContent = fileBuffer.toString();
-
-    // Regex to match provideClientHydration(...) with any arguments
-    const hydrationRegex = /provideClientHydration\s*\(\s*([^)]*)\)/m;
-    const match = hydrationRegex.exec(fileContent);
-
-    if (match) {
-      const args = match[1].trim();
-
-      const argList = args
-        .split(',')
-        .map((a) => a.trim())
-        .filter((a) => a.length > 0);
-
-      const idx = argList.findIndex((a) => a.startsWith('withEventReplay'));
-      if (idx !== -1) {
-        argList[idx] = 'withEventReplay()';
-        argList.splice(idx + 1, 0, 'withNoHttpTransferCache()');
-      } else {
-        argList.push('withNoHttpTransferCache()');
-      }
-      const newArgs = argList.join(', ');
-
-      const updatedContent = fileContent.replace(
-        hydrationRegex,
-        (_, _args) => `provideClientHydration(${newArgs}`
-      );
-      tree.overwrite(appModulePath, updatedContent);
-      if (spartacusOptions.debug) {
-        context.logger.info(
-          '✅ Added withNoHttpTransferCache() next to withEventReplay() in the parameter list of provideClientHydration'
-        );
-      }
-    }
-    commitChanges(tree, appModulePath, [importChange]);
     return tree;
   };
 }
@@ -728,9 +447,11 @@ export function addSSR(options: SpartacusOptions): Rule {
       removeOutputModeSupportedOnlyInNewSsrApi(options),
       removeServerRoutesFile(options),
       addBuildSsrScript(options),
+      createAppServerModule(options),
+      updateAppConfigServer(options),
       modifyAppServerModuleFile(),
       modifyIndexHtmlFile(options),
-      addWithNoHttpTransferCacheToAppModule(options),
+      updateAppConfigInSsr(options),
       branchAndMerge(
         chain([mergeWith(serverTemplate, MergeStrategy.Overwrite)]),
         MergeStrategy.Overwrite
