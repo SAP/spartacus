@@ -5,7 +5,13 @@
  */
 
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { Project, SyntaxKind } from 'ts-morph';
+import {
+  ArrayLiteralExpression,
+  ObjectLiteralExpression,
+  Project,
+  SourceFile,
+  SyntaxKind,
+} from 'ts-morph';
 import {
   createImports,
   formatFile,
@@ -39,7 +45,6 @@ export function updateAppComponent(): Rule {
       overwrite: true,
     });
 
-    // Add import for StorefrontComponent
     createImports(sourceFile, [
       {
         moduleSpecifier: SPARTACUS_STOREFRONTLIB,
@@ -47,58 +52,9 @@ export function updateAppComponent(): Rule {
       },
     ]);
 
-    // Find the @Component decorator
-    const classDeclaration = sourceFile.getClass('AppComponent');
-    if (!classDeclaration) {
-      throw new Error('Could not find AppComponent class');
-    }
-
-    const decorator = classDeclaration.getDecorator('Component');
-    if (!decorator) {
-      throw new Error('Could not find @Component decorator');
-    }
-
-    const decoratorArgs = decorator.getArguments();
-    if (decoratorArgs.length === 0) {
-      throw new Error('@Component decorator has no arguments');
-    }
-
-    const configObject = decoratorArgs[0];
-    if (!configObject.isKind(SyntaxKind.ObjectLiteralExpression)) {
-      throw new Error('@Component decorator argument is not an object');
-    }
-
-    // Remove standalone: false if exists
-    const standaloneProp = configObject.getProperty('standalone');
-    if (standaloneProp) {
-      standaloneProp.remove();
-    }
-
-    // Add or update imports property
-    const importsProp = configObject.getProperty('imports');
-    if (importsProp) {
-      // Check if StorefrontComponent already exists
-      if (importsProp.isKind(SyntaxKind.PropertyAssignment)) {
-        const initializer = importsProp.getInitializer();
-        if (initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
-          const elements = initializer.getElements();
-          const hasStorefrontComponent = elements.some(
-            (el) =>
-              el.isKind(SyntaxKind.Identifier) &&
-              el.getText() === STOREFRONT_COMPONENT_CLASS
-          );
-          if (!hasStorefrontComponent) {
-            initializer.addElement(STOREFRONT_COMPONENT_CLASS);
-          }
-        }
-      }
-    } else {
-      // Add imports property
-      configObject.addPropertyAssignment({
-        name: 'imports',
-        initializer: `[${STOREFRONT_COMPONENT_CLASS}]`,
-      });
-    }
+    const configObject = getComponentDecoratorConfig(sourceFile);
+    removeStandaloneProperty(configObject);
+    addOrUpdateImportsProperty(configObject);
 
     formatFile(sourceFile);
     tree.overwrite(appComponentPath, sourceFile.getFullText());
@@ -107,4 +63,75 @@ export function updateAppComponent(): Rule {
 
     return tree;
   };
+}
+
+function getComponentDecoratorConfig(
+  sourceFile: SourceFile
+): ObjectLiteralExpression {
+  const classDeclaration = sourceFile.getClass('AppComponent');
+  if (!classDeclaration) {
+    throw new Error('Could not find AppComponent class');
+  }
+
+  const decorator = classDeclaration.getDecorator('Component');
+  if (!decorator) {
+    throw new Error('Could not find @Component decorator');
+  }
+
+  const decoratorArgs = decorator.getArguments();
+  if (decoratorArgs.length === 0) {
+    throw new Error('@Component decorator has no arguments');
+  }
+
+  const configObject = decoratorArgs[0];
+  if (!configObject.isKind(SyntaxKind.ObjectLiteralExpression)) {
+    throw new Error('@Component decorator argument is not an object');
+  }
+
+  return configObject;
+}
+
+function removeStandaloneProperty(configObject: ObjectLiteralExpression): void {
+  const standaloneProp = configObject.getProperty('standalone');
+  if (standaloneProp) {
+    standaloneProp.remove();
+  }
+}
+
+function addOrUpdateImportsProperty(
+  configObject: ObjectLiteralExpression
+): void {
+  const importsProp = configObject.getProperty('imports');
+
+  if (!importsProp) {
+    configObject.addPropertyAssignment({
+      name: 'imports',
+      initializer: `[${STOREFRONT_COMPONENT_CLASS}]`,
+    });
+    return;
+  }
+
+  if (!importsProp.isKind(SyntaxKind.PropertyAssignment)) {
+    return;
+  }
+
+  const initializer = importsProp.getInitializer();
+  if (!initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
+    return;
+  }
+
+  addElementIfMissing(initializer);
+}
+
+function addElementIfMissing(initializer: ArrayLiteralExpression): void {
+  const elements = initializer.getElements();
+  const hasStorefrontComponent = elements.some(
+    (el) =>
+      el.isKind(SyntaxKind.Identifier) &&
+      el.getText() === STOREFRONT_COMPONENT_CLASS
+  );
+
+  if (!hasStorefrontComponent) {
+    initializer.addElement(STOREFRONT_COMPONENT_CLASS);
+  }
 }

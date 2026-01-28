@@ -78,58 +78,91 @@ function findAndRemoveHydrationConfigInAppModule(
   appModulePath: string,
   tree: Tree
 ): string | null {
-  let hydrationCallExpression: string | null = null;
-
   const classDeclaration = appModuleSource.getClass('AppModule');
-  if (classDeclaration) {
-    const decorator = classDeclaration.getDecorator('NgModule');
-    if (decorator) {
-      const decoratorArgs = decorator.getArguments();
-      if (decoratorArgs.length > 0) {
-        const configObject = decoratorArgs[0];
-        if (configObject.isKind(SyntaxKind.ObjectLiteralExpression)) {
-          const providersProp = configObject.getProperty('providers');
-          if (
-            providersProp &&
-            providersProp.isKind(SyntaxKind.PropertyAssignment)
-          ) {
-            const initializer = providersProp.getInitializer();
-            if (initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
-              // Find and remove the provideClientHydration call
-              const hydrationElementIndex = initializer
-                .getElements()
-                .findIndex((element) => {
-                  if (element.isKind(SyntaxKind.CallExpression)) {
-                    const expression = element.getExpression();
-                    return (
-                      expression.isKind(SyntaxKind.Identifier) &&
-                      expression.getText() === 'provideClientHydration'
-                    );
-                  }
-                  return false;
-                });
-
-              // If found, capture it and remove it
-              if (hydrationElementIndex !== -1) {
-                const hydrationElement =
-                  initializer.getElements()[hydrationElementIndex];
-                hydrationCallExpression = hydrationElement.getText();
-                initializer.removeElement(hydrationElementIndex);
-
-                // If providers array is now empty, remove the property
-                if (initializer.getElements().length === 0) {
-                  providersProp.remove();
-                }
-                formatFile(appModuleSource);
-                tree.overwrite(appModulePath, appModuleSource.getFullText());
-              }
-            }
-          }
-        }
-      }
-    }
+  if (!classDeclaration) {
+    return null;
   }
+
+  const decorator = classDeclaration.getDecorator('NgModule');
+  if (!decorator) {
+    return null;
+  }
+
+  const decoratorArgs = decorator.getArguments();
+  if (decoratorArgs.length === 0) {
+    return null;
+  }
+
+  const configObject = decoratorArgs[0];
+  if (!configObject.isKind(SyntaxKind.ObjectLiteralExpression)) {
+    return null;
+  }
+
+  const providersProp = configObject.getProperty('providers');
+  if (!providersProp || !providersProp.isKind(SyntaxKind.PropertyAssignment)) {
+    return null;
+  }
+
+  const initializer = providersProp.getInitializer();
+  if (!initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
+    return null;
+  }
+
+  return findAndRemoveHydrationElement(
+    initializer,
+    providersProp,
+    appModuleSource,
+    appModulePath,
+    tree
+  );
+}
+
+function findAndRemoveHydrationElement(
+  providersArray: any,
+  providersProp: any,
+  appModuleSource: SourceFile,
+  appModulePath: string,
+  tree: Tree
+): string | null {
+  const hydrationElementIndex = findHydrationElementIndex(providersArray);
+
+  if (hydrationElementIndex === -1) {
+    return null;
+  }
+
+  const hydrationElement = providersArray.getElements()[hydrationElementIndex];
+  const hydrationCallExpression = hydrationElement.getText();
+
+  providersArray.removeElement(hydrationElementIndex);
+  removeProvidersPropertyIfEmpty(providersArray, providersProp);
+
+  formatFile(appModuleSource);
+  tree.overwrite(appModulePath, appModuleSource.getFullText());
+
   return hydrationCallExpression;
+}
+
+function findHydrationElementIndex(providersArray: any): number {
+  return providersArray.getElements().findIndex((element: any) => {
+    if (!element.isKind(SyntaxKind.CallExpression)) {
+      return false;
+    }
+
+    const expression = element.getExpression();
+    return (
+      expression.isKind(SyntaxKind.Identifier) &&
+      expression.getText() === 'provideClientHydration'
+    );
+  });
+}
+
+function removeProvidersPropertyIfEmpty(
+  providersArray: any,
+  providersProp: any
+): void {
+  if (providersArray.getElements().length === 0) {
+    providersProp.remove();
+  }
 }
 
 function addHydrationConfigToAppConfig(
