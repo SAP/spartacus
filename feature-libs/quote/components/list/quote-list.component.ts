@@ -1,30 +1,51 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   OnInit,
 } from '@angular/core';
-import { QuoteListComponentService } from './quote-list-component.service';
+import { RouterLink } from '@angular/router';
 import {
   CxDatePipe,
   PaginationModel,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import { QuoteState } from '@spartacus/quote/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  IconComponent,
+  PaginationComponent,
+  SortingComponent,
+} from '@spartacus/storefront';
+import { QuoteListComponentService } from './quote-list-component.service';
 
 @Component({
   selector: 'cx-quote-list',
   templateUrl: './quote-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [CxDatePipe],
-  standalone: false,
+  imports: [
+    NgIf,
+    SortingComponent,
+    PaginationComponent,
+    NgFor,
+    RouterLink,
+    NgClass,
+    IconComponent,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+    CxDatePipe,
+  ],
 })
 export class QuoteListComponent implements OnInit {
   protected quoteListComponentService = inject(QuoteListComponentService);
@@ -34,7 +55,7 @@ export class QuoteListComponent implements OnInit {
   sorts = this.quoteListComponentService.sortOptions;
   sortLabels$ = this.quoteListComponentService.sortLabels$;
   quotesState$ = this.quoteListComponentService.quotesState$;
-  dateFormat: string = 'MMMM d, YYYY h:mm aa';
+  dateFormat: string = 'MMMM d, yyyy h:mm aa';
   iconTypes = ICON_TYPE;
 
   ngOnInit(): void {

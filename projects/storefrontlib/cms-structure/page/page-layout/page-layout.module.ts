@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,8 +12,13 @@ import { PageLayoutComponent } from './page-layout.component';
 import { PageTemplateDirective } from './page-template.directive';
 
 @NgModule({
-  imports: [CommonModule, OutletModule, PageSlotModule],
-  declarations: [PageLayoutComponent, PageTemplateDirective],
+  imports: [
+    CommonModule,
+    OutletModule,
+    PageSlotModule,
+    PageLayoutComponent,
+    PageTemplateDirective,
+  ],
   exports: [PageLayoutComponent, PageTemplateDirective],
 })
 export class PageLayoutModule {}

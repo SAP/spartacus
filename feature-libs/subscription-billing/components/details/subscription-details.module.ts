@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,8 +14,8 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { SubscriptionDetailsComponent } from './subscription-details.component';
 import { IconModule, SpinnerModule } from '@spartacus/storefront';
+import { SubscriptionDetailsComponent } from './subscription-details.component';
 
 @NgModule({
   imports: [
@@ -25,9 +25,8 @@ import { IconModule, SpinnerModule } from '@spartacus/storefront';
     RouterModule,
     SpinnerModule,
     IconModule,
+    SubscriptionDetailsComponent,
   ],
-  declarations: [SubscriptionDetailsComponent],
-  exports: [SubscriptionDetailsComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

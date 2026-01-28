@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,6 +27,7 @@ import {
 import { DeepPartial } from './form';
 import { waitForPage } from './navigation';
 import { productItemSelector } from './product-search';
+import { cmsEndpoints } from './cms-endpoints';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
 export const ELECTRONICS_CURRENCY = 'USD';
@@ -54,12 +55,16 @@ export function clickHamburger() {
   });
 }
 
-export function waitForProductPage(productCode: string, alias: string): string {
+export function waitForProductPage(
+  productCode: string,
+  alias: string,
+  user: 'anonymous' | 'current' = 'anonymous'
+): string {
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/${cmsEndpoints.pages}`,
     query: {
       pageType: 'ProductPage',
       code: productCode,

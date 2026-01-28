@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,14 +14,12 @@ import {
   HostListener,
   Input,
   OnInit,
-  Optional,
   Output,
   Renderer2,
   TemplateRef,
   ViewContainerRef,
-  inject,
 } from '@angular/core';
-import { FeatureConfigService, WindowRef } from '@spartacus/core';
+import { WindowRef } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { PopoverComponent } from './popover.component';
@@ -31,10 +29,7 @@ import { PopoverService } from './popover.service';
 /**
  * Directive to bind popover with any DOM element.
  */
-@Directive({
-  selector: '[cxPopover]',
-  standalone: false,
-})
+@Directive({ selector: '[cxPopover]' })
 export class PopoverDirective implements OnInit {
   /**
    * Template or string to be rendered inside popover wrapper component.
@@ -118,10 +113,6 @@ export class PopoverDirective implements OnInit {
       this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_CLICK);
     }
   }
-
-  @Optional() featureConfigService? = inject(FeatureConfigService, {
-    optional: true,
-  });
 
   protected openTriggerEvents: PopoverEvent[] = [
     PopoverEvent.OPEN,
@@ -218,13 +209,7 @@ export class PopoverDirective implements OnInit {
 
       if (this.cxPopoverOptions?.appendToBody) {
         const body = this.winRef.document.body;
-        const element = this.featureConfigService?.isEnabled(
-          'a11yPopoverHighContrast'
-        )
-          ? // we need to select first child element if exists,
-            // otherwise HCT theming in popover will not be picked up.
-            (body.firstElementChild ?? body)
-          : body;
+        const element = body.firstElementChild ?? body;
         this.renderer.appendChild(
           element,
           this.popoverContainer.location.nativeElement

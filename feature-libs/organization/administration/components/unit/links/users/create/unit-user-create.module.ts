@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,6 @@ import { UserFormModule } from '../../../../user/form/user-form.module';
 import { UnitUserCreateComponent } from './unit-user-create.component';
 
 @NgModule({
-  imports: [CommonModule, UserFormModule],
-  declarations: [UnitUserCreateComponent],
+  imports: [CommonModule, UserFormModule, UnitUserCreateComponent],
 })
 export class UnitUserCreateModule {}

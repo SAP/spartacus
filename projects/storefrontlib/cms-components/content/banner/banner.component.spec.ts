@@ -1,9 +1,11 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   CmsBannerComponent,
   CmsService,
+  FeatureDirective,
   FeaturesConfig,
   FeaturesConfigModule,
   Page,
@@ -16,11 +18,11 @@ import {
   LCP_PRESENCE,
   LcpContextDirectiveModule,
   LcpPresence,
+  MediaComponent,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
 import { BannerComponent } from './banner.component';
 
 const media = {
@@ -74,7 +76,7 @@ class MockSemanticPathService {
 @Component({
   selector: 'cx-media',
   template: '',
-  standalone: false,
+  imports: [FeaturesConfigModule, LcpContextDirectiveModule],
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -92,13 +94,7 @@ describe('BannerComponent', () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
-      imports: [FeaturesConfigModule, LcpContextDirectiveModule],
-      declarations: [
-        BannerComponent,
-        MockMediaComponent,
-        GenericLinkComponent,
-        MockFeatureDirective,
-      ],
+      imports: [RouterModule.forRoot([])],
       providers: [
         {
           provide: LCP_PRESENCE,
@@ -117,7 +113,14 @@ describe('BannerComponent', () => {
           },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(BannerComponent, {
+        add: {
+          imports: [MockMediaComponent, MockFeatureDirective],
+        },
+        remove: { imports: [MediaComponent, FeatureDirective] },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(BannerComponent);
     bannerComponent = fixture.componentInstance;
@@ -317,10 +320,10 @@ describe('BannerComponent', () => {
       };
       data$.next(mockDataWithHeadline);
       fixture.detectChanges();
-      const linkElement = el.query(By.css('cx-generic-link')).nativeElement;
-      expect(linkElement.getAttribute('ng-reflect-aria-label')).toEqual(
-        'Banner Headline'
-      );
+      const linkComponent = el.query(
+        By.css('cx-generic-link')
+      ).componentInstance;
+      expect(linkComponent.ariaLabel).toEqual('Banner Headline');
     });
 
     it('should use image alt text if no headline is provided', () => {
@@ -332,11 +335,11 @@ describe('BannerComponent', () => {
         },
       };
       data$.next(mockDataWithAltTextOnly);
-      const linkElement = el.query(By.css('cx-generic-link')).nativeElement;
+      const linkComponent = el.query(
+        By.css('cx-generic-link')
+      ).componentInstance;
       fixture.detectChanges();
-      expect(linkElement.getAttribute('ng-reflect-aria-label')).toEqual(
-        'hybris Accelerator'
-      );
+      expect(linkComponent.ariaLabel).toEqual('hybris Accelerator');
     });
 
     it('should return undefined if neither headline nor alt text is available', () => {

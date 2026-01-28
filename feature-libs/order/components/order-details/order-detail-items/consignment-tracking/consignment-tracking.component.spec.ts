@@ -10,8 +10,8 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { Consignment, OrderHistoryFacade } from '@spartacus/order/root';
 import {
-  LaunchDialogService,
   LAUNCH_CALLER,
+  LaunchDialogService,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
@@ -31,10 +31,7 @@ const mockConsignment: Consignment = {
   entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
 };
 
-@Pipe({
-  name: 'cxTranslateUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslateUrl' })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -75,8 +72,12 @@ describe('ConsignmentTrackingComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SpinnerModule, I18nTestingModule],
-      declarations: [ConsignmentTrackingComponent, MockTranslateUrlPipe],
+      imports: [
+        SpinnerModule,
+        I18nTestingModule,
+        ConsignmentTrackingComponent,
+        MockTranslateUrlPipe,
+      ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: OrderHistoryFacade, useValue: userOrderService },

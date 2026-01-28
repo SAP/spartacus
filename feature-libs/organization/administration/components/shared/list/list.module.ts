@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,8 +37,8 @@ import { ListComponent } from './list.component';
     KeyboardFocusModule,
     PopoverModule,
     FeaturesConfigModule,
+    ListComponent,
   ],
-  declarations: [ListComponent],
   exports: [ListComponent],
 })
 export class ListModule {}

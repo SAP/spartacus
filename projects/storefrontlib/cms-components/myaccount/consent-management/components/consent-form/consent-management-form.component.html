@@ -1,4 +1,7 @@
-<div class="form-check">
+<div
+  class="form-check"
+  [class.disabled-consent]="disabled || isRequired(consentTemplate?.id)"
+>
   <label>
     <input
       type="checkbox"

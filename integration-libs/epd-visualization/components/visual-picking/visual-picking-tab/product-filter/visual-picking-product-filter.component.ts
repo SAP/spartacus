@@ -1,11 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { VisualPickingProductFilterService } from './visual-picking-product-filter.service';
 
 /**
@@ -15,7 +17,7 @@ import { VisualPickingProductFilterService } from './visual-picking-product-filt
   selector: 'cx-epd-visualization-product-filter',
   templateUrl: './visual-picking-product-filter.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [FormsModule, IconComponent, TranslatePipe],
 })
 export class VisualPickingProductFilterComponent {
   constructor(

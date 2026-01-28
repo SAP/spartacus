@@ -9,10 +9,10 @@ import { of } from 'rxjs';
 import { LayoutConfig } from '../../config/layout-config';
 import {
   DIALOG_TYPE,
+  LAUNCH_CALLER,
   LaunchInlineDialog,
   LaunchOptions,
   LaunchRoute,
-  LAUNCH_CALLER,
 } from '../config/launch-config';
 import { LaunchDialogService } from './launch-dialog.service';
 import { LaunchRenderStrategy } from './launch-render.strategy';
@@ -71,10 +71,7 @@ class MockInlineRenderStrategy {
   }
 }
 
-@Component({
-  template: '',
-  standalone: false,
-})
+@Component({ template: '' })
 class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}
 }
@@ -88,6 +85,7 @@ describe('LaunchDialogService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [TestContainerComponent],
       providers: [
         LaunchDialogService,
         {
@@ -102,7 +100,6 @@ describe('LaunchDialogService', () => {
         },
         { provide: LayoutConfig, useValue: mockLaunchConfig },
       ],
-      declarations: [TestContainerComponent],
     }).compileComponents();
 
     service = TestBed.inject(LaunchDialogService);

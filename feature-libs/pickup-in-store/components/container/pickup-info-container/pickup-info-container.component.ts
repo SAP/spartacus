@@ -1,20 +1,22 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PointOfService } from '@spartacus/core';
 import { PickupLocationsSearchFacade } from '@spartacus/pickup-in-store/root';
 import { combineLatest } from 'rxjs';
 import { filter, map, mergeMap, take, tap } from 'rxjs/operators';
+import { PickupInfoComponent } from '../../presentational';
 
 @Component({
   selector: 'cx-pickup-info-container',
   templateUrl: './pickup-info-container.component.html',
-  standalone: false,
+  imports: [PickupInfoComponent, NgFor],
 })
 export class PickupInfoContainerComponent implements OnInit {
   storesDetailsData: Partial<PointOfService>[];

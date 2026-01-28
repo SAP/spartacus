@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,8 +12,13 @@ import { MessageModule } from '../../message/message.module';
 import { ToggleStatusComponent } from './toggle-status.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, MessageModule, ConfirmationMessageModule],
-  declarations: [ToggleStatusComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    MessageModule,
+    ConfirmationMessageModule,
+    ToggleStatusComponent,
+  ],
   exports: [ToggleStatusComponent],
 })
 export class ToggleStatusModule {}

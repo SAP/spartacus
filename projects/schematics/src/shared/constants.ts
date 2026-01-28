@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,8 +25,12 @@ export const NGRX_EFFECTS = '@ngrx/effects';
 export const NGRX_ROUTER_STORE = '@ngrx/router-store';
 
 export const NG_BOOTSTRAP = '@ng-bootstrap/ng-bootstrap';
-
 /***** Imports end *****/
+
+/***** File names start *****/
+export const APP_MODULE = 'app.module.ts';
+export const ANGULAR_SERVER_MODULE = 'app.module.server.ts';
+/***** File names end *****/
 
 /***** Classes start *****/
 export const OBSERVABLE_CLASS = 'Observable';

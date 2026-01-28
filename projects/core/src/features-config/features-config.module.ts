@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,7 @@ import { populateFeatureTogglesToFeaturesConfig } from './feature-toggles/popula
 import { FeatureStylesService } from './services/feature-styles.service';
 
 @NgModule({
-  declarations: [FeatureLevelDirective, FeatureDirective],
+  imports: [FeatureLevelDirective, FeatureDirective],
   exports: [FeatureLevelDirective, FeatureDirective],
 })
 export class FeaturesConfigModule {

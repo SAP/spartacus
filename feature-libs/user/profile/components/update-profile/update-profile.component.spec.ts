@@ -24,14 +24,18 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
-  standalone: false,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    I18nTestingModule,
+    FormErrorsModule,
+    UrlTestingModule,
+    NgSelectModule,
+  ],
 })
 class MockCxSpinnerComponent {}
 
-@Directive({
-  selector: '[cxNgSelectA11y]',
-  standalone: false,
-})
+@Directive({ selector: '[cxNgSelectA11y]' })
 class MockNgSelectA11yDirective {
   @Input() cxNgSelectA11y: { ariaLabel?: string; ariaControls?: string };
 }
@@ -73,8 +77,6 @@ describe('UpdateProfileComponent', () => {
         FormErrorsModule,
         UrlTestingModule,
         NgSelectModule,
-      ],
-      declarations: [
         UpdateProfileComponent,
         MockCxSpinnerComponent,
         MockNgSelectA11yDirective,

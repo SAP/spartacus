@@ -1,14 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   BaseOption,
   Product,
   RoutingService,
+  TranslatePipe,
   VariantOptionQualifier,
   VariantQualifier,
 } from '@spartacus/core';
@@ -17,7 +19,7 @@ import {
   selector: 'cx-product-variant-color-selector',
   templateUrl: './product-variant-color-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgFor, TranslatePipe],
 })
 export class ProductVariantColorSelectorComponent {
   constructor(private routingService: RoutingService) {}

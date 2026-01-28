@@ -10,16 +10,20 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   I18nTestingModule,
   ProductService,
   RoutingService,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   ImageFetchPriority,
+  InnerComponentsHostDirective,
   LCP_PRESENCE,
   LcpContextDirectiveModule,
   LcpPresence,
+  MediaComponent,
   OutletDirective,
   OutletModule,
   ProductListItemContext,
@@ -28,10 +32,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 import { ProductCarouselItemComponent } from './product-carousel-item.component';
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -39,10 +40,7 @@ class MockUrlPipe implements PipeTransform {
 class MockRoutingService {}
 class MockProductService {}
 
-@Directive({
-  selector: '[cxOutlet]',
-  standalone: false,
-})
+@Directive({ selector: '[cxOutlet]' })
 class MockOutletDirective implements Partial<OutletDirective> {
   @Input() cxOutlet: string;
 }
@@ -50,7 +48,7 @@ class MockOutletDirective implements Partial<OutletDirective> {
 @Component({
   selector: 'cx-media',
   template: '<img>',
-  standalone: false,
+  imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -58,6 +56,9 @@ class MockMediaComponent {
   @Input() alt: string;
   @Input() fetchPriority: ImageFetchPriority | null | undefined;
 }
+
+@Directive({ selector: '[cxInnerComponentsHost]' })
+class MockInnerComponentsHostDirective {}
 
 describe('ProductCarouselItemComponent in product-carousel', () => {
   let component: ProductCarouselItemComponent;
@@ -86,13 +87,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
     mockLcpPresence$ = new BehaviorSubject<LcpPresence>(LcpPresence.NO_LCP);
 
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, OutletModule, LcpContextDirectiveModule],
-      declarations: [
-        ProductCarouselItemComponent,
-        MockUrlPipe,
-        MockOutletDirective,
-        MockMediaComponent,
-      ],
+      imports: [RouterModule.forRoot([])],
       providers: [
         {
           provide: LCP_PRESENCE,
@@ -109,8 +104,22 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
       ],
     })
       .overrideComponent(ProductCarouselItemComponent, {
-        set: {
+        remove: {
+          imports: [
+            UrlPipe,
+            OutletDirective,
+            MediaComponent,
+            InnerComponentsHostDirective,
+          ],
+        },
+        add: {
           changeDetection: ChangeDetectionStrategy.Default,
+          imports: [
+            MockUrlPipe,
+            MockOutletDirective,
+            MockMediaComponent,
+            MockInnerComponentsHostDirective,
+          ],
         },
       })
       .compileComponents();

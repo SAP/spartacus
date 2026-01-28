@@ -20,14 +20,14 @@ import { AnonymousConsentDialogComponent } from './anonymous-consent-dialog.comp
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
-  standalone: false,
+  imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockCxSpinnerComponent {}
 
 @Component({
   selector: 'cx-icon',
   template: ``,
-  standalone: false,
+  imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: string;
@@ -36,7 +36,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-consent-management-form',
   template: ``,
-  standalone: false,
+  imports: [I18nTestingModule, KeyboardFocusTestingModule],
 })
 class MockConsentManagementFormComponent {
   @Input()
@@ -93,8 +93,9 @@ describe('AnonymousConsentsDialogComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, KeyboardFocusTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
+        KeyboardFocusTestingModule,
         AnonymousConsentDialogComponent,
         MockCxIconComponent,
         MockConsentManagementFormComponent,
@@ -174,6 +175,15 @@ describe('AnonymousConsentsDialogComponent', () => {
         anonymousConsentsConfig.anonymousConsents.requiredConsents = [
           mockTemplates[0].id,
         ];
+
+        const closeDialogSpy = spyOn(
+          launchDialogService,
+          'closeDialog'
+        ).and.stub();
+        const messageNextSpy = spyOn(
+          component.message$,
+          'next'
+        ).and.callThrough();
         spyOn(component, 'close').and.stub();
         spyOn(anonymousConsentsService, 'isConsentGiven').and.returnValues(
           true,
@@ -193,12 +203,24 @@ describe('AnonymousConsentsDialogComponent', () => {
         expect(anonymousConsentsService.withdrawConsent).toHaveBeenCalledTimes(
           1
         );
-        expect(component.close).toHaveBeenCalledWith('rejectAll');
+        expect(closeDialogSpy).not.toHaveBeenCalled();
+        expect(messageNextSpy).toHaveBeenCalledWith({
+          type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+          key: 'consentManagementForm.message.success.withdrawn',
+        });
       });
     });
     describe('when no required consent is present', () => {
       it('should call withdrawAllConsents and close the modal dialog', () => {
-        spyOn(component, 'close').and.stub();
+        const closeDialogSpy = spyOn(
+          launchDialogService,
+          'closeDialog'
+        ).and.stub();
+        const messageNextSpy = spyOn(
+          component.message$,
+          'next'
+        ).and.callThrough();
+
         spyOn(anonymousConsentsService, 'isConsentGiven').and.returnValues(
           true,
           true
@@ -217,7 +239,11 @@ describe('AnonymousConsentsDialogComponent', () => {
         expect(anonymousConsentsService.withdrawConsent).toHaveBeenCalledTimes(
           mockTemplates.length
         );
-        expect(component.close).toHaveBeenCalledWith('rejectAll');
+        expect(closeDialogSpy).not.toHaveBeenCalled();
+        expect(messageNextSpy).toHaveBeenCalledWith({
+          type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+          key: 'consentManagementForm.message.success.withdrawn',
+        });
       });
     });
   });
@@ -238,7 +264,16 @@ describe('AnonymousConsentsDialogComponent', () => {
         anonymousConsentsConfig.anonymousConsents.requiredConsents = [
           mockTemplates[0].id,
         ];
-        spyOn(component, 'close').and.stub();
+
+        const closeDialogSpy = spyOn(
+          launchDialogService,
+          'closeDialog'
+        ).and.stub();
+        const messageNextSpy = spyOn(
+          component.message$,
+          'next'
+        ).and.callThrough();
+
         spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValues(
           true,
           true
@@ -255,12 +290,24 @@ describe('AnonymousConsentsDialogComponent', () => {
         component.allowAll();
 
         expect(anonymousConsentsService.giveConsent).toHaveBeenCalledTimes(1);
-        expect(component.close).toHaveBeenCalledWith('allowAll');
+        expect(closeDialogSpy).not.toHaveBeenCalled();
+        expect(messageNextSpy).toHaveBeenCalledWith({
+          type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+          key: 'consentManagementForm.message.success.given',
+        });
       });
     });
     describe('when no required consent is present', () => {
       it('should call giveConsent for each consent and close the modal dialog', () => {
-        spyOn(component, 'close').and.stub();
+        const closeDialogSpy = spyOn(
+          launchDialogService,
+          'closeDialog'
+        ).and.stub();
+        const messageNextSpy = spyOn(
+          component.message$,
+          'next'
+        ).and.callThrough();
+
         spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValues(
           true,
           true
@@ -279,7 +326,11 @@ describe('AnonymousConsentsDialogComponent', () => {
         expect(anonymousConsentsService.giveConsent).toHaveBeenCalledTimes(
           mockTemplates.length
         );
-        expect(component.close).toHaveBeenCalledWith('allowAll');
+        expect(closeDialogSpy).not.toHaveBeenCalled();
+        expect(messageNextSpy).toHaveBeenCalledWith({
+          type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+          key: 'consentManagementForm.message.success.given',
+        });
       });
     });
     describe('when the consents have null state', () => {
@@ -295,7 +346,14 @@ describe('AnonymousConsentsDialogComponent', () => {
           },
         ];
 
-        spyOn(component, 'close').and.stub();
+        const closeDialogSpy = spyOn(
+          launchDialogService,
+          'closeDialog'
+        ).and.stub();
+        const messageNextSpy = spyOn(
+          component.message$,
+          'next'
+        ).and.callThrough();
         spyOn(anonymousConsentsService, 'isConsentWithdrawn').and.returnValues(
           true,
           true
@@ -314,7 +372,11 @@ describe('AnonymousConsentsDialogComponent', () => {
         expect(anonymousConsentsService.giveConsent).toHaveBeenCalledTimes(
           mockTemplates.length
         );
-        expect(component.close).toHaveBeenCalledWith('allowAll');
+        expect(closeDialogSpy).not.toHaveBeenCalled();
+        expect(messageNextSpy).toHaveBeenCalledWith({
+          type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+          key: 'consentManagementForm.message.success.given',
+        });
       });
     });
   });

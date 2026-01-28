@@ -1,20 +1,24 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { ProductMultiDimensionalSelectorComponent } from './product-multi-dimensional-selector.component';
+import { ActivatedRoute } from '@angular/router';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  Product,
+  ProductService,
+  RoutingService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   ProductMultiDimensionalSelectorService,
   VariantCategoryGroup,
   VariantCategoryOption,
 } from '@spartacus/product-multi-dimensional/selector/core';
-import {
-  I18nTestingModule,
-  Product,
-  ProductService,
-  RoutingService,
-  TranslationService,
-} from '@spartacus/core';
-import { ActivatedRoute } from '@angular/router';
 import { CurrentProductService } from '@spartacus/storefront';
+import { of } from 'rxjs';
+import { ProductMultiDimensionalSelectorComponent } from './product-multi-dimensional-selector.component';
 
 describe('ProductMultiDimensionalSelectorComponent', () => {
   let component: ProductMultiDimensionalSelectorComponent;
@@ -36,10 +40,11 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
     mockTranslationService = jasmine.createSpyObj('TranslationService', [
       'translate',
     ]);
+    mockTranslationService.translate.and.returnValue(of('test translation'));
+
     mockCurrentProductService = jasmine.createSpyObj('CurrentProductService', [
       'getProduct',
     ]);
-
     mockCurrentProductService.getProduct.and.returnValue(
       of({
         code: 'productCode',
@@ -48,8 +53,7 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
     );
 
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ProductMultiDimensionalSelectorComponent],
+      imports: [I18nTestingModule, ProductMultiDimensionalSelectorComponent],
       providers: [
         { provide: ProductService, useValue: mockProductService },
         { provide: RoutingService, useValue: mockRoutingService },
@@ -61,7 +65,16 @@ describe('ProductMultiDimensionalSelectorComponent', () => {
         { provide: CurrentProductService, useValue: mockCurrentProductService },
         { provide: ActivatedRoute, useValue: {} },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductMultiDimensionalSelectorComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(ProductMultiDimensionalSelectorComponent);
     component = fixture.componentInstance;

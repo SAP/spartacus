@@ -1,9 +1,9 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { I18nTestingModule, Product } from '@spartacus/core';
 import { ProductListItemContext } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { I18nTestingModule, Product } from '@spartacus/core';
-import { By } from '@angular/platform-browser';
-import { ChangeDetectionStrategy } from '@angular/core';
 import { ProductMultiDimensionalListItemDetailsComponent } from './product-multi-dimensional-list-item-details.component';
 
 describe('ProductMultiDimensionalListItemDetailsComponent', () => {
@@ -16,8 +16,10 @@ describe('ProductMultiDimensionalListItemDetailsComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ProductMultiDimensionalListItemDetailsComponent],
+      imports: [
+        I18nTestingModule,
+        ProductMultiDimensionalListItemDetailsComponent,
+      ],
       providers: [{ provide: ProductListItemContext, useValue: mockContext }],
     })
       .overrideComponent(ProductMultiDimensionalListItemDetailsComponent, {

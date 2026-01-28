@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,8 +12,14 @@ import { IconModule } from '@spartacus/storefront';
 import { ConfigureCartEntryComponent } from './configure-cart-entry.component';
 
 @NgModule({
-  imports: [CommonModule, UrlModule, I18nModule, IconModule, RouterModule],
-  declarations: [ConfigureCartEntryComponent],
+  imports: [
+    CommonModule,
+    UrlModule,
+    I18nModule,
+    IconModule,
+    RouterModule,
+    ConfigureCartEntryComponent,
+  ],
   exports: [ConfigureCartEntryComponent],
 })
 export class ConfigureCartEntryModule {}

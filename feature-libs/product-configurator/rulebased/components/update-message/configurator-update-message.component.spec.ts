@@ -9,11 +9,19 @@ import {
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
+import { SpinnerComponent } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
@@ -49,10 +57,10 @@ class MockMessageConfig {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockCxSpinnerComponent {}
-describe('ConfigurationUpdateMessageComponent', () => {
+describe('ConfiguratorUpdateMessageComponent', () => {
   let component: ConfiguratorUpdateMessageComponent;
   let configuratorUtils: CommonConfiguratorUtilsService;
   let fixture: ComponentFixture<ConfiguratorUpdateMessageComponent>;
@@ -61,17 +69,16 @@ describe('ConfigurationUpdateMessageComponent', () => {
   beforeEach(waitForAsync(() => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
         ConfiguratorUpdateMessageComponent,
-        MockCxSpinnerComponent,
       ],
       providers: [
         {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
-
         {
           provide: ConfiguratorMessageConfig,
           useClass: MockMessageConfig,
@@ -81,6 +88,13 @@ describe('ConfigurationUpdateMessageComponent', () => {
           useClass: MockConfiguratorCommonsService,
         },
       ],
+    }).overrideComponent(ConfiguratorUpdateMessageComponent, {
+      remove: {
+        imports: [TranslatePipe, CxDatePipe, SpinnerComponent],
+      },
+      add: {
+        imports: [MockTranslatePipe, MockDatePipe, MockCxSpinnerComponent],
+      },
     });
   }));
   beforeEach(() => {

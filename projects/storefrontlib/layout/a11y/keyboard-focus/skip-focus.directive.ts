@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,10 +27,7 @@ export interface SkipFocusConfig {
  * in a host container from `tab` or `shift-tab` navigation
  * except elements in `activeElementSelectors` config.
  */
-@Directive({
-  selector: '[cxSkipFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxSkipFocus]' })
 export class SkipFocusDirective implements OnChanges {
   @Input('cxSkipFocus') config: SkipFocusConfig = { isEnabled: false };
 

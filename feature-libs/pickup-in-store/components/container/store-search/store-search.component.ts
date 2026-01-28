@@ -1,10 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
 import { CurrentLocationService } from '../../services/current-location.service';
 
@@ -16,7 +17,7 @@ import { CurrentLocationService } from '../../services/current-location.service'
 @Component({
   selector: 'cx-store-search',
   templateUrl: './store-search.component.html',
-  standalone: false,
+  imports: [TranslatePipe],
 })
 export class StoreSearchComponent {
   /** Whether the hide out of stock checkbox appears checked */

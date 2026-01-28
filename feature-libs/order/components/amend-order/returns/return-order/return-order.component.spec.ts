@@ -4,6 +4,10 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { FeatureConfigService } from '@spartacus/core';
+import {
+  AmendOrderActionsComponent,
+  CancelOrReturnItemsComponent,
+} from '@spartacus/order/components';
 import { Consignment } from '@spartacus/order/root';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { combineLatest, of, take } from 'rxjs';
@@ -79,7 +83,7 @@ class NewMockOrderAmendService extends MockOrderAmendService {
 @Component({
   template: '',
   selector: 'cx-amend-order-items',
-  standalone: false,
+  imports: [FormErrorsModule],
 })
 class MockCancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];
@@ -88,7 +92,7 @@ class MockCancelOrReturnItemsComponent {
 @Component({
   template: '',
   selector: 'cx-amend-order-actions',
-  standalone: false,
+  imports: [FormErrorsModule],
 })
 class MockAmendOrderActionComponent {
   @Input() orderCode: string;
@@ -105,13 +109,23 @@ describe('ReturnOrderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [FormErrorsModule],
-      declarations: [
-        ReturnOrderComponent,
-        MockAmendOrderActionComponent,
-        MockCancelOrReturnItemsComponent,
+      imports: [FormErrorsModule, ReturnOrderComponent],
+      providers: [
+        { provide: OrderAmendService, useClass: MockOrderAmendService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ReturnOrderComponent, {
+        remove: {
+          imports: [AmendOrderActionsComponent, CancelOrReturnItemsComponent],
+        },
+        add: {
+          imports: [
+            MockAmendOrderActionComponent,
+            MockCancelOrReturnItemsComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -275,7 +289,7 @@ describe('ReturnOrderComponent', () => {
     beforeEach(waitForAsync(() => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
-        imports: [FormErrorsModule],
+        imports: [FormErrorsModule, ReturnOrderComponent],
         providers: [
           { provide: OrderAmendService, useClass: NewMockOrderAmendService },
           {
@@ -283,12 +297,21 @@ describe('ReturnOrderComponent', () => {
             useClass: MockFeatureConfigService,
           },
         ],
-        declarations: [
-          ReturnOrderComponent,
-          MockAmendOrderActionComponent,
-          MockCancelOrReturnItemsComponent,
-        ],
-      }).compileComponents();
+      })
+        .overrideComponent(ReturnOrderComponent, {
+          remove: {
+            imports: [
+              /* original child components will be removed in runtime */
+            ],
+          },
+          add: {
+            imports: [
+              MockAmendOrderActionComponent,
+              MockCancelOrReturnItemsComponent,
+            ],
+          },
+        })
+        .compileComponents();
     }));
 
     beforeEach(() => {
@@ -315,7 +338,7 @@ describe('ReturnOrderComponent', () => {
     beforeEach(waitForAsync(() => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
-        imports: [FormErrorsModule],
+        imports: [FormErrorsModule, ReturnOrderComponent],
         providers: [
           {
             provide: OrderAmendService,
@@ -336,12 +359,21 @@ describe('ReturnOrderComponent', () => {
             useValue: { isEnabled: () => false },
           },
         ],
-        declarations: [
-          ReturnOrderComponent,
-          MockAmendOrderActionComponent,
-          MockCancelOrReturnItemsComponent,
-        ],
-      }).compileComponents();
+      })
+        .overrideComponent(ReturnOrderComponent, {
+          remove: {
+            imports: [
+              /* original child components will be removed in runtime */
+            ],
+          },
+          add: {
+            imports: [
+              MockAmendOrderActionComponent,
+              MockCancelOrReturnItemsComponent,
+            ],
+          },
+        })
+        .compileComponents();
     }));
 
     beforeEach(() => {
@@ -365,13 +397,22 @@ describe('ReturnOrderComponent', () => {
     beforeEach(waitForAsync(() => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
-        imports: [FormErrorsModule],
-        declarations: [
-          ReturnOrderComponent,
-          MockAmendOrderActionComponent,
-          MockCancelOrReturnItemsComponent,
-        ],
-      }).compileComponents();
+        imports: [FormErrorsModule, ReturnOrderComponent],
+      })
+        .overrideComponent(ReturnOrderComponent, {
+          remove: {
+            imports: [
+              /* original child components will be removed in runtime */
+            ],
+          },
+          add: {
+            imports: [
+              MockAmendOrderActionComponent,
+              MockCancelOrReturnItemsComponent,
+            ],
+          },
+        })
+        .compileComponents();
     }));
 
     beforeEach(() => {

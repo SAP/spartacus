@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Observable, of, throwError } from 'rxjs';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Country,
   GlobalMessageService,
@@ -12,19 +14,17 @@ import {
   Title,
   Translatable,
 } from '@spartacus/core';
-import { VerificationTokenFacade } from '@spartacus/user/account/root';
-import { UserRegistrationOTPFormComponent } from './user-registration-otp-form.component';
-import { UserRegistrationFormService } from '../form';
-import createSpy = jasmine.createSpy;
-import { Pipe, PipeTransform } from '@angular/core';
-import { NgSelectModule } from '@ng-select/ng-select';
 import {
   FormErrorsModule,
   NgSelectA11yDirective,
   SpinnerComponent,
 } from '@spartacus/storefront';
+import { VerificationTokenFacade } from '@spartacus/user/account/root';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
+import { UserRegistrationFormService } from '../form';
+import { UserRegistrationOTPFormComponent } from './user-registration-otp-form.component';
+import createSpy = jasmine.createSpy;
 
 class MockRoutingService {
   go = createSpy();
@@ -107,10 +107,7 @@ class MockUserRegistrationFormService
   }
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -127,8 +124,6 @@ describe('UserRegistrationOTPFormComponent', () => {
         I18nTestingModule,
         NgSelectModule,
         FormErrorsModule,
-      ],
-      declarations: [
         UserRegistrationOTPFormComponent,
         MockUrlPipe,
         NgSelectA11yDirective,

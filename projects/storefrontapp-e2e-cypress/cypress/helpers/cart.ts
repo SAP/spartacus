@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import { userGreetSelector } from './login';
 import { waitForPage } from './navigation';
 import { createProductQuery, QUERY_ALIAS } from './product-search';
 import { generateMail, randomString } from './user';
+import { cmsEndpoints } from './cms-endpoints';
 
 interface TestProduct {
   code: string;
@@ -232,7 +233,7 @@ function getBaseUrlPrefix() {
 export function registerCartPageRoute() {
   cy.intercept(
     'GET',
-    `${getOccUrlPrefix()}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
+    `${getOccUrlPrefix()}/${cmsEndpoints.pages}?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
   ).as('cart_page');
 }
 

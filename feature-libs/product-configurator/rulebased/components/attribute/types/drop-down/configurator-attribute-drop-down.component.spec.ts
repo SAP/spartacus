@@ -10,7 +10,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StoreModule } from '@ngrx/store';
-import { I18nTestingModule } from '@spartacus/core';
+import { FeatureLevelDirective, I18nTestingModule } from '@spartacus/core';
+import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
+import { FocusDirective } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
@@ -19,13 +21,17 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
-import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
-import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
+import {
+  ConfiguratorAttributeQuantityComponent,
+  ConfiguratorAttributeQuantityComponentOptions,
+} from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
 
 function createValue(
@@ -49,10 +55,7 @@ function createValue(
   return value;
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
@@ -60,7 +63,7 @@ export class MockFocusDirective {
 @Component({
   selector: 'cx-configurator-attribute-quantity',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -70,7 +73,7 @@ class MockConfiguratorAttributeQuantityComponent {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -79,7 +82,7 @@ class MockConfiguratorPriceComponent {
 @Component({
   selector: 'cx-configurator-show-more',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
@@ -164,22 +167,12 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       },
     });
     TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeDropDownComponent,
-        ConfiguratorAttributeInputFieldComponent,
-        ConfiguratorAttributeNumericInputFieldComponent,
-        MockFocusDirective,
-        MockConfiguratorAttributeQuantityComponent,
-        MockConfiguratorPriceComponent,
-        MockFeatureLevelDirective,
-        MockConfiguratorShowMoreComponent,
-      ],
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
-        I18nTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        ConfiguratorAttributeDropDownComponent,
       ],
       providers: [
         {
@@ -197,7 +190,23 @@ describe('ConfiguratorAttributeDropDownComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeDropDownComponent, {
-        set: {
+        remove: {
+          imports: [
+            FocusDirective,
+            ConfiguratorAttributeQuantityComponent,
+            ConfiguratorPriceComponent,
+            FeatureLevelDirective,
+            ConfiguratorShowMoreComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockFocusDirective,
+            MockConfiguratorAttributeQuantityComponent,
+            MockConfiguratorPriceComponent,
+            MockFeatureLevelDirective,
+            MockConfiguratorShowMoreComponent,
+          ],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

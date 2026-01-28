@@ -22,21 +22,33 @@ import {
 } from '@spartacus/asm/root';
 import {
   AuthService,
+  CxDatePipe,
   FeatureConfigService,
   FeatureModulesService,
   GlobalMessageService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   OAuthLibWrapperService,
   RoutingService,
+  TranslatePipe,
   User,
 } from '@spartacus/core';
 import {
   ICON_TYPE,
+  IconComponent,
   LAUNCH_CALLER,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import {
+  AsmSessionTimerComponent,
+  AsmToggleUiComponent,
+  CSAgentLoginFormComponent,
+  CustomerEmulationComponent,
+  CustomerSelectionComponent,
+} from '../public_api';
 import { AsmComponentService } from '../services/asm-component.service';
 import { AsmMainUiComponent } from './asm-main-ui.component';
 
@@ -53,7 +65,7 @@ class MockAuthService implements Partial<AuthService> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -113,21 +125,21 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 @Component({
   selector: 'cx-asm-toggle-ui',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockAsmToggleUiComponent {}
 
 @Component({
   selector: 'cx-asm-session-timer',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockAsmSessionTimerComponent {}
 
 @Component({
   selector: 'cx-customer-selection',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCustomerSelectionComponent {
   @Output()
@@ -136,7 +148,7 @@ class MockCustomerSelectionComponent {
 @Component({
   selector: 'cx-csagent-login-form',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCSAgentLoginFormComponent {
   @Output()
@@ -147,7 +159,7 @@ class MockCSAgentLoginFormComponent {
 @Component({
   template: '',
   selector: 'cx-customer-emulation',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCustomerEmulationComponent {}
 
@@ -196,10 +208,7 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   refreshAuthConfig() {}
 }
 
-@Directive({
-  selector: '[cxFeature]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFeature]' })
 export class MockRevertedFeatureDirective {
   constructor(
     protected templateRef: TemplateRef<any>,
@@ -233,17 +242,7 @@ describe('AsmMainUiComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        AsmMainUiComponent,
-        MockAsmToggleUiComponent,
-        MockCSAgentLoginFormComponent,
-        MockCustomerSelectionComponent,
-        MockAsmSessionTimerComponent,
-        MockCustomerEmulationComponent,
-        MockCxIconComponent,
-        MockRevertedFeatureDirective,
-      ],
+      imports: [AsmMainUiComponent],
       providers: [
         {
           provide: FeatureModulesService,
@@ -262,7 +261,35 @@ describe('AsmMainUiComponent', () => {
           useClass: MockOAuthLibWrapperService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AsmMainUiComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            AsmToggleUiComponent,
+            CSAgentLoginFormComponent,
+            CustomerSelectionComponent,
+            AsmSessionTimerComponent,
+            CustomerEmulationComponent,
+            IconComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockAsmToggleUiComponent,
+            MockCSAgentLoginFormComponent,
+            MockCustomerSelectionComponent,
+            MockAsmSessionTimerComponent,
+            MockCustomerEmulationComponent,
+            MockCxIconComponent,
+            MockRevertedFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

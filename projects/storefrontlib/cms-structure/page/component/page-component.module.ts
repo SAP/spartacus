@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,8 +13,11 @@ import { LazyComponentHandler } from './handlers/lazy-component.handler';
 import { InnerComponentsHostDirective } from './inner-components-host.directive';
 
 @NgModule({
-  imports: [CommonModule],
-  declarations: [ComponentWrapperDirective, InnerComponentsHostDirective],
+  imports: [
+    CommonModule,
+    ComponentWrapperDirective,
+    InnerComponentsHostDirective,
+  ],
   exports: [ComponentWrapperDirective, InnerComponentsHostDirective],
 })
 export class PageComponentModule {

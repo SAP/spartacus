@@ -23,8 +23,7 @@ describe('ReturnRequestTotalsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ReturnRequestTotalsComponent],
+      imports: [I18nTestingModule, ReturnRequestTotalsComponent],
       providers: [
         { provide: ReturnRequestService, useClass: MockReturnRequestService },
       ],

@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,11 +13,15 @@ import {
   OnInit,
   Optional,
 } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, UntypedFormGroup } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
+import { FocusDirective } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { first, map, switchMap, take } from 'rxjs/operators';
 import { CardComponent } from '../card/card.component';
+import { ItemActiveDirective } from '../item-active.directive';
 import { ItemService } from '../item.service';
 import { MessageService } from '../message/services/message.service';
 
@@ -31,7 +36,16 @@ const DISABLED_STATUS = 'DISABLED';
   templateUrl: './form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper' },
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    CardComponent,
+    ItemActiveDirective,
+    FocusDirective,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class FormComponent<T> implements OnInit, OnDestroy {
   /**

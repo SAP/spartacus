@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,8 +12,14 @@ import { PopoverModule } from '@spartacus/storefront';
 import { BudgetDetailsCellComponent } from './budget-details-cell.component';
 
 @NgModule({
-  imports: [CommonModule, PopoverModule, RouterModule, I18nModule, UrlModule],
-  declarations: [BudgetDetailsCellComponent],
+  imports: [
+    CommonModule,
+    PopoverModule,
+    RouterModule,
+    I18nModule,
+    UrlModule,
+    BudgetDetailsCellComponent,
+  ],
   exports: [BudgetDetailsCellComponent],
 })
 export class BudgetDetailsCellModule {}

@@ -1,15 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-  name: 'cxMediaSources',
-  standalone: false,
-})
+@Pipe({ name: 'cxMediaSources' })
 export class MediaSourcesPipe implements PipeTransform {
   transform(sizes: string) {
     const sources: Pick<HTMLSourceElement, 'srcset' | 'media'>[] = [];

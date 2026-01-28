@@ -1,10 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import { interceptGet } from '../../../support/utils/intercept';
+import { cmsEndpoints } from '../../../helpers/cms-endpoints';
 
 export const APPAREL_BASESITE = 'apparel-uk-spa';
 export const APPAREL_CURRENCY = 'EUR';
@@ -15,7 +16,7 @@ describe('Segment Reference', () => {
     Cypress.env('BASE_CURRENCY', APPAREL_CURRENCY);
   });
   it('should fetch appropriate banner customization', () => {
-    interceptGet('segmentRefApi', '/cms/pages*');
+    interceptGet('segmentRefApi', `${cmsEndpoints.pages}*`);
     cy.visit(
       `${Cypress.env('BASE_SITE')}/${Cypress.env('BASE_LANG')}/${Cypress.env(
         'BASE_CURRENCY'

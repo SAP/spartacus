@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,6 @@ import { UnitFormModule } from '../../../form/unit-form.module';
 import { UnitChildCreateComponent } from './unit-child-create.component';
 
 @NgModule({
-  imports: [CommonModule, UnitFormModule],
-  declarations: [UnitChildCreateComponent],
+  imports: [CommonModule, UnitFormModule, UnitChildCreateComponent],
 })
 export class UnitChildCreateModule {}

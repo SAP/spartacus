@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,7 +20,6 @@ import {
   MIN_ONE_UPPER_CASE_CHARACTER_PATTERN,
   MIN_SIX_CHARACTERS_PATTERN,
   SECURE_PASSWORD_PATTERN,
-  STRONG_PASSWORD_PATTERN,
 } from '@spartacus/core';
 
 export class CustomFormValidators {
@@ -53,28 +52,6 @@ export class CustomFormValidators {
       : { cxInvalidPassword: true };
   }
 
-  // TODO: (CXSPA-7567) Remove after removing formErrorsDescriptiveMessages feature toggle
-  /**
-   * Checks control's value with predefined password regexp
-   *
-   * NOTE: Use it as a control validator
-   *
-   * @deprecated Use passwordValidators instead
-   * @static
-   * @param {AbstractControl} control
-   * @returns {(ValidationErrors | null)} Uses 'cxInvalidPassword' validator error
-   * @memberof CustomFormValidators
-   */
-  static strongPasswordValidator(
-    control: AbstractControl
-  ): ValidationErrors | null {
-    const password = control.value as string;
-
-    return password &&
-      (!password.length || password.match(STRONG_PASSWORD_PATTERN))
-      ? null
-      : { cxInvalidPassword: true };
-  }
   /**
    * Checks control's value with predefined  at least one upper case character regexp
    *

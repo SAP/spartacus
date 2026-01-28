@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,6 +21,7 @@ import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.co
     ReactiveFormsModule,
     AmendOrderItemsModule,
     AmendOrderActionsModule,
+    CancelOrderConfirmationComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -38,7 +39,6 @@ import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.co
       },
     }),
   ],
-  declarations: [CancelOrderConfirmationComponent],
   exports: [CancelOrderConfirmationComponent],
 })
 export class CancelOrderConfirmationModule {}

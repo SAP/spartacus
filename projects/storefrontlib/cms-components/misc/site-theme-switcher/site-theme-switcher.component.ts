@@ -1,13 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { SiteTheme, TranslationService } from '@spartacus/core';
+import { SiteTheme, TranslatePipe, TranslationService } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { IconComponent } from '../icon/icon.component';
 import { ICON_TYPE } from '../icon/icon.model';
 import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
 
@@ -18,7 +20,7 @@ import { SiteThemeSwitcherComponentService } from './site-theme-switcher.compone
   selector: 'cx-site-theme-switcher',
   templateUrl: './site-theme-switcher.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, NgFor, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class SiteThemeSwitcherComponent {
   readonly translationService = inject(TranslationService);

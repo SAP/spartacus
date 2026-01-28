@@ -8,23 +8,30 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
-import { ItemCounterComponent } from '@spartacus/storefront';
+import { FocusDirective, ItemCounterComponent } from '@spartacus/storefront';
 import { CONFIGURATOR_FEATURE } from '../../../../core/state/configurator-state';
 import { getConfiguratorReducers } from '../../../../core/state/reducers';
 
+import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
+import {
+  ConfiguratorAttributeQuantityComponent,
+  ConfiguratorAttributeQuantityComponentOptions,
+} from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldComponent } from '../numeric-input-field/configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
-import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
 
 const VALUE_NAME_2 = 'val2';
 
@@ -40,10 +47,7 @@ function createValue(code: string, name: string, isSelected: boolean) {
 
 class MockGroupService {}
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
@@ -51,7 +55,7 @@ export class MockFocusDirective {
 @Component({
   selector: 'cx-configurator-attribute-quantity',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -60,7 +64,7 @@ class MockConfiguratorAttributeQuantityComponent {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -69,7 +73,7 @@ class MockConfiguratorPriceComponent {
 @Component({
   selector: 'cx-configurator-show-more',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
@@ -121,21 +125,15 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       },
     });
     TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeRadioButtonComponent,
-        ConfiguratorAttributeInputFieldComponent,
-        ConfiguratorAttributeNumericInputFieldComponent,
-        ItemCounterComponent,
-        MockFocusDirective,
-        MockConfiguratorAttributeQuantityComponent,
-        MockConfiguratorPriceComponent,
-        MockConfiguratorShowMoreComponent,
-      ],
       imports: [
         I18nTestingModule,
         ReactiveFormsModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        ConfiguratorAttributeRadioButtonComponent,
+        ConfiguratorAttributeInputFieldComponent,
+        ConfiguratorAttributeNumericInputFieldComponent,
+        ItemCounterComponent,
       ],
       providers: [
         ConfiguratorStorefrontUtilsService,
@@ -154,7 +152,21 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeRadioButtonComponent, {
-        set: {
+        remove: {
+          imports: [
+            FocusDirective,
+            ConfiguratorAttributeQuantityComponent,
+            ConfiguratorPriceComponent,
+            ConfiguratorShowMoreComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockFocusDirective,
+            MockConfiguratorAttributeQuantityComponent,
+            MockConfiguratorPriceComponent,
+            MockConfiguratorShowMoreComponent,
+          ],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

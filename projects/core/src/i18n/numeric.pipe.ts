@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,10 +9,7 @@ import { Pipe, PipeTransform, inject, isDevMode } from '@angular/core';
 import { LoggerService } from '../logger';
 import { LanguageService } from '../site-context/facade/language.service';
 
-@Pipe({
-  name: 'cxNumeric',
-  standalone: false,
-})
+@Pipe({ name: 'cxNumeric' })
 export class CxNumericPipe extends DecimalPipe implements PipeTransform {
   protected logger = inject(LoggerService);
 

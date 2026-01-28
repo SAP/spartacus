@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,28 +12,38 @@ import {
   TrackByFunction,
 } from '@angular/core';
 import {
-  FeatureConfigService,
+  FeatureDirective,
   CmsProductCarouselComponent as model,
   Product,
   ProductScope,
   ProductSearchByCategoryService,
   ProductSearchByCodeService,
   ProductService,
+  TranslatePipe,
   useFeatureStyles,
 } from '@spartacus/core';
 import { Observable, of, switchMap, zip } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
+import { CarouselScrollingComponent } from '../../../../shared/components/carousel-scrolling/carousel-scrolling.component';
+import { CarouselComponent } from '../../../../shared/components/carousel/carousel.component';
+import { ProductCarouselItemComponent } from '../product-carousel-item/product-carousel-item.component';
 
 @Component({
   selector: 'cx-product-carousel',
   templateUrl: './product-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FeatureDirective,
+    NgIf,
+    CarouselScrollingComponent,
+    CarouselComponent,
+    ProductCarouselItemComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ProductCarouselComponent {
-  private featureConfigService: FeatureConfigService =
-    inject(FeatureConfigService);
   protected productSearchByCodeService: ProductSearchByCodeService = inject(
     ProductSearchByCodeService
   );
@@ -88,12 +99,8 @@ export class ProductCarouselComponent {
 
   handleCategoryCodes(data: model): Observable<model> {
     const categoryCodes = data?.categoryCodes?.split(' ');
-
     // Try to add category codes to the carousel product codes
-    if (
-      categoryCodes &&
-      this.featureConfigService.isEnabled('enableCarouselCategoryProducts')
-    ) {
+    if (categoryCodes) {
       return zip(
         categoryCodes.map((categoryCode) =>
           this.productSearchByCategoryService.get({

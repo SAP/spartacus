@@ -1,25 +1,46 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Optional,
   inject,
 } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { RoutingService, TranslatePipe } from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { ForgotPasswordComponentService } from './forgot-password-component.service';
-import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-forgot-password',
   templateUrl: './forgot-password.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    FormRequiredLegendComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ForgotPasswordComponent {
   @Optional() protected routingService = inject(RoutingService, {

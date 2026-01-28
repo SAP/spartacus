@@ -1,10 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CostCenter, I18nTestingModule } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import {
+  CostCenter,
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { FocusDirective } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { EMPTY, of, Subject } from 'rxjs';
-import { DisableInfoModule } from '../../shared';
+import {
+  CardComponent,
+  DisableInfoModule,
+  MessageComponent,
+} from '../../shared';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
 import { ItemService } from '../../shared/item.service';
@@ -38,31 +51,45 @@ describe('CostCenterDetailsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
-        I18nTestingModule,
-        UrlTestingModule,
-        CardTestingModule,
-        MessageTestingModule,
         ToggleStatusModule,
         DisableInfoModule,
+        CostCenterDetailsComponent,
+        FocusDirective,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
-      declarations: [CostCenterDetailsComponent, FocusDirective],
-      providers: [{ provide: ItemService, useClass: MockItemService }],
     })
       .overrideComponent(CostCenterDetailsComponent, {
-        set: {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            CardComponent,
+            MessageComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            CardTestingModule,
+            MessageTestingModule,
+          ],
           providers: [
             {
               provide: MessageService,
               useClass: MockMessageService,
             },
+            { provide: ItemService, useClass: MockItemService },
           ],
         },
       })
       .compileComponents();
 
-    itemService = TestBed.inject(ItemService);
-
     fixture = TestBed.createComponent(CostCenterDetailsComponent);
+    itemService = fixture.componentRef.injector.get(ItemService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

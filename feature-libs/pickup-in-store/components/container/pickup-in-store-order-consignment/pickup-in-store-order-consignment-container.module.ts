@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,9 +12,12 @@ import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 import { PickupInStoreOrderConsignmentContainerComponent } from './pickup-in-store-order-consignment-container.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    PickupInStoreOrderConsignmentContainerComponent,
+  ],
   exports: [PickupInStoreOrderConsignmentContainerComponent],
-  declarations: [PickupInStoreOrderConsignmentContainerComponent],
   providers: [
     provideOutlet({
       id: OrderOutlets.ORDER_CONSIGNMENT,

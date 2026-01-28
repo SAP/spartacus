@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -72,6 +72,7 @@ export enum OpfPage {
   CHECKOUT_REVIEW_PAGE = 'opfCheckoutPaymentAndReview',
   CONFIRMATION_PAGE = 'orderConfirmation',
   RESULT_PAGE = 'paymentVerificationResult',
+  CANCEL_PAGE = 'paymentVerificationCancel',
   CART_PAGE = 'cart',
 }
 

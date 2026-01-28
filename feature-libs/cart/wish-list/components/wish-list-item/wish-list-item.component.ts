@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,9 +14,13 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { Product } from '@spartacus/core';
+import { Product, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
+  AtMessageDirective,
+  InnerComponentsHostDirective,
+  MediaComponent,
   ProductListItemContext,
   ProductListItemContextSource,
 } from '@spartacus/storefront';
@@ -31,7 +36,16 @@ import {
       useExisting: ProductListItemContextSource,
     },
   ],
-  standalone: false,
+  imports: [
+    RouterLink,
+    MediaComponent,
+    NgIf,
+    NgFor,
+    InnerComponentsHostDirective,
+    AtMessageDirective,
+    TranslatePipe,
+    UrlPipe,
+  ],
 })
 export class WishListItemComponent implements OnChanges {
   @Input()

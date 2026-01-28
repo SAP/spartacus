@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,6 +31,7 @@ import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address
     SpinnerModule,
     I18nModule,
     FeaturesConfigModule,
+    B2BCheckoutDeliveryAddressComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -42,7 +43,6 @@ import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address
       },
     }),
   ],
-  declarations: [B2BCheckoutDeliveryAddressComponent],
   exports: [B2BCheckoutDeliveryAddressComponent],
 })
 export class B2BCheckoutDeliveryAddressModule {}

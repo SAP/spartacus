@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,8 +10,7 @@ import { I18nModule } from '@spartacus/core';
 import { ConfiguratorShowMoreComponent } from './configurator-show-more.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
-  declarations: [ConfiguratorShowMoreComponent],
+  imports: [CommonModule, I18nModule, ConfiguratorShowMoreComponent],
   exports: [ConfiguratorShowMoreComponent],
 })
 export class ConfiguratorShowMoreModule {}

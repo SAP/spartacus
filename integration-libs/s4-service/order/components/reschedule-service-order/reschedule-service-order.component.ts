@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,12 +12,21 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
@@ -25,13 +35,32 @@ import {
   RescheduleServiceOrderFacade,
   ServiceDateTime,
 } from '@spartacus/s4-service/root';
+import {
+  DatePickerComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  OutletDirective,
+} from '@spartacus/storefront';
 import { combineLatest, map, Observable, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'cx-reschedule-service-order',
   templateUrl: './reschedule-service-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    DatePickerComponent,
+    NgIf,
+    NgFor,
+    OutletDirective,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+  ],
 })
 export class RescheduleServiceOrderComponent implements OnInit, OnDestroy {
   protected orderDetailsService = inject(OrderDetailsService);

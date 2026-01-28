@@ -18,9 +18,9 @@ import {
   NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { EMPTY, of } from 'rxjs';
-import createSpy = jasmine.createSpy;
 import { CheckoutBillingAddressFormComponent } from './checkout-billing-address-form.component';
 import { CheckoutBillingAddressFormService } from './checkout-billing-address-form.service';
+import createSpy = jasmine.createSpy;
 
 const mockBillingCountries: Country[] = [
   {
@@ -46,7 +46,13 @@ const mockAddress: Address = {
 @Component({
   selector: 'cx-card',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    NgSelectModule,
+    NgSelectA11yModule,
+    I18nTestingModule,
+    FormErrorsModule,
+  ],
 })
 class MockCardComponent {
   @Input()
@@ -105,8 +111,9 @@ describe('CheckoutBillingAddressFormComponent', () => {
         NgSelectA11yModule,
         I18nTestingModule,
         FormErrorsModule,
+        CheckoutBillingAddressFormComponent,
+        MockCardComponent,
       ],
-      declarations: [CheckoutBillingAddressFormComponent, MockCardComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {

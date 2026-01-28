@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,9 +9,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
-import { ItemExistsModule } from '../../shared/item-exists.module';
 import { CardModule } from '../../shared/card/card.module';
 import { DeleteItemModule } from '../../shared/detail/delete-item-action/delete-item.module';
+import { ItemExistsModule } from '../../shared/item-exists.module';
 import { UserGroupDetailsComponent } from './user-group-details.component';
 
 @NgModule({
@@ -24,7 +24,7 @@ import { UserGroupDetailsComponent } from './user-group-details.component';
     DeleteItemModule,
     ItemExistsModule,
     KeyboardFocusModule,
+    UserGroupDetailsComponent,
   ],
-  declarations: [UserGroupDetailsComponent],
 })
 export class UserGroupDetailsModule {}

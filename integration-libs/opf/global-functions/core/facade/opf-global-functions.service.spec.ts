@@ -11,20 +11,34 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { WindowRef } from '@spartacus/core';
+import { RoutingService, UserIdService, WindowRef } from '@spartacus/core';
+import {
+  ActiveCartFacade,
+  CartAccessCodeFacade,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
+import { OpfCtaFacade } from '@spartacus/opf/cta/root';
+import { OpfMetadataStoreService } from '@spartacus/opf/base/root';
 import { defaultOpfErrorDialogOptions } from '@spartacus/opf/base/root';
 import { OpfGlobalFunctionsDomain } from '@spartacus/opf/global-functions/root';
-import { OpfPaymentFacade } from '@spartacus/opf/payment/root';
-import { OpfPaymentEventsService } from '@spartacus/opf/payment/root';
+import {
+  OpfPaymentEventsService,
+  OpfPaymentFacade,
+} from '@spartacus/opf/payment/root';
 import { OpfQuickBuyProviderType } from '@spartacus/opf/quick-buy/root';
+import { OpfQuickBuyTransactionService } from '@spartacus/opf/quick-buy/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { Address } from '@spartacus/core';
+import { OpfMetadataModel } from '@spartacus/opf/base/root';
+import {
+  OpfPaymentSessionData,
+  OpfPaymentVerificationPayload,
+  OpfPaymentVerificationResponse,
+} from '@spartacus/opf/payment/root';
 import { OpfGlobalFunctionsService } from './opf-global-functions.service';
 export const WINDOW = new InjectionToken<Window>('window');
-@Component({
-  template: '',
-  standalone: false,
-})
+@Component({ template: '' })
 class TestContainerComponent {
   constructor(public vcr: ViewContainerRef) {}
 }
@@ -44,6 +58,121 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   }
 }
 
+class MockRoutingService implements Partial<RoutingService> {
+  getFullUrl(_options?: any): string {
+    return 'https://test-url';
+  }
+}
+
+class MockOpfCtaFacade implements Partial<OpfCtaFacade> {}
+
+class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
+  opfMetadataState = new BehaviorSubject<OpfMetadataModel>({
+    termsAndConditionsChecked: false,
+    selectedPaymentOptionId: undefined,
+    isPaymentInProgress: false,
+    opfPaymentSessionId: undefined,
+    isTermsAndConditionsAlertClosed: false,
+  });
+}
+
+const mockBillingAddress: Address = {
+  id: 'billing-address-id',
+  firstName: 'Jane',
+  lastName: 'Smith',
+  line1: '789 Business Blvd',
+  town: 'Los Angeles',
+  postalCode: '90002',
+  country: { isocode: 'US' },
+  region: { isocodeShort: 'CA' },
+};
+
+const mockDeliveryAddress: Address = {
+  id: 'delivery-address-id',
+  firstName: 'John',
+  lastName: 'Doe',
+  line1: '123 Main St',
+  town: 'City',
+  postalCode: '12345',
+  country: { isocode: 'US' },
+};
+
+const mockDeliveryMode = {
+  code: 'standard',
+  name: 'Standard Delivery',
+};
+
+const mockCart = {
+  code: 'test-cart-id',
+  sapBillingAddress: mockBillingAddress,
+  deliveryAddress: mockDeliveryAddress,
+  deliveryMode: mockDeliveryMode,
+} as any;
+
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
+  getActiveCartId = jasmine
+    .createSpy('getActiveCartId')
+    .and.returnValue(of('test-cart-id'));
+  getActive = jasmine.createSpy('getActive').and.returnValue(of(mockCart));
+  takeActive = jasmine.createSpy('takeActive').and.returnValue(of(mockCart));
+  // isStable emits false first (skipped by skip(1)), then true (accepted by filter)
+  // This simulates: initial state (false, skipped) -> stable after reload (true, taken)
+  isStable = jasmine.createSpy('isStable').and.returnValue(of(false, true));
+  reloadActiveCart = jasmine.createSpy('reloadActiveCart');
+}
+
+class MockUserIdService implements Partial<UserIdService> {
+  getUserId() {
+    return of('test-user-id');
+  }
+}
+
+class MockCartAccessCodeFacade implements Partial<CartAccessCodeFacade> {
+  getCartAccessCode(_userId: string, _cartId: string) {
+    return of('test-access-code');
+  }
+}
+
+class MockMultiCartFacade implements Partial<MultiCartFacade> {
+  getCart = jasmine.createSpy('getCart').and.returnValue(of(mockCart));
+  reloadCart = jasmine.createSpy('reloadCart');
+}
+
+class MockOpfQuickBuyTransactionService
+  implements Partial<OpfQuickBuyTransactionService>
+{
+  setDeliveryAddress = jasmine
+    .createSpy('setDeliveryAddress')
+    .and.returnValue(of('test-address-id'));
+  getDeliveryAddress = jasmine.createSpy('getDeliveryAddress').and.returnValue(
+    of({
+      id: 'test-address-id',
+      firstName: 'John',
+      lastName: 'Doe',
+      line1: '123 Main St',
+      town: 'City',
+      postalCode: '12345',
+      country: { isocode: 'US' },
+    })
+  );
+  setBillingAddress = jasmine
+    .createSpy('setBillingAddress')
+    .and.returnValue(of(true));
+  setDeliveryMode = jasmine
+    .createSpy('setDeliveryMode')
+    .and.returnValue(of(mockDeliveryMode));
+  getSelectedDeliveryMode = jasmine
+    .createSpy('getSelectedDeliveryMode')
+    .and.returnValue(of(mockDeliveryMode));
+  deleteUserAddresses = jasmine.createSpy('deleteUserAddresses');
+  updateCartGuestUserEmail = jasmine
+    .createSpy('updateCartGuestUserEmail')
+    .and.returnValue(of(true));
+  createCartGuestUser = jasmine
+    .createSpy('createCartGuestUser')
+    .and.returnValue(of(true));
+}
+
 describe('OpfGlobalFunctionsService', () => {
   let service: OpfGlobalFunctionsService;
   let opfPaymentFacadeMock: jasmine.SpyObj<OpfPaymentFacade>;
@@ -53,6 +182,8 @@ describe('OpfGlobalFunctionsService', () => {
     'submitPayment',
     'submitCompletePayment',
     'getActiveConfigurationsState',
+    'verifyPayment',
+    'initiatePayment',
   ]);
   opfPaymentEventsServiceMock = jasmine.createSpyObj(
     'OpfPaymentEventsService',
@@ -62,7 +193,7 @@ describe('OpfGlobalFunctionsService', () => {
   let launchDialogService: LaunchDialogService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestContainerComponent],
+      imports: [TestContainerComponent],
       providers: [
         OpfGlobalFunctionsService,
         WindowRef,
@@ -72,6 +203,23 @@ describe('OpfGlobalFunctionsService', () => {
           useValue: opfPaymentEventsServiceMock,
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: OpfCtaFacade, useClass: MockOpfCtaFacade },
+        {
+          provide: OpfMetadataStoreService,
+          useClass: MockOpfMetadataStoreService,
+        },
+        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
+        {
+          provide: MultiCartFacade,
+          useClass: MockMultiCartFacade,
+        },
+        { provide: UserIdService, useClass: MockUserIdService },
+        { provide: CartAccessCodeFacade, useClass: MockCartAccessCodeFacade },
+        {
+          provide: OpfQuickBuyTransactionService,
+          useClass: MockOpfQuickBuyTransactionService,
+        },
       ],
     });
     service = TestBed.inject(OpfGlobalFunctionsService);
@@ -108,10 +256,10 @@ describe('OpfGlobalFunctionsService', () => {
         paymentSessionId: mockPaymentSessionId,
         vcr: {} as ViewContainerRef,
       });
-      windowOpf = windowRef.nativeWindow['Opf'];
+      windowOpf = (windowRef.nativeWindow as any)?.['Opf'];
       spyOn(windowRef, 'isBrowser').and.returnValue(false);
       service.unregisterGlobalFunctions(OpfGlobalFunctionsDomain.CHECKOUT);
-      expect(windowOpf['payments']['checkout']['submit']).toBeDefined();
+      expect(windowOpf?.['payments']?.['checkout']?.['submit']).toBeDefined();
     });
   });
 
@@ -125,7 +273,7 @@ describe('OpfGlobalFunctionsService', () => {
         paymentSessionId: mockPaymentSessionId,
         vcr: {} as ViewContainerRef,
       });
-      windowOpf = windowRef.nativeWindow?.['Opf'] as any;
+      windowOpf = (windowRef.nativeWindow as any)?.['Opf'] as any;
     });
 
     it('should register global functions for CHECKOUT', () => {
@@ -319,6 +467,373 @@ describe('OpfGlobalFunctionsService', () => {
     });
   });
 
+  describe('should register global functions for GLOBAL domain', () => {
+    const mockPaymentSessionId = 'mockSessionId';
+    let windowOpf: any;
+
+    beforeEach(() => {
+      service.registerGlobalFunctions({
+        domain: OpfGlobalFunctionsDomain.GLOBAL,
+        paymentSessionId: mockPaymentSessionId,
+        vcr: {} as ViewContainerRef,
+      });
+      windowOpf = (windowRef.nativeWindow as any)?.['Opf'] as any;
+    });
+
+    it('should handle getCart event without cartId', async () => {
+      const result = await windowOpf.payments['global'].getCart();
+
+      const mockActiveCartFacade = TestBed.inject(
+        ActiveCartFacade
+      ) as jasmine.SpyObj<ActiveCartFacade>;
+      expect(mockActiveCartFacade.reloadActiveCart).toHaveBeenCalled();
+      expect(mockActiveCartFacade.isStable).toHaveBeenCalled();
+      expect(mockActiveCartFacade.takeActive).toHaveBeenCalled();
+      expect(result).toEqual(mockCart);
+    });
+
+    it('should handle getCart event with cartId', async () => {
+      const mockMultiCartFacade = TestBed.inject(
+        MultiCartFacade
+      ) as jasmine.SpyObj<MultiCartFacade>;
+      const cartId = 'specific-cart-id';
+      const result = await windowOpf.payments['global'].getCart(cartId);
+
+      expect(mockMultiCartFacade.reloadCart).toHaveBeenCalledWith(cartId);
+      expect(mockMultiCartFacade.getCart).toHaveBeenCalledWith(cartId);
+      expect(result).toEqual(mockCart);
+    });
+
+    it('should handle getBillingAddress event', async () => {
+      const result = await windowOpf.payments['global'].getBillingAddress();
+
+      const mockActiveCartFacade = TestBed.inject(
+        ActiveCartFacade
+      ) as jasmine.SpyObj<ActiveCartFacade>;
+      expect(mockActiveCartFacade.reloadActiveCart).toHaveBeenCalled();
+      expect(mockActiveCartFacade.isStable).toHaveBeenCalled();
+      expect(mockActiveCartFacade.takeActive).toHaveBeenCalled();
+      expect(result).toEqual(mockBillingAddress);
+    });
+
+    it('should handle setDeliveryAddress event', async () => {
+      const mockAddress: Address = {
+        id: 'test-address-id',
+        firstName: 'John',
+        lastName: 'Doe',
+        line1: '123 Main St',
+        town: 'City',
+        postalCode: '12345',
+        country: { isocode: 'US' },
+      };
+
+      const result =
+        await windowOpf.payments['global'].setDeliveryAddress(mockAddress);
+
+      expect(
+        service['opfQuickBuyTransactionService'].setDeliveryAddress
+      ).toHaveBeenCalledWith(mockAddress);
+      expect(result).toBe('test-address-id');
+    });
+
+    it('should handle getDeliveryAddress event', async () => {
+      const result = await windowOpf.payments['global'].getDeliveryAddress();
+
+      const mockActiveCartFacade = TestBed.inject(
+        ActiveCartFacade
+      ) as jasmine.SpyObj<ActiveCartFacade>;
+      expect(mockActiveCartFacade.reloadActiveCart).toHaveBeenCalled();
+      expect(mockActiveCartFacade.isStable).toHaveBeenCalled();
+      expect(mockActiveCartFacade.takeActive).toHaveBeenCalled();
+      expect(result).toEqual(mockDeliveryAddress);
+    });
+
+    it('should handle setDeliveryMode event', async () => {
+      const mockMode = 'standard';
+
+      const result =
+        await windowOpf.payments['global'].setDeliveryMode(mockMode);
+
+      expect(
+        service['opfQuickBuyTransactionService'].setDeliveryMode
+      ).toHaveBeenCalledWith(mockMode);
+      expect(result).toEqual(mockDeliveryMode);
+    });
+
+    it('should handle getDeliveryMode event', async () => {
+      const result = await windowOpf.payments['global'].getDeliveryMode();
+
+      const mockActiveCartFacade = TestBed.inject(
+        ActiveCartFacade
+      ) as jasmine.SpyObj<ActiveCartFacade>;
+      expect(mockActiveCartFacade.reloadActiveCart).toHaveBeenCalled();
+      expect(mockActiveCartFacade.isStable).toHaveBeenCalled();
+      expect(mockActiveCartFacade.takeActive).toHaveBeenCalled();
+      expect(result).toEqual(mockDeliveryMode);
+    });
+
+    it('should handle deleteAddress event', async () => {
+      const mockAddressId = 'test-address-id';
+
+      await windowOpf.payments['global'].deleteAddress(mockAddressId);
+
+      expect(
+        service['opfQuickBuyTransactionService'].deleteUserAddresses
+      ).toHaveBeenCalledWith([mockAddressId]);
+    });
+
+    it('should handle verifyPayment event', async () => {
+      const mockPaymentSessionId = 'test-session-id';
+      const mockPayload: OpfPaymentVerificationPayload = {
+        responseMap: [
+          { key: 'key1', value: 'value1' },
+          { key: 'key2', value: 'value2' },
+        ],
+      };
+      const mockResponse: OpfPaymentVerificationResponse = {
+        result: 'success',
+      };
+
+      opfPaymentFacadeMock.verifyPayment.and.returnValue(of(mockResponse));
+
+      const result = await windowOpf.payments['global'].verifyPayment(
+        mockPaymentSessionId,
+        mockPayload
+      );
+
+      expect(opfPaymentFacadeMock.verifyPayment).toHaveBeenCalledWith(
+        mockPaymentSessionId,
+        mockPayload
+      );
+      expect(result).toEqual(mockResponse);
+    });
+
+    it('should handle updateCartGuestUserEmail event', async () => {
+      const mockEmail = 'test@example.com';
+
+      const result =
+        await windowOpf.payments['global'].updateCartGuestUserEmail(mockEmail);
+
+      expect(
+        service['opfQuickBuyTransactionService'].updateCartGuestUserEmail
+      ).toHaveBeenCalledWith(mockEmail);
+      expect(result).toBe(true);
+    });
+
+    it('should handle createCartGuestUser event', async () => {
+      const result = await windowOpf.payments['global'].createCartGuestUser();
+
+      expect(
+        service['opfQuickBuyTransactionService'].createCartGuestUser
+      ).toHaveBeenCalled();
+      expect(result).toBe(true);
+    });
+
+    it('should handle initiatePayment with string configurationId', async () => {
+      const mockSessionData: OpfPaymentSessionData = {
+        paymentSessionId: 'test-session-id',
+      };
+      opfPaymentFacadeMock.initiatePayment = jasmine
+        .createSpy('initiatePayment')
+        .and.returnValue(of(mockSessionData));
+
+      const result = await windowOpf.payments['global'].initiatePayment('2301');
+
+      expect(opfPaymentFacadeMock.initiatePayment).toHaveBeenCalled();
+      expect(result).toEqual(mockSessionData);
+    });
+
+    it('should handle initiatePayment with number configurationId', async () => {
+      const mockSessionData: OpfPaymentSessionData = {
+        paymentSessionId: 'test-session-id',
+      };
+      opfPaymentFacadeMock.initiatePayment = jasmine
+        .createSpy('initiatePayment')
+        .and.returnValue(of(mockSessionData));
+
+      const result = await windowOpf.payments['global'].initiatePayment(2301);
+
+      expect(opfPaymentFacadeMock.initiatePayment).toHaveBeenCalled();
+      expect(result).toEqual(mockSessionData);
+    });
+
+    it('should handle initiatePayment with PaymentConfig object', async () => {
+      const mockSessionData: OpfPaymentSessionData = {
+        paymentSessionId: 'test-session-id',
+      };
+      opfPaymentFacadeMock.initiatePayment = jasmine
+        .createSpy('initiatePayment')
+        .and.returnValue(of(mockSessionData));
+
+      const result = await windowOpf.payments['global'].initiatePayment({
+        configurationId: '2301',
+        cartId: 'test-cart-id',
+      });
+
+      expect(opfPaymentFacadeMock.initiatePayment).toHaveBeenCalled();
+      expect(result).toEqual(mockSessionData);
+    });
+
+    it('should reject initiatePayment when configurationId is missing', async () => {
+      await expectAsync(
+        windowOpf.payments['global'].initiatePayment({
+          cartId: 'test-cart-id',
+        } as any)
+      ).toBeRejectedWithError('configurationId is required');
+    });
+
+    it('should reject initiatePayment when cartId is missing', async () => {
+      const mockActiveCartFacade = TestBed.inject(ActiveCartFacade) as any;
+      mockActiveCartFacade.getActiveCartId.and.returnValue(of(undefined));
+
+      // Re-register functions after updating the mock
+      service.registerGlobalFunctions({
+        domain: OpfGlobalFunctionsDomain.GLOBAL,
+        paymentSessionId: 'mockSessionId',
+        vcr: {} as ViewContainerRef,
+      });
+      windowOpf = (windowRef.nativeWindow as any)?.['Opf'] as any;
+
+      await expectAsync(
+        windowOpf.payments['global'].initiatePayment('2301')
+      ).toBeRejectedWithError('Cart ID is required. No active cart found.');
+    });
+
+    it('should handle submit when paymentSessionId is missing', async () => {
+      const mockMetadataStore = TestBed.inject(OpfMetadataStoreService) as any;
+      mockMetadataStore.opfMetadataState =
+        new BehaviorSubject<OpfMetadataModel>({
+          termsAndConditionsChecked: false,
+          selectedPaymentOptionId: undefined,
+          isPaymentInProgress: false,
+          opfPaymentSessionId: undefined,
+          isTermsAndConditionsAlertClosed: false,
+        });
+
+      service.registerGlobalFunctions({
+        domain: OpfGlobalFunctionsDomain.CHECKOUT,
+        paymentSessionId: '',
+        vcr: {} as ViewContainerRef,
+      });
+      windowOpf = (windowRef.nativeWindow as any)?.['Opf'] as any;
+
+      await expectAsync(
+        windowOpf.payments['checkout'].submit({
+          additionalData: [],
+          submitSuccess: () => {},
+          submitPending: () => {},
+          submitFailure: () => {},
+          paymentMethod: OpfQuickBuyProviderType.APPLE_PAY,
+        })
+      ).toBeRejectedWithError('paymentSessionId is required');
+    });
+
+    it('should handle submitComplete when paymentSessionId is missing', async () => {
+      const mockMetadataStore = TestBed.inject(OpfMetadataStoreService) as any;
+      mockMetadataStore.opfMetadataState =
+        new BehaviorSubject<OpfMetadataModel>({
+          termsAndConditionsChecked: false,
+          selectedPaymentOptionId: undefined,
+          isPaymentInProgress: false,
+          opfPaymentSessionId: undefined,
+          isTermsAndConditionsAlertClosed: false,
+        });
+
+      service.registerGlobalFunctions({
+        domain: OpfGlobalFunctionsDomain.CHECKOUT,
+        paymentSessionId: '',
+        vcr: {} as ViewContainerRef,
+      });
+      windowOpf = (windowRef.nativeWindow as any)?.['Opf'] as any;
+
+      await expectAsync(
+        windowOpf.payments['checkout'].submitComplete({
+          additionalData: [],
+          submitSuccess: () => {},
+          submitPending: () => {},
+          submitFailure: () => {},
+        })
+      ).toBeRejectedWithError('paymentSessionId is required');
+    });
+
+    it('should extract OTP key from string response', () => {
+      const result = service['extractOtpKey']('test-otp-key');
+      expect(result).toBe('test-otp-key');
+    });
+
+    it('should extract OTP key from object with accessCode', () => {
+      const result = service['extractOtpKey']({
+        accessCode: 'test-access-code',
+      });
+      expect(result).toBe('test-access-code');
+    });
+
+    it('should extract OTP key from object without accessCode', () => {
+      const result = service['extractOtpKey']({ other: 'value' });
+      // When there's no accessCode, the fallback cast (response as string | undefined)
+      // doesn't convert the value, so it returns the object itself at runtime
+      expect(result).toBeDefined();
+      expect(typeof result).not.toBe('string');
+    });
+
+    it('should normalize payment config from string', () => {
+      const result = service['normalizePaymentConfig']('2301');
+      expect(result).toEqual({ configurationId: '2301' });
+    });
+
+    it('should normalize payment config from number', () => {
+      const result = service['normalizePaymentConfig'](2301);
+      expect(result).toEqual({ configurationId: '2301' });
+    });
+
+    it('should normalize payment config from object', () => {
+      const config = { configurationId: '2301', cartId: 'test-cart' };
+      const result = service['normalizePaymentConfig'](config);
+      expect(result).toEqual(config);
+    });
+
+    it('should handle initiatePayment with provided cartId', async () => {
+      const mockSessionData: OpfPaymentSessionData = {
+        paymentSessionId: 'test-session-id',
+      };
+      opfPaymentFacadeMock.initiatePayment = jasmine
+        .createSpy('initiatePayment')
+        .and.returnValue(of(mockSessionData));
+
+      const result = await windowOpf.payments['global'].initiatePayment({
+        configurationId: '2301',
+        cartId: 'provided-cart-id',
+      });
+
+      expect(opfPaymentFacadeMock.initiatePayment).toHaveBeenCalled();
+      expect(result).toEqual(mockSessionData);
+    });
+
+    it('should handle submit with paymentSessionId from options', async () => {
+      opfPaymentFacadeMock.submitPayment.and.returnValue(of(true));
+      spyOn(launchDialogService, 'launch').and.returnValue(of(componentRef));
+      spyOn(launchDialogService, 'clear').and.callThrough();
+
+      service.registerGlobalFunctions({
+        domain: OpfGlobalFunctionsDomain.CHECKOUT,
+        paymentSessionId: '',
+        vcr: {} as ViewContainerRef,
+      });
+      windowOpf = (windowRef.nativeWindow as any)?.['Opf'] as any;
+
+      await windowOpf.payments['checkout'].submit({
+        additionalData: [],
+        submitSuccess: () => {},
+        submitPending: () => {},
+        submitFailure: () => {},
+        paymentMethod: OpfQuickBuyProviderType.APPLE_PAY,
+        paymentSessionId: 'options-session-id',
+      });
+
+      expect(opfPaymentFacadeMock.submitPayment).toHaveBeenCalled();
+    });
+  });
+
   describe('should register global functions for REDIRECT domain', () => {
     const mockPaymentSessionId = 'mockSessionId';
     const paramsMap = [
@@ -333,7 +848,7 @@ describe('OpfGlobalFunctionsService', () => {
         vcr: {} as ViewContainerRef,
         paramsMap,
       });
-      windowOpf = windowRef.nativeWindow['Opf'];
+      windowOpf = (windowRef.nativeWindow as any)?.['Opf'] as any;
     });
 
     it('should handle submitCompleteRedirect event', () => {

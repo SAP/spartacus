@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,17 +15,24 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Cart } from '@spartacus/cart/base/root';
 import {
   SavedCartFacade,
   SavedCartFormType,
 } from '@spartacus/cart/saved-cart/root';
-import { RoutingService, useFeatureStyles } from '@spartacus/core';
+import {
+  CxDatePipe,
+  RoutingService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   LAUNCH_CALLER,
   LaunchDialogService,
   SiteContextComponentService,
   SiteContextType,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import { from, mergeMap, Observable, Subscription } from 'rxjs';
 import { map, skip, take } from 'rxjs/operators';
@@ -33,7 +41,16 @@ import { map, skip, take } from 'rxjs/operators';
   selector: 'cx-saved-cart-list',
   templateUrl: './saved-cart-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    RouterLink,
+    SpinnerComponent,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    CxDatePipe,
+  ],
 })
 export class SavedCartListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
@@ -63,9 +80,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     protected savedCartService: SavedCartFacade,
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
-  ) {
-    useFeatureStyles('a11yHighContrastBorders');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.isLoading$ = this.savedCartService.getSavedCartListProcessLoading();

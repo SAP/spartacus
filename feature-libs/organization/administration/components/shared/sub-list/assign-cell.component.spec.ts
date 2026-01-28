@@ -41,8 +41,7 @@ describe('AssignCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AssignCellComponent],
-      imports: [UrlTestingModule, I18nTestingModule],
+      imports: [UrlTestingModule, I18nTestingModule, AssignCellComponent],
       providers: [
         {
           provide: OutletContextData,

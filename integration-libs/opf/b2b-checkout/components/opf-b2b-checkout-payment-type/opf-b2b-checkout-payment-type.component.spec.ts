@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Component, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   B2BPaymentTypeEnum,
@@ -17,6 +18,7 @@ import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
   GlobalMessageService,
   I18nTestingModule,
+  TranslatePipe,
   UserIdService,
 } from '@spartacus/core';
 import {
@@ -25,20 +27,17 @@ import {
   OpfMetadataStoreService,
   OpfPaymentProviderType,
 } from '@spartacus/opf/base/root';
+import { OpfCheckoutPaymentsComponent } from '@spartacus/opf/checkout/components';
 import {
-  OpfPaymentFacade,
   OpfPaymentAfterRedirectScriptResponse,
+  OpfPaymentFacade,
   OpfPaymentSessionData,
   OpfPaymentVerificationResponse,
 } from '@spartacus/opf/payment/root';
 import { of } from 'rxjs';
 import { OpfB2bCheckoutPaymentTypeComponent } from './opf-b2b-checkout-payment-type.component';
-import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -81,6 +80,13 @@ class MockOpfPaymentFacade implements Partial<OpfPaymentFacade> {
   setCartPaymentOption = () => of({} as Cart);
 }
 
+@Component({
+  selector: 'cx-opf-checkout-payments',
+  template: '',
+})
+class MockOpfCheckoutPaymentsComponent
+  implements Partial<OpfB2bCheckoutPaymentTypeComponent> {}
+
 describe('OpfB2bCheckoutPaymentTypeComponent', () => {
   let component: OpfB2bCheckoutPaymentTypeComponent;
   let fixture: ComponentFixture<OpfB2bCheckoutPaymentTypeComponent>;
@@ -90,8 +96,12 @@ describe('OpfB2bCheckoutPaymentTypeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
-      declarations: [OpfB2bCheckoutPaymentTypeComponent, MockTranslatePipe],
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        OpfB2bCheckoutPaymentTypeComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         {
@@ -109,7 +119,17 @@ describe('OpfB2bCheckoutPaymentTypeComponent', () => {
         { provide: ActivatedRoute, useValue: {} },
         FormBuilder,
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OpfB2bCheckoutPaymentTypeComponent, {
+        remove: {
+          imports: [TranslatePipe, OpfCheckoutPaymentsComponent],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockOpfCheckoutPaymentsComponent],
+        },
+      })
+
+      .compileComponents();
 
     fixture = TestBed.createComponent(OpfB2bCheckoutPaymentTypeComponent);
     component = fixture.componentInstance;

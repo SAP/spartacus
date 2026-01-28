@@ -8,23 +8,13 @@
     >
       <div class="header">
         <div aria-live="polite" class="title">
-          <!-- TODO: (CXSPA-6624) - Remove feature flag next major release -->
           <h2>
-            <span
-              *cxFeature="'a11yRegionAssociatedHeaders'"
-              id="{{ viewType + '_title' }}"
-            >
+            <span id="{{ viewType + '_title' }}">
               {{
                 viewType + '.header'
                   | cxTranslate: { count: getListCount(data) }
               }}
             </span>
-            <ng-container *cxFeature="'!a11yRegionAssociatedHeaders'">
-              {{
-                viewType + '.header'
-                  | cxTranslate: { count: getListCount(data) }
-              }}
-            </ng-container>
             <button
               [cxPopover]="listHint"
               [cxPopoverOptions]="{
@@ -69,6 +59,9 @@
                   : structure.type + '.sortBy'
                 ) | cxTranslate
               "
+              ariaLabelDropdown="{{
+                'common.ngSelectDropdownOptionsList' | cxTranslate
+              }}"
             >
               <ng-option *ngFor="let sort of data.sorts" [value]="sort.code">
                 {{ structure.type + '.sort.' + sort.code | cxTranslate }}

@@ -1,20 +1,32 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
+import { ConfiguratorOverviewFilterComponent } from '../overview-filter/configurator-overview-filter.component';
 
 @Component({
   selector: 'cx-configurator-overview-filter-dialog',
   templateUrl: './configurator-overview-filter-dialog.component.html',
-  standalone: false,
+  imports: [
+    FocusDirective,
+    IconComponent,
+    NgIf,
+    ConfiguratorOverviewFilterComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ConfiguratorOverviewFilterDialogComponent {
   constructor(protected launchDialogService: LaunchDialogService) {}

@@ -1,15 +1,15 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Directive,
   ElementRef,
-  AfterViewInit,
   ViewContainerRef,
-  ChangeDetectorRef,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { FormConfig } from '../../../config/form-config';
@@ -19,10 +19,7 @@ import { PasswordVisibilityToggleComponent } from './password-visibility-toggle.
  * Directive to bind a PasswordVisibilityToggleDirective to a password input field. This
  * toggle while alternate the appearance of the input between dots and plain text.
  */
-@Directive({
-  selector: '[cxPasswordVisibilitySwitch][type="password"]',
-  standalone: false,
-})
+@Directive({ selector: '[cxPasswordVisibilitySwitch][type="password"]' })
 export class PasswordVisibilityToggleDirective implements AfterViewInit {
   protected inputWrapper: HTMLElement | null;
 

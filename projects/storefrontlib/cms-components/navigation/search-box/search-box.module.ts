@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,6 +34,8 @@ import { SearchBoxComponent } from './search-box.component';
     FeaturesConfigModule,
     CarouselModule,
     KeyboardFocusModule,
+    SearchBoxComponent,
+    HighlightPipe,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -44,7 +46,6 @@ import { SearchBoxComponent } from './search-box.component';
       },
     }),
   ],
-  declarations: [SearchBoxComponent, HighlightPipe],
   exports: [SearchBoxComponent, HighlightPipe],
 })
 export class SearchBoxModule {}

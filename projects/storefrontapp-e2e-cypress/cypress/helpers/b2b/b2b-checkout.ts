@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -438,16 +438,21 @@ export function completeReplenishmentForm(replenishmentPeriod: string) {
     .select(replenishmentPeriod)
     .should('have.value', replenishmentPeriod);
 
-  if (
-    replenishmentPeriod === recurrencePeriod.DAILY ||
-    replenishmentPeriod === recurrencePeriod.WEEKLY
-  ) {
+  if (replenishmentPeriod === recurrencePeriod.DAILY) {
     cy.get('cx-schedule-replenishment-order .cx-days select')
       .select(replenishmentDay)
       .should('have.value', replenishmentDay);
   }
 
   if (replenishmentPeriod === recurrencePeriod.WEEKLY) {
+    // ensure the WEEKLY period was selected by verifying the days container is visible
+    cy.get('cx-schedule-replenishment-order .cx-repeat-days-container').should(
+      'be.visible'
+    );
+    cy.get('cx-schedule-replenishment-order .cx-days select')
+      .select(replenishmentDay)
+      .should('have.value', replenishmentDay);
+
     cy.get(
       'cx-schedule-replenishment-order .cx-repeat-days-container [type="checkbox"]'
     ).check();

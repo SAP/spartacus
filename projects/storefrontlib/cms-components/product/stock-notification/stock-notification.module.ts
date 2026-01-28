@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,6 @@ import { StockNotificationDialogComponent } from './stock-notification-dialog/st
 import { StockNotificationComponent } from './stock-notification.component';
 
 @NgModule({
-  declarations: [StockNotificationComponent, StockNotificationDialogComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -30,6 +29,8 @@ import { StockNotificationComponent } from './stock-notification.component';
     UrlModule,
     KeyboardFocusModule,
     FeaturesConfigModule,
+    StockNotificationComponent,
+    StockNotificationDialogComponent,
   ],
   providers: [
     provideDefaultConfig(defaultStockNotificationLayoutConfig),

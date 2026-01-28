@@ -1,20 +1,21 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
-import { SPARTACUS_SCHEMATICS } from '../libs-constants';
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   Schema as ApplicationOptions,
+  FileNameStyleGuide,
   Style,
 } from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
+import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
+import { SPARTACUS_SCHEMATICS } from '../libs-constants';
 
 const workspaceOptions: WorkspaceOptions = {
   name: 'workspace',
@@ -30,6 +31,8 @@ const appOptions: ApplicationOptions = {
   skipTests: false,
   projectRoot: '',
   standalone: false,
+  zoneless: false,
+  fileNameStyleGuide: FileNameStyleGuide.The2016,
 };
 
 const spartacusDefaultOptions: SpartacusOptions = {

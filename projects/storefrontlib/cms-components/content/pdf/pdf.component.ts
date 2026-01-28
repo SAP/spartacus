@@ -1,21 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CmsPDFDocumentComponent } from '@spartacus/core';
+import { CmsPDFDocumentComponent, TranslatePipe } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { MediaService } from '../../../shared/components/media/media.service';
+import { IconComponent } from '../../misc/icon/icon.component';
 
 @Component({
   selector: 'cx-pdf',
   templateUrl: './pdf.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class PDFComponent {
   url?: string;

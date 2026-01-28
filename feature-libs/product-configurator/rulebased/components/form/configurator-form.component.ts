@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -17,9 +18,9 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import {
+  KeyboardFocusService,
   LAUNCH_CALLER,
   LaunchDialogService,
-  KeyboardFocusService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {
@@ -34,12 +35,13 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import { ConfiguratorGroupComponent } from '../group/configurator-group.component';
 
 @Component({
   selector: 'cx-configurator-form',
   templateUrl: './configurator-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, ConfiguratorGroupComponent, NgFor, AsyncPipe],
 })
 export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();

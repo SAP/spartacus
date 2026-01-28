@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -250,6 +250,3 @@ export interface CmsPickupItemDetails extends CmsComponent {
   showEdit: boolean;
   context: string;
 }
-
-// TODO: (CXSPA-4886) Remove this flag in the major
-export const USER_CMS_ENDPOINTS = 'userCmsEndpoints';

@@ -1,24 +1,32 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit, Optional, inject } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { RoutingService, TranslatePipe } from '@spartacus/core';
 import { StoreFinderService } from '@spartacus/storefinder/core';
+import { SpinnerComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-store-finder-stores-count',
   templateUrl: './store-finder-stores-count.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    RouterLink,
+    NgClass,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class StoreFinderStoresCountComponent implements OnInit {
-  // TODO: CXSPA-6884 Make service required in next major.
-  @Optional() protected routingService? = inject(RoutingService, {
-    optional: true,
-  });
+  protected routingService = inject(RoutingService);
   locations$: Observable<any>;
   isLoading$: Observable<boolean>;
 
@@ -31,9 +39,7 @@ export class StoreFinderStoresCountComponent implements OnInit {
   }
 
   navigateToLocation(isoCode: string, event?: Event): void {
-    if (this.routingService) {
-      event?.preventDefault();
-      this.routingService.go(['/store-finder/country', isoCode]);
-    }
+    event?.preventDefault();
+    this.routingService.go(['/store-finder/country', isoCode]);
   }
 }

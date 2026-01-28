@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,7 @@ import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-
     CommonModule,
     I18nModule,
     IconModule,
+    ConfiguratorAttributeNumericInputFieldComponent,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
@@ -31,7 +32,6 @@ import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-
       },
     }),
   ],
-  declarations: [ConfiguratorAttributeNumericInputFieldComponent],
   exports: [ConfiguratorAttributeNumericInputFieldComponent],
 })
 export class ConfiguratorAttributeNumericInputFieldModule {}

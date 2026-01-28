@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,11 +22,15 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, TranslatePipe } from '@spartacus/core';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
+  PromotionsComponent,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import { Observable, Subscription, of } from 'rxjs';
 import {
@@ -36,6 +41,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+import { CartItemComponent } from '../cart-shared/cart-item/cart-item.component';
 
 export interface AddedToCartDialogComponentData {
   productCode: string;
@@ -54,7 +60,16 @@ export interface AddedToCartDialogComponentData {
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FocusDirective,
+    IconComponent,
+    NgIf,
+    CartItemComponent,
+    PromotionsComponent,
+    SpinnerComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class AddedToCartDialogComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;

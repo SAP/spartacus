@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,14 +53,14 @@ export function app(): express.Express {
 
   // Serve static files from /browser
   server.get(
-    '*.*',
+    /.*\..*/,
     express.static(browserDistFolder, {
       maxAge: '1y',
     })
   );
 
   // All regular routes use the Universal engine
-  server.get('*', (req, res) => {
+  server.get(/.*/, (req, res) => {
     res.render(indexHtml, {
       req,
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],

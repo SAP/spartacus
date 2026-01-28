@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -17,18 +18,19 @@ import {
   ProductScope,
   ProductService,
   RoutingService,
+  TranslatePipe,
   TranslationService,
   VariantOptionQualifier,
   VariantQualifier,
 } from '@spartacus/core';
-import { filter, map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-product-variant-size-selector',
   templateUrl: './product-variant-size-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgFor, AsyncPipe, TranslatePipe],
 })
 export class ProductVariantSizeSelectorComponent {
   protected translationService = inject(TranslationService);

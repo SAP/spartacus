@@ -1,22 +1,25 @@
 /*
- * SPDX-FileCopyrightText: 2025 SAP Spartacus team <spartacus-team@sap.com>
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   NotificationPreference,
+  TranslatePipe,
   UserNotificationPreferenceService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { SpinnerComponent } from '../../../shared/components/spinner/spinner.component';
 
 @Component({
   selector: 'cx-notification-preference',
   templateUrl: './notification-preference.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, NgFor, SpinnerComponent, AsyncPipe, TranslatePipe],
 })
 export class NotificationPreferenceComponent implements OnInit {
   preferences$: Observable<NotificationPreference[]>;
