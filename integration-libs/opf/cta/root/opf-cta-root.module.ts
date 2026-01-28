@@ -12,7 +12,7 @@ export function defaultOpfCtaCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [OPF_CTA_FEATURE]: {
-        cmsComponents: ['OpfCtaScriptsComponent'],
+        cmsComponents: ['OpfCtaScriptsComponent', 'OpfCtaQuickBuyButtons'],
       },
     },
   };
