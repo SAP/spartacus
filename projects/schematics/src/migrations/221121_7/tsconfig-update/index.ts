@@ -33,7 +33,7 @@ export function migrate(): Rule {
       return tree;
     }
 
-    let content = tsconfigBuffer.toString();
+    const content = tsconfigBuffer.toString();
     const tsconfig = parse(content, undefined, { allowTrailingComma: true });
     const options = { formattingOptions: { tabSize: 2, insertSpaces: true } };
 
