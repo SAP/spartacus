@@ -30,6 +30,13 @@ export const NG_BOOTSTRAP = '@ng-bootstrap/ng-bootstrap';
 /***** File names start *****/
 export const APP_MODULE = 'app.module.ts';
 export const ANGULAR_SERVER_MODULE = 'app.module.server.ts';
+export const APP_CONFIG = 'app.config.ts';
+export const APP_CONFIG_SERVER = 'app.config.server.ts';
+export const APP_COMPONENT = 'app.component.ts';
+export const APP_COMPONENT_HTML = 'app.component.html';
+export const APP_ROUTES_SERVER = 'app.routes.server.ts';
+export const INDEX_HTML = 'index.html';
+export const SERVER_TS = 'server.ts';
 /***** File names end *****/
 
 /***** Classes start *****/

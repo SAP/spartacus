@@ -201,7 +201,10 @@ export function isSsrUsed(tree: Tree): boolean {
   if (
     typeof builderType !== 'string' ||
     ![
+      // legacy builder used for Angular <19 projects
       '@angular-devkit/build-angular:application',
+
+      // new builder applied in apps by Angular 21 migration schematics (and in fresh apps)
       '@angular/build:application',
     ].includes(builderType)
   ) {
