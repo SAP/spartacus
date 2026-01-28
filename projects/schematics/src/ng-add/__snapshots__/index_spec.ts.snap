@@ -98,7 +98,7 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
     "@angular/cli": "^0.5.0",
     "@angular/compiler": "^21.1.0",
     "@angular/compiler-cli": "^21.1.0",
-    "@schematics/angular": "^21.0.5",
+    "@schematics/angular": "^21.1.0",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
     "jsdom": "^27.1.0",
