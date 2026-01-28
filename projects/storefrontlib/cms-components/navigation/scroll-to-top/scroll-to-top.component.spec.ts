@@ -26,7 +26,6 @@ describe('ScrollToTopComponent', () => {
   let fixture: ComponentFixture<ScrollToTopComponent>;
   let focusUtility: SelectFocusUtility;
   let el: DebugElement;
-  let scrollBtn: HTMLElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,7 +43,6 @@ describe('ScrollToTopComponent', () => {
 
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    scrollBtn = el.query(By.css('.cx-scroll-to-top-btn')).nativeElement;
     component.button = el.query(By.css('.cx-scroll-to-top-btn'));
   });
 
@@ -102,26 +100,26 @@ describe('ScrollToTopComponent', () => {
   });
 
   it('should focus first focusable element after activated with keyboard and pressing tab', () => {
-    spyOn(focusUtility, 'findFirstFocusable').and.callThrough();
-    scrollBtn.focus();
-    component['triggedByKeypress'] = true;
-    component['onTab'](new KeyboardEvent('keydown', { key: 'Tab' }));
+    const mockFirstFocusableElement = document.createElement('input');
+    spyOn(focusUtility, 'findFirstFocusable').and.returnValue(
+      mockFirstFocusableElement
+    );
+    spyOn(mockFirstFocusableElement, 'focus');
+    spyOnProperty<any>(component['window'], 'scrollY').and.returnValue(0);
+    spyOnProperty(document, 'activeElement', 'get').and.returnValue(
+      component.button.nativeElement
+    );
+    const tabEvent = new KeyboardEvent('keydown', { key: 'Tab' });
+
+    component['onTab'](tabEvent);
 
     expect(focusUtility.findFirstFocusable).toHaveBeenCalled();
-    expect(document.activeElement).not.toBe(component.button.nativeElement);
+    expect(mockFirstFocusableElement.focus).toHaveBeenCalled();
   });
 
   it('should reset triggedByKeypress flag when display is set to false', () => {
     component['triggedByKeypress'] = true;
-    component.display = true;
-    scrollBtn.focus();
-
-    Object.defineProperty(component, 'display', {
-      get() {
-        return false;
-      },
-      set() {},
-    });
+    component.display = false;
 
     component['switchDisplay'].call(component);
 
