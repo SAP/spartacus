@@ -231,7 +231,6 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   });
 
   it('should handle when payment initiation fails with 409 error', (done) => {
-
     opfPaymentFacadeMock.initiatePayment.and.returnValue(
       throwError(() => ({ status: 409 }))
     );
@@ -262,7 +261,6 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   });
 
   it('should handle when payment initiation fails with 500 error', (done) => {
-
     opfPaymentFacadeMock.initiatePayment.and.returnValue(
       throwError(() => ({ status: 500 }))
     );
@@ -293,7 +291,6 @@ describe('OpfCheckoutPaymentWrapperService', () => {
   });
 
   it('should handle when payment initiation fails with 401 error', (done) => {
-
     opfPaymentFacadeMock.initiatePayment.and.returnValue(
       throwError(() => ({ status: 401 }))
     );
