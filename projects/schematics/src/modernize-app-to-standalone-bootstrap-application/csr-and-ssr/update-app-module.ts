@@ -97,30 +97,39 @@ function removePredefinedProviders(
     'provideZoneChangeDetection',
     'provideHttpClient',
   ];
-  const providersProp = configObject.getProperty('providers');
-  if (providersProp && providersProp.isKind(SyntaxKind.PropertyAssignment)) {
-    const initializer = providersProp.getInitializer();
-    if (initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
-      // Iterate backwards to avoid index shifting when removing elements
-      const elements = initializer.getElements();
-      for (let i = elements.length - 1; i >= 0; i--) {
-        const element = elements[i];
-        if (element.isKind(SyntaxKind.CallExpression)) {
-          const expression = element.getExpression();
-          if (expression.isKind(SyntaxKind.Identifier)) {
-            const functionName = expression.getText();
-            if (PROVIDERS_TO_REMOVE.includes(functionName)) {
-              initializer.removeElement(i);
-            }
-          }
-        }
-      }
 
-      // If providers array is now empty, remove the property
-      if (initializer.getElements().length === 0) {
-        providersProp.remove();
-      }
+  const providersProp = configObject.getProperty('providers');
+  if (!providersProp || !providersProp.isKind(SyntaxKind.PropertyAssignment)) {
+    return;
+  }
+
+  const initializer = providersProp.getInitializer();
+  if (!initializer?.isKind(SyntaxKind.ArrayLiteralExpression)) {
+    return;
+  }
+
+  // Iterate backwards to avoid index shifting when removing elements
+  const elements = initializer.getElements();
+  for (let i = elements.length - 1; i >= 0; i--) {
+    const element = elements[i];
+    if (!element.isKind(SyntaxKind.CallExpression)) {
+      continue;
     }
+
+    const expression = element.getExpression();
+    if (!expression.isKind(SyntaxKind.Identifier)) {
+      continue;
+    }
+
+    const functionName = expression.getText();
+    if (PROVIDERS_TO_REMOVE.includes(functionName)) {
+      initializer.removeElement(i);
+    }
+  }
+
+  // If providers array is now empty, remove the property
+  if (initializer.getElements().length === 0) {
+    providersProp.remove();
   }
 }
 
