@@ -17,7 +17,6 @@ import {
 import { AccountSummaryDocumentFilterComponent } from './account-summary-document-filter.component';
 
 @NgModule({
-  declarations: [AccountSummaryDocumentFilterComponent],
   imports: [
     CommonModule,
     I18nModule,
@@ -27,6 +26,7 @@ import { AccountSummaryDocumentFilterComponent } from './account-summary-documen
     DatePickerModule,
     FormErrorsModule,
     FeaturesConfigModule,
+    AccountSummaryDocumentFilterComponent,
   ],
   exports: [AccountSummaryDocumentFilterComponent],
 })

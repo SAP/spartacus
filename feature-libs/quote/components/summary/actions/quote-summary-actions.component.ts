@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -16,7 +17,11 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  TranslatePipe,
+} from '@spartacus/core';
 import { QuoteStorefrontUtilsService } from '@spartacus/quote/core';
 import {
   Quote,
@@ -43,7 +48,7 @@ import { ConfirmationContext } from '../../confirm-dialog/quote-confirm-dialog.m
 @Component({
   selector: 'cx-quote-summary-actions',
   templateUrl: './quote-summary-actions.component.html',
-  standalone: false,
+  imports: [NgIf, NgClass, NgFor, AsyncPipe, TranslatePipe],
 })
 export class QuoteSummaryActionsComponent
   implements AfterViewInit, OnInit, OnDestroy

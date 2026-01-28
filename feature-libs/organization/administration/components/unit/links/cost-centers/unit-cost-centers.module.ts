@@ -19,7 +19,7 @@ import { UnitCostCenterListComponent } from './unit-cost-centers.component';
     SubListModule,
     CommonModule,
     DisableInfoModule,
+    UnitCostCenterListComponent,
   ],
-  declarations: [UnitCostCenterListComponent],
 })
 export class UnitCostCenterListModule {}

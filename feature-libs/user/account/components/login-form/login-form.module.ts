@@ -44,6 +44,7 @@ import { LoginFormComponent } from './login-form.component';
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    LoginFormComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -62,6 +63,5 @@ import { LoginFormComponent } from './login-form.component';
       },
     }),
   ],
-  declarations: [LoginFormComponent],
 })
 export class LoginFormModule {}

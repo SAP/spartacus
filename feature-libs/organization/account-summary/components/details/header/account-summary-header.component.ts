@@ -4,18 +4,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { Address, LanguageService, TranslationService } from '@spartacus/core';
+import {
+  Address,
+  LanguageService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import {
   AccountSummaryDetails,
   AccountSummaryFacade,
 } from '@spartacus/organization/account-summary/root';
-import { Card } from '@spartacus/storefront';
+import { Card, CardComponent } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
@@ -23,7 +29,7 @@ import { map, switchMap } from 'rxjs/operators';
   selector: 'cx-account-summary-header',
   templateUrl: './account-summary-header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, CardComponent, NgFor, AsyncPipe, TranslatePipe],
 })
 export class AccountSummaryHeaderComponent implements OnInit, OnDestroy {
   notApplicable: string;

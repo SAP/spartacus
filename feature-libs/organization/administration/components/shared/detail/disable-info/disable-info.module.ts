@@ -4,15 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DisableInfoComponent } from './disable-info.component';
-import { IconModule } from '@spartacus/storefront';
+import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
+import { IconModule } from '@spartacus/storefront';
+import { DisableInfoComponent } from './disable-info.component';
 
 @NgModule({
-  imports: [CommonModule, IconModule, I18nModule],
-  declarations: [DisableInfoComponent],
+  imports: [CommonModule, IconModule, I18nModule, DisableInfoComponent],
   exports: [DisableInfoComponent],
 })
 export class DisableInfoModule {}

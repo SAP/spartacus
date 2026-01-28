@@ -11,7 +11,6 @@ class MockFeatureStylesService {
 @Component({
   selector: 'cx-test',
   template: '',
-  standalone: false,
 })
 class TestComponent {
   constructor() {
@@ -22,7 +21,6 @@ class TestComponent {
 @Component({
   selector: 'cx-erronous-test',
   template: '',
-  standalone: false,
 })
 class ErroneousTestComponent implements OnInit {
   ngOnInit() {

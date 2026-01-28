@@ -4,13 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   OnInit,
 } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { Cart, PaymentType } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
@@ -18,20 +25,48 @@ import {
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { CmsService, CostCenter, normalizeEmpty, Page } from '@spartacus/core';
+import {
+  CmsService,
+  CostCenter,
+  normalizeEmpty,
+  Page,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   OpfBaseFacade,
   OpfMetadataStoreService,
 } from '@spartacus/opf/base/root';
+import {
+  OpfCheckoutPaymentsComponent,
+  OpfCheckoutReviewCardComponent,
+  OpfCheckoutReviewCartDetailsComponent,
+  OpfCheckoutTermsAndConditionsAlertComponent,
+} from '@spartacus/opf/checkout/components';
 import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
 import { Card } from '@spartacus/storefront';
 import { combineLatest, filter, map, Observable } from 'rxjs';
+import { OpfB2bCheckoutPlaceOrderComponent } from '../opf-b2b-checkout-place-order/opf-b2b-checkout-place-order.component';
 
 @Component({
   selector: 'cx-opf-b2b-checkout-review',
   templateUrl: './opf-b2b-checkout-review.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    OpfCheckoutReviewCardComponent,
+    OpfCheckoutTermsAndConditionsAlertComponent,
+    NgClass,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink,
+    OpfCheckoutPaymentsComponent,
+    OpfCheckoutReviewCartDetailsComponent,
+    OpfB2bCheckoutPlaceOrderComponent,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+  ],
 })
 export class OpfB2bCheckoutReviewComponent
   extends CheckoutReviewSubmitComponent

@@ -29,7 +29,7 @@ import { UnitAddressFormComponent } from './unit-address-form.component';
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    UnitAddressFormComponent,
   ],
-  declarations: [UnitAddressFormComponent],
 })
 export class UnitAddressFormModule {}

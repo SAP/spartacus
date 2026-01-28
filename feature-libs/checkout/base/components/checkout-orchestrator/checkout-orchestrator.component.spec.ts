@@ -1,4 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CheckoutOrchestratorComponent } from './checkout-orchestrator.component';
 
 describe('MultiStepCheckoutOrchestratorComponent', () => {
@@ -7,7 +7,7 @@ describe('MultiStepCheckoutOrchestratorComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CheckoutOrchestratorComponent],
+      imports: [CheckoutOrchestratorComponent],
     }).compileComponents();
   }));
 

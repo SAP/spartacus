@@ -10,8 +10,7 @@ describe('StatusCellComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [StatusCellComponent],
-      imports: [UrlTestingModule, I18nTestingModule],
+      imports: [UrlTestingModule, I18nTestingModule, StatusCellComponent],
       providers: [
         {
           provide: OutletContextData,

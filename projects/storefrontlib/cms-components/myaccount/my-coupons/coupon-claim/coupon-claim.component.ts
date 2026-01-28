@@ -4,19 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  RoutingService,
   CustomerCouponService,
   GlobalMessageService,
   GlobalMessageType,
+  RoutingService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 
 @Component({
   template: '',
   selector: 'cx-coupon-claim',
-  standalone: false,
 })
 export class CouponClaimComponent implements OnInit, OnDestroy {
   subscription: Subscription;

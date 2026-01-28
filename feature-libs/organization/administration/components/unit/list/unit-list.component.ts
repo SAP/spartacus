@@ -5,14 +5,16 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
+import { ListComponent } from '../../shared/list/list.component';
 import { UnitTreeService } from '../services/unit-tree.service';
 
 @Component({
   selector: 'cx-org-unit-list',
   templateUrl: './unit-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [ListComponent, TranslatePipe],
 })
 export class UnitListComponent {
   constructor(

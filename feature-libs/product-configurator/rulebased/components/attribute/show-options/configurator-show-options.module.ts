@@ -10,9 +10,8 @@ import { I18nModule } from '@spartacus/core';
 import { ConfiguratorShowOptionsComponent } from './configurator-show-options.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
+  imports: [CommonModule, I18nModule, ConfiguratorShowOptionsComponent],
   providers: [],
-  declarations: [ConfiguratorShowOptionsComponent],
   exports: [ConfiguratorShowOptionsComponent],
 })
 export class ConfiguratorShowOptionsModule {}

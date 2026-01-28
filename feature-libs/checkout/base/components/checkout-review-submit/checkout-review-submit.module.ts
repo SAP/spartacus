@@ -33,6 +33,7 @@ import { CheckoutReviewSubmitComponent } from './checkout-review-submit.componen
     PromotionsModule,
     IconModule,
     OutletModule,
+    CheckoutReviewSubmitComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -44,7 +45,6 @@ import { CheckoutReviewSubmitComponent } from './checkout-review-submit.componen
       },
     }),
   ],
-  declarations: [CheckoutReviewSubmitComponent],
   exports: [CheckoutReviewSubmitComponent],
 })
 export class CheckoutReviewSubmitModule {}

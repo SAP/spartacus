@@ -5,12 +5,19 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Currency,
   CurrencyService,
+  CxDatePipe,
+  FeatureDirective,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   OrderApprovalPermissionType,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   B2BUnitNode,
@@ -18,9 +25,10 @@ import {
   PermissionService,
 } from '@spartacus/organization/administration/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, of } from 'rxjs';
+import { FormComponent } from '../../shared';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { PermissionItemService } from '../services/permission-item.service';
 import { PermissionFormComponent } from './permission-form.component';
@@ -80,16 +88,12 @@ describe('PermissionFormComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
-        UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        FormTestingModule,
-      ],
-      declarations: [
         PermissionFormComponent,
         FormErrorsComponent,
-        MockFeatureDirective,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: CurrencyService, useClass: MockCurrencyService },
@@ -100,7 +104,28 @@ describe('PermissionFormComponent', () => {
         },
         { provide: PermissionService, useClass: MockPermissionService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PermissionFormComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            FeatureDirective,
+            FormComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockFeatureDirective,
+            FormTestingModule,
+          ],
+        },
+      })
+      .compileComponents();
 
     currencyService = TestBed.inject(CurrencyService);
     b2bUnitService = TestBed.inject(OrgUnitService);

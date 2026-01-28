@@ -6,8 +6,9 @@ import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
   LanguageService,
+  MockTranslatePipe,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -47,12 +48,11 @@ describe('DeliveryModeDatePickerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DeliveryModeDatePickerComponent],
       imports: [
-        I18nTestingModule,
         DatePickerModule,
         CardModule,
         ReactiveFormsModule,
+        DeliveryModeDatePickerComponent,
       ],
       providers: [
         CxDatePipe,
@@ -71,7 +71,14 @@ describe('DeliveryModeDatePickerComponent', () => {
           },
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(DeliveryModeDatePickerComponent, {
+        remove: { imports: [TranslatePipe] },
+        add: {
+          imports: [MockTranslatePipe],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

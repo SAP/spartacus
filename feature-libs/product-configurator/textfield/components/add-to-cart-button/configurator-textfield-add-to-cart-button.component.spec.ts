@@ -6,10 +6,15 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
+import { RouterModule } from '@angular/router';
 import {
-  I18nTestingModule,
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
   RouterState,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -54,10 +59,7 @@ class MockConfiguratorTextfieldService {
   updateCartEntry(): void {}
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -84,10 +86,9 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
         ConfiguratorTextfieldAddToCartButtonComponent,
-        MockUrlPipe,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -101,7 +102,11 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorTextfieldAddToCartButtonComponent, {
-        set: {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockUrlPipe],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

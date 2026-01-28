@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { cmsEndpoints } from '../../../helpers/cms-endpoints';
+
 export const APPAREL_BASESITE = 'apparel-uk-spa';
 export const APPAREL_CURRENCY = 'GBP';
 export const infoContainer = `cx-product-intro`;
@@ -18,7 +20,7 @@ describe('Promotions in PDP', () => {
       method: 'GET',
       path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
         'BASE_SITE'
-      )}/cms/pages?pageType=ProductPage**`,
+      )}/${cmsEndpoints.pages}?pageType=ProductPage**`,
     }).as('productPage');
   });
   it('should show promotions in Product Details Page', () => {

@@ -19,6 +19,7 @@ import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribu
     ReactiveFormsModule,
     CommonModule,
     I18nModule,
+    ConfiguratorAttributeInputFieldComponent,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
@@ -30,7 +31,6 @@ import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribu
       },
     }),
   ],
-  declarations: [ConfiguratorAttributeInputFieldComponent],
   exports: [ConfiguratorAttributeInputFieldComponent],
 })
 export class ConfiguratorAttributeInputFieldModule {}

@@ -16,18 +16,20 @@ import {
 import {
   CmsScrollToTopComponent,
   ScrollBehavior,
+  TranslatePipe,
   WindowRef,
 } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SelectFocusUtility } from '../../../layout/a11y/index';
+import { IconComponent } from '../../misc/icon/icon.component';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
 
 @Component({
   selector: 'cx-scroll-to-top',
   templateUrl: './scroll-to-top.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [IconComponent, TranslatePipe],
 })
 export class ScrollToTopComponent implements OnInit {
   iconTypes = ICON_TYPE;
@@ -53,7 +55,7 @@ export class ScrollToTopComponent implements OnInit {
     this.setConfig();
   }
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:scroll')
   onScroll(): void {
     this.switchDisplay();
   }

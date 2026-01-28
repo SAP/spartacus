@@ -494,11 +494,19 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       cartId?: string
     ): Promise<Cart | undefined> => {
       return this.ngZone.run(() => {
-        const cart$ = cartId
-          ? this.multiCartFacade.getCart(cartId)
-          : this.opfQuickBuyTransactionService.getCurrentCart();
+        if (cartId) {
+          this.multiCartFacade.reloadCart(cartId);
+          return lastValueFrom(
+            this.multiCartFacade.getCart(cartId).pipe(take(1))
+          );
+        }
 
-        return lastValueFrom(cart$.pipe(take(1)));
+        return lastValueFrom(
+          this.reloadCartAndWaitForStable().pipe(
+            switchMap(() => this.activeCartFacade.takeActive()),
+            take(1)
+          )
+        );
       });
     };
   }
@@ -743,8 +751,9 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     > => {
       return this.ngZone.run(() => {
         return lastValueFrom(
-          this.activeCartFacade.getActive().pipe(
-            map((cart: Cart) => cart.sapBillingAddress),
+          this.reloadCartAndWaitForStable().pipe(
+            switchMap(() => this.activeCartFacade.takeActive()),
+            map((cart: Cart | undefined) => cart?.sapBillingAddress),
             take(1)
           )
         );
@@ -758,7 +767,11 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     > => {
       return this.ngZone.run(() => {
         return lastValueFrom(
-          this.opfQuickBuyTransactionService.getDeliveryAddress().pipe(take(1))
+          this.reloadCartAndWaitForStable().pipe(
+            switchMap(() => this.activeCartFacade.takeActive()),
+            map((cart: Cart | undefined) => cart?.deliveryAddress),
+            take(1)
+          )
         );
       });
     };
@@ -782,9 +795,11 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     > => {
       return this.ngZone.run(() => {
         return lastValueFrom(
-          this.opfQuickBuyTransactionService
-            .getSelectedDeliveryMode()
-            .pipe(take(1))
+          this.reloadCartAndWaitForStable().pipe(
+            switchMap(() => this.activeCartFacade.takeActive()),
+            map((cart: Cart | undefined) => cart?.deliveryMode),
+            take(1)
+          )
         );
       });
     };

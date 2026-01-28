@@ -4,19 +4,31 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   OnDestroy,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { NgSelectComponent } from '@ng-select/ng-select';
 import {
   Country,
   GlobalMessageService,
   GlobalMessageType,
   Region,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  NgSelectA11yDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { Title } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { UserRegistrationFormService } from './user-registration-form.service';
@@ -25,7 +37,21 @@ import { UserRegistrationFormService } from './user-registration-form.service';
   selector: 'cx-user-registration-form',
   templateUrl: './user-registration-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    RouterLink,
+    SpinnerComponent,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class UserRegistrationFormComponent implements OnDestroy {
   titles$: Observable<Title[]> = this.userRegistrationFormService.getTitles();

@@ -1,6 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   ActiveCartFacade,
   Cart,
@@ -25,8 +26,11 @@ import {
   CostCenter,
   Country,
   I18nTestingModule,
+  MockTranslatePipe,
   PaymentDetails,
   QueryState,
+  TranslatePipe,
+  UrlPipe,
   UserCostCenterService,
 } from '@spartacus/core';
 import {
@@ -35,7 +39,13 @@ import {
   S4ServiceDeliveryModeConfig,
   ServiceDateTime,
 } from '@spartacus/s4-service/root';
-import { Card, OutletModule, PromotionsModule } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  IconComponent,
+  OutletModule,
+  PromotionsModule,
+} from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { ServiceCheckoutReviewSubmitComponent } from './service-checkout-review-submit.component';
@@ -103,7 +113,12 @@ const mockScheduledAt = '2024-06-27T09:30:00-04:00';
 @Component({
   selector: 'cx-card',
   template: '',
-  standalone: false,
+  imports: [
+    I18nTestingModule,
+    PromotionsModule,
+    IconTestingModule,
+    OutletModule,
+  ],
 })
 class MockCardComponent {
   @Input()
@@ -239,10 +254,7 @@ class MockCheckoutServiceSchedulePickerService
   }
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -256,13 +268,9 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
       imports: [
         I18nTestingModule,
         PromotionsModule,
-        IconTestingModule,
         OutletModule,
-      ],
-      declarations: [
         ServiceCheckoutReviewSubmitComponent,
-        MockCardComponent,
-        MockUrlPipe,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -307,7 +315,21 @@ describe('ServiceCheckoutReviewSubmitComponent', () => {
           useValue: mockServiceDeliveryModeConfig,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ServiceCheckoutReviewSubmitComponent, {
+        remove: {
+          imports: [TranslatePipe, IconComponent, CardComponent, UrlPipe],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            IconTestingModule,
+            MockCardComponent,
+            MockUrlPipe,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

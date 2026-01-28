@@ -2,7 +2,14 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
+import { QuickOrderItemComponent } from './item/quick-order-item.component';
 import { QuickOrderTableComponent } from './quick-order-table.component';
 
 const mockEntries: OrderEntry[] = [
@@ -15,7 +22,7 @@ const mockEntries: OrderEntry[] = [
 @Component({
   template: '',
   selector: '[cx-quick-order-item], cx-quick-order-item',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockQuickOrderItemComponent {
   @Input() entry: OrderEntry;
@@ -30,9 +37,21 @@ describe('QuickOrderTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [QuickOrderTableComponent, MockQuickOrderItemComponent],
-    }).compileComponents();
+      imports: [QuickOrderTableComponent],
+    })
+      .overrideComponent(QuickOrderTableComponent, {
+        remove: {
+          imports: [QuickOrderItemComponent, TranslatePipe, CxDatePipe],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockQuickOrderItemComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

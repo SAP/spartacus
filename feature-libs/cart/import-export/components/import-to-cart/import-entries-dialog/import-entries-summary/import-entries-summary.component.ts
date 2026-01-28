@@ -5,6 +5,13 @@
  */
 
 import {
+  NgFor,
+  NgIf,
+  NgSwitch,
+  NgSwitchCase,
+  NgSwitchDefault,
+} from '@angular/common';
+import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
@@ -15,13 +22,22 @@ import {
   OrderEntriesSource,
   ProductImportSummary,
 } from '@spartacus/cart/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-import-entries-summary',
   templateUrl: './import-entries-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgSwitch,
+    NgSwitchCase,
+    NgSwitchDefault,
+    IconComponent,
+    NgFor,
+    TranslatePipe,
+  ],
 })
 export class ImportEntriesSummaryComponent {
   iconTypes = ICON_TYPE;

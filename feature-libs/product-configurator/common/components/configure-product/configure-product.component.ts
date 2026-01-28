@@ -4,13 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Optional,
   inject,
 } from '@angular/core';
-import { Product, ProductScope, RoutingService } from '@spartacus/core';
+import {
+  Product,
+  ProductScope,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CurrentProductService,
   ProductListItemContext,
@@ -27,7 +33,7 @@ import { ConfiguratorProductScope } from '../../core/model/configurator-product-
   selector: 'cx-configure-product',
   templateUrl: './configure-product.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class ConfigureProductComponent {
   nonConfigurable: Product = { configurable: false };

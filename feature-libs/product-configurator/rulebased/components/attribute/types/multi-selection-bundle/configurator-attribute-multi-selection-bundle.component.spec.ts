@@ -9,14 +9,25 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { ActivatedRoute } from '@angular/router';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { ItemCounterComponent, MediaModule } from '@spartacus/storefront';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
@@ -24,13 +35,21 @@ import {
   ConfiguratorAttributeProductCardComponent,
   ConfiguratorAttributeProductCardComponentOptions,
 } from '../../product-card/configurator-attribute-product-card.component';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import {
+  ConfiguratorAttributeQuantityComponent,
+  ConfiguratorAttributeQuantityComponentOptions,
+} from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
-  standalone: false,
+  imports: [
+    I18nTestingModule,
+    UrlTestingModule,
+    ReactiveFormsModule,
+    MediaModule,
+  ],
 })
 class MockProductCardComponent {
   @Input()
@@ -40,7 +59,12 @@ class MockProductCardComponent {
 @Component({
   selector: 'cx-configurator-attribute-quantity',
   template: '',
-  standalone: false,
+  imports: [
+    I18nTestingModule,
+    UrlTestingModule,
+    ReactiveFormsModule,
+    MediaModule,
+  ],
 })
 class MockConfiguratorAttributeQuantityComponent {
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
@@ -50,7 +74,12 @@ class MockConfiguratorAttributeQuantityComponent {
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  standalone: false,
+  imports: [
+    I18nTestingModule,
+    UrlTestingModule,
+    ReactiveFormsModule,
+    MediaModule,
+  ],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -109,18 +138,11 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        I18nTestingModule,
-        UrlTestingModule,
         ReactiveFormsModule,
         MediaModule,
-      ],
-      declarations: [
         ConfiguratorAttributeMultiSelectionBundleComponent,
         ConfiguratorShowMoreComponent,
         ItemCounterComponent,
-        MockProductCardComponent,
-        MockConfiguratorAttributeQuantityComponent,
-        MockConfiguratorPriceComponent,
       ],
       providers: [
         { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
@@ -139,7 +161,25 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
       ],
     })
       .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {
-        set: {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            ConfiguratorAttributeProductCardComponent,
+            ConfiguratorAttributeQuantityComponent,
+            ConfiguratorPriceComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockProductCardComponent,
+            MockConfiguratorAttributeQuantityComponent,
+            MockConfiguratorPriceComponent,
+          ],
           changeDetection: ChangeDetectionStrategy.Default,
           providers: [
             {

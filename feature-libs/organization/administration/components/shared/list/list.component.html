@@ -8,7 +8,6 @@
     >
       <div class="header">
         <div aria-live="polite" class="title">
-          <!-- TODO: (CXSPA-6624) - Remove feature flag next major release -->
           <h2>
             <span id="{{ viewType + '_title' }}">
               {{
@@ -60,6 +59,9 @@
                   : structure.type + '.sortBy'
                 ) | cxTranslate
               "
+              ariaLabelDropdown="{{
+                'common.ngSelectDropdownOptionsList' | cxTranslate
+              }}"
             >
               <ng-option *ngFor="let sort of data.sorts" [value]="sort.code">
                 {{ structure.type + '.sort.' + sort.code | cxTranslate }}

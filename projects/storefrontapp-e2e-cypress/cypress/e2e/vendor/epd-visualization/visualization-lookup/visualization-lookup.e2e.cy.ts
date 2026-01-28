@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { cmsEndpoints } from '../../../../helpers/cms-endpoints';
+
 describe('in Spare Parts Tab', () => {
   context('visualization lookup scenarios', () => {
     before(() => {
@@ -15,7 +17,7 @@ describe('in Spare Parts Tab', () => {
         'GET',
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/cms/pages?pageType=ProductPage**`
+        )}/${cmsEndpoints.pages}?pageType=ProductPage**`
       ).as('productPage');
     });
 

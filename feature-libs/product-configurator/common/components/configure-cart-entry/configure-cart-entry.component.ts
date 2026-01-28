@@ -4,20 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   inject,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { AbstractOrderContext } from '@spartacus/cart/base/components';
 import {
   AbstractOrderKey,
   AbstractOrderType,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { RoutingService } from '@spartacus/core';
-
-import { AbstractOrderContext } from '@spartacus/cart/base/components';
+import { RoutingService, TranslatePipe, UrlPipe } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -30,7 +31,7 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   selector: 'cx-configure-cart-entry',
   templateUrl: './configure-cart-entry.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, RouterLink, AsyncPipe, UrlPipe, TranslatePipe],
 })
 export class ConfigureCartEntryComponent {
   protected routingService = inject(RoutingService);

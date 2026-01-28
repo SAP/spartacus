@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
+import { OutletRefDirective, PageLayoutComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-test-outlet-slot',
   templateUrl: './test-outlet-slot.component.html',
-  standalone: false,
+  imports: [PageLayoutComponent, OutletRefDirective, AsyncPipe],
 })
 export class TestOutletSlotComponent {
   testSlot1 = 'Section2A';

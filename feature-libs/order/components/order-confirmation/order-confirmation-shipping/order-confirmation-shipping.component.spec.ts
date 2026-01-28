@@ -1,10 +1,20 @@
-import { Component, Input } from '@angular/core';
+import { Component, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import { DeliveryMode } from '@spartacus/cart/base/root';
-import { Address, Country, I18nTestingModule } from '@spartacus/core';
+import {
+  Address,
+  Country,
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import {
   Card,
+  CardComponent,
   OutletContextData,
   OutletModule,
   PromotionsModule,
@@ -12,6 +22,8 @@ import {
 import { of } from 'rxjs';
 import { OrderConfirmationShippingComponent } from './order-confirmation-shipping.component';
 import createSpy = jasmine.createSpy;
+
+// Mock pipes
 
 const mockCountry: Country = {
   isocode: 'JP',
@@ -47,7 +59,7 @@ class MockOrderFacade implements Partial<OrderFacade> {
 @Component({
   selector: 'cx-card',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, PromotionsModule, OutletModule],
 })
 class MockCardComponent {
   @Input()
@@ -60,15 +72,36 @@ class MockCardComponent {
   index: number;
 }
 
+@Directive({
+  selector: '[cxAbstractOrderContext]',
+})
+class MockAbstractOrderContextDirective {}
+
 describe('OrderConfirmationShippingComponent', () => {
   let component: OrderConfirmationShippingComponent;
   let fixture: ComponentFixture<OrderConfirmationShippingComponent>;
 
   function configureTestingModule(): TestBed {
     return TestBed.configureTestingModule({
-      imports: [I18nTestingModule, PromotionsModule, OutletModule],
-      declarations: [OrderConfirmationShippingComponent, MockCardComponent],
+      imports: [],
       providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
+    }).overrideComponent(OrderConfirmationShippingComponent, {
+      remove: {
+        imports: [
+          TranslatePipe,
+          CxDatePipe,
+          CardComponent,
+          AbstractOrderContextDirective,
+        ],
+      },
+      add: {
+        imports: [
+          MockTranslatePipe,
+          MockDatePipe,
+          MockCardComponent,
+          MockAbstractOrderContextDirective,
+        ],
+      },
     });
   }
 
@@ -144,9 +177,29 @@ describe('OrderConfirmationShippingComponent', () => {
     }
     function configureTestingModule(): TestBed {
       return TestBed.configureTestingModule({
-        imports: [I18nTestingModule, PromotionsModule, OutletModule],
-        declarations: [OrderConfirmationShippingComponent, MockCardComponent],
+        imports: [
+          PromotionsModule,
+          OutletModule,
+          OrderConfirmationShippingComponent,
+        ],
         providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
+      }).overrideComponent(OrderConfirmationShippingComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CardComponent,
+            AbstractOrderContextDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCardComponent,
+            MockAbstractOrderContextDirective,
+          ],
+        },
       });
     }
     beforeEach(() => {
@@ -166,9 +219,18 @@ describe('OrderConfirmationShippingComponent', () => {
     });
 
     beforeEach(() => {
-      configureTestingModule().overrideProvider(OutletContextData, {
-        useValue: { context$ },
-      });
+      configureTestingModule()
+        .overrideComponent(OrderConfirmationShippingComponent, {
+          remove: {
+            imports: [TranslatePipe, CxDatePipe, CardComponent],
+          },
+          add: {
+            imports: [MockTranslatePipe, MockDatePipe, MockCardComponent],
+          },
+        })
+        .overrideProvider(OutletContextData, {
+          useValue: { context$ },
+        });
       TestBed.compileComponents();
       stubSeviceAndCreateComponent();
     });

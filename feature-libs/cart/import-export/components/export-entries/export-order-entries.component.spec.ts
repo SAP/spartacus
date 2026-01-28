@@ -111,7 +111,11 @@ describe('ExportOrderEntriesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({}), I18nTestingModule],
+      imports: [
+        StoreModule.forRoot({}),
+        I18nTestingModule,
+        ExportOrderEntriesComponent,
+      ],
       providers: [
         {
           provide: ExportOrderEntriesToCsvService,
@@ -128,7 +132,6 @@ describe('ExportOrderEntriesComponent', () => {
           },
         },
       ],
-      declarations: [ExportOrderEntriesComponent],
     }).compileComponents();
   });
 

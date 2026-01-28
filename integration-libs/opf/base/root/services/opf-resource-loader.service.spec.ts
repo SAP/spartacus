@@ -1,7 +1,6 @@
-import { DOCUMENT } from '@angular/common';
-import { PLATFORM_ID } from '@angular/core';
+import { DOCUMENT, PLATFORM_ID } from '@angular/core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { Config, ScriptLoader } from '@spartacus/core';
+import { Config, ScriptLoader, WindowRef } from '@spartacus/core';
 import {
   OpfDynamicScriptResource,
   OpfDynamicScriptResourceType,
@@ -455,6 +454,69 @@ describe('OpfResourceLoaderService', () => {
       );
 
       expect(console.log).not.toHaveBeenCalledWith('Script executed');
+    });
+  });
+
+  describe('executeScriptWithContext', () => {
+    let windowRef: WindowRef;
+    let nativeWindowMock: any;
+    const script = 'console.log("Script executed");';
+
+    beforeEach(() => {
+      opfResourceLoaderService = TestBed.inject(OpfResourceLoaderService);
+      windowRef = TestBed.inject(WindowRef);
+      nativeWindowMock = {};
+
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      spyOnProperty(windowRef, 'nativeWindow', 'get').and.returnValue(
+        nativeWindowMock
+      );
+    });
+
+    it('should keep existing additionalData when provided in contextData', () => {
+      const contextData = {
+        additionalData: {
+          scriptIdentifier: '1234',
+        },
+      };
+
+      (opfResourceLoaderService as any).executeScriptWithContext(
+        script,
+        contextData
+      );
+
+      const opfContext = nativeWindowMock.OpfContext;
+      expect(opfContext).toBeDefined();
+      expect(opfContext.additionalData).toBeDefined();
+      expect(opfContext.additionalData.scriptIdentifier).toBe('1234');
+    });
+
+    it('should initialize additionalData when missing in contextData', () => {
+      const contextData = {
+        foo: 'bar',
+      };
+
+      (opfResourceLoaderService as any).executeScriptWithContext(
+        script,
+        contextData
+      );
+
+      const opfContext = nativeWindowMock.OpfContext;
+      expect(opfContext).toBeDefined();
+      expect(opfContext.additionalData).toBeDefined();
+      expect(opfContext.additionalData).toEqual({});
+    });
+
+    it('should create OpfContext and additionalData when contextData is undefined', () => {
+      (opfResourceLoaderService as any).executeScriptWithContext(
+        script,
+        undefined
+      );
+
+      const opfContext = nativeWindowMock.OpfContext;
+      expect(opfContext).toBeDefined();
+      expect(opfContext.additionalData).toBeDefined();
+      expect(opfContext.additionalData).toEqual({});
     });
   });
 

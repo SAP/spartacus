@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ProductAttributesComponent } from './product-attributes.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
+  imports: [CommonModule, I18nModule, ProductAttributesComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -21,7 +21,6 @@ import { ProductAttributesComponent } from './product-attributes.component';
       },
     }),
   ],
-  declarations: [ProductAttributesComponent],
   exports: [ProductAttributesComponent],
 })
 export class ProductAttributesModule {}

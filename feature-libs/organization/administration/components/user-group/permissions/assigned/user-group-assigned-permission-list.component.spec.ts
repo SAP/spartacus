@@ -1,6 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
+import { SubListComponent } from '../../../shared';
 import { SubListTestingModule } from '../../../shared/sub-list/sub-list.testing.module';
 import { UserGroupAssignedPermissionListComponent } from './user-group-assigned-permission-list.component';
 import { UserGroupAssignedPermissionsListService } from './user-group-assigned-permission-list.service';
@@ -13,15 +22,32 @@ describe('UserGroupAssignedPermissionListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SubListTestingModule, UrlTestingModule, I18nTestingModule],
+      imports: [
+        UserGroupAssignedPermissionListComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         {
           provide: UserGroupAssignedPermissionsListService,
           useClass: MockUserGroupAssignedPermissionsListService,
         },
       ],
-      declarations: [UserGroupAssignedPermissionListComponent],
-    }).compileComponents();
+    })
+      .overrideComponent(UserGroupAssignedPermissionListComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SubListComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            SubListTestingModule,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(UserGroupAssignedPermissionListComponent);
     component = fixture.componentInstance;

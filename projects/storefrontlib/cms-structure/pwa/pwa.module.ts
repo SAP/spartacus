@@ -34,6 +34,8 @@ export function pwaFactory(
     CommonModule,
     ServiceWorkerModule.register('ngsw-worker.js'),
     I18nModule,
+    AddToHomeScreenBtnComponent,
+    AddToHomeScreenBannerComponent,
   ],
   providers: [
     provideDefaultConfig(defaultPWAModuleConfig),
@@ -49,7 +51,6 @@ export function pwaFactory(
       multi: true,
     },
   ],
-  declarations: [AddToHomeScreenBtnComponent, AddToHomeScreenBannerComponent],
   exports: [AddToHomeScreenBtnComponent, AddToHomeScreenBannerComponent],
 })
 export class PwaModule {}

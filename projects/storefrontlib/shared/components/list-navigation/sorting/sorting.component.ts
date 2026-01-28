@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,13 +12,23 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { SortModel } from '@spartacus/core';
+import { FormsModule } from '@angular/forms';
+import { NgOptionComponent, NgSelectComponent } from '@ng-select/ng-select';
+import { SortModel, TranslatePipe } from '@spartacus/core';
+import { NgSelectA11yDirective } from '../../ng-select-a11y/ng-select-a11y.directive';
 
 @Component({
   selector: 'cx-sorting',
   templateUrl: './sorting.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgSelectComponent,
+    FormsModule,
+    NgSelectA11yDirective,
+    NgFor,
+    NgOptionComponent,
+    TranslatePipe,
+  ],
 })
 export class SortingComponent {
   @Input()

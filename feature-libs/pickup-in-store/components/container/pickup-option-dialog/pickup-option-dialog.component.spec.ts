@@ -9,7 +9,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
@@ -17,10 +23,11 @@ import {
   PickupOptionFacade,
 } from '@spartacus/pickup-in-store/root';
 import {
-  IconTestingModule,
+  IconComponent,
   KeyboardFocusModule,
   LAUNCH_CALLER,
   LaunchDialogService,
+  MockIconComponent,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
@@ -29,7 +36,9 @@ import { MockIntendedPickupLocationService } from '../../../core/facade/intended
 import { MockPickupLocationsSearchService } from '../../../core/facade/pickup-locations-search.service.spec';
 import { MockPickupOptionFacade } from '../../../core/facade/pickup-option.service.spec';
 import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
+import { StoreListComponent } from '../store-list';
 import { StoreListStubComponent } from '../store-list/store-list.component.spec';
+import { StoreSearchComponent } from '../store-search';
 import { StoreSearchStubComponent } from '../store-search/store-search.component.spec';
 import { PickupOptionDialogComponent } from './pickup-option-dialog.component';
 
@@ -93,20 +102,13 @@ describe('PickupOptionDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PickupOptionDialogComponent,
-        StoreSearchStubComponent,
-        StoreListStubComponent,
-        MockFeatureDirective,
-      ],
       imports: [
         CommonModule,
-        I18nTestingModule,
-        IconTestingModule,
         KeyboardFocusModule,
         SpinnerModule,
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
+        PickupOptionDialogComponent,
       ],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -130,7 +132,30 @@ describe('PickupOptionDialogComponent', () => {
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PickupOptionDialogComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            IconComponent,
+            FeatureDirective,
+            StoreSearchComponent,
+            StoreListComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockIconComponent,
+            MockFeatureDirective,
+            StoreSearchStubComponent,
+            StoreListStubComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(PickupOptionDialogComponent);
     component = fixture.componentInstance;

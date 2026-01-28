@@ -1,7 +1,7 @@
-import { Observable, of } from 'rxjs';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CaptchaConfig } from '@spartacus/core';
 import { CaptchaComponent, CaptchaRenderer } from '@spartacus/storefront';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
 import { CaptchaApiConfig } from './captcha-api-config';
 
 class MockCaptchaService implements CaptchaRenderer {
@@ -34,7 +34,7 @@ describe('Captcha Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CaptchaComponent],
+      imports: [CaptchaComponent],
       providers: [
         { provide: CaptchaApiConfig, useValue: mockCaptchaApiConfig },
         MockCaptchaService,

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AnonymousConsentsConfig,
@@ -12,6 +13,7 @@ import {
   ConsentTemplate,
   GlobalMessageService,
   GlobalMessageType,
+  TranslatePipe,
   UserConsentService,
 } from '@spartacus/core';
 import {
@@ -30,12 +32,21 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { ConsentManagementComponentService } from '../consent-management-component.service';
+import { ConsentManagementFormComponent } from './consent-form/consent-management-form.component';
 
 @Component({
   selector: 'cx-consent-management',
   templateUrl: './consent-management.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    NgFor,
+    ConsentManagementFormComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ConsentManagementComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();

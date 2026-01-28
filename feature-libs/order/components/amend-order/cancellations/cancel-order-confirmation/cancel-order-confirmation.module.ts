@@ -21,6 +21,7 @@ import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.co
     ReactiveFormsModule,
     AmendOrderItemsModule,
     AmendOrderActionsModule,
+    CancelOrderConfirmationComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -38,7 +39,6 @@ import { CancelOrderConfirmationComponent } from './cancel-order-confirmation.co
       },
     }),
   ],
-  declarations: [CancelOrderConfirmationComponent],
   exports: [CancelOrderConfirmationComponent],
 })
 export class CancelOrderConfirmationModule {}

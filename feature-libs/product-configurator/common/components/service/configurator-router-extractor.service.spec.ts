@@ -376,7 +376,7 @@ describe('ConfigRouterExtractorService', () => {
     it('should throw error if semantic route is empty', () => {
       expect(() =>
         serviceUnderTest['getConfiguratorTypeFromSemanticRoute']('')
-      ).toThrowError();
+      ).toThrow();
     });
 
     it('should throw error if semantic route is not configuration neither OV page', () => {
@@ -384,7 +384,7 @@ describe('ConfigRouterExtractorService', () => {
         serviceUnderTest['getConfiguratorTypeFromSemanticRoute'](
           'isNoKnownRoute'
         )
-      ).toThrowError();
+      ).toThrow();
     });
   });
 });

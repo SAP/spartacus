@@ -1,10 +1,16 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { I18nTestingModule } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { OrderSubsequentDocument } from '@spartacus/order/document-flow/root';
-import { OrderSubsequentDocumentNodeComponent } from './order-subsequent-document-node.component';
 import { IconModule } from '@spartacus/storefront';
+import { OrderSubsequentDocumentNodeComponent } from './order-subsequent-document-node.component';
 
 const subsequentDocumentsData: OrderSubsequentDocument[] = [
   {
@@ -57,10 +63,22 @@ describe('OrderSubsequentDocumentNodeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconModule],
-      declarations: [OrderSubsequentDocumentNodeComponent],
+      imports: [
+        I18nTestingModule,
+        IconModule,
+        OrderSubsequentDocumentNodeComponent,
+      ],
       providers: [],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderSubsequentDocumentNodeComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

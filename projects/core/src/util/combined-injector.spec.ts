@@ -92,7 +92,7 @@ describe('CombinedInjector', () => {
     it('should throw error if default value is not provided', () => {
       expect(() =>
         injector.get('a' as any, undefined, { self: true })
-      ).toThrowError();
+      ).toThrow();
     });
     it('should return default value', () => {
       expect(injector.get('a' as any, 'default', { self: true })).toEqual(

@@ -23,7 +23,7 @@ import { UnitUserRolesFormComponent } from './unit-user-roles.component';
     I18nModule,
     ReactiveFormsModule,
     KeyboardFocusModule,
+    UnitUserRolesFormComponent,
   ],
-  declarations: [UnitUserRolesFormComponent],
 })
 export class UnitUserRolesModule {}
