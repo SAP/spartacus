@@ -69,5 +69,11 @@
   "subscriptionCartItemList": {
     "itemPriceHeader": "Item Price",
     "dueNowHeader": "Due Now"
+  },
+  "subscriptionBillingDetails": {
+    "billId": "Subscription Bill ID: ",
+    "totalAmount": "Total Amount: ",
+    "subscriptionProduct": "Subscription Product",
+    "billingPeriod": "Billing Period: {{ startDate }} - {{ endDate }}"
   }
 }
