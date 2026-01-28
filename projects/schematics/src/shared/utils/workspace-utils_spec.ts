@@ -8,16 +8,12 @@ import {
   FileNameStyleGuide,
   Style,
 } from '@schematics/angular/application/schema';
-import {
-  ProjectType,
-  WorkspaceProject,
-} from '@schematics/angular/utility/workspace-models';
+import { ProjectType } from '@schematics/angular/utility/workspace-models';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import { SPARTACUS_CORE, SPARTACUS_SCHEMATICS } from '../libs-constants';
 import {
-  buildDefaultPath,
   getAngularJsonFile,
   getDefaultProjectNameFromWorkspace,
   getProject,
@@ -167,35 +163,6 @@ describe('Workspace utils', () => {
           sourceRoot: '',
         })
       ).toThrow(new Error('Project target not found.'));
-    });
-  });
-
-  describe('buildDefaultPath', () => {
-    let project: WorkspaceProject;
-    beforeEach(() => {
-      project = {
-        projectType: ProjectType.Application,
-        root: 'foo',
-        prefix: 'app',
-        sourceRoot: '',
-      };
-    });
-
-    it('should handle projectType of application', () => {
-      const result = buildDefaultPath(project);
-      expect(result).toEqual('/foo/src/app');
-    });
-
-    it('should handle projectType of library', () => {
-      project = { ...project, projectType: ProjectType.Library };
-      const result = buildDefaultPath(project);
-      expect(result).toEqual('/foo/src/lib');
-    });
-
-    it('should handle sourceRoot', () => {
-      project = { ...project, sourceRoot: 'foo/bar/custom' };
-      const result = buildDefaultPath(project);
-      expect(result).toEqual('/foo/bar/custom/app');
     });
   });
 
