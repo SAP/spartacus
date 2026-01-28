@@ -37,6 +37,7 @@ import { ConfigureProductComponent } from './configure-product.component';
     I18nModule,
     IconModule,
     BtnLikeLinkModule,
+    ConfigureProductComponent,
   ],
   providers: [
     provideOutlet({
@@ -45,7 +46,6 @@ import { ConfigureProductComponent } from './configure-product.component';
       component: ConfigureProductComponent,
     }),
   ],
-  declarations: [ConfigureProductComponent],
   exports: [ConfigureProductComponent],
 })
 export class ConfigureProductModule {}

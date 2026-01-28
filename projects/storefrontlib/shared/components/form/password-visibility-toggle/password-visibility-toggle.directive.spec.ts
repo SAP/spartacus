@@ -1,14 +1,14 @@
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  UntypedFormControl,
-  UntypedFormGroup,
   FormsModule,
   ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
 } from '@angular/forms';
 import { I18nTestingModule, WindowRef } from '@spartacus/core';
-import { FormConfig } from '../../../../shared/config/form-config';
 import { IconTestingModule } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
+import { FormConfig } from '../../../../shared/config/form-config';
 import { PasswordVisibilityToggleModule } from './password-visibility-toggle.module';
 
 const mockFormConfig: FormConfig = {
@@ -34,7 +34,13 @@ const mockFormConfig: FormConfig = {
       </form>
     </div>
   `,
-  standalone: false,
+  imports: [
+    I18nTestingModule,
+    IconTestingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PasswordVisibilityToggleModule,
+  ],
 })
 class MockFormComponent {
   form: UntypedFormGroup = new UntypedFormGroup({
@@ -60,8 +66,8 @@ describe('PasswordVisibilityToggleDirective', () => {
         FormsModule,
         ReactiveFormsModule,
         PasswordVisibilityToggleModule,
+        MockFormComponent,
       ],
-      declarations: [MockFormComponent],
       providers: [
         {
           provide: FormConfig,

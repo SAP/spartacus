@@ -29,12 +29,12 @@ import { MyAccountV2DownloadInvoicesComponent } from './my-account-v2-download-i
     SortingModule,
     SpinnerModule,
     PDFInvoicesComponentsModule,
+    MyAccountV2DownloadInvoicesComponent,
   ],
   providers: [
     provideDefaultConfig(defaultMyAccountV2DownloadInvoicesLayoutConfig),
   ],
   exports: [MyAccountV2DownloadInvoicesComponent],
-  declarations: [MyAccountV2DownloadInvoicesComponent],
 })
 export class MyAccountV2DownloadInvoicesModule {
   protected downloadInvoicesDialogEventListener = inject(

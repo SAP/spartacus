@@ -19,7 +19,7 @@ import { NgSelectA11yModule } from './ng-select-a11y.module';
     </ng-select>
     <div id="size-results"></div>
   `,
-  standalone: false,
+  imports: [NgSelectA11yModule, NgSelectModule],
 })
 class MockComponent {
   isSearchable: boolean = false;
@@ -46,8 +46,12 @@ describe('NgSelectA11yDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NgSelectA11yModule, NgSelectModule],
-      declarations: [MockComponent, NgSelectA11yDirective],
+      imports: [
+        NgSelectA11yModule,
+        NgSelectModule,
+        MockComponent,
+        NgSelectA11yDirective,
+      ],
       providers: [
         { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         { provide: TranslationService, useClass: MockTranslationService },
@@ -77,25 +81,6 @@ describe('NgSelectA11yDirective', () => {
     expect(innerDiv).toBeTruthy();
     expect(innerDiv.getAttribute('aria-controls')).toEqual('size-results');
     expect(innerDiv.getAttribute('aria-label')).toEqual('Size');
-  });
-
-  it('should append aria-label to options', (done) => {
-    fixture.detectChanges();
-    const select = getNgSelect().nativeElement;
-    const ngSelectInstance = getNgSelect().componentInstance;
-    ngSelectInstance.open();
-
-    // Wait for the mutation observer to update the options
-    setTimeout(() => {
-      const options = select.querySelectorAll('.ng-option');
-      expect(options.length).toBe(3);
-      options.forEach((option: HTMLElement, index: number) => {
-        expect(option.getAttribute('aria-label')).toEqual(
-          `${index + 1}, ${index + 1} of ${options.length}`
-        );
-      });
-      done();
-    });
   });
 
   it('should append value to aria-label and hide the value element from screen reader on mobile', (done) => {

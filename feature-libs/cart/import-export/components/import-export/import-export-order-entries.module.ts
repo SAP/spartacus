@@ -32,8 +32,8 @@ import { ImportExportOrderEntriesComponent } from './import-export-order-entries
     ImportOrderEntriesModule,
     ExportOrderEntriesModule,
     CommonModule,
+    ImportExportOrderEntriesComponent,
   ],
   exports: [ImportExportOrderEntriesComponent],
-  declarations: [ImportExportOrderEntriesComponent],
 })
 export class ImportExportOrderEntriesModule {}

@@ -4,21 +4,40 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { EventService } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import {
+  CxDatePipe,
+  EventService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import {
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import {
   GetSubscriptionByCodeReloadEvent,
   SubscriptionActionMode,
-  SubscriptionFacade,
   SubscriptionDetail,
+  SubscriptionFacade,
 } from '@spartacus/subscription-billing/root';
 import { Observable, of, take } from 'rxjs';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-subscription-details',
   templateUrl: './subscription-details.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    UrlPipe,
+    SpinnerComponent,
+  ],
 })
 export class SubscriptionDetailsComponent implements OnInit {
   protected subscriptionFacade = inject(SubscriptionFacade);

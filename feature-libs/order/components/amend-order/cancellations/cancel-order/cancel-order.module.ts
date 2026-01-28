@@ -32,6 +32,7 @@ import { CancelOrderComponent } from './cancel-order.component';
     FormErrorsModule,
     MessageComponentModule,
     FeaturesConfigModule,
+    CancelOrderComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -49,7 +50,6 @@ import { CancelOrderComponent } from './cancel-order.component';
       },
     }),
   ],
-  declarations: [CancelOrderComponent],
   exports: [CancelOrderComponent],
 })
 export class CancelOrderModule {}

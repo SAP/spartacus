@@ -2,20 +2,24 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
+import { ConfiguratorShowMoreComponent } from '@spartacus/product-configurator/rulebased';
+import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../../../testing/configurator-test-utils';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
-import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
-import { Observable, of } from 'rxjs';
-import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
+import { ConfiguratorAttributePriceChangeService } from '../../price-change/configurator-attribute-price-change.service';
+import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -24,7 +28,7 @@ class MockConfiguratorPriceComponent {
 @Component({
   selector: 'cx-configurator-show-more',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
@@ -86,11 +90,6 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       },
     });
     TestBed.configureTestingModule({
-      declarations: [
-        ConfiguratorAttributeReadOnlyComponent,
-        MockConfiguratorPriceComponent,
-        MockConfiguratorShowMoreComponent,
-      ],
       providers: [
         {
           provide: ConfiguratorAttributeCompositionContext,
@@ -101,10 +100,21 @@ describe('ConfigAttributeReadOnlyComponent', () => {
           useValue: {},
         },
       ],
-      imports: [ReactiveFormsModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        ConfiguratorAttributeReadOnlyComponent,
+      ],
     })
       .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
-        set: {
+        remove: {
+          imports: [ConfiguratorPriceComponent, ConfiguratorShowMoreComponent],
+        },
+        add: {
+          imports: [
+            MockConfiguratorPriceComponent,
+            MockConfiguratorShowMoreComponent,
+          ],
           changeDetection: ChangeDetectionStrategy.Default,
         },
       })

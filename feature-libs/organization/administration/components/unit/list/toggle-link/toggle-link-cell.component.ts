@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,9 +12,16 @@ import {
   HostBinding,
   inject,
 } from '@angular/core';
-import { B2BUnit, RoutingService } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import {
+  B2BUnit,
+  RoutingService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { B2BUnitTreeNode } from '@spartacus/organization/administration/core';
 import {
+  IconComponent,
   OutletContextData,
   TableDataOutletContext,
 } from '@spartacus/storefront';
@@ -25,7 +33,7 @@ import { UnitTreeService } from '../../services/unit-tree.service';
   selector: 'cx-org-toggle-link-cell',
   templateUrl: './toggle-link-cell.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, RouterLink, IconComponent, UrlPipe, TranslatePipe],
 })
 export class ToggleLinkCellComponent extends CellComponent {
   @HostBinding('style.--cx-depth-level')

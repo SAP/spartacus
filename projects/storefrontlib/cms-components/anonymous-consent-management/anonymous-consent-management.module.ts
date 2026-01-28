@@ -24,6 +24,8 @@ import { AnonymousConsentOpenDialogComponent } from './open-dialog/anonymous-con
     I18nModule,
     KeyboardFocusModule,
     FeaturesConfigModule,
+    AnonymousConsentManagementBannerComponent,
+    AnonymousConsentOpenDialogComponent,
   ],
   providers: [
     provideDefaultConfig(defaultAnonymousConsentLayoutConfig),
@@ -38,10 +40,6 @@ import { AnonymousConsentOpenDialogComponent } from './open-dialog/anonymous-con
         },
       },
     }),
-  ],
-  declarations: [
-    AnonymousConsentManagementBannerComponent,
-    AnonymousConsentOpenDialogComponent,
   ],
   exports: [
     AnonymousConsentManagementBannerComponent,

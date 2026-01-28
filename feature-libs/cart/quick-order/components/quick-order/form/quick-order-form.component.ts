@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -14,10 +15,19 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { Config, Product, WindowRef } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { Config, Product, TranslatePipe, WindowRef } from '@spartacus/core';
+import {
+  ICON_TYPE,
+  IconComponent,
+  MediaComponent,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -33,7 +43,16 @@ const SEARCH_BOX_ACTIVE_CLASS = 'quick-order-searchbox-is-active';
   selector: 'cx-quick-order-form',
   templateUrl: './quick-order-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    IconComponent,
+    NgFor,
+    MediaComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class QuickOrderFormComponent implements OnInit, OnDestroy {
   form: UntypedFormGroup;

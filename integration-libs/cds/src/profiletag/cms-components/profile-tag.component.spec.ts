@@ -1,4 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { ProfileTagInjectorService } from '../services/profile-tag.injector.service';
 import { ProfileTagComponent } from './profile-tag.component';
@@ -18,7 +18,7 @@ describe('ProfileTagComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ProfileTagComponent],
+      imports: [ProfileTagComponent],
       providers: [
         {
           provide: ProfileTagInjectorService,

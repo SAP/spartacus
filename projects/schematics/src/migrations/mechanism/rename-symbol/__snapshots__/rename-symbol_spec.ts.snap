@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`renamed symbols Previous import should became new import 1`] = `
 "import { Test2Component } from "@spartacus/core";

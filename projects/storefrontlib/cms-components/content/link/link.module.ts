@@ -8,11 +8,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { LinkComponent } from './link.component';
 import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
+import { LinkComponent } from './link.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, GenericLinkModule],
+  imports: [CommonModule, RouterModule, GenericLinkModule, LinkComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -20,7 +20,6 @@ import { GenericLinkModule } from '../../../shared/components/generic-link/gener
       },
     }),
   ],
-  declarations: [LinkComponent],
   exports: [LinkComponent],
 })
 export class LinkModule {}

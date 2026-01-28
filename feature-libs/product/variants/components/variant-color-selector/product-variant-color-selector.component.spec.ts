@@ -49,8 +49,7 @@ describe('ProductVariantColorSelectorComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductVariantColorSelectorComponent],
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, ProductVariantColorSelectorComponent],
       providers: [{ provide: RoutingService, useClass: MockRoutingService }],
     }).compileComponents();
 

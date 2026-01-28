@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,6 +14,8 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
@@ -32,11 +35,17 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   FocusConfig,
+  FocusDirective,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
   FormUtils,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, Subscription, combineLatest, merge } from 'rxjs';
@@ -51,7 +60,20 @@ export interface SavedCartFormDialogOptions {
   selector: 'cx-saved-cart-form-dialog',
   templateUrl: './saved-cart-form-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    FocusDirective,
+    FormsModule,
+    ReactiveFormsModule,
+    NgSwitch,
+    NgSwitchCase,
+    IconComponent,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

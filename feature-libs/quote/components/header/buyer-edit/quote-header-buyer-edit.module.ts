@@ -18,8 +18,8 @@ import { QuoteHeaderBuyerEditComponent } from './quote-header-buyer-edit.compone
     IconModule,
     KeyboardFocusModule,
     ReactiveFormsModule,
+    QuoteHeaderBuyerEditComponent,
   ],
-  declarations: [QuoteHeaderBuyerEditComponent],
   exports: [QuoteHeaderBuyerEditComponent],
 })
 export class QuoteHeaderBuyerEditModule {}

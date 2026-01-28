@@ -68,7 +68,7 @@ describe('ProductDetailsTabComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductDetailsTabComponent],
+      imports: [ProductDetailsTabComponent],
       providers: [
         {
           provide: CurrentProductService,

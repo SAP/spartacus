@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CheckoutBillingAddressFormModule } from '@spartacus/checkout/base/components';
 import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
-import { DpPaymentCallbackComponent } from './dp-payment-callback.component';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CheckoutBillingAddressFormModule } from '@spartacus/checkout/base/components';
 import { DpConfirmationDialogModule } from '../dp-confirmation-dialog/dp-confirmation-dialog.module';
+import { DpPaymentCallbackComponent } from './dp-payment-callback.component';
 
 @NgModule({
   imports: [
@@ -20,8 +20,8 @@ import { DpConfirmationDialogModule } from '../dp-confirmation-dialog/dp-confirm
     CheckoutBillingAddressFormModule,
     FeaturesConfigModule,
     DpConfirmationDialogModule,
+    DpPaymentCallbackComponent,
   ],
-  declarations: [DpPaymentCallbackComponent],
   exports: [DpPaymentCallbackComponent],
 })
 export class DpPaymentCallbackModule {}

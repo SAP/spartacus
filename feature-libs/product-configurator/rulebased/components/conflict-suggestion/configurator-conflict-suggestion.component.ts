@@ -4,19 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   Input,
 } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import { Configurator } from '../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-configurator-conflict-suggestion',
   templateUrl: './configurator-conflict-suggestion.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, TranslatePipe],
 })
 export class ConfiguratorConflictSuggestionComponent {
   @Input() currentGroup: Configurator.Group;
@@ -26,7 +28,7 @@ export class ConfiguratorConflictSuggestionComponent {
   groupType = Configurator.GroupType;
 
   @HostBinding('tabindex') tabindex = '0';
-  @HostBinding('role') role = 'note';
+  @HostBinding('attr.role') role = 'note';
 
   constructor() {
     // Intentional empty constructor

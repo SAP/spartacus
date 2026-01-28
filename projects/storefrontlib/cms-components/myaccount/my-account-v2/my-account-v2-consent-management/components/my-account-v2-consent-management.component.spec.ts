@@ -27,14 +27,14 @@ import { MyAccountV2ConsentManagementComponent } from './my-account-v2-consent-m
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCxSpinnerComponent {}
 
 @Component({
   selector: 'cx-my-account-v2-consent-management',
   template: ` <div>form</div> `,
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockConsentManagementFormComponent {
   @Input()
@@ -129,8 +129,8 @@ describe('MyAccountV2ConsentManagementComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         MockCxSpinnerComponent,
         MockConsentManagementFormComponent,
         MyAccountV2ConsentManagementComponent,

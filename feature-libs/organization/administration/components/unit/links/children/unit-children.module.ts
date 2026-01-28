@@ -21,7 +21,7 @@ import { UnitChildrenComponent } from './unit-children.component';
     SubListModule,
     CommonModule,
     DisableInfoModule,
+    UnitChildrenComponent,
   ],
-  declarations: [UnitChildrenComponent],
 })
 export class UnitChildrenModule {}

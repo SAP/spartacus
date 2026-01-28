@@ -7,6 +7,7 @@
 import { product } from '../sample-data/checkout-flow';
 import { addProductToCart as addToCart } from './applied-promotions';
 import { verifyReviewOrderPage } from './checkout-flow';
+import { cmsEndpoints } from './cms-endpoints';
 
 export const username = 'test-user-with-orders@sap.cx.com';
 export const password = 'pw4all';
@@ -120,7 +121,7 @@ export function selectShippingAddress() {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/${cmsEndpoints.pages}`,
     query: {
       pageLabelOrId: '/checkout/delivery-address',
     },
@@ -140,7 +141,7 @@ export function selectShippingAddress() {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/${cmsEndpoints.pages}`,
     query: {
       pageLabelOrId: '/checkout/delivery-mode',
     },
@@ -161,7 +162,7 @@ export function selectDeliveryMethod() {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/${cmsEndpoints.pages}`,
     query: {
       pageLabelOrId: '/checkout/payment-details',
     },

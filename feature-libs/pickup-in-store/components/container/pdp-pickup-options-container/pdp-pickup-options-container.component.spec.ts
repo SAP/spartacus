@@ -1,8 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, Product } from '@spartacus/core';
+import {
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
+  Product,
+  TranslatePipe,
+} from '@spartacus/core';
 
 import {
   AugmentedPointOfService,
@@ -21,6 +26,7 @@ import { PdpPickupOptionsContainerComponent } from './pdp-pickup-options-contain
 import { ElementRef } from '@angular/core';
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
 import { MockPreferredStoreService } from '../../../core/services/preferred-store.service.spec';
+import { PickupOptionsComponent } from '../../presentational';
 import { PickupOptionsStubComponent } from '../../presentational/pickup-options/pickup-options.component.spec';
 import { CurrentLocationService } from '../../services/current-location.service';
 import { MockLaunchDialogService } from '../pickup-option-dialog/pickup-option-dialog.component.spec';
@@ -94,11 +100,7 @@ describe('PdpPickupOptionsComponent', () => {
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
-      declarations: [
-        PdpPickupOptionsContainerComponent,
-        PickupOptionsStubComponent,
-      ],
-      imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
+      imports: [CommonModule, PdpPickupOptionsContainerComponent],
       providers: [
         PdpPickupOptionsContainerComponent,
         {
@@ -123,6 +125,13 @@ describe('PdpPickupOptionsComponent', () => {
           useClass: MockCurrentLocationService,
         },
       ],
+    }).overrideComponent(PdpPickupOptionsContainerComponent, {
+      remove: {
+        imports: [TranslatePipe, CxDatePipe, PickupOptionsComponent],
+      },
+      add: {
+        imports: [MockTranslatePipe, MockDatePipe, PickupOptionsStubComponent],
+      },
     });
 
   const stubServiceAndCreateComponent = () => {

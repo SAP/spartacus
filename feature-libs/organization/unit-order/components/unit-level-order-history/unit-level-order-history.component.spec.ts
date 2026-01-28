@@ -9,15 +9,27 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   PaginationModel,
   RoutingService,
   SortModel,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  IconComponent,
+  PaginationComponent,
+  SortingComponent,
+  TotalComponent,
+} from '@spartacus/storefront';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { OrderHistoryQueryParams } from '../../core/model/unit-order.model';
 import { UnitOrderFacade } from '../../root/facade';
@@ -66,7 +78,7 @@ const mockEmptyOrderList: OrderHistoryList = {
 @Component({
   template: '',
   selector: 'cx-pagination',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockPaginationComponent {
   @Input() pagination: PaginationModel;
@@ -76,7 +88,7 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockSortingComponent {
   @Input() sortOptions: SortModel;
@@ -86,10 +98,7 @@ class MockSortingComponent {
   @Output() sortListEvent = new EventEmitter<string>();
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -142,7 +151,7 @@ class MockTranslationService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -151,7 +160,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-total',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockTotalComponent {
   @Input() pagination: any;
@@ -166,22 +175,44 @@ describe('UnitLevelOrderHistoryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
         UnitLevelOrderHistoryComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
-        MockSortingComponent,
         UnitLevelOrderHistoryFilterComponent,
-        MockCxIconComponent,
-        MockTotalComponent,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UnitOrderFacade, useClass: MockUnitLevelOrdersFacade },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(UnitLevelOrderHistoryComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            PaginationComponent,
+            SortingComponent,
+            IconComponent,
+            TotalComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockPaginationComponent,
+            MockSortingComponent,
+            MockCxIconComponent,
+            MockTotalComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     unitOrderFacade = TestBed.inject(UnitOrderFacade);
     mockUnitLevelOrdersFacade = unitOrderFacade as MockUnitLevelOrdersFacade;

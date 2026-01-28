@@ -18,8 +18,8 @@ import { ConfiguratorOverviewFilterComponent } from './configurator-overview-fil
     FormsModule,
     ReactiveFormsModule,
     ConfiguratorOverviewFilterBarModule,
+    ConfiguratorOverviewFilterComponent,
   ],
-  declarations: [ConfiguratorOverviewFilterComponent],
   exports: [ConfiguratorOverviewFilterComponent],
 })
 export class ConfiguratorOverviewFilterModule {}

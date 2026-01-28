@@ -11,11 +11,18 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   AuthService,
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { CartCouponComponent } from '../cart-coupon';
+import { CartItemListComponent } from '../cart-shared';
+import { CartValidationWarningsComponent } from '../public_api';
 import { CartDetailsComponent } from './cart-details.component';
 
 class MockActiveCartService {
@@ -41,7 +48,7 @@ interface CartItemComponentOptions {
 @Component({
   template: '',
   selector: 'cx-cart-item-list',
-  standalone: false,
+  imports: [PromotionsModule, I18nTestingModule],
 })
 class MockCartItemListComponent {
   @Input()
@@ -60,7 +67,7 @@ class MockCartItemListComponent {
 @Component({
   template: '',
   selector: 'cx-cart-coupon',
-  standalone: false,
+  imports: [PromotionsModule, I18nTestingModule],
 })
 class MockCartCouponComponent {
   cartIsLoading = false;
@@ -69,7 +76,7 @@ class MockCartCouponComponent {
 @Component({
   selector: 'cx-cart-validation-warnings',
   template: '',
-  standalone: false,
+  imports: [PromotionsModule, I18nTestingModule],
 })
 class MockCartValidationWarningsComponent {}
 
@@ -98,13 +105,7 @@ describe('CartDetailsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [PromotionsModule, I18nTestingModule],
-      declarations: [
-        CartDetailsComponent,
-        MockCartItemListComponent,
-        MockCartCouponComponent,
-        MockCartValidationWarningsComponent,
-      ],
+      imports: [PromotionsModule, CartDetailsComponent],
       providers: [
         { provide: SelectiveCartFacade, useValue: mockSelectiveCartFacade },
         { provide: AuthService, useValue: mockAuthService },
@@ -118,7 +119,28 @@ describe('CartDetailsComponent', () => {
           useValue: mockCartConfig,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CartDetailsComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            CartItemListComponent,
+            CartCouponComponent,
+            CartValidationWarningsComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCartItemListComponent,
+            MockCartCouponComponent,
+            MockCartValidationWarningsComponent,
+          ],
+        },
+      })
+      .compileComponents();
 
     mockCartConfig.isSelectiveCartEnabled.and.returnValue(true);
     mockSelectiveCartFacade.isStable.and.returnValue(of(true));

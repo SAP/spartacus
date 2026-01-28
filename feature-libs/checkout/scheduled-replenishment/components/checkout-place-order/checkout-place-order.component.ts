@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,17 +12,26 @@ import {
   OnInit,
   ViewContainerRef,
 } from '@angular/core';
-import { UntypedFormBuilder } from '@angular/forms';
-import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
-import { RoutingService } from '@spartacus/core';
 import {
-  OrderFacade,
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormBuilder,
+} from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
+import { RoutingService, TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
   ORDER_TYPE,
+  OrderFacade,
   recurrencePeriod,
   ScheduledReplenishmentOrderFacade,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import {
+  AtMessageDirective,
+  LAUNCH_CALLER,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { BehaviorSubject, merge, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 
@@ -29,7 +39,15 @@ import { CheckoutReplenishmentFormService } from '../services/checkout-replenish
   selector: 'cx-place-order',
   templateUrl: './checkout-place-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    RouterLink,
+    AtMessageDirective,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class CheckoutScheduledReplenishmentPlaceOrderComponent
   extends CheckoutPlaceOrderComponent

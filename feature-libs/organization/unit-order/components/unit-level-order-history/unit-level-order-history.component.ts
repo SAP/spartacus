@@ -4,19 +4,50 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { RoutingService, TranslationService } from '@spartacus/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  CxDatePipe,
+  RoutingService,
+  TranslatePipe,
+  TranslationService,
+  UrlPipe,
+} from '@spartacus/core';
 import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { OrderHistoryQueryParams } from '@spartacus/organization/unit-order/core';
 import { UnitOrderFacade } from '@spartacus/organization/unit-order/root';
+import {
+  BtnLikeLinkDirective,
+  PaginationComponent,
+  SortingComponent,
+  TotalComponent,
+} from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { UnitLevelOrderHistoryFilterComponent } from './filter/unit-level-order-history-filter.component';
 
 @Component({
   selector: 'cx-unit-level-order-history',
   templateUrl: './unit-level-order-history.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    UnitLevelOrderHistoryFilterComponent,
+    SortingComponent,
+    TotalComponent,
+    PaginationComponent,
+    NgFor,
+    RouterLink,
+    BtnLikeLinkDirective,
+    RouterLinkActive,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    CxDatePipe,
+
+    CxDatePipe,
+  ],
 })
 export class UnitLevelOrderHistoryComponent implements OnDestroy {
   private PAGE_SIZE = 5;

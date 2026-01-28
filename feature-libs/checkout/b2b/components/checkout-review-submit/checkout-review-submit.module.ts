@@ -35,6 +35,7 @@ import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.compo
     PromotionsModule,
     IconModule,
     OutletModule,
+    B2BCheckoutReviewSubmitComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -46,7 +47,6 @@ import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.compo
       },
     }),
   ],
-  declarations: [B2BCheckoutReviewSubmitComponent],
   exports: [B2BCheckoutReviewSubmitComponent],
 })
 export class B2BCheckoutReviewSubmitModule {}

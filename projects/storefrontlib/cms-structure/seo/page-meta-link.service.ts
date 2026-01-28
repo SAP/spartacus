@@ -4,9 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Renderer2, RendererFactory2, inject } from '@angular/core';
+import {
+  Injectable,
+  Renderer2,
+  RendererFactory2,
+  inject,
+  DOCUMENT,
+} from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { DOCUMENT } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',

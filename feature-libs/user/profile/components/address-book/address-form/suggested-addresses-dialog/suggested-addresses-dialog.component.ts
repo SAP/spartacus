@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,10 +12,13 @@ import {
   HostListener,
   OnInit,
 } from '@angular/core';
-import { Address } from '@spartacus/core';
+import { FormsModule } from '@angular/forms';
+import { Address, TranslatePipe } from '@spartacus/core';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
@@ -23,7 +27,15 @@ import { take } from 'rxjs/operators';
   selector: 'cx-suggested-addresses-dialog',
   templateUrl: './suggested-addresses-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FocusDirective,
+    NgIf,
+    IconComponent,
+    FormsModule,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class SuggestedAddressDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;

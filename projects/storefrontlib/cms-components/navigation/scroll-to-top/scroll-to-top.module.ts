@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { I18nModule, CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { NgModule } from '@angular/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule } from '../../misc/icon/icon.module';
 import { ScrollToTopComponent } from './scroll-to-top.component';
 
 @NgModule({
-  imports: [CommonModule, IconModule, I18nModule],
+  imports: [CommonModule, IconModule, I18nModule, ScrollToTopComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -21,7 +21,6 @@ import { ScrollToTopComponent } from './scroll-to-top.component';
       },
     }),
   ],
-  declarations: [ScrollToTopComponent],
   exports: [ScrollToTopComponent],
 })
 export class ScrollToTopModule {}

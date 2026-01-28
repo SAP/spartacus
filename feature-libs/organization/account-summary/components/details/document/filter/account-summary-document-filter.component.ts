@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,23 +14,29 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { TranslationService } from '@spartacus/core';
+import {
+  AbstractControl,
+  AbstractControlOptions,
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidationErrors,
+} from '@angular/forms';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { TranslatePipe, TranslationService } from '@spartacus/core';
 import {
   AccountSummaryDocumentType,
   DocumentQueryParams,
   DocumentStatus,
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
-import { Subscription, zip } from 'rxjs';
-
 import {
-  AbstractControl,
-  AbstractControlOptions,
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-} from '@angular/forms';
-import { Observable } from 'rxjs';
+  DatePickerComponent,
+  FormErrorsComponent,
+  NgSelectA11yDirective,
+} from '@spartacus/storefront';
+import { Observable, Subscription, zip } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 interface ItemType {
@@ -47,7 +54,17 @@ interface GroupValidator {
   selector: 'cx-account-summary-document-filter',
   templateUrl: './account-summary-document-filter.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    DatePickerComponent,
+    FormErrorsComponent,
+    NgSelectComponent,
+    NgSelectA11yDirective,
+    NgTemplateOutlet,
+    TranslatePipe,
+  ],
 })
 export class AccountSummaryDocumentFilterComponent
   implements OnInit, OnDestroy

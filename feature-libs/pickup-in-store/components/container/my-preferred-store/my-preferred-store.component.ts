@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -17,6 +18,7 @@ import {
   Page,
   PointOfService,
   RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
@@ -25,7 +27,7 @@ import {
 } from '@spartacus/pickup-in-store/root';
 import { StoreLocationService } from '@spartacus/storefinder/core';
 import { StoreFinderFacade } from '@spartacus/storefinder/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { CardComponent, ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -36,6 +38,8 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
+import { StoreAddressComponent } from '../../presentational/store/store-address/store-address.component';
+import { StoreScheduleComponent } from '../../presentational/store/store-schedule/store-schedule.component';
 
 const GET_DIRECTIONS_NAME = 'Get Directions';
 const CHANGE_STORE_NAME = 'Change Store';
@@ -53,7 +57,16 @@ interface PreferredStoreContent {
   selector: 'cx-my-preferred-store',
   templateUrl: 'my-preferred-store.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgClass,
+    CardComponent,
+    StoreAddressComponent,
+    NgIf,
+    IconComponent,
+    StoreScheduleComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class MyPreferredStoreComponent implements OnInit {
   protected storeLocationService: StoreLocationService =

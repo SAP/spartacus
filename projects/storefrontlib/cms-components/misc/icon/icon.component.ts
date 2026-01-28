@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -41,7 +42,7 @@ type ICON_TYPE = DEFAULT_ICON_TYPE | string;
 @Component({
   selector: 'cx-icon,[cxIcon]',
   templateUrl: './icon.component.html',
-  standalone: false,
+  imports: [NgIf],
 })
 export class IconComponent {
   /**
@@ -101,10 +102,6 @@ export class IconComponent {
    * The icons supports flipping for some icons to support rtl and ltr directions.
    */
   protected flipIcon(type: ICON_TYPE) {
-    // TODO: this can be dropped with the next major release.
-    if (!this.iconLoader.getFlipDirection) {
-      return;
-    }
     const iconDirection = this.iconLoader.getFlipDirection(type);
     this.flipAtLtr = iconDirection === DirectionMode.LTR;
     this.flipAtRtl = iconDirection === DirectionMode.RTL;

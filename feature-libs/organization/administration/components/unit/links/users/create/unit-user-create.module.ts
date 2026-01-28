@@ -10,7 +10,6 @@ import { UserFormModule } from '../../../../user/form/user-form.module';
 import { UnitUserCreateComponent } from './unit-user-create.component';
 
 @NgModule({
-  imports: [CommonModule, UserFormModule],
-  declarations: [UnitUserCreateComponent],
+  imports: [CommonModule, UserFormModule, UnitUserCreateComponent],
 })
 export class UnitUserCreateModule {}

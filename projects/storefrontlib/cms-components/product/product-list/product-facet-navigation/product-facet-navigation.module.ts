@@ -25,8 +25,8 @@ import { ProductFacetNavigationComponent } from './product-facet-navigation.comp
         },
       },
     }),
+    ProductFacetNavigationComponent,
   ],
-  declarations: [ProductFacetNavigationComponent],
   exports: [ProductFacetNavigationComponent],
 })
 export class ProductFacetNavigationModule {}

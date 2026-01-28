@@ -13,9 +13,8 @@
         "./tools/eslint-plugins/legacy-ng-cli-compat",
         "./tools/eslint-plugins/legacy-ng-cli-compat--formatting-add-on"
       ],
-      "plugins": ["deprecation", "@typescript-eslint", "@nx", "@stylistic/ts"],
+      "plugins": ["@typescript-eslint", "@nx", "@stylistic/ts"],
       "rules": {
-        "deprecation/deprecation": "warn",
         "prefer-arrow/prefer-arrow-functions": "off",
         "space-before-function-paren": "off",
         "@angular-eslint/no-input-rename": "off",
@@ -29,7 +28,8 @@
         "no-fallthrough": "off",
         "prefer-const": "off",
         "@angular-eslint/use-lifecycle-interface": "error",
-        "@angular-eslint/prefer-standalone": "off",
+        "@angular-eslint/prefer-standalone": "error",
+        "@angular-eslint/prefer-inject": "off",
         "@stylistic/ts/quotes": "off",
         "@stylistic/ts/member-delimiter-style": [
           "error",
@@ -69,6 +69,7 @@
             "accessibility": "explicit"
           }
         ],
+        "@typescript-eslint/no-deprecated": "warn",
         "id-blacklist": "off",
         "id-match": "off",
         "max-len": "off",
@@ -108,7 +109,8 @@
       "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {
         "@angular-eslint/template/no-negated-async": "off",
-        "@angular-eslint/template/eqeqeq": "error"
+        "@angular-eslint/template/eqeqeq": "error",
+        "@angular-eslint/template/prefer-control-flow": "off"
       }
     },
     {
@@ -128,7 +130,7 @@
       }
     },
     {
-      "files": [ "*.ts"],
+      "files": ["*.ts"],
       "rules": {
         "@nx/workspace/no-const-enum": "error"
       }

@@ -25,8 +25,8 @@ import { VisualViewerComponent } from './visual-viewer.component';
     VisualViewerAnimationSliderModule,
     SpinnerModule,
     FeaturesConfigModule,
+    VisualViewerComponent,
   ],
-  declarations: [VisualViewerComponent],
   exports: [VisualViewerComponent],
 })
 export class VisualViewerModule {}

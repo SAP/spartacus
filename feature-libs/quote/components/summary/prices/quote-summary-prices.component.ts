@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { Price } from '@spartacus/core';
+import { Price, TranslatePipe } from '@spartacus/core';
 import { QuoteFacade } from '@spartacus/quote/root';
 
 @Component({
   selector: 'cx-quote-summary-prices',
   templateUrl: 'quote-summary-prices.component.html',
-  standalone: false,
+  imports: [NgIf, AsyncPipe, TranslatePipe],
 })
 export class QuoteSummaryPricesComponent {
   protected quoteFacade = inject(QuoteFacade);

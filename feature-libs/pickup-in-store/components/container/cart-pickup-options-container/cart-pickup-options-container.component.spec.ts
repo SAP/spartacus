@@ -9,9 +9,12 @@ import {
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import {
   CmsService,
+  CxDatePipe,
   FeatureConfigService,
-  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Page,
+  TranslatePipe,
 } from '@spartacus/core';
 import {
   AugmentedPointOfService,
@@ -37,6 +40,7 @@ import {
   CartPickupOptionsContainerComponent,
   orderEntryWithRequiredFields,
 } from './cart-pickup-options-container.component';
+import { PickupOptionsComponent } from '../../presentational';
 
 class MockPickupLocationsSearchFacade extends MockPickupLocationsSearchService {
   getStoreDetails = () =>
@@ -148,11 +152,7 @@ describe('CartPickupOptionsContainerComponent', () => {
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
-      declarations: [
-        CartPickupOptionsContainerComponent,
-        PickupOptionsStubComponent,
-      ],
-      imports: [CommonModule, I18nTestingModule],
+      imports: [CommonModule, CartPickupOptionsContainerComponent],
       providers: [
         {
           provide: ActiveCartFacade,
@@ -184,6 +184,13 @@ describe('CartPickupOptionsContainerComponent', () => {
           useClass: MockFeatureConfigService,
         },
       ],
+    }).overrideComponent(CartPickupOptionsContainerComponent, {
+      remove: {
+        imports: [TranslatePipe, CxDatePipe, PickupOptionsComponent],
+      },
+      add: {
+        imports: [MockTranslatePipe, MockDatePipe, PickupOptionsStubComponent],
+      },
     });
 
   const stubServiceAndCreateComponent = () => {

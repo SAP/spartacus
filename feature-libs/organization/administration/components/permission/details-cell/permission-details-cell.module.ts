@@ -12,8 +12,14 @@ import { PopoverModule } from '@spartacus/storefront';
 import { PermissionDetailsCellComponent } from './permission-details-cell.component';
 
 @NgModule({
-  imports: [CommonModule, PopoverModule, RouterModule, I18nModule, UrlModule],
-  declarations: [PermissionDetailsCellComponent],
+  imports: [
+    CommonModule,
+    PopoverModule,
+    RouterModule,
+    I18nModule,
+    UrlModule,
+    PermissionDetailsCellComponent,
+  ],
   exports: [PermissionDetailsCellComponent],
 })
 export class PermissionDetailsCellModule {}

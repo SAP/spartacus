@@ -10,8 +10,7 @@ import { IconModule } from '@spartacus/storefront';
 import { ConfiguratorConflictDescriptionComponent } from './configurator-conflict-description.component';
 
 @NgModule({
-  imports: [CommonModule, IconModule],
-  declarations: [ConfiguratorConflictDescriptionComponent],
+  imports: [CommonModule, IconModule, ConfiguratorConflictDescriptionComponent],
   exports: [ConfiguratorConflictDescriptionComponent],
 })
 export class ConfiguratorConflictDescriptionModule {}

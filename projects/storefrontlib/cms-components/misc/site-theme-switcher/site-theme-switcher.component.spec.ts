@@ -1,15 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { SiteThemeSwitcherComponent } from './site-theme-switcher.component';
-import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
+import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
   SiteTheme,
   TranslationService,
 } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
-import { By } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
+import { of } from 'rxjs';
+import { SiteThemeSwitcherComponent } from './site-theme-switcher.component';
+import { SiteThemeSwitcherComponentService } from './site-theme-switcher.component.service';
 
 class MockTranslationService {
   translate() {
@@ -34,8 +34,12 @@ describe('ThemeSwitcherComponent', () => {
     );
 
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconModule, CommonModule],
-      declarations: [SiteThemeSwitcherComponent],
+      imports: [
+        I18nTestingModule,
+        IconModule,
+        CommonModule,
+        SiteThemeSwitcherComponent,
+      ],
       providers: [
         {
           provide: SiteThemeSwitcherComponentService,

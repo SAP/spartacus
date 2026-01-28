@@ -16,29 +16,23 @@ import {
   NavigationCancel,
   NavigationEnd,
   Router,
+  RouterLink,
 } from '@angular/router';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import { ProgressButtonComponent } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-cart-proceed-to-checkout',
   templateUrl: './cart-proceed-to-checkout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [ProgressButtonComponent, RouterLink, TranslatePipe, UrlPipe],
 })
 export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
   cartValidationInProgress = false;
 
   protected subscription = new Subscription();
 
-  constructor(
-    router: Router,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    cd?: ChangeDetectorRef
-  );
-  /**
-   * @deprecated since 5.2
-   */
-  constructor(router: Router);
   constructor(
     protected router: Router,
     protected cd?: ChangeDetectorRef

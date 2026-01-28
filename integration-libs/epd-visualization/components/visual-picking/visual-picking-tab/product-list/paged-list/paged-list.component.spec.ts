@@ -9,7 +9,6 @@ import { PagedListComponent } from './paged-list.component';
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -21,7 +20,6 @@ class MockCxIconComponent {
       <div id="templateEl"></div>
     </ng-template>
   `,
-  standalone: false,
 })
 class MockTemplateComponent {
   @ViewChild('itemTemplate') template: TemplateRef<any>;
@@ -33,7 +31,6 @@ class MockTemplateComponent {
       <div id="headerTemplateEl"></div>
     </ng-template>
   `,
-  standalone: false,
 })
 class MockHeaderTemplateComponent {
   @ViewChild('headerTemplate') template: TemplateRef<any>;
@@ -49,7 +46,7 @@ describe('PagedList Component', () => {
   let headerTemplate: any;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         PagedListComponent,
         MockCxIconComponent,
         MockHeaderTemplateComponent,

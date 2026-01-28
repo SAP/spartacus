@@ -17,6 +17,7 @@ import { ConfiguratorOverviewSidebarComponent } from './configurator-overview-si
     I18nModule,
     ConfiguratorOverviewFilterModule,
     ConfiguratorOverviewMenuModule,
+    ConfiguratorOverviewSidebarComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -27,7 +28,6 @@ import { ConfiguratorOverviewSidebarComponent } from './configurator-overview-si
       },
     }),
   ],
-  declarations: [ConfiguratorOverviewSidebarComponent],
   exports: [ConfiguratorOverviewSidebarComponent],
 })
 export class ConfiguratorOverviewSidebarModule {}

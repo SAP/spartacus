@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,20 +14,26 @@ import {
   OnInit,
   Optional,
 } from '@angular/core';
+import { AbstractOrderContextDirective } from '@spartacus/cart/base/components';
 import {
   AbstractOrderType,
   CartOutlets,
   DeliveryMode,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { Address, TranslationService } from '@spartacus/core';
+import { Address, TranslatePipe, TranslationService } from '@spartacus/core';
 import {
   Order,
   OrderFacade,
   deliveryAddressCard,
   deliveryModeCard,
 } from '@spartacus/order/root';
-import { Card, OutletContextData } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  OutletContextData,
+  OutletDirective,
+} from '@spartacus/storefront';
 import { Observable, Subscription, combineLatest, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -34,7 +41,14 @@ import { map, tap } from 'rxjs/operators';
   selector: 'cx-order-confirmation-shipping',
   templateUrl: './order-confirmation-shipping.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    CardComponent,
+    AbstractOrderContextDirective,
+    OutletDirective,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class OrderConfirmationShippingComponent implements OnInit, OnDestroy {
   @Input() showItemList: boolean = true;

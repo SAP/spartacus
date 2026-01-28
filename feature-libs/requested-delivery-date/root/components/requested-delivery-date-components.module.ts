@@ -19,8 +19,6 @@ import { OrderOverviewDeliveryDateComponent } from './order-overview-delivery-da
     I18nModule,
     ReactiveFormsModule,
     CardModule,
-  ],
-  declarations: [
     DeliveryModeDatePickerComponent,
     OrderOverviewDeliveryDateComponent,
   ],

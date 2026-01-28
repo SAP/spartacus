@@ -19,7 +19,6 @@ import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CheckoutReviewPaymentComponent } from './checkout-review-payment.component';
 
 @NgModule({
-  declarations: [CheckoutReviewPaymentComponent],
   exports: [CheckoutReviewPaymentComponent],
   imports: [
     CommonModule,
@@ -28,6 +27,7 @@ import { CheckoutReviewPaymentComponent } from './checkout-review-payment.compon
     UrlModule,
     RouterModule,
     IconModule,
+    CheckoutReviewPaymentComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

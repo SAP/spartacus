@@ -4,10 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { B2BUnit } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { B2BUnit, TranslatePipe } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { DisableInfoComponent } from '../../../shared/detail/disable-info/disable-info.component';
 import { ListService } from '../../../shared/list/list.service';
+import { SubListComponent } from '../../../shared/sub-list/sub-list.component';
 import { CurrentUnitService } from '../../services/current-unit.service';
 import { UnitCostCenterListService } from './unit-cost-centers.service';
 
@@ -22,7 +26,13 @@ import { UnitCostCenterListService } from './unit-cost-centers.service';
       useExisting: UnitCostCenterListService,
     },
   ],
-  standalone: false,
+  imports: [
+    SubListComponent,
+    RouterLink,
+    DisableInfoComponent,
+    TranslatePipe,
+    AsyncPipe,
+  ],
 })
 export class UnitCostCenterListComponent {
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService

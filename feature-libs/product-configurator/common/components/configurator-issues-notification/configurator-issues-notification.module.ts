@@ -23,8 +23,8 @@ import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-n
     I18nModule,
     IconModule,
     ConfigureCartEntryModule,
+    ConfiguratorIssuesNotificationComponent,
   ],
-  declarations: [ConfiguratorIssuesNotificationComponent],
   providers: [
     provideOutlet({
       id: CartOutlets.ITEM_CONFIGURATOR_ISSUES,

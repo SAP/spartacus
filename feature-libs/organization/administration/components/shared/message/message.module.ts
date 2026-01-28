@@ -10,8 +10,7 @@ import { MessageComponent } from './message.component';
 import { NotificationMessageModule } from './notification/notification-message.module';
 
 @NgModule({
-  imports: [CommonModule, NotificationMessageModule],
-  declarations: [MessageComponent],
+  imports: [CommonModule, NotificationMessageModule, MessageComponent],
   exports: [MessageComponent],
 })
 export class MessageModule {}

@@ -20,8 +20,14 @@ import { CheckoutProgressComponent } from './checkout-progress.component';
 import { MultiLinePipe } from './multiline-titles.pipe';
 
 @NgModule({
-  imports: [CommonModule, UrlModule, I18nModule, RouterModule],
-  declarations: [CheckoutProgressComponent, MultiLinePipe],
+  imports: [
+    CommonModule,
+    UrlModule,
+    I18nModule,
+    RouterModule,
+    CheckoutProgressComponent,
+    MultiLinePipe,
+  ],
   exports: [CheckoutProgressComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{

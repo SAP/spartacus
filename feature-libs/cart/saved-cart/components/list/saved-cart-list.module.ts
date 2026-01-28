@@ -27,6 +27,7 @@ import { SavedCartListComponent } from './saved-cart-list.component';
     I18nModule,
     SpinnerModule,
     FeaturesConfigModule,
+    SavedCartListComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -38,7 +39,6 @@ import { SavedCartListComponent } from './saved-cart-list.component';
       },
     }),
   ],
-  declarations: [SavedCartListComponent],
   exports: [SavedCartListComponent],
 })
 export class SavedCartListModule {}
