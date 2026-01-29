@@ -5,7 +5,7 @@
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build", "build-schematics"],
+      "dependsOn": ["^build"],
       "cache": true
     },
     "build-schematics": {
