@@ -15,18 +15,18 @@ import {
   ANGULAR_CORE,
   APP_MODULE,
   PROVIDE_ZONE_CHANGE_DETECTION,
-} from '../../../shared/constants';
-import { addModuleProvider } from '../../../shared/utils/new-module-utils';
-import { createProgram, saveAndFormat } from '../../../shared/utils/program';
-import { getProjectTsConfigPaths } from '../../../shared/utils/project-tsconfig-paths';
-import { getDefaultProjectNameFromWorkspace } from '../../../shared/utils/workspace-utils';
+} from '../../../../shared/constants';
+import { addModuleProvider } from '../../../../shared/utils/new-module-utils';
+import { createProgram, saveAndFormat } from '../../../../shared/utils/program';
+import { getProjectTsConfigPaths } from '../../../../shared/utils/project-tsconfig-paths';
+import { getDefaultProjectNameFromWorkspace } from '../../../../shared/utils/workspace-utils';
 
 /**
  * Main migration rule that adds provideZoneChangeDetection to app.module.ts.
  * This is part of the Angular 21 upgrade process to move zone configuration
  * from application providers to module providers.
  */
-export function migrate(): Rule {
+export function addZoneChangeDetectionToAppModule(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     context.logger.info(
       '⌛️ Adding provideZoneChangeDetection to app.module.ts...'

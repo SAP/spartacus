@@ -15,18 +15,18 @@ import {
   ANGULAR_CORE,
   MAIN_TS,
   PROVIDE_ZONE_CHANGE_DETECTION,
-} from '../../../shared/constants';
-import { removeImports } from '../../../shared/utils/import-utils';
-import { createProgram, saveAndFormat } from '../../../shared/utils/program';
-import { getProjectTsConfigPaths } from '../../../shared/utils/project-tsconfig-paths';
-import { getDefaultProjectNameFromWorkspace } from '../../../shared/utils/workspace-utils';
+} from '../../../../shared/constants';
+import { removeImports } from '../../../../shared/utils/import-utils';
+import { createProgram, saveAndFormat } from '../../../../shared/utils/program';
+import { getProjectTsConfigPaths } from '../../../../shared/utils/project-tsconfig-paths';
+import { getDefaultProjectNameFromWorkspace } from '../../../../shared/utils/workspace-utils';
 
 /**
  * Main migration rule that removes provideZoneChangeDetection from main.ts.
  * This is part of the Angular 21 upgrade process to move zone configuration
  * from application providers to module providers.
  */
-export function migrate(): Rule {
+export function removeZoneChangeDetectionFromMain(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     context.logger.info(
       '⌛️ Removing provideZoneChangeDetection from main.ts...'
@@ -106,7 +106,7 @@ function removeProviderFromMainTs(
 /** Locates the main.ts source file from the list of application source files. */
 function findMainTsSourceFile(appSourceFiles: any[]) {
   return appSourceFiles.find((sourceFile) =>
-    sourceFile.getFilePath().includes(MAIN_TS)
+    sourceFile.getFilePath().endsWith(`/${MAIN_TS}`)
   );
 }
 
@@ -161,15 +161,18 @@ function processBootstrapCalls(
       findApplicationProvidersProperty(objectLiteral);
 
     if (applicationProvidersProperty) {
-      // Remove the applicationProviders property from the options object
-      applicationProvidersProperty.remove();
-      modified = true;
-      context.logger.info(
-        `  ↳ Removed applicationProviders property from bootstrapModule call`
+      // Remove only provideZoneChangeDetection from applicationProviders array
+      const removed = removeProviderFromArray(
+        applicationProvidersProperty,
+        context
       );
-
-      // If the options object is now empty, remove it entirely
-      removeEmptyOptionsObject(objectLiteral, bootstrapCall, context);
+      if (removed) {
+        modified = true;
+        // Remove the property if the array is now empty
+        removeEmptyApplicationProviders(applicationProvidersProperty, context);
+        // If the options object is now empty, remove it entirely
+        removeEmptyOptionsObject(objectLiteral, bootstrapCall, context);
+      }
     }
   }
 
@@ -188,6 +191,82 @@ function findApplicationProvidersProperty(objectLiteral: any) {
     }
     return false;
   });
+}
+
+/**
+ * Removes only provideZoneChangeDetection from the applicationProviders array.
+ * Preserves other custom providers that customers might have added.
+ * Returns true if the provider was found and removed.
+ */
+function removeProviderFromArray(
+  applicationProvidersProperty: any,
+  context: SchematicContext
+): boolean {
+  const propertyAssignment = applicationProvidersProperty.asKind(
+    SyntaxKind.PropertyAssignment
+  );
+  if (!propertyAssignment) {
+    return false;
+  }
+
+  const initializer = propertyAssignment.getInitializer();
+  if (
+    !initializer ||
+    initializer.getKind() !== SyntaxKind.ArrayLiteralExpression
+  ) {
+    return false;
+  }
+
+  const arrayLiteral = initializer.asKindOrThrow(
+    SyntaxKind.ArrayLiteralExpression
+  );
+  const elements = arrayLiteral.getElements();
+
+  // Find and remove provideZoneChangeDetection call
+  for (let i = 0; i < elements.length; i++) {
+    const element = elements[i];
+    if (
+      element.getKind() === SyntaxKind.CallExpression &&
+      element.getText().includes(PROVIDE_ZONE_CHANGE_DETECTION)
+    ) {
+      arrayLiteral.removeElement(i);
+      context.logger.info(
+        `  ↳ Removed ${PROVIDE_ZONE_CHANGE_DETECTION} from applicationProviders array`
+      );
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Removes the applicationProviders property if its array is empty.
+ */
+function removeEmptyApplicationProviders(
+  applicationProvidersProperty: any,
+  context: SchematicContext
+): void {
+  const propertyAssignment = applicationProvidersProperty.asKind(
+    SyntaxKind.PropertyAssignment
+  );
+  if (!propertyAssignment) {
+    return;
+  }
+
+  const initializer = propertyAssignment.getInitializer();
+  if (
+    initializer &&
+    initializer.getKind() === SyntaxKind.ArrayLiteralExpression
+  ) {
+    const arrayLiteral = initializer.asKindOrThrow(
+      SyntaxKind.ArrayLiteralExpression
+    );
+    if (arrayLiteral.getElements().length === 0) {
+      applicationProvidersProperty.remove();
+      context.logger.info(`  ↳ Removed empty applicationProviders property`);
+    }
+  }
 }
 
 /**
