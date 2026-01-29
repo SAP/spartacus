@@ -46,7 +46,6 @@ describe('Lib utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
-    standalone: false,
     zoneless: false,
     fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
@@ -229,15 +228,15 @@ describe('Lib utils', () => {
         [SPARTACUS_CHECKOUT]: '4.1.0-next.0',
       };
 
-      await schematicRunner
-        .callRule(
+      await firstValueFrom(
+        schematicRunner.callRule(
           addPackageJsonDependenciesForLibrary(
             peerDependencies,
             CHECKOUT_OPTIONS
           ),
           appTree
         )
-        .toPromise();
+      );
 
       const packageJson = JSON.parse(
         appTree.read('package.json')?.toString(UTF_8) ?? ''
