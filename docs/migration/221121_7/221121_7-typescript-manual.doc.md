@@ -11,6 +11,11 @@
   - **Impact:** This constant was unused since version 6.5. The `SmartEditLauncher` is now responsible for triggering the lazy loading of the `SMART_EDIT_FEATURE`.
   - **Action Required:** Remove any references to this constant if you were using it.
 
+
+- **`CDC_USER_PREFERENCE_SERIALIZER`** (from `integration-libs/cdc/root/consent-management/converters/converter.ts`):
+  - **Impact:** This constant was deprecated since version 2211.38 in favor of `CDC_PREFERENCE_SERIALIZER`.
+  - **Action Required:** Remove any references to this constant if you were using it.
+
 ### `cart-proceed-to-checkout.component.ts`
 - **Constructor Cleanup**: Removed the deprecated constructor overload `constructor(router: Router)`.
   - **Action Required**: Any classes extending this component must now provide both `Router` and `ChangeDetectorRef` (optional) in the `super()` call.
@@ -59,6 +64,10 @@
 - **Method Removal**: Removed `customizeNgSelectAriaLabelDropdown()` method.
 - **Breaking Impact**: If you were overriding or calling these deprecated methods in a custom directive extending this one, your code will fail to compile.
 
+### `cdc-reconsent.component.ts`
+- **Property Removal**: Removed the deprecated property `totalConsents`.
+  - **Action Required**: Remove any references to this property in your code.
+
 ##  Removed Methods & APIs
 
 #### `CmsGuardsService`
@@ -77,6 +86,25 @@
 - **Feature Flag Removal**: Removed logic related to the `fixMyCompanyUnitAddressCreation` feature flag in the address creation success action.
 - **Breaking Impact**: The effect now always uses the simplified address creation response format (`{ id: payload.address.id }`).
 - **Action Required**: Ensure any custom effects extending this class do not rely on the removed `featureConfigService` property.
+
+### `cdc-user-consent.service.ts`
+- **Removed Method:** `updateCdcConsent(isConsentGranted: boolean, consentCodes: string[], user?: string, regToken?: string): Observable<{ errorCode: number; errorMessage: string }>`
+- **Reason:** Deprecated in favor of `updateCdcUserPreferences(consentCodes: CdcConsent[], user?: string, regToken?: string): Observable<{ errorCode: number; errorMessage: string }>` method.
+- **Action Required:** Use the `updateCdcUserPreferences(consentCodes: CdcConsent[], user?: string, regToken?: string): Observable<{ errorCode: number; errorMessage: string }>` method if needed.
+
+### `cdc-reconsent-component.service.ts`
+- **Removed Method:** `saveConsentAndLogin(consentId: string[], userParams: any)`
+- **Reason:** Deprecated in favor of `savePreferencesAndLogin(consents: CdcConsent[], userParams: any)` method.
+- **Action Required:** Use the `savePreferencesAndLogin(consents: CdcConsent[], userParams: any)` method to save the preferences given in reconsent pop-up and trigger a re-login.
+
+### `cdc-register-component.service.ts`
+- **Removed Method:** `generatePreferencesObject()`
+- **Reason:** Deprecated since **2211.38** as it is unused.
+
+### `CdcUserPreferenceSerializer`
+- **Removed Service**
+- **Reason:** Deprecated in favor of `CdcPreferenceSerializer` service class.
+- **Action Required:** Use the `CdcPreferenceSerializer` class methods.
 
 ## Global Changes
 
