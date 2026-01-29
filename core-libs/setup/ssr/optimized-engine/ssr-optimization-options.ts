@@ -261,6 +261,5 @@ export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   renderKeyResolver: getDefaultRenderKey,
   ssrFeatureToggles: {
     limitCacheByMemory: true,
-    limitCacheByMemory1: true,
   },
 };

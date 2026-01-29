@@ -345,7 +345,6 @@ export interface FeatureTogglesInterface {
    * Affects: `ReturnOrderComponent`
    */
   enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
-  enableReturnOrderReturnableQuantityConsigmentFallback1?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -382,5 +381,4 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enablePasswordExpiredErrorTranslation: false,
   enableQuotePurchaseOrderNumber: false,
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
-  enableReturnOrderReturnableQuantityConsigmentFallback1: false,
 };

@@ -201,7 +201,7 @@ fi
 
 if [[ -z "$new_toggles" ]]; then
     echo "✅ No new feature toggles detected"
-    echo "new_toggles_found=false" >> $GITHUB_OUTPUT
+    [[ -n "$GITHUB_OUTPUT" ]] && echo "new_toggles_found=false" >> $GITHUB_OUTPUT
     exit 0
 fi
 
@@ -212,9 +212,11 @@ echo "🚨 Found $new_toggle_count new feature toggle(s):"
 echo -e "$new_toggles" | sed 's/^/  - /'
 echo ""
 
-# Export results for GitHub Actions
-echo "new_toggles_found=true" >> $GITHUB_OUTPUT
-echo "new_toggle_count=$new_toggle_count" >> $GITHUB_OUTPUT
+# Export results for GitHub Actions (only if running in GitHub Actions)
+if [[ -n "$GITHUB_OUTPUT" ]]; then
+    echo "new_toggles_found=true" >> $GITHUB_OUTPUT
+    echo "new_toggle_count=$new_toggle_count" >> $GITHUB_OUTPUT
+fi
 
 # Format toggle list for Slack (with bullet points and double line breaks)
 new_toggles_formatted=""
@@ -228,13 +230,15 @@ while IFS= read -r toggle; do
     fi
 done <<< "$new_toggles"
 
-echo "new_toggles_list<<EOF" >> $GITHUB_OUTPUT
-echo -e "$new_toggles_formatted" >> $GITHUB_OUTPUT
-echo "EOF" >> $GITHUB_OUTPUT
+if [[ -n "$GITHUB_OUTPUT" ]]; then
+    echo "new_toggles_list<<EOF" >> $GITHUB_OUTPUT
+    echo -e "$new_toggles_formatted" >> $GITHUB_OUTPUT
+    echo "EOF" >> $GITHUB_OUTPUT
 
-# Also create a comma-separated list
-new_toggles_csv=$(echo -e "$new_toggles" | tr '\n' ',' | sed 's/,$//')
-echo "new_toggles_csv=$new_toggles_csv" >> $GITHUB_OUTPUT
+    # Also create a comma-separated list
+    new_toggles_csv=$(echo -e "$new_toggles" | tr '\n' ',' | sed 's/,$//')
+    echo "new_toggles_csv=$new_toggles_csv" >> $GITHUB_OUTPUT
+fi
 
 echo "💡 New feature toggles have been added!"
 echo "   Please ensure they are properly documented for customers."
