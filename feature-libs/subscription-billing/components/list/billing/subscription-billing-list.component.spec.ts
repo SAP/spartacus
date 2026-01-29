@@ -97,7 +97,7 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-fdescribe('SubscriptionListComponent', () => {
+describe('SubscriptionListComponent', () => {
   let component: SubscriptionBillingListComponent;
   let fixture: ComponentFixture<SubscriptionBillingListComponent>;
   let facadeSpy: SubscriptionBillingFacade;
