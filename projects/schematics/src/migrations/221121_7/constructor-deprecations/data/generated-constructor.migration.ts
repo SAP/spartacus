@@ -9,60 +9,59 @@
 //
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
-export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
-[
-	{
-		class: 'OrderGuestRegisterFormComponent',
-		importPath: '@spartacus/order/components',
-		deprecatedParams: [
-			{
-				className: 'UserRegisterFacade',
-				importPath: '@spartacus/user/profile/root'
-			},
-			{
-				className: 'RoutingService',
-				importPath: '@spartacus/core'
-			},
-			{
-				className: 'AuthService',
-				importPath: '@spartacus/core'
-			},
-			{
-				className: 'UntypedFormBuilder',
-				importPath: '@angular/forms'
-			}
-		],
-		removeParams: [
-			{
-				className: 'UserRegisterFacade',
-				importPath: '@spartacus/user/profile/root'
-			},
-			{
-				className: 'RoutingService',
-				importPath: '@spartacus/core'
-			},
-			{
-				className: 'AuthService',
-				importPath: '@spartacus/core'
-			},
-			{
-				className: 'UntypedFormBuilder',
-				importPath: '@angular/forms'
-			}
-		],
-		addParams: [
-			{
-				className: 'UserRegisterFacade',
-				importPath: '@spartacus/user/profile/root'
-			},
-			{
-				className: 'RoutingService',
-				importPath: '@spartacus/core'
-			},
-			{
-				className: 'UntypedFormBuilder',
-				importPath: '@angular/forms'
-			}
-		]
-	}
+export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] = [
+  {
+    class: 'OrderGuestRegisterFormComponent',
+    importPath: '@spartacus/order/components',
+    deprecatedParams: [
+      {
+        className: 'UserRegisterFacade',
+        importPath: '@spartacus/user/profile/root',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'AuthService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'UntypedFormBuilder',
+        importPath: '@angular/forms',
+      },
+    ],
+    removeParams: [
+      {
+        className: 'UserRegisterFacade',
+        importPath: '@spartacus/user/profile/root',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'AuthService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'UntypedFormBuilder',
+        importPath: '@angular/forms',
+      },
+    ],
+    addParams: [
+      {
+        className: 'UserRegisterFacade',
+        importPath: '@spartacus/user/profile/root',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'UntypedFormBuilder',
+        importPath: '@angular/forms',
+      },
+    ],
+  },
 ];
