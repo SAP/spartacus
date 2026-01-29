@@ -6,7 +6,7 @@ set -e
 
 # Configuration
 # Files containing feature toggles
-CSR_TOGGLES_FILE="projects/core/src/features-config/feature-toggles/config/feature-toggles.ts"
+REGULAR_TOGGLES_FILE="projects/core/src/features-config/feature-toggles/config/feature-toggles.ts"
 SSR_TOGGLES_FILE="core-libs/setup/ssr/optimized-engine/ssr-optimization-options.ts"
 RELEASE_TRACKING_FILE="tools/config/const.ts"
 OVERRIDES_FILE="tools/config/feature-toggle-dates-overrides.json"
@@ -83,8 +83,16 @@ toggle_overrides=$(load_overrides)
 # Extract current toggles
 echo "📊 Analyzing current feature toggles..."
 
-# Function to extract csr Spartacus feature toggles
-extract_csr_toggles() {
+# Function to extract regular Spartacus feature toggles
+# It looks for a code block:
+# ```
+# export const defaultFeatureToggles = ... {
+#   ...
+# }
+# ```
+# Returns multiple lines string, each line separating 3 values with colons:
+# `regular:TOGGLE_NAME:TOGGLE_VALUE`
+extract_regular_toggles() {
     local file="$1"
     # Extract feature toggles from defaultFeatureToggles object
     # Find the start of the object (line with "export const defaultFeatureToggles")
@@ -109,25 +117,40 @@ extract_csr_toggles() {
         grep -E "^\s*[a-zA-Z].*:\s*(true|false)" | \
         sed 's/^[[:space:]]*//' | \
         sed 's/,.*$//' | \
-        awk -F':' '{print "csr:" $1 ":" $2}'
+        awk -F':' '{print "regular:" $1 ":" $2}'
 }
 
-# Function to extract SSR feature toggles  
+# Function to extract ssr Spartacus feature toggles
+# It looks for a code block:
+# ```
+# ssrFeatureToggles: {
+#   ...
+# },
+# ```
+# Returns multiple lines string, each line separating 3 values with colons:
+# `ssr:TOGGLE_NAME:TOGGLE_VALUE`
 extract_ssr_toggles() {
     local file="$1"
     # Extract feature toggles from ssrFeatureToggles object in defaultSsrOptimizationOptions
     # Find the start of ssrFeatureToggles
     local start_line=$(grep -n "ssrFeatureToggles: {" "$file" | cut -d: -f1)
     if [ -z "$start_line" ]; then
-        echo "Warning: Could not find ssrFeatureToggles object in $file" >&2
-        return 0  # Not an error, just no SSR toggles
+        echo "Error: Could not find ssrFeatureToggles object in $file" >&2
+        return 1
+    fi
+    
+    # Check if it's a single-line empty object: ssrFeatureToggles: {},
+    local start_line_content=$(sed -n "${start_line}p" "$file")
+    if echo "$start_line_content" | grep -q "ssrFeatureToggles: {},"; then
+        # Empty object on single line - no toggles to extract, but valid
+        return 0
     fi
     
     # Find the end of the ssrFeatureToggles object (closing brace)
     local end_line=$(sed -n "${start_line},\$p" "$file" | grep -n "^\s*}," | head -1 | cut -d: -f1)
     if [ -z "$end_line" ]; then
-        echo "Warning: Could not find end of ssrFeatureToggles object" >&2
-        return 0
+        echo "Error: Could not find end of ssrFeatureToggles object" >&2
+        return 1
     fi
     
     # Calculate actual line number
@@ -142,17 +165,17 @@ extract_ssr_toggles() {
 }
 
 # Extract toggles from both files
-csr_toggles=$(extract_csr_toggles "$CSR_TOGGLES_FILE")
+regular_toggles=$(extract_regular_toggles "$REGULAR_TOGGLES_FILE")
 ssr_toggles=$(extract_ssr_toggles "$SSR_TOGGLES_FILE")
 
 # Combine all toggles
-current_toggles=$(printf "%s\n%s" "$csr_toggles" "$ssr_toggles" | grep -v "^$")
+current_toggles=$(printf "%s\n%s" "$regular_toggles" "$ssr_toggles" | grep -v "^$")
 
-csr_count=$(echo "$csr_toggles" | grep -c "^csr:" 2>/dev/null || echo 0)
+regular_count=$(echo "$regular_toggles" | grep -c "^regular:" 2>/dev/null || echo 0)
 ssr_count=$(echo "$ssr_toggles" | grep -c "^ssr:" 2>/dev/null || echo 0)
-total_count=$((csr_count + ssr_count))
+total_count=$((regular_count + ssr_count))
 
-echo "Found $csr_count CSR feature toggles and $ssr_count SSR feature toggles (total: $total_count)"
+echo "Found $regular_count regular feature toggles and $ssr_count SSR feature toggles (total: $total_count)"
 echo ""
 
 # Arrays for results
@@ -176,8 +199,8 @@ while IFS= read -r toggle_line; do
     fi
     
     # Determine which file to search in based on source
-    if [[ "$source_type" == "csr" ]]; then
-        toggle_file="$CSR_TOGGLES_FILE"
+    if [[ "$source_type" == "regular" ]]; then
+        toggle_file="$REGULAR_TOGGLES_FILE"
     elif [[ "$source_type" == "ssr" ]]; then
         toggle_file="$SSR_TOGGLES_FILE"
     else
@@ -322,8 +345,10 @@ if [[ ${#TOGGLES_TO_REMOVE[@]} -gt 0 ]] || [[ ${#TOGGLES_TO_ENABLE[@]} -gt 0 ]];
     fi
     
     echo "💡 To apply changes, manually edit:"
-    echo "   projects/core/src/features-config/feature-toggles/config/feature-toggles.ts"
-    echo "   core-libs/setup/ssr/optimized-engine/ssr-optimization-options.ts"
+    echo "   Regular Feature Toggles:"
+    echo "      projects/core/src/features-config/feature-toggles/config/feature-toggles.ts"
+    echo "   SSR Feature Toggles:"
+    echo "      core-libs/setup/ssr/optimized-engine/ssr-optimization-options.ts"
 fi
 
 # Exit with error code if action is needed

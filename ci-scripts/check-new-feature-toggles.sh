@@ -5,13 +5,20 @@
 set -e
 
 # Configuration
-TOGGLES_FILE="projects/core/src/features-config/feature-toggles/config/feature-toggles.ts"
+REGULAR_TOGGLES_FILE="projects/core/src/features-config/feature-toggles/config/feature-toggles.ts"
+SSR_TOGGLES_FILE="core-libs/setup/ssr/optimized-engine/ssr-optimization-options.ts"
 
 echo "🔍 Checking for newly added feature toggles..."
 echo "================================================="
 
-# Function to extract feature toggles from a file content
-extract_toggles_from_content() {
+# Function to extract regular feature toggles from a file content
+# It looks for a code block:
+# ```
+# export const defaultFeatureToggles = ... {
+#   ...
+# }
+# ```
+extract_regular_toggles_from_content() {
     local content="$1"
     
     # Find the start of defaultFeatureToggles object
@@ -39,51 +46,158 @@ extract_toggles_from_content() {
         sort
 }
 
+# Function to extract ssr feature toggles from a file content
+# It looks for a code block:
+# ```
+# ssrFeatureToggles: {
+#   ...
+# },
+# ```
+extract_ssr_toggles_from_content() {
+    local content="$1"
+    
+    # Find the start of ssrFeatureToggles object
+    local start_line=$(echo "$content" | grep -n "ssrFeatureToggles: {" | cut -d: -f1)
+    if [[ -z "$start_line" ]]; then
+        echo ""
+        return
+    fi
+    
+    # Check if it's a single-line empty object: ssrFeatureToggles: {},
+    local start_line_content=$(echo "$content" | sed -n "${start_line}p")
+    if echo "$start_line_content" | grep -q "ssrFeatureToggles: {},"; then
+        # Empty object on single line - no toggles to extract
+        echo ""
+        return
+    fi
+    
+    # Find the closing brace (end of the object)
+    local end_line=$(echo "$content" | tail -n +$start_line | grep -n "^\s*}," | head -1 | cut -d: -f1)
+    if [[ -z "$end_line" ]]; then
+        echo ""
+        return
+    fi
+    
+    # Calculate actual line numbers
+    end_line=$((start_line + end_line - 1))
+    
+    # Extract toggles between the braces
+    echo "$content" | sed -n "$((start_line + 1)),$((end_line - 1))p" | \
+        grep -E "^\s*[a-zA-Z].*:\s*(true|false)" | \
+        sed 's/^[[:space:]]*//' | \
+        sed 's/[[:space:]]*:[[:space:]]*.*$//' | \
+        sort
+}
+
 # Get the base commit for comparison (always compare against previous commit)
 BASE_COMMIT="HEAD~1"
 CURRENT_COMMIT="HEAD"
 echo "📊 Comparing against previous commit: $BASE_COMMIT"
 
-# Check if the feature toggles file was modified
-if ! git diff --name-only "$BASE_COMMIT" "$CURRENT_COMMIT" | grep -q "$TOGGLES_FILE"; then
-    echo "✅ Feature toggles file was not modified in this commit"
+# Check if any toggle files were modified
+regular_modified=false
+ssr_modified=false
+
+if git diff --name-only "$BASE_COMMIT" "$CURRENT_COMMIT" | grep -q "$REGULAR_TOGGLES_FILE"; then
+    regular_modified=true
+    echo "📝 Regular feature toggles file was modified"
+fi
+
+if git diff --name-only "$BASE_COMMIT" "$CURRENT_COMMIT" | grep -q "$SSR_TOGGLES_FILE"; then
+    ssr_modified=true
+    echo "📝 SSR feature toggles file was modified"
+fi
+
+if [[ "$regular_modified" == "false" ]] && [[ "$ssr_modified" == "false" ]]; then
+    echo "✅ No feature toggles files were modified in this commit"
     exit 0
 fi
 
-echo "📝 Feature toggles file was modified, checking for new toggles..."
+echo ""
 
-# Get toggles from base commit
-echo "🔍 Extracting toggles from base commit..."
-base_content=$(git show "$BASE_COMMIT:$TOGGLES_FILE" 2>/dev/null || echo "")
-if [[ -z "$base_content" ]]; then
-    echo "⚠️  Could not get base version of feature toggles file"
-    base_toggles=""
-else
-    base_toggles=$(extract_toggles_from_content "$base_content")
-fi
+# Initialize arrays for new toggles
+new_regular_toggles=""
+new_ssr_toggles=""
 
-# Get toggles from current commit
-echo "🔍 Extracting toggles from current commit..."
-if [[ ! -f "$TOGGLES_FILE" ]]; then
-    echo "❌ Feature toggles file not found: $TOGGLES_FILE"
-    exit 1
-fi
-
-current_content=$(cat "$TOGGLES_FILE")
-current_toggles=$(extract_toggles_from_content "$current_content")
-
-# Find new toggles
-echo "🆕 Identifying new toggles..."
-new_toggles=""
-while read -r toggle; do
-    if [[ -n "$toggle" ]] && ! echo "$base_toggles" | grep -q "^$toggle$"; then
-        if [[ -z "$new_toggles" ]]; then
-            new_toggles="$toggle"
-        else
-            new_toggles="$new_toggles"$'\n'"$toggle"
-        fi
+# Check regular toggles if modified
+if [[ "$regular_modified" == "true" ]]; then
+    echo "🔍 Extracting regular toggles from base commit..."
+    base_content=$(git show "$BASE_COMMIT:$REGULAR_TOGGLES_FILE" 2>/dev/null || echo "")
+    if [[ -z "$base_content" ]]; then
+        echo "⚠️  Could not get base version of regular feature toggles file"
+        base_regular_toggles=""
+    else
+        base_regular_toggles=$(extract_regular_toggles_from_content "$base_content")
     fi
-done <<< "$current_toggles"
+
+    echo "🔍 Extracting regular toggles from current commit..."
+    if [[ ! -f "$REGULAR_TOGGLES_FILE" ]]; then
+        echo "❌ Regular feature toggles file not found: $REGULAR_TOGGLES_FILE"
+        exit 1
+    fi
+
+    current_content=$(cat "$REGULAR_TOGGLES_FILE")
+    current_regular_toggles=$(extract_regular_toggles_from_content "$current_content")
+
+    # Find new regular toggles
+    while read -r toggle; do
+        if [[ -n "$toggle" ]] && ! echo "$base_regular_toggles" | grep -q "^$toggle$"; then
+            if [[ -z "$new_regular_toggles" ]]; then
+                new_regular_toggles="$toggle"
+            else
+                new_regular_toggles="$new_regular_toggles"$'\n'"$toggle"
+            fi
+        fi
+    done <<< "$current_regular_toggles"
+fi
+
+# Check SSR toggles if modified
+if [[ "$ssr_modified" == "true" ]]; then
+    echo "🔍 Extracting SSR toggles from base commit..."
+    base_ssr_content=$(git show "$BASE_COMMIT:$SSR_TOGGLES_FILE" 2>/dev/null || echo "")
+    if [[ -z "$base_ssr_content" ]]; then
+        echo "⚠️  Could not get base version of SSR feature toggles file"
+        base_ssr_toggles=""
+    else
+        base_ssr_toggles=$(extract_ssr_toggles_from_content "$base_ssr_content")
+    fi
+
+    echo "🔍 Extracting SSR toggles from current commit..."
+    if [[ ! -f "$SSR_TOGGLES_FILE" ]]; then
+        echo "❌ SSR feature toggles file not found: $SSR_TOGGLES_FILE"
+        exit 1
+    fi
+
+    current_ssr_content=$(cat "$SSR_TOGGLES_FILE")
+    current_ssr_toggles=$(extract_ssr_toggles_from_content "$current_ssr_content")
+
+    # Find new SSR toggles
+    while read -r toggle; do
+        if [[ -n "$toggle" ]] && ! echo "$base_ssr_toggles" | grep -q "^$toggle$"; then
+            if [[ -z "$new_ssr_toggles" ]]; then
+                new_ssr_toggles="$toggle (ssr)"
+            else
+                new_ssr_toggles="$new_ssr_toggles"$'\n'"$toggle (ssr)"
+            fi
+        fi
+    done <<< "$current_ssr_toggles"
+fi
+
+echo ""
+echo "🆕 Identifying new toggles..."
+
+# Combine all new toggles
+new_toggles=""
+if [[ -n "$new_regular_toggles" ]]; then
+    new_toggles="$new_regular_toggles"
+fi
+if [[ -n "$new_ssr_toggles" ]]; then
+    if [[ -z "$new_toggles" ]]; then
+        new_toggles="$new_ssr_toggles"
+    else
+        new_toggles="$new_toggles"$'\n'"$new_ssr_toggles"
+    fi
+fi
 
 if [[ -z "$new_toggles" ]]; then
     echo "✅ No new feature toggles detected"
