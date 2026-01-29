@@ -10,13 +10,13 @@ import { provideDefaultConfig } from '@spartacus/core';
 import {
   OccSubscriptionAdapter,
   OccSubscriptionActionsAdapter,
+  OccSubscriptionBillingAdapter,
 } from './adapters';
 import {
   SubscriptionActionsAdapter,
   SubscriptionAdapter,
   SubscriptionBillingAdapter,
 } from '@spartacus/subscription-billing/core';
-import { OccSubscriptionBillingAdapter } from './adapters/occ-subscription-billing.adapter';
 
 @NgModule({
   providers: [

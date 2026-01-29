@@ -56,7 +56,7 @@ export class OccSubscriptionBillingAdapter
     userId: string,
     billId: string
   ): Observable<SubscriptionBill> {
-    const url = this.occEndpoints.buildUrl('subscriptionBillsList', {
+    const url = this.occEndpoints.buildUrl('subscriptionBillByCode', {
       urlParams: {
         userId,
         billId,
