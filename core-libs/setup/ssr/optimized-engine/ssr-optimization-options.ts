@@ -202,7 +202,6 @@ export interface SsrOptimizationOptions {
      * When false, the cache size will be limited by number of entries defined via the deprecated `cacheSize` option.
      */
     limitCacheByMemory?: boolean;
-    limitCacheByMemory1?: boolean;
   };
 }
 
@@ -262,6 +261,5 @@ export const defaultSsrOptimizationOptions: DefaultSsrOptimizationOptions = {
   renderKeyResolver: getDefaultRenderKey,
   ssrFeatureToggles: {
     limitCacheByMemory: true,
-    limitCacheByMemory1: true,
   },
 };
