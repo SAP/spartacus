@@ -12,7 +12,7 @@ const CLIENT_ID =
 
 const API_URL =
   JDK_VERSION === 'JDK21'
-    ? 'https://api.c432wmya2v-teamspart3-s1-public.model-t.myhybris.cloud'
+    ? 'https://api.cg79x9wuu9-eccommerc1-p4-public.model-t.myhybris.cloud'
     : 'https://api.c432wmya2v-teamspart3-s3-public.model-t.myhybris.cloud';
 
 export default defineConfig({
