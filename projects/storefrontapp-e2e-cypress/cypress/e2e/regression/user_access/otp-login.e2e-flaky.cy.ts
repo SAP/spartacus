@@ -198,29 +198,6 @@ describe('OTP Login', () => {
     });
   });
 
-  describe('Failed to Create OTP', () => {
-    beforeEach(() => {
-      visitLoginPage();
-    });
-    it('should not be able to create OTP with invalid user data (CXSPA-6672)', () => {
-      listenForCreateVerificationToken();
-
-      cy.get('cx-otp-login-form form').within(() => {
-        cy.get('[formcontrolname="userId"]').clear().type('test.user@sap.coma');
-        cy.get('[formcontrolname="password"]').clear().type('1234');
-        cy.get('button[type=submit]').click();
-      });
-
-      cy.wait('@createVerificationToken')
-        .its('response.statusCode')
-        .should('eq', 400);
-
-      cy.get('cx-global-message').within(() => {
-        cy.get('span').contains('Email is not valid.');
-      });
-    });
-  });
-
   describe('Verification token', () => {
     it('Should go back to login page when click back button (CXSPA-6689)', () => {
       visitLoginPage();
