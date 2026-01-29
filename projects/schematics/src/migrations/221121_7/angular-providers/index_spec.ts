@@ -10,7 +10,7 @@ import { join } from 'path';
 import { appModulePath } from '../../../shared';
 
 const collectionPath = join(__dirname, '../../migrations.json');
-const MIGRATION_SCRIPT_NAME = '01-migration-v221121_8-angular-providers';
+const MIGRATION_SCRIPT_NAME = '01-migration-v221121_7-angular-providers';
 
 describe('Angular Config Providers Migration', () => {
   let tree: Tree;

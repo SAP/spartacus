@@ -9,7 +9,7 @@ import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import { join } from 'path';
 
 const collectionPath = join(__dirname, '../../migrations.json');
-const MIGRATION_SCRIPT_NAME = '00-migration-v221121_8-angular-config';
+const MIGRATION_SCRIPT_NAME = '00-migration-v221121_7-angular-config';
 
 describe('Remove index property from angular.json migration', () => {
   let tree: Tree;

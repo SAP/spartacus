@@ -223,7 +223,7 @@ export class OpfCheckoutPaymentWrapperService {
     err: HttpErrorModel
   ): Observable<Error> {
     if (isAuthorizationError(err)) {
-      return throwError(() => err);
+      return this.handleGeneralPaymentError();
     }
 
     return Number(err.status) === HttpResponseStatus.CONFLICT
