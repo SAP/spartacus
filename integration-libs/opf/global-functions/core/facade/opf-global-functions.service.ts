@@ -268,6 +268,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       submitCancel?: OpfPaymentMerchantCallback;
       paymentMethod: OpfPaymentMethod;
       paymentSessionId?: string;
+      savePaymentMethod?: boolean;
     }): Promise<boolean> => {
       return this.ngZone.run(() => {
         const finalPaymentSessionId =
@@ -299,6 +300,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
             // this is intentional
           },
           paymentMethod,
+          savePaymentMethod,
         } = options;
 
         const callbacks: {
@@ -321,6 +323,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
               callbacks,
               paymentMethod,
               returnPath: undefined,
+              savePaymentMethod,
             })
             .pipe(
               /**
