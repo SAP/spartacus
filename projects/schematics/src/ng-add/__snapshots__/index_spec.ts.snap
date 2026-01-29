@@ -1,34 +1,15 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 1`] = `
-"import { NgModule, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
-import { BrowserModule, provideClientHydration, withEventReplay, withNoHttpTransferCache } from '@angular/platform-browser';
-
-import { provideHttpClient, withFetch, withInterceptorsFromDi } from "@angular/common/http";
+"
+import { NgModule } from '@angular/core';
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { AppRoutingModule } from "@spartacus/storefront";
-import { App } from './app.component';
 import { SpartacusModule } from './spartacus/spartacus.module';
 
 @NgModule({
-  declarations: [
-    App
-  ],
-  imports: [
-    BrowserModule,
-    StoreModule.forRoot({}),
-    AppRoutingModule,
-    EffectsModule.forRoot([]),
-    SpartacusModule
-  ],
-  providers: [
-    provideBrowserGlobalErrorListeners(),
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(withFetch(), withInterceptorsFromDi()),
-    provideClientHydration(withEventReplay(), withNoHttpTransferCache())
-  ],
-  bootstrap: [App]
+  imports: [StoreModule.forRoot({}), EffectsModule.forRoot([]), AppRoutingModule, SpartacusModule]
 })
 export class AppModule { }
 "
@@ -61,15 +42,15 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "^21.0.0",
-    "@angular/compiler": "^21.0.0",
-    "@angular/core": "^21.0.0",
-    "@angular/forms": "^21.0.0",
-    "@angular/platform-browser": "^21.0.0",
-    "@angular/platform-server": "^21.0.0",
-    "@angular/router": "^21.0.0",
-    "@angular/service-worker": "^21.0.8",
-    "@angular/ssr": "^21.0.5",
+    "@angular/common": "^21.1.0",
+    "@angular/compiler": "^21.1.0",
+    "@angular/core": "^21.1.0",
+    "@angular/forms": "^21.1.0",
+    "@angular/platform-browser": "^21.1.0",
+    "@angular/platform-server": "^21.1.0",
+    "@angular/router": "^21.1.0",
+    "@angular/service-worker": "^21.1.0",
+    "@angular/ssr": "^21.1.0",
     "@fontsource/open-sans": "^5.2.7",
     "@fortawesome/fontawesome-free": "7.1.0",
     "@ng-select/ng-select": "^21.1.4",
@@ -92,13 +73,13 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
     "zone.js": "~0.16.0"
   },
   "devDependencies": {
-    "@angular-devkit/core": "^21.0.5",
-    "@angular-devkit/schematics": "^21.0.5",
-    "@angular/build": "^21.0.5",
+    "@angular-devkit/core": "^21.1.0",
+    "@angular-devkit/schematics": "^21.1.0",
+    "@angular/build": "^21.1.0",
     "@angular/cli": "^0.5.0",
-    "@angular/compiler": "^21.0.8",
-    "@angular/compiler-cli": "^21.0.0",
-    "@schematics/angular": "^21.0.5",
+    "@angular/compiler": "^21.1.0",
+    "@angular/compiler-cli": "^21.1.0",
+    "@schematics/angular": "^21.1.0",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
     "jsdom": "^27.1.0",
@@ -111,22 +92,17 @@ exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 2`]
 `;
 
 exports[`Spartacus Schematics: ng-add should add spartacus properly with SSR 3`] = `
-"import { NgModule } from '@angular/core';
-
-import { App } from './app.component';
-import { AppModule } from './app.module';
+"
+import { NgModule } from '@angular/core';
 import { provideServer } from '@spartacus/setup/ssr';
 
-
 @NgModule({
-  imports: [AppModule],
   providers: [
     
      ...provideServer({
         serverRequestOrigin: process.env['SERVER_REQUEST_ORIGIN'],
       }),
-  ],
-  bootstrap: [App],
+  ]
 })
 export class AppServerModule {}
 "
