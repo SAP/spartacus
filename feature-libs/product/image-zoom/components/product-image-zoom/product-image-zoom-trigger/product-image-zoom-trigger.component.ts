@@ -16,7 +16,11 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { TranslatePipe } from '@spartacus/core';
+import {
+  FeatureDirective,
+  TranslatePipe,
+  useFeatureStyles,
+} from '@spartacus/core';
 import {
   ICON_TYPE,
   IconComponent,
@@ -31,7 +35,7 @@ import { ProductImageZoomDialogComponent } from '../product-image-zoom-dialog/pr
   selector: 'cx-product-image-zoom-trigger',
   templateUrl: 'product-image-zoom-trigger.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IconComponent, TranslatePipe],
+  imports: [FeatureDirective, IconComponent, TranslatePipe],
 })
 export class ProductImageZoomTriggerComponent implements OnDestroy {
   iconType = ICON_TYPE;
@@ -52,7 +56,9 @@ export class ProductImageZoomTriggerComponent implements OnDestroy {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef
-  ) {}
+  ) {
+    useFeatureStyles('a11yLinkBtnsToTertiaryBtns');
+  }
 
   triggerZoom(): void {
     const component = this.launchDialogService.launch(
