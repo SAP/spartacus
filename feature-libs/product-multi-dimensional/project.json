@@ -41,6 +41,23 @@
         "command": "npm run test:schematics",
         "cwd": "feature-libs/product-multi-dimensional"
       }
+    },
+    "build-schematics": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{projectRoot}/schematics/**/*.js",
+        "{projectRoot}/schematics/**/*.js.map",
+        "{projectRoot}/schematics/**/*.d.ts"
+      ],
+      "options": {
+        "cwd": "feature-libs/product-multi-dimensional",
+        "commands": [
+          "npm run clean:schematics",
+          "../../node_modules/.bin/tsc -p ./tsconfig.schematics.json"
+        ],
+        "parallel": false
+      },
+      "cache": true
     }
   },
   "tags": ["type:feature"]

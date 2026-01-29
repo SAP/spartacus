@@ -5,6 +5,11 @@
   },
   "targetDefaults": {
     "build": {
+      "dependsOn": ["^build", "build-schematics"],
+      "cache": true
+    },
+    "build-schematics": {
+      "dependsOn": ["schematics:build-schematics"],
       "cache": true
     },
     "lint": {

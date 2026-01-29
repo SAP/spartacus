@@ -4,6 +4,7 @@
   "sourceRoot": "projects/storefrontapp/src",
   "projectType": "application",
   "prefix": "cx",
+  "implicitDependencies": ["*"],
   "generators": {},
   "targets": {
     "build": {

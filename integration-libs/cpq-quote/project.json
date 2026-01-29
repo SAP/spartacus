@@ -41,6 +41,23 @@
           "integration-libs/cpq-quote/**/*.html"
         ]
       }
+    },
+    "build-schematics": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{projectRoot}/schematics/**/*.js",
+        "{projectRoot}/schematics/**/*.js.map",
+        "{projectRoot}/schematics/**/*.d.ts"
+      ],
+      "options": {
+        "cwd": "integration-libs/cpq-quote",
+        "commands": [
+          "npm run clean:schematics",
+          "../../node_modules/.bin/tsc -p ./tsconfig.schematics.json"
+        ],
+        "parallel": false
+      },
+      "cache": true
     }
   },
   "tags": ["type:feature"]

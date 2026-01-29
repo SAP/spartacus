@@ -339,15 +339,40 @@ The following files should be modified:
 
 - Root `package.json`
 
-Add the following scripts:
+Add the following to root `package.json`:
 
-```json
-"build:asm": "npm --prefix feature-libs/asm run build:schematics && npx nx build asm --configuration production"
-```
+1. **Add build script for your library:**
+   ```json
+   "build:asm": "npm --prefix feature-libs/asm run build:schematics && npx nx build asm --configuration production"
+   ```
+   Replace `asm` with your library name.
 
-And replace `asm` instances with the name of yours lib.
+2. **Add build-schematics target to your library's project.json:**
+   ```json
+   {
+     "targets": {
+       "build-schematics": {
+         "executor": "nx:run-commands",
+         "outputs": [
+           "{projectRoot}/schematics/**/*.js",
+           "{projectRoot}/schematics/**/*.js.map",
+           "{projectRoot}/schematics/**/*.d.ts"
+         ],
+         "options": {
+           "cwd": "feature-libs/<lib-name>",
+           "commands": [
+             "npm run clean:schematics",
+             "../../node_modules/.bin/tsc -p ./tsconfig.schematics.json"
+           ],
+           "parallel": false
+         },
+         "cache": true
+       }
+     }
+   }
+   ```
 
-Also, add the new lib to the `build:libs` and `test:libs` scripts.
+3. **Add your library to `test:libs` script** (the `build:libs` script will automatically include all libraries via `nx run-many --all`).
 
 - `projects/schematics/package.json` - add the library to the package group
 
@@ -368,6 +393,9 @@ If you have your own sample data that derives from our spartacussampledata, such
 Sources:
 
 - [ng-packagr examples](https://github.com/ng-packagr/ng-packagr/tree/master/integration/samples/secondary)
+
+**Note on Schematics Builds:**
+The build orchestration uses Nx's `run-many` command which automatically discovers and builds all libraries in dependency order. Individual library schematics are built via the `build-schematics` target before the main library build.
 
 ### Process
 
