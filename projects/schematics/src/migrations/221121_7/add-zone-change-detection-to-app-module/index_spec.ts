@@ -11,7 +11,7 @@ import { appModulePath } from '../../../shared';
 
 const collectionPath = join(__dirname, '../../migrations.json');
 const MIGRATION_SCRIPT_NAME =
-  '04-migration-v221121_7-add-zone-change-detection-to-app-module';
+  '05-migration-v221121_7-add-zone-change-detection-to-app-module';
 
 describe('Zone Change Detection App Module Migration', () => {
   let tree: Tree;

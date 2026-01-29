@@ -10,7 +10,7 @@ import { join } from 'path';
 
 const collectionPath = join(__dirname, '../../migrations.json');
 const MIGRATION_SCRIPT_NAME =
-  '03-migration-v221121_7-remove-zone-change-detection-from-main';
+  '04-migration-v221121_7-remove-zone-change-detection-from-main';
 
 describe('Zone Change Detection Main.ts Migration', () => {
   let tree: Tree;

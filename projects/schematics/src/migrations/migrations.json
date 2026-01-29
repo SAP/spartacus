@@ -89,6 +89,16 @@
       "version": "221121.7.0",
       "factory": "./221121_7/tsconfig-update/index#migrate",
       "description": "Update tsconfig.json to reflect fresh Angular 21 application"
+    },
+    "04-migration-v221121_7-remove-zone-change-detection-from-main": {
+      "version": "221121.7.0",
+      "factory": "./221121_7/remove-zone-change-detection-from-main/index#migrate",
+      "description": "Remove provideZoneChangeDetection from main.ts applicationProviders"
+    },
+    "05-migration-v221121_7-add-zone-change-detection-to-app-module": {
+      "version": "221121.7.0",
+      "factory": "./221121_7/add-zone-change-detection-to-app-module/index#migrate",
+      "description": "Add provideZoneChangeDetection to app.module.ts providers"
     }
   }
 }

@@ -36,6 +36,7 @@ export const APP_COMPONENT = 'app.component.ts';
 export const APP_COMPONENT_HTML = 'app.component.html';
 export const APP_ROUTES_SERVER = 'app.routes.server.ts';
 export const INDEX_HTML = 'index.html';
+export const MAIN_TS = 'main.ts';
 export const SERVER_TS = 'server.ts';
 /***** File names end *****/
 
@@ -84,6 +85,7 @@ export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const PROVIDE_CONFIG_FUNCTION = 'provideConfig';
 export const PROVIDE_CONFIG_FACTORY_FUNCTION = 'provideConfigFactory';
 export const PROVIDE_FEATURE_TOGGLES_FUNCTION = 'provideFeatureToggles';
+export const PROVIDE_ZONE_CHANGE_DETECTION = 'provideZoneChangeDetection';
 export const SITE_CONTEXT_CONFIG = 'SiteContextConfig';
 export const I18N_CONFIG = 'I18nConfig';
 export const OCC_CONFIG = 'OccConfig';
