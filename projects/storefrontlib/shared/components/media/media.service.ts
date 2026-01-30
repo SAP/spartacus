@@ -4,8 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, inject } from '@angular/core';
-import { Config, FeatureConfigService, Image } from '@spartacus/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
+import {
+  Config,
+  FeatureConfigService,
+  Image,
+  LoggerService,
+} from '@spartacus/core';
 import { MediaConfig } from './media.config';
 import {
   ImageLoadingStrategy,
@@ -40,6 +45,7 @@ export class MediaService {
   private _reversedFormats: { code: string; size: MediaFormatSize }[];
 
   private readonly featureConfigService = inject(FeatureConfigService);
+  protected logger = inject(LoggerService);
 
   constructor(protected config: Config) {}
 
@@ -410,10 +416,20 @@ export class MediaService {
       this.getPrefix().length > 0
     ) {
       try {
+        // Construct URL (with Validation)
         const url = new URL(this.getPrefix(), baseUrl);
         return url.toString();
       } catch (error) {
-        throw new Error('Invalid media/occ baseUrl and prefix configuration');
+        if (isDevMode()) {
+          this.logger.error(
+            'Invalid media/occ baseUrl and prefix configuration'
+          );
+        } else {
+          this.logger.warn(
+            'Invalid media/occ baseUrl and prefix configuration'
+          );
+        }
+        return baseUrl;
       }
     } else {
       return baseUrl;
