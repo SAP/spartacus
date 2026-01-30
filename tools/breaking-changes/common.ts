@@ -255,30 +255,30 @@ export function escapePackageName(packageName: string) {
 }
 
 export function getSignatureDoc(
-  functonElement: any,
+  functionElement: any,
   multiLine: boolean = true
 ): string {
   const lineEnding = getLineEnding(multiLine);
-  const parameterDoc = getParameterDoc(functonElement, multiLine);
-  const returnType = functonElement.returnType
-    ? ': ' + normalizeTypeForDisplay(functonElement.returnType)
+  const parameterDoc = getParameterDoc(functionElement, multiLine);
+  const returnType = functionElement.returnType
+    ? ': ' + normalizeTypeForDisplay(functionElement.returnType)
     : '';
-  const doc = `${lineEnding}${functonElement.name}(${parameterDoc})${returnType}${lineEnding}`;
+  const doc = `${lineEnding}${functionElement.name}(${parameterDoc})${returnType}${lineEnding}`;
 
   return doc;
 }
 
 export function getParameterDoc(
-  functonElement: any,
+  functionElement: any,
   multiLine: boolean = true
 ): string {
   const lineEnding = getLineEnding(multiLine);
-  if (functonElement.parameters?.length) {
+  if (functionElement.parameters?.length) {
     let parameterDoc = lineEnding;
-    functonElement.parameters.forEach((parameter: any, index: number) => {
+    functionElement.parameters.forEach((parameter: any, index: number) => {
       const normalizedType = normalizeTypeForDisplay(parameter.type);
       parameterDoc += `  ${parameter.name}${parameter.isOptional ? '?' : ''}: ${normalizedType}${
-        index + 1 >= functonElement.parameters.length ? '' : ','
+        index + 1 >= functionElement.parameters.length ? '' : ','
       }${lineEnding}`;
     });
     return parameterDoc;

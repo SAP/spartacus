@@ -12,7 +12,11 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { RoutingService, TranslatePipe } from '@spartacus/core';
+import {
+  RoutingService,
+  TranslatePipe,
+  FeatureDirective,
+} from '@spartacus/core';
 import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 
 @Component({
@@ -26,6 +30,7 @@ import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
     NgClass,
     NgTemplateOutlet,
     TranslatePipe,
+    FeatureDirective,
   ],
 })
 export class StoreFinderSearchComponent {
