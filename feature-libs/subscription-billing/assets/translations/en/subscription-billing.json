@@ -21,7 +21,7 @@
     "title": "All Subscriptions",
     "sortSubtitle": "Sort By",
     "startDate": "Subscription Start Date: {{ date }}",
-    "status": "Status: {{ value }}",
+    "status": "Status: ",
     "noSubscriptions": "You don't have any subscriptions",
     "sortOrders": "Sort orders",
     "manageService": "Manage Service",
@@ -32,16 +32,16 @@
     }
   },
   "subscriptionDetails": {
-    "info": "Subscription/Contract Details:",
+    "info": "Subscription Product Details:",
     "productCode": "Subscription Service (Product) Code:",
     "endDate": "Subscription End Date: {{ date }}",
     "cancelSubscription": "Cancel Subscription",
     "extendSubscription": "Extend Subscription",
     "withdrawSubscription": "Withdraw Subscription",
-    "reSubscribe": "Re-subscribe",
+    "reSubscribe": "Renew Subscription",
     "back": "View All Subscriptions",
     "withdrawalEnd": "Withdrawal Period End Date: {{ date }}",
-    "orderCode": "Order Code:"
+    "orderCode": "Order Number:"
   },
   "subscriptionActions": {
     "cancel": "Cancel",
@@ -75,5 +75,10 @@
     "totalAmount": "Total Amount: ",
     "subscriptionProduct": "Subscription Product",
     "billingPeriod": "Billing Period: {{ startDate }} - {{ endDate }}"
+  },
+  "subscriptionPageBreadcrumb": {
+    "home": "Home",
+    "subscriptions": "Subscriptions",
+    "subscriptionBills": "Subscription Bills"
   }
 }

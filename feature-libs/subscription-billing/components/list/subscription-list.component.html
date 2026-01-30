@@ -36,10 +36,10 @@
             *ngIf="subscription.status"
             [attr.aria-label]="'subscriptionList.status' | cxTranslate"
           >
-            {{
-              'subscriptionList.status'
-                | cxTranslate: { value: subscription.status }
-            }}
+            {{ 'subscriptionList.status' | cxTranslate }}
+            <span [ngClass]="subscription.status.toLowerCase()">{{
+              subscription.status
+            }}</span>
           </div>
         </div>
         <div class="subscription-body">
