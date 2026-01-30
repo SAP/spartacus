@@ -29,7 +29,7 @@ export class PageMetaService {
     protected cms: CmsService,
     protected unifiedInjector: UnifiedInjector,
     protected pageMetaConfig: PageMetaConfig,
-    // @deprecated since 4.3.8 - to be removed in 5.0
+    // @deprecated (will be removed in 12 months)
     @Inject(PLATFORM_ID) protected platformId: string
   ) {
     // NOTE: Solution to the issue: https://jira.tools.sap/browse/CXSPA-10923
