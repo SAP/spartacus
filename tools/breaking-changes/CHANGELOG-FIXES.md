@@ -114,12 +114,6 @@ The improved `generateStructuredTokens()` function was too aggressive in splitti
 - Updated `findTokenRange()` to handle tokens that may contain `:` within them
 - Added fallback logic to search for `:` both as separate token and within tokens
 
-#### Testing
-Added `test-tokenization.ts` to verify token generation:
-```bash
-npm run test-tokens
-```
-
 ---
 
 ## Date: January 27, 2026
