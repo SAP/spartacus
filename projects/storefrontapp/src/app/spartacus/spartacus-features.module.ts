@@ -329,6 +329,7 @@ if (environment.cpq) {
         enablePasswordExpiredErrorTranslation: true,
         enableQuotePurchaseOrderNumber: false,
         enableReturnOrderReturnableQuantityConsigmentFallback: true,
+        enableMediaPrefix: true,
       };
       return appFeatureToggles;
     }),

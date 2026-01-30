@@ -401,10 +401,32 @@ export class MediaService {
    * Defaults to empty string in case no config is provided.
    */
   public getBaseUrl(): string {
-    return (
+    const baseUrl =
       this.config.backend?.media?.baseUrl ??
       this.config.backend?.occ?.baseUrl ??
-      ''
-    );
+      '';
+    if (
+      this.featureConfigService.isEnabled('enableMediaPrefix') &&
+      this.getPrefix().length > 0
+    ) {
+      try {
+        const url = new URL(this.getPrefix(), baseUrl);
+        return url.toString();
+      } catch (error) {
+        throw new Error('Invalid media/occ baseUrl and prefix configuration');
+      }
+    } else {
+      return baseUrl;
+    }
+  }
+
+  private getPrefix(): string {
+    if (
+      this.config?.backend?.media?.prefix &&
+      !this.config.backend.media.prefix.startsWith('/')
+    ) {
+      return '/' + this.config.backend.media.prefix;
+    }
+    return this.config?.backend?.media?.prefix ?? '';
   }
 }

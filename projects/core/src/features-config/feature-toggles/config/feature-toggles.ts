@@ -345,6 +345,13 @@ export interface FeatureTogglesInterface {
    * Affects: `ReturnOrderComponent`
    */
   enableReturnOrderReturnableQuantityConsigmentFallback?: boolean;
+
+  /**
+   * When enabled, the media prefix from the backend config will be used
+   * when constructing media URLs in the MediaService.
+   * Affects: `MediaService`
+   */
+  enableMediaPrefix?: boolean;
 }
 
 export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
@@ -381,4 +388,5 @@ export const defaultFeatureToggles: Required<FeatureTogglesInterface> = {
   enablePasswordExpiredErrorTranslation: false,
   enableQuotePurchaseOrderNumber: false,
   enableReturnOrderReturnableQuantityConsigmentFallback: false,
+  enableMediaPrefix: false,
 };

@@ -81,6 +81,10 @@ if (!environment.production) {
           baseUrl: environment.occBaseUrl,
           prefix: environment.occApiPrefix,
         },
+        media: {
+          baseUrl: environment.mediaBaseUrl,
+          prefix: environment.mediaApiPrefix,
+        },
       },
     }),
     provideConfig(<RoutingConfig>{
