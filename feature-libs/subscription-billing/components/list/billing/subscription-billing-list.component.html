@@ -1,9 +1,9 @@
 <ng-container *ngIf="billingList$ | async as billingList; else loading">
-  @if(billingList.results?.length > 0) {
+  @if (billingList.results?.length > 0) {
     <div class="billing-list-title-section">
       <h3>{{ 'subscriptionBillsList.title' | cxTranslate }}</h3>
     </div>
- 
+
     <div class="billing-list-filter-section">
       <div class="date-filters-wrapper">
         <div class="from-date-filter date-filters">
@@ -63,7 +63,8 @@
           <th scope="col">
             <div class="cx-billing-list-table-header">
               {{
-                'subscriptionBillsList.tableHeaderColSubscriptions' | cxTranslate
+                'subscriptionBillsList.tableHeaderColSubscriptions'
+                  | cxTranslate
               }}
             </div>
           </th>
@@ -80,7 +81,9 @@
       <tbody>
         <tr *ngFor="let billing of billingList.results">
           <td>
-            <div class="cx-billing-list-table-col">{{ billing.documentNumber }}</div>
+            <div class="cx-billing-list-table-col">
+              {{ billing.documentNumber }}
+            </div>
           </td>
           <td>
             <div class="cx-billing-list-table-col">

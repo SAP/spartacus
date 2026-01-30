@@ -45,7 +45,7 @@
         @include input-border;
       }
       font-weight: 600;
-      padding-left: 1rem;
+      padding: 0 0 0 1rem;
     }
 
     & .date-filters-wrapper,
@@ -73,7 +73,7 @@
 
   .billing-list-pagination-bar {
     margin-top: 20px;
-    padding-right: 24px;
+    padding: 0 24px 0 0;
     display: flex;
     justify-content: flex-end;
   }

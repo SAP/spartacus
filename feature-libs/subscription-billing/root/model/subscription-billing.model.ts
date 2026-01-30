@@ -40,7 +40,7 @@ export interface SubscriptionBillItem {
 
 export enum SubscriptionBillStatus {
   PAID = 'Paid',
-  DUE = 'Due'
+  DUE = 'Due',
 }
 
 export interface BillUsageCharge {

@@ -10,59 +10,61 @@ const mockRoutingService = {
 };
 
 const listWithData: SubscriptionBillsList = {
-    pagination: {
-        currentPage: 0,
-        pageSize: 1,
-        sort: "byBillingDateDesc",
-        totalPages: 410,
-        totalResults: 2047
-    },
-    results: [
+  pagination: {
+    currentPage: 0,
+    pageSize: 1,
+    sort: 'byBillingDateDesc',
+    totalPages: 410,
+    totalResults: 2047,
+  },
+  results: [
+    {
+      billAt: '2026-04-11T00:00:00+0000',
+      documentNumber: '5776',
+      id: '019B9D0C-D5AC-70ED-A3FC-A7B88D1B2015',
+      items: [
         {
-        billAt: "2026-04-11T00:00:00+0000",
-        documentNumber: "5776",
-        id: "019B9D0C-D5AC-70ED-A3FC-A7B88D1B2015",
-        items: [
+          netAmount: 'USD0.00',
+          productCode: 'SAPCPQ_EDITRATIO_FORMAT_TIERS_cpq',
+          productName: 'SAPCPQ_EDITRATIO_FORMAT_TIERS',
+          subscriptionDocumentNumber: '807',
+          subscriptionId: '86B01278-B670-4812-B69C-55E41439D59E',
+          usageCharges: [
             {
-            netAmount: "USD0.00",
-            productCode: "SAPCPQ_EDITRATIO_FORMAT_TIERS_cpq",
-            productName: "SAPCPQ_EDITRATIO_FORMAT_TIERS",
-            subscriptionDocumentNumber: "807",
-            subscriptionId: "86B01278-B670-4812-B69C-55E41439D59E",
-            usageCharges: [{
-                netAmount: "USD185.00",
-                typeName: "Charge"
-            }]
-            }
-        ],
-        netAmount: "USD0.00",
-        numberOfSubscriptions: 1,
-        periodEndAt: "2026-04-09T00:00:00+0000",
-        periodStartAt: "2026-01-09T00:00:00+0000",
-        }
-    ],
-    sorts: [
-        {
-        code: "byDocumentNumberDesc",
-        name: "Bill ID (desc)",
-        selected: false
+              netAmount: 'USD185.00',
+              typeName: 'Charge',
+            },
+          ],
         },
-        {
-        code: "byDocumentNumberAsc",
-        name: "Bill ID (asc)",
-        selected: false
-        },
-        {
-        code: "byBillingDateDesc",
-        name: "Bill Date (desc)",
-        selected: true
-        },
-        {
-        code: "byBillingDateAsc",
-        name: "Bill Date (asc)",
-        selected: false
-        }
-    ]
+      ],
+      netAmount: 'USD0.00',
+      numberOfSubscriptions: 1,
+      periodEndAt: '2026-04-09T00:00:00+0000',
+      periodStartAt: '2026-01-09T00:00:00+0000',
+    },
+  ],
+  sorts: [
+    {
+      code: 'byDocumentNumberDesc',
+      name: 'Bill ID (desc)',
+      selected: false,
+    },
+    {
+      code: 'byDocumentNumberAsc',
+      name: 'Bill ID (asc)',
+      selected: false,
+    },
+    {
+      code: 'byBillingDateDesc',
+      name: 'Bill Date (desc)',
+      selected: true,
+    },
+    {
+      code: 'byBillingDateAsc',
+      name: 'Bill Date (asc)',
+      selected: false,
+    },
+  ],
 };
 
 describe('SubscriptionBillingService', () => {
@@ -72,8 +74,8 @@ describe('SubscriptionBillingService', () => {
 
   beforeEach(() => {
     const connectorSpy = jasmine.createSpyObj('SubscriptionBillingConnector', [
-        'getSubscriptionBillsList',
-        'getSubscriptionBillByCode',
+      'getSubscriptionBillsList',
+      'getSubscriptionBillByCode',
     ]);
 
     const userIdServiceSpy = jasmine.createSpyObj('UserIdService', [
@@ -85,14 +87,16 @@ describe('SubscriptionBillingService', () => {
         SubscriptionBillingService,
         { provide: SubscriptionBillingConnector, useValue: connectorSpy },
         { provide: RoutingService, useValue: mockRoutingService },
-        { provide: UserIdService, useValue: userIdServiceSpy }
+        { provide: UserIdService, useValue: userIdServiceSpy },
       ],
     });
     connector = TestBed.inject(
       SubscriptionBillingConnector
     ) as jasmine.SpyObj<SubscriptionBillingConnector>;
     service = TestBed.inject(SubscriptionBillingService);
-    userIdService = TestBed.inject(UserIdService) as jasmine.SpyObj<UserIdService>;
+    userIdService = TestBed.inject(
+      UserIdService
+    ) as jasmine.SpyObj<UserIdService>;
   });
 
   it('should be created', () => {
@@ -105,14 +109,11 @@ describe('SubscriptionBillingService', () => {
 
       connector.getSubscriptionBillsList.and.returnValue(of(listWithData));
       userIdService.getUserId.and.returnValue(of('current'));
-      
+
       let response: SubscriptionBillsList | undefined;
-      service.getSubscriptionBillsList(
-        5,
-        1,
-        'byBillingDateDesc',
-        undefined
-      ).subscribe((result) => response = result);
+      service
+        .getSubscriptionBillsList(5, 1, 'byBillingDateDesc', undefined)
+        .subscribe((result) => (response = result));
       expect(connector.getSubscriptionBillsList).toHaveBeenCalledWith(
         userId,
         5,
@@ -132,7 +133,12 @@ describe('SubscriptionBillingService', () => {
       userIdService.getUserId.and.returnValue(of('current'));
 
       service
-        .getSubscriptionBillsListState(mockCurrentPage, mockPageSize, mockSort, undefined)
+        .getSubscriptionBillsListState(
+          mockCurrentPage,
+          mockPageSize,
+          mockSort,
+          undefined
+        )
         .subscribe((state) => {
           expect(connector.getSubscriptionBillsList).toHaveBeenCalledWith(
             'current',
@@ -150,5 +156,4 @@ describe('SubscriptionBillingService', () => {
         });
     });
   });
-
 });
