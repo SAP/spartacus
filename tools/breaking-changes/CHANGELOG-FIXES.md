@@ -153,17 +153,6 @@ npm run test-tokens
 - `/tools/breaking-changes/package.json` - Added `validate` and `test` scripts
 - `/tools/breaking-changes/readme.md` - Added validation documentation
 
-#### Files Added
-- `/tools/breaking-changes/test-normalize.ts` - Unit tests for normalization
-- `/tools/breaking-changes/validate-generated-files.sh` - Validation script
-- `/tools/breaking-changes/BREAKING_CHANGES_FIX_SUMMARY.md` - Comprehensive fix documentation
-
-#### Testing
-```bash
-npm test       # Run unit tests
-npm run validate  # Validate generated files
-```
-
 ---
 
 ## Date: January 21, 2026
