@@ -117,6 +117,8 @@ Let's make following manual changes to modernize so it's similar to a new Angula
 
 1. In `angular.json`, remove redundant `index` property. For more, see: https://github.com/angular/angular-cli/commit/901ab60d9f63fcff17213dbf7fe17e4a46835974
 
+> **Note:** This change is automatically handled by the Spartacus migration schematics when you run `ng update @spartacus/schematics@221121.7`. The manual steps below are provided as a fallback in case the automatic migration does not complete successfully.
+
 ```diff
  "projects": {
     <your-project-name>: {
@@ -139,7 +141,11 @@ Let's make following manual changes to modernize so it's similar to a new Angula
     }
 ```
 
-Note: In fresh apps generated with Angular 21, the `outputPath` option is skipped and implicitly defaults to `dist/<your-project-name>`. If your migrated app has `outputPath` set to `dist/<your-project-name>`, we recommend removing it from the `angular.json` as not necessary.
+2. (Optional) In `angular.json`, remove redundant `outputPath` property if it matches the default value.
+
+> **Note:** This is a manual change and is **not** handled by the Spartacus migration schematics.
+
+In fresh apps generated with Angular 21, the `outputPath` option is skipped and implicitly defaults to `dist/<your-project-name>`. If your migrated app has `outputPath` set to `dist/<your-project-name>`, we recommend removing it from the `angular.json` as not necessary.
 
 ```diff
  "projects": {
@@ -165,7 +171,9 @@ Note: In fresh apps generated with Angular 21, the `outputPath` option is skippe
 For more, see: https://github.com/angular/angular-cli/pull/29905
 
 
-2. In `tsconfig.json`, update the config in the following way:
+3. In `tsconfig.json`, update the config in the following way:
+
+> **Note:** This change is automatically handled by the Spartacus migration schematics when you run `ng update @spartacus/schematics@221121.7`. The manual steps below are provided as a fallback in case the automatic migration does not complete successfully.
 
 ```diff
 /* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
@@ -220,9 +228,11 @@ While it's not recommended, you can still disable the flag by adding the followi
 ```
 
 
-3. In `app.module.ts`, add the `provideBrowserGlobalErrorListeners` and `provideZoneChangeDetection({ eventCoalescing: true }),` to the `providers` array. 
+4. In `app.module.ts`, add the `provideBrowserGlobalErrorListeners` and `provideZoneChangeDetection({ eventCoalescing: true }),` to the `providers` array. 
 For more about `provideBrowserGlobalErrorListeners`, see: https://angular.dev/best-practices/error-handling#client-side-rendering
 For more about `provideZoneChangeDetection`, see: https://angular.dev/api/core/provideZoneChangeDetection
+
+> **Note:** This change is automatically handled by the Spartacus migration schematics when you run `ng update @spartacus/schematics@221121.7`. The manual steps below are provided as a fallback in case the automatic migration does not complete successfully.
 
 ```diff
 -import { NgModule } from '@angular/core';
@@ -257,7 +267,9 @@ import { SpartacusModule } from './spartacus/spartacus.module';
 export class AppModule { }
 ```
 
-4. In `main.ts`, remove the `applicationProviders` with`provideZoneChangeDetection({ eventCoalescing: true })` from the `platformBrowser().bootstrapModule` call.
+5. In `main.ts`, remove the `applicationProviders` with`provideZoneChangeDetection({ eventCoalescing: true })` from the `platformBrowser().bootstrapModule` call.
+
+> **Note:** This change is automatically handled by the Spartacus migration schematics when you run `ng update @spartacus/schematics@221121.7`. The manual steps below are provided as a fallback in case the automatic migration does not complete successfully.
 
 
 ```diff
@@ -370,6 +382,8 @@ You can safely ignore this warning for now. We're actively monitoring this and w
 
 ### Upgrade Express to Version 5
 
+> **Note:** This change is automatically handled by the Spartacus migration schematics when you run `ng update @spartacus/schematics@221121.7`. The manual steps below are provided as a fallback in case the automatic migration does not complete successfully.
+
 Spartacus 221121.7 requires Express 5.x. Upgrade Express:
 
 ```bash
@@ -378,7 +392,6 @@ git add .
 git commit -m "chore: upgrade Express to v5.1.0"
 ```
 
-### Manual changes
 1. In `server.ts`, update wildcard strings with regular expressions for Express 5 compatibility:
 
 ```diff
