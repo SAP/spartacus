@@ -4,9 +4,9 @@
     "outDir": "../../out-tsc/app",
     "strict": false, // TODO: Fix strict errors and remove this option
     "target": "ES2022",
-    "module": "preserve",
+    "module": "es2022",
     "skipLibCheck": true, // Needed due to @sapui5/ts-types-esm dependency (used by @spartacus/epd-visualization)
-    "moduleResolution": "bundler"
+    "moduleResolution": "node"
   },
   "types": ["node"],
   "files": [

@@ -4,11 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, DOCUMENT } from '@angular/common';
 import {
   Component,
   DestroyRef,
-  DOCUMENT,
   ElementRef,
   HostBinding,
   HostListener,

@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { isPlatformServer } from '@angular/common';
+import { isPlatformServer, DOCUMENT } from '@angular/common';
 import {
   Injectable,
   NgZone,
   PLATFORM_ID,
   inject,
-  DOCUMENT,
+  
 } from '@angular/core';
 import {
   Config,
