@@ -113,35 +113,7 @@ ng update @spartacus/schematics@221121.7
 
 ### Manual changes
 
-Let's make following manual changes to modernize so it's similar to a new Angular 20 application.
-
-1. In `angular.json`, remove redundant `index` property. For more, see: https://github.com/angular/angular-cli/commit/901ab60d9f63fcff17213dbf7fe17e4a46835974
-
-> **Note:** This change is automatically handled by the Spartacus migration schematics when you run `ng update @spartacus/schematics@221121.7`. The manual steps below are provided as a fallback in case the automatic migration does not complete successfully.
-
-```diff
- "projects": {
-    <your-project-name>: {
-      "projectType": "application",
-      "root": "",
-      "sourceRoot": "src",
-      "prefix": "app",
-      "architect": {
-        "build": {
-          "options": {
-            "outputPath": "dist/<your-project-name>",
--            "index": "src/index.html",
-            "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
-            ...
-        }
-      }
-    }
-```
-
-2. (Optional) In `angular.json`, remove redundant `outputPath` property if it matches the default value.
+1. (Optional) In `angular.json`, remove redundant `outputPath` property if it matches the default value.
 
 > **Note:** This is a manual change and is **not** handled by the Spartacus migration schematics.
 
@@ -168,12 +140,138 @@ In fresh apps generated with Angular 21, the `outputPath` option is skipped and 
     }
 ```
 
+
+### Additional migration steps if using Server Side Rendering (SSR)
+
+#### Enable Non-Destructive Hydration (Required for SSR)
+
+If your application uses Server-Side Rendering (SSR), you should enable Angular's non-destructive hydration. This is now a requirement for Spartacus 221121_7. This aligns your app with current Angular best practices, making maintenance and upgrades easier.
+
+##### What is non-destructive hydration?
+
+Non-destructive hydration is an Angular feature that improves UX and performance by reusing the server-rendered DOM instead of destroying and recreating it on the client side. This reduces the time to interactive and provides a better user experience.
+
+For more information, see the [Angular Hydration Guide](https://angular.dev/guide/hydration).
+
+#### How to enable it
+
+In your `app.module.ts` (or `app.config.ts` for standalone applications), add `provideClientHydration()` with `withEventReplay()` and `withNoHttpTransferCache()`:
+
+**For module-based applications (app.module.ts):**
+
+```diff
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
++ import {
++   provideClientHydration,
++   withEventReplay,
++   withNoHttpTransferCache,
++ } from '@angular/platform-browser';
+
+@NgModule({
+  imports: [
+    BrowserModule,
+    // ...
+  ],
+  providers: [
++   provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
+    // ...
+  ],
+  // ...
+})
+export class AppModule { }
+```
+
+**For standalone applications (app.config.ts):**
+
+```typescript
+import { ApplicationConfig } from '@angular/core';
+import {
+  provideClientHydration,
+  withEventReplay,
+  withNoHttpTransferCache,
+} from '@angular/platform-browser';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
+    // ...
+  ]
+};
+```
+
+##### Why are these options required?
+
+- **`withEventReplay()`**: Ensures that user interactions that occur before the application is fully hydrated are captured and replayed. This provides a seamless user experience even during the hydration process.
+
+- **`withNoHttpTransferCache()`**: Disables the HTTP transfer cache for hydration. This is required for Spartacus because Spartacus uses its own state transfer mechanism. Without this option, there could be conflicts between Angular's built-in HTTP transfer cache and Spartacus's custom implementation.
+
+##### Important Notes
+
+- Make sure to test your application thoroughly after enabling hydration to ensure all components hydrate correctly.
+- For more details, refer to the official [Angular Hydration documentation](https://angular.dev/guide/hydration).
+
+##### Known Warning: NG05001
+
+After enabling hydration, you may see the following warning in your console:
+
+```
+NG05001: Configuration error: found both hydration and enabledBlocking initial navigation 
+in the same application, which is a contradiction.
+```
+
+**We didn't encounter any issues with this setup in practice.**
+
+This diagnostic was introduced by the Angular team in Angular 21 ([Angular issue #59624](https://github.com/angular/angular/issues/59624), [Angular PR #62963](https://github.com/angular/angular/pull/62963)). The warning appears because Spartacus uses `initialNavigation: 'enabledBlocking'` in its router configuration to ensure proper CMS page loading and lazy-loading of JS chunks before rendering the components.
+
+**Current Status:**
+
+We're not yet sure why this diagnostic was added by the Angular team. Since May 2025, we haven't observed any negative consequences with the current setup. We're still investigating the implications and will update our implementation if needed.
+
+**Our Experience:**
+
+In practice, we've found that:
+- Since May 2025, no functional issues have been reported related to this warning
+- Both hydration and `enabledBlocking` work correctly together in Spartacus
+- During SSR, `enabledBlocking` ensures all route guards (including `CmsPageGuard`) complete before rendering
+- During hydration in the browser, Angular's hydration system prevents UI flickering by reusing the server-rendered DOM
+
+You can safely ignore this warning for now. We're actively monitoring this and will address it in a future Spartacus release if necessary as part of the ongoing modernization of the SSR implementation.
+
+This command should handle all the necessary migrations automatically. In most cases, no further action is required.
+
+### Manual Migration Steps (Fallback Only)
+
+Below is a list of changes that the Spartacus migration schematics perform automatically. We include them here as a fallback. You only need to perform these steps manually if the schematics failed to complete successfully.
+
+1. In `angular.json`, remove redundant `index` property. For more, see: https://github.com/angular/angular-cli/commit/901ab60d9f63fcff17213dbf7fe17e4a46835974
+
+```diff
+ "projects": {
+    <your-project-name>: {
+      "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "options": {
+            "outputPath": "dist/<your-project-name>",
+-            "index": "src/index.html",
+            "browser": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            ...
+        }
+      }
+    }
+```
+
 For more, see: https://github.com/angular/angular-cli/pull/29905
 
 
-3. In `tsconfig.json`, update the config in the following way:
-
-> **Note:** This change is automatically handled by the Spartacus migration schematics when you run `ng update @spartacus/schematics@221121.7`. The manual steps below are provided as a fallback in case the automatic migration does not complete successfully.
+2. In `tsconfig.json`, update the config in the following way:
 
 ```diff
 /* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
@@ -228,11 +326,9 @@ While it's not recommended, you can still disable the flag by adding the followi
 ```
 
 
-4. In `app.module.ts`, add the `provideBrowserGlobalErrorListeners` and `provideZoneChangeDetection({ eventCoalescing: true }),` to the `providers` array. 
+3. In `app.module.ts`, add the `provideBrowserGlobalErrorListeners` and `provideZoneChangeDetection({ eventCoalescing: true }),` to the `providers` array. 
 For more about `provideBrowserGlobalErrorListeners`, see: https://angular.dev/best-practices/error-handling#client-side-rendering
 For more about `provideZoneChangeDetection`, see: https://angular.dev/api/core/provideZoneChangeDetection
-
-> **Note:** This change is automatically handled by the Spartacus migration schematics when you run `ng update @spartacus/schematics@221121.7`. The manual steps below are provided as a fallback in case the automatic migration does not complete successfully.
 
 ```diff
 -import { NgModule } from '@angular/core';
@@ -267,10 +363,7 @@ import { SpartacusModule } from './spartacus/spartacus.module';
 export class AppModule { }
 ```
 
-5. In `main.ts`, remove the `applicationProviders` with`provideZoneChangeDetection({ eventCoalescing: true })` from the `platformBrowser().bootstrapModule` call.
-
-> **Note:** This change is automatically handled by the Spartacus migration schematics when you run `ng update @spartacus/schematics@221121.7`. The manual steps below are provided as a fallback in case the automatic migration does not complete successfully.
-
+4. In `main.ts`, remove the `applicationProviders` with`provideZoneChangeDetection({ eventCoalescing: true })` from the `platformBrowser().bootstrapModule` call.
 
 ```diff
 - import { provideZoneChangeDetection } from '@angular/core';
@@ -282,9 +375,7 @@ platformBrowser().bootstrapModule(AppModule, {
 })
   .catch(err => console.error(err));
 ```
-6. Thirdparty dependencies in `package.json` should be updated to the `Current Version`.
-
-> **Note:** This change is automatically handled when you run `ng update @spartacus/schematics@221121.7`. The manual steps below are provided as a fallback in case the automatic migration does not complete successfully.
+5. Thirdparty dependencies in `package.json` should be updated to the `Current Version`.
 
    | Library Name                    | Version Before | Current Version | Change Type |
    | ------------------------------- | -------------- | --------------- | ----------- |
@@ -294,108 +385,14 @@ platformBrowser().bootstrapModule(AppModule, {
    | `i18next-http-backend`          | `^3.0.1`       | `^3.0.2`        | Patch       |
    | `parse5`                        | `^7.2.1`       | `^8.0.0`        | Major       |
 
-## Additional migration steps if using Server Side Rendering (SSR)
 
-### Enable Non-Destructive Hydration (Required for SSR)
 
-If your application uses Server-Side Rendering (SSR), you should enable Angular's non-destructive hydration. This is now a requirement for Spartacus 221121_7. This aligns your app with current Angular best practices, making maintenance and upgrades easier.
+#### Additional migration steps if using Server Side Rendering (SSR) with Express (Fallback Only)
 
-#### What is non-destructive hydration?
+1. Upgrade Express to Version 5
+Spartacus 221121.7 requires Express 5.x. The Spartacus migration schematics automatically upgrade Express and update `server.ts` for Express 5 compatibility. The manual steps below are provided as a fallback in case the automatic migration does not complete successfully.
 
-Non-destructive hydration is an Angular feature that improves UX and performance by reusing the server-rendered DOM instead of destroying and recreating it on the client side. This reduces the time to interactive and provides a better user experience.
-
-For more information, see the [Angular Hydration Guide](https://angular.dev/guide/hydration).
-
-#### How to enable it
-
-In your `app.module.ts` (or `app.config.ts` for standalone applications), add `provideClientHydration()` with `withEventReplay()` and `withNoHttpTransferCache()`:
-
-**For module-based applications (app.module.ts):**
-
-```diff
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-+ import {
-+   provideClientHydration,
-+   withEventReplay,
-+   withNoHttpTransferCache,
-+ } from '@angular/platform-browser';
-
-@NgModule({
-  imports: [
-    BrowserModule,
-    // ...
-  ],
-  providers: [
-+   provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
-    // ...
-  ],
-  // ...
-})
-export class AppModule { }
-```
-
-**For standalone applications (app.config.ts):**
-
-```typescript
-import { ApplicationConfig } from '@angular/core';
-import {
-  provideClientHydration,
-  withEventReplay,
-  withNoHttpTransferCache,
-} from '@angular/platform-browser';
-
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideClientHydration(withEventReplay(), withNoHttpTransferCache()),
-    // ...
-  ]
-};
-```
-
-#### Why are these options required?
-
-- **`withEventReplay()`**: Ensures that user interactions that occur before the application is fully hydrated are captured and replayed. This provides a seamless user experience even during the hydration process.
-
-- **`withNoHttpTransferCache()`**: Disables the HTTP transfer cache for hydration. This is required for Spartacus because Spartacus uses its own state transfer mechanism. Without this option, there could be conflicts between Angular's built-in HTTP transfer cache and Spartacus's custom implementation.
-
-#### Important Notes
-
-- Make sure to test your application thoroughly after enabling hydration to ensure all components hydrate correctly.
-- For more details, refer to the official [Angular Hydration documentation](https://angular.dev/guide/hydration).
-
-#### Known Warning: NG05001
-
-After enabling hydration, you may see the following warning in your console:
-
-```
-NG05001: Configuration error: found both hydration and enabledBlocking initial navigation 
-in the same application, which is a contradiction.
-```
-
-**We didn't encounter any issues with this setup in practice.**
-
-This diagnostic was introduced by the Angular team in Angular 21 ([Angular issue #59624](https://github.com/angular/angular/issues/59624), [Angular PR #62963](https://github.com/angular/angular/pull/62963)). The warning appears because Spartacus uses `initialNavigation: 'enabledBlocking'` in its router configuration to ensure proper CMS page loading and lazy-loading of JS chunks before rendering the components.
-
-**Current Status:**
-
-We're not yet sure why this diagnostic was added by the Angular team. Since May 2025, we haven't observed any negative consequences with the current setup. We're still investigating the implications and will update our implementation if needed.
-
-**Our Experience:**
-
-In practice, we've found that:
-- Since May 2025, no functional issues have been reported related to this warning
-- Both hydration and `enabledBlocking` work correctly together in Spartacus
-- During SSR, `enabledBlocking` ensures all route guards (including `CmsPageGuard`) complete before rendering
-- During hydration in the browser, Angular's hydration system prevents UI flickering by reusing the server-rendered DOM
-
-You can safely ignore this warning for now. We're actively monitoring this and will address it in a future Spartacus release if necessary as part of the ongoing modernization of the SSR implementation.
-
-### Upgrade Express to Version 5
-
-> **Note:** This change is automatically handled by the Spartacus migration schematics when you run `ng update @spartacus/schematics@221121.7`. The manual steps below are provided as a fallback in case the automatic migration does not complete successfully.
-
-Spartacus 221121.7 requires Express 5.x. Upgrade Express:
+To manually upgrade Express:
 
 ```bash
 ng update express@5.1.0
@@ -403,7 +400,7 @@ git add .
 git commit -m "chore: upgrade Express to v5.1.0"
 ```
 
-1. In `server.ts`, update wildcard strings with regular expressions for Express 5 compatibility:
+In `server.ts`, update wildcard strings with regular expressions for Express 5 compatibility:
 
 ```diff
   // Serve static files from /browser
