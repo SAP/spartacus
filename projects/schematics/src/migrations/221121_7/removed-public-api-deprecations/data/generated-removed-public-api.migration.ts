@@ -1,9 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { DeprecatedNode } from '../../../../shared/utils/file-utils';
 //
 // Generated file, don't update manually.
@@ -236,12 +230,6 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: '@spartacus/storefront',
     comment:
       '// TODO:Spartacus - Function FormUtils.deepUpdateValueAndValidity has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'ICON_TYPE',
-    importPath: '@spartacus/storefront',
-    comment:
-      '// TODO:Spartacus - Enum ICON_TYPE has been removed and is no longer part of the public API. ',
   },
   {
     node: 'MessageEvent_2',
