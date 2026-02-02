@@ -247,6 +247,9 @@ export function isTopLevelApi(kind: string): boolean {
 }
 
 export function unEscapePackageName(packageName: string) {
+  // For old format (extract.ts): converts underscores to slashes
+  // e.g., @spartacus/subscription-billing_root → @spartacus/subscription-billing/root
+  // Note: The first underscore after @spartacus/ becomes a slash (see escapePackageName)
   return packageName.replace(/_/g, '/');
 }
 

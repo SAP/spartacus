@@ -19,6 +19,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as ts from 'typescript';
 import { globSync } from 'glob';
+import { unEscapePackageName } from './common';
 
 const spartacusHomeDir = process.argv[2];
 if (!spartacusHomeDir) {
@@ -73,8 +74,10 @@ if (failCount > 0) {
 }
 
 function getPackageNameFromPath(filePath: string): string {
-  // Extract package name from .d.ts filename like: spartacus-organization-account-summary.d.ts
-  // This gives us the full package name encoded in the filename
+  // Extract package name by reading package.json from the dist folder
+  // This ensures we get the REAL package name (e.g., @spartacus/storefront)
+  // instead of the folder name (e.g., storefrontlib)
+
   const fileName = path.basename(filePath, '.d.ts');
 
   // Skip public_api.d.ts files as they are re-exports
@@ -82,18 +85,107 @@ function getPackageNameFromPath(filePath: string): string {
     return '@spartacus/unknown';
   }
 
-  // Convert spartacus-core -> @spartacus/core
-  // Convert spartacus-organization-account-summary -> @spartacus/organization_account-summary
-  if (fileName.startsWith('spartacus-')) {
-    const packagePath = fileName.substring('spartacus-'.length).replace(/-/g, '_');
-    return `@spartacus/${packagePath}`;
+  // Get the directory containing the types folder
+  // Walk up from types folder to find package.json
+  // Example: /path/to/dist/cart/types/spartacus-cart-base.d.ts
+  //          → Check: /path/to/dist/cart/base/package.json (no name field)
+  //          → Check: /path/to/dist/cart/package.json (has name)
+  //          → Extract sub-path from filename: spartacus-cart-base → base
+
+  let currentDir = path.dirname(filePath); // .../types
+
+  // Go up from types folder
+  if (path.basename(currentDir) === 'types') {
+    currentDir = path.dirname(currentDir); // .../cart or .../cart/root
   }
 
-  return '@spartacus/unknown';
+  // Try to find package.json with name field
+  let packageName: string | null = null;
+  let searchDir = currentDir;
+
+  for (let i = 0; i < 3; i++) {
+    const packageJsonPath = path.join(searchDir, 'package.json');
+
+    if (fs.existsSync(packageJsonPath)) {
+      try {
+        const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+
+        if (packageJson.name) {
+          packageName = packageJson.name;
+
+          // Package names in bundled format are escaped (e.g., spartacus_core)
+          // We need to unescape them to get real npm names (@spartacus/core)
+          packageName = unEscapePackageName(packageName);
+
+          // unEscapePackageName converts spartacus_core → spartacus/core
+          // But we need @spartacus/core, so add @ prefix if missing
+          if (packageName.startsWith('spartacus/') && !packageName.startsWith('@')) {
+            packageName = '@' + packageName;
+          }
+
+          break;
+        }
+      } catch (error: any) {
+        console.warn(`Could not parse package.json at ${packageJsonPath}: ${error.message}`);
+      }
+    }
+
+    // Go up one directory
+    const parentDir = path.dirname(searchDir);
+    if (parentDir === searchDir || !searchDir.includes('/dist/')) {
+      break; // Reached root or went above dist folder
+    }
+    searchDir = parentDir;
+  }
+
+  if (!packageName) {
+    console.warn(`Could not find package.json with name for: ${filePath}`);
+    return '@spartacus/unknown';
+  }
+
+  // Now extract sub-entry point from filename if applicable
+  // Example: spartacus-cart-base.d.ts → base is the sub-entry
+  // Example: spartacus-cart-base-components.d.ts → base/components
+  // Example: spartacus-cart.d.ts → no sub-entry (main package)
+
+  // Remove 'spartacus-' prefix from filename
+  if (fileName.startsWith('spartacus-')) {
+    const withoutPrefix = fileName.substring('spartacus-'.length);
+
+    // Extract the base package name from the found packageName
+    // @spartacus/cart → cart
+    const basePackage = packageName.replace('@spartacus/', '');
+
+    // Check if filename has more than just the base package
+    // spartacus-cart.d.ts → withoutPrefix = 'cart' → matches base, no sub-entry
+    // spartacus-cart-base.d.ts → withoutPrefix = 'cart-base' → has sub-entry 'base'
+    // spartacus-cart-base-components.d.ts → withoutPrefix = 'cart-base-components' → 'base/components'
+
+    if (withoutPrefix === basePackage) {
+      // Main package file
+      return packageName;
+    }
+
+    // Has sub-entry - extract it
+    if (withoutPrefix.startsWith(basePackage + '-')) {
+      const subPath = withoutPrefix.substring(basePackage.length + 1);
+      // Convert hyphens to slashes for sub-paths
+      // 'base-components' → 'base/components'
+      // 'base-components-add-to-cart' → 'base/components/add-to-cart'
+      const subPathWithSlashes = subPath.replace(/-/g, '/');
+      return `${packageName}/${subPathWithSlashes}`;
+    }
+  }
+
+  // Fallback
+  return packageName;
 }
 
 function escapePackageName(packageName: string): string {
-  return packageName.replace('@', '').replace('/', '_');
+  // Remove @ and replace ALL slashes with underscores
+  // @spartacus/subscription-billing → spartacus_subscription-billing
+  // @spartacus/organization/account-summary → spartacus_organization_account-summary
+  return packageName.replace('@', '').replace(/\//g, '_');
 }
 
 function extractApiFromBundledFile(filePath: string, packageName: string): any {
@@ -120,6 +212,11 @@ function extractApiFromBundledFile(filePath: string, packageName: string): any {
     }
   });
 
+  // Escape the package name for storage (will be unescaped by parse.ts)
+  // This matches the format used by the old extract.ts
+  // Example: @spartacus/subscription-billing/root → @spartacus/subscription-billing_root
+  const escapedPackageName = packageName.replace(/\//g, '_').replace(/_/, '/');
+
   return {
     metadata: {
       toolPackage: '@microsoft/api-extractor',
@@ -131,7 +228,7 @@ function extractApiFromBundledFile(filePath: string, packageName: string): any {
     kind: 'Package',
     canonicalReference: `${packageName}!`,
     docComment: '',
-    name: packageName,
+    name: escapedPackageName,
     preserveMemberOrder: false,
     members: [
       {
@@ -267,24 +364,29 @@ function extractApiElement(node: ts.Node, packageName: string): any {
 }
 
 function getDeclarationName(node: ts.Node): string | null {
+  let name: string | null = null;
+
   if (ts.isClassDeclaration(node) ||
       ts.isInterfaceDeclaration(node) ||
       ts.isFunctionDeclaration(node) ||
       ts.isTypeAliasDeclaration(node) ||
       ts.isEnumDeclaration(node)) {
-    return node.name?.getText() ?? null;
-  }
-
-  if (ts.isVariableStatement(node)) {
+    name = node.name?.getText() ?? null;
+  } else if (ts.isVariableStatement(node)) {
     const declaration = node.declarationList.declarations[0];
-    return declaration?.name?.getText() ?? null;
+    name = declaration?.name?.getText() ?? null;
+  } else if (ts.isExportDeclaration(node) && node.moduleSpecifier) {
+    name = `export * from ${node.moduleSpecifier.getText()}`;
   }
 
-  if (ts.isExportDeclaration(node) && node.moduleSpecifier) {
-    return `export * from ${node.moduleSpecifier.getText()}`;
+  // Normalize name by removing TypeScript-generated suffixes like $1, $2, etc.
+  // These are added during bundling when there are naming conflicts
+  // Example: ICON_TYPE$1 → ICON_TYPE, User$2 → User
+  if (name) {
+    name = name.replace(/\$\d+$/, '');
   }
 
-  return null;
+  return name;
 }
 
 function getDocComment(node: ts.Node): string {
@@ -351,7 +453,9 @@ function getEnumMembers(node: ts.Node): any[] {
   if (ts.isEnumDeclaration(node)) {
     node.members?.forEach(member => {
       if (ts.isEnumMember(member) && member.name) {
-        const memberName = member.name.getText();
+        let memberName = member.name.getText();
+        // Normalize name by removing TypeScript-generated suffixes like $1, $2
+        memberName = memberName.replace(/\$\d+$/, '');
         members.push({
           kind: 'EnumMember',
           name: memberName,
@@ -373,7 +477,9 @@ function getMemberName(member: ts.Node): string | null {
       ts.isMethodDeclaration(member) ||
       ts.isPropertySignature(member) ||
       ts.isMethodSignature(member)) {
-    return member.name?.getText() ?? null;
+    const name = member.name?.getText() ?? null;
+    // Normalize name by removing TypeScript-generated suffixes like $1, $2
+    return name ? name.replace(/\$\d+$/, '') : null;
   }
   return null;
 }
