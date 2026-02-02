@@ -9,7 +9,7 @@ import stringifyObject from 'stringify-object';
 
 // shared configs
 
-export const NEW_VERSION = '2211_19'; // Increment this number to match the current release for which the script is used.
+export const NEW_VERSION = '221121_7'; // Increment this number to match the current release for which the script is used.
 export const BREAKING_CHANGES_FILE_PATH = `data/${NEW_VERSION}/breaking-changes.json`;
 export const NEW_VERSION_DOC_HOME = `../../docs/migration/${NEW_VERSION}`;
 export const API_ELEMENT_MIGRATION_COMMENTS_FILE_PATH = `${NEW_VERSION_DOC_HOME}/migration-comments-api-elements.json`;
