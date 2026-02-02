@@ -19,7 +19,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as ts from 'typescript';
 import { globSync } from 'glob';
-import { unEscapePackageName } from './common';
 
 const spartacusHomeDir = process.argv[2];
 if (!spartacusHomeDir) {
@@ -74,9 +73,8 @@ if (failCount > 0) {
 }
 
 function getPackageNameFromPath(filePath: string): string {
-  // Extract package name by reading package.json from the dist folder
-  // This ensures we get the REAL package name (e.g., @spartacus/storefront)
-  // instead of the folder name (e.g., storefrontlib)
+  // Extract package name by reading the MAIN package.json and matching exports
+  // Main package.json has "exports" field that defines all sub-entry points
 
   const fileName = path.basename(filePath, '.d.ts');
 
@@ -85,100 +83,95 @@ function getPackageNameFromPath(filePath: string): string {
     return '@spartacus/unknown';
   }
 
-  // Get the directory containing the types folder
-  // Walk up from types folder to find package.json
-  // Example: /path/to/dist/cart/types/spartacus-cart-base.d.ts
-  //          → Check: /path/to/dist/cart/base/package.json (no name field)
-  //          → Check: /path/to/dist/cart/package.json (has name)
-  //          → Extract sub-path from filename: spartacus-cart-base → base
+  // Find the main library directory (e.g., dist/asm/)
+  // Example: dist/asm/types/spartacus-asm-customer-360.d.ts → dist/asm
+  const distMatch = filePath.match(/^(.+\/dist\/([^\/]+))\/types\//);
 
-  let currentDir = path.dirname(filePath); // .../types
-
-  // Go up from types folder
-  if (path.basename(currentDir) === 'types') {
-    currentDir = path.dirname(currentDir); // .../cart or .../cart/root
-  }
-
-  // Try to find package.json with name field
-  let packageName: string | null = null;
-  let searchDir = currentDir;
-
-  for (let i = 0; i < 3; i++) {
-    const packageJsonPath = path.join(searchDir, 'package.json');
-
-    if (fs.existsSync(packageJsonPath)) {
-      try {
-        const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
-
-        if (packageJson.name) {
-          packageName = packageJson.name;
-
-          // Package names in bundled format are escaped (e.g., spartacus_core)
-          // We need to unescape them to get real npm names (@spartacus/core)
-          packageName = unEscapePackageName(packageName);
-
-          // unEscapePackageName converts spartacus_core → spartacus/core
-          // But we need @spartacus/core, so add @ prefix if missing
-          if (packageName.startsWith('spartacus/') && !packageName.startsWith('@')) {
-            packageName = '@' + packageName;
-          }
-
-          break;
-        }
-      } catch (error: any) {
-        console.warn(`Could not parse package.json at ${packageJsonPath}: ${error.message}`);
-      }
-    }
-
-    // Go up one directory
-    const parentDir = path.dirname(searchDir);
-    if (parentDir === searchDir || !searchDir.includes('/dist/')) {
-      break; // Reached root or went above dist folder
-    }
-    searchDir = parentDir;
-  }
-
-  if (!packageName) {
-    console.warn(`Could not find package.json with name for: ${filePath}`);
+  if (!distMatch) {
+    console.warn(`Could not extract dist folder from: ${filePath}`);
     return '@spartacus/unknown';
   }
 
-  // Now extract sub-entry point from filename if applicable
-  // Example: spartacus-cart-base.d.ts → base is the sub-entry
-  // Example: spartacus-cart-base-components.d.ts → base/components
-  // Example: spartacus-cart.d.ts → no sub-entry (main package)
+  const mainLibDir = distMatch[1]; // e.g., /path/to/dist/asm
+  const mainLibName = distMatch[2]; // e.g., asm
+  const mainPackageJsonPath = path.join(mainLibDir, 'package.json');
 
-  // Remove 'spartacus-' prefix from filename
-  if (fileName.startsWith('spartacus-')) {
-    const withoutPrefix = fileName.substring('spartacus-'.length);
-
-    // Extract the base package name from the found packageName
-    // @spartacus/cart → cart
-    const basePackage = packageName.replace('@spartacus/', '');
-
-    // Check if filename has more than just the base package
-    // spartacus-cart.d.ts → withoutPrefix = 'cart' → matches base, no sub-entry
-    // spartacus-cart-base.d.ts → withoutPrefix = 'cart-base' → has sub-entry 'base'
-    // spartacus-cart-base-components.d.ts → withoutPrefix = 'cart-base-components' → 'base/components'
-
-    if (withoutPrefix === basePackage) {
-      // Main package file
-      return packageName;
-    }
-
-    // Has sub-entry - extract it
-    if (withoutPrefix.startsWith(basePackage + '-')) {
-      const subPath = withoutPrefix.substring(basePackage.length + 1);
-      // Convert hyphens to slashes for sub-paths
-      // 'base-components' → 'base/components'
-      // 'base-components-add-to-cart' → 'base/components/add-to-cart'
-      const subPathWithSlashes = subPath.replace(/-/g, '/');
-      return `${packageName}/${subPathWithSlashes}`;
-    }
+  if (!fs.existsSync(mainPackageJsonPath)) {
+    console.warn(`Main package.json not found: ${mainPackageJsonPath}`);
+    return '@spartacus/unknown';
   }
 
-  // Fallback
-  return packageName;
+  try {
+    const mainPackageJson = JSON.parse(fs.readFileSync(mainPackageJsonPath, 'utf-8'));
+    const baseName = mainPackageJson.name; // e.g., @spartacus/asm
+
+    if (!baseName) {
+      console.warn(`No name field in ${mainPackageJsonPath}`);
+      return '@spartacus/unknown';
+    }
+
+    // Match the filename to an export entry
+    // Example: spartacus-asm-customer-360.d.ts should match export "./customer-360"
+
+    // Remove 'spartacus-' prefix and library name from filename
+    // spartacus-asm-customer-360 → customer-360
+    // spartacus-asm-customer-360-assets → customer-360-assets
+    let fileBaseName = fileName;
+    if (fileBaseName.startsWith('spartacus-')) {
+      fileBaseName = fileBaseName.substring('spartacus-'.length);
+    }
+
+    // Remove main lib name prefix
+    // asm-customer-360 → customer-360
+    if (fileBaseName.startsWith(mainLibName + '-')) {
+      fileBaseName = fileBaseName.substring(mainLibName.length + 1);
+    }
+
+    // If filename equals main lib name, this is the main entry point
+    if (fileBaseName === mainLibName || fileBaseName === '') {
+      return baseName;
+    }
+
+    // Match to exports - convert hyphens to slashes for path matching
+    // customer-360-assets → customer-360/assets
+    // But CAREFUL: customer-360 should stay as customer-360!
+
+    // Check exports field for exact match
+    if (mainPackageJson.exports) {
+      const exports = mainPackageJson.exports;
+
+      // Try exact match first: "./customer-360-assets"
+      const exactKey = `./${fileBaseName}`;
+      if (exports[exactKey]) {
+        // Found! Use the key but remove "./"
+        const subPath = exactKey.substring(2);
+        return `${baseName}/${subPath}`;
+      }
+
+      // Try with progressive slash substitution
+      // customer-360-assets → try customer-360/assets
+      const parts = fileBaseName.split('-');
+      for (let i = parts.length - 1; i > 0; i--) {
+        const left = parts.slice(0, i).join('-');
+        const right = parts.slice(i).join('-');
+        const tryKey = `./${left}/${right}`;
+
+        if (exports[tryKey]) {
+          return `${baseName}/${left}/${right}`;
+        }
+      }
+
+      // Fallback: use as-is
+      return `${baseName}/${fileBaseName}`;
+    }
+
+    // No exports field - use filename as-is
+    return `${baseName}/${fileBaseName}`;
+
+  } catch (error: any) {
+    console.warn(`Error reading ${mainPackageJsonPath}: ${error.message}`);
+    return '@spartacus/unknown';
+  }
 }
 
 function escapePackageName(packageName: string): string {
