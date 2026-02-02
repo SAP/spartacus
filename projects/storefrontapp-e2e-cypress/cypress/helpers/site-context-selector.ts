@@ -56,7 +56,7 @@ export const PRODUCT_NAME_DETAILS_DE = 'Stativ mit Fernbedienung';
 export const PRODUCT_NAME_SEARCH_DE =
   'FUN Einwegkamera mit Blitz, 27+12 Bilder';
 export const TITLE_DE = 'Herr';
-export const MONTH_DE_JANUARY = 'Januar';
+export const JANUARY_MONTH_DE = 'Januar';
 export const EDIT_DE = 'Bearbeiten';
 
 export const PRODUCT_PATH_1 = `/product/${PRODUCT_ID_1}`;
@@ -199,7 +199,6 @@ export function verifySiteContextChangeUrl(
 export function testLangSwitchOrderPage() {
   describe('order page', () => {
     const orderPath = ORDER_PATH;
-    const deutschName = MONTH_DE_JANUARY;
 
     before(() => {
       goToOrderHistoryWithConsignedOrder();
@@ -220,7 +219,7 @@ export function testLangSwitchOrderPage() {
 
       cy.get(
         'cx-order-history .cx-order-history-placed .cx-order-history-value'
-      ).should('contain', deutschName);
+      ).should('contain', JANUARY_MONTH_DE);
     });
   });
 }
