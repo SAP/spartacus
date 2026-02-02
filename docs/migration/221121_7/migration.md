@@ -270,6 +270,15 @@ platformBrowser().bootstrapModule(AppModule, {
 })
   .catch(err => console.error(err));
 ```
+5. Thirdparty dependencies in `package.json` should be updated to the `Current Version`.
+
+   | Library Name | Version Before | Current Version | Change Type |
+      |-------------|----------------|-----------------|-------------|
+   | `@fontsource/open-sans` | `^5.1.0` | `^5.2.7` | Minor |
+   | `@fortawesome/fontawesome-free` | `6.7.2` | `7.1.0` | Major |
+   | `i18next` | `^24.2.1` | `^25.7.4` | Major |
+   | `i18next-http-backend` | `^3.0.1` | `^3.0.2` | Patch |
+   | `parse5` | `^7.2.1` | `^8.0.0` | Major |
 
 ## Additional migration steps if using Server Side Rendering (SSR)
 
@@ -399,3 +408,5 @@ git commit -m "chore: upgrade Express to v5.1.0"
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
     });
   });
+
+
