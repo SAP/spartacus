@@ -1,8 +1,10 @@
 {
-  //TODO: Remove file and reference to it when everything is adjusted to strict mode
   "extends": "./projects/storefrontapp/tsconfig.app.prod.json",
   "compilerOptions": {
     "strict": false,
-    "typeRoots": ["node_modules/@types/!(jest/jasmine)"]
-  }
+    "module": "es2022",
+    "moduleResolution": "node",
+    "typeRoots": ["node_modules/@types/!(jest/jasmine)", "types"]
+  },
+  "include": ["types/**/*.d.ts"]
 }
