@@ -2854,6 +2854,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - Method 'cmsPageCanActivate' was removed from Class 'CmsGuardsService'. ",
     },
     {
+      class: 'CmsGuardsService',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'featureConfigService',
+      comment:
+        "// TODO:Spartacus - Property 'featureConfigService' was removed from Class 'CmsGuardsService'. ",
+    },
+    {
       class: 'CmsI18nService',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'loadForComponents',
@@ -3430,6 +3437,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'FacetComponent',
       importPath: '@spartacus/storefront',
+      deprecatedNode: 'featureConfigService',
+      comment:
+        "// TODO:Spartacus - Property 'featureConfigService' was removed from Class 'FacetComponent'. ",
+    },
+    {
+      class: 'FacetComponent',
+      importPath: '@spartacus/storefront',
       deprecatedNode: 'getLinkParams',
       comment:
         "// TODO:Spartacus - Method 'getLinkParams' was removed from Class 'FacetComponent'. ",
@@ -3524,6 +3538,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'expandFacetGroup',
       comment:
         "// TODO:Spartacus - Method 'expandFacetGroup' was removed from Class 'FacetListComponent'. ",
+    },
+    {
+      class: 'FacetListComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'featureConfigService',
+      comment:
+        "// TODO:Spartacus - Property 'featureConfigService' was removed from Class 'FacetListComponent'. ",
     },
     {
       class: 'FacetListComponent',
@@ -5036,6 +5057,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'closeIfClickedTheSameLink',
       comment:
         "// TODO:Spartacus - Method 'closeIfClickedTheSameLink' was removed from Class 'NavigationUIComponent'. ",
+    },
+    {
+      class: 'NavigationUIComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'featureConfigService',
+      comment:
+        "// TODO:Spartacus - The type of property 'featureConfigService: FeatureConfigService | undefined' changed to: 'featureConfigService:' ",
     },
     {
       class: 'NavigationUIComponent',
@@ -7885,6 +7913,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'tabCompLoaded',
       comment:
         "// TODO:Spartacus - Method 'tabCompLoaded' was removed from Class 'TabParagraphContainerComponent'. ",
+    },
+    {
+      class: 'ThemeService',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'featureConfigService',
+      comment:
+        "// TODO:Spartacus - Property 'featureConfigService' was removed from Class 'ThemeService'. ",
     },
     {
       class: 'ThemeService',
@@ -14112,6 +14147,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'ConfiguratorAttributeSingleSelectionImageComponent',
       importPath: '@spartacus/product-configurator/rulebased',
+      deprecatedNode: 'featureConfigService',
+      comment:
+        "// TODO:Spartacus - Property 'featureConfigService' was removed from Class 'ConfiguratorAttributeSingleSelectionImageComponent'. ",
+    },
+    {
+      class: 'ConfiguratorAttributeSingleSelectionImageComponent',
+      importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'getValueDescriptionStyleClasses',
       comment:
         "// TODO:Spartacus - Method 'getValueDescriptionStyleClasses' was removed from Class 'ConfiguratorAttributeSingleSelectionImageComponent'. ",
@@ -17286,13 +17328,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'getStoreDetails',
       comment:
         "// TODO:Spartacus - Method 'getStoreDetails' was removed from Class 'PickupLocationConnector'. ",
-    },
-    {
-      class: 'PickupLocationEffect',
-      importPath: '@spartacus/pickup-in-store/core',
-      deprecatedNode: 'storeDetails$',
-      comment:
-        '// TODO:Spartacus - The type of property \'storeDetails$: Observable<({ payload: any; error: any; } & Action<"[Pickup Locations] Get Store Details Fail">) | ({ payload: PointOfService; } & Action<"[Pickup Locations] Get Store Details Success">)> & CreateEffectMetadata\' changed to: \'storeDetails$: Observable<({ payload: PointOfService; } & Action<"[Pickup Locations] Get Store Details Success">) | ({ payload: any; error: any; } & Action<"[Pickup Locations] Get Store Details Fail">)> & CreateEffectMetadata\' ',
     },
     {
       class: 'PickupLocationsSearchService',
@@ -20683,6 +20718,27 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - Method 'updateAddress' was removed from Class 'OrgUnitService'. ",
     },
     {
+      class: 'LoadPermissions',
+      importPath: '@spartacus/organization/administration/core',
+      deprecatedNode: 'payload',
+      comment:
+        "// TODO:Spartacus - The type of property 'payload: { userId: string; params: SearchConfig; }' changed to: 'payload: { userId: string; userGroupId: string; params: SearchConfig; }' ",
+    },
+    {
+      class: 'LoadPermissionsFail',
+      importPath: '@spartacus/organization/administration/core',
+      deprecatedNode: 'payload',
+      comment:
+        "// TODO:Spartacus - The type of property 'payload: { params: SearchConfig; error: any; }' changed to: 'payload: { userGroupId: string; params: SearchConfig; error: any; }' ",
+    },
+    {
+      class: 'LoadPermissionsSuccess',
+      importPath: '@spartacus/organization/administration/core',
+      deprecatedNode: 'payload',
+      comment:
+        "// TODO:Spartacus - The type of property 'payload: { page: ListModel; params: SearchConfig; }' changed to: 'payload: { userGroupId: string; page: ListModel; params: SearchConfig; }' ",
+    },
+    {
       class: 'PermissionAdapter',
       importPath: '@spartacus/organization/administration/core',
       deprecatedNode: 'create',
@@ -20821,27 +20877,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'update',
       comment:
         "// TODO:Spartacus - Method 'update' was removed from Class 'PermissionService'. ",
-    },
-    {
-      class: 'LoadPermissions',
-      importPath: '@spartacus/organization/administration/core',
-      deprecatedNode: 'payload',
-      comment:
-        "// TODO:Spartacus - The type of property 'payload: { userId: string; userGroupId: string; params: SearchConfig; }' changed to: 'payload: { userId: string; params: SearchConfig; }' ",
-    },
-    {
-      class: 'LoadPermissionsFail',
-      importPath: '@spartacus/organization/administration/core',
-      deprecatedNode: 'payload',
-      comment:
-        "// TODO:Spartacus - The type of property 'payload: { userGroupId: string; params: SearchConfig; error: any; }' changed to: 'payload: { params: SearchConfig; error: any; }' ",
-    },
-    {
-      class: 'LoadPermissionsSuccess',
-      importPath: '@spartacus/organization/administration/core',
-      deprecatedNode: 'payload',
-      comment:
-        "// TODO:Spartacus - The type of property 'payload: { userGroupId: string; page: ListModel; params: SearchConfig; }' changed to: 'payload: { page: ListModel; params: SearchConfig; }' ",
     },
     {
       class: 'UserGroupAdapter',
@@ -26101,6 +26136,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - Method 'pageChange' was removed from Class 'ReplenishmentOrderHistoryComponent'. ",
     },
     {
+      class: 'ReturnOrderComponent',
+      importPath: '@spartacus/order/components',
+      deprecatedNode: 'featureConfigService',
+      comment:
+        "// TODO:Spartacus - The type of property 'featureConfigService: FeatureConfigService | null' changed to: 'featureConfigService:' ",
+    },
+    {
       class: 'ReturnOrderConfirmationComponent',
       importPath: '@spartacus/order/components',
       deprecatedNode: 'submit',
@@ -29677,6 +29719,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'CustomerTicketingCreateDialogComponent',
       importPath: '@spartacus/customer-ticketing/components',
+      deprecatedNode: 'featureService',
+      comment:
+        "// TODO:Spartacus - The type of property 'featureService: FeatureConfigService | null' changed to: 'featureService:' ",
+    },
+    {
+      class: 'CustomerTicketingCreateDialogComponent',
+      importPath: '@spartacus/customer-ticketing/components',
       deprecatedNode: 'getCreateTicketPayload',
       comment:
         "// TODO:Spartacus - Method 'getCreateTicketPayload' was removed from Class 'CustomerTicketingCreateDialogComponent'. ",
@@ -32417,6 +32466,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'addClass',
       comment:
         "// TODO:Spartacus - Method 'addClass' was removed from Class 'FeatureStylesService'. ",
+    },
+    {
+      class: 'FeatureStylesService',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'featureConfig',
+      comment:
+        "// TODO:Spartacus - The type of property 'featureConfig: FeatureConfigService' changed to: 'featureConfig:' ",
     },
     {
       class: 'FeatureStylesService',
@@ -37174,6 +37230,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'CheckoutDeliveryAddressComponent',
       importPath: '@spartacus/checkout/base/components',
+      deprecatedNode: 'featureConfigService',
+      comment:
+        "// TODO:Spartacus - Property 'featureConfigService' was removed from Class 'CheckoutDeliveryAddressComponent'. ",
+    },
+    {
+      class: 'CheckoutDeliveryAddressComponent',
+      importPath: '@spartacus/checkout/base/components',
       deprecatedNode: 'focusCardAfterSelecting',
       comment:
         "// TODO:Spartacus - Method 'focusCardAfterSelecting' was removed from Class 'CheckoutDeliveryAddressComponent'. ",
@@ -37457,6 +37520,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'existingPaymentMethods$',
       comment:
         "// TODO:Spartacus - Property 'existingPaymentMethods$' was removed from Class 'CheckoutPaymentMethodComponent'. ",
+    },
+    {
+      class: 'CheckoutPaymentMethodComponent',
+      importPath: '@spartacus/checkout/base/components',
+      deprecatedNode: 'featureConfigService',
+      comment:
+        "// TODO:Spartacus - Property 'featureConfigService' was removed from Class 'CheckoutPaymentMethodComponent'. ",
     },
     {
       class: 'CheckoutPaymentMethodComponent',
@@ -43292,6 +43362,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'CartCouponComponent',
       importPath: '@spartacus/cart/base/components',
+      deprecatedNode: 'featureConfigService',
+      comment:
+        "// TODO:Spartacus - Property 'featureConfigService' was removed from Class 'CartCouponComponent'. ",
+    },
+    {
+      class: 'CartCouponComponent',
+      importPath: '@spartacus/cart/base/components',
       deprecatedNode: 'getApplicableCustomerCoupons',
       comment:
         "// TODO:Spartacus - Method 'getApplicableCustomerCoupons' was removed from Class 'CartCouponComponent'. ",
@@ -44594,6 +44671,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'AsmBindCartComponent',
       importPath: '@spartacus/asm/components',
+      deprecatedNode: 'featureConfig',
+      comment:
+        "// TODO:Spartacus - Property 'featureConfig' was removed from Class 'AsmBindCartComponent'. ",
+    },
+    {
+      class: 'AsmBindCartComponent',
+      importPath: '@spartacus/asm/components',
       deprecatedNode: 'goToSavedCartDetails',
       comment:
         "// TODO:Spartacus - Method 'goToSavedCartDetails' was removed from Class 'AsmBindCartComponent'. ",
@@ -45091,6 +45175,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'CustomerEmulationComponent',
       importPath: '@spartacus/asm/components',
+      deprecatedNode: 'featureConfig',
+      comment:
+        "// TODO:Spartacus - Property 'featureConfig' was removed from Class 'CustomerEmulationComponent'. ",
+    },
+    {
+      class: 'CustomerEmulationComponent',
+      importPath: '@spartacus/asm/components',
       deprecatedNode: 'logoutCustomer',
       comment:
         "// TODO:Spartacus - Method 'logoutCustomer' was removed from Class 'CustomerEmulationComponent'. ",
@@ -45255,6 +45346,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'createCustomer',
       comment:
         "// TODO:Spartacus - Method 'createCustomer' was removed from Class 'CustomerSelectionComponent'. ",
+    },
+    {
+      class: 'CustomerSelectionComponent',
+      importPath: '@spartacus/asm/components',
+      deprecatedNode: 'featureConfig',
+      comment:
+        "// TODO:Spartacus - Property 'featureConfig' was removed from Class 'CustomerSelectionComponent'. ",
     },
     {
       class: 'CustomerSelectionComponent',
