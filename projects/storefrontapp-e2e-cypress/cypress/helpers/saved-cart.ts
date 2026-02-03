@@ -269,7 +269,7 @@ export function saveActiveCart(verify = true) {
           `Your cart items have been successfully saved for later in the "${sampleData.savedActiveCartForm[0].name}" cart`
         );
 
-      cy.get('.cx-empty-cart-info h2').should(
+      cy.get('.EmptyCartMiddleContent h2').should(
         'contain',
         'Your shopping cart is empty'
       );
