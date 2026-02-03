@@ -143,4 +143,23 @@ export class AsmAuthService extends AuthService {
       )
     );
   }
+
+  /**
+   * Returns `true` if user is logged in OR CS Agent is logged in.
+   * Use this for protected routes that should be accessible to both
+   * logged-in users and CS Agents (even when not emulating).
+   */
+  isUserOrCSAgentLoggedIn(): Observable<boolean> {
+    return combineLatest([
+      this.authStorageService.getToken(),
+      this.authStorageService.getTokenTarget(),
+    ]).pipe(
+      map(
+        ([token, tokenTarget]) =>
+          Boolean(token?.access_token) &&
+          (tokenTarget === TokenTarget.User ||
+            tokenTarget === TokenTarget.CSAgent)
+      )
+    );
+  }
 }
