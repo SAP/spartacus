@@ -106,6 +106,25 @@
 - **Reason:** Deprecated in favor of `CdcPreferenceSerializer` service class.
 - **Action Required:** Use the `CdcPreferenceSerializer` class methods.
 
+## Removed Tokens
+
+### `USE_LEGACY_MEDIA_COMPONENT`
+- **File Removed:** `projects/storefrontlib/shared/components/media/media.token.ts`
+- **Reason:** This injection token was deprecated since version 2211.31 and has now been removed.
+- **Impact:** The token was used to force the `MediaComponent` to use the legacy `img` element instead of the `picture` element.
+- **Action Required:** 
+  - Remove any references to `USE_LEGACY_MEDIA_COMPONENT` from your code.
+  - If you need to use `img` HTML element instead of `picture`, pass `[elementType]="'img'"` as an input to the `MediaComponent`.
+  - Remove any providers for this token from your module or component configurations.
+
+### `useLegacyMediaComponent` Config Property
+- **Removed From:** `MediaConfig` in `projects/storefrontlib/shared/components/media/media.config.ts`
+- **Reason:** This config property was deprecated since version 2211.31 and has now been removed.
+- **Impact:** The config property was used to globally force the `MediaComponent` to use the legacy `img` element instead of the `picture` element.
+- **Action Required:**
+  - Remove `useLegacyMediaComponent` from your config if you were using it.
+  - If you need to use `img` HTML element instead of `picture`, pass `[elementType]="'img'"` as an input to the `MediaComponent` where needed.
+
 ## Global Changes
 
 #### `FeatureConfigService` Visibility Refactor
