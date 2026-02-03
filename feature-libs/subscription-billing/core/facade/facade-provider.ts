@@ -13,6 +13,9 @@ import {
 } from '@spartacus/subscription-billing/root';
 import { SubscriptionActionsService } from './subscription-actions.service';
 import { SubscriptionBillingService } from './subscription-billing.service';
+import { PageMetaResolver } from '@spartacus/core';
+import { SubscriptionDetailsPageMetaResolver } from '../services/subscription-details-page-meta.resolver';
+import { SubscriptionBillingDetailsPageMetaResolver } from '../services/subscription-billing-details-page-meta.resolver';
 
 export const facadeProviders: Provider[] = [
   SubscriptionService,
@@ -30,4 +33,14 @@ export const facadeProviders: Provider[] = [
     provide: SubscriptionBillingFacade,
     useExisting: SubscriptionBillingService,
   },
+  {
+    provide: PageMetaResolver,
+    useExisting: SubscriptionDetailsPageMetaResolver,
+    multi: true,
+  },
+  {
+    provide: PageMetaResolver,
+    useExisting: SubscriptionBillingDetailsPageMetaResolver,
+    multi: true,
+  }
 ];

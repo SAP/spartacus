@@ -19,9 +19,9 @@ export const defaultSubscriptionBillingRoutingConfig: RoutingConfig = {
       subscriptionBills: {
         paths: ['my-account/subscription-bills'],
       },
-      subscriptionBillDetails: {
-        paths: ['my-account/subscription-bills/:billId'],
-        paramsMapping: { billId: 'billId' },
+      subscriptionBillingDetails: {
+        paths: ['my-account/subscription-bill/:subscriptionBillId'],
+        paramsMapping: { subscriptionBillId: 'subscriptionBillId' },
       },
     },
   },

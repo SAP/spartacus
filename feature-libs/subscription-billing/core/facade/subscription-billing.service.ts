@@ -14,12 +14,13 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
+  GetSubscriptionBillByCodeReloadEvent,
   GetSubscriptionBillsListReloadEvent,
   SubscriptionBill,
   SubscriptionBillingFacade,
   SubscriptionBillsList,
 } from '@spartacus/subscription-billing/root';
-import { map, Observable, of, switchMap, take } from 'rxjs';
+import { combineLatest, map, Observable, switchMap, take } from 'rxjs';
 import { SubscriptionBillingConnector } from '../connector';
 
 @Injectable()
@@ -28,6 +29,36 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
   protected userIdService = inject(UserIdService);
   protected routingService = inject(RoutingService);
   protected subscriptionBillsConnector = inject(SubscriptionBillingConnector);
+
+  protected subscriptionBillPreConditions(): Observable<[string, string]> {
+    return combineLatest([
+      this.userIdService.getUserId(),
+      this.getSubscriptionBillCodeFromRoute(),
+    ]).pipe(
+      map(([userId, subscriptionBillCode]) => {
+        if (!userId || !subscriptionBillCode) {
+          throw new Error('Subscription bill details pre conditions not met');
+        }
+        return [userId, subscriptionBillCode];
+      })
+    );
+  }
+
+  protected getSubscriptionBillByCodeQuery$: Query<SubscriptionBill | undefined> =
+    this.queryService.create<SubscriptionBill | undefined>(
+      () =>
+        this.subscriptionBillPreConditions().pipe(
+          switchMap(([customerId, subscriptionBillCode]) =>
+            this.subscriptionBillsConnector.getSubscriptionBillByCode(
+              customerId,
+              subscriptionBillCode
+            )
+          )
+        ),
+      {
+        reloadOn: [GetSubscriptionBillByCodeReloadEvent],
+      }
+    );
 
   protected subscriptionBillsListPreConditions(): Observable<string> {
     return this.userIdService.getUserId().pipe(
@@ -66,10 +97,10 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
     );
   }
 
-  getSubscriptionBillState(): Observable<
+  getSubscriptionBillByCodeState(): Observable<
     QueryState<SubscriptionBill | undefined>
   > {
-    throw new Error('Method not implemented.');
+    return this.getSubscriptionBillByCodeQuery$.getState();
   }
 
   getSubscriptionBillsListState(
@@ -100,13 +131,19 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
     ).pipe(map((state) => state.data));
   }
 
-  getSubscriptionBillByCode(
-    code?: string
-  ): Observable<SubscriptionBill | undefined> {
-    throw new Error('Method not implemented.', code as any);
+  getSubscriptionBillByCode(): Observable<SubscriptionBill | undefined> {
+    return this.getSubscriptionBillByCodeState().pipe(map((state) => state.data));
   }
 
   getSubscriptionBillCodeFromRoute(): Observable<string | undefined> {
-    return of(undefined);
+    return this.routingService
+    .getRouterState()
+    .pipe(
+      map((route) => {
+        const guidPattern = /\/subscription-bill\/([^/?#]+)/;
+        const match = route.state.url.match(guidPattern);
+        return match ? match[1] : undefined;
+     }),
+    );
   }
 }

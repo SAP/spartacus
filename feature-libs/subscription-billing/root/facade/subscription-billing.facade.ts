@@ -18,7 +18,7 @@ import { facadeFactory, QueryState } from '@spartacus/core';
       facade: SubscriptionBillingFacade,
       feature: SUBSCRIPTION_BILLING_FEATURE,
       methods: [
-        'getSubscriptionBillState',
+        'getSubscriptionBillByCodeState',
         'getSubscriptionBillByCode',
         'getSubscriptionBillsListState',
         'getSubscriptionBillsList',
@@ -27,7 +27,7 @@ import { facadeFactory, QueryState } from '@spartacus/core';
     }),
 })
 export abstract class SubscriptionBillingFacade {
-  abstract getSubscriptionBillState(): Observable<
+  abstract getSubscriptionBillByCodeState(): Observable<
     QueryState<SubscriptionBill | undefined>
   >;
 
