@@ -5,9 +5,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
@@ -15,13 +13,15 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+import { SubscriptionBillingListComponent } from './subscription-billing-list.component';
 import {
   DatePickerModule,
   FormErrorsModule,
   ListNavigationModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { SubscriptionBillingListComponent } from './subscription-billing-list.component';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -35,8 +35,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     DatePickerModule,
     FormErrorsModule,
     ReactiveFormsModule,
+    SubscriptionBillingListComponent,
   ],
-  declarations: [SubscriptionBillingListComponent],
   exports: [SubscriptionBillingListComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{

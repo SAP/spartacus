@@ -5,7 +5,14 @@
  */
 
 import { Component, inject, OnInit } from '@angular/core';
-import { EventService } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import {
+  CxDatePipe,
+  EventService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import { SpinnerComponent } from '@spartacus/storefront';
 import {
   GetSubscriptionBillByCodeReloadEvent,
   SubscriptionBill,
@@ -15,8 +22,8 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-subscription-billing-details',
-  standalone: false,
   templateUrl: './subscription-billing-details.component.html',
+  imports: [SpinnerComponent, TranslatePipe, UrlPipe, RouterLink, CxDatePipe],
 })
 export class SubscriptionBillingDetailsComponent implements OnInit {
   protected subscriptionBillingFacade = inject(SubscriptionBillingFacade);

@@ -7,7 +7,16 @@
 
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
-import { CustomFormValidators, DatePickerService } from '@spartacus/storefront';
+import { RouterLink } from '@angular/router';
+import { CxDatePipe, TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  CustomFormValidators,
+  DatePickerComponent,
+  DatePickerService,
+  PaginationComponent,
+  SortingComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import {
   SubscriptionBillingFacade,
   SubscriptionBillsList,
@@ -17,7 +26,16 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-billing-list',
   templateUrl: './subscription-billing-list.component.html',
-  standalone: false,
+  imports: [
+    SpinnerComponent,
+    TranslatePipe,
+    PaginationComponent,
+    UrlPipe,
+    RouterLink,
+    CxDatePipe,
+    SortingComponent,
+    DatePickerComponent,
+  ],
 })
 export class SubscriptionBillingListComponent {
   protected subscriptionBillsFacade = inject(SubscriptionBillingFacade);
@@ -64,7 +82,6 @@ export class SubscriptionBillingListComponent {
   }
 
   onPageChange(pageNumber: string): void {
-
     this.listParams = {
       ...this.listParams,
       pageNumber: Number(pageNumber),

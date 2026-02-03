@@ -18,8 +18,14 @@ import { SpinnerModule } from '@spartacus/storefront';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UrlModule, I18nModule, SpinnerModule],
-  declarations: [SubscriptionBillingDetailsComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    SpinnerModule,
+    SubscriptionBillingDetailsComponent,
+  ],
   exports: [SubscriptionBillingDetailsComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
