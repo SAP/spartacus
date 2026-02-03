@@ -389,7 +389,27 @@ platformBrowser().bootstrapModule(AppModule, {
 
 #### Additional migration steps if using Server Side Rendering (SSR) with Express (Fallback Only)
 
+1. Add `build:ssr` script to `package.json`
+
+The Angular `use-application-builder` migration (available in Angular 20 and 21) removes the `build:ssr` script from `package.json`. This script is required for CCv2 build process.
+
+In `package.json`, add the `build:ssr` script:
+
+```diff
+{
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
++   "build:ssr": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  }
+}
+```
+
 1. Upgrade Express to Version 5
+
 Spartacus 221121.7 requires Express 5.x. The Spartacus migration schematics automatically upgrade Express and update `server.ts` for Express 5 compatibility. The manual steps below are provided as a fallback in case the automatic migration does not complete successfully.
 
 To manually upgrade Express:
