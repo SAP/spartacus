@@ -17,7 +17,6 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-billing-list',
   templateUrl: './subscription-billing-list.component.html',
-  standalone: false,
 })
 export class SubscriptionBillingListComponent {
   protected subscriptionBillsFacade = inject(SubscriptionBillingFacade);
@@ -74,7 +73,7 @@ export class SubscriptionBillingListComponent {
 
   onDateFilterChange(): void {
     this.minDate = this.billsDateFilterForm.controls['from'].value;
-    this.maxDate = this.billsDateFilterForm.controls['to'].value
+    this.maxDate = this.billsDateFilterForm.controls['to'].value;
 
     this.billsDateFilterForm.controls['from'].updateValueAndValidity();
     this.billsDateFilterForm.controls['to'].updateValueAndValidity();

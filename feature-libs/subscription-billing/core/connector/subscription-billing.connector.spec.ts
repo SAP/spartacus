@@ -159,11 +159,11 @@ describe('SubscriptionBillingConnector', () => {
 
       const result = connector.getSubscriptionBillByCode(
         userId,
-        mockBillData.documentNumber!
+        mockBillData.documentNumber ?? ''
       );
       expect(adapter.getSubscriptionBillByCode).toHaveBeenCalledWith(
         userId,
-        mockBillData.documentNumber!
+        mockBillData.documentNumber ?? ''
       );
       expect(result).toBe(expectedResponse);
     });
@@ -177,7 +177,7 @@ describe('SubscriptionBillingConnector', () => {
       );
 
       connector
-        .getSubscriptionBillByCode(userId, mockBillData.documentNumber!)
+        .getSubscriptionBillByCode(userId, mockBillData.documentNumber ?? '')
         .subscribe({
           error: (e) => {
             expect(e).toBe(error);
