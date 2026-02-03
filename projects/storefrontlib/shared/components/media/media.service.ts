@@ -423,9 +423,15 @@ export class MediaService {
       return url.toString();
     } catch (error) {
       if (isDevMode()) {
-        this.logger.error('Invalid media/occ baseUrl and prefix configuration');
+        this.logger.error(
+          'Invalid media/occ baseUrl and prefix configuration',
+          error
+        );
       } else {
-        this.logger.warn('Invalid media/occ baseUrl and prefix configuration');
+        this.logger.warn(
+          'Invalid media/occ baseUrl and prefix configuration',
+          error
+        );
       }
       return baseUrl;
     }
