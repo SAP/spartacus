@@ -164,11 +164,7 @@ if [[ "${SSR}" = true ]]; then
         npm run e2e:run:ci:ssr
     fi
 else
-    if [[ "$SUITE" == *"b2b"* ]]; then
-        npm run start:pwa:b2b &
-    else
-        npm run start:pwa &
-    fi
+    npm run start:pwa &
 
     echo '-----'
     echo "Running All Cypress end to end tests"

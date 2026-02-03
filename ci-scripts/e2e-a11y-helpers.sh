@@ -46,7 +46,7 @@ stop_pwa_app() {
 # Build and start PWA application with specified environment configuration
 build_and_start_pwa() {
     export SPA_ENV="$1"
-    npm run build:csr  
+    npm run build:csr
     npm run start:pwa &
     sleep 10
 }

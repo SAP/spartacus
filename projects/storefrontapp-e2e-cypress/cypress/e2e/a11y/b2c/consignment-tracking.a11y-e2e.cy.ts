@@ -5,6 +5,7 @@
  */
 
 const disabledBestPracticesIds = [1775]; // Confirmed to not use table element for layout.
+const productCode = '300938'; // Product code from the order with consignment tracking info.
 
 describe('Consignment Tracking Accessibility', { testIsolation: false }, () => {
   before(() => {
@@ -26,7 +27,7 @@ describe('Consignment Tracking Accessibility', { testIsolation: false }, () => {
   });
 
   it('Tracking Dialog', () => {
-    cy.contains('.cx-list.row .cx-code', '300938')
+    cy.contains('.cx-list.row .cx-code', productCode)
       .closest('.cx-list.row')
       .within(() => {
         cy.contains(

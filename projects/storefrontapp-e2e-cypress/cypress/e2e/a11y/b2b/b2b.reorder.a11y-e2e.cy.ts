@@ -25,7 +25,6 @@ describe('Reorder accessibility', () => {
 
   it('Reorder', () => {
     cy.get('cx-order-history .cx-order-history-value').first().click();
-
     cy.get('button').contains(' Reorder ').click();
     cy.get('cx-reorder-dialog').a11yRunContinuumTest();
 
