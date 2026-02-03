@@ -47,7 +47,12 @@
           class="usage-charge"
           *ngFor="let usageCharge of subscriptionBillItem.usageCharges"
         >
-          {{ usageCharge.typeName ? usageCharge.typeName : ('subscriptionBillingDetails.netAmount' | cxTranslate) }} -
+          {{
+            usageCharge.typeName
+              ? usageCharge.typeName
+              : ('subscriptionBillingDetails.netAmount' | cxTranslate)
+          }}
+          -
           {{ usageCharge.netAmount }}
         </p>
         <p

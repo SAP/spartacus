@@ -42,5 +42,5 @@ export const facadeProviders: Provider[] = [
     provide: PageMetaResolver,
     useExisting: SubscriptionBillingDetailsPageMetaResolver,
     multi: true,
-  }
+  },
 ];

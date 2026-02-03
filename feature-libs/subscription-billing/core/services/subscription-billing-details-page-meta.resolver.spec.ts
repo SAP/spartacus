@@ -2,7 +2,11 @@ import { TestBed } from '@angular/core/testing';
 
 import { SubscriptionBillingDetailsPageMetaResolver } from './subscription-billing-details-page-meta.resolver';
 import { of } from 'rxjs';
-import { BasePageMetaResolver, BreadcrumbMeta, TranslationService } from '@spartacus/core';
+import {
+  BasePageMetaResolver,
+  BreadcrumbMeta,
+  TranslationService,
+} from '@spartacus/core';
 
 class MockTranslationService {
   translate(key: string) {
@@ -73,7 +77,10 @@ describe('SubscriptionBillingDetailsPageMetaResolver', () => {
     let result: BreadcrumbMeta[] | undefined;
     let breadcrumbs: BreadcrumbMeta[] = [
       { label: 'subscriptionPageBreadcrumb.home', link: '/' },
-      { label: 'subscriptionPageBreadcrumb.subscriptionBills', link: '/my-account/subscription-bills' }
+      {
+        label: 'subscriptionPageBreadcrumb.subscriptionBills',
+        link: '/my-account/subscription-bills',
+      },
     ];
     service
       .resolveBreadcrumbs()

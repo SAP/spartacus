@@ -22,7 +22,7 @@ import { SubscriptionBillingDetailsModule } from './billing-details/subscription
     SubscriptionProductPriceModule,
     SubscriptionProductUsageChargeModule,
     SubscriptionBillingListModule,
-    SubscriptionActionsModalModule
+    SubscriptionActionsModalModule,
   ],
 })
 export class SubscriptionBillingComponentsModule {}

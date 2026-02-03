@@ -48,9 +48,7 @@ export class SubscriptionDetailsPageMetaResolver
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[] | undefined> {
     return combineLatest([
       this.translation.translate('subscriptionPageBreadcrumb.home'),
-      this.translation.translate(
-        'subscriptionPageBreadcrumb.subscriptions'
-      ),
+      this.translation.translate('subscriptionPageBreadcrumb.subscriptions'),
     ]).pipe(
       map(([homeLabel, subscriptionsLabel]) => {
         return [

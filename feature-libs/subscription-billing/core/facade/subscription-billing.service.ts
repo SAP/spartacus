@@ -44,21 +44,22 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
     );
   }
 
-  protected getSubscriptionBillByCodeQuery$: Query<SubscriptionBill | undefined> =
-    this.queryService.create<SubscriptionBill | undefined>(
-      () =>
-        this.subscriptionBillPreConditions().pipe(
-          switchMap(([customerId, subscriptionBillCode]) =>
-            this.subscriptionBillsConnector.getSubscriptionBillByCode(
-              customerId,
-              subscriptionBillCode
-            )
+  protected getSubscriptionBillByCodeQuery$: Query<
+    SubscriptionBill | undefined
+  > = this.queryService.create<SubscriptionBill | undefined>(
+    () =>
+      this.subscriptionBillPreConditions().pipe(
+        switchMap(([customerId, subscriptionBillCode]) =>
+          this.subscriptionBillsConnector.getSubscriptionBillByCode(
+            customerId,
+            subscriptionBillCode
           )
-        ),
-      {
-        reloadOn: [GetSubscriptionBillByCodeReloadEvent],
-      }
-    );
+        )
+      ),
+    {
+      reloadOn: [GetSubscriptionBillByCodeReloadEvent],
+    }
+  );
 
   protected subscriptionBillsListPreConditions(): Observable<string> {
     return this.userIdService.getUserId().pipe(
@@ -132,18 +133,18 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
   }
 
   getSubscriptionBillByCode(): Observable<SubscriptionBill | undefined> {
-    return this.getSubscriptionBillByCodeState().pipe(map((state) => state.data));
+    return this.getSubscriptionBillByCodeState().pipe(
+      map((state) => state.data)
+    );
   }
 
   getSubscriptionBillCodeFromRoute(): Observable<string | undefined> {
-    return this.routingService
-    .getRouterState()
-    .pipe(
+    return this.routingService.getRouterState().pipe(
       map((route) => {
         const guidPattern = /\/subscription-bill\/([^/?#]+)/;
         const match = route.state.url.match(guidPattern);
         return match ? match[1] : undefined;
-     }),
+      })
     );
   }
 }
