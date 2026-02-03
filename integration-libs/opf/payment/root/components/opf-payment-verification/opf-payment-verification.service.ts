@@ -28,8 +28,9 @@ import {
 } from '@spartacus/opf/global-functions/root';
 import { Order, OrderFacade } from '@spartacus/order/root';
 import { Observable, from, of, throwError } from 'rxjs';
-import { concatMap, filter, map, take, tap } from 'rxjs/operators';
+import { catchError, concatMap, filter, map, take, tap } from 'rxjs/operators';
 import { OpfPaymentFacade } from '../../facade';
+import { OpfPaymentSubmitCompleteInput } from '@spartacus/opf/payment/root';
 import {
   OpfPaymentVerificationResponse,
   OpfPaymentVerificationResult,
@@ -76,36 +77,59 @@ export class OpfPaymentVerificationService {
     paymentSessionId: string;
     paramsMap: Array<OpfKeyValueMap>;
     afterRedirectScriptFlag: string | undefined;
+    useSubmitComplete: string | undefined;
   }> {
     let paramsMap: Array<OpfKeyValueMap>;
-    return route?.routeConfig?.data?.cxRoute === OpfPage.RESULT_PAGE
+    const isResultPage =
+      route?.routeConfig?.data?.cxRoute === OpfPage.RESULT_PAGE;
+
+    return isResultPage
       ? route.queryParams.pipe(
           concatMap((params: Params) => {
             paramsMap = this.getParamsMap(params);
+            const useSubmitCompleteValue = this.findInParamsMap(
+              OpfPaymentVerificationUrlInput.OPF_USE_SUBMIT_COMPLETE,
+              paramsMap
+            );
+            console.log(
+              'Extracted useSubmitComplete value:',
+              useSubmitCompleteValue
+            );
             return this.getPaymentSessionId(paramsMap);
           }),
           concatMap((paymentSessionId: string | undefined) => {
             if (!paymentSessionId) {
+              console.error('❌ No paymentSessionId found');
               return throwError(() => this.opfDefaultPaymentError);
             }
+            const filteredParamsMap = paramsMap.filter(
+              (param) =>
+                param.key !==
+                OpfPaymentVerificationUrlInput.OPF_PAYMENT_SESSION_ID
+            );
+            const afterRedirectScriptFlagValue = this.findInParamsMap(
+              OpfPaymentVerificationUrlInput.OPF_AFTER_REDIRECT_SCRIPT_FLAG,
+              paramsMap
+            );
+            const useSubmitCompleteValue = this.findInParamsMap(
+              OpfPaymentVerificationUrlInput.OPF_USE_SUBMIT_COMPLETE,
+              paramsMap
+            );
+
             return of({
               paymentSessionId,
-              paramsMap: paramsMap.filter(
-                (param) =>
-                  param.key !==
-                  OpfPaymentVerificationUrlInput.OPF_PAYMENT_SESSION_ID
-              ),
-              afterRedirectScriptFlag: this.findInParamsMap(
-                OpfPaymentVerificationUrlInput.OPF_AFTER_REDIRECT_SCRIPT_FLAG,
-                paramsMap
-              ),
+              paramsMap: filteredParamsMap,
+              afterRedirectScriptFlag: afterRedirectScriptFlagValue,
+              useSubmitComplete: useSubmitCompleteValue,
             });
           })
         )
-      : throwError(() => ({
-          ...this.opfDefaultPaymentError,
-          message: 'opfPayment.errors.cancelPayment',
-        }));
+      : throwError(() => {
+          return {
+            ...this.opfDefaultPaymentError,
+            message: 'opfPayment.errors.cancelPayment',
+          };
+        });
   }
 
   protected getPaymentSessionId(
@@ -126,7 +150,15 @@ export class OpfPaymentVerificationService {
   protected getPaymentSessionIdFromStorage(): Observable<string | undefined> {
     return this.opfMetadataStoreService.getOpfMetadataState().pipe(
       take(1),
-      map((opfMetaData) => opfMetaData?.opfPaymentSessionId)
+      map((opfMetaData) => {
+        console.log('getPaymentSessionIdFromStorage - metadata:', opfMetaData);
+        const sessionId = opfMetaData?.opfPaymentSessionId;
+        console.log(
+          'getPaymentSessionIdFromStorage - extracted sessionId:',
+          sessionId
+        );
+        return sessionId;
+      })
     );
   }
 
@@ -210,6 +242,62 @@ export class OpfPaymentVerificationService {
         }
       })
     );
+  }
+
+  /**
+   * Handles HOSTED_FIELDS pattern with 3DS redirect by calling submitCompletePayment
+   * instead of verifyPayment. This is needed for PSPs like Payone that redirect
+   * back after 3DS authentication without the afterRedirectScriptFlag.
+   */
+  runHostedFieldsPatternWithSubmitComplete(
+    paymentSessionId: string,
+    vcr: ViewContainerRef,
+    paramsMap: Array<OpfKeyValueMap>
+  ): Observable<boolean> {
+    console.log('🚀 runHostedFieldsPatternWithSubmitComplete - METHOD CALLED');
+    console.log('  paymentSessionId:', paymentSessionId);
+    console.log('  paramsMap:', paramsMap);
+    this.globalFunctionsService.registerGlobalFunctions({
+      domain: OpfGlobalFunctionsDomain.REDIRECT,
+      paymentSessionId,
+      vcr,
+      paramsMap,
+    });
+
+    const submitCompleteInput: OpfPaymentSubmitCompleteInput = {
+      paymentSessionId,
+      additionalData: paramsMap,
+      callbacks: {
+        onSuccess: () => {
+          // Success callback - order will be placed automatically
+        },
+        onPending: () => {
+          // Pending callback - should not happen after redirect
+        },
+        onFailure: () => {
+          // Failure callback - error will be handled by the service
+        },
+      },
+    };
+
+    return this.opfPaymentFacade
+      .submitCompletePayment(submitCompleteInput)
+      .pipe(
+        concatMap((success: boolean) => {
+          if (success) {
+            return this.placeOrder().pipe(
+              map((order) => !!order),
+              tap(() => {
+                this.goToPage(OpfPage.CONFIRMATION_PAGE);
+              })
+            );
+          }
+          return of(false);
+        }),
+        catchError((error) => {
+          return throwError(() => error);
+        })
+      );
   }
 
   runHostedFieldsPattern(

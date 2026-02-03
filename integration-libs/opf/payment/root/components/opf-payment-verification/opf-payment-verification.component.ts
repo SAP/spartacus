@@ -49,11 +49,13 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
             paymentSessionId,
             paramsMap: paramsMap,
             afterRedirectScriptFlag,
+            useSubmitComplete,
           }) =>
             this.runPaymentPattern({
               paymentSessionId,
               paramsMap,
               afterRedirectScriptFlag,
+              useSubmitComplete,
             })
         )
       )
@@ -89,12 +91,30 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
     paymentSessionId,
     paramsMap,
     afterRedirectScriptFlag,
+    useSubmitComplete,
   }: {
     paymentSessionId: string;
     paramsMap: OpfKeyValueMap[];
     afterRedirectScriptFlag?: string;
+    useSubmitComplete?: string;
   }): Observable<boolean> {
-    if (afterRedirectScriptFlag === 'true') {
+
+    const shouldUseSubmitComplete =
+      useSubmitComplete?.toLowerCase().trim() === 'true';
+    const shouldUseAfterRedirectScript =
+      afterRedirectScriptFlag?.toLowerCase().trim() === 'true';
+
+
+    if (shouldUseSubmitComplete) {
+   
+      this.isHostedFieldPattern = true;
+      return this.opfPaymentVerificationService.runHostedFieldsPatternWithSubmitComplete(
+        paymentSessionId,
+        this.vcr,
+        paramsMap
+      );
+    } else if (shouldUseAfterRedirectScript) {
+     
       this.isHostedFieldPattern = true;
       return this.opfPaymentVerificationService.runHostedFieldsPattern(
         paymentSessionId,
@@ -102,6 +122,7 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
         paramsMap
       );
     } else {
+     
       return this.opfPaymentVerificationService.runHostedPagePattern(
         paymentSessionId,
         paramsMap

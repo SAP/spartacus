@@ -33,7 +33,6 @@ import {
   OpfPaymentBrowserInfo,
   OpfPaymentFacade,
   OpfPaymentRenderMethodEvent,
-  OpfPaymentRenderPattern,
   OpfPaymentSessionData,
 } from '@spartacus/opf/payment/root';
 import { OrderFacade } from '@spartacus/order/root';
@@ -145,11 +144,7 @@ export class OpfCheckoutPaymentWrapperService {
   }
 
   protected storePaymentSessionId(paymentOptionConfig: OpfPaymentSessionData) {
-    const paymentSessionId =
-      paymentOptionConfig.pattern === OpfPaymentRenderPattern.FULL_PAGE &&
-      paymentOptionConfig.paymentSessionId
-        ? paymentOptionConfig.paymentSessionId
-        : undefined;
+    const paymentSessionId = paymentOptionConfig.paymentSessionId;
     this.opfMetadataStoreService.updateOpfMetadata({
       opfPaymentSessionId: paymentSessionId,
     });
@@ -287,15 +282,19 @@ export class OpfCheckoutPaymentWrapperService {
     paymentOptionId: number,
     browserInfo?: OpfPaymentBrowserInfo
   ) {
+    const resultURL = this.routingService.getFullUrl({
+      cxRoute: 'paymentVerificationResult',
+    });
+
+    const resultURLWithParam = `${resultURL}${resultURL.includes('?') ? '&' : '?'}opfUseSubmitComplete=true`;
+
     return {
       otpKey,
       config: {
         cartId,
         browserInfo,
         configurationId: String(paymentOptionId),
-        resultURL: this.routingService.getFullUrl({
-          cxRoute: 'paymentVerificationResult',
-        }),
+        resultURL: resultURLWithParam,
         cancelURL: this.routingService.getFullUrl({
           cxRoute: 'paymentVerificationCancel',
         }),
