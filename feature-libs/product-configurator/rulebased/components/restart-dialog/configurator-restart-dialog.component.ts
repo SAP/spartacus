@@ -4,12 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
-import { Product, ProductService, RoutingService } from '@spartacus/core';
+import {
+  Product,
+  ProductService,
+  RoutingService,
+  TranslatePipe,
+} from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import {
   FocusConfig,
+  FocusDirective,
   ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -19,7 +27,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 @Component({
   selector: 'cx-configurator-restart-dialog',
   templateUrl: './configurator-restart-dialog.component.html',
-  standalone: false,
+  imports: [NgIf, FocusDirective, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorRestartDialogComponent {
   constructor(

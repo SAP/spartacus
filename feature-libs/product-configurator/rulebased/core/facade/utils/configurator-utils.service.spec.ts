@@ -352,7 +352,7 @@ describe('ConfiguratorUtilsService', () => {
         {};
       expect(() =>
         classUnderTest.getConfigurationFromState(configurationState)
-      ).toThrowError();
+      ).toThrow();
     });
   });
 

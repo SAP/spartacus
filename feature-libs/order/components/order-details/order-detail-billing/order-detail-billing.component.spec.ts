@@ -44,8 +44,7 @@ describe('OrderDetailBillingComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OrderDetailBillingComponent],
+      imports: [I18nTestingModule, OrderDetailBillingComponent],
       providers: [
         {
           provide: OrderDetailsService,

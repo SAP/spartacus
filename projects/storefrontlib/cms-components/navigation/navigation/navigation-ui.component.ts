@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,6 +22,7 @@ import {
 import { NavigationEnd, Router } from '@angular/router';
 import {
   FeatureConfigService,
+  TranslatePipe,
   useFeatureStyles,
   WindowRef,
 } from '@spartacus/core';
@@ -32,17 +34,26 @@ import {
   take,
 } from 'rxjs/operators';
 import { BREAKPOINT, BreakpointService } from '../../../layout';
+import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
+import { IconComponent } from '../../misc/icon/icon.component';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
 
 const ARIA_EXPANDED_ATTR = 'aria-expanded';
-
 @Component({
   selector: 'cx-navigation-ui',
   templateUrl: './navigation-ui.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    IconComponent,
+    NgFor,
+    NgTemplateOutlet,
+    GenericLinkComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class NavigationUIComponent implements OnInit, OnDestroy {
   /**
@@ -91,8 +102,8 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     this.resize.next(undefined);
   }
 
-  @HostListener('document:keyDown.arrowUp', ['$event'])
-  @HostListener('document:keyDown.arrowDown', ['$event'])
+  @HostListener('document:keydown.ArrowUp', ['$event'])
+  @HostListener('document:keydown.ArrowDown', ['$event'])
   onArrow(e: KeyboardEvent) {
     this.arrowControls.next(e);
   }

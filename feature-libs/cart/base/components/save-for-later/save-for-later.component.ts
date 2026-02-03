@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   ActiveCartFacade,
@@ -12,13 +13,18 @@ import {
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import { CmsParagraphComponent, CmsService } from '@spartacus/core';
+import {
+  CmsParagraphComponent,
+  CmsService,
+  TranslatePipe,
+} from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { CartItemListComponent } from '../cart-shared/cart-item-list/cart-item-list.component';
 @Component({
   selector: 'cx-save-for-later',
   templateUrl: './save-for-later.component.html',
-  standalone: false,
+  imports: [NgIf, CartItemListComponent, AsyncPipe, TranslatePipe],
 })
 export class SaveForLaterComponent implements OnInit {
   saveForLater$: Observable<Cart>;

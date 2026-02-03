@@ -22,7 +22,7 @@ import { ProductVariantsContainerComponent } from './product-variants-container.
     ProductVariantStyleSelectorModule,
     ProductVariantSizeSelectorModule,
     ProductVariantColorSelectorModule,
+    ProductVariantsContainerComponent,
   ],
-  declarations: [ProductVariantsContainerComponent],
 })
 export class ProductVariantsContainerModule {}

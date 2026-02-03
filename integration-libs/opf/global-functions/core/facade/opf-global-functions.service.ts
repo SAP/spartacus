@@ -61,7 +61,15 @@ import {
   of,
   throwError,
 } from 'rxjs';
-import { filter, finalize, last, map, switchMap, take } from 'rxjs/operators';
+import {
+  filter,
+  finalize,
+  last,
+  map,
+  switchMap,
+  take,
+  skip,
+} from 'rxjs/operators';
 
 @Injectable()
 export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
@@ -117,6 +125,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         this.registerCtaScriptReady(domain);
         this.registerGetCart(domain);
         this.registerSetBillingAddress(domain);
+        this.registerGetBillingAddress(domain);
         this.registerSetDeliveryAddress(domain);
         this.registerGetDeliveryAddress(domain);
         this.registerSetDeliveryMode(domain);
@@ -259,6 +268,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       submitCancel?: OpfPaymentMerchantCallback;
       paymentMethod: OpfPaymentMethod;
       paymentSessionId?: string;
+      savePaymentMethod?: boolean;
     }): Promise<boolean> => {
       return this.ngZone.run(() => {
         const finalPaymentSessionId =
@@ -290,6 +300,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
             // this is intentional
           },
           paymentMethod,
+          savePaymentMethod,
         } = options;
 
         const callbacks: {
@@ -312,6 +323,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
               callbacks,
               paymentMethod,
               returnPath: undefined,
+              savePaymentMethod,
             })
             .pipe(
               /**
@@ -482,11 +494,19 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
       cartId?: string
     ): Promise<Cart | undefined> => {
       return this.ngZone.run(() => {
-        const cart$ = cartId
-          ? this.multiCartFacade.getCart(cartId)
-          : this.opfQuickBuyTransactionService.getCurrentCart();
+        if (cartId) {
+          this.multiCartFacade.reloadCart(cartId);
+          return lastValueFrom(
+            this.multiCartFacade.getCart(cartId).pipe(take(1))
+          );
+        }
 
-        return lastValueFrom(cart$.pipe(take(1)));
+        return lastValueFrom(
+          this.reloadCartAndWaitForStable().pipe(
+            switchMap(() => this.activeCartFacade.takeActive()),
+            take(1)
+          )
+        );
       });
     };
   }
@@ -696,10 +716,21 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     ): Promise<unknown> => {
       return this.ngZone.run(() => {
         return lastValueFrom(
-          this.opfQuickBuyTransactionService.setBillingAddress(address)
+          this.opfQuickBuyTransactionService
+            .setBillingAddress(address)
+            .pipe(switchMap(() => this.reloadCartAndWaitForStable()))
         );
       });
     };
+  }
+
+  protected reloadCartAndWaitForStable(): Observable<boolean> {
+    this.activeCartFacade.reloadActiveCart();
+    return this.activeCartFacade.isStable().pipe(
+      skip(1), // Skip the initial stable state before reload
+      filter((isStable: boolean) => isStable),
+      take(1)
+    );
   }
 
   protected registerSetDeliveryAddress(domain: OpfGlobalFunctionsDomain): void {
@@ -714,13 +745,33 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     };
   }
 
+  protected registerGetBillingAddress(domain: OpfGlobalFunctionsDomain): void {
+    this.getGlobalFunctionContainer(domain).getBillingAddress = (): Promise<
+      Address | undefined
+    > => {
+      return this.ngZone.run(() => {
+        return lastValueFrom(
+          this.reloadCartAndWaitForStable().pipe(
+            switchMap(() => this.activeCartFacade.takeActive()),
+            map((cart: Cart | undefined) => cart?.sapBillingAddress),
+            take(1)
+          )
+        );
+      });
+    };
+  }
+
   protected registerGetDeliveryAddress(domain: OpfGlobalFunctionsDomain): void {
     this.getGlobalFunctionContainer(domain).getDeliveryAddress = (): Promise<
       Address | undefined
     > => {
       return this.ngZone.run(() => {
         return lastValueFrom(
-          this.opfQuickBuyTransactionService.getDeliveryAddress().pipe(take(1))
+          this.reloadCartAndWaitForStable().pipe(
+            switchMap(() => this.activeCartFacade.takeActive()),
+            map((cart: Cart | undefined) => cart?.deliveryAddress),
+            take(1)
+          )
         );
       });
     };
@@ -744,9 +795,11 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
     > => {
       return this.ngZone.run(() => {
         return lastValueFrom(
-          this.opfQuickBuyTransactionService
-            .getSelectedDeliveryMode()
-            .pipe(take(1))
+          this.reloadCartAndWaitForStable().pipe(
+            switchMap(() => this.activeCartFacade.takeActive()),
+            map((cart: Cart | undefined) => cart?.deliveryMode),
+            take(1)
+          )
         );
       });
     };

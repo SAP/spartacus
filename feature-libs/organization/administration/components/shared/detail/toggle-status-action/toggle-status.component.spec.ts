@@ -36,9 +36,7 @@ describe('ToggleStatusComponent', () => {
   let messageService: MessageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, I18nTestingModule],
-      declarations: [ToggleStatusComponent],
-
+      imports: [CommonModule, I18nTestingModule, ToggleStatusComponent],
       providers: [
         {
           provide: MessageService,

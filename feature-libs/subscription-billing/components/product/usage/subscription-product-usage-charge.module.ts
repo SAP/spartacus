@@ -10,8 +10,7 @@ import { I18nModule } from '@spartacus/core';
 import { SubscriptionProductUsageChargeComponent } from './subscription-product-usage-charge.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
-  declarations: [SubscriptionProductUsageChargeComponent],
+  imports: [CommonModule, I18nModule, SubscriptionProductUsageChargeComponent],
   exports: [SubscriptionProductUsageChargeComponent],
 })
 export class SubscriptionProductUsageChargeModule {}

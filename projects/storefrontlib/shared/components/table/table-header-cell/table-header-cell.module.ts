@@ -10,7 +10,6 @@ import { I18nModule } from '@spartacus/core';
 import { TableHeaderCellComponent } from './table-header-cell.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule],
-  declarations: [TableHeaderCellComponent],
+  imports: [CommonModule, I18nModule, TableHeaderCellComponent],
 })
 export class TableHeaderCellModule {}

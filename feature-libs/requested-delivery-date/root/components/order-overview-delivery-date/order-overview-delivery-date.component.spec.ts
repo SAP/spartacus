@@ -16,8 +16,7 @@ describe('OrderOverviewDeliveryDateComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OrderOverviewDeliveryDateComponent],
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, OrderOverviewDeliveryDateComponent],
       providers: [
         { provide: TranslationService, useValue: translationServiceMock },
       ],

@@ -23,8 +23,8 @@ import { BulkPricingTableComponent } from './bulk-pricing-table.component';
         },
       },
     }),
+    BulkPricingTableComponent,
   ],
-  declarations: [BulkPricingTableComponent],
   exports: [BulkPricingTableComponent],
 })
 export class BulkPricingTableModule {}

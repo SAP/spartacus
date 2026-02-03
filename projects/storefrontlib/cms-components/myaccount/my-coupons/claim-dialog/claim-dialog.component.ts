@@ -11,23 +11,42 @@ import {
   OnInit,
   inject,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-
-import { Subscription } from 'rxjs';
 import {
-  RoutingService,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+
+import {
   CustomerCouponService,
   GlobalMessageService,
   GlobalMessageType,
+  RoutingService,
+  TranslatePipe,
 } from '@spartacus/core';
-import { FocusConfig, LaunchDialogService } from '../../../../layout/index';
+import { Subscription } from 'rxjs';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/index';
+import { FocusDirective } from '../../../../layout/a11y/keyboard-focus/focus.directive';
+import { FocusConfig, LaunchDialogService } from '../../../../layout/index';
+import { FormErrorsComponent } from '../../../../shared/components/form/form-errors/form-errors.component';
+import { FormRequiredAsterisksComponent } from '../../../../shared/components/form/form-required-asterisks/form-required-asterisks.component';
+import { IconComponent } from '../../../misc/icon/icon.component';
 
 @Component({
   selector: 'cx-claim-dialog',
   templateUrl: './claim-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FocusDirective,
+    IconComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    TranslatePipe,
+  ],
 })
 export class ClaimDialogComponent implements OnDestroy, OnInit {
   private subscription = new Subscription();

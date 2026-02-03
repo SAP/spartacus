@@ -22,8 +22,8 @@ import { TableComponent } from './table.component';
     OutletModule,
     TableHeaderCellModule,
     TableDataCellModule,
+    TableComponent,
   ],
-  declarations: [TableComponent],
   exports: [TableComponent],
   providers: [provideDefaultConfig(defaultTableConfig)],
 })

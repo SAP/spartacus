@@ -1,6 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, PointOfService } from '@spartacus/core';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  PointOfService,
+  TranslatePipe,
+} from '@spartacus/core';
+import { StoreAddressComponent, StoreScheduleComponent } from '../store';
 import { StoreAddressStubComponent } from '../store/store-address/store-address.component.spec';
 import { StoreScheduleStubComponent } from '../store/store-schedule/store-schedule.component.spec';
 import { PickupInfoComponent } from './pickup-info.component';
@@ -11,13 +19,27 @@ describe('PickupInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        PickupInfoComponent,
-        StoreAddressStubComponent,
-        StoreScheduleStubComponent,
-      ],
       imports: [I18nTestingModule],
-    }).compileComponents();
+    })
+      .overrideComponent(PickupInfoComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            StoreAddressComponent,
+            StoreScheduleComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            StoreAddressStubComponent,
+            StoreScheduleStubComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -38,7 +60,6 @@ describe('PickupInfoComponent', () => {
 @Component({
   selector: 'cx-pickup-info',
   template: '',
-  standalone: false,
 })
 export class PickupInfoStubComponent {
   @Input() storeDetails: PointOfService;

@@ -54,6 +54,7 @@ import { ConfiguratorGroupComponent } from './configurator-group.component';
     ConfiguratorConflictDescriptionModule,
     ConfiguratorConflictSuggestionModule,
     ConfiguratorAttributeCompositionModule,
+    ConfiguratorGroupComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -64,7 +65,6 @@ import { ConfiguratorGroupComponent } from './configurator-group.component';
       },
     }),
   ],
-  declarations: [ConfiguratorGroupComponent],
   exports: [ConfiguratorGroupComponent],
 })
 export class ConfiguratorGroupModule {}

@@ -63,12 +63,15 @@
         formControlName="isocode"
         [searchable]="false"
         [clearable]="false"
-        [items]="currencies$ | async"
+        [items]="(currencies$ | async) ?? []"
         bindLabel="name"
         bindValue="isocode"
         [class.invalid]="form.get('currency.isocode')?.invalid ?? false"
         appendTo="cx-org-list"
         [placeholder]="'orgCostCenter.currency' | cxTranslate"
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
       >
       </ng-select>
 
@@ -89,12 +92,15 @@
         formControlName="uid"
         [searchable]="true"
         [clearable]="false"
-        [items]="(units$ | async) ?? null"
+        [items]="(units$ | async) ?? []"
         bindLabel="name"
         bindValue="id"
         [readonly]="form.get('unit.uid')?.disabled ?? false"
         appendTo="cx-org-list"
         [placeholder]="'orgCostCenter.unit' | cxTranslate"
+        ariaLabelDropdown="{{
+          'common.ngSelectDropdownOptionsList' | cxTranslate
+        }}"
       >
       </ng-select>
 

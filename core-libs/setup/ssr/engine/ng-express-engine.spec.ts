@@ -28,6 +28,7 @@ import { ngExpressEngine } from './ng-express-engine';
 @Component({
   selector: 'cx-mock',
   template: 'some template',
+  // eslint-disable-next-line @angular-eslint/prefer-standalone -- This component must be non-standalone to support NgModule.bootstrap[] in the test setup
   standalone: false,
 })
 export class MockComponent {}
@@ -64,6 +65,7 @@ export class MockServerModule {}
 @Component({
   selector: 'cx-request',
   template: `url:{{ _req.url }}`,
+  // eslint-disable-next-line @angular-eslint/prefer-standalone -- This component must be non-standalone to support NgModule.bootstrap[] in the test setup
   standalone: false,
 })
 export class RequestComponent {
@@ -102,6 +104,7 @@ export class RequestServerModule {}
 @Component({
   selector: 'cx-response',
   template: `statusCode:{{ _res.statusCode }}`,
+  // eslint-disable-next-line @angular-eslint/prefer-standalone -- This component must be non-standalone to support NgModule.bootstrap[] in the test setup
   standalone: false,
 })
 export class ResponseComponent {
@@ -153,6 +156,7 @@ export const SOME_TOKEN = new InjectionToken<string>('SOME_TOKEN');
 @Component({
   selector: 'cx-token',
   template: `message:{{ _someToken.message }}`,
+  // eslint-disable-next-line @angular-eslint/prefer-standalone -- This component must be non-standalone to support NgModule.bootstrap[] in the test setup
   standalone: false,
 })
 export class TokenComponent {

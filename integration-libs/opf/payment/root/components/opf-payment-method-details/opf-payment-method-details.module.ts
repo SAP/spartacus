@@ -15,8 +15,7 @@ import {
 import { OpfPaymentMethodDetailsComponent } from './opf-payment-method-details.component';
 
 @NgModule({
-  declarations: [OpfPaymentMethodDetailsComponent],
-  imports: [CommonModule, CardModule],
+  imports: [CommonModule, CardModule, OpfPaymentMethodDetailsComponent],
   exports: [OpfPaymentMethodDetailsComponent],
   providers: [
     provideOutlet({

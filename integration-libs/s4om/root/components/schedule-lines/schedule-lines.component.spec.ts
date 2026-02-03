@@ -1,10 +1,16 @@
-import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { LanguageService } from '@spartacus/core';
 import { ScheduleLine } from '@spartacus/s4om/root';
-import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  TranslationService,
+} from 'projects/core/src/i18n';
 import { Observable, ReplaySubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ScheduleLinesComponent } from './schedule-lines.component';
@@ -25,16 +31,7 @@ class MockLanguageService {
   }
 }
 
-@Component({
-  selector: 'cx-schedule-lines',
-  template: '',
-  standalone: false,
-})
-class MockConfigureScheduleLineComponent {
-  @Input() cartEntry: Partial<OrderEntry & Array<ScheduleLine>>;
-}
-
-describe('ScheduleLinesCartEntryComponent', () => {
+describe('ScheduleLinesComponent', () => {
   let component: ScheduleLinesComponent;
   let fixture: ComponentFixture<ScheduleLinesComponent>;
   let htmlElem: HTMLElement;
@@ -42,11 +39,7 @@ describe('ScheduleLinesCartEntryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
-      declarations: [
-        ScheduleLinesComponent,
-        MockConfigureScheduleLineComponent,
-      ],
+      imports: [ReactiveFormsModule, I18nTestingModule, ScheduleLinesComponent],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {
@@ -55,7 +48,16 @@ describe('ScheduleLinesCartEntryComponent', () => {
         },
         { provide: LanguageService, useClass: MockLanguageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ScheduleLinesComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

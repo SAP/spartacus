@@ -35,6 +35,7 @@ import { ServiceCheckoutReviewSubmitComponent } from './service-checkout-review-
     PromotionsModule,
     IconModule,
     OutletModule,
+    ServiceCheckoutReviewSubmitComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -46,7 +47,6 @@ import { ServiceCheckoutReviewSubmitComponent } from './service-checkout-review-
       },
     }),
   ],
-  declarations: [ServiceCheckoutReviewSubmitComponent],
   exports: [ServiceCheckoutReviewSubmitComponent],
 })
 export class ServiceCheckoutReviewSubmitModule {}

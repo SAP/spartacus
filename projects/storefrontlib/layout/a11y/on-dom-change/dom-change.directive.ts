@@ -25,10 +25,7 @@ import {
  * that narrows down the number of _cxDomChange_ Output executions to be triggered only when
  * _cxDomChangeTargetSelector_ Input relevant elements changes are detected.
  */
-@Directive({
-  selector: '[cxDomChange]',
-  standalone: false,
-})
+@Directive({ selector: '[cxDomChange]' })
 export class DomChangeDirective implements OnDestroy {
   protected changes: MutationObserver;
 

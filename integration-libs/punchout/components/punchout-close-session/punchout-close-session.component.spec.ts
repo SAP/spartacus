@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PunchoutCloseSessionComponent } from './punchout-close-session.component';
 import {
   PunchoutFacade,
   PunchoutUiRestrictionService,
 } from '@spartacus/punchout/root';
 import { of } from 'rxjs';
+import { PunchoutCloseSessionComponent } from './punchout-close-session.component';
 
 describe('PunchoutCloseSessionComponent', () => {
   let component: PunchoutCloseSessionComponent;
@@ -22,7 +22,7 @@ describe('PunchoutCloseSessionComponent', () => {
     );
 
     await TestBed.configureTestingModule({
-      declarations: [PunchoutCloseSessionComponent],
+      imports: [PunchoutCloseSessionComponent],
       providers: [
         { provide: PunchoutFacade, useValue: mockPunchoutFacade },
         {

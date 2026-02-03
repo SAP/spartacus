@@ -70,8 +70,8 @@ describe('ImportEntriesFormComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         I18nTestingModule,
+        ImportEntriesFormComponent,
       ],
-      declarations: [ImportEntriesFormComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         {

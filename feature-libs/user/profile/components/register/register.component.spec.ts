@@ -6,6 +6,7 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   ANONYMOUS_CONSENT_STATUS,
@@ -16,22 +17,29 @@ import {
   BaseSite,
   BaseSiteService,
   ConsentTemplate,
+  CxDatePipe,
   FeatureConfigService,
+  FeatureDirective,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
   LanguageService,
+  MockDatePipe,
+  MockTranslatePipe,
   OAuthFlow,
   RoutingService,
   SiteAdapter,
   Title,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import {
   CaptchaModule,
   FormErrorsModule,
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { EMPTY, Observable, Subject, of } from 'rxjs';
@@ -66,10 +74,7 @@ const mockTitlesList: Title[] = [
   },
 ];
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -77,7 +82,15 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    I18nTestingModule,
+    FormErrorsModule,
+    NgSelectModule,
+    PasswordVisibilityToggleModule,
+    NgSelectA11yModule,
+    CaptchaModule,
+  ],
 })
 class MockSpinnerComponent {}
 
@@ -172,18 +185,13 @@ describe('RegisterComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
         NgSelectModule,
         PasswordVisibilityToggleModule,
         NgSelectA11yModule,
         CaptchaModule,
-      ],
-      declarations: [
         RegisterComponent,
-        MockUrlPipe,
-        MockSpinnerComponent,
-        MockFeatureDirective,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -223,7 +231,28 @@ describe('RegisterComponent', () => {
           useClass: MockLanguageService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(RegisterComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            FeatureDirective,
+            SpinnerComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockSpinnerComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

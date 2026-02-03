@@ -9,8 +9,8 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { ConfiguratorOverviewFilterBarComponent } from './configurator-overview-filter-bar.component';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorOverviewFilterBarComponent } from './configurator-overview-filter-bar.component';
 
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
@@ -59,7 +59,7 @@ function initMocks() {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -73,8 +73,8 @@ describe('ConfiguratorOverviewFilterBarComponent', () => {
     initTestData();
     initMocks();
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         ConfiguratorOverviewFilterBarComponent,
         MockCxIconComponent,
       ],

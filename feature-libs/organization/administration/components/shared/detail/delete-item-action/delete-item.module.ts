@@ -12,8 +12,13 @@ import { MessageModule } from '../../message/message.module';
 import { DeleteItemComponent } from './delete-item.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, MessageModule, ConfirmationMessageModule],
-  declarations: [DeleteItemComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    MessageModule,
+    ConfirmationMessageModule,
+    DeleteItemComponent,
+  ],
   exports: [DeleteItemComponent],
 })
 export class DeleteItemModule {}

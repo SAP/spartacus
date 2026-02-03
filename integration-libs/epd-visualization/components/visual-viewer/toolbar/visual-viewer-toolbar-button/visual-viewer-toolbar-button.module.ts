@@ -13,8 +13,7 @@ import { VisualViewerToolbarButtonComponent } from './visual-viewer-toolbar-butt
  * @deprecated since v221121.5.0 - The epd-visualization integration library will be removed in the future.
  */
 @NgModule({
-  imports: [CommonModule, IconModule],
-  declarations: [VisualViewerToolbarButtonComponent],
+  imports: [CommonModule, IconModule, VisualViewerToolbarButtonComponent],
   exports: [VisualViewerToolbarButtonComponent],
 })
 export class VisualViewerToolbarButtonModule {}

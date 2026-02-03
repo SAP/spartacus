@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SubscriptionCartPriceBodyComponent } from './subscription-cart-price-body.component';
-import { of } from 'rxjs';
 import { OutletContextData } from '@spartacus/storefront';
 import { SubscriptionProductService } from '@spartacus/subscription-billing/root';
+import { of } from 'rxjs';
+import { SubscriptionCartPriceBodyComponent } from './subscription-cart-price-body.component';
 
 class MockSubscriptionProductService {
   isSubscription(product: any) {
@@ -92,7 +92,6 @@ describe('SubscriptionCartPriceBodyComponent', () => {
   describe('with subscription product', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [],
         providers: [
           {
             provide: OutletContextData,
@@ -131,7 +130,6 @@ describe('SubscriptionCartPriceBodyComponent', () => {
   describe('with physical product', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [],
         providers: [
           {
             provide: OutletContextData,
@@ -169,7 +167,6 @@ describe('SubscriptionCartPriceBodyComponent', () => {
   describe('with minicart', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [],
         providers: [
           {
             provide: OutletContextData,

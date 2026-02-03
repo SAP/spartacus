@@ -44,6 +44,7 @@ const moduleComponents = [ReplenishmentOrderCancellationComponent];
     ListNavigationModule,
     RouterModule,
     BtnLikeLinkModule,
+    ...moduleComponents,
   ],
   providers: [
     provideDefaultConfig(defaultReplenishmentOrderCancellationLayoutConfig),
@@ -85,7 +86,6 @@ const moduleComponents = [ReplenishmentOrderCancellationComponent];
       },
     }),
   ],
-  declarations: [...moduleComponents],
   exports: [...moduleComponents],
 })
 export class ReplenishmentOrderDetailsModule {}

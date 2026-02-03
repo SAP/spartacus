@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,8 +14,9 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { TranslatePipe, useFeatureStyles } from '@spartacus/core';
+import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../cms-components/misc/index';
-import { useFeatureStyles } from '@spartacus/core';
 
 /**
  * Star rating component can be used to view existing ratings as well
@@ -24,7 +26,7 @@ import { useFeatureStyles } from '@spartacus/core';
   selector: 'cx-star-rating',
   templateUrl: './star-rating.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, NgTemplateOutlet, NgFor, IconComponent, TranslatePipe],
 })
 export class StarRatingComponent {
   protected initialRate = 0;

@@ -5,7 +5,7 @@ import {
   tick,
 } from '@angular/core/testing';
 
-import { I18nTestingModule, Price } from '@spartacus/core';
+import { I18nTestingModule, Price, TranslatePipe } from '@spartacus/core';
 import {
   Quote,
   QuoteActionType,
@@ -24,7 +24,11 @@ import {
   FormControl,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { ICON_TYPE } from '@spartacus/storefront';
+import {
+  DatePickerComponent,
+  ICON_TYPE,
+  IconComponent,
+} from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import {
   createEmptyQuote,
@@ -111,7 +115,7 @@ class MockQuoteHeaderSellerEditComponentService {
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'cx-date-picker',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockDatePickerComponent {
   @Input() control: FormControl;
@@ -123,7 +127,7 @@ class MockDatePickerComponent {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -139,12 +143,7 @@ describe('QuoteSummarySellerEditComponent', () => {
       quote: { updateDebounceTime: { expiryDate: DEBOUNCE_TIME } },
     };
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule],
-      declarations: [
-        QuoteSummarySellerEditComponent,
-        MockCxIconComponent,
-        MockDatePickerComponent,
-      ],
+      imports: [ReactiveFormsModule, QuoteSummarySellerEditComponent],
       providers: [
         {
           provide: QuoteFacade,
@@ -159,7 +158,20 @@ describe('QuoteSummarySellerEditComponent', () => {
           useValue: uiConfig,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(QuoteSummarySellerEditComponent, {
+        remove: {
+          imports: [TranslatePipe, IconComponent, DatePickerComponent],
+        },
+        add: {
+          imports: [
+            I18nTestingModule,
+            MockCxIconComponent,
+            MockDatePickerComponent,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

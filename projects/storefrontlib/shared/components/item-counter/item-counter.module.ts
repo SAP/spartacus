@@ -18,8 +18,8 @@ import { ItemCounterComponent } from './item-counter.component';
     I18nModule,
     KeyboardFocusModule,
     FeaturesConfigModule,
+    ItemCounterComponent,
   ],
-  declarations: [ItemCounterComponent],
   exports: [ItemCounterComponent],
 })
 export class ItemCounterModule {}

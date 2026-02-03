@@ -20,7 +20,6 @@ class MockAuthFlowRoutesService implements Partial<AuthFlowRoutesService> {
 @Component({
   selector: 'cx-test-component',
   template: 'test',
-  standalone: false,
 })
 export class TestComponent {}
 

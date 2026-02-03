@@ -14,6 +14,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { CxNumericPipe, TranslatePipe } from '@spartacus/core';
 import { VisualViewerAnimationSliderService } from './visual-viewer-animation-slider.service';
 
 /**
@@ -24,7 +25,7 @@ import { VisualViewerAnimationSliderService } from './visual-viewer-animation-sl
   templateUrl: './visual-viewer-animation-slider.component.html',
   providers: [VisualViewerAnimationSliderService],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [TranslatePipe, CxNumericPipe, TranslatePipe],
 })
 export class VisualViewerAnimationSliderComponent implements AfterViewInit {
   constructor(

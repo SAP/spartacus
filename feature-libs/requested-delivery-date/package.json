@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/requested-delivery-date",
-  "version": "221121.5.0",
+  "version": "221121.7.0-1",
   "description": "Requested Delivery Date library for Spartacus",
   "keywords": [
     "spartacus",
@@ -25,21 +25,21 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^19.2.16",
-    "@angular/common": "^19.2.15",
-    "@angular/core": "^19.2.15",
-    "@angular/forms": "^19.2.15",
-    "@spartacus/cart": "221121.5.0",
-    "@spartacus/checkout": "221121.5.0",
-    "@spartacus/core": "221121.5.0",
-    "@spartacus/order": "221121.5.0",
-    "@spartacus/schematics": "221121.5.0",
-    "@spartacus/storefront": "221121.5.0",
-    "@spartacus/styles": "221121.5.0",
+    "@angular-devkit/schematics": "^21.1.0",
+    "@angular/common": "^21.1.0",
+    "@angular/core": "^21.1.0",
+    "@angular/forms": "^21.1.0",
+    "@spartacus/cart": "221121.7.0-1",
+    "@spartacus/checkout": "221121.7.0-1",
+    "@spartacus/core": "221121.7.0-1",
+    "@spartacus/order": "221121.7.0-1",
+    "@spartacus/schematics": "221121.7.0-1",
+    "@spartacus/storefront": "221121.7.0-1",
+    "@spartacus/styles": "221121.7.0-1",
     "rxjs": "^7.8.0"
   },
   "engines": {
-    "node": "^22.0.0"
+    "node": "^22.22.0"
   },
   "publishConfig": {
     "access": "public"

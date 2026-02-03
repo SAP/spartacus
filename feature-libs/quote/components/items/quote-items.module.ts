@@ -23,6 +23,7 @@ import { QuoteItemsComponent } from './quote-items.component';
     IconModule,
     I18nModule,
     AbstractOrderContextModule,
+    QuoteItemsComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -34,7 +35,6 @@ import { QuoteItemsComponent } from './quote-items.component';
       },
     }),
   ],
-  declarations: [QuoteItemsComponent],
   exports: [QuoteItemsComponent],
 })
 export class QuoteItemsModule {}

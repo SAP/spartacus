@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  Directive,
-  Input,
-  TemplateRef,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -16,27 +10,6 @@ import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-fe
 import { Observable } from 'rxjs';
 import { PickupOptionsComponent } from './pickup-options.component';
 import { PickupOptionsTabs } from './pickup-options.model';
-
-// Reverted mock directive used to check whether all parts of the component works properly
-// if the feature flag is disabled.
-@Directive({
-  selector: '[cxFeature]',
-  standalone: false,
-})
-export class MockRevertedFeatureDirective {
-  constructor(
-    protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef
-  ) {}
-
-  @Input() set cxFeature(_feature: string) {
-    // ensure the deprecated DOM changes are not rendered during tests
-
-    if (_feature.toString().includes('!')) {
-      this.viewContainer.createEmbeddedView(this.templateRef);
-    }
-  }
-}
 
 class MockFeatureConfigService {
   isEnabled() {
@@ -49,8 +22,9 @@ describe('PickupOptionsComponent', () => {
   let fixture: ComponentFixture<PickupOptionsComponent>;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PickupOptionsComponent, MockFeatureDirective],
       imports: [
+        MockFeatureDirective,
+        PickupOptionsComponent,
         CommonModule,
         I18nTestingModule,
         ReactiveFormsModule,
@@ -205,7 +179,6 @@ describe('PickupOptionsComponent', () => {
 @Component({
   selector: 'cx-pickup-options',
   template: '',
-  standalone: false,
 })
 export class PickupOptionsStubComponent {
   @Input() selectedOption: PickupOption;

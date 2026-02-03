@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf, SlicePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -14,16 +15,21 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import {
+  CxDatePipe,
   FeatureConfigService,
+  FeatureDirective,
   isNotNullable,
   Product,
   ProductReviewService,
   Review,
+  TranslatePipe,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -33,13 +39,35 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+import { FormErrorsComponent } from '../../../../shared/components/form/form-errors/form-errors.component';
+import { FormRequiredAsterisksComponent } from '../../../../shared/components/form/form-required-asterisks/form-required-asterisks.component';
+import { FormRequiredLegendComponent } from '../../../../shared/components/form/form-required-legend/form-required-legend.component';
+import { ReadMoreComponent } from '../../../../shared/components/read-more/read-more.component';
+import { StarRatingComponent } from '../../../../shared/components/star-rating/star-rating.component';
 import { CurrentProductService } from '../../current-product.service';
 
 @Component({
   selector: 'cx-product-reviews',
   templateUrl: './product-reviews.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    StarRatingComponent,
+    NgFor,
+    FeatureDirective,
+    ReadMoreComponent,
+    FormRequiredLegendComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredAsterisksComponent,
+    FormErrorsComponent,
+    AsyncPipe,
+    SlicePipe,
+    TranslatePipe,
+    CxDatePipe,
+
+    CxDatePipe,
+  ],
 })
 export class ProductReviewsComponent {
   @ViewChild('titleInput', { static: false }) titleInput: ElementRef;

@@ -5,13 +5,14 @@
  */
 
 import * as alerts from './global-message';
+import { cmsEndpoints } from './cms-endpoints';
 
 export function signOut() {
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/${cmsEndpoints.pages}`,
     query: {
       pageLabelOrId: '/logout',
     },

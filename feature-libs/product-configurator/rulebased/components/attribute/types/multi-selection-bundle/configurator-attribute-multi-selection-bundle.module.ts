@@ -11,10 +11,10 @@ import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
+import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 import { ConfiguratorAttributeProductCardModule } from '../../product-card/configurator-attribute-product-card.module';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
-import { ConfiguratorAttributeCompositionConfig } from '../../composition/configurator-attribute-composition.config';
 
 @NgModule({
   imports: [
@@ -28,6 +28,7 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition/config
     UrlModule,
     ConfiguratorAttributeQuantityModule,
     ConfiguratorPriceModule,
+    ConfiguratorAttributeMultiSelectionBundleComponent,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
@@ -39,7 +40,6 @@ import { ConfiguratorAttributeCompositionConfig } from '../../composition/config
       },
     }),
   ],
-  declarations: [ConfiguratorAttributeMultiSelectionBundleComponent],
   exports: [ConfiguratorAttributeMultiSelectionBundleComponent],
 })
 export class ConfiguratorAttributeMultiSelectionBundleModule {}

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -13,15 +14,25 @@ import {
   OnInit,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import { ItemCounterComponent, MediaComponent } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: '[cx-quick-order-item], cx-quick-order-item',
   templateUrl: './quick-order-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgClass,
+    RouterLink,
+    MediaComponent,
+    ItemCounterComponent,
+    TranslatePipe,
+    UrlPipe,
+  ],
 })
 export class QuickOrderItemComponent implements OnInit, OnDestroy {
   quantityControl: UntypedFormControl;

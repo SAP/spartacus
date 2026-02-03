@@ -4,27 +4,39 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  ChangeDetectorRef,
   AfterViewChecked,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
   inject,
+  ViewChild,
 } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import { OrderOutlets } from '@spartacus/order/root';
 import { InvoicesListComponent } from '@spartacus/pdf-invoices/components';
 import {
-  ICON_TYPE,
   FocusConfig,
+  FocusDirective,
+  ICON_TYPE,
+  IconComponent,
   LaunchDialogService,
+  SpinnerComponent,
 } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-my-account-v2-download-invoices',
   templateUrl: './my-account-v2-download-invoices.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FocusDirective,
+    IconComponent,
+    InvoicesListComponent,
+    NgIf,
+    SpinnerComponent,
+    TranslatePipe,
+  ],
 })
 export class MyAccountV2DownloadInvoicesComponent implements AfterViewChecked {
   @ViewChild(InvoicesListComponent, { static: false })

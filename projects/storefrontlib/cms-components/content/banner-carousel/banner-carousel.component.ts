@@ -4,15 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
-  CmsBannerCarouselComponent as model,
   CmsService,
   ContentSlotComponentData,
+  CmsBannerCarouselComponent as model,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/index';
+import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
+import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
 
 /**
  * Generic carousel that renders CMS Components.
@@ -21,7 +24,7 @@ import { CmsComponentData } from '../../../cms-structure/index';
   selector: 'cx-banner-carousel',
   templateUrl: 'banner-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, CarouselComponent, ComponentWrapperDirective, AsyncPipe],
 })
 export class BannerCarouselComponent {
   private componentData$: Observable<model> = this.componentData.data$.pipe(

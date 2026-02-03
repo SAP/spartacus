@@ -21,21 +21,33 @@ import {
   template,
   url,
 } from '@angular-devkit/schematics';
-import { insertImport } from '@schematics/angular/utility/ast-utils';
+import {
+  getDecoratorMetadata,
+  getMetadataField,
+  insertImport,
+  isImported,
+} from '@schematics/angular/utility/ast-utils';
+import { RemoveChange } from '@schematics/angular/utility/change';
 import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import ts from 'typescript';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import collectedDependencies from '../dependencies.json';
-import { getDefaultProjectNameFromWorkspace, getWorkspace } from '../shared';
-import { ANGULAR_SSR } from '../shared/constants';
+import {
+  ANGULAR_CORE,
+  getDefaultProjectNameFromWorkspace,
+  getWorkspace,
+} from '../shared';
+import { ANGULAR_SERVER_MODULE, ANGULAR_SSR } from '../shared/constants';
 import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
   commitChanges,
   getIndexHtmlPath,
   getPathResultsForFile,
   getTsSourceFile,
+  removeImport,
 } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
@@ -54,7 +66,7 @@ export function modifyAppServerModuleFile(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const appServerModulePath = getPathResultsForFile(
       tree,
-      'app.module.server.ts',
+      ANGULAR_SERVER_MODULE,
       '/src'
     )[0];
 
@@ -82,7 +94,7 @@ export function modifyAppServerModuleFile(): Rule {
     const changes = [importChange, ...providerChanges];
     commitChanges(tree, appServerModulePath, changes);
 
-    context.logger.log('info', `✅️ Modified app.server.module.ts file.`);
+    context.logger.log('info', `✅️ Modified app.module.server.ts file.`);
     return tree;
   };
 }
@@ -352,6 +364,237 @@ function useNoSsrConfigurationInNgServe(
 }
 
 /**
+ * Removes the "outputMode" option from the "build" target in angular.json.
+ *
+ * This could be removed when we migrate to new SSR API.
+ */
+function removeOutputModeSupportedOnlyInNewSsrApi(
+  spartacusOptions: SpartacusOptions
+): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    if (spartacusOptions.debug) {
+      context.logger.info(
+        `⌛️ Removing "outputMode" supported only in new SSR API...`
+      );
+    }
+
+    const { path, workspace: angularJson } = getWorkspace(tree);
+    const projectName = getDefaultProjectNameFromWorkspace(tree);
+
+    const project = angularJson.projects[projectName];
+    const architect = project.architect;
+    const build = architect?.build;
+    const options = build?.options;
+
+    const updatedAngularJson = {
+      ...angularJson,
+      projects: {
+        ...angularJson.projects,
+        [projectName]: {
+          ...project,
+          architect: {
+            ...architect,
+            build: {
+              ...build,
+              options: {
+                ...options,
+                outputMode: undefined,
+              },
+            },
+          },
+        },
+      },
+    };
+
+    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+
+    if (spartacusOptions.debug) {
+      context.logger.info(`✅ Removed "outputMode" option`);
+    }
+    return tree;
+  };
+}
+
+/**
+ * Removes the `app.routes.server.ts` file.
+ */
+function removeServerRoutesFileFromSrc(
+  spartacusOptions: SpartacusOptions
+): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    const serverRoutesPath = getPathResultsForFile(
+      tree,
+      'app.routes.server.ts',
+      '/src'
+    )[0];
+
+    if (serverRoutesPath) {
+      tree.delete(serverRoutesPath);
+      if (spartacusOptions.debug) {
+        context.logger.info(`✅ Deleted ${serverRoutesPath}`);
+      }
+    }
+
+    return tree;
+  };
+}
+
+/**
+ * Removes the import for `serverRoutes` from './app.routes.server' in app.module.server.ts.
+ */
+function removeServerRoutesImport(spartacusOptions: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    const appServerModulePath = getPathResultsForFile(
+      tree,
+      ANGULAR_SERVER_MODULE,
+      '/src'
+    )[0];
+
+    if (!appServerModulePath) {
+      return tree;
+    }
+
+    const appServerModuleSource = getTsSourceFile(tree, appServerModulePath);
+
+    if (
+      isImported(appServerModuleSource, 'serverRoutes', './app.routes.server')
+    ) {
+      const serverRoutesImportRemoval = removeImport(appServerModuleSource, {
+        className: 'serverRoutes',
+        importPath: './app.routes.server',
+      });
+      commitChanges(tree, appServerModulePath, [serverRoutesImportRemoval]);
+
+      if (spartacusOptions.debug) {
+        context.logger.info(
+          `✅ Removed serverRoutes import from ${appServerModulePath}`
+        );
+      }
+    }
+
+    return tree;
+  };
+}
+
+/**
+ * Removes the @angular/ssr import from app.module.server.ts.
+ */
+function removeAngularSsrImport(spartacusOptions: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    const appServerModulePath = getPathResultsForFile(
+      tree,
+      ANGULAR_SERVER_MODULE,
+      '/src'
+    )[0];
+
+    if (!appServerModulePath) {
+      return tree;
+    }
+
+    const appServerModuleSource = getTsSourceFile(tree, appServerModulePath);
+
+    const hasProvideServerRendering = isImported(
+      appServerModuleSource,
+      'provideServerRendering',
+      ANGULAR_SSR
+    );
+    const hasWithRoutes = isImported(
+      appServerModuleSource,
+      'withRoutes',
+      ANGULAR_SSR
+    );
+
+    if (hasProvideServerRendering && hasWithRoutes) {
+      const angularSsrImportRemoval = removeImport(appServerModuleSource, {
+        importPath: ANGULAR_SSR,
+      });
+      commitChanges(tree, appServerModulePath, [angularSsrImportRemoval]);
+
+      if (spartacusOptions.debug) {
+        context.logger.info(
+          `✅ Removed @angular/ssr import from ${appServerModulePath}`
+        );
+      }
+    }
+
+    return tree;
+  };
+}
+
+/**
+ * Removes the provideServerRendering provider from app.module.server.ts.
+ */
+function removeProvideServerRenderingFromProviders(
+  spartacusOptions: SpartacusOptions
+): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    const appServerModulePath = getPathResultsForFile(
+      tree,
+      ANGULAR_SERVER_MODULE,
+      '/src'
+    )[0];
+
+    if (!appServerModulePath) {
+      return tree;
+    }
+
+    const appServerModuleSource = getTsSourceFile(tree, appServerModulePath);
+
+    const ngModuleDecorator = getDecoratorMetadata(
+      appServerModuleSource,
+      'NgModule',
+      ANGULAR_CORE
+    )[0];
+
+    if (ngModuleDecorator) {
+      const providersAssignment = getMetadataField(
+        ngModuleDecorator as ts.ObjectLiteralExpression,
+        'providers'
+      )[0] as ts.PropertyAssignment;
+
+      if (providersAssignment) {
+        const providersArray =
+          providersAssignment.initializer as ts.ArrayLiteralExpression;
+
+        const providerToRemove = providersArray.elements.find((element) =>
+          element.getText().includes('provideServerRendering')
+        );
+
+        if (providerToRemove) {
+          const removeProviderChange = new RemoveChange(
+            appServerModulePath,
+            providerToRemove.getStart(),
+            providerToRemove.getFullText()
+          );
+          commitChanges(tree, appServerModulePath, [removeProviderChange]);
+
+          if (spartacusOptions.debug) {
+            context.logger.info(
+              `✅ Removed provideServerRendering(withRoutes(serverRoutes)) from ${appServerModulePath}`
+            );
+          }
+        }
+      }
+    }
+
+    return tree;
+  };
+}
+
+/**
+ * Removes the `app.routes.server.ts` file and related code from the app.module.server.ts file.
+ * This file is not supported by Spartacus SSR.
+ */
+function removeServerRoutesFile(spartacusOptions: SpartacusOptions): Rule {
+  return chain([
+    removeServerRoutesFileFromSrc(spartacusOptions),
+    removeServerRoutesImport(spartacusOptions),
+    removeAngularSsrImport(spartacusOptions),
+    removeProvideServerRenderingFromProviders(spartacusOptions),
+  ]);
+}
+
+/**
  * Http Transfer Cache is temporarily disabled; https://jira.tools.sap/browse/CXSPA-10430
  */
 export function addWithNoHttpTransferCacheToAppModule(
@@ -430,8 +673,9 @@ export function addSSR(options: SpartacusOptions): Rule {
       addPackageJsonDependencies(prepareDependencies(), packageJson),
       externalSchematic(ANGULAR_SSR, 'ng-add', {
         project: options.project,
-        serverRouting: false, //API in dev preview. Remove when API is stable and Spartacus is ready to use it.
       }),
+      removeOutputModeSupportedOnlyInNewSsrApi(options),
+      removeServerRoutesFile(options),
       addBuildSsrScript(options),
       modifyAppServerModuleFile(),
       modifyIndexHtmlFile(options),

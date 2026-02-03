@@ -1,14 +1,11 @@
 import { Component, Directive } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BaseFocusDirective } from './base-focus.directive';
 import { BaseFocusService } from './base-focus.service';
 
 // create custom mock to test extending from the abstract base
-@Directive({
-  selector: '[cxCustomFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxCustomFocus]' })
 class CustomFocusDirective extends BaseFocusDirective {}
 
 @Component({
@@ -29,7 +26,7 @@ class CustomFocusDirective extends BaseFocusDirective {}
     <a id="inactive" cxCustomFocus>inactive link</a>
     <a id="routerlink" routerlink="/link" cxCustomFocus>router link</a>
   `,
-  standalone: false,
+  imports: [CustomFocusDirective],
 })
 class MockComponent {}
 
@@ -40,7 +37,7 @@ describe('BaseFocusDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CustomFocusDirective, MockComponent],
+      imports: [CustomFocusDirective, MockComponent],
       providers: [
         {
           provide: BaseFocusService,

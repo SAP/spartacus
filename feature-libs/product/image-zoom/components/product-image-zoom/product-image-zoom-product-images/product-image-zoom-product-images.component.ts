@@ -4,19 +4,37 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { FeatureDirective, Product, TranslatePipe } from '@spartacus/core';
 import {
+  CarouselComponent,
+  CarouselScrollingComponent,
   CurrentProductService,
+  FocusableCarouselItemDirective,
+  LcpContextDirective,
+  MediaComponent,
   ProductImagesComponent,
 } from '@spartacus/storefront';
-import { Product } from '@spartacus/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ProductImageZoomTriggerComponent } from '../product-image-zoom-trigger/product-image-zoom-trigger.component';
 
 @Component({
   selector: 'cx-product-images',
   templateUrl: './product-image-zoom-product-images.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    LcpContextDirective,
+    MediaComponent,
+    ProductImageZoomTriggerComponent,
+    FeatureDirective,
+    CarouselScrollingComponent,
+    CarouselComponent,
+    FocusableCarouselItemDirective,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ProductImageZoomProductImagesComponent extends ProductImagesComponent {
   expandImage = new BehaviorSubject(false);

@@ -11,8 +11,12 @@ import { MediaModule } from '@spartacus/storefront';
 import { AsmCustomer360ProductItemComponent } from './asm-customer-360-product-item.component';
 
 @NgModule({
-  imports: [CommonModule, MediaModule, I18nModule],
-  declarations: [AsmCustomer360ProductItemComponent],
+  imports: [
+    CommonModule,
+    MediaModule,
+    I18nModule,
+    AsmCustomer360ProductItemComponent,
+  ],
   exports: [AsmCustomer360ProductItemComponent],
 })
 export class AsmCustomer360ProductItemModule {}

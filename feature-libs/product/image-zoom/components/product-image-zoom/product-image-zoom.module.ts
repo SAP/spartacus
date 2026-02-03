@@ -42,6 +42,11 @@ import { ProductImageZoomViewComponent } from './product-image-zoom-view/product
     RouterModule,
     FeaturesConfigModule,
     LcpContextDirectiveModule,
+    ProductImageZoomDialogComponent,
+    ProductImageZoomProductImagesComponent,
+    ProductImageZoomThumbnailsComponent,
+    ProductImageZoomTriggerComponent,
+    ProductImageZoomViewComponent,
   ],
   providers: [
     provideDefaultConfig(defaultProductImageZoomLayoutConfig),
@@ -52,13 +57,6 @@ import { ProductImageZoomViewComponent } from './product-image-zoom-view/product
         },
       },
     }),
-  ],
-  declarations: [
-    ProductImageZoomDialogComponent,
-    ProductImageZoomProductImagesComponent,
-    ProductImageZoomThumbnailsComponent,
-    ProductImageZoomTriggerComponent,
-    ProductImageZoomViewComponent,
   ],
   exports: [
     ProductImageZoomDialogComponent,

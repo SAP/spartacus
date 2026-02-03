@@ -4,8 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Address, B2BUnit, Country, UserAddressService } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import {
+  Address,
+  B2BUnit,
+  Country,
+  TranslatePipe,
+  UrlPipe,
+  UserAddressService,
+} from '@spartacus/core';
+import { FocusDirective } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   map,
@@ -14,6 +24,8 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { CardComponent } from '../../../../shared/card/card.component';
+import { DeleteItemComponent } from '../../../../shared/detail/delete-item-action/delete-item.component';
 import { ItemService } from '../../../../shared/item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitAddressItemService } from '../services/unit-address-item.service';
@@ -29,7 +41,16 @@ import { UnitAddressItemService } from '../services/unit-address-item.service';
       useExisting: UnitAddressItemService,
     },
   ],
-  standalone: false,
+  imports: [
+    NgIf,
+    CardComponent,
+    FocusDirective,
+    RouterLink,
+    DeleteItemComponent,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+  ],
 })
 export class UnitAddressDetailsComponent {
   unit$: Observable<B2BUnit | undefined> = this.currentUnitService.item$;

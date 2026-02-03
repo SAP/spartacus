@@ -9,13 +9,19 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   Address,
+  CxDatePipe,
+  FeatureDirective,
   GlobalMessageService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
   User,
 } from '@spartacus/core';
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { AddressFormComponent } from '../public_api';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
 
@@ -63,7 +69,7 @@ class MockComponentService {
 @Component({
   selector: 'cx-address-form',
   template: '',
-  standalone: false,
+  imports: [SpinnerModule, I18nTestingModule, CardModule],
 })
 class MockAddressFormComponent {
   @Input()
@@ -99,7 +105,7 @@ describe('AddressBookComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SpinnerModule, I18nTestingModule, CardModule],
+      imports: [SpinnerModule, CardModule, AddressBookComponent],
       providers: [
         {
           provide: AddressBookComponentService,
@@ -107,12 +113,26 @@ describe('AddressBookComponent', () => {
         },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
-      declarations: [
-        AddressBookComponent,
-        MockAddressFormComponent,
-        MockFeatureDirective,
-      ],
-    }).compileComponents();
+    })
+      .overrideComponent(AddressBookComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            AddressFormComponent,
+            FeatureDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockAddressFormComponent,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

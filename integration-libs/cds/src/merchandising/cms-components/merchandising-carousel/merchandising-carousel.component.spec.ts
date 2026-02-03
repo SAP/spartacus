@@ -1,3 +1,4 @@
+import { AsyncPipe, NgFor, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   Directive,
@@ -8,16 +9,26 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
+  MockTranslatePipe,
   PageContext,
   PageType,
   Product,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
-import { CmsComponentData, IntersectionService } from '@spartacus/storefront';
+import {
+  CarouselComponent,
+  CmsComponentData,
+  IntersectionService,
+  MediaComponent,
+} from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { MerchandisingMetadata, MerchandisingProduct } from '../../model/index';
+import { AttributesDirective } from '../directives';
 import { MerchandisingCarouselComponent } from './merchandising-carousel.component';
 import { MerchandisingCarouselComponentService } from './merchandising-carousel.component.service';
 import { MerchandisingCarouselModel } from './model/index';
@@ -32,7 +43,7 @@ import createSpy = jasmine.createSpy;
       ></ng-container>
     </ng-container>
   `,
-  standalone: false,
+  imports: [NgTemplateOutlet, NgFor, AsyncPipe],
 })
 class MockCarouselComponent {
   @Input() title: string;
@@ -49,17 +60,13 @@ class MockCarouselComponent {
   selector: '[cxAttributes]',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: ['cxAttributes', 'cxAttributesNamePrefix'],
-  standalone: false,
 })
 class MockAttributesDirective {
   @Input() cxAttributes: { [attribute: string]: any };
   @Input() cxAttributesNamePrefix: string;
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -67,7 +74,6 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-media',
   template: '',
-  standalone: false,
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -170,13 +176,7 @@ describe('MerchandisingCarouselComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        MerchandisingCarouselComponent,
-        MockCarouselComponent,
-        MockAttributesDirective,
-        MockMediaComponent,
-        MockUrlPipe,
-      ],
+      imports: [MerchandisingCarouselComponent, RouterModule.forRoot([])],
       providers: [
         {
           provide: CmsComponentData,
@@ -195,7 +195,28 @@ describe('MerchandisingCarouselComponent', () => {
           useClass: IntersectionServiceStub,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MerchandisingCarouselComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CarouselComponent,
+            AttributesDirective,
+            MediaComponent,
+            UrlPipe,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockCarouselComponent,
+            MockAttributesDirective,
+            MockMediaComponent,
+            MockUrlPipe,
+          ],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(MerchandisingCarouselComponent);
     component = fixture.componentInstance;

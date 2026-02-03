@@ -4,20 +4,31 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
   CartModification,
   CartValidationFacade,
   CartValidationStatusCode,
 } from '@spartacus/cart/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cart-validation-warnings',
   templateUrl: './cart-validation-warnings.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgFor,
+    NgIf,
+    IconComponent,
+    RouterLink,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+  ],
 })
 export class CartValidationWarningsComponent {
   iconTypes = ICON_TYPE;

@@ -23,6 +23,7 @@ import { CartProceedToCheckoutComponent } from './cart-proceed-to-checkout.compo
     RouterModule,
     I18nModule,
     UrlModule,
+    CartProceedToCheckoutComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -33,7 +34,6 @@ import { CartProceedToCheckoutComponent } from './cart-proceed-to-checkout.compo
       },
     }),
   ],
-  declarations: [CartProceedToCheckoutComponent],
   exports: [CartProceedToCheckoutComponent],
 })
 export class CartProceedToCheckoutModule {}

@@ -29,7 +29,6 @@ import { DpPaymentMethodComponent } from './dp-payment-method.component';
     SpinnerModule,
     I18nModule,
     DpPaymentCallbackModule,
-
     ConfigModule.withConfig({
       cmsComponents: {
         CheckoutPaymentDetails: {
@@ -38,8 +37,8 @@ import { DpPaymentMethodComponent } from './dp-payment-method.component';
       },
     }),
     FeaturesConfigModule,
+    DpPaymentMethodComponent,
   ],
-  declarations: [DpPaymentMethodComponent],
   exports: [DpPaymentMethodComponent],
   providers: [provideDefaultConfig(defaultDigitalPaymentsConfig)],
 })

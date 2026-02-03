@@ -18,7 +18,6 @@ const focusConfig = {
 
 @Component({
   template: '<div id="a"></div><div id="b" tabindex="5"></div>',
-  standalone: false,
 })
 class MockComponent {}
 
