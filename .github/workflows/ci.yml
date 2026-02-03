@@ -95,6 +95,7 @@ jobs:
     needs: no_retries
     name: Check for new feature toggles
     runs-on: ubuntu-latest
+    if: github.ref_name == 'develop' || startsWith(github.ref_name, 'release/')
     steps:
       - uses: actions/checkout@v6
         with:
