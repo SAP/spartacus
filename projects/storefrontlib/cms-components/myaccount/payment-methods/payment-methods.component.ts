@@ -69,11 +69,11 @@ export class PaymentMethodsComponent implements OnInit {
 
   getCardContent({
     defaultPayment,
-    accountHolderName,
+    // accountHolderName,
     expiryMonth,
     expiryYear,
     cardNumber,
-    cardType,
+    // cardType,
   }: PaymentDetails): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentCard.setAsDefault'),
@@ -91,7 +91,7 @@ export class PaymentMethodsComponent implements OnInit {
           textDelete,
           textDeleteConfirmation,
           textExpires,
-          textDefaultPaymentMethod,
+          // textDefaultPaymentMethod,
         ]) => {
           const actions: { name: string; event: string }[] = [];
           if (!defaultPayment) {
@@ -100,16 +100,16 @@ export class PaymentMethodsComponent implements OnInit {
           actions.push({ name: textDelete, event: 'edit' });
           const card: Card = {
             role: 'application',
-            header: defaultPayment ? textDefaultPaymentMethod : undefined,
-            textBold: accountHolderName,
+            // header: defaultPayment ? textDefaultPaymentMethod : undefined,
+            // textBold: accountHolderName,
             text: [cardNumber ?? '', textExpires],
             actions,
             deleteMsg: textDeleteConfirmation,
-            img: this.getCardIcon(cardType?.code ?? ''),
-            imgLabel: this.getCardIconLabel(cardType?.code),
-            label: defaultPayment
-              ? 'paymentCard.defaultPaymentLabel'
-              : 'paymentCard.additionalPaymentLabel',
+            // img: this.getCardIcon(cardType?.code ?? ''),
+            // imgLabel: this.getCardIconLabel(cardType?.code),
+            //   label: defaultPayment
+            //     ? 'paymentCard.defaultPaymentLabel'
+            //     : 'paymentCard.additionalPaymentLabel',
           };
 
           return card;
