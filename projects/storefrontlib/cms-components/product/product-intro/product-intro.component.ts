@@ -12,6 +12,7 @@ import {
   TranslatePipe,
   TranslationService,
   WindowRef,
+  FeatureDirective,
 } from '@spartacus/core';
 import { Observable, defer, merge, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -26,7 +27,14 @@ import { CurrentProductService } from '../current-product.service';
   selector: 'cx-product-intro',
   templateUrl: './product-intro.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, StarRatingComponent, AsyncPipe, DecimalPipe, TranslatePipe],
+  imports: [
+    NgIf,
+    StarRatingComponent,
+    AsyncPipe,
+    DecimalPipe,
+    TranslatePipe,
+    FeatureDirective,
+  ],
 })
 export class ProductIntroComponent {
   product$: Observable<Product | null> =
