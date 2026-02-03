@@ -87,19 +87,14 @@ export class OpfPaymentVerificationService {
       ? route.queryParams.pipe(
           concatMap((params: Params) => {
             paramsMap = this.getParamsMap(params);
-            const useSubmitCompleteValue = this.findInParamsMap(
+            this.findInParamsMap(
               OpfPaymentVerificationUrlInput.OPF_USE_SUBMIT_COMPLETE,
               paramsMap
-            );
-            console.log(
-              'Extracted useSubmitComplete value:',
-              useSubmitCompleteValue
             );
             return this.getPaymentSessionId(paramsMap);
           }),
           concatMap((paymentSessionId: string | undefined) => {
             if (!paymentSessionId) {
-              console.error('❌ No paymentSessionId found');
               return throwError(() => this.opfDefaultPaymentError);
             }
             const filteredParamsMap = paramsMap.filter(
@@ -151,12 +146,7 @@ export class OpfPaymentVerificationService {
     return this.opfMetadataStoreService.getOpfMetadataState().pipe(
       take(1),
       map((opfMetaData) => {
-        console.log('getPaymentSessionIdFromStorage - metadata:', opfMetaData);
         const sessionId = opfMetaData?.opfPaymentSessionId;
-        console.log(
-          'getPaymentSessionIdFromStorage - extracted sessionId:',
-          sessionId
-        );
         return sessionId;
       })
     );
@@ -254,9 +244,6 @@ export class OpfPaymentVerificationService {
     vcr: ViewContainerRef,
     paramsMap: Array<OpfKeyValueMap>
   ): Observable<boolean> {
-    console.log('🚀 runHostedFieldsPatternWithSubmitComplete - METHOD CALLED');
-    console.log('  paymentSessionId:', paymentSessionId);
-    console.log('  paramsMap:', paramsMap);
     this.globalFunctionsService.registerGlobalFunctions({
       domain: OpfGlobalFunctionsDomain.REDIRECT,
       paymentSessionId,

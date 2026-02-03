@@ -98,15 +98,12 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
     afterRedirectScriptFlag?: string;
     useSubmitComplete?: string;
   }): Observable<boolean> {
-
     const shouldUseSubmitComplete =
       useSubmitComplete?.toLowerCase().trim() === 'true';
     const shouldUseAfterRedirectScript =
       afterRedirectScriptFlag?.toLowerCase().trim() === 'true';
 
-
     if (shouldUseSubmitComplete) {
-   
       this.isHostedFieldPattern = true;
       return this.opfPaymentVerificationService.runHostedFieldsPatternWithSubmitComplete(
         paymentSessionId,
@@ -114,7 +111,6 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
         paramsMap
       );
     } else if (shouldUseAfterRedirectScript) {
-     
       this.isHostedFieldPattern = true;
       return this.opfPaymentVerificationService.runHostedFieldsPattern(
         paymentSessionId,
@@ -122,7 +118,6 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
         paramsMap
       );
     } else {
-     
       return this.opfPaymentVerificationService.runHostedPagePattern(
         paymentSessionId,
         paramsMap
