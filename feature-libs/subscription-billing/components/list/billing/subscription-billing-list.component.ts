@@ -54,26 +54,27 @@ export class SubscriptionBillingListComponent {
     to: new FormControl(''),
   });
 
-  onSortCodeChange(sort_code: string): void {
+  onSortCodeChange(sortCode: string): void {
     this.listParams = {
       ...this.listParams,
-      sortCode: sort_code,
+      sortCode,
       pageNumber: 0,
     };
     this.getSubscriptionBillsList();
   }
 
-  onPageChange(page_number: string): void {
+  onPageChange(pageNumber: string): void {
+
     this.listParams = {
       ...this.listParams,
-      pageNumber: Number(page_number),
+      pageNumber: Number(pageNumber),
     };
     this.getSubscriptionBillsList();
   }
 
   onDateFilterChange(): void {
     this.minDate = this.billsDateFilterForm.controls['from'].value;
-    this.maxDate = this.billsDateFilterForm.controls['to'].value;
+    this.maxDate = this.billsDateFilterForm.controls['to'].value
 
     this.billsDateFilterForm.controls['from'].updateValueAndValidity();
     this.billsDateFilterForm.controls['to'].updateValueAndValidity();
