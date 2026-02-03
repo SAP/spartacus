@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2026 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // Mocked OCC payment details response for testing
 import { PaymentDetails } from '../../../model/payment.model';
 
