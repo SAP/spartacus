@@ -411,38 +411,23 @@ export class MediaService {
       this.config.backend?.media?.baseUrl ??
       this.config.backend?.occ?.baseUrl ??
       '';
-    if (
-      this.featureConfigService.isEnabled('enableMediaPrefix') &&
-      this.getPrefix().length > 0
-    ) {
-      try {
-        // Construct URL (with Validation)
-        const url = new URL(this.getPrefix(), baseUrl);
-        return url.toString();
-      } catch (error) {
-        if (isDevMode()) {
-          this.logger.error(
-            'Invalid media/occ baseUrl and prefix configuration'
-          );
-        } else {
-          this.logger.warn(
-            'Invalid media/occ baseUrl and prefix configuration'
-          );
-        }
-        return baseUrl;
-      }
-    } else {
+
+    if (!this.featureConfigService.isEnabled('enableMediaPrefix')) {
       return baseUrl;
     }
-  }
 
-  private getPrefix(): string {
-    if (
-      this.config?.backend?.media?.prefix &&
-      !this.config.backend.media.prefix.startsWith('/')
-    ) {
-      return '/' + this.config.backend.media.prefix;
+    try {
+      const mediaPrefix = this.config?.backend?.media?.prefix ?? '';
+      // Construct URL (with Validation)
+      const url = new URL(mediaPrefix, baseUrl);
+      return url.toString();
+    } catch (error) {
+      if (isDevMode()) {
+        this.logger.error('Invalid media/occ baseUrl and prefix configuration');
+      } else {
+        this.logger.warn('Invalid media/occ baseUrl and prefix configuration');
+      }
+      return baseUrl;
     }
-    return this.config?.backend?.media?.prefix ?? '';
   }
 }

@@ -11,8 +11,5 @@ export const defaultOccConfig: OccConfig = {
     occ: {
       prefix: '/occ/v2/',
     },
-    media: {
-      prefix: '',
-    },
   },
 };
