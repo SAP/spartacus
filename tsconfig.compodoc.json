@@ -854,6 +854,25 @@
       "@spartacus/opf/quick-buy/root": [
         "integration-libs/opf/quick-buy/root/public_api"
       ],
+      "@spartacus/opf/gift-card": [
+        "integration-libs/opf/gift-card/public_api"
+      ],
+      "@spartacus/opf/gift-card/components": [
+        "integration-libs/opf/gift-card/components/public_api"
+      ],
+      "@spartacus/opf/gift-card/core": [
+        "integration-libs/opf/gift-card/core/public_api"
+      ],
+      "@spartacus/opf/gift-card/occ": [
+        "integration-libs/opf/gift-card/occ/public_api"
+      ],
+      "@spartacus/opf/gift-card/root": [
+        "integration-libs/opf/gift-card/root/public_api"
+      ],
+      "@spartacus/opf/gift-card/assets": [
+        "integration-libs/opf/gift-card/assets/public_api"
+      ],
+
       "@spartacus/opps": [
         "integration-libs/opps/public_api"
       ],

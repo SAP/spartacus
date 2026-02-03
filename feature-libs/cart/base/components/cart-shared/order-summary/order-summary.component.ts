@@ -6,8 +6,8 @@
 
 import { NgIf } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
-import { Cart } from '@spartacus/cart/base/root';
 import { TranslatePipe } from '@spartacus/core';
+import { Cart, CartOutlets } from '@spartacus/cart/base/root';
 import { OutletContextData } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { AppliedCouponsComponent } from '../../cart-coupon/applied-coupons/applied-coupons.component';
@@ -22,7 +22,7 @@ export class OrderSummaryComponent implements OnInit, OnDestroy {
   cart: Cart;
 
   protected subscription = new Subscription();
-
+  readonly cartOutlets = CartOutlets;
   constructor(@Optional() protected outlet?: OutletContextData<any>) {}
 
   ngOnInit(): void {

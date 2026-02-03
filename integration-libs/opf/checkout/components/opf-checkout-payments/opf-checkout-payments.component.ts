@@ -9,12 +9,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  inject,
   Input,
   OnDestroy,
   OnInit,
   Output,
   TemplateRef,
+  inject,
 } from '@angular/core';
 import {
   GlobalMessageService,
@@ -40,9 +40,12 @@ import {
   SpinnerComponent,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { OpfCheckoutBillingAddressFormService } from '../opf-checkout-billing-address-form';
 import { OpfCheckoutPaymentWrapperComponent } from '../opf-checkout-payment-wrapper/opf-checkout-payment-wrapper.component';
+import { map, tap } from 'rxjs/operators';
+
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { OpfPaymentProviderType } from '@spartacus/opf/base/root';
 
 @Component({
   selector: 'cx-opf-checkout-payments',
@@ -69,7 +72,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected opfCheckoutBillingAddressFormService = inject(
     OpfCheckoutBillingAddressFormService
   );
-
+  protected activeCartFacade = inject(ActiveCartFacade);
   protected subscription = new Subscription();
 
   protected paginationIndex = 0;
@@ -193,6 +196,11 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
             if (state.data?.value && !state.error && !state.loading) {
               this.paginationModel = this.getPaginationModel(state.data?.page);
 
+              state.data.value = state.data?.value.filter(
+                (x) =>
+                  x.providerType !== OpfPaymentProviderType.GIFT_CARD_PAYMENT
+              );
+
               if (this.onlyPaymentWrapperMode && this.selectedPaymentId) {
                 state.data.value = state.data.value.filter(
                   (config) => config.id === this.selectedPaymentId
@@ -298,6 +306,18 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
     this.paginationIndex = page;
     this.updateActiveConfiguration();
   }
+  //this is used to disable payment options when gift card covers total amount
+  isGiftCardCoveredTotalAmount$: Observable<boolean> = this.activeCartFacade
+    .getActive()
+    .pipe(
+      map((cart) => {
+        const giftCardAmount =
+          (cart as any)?.sapGiftCardSummary?.totalAppliedAmount.value ?? 0;
+        const cartTotal = cart?.totalPrice?.value ?? 0;
+
+        return giftCardAmount >= cartTotal;
+      })
+    );
 
   ngOnInit(): void {
     this.updateActiveConfiguration();

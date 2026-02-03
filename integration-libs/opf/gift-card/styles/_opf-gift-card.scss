@@ -1,0 +1,15 @@
+@import './components/gift-card';
+@import './components/applied-gift-card';
+@import './components/opf-gift-card-checkout-payment';
+$opf-gift-card-components: (
+  cx-gift-card,
+  cx-applied-gift-card,
+  cx-opf-gift-card-checkout-payment
+) !default;
+
+// components
+@each $selector in $opf-gift-card-components {
+  #{$selector} {
+    @extend %#{$selector} !optional;
+  }
+}

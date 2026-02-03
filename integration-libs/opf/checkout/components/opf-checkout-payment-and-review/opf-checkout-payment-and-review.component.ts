@@ -27,6 +27,7 @@ import { CmsService, Page, TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   OpfBaseFacade,
   OpfMetadataStoreService,
+  OpfPaymentProviderType,
 } from '@spartacus/opf/base/root';
 import { OPF_EXPLICIT_TERMS_AND_CONDITIONS_COMPONENT } from '@spartacus/opf/checkout/root';
 import { BehaviorSubject, map, Observable, take } from 'rxjs';
@@ -37,6 +38,7 @@ import {
   OpfCheckoutReviewCartDetailsModule,
 } from '../opf-checkout-review-cart-details';
 import { OpfCheckoutTermsAndConditionsAlertComponent } from '../opf-checkout-terms-and-conditions-alert/opf-checkout-terms-and-conditions-alert.component';
+import { OpfCheckoutOutlets } from '../../root/model/opf-checkout-outlets.model';
 
 @Component({
   selector: 'cx-opf-checkout-payment-and-review',
@@ -69,12 +71,14 @@ export class OpfCheckoutPaymentAndReviewComponent
   protected opfBaseFacade = inject(OpfBaseFacade);
   protected checkoutDeliveryModesFacade = inject(CheckoutDeliveryModesFacade);
   protected activeCartFacade = inject(ActiveCartFacade);
-
+  public giftcardEnabled$: Observable<boolean>;
   protected defaultTermsAndConditionsFieldValue = false;
 
   protected selectedPaymentProviderName$ = new BehaviorSubject<
     string | null | undefined
   >(undefined);
+
+  readonly opfCheckoutOutlets = OpfCheckoutOutlets;
 
   explicitTermsAndConditions$: Observable<boolean | undefined> = this.cmsService
     .getCurrentPage()
@@ -103,6 +107,7 @@ export class OpfCheckoutPaymentAndReviewComponent
   }
 
   getSelectedPayment$ = this.opfBaseFacade.getActiveConfigurationsState();
+  activeConfigurations$ = this.opfBaseFacade.getActiveConfigurationsState();
 
   getSelectedPaymentId$ = this.opfMetadataStoreService
     .getOpfMetadataState()
@@ -142,6 +147,15 @@ export class OpfCheckoutPaymentAndReviewComponent
   }
 
   ngOnInit() {
+    // Determine if gift card provider is enabled from active configurations
+    this.giftcardEnabled$ = this.activeConfigurations$.pipe(
+      map(
+        (state) =>
+          state?.data?.value?.some(
+            (c) => c?.providerType === OpfPaymentProviderType.GIFT_CARD_PAYMENT
+          ) ?? false
+      )
+    );
     this.updateTermsAndConditionsState();
     this.setPickupDeliveryMode();
   }

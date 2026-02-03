@@ -1,0 +1,22 @@
+<div class="cx-gift-cards-list" *ngIf="giftCards.length > 0">
+  <div class="cx-gift-card-item" *ngFor="let card of giftCards">
+    <p class="cx-card-number">{{ card.maskedNumber }}</p>
+    <div class="cx-card-row">
+      <p class="cx-balance-info">
+        {{ 'giftCard.currentBalance' | cxTranslate }}:
+        {{ card.balance.formattedValue }}.
+        {{ 'giftCard.balanceAfterPurchase' | cxTranslate }}:
+        {{ card.remainingBalance.formattedValue }}
+      </p>
+      <button
+        type="button"
+        class="cx-remove-btn"
+        [attr.aria-label]="'giftCard.remove' | cxTranslate"
+        (click)="removeGiftCard(card.id)"
+      >
+        {{ 'giftCard.remove' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</div>
+<div class="cx-actions"></div>

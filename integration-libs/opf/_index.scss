@@ -7,6 +7,7 @@
 @import './cta/styles/index';
 @import './payment/styles/index';
 @import './quick-buy/styles/index';
+@import './gift-card/styles/index';
 
 $opf-components-allowlist:
   cx-opf-payment-method-details, cx-opf-checkout-payment-and-review,
@@ -17,7 +18,7 @@ $opf-components-allowlist:
   cx-opf-apple-pay, cx-opf-quick-buy-buttons, cx-opf-b2b-checkout-payment-type,
   cx-opf-b2b-checkout-review, cx-opf-b2b-checkout-delivery-address,
   cx-opf-b2b-checkout-cost-center, cx-opf-b2b-checkout-payment-and-review,
-  cx-opf-b2b-checkout-place-order !default;
+  cx-opf-b2b-checkout-place-order, cx-gift-card !default;
 
 $skipComponentStyles: () !default;
 

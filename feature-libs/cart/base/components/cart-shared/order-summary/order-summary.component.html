@@ -28,6 +28,9 @@
       }}
     </div>
   </div>
+
+  <ng-template [cxOutlet]="cartOutlets.GIFT_CARD_ORDER_SUMMARY"> </ng-template>
+
   <div class="cx-summary-row" *ngIf="cart.net; else cartWithoutNet">
     <div class="col-6 cx-summary-label">
       {{ 'orderCost.salesTax' | cxTranslate }}

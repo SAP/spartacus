@@ -1,0 +1,33 @@
+{
+  "giftCard": {
+    "title": "Have a gift card?",
+    "addGiftCard": "Add Gift Card",
+
+    "cardNumberLabel": "Card Number",
+    "pinLabel": "Pin",
+
+    "proceedPayment": "Place Order",
+
+    "apply": "Apply",
+    "remove": "Remove",
+
+    "addedSuccessfully": "Gift card added successfully",
+    "appliedSuccessfully": "Gift card applied",
+    "removedSuccessfully": "Gift card removed",
+
+    "currentBalance": "Current Balance",
+    "balanceAfterPurchase": "Balance After Purchase",
+
+    "validationError": "Please enter a valid gift card number and PIN.",
+
+    "errors": {
+      "configurationNotFound": "Gift card payment configuration is not available. Please contact support.",
+      "applyFailed": "Unable to apply gift card. Please verify the card details and try again.",
+      "expired": "This gift card has expired. Please use a different card.",
+      "invalidCard": "Invalid gift card number. Please check the card number and try again.",
+      "invalidPin": "Invalid PIN. Please check the PIN and try again.",
+      "insufficientFunds": "This gift card has insufficient balance for this purchase.",
+      "cardNotFound": "Gift card not found. Please verify the card details."
+    }
+  }
+}
