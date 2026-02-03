@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -30,7 +31,7 @@ import { EMPTY, Observable, Subscription } from 'rxjs';
   templateUrl: './product-variant-style-icons.component.html',
   styleUrls: ['./product-variant-style-icons.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, NgFor],
 })
 export class ProductVariantStyleIconsComponent implements OnInit, OnDestroy {
   constructor(

@@ -100,7 +100,7 @@ class MockProductAvailabilityAdapter {}
 @Component({
   template: '',
   selector: 'cx-item-counter',
-  standalone: false,
+  imports: [SpinnerModule, I18nTestingModule, ReactiveFormsModule, IconModule],
 })
 class MockItemCounterComponent {
   @Input() min: number;
@@ -127,8 +127,9 @@ describe('CompactAddToCartComponent', () => {
         I18nTestingModule,
         ReactiveFormsModule,
         IconModule,
+        CompactAddToCartComponent,
+        MockItemCounterComponent,
       ],
-      declarations: [CompactAddToCartComponent, MockItemCounterComponent],
       providers: [
         {
           provide: LaunchDialogService,

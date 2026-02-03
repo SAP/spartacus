@@ -3,7 +3,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   AnonymousConsentsService,
   ConsentTemplate,
-  I18nTestingModule,
+  CxDatePipe,
+  FeatureDirective,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
 } from '@spartacus/core';
 import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
@@ -39,8 +43,7 @@ describe('AnonymousConsentOpenDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [AnonymousConsentOpenDialogComponent, MockFeatureDirective],
+      imports: [AnonymousConsentOpenDialogComponent],
       providers: [
         {
           provide: AnonymousConsentsService,
@@ -51,7 +54,16 @@ describe('AnonymousConsentOpenDialogComponent', () => {
           useClass: MockLaunchDialogService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(AnonymousConsentOpenDialogComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, FeatureDirective],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockDatePipe, MockFeatureDirective],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -97,7 +97,6 @@ class MockTranslationService {
 @Component({
   selector: 'cx-page-layout',
   template: 'mock',
-  standalone: false,
 })
 class MockPageLayoutComponent {}
 
@@ -124,7 +123,6 @@ describe('VisualPickingTabComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [VisualPickingTabComponent, MockTranslatePipe],
       imports: [
         CommonModule,
         IconModule,
@@ -139,6 +137,8 @@ describe('VisualPickingTabComponent', () => {
         VisualViewerModule,
         VisualPickingProductListModule,
         VisualPickingProductFilterModule,
+        VisualPickingTabComponent,
+        MockTranslatePipe,
       ],
       providers: [
         {

@@ -4,11 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AsmCustomer360ActivityList } from '@spartacus/asm/customer-360/root';
-import { UrlCommand } from '@spartacus/core';
+import { TranslatePipe, UrlCommand } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AsmCustomer360TableComponent } from '../../asm-customer-360-table/asm-customer-360-table.component';
 import {
   CustomerTableColumn,
   CustomerTableTextAlign,
@@ -20,7 +22,7 @@ import { ActivityEntry, TypeCodes } from './asm-customer-360-activity.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-activity',
   templateUrl: './asm-customer-360-activity.component.html',
-  standalone: false,
+  imports: [AsmCustomer360TableComponent, AsyncPipe, TranslatePipe],
 })
 export class AsmCustomer360ActivityComponent implements OnInit {
   entries$: Observable<Array<ActivityEntry>>;

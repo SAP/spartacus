@@ -19,6 +19,7 @@ import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-f
     CommonModule,
     I18nModule,
     IconModule,
+    ConfiguratorAttributeFooterComponent,
   ],
   providers: [
     provideDefaultConfig(<ConfiguratorAttributeCompositionConfig>{
@@ -29,7 +30,6 @@ import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-f
       },
     }),
   ],
-  declarations: [ConfiguratorAttributeFooterComponent],
   exports: [ConfiguratorAttributeFooterComponent],
 })
 export class ConfiguratorAttributeFooterModule {}

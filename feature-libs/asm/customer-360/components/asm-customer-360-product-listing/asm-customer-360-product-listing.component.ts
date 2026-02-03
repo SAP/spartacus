@@ -5,6 +5,13 @@
  */
 
 import {
+  AsyncPipe,
+  NgClass,
+  NgFor,
+  NgIf,
+  NgTemplateOutlet,
+} from '@angular/common';
+import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
@@ -13,18 +20,26 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { Product, TranslatePipe } from '@spartacus/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import { AsmCustomer360ProductItemComponent } from '../asm-customer-360-product-item/asm-customer-360-product-item.component';
 import { ProductItem } from './product-item.model';
 
 @Component({
   selector: 'cx-asm-customer-360-product-listing',
   templateUrl: './asm-customer-360-product-listing.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    NgClass,
+    NgFor,
+    AsmCustomer360ProductItemComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class AsmCustomer360ProductListingComponent implements OnInit {
   @Input()

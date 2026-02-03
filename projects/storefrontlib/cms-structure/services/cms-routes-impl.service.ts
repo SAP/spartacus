@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, Type } from '@angular/core';
+import { inject, Injectable, InjectionToken } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
+  CanActivateFn,
+  DeprecatedGuard,
   GuardResult,
   Route,
   Router,
@@ -16,21 +18,25 @@ import {
   CmsComponentChildRoutesConfig,
   CmsRoute,
   deepMerge,
+  getLastValueSync,
   PageContext,
   PageType,
+  UnifiedInjector,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PageLayoutComponent } from '../page/page-layout/page-layout.component';
 import { CmsComponentsService } from './cms-components.service';
-import { CmsGuardsService } from './cms-guards.service';
+import { CanActivate, GuardsComposer } from './guards-composer';
 
 // This service should be exposed in public API only after the refactor planned in https://github.com/SAP/spartacus/issues/7070
 @Injectable({ providedIn: 'root' })
 export class CmsRoutesImplService {
+  protected guardsComposer = inject(GuardsComposer);
+  protected unifiedInjector = inject(UnifiedInjector);
+
   constructor(
     private router: Router,
-    private cmsComponentsService: CmsComponentsService,
-    private cmsGuardsService: CmsGuardsService
+    private cmsComponentsService: CmsComponentsService
   ) {}
 
   private cmsRouteExists(url: string): boolean {
@@ -156,7 +162,7 @@ export class CmsRoutesImplService {
    * even if it's 'provided only in a child injector of a lazy-loaded module.
    */
   private wrapCmsGuard(
-    guardClass: Type<any>
+    guard: CanActivateFn | DeprecatedGuard
   ): (
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -165,7 +171,13 @@ export class CmsRoutesImplService {
       route: ActivatedRouteSnapshot,
       state: RouterStateSnapshot
     ): Observable<GuardResult> => {
-      return this.cmsGuardsService.canActivateGuard(guardClass, route, state);
+      const classGuard = getLastValueSync(
+        this.unifiedInjector.get<CanActivate>(
+          guard as InjectionToken<CanActivate>
+        )
+      );
+      const canActivate = classGuard ?? { canActivate: guard as CanActivateFn };
+      return this.guardsComposer.canActivate([canActivate], route, state);
     };
   }
 }

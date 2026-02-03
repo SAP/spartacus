@@ -33,10 +33,7 @@ import {
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
@@ -44,7 +41,7 @@ export class MockFocusDirective {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: any;
@@ -136,12 +133,13 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       setActive: jasmine.createSpy(),
     };
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
         ConfiguratorAttributeNumericInputFieldComponent,
         MockFocusDirective,
         MockCxIconComponent,
       ],
-      imports: [ReactiveFormsModule, I18nTestingModule],
       providers: [
         { provide: LanguageService, useValue: mockLanguageService },
         {
@@ -160,7 +158,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           provide: ConfiguratorStorefrontUtilsService,
           useClass: MockConfigUtilsService,
         },
-
         {
           provide: FeaturesConfig,
           useValue: {

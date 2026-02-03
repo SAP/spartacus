@@ -41,6 +41,7 @@ import { ResetPasswordComponent } from './reset-password.component';
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    ResetPasswordComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -59,6 +60,5 @@ import { ResetPasswordComponent } from './reset-password.component';
       },
     }),
   ],
-  declarations: [ResetPasswordComponent],
 })
 export class ResetPasswordModule {}

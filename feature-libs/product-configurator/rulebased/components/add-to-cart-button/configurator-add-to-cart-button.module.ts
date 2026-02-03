@@ -11,7 +11,13 @@ import { IconModule, ItemCounterModule } from '@spartacus/storefront';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, ItemCounterModule, IconModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    ItemCounterModule,
+    IconModule,
+    ConfiguratorAddToCartButtonComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -21,7 +27,6 @@ import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart
       },
     }),
   ],
-  declarations: [ConfiguratorAddToCartButtonComponent],
   exports: [ConfiguratorAddToCartButtonComponent],
 })
 export class ConfiguratorAddToCartButtonModule {}

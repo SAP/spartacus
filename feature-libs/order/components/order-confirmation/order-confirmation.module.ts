@@ -64,6 +64,7 @@ const orderConfirmationComponents = [
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    ...orderConfirmationComponents,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -76,7 +77,6 @@ const orderConfirmationComponents = [
           component: OrderConfirmationThankYouMessageComponent,
           guards: [OrderConfirmationGuard],
         },
-
         OrderConfirmationItemsComponent: {
           component: OrderConfirmationItemsComponent,
           guards: [OrderConfirmationGuard],
@@ -85,7 +85,6 @@ const orderConfirmationComponents = [
           component: OrderConfirmationItemsComponent,
           guards: [OrderConfirmationGuard],
         },
-
         OrderConfirmationTotalsComponent: {
           component: OrderConfirmationTotalsComponent,
           guards: [OrderConfirmationGuard],
@@ -94,7 +93,6 @@ const orderConfirmationComponents = [
           component: OrderConfirmationTotalsComponent,
           guards: [OrderConfirmationGuard],
         },
-
         OrderConfirmationOverviewComponent: {
           component: OrderOverviewComponent,
           providers: [
@@ -115,12 +113,10 @@ const orderConfirmationComponents = [
           ],
           guards: [OrderConfirmationGuard],
         },
-
         OrderConfirmationShippingComponent: {
           component: OrderConfirmationShippingComponent,
           guards: [OrderConfirmationGuard],
         },
-
         OrderConfirmationBillingComponent: {
           component: OrderDetailBillingComponent,
           providers: [
@@ -142,7 +138,6 @@ const orderConfirmationComponents = [
       component: OrderConfirmationShippingComponent,
     }),
   ],
-  declarations: [...orderConfirmationComponents],
   exports: [...orderConfirmationComponents],
 })
 export class OrderConfirmationModule {}

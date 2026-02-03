@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -26,13 +27,14 @@ import {
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
 import {
-  FeatureConfigService,
   ProductCatalogService,
+  TranslatePipe,
   UserIdService,
 } from '@spartacus/core';
-import { OutletContextData } from '@spartacus/storefront';
+import { OutletContextData, OutletDirective } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
+import { CartItemListRowComponent } from '../cart-item-list-row/cart-item-list-row.component';
 
 interface ItemListContext {
   readonly?: boolean;
@@ -48,7 +50,14 @@ interface ItemListContext {
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    OutletDirective,
+    NgFor,
+    CartItemListRowComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CartItemListComponent implements OnInit, OnDestroy {
   protected productCatalogService = inject(ProductCatalogService);
@@ -91,7 +100,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     }
   }
   readonly CartOutlets = CartOutlets;
-  private featureConfigService = inject(FeatureConfigService);
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
@@ -149,15 +157,9 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     context: ItemListContext,
     contextRequiresRerender: boolean
   ) {
-    const preventRedundantRecreationEnabled =
-      this.featureConfigService.isEnabled(
-        'a11yPreventCartItemsFormRedundantRecreation'
-      );
     if (
       context.items !== undefined &&
-      (!preventRedundantRecreationEnabled ||
-        contextRequiresRerender ||
-        this.isItemsChanged(context.items))
+      (contextRequiresRerender || this.isItemsChanged(context.items))
     ) {
       this.cd.markForCheck();
       this._setItems(context.items, {

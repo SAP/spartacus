@@ -34,6 +34,8 @@ import { CloseAccountComponent } from './components/close-account/close-account.
     SpinnerModule,
     KeyboardFocusModule,
     BtnLikeLinkModule,
+    CloseAccountComponent,
+    CloseAccountModalComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -46,6 +48,5 @@ import { CloseAccountComponent } from './components/close-account/close-account.
     }),
     provideDefaultConfig(defaultCloseDialogModalLayoutConfig),
   ],
-  declarations: [CloseAccountComponent, CloseAccountModalComponent],
 })
 export class CloseAccountModule {}

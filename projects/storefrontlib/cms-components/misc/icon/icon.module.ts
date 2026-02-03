@@ -12,8 +12,7 @@ import { fontawesomeIconConfig } from './fontawesome-icon.config';
 import { IconComponent } from './icon.component';
 
 @NgModule({
-  declarations: [IconComponent],
-  imports: [CommonModule],
+  imports: [CommonModule, IconComponent],
   providers: [
     provideDefaultConfig(defaultIconConfig),
     // TODO: move the opinionated fontawesome config to a recipe

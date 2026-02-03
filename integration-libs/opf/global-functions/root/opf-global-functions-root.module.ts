@@ -5,6 +5,10 @@
  */
 
 import { NgModule } from '@angular/core';
+import { provideDefaultConfig } from '@spartacus/core';
+import { defaultOccOpfCartConfig } from './config';
 
-@NgModule()
+@NgModule({
+  providers: [provideDefaultConfig(defaultOccOpfCartConfig)],
+})
 export class OpfGlobalFunctionsRootModule {}

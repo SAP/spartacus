@@ -4,14 +4,25 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { TranslationService } from '@spartacus/core';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
+import { TranslatePipe, TranslationService } from '@spartacus/core';
+import { FocusDirective } from '@spartacus/storefront';
 import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponent } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
-import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
+import {
+  ConfiguratorAttributeProductCardComponent,
+  ConfiguratorAttributeProductCardComponentOptions,
+} from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeQuantityComponent } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
 
@@ -20,7 +31,19 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
   templateUrl:
     './configurator-attribute-single-selection-bundle-dropdown.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    NgClass,
+    ReactiveFormsModule,
+    FocusDirective,
+    NgFor,
+    ConfiguratorAttributeProductCardComponent,
+    ConfiguratorAttributeQuantityComponent,
+    ConfiguratorPriceComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent

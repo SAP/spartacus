@@ -5,7 +5,10 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@spartacus/core';
 import { ListService } from '../../shared/list/list.service';
+import { SubListComponent } from '../../shared/sub-list/sub-list.component';
 import { UserPermissionListService } from './user-permission-list.service';
 
 @Component({
@@ -19,6 +22,6 @@ import { UserPermissionListService } from './user-permission-list.service';
       useExisting: UserPermissionListService,
     },
   ],
-  standalone: false,
+  imports: [SubListComponent, RouterLink, TranslatePipe],
 })
 export class UserPermissionListComponent {}

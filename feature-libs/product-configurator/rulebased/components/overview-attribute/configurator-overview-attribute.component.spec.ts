@@ -6,13 +6,16 @@ import { I18nTestingModule } from '@spartacus/core';
 import { BreakpointService } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
+import {
+  ConfiguratorPriceComponent,
+  ConfiguratorPriceComponentOptions,
+} from '../price/configurator-price.component';
 import { ConfiguratorOverviewAttributeComponent } from './configurator-overview-attribute.component';
 
 @Component({
   selector: 'cx-configurator-price',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
 })
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
@@ -26,12 +29,19 @@ describe('ConfigurationOverviewAttributeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
         ConfiguratorOverviewAttributeComponent,
-        MockConfiguratorPriceComponent,
       ],
       providers: [],
+    }).overrideComponent(ConfiguratorOverviewAttributeComponent, {
+      remove: {
+        imports: [ConfiguratorPriceComponent],
+      },
+      add: {
+        imports: [MockConfiguratorPriceComponent],
+      },
     });
   }));
   beforeEach(() => {

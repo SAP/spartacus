@@ -22,8 +22,8 @@ import { ClearCartDialogComponent } from './clear-cart-dialog.component';
     IconModule,
     KeyboardFocusModule,
     FeaturesConfigModule,
+    ClearCartDialogComponent,
   ],
-  declarations: [ClearCartDialogComponent],
   exports: [ClearCartDialogComponent],
 })
 export class ClearCartDialogModule {}

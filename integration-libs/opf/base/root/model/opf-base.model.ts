@@ -72,6 +72,7 @@ export enum OpfPage {
   CHECKOUT_REVIEW_PAGE = 'opfCheckoutPaymentAndReview',
   CONFIRMATION_PAGE = 'orderConfirmation',
   RESULT_PAGE = 'paymentVerificationResult',
+  CANCEL_PAGE = 'paymentVerificationCancel',
   CART_PAGE = 'cart',
 }
 

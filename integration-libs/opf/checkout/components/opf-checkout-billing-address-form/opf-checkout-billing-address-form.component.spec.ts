@@ -5,19 +5,20 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import {
   Address,
-  Country,
   BaseSiteService,
+  Country,
+  TranslatePipe,
   UserAddressAdapter,
 } from '@spartacus/core';
 import { BehaviorSubject, EMPTY, Observable, of, Subject } from 'rxjs';
 import { OpfCheckoutBillingAddressFormComponent } from './opf-checkout-billing-address-form.component';
 import { OpfCheckoutBillingAddressFormService } from './opf-checkout-billing-address-form.service';
-import { Store } from '@ngrx/store';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import { ActivatedRoute } from '@angular/router';
 
 class Service {
   billingAddress$ = new BehaviorSubject<Address | undefined>(undefined);
@@ -51,10 +52,7 @@ class Service {
   setDefaultBillingAddress(): void {}
 }
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -66,7 +64,7 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [OpfCheckoutBillingAddressFormComponent, MockTranslatePipe],
+      imports: [OpfCheckoutBillingAddressFormComponent],
       providers: [
         {
           provide: OpfCheckoutBillingAddressFormService,
@@ -84,7 +82,16 @@ describe('OpfCheckoutBillingAddressFormComponent', () => {
         { provide: BaseSiteService, useValue: {} },
         { provide: ActivatedRoute, useValue: { params: of({}) } },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OpfCheckoutBillingAddressFormComponent, {
+        remove: {
+          imports: [TranslatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe],
+        },
+      })
+      .compileComponents();
 
     service = TestBed.inject(OpfCheckoutBillingAddressFormService);
     fixture = TestBed.createComponent(OpfCheckoutBillingAddressFormComponent);

@@ -4,14 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { B2BUnit } from '@spartacus/core';
+import { RouterLink } from '@angular/router';
+import { B2BUnit, TranslatePipe } from '@spartacus/core';
+import { B2BUserService } from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { Observable, of } from 'rxjs';
+import { DisableInfoComponent } from '../../../../shared/detail/disable-info/disable-info.component';
 import { ListService } from '../../../../shared/list/list.service';
+import { SubListComponent } from '../../../../shared/sub-list/sub-list.component';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitUserListService } from '../services/unit-user-list.service';
-import { B2BUserService } from '@spartacus/organization/administration/core';
 
 @Component({
   selector: 'cx-org-unit-user-list',
@@ -24,7 +28,14 @@ import { B2BUserService } from '@spartacus/organization/administration/core';
       useExisting: UnitUserListService,
     },
   ],
-  standalone: false,
+  imports: [
+    SubListComponent,
+    NgIf,
+    RouterLink,
+    DisableInfoComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class UnitUserListComponent {
   routerKey = ROUTE_PARAMS.userCode;

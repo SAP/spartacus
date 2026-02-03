@@ -13,8 +13,12 @@ import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CheckoutReviewOverviewComponent } from './checkout-review-overview.component';
 
 @NgModule({
-  declarations: [CheckoutReviewOverviewComponent],
-  imports: [CommonModule, PromotionsModule, I18nModule],
+  imports: [
+    CommonModule,
+    PromotionsModule,
+    I18nModule,
+    CheckoutReviewOverviewComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

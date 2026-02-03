@@ -4,20 +4,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   OnInit,
   inject,
-  ChangeDetectionStrategy,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe, UrlPipe } from '@spartacus/core';
 import {
   OutletContextData,
   SearchBoxComponentService,
 } from '@spartacus/storefront';
-import { TrendingSearchesService } from './trending-searches.service';
-import { map, switchMap, tap } from 'rxjs/operators';
 import { EMPTY, Observable } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { SearchBoxOutletTrendingSearches, SearchPhrases } from './model';
+import { TrendingSearchesService } from './trending-searches.service';
 
 const MAX_TRENDING_SEARCHES = 5;
 
@@ -25,7 +28,7 @@ const MAX_TRENDING_SEARCHES = 5;
   selector: 'cx-trending-searches',
   templateUrl: './trending-searches.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, NgFor, RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
 })
 export class TrendingSearchesComponent implements OnInit {
   public searchPhrases$: Observable<SearchPhrases[]>;

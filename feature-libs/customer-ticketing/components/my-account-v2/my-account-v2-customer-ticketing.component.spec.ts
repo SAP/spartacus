@@ -1,10 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
+  CxDatePipe,
   I18nTestingModule,
+  MockDatePipe,
   RoutingService,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import { TicketList } from '@spartacus/customer-ticketing/root';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
@@ -26,17 +31,11 @@ const mockTicketList: TicketList = {
   ],
 };
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
@@ -70,12 +69,7 @@ describe('MyAccountV2CustomerTicketingComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        MyAccountV2CustomerTicketingComponent,
-        MockTranslatePipe,
-        MockUrlPipe,
-      ],
+      imports: [I18nTestingModule, RouterModule.forRoot([])],
       providers: [
         {
           provide: 'CustomerTicketingFacade',
@@ -84,7 +78,16 @@ describe('MyAccountV2CustomerTicketingComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(MyAccountV2CustomerTicketingComponent, {
+        remove: {
+          imports: [TranslatePipe, UrlPipe, CxDatePipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockUrlPipe, MockDatePipe],
+        },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(MyAccountV2CustomerTicketingComponent);
     component = fixture.componentInstance;

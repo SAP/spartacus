@@ -1,10 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-import { WebComponentHandler } from './web-component.handler';
-import { CmsComponentsService } from '../../../services/cms-components.service';
 import { Component, ViewContainerRef } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { Priority } from '@spartacus/core';
 import { take } from 'rxjs/operators';
+import { CmsComponentsService } from '../../../services/cms-components.service';
 import { CxApiService } from '../services/cx-api.service';
+import { WebComponentHandler } from './web-component.handler';
 
 const mockCmsMappingService = jasmine.createSpyObj('CmsMappingService', [
   'getComponentMapping',
@@ -12,7 +12,6 @@ const mockCmsMappingService = jasmine.createSpyObj('CmsMappingService', [
 
 @Component({
   template: '',
-  standalone: false,
 })
 class WrapperComponent {
   constructor(public vcr: ViewContainerRef) {}

@@ -4,20 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
+  AfterContentChecked,
   ChangeDetectionStrategy,
   Component,
   HostBinding,
   OnDestroy,
   OnInit,
-  AfterContentChecked,
 } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import {
-  ICON_TYPE,
-  HamburgerMenuService,
   BREAKPOINT,
   BreakpointService,
+  HamburgerMenuComponent,
+  HamburgerMenuService,
+  ICON_TYPE,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators';
@@ -31,7 +33,7 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   selector: 'cx-configurator-group-title',
   templateUrl: './configurator-group-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, HamburgerMenuComponent, AsyncPipe],
 })
 export class ConfiguratorGroupTitleComponent
   implements OnInit, OnDestroy, AfterContentChecked

@@ -75,58 +75,6 @@ export class CdcReconsentComponentService implements OnDestroy {
   }
 
   /**
-   * saves the consent given from reconsent pop-up and triggers a re-login
-   * @param consentId - array of consent IDs
-   * @param userParams - data from login session
-   * @deprecated since 2211.38, use method savePreferencesAndLogin instead
-   */
-  // CXSPA-9292: remove this method in next major release
-  saveConsentAndLogin(consentId: string[], userParams: any) {
-    this.subscription.add(
-      this.cdcJsService.didLoad().subscribe((cdcLoaded) => {
-        if (cdcLoaded) {
-          this.cdcUserConsentService
-            .updateCdcConsent(
-              true,
-              consentId,
-              userParams?.user,
-              userParams?.regToken
-            )
-            .subscribe({
-              next: (result) => {
-                if (result?.errorCode === 0) {
-                  //do a automatic re-login
-                  this.cdcJsService
-                    .loginUserWithoutScreenSet(
-                      userParams.user,
-                      userParams.password
-                    )
-                    .subscribe(() => {
-                      this.launchDialogService.closeDialog('relogin triggered');
-                    });
-                }
-              },
-              error: (error) => {
-                this.handleReconsentUpdateError(
-                  'Reconsent Error',
-                  error?.message
-                );
-              },
-            });
-        } else {
-          // CDC Gigya SDK not loaded, show error to the user
-          this.globalMessageService.add(
-            {
-              key: 'errorHandlers.scriptFailedToLoad',
-            },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        }
-      })
-    );
-  }
-
-  /**
    * Displays error message after closing reconsent dialog
    */
   handleReconsentUpdateError(reason?: string, errorMessage?: string) {

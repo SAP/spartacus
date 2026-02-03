@@ -1,34 +1,35 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   CmsOrderDetailOverviewComponent,
-  I18nTestingModule,
+  CxDatePipe,
+  MockDatePipe,
+  MockTranslatePipe,
   PaymentDetails,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
 } from '@spartacus/core';
 import { Order, OrderConfig, ReplenishmentOrder } from '@spartacus/order/root';
-import { Card, CmsComponentData } from '@spartacus/storefront';
+import { Card, CardComponent, CmsComponentData } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
-import { OrderOverviewComponent } from './order-overview.component';
 import { OrderOverviewComponentService } from './order-overview-component.service';
+import { OrderOverviewComponent } from './order-overview.component';
 
 @Component({
   selector: 'cx-card',
   template: '',
-  standalone: false,
 })
 class MockCardComponent {
   @Input()
   content: Card;
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -163,8 +164,7 @@ describe('OrderOverviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OrderOverviewComponent, MockCardComponent, MockUrlPipe],
+      imports: [OrderOverviewComponent, RouterModule.forRoot([])],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         {
@@ -175,7 +175,21 @@ describe('OrderOverviewComponent', () => {
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: OrderConfig, useValue: mockOrderConfig },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderOverviewComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, CardComponent, UrlPipe],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockCardComponent,
+            MockUrlPipe,
+          ],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

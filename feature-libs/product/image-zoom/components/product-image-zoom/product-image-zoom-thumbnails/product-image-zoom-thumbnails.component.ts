@@ -4,17 +4,23 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
-  Output,
-  OnInit,
   OnDestroy,
+  OnInit,
+  Output,
 } from '@angular/core';
 import { ImageGroup, isNotNullable } from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
+import {
+  CarouselComponent,
+  FocusableCarouselItemDirective,
+  MediaComponent,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
@@ -22,7 +28,13 @@ import { filter, map } from 'rxjs/operators';
   selector: 'cx-product-image-zoom-thumbnails',
   templateUrl: './product-image-zoom-thumbnails.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    CarouselComponent,
+    MediaComponent,
+    FocusableCarouselItemDirective,
+    AsyncPipe,
+  ],
 })
 export class ProductImageZoomThumbnailsComponent implements OnInit, OnDestroy {
   private mainMediaContainer = new BehaviorSubject<ImageGroup>({});

@@ -39,8 +39,8 @@ import { CostCenterFormComponent } from './cost-center-form.component';
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    CostCenterFormComponent,
   ],
-  declarations: [CostCenterFormComponent],
   exports: [CostCenterFormComponent],
   providers: [CurrencyService, OrgUnitService],
 })

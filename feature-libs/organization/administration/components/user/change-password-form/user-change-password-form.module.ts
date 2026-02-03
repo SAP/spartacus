@@ -35,7 +35,7 @@ import { UserChangePasswordFormComponent } from './user-change-password-form.com
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    UserChangePasswordFormComponent,
   ],
-  declarations: [UserChangePasswordFormComponent],
 })
 export class UserChangePasswordFormModule {}

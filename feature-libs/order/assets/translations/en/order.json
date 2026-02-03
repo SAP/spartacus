@@ -196,7 +196,7 @@
     "dialog": {
       "title": "Attachments",
       "preview": "Preview file",
-      "closeModal": "Close Modal",
+      "closeModal": "Close",
       "error": "An error has occurred. Refresh the page or try again later.",
       "empty": "Documents are unavailable. You can view the documents here once they are added.",
       "downloadError": "An error occurred while fetching documents. Refresh the page or try again later."

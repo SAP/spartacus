@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Spartacus CDS schematics: ng-add CDS feature with Profile tag configured general setup should create the feature module 1`] = `
 "import { NgModule } from '@angular/core';

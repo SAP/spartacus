@@ -4,12 +4,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { User } from '@spartacus/core';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { TranslatePipe, User } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
+import {
+  FocusDirective,
+  FormErrorsComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+  PasswordVisibilityToggleDirective,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
+import { CardComponent } from '../../shared/card/card.component';
 import { MessageService } from '../../shared/message/services/message.service';
 import { UserItemService } from '../services/user-item.service';
 import { UserChangePasswordFormService } from './user-change-password-form.service';
@@ -19,7 +33,20 @@ import { UserChangePasswordFormService } from './user-change-password-form.servi
   templateUrl: './user-change-password-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'content-wrapper', ngSkipHydration: 'true' },
-  standalone: false,
+  imports: [
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    CardComponent,
+    FocusDirective,
+    RouterLink,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    PasswordVisibilityToggleDirective,
+    FormErrorsComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class UserChangePasswordFormComponent {
   form$: Observable<UntypedFormGroup | null> = this.itemService.current$.pipe(

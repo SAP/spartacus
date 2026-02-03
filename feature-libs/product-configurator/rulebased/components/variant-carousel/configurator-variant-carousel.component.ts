@@ -4,9 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Product, ProductService, TranslationService } from '@spartacus/core';
+import {
+  Product,
+  ProductService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
+import {
+  CarouselComponent,
+  ProductCarouselItemComponent,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -16,7 +26,13 @@ import { Configurator } from '../../core/model/configurator.model';
   selector: 'cx-configurator-variant-carousel',
   templateUrl: './configurator-variant-carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    CarouselComponent,
+    ProductCarouselItemComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class ConfiguratorVariantCarouselComponent {
   configuration$: Observable<Configurator.Configuration> =

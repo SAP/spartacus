@@ -2,15 +2,22 @@ import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Country,
+  CxDatePipe,
+  FeatureDirective,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   Region,
   Title,
   Translatable,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import { OrganizationUserRegistrationForm } from '@spartacus/organization/user-registration/root';
 import {
@@ -113,10 +120,7 @@ class MockUserRegistrationFormService
   }
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -134,15 +138,13 @@ describe('UserRegistrationFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         NgSelectModule,
-        I18nTestingModule,
         FormErrorsModule,
-      ],
-      declarations: [
         UserRegistrationFormComponent,
-        MockUrlPipe,
         NgSelectA11yDirective,
         SpinnerComponent,
-        MockFeatureDirective,
+        I18nTestingModule,
+        I18nTestingModule,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
@@ -154,6 +156,18 @@ describe('UserRegistrationFormComponent', () => {
           useClass: MockGlobalMessageService,
         },
       ],
+    }).overrideComponent(UserRegistrationFormComponent, {
+      remove: {
+        imports: [TranslatePipe, CxDatePipe, UrlPipe, FeatureDirective],
+      },
+      add: {
+        imports: [
+          MockTranslatePipe,
+          MockDatePipe,
+          MockUrlPipe,
+          MockFeatureDirective,
+        ],
+      },
     });
 
     userRegistrationFormService = TestBed.inject(UserRegistrationFormService);

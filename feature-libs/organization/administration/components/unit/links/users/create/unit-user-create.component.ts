@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
+import { UserFormComponent } from '../../../../user/form/user-form.component';
 import { UserItemService } from '../../../../user/services/user-item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitUserItemService } from './unit-user-item.service';
@@ -23,7 +25,7 @@ import { UnitUserItemService } from './unit-user-item.service';
       useExisting: UnitUserItemService,
     },
   ],
-  standalone: false,
+  imports: [UserFormComponent, AsyncPipe],
 })
 export class UnitUserCreateComponent {
   unitKey$: Observable<string> = this.unitService.key$;

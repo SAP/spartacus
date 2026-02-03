@@ -10,7 +10,7 @@ import { DomChangeDirective } from './dom-change.directive';
       <div class="targetElement"></div>
     </div>
   `,
-  standalone: false,
+  imports: [DomChangeDirective],
 })
 class TestHostComponent {}
 
@@ -21,8 +21,7 @@ describe('DomChangeDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TestHostComponent, DomChangeDirective],
-      imports: [BrowserAnimationsModule],
+      imports: [BrowserAnimationsModule, TestHostComponent, DomChangeDirective],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestHostComponent);

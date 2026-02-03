@@ -11,8 +11,7 @@ import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { GlobalMessageComponent } from './global-message.component';
 
 @NgModule({
-  imports: [CommonModule, IconModule, I18nModule],
-  declarations: [GlobalMessageComponent],
+  imports: [CommonModule, IconModule, I18nModule, GlobalMessageComponent],
   exports: [GlobalMessageComponent],
 })
 export class GlobalMessageComponentModule {}

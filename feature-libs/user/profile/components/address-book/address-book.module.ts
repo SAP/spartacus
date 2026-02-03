@@ -27,8 +27,8 @@ import { defaultSuggestedAddressesDialogLayoutConfig } from './address-form/sugg
     SpinnerModule,
     I18nModule,
     FeaturesConfigModule,
+    AddressBookComponent,
   ],
-  declarations: [AddressBookComponent],
   exports: [AddressBookComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{

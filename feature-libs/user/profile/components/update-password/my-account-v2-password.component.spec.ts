@@ -10,11 +10,21 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  GlobalMessageService,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
+  SpinnerComponent,
 } from '@spartacus/storefront';
+import { MockUrlPipe } from 'projects/core/src/routing/configurable-routes/url-translation/testing/mock-url.pipe';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject } from 'rxjs';
 import { MyAccountV2PasswordComponent } from './my-account-v2-password.component';
@@ -24,7 +34,13 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-spinner',
   template: '',
-  standalone: false,
+  imports: [
+    ReactiveFormsModule,
+    I18nTestingModule,
+    FormErrorsModule,
+    UrlTestingModule,
+    PasswordVisibilityToggleModule,
+  ],
 })
 class MockCxSpinnerComponent {}
 
@@ -42,6 +58,10 @@ class MockUpdatePasswordService
   resetForm = createSpy().and.stub();
 }
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy().and.stub();
+}
+
 describe('MyAccountV2PasswordComponent', () => {
   let component: MyAccountV2PasswordComponent;
   let fixture: ComponentFixture<MyAccountV2PasswordComponent>;
@@ -53,21 +73,31 @@ describe('MyAccountV2PasswordComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
-        UrlTestingModule,
         PasswordVisibilityToggleModule,
+        MyAccountV2PasswordComponent,
       ],
-      declarations: [MyAccountV2PasswordComponent, MockCxSpinnerComponent],
       providers: [
         {
           provide: UpdatePasswordComponentService,
           useClass: MockUpdatePasswordService,
         },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     })
       .overrideComponent(MyAccountV2PasswordComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, SpinnerComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockCxSpinnerComponent,
+          ],
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
       })
       .compileComponents();
   }));

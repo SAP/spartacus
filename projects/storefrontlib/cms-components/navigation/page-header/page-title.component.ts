@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  AfterViewInit,
 } from '@angular/core';
 import {
   CmsPageTitleComponent,
@@ -23,7 +24,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   selector: 'cx-page-title',
   templateUrl: './page-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [AsyncPipe],
 })
 export class PageTitleComponent implements OnInit, AfterViewInit {
   title$: Observable<string>;

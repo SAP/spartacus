@@ -14,7 +14,6 @@ import { SpinnerModule } from '../../../../shared/components/spinner/spinner.mod
 import { MyAccountV2NotificationPreferenceComponent } from './my-account-v2-notification-preference.component';
 
 @NgModule({
-  declarations: [MyAccountV2NotificationPreferenceComponent],
   imports: [
     CommonModule,
     SpinnerModule,
@@ -29,6 +28,7 @@ import { MyAccountV2NotificationPreferenceComponent } from './my-account-v2-noti
       },
     ]),
     FeaturesConfigModule,
+    MyAccountV2NotificationPreferenceComponent,
   ],
   exports: [MyAccountV2NotificationPreferenceComponent],
 })

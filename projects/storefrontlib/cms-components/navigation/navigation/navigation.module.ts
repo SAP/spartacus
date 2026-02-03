@@ -26,6 +26,8 @@ import { NavigationComponent } from './navigation.component';
     GenericLinkModule,
     I18nModule,
     FeaturesConfigModule,
+    NavigationComponent,
+    NavigationUIComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -36,7 +38,6 @@ import { NavigationComponent } from './navigation.component';
       },
     }),
   ],
-  declarations: [NavigationComponent, NavigationUIComponent],
   exports: [NavigationComponent, NavigationUIComponent],
 })
 export class NavigationModule {}

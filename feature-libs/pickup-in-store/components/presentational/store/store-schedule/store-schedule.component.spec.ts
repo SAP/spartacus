@@ -10,8 +10,7 @@ describe('StoreScheduleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [StoreScheduleComponent],
-      imports: [I18nTestingModule, IconTestingModule],
+      imports: [I18nTestingModule, IconTestingModule, StoreScheduleComponent],
     }).compileComponents();
   });
 
@@ -80,7 +79,6 @@ describe('StoreScheduleComponent', () => {
 @Component({
   selector: 'cx-store-schedule',
   template: '',
-  standalone: false,
 })
 export class StoreScheduleStubComponent {
   @Input() storeDetails: PointOfService;

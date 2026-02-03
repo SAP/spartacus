@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgIf } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -20,7 +21,13 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { TranslatePipe } from '@spartacus/core';
 import { PickupOption } from '@spartacus/pickup-in-store/root';
 import { Tab, TAB_MODE, TabComponent, TabConfig } from '@spartacus/storefront';
 import { Subscription, take } from 'rxjs';
@@ -32,8 +39,14 @@ import { PickupOptionsTabs } from './pickup-options.model';
 @Component({
   selector: 'cx-pickup-options',
   templateUrl: './pickup-options.component.html',
-  standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    TabComponent,
+    TranslatePipe,
+  ],
 })
 export class PickupOptionsComponent
   implements OnChanges, AfterViewInit, OnDestroy

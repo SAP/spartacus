@@ -96,7 +96,7 @@ class MockProductService {
 @Component({
   selector: 'cx-configurator-overview-filter',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockConfiguratorOverviewFilterComponent {
   @Input() showFilterBar: boolean = true;
@@ -106,7 +106,7 @@ class MockConfiguratorOverviewFilterComponent {
 @Component({
   selector: 'cx-configurator-overview-menu',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockConfiguratorOverviewMenuComponent {
   @Input() config: Configurator.ConfigurationWithOverview;
@@ -115,8 +115,8 @@ class MockConfiguratorOverviewMenuComponent {
 describe('ConfiguratorOverviewSidebarComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         MockConfiguratorOverviewFilterComponent,
         MockConfiguratorOverviewMenuComponent,
       ],

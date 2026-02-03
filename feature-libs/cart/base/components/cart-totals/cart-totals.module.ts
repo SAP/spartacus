@@ -11,7 +11,7 @@ import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartTotalsComponent } from './cart-totals.component';
 
 @NgModule({
-  imports: [CommonModule, CartSharedModule],
+  imports: [CommonModule, CartSharedModule, CartTotalsComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -21,7 +21,6 @@ import { CartTotalsComponent } from './cart-totals.component';
       },
     }),
   ],
-  declarations: [CartTotalsComponent],
   exports: [CartTotalsComponent],
 })
 export class CartTotalsModule {}

@@ -6,13 +6,18 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { UrlModule, I18nModule } from '@spartacus/core';
-import { ProductVariantSizeSelectorComponent } from './product-variant-size-selector.component';
 import { RouterModule } from '@angular/router';
+import { I18nModule, UrlModule } from '@spartacus/core';
+import { ProductVariantSizeSelectorComponent } from './product-variant-size-selector.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UrlModule, I18nModule],
-  declarations: [ProductVariantSizeSelectorComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    ProductVariantSizeSelectorComponent,
+  ],
   exports: [ProductVariantSizeSelectorComponent],
 })
 export class ProductVariantSizeSelectorModule {}

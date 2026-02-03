@@ -34,9 +34,9 @@ import { CheckoutBillingAddressFormService } from './checkout-billing-address-fo
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    CheckoutBillingAddressFormComponent,
   ],
   providers: [CheckoutBillingAddressFormService],
-  declarations: [CheckoutBillingAddressFormComponent],
   exports: [CheckoutBillingAddressFormComponent],
 })
 export class CheckoutBillingAddressFormModule {}

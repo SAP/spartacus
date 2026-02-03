@@ -28,8 +28,8 @@ import { GigyaRaasGuard } from './gigya-raas.guard';
         },
       },
     }),
+    GigyaRaasComponent,
   ],
-  declarations: [GigyaRaasComponent],
   exports: [GigyaRaasComponent],
 })
 export class GigyaRaasModule {}

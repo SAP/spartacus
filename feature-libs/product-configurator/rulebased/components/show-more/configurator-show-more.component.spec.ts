@@ -11,8 +11,7 @@ describe('ConfiguratorShowMoreComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ConfiguratorShowMoreComponent],
+      imports: [I18nTestingModule, ConfiguratorShowMoreComponent],
     })
       .overrideComponent(ConfiguratorShowMoreComponent, {
         set: {

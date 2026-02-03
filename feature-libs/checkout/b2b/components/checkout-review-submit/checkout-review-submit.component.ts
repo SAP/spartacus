@@ -4,7 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import {
+  AsyncPipe,
+  NgFor,
+  NgIf,
+  NgSwitch,
+  NgSwitchCase,
+  NgTemplateOutlet,
+} from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
@@ -22,10 +31,18 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   CostCenter,
+  TranslatePipe,
   TranslationService,
+  UrlPipe,
   UserCostCenterService,
 } from '@spartacus/core';
-import { Card } from '@spartacus/storefront';
+import {
+  Card,
+  CardComponent,
+  IconComponent,
+  OutletDirective,
+  PromotionsComponent,
+} from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
@@ -33,7 +50,21 @@ import { filter, map } from 'rxjs/operators';
   selector: 'cx-review-submit',
   templateUrl: './checkout-review-submit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    NgSwitch,
+    NgSwitchCase,
+    NgTemplateOutlet,
+    CardComponent,
+    RouterLink,
+    IconComponent,
+    OutletDirective,
+    PromotionsComponent,
+    AsyncPipe,
+    TranslatePipe,
+    UrlPipe,
+  ],
 })
 export class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitComponent {
   checkoutStepTypePaymentType = CheckoutStepType.PAYMENT_TYPE;

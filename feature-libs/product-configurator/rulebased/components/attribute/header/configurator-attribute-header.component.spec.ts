@@ -26,7 +26,7 @@ import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-h
 @Component({
   selector: 'cx-configurator-show-more',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, IconModule],
 })
 class MockConfiguratorShowMoreComponent {
   @Input() text: string;
@@ -37,7 +37,7 @@ class MockConfiguratorShowMoreComponent {
 @Component({
   selector: 'cx-configurator-show-options',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, IconModule],
 })
 class MockConfiguratorShowOptionsComponent {
   @Input() attributeComponentContext: ConfiguratorAttributeCompositionContext;
@@ -141,8 +141,9 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, IconModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
+        IconModule,
         ConfiguratorAttributeHeaderComponent,
         MockConfiguratorShowMoreComponent,
         MockConfiguratorShowOptionsComponent,
@@ -165,7 +166,6 @@ describe('ConfigAttributeHeaderComponent', () => {
           provide: ConfiguratorUISettingsConfig,
           useValue: structuredClone(testConfiguratorUISettings),
         },
-
         {
           provide: ConfiguratorAttributeCompositionContext,
           useValue: ConfiguratorTestUtils.getAttributeContext(),

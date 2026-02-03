@@ -24,6 +24,7 @@ import { QuoteLinksComponent } from './quote-links.component';
     RouterModule,
     UrlModule,
     FeaturesConfigModule,
+    QuoteLinksComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -35,7 +36,6 @@ import { QuoteLinksComponent } from './quote-links.component';
       },
     }),
   ],
-  declarations: [QuoteLinksComponent],
   exports: [QuoteLinksComponent],
 })
 export class QuoteLinksModule {}

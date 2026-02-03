@@ -4,12 +4,11 @@ import { of } from 'rxjs';
 import { OutletPosition, OutletService } from '../../../cms-structure/index';
 import { OutletRendererService } from '../../../cms-structure/outlet/outlet-renderer.service';
 import { LayoutConfig } from '../../config/layout-config';
-import { LaunchOutletDialog, LAUNCH_CALLER } from '../config';
+import { LAUNCH_CALLER, LaunchOutletDialog } from '../config';
 import { OutletRenderStrategy } from './outlet-render.strategy';
 
 @Component({
   template: 'test',
-  standalone: false,
 })
 class TestContainerComponent {
   componentType = 'TestContainerComponent';

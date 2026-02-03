@@ -4,21 +4,21 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
-import {
-  provideDefaultConfig,
-  CmsConfig,
-  I18nModule,
-  FeaturesConfigModule,
-} from '@spartacus/core';
-import { ServiceCheckoutDeliveryModeComponent } from './service-checkout-delivery-mode.component';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
-  SpinnerModule,
+  CmsConfig,
+  FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
+import {
   OutletModule,
   PageComponentModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
+import { ServiceCheckoutDeliveryModeComponent } from './service-checkout-delivery-mode.component';
 
 @NgModule({
   imports: [
@@ -29,6 +29,7 @@ import {
     OutletModule,
     PageComponentModule,
     FeaturesConfigModule,
+    ServiceCheckoutDeliveryModeComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -39,7 +40,6 @@ import {
       },
     }),
   ],
-  declarations: [ServiceCheckoutDeliveryModeComponent],
   exports: [ServiceCheckoutDeliveryModeComponent],
 })
 export class ServiceCheckoutDeliveryModeModule {}

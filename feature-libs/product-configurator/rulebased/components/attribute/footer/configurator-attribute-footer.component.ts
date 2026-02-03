@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, IconComponent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
@@ -18,7 +20,7 @@ import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-a
   selector: 'cx-configurator-attribute-footer',
   templateUrl: './configurator-attribute-footer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, IconComponent, AsyncPipe, TranslatePipe],
 })
 export class ConfiguratorAttributeFooterComponent
   extends ConfiguratorAttributeBaseComponent
