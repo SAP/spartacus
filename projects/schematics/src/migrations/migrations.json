@@ -95,17 +95,22 @@
       "factory": "./221121_7/move-zone-change-detection-to-main/index#migrate",
       "description": "Move provideZoneChangeDetection from main.ts to app.module.ts"
     },
-    "05-migration-v221121_7-constructor-deprecations": {
+    "05-migration-v221121_7-build-ssr-script": {
+      "version": "221121.7.0",
+      "factory": "./221121_7/ssr/build-ssr-script/index#migrate",
+      "description": "Add build:ssr script to package.json for CCv2 compatibility"
+    },
+    "06-migration-v221121_7-constructor-deprecations": {
       "version": "221121.7.0",
       "factory": "./221121_7/constructor-deprecations/constructor-deprecations#migrate",
       "description": "Add or remove constructor parameters"
     },
-    "06-migration-v221121_7-methods-and-properties-deprecations": {
+    "07-migration-v221121_7-methods-and-properties-deprecations": {
       "version": "221121.7.0",
       "factory": "./221121_7/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
       "description": "Comment about usage of removed public methods or properties"
     },
-    "07-migration-v221121_7-removed-public-api-deprecations": {
+    "08-migration-v221121_7-removed-public-api-deprecations": {
       "version": "221121.7.0",
       "factory": "./221121_7/removed-public-api-deprecations/removed-public-api-deprecations#migrate",
       "description": "Comment about usage of removed public api"

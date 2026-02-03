@@ -247,6 +247,9 @@ function updateExpressDependency(): Rule {
 export function migrate(): Rule {
   return (tree: Tree, context: SchematicContext) => {
     if (!isSsrUsed(tree)) {
+      context.logger.info(
+        '\n  ↳ SSR is not configured - skipping Express 5 migration'
+      );
       return noop();
     }
 

@@ -105,11 +105,13 @@ If you didn't run it during Angular 20 migration, let's select this migration to
 
 ## Run Spartacus update
 
-After successfully updating the application to Angular 20 and Express 5, execute this command to initiate the Spartacus update process.
+After successfully updating the application to Angular 21, execute this command to initiate the Spartacus update process.
 
 ```bash
 ng update @spartacus/schematics@221121.7
 ```
+
+> **Note:** if the migration failed (due to any reason), as a fallback please follow the instructions in the section [Manual Migration Steps (Fallback Only)](#manual-migration-steps-fallback-only)
 
 ### Manual changes
 
@@ -242,7 +244,7 @@ This command should handle all the necessary migrations automatically. In most c
 
 ### Manual Migration Steps (Fallback Only)
 
-Below is a list of changes that the Spartacus migration schematics perform automatically. We include them here as a fallback. You only need to perform these steps manually if the schematics failed to complete successfully.
+Below is a list of changes that the Spartacus migration schematics perform automatically. We include them here as a fallback. You only need to perform these steps manually if the schematics failed to complete successfully. If the migration schematics mentioned in the section [Run Spartacus update](#run-spartacus-update) failed due to any reason, please follow the manual steps below
 
 1. In `angular.json`, remove redundant `index` property. For more, see: https://github.com/angular/angular-cli/commit/901ab60d9f63fcff17213dbf7fe17e4a46835974
 
@@ -389,7 +391,27 @@ platformBrowser().bootstrapModule(AppModule, {
 
 #### Additional migration steps if using Server Side Rendering (SSR) with Express (Fallback Only)
 
+1. Add `build:ssr` script to `package.json`
+
+The Angular `use-application-builder` migration (available in Angular 20 and 21) removes the `build:ssr` script from `package.json`. This script is required for CCv2 build process.
+
+In `package.json`, add the `build:ssr` script:
+
+```diff
+{
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
++   "build:ssr": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  }
+}
+```
+
 1. Upgrade Express to Version 5
+
 Spartacus 221121.7 requires Express 5.x. The Spartacus migration schematics automatically upgrade Express and update `server.ts` for Express 5 compatibility. The manual steps below are provided as a fallback in case the automatic migration does not complete successfully.
 
 To manually upgrade Express:
@@ -420,3 +442,4 @@ In `server.ts`, update wildcard strings with regular expressions for Express 5 c
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
     });
   });
+```
