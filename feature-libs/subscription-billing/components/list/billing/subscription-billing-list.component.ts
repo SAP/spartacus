@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-billing-list',
   templateUrl: './subscription-billing-list.component.html',
+  standalone: false,
 })
 export class SubscriptionBillingListComponent {
   protected subscriptionBillsFacade = inject(SubscriptionBillingFacade);
