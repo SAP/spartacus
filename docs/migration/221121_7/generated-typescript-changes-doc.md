@@ -1869,8 +1869,6 @@ moved to @spartacus/user/profile
 # Interface BillingTime
 ## @spartacus/subscription-billing/root
 
-moved to @spartacus/subscription/billing/root
-
 
 ### PropertySignature name is removed.
 
@@ -1882,50 +1880,8 @@ moved to @spartacus/subscription/billing/root
 
 
 
-# Variable defaultExtendDropdownOptions
-## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
-
-
-
-
-# Function defaultSubscriptionBillingComponentsConfig
-## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
-
-
-
-
-# Class ExtendSubscriptionFrequencyDropdownOptionsConfig
-## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
-
-
-
-
-# Class GetSubscriptionByCodeReloadEvent
-## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
-
-
-
-
-# Class GetSubscriptionListReloadEvent
-## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
-
-
-
-
 # Interface OneTimeCharge
 ## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
 
 
 ### PropertySignature billingTime is removed.
@@ -1945,8 +1901,6 @@ moved to @spartacus/subscription/billing/root
 # Interface OverageUsageChargeEntry
 ## @spartacus/subscription-billing/root
 
-moved to @spartacus/subscription/billing/root
-
 
 ### PropertySignature fixedPrice is removed.
 
@@ -1956,8 +1910,6 @@ moved to @spartacus/subscription/billing/root
 
 # Interface PerUnitUsageCharge
 ## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
 
 
 ### PropertySignature includedQty is removed.
@@ -1978,18 +1930,8 @@ moved to @spartacus/subscription/billing/root
 
 
 
-# Interface PerUnitUsageChargeEntry
-## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
-
-
-
-
 # Interface PricePlan
 ## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
 
 
 ### PropertySignature oneTimeCharges is removed.
@@ -2013,8 +1955,6 @@ moved to @spartacus/subscription/billing/root
 # Interface RecurringCharge
 ## @spartacus/subscription-billing/root
 
-moved to @spartacus/subscription/billing/root
-
 
 ### PropertySignature price is removed.
 
@@ -2024,8 +1964,6 @@ moved to @spartacus/subscription/billing/root
 
 # Interface RenewalTerm
 ## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
 
 
 ### PropertySignature endAt is removed.
@@ -2038,34 +1976,8 @@ moved to @spartacus/subscription/billing/root
 
 
 
-# Variable SUBSCRIPTION_BILLING_CORE_FEATURE
-## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
-
-
-
-
-# Variable SUBSCRIPTION_BILLING_FEATURE
-## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
-
-
-
-
-# TypeAlias SubscriptionActionMode
-## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
-
-
-
-
 # Class SubscriptionActionsFacade
 ## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
 
 
 ### Method cancelSubscription is removed.
@@ -2097,8 +2009,6 @@ moved to @spartacus/subscription/billing/root
 # Class SubscriptionBillingEventListener
 ## @spartacus/subscription-billing/root
 
-moved to @spartacus/subscription/billing/root
-
 
 ### Method ngOnDestroy is removed.
 
@@ -2110,26 +2020,8 @@ moved to @spartacus/subscription/billing/root
 
 
 
-# Class SubscriptionBillingEventModule
-## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
-
-
-
-
-# Class SubscriptionBillingRootModule
-## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
-
-
-
-
 # Interface SubscriptionCancelData
 ## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
 
 
 ### PropertySignature subscriptionEndAt is removed.
@@ -2141,8 +2033,6 @@ moved to @spartacus/subscription/billing/root
 # Interface SubscriptionCancellationDetails
 ## @spartacus/subscription-billing/root
 
-moved to @spartacus/subscription/billing/root
-
 
 ### PropertySignature subscriptionEndAt is removed.
 
@@ -2150,26 +2040,8 @@ moved to @spartacus/subscription/billing/root
 
 
 
-# Class SubscriptionCartPriceBodyComponent
-## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
-
-
-
-
-# Class SubscriptionCartPriceHeadingComponent
-## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
-
-
-
-
 # Interface SubscriptionDetail
 ## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
 
 
 ### PropertySignature billingTime is removed.
@@ -2241,8 +2113,6 @@ moved to @spartacus/subscription/billing/root
 # Interface SubscriptionExtensionEffectiveDate
 ## @spartacus/subscription-billing/root
 
-moved to @spartacus/subscription/billing/root
-
 
 ### PropertySignature subscriptionEndAt is removed.
 
@@ -2252,8 +2122,6 @@ moved to @spartacus/subscription/billing/root
 
 # Class SubscriptionFacade
 ## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
 
 
 ### Method getSubscriptionByCode is removed.
@@ -2281,8 +2149,6 @@ moved to @spartacus/subscription/billing/root
 # Interface SubscriptionList
 ## @spartacus/subscription-billing/root
 
-moved to @spartacus/subscription/billing/root
-
 
 ### PropertySignature pagination is removed.
 
@@ -2301,8 +2167,6 @@ moved to @spartacus/subscription/billing/root
 # Class SubscriptionProductService
 ## @spartacus/subscription-billing/root
 
-moved to @spartacus/subscription/billing/root
-
 
 ### Method getSubscriptionData is removed.
 
@@ -2317,8 +2181,6 @@ moved to @spartacus/subscription/billing/root
 # Interface SubscriptionReverseCancellation
 ## @spartacus/subscription-billing/root
 
-moved to @spartacus/subscription/billing/root
-
 
 ### PropertySignature subscriptionId is removed.
 
@@ -2332,8 +2194,6 @@ moved to @spartacus/subscription/billing/root
 
 # Interface SubscriptionTerm
 ## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
 
 
 ### PropertySignature billingPlan is removed.
@@ -2352,8 +2212,6 @@ moved to @spartacus/subscription/billing/root
 
 # Interface SubscriptionWithdraw
 ## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
 
 
 ### PropertySignature subscriptionId is removed.
@@ -2377,8 +2235,6 @@ moved to @spartacus/subscription/billing/root
 # Interface TermType
 ## @spartacus/subscription-billing/root
 
-moved to @spartacus/subscription/billing/root
-
 
 ### PropertySignature frequency is removed.
 
@@ -2392,8 +2248,6 @@ moved to @spartacus/subscription/billing/root
 
 # Interface TierUsageChargeEntry
 ## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
 
 
 ### PropertySignature fixedPrice is removed.
@@ -2412,8 +2266,6 @@ moved to @spartacus/subscription/billing/root
 
 # Interface UsageCharge
 ## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
 
 
 ### PropertySignature blockSize is removed.
@@ -2441,8 +2293,6 @@ moved to @spartacus/subscription/billing/root
 # Interface UsageChargeEntry
 ## @spartacus/subscription-billing/root
 
-moved to @spartacus/subscription/billing/root
-
 
 ### PropertySignature price is removed.
 
@@ -2450,18 +2300,8 @@ moved to @spartacus/subscription/billing/root
 
 
 
-# Enum UsageChargeType
-## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
-
-
-
-
 # Interface UsageUnit
 ## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
 
 
 ### PropertySignature name is removed.
@@ -2474,18 +2314,8 @@ moved to @spartacus/subscription/billing/root
 
 
 
-# Interface VolumeUsageCharge
-## @spartacus/subscription-billing/root
-
-moved to @spartacus/subscription/billing/root
-
-
-
-
 # Class OccSubscriptionActionsAdapter
 ## @spartacus/subscription-billing/occ
-
-moved to @spartacus/subscription/billing/occ
 
 
 ### Method cancelSubscription is removed.
@@ -2517,8 +2347,6 @@ moved to @spartacus/subscription/billing/occ
 # Class OccSubscriptionAdapter
 ## @spartacus/subscription-billing/occ
 
-moved to @spartacus/subscription/billing/occ
-
 
 ### Method getSubscriptionByCode is removed.
 
@@ -2532,8 +2360,6 @@ moved to @spartacus/subscription/billing/occ
 
 # Interface SubscriptionBillingOccEndpoints
 ## @spartacus/subscription-billing/occ
-
-moved to @spartacus/subscription/billing/occ
 
 
 ### PropertySignature cancelSubscription is removed.
@@ -2570,26 +2396,8 @@ moved to @spartacus/subscription/billing/occ
 
 
 
-# Class SubscriptionBillingOccModule
-## @spartacus/subscription-billing/occ
-
-moved to @spartacus/subscription/billing/occ
-
-
-
-
-# Variable facadeProviders
-## @spartacus/subscription-billing/core
-
-moved to @spartacus/subscription/billing/core
-
-
-
-
 # Class SubscriptionActionsAdapter
 ## @spartacus/subscription-billing/core
-
-moved to @spartacus/subscription/billing/core
 
 
 ### Method cancelSubscription is removed.
@@ -2621,8 +2429,6 @@ moved to @spartacus/subscription/billing/core
 # Class SubscriptionActionsConnector
 ## @spartacus/subscription-billing/core
 
-moved to @spartacus/subscription/billing/core
-
 
 ### Method cancelSubscription is removed.
 
@@ -2652,8 +2458,6 @@ moved to @spartacus/subscription/billing/core
 
 # Class SubscriptionActionsService
 ## @spartacus/subscription-billing/core
-
-moved to @spartacus/subscription/billing/core
 
 
 ### Method cancelSubscription is removed.
@@ -2689,8 +2493,6 @@ moved to @spartacus/subscription/billing/core
 # Class SubscriptionAdapter
 ## @spartacus/subscription-billing/core
 
-moved to @spartacus/subscription/billing/core
-
 
 ### Method getSubscriptionByCode is removed.
 
@@ -2702,18 +2504,8 @@ moved to @spartacus/subscription/billing/core
 
 
 
-# Class SubscriptionBillingCoreModule
-## @spartacus/subscription-billing/core
-
-moved to @spartacus/subscription/billing/core
-
-
-
-
 # Class SubscriptionConnector
 ## @spartacus/subscription-billing/core
-
-moved to @spartacus/subscription/billing/core
 
 
 ### Method getSubscriptionByCode is removed.
@@ -2728,8 +2520,6 @@ moved to @spartacus/subscription/billing/core
 
 # Class SubscriptionService
 ## @spartacus/subscription-billing/core
-
-moved to @spartacus/subscription/billing/core
 
 
 ### Method getSubscriptionByCode is removed.
@@ -2777,8 +2567,6 @@ moved to @spartacus/subscription/billing/core
 # Class SubscriptionActionsModalComponent
 ## @spartacus/subscription-billing/components
 
-moved to @spartacus/subscription/billing/components
-
 
 ### Method getExtensionEffectiveDate is removed.
 
@@ -2809,8 +2597,6 @@ moved to @spartacus/subscription/billing/components
 # Class SubscriptionActionsModalComponentService
 ## @spartacus/subscription-billing/components
 
-moved to @spartacus/subscription/billing/components
-
 
 ### Method handleError is removed.
 
@@ -2826,34 +2612,8 @@ moved to @spartacus/subscription/billing/components
 
 
 
-# Class SubscriptionActionsModalModule
-## @spartacus/subscription-billing/components
-
-moved to @spartacus/subscription/billing/components
-
-
-
-
-# Variable subscriptionActionsPopupConfig
-## @spartacus/subscription-billing/components
-
-moved to @spartacus/subscription/billing/components
-
-
-
-
-# Class SubscriptionBillingComponentsModule
-## @spartacus/subscription-billing/components
-
-moved to @spartacus/subscription/billing/components
-
-
-
-
 # Class SubscriptionDetailsComponent
 ## @spartacus/subscription-billing/components
-
-moved to @spartacus/subscription/billing/components
 
 
 ### Method ngOnInit is removed.
@@ -2866,18 +2626,8 @@ moved to @spartacus/subscription/billing/components
 
 
 
-# Class SubscriptionDetailsModule
-## @spartacus/subscription-billing/components
-
-moved to @spartacus/subscription/billing/components
-
-
-
-
 # Class SubscriptionListComponent
 ## @spartacus/subscription-billing/components
-
-moved to @spartacus/subscription/billing/components
 
 
 ### Method changeSortCode is removed.
@@ -2890,34 +2640,8 @@ moved to @spartacus/subscription/billing/components
 
 
 
-# Class SubscriptionListModule
-## @spartacus/subscription-billing/components
-
-moved to @spartacus/subscription/billing/components
-
-
-
-
-# Class SubscriptionProductPriceComponent
-## @spartacus/subscription-billing/components
-
-moved to @spartacus/subscription/billing/components
-
-
-
-
-# Class SubscriptionProductPriceModule
-## @spartacus/subscription-billing/components
-
-moved to @spartacus/subscription/billing/components
-
-
-
-
 # Class SubscriptionProductUsageChargeComponent
 ## @spartacus/subscription-billing/components
-
-moved to @spartacus/subscription/billing/components
 
 
 ### Method getIncludedQuantity is removed.
@@ -2934,35 +2658,11 @@ moved to @spartacus/subscription/billing/components
 
 
 
-# Class SubscriptionProductUsageChargeModule
-## @spartacus/subscription-billing/components
-
-moved to @spartacus/subscription/billing/components
-
-
-
-
-# Variable subscriptionBillingTranslationChunksConfig
-## @spartacus/subscription-billing/assets
-
-moved to @spartacus/subscription/billing/assets
-
-
-
-
 # Variable subscriptionBillingTranslationsEn
 ## @spartacus/subscription-billing/assets
 
 
 Variable subscriptionBillingTranslationsEn has been removed and is no longer part of the public API.
-
-
-
-
-# Class SubscriptionBillingModule
-## @spartacus/subscription-billing
-
-moved to @spartacus/subscription/billing
 
 
 
@@ -3724,6 +3424,10 @@ constructor(
 
 
 
+### Property featureConfigService is removed.
+
+
+
 
 
 # Class CmsI18nService
@@ -4329,6 +4033,10 @@ Function disableTabbingForTick has been removed and is no longer part of the pub
 
 
 
+### Property featureConfigService is removed.
+
+
+
 ### Method getLinkParams is removed.
 
 
@@ -4402,6 +4110,10 @@ Function disableTabbingForTick has been removed and is no longer part of the pub
 
 
 ### Method expandFacetGroup is removed.
+
+
+
+### Property featureConfigService is removed.
 
 
 
@@ -4767,15 +4479,6 @@ Function FormUtils.deepUpdateValueAndValidity has been removed and is no longer 
 
 ### Method unsubscribeScrollingArea is removed.
 
-
-
-
-
-# Enum ICON_TYPE
-## @spartacus/storefront
-
-
-Enum ICON_TYPE has been removed and is no longer part of the public API.
 
 
 
@@ -5881,6 +5584,40 @@ Interface MessageEvent_2 has been removed and is no longer part of the public AP
 ## @spartacus/storefront
 
 
+### Constructor changed.
+
+
+Previous version:
+
+```
+
+constructor(
+  router: Router,
+  renderer: Renderer2,
+  elemRef: ElementRef,
+  hamburgerMenuService: HamburgerMenuService,
+  winRef: WindowRef,
+  featureConfigService?: FeatureConfigService | undefined
+)
+
+```
+
+
+Current version:
+
+```
+
+constructor(
+  router: Router,
+  renderer: Renderer2,
+  elemRef: ElementRef,
+  hamburgerMenuService: HamburgerMenuService,
+  winRef: WindowRef
+)
+
+```
+
+
 ### Method ariaCollapseNodes is removed.
 
 
@@ -5895,6 +5632,23 @@ Interface MessageEvent_2 has been removed and is no longer part of the public AP
 
 ### Method closeIfClickedTheSameLink is removed.
 
+
+
+### Property featureConfigService changed.
+
+
+Previous version:
+
+```
+featureConfigService: FeatureConfigService | undefined
+```
+
+
+Current version:
+
+```
+featureConfigService: 
+```
 
 
 ### Method focusAfterPreviousClicked is removed.
@@ -8669,6 +8423,10 @@ breakpointService: BreakpointService
 ## @spartacus/storefront
 
 
+### Property featureConfigService is removed.
+
+
+
 ### Method init is removed.
 
 
@@ -10286,22 +10044,6 @@ Function serverLoggerServiceFactory has been removed and is no longer part of th
 
 
 
-# Class SegmentRefsRootModule
-## @spartacus/segment-refs/root
-
-moved to @spartacus/segment/refs/root
-
-
-
-
-# Class SegmentRefsRootModule
-## @spartacus/segment-refs
-
-moved to @spartacus/segment/refs/root
-
-
-
-
 # Class S4omProductCatalogService
 ## @spartacus/s4om/root
 
@@ -10500,8 +10242,6 @@ Variable s4omTranslationsZh has been removed and is no longer part of the public
 # Interface CancellationDetails
 ## @spartacus/s4-service/root
 
-moved to @spartacus/s4/service/root
-
 
 ### PropertySignature cancellationRequestEntryInputs is removed.
 
@@ -10515,8 +10255,6 @@ moved to @spartacus/s4/service/root
 
 # Interface CancellationRequestEntryInputs
 ## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
 
 
 ### PropertySignature orderEntryNumber is removed.
@@ -10532,8 +10270,6 @@ moved to @spartacus/s4/service/root
 # Class CancelServiceOrderFacade
 ## @spartacus/s4-service/root
 
-moved to @spartacus/s4/service/root
-
 
 ### Method cancelService is removed.
 
@@ -10545,18 +10281,8 @@ moved to @spartacus/s4/service/root
 
 
 
-# Class CheckoutServiceDetailsEvent
-## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
-
-
-
-
 # Class CheckoutServiceDetailsEventListener
 ## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
 
 
 ### Method ngOnDestroy is removed.
@@ -10569,18 +10295,8 @@ moved to @spartacus/s4/service/root
 
 
 
-# Class CheckoutServiceDetailsEventModule
-## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
-
-
-
-
 # Class CheckoutServiceDetailsFacade
 ## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
 
 
 ### Method getSelectedServiceDetailsState is removed.
@@ -10605,18 +10321,8 @@ moved to @spartacus/s4/service/root
 
 
 
-# Class CheckoutServiceDetailsSetEvent
-## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
-
-
-
-
 # Interface CheckoutServiceOrderOccEndpoints
 ## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
 
 
 ### PropertySignature setServiceScheduleSlot is removed.
@@ -10627,8 +10333,6 @@ moved to @spartacus/s4/service/root
 
 # Class CheckoutServiceSchedulePickerService
 ## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
 
 
 ### Method convertDateTimeToReadableString is removed.
@@ -10661,34 +10365,8 @@ moved to @spartacus/s4/service/root
 
 
 
-# Function defaultS4ServiceComponentsConfig
-## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
-
-
-
-
-# Variable defaultServiceDetailsCheckoutConfig
-## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
-
-
-
-
-# Variable defaultServiceOrdersRoutingConfig
-## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
-
-
-
-
 # Class RescheduleServiceOrderFacade
 ## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
 
 
 ### Method rescheduleService is removed.
@@ -10697,66 +10375,8 @@ moved to @spartacus/s4/service/root
 
 
 
-# Variable S4_SERVICE_CMS_COMPONENTS
-## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
-
-
-
-
-# Variable S4_SERVICE_FEATURE
-## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
-
-
-
-
-# Variable S4_SERVICE_ORDER_CMS_COMPONENTS
-## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
-
-
-
-
-# Class S4ServiceDeliveryModeConfig
-## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
-
-
-
-
-# Class S4ServiceRootModule
-## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
-
-
-
-
-# TypeAlias serviceCancellable
-## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
-
-
-
-
-# TypeAlias ServiceDateTime
-## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
-
-
-
-
 # Interface ServiceDetails
 ## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
 
 
 ### PropertySignature scheduledAt is removed.
@@ -10767,8 +10387,6 @@ moved to @spartacus/s4/service/root
 
 # Interface ServiceOrderConfig
 ## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
 
 
 ### PropertySignature leadDays is removed.
@@ -10781,18 +10399,8 @@ moved to @spartacus/s4/service/root
 
 
 
-# Class ServiceOrderConfiguration
-## @spartacus/s4-service/root
-
-moved to @spartacus/s4/service/root
-
-
-
-
 # Class CancelServiceOrderComponent
 ## @spartacus/s4-service/order
-
-moved to @spartacus/s4/service/order
 
 
 ### Method cancelServiceOrder is removed.
@@ -10812,8 +10420,6 @@ moved to @spartacus/s4/service/order
 # Class CancelServiceOrderGuard
 ## @spartacus/s4-service/order
 
-moved to @spartacus/s4/service/order
-
 
 ### Method canActivate is removed.
 
@@ -10821,34 +10427,8 @@ moved to @spartacus/s4/service/order
 
 
 
-# Class CancelServiceOrderHeadlineComponent
-## @spartacus/s4-service/order
-
-moved to @spartacus/s4/service/order
-
-
-
-
-# Class CancelServiceOrderHeadlineModule
-## @spartacus/s4-service/order
-
-moved to @spartacus/s4/service/order
-
-
-
-
-# Class CancelServiceOrderModule
-## @spartacus/s4-service/order
-
-moved to @spartacus/s4/service/order
-
-
-
-
 # Class RescheduleServiceOrderComponent
 ## @spartacus/s4-service/order
-
-moved to @spartacus/s4/service/order
 
 
 ### Method initializeForm is removed.
@@ -10873,26 +10453,8 @@ moved to @spartacus/s4/service/order
 
 
 
-# Class RescheduleServiceOrderModule
-## @spartacus/s4-service/order
-
-moved to @spartacus/s4/service/order
-
-
-
-
-# Class S4ServiceComponentsModule
-## @spartacus/s4-service/order
-
-moved to @spartacus/s4/service/order
-
-
-
-
 # Class S4ServiceOrderDetailActionsComponent
 ## @spartacus/s4-service/order
-
-moved to @spartacus/s4/service/order
 
 
 ### Method checkServiceStatus is removed.
@@ -10909,26 +10471,8 @@ moved to @spartacus/s4/service/order
 
 
 
-# Class S4ServiceOrderDetailActionsModule
-## @spartacus/s4-service/order
-
-moved to @spartacus/s4/service/order
-
-
-
-
-# Class S4ServiceOrderModule
-## @spartacus/s4-service/order
-
-moved to @spartacus/s4/service/order
-
-
-
-
 # Class ServiceDetailsCardComponent
 ## @spartacus/s4-service/order
-
-moved to @spartacus/s4/service/order
 
 
 ### Method getServiceDetailsCard is removed.
@@ -10949,18 +10493,8 @@ moved to @spartacus/s4/service/order
 
 
 
-# Class ServiceDetailsCardModule
-## @spartacus/s4-service/order
-
-moved to @spartacus/s4/service/order
-
-
-
-
 # Class ServiceOrderGuard
 ## @spartacus/s4-service/order
-
-moved to @spartacus/s4/service/order
 
 
 ### Method canActivate is removed.
@@ -10972,8 +10506,6 @@ moved to @spartacus/s4/service/order
 # Class ServiceOrderOverviewComponentService
 ## @spartacus/s4-service/order
 
-moved to @spartacus/s4/service/order
-
 
 ### Method shouldShowDeliveryMode is removed.
 
@@ -10984,8 +10516,6 @@ moved to @spartacus/s4/service/order
 # Class CheckoutServiceDetailsAdapter
 ## @spartacus/s4-service/checkout
 
-moved to @spartacus/s4/service/checkout
-
 
 ### Method setServiceScheduleSlot is removed.
 
@@ -10995,8 +10525,6 @@ moved to @spartacus/s4/service/checkout
 
 # Class CheckoutServiceDetailsComponent
 ## @spartacus/s4-service/checkout
-
-moved to @spartacus/s4/service/checkout
 
 
 ### Method back is removed.
@@ -11036,8 +10564,6 @@ moved to @spartacus/s4/service/checkout
 # Class CheckoutServiceDetailsConnector
 ## @spartacus/s4-service/checkout
 
-moved to @spartacus/s4/service/checkout
-
 
 ### Method setServiceScheduleSlot is removed.
 
@@ -11045,18 +10571,8 @@ moved to @spartacus/s4/service/checkout
 
 
 
-# Class CheckoutServiceDetailsModule
-## @spartacus/s4-service/checkout
-
-moved to @spartacus/s4/service/checkout
-
-
-
-
 # Class CheckoutServiceDetailsService
 ## @spartacus/s4-service/checkout
-
-moved to @spartacus/s4/service/checkout
 
 
 ### Method checkoutPreconditions is removed.
@@ -11088,8 +10604,6 @@ moved to @spartacus/s4/service/checkout
 # Class CheckoutServiceOrderStepsSetGuard
 ## @spartacus/s4-service/checkout
 
-moved to @spartacus/s4/service/checkout
-
 
 ### Method canActivate is removed.
 
@@ -11112,8 +10626,6 @@ moved to @spartacus/s4/service/checkout
 # Class OccCheckoutServiceDetailsAdapter
 ## @spartacus/s4-service/checkout
 
-moved to @spartacus/s4/service/checkout
-
 
 ### Method setServiceScheduleSlot is removed.
 
@@ -11121,58 +10633,8 @@ moved to @spartacus/s4/service/checkout
 
 
 
-# Class S4ServiceCheckoutComponentModule
-## @spartacus/s4-service/checkout
-
-moved to @spartacus/s4/service/checkout
-
-
-
-
-# Class S4ServiceCheckoutCoreModule
-## @spartacus/s4-service/checkout
-
-moved to @spartacus/s4/service/checkout
-
-
-
-
-# Class S4ServiceCheckoutModule
-## @spartacus/s4-service/checkout
-
-moved to @spartacus/s4/service/checkout
-
-
-
-
-# Class S4ServiceCheckoutOccModule
-## @spartacus/s4-service/checkout
-
-moved to @spartacus/s4/service/checkout
-
-
-
-
-# Class ServiceCheckoutDeliveryModeComponent
-## @spartacus/s4-service/checkout
-
-moved to @spartacus/s4/service/checkout
-
-
-
-
-# Class ServiceCheckoutDeliveryModeModule
-## @spartacus/s4-service/checkout
-
-moved to @spartacus/s4/service/checkout
-
-
-
-
 # Class ServiceCheckoutReviewSubmitComponent
 ## @spartacus/s4-service/checkout
-
-moved to @spartacus/s4/service/checkout
 
 
 ### Method getCheckoutDeliverySteps is removed.
@@ -11189,30 +10651,6 @@ moved to @spartacus/s4/service/checkout
 
 ### Method shouldShowDeliveryModeCard is removed.
 
-
-
-
-
-# Class ServiceCheckoutReviewSubmitModule
-## @spartacus/s4-service/checkout
-
-moved to @spartacus/s4/service/checkout
-
-
-
-
-# Variable s4ServiceTranslationChunksConfig
-## @spartacus/s4-service/assets
-
-moved to @spartacus/s4/service/assets
-
-
-
-
-# Variable s4ServiceTranslations
-## @spartacus/s4-service/assets
-
-moved to @spartacus/s4/service/assets
 
 
 
@@ -11370,26 +10808,8 @@ Variable s4ServiceTranslationsZh has been removed and is no longer part of the p
 
 
 
-# Class S4ServiceModule
-## @spartacus/s4-service
-
-moved to @spartacus/s4/service
-
-
-
-
-# Function defaultRequestedDeliveryDateComponentsConfig
-## @spartacus/requested-delivery-date/root
-
-moved to @spartacus/requested/delivery/date/root
-
-
-
-
 # Class DeliveryModeDatePickerComponent
 ## @spartacus/requested-delivery-date/root
-
-moved to @spartacus/requested/delivery/date/root
 
 
 ### Method getErrors is removed.
@@ -11425,8 +10845,6 @@ moved to @spartacus/requested/delivery/date/root
 # Class OrderOverviewDeliveryDateComponent
 ## @spartacus/requested-delivery-date/root
 
-moved to @spartacus/requested/delivery/date/root
-
 
 ### Method getRequestedDeliveryDateCardContent is removed.
 
@@ -11446,54 +10864,12 @@ moved to @spartacus/requested/delivery/date/root
 
 
 
-# Variable REQUESTED_DELIVERY_DATE_CORE_FEATURE
-## @spartacus/requested-delivery-date/root
-
-moved to @spartacus/requested/delivery/date/root
-
-
-
-
-# Variable REQUESTED_DELIVERY_DATE_FEATURE
-## @spartacus/requested-delivery-date/root
-
-moved to @spartacus/requested/delivery/date/root
-
-
-
-
-# Class RequestedDeliveryDateComponentsModule
-## @spartacus/requested-delivery-date/root
-
-moved to @spartacus/requested/delivery/date/root
-
-
-
-
 # Class RequestedDeliveryDateFacade
 ## @spartacus/requested-delivery-date/root
-
-moved to @spartacus/requested/delivery/date/root
 
 
 ### Method setRequestedDeliveryDate is removed.
 
-
-
-
-
-# Function requestedDeliveryDateFacadeFactory
-## @spartacus/requested-delivery-date/root
-
-moved to @spartacus/requested/delivery/date/root
-
-
-
-
-# Class RequestedDeliveryDateRootModule
-## @spartacus/requested-delivery-date/root
-
-moved to @spartacus/requested/delivery/date/root
 
 
 
@@ -11501,8 +10877,6 @@ moved to @spartacus/requested/delivery/date/root
 # Class OccRequestedDeliveryDateAdapter
 ## @spartacus/requested-delivery-date/occ
 
-moved to @spartacus/requested/delivery/date/occ
-
 
 ### Method setRequestedDeliveryDate is removed.
 
@@ -11510,18 +10884,8 @@ moved to @spartacus/requested/delivery/date/occ
 
 
 
-# Class RequestedDeliveryDateOccModule
-## @spartacus/requested-delivery-date/occ
-
-moved to @spartacus/requested/delivery/date/occ
-
-
-
-
 # Class RequestedDeliveryDateAdapter
 ## @spartacus/requested-delivery-date/core
-
-moved to @spartacus/requested/delivery/date/core
 
 
 ### Method setRequestedDeliveryDate is removed.
@@ -11533,19 +10897,9 @@ moved to @spartacus/requested/delivery/date/core
 # Class RequestedDeliveryDateConnector
 ## @spartacus/requested-delivery-date/core
 
-moved to @spartacus/requested/delivery/date/core
-
 
 ### Method setRequestedDeliveryDate is removed.
 
-
-
-
-
-# Class RequestedDeliveryDateCoreModule
-## @spartacus/requested-delivery-date/core
-
-moved to @spartacus/requested/delivery/date/core
 
 
 
@@ -11553,27 +10907,9 @@ moved to @spartacus/requested/delivery/date/core
 # Class RequestedDeliveryDateService
 ## @spartacus/requested-delivery-date/core
 
-moved to @spartacus/requested/delivery/date/core
-
 
 ### Method setRequestedDeliveryDate is removed.
 
-
-
-
-
-# Variable requestedDeliveryDateTranslationChunksConfig
-## @spartacus/requested-delivery-date/assets
-
-moved to @spartacus/requested/delivery/date/assets
-
-
-
-
-# Variable requestedDeliveryDateTranslations
-## @spartacus/requested-delivery-date/assets
-
-moved to @spartacus/requested/delivery/date/assets
 
 
 
@@ -11727,14 +11063,6 @@ Variable requestedDeliveryDateTranslationsZh_TW has been removed and is no longe
 
 
 Variable requestedDeliveryDateTranslationsZh has been removed and is no longer part of the public API.
-
-
-
-
-# Class RequestedDeliveryDateModule
-## @spartacus/requested-delivery-date
-
-moved to @spartacus/requested/delivery/date
 
 
 
@@ -12506,8 +11834,6 @@ moved to @spartacus/requested/delivery/date
 # Class QuoteRequestButtonComponent
 ## @spartacus/quote/components/request-button
 
-moved to @spartacus/quote/components/request/button
-
 
 ### Method goToQuoteDetails is removed.
 
@@ -12519,18 +11845,8 @@ moved to @spartacus/quote/components/request/button
 
 
 
-# Class QuoteRequestButtonModule
-## @spartacus/quote/components/request-button
-
-moved to @spartacus/quote/components/request/button
-
-
-
-
 # Class QuoteCartGuard
 ## @spartacus/quote/components/cart-guard
-
-moved to @spartacus/quote/components/cart/guard
 
 
 ### Method canActivate is removed.
@@ -12539,22 +11855,6 @@ moved to @spartacus/quote/components/cart/guard
 
 ### Method checkAllowedCheckoutNavigation is removed.
 
-
-
-
-
-# Class QuoteCartGuardComponent
-## @spartacus/quote/components/cart-guard
-
-moved to @spartacus/quote/components/cart/guard
-
-
-
-
-# Class QuoteCartGuardComponentModule
-## @spartacus/quote/components/cart-guard
-
-moved to @spartacus/quote/components/cart/guard
 
 
 
@@ -14126,34 +13426,8 @@ Variable productVariantsTranslationsZh has been removed and is no longer part of
 
 
 
-# Function defaultImageZoomComponentsConfig
-## @spartacus/product/image-zoom/root
-
-moved to @spartacus/product/image/zoom/root
-
-
-
-
-# Variable PRODUCT_IMAGE_ZOOM_FEATURE
-## @spartacus/product/image-zoom/root
-
-moved to @spartacus/product/image/zoom/root
-
-
-
-
-# Class ProductImageZoomRootModule
-## @spartacus/product/image-zoom/root
-
-moved to @spartacus/product/image/zoom/root
-
-
-
-
 # Interface ThumbnailsGroup
 ## @spartacus/product/image-zoom/root
-
-moved to @spartacus/product/image/zoom/root
 
 
 ### PropertySignature container is removed.
@@ -14162,26 +13436,8 @@ moved to @spartacus/product/image/zoom/root
 
 
 
-# Variable defaultProductImageZoomLayoutConfig
-## @spartacus/product/image-zoom/components
-
-moved to @spartacus/product/image/zoom/components
-
-
-
-
-# Class ProductImageZoomComponentsModule
-## @spartacus/product/image-zoom/components
-
-moved to @spartacus/product/image/zoom/components
-
-
-
-
 # Class ProductImageZoomDialogComponent
 ## @spartacus/product/image-zoom/components
-
-moved to @spartacus/product/image/zoom/components
 
 
 ### Method close is removed.
@@ -14194,18 +13450,8 @@ moved to @spartacus/product/image/zoom/components
 
 
 
-# Class ProductImageZoomModule
-## @spartacus/product/image-zoom/components
-
-moved to @spartacus/product/image/zoom/components
-
-
-
-
 # Class ProductImageZoomProductImagesComponent
 ## @spartacus/product/image-zoom/components
-
-moved to @spartacus/product/image/zoom/components
 
 
 ### Method openImage is removed.
@@ -14220,8 +13466,6 @@ moved to @spartacus/product/image/zoom/components
 
 # Class ProductImageZoomThumbnailsComponent
 ## @spartacus/product/image-zoom/components
-
-moved to @spartacus/product/image/zoom/components
 
 
 ### Method isActive is removed.
@@ -14245,8 +13489,6 @@ moved to @spartacus/product/image/zoom/components
 # Class ProductImageZoomTriggerComponent
 ## @spartacus/product/image-zoom/components
 
-moved to @spartacus/product/image/zoom/components
-
 
 ### Property expandImage is removed.
 
@@ -14264,8 +13506,6 @@ moved to @spartacus/product/image/zoom/components
 
 # Class ProductImageZoomViewComponent
 ## @spartacus/product/image-zoom/components
-
-moved to @spartacus/product/image/zoom/components
 
 
 ### Method calculatePointerMovePosition is removed.
@@ -14334,22 +13574,6 @@ moved to @spartacus/product/image/zoom/components
 
 ### Property zoomImage is removed.
 
-
-
-
-
-# Variable productImageZoomTranslationChunksConfig
-## @spartacus/product/image-zoom/assets
-
-moved to @spartacus/product/image/zoom/assets
-
-
-
-
-# Variable productImageZoomTranslations
-## @spartacus/product/image-zoom/assets
-
-moved to @spartacus/product/image/zoom/assets
 
 
 
@@ -14507,26 +13731,8 @@ Variable productImageZoomTranslationsZh has been removed and is no longer part o
 
 
 
-# Class ProductImageZoomModule
-## @spartacus/product/image-zoom
-
-moved to @spartacus/product/image/zoom/components
-
-
-
-
-# Function defaultFutureStockComponentsConfig
-## @spartacus/product/future-stock/root
-
-moved to @spartacus/product/future/stock/root
-
-
-
-
 # Class FutureStockFacade
 ## @spartacus/product/future-stock/root
-
-moved to @spartacus/product/future/stock/root
 
 
 ### Method getFutureStock is removed.
@@ -14535,42 +13741,8 @@ moved to @spartacus/product/future/stock/root
 
 
 
-# Function futureStockFacadeFactory
-## @spartacus/product/future-stock/root
-
-moved to @spartacus/product/future/stock/root
-
-
-
-
-# Class FutureStockRootModule
-## @spartacus/product/future-stock/root
-
-moved to @spartacus/product/future/stock/root
-
-
-
-
-# Variable PRODUCT_FUTURE_STOCK_CORE_FEATURE
-## @spartacus/product/future-stock/root
-
-moved to @spartacus/product/future/stock/root
-
-
-
-
-# Variable PRODUCT_FUTURE_STOCK_FEATURE
-## @spartacus/product/future-stock/root
-
-moved to @spartacus/product/future/stock/root
-
-
-
-
 # Interface FutureStockOccEndpoints
 ## @spartacus/product/future-stock/occ
-
-moved to @spartacus/product/future/stock/occ
 
 
 ### PropertySignature futureStock is removed.
@@ -14583,18 +13755,8 @@ moved to @spartacus/product/future/stock/occ
 
 
 
-# Class FutureStockOccModule
-## @spartacus/product/future-stock/occ
-
-moved to @spartacus/product/future/stock/occ
-
-
-
-
 # Class OccFutureStockAdapter
 ## @spartacus/product/future-stock/occ
-
-moved to @spartacus/product/future/stock/occ
 
 
 ### Method getFutureStock is removed.
@@ -14615,26 +13777,8 @@ moved to @spartacus/product/future/stock/occ
 
 
 
-# Variable FUTURE_STOCK_LIST_NORMALIZER
-## @spartacus/product/future-stock/core
-
-moved to @spartacus/product/future/stock/core
-
-
-
-
-# Variable FUTURE_STOCK_NORMALIZER
-## @spartacus/product/future-stock/core
-
-moved to @spartacus/product/future/stock/core
-
-
-
-
 # Class FutureStockAdapter
 ## @spartacus/product/future-stock/core
-
-moved to @spartacus/product/future/stock/core
 
 
 ### Method getFutureStock is removed.
@@ -14650,8 +13794,6 @@ moved to @spartacus/product/future/stock/core
 # Class FutureStockConnector
 ## @spartacus/product/future-stock/core
 
-moved to @spartacus/product/future/stock/core
-
 
 ### Method getFutureStock is removed.
 
@@ -14666,8 +13808,6 @@ moved to @spartacus/product/future/stock/core
 # Class FutureStockCoreModule
 ## @spartacus/product/future-stock/core
 
-moved to @spartacus/product/future/stock/core
-
 
 ### Method forRoot is removed.
 
@@ -14678,8 +13818,6 @@ moved to @spartacus/product/future/stock/core
 # Class FutureStockService
 ## @spartacus/product/future-stock/core
 
-moved to @spartacus/product/future/stock/core
-
 
 ### Method getFutureStock is removed.
 
@@ -14689,8 +13827,6 @@ moved to @spartacus/product/future/stock/core
 
 # Interface ProductFutureStock
 ## @spartacus/product/future-stock/core
-
-moved to @spartacus/product/future/stock/core
 
 
 ### PropertySignature futureStocks is removed.
@@ -14706,8 +13842,6 @@ moved to @spartacus/product/future/stock/core
 # Interface ProductFutureStockList
 ## @spartacus/product/future-stock/core
 
-moved to @spartacus/product/future/stock/core
-
 
 ### PropertySignature productFutureStocks is removed.
 
@@ -14718,35 +13852,9 @@ moved to @spartacus/product/future/stock/core
 # Class FutureStockAccordionComponent
 ## @spartacus/product/future-stock/components
 
-moved to @spartacus/product/future/stock/components
-
 
 ### Method toggle is removed.
 
-
-
-
-
-# Class FutureStockComponentsModule
-## @spartacus/product/future-stock/components
-
-moved to @spartacus/product/future/stock/components
-
-
-
-
-# Variable futureStockTranslationChunksConfig
-## @spartacus/product/future-stock/assets
-
-moved to @spartacus/product/future/stock/assets
-
-
-
-
-# Variable futureStockTranslations
-## @spartacus/product/future-stock/assets
-
-moved to @spartacus/product/future/stock/assets
 
 
 
@@ -14904,50 +14012,8 @@ Variable futureStockTranslationsZh has been removed and is no longer part of the
 
 
 
-# Class FutureStockModule
-## @spartacus/product/future-stock
-
-moved to @spartacus/product/future/stock
-
-
-
-
-# Class BulkPricingRootModule
-## @spartacus/product/bulk-pricing/root
-
-moved to @spartacus/product/bulk/pricing/root
-
-
-
-
-# Function defaultProductBulkPricingComponentsConfig
-## @spartacus/product/bulk-pricing/root
-
-moved to @spartacus/product/bulk/pricing/root
-
-
-
-
-# Variable PRODUCT_BULK_PRICING_FEATURE
-## @spartacus/product/bulk-pricing/root
-
-moved to @spartacus/product/bulk/pricing/root
-
-
-
-
-# Class BulkPricingOccModule
-## @spartacus/product/bulk-pricing/occ
-
-moved to @spartacus/product/bulk/pricing/occ
-
-
-
-
 # Interface BulkPrice
 ## @spartacus/product/bulk-pricing/core
-
-moved to @spartacus/product/bulk/pricing/core
 
 
 ### PropertySignature currencyIso is removed.
@@ -14987,8 +14053,6 @@ moved to @spartacus/product/bulk/pricing/core
 # Class BulkPricingService
 ## @spartacus/product/bulk-pricing/core
 
-moved to @spartacus/product/bulk/pricing/core
-
 
 ### Method calculateDiscount is removed.
 
@@ -15011,8 +14075,6 @@ moved to @spartacus/product/bulk/pricing/core
 # Class BulkPricingTableComponent
 ## @spartacus/product/bulk-pricing/components
 
-moved to @spartacus/product/bulk/pricing/components
-
 
 ### Method formatQuantity is removed.
 
@@ -15024,30 +14086,6 @@ moved to @spartacus/product/bulk/pricing/components
 
 ### Method ngOnInit is removed.
 
-
-
-
-
-# Class BulkPricingTableModule
-## @spartacus/product/bulk-pricing/components
-
-moved to @spartacus/product/bulk/pricing/components
-
-
-
-
-# Variable bulkPricingTranslationChunksConfig
-## @spartacus/product/bulk-pricing/assets
-
-moved to @spartacus/product/bulk/pricing/assets
-
-
-
-
-# Variable bulkPricingTranslations
-## @spartacus/product/bulk-pricing/assets
-
-moved to @spartacus/product/bulk/pricing/assets
 
 
 
@@ -15205,66 +14243,8 @@ Variable bulkPricingTranslationsZh has been removed and is no longer part of the
 
 
 
-# Class BulkPricingModule
-## @spartacus/product/bulk-pricing
-
-moved to @spartacus/product/bulk/pricing
-
-
-
-
-# Variable defaultProductMultiDimensionalConfig
-## @spartacus/product-multi-dimensional/selector/root
-
-moved to @spartacus/product/multi/dimensional/selector/root
-
-
-
-
-# Function defaultProductMultiDimensionalSelectorComponentsConfig
-## @spartacus/product-multi-dimensional/selector/root
-
-moved to @spartacus/product/multi/dimensional/selector/root
-
-
-
-
-# Variable PRODUCT_MULTI_DIMENSIONAL_SELECTOR_FEATURE
-## @spartacus/product-multi-dimensional/selector/root
-
-moved to @spartacus/product/multi/dimensional/selector/root
-
-
-
-
-# Class ProductMultiDimensionalConfig
-## @spartacus/product-multi-dimensional/selector/root
-
-moved to @spartacus/product/multi/dimensional/selector/root
-
-
-
-
-# Class ProductMultiDimensionalSelectorRootModule
-## @spartacus/product-multi-dimensional/selector/root
-
-moved to @spartacus/product/multi/dimensional/selector/root
-
-
-
-
-# Class ProductMultiDimensionalSelectorOccModule
-## @spartacus/product-multi-dimensional/selector/occ
-
-moved to @spartacus/product/multi/dimensional/selector/occ
-
-
-
-
 # Class ProductMultiDimensionalSelectorImagesService
 ## @spartacus/product-multi-dimensional/selector/core
-
-moved to @spartacus/product/multi/dimensional/selector/core
 
 
 ### Method getBaseUrl is removed.
@@ -15279,8 +14259,6 @@ moved to @spartacus/product/multi/dimensional/selector/core
 
 # Class ProductMultiDimensionalSelectorService
 ## @spartacus/product-multi-dimensional/selector/core
-
-moved to @spartacus/product/multi/dimensional/selector/core
 
 
 ### Method checkIfEveryOptionHasImages is removed.
@@ -15301,26 +14279,8 @@ moved to @spartacus/product/multi/dimensional/selector/core
 
 
 
-# TypeAlias VariantCategoryGroup
-## @spartacus/product-multi-dimensional/selector/core
-
-moved to @spartacus/product/multi/dimensional/selector/core
-
-
-
-
-# TypeAlias VariantCategoryOption
-## @spartacus/product-multi-dimensional/selector/core
-
-moved to @spartacus/product/multi/dimensional/selector/core
-
-
-
-
 # Class ProductMultiDimensionalSelectorComponent
 ## @spartacus/product-multi-dimensional/selector/components
-
-moved to @spartacus/product/multi/dimensional/selector/components
 
 
 ### Method changeVariant is removed.
@@ -15349,26 +14309,8 @@ moved to @spartacus/product/multi/dimensional/selector/components
 
 
 
-# Class ProductMultiDimensionalSelectorComponentModule
-## @spartacus/product-multi-dimensional/selector/components
-
-moved to @spartacus/product/multi/dimensional/selector/components
-
-
-
-
-# Class ProductMultiDimensionalSelectorComponentsModule
-## @spartacus/product-multi-dimensional/selector/components
-
-moved to @spartacus/product/multi/dimensional/selector/components
-
-
-
-
 # Class ProductMultiDimensionalSelectorGuard
 ## @spartacus/product-multi-dimensional/selector/components
-
-moved to @spartacus/product/multi/dimensional/selector/components
 
 
 ### Method canActivate is removed.
@@ -15385,22 +14327,6 @@ moved to @spartacus/product/multi/dimensional/selector/components
 
 ### Method getValidVariantCode is removed.
 
-
-
-
-
-# Variable multiDimensionalSelectorTranslationChunksConfig
-## @spartacus/product-multi-dimensional/selector/assets
-
-moved to @spartacus/product/multi/dimensional/selector/assets
-
-
-
-
-# Variable multiDimensionalSelectorTranslations
-## @spartacus/product-multi-dimensional/selector/assets
-
-moved to @spartacus/product/multi/dimensional/selector/assets
 
 
 
@@ -15558,34 +14484,8 @@ Variable multiDimensionalSelectorTranslationsZh has been removed and is no longe
 
 
 
-# Class ProductMultiDimensionalSelectorModule
-## @spartacus/product-multi-dimensional/selector
-
-moved to @spartacus/product/multi/dimensional/selector
-
-
-
-
-# Function defaultProductMultiDimensionalListConfig
-## @spartacus/product-multi-dimensional/list/root
-
-moved to @spartacus/product/multi/dimensional/list/root
-
-
-
-
-# Variable PRODUCT_MULTI_DIMENSIONAL_LIST_FEATURE
-## @spartacus/product-multi-dimensional/list/root
-
-moved to @spartacus/product/multi/dimensional/list/root
-
-
-
-
 # Class ProductMultiDimensionalListItemDetailsComponent
 ## @spartacus/product-multi-dimensional/list/root
-
-moved to @spartacus/product/multi/dimensional/list/root
 
 
 ### Method getProductPrice is removed.
@@ -15594,58 +14494,8 @@ moved to @spartacus/product/multi/dimensional/list/root
 
 
 
-# Class ProductMultiDimensionalListItemDetailsModule
-## @spartacus/product-multi-dimensional/list/root
-
-moved to @spartacus/product/multi/dimensional/list/root
-
-
-
-
-# Class ProductMultiDimensionalListRootModule
-## @spartacus/product-multi-dimensional/list/root
-
-moved to @spartacus/product/multi/dimensional/list/root
-
-
-
-
-# Class ProductMultiDimensionalSelectorModule
-## @spartacus/product-multi-dimensional
-
-moved to @spartacus/product/multi/dimensional/selector
-
-
-
-
-# Function defaultProductConfiguratorTextfieldComponentsConfig
-## @spartacus/product-configurator/textfield/root
-
-moved to @spartacus/product/configurator/textfield/root
-
-
-
-
-# Variable PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE
-## @spartacus/product-configurator/textfield/root
-
-moved to @spartacus/product/configurator/textfield/root
-
-
-
-
-# Class TextfieldConfiguratorRootFeatureModule
-## @spartacus/product-configurator/textfield/root
-
-moved to @spartacus/product/configurator/textfield/root
-
-
-
-
 # Class TextfieldConfiguratorRootModule
 ## @spartacus/product-configurator/textfield/root
-
-moved to @spartacus/product/configurator/textfield/root
 
 
 ### Method forRoot is removed.
@@ -15657,8 +14507,6 @@ moved to @spartacus/product/configurator/textfield/root
 # Class TextfieldConfiguratorRoutingModule
 ## @spartacus/product-configurator/textfield/root
 
-moved to @spartacus/product/configurator/textfield/root
-
 
 ### Method forRoot is removed.
 
@@ -15666,18 +14514,8 @@ moved to @spartacus/product/configurator/textfield/root
 
 
 
-# Variable CONFIGURATOR_TYPE_TEXTFIELD
-## @spartacus/product-configurator/textfield
-
-moved to @spartacus/product/configurator/textfield
-
-
-
-
 # Class ConfiguratorTextfieldAddToCartButtonComponent
 ## @spartacus/product-configurator/textfield
-
-moved to @spartacus/product/configurator/textfield
 
 
 ### Method getButtonText is removed.
@@ -15693,8 +14531,6 @@ moved to @spartacus/product/configurator/textfield
 # Class ConfiguratorTextfieldFormComponent
 ## @spartacus/product-configurator/textfield
 
-moved to @spartacus/product/configurator/textfield
-
 
 ### Method updateConfiguration is removed.
 
@@ -15704,8 +14540,6 @@ moved to @spartacus/product/configurator/textfield
 
 # Class ConfiguratorTextfieldInputFieldComponent
 ## @spartacus/product-configurator/textfield
-
-moved to @spartacus/product/configurator/textfield
 
 
 ### Method getId is removed.
@@ -15733,8 +14567,6 @@ moved to @spartacus/product/configurator/textfield
 # Class ConfiguratorTextfieldInputFieldReadonlyComponent
 ## @spartacus/product-configurator/textfield
 
-moved to @spartacus/product/configurator/textfield
-
 
 ### Method getIdLabel is removed.
 
@@ -15748,8 +14580,6 @@ moved to @spartacus/product/configurator/textfield
 
 # Class OccConfiguratorTextfieldAdapter
 ## @spartacus/product-configurator/textfield
-
-moved to @spartacus/product/configurator/textfield
 
 
 ### Method addToCart is removed.
@@ -15777,8 +14607,6 @@ moved to @spartacus/product/configurator/textfield
 # Class OccConfiguratorTextfieldAddToCartSerializer
 ## @spartacus/product-configurator/textfield
 
-moved to @spartacus/product/configurator/textfield
-
 
 ### Method convert is removed.
 
@@ -15793,8 +14621,6 @@ moved to @spartacus/product/configurator/textfield
 # Class OccConfiguratorTextfieldNormalizer
 ## @spartacus/product-configurator/textfield
 
-moved to @spartacus/product/configurator/textfield
-
 
 ### Method convert is removed.
 
@@ -15802,42 +14628,8 @@ moved to @spartacus/product/configurator/textfield
 
 
 
-# Class TextfieldConfiguratorComponentsModule
-## @spartacus/product-configurator/textfield
-
-moved to @spartacus/product/configurator/textfield
-
-
-
-
-# Class TextfieldConfiguratorCoreModule
-## @spartacus/product-configurator/textfield
-
-moved to @spartacus/product/configurator/textfield
-
-
-
-
-# Class TextfieldConfiguratorModule
-## @spartacus/product-configurator/textfield
-
-moved to @spartacus/product/configurator/textfield
-
-
-
-
-# Class TextfieldConfiguratorOccModule
-## @spartacus/product-configurator/textfield
-
-moved to @spartacus/product/configurator/textfield
-
-
-
-
 # Class ConfiguratorBadRequestHandler
 ## @spartacus/product-configurator/rulebased/root
-
-moved to @spartacus/product/configurator/rulebased/root
 
 
 ### Method getIllegalStateErrorsRelatedToProductConfigurator is removed.
@@ -15878,66 +14670,8 @@ moved to @spartacus/product/configurator/rulebased/root
 
 
 
-# Class CpqConfiguratorInteractiveModule
-## @spartacus/product-configurator/rulebased/root
-
-moved to @spartacus/product/configurator/rulebased/root
-
-
-
-
-# Class CpqConfiguratorLayoutModule
-## @spartacus/product-configurator/rulebased/root
-
-moved to @spartacus/product/configurator/rulebased/root
-
-
-
-
-# Class CpqConfiguratorOverviewModule
-## @spartacus/product-configurator/rulebased/root
-
-moved to @spartacus/product/configurator/rulebased/root
-
-
-
-
-# Class CpqConfiguratorRootModule
-## @spartacus/product-configurator/rulebased/root
-
-moved to @spartacus/product/configurator/rulebased/root
-
-
-
-
-# Function defaultProductConfiguratorRulebasedComponentsConfig
-## @spartacus/product-configurator/rulebased/root
-
-moved to @spartacus/product/configurator/rulebased/root
-
-
-
-
-# Variable PRODUCT_CONFIGURATOR_RULEBASED_FEATURE
-## @spartacus/product-configurator/rulebased/root
-
-moved to @spartacus/product/configurator/rulebased/root
-
-
-
-
-# Class RulebasedConfiguratorRootFeatureModule
-## @spartacus/product-configurator/rulebased/root
-
-moved to @spartacus/product/configurator/rulebased/root
-
-
-
-
 # Class RulebasedConfiguratorRootModule
 ## @spartacus/product-configurator/rulebased/root
-
-moved to @spartacus/product/configurator/rulebased/root
 
 
 ### Method forRoot is removed.
@@ -15949,8 +14683,6 @@ moved to @spartacus/product/configurator/rulebased/root
 # Class RulebasedConfiguratorRoutingModule
 ## @spartacus/product-configurator/rulebased/root
 
-moved to @spartacus/product/configurator/rulebased/root
-
 
 ### Method forRoot is removed.
 
@@ -15958,94 +14690,12 @@ moved to @spartacus/product/configurator/rulebased/root
 
 
 
-# Class VariantConfiguratorInteractiveLayoutModule
-## @spartacus/product-configurator/rulebased/root
-
-moved to @spartacus/product/configurator/rulebased/root
-
-
-
-
-# Class VariantConfiguratorInteractiveModule
-## @spartacus/product-configurator/rulebased/root
-
-moved to @spartacus/product/configurator/rulebased/root
-
-
-
-
-# Class VariantConfiguratorOverviewLayoutModule
-## @spartacus/product-configurator/rulebased/root
-
-moved to @spartacus/product/configurator/rulebased/root
-
-
-
-
-# Class VariantConfiguratorOverviewModule
-## @spartacus/product-configurator/rulebased/root
-
-moved to @spartacus/product/configurator/rulebased/root
-
-
-
-
 # Class VariantConfiguratorPageLayoutHandler
 ## @spartacus/product-configurator/rulebased/root
-
-moved to @spartacus/product/configurator/rulebased/root
 
 
 ### Method handle is removed.
 
-
-
-
-
-# Variable CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER
-## @spartacus/product-configurator/rulebased/cpq
-
-moved to @spartacus/product/configurator/rulebased/cpq
-
-
-
-
-# Variable CPQ_CONFIGURATOR_NORMALIZER
-## @spartacus/product-configurator/rulebased/cpq
-
-moved to @spartacus/product/configurator/rulebased/cpq
-
-
-
-
-# Variable CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER
-## @spartacus/product-configurator/rulebased/cpq
-
-moved to @spartacus/product/configurator/rulebased/cpq
-
-
-
-
-# Variable CPQ_CONFIGURATOR_QUANTITY_SERIALIZER
-## @spartacus/product-configurator/rulebased/cpq
-
-moved to @spartacus/product/configurator/rulebased/cpq
-
-
-
-
-# Variable CPQ_CONFIGURATOR_SERIALIZER
-## @spartacus/product-configurator/rulebased/cpq
-
-moved to @spartacus/product/configurator/rulebased/cpq
-
-
-
-
-# Variable CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER
-## @spartacus/product-configurator/rulebased/cpq
-
-moved to @spartacus/product/configurator/rulebased/cpq
 
 
 
@@ -16181,18 +14831,8 @@ Interface Cpq.Value has been removed and is no longer part of the public API.
 
 
 
-# Class CpqConfiguratorCommonModule
-## @spartacus/product-configurator/rulebased/cpq
-
-moved to @spartacus/product/configurator/rulebased/cpq
-
-
-
-
 # Class CpqConfiguratorNormalizer
 ## @spartacus/product-configurator/rulebased/cpq
-
-moved to @spartacus/product/configurator/rulebased/cpq
 
 
 ### Method compileAttributeIncomplete is removed.
@@ -16264,8 +14904,6 @@ moved to @spartacus/product/configurator/rulebased/cpq
 # Class CpqConfiguratorNormalizerUtilsService
 ## @spartacus/product-configurator/rulebased/cpq
 
-moved to @spartacus/product/configurator/rulebased/cpq
-
 
 ### Method calculateAttributePriceTotal is removed.
 
@@ -16320,8 +14958,6 @@ moved to @spartacus/product/configurator/rulebased/cpq
 # Class CpqConfiguratorOccAdapter
 ## @spartacus/product-configurator/rulebased/cpq
 
-moved to @spartacus/product/configurator/rulebased/cpq
-
 
 ### Method addToCart is removed.
 
@@ -16373,18 +15009,8 @@ moved to @spartacus/product/configurator/rulebased/cpq
 
 
 
-# Class CpqConfiguratorOccModule
-## @spartacus/product-configurator/rulebased/cpq
-
-moved to @spartacus/product/configurator/rulebased/cpq
-
-
-
-
 # Class CpqConfiguratorOccService
 ## @spartacus/product-configurator/rulebased/cpq
-
-moved to @spartacus/product/configurator/rulebased/cpq
 
 
 ### Method addToCart is removed.
@@ -16464,8 +15090,6 @@ moved to @spartacus/product/configurator/rulebased/cpq
 # Class CpqConfiguratorOverviewNormalizer
 ## @spartacus/product-configurator/rulebased/cpq
 
-moved to @spartacus/product/configurator/rulebased/cpq
-
 
 ### Method calculateTotalNumberOfIssues is removed.
 
@@ -16500,8 +15124,6 @@ moved to @spartacus/product/configurator/rulebased/cpq
 # Class CpqConfiguratorSerializer
 ## @spartacus/product-configurator/rulebased/cpq
 
-moved to @spartacus/product/configurator/rulebased/cpq
-
 
 ### Method convert is removed.
 
@@ -16532,8 +15154,6 @@ moved to @spartacus/product/configurator/rulebased/cpq
 # Class CpqConfiguratorUtils
 ## @spartacus/product-configurator/rulebased/cpq
 
-moved to @spartacus/product/configurator/rulebased/cpq
-
 
 ### Method findFirstChangedAttribute is removed.
 
@@ -16547,8 +15167,6 @@ moved to @spartacus/product/configurator/rulebased/cpq
 
 # Class CpqConfiguratorValueSerializer
 ## @spartacus/product-configurator/rulebased/cpq
-
-moved to @spartacus/product/configurator/rulebased/cpq
 
 
 ### Method convert is removed.
@@ -16568,8 +15186,6 @@ moved to @spartacus/product/configurator/rulebased/cpq
 # Class OccConfiguratorCpqAddToCartSerializer
 ## @spartacus/product-configurator/rulebased/cpq
 
-moved to @spartacus/product/configurator/rulebased/cpq
-
 
 ### Method convert is removed.
 
@@ -16579,8 +15195,6 @@ moved to @spartacus/product/configurator/rulebased/cpq
 
 # Class OccConfiguratorCpqUpdateCartEntrySerializer
 ## @spartacus/product-configurator/rulebased/cpq
-
-moved to @spartacus/product/configurator/rulebased/cpq
 
 
 ### Method convert is removed.
@@ -16625,46 +15239,12 @@ Interface OccCpqConfigurator.UpdateConfigurationForCartEntryParameters has been 
 
 
 
-# Class RulebasedCpqConfiguratorModule
-## @spartacus/product-configurator/rulebased/cpq
-
-moved to @spartacus/product/configurator/rulebased/cpq
-
-
-
-
 # Interface AttributeComponentAssignment
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### IndexSignature undefined is removed.
 
-
-
-
-
-# Class ConfigFormUpdateEvent
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Variable CONFIGURATOR_DATA
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Variable CONFIGURATOR_FEATURE
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -16996,15 +15576,11 @@ Namespace ConfiguratorActions has been removed and is no longer part of the publ
 # Variable ConfiguratorActions.ADD_NEXT_OWNER
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.ADD_TO_CART
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17012,15 +15588,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.AddNextOwner
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.AddToCart
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17028,15 +15600,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.CHANGE_GROUP_FINALIZE
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.CHANGE_GROUP
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17044,15 +15612,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.ChangeGroup
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.ChangeGroupFinalize
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17060,15 +15624,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.CHECK_CONFLICT_DIALOG
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.CheckConflictDialoge
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17076,15 +15636,11 @@ moved to @spartacus/product/configurator/rulebased
 # TypeAlias ConfiguratorActions.ConfiguratorAction
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # TypeAlias ConfiguratorActions.ConfiguratorCartAction
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17092,15 +15648,11 @@ moved to @spartacus/product/configurator/rulebased
 # TypeAlias ConfiguratorActions.ConfiguratorVariantAction
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.CREATE_CONFIGURATION_FAIL
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17108,15 +15660,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.CREATE_CONFIGURATION
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17124,15 +15672,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.CreateConfiguration
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.CreateConfigurationFail
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17140,15 +15684,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.CreateConfigurationSuccess
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.DISMISS_CONFLICT_DIALOG
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17156,15 +15696,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.DissmissConflictDialoge
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_FAIL
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17172,15 +15708,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.GET_CONFIGURATION_OVERVIEW
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17188,15 +15720,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.GetConfigurationOverview
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.GetConfigurationOverviewFail
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17204,15 +15732,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.GetConfigurationOverviewSuccess
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.READ_ATTRIBUTE_DOMAIN
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17220,15 +15744,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION_FAIL
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17236,15 +15756,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.READ_CONFIGURATION_FAIL
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17252,15 +15768,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.READ_CONFIGURATION_SUCCESS
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.READ_CONFIGURATION
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17268,15 +15780,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.READ_ORDER_ENTRY_CONFIGURATION_FAIL
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.READ_ORDER_ENTRY_CONFIGURATION_SUCCESS
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17284,15 +15792,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.READ_ORDER_ENTRY_CONFIGURATION
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.ReadAttributeDomain
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17300,15 +15804,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.ReadCartEntryConfiguration
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.ReadCartEntryConfigurationFail
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17316,15 +15816,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.ReadCartEntryConfigurationSuccess
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.ReadConfiguration
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17332,15 +15828,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.ReadConfigurationFail
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.ReadConfigurationSuccess
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17348,15 +15840,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.ReadOrderEntryConfiguration
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.ReadOrderEntryConfigurationFail
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17364,15 +15852,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.ReadOrderEntryConfigurationSuccess
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.REMOVE_CART_BOUND_CONFIGURATIONS
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17380,15 +15864,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.REMOVE_CONFIGURATION
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.REMOVE_PRODUCT_BOUND_CONFIGURATIONS
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17396,15 +15876,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.RemoveCartBoundConfigurations
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.RemoveConfiguration
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17412,15 +15888,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.RemoveProductBoundConfigurations
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.SEARCH_VARIANTS_FAIL
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17428,15 +15900,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.SEARCH_VARIANTS_SUCCESS
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.SEARCH_VARIANTS
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17444,15 +15912,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.SearchVariants
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.SearchVariantsFail
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17460,15 +15924,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.SearchVariantsSuccess
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.SET_CURRENT_GROUP
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17476,15 +15936,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.SET_GROUPS_VISITED
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.SET_INTERACTION_STATE
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17492,15 +15948,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.SET_MENU_PARENT_GROUP
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17508,15 +15960,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.SetCurrentGroup
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.SetGroupsVisited
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17524,15 +15972,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.SetInteractionState
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.SetMenuParentGroup
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17540,15 +15984,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.SetNextOwnerCartEntry
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.UPDATE_CART_ENTRY_SUCCESS
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17556,15 +15996,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.UPDATE_CART_ENTRY
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.UPDATE_CONFIGURATION_FAIL
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17572,15 +16008,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_FAIL
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_SUCCESS
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17588,15 +16020,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.UPDATE_CONFIGURATION_OVERVIEW_FAIL
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.UPDATE_CONFIGURATION_OVERVIEW_SUCCESS
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17604,15 +16032,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.UPDATE_CONFIGURATION_OVERVIEW
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17620,15 +16044,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.UPDATE_CONFIGURATION
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.UPDATE_PRICE_SUMMARY_FAIL
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17636,15 +16056,11 @@ moved to @spartacus/product/configurator/rulebased
 # Variable ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorActions.UPDATE_PRICE_SUMMARY
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17652,15 +16068,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.UpdateCartEntry
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.UpdateConfiguration
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17668,15 +16080,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.UpdateConfigurationFail
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.UpdateConfigurationFinalizeFail
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17684,15 +16092,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.UpdateConfigurationFinalizeSuccess
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.UpdateConfigurationOverview
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17700,15 +16104,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.UpdateConfigurationOverviewFail
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.UpdateConfigurationOverviewSuccess
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17716,15 +16116,11 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.UpdateConfigurationSuccess
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.UpdatePriceSummary
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -17732,23 +16128,17 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorActions.UpdatePriceSummaryFail
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorActions.UpdatePriceSummarySuccess
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Class ConfiguratorAddToCartButtonComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method displayConfirmationMessage is removed.
@@ -17837,18 +16227,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorAddToCartButtonModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorAttributeBaseComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method createAriaLabelledBy is removed.
@@ -17972,8 +16352,6 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorAttributeCheckBoxComponent
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### Method assembleSingleValue is removed.
 
@@ -17995,8 +16373,6 @@ moved to @spartacus/product/configurator/rulebased
 
 # Class ConfiguratorAttributeCheckBoxListComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Property allowZeroValueQuantity is removed.
@@ -18021,26 +16397,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorAttributeCheckboxListModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Class ConfiguratorAttributeCheckboxModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Interface ConfiguratorAttributeComposition
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### PropertySignature assignment is removed.
@@ -18049,26 +16407,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorAttributeCompositionConfig
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Class ConfiguratorAttributeCompositionContext
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorAttributeCompositionDirective
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method getComponentInjector is removed.
@@ -18089,18 +16429,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorAttributeCompositionModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorAttributeDropDownComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method getSelectedValue is removed.
@@ -18117,18 +16447,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorAttributeDropDownModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorAttributeFooterComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method isUserInputEmpty is removed.
@@ -18153,18 +16473,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorAttributeFooterModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorAttributeHeaderComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method findConflictGroupId is removed.
@@ -18249,18 +16559,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorAttributeHeaderModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorAttributeInputFieldComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method activateDebounceDate is removed.
@@ -18305,18 +16605,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorAttributeInputFieldModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorAttributeMultiSelectionBaseComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Property disableQuantityActions is removed.
@@ -18347,8 +16637,6 @@ moved to @spartacus/product/configurator/rulebased
 
 # Class ConfiguratorAttributeMultiSelectionBundleComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method extractPriceFormulaParameters is removed.
@@ -18397,18 +16685,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorAttributeMultiSelectionBundleModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorAttributeMultiSelectionImageComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method ngOnInit is removed.
@@ -18421,34 +16699,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorAttributeMultiSelectionImageModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Class ConfiguratorAttributeNotSupportedComponent
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Class ConfiguratorAttributeNotSupportedModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorAttributeNumericInputFieldComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method getAdditionalIntervalText is removed.
@@ -18513,18 +16765,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorAttributeNumericInputFieldModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorAttributeNumericInputFieldService
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method checkIfPartOfIntervals is removed.
@@ -18596,8 +16838,6 @@ moved to @spartacus/product/configurator/rulebased
 # Interface ConfiguratorAttributeNumericInterval
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### PropertySignature maxValue is removed.
 
@@ -18620,8 +16860,6 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorAttributePriceChangeService
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### Method checkForValuePriceChanges is removed.
 
@@ -18635,8 +16873,6 @@ moved to @spartacus/product/configurator/rulebased
 
 # Class ConfiguratorAttributeProductCardComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method extractPriceFormulaParameters is removed.
@@ -18720,8 +16956,6 @@ moved to @spartacus/product/configurator/rulebased
 # Interface ConfiguratorAttributeProductCardComponentOptions
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### PropertySignature attributeId is removed.
 
@@ -18777,18 +17011,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorAttributeProductCardModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorAttributeQuantityComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method ngOnDestroy is removed.
@@ -18812,8 +17036,6 @@ moved to @spartacus/product/configurator/rulebased
 # Interface ConfiguratorAttributeQuantityComponentOptions
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### PropertySignature allowZero is removed.
 
@@ -18829,18 +17051,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorAttributeQuantityModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorAttributeQuantityService
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method allowZeroValueQuantity is removed.
@@ -18868,8 +17080,6 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorAttributeRadioButtonComponent
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### Method ngOnInit is removed.
 
@@ -18877,18 +17087,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorAttributeRadioButtonModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorAttributeReadOnlyComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method getAriaLabel is removed.
@@ -18905,18 +17105,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorAttributeReadOnlyModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorAttributeSingleSelectionBaseComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Property disableQuantityActions is removed.
@@ -18988,8 +17178,6 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorAttributeSingleSelectionBundleComponent
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### Method extractProductCardParameters is removed.
 
@@ -19003,8 +17191,6 @@ moved to @spartacus/product/configurator/rulebased
 
 # Class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method extractProductCardParameters is removed.
@@ -19029,29 +17215,15 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorAttributeSingleSelectionBundleDropdownModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Class ConfiguratorAttributeSingleSelectionBundleModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorAttributeSingleSelectionImageComponent
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### Method extractValuePriceFormulaParameters is removed.
+
+
+
+### Property featureConfigService is removed.
 
 
 
@@ -19069,18 +17241,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorAttributeSingleSelectionImageModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorBasicEffectService
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method getFirstGroupWithAttributes is removed.
@@ -19095,8 +17257,6 @@ moved to @spartacus/product/configurator/rulebased
 
 # Class ConfiguratorCartService
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method activeCartHasIssues is removed.
@@ -19139,8 +17299,6 @@ moved to @spartacus/product/configurator/rulebased
 
 # Class ConfiguratorCommonsService
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method checkConflictSolverDialog is removed.
@@ -19216,8 +17374,6 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorConflictAndErrorMessagesComponent
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### Method toggleErrors is removed.
 
@@ -19229,18 +17385,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorConflictAndErrorMessagesModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorConflictDescriptionComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method displayConflictDescription is removed.
@@ -19249,18 +17395,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorConflictDescriptionModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorConflictSolverDialogComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method dismissModal is removed.
@@ -19283,8 +17419,6 @@ moved to @spartacus/product/configurator/rulebased
 
 # Class ConfiguratorConflictSolverDialogLauncherService
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method closeModal is removed.
@@ -19309,18 +17443,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorConflictSolverDialogModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorConflictSuggestionComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method createSuggestionUiKey is removed.
@@ -19333,26 +17457,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorConflictSuggestionModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Class ConfiguratorCoreConfig
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorExitButtonComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method exitConfiguration is removed.
@@ -19373,18 +17479,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorExitButtonModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorExpertModeService
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method getExpModeActive is removed.
@@ -19407,8 +17503,6 @@ moved to @spartacus/product/configurator/rulebased
 
 # Class ConfiguratorFormComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method displayConflictResolvedMessage is removed.
@@ -19437,18 +17531,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorFormModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorGroupComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method createAttributeUiKey is removed.
@@ -19483,8 +17567,6 @@ moved to @spartacus/product/configurator/rulebased
 
 # Class ConfiguratorGroupMenuComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method click is removed.
@@ -19609,26 +17691,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorGroupMenuModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Class ConfiguratorGroupModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorGroupsService
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method getConflictGroupForImmediateConflictResolution is removed.
@@ -19720,8 +17784,6 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorGroupStatusService
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### Method areGroupsVisited is removed.
 
@@ -19748,8 +17810,6 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorGroupTitleComponent
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### Method getGroupTitle is removed.
 
@@ -19773,18 +17833,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorGroupTitleModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorLanguageSetEventListener
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method ngOnDestroy is removed.
@@ -19800,8 +17850,6 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorLogoutEventListener
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### Method ngOnDestroy is removed.
 
@@ -19813,18 +17861,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorMessageConfig
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorOverviewAttributeComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method extractPriceFormulaParameters is removed.
@@ -19837,18 +17875,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorOverviewAttributeModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorOverviewBundleAttributeComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method displayPrice is removed.
@@ -19877,18 +17905,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorOverviewBundleAttributeModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorOverviewFilterBarComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method createInputConfig is removed.
@@ -19933,18 +17951,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorOverviewFilterBarModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorOverviewFilterButtonComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method getNumFilters is removed.
@@ -19961,18 +17969,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorOverviewFilterButtonModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorOverviewFilterComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method collectAttrFilters is removed.
@@ -20012,8 +18010,6 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorOverviewFilterDialogComponent
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### Method closeFilterModal is removed.
 
@@ -20021,26 +18017,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorOverviewFilterDialogModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Class ConfiguratorOverviewFilterModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorOverviewFormComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method getGroupId is removed.
@@ -20073,18 +18051,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorOverviewFormModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorOverviewMenuComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method adjustStyling is removed.
@@ -20161,34 +18129,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorOverviewMenuModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Class ConfiguratorOverviewNotificationBannerComponent
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Class ConfiguratorOverviewNotificationBannerModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorOverviewSidebarComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method getTabIndexForFilterTab is removed.
@@ -20213,18 +18155,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorOverviewSidebarModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorPreviousNextButtonsComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method focusFirstAttribute is removed.
@@ -20257,18 +18189,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorPreviousNextButtonsModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorPriceComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method addSign is removed.
@@ -20324,8 +18246,6 @@ moved to @spartacus/product/configurator/rulebased
 # Interface ConfiguratorPriceComponentOptions
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### PropertySignature isLightedUp is removed.
 
@@ -20345,34 +18265,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorPriceModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Class ConfiguratorPriceSummaryComponent
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Class ConfiguratorPriceSummaryModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorProductTitleComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Property expMode is removed.
@@ -20389,18 +18283,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorProductTitleModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorQuantityService
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method getQuantity is removed.
@@ -20415,8 +18299,6 @@ moved to @spartacus/product/configurator/rulebased
 
 # Class ConfiguratorRestartDialogComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method backToPDP is removed.
@@ -20437,18 +18319,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorRestartDialogModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorRouterListener
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method isConfiguratorRelatedRoute is removed.
@@ -20461,14 +18333,6 @@ moved to @spartacus/product/configurator/rulebased
 
 ### Method observeRouterChanges is removed.
 
-
-
-
-
-# Class ConfiguratorRouterModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -20512,15 +18376,11 @@ Function ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory has bee
 # Variable ConfiguratorSelectors.getConfigurationsState
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 
 
 # Variable ConfiguratorSelectors.getConfigurationState
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -20555,8 +18415,6 @@ Function ConfiguratorSelectors.isGroupVisited has been removed and is no longer 
 # Class ConfiguratorShowMoreComponent
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### Method ngAfterViewInit is removed.
 
@@ -20572,18 +18430,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorShowMoreModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorShowOptionsComponent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method focusFirstValue is removed.
@@ -20596,18 +18444,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorShowOptionsModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Interface ConfiguratorState
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### PropertySignature configurations is removed.
@@ -20618,8 +18456,6 @@ moved to @spartacus/product/configurator/rulebased
 
 # Class ConfiguratorStorefrontUtilsService
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method assembleValuesForMultiSelectAttributes is removed.
@@ -20759,8 +18595,6 @@ moved to @spartacus/product/configurator/rulebased
 # Class ConfiguratorTabBarComponent
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### Method determinePageFromRouterData is removed.
 
@@ -20800,42 +18634,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class ConfiguratorTabBarModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Class ConfiguratorUISettingsConfig
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Class ConfiguratorUpdateMessageComponent
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Class ConfiguratorUpdateMessageModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class ConfiguratorUtilsService
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method buildGroupForExtract is removed.
@@ -20880,22 +18680,6 @@ moved to @spartacus/product/configurator/rulebased
 
 ### Method isConfigurationCreated is removed.
 
-
-
-
-
-# Class ConfiguratorVariantCarouselComponent
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Class ConfiguratorVariantCarouselModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 
@@ -20957,7 +18741,7 @@ Interface OccConfigurator.Configuration has been removed and is no longer part o
 # Interface OccConfigurator.ConfigurationInfo
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/common
+moved to @spartacus/product-configurator/common
 
 
 ### PropertySignature configuratorType is removed.
@@ -21166,8 +18950,6 @@ Interface OccConfigurator.ValueSupplements has been removed and is no longer par
 # Class OccConfiguratorVariantAddToCartSerializer
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### Method convert is removed.
 
@@ -21177,8 +18959,6 @@ moved to @spartacus/product/configurator/rulebased
 
 # Class OccConfiguratorVariantNormalizer
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method addRetractValue is removed.
@@ -21302,8 +19082,6 @@ moved to @spartacus/product/configurator/rulebased
 # Class OccConfiguratorVariantOverviewNormalizer
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### Method convert is removed.
 
@@ -21326,8 +19104,6 @@ moved to @spartacus/product/configurator/rulebased
 # Class OccConfiguratorVariantOverviewSerializer
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### Method convert is removed.
 
@@ -21346,8 +19122,6 @@ moved to @spartacus/product/configurator/rulebased
 # Class OccConfiguratorVariantPriceSummaryNormalizer
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### Method convert is removed.
 
@@ -21357,8 +19131,6 @@ moved to @spartacus/product/configurator/rulebased
 
 # Class OccConfiguratorVariantSerializer
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method convert is removed.
@@ -21410,8 +19182,6 @@ moved to @spartacus/product/configurator/rulebased
 # Class OccConfiguratorVariantUpdateCartEntrySerializer
 ## @spartacus/product-configurator/rulebased
 
-moved to @spartacus/product/configurator/rulebased
-
 
 ### Method convert is removed.
 
@@ -21421,8 +19191,6 @@ moved to @spartacus/product/configurator/rulebased
 
 # Interface QuantityUpdateEvent
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### PropertySignature quantity is removed.
@@ -21437,8 +19205,6 @@ moved to @spartacus/product/configurator/rulebased
 
 # Class RulebasedConfiguratorAdapter
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method addToCart is removed.
@@ -21491,18 +19257,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class RulebasedConfiguratorComponentsModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class RulebasedConfiguratorConnector
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method addToCart is removed.
@@ -21559,26 +19315,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Class RulebasedConfiguratorCoreModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Class RulebasedConfiguratorModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Interface StateWithConfigurator
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### PropertySignature productConfigurator is removed.
@@ -21587,74 +19325,8 @@ moved to @spartacus/product/configurator/rulebased
 
 
 
-# Variable VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Variable VARIANT_CONFIGURATOR_NORMALIZER
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Variable VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Variable VARIANT_CONFIGURATOR_OVERVIEW_SERIALIZER
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Variable VARIANT_CONFIGURATOR_PRICE_NORMALIZER
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Variable VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Variable VARIANT_CONFIGURATOR_SERIALIZER
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Variable VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
 # Class VariantConfiguratorOccAdapter
 ## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
 
 
 ### Method addToCart is removed.
@@ -21715,30 +19387,6 @@ moved to @spartacus/product/configurator/rulebased
 
 ### Method updateConfigurationOverview is removed.
 
-
-
-
-
-# Class VariantConfiguratorOccModule
-## @spartacus/product-configurator/rulebased
-
-moved to @spartacus/product/configurator/rulebased
-
-
-
-
-# Variable configuratorTranslationChunksConfig
-## @spartacus/product-configurator/common/assets
-
-moved to @spartacus/product/configurator/common/assets
-
-
-
-
-# Variable configuratorTranslations
-## @spartacus/product-configurator/common/assets
-
-moved to @spartacus/product/configurator/common/assets
 
 
 
@@ -21941,34 +19589,8 @@ Interface CommonConfigurator.ReadConfigurationFromOrderEntryParameters has been 
 
 
 
-# Class CommonConfiguratorComponentsModule
-## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
-
-
-
-
-# Class CommonConfiguratorModule
-## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
-
-
-
-
-# Class CommonConfiguratorOccModule
-## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
-
-
-
-
 # Class CommonConfiguratorUtilsService
 ## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
 
 
 ### Method decomposeOwnerId is removed.
@@ -22016,8 +19638,6 @@ moved to @spartacus/product/configurator/common
 # Interface ConfigurationInfo
 ## @spartacus/product-configurator/common
 
-moved to @spartacus/product/configurator/common
-
 
 ### PropertySignature configurationLabel is removed.
 
@@ -22037,26 +19657,8 @@ moved to @spartacus/product/configurator/common
 
 
 
-# Enum ConfigurationInfoFields
-## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
-
-
-
-
-# Enum ConfigurationInfoSpecialFields
-## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
-
-
-
-
 # Class ConfiguratorCartEntryBundleInfoComponent
 ## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
 
 
 ### Method getButtonText is removed.
@@ -22085,18 +19687,8 @@ moved to @spartacus/product/configurator/common
 
 
 
-# Class ConfiguratorCartEntryBundleInfoModule
-## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
-
-
-
-
 # Class ConfiguratorCartEntryBundleInfoService
 ## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
 
 
 ### Method addLineItemData is removed.
@@ -22136,8 +19728,6 @@ moved to @spartacus/product/configurator/common
 # Class ConfiguratorCartEntryInfoComponent
 ## @spartacus/product-configurator/common
 
-moved to @spartacus/product/configurator/common
-
 
 ### Method getHiddenConfigurationInfoId is removed.
 
@@ -22153,18 +19743,8 @@ moved to @spartacus/product/configurator/common
 
 
 
-# Class ConfiguratorCartEntryInfoModule
-## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
-
-
-
-
 # Class ConfiguratorIssuesNotificationComponent
 ## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
 
 
 ### Method getErrorMessageId is removed.
@@ -22181,18 +19761,8 @@ moved to @spartacus/product/configurator/common
 
 
 
-# Class ConfiguratorIssuesNotificationModule
-## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
-
-
-
-
 # Class ConfiguratorModelUtils
 ## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
 
 
 ### Method createInitialOwner is removed.
@@ -22209,14 +19779,6 @@ moved to @spartacus/product/configurator/common
 
 ### Method isInitialOwner is removed.
 
-
-
-
-
-# Enum ConfiguratorProductScope
-## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
 
 
 
@@ -22270,8 +19832,6 @@ CATALOG_PAGE
 # Class ConfiguratorRouterExtractorService
 ## @spartacus/product-configurator/common
 
-moved to @spartacus/product/configurator/common
-
 
 ### Method createOwnerFromRouterState is removed.
 
@@ -22287,18 +19847,8 @@ moved to @spartacus/product/configurator/common
 
 
 
-# Enum ConfiguratorType
-## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
-
-
-
-
 # Class ConfigureCartEntryComponent
 ## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
 
 
 ### Method getDisplayOnly is removed.
@@ -22335,18 +19885,8 @@ moved to @spartacus/product/configurator/common
 
 
 
-# Class ConfigureCartEntryModule
-## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
-
-
-
-
 # Class ConfigureProductComponent
 ## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
 
 
 ### Method getAriaLabelTranslationKey is removed.
@@ -22383,18 +19923,8 @@ moved to @spartacus/product/configurator/common
 
 
 
-# Class ConfigureProductModule
-## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
-
-
-
-
 # Interface LineItem
 ## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
 
 
 ### PropertySignature formattedPrice is removed.
@@ -22411,34 +19941,8 @@ moved to @spartacus/product/configurator/common
 
 
 
-# Enum OrderEntryStatus
-## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
-
-
-
-
-# Interface ProductConfiguratorConfig
-## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
-
-
-
-
-# Variable ReadOnlyPostfix
-## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
-
-
-
-
 # Interface StatusSummary
 ## @spartacus/product-configurator/common
-
-moved to @spartacus/product/configurator/common
 
 
 ### PropertySignature numberOfIssues is removed.
@@ -22447,54 +19951,6 @@ moved to @spartacus/product/configurator/common
 
 ### PropertySignature status is removed.
 
-
-
-
-
-# TypeAlias AugmentedPointOfService
-## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
-
-
-
-
-# Function cartWithIdAndUserId
-## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
-
-
-
-
-# TypeAlias CartWithIdAndUserId
-## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
-
-
-
-
-# Function defaultPickupInStoreComponentsConfig
-## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
-
-
-
-
-# TypeAlias DeliveryPointOfService
-## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
-
-
-
-
-# TypeAlias DeliveryPointOfServiceItems
-## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
 
 
 
@@ -22510,8 +19966,6 @@ Function getProperty has been removed and is no longer part of the public API.
 
 # Class IntendedPickupLocationFacade
 ## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
 
 
 ### Method getIntendedLocation is removed.
@@ -22536,50 +19990,8 @@ moved to @spartacus/pickup/in/store/root
 
 
 
-# TypeAlias LocationSearchParams
-## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
-
-
-
-
-# TypeAlias PickRequiredDeep
-## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
-
-
-
-
-# Variable PICKUP_IN_STORE_CORE_FEATURE
-## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
-
-
-
-
-# Variable PICKUP_IN_STORE_FEATURE
-## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
-
-
-
-
-# Class PickupInStoreRootModule
-## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
-
-
-
-
 # Class PickupLocationsSearchFacade
 ## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
 
 
 ### Method clearSearchResults is removed.
@@ -22636,18 +20048,8 @@ moved to @spartacus/pickup/in/store/root
 
 
 
-# TypeAlias PickupOption
-## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
-
-
-
-
 # Class PickupOptionFacade
 ## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
 
 
 ### Method getPageContext is removed.
@@ -22668,26 +20070,8 @@ moved to @spartacus/pickup/in/store/root
 
 
 
-# TypeAlias PointOfServiceNames
-## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
-
-
-
-
-# Variable PREFERRED_STORE_LOCAL_STORAGE_KEY
-## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
-
-
-
-
 # Class PreferredStoreFacade
 ## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
 
 
 ### Method clearPreferredStore is removed.
@@ -22708,42 +20092,8 @@ moved to @spartacus/pickup/in/store/root
 
 
 
-# TypeAlias RequiredDeepPath
-## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
-
-
-
-
-# TypeAlias StockLocationSearchParams
-## @spartacus/pickup-in-store/root
-
-moved to @spartacus/pickup/in/store/root
-
-
-
-
-# Variable defaultOccPickupLocationConfig
-## @spartacus/pickup-in-store/occ
-
-moved to @spartacus/pickup/in/store/occ
-
-
-
-
-# Variable defaultOccStockConfig
-## @spartacus/pickup-in-store/occ
-
-moved to @spartacus/pickup/in/store/occ
-
-
-
-
 # Class OccPickupLocationAdapter
 ## @spartacus/pickup-in-store/occ
-
-moved to @spartacus/pickup/in/store/occ
 
 
 ### Method getStoreDetails is removed.
@@ -22754,8 +20104,6 @@ moved to @spartacus/pickup/in/store/occ
 
 # Class OccStockAdapter
 ## @spartacus/pickup-in-store/occ
-
-moved to @spartacus/pickup/in/store/occ
 
 
 ### Method loadStockLevelAtStore is removed.
@@ -22768,18 +20116,8 @@ moved to @spartacus/pickup/in/store/occ
 
 
 
-# Class PickupInStoreOccModule
-## @spartacus/pickup-in-store/occ
-
-moved to @spartacus/pickup/in/store/occ
-
-
-
-
 # Interface BrowserLocation
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 ### PropertySignature latitude is removed.
@@ -22804,39 +20142,17 @@ Namespace BrowserLocationActions has been removed and is no longer part of the p
 # Variable BrowserLocationActions.ADD_BROWSER_LOCATION
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable BrowserLocationActions.AddBrowserLocation
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # TypeAlias BrowserLocationActions.AddBrowserLocationProps
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Function clearStockState
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Variable defaultPickupInStoreConfig
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -22853,15 +20169,11 @@ Namespace DefaultPointOfServiceActions has been removed and is no longer part of
 # Variable DefaultPointOfServiceActions.LOAD_DEFAULT_POINT_OF_SERVICE_SUCCESS
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable DefaultPointOfServiceActions.LOAD_DEFAULT_POINT_OF_SERVICE
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -22869,15 +20181,11 @@ moved to @spartacus/pickup/in/store/core
 # Variable DefaultPointOfServiceActions.LoadDefaultPointOfService
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable DefaultPointOfServiceActions.LoadDefaultPointOfServiceSuccess
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -22885,23 +20193,11 @@ moved to @spartacus/pickup/in/store/core
 # Variable DefaultPointOfServiceActions.SET_DEFAULT_POINT_OF_SERVICE
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable DefaultPointOfServiceActions.SetDefaultPointOfService
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Class DefaultPointOfServiceEffect
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -22918,48 +20214,6 @@ Namespace DefaultPointOfServiceSelectors has been removed and is no longer part 
 # Variable DefaultPointOfServiceSelectors.getPreferredStore
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Variable effects
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# TypeAlias EntryPickupOption
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Variable facadeProviders
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/subscription/billing/core
-
-
-
-
-# Function getPickupReducers
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Function getReducers
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
 
 
 
@@ -22974,64 +20228,6 @@ Namespace HideOutOfStockSelectors has been removed and is no longer part of the 
 
 # Variable HideOutOfStockSelectors.getHideOutOfStockState
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# TypeAlias IntendedPickupLocationsState
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Function isInStock
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Variable PICKUP_LOCATIONS_FEATURE
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Variable PICKUP_OPTION_FEATURE
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Class PickupInStoreConfig
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Class PickupInStoreCoreModule
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Class PickupInStoreStoreModule
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23048,15 +20244,11 @@ Namespace PickupLocationActions has been removed and is no longer part of the pu
 # Variable PickupLocationActions.ADD_LOCATION
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable PickupLocationActions.AddLocation
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23064,15 +20256,11 @@ moved to @spartacus/pickup/in/store/core
 # TypeAlias PickupLocationActions.AddLocationProps
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable PickupLocationActions.CART_RELOAD_SUCCESS
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23080,15 +20268,11 @@ moved to @spartacus/pickup/in/store/core
 # Variable PickupLocationActions.DELIVERY_MODE_SET_PICKUP_OPTION_TO_PICKUP_IN_STORE_SUCCESS
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable PickupLocationActions.GET_STORE_DETAILS
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23096,15 +20280,11 @@ moved to @spartacus/pickup/in/store/core
 # Variable PickupLocationActions.GetStoreDetailsById
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable PickupLocationActions.REMOVE_LOCATION
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23112,15 +20292,11 @@ moved to @spartacus/pickup/in/store/core
 # Variable PickupLocationActions.RemoveLocation
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable PickupLocationActions.SET_PICKUP_OPTION_TO_DELIVERY_SUCCESS
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23128,15 +20304,11 @@ moved to @spartacus/pickup/in/store/core
 # Variable PickupLocationActions.SET_PICKUP_OPTION_TO_DELIVERY
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable PickupLocationActions.SET_PICKUP_OPTION_TO_PICKUP_IN_STORE_SUCCESS
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23144,15 +20316,11 @@ moved to @spartacus/pickup/in/store/core
 # Variable PickupLocationActions.SET_PICKUP_OPTION_TO_PICKUP_IN_STORE
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable PickupLocationActions.SET_PICKUP_OPTION
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23160,31 +20328,11 @@ moved to @spartacus/pickup/in/store/core
 # Variable PickupLocationActions.SetPickupOption
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
-
-Variable SetPickupOption changed.
-
-Previous version:
-
-```
-SetPickupOption: ActionCreator<"[Pickup Locations] Set Pickup Option", (props: { payload: SetPickupOptionProps; }) => { payload: SetPickupOptionProps; } & Action<"[Pickup Locations] Set Pickup Option">>
-```
-
-
-Current version:
-
-```
-SetPickupOption: ActionCreator<"[PickupOption] Set Pickup Option", (props: { payload: { entryNumber: number; pickupOption: PickupOption; }; }) => { payload: { entryNumber: number; pickupOption: PickupOption; }; } & Action<"[PickupOption] Set Pickup Option">>
-```
-
 
 
 
 # TypeAlias PickupLocationActions.SetPickupOptionProps
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23201,15 +20349,11 @@ Function PickupLocationActions.SetStoreDetailsFailure has been removed and is no
 # Variable PickupLocationActions.SetStoreDetailsSuccess
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable PickupLocationActions.STORE_DETAILS_FAIL
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23217,15 +20361,11 @@ moved to @spartacus/pickup/in/store/core
 # Variable PickupLocationActions.STORE_DETAILS_SUCCESS
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Class PickupLocationAdapter
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 ### Method getStoreDetails is removed.
@@ -23237,8 +20377,6 @@ moved to @spartacus/pickup/in/store/core
 # Class PickupLocationConnector
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 ### Method getStoreDetails is removed.
 
@@ -23246,59 +20384,8 @@ moved to @spartacus/pickup/in/store/core
 
 
 
-# Class PickupLocationEffect
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-### Property storeDetails$ changed.
-
-
-Previous version:
-
-```
-storeDetails$: Observable<({ payload: any; error: any; } & Action<"[Pickup Locations] Get Store Details Fail">) | ({ payload: PointOfService; } & Action<"[Pickup Locations] Get Store Details Success">)> & CreateEffectMetadata
-```
-
-
-Current version:
-
-```
-storeDetails$: Observable<({ payload: PointOfService; } & Action<"[Pickup Locations] Get Store Details Success">) | ({ payload: any; error: any; } & Action<"[Pickup Locations] Get Store Details Fail">)> & CreateEffectMetadata
-```
-
-
-
-
-# Variable pickupLocationsMetaReducers
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Variable pickupLocationsReducersProvider
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Variable pickupLocationsReducersToken
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
 # Class PickupLocationsSearchService
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 ### Method clearSearchResults is removed.
@@ -23380,8 +20467,6 @@ Function PickupLocationsSelectors.getIntendedPickupLocationByProductCode has bee
 # Variable PickupLocationsSelectors.getIntendedPickupLocations
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
@@ -23405,8 +20490,6 @@ Function PickupLocationsSelectors.getStoreDetailsByName has been removed and is 
 
 # Interface PickupLocationsState
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 ### PropertySignature defaultPointOfService is removed.
@@ -23435,15 +20518,11 @@ Namespace PickupOptionActions has been removed and is no longer part of the publ
 # Variable PickupOptionActions.RemoveAllPickupOptions
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable PickupOptionActions.RemovePickupOption
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23451,39 +20530,27 @@ moved to @spartacus/pickup/in/store/core
 # Variable PickupOptionActions.SetPageContext
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable PickupOptionActions.SetPickupOption
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
+
+Variable SetPickupOption changed.
+
+Previous version:
+
+```
+SetPickupOption: ActionCreator<"[PickupOption] Set Pickup Option", (props: { payload: { entryNumber: number; pickupOption: PickupOption; }; }) => { payload: { entryNumber: number; pickupOption: PickupOption; }; } & Action<"[PickupOption] Set Pickup Option">>
+```
 
 
+Current version:
 
-
-# Variable pickupOptionMetaReducers
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Variable pickupOptionReducersProvider
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Variable pickupOptionReducersToken
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
+```
+SetPickupOption: ActionCreator<"[Pickup Locations] Set Pickup Option", (props: { payload: SetPickupOptionProps; }) => { payload: SetPickupOptionProps; } & Action<"[Pickup Locations] Set Pickup Option">>
+```
 
 
 
@@ -23518,8 +20585,6 @@ Function PickupOptionSelectors.getPickupOption has been removed and is no longer
 # Class PickupOptionService
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 ### Method getPageContext is removed.
 
@@ -23542,8 +20607,6 @@ moved to @spartacus/pickup/in/store/core
 # Interface PickupOptionState
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 ### PropertySignature pageContext is removed.
 
@@ -23557,8 +20620,6 @@ moved to @spartacus/pickup/in/store/core
 
 # Class PreferredStoreService
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 ### Method clearPreferredStore is removed.
@@ -23582,8 +20643,6 @@ moved to @spartacus/pickup/in/store/core
 # Interface StateWithPickupLocations
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 ### PropertySignature "pickup-locations" is removed.
 
@@ -23593,8 +20652,6 @@ moved to @spartacus/pickup/in/store/core
 
 # Interface StateWithPickupOption
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 ### PropertySignature "pickup-option" is removed.
@@ -23606,8 +20663,6 @@ moved to @spartacus/pickup/in/store/core
 # Interface StateWithStock
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 ### PropertySignature stock is removed.
 
@@ -23615,26 +20670,8 @@ moved to @spartacus/pickup/in/store/core
 
 
 
-# Variable STOCK_DATA
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Variable STOCK_FEATURE
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
 # Class StockAdapter
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 ### Method loadStockLevelAtStore is removed.
@@ -23650,8 +20687,6 @@ moved to @spartacus/pickup/in/store/core
 # Class StockConnector
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 ### Method loadStockLevelAtStore is removed.
 
@@ -23665,8 +20700,6 @@ moved to @spartacus/pickup/in/store/core
 
 # Class StockEffect
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 ### Property loadStockLevels$ changed.
@@ -23700,15 +20733,11 @@ Namespace StockLevelActions has been removed and is no longer part of the public
 # Variable StockLevelActions.CLEAR_STOCK_DATA
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Class StockLevelActions.ClearStockData
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23716,15 +20745,11 @@ moved to @spartacus/pickup/in/store/core
 # Variable StockLevelActions.STOCK_LEVEL_AT_STORE_SUCCESS
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable StockLevelActions.STOCK_LEVEL_AT_STORE
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23732,15 +20757,11 @@ moved to @spartacus/pickup/in/store/core
 # Variable StockLevelActions.STOCK_LEVEL_FAIL
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable StockLevelActions.STOCK_LEVEL_ON_HOLD
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23748,15 +20769,11 @@ moved to @spartacus/pickup/in/store/core
 # Variable StockLevelActions.STOCK_LEVEL_SUCCESS
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable StockLevelActions.STOCK_LEVEL
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23764,15 +20781,11 @@ moved to @spartacus/pickup/in/store/core
 # Class StockLevelActions.StockLevel
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # TypeAlias StockLevelActions.StockLevelAction
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23780,15 +20793,11 @@ moved to @spartacus/pickup/in/store/core
 # Variable StockLevelActions.StockLevelAtStore
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # TypeAlias StockLevelActions.StockLevelAtStoreAction
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23796,15 +20805,11 @@ moved to @spartacus/pickup/in/store/core
 # Variable StockLevelActions.StockLevelAtStoreSuccess
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Class StockLevelActions.StockLevelFail
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23812,55 +20817,17 @@ moved to @spartacus/pickup/in/store/core
 # Class StockLevelActions.StockLevelOnHold
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Class StockLevelActions.StockLevelSuccess
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # TypeAlias StockLevelActions.StockLevelSuccessPayload
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# TypeAlias StockLevelState
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Variable stockMetaReducers
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Variable stockReducersProvider
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Variable stockReducersToken
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23886,15 +20853,11 @@ Function StockSelectors.getStockAtStore has been removed and is no longer part o
 # Variable StockSelectors.getStockEntities
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable StockSelectors.getStockError
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23902,23 +20865,17 @@ moved to @spartacus/pickup/in/store/core
 # Variable StockSelectors.getStockLevelState
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable StockSelectors.getStockLoading
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
 # Variable StockSelectors.getStockSuccess
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 
@@ -23935,8 +20892,6 @@ Function StockSelectors.getStoresWithStockForProductCode has been removed and is
 # Variable StockSelectors.hasSearchStarted
 ## @spartacus/pickup-in-store/core
 
-moved to @spartacus/pickup/in/store/core
-
 
 
 
@@ -23951,8 +20906,6 @@ Function StockSelectors.hasSearchStartedForProductCode has been removed and is n
 
 # Interface StockState
 ## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
 
 
 ### PropertySignature browserLocation is removed.
@@ -23973,34 +20926,8 @@ moved to @spartacus/pickup/in/store/core
 
 
 
-# Function storeHasStock
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Variable TOGGLE_HIDE_OUT_OF_STOCK_OPTIONS
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
-# Variable ToggleHideOutOfStockOptionsAction
-## @spartacus/pickup-in-store/core
-
-moved to @spartacus/pickup/in/store/core
-
-
-
-
 # Class CartPickupOptionsContainerComponent
 ## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
 
 
 ### Method ngOnDestroy is removed.
@@ -24021,34 +20948,8 @@ moved to @spartacus/pickup/in/store/components
 
 
 
-# Class CartPickupOptionsContainerModule
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
-# Variable defaultPickupOptionsDialogLayoutConfig
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
-# TypeAlias IOutletContextData
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
 # Class MyPreferredStoreComponent
 ## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
 
 
 ### Method changeStore is removed.
@@ -24069,34 +20970,8 @@ moved to @spartacus/pickup/in/store/components
 
 
 
-# Class MyPreferredStoreModule
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
-# Class OrderConsignmentContainerModule
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
-# Function orderEntryWithRequiredFields
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
 # Class PdpPickupOptionsContainerComponent
 ## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
 
 
 ### Method ngOnDestroy is removed.
@@ -24121,26 +20996,8 @@ moved to @spartacus/pickup/in/store/components
 
 
 
-# Class PdpPickupOptionsContainerModule
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
-# Class PickupInfoComponent
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
 # Class PickupInfoContainerComponent
 ## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
 
 
 ### Method ngOnInit is removed.
@@ -24149,34 +21006,8 @@ moved to @spartacus/pickup/in/store/components
 
 
 
-# Class PickupInfoContainerModule
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
-# Class PickupInfoModule
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
-# Class PickupInStoreComponentsModule
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
 # Class PickupInStoreOrderConsignmentContainerComponent
 ## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
 
 
 ### Method ngOnInit is removed.
@@ -24188,8 +21019,6 @@ moved to @spartacus/pickup/in/store/components
 # Class PickUpItemsDetailsComponent
 ## @spartacus/pickup-in-store/components
 
-moved to @spartacus/pickup/in/store/components
-
 
 ### Method ngOnInit is removed.
 
@@ -24197,18 +21026,8 @@ moved to @spartacus/pickup/in/store/components
 
 
 
-# Class PickUpItemsDetailsModule
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
 # Class PickupOptionDialogComponent
 ## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
 
 
 ### Method close is removed.
@@ -24245,18 +21064,8 @@ moved to @spartacus/pickup/in/store/components
 
 
 
-# Class PickupOptionDialogModule
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
 # Class PickupOptionsComponent
 ## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
 
 
 ### Method initializeTabs is removed.
@@ -24293,26 +21102,8 @@ moved to @spartacus/pickup/in/store/components
 
 
 
-# Class PickupOptionsModule
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
-# Class StoreAddressComponent
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
 # Class StoreComponent
 ## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
 
 
 ### Method ngOnInit is removed.
@@ -24332,8 +21123,6 @@ moved to @spartacus/pickup/in/store/components
 # Class StoreListComponent
 ## @spartacus/pickup-in-store/components
 
-moved to @spartacus/pickup/in/store/components
-
 
 ### Method ngOnInit is removed.
 
@@ -24345,26 +21134,8 @@ moved to @spartacus/pickup/in/store/components
 
 
 
-# Class StoreListModule
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
-# Class StoreModule
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
 # Class StoreScheduleComponent
 ## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
 
 
 ### Method ngOnChanges is removed.
@@ -24375,8 +21146,6 @@ moved to @spartacus/pickup/in/store/components
 
 # Class StoreSearchComponent
 ## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
 
 
 ### Method onFindStores is removed.
@@ -24389,30 +21158,6 @@ moved to @spartacus/pickup/in/store/components
 
 ### Method useMyLocation is removed.
 
-
-
-
-
-# Class StoreSearchModule
-## @spartacus/pickup-in-store/components
-
-moved to @spartacus/pickup/in/store/components
-
-
-
-
-# Variable pickupInStoreTranslationChunksConfig
-## @spartacus/pickup-in-store/assets
-
-moved to @spartacus/pickup/in/store/assets
-
-
-
-
-# Variable pickupInStoreTranslations
-## @spartacus/pickup-in-store/assets
-
-moved to @spartacus/pickup/in/store/assets
 
 
 
@@ -24570,26 +21315,8 @@ Variable pickupInStoreTranslationsZh has been removed and is no longer part of t
 
 
 
-# Class PickupInStoreModule
-## @spartacus/pickup-in-store
-
-moved to @spartacus/pickup/in/store
-
-
-
-
-# Function defaultRequestedDeliveryDateComponentsConfig
-## @spartacus/pdf-invoices/root
-
-moved to @spartacus/requested/delivery/date/root
-
-
-
-
 # Interface InvoiceQueryParams
 ## @spartacus/pdf-invoices/root
-
-moved to @spartacus/pdf/invoices/root
 
 
 ### PropertySignature currentPage is removed.
@@ -24610,18 +21337,8 @@ moved to @spartacus/pdf/invoices/root
 
 
 
-# Enum InvoicesFields
-## @spartacus/pdf-invoices/root
-
-moved to @spartacus/pdf/invoices/root
-
-
-
-
 # Interface OrderInvoice
 ## @spartacus/pdf-invoices/root
-
-moved to @spartacus/pdf/invoices/root
 
 
 ### PropertySignature createdAt is removed.
@@ -24649,8 +21366,6 @@ moved to @spartacus/pdf/invoices/root
 # Interface OrderInvoiceList
 ## @spartacus/pdf-invoices/root
 
-moved to @spartacus/pdf/invoices/root
-
 
 ### PropertySignature invoices is removed.
 
@@ -24666,26 +21381,8 @@ moved to @spartacus/pdf/invoices/root
 
 
 
-# Variable PDF_INVOICES_CORE_FEATURE
-## @spartacus/pdf-invoices/root
-
-moved to @spartacus/pdf/invoices/root
-
-
-
-
-# Variable PDF_INVOICES_FEATURE
-## @spartacus/pdf-invoices/root
-
-moved to @spartacus/pdf/invoices/root
-
-
-
-
 # Class PDFInvoicesFacade
 ## @spartacus/pdf-invoices/root
-
-moved to @spartacus/pdf/invoices/root
 
 
 ### Method getInvoicePDF is removed.
@@ -24694,22 +21391,6 @@ moved to @spartacus/pdf/invoices/root
 
 ### Method getInvoicesForOrder is removed.
 
-
-
-
-
-# Function pdfInvoicesFacadeFactory
-## @spartacus/pdf-invoices/root
-
-moved to @spartacus/pdf/invoices/root
-
-
-
-
-# Class PDFInvoicesRootModule
-## @spartacus/pdf-invoices/root
-
-moved to @spartacus/pdf/invoices/root
 
 
 
@@ -24717,8 +21398,6 @@ moved to @spartacus/pdf/invoices/root
 # Class OccPDFInvoicesAdapter
 ## @spartacus/pdf-invoices/occ
 
-moved to @spartacus/pdf/invoices/occ
-
 
 ### Method getInvoicePDF is removed.
 
@@ -24730,26 +21409,8 @@ moved to @spartacus/pdf/invoices/occ
 
 
 
-# Class PDFInvoicesOccModule
-## @spartacus/pdf-invoices/occ
-
-moved to @spartacus/pdf/invoices/occ
-
-
-
-
-# Variable PDF_INVOICES_LIST_INVOICES_NORMALIZER
-## @spartacus/pdf-invoices/core
-
-moved to @spartacus/pdf/invoices/core
-
-
-
-
 # Class PDFInvoicesAdapter
 ## @spartacus/pdf-invoices/core
-
-moved to @spartacus/pdf/invoices/core
 
 
 ### Method getInvoicePDF is removed.
@@ -24764,8 +21425,6 @@ moved to @spartacus/pdf/invoices/core
 
 # Class PDFInvoicesBadRequestHandler
 ## @spartacus/pdf-invoices/core
-
-moved to @spartacus/pdf/invoices/core
 
 
 ### Method getErrors is removed.
@@ -24805,8 +21464,6 @@ moved to @spartacus/pdf/invoices/core
 # Class PDFInvoicesConnector
 ## @spartacus/pdf-invoices/core
 
-moved to @spartacus/pdf/invoices/core
-
 
 ### Method getInvoicePDF is removed.
 
@@ -24818,18 +21475,8 @@ moved to @spartacus/pdf/invoices/core
 
 
 
-# Class PDFInvoicesCoreModule
-## @spartacus/pdf-invoices/core
-
-moved to @spartacus/pdf/invoices/core
-
-
-
-
 # Class PDFInvoicesService
 ## @spartacus/pdf-invoices/core
-
-moved to @spartacus/pdf/invoices/core
 
 
 ### Method getInvoicePDF is removed.
@@ -24852,8 +21499,6 @@ moved to @spartacus/pdf/invoices/core
 
 # Class InvoicesListComponent
 ## @spartacus/pdf-invoices/components
-
-moved to @spartacus/pdf/invoices/components
 
 
 ### Method downloadPDFInvoice is removed.
@@ -24886,30 +21531,6 @@ moved to @spartacus/pdf/invoices/components
 
 ### Method updateQueryParams is removed.
 
-
-
-
-
-# Class PDFInvoicesComponentsModule
-## @spartacus/pdf-invoices/components
-
-moved to @spartacus/pdf/invoices/components
-
-
-
-
-# Variable pdfInvoicesTranslationChunksConfig
-## @spartacus/pdf-invoices/assets
-
-moved to @spartacus/pdf/invoices/assets
-
-
-
-
-# Variable pdfInvoicesTranslations
-## @spartacus/pdf-invoices/assets
-
-moved to @spartacus/pdf/invoices/assets
 
 
 
@@ -25067,34 +21688,8 @@ Variable pdfInvoicesTranslationsZh has been removed and is no longer part of the
 
 
 
-# Class PDFInvoicesModule
-## @spartacus/pdf-invoices
-
-moved to @spartacus/pdf/invoices
-
-
-
-
-# Function defaultOrganizationUserRegistrationComponentsConfig
-## @spartacus/organization/user-registration/root
-
-moved to @spartacus/organization/user/registration/root
-
-
-
-
-# Variable ORGANIZATION_USER_REGISTRATION_FEATURE
-## @spartacus/organization/user-registration/root
-
-moved to @spartacus/organization/user/registration/root
-
-
-
-
 # Interface OrganizationUserRegistration
 ## @spartacus/organization/user-registration/root
-
-moved to @spartacus/organization/user/registration/root
 
 
 ### PropertySignature email is removed.
@@ -25129,8 +21724,6 @@ moved to @spartacus/organization/user/registration/root
 
 # Interface OrganizationUserRegistrationForm
 ## @spartacus/organization/user-registration/root
-
-moved to @spartacus/organization/user/registration/root
 
 
 ### PropertySignature addressLine1 is removed.
@@ -25167,18 +21760,8 @@ moved to @spartacus/organization/user/registration/root
 
 
 
-# Class OrganizationUserRegistrationRootModule
-## @spartacus/organization/user-registration/root
-
-moved to @spartacus/organization/user/registration/root
-
-
-
-
 # Class UserRegistrationFacade
 ## @spartacus/organization/user-registration/root
-
-moved to @spartacus/organization/user/registration/root
 
 
 ### Method registerUser is removed.
@@ -25189,8 +21772,6 @@ moved to @spartacus/organization/user/registration/root
 
 # Class OccUserRegistrationAdapter
 ## @spartacus/organization/user-registration/occ
-
-moved to @spartacus/organization/user/registration/occ
 
 
 ### Method getOrganizationUserRegistrationEndpoint is removed.
@@ -25203,26 +21784,8 @@ moved to @spartacus/organization/user/registration/occ
 
 
 
-# Class UserRegistrationOccModule
-## @spartacus/organization/user-registration/occ
-
-moved to @spartacus/organization/user/registration/occ
-
-
-
-
-# Variable ORGANIZATION_USER_REGISTRATION_SERIALIZER
-## @spartacus/organization/user-registration/core
-
-moved to @spartacus/organization/user/registration/core
-
-
-
-
 # Class OrganizationUserRegistrationConflictHandler
 ## @spartacus/organization/user-registration/core
-
-moved to @spartacus/organization/user/registration/core
 
 
 ### Method getErrors is removed.
@@ -25242,8 +21805,6 @@ moved to @spartacus/organization/user/registration/core
 # Class UserRegistrationAdapter
 ## @spartacus/organization/user-registration/core
 
-moved to @spartacus/organization/user/registration/core
-
 
 ### Method registerUser is removed.
 
@@ -25253,8 +21814,6 @@ moved to @spartacus/organization/user/registration/core
 
 # Class UserRegistrationConnector
 ## @spartacus/organization/user-registration/core
-
-moved to @spartacus/organization/user/registration/core
 
 
 ### Method registerUser is removed.
@@ -25266,8 +21825,6 @@ moved to @spartacus/organization/user/registration/core
 # Class UserRegistrationCoreModule
 ## @spartacus/organization/user-registration/core
 
-moved to @spartacus/organization/user/registration/core
-
 
 ### Method forRoot is removed.
 
@@ -25277,8 +21834,6 @@ moved to @spartacus/organization/user/registration/core
 
 # Class RegisterVerificationTokenFormComponent
 ## @spartacus/organization/user-registration/components
-
-moved to @spartacus/organization/user/registration/components
 
 
 ### Method ngOnInit is removed.
@@ -25314,8 +21869,6 @@ moved to @spartacus/organization/user/registration/components
 # Class RegisterVerificationTokenFormComponentService
 ## @spartacus/organization/user-registration/components
 
-moved to @spartacus/organization/user/registration/components
-
 
 ### Method buildMessageContent is removed.
 
@@ -25335,26 +21888,8 @@ moved to @spartacus/organization/user/registration/components
 
 
 
-# Class RegisterVerificationTokenFormModule
-## @spartacus/organization/user-registration/components
-
-moved to @spartacus/organization/user/registration/components
-
-
-
-
-# Class UserRegistrationComponentsModule
-## @spartacus/organization/user-registration/components
-
-moved to @spartacus/organization/user/registration/components
-
-
-
-
 # Class UserRegistrationFormComponent
 ## @spartacus/organization/user-registration/components
-
-moved to @spartacus/organization/user/registration/components
 
 
 ### Method ngOnDestroy is removed.
@@ -25367,18 +21902,8 @@ moved to @spartacus/organization/user/registration/components
 
 
 
-# Class UserRegistrationFormModule
-## @spartacus/organization/user-registration/components
-
-moved to @spartacus/organization/user/registration/components
-
-
-
-
 # Class UserRegistrationFormService
 ## @spartacus/organization/user-registration/components
-
-moved to @spartacus/organization/user/registration/components
 
 
 ### Method buildForm is removed.
@@ -25430,8 +21955,6 @@ moved to @spartacus/organization/user/registration/components
 # Class UserRegistrationOTPFormComponent
 ## @spartacus/organization/user-registration/components
 
-moved to @spartacus/organization/user/registration/components
-
 
 ### Method collectDataFromRegistrationForm is removed.
 
@@ -25447,30 +21970,6 @@ moved to @spartacus/organization/user/registration/components
 
 ### Method onSubmit is removed.
 
-
-
-
-
-# Class UserRegistrationOTPFormModule
-## @spartacus/organization/user-registration/components
-
-moved to @spartacus/organization/user/registration/components
-
-
-
-
-# Variable organizationUserRegistrationTranslationChunksConfig
-## @spartacus/organization/user-registration/assets
-
-moved to @spartacus/organization/user/registration/assets
-
-
-
-
-# Variable organizationUserRegistrationTranslations
-## @spartacus/organization/user-registration/assets
-
-moved to @spartacus/organization/user/registration/assets
 
 
 
@@ -25628,42 +22127,8 @@ Variable organizationUserRegistrationTranslationsZh has been removed and is no l
 
 
 
-# Class OrganizationUserRegistrationModule
-## @spartacus/organization/user-registration
-
-moved to @spartacus/organization/user/registration
-
-
-
-
-# Function defaultOrganizationUnitOrderComponentsConfig
-## @spartacus/organization/unit-order/root
-
-moved to @spartacus/organization/unit/order/root
-
-
-
-
-# Variable ORGANIZATION_UNIT_ORDER_FEATURE
-## @spartacus/organization/unit-order/root
-
-moved to @spartacus/organization/unit/order/root
-
-
-
-
-# Variable UnitOrderDetailsOrderEntriesContextToken
-## @spartacus/organization/unit-order/root
-
-moved to @spartacus/organization/unit/order/root
-
-
-
-
 # Class UnitOrderFacade
 ## @spartacus/organization/unit-order/root
-
-moved to @spartacus/organization/unit/order/root
 
 
 ### Method clearOrderDetails is removed.
@@ -25696,26 +22161,8 @@ moved to @spartacus/organization/unit/order/root
 
 
 
-# Function unitOrderFacadeFactory
-## @spartacus/organization/unit-order/root
-
-moved to @spartacus/organization/unit/order/root
-
-
-
-
-# Class UnitOrderRootModule
-## @spartacus/organization/unit-order/root
-
-moved to @spartacus/organization/unit/order/root
-
-
-
-
 # Class OccUnitOrderAdapter
 ## @spartacus/organization/unit-order/occ
-
-moved to @spartacus/organization/unit/order/occ
 
 
 ### Method loadUnitOrderDetail is removed.
@@ -25728,18 +22175,8 @@ moved to @spartacus/organization/unit/order/occ
 
 
 
-# Class UnitOrderOccModule
-## @spartacus/organization/unit-order/occ
-
-moved to @spartacus/organization/unit/order/occ
-
-
-
-
 # Interface OrderHistoryQueryParams
 ## @spartacus/organization/unit-order/core
-
-moved to @spartacus/organization/unit/order/core
 
 
 ### PropertySignature currentPage is removed.
@@ -25758,8 +22195,6 @@ moved to @spartacus/organization/unit/order/core
 
 # Class UnitLevelOrdersViewerGuard
 ## @spartacus/organization/unit-order/core
-
-moved to @spartacus/organization/unit/order/core
 
 
 ### Method canActivate is removed.
@@ -25780,15 +22215,11 @@ Namespace UnitOrderActions has been removed and is no longer part of the public 
 # Variable UnitOrderActions.CLEAR_ORDER_DETAILS
 ## @spartacus/organization/unit-order/core
 
-moved to @spartacus/organization/unit/order/core
-
 
 
 
 # Variable UnitOrderActions.CLEAR_UNIT_ORDERS
 ## @spartacus/organization/unit-order/core
-
-moved to @spartacus/organization/unit/order/core
 
 
 
@@ -25796,15 +22227,11 @@ moved to @spartacus/organization/unit/order/core
 # Class UnitOrderActions.ClearOrderDetails
 ## @spartacus/organization/unit-order/core
 
-moved to @spartacus/organization/unit/order/core
-
 
 
 
 # Class UnitOrderActions.ClearUnitOrders
 ## @spartacus/organization/unit-order/core
-
-moved to @spartacus/organization/unit/order/core
 
 
 
@@ -25812,15 +22239,11 @@ moved to @spartacus/organization/unit/order/core
 # Variable UnitOrderActions.LOAD_ORDER_DETAILS_FAIL
 ## @spartacus/organization/unit-order/core
 
-moved to @spartacus/organization/unit/order/core
-
 
 
 
 # Variable UnitOrderActions.LOAD_ORDER_DETAILS_SUCCESS
 ## @spartacus/organization/unit-order/core
-
-moved to @spartacus/organization/unit/order/core
 
 
 
@@ -25828,15 +22251,11 @@ moved to @spartacus/organization/unit/order/core
 # Variable UnitOrderActions.LOAD_ORDER_DETAILS
 ## @spartacus/organization/unit-order/core
 
-moved to @spartacus/organization/unit/order/core
-
 
 
 
 # Variable UnitOrderActions.LOAD_UNIT_ORDERS_FAIL
 ## @spartacus/organization/unit-order/core
-
-moved to @spartacus/organization/unit/order/core
 
 
 
@@ -25844,15 +22263,11 @@ moved to @spartacus/organization/unit/order/core
 # Variable UnitOrderActions.LOAD_UNIT_ORDERS_SUCCESS
 ## @spartacus/organization/unit-order/core
 
-moved to @spartacus/organization/unit/order/core
-
 
 
 
 # Variable UnitOrderActions.LOAD_UNIT_ORDERS
 ## @spartacus/organization/unit-order/core
-
-moved to @spartacus/organization/unit/order/core
 
 
 
@@ -25860,15 +22275,11 @@ moved to @spartacus/organization/unit/order/core
 # Class UnitOrderActions.LoadOrderDetails
 ## @spartacus/organization/unit-order/core
 
-moved to @spartacus/organization/unit/order/core
-
 
 
 
 # Class UnitOrderActions.LoadOrderDetailsFail
 ## @spartacus/organization/unit-order/core
-
-moved to @spartacus/organization/unit/order/core
 
 
 
@@ -25876,15 +22287,11 @@ moved to @spartacus/organization/unit/order/core
 # Class UnitOrderActions.LoadOrderDetailsSuccess
 ## @spartacus/organization/unit-order/core
 
-moved to @spartacus/organization/unit/order/core
-
 
 
 
 # Class UnitOrderActions.LoadUnitOrders
 ## @spartacus/organization/unit-order/core
-
-moved to @spartacus/organization/unit/order/core
 
 
 
@@ -25892,15 +22299,11 @@ moved to @spartacus/organization/unit/order/core
 # Class UnitOrderActions.LoadUnitOrdersFail
 ## @spartacus/organization/unit-order/core
 
-moved to @spartacus/organization/unit/order/core
-
 
 
 
 # Class UnitOrderActions.LoadUnitOrdersSuccess
 ## @spartacus/organization/unit-order/core
-
-moved to @spartacus/organization/unit/order/core
 
 
 
@@ -25908,15 +22311,11 @@ moved to @spartacus/organization/unit/order/core
 # TypeAlias UnitOrderActions.UnitOrdersAction
 ## @spartacus/organization/unit-order/core
 
-moved to @spartacus/organization/unit/order/core
-
 
 
 
 # Class UnitOrderAdapter
 ## @spartacus/organization/unit-order/core
-
-moved to @spartacus/organization/unit/order/core
 
 
 ### Method loadUnitOrderDetail is removed.
@@ -25932,8 +22331,6 @@ moved to @spartacus/organization/unit/order/core
 # Class UnitOrderConnector
 ## @spartacus/organization/unit-order/core
 
-moved to @spartacus/organization/unit/order/core
-
 
 ### Method getUnitOrderDetail is removed.
 
@@ -25947,8 +22344,6 @@ moved to @spartacus/organization/unit/order/core
 
 # Class UnitOrderCoreModule
 ## @spartacus/organization/unit-order/core
-
-moved to @spartacus/organization/unit/order/core
 
 
 ### Method forRoot is removed.
@@ -25969,15 +22364,11 @@ Namespace UnitOrderSelectors has been removed and is no longer part of the publi
 # Variable UnitOrderSelectors.getOrderDetails
 ## @spartacus/organization/unit-order/core
 
-moved to @spartacus/organization/unit/order/core
-
 
 
 
 # Variable UnitOrderSelectors.getOrderDetailState
 ## @spartacus/organization/unit-order/core
-
-moved to @spartacus/organization/unit/order/core
 
 
 
@@ -25985,15 +22376,11 @@ moved to @spartacus/organization/unit/order/core
 # Variable UnitOrderSelectors.getOrders
 ## @spartacus/organization/unit-order/core
 
-moved to @spartacus/organization/unit/order/core
-
 
 
 
 # Variable UnitOrderSelectors.getOrdersLoaded
 ## @spartacus/organization/unit-order/core
-
-moved to @spartacus/organization/unit/order/core
 
 
 
@@ -26001,23 +22388,17 @@ moved to @spartacus/organization/unit/order/core
 # Variable UnitOrderSelectors.getOrdersState
 ## @spartacus/organization/unit-order/core
 
-moved to @spartacus/organization/unit/order/core
-
 
 
 
 # Variable UnitOrderSelectors.getOrderState
 ## @spartacus/organization/unit-order/core
 
-moved to @spartacus/organization/unit/order/core
-
 
 
 
 # Class UnitOrderService
 ## @spartacus/organization/unit-order/core
-
-moved to @spartacus/organization/unit/order/core
 
 
 ### Method clearOrderDetails is removed.
@@ -26050,18 +22431,8 @@ moved to @spartacus/organization/unit/order/core
 
 
 
-# Class UnitLevelOrderDetailModule
-## @spartacus/organization/unit-order/components
-
-moved to @spartacus/organization/unit/order/components
-
-
-
-
 # Class UnitLevelOrderDetailService
 ## @spartacus/organization/unit-order/components
-
-moved to @spartacus/organization/unit/order/components
 
 
 ### Method getOrderDetails is removed.
@@ -26072,8 +22443,6 @@ moved to @spartacus/organization/unit/order/components
 
 # Class UnitLevelOrderHistoryComponent
 ## @spartacus/organization/unit-order/components
-
-moved to @spartacus/organization/unit/order/components
 
 
 ### Method changeSortCode is removed.
@@ -26102,46 +22471,12 @@ moved to @spartacus/organization/unit/order/components
 
 
 
-# Class UnitLevelOrderHistoryModule
-## @spartacus/organization/unit-order/components
-
-moved to @spartacus/organization/unit/order/components
-
-
-
-
-# Class UnitOrderComponentsModule
-## @spartacus/organization/unit-order/components
-
-moved to @spartacus/organization/unit/order/components
-
-
-
-
 # Class UnitOrderDetailsOrderEntriesContext
 ## @spartacus/organization/unit-order/components
-
-moved to @spartacus/organization/unit/order/components
 
 
 ### Method getEntries is removed.
 
-
-
-
-
-# Variable unitOrderTranslationChunksConfig
-## @spartacus/organization/unit-order/assets
-
-moved to @spartacus/organization/unit/order/assets
-
-
-
-
-# Variable unitOrderTranslations
-## @spartacus/organization/unit-order/assets
-
-moved to @spartacus/organization/unit/order/assets
 
 
 
@@ -26295,54 +22630,6 @@ Variable unitOrderTranslationsZh_TW has been removed and is no longer part of th
 
 
 Variable unitOrderTranslationsZh has been removed and is no longer part of the public API.
-
-
-
-
-# Class UnitOrderModule
-## @spartacus/organization/unit-order
-
-moved to @spartacus/organization/unit/order
-
-
-
-
-# Function defaultOrganizationOrderApprovalComponentsConfig
-## @spartacus/organization/order-approval/root
-
-moved to @spartacus/organization/order/approval/root
-
-
-
-
-# Class OrderApprovalRootModule
-## @spartacus/organization/order-approval/root
-
-moved to @spartacus/organization/order/approval/root
-
-
-
-
-# Variable ORGANIZATION_ORDER_APPROVAL_FEATURE
-## @spartacus/organization/order-approval/root
-
-moved to @spartacus/organization/order/approval/root
-
-
-
-
-# Variable orderApprovalTranslationChunksConfig
-## @spartacus/organization/order-approval/assets
-
-moved to @spartacus/organization/order/approval/assets
-
-
-
-
-# Variable orderApprovalTranslations
-## @spartacus/organization/order-approval/assets
-
-moved to @spartacus/organization/order/approval/assets
 
 
 
@@ -26503,8 +22790,6 @@ Variable orderApprovalTranslationsZh has been removed and is no longer part of t
 # Class ApproverGuard
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 ### Method canActivate is removed.
 
@@ -26514,8 +22799,6 @@ moved to @spartacus/organization/order/approval
 
 # Class OccOrderApprovalAdapter
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 ### Method getOrderApprovalDecisionEndpoint is removed.
@@ -26547,8 +22830,6 @@ moved to @spartacus/organization/order/approval
 # Class OccOrderApprovalDecisionNormalizer
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 ### Method convert is removed.
 
@@ -26558,8 +22839,6 @@ moved to @spartacus/organization/order/approval
 
 # Class OccOrderApprovalListNormalizer
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 ### Method convert is removed.
@@ -26571,8 +22850,6 @@ moved to @spartacus/organization/order/approval
 # Class OccOrderApprovalNormalizer
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 ### Method convert is removed.
 
@@ -26580,66 +22857,8 @@ moved to @spartacus/organization/order/approval
 
 
 
-# Variable ORDER_APPROVAL_DECISION_NORMALIZER
-## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
-
-
-
-
-# Variable ORDER_APPROVAL_ENTITIES
-## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
-
-
-
-
-# Variable ORDER_APPROVAL_FEATURE
-## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
-
-
-
-
-# Variable ORDER_APPROVAL_LIST
-## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
-
-
-
-
-# Variable ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID
-## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
-
-
-
-
-# Variable ORDER_APPROVAL_NORMALIZER
-## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
-
-
-
-
-# Variable ORDER_APPROVALS_NORMALIZER
-## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
-
-
-
-
 # Interface OrderApproval
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 ### PropertySignature approvalDecisionRequired is removed.
@@ -26680,15 +22899,11 @@ Namespace OrderApprovalActions has been removed and is no longer part of the pub
 # Variable OrderApprovalActions.LOAD_ORDER_APPROVAL_FAIL
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 
 
 # Variable OrderApprovalActions.LOAD_ORDER_APPROVAL_SUCCESS
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 
@@ -26696,15 +22911,11 @@ moved to @spartacus/organization/order/approval
 # Variable OrderApprovalActions.LOAD_ORDER_APPROVAL
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 
 
 # Variable OrderApprovalActions.LOAD_ORDER_APPROVALS_FAIL
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 
@@ -26712,15 +22923,11 @@ moved to @spartacus/organization/order/approval
 # Variable OrderApprovalActions.LOAD_ORDER_APPROVALS_SUCCESS
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 
 
 # Variable OrderApprovalActions.LOAD_ORDER_APPROVALS
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 
@@ -26728,15 +22935,11 @@ moved to @spartacus/organization/order/approval
 # Class OrderApprovalActions.LoadOrderApproval
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 
 
 # Class OrderApprovalActions.LoadOrderApprovalFail
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 
@@ -26744,15 +22947,11 @@ moved to @spartacus/organization/order/approval
 # Class OrderApprovalActions.LoadOrderApprovals
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 
 
 # Class OrderApprovalActions.LoadOrderApprovalsFail
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 
@@ -26760,15 +22959,11 @@ moved to @spartacus/organization/order/approval
 # Class OrderApprovalActions.LoadOrderApprovalsSuccess
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 
 
 # Class OrderApprovalActions.LoadOrderApprovalSuccess
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 
@@ -26776,15 +22971,11 @@ moved to @spartacus/organization/order/approval
 # Variable OrderApprovalActions.MAKE_DECISION_FAIL
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 
 
 # Variable OrderApprovalActions.MAKE_DECISION_RESET
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 
@@ -26792,15 +22983,11 @@ moved to @spartacus/organization/order/approval
 # Variable OrderApprovalActions.MAKE_DECISION_SUCCESS
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 
 
 # Variable OrderApprovalActions.MAKE_DECISION
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 
@@ -26808,15 +22995,11 @@ moved to @spartacus/organization/order/approval
 # Class OrderApprovalActions.MakeDecision
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 
 
 # Class OrderApprovalActions.MakeDecisionFail
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 
@@ -26824,15 +23007,11 @@ moved to @spartacus/organization/order/approval
 # Class OrderApprovalActions.MakeDecisionReset
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 
 
 # Class OrderApprovalActions.MakeDecisionSuccess
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 
@@ -26840,15 +23019,11 @@ moved to @spartacus/organization/order/approval
 # TypeAlias OrderApprovalActions.OrderApprovalAction
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 
 
 # Class OrderApprovalAdapter
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 ### Method load is removed.
@@ -26865,18 +23040,8 @@ moved to @spartacus/organization/order/approval
 
 
 
-# Class OrderApprovalComponentsModule
-## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
-
-
-
-
 # Class OrderApprovalConnector
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 ### Method get is removed.
@@ -26896,8 +23061,6 @@ moved to @spartacus/organization/order/approval
 # Interface OrderApprovalDecision
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 ### PropertySignature comment is removed.
 
@@ -26909,18 +23072,8 @@ moved to @spartacus/organization/order/approval
 
 
 
-# Enum OrderApprovalDecisionValue
-## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
-
-
-
-
 # Class OrderApprovalDetailFormComponent
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 ### Method cancelDecisionForm is removed.
@@ -26944,8 +23097,6 @@ moved to @spartacus/organization/order/approval
 # Class OrderApprovalDetailService
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 ### Method getOrderApproval is removed.
 
@@ -26961,18 +23112,8 @@ moved to @spartacus/organization/order/approval
 
 
 
-# Class OrderApprovalDetailsModule
-## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
-
-
-
-
 # Class OrderApprovalListComponent
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 ### Method changeSortCode is removed.
@@ -26997,42 +23138,8 @@ moved to @spartacus/organization/order/approval
 
 
 
-# Class OrderApprovalListModule
-## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
-
-
-
-
-# Interface OrderApprovalManagement
-## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
-
-
-
-
-# Class OrderApprovalModule
-## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
-
-
-
-
-# Class OrderApprovalOccModule
-## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
-
-
-
-
 # Interface OrderApprovalPermissionResult
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 ### PropertySignature approverName is removed.
@@ -27055,8 +23162,6 @@ moved to @spartacus/organization/order/approval
 
 # Interface OrderApprovalRecord
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 ### PropertySignature approver is removed.
@@ -27107,15 +23212,11 @@ Function OrderApprovalSelectors.getOrderApprovalList has been removed and is no 
 # Variable OrderApprovalSelectors.getOrderApprovalManagementState
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 
 
 # Variable OrderApprovalSelectors.getOrderApprovalsState
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 
@@ -27123,15 +23224,11 @@ moved to @spartacus/organization/order/approval
 # Variable OrderApprovalSelectors.getOrderApprovalState
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 
 
 # Class OrderApprovalService
 ## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 ### Method get is removed.
@@ -27179,8 +23276,6 @@ moved to @spartacus/organization/order/approval
 # Interface OrderApprovalState
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 ### PropertySignature "order-approval" is removed.
 
@@ -27191,8 +23286,6 @@ moved to @spartacus/organization/order/approval
 # Interface OrderApprovalTrigger
 ## @spartacus/organization/order-approval
 
-moved to @spartacus/organization/order/approval
-
 
 ### PropertySignature activationTime is removed.
 
@@ -27200,14 +23293,6 @@ moved to @spartacus/organization/order/approval
 
 ### PropertySignature displayTimeTable is removed.
 
-
-
-
-
-# Class OrderDetailPermissionResultsComponent
-## @spartacus/organization/order-approval
-
-moved to @spartacus/organization/order/approval
 
 
 
@@ -30785,16 +26870,142 @@ Namespace PermissionActions has been removed and is no longer part of the public
 ## @spartacus/organization/administration/core
 
 
+### Constructor changed.
+
+
+Previous version:
+
+```
+
+constructor(
+  payload: { userId: string; params: SearchConfig; }
+)
+
+```
+
+
+Current version:
+
+```
+
+constructor(
+  payload: { userId: string; userGroupId: string; params: SearchConfig; }
+)
+
+```
+
+
+### Property payload changed.
+
+
+Previous version:
+
+```
+payload: { userId: string; params: SearchConfig; }
+```
+
+
+Current version:
+
+```
+payload: { userId: string; userGroupId: string; params: SearchConfig; }
+```
+
+
 
 
 # Class PermissionActions.LoadPermissionsFail
 ## @spartacus/organization/administration/core
 
 
+### Constructor changed.
+
+
+Previous version:
+
+```
+
+constructor(
+  payload: { params: SearchConfig; error: any; }
+)
+
+```
+
+
+Current version:
+
+```
+
+constructor(
+  payload: { userGroupId: string; params: SearchConfig; error: any; }
+)
+
+```
+
+
+### Property payload changed.
+
+
+Previous version:
+
+```
+payload: { params: SearchConfig; error: any; }
+```
+
+
+Current version:
+
+```
+payload: { userGroupId: string; params: SearchConfig; error: any; }
+```
+
+
 
 
 # Class PermissionActions.LoadPermissionsSuccess
 ## @spartacus/organization/administration/core
+
+
+### Constructor changed.
+
+
+Previous version:
+
+```
+
+constructor(
+  payload: { page: ListModel; params: SearchConfig; }
+)
+
+```
+
+
+Current version:
+
+```
+
+constructor(
+  payload: { userGroupId: string; page: ListModel; params: SearchConfig; }
+)
+
+```
+
+
+### Property payload changed.
+
+
+Previous version:
+
+```
+payload: { page: ListModel; params: SearchConfig; }
+```
+
+
+Current version:
+
+```
+payload: { userGroupId: string; page: ListModel; params: SearchConfig; }
+```
 
 
 
@@ -31308,142 +27519,16 @@ Namespace UserGroupActions has been removed and is no longer part of the public 
 ## @spartacus/organization/administration/core
 
 
-### Constructor changed.
-
-
-Previous version:
-
-```
-
-constructor(
-  payload: { userId: string; userGroupId: string; params: SearchConfig; }
-)
-
-```
-
-
-Current version:
-
-```
-
-constructor(
-  payload: { userId: string; params: SearchConfig; }
-)
-
-```
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: { userId: string; userGroupId: string; params: SearchConfig; }
-```
-
-
-Current version:
-
-```
-payload: { userId: string; params: SearchConfig; }
-```
-
-
 
 
 # Class UserGroupActions.LoadPermissionsFail
 ## @spartacus/organization/administration/core
 
 
-### Constructor changed.
-
-
-Previous version:
-
-```
-
-constructor(
-  payload: { userGroupId: string; params: SearchConfig; error: any; }
-)
-
-```
-
-
-Current version:
-
-```
-
-constructor(
-  payload: { params: SearchConfig; error: any; }
-)
-
-```
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: { userGroupId: string; params: SearchConfig; error: any; }
-```
-
-
-Current version:
-
-```
-payload: { params: SearchConfig; error: any; }
-```
-
-
 
 
 # Class UserGroupActions.LoadPermissionsSuccess
 ## @spartacus/organization/administration/core
-
-
-### Constructor changed.
-
-
-Previous version:
-
-```
-
-constructor(
-  payload: { userGroupId: string; page: ListModel; params: SearchConfig; }
-)
-
-```
-
-
-Current version:
-
-```
-
-constructor(
-  payload: { page: ListModel; params: SearchConfig; }
-)
-
-```
-
-
-### Property payload changed.
-
-
-Previous version:
-
-```
-payload: { userGroupId: string; page: ListModel; params: SearchConfig; }
-```
-
-
-Current version:
-
-```
-payload: { page: ListModel; params: SearchConfig; }
-```
 
 
 
@@ -34077,8 +30162,6 @@ Variable organizationTranslationsZh has been removed and is no longer part of th
 # Interface AccountSummaryDetails
 ## @spartacus/organization/account-summary/root
 
-moved to @spartacus/organization/account/summary/root
-
 
 ### PropertySignature accountManagerEmail is removed.
 
@@ -34108,8 +30191,6 @@ moved to @spartacus/organization/account/summary/root
 
 # Interface AccountSummaryDocument
 ## @spartacus/organization/account-summary/root
-
-moved to @spartacus/organization/account/summary/root
 
 
 ### PropertySignature amount is removed.
@@ -34161,8 +30242,6 @@ moved to @spartacus/organization/account/summary/root
 # Interface AccountSummaryDocumentType
 ## @spartacus/organization/account-summary/root
 
-moved to @spartacus/organization/account/summary/root
-
 
 ### PropertySignature code is removed.
 
@@ -34185,8 +30264,6 @@ moved to @spartacus/organization/account/summary/root
 # Class AccountSummaryFacade
 ## @spartacus/organization/account-summary/root
 
-moved to @spartacus/organization/account/summary/root
-
 
 ### Method getAccountSummary is removed.
 
@@ -34204,8 +30281,6 @@ moved to @spartacus/organization/account/summary/root
 
 # Interface AccountSummaryList
 ## @spartacus/organization/account-summary/root
-
-moved to @spartacus/organization/account/summary/root
 
 
 ### PropertySignature orgDocuments is removed.
@@ -34226,18 +30301,8 @@ moved to @spartacus/organization/account/summary/root
 
 
 
-# Class AccountSummaryRootModule
-## @spartacus/organization/account-summary/root
-
-moved to @spartacus/organization/account/summary/root
-
-
-
-
 # Class BlobErrorInterceptor
 ## @spartacus/organization/account-summary/root
-
-moved to @spartacus/organization/account/summary/root
 
 
 ### Method intercept is removed.
@@ -34246,34 +30311,8 @@ moved to @spartacus/organization/account/summary/root
 
 
 
-# Function defaultAccountSummaryComponentsConfig
-## @spartacus/organization/account-summary/root
-
-moved to @spartacus/organization/account/summary/root
-
-
-
-
-# Variable defaultAccountSummaryRoutingConfig
-## @spartacus/organization/account-summary/root
-
-moved to @spartacus/organization/account/summary/root
-
-
-
-
-# Enum DocumentFields
-## @spartacus/organization/account-summary/root
-
-moved to @spartacus/organization/account/summary/root
-
-
-
-
 # Interface DocumentQueryParams
 ## @spartacus/organization/account-summary/root
-
-moved to @spartacus/organization/account/summary/root
 
 
 ### PropertySignature endRange is removed.
@@ -34314,42 +30353,8 @@ moved to @spartacus/organization/account/summary/root
 
 
 
-# Enum DocumentStatus
-## @spartacus/organization/account-summary/root
-
-moved to @spartacus/organization/account/summary/root
-
-
-
-
-# Enum FilterByOptions
-## @spartacus/organization/account-summary/root
-
-moved to @spartacus/organization/account/summary/root
-
-
-
-
-# Variable ORGANIZATION_ACCOUNT_SUMMARY_CORE_FEATURE
-## @spartacus/organization/account-summary/root
-
-moved to @spartacus/organization/account/summary/root
-
-
-
-
-# Variable ORGANIZATION_ACCOUNT_SUMMARY_FEATURE
-## @spartacus/organization/account-summary/root
-
-moved to @spartacus/organization/account/summary/root
-
-
-
-
 # Interface OrgDocumentType
 ## @spartacus/organization/account-summary/root
-
-moved to @spartacus/organization/account/summary/root
 
 
 ### PropertySignature code is removed.
@@ -34369,8 +30374,6 @@ moved to @spartacus/organization/account/summary/root
 # Interface AccountSummaryOccEndpoints
 ## @spartacus/organization/account-summary/occ
 
-moved to @spartacus/organization/account/summary/occ
-
 
 ### PropertySignature accountSummary is removed.
 
@@ -34386,18 +30389,8 @@ moved to @spartacus/organization/account/summary/occ
 
 
 
-# Class AccountSummaryOccModule
-## @spartacus/organization/account-summary/occ
-
-moved to @spartacus/organization/account/summary/occ
-
-
-
-
 # Class OccAccountSummaryAdapter
 ## @spartacus/organization/account-summary/occ
-
-moved to @spartacus/organization/account/summary/occ
 
 
 ### Method getAccountSummary is removed.
@@ -34414,34 +30407,8 @@ moved to @spartacus/organization/account/summary/occ
 
 
 
-# Variable ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER
-## @spartacus/organization/account-summary/core
-
-moved to @spartacus/organization/account/summary/core
-
-
-
-
-# Variable ACCOUNT_SUMMARY_LIST_TRANSLATION_KEY
-## @spartacus/organization/account-summary/core
-
-moved to @spartacus/organization/account/summary/core
-
-
-
-
-# Variable ACCOUNT_SUMMARY_NORMALIZER
-## @spartacus/organization/account-summary/core
-
-moved to @spartacus/organization/account/summary/core
-
-
-
-
 # Class AccountSummaryAdapter
 ## @spartacus/organization/account-summary/core
-
-moved to @spartacus/organization/account/summary/core
 
 
 ### Method getAccountSummary is removed.
@@ -34461,8 +30428,6 @@ moved to @spartacus/organization/account/summary/core
 # Class AccountSummaryConnector
 ## @spartacus/organization/account-summary/core
 
-moved to @spartacus/organization/account/summary/core
-
 
 ### Method getAccountSummary is removed.
 
@@ -34478,18 +30443,8 @@ moved to @spartacus/organization/account/summary/core
 
 
 
-# Class AccountSummaryCoreModule
-## @spartacus/organization/account-summary/core
-
-moved to @spartacus/organization/account/summary/core
-
-
-
-
 # Class AccountSummaryPageMetaResolver
 ## @spartacus/organization/account-summary/core
-
-moved to @spartacus/organization/account/summary/core
 
 
 ### Method getScore is removed.
@@ -34500,8 +30455,6 @@ moved to @spartacus/organization/account/summary/core
 
 # Class AccountSummaryService
 ## @spartacus/organization/account-summary/core
-
-moved to @spartacus/organization/account/summary/core
 
 
 ### Method getAccountSummary is removed.
@@ -34526,34 +30479,8 @@ moved to @spartacus/organization/account/summary/core
 
 
 
-# Variable ACCOUNT_SUMMARY_DETAILS_TRANSLATION_KEY
-## @spartacus/organization/account-summary/components
-
-moved to @spartacus/organization/account/summary/components
-
-
-
-
-# Class AccountSummaryComponentsModule
-## @spartacus/organization/account-summary/components
-
-moved to @spartacus/organization/account/summary/components
-
-
-
-
-# Variable accountSummaryDocumentCmsConfig
-## @spartacus/organization/account-summary/components
-
-moved to @spartacus/organization/account/summary/components
-
-
-
-
 # Class AccountSummaryDocumentComponent
 ## @spartacus/organization/account-summary/components
-
-moved to @spartacus/organization/account/summary/components
 
 
 ### Method changeSortCode is removed.
@@ -34584,8 +30511,6 @@ moved to @spartacus/organization/account/summary/components
 
 # Class AccountSummaryDocumentFilterComponent
 ## @spartacus/organization/account-summary/components
-
-moved to @spartacus/organization/account/summary/components
 
 
 ### Method formSearch is removed.
@@ -34618,34 +30543,8 @@ moved to @spartacus/organization/account/summary/components
 
 
 
-# Class AccountSummaryDocumentFilterModule
-## @spartacus/organization/account-summary/components
-
-moved to @spartacus/organization/account/summary/components
-
-
-
-
-# Class AccountSummaryDocumentModule
-## @spartacus/organization/account-summary/components
-
-moved to @spartacus/organization/account/summary/components
-
-
-
-
-# Variable accountSummaryHeaderCmsConfig
-## @spartacus/organization/account-summary/components
-
-moved to @spartacus/organization/account/summary/components
-
-
-
-
 # Class AccountSummaryHeaderComponent
 ## @spartacus/organization/account-summary/components
-
-moved to @spartacus/organization/account/summary/components
 
 
 ### Method getAddressCardContent is removed.
@@ -34690,78 +30589,12 @@ moved to @spartacus/organization/account/summary/components
 
 
 
-# Class AccountSummaryHeaderModule
-## @spartacus/organization/account-summary/components
-
-moved to @spartacus/organization/account/summary/components
-
-
-
-
 # Class AccountSummaryItemService
 ## @spartacus/organization/account-summary/components
-
-moved to @spartacus/organization/account/summary/components
 
 
 ### Method launchDetails is removed.
 
-
-
-
-
-# Variable accountSummaryListCmsConfig
-## @spartacus/organization/account-summary/components
-
-moved to @spartacus/organization/account/summary/components
-
-
-
-
-# Class AccountSummaryListComponent
-## @spartacus/organization/account-summary/components
-
-moved to @spartacus/organization/account/summary/components
-
-
-
-
-# Class AccountSummaryListModule
-## @spartacus/organization/account-summary/components
-
-moved to @spartacus/organization/account/summary/components
-
-
-
-
-# Class AccountSummaryUnitListService
-## @spartacus/organization/account-summary/components
-
-moved to @spartacus/organization/account/summary/components
-
-
-
-
-# Function accountSummaryUnitsTableConfigFactory
-## @spartacus/organization/account-summary/components
-
-moved to @spartacus/organization/account/summary/components
-
-
-
-
-# Variable accountSummaryTranslationChunksConfig
-## @spartacus/organization/account-summary/assets
-
-moved to @spartacus/organization/account/summary/assets
-
-
-
-
-# Variable accountSummaryTranslations
-## @spartacus/organization/account-summary/assets
-
-moved to @spartacus/organization/account/summary/assets
 
 
 
@@ -34915,14 +30748,6 @@ Variable accountSummaryTranslationsZh_TW has been removed and is no longer part 
 
 
 Variable accountSummaryTranslationsZh has been removed and is no longer part of the public API.
-
-
-
-
-# Class AccountSummaryModule
-## @spartacus/organization/account-summary
-
-moved to @spartacus/organization/account/summary
 
 
 
@@ -36245,18 +32070,8 @@ moved to @spartacus/organization/administration
 
 
 
-# Variable ORDER_DOCUMENT_FLOW_FEATURE
-## @spartacus/order/document-flow/root
-
-moved to @spartacus/order/document/flow/root
-
-
-
-
 # Class OrderDocumentFlowFacade
 ## @spartacus/order/document-flow/root
-
-moved to @spartacus/order/document/flow/root
 
 
 ### Method getOrderSubsequentDocumentEntries is removed.
@@ -36269,18 +32084,8 @@ moved to @spartacus/order/document/flow/root
 
 
 
-# Class OrderDocumentFlowRootModule
-## @spartacus/order/document-flow/root
-
-moved to @spartacus/order/document/flow/root
-
-
-
-
 # Interface OrderSubsequentDocument
 ## @spartacus/order/document-flow/root
-
-moved to @spartacus/order/document/flow/root
 
 
 ### PropertySignature sapCreatedAt is removed.
@@ -36312,8 +32117,6 @@ moved to @spartacus/order/document/flow/root
 # Interface OrderSubsequentDocumentEntry
 ## @spartacus/order/document-flow/root
 
-moved to @spartacus/order/document/flow/root
-
 
 ### PropertySignature sapCreatedAt is removed.
 
@@ -36336,8 +32139,6 @@ moved to @spartacus/order/document/flow/root
 # Class OccOrderDocumentFlowAdapter
 ## @spartacus/order/document-flow/occ
 
-moved to @spartacus/order/document/flow/occ
-
 
 ### Method getOrderSubsequentDocumentEntries is removed.
 
@@ -36357,18 +32158,8 @@ moved to @spartacus/order/document/flow/occ
 
 
 
-# Class OrderDocumentFlowOccModule
-## @spartacus/order/document-flow/occ
-
-moved to @spartacus/order/document/flow/occ
-
-
-
-
 # Class OrderDocumentFlowAdapter
 ## @spartacus/order/document-flow/core
-
-moved to @spartacus/order/document/flow/core
 
 
 ### Method getOrderSubsequentDocumentEntries is removed.
@@ -36384,8 +32175,6 @@ moved to @spartacus/order/document/flow/core
 # Class OrderDocumentFlowConnector
 ## @spartacus/order/document-flow/core
 
-moved to @spartacus/order/document/flow/core
-
 
 ### Method getOrderSubsequentDocumentEntries is removed.
 
@@ -36397,18 +32186,8 @@ moved to @spartacus/order/document/flow/core
 
 
 
-# Class OrderDocumentFlowCoreModule
-## @spartacus/order/document-flow/core
-
-moved to @spartacus/order/document/flow/core
-
-
-
-
 # Class OrderDocumentFlowService
 ## @spartacus/order/document-flow/core
-
-moved to @spartacus/order/document/flow/core
 
 
 ### Method getOrderSubsequentDocumentEntries is removed.
@@ -36424,8 +32203,6 @@ moved to @spartacus/order/document/flow/core
 # Class OrderDocumentFlowComponent
 ## @spartacus/order/document-flow/components
 
-moved to @spartacus/order/document/flow/components
-
 
 ### Method onOrderDocumentFlowClick is removed.
 
@@ -36433,18 +32210,8 @@ moved to @spartacus/order/document/flow/components
 
 
 
-# Class OrderDocumentFlowComponentsModule
-## @spartacus/order/document-flow/components
-
-moved to @spartacus/order/document/flow/components
-
-
-
-
 # Class OrderDocumentFlowDialogComponent
 ## @spartacus/order/document-flow/components
-
-moved to @spartacus/order/document/flow/components
 
 
 ### Method cacheDocumentEntries is removed.
@@ -36477,18 +32244,8 @@ moved to @spartacus/order/document/flow/components
 
 
 
-# Class OrderDocumentOrderEntryListComponent
-## @spartacus/order/document-flow/components
-
-moved to @spartacus/order/document/flow/components
-
-
-
-
 # Class OrderSubsequentDocumentListComponent
 ## @spartacus/order/document-flow/components
-
-moved to @spartacus/order/document/flow/components
 
 
 ### Method onDocumentSelection is removed.
@@ -36499,8 +32256,6 @@ moved to @spartacus/order/document/flow/components
 
 # Class OrderSubsequentDocumentNodeComponent
 ## @spartacus/order/document-flow/components
-
-moved to @spartacus/order/document/flow/components
 
 
 ### Method haveSubNodes is removed.
@@ -36513,35 +32268,11 @@ moved to @spartacus/order/document/flow/components
 
 
 
-# Variable documentFlowTranslations
-## @spartacus/order/document-flow/assets
-
-moved to @spartacus/order/document/flow/assets
-
-
-
-
 # Variable documentFlowTranslationsEn
 ## @spartacus/order/document-flow/assets
 
 
 Variable documentFlowTranslationsEn has been removed and is no longer part of the public API.
-
-
-
-
-# Variable orderDocumentFlowTranslationChunksConfig
-## @spartacus/order/document-flow/assets
-
-moved to @spartacus/order/document/flow/assets
-
-
-
-
-# Class OrderDocumentFlowModule
-## @spartacus/order/document-flow
-
-moved to @spartacus/order/document/flow
 
 
 
@@ -36742,7 +32473,7 @@ Namespace OrderActions has been removed and is no longer part of the public API.
 # Variable OrderActions.CLEAR_ORDER_DETAILS
 ## @spartacus/order/core
 
-moved to @spartacus/organization/unit/order/core
+moved to @spartacus/organization/unit-order/core
 
 
 
@@ -36792,7 +32523,7 @@ moved to @spartacus/organization/unit/order/core
 # Class OrderActions.ClearOrderDetails
 ## @spartacus/order/core
 
-moved to @spartacus/organization/unit/order/core
+moved to @spartacus/organization/unit-order/core
 
 
 
@@ -36932,7 +32663,7 @@ moved to @spartacus/organization/unit/order/core
 # Variable OrderActions.LOAD_ORDER_DETAILS_FAIL
 ## @spartacus/order/core
 
-moved to @spartacus/organization/unit/order/core
+moved to @spartacus/organization/unit-order/core
 
 
 
@@ -36940,7 +32671,7 @@ moved to @spartacus/organization/unit/order/core
 # Variable OrderActions.LOAD_ORDER_DETAILS_SUCCESS
 ## @spartacus/order/core
 
-moved to @spartacus/organization/unit/order/core
+moved to @spartacus/organization/unit-order/core
 
 
 
@@ -36948,7 +32679,7 @@ moved to @spartacus/organization/unit/order/core
 # Variable OrderActions.LOAD_ORDER_DETAILS
 ## @spartacus/order/core
 
-moved to @spartacus/organization/unit/order/core
+moved to @spartacus/organization/unit-order/core
 
 
 
@@ -37100,7 +32831,7 @@ moved to @spartacus/organization/unit/order/core
 # Class OrderActions.LoadOrderDetails
 ## @spartacus/order/core
 
-moved to @spartacus/organization/unit/order/core
+moved to @spartacus/organization/unit-order/core
 
 
 
@@ -37108,7 +32839,7 @@ moved to @spartacus/organization/unit/order/core
 # Class OrderActions.LoadOrderDetailsFail
 ## @spartacus/order/core
 
-moved to @spartacus/organization/unit/order/core
+moved to @spartacus/organization/unit-order/core
 
 
 
@@ -37116,7 +32847,7 @@ moved to @spartacus/organization/unit/order/core
 # Class OrderActions.LoadOrderDetailsSuccess
 ## @spartacus/order/core
 
-moved to @spartacus/organization/unit/order/core
+moved to @spartacus/organization/unit-order/core
 
 
 
@@ -37653,7 +33384,7 @@ Function OrderSelectors.getOrderByIdSuccess has been removed and is no longer pa
 # Variable OrderSelectors.getOrderDetails
 ## @spartacus/order/core
 
-moved to @spartacus/organization/unit/order/core
+moved to @spartacus/organization/unit-order/core
 
 
 Variable getOrderDetails changed.
@@ -37683,7 +33414,7 @@ getOrderDetails: MemoizedSelector<StateWithUnitOrder, Order>
 # Variable OrderSelectors.getOrderDetailState
 ## @spartacus/order/core
 
-moved to @spartacus/organization/unit/order/core
+moved to @spartacus/organization/unit-order/core
 
 
 Variable getOrderDetailState changed.
@@ -37743,7 +33474,7 @@ getOrderDetailState: MemoizedSelector<StateWithUnitOrder, LoaderState<Order>>
 # Variable OrderSelectors.getOrders
 ## @spartacus/order/core
 
-moved to @spartacus/organization/unit/order/core
+moved to @spartacus/organization/unit-order/core
 
 
 Variable getOrders changed.
@@ -37767,7 +33498,7 @@ getOrders: MemoizedSelector<StateWithUnitOrder, OrderHistoryList>
 # Variable OrderSelectors.getOrdersLoaded
 ## @spartacus/order/core
 
-moved to @spartacus/organization/unit/order/core
+moved to @spartacus/organization/unit-order/core
 
 
 Variable getOrdersLoaded changed.
@@ -37791,7 +33522,7 @@ getOrdersLoaded: MemoizedSelector<StateWithUnitOrder, boolean>
 # Variable OrderSelectors.getOrdersState
 ## @spartacus/order/core
 
-moved to @spartacus/organization/unit/order/core
+moved to @spartacus/organization/unit-order/core
 
 
 Variable getOrdersState changed.
@@ -37815,7 +33546,7 @@ getOrdersState: MemoizedSelector<StateWithUnitOrder, LoaderState<OrderHistoryLis
 # Variable OrderSelectors.getOrderState
 ## @spartacus/order/core
 
-moved to @spartacus/organization/unit/order/core
+moved to @spartacus/organization/unit-order/core
 
 
 Variable getOrderState changed.
@@ -39008,6 +34739,29 @@ constructor(
 
 
 
+# Class ReturnOrderComponent
+## @spartacus/order/components
+
+
+### Property featureConfigService changed.
+
+
+Previous version:
+
+```
+featureConfigService: FeatureConfigService | null
+```
+
+
+Current version:
+
+```
+featureConfigService: 
+```
+
+
+
+
 # Class ReturnOrderConfirmationComponent
 ## @spartacus/order/components
 
@@ -39280,8 +35034,6 @@ Variable orderTranslationsZh has been removed and is no longer part of the publi
 # Interface ApplePayAuthorizationResult
 ## @spartacus/opf/quick-buy/root
 
-moved to @spartacus/opf/quick/buy/root
-
 
 ### PropertySignature authResult is removed.
 
@@ -39293,18 +35045,8 @@ moved to @spartacus/opf/quick/buy/root
 
 
 
-# Enum ApplePayEvent
-## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
-
-
-
-
 # Interface ApplePaySessionConfig
 ## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
 
 
 ### PropertySignature onPaymentAuthorized is removed.
@@ -39336,8 +35078,6 @@ moved to @spartacus/opf/quick/buy/root
 # Interface ApplePaySessionVerificationRequest
 ## @spartacus/opf/quick-buy/root
 
-moved to @spartacus/opf/quick/buy/root
-
 
 ### PropertySignature cartId is removed.
 
@@ -39359,8 +35099,6 @@ moved to @spartacus/opf/quick/buy/root
 
 # Interface ApplePaySessionVerificationResponse
 ## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
 
 
 ### PropertySignature displayName is removed.
@@ -39397,18 +35135,8 @@ moved to @spartacus/opf/quick/buy/root
 
 
 
-# Enum ApplePayShippingType
-## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
-
-
-
-
 # Interface ApplePayTransactionInput
 ## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
 
 
 ### PropertySignature cart is removed.
@@ -39429,66 +35157,8 @@ moved to @spartacus/opf/quick/buy/root
 
 
 
-# Function defaultOpfQuickBuyCmsComponentsConfig
-## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
-
-
-
-
-# Variable defaultOpfQuickBuyConfig
-## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
-
-
-
-
-# Variable OPF_GOOGLE_PAY_PROVIDER_NAME
-## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
-
-
-
-
-# Variable OPF_QUICK_BUY_ADDRESS_FIELD_PLACEHOLDER
-## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
-
-
-
-
-# Variable OPF_QUICK_BUY_DEFAULT_MERCHANT_NAME
-## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
-
-
-
-
-# Variable OPF_QUICK_BUY_FEATURE
-## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
-
-
-
-
-# Class OpfQuickBuyConfig
-## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
-
-
-
-
 # Interface OpfQuickBuyDeliveryInfo
 ## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
 
 
 ### PropertySignature pickupDetails is removed.
@@ -39501,18 +35171,8 @@ moved to @spartacus/opf/quick/buy/root
 
 
 
-# Enum OpfQuickBuyDeliveryType
-## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
-
-
-
-
 # Interface OpfQuickBuyDigitalWallet
 ## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
 
 
 ### PropertySignature countryCode is removed.
@@ -39548,8 +35208,6 @@ moved to @spartacus/opf/quick/buy/root
 # Class OpfQuickBuyFacade
 ## @spartacus/opf/quick-buy/root
 
-moved to @spartacus/opf/quick/buy/root
-
 
 ### Method getApplePayWebSession is removed.
 
@@ -39560,8 +35218,6 @@ moved to @spartacus/opf/quick/buy/root
 # Interface OpfQuickBuyGooglePayProvider
 ## @spartacus/opf/quick-buy/root
 
-moved to @spartacus/opf/quick/buy/root
-
 
 ### PropertySignature resourceUrl is removed.
 
@@ -39569,34 +35225,8 @@ moved to @spartacus/opf/quick/buy/root
 
 
 
-# Enum OpfQuickBuyLocation
-## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
-
-
-
-
-# Enum OpfQuickBuyProviderType
-## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
-
-
-
-
-# Class OpfQuickBuyRootModule
-## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
-
-
-
-
 # Interface QuickBuyTransactionDetails
 ## @spartacus/opf/quick-buy/root
-
-moved to @spartacus/opf/quick/buy/root
 
 
 ### PropertySignature addressIds is removed.
@@ -39629,26 +35259,8 @@ moved to @spartacus/opf/quick/buy/root
 
 
 
-# Class OpfApiQuickBuyModule
-## @spartacus/opf/quick-buy/opf-api
-
-moved to @spartacus/opf/quick/buy/opf/api
-
-
-
-
-# Variable OPF_APPLE_PAY_WEB_SESSION_NORMALIZER
-## @spartacus/opf/quick-buy/core
-
-moved to @spartacus/opf/quick/buy/core
-
-
-
-
 # Class OpfQuickBuyAdapter
 ## @spartacus/opf/quick-buy/core
-
-moved to @spartacus/opf/quick/buy/core
 
 
 ### Method getApplePayWebSession is removed.
@@ -39660,8 +35272,6 @@ moved to @spartacus/opf/quick/buy/core
 # Class OpfQuickBuyConnector
 ## @spartacus/opf/quick-buy/core
 
-moved to @spartacus/opf/quick/buy/core
-
 
 ### Method getApplePayWebSession is removed.
 
@@ -39669,18 +35279,8 @@ moved to @spartacus/opf/quick/buy/core
 
 
 
-# Class OpfQuickBuyCoreModule
-## @spartacus/opf/quick-buy/core
-
-moved to @spartacus/opf/quick/buy/core
-
-
-
-
 # Class OpfQuickBuyService
 ## @spartacus/opf/quick-buy/core
-
-moved to @spartacus/opf/quick/buy/core
 
 
 ### Method getApplePayWebSession is removed.
@@ -39691,8 +35291,6 @@ moved to @spartacus/opf/quick/buy/core
 
 # Class OpfQuickBuyTransactionService
 ## @spartacus/opf/quick-buy/core
-
-moved to @spartacus/opf/quick/buy/core
 
 
 ### Method checkStableCart is removed.
@@ -40451,14 +36049,6 @@ moved to @spartacus/opf/quick/buy/core
 
 
 
-# Class OpfApiPaymentModule
-## @spartacus/opf/payment/opf-api
-
-moved to @spartacus/opf/payment/opf/api
-
-
-
-
 # Interface OccOpfPaymentEndpoints
 ## @spartacus/opf/payment/occ
 
@@ -40774,26 +36364,8 @@ Variable opfPaymentTranslationsZh has been removed and is no longer part of the 
 
 
 
-# Variable OPF_GLOBAL_FUNCTIONS_FEATURE
-## @spartacus/opf/global-functions/root
-
-moved to @spartacus/opf/global/functions/root
-
-
-
-
-# Enum OpfGlobalFunctionsDomain
-## @spartacus/opf/global-functions/root
-
-moved to @spartacus/opf/global/functions/root
-
-
-
-
 # Class OpfGlobalFunctionsFacade
 ## @spartacus/opf/global-functions/root
-
-moved to @spartacus/opf/global/functions/root
 
 
 ### Method registerGlobalFunctions is removed.
@@ -40806,18 +36378,8 @@ moved to @spartacus/opf/global/functions/root
 
 
 
-# Class OpfGlobalFunctionsRootModule
-## @spartacus/opf/global-functions/root
-
-moved to @spartacus/opf/global/functions/root
-
-
-
-
 # Interface OpfRegisterGlobalFunctionsInput
 ## @spartacus/opf/global-functions/root
-
-moved to @spartacus/opf/global/functions/root
 
 
 ### PropertySignature domain is removed.
@@ -40838,18 +36400,8 @@ moved to @spartacus/opf/global/functions/root
 
 
 
-# Class OpfGlobalFunctionsCoreModule
-## @spartacus/opf/global-functions/core
-
-moved to @spartacus/opf/global/functions/core
-
-
-
-
 # Class OpfGlobalFunctionsService
 ## @spartacus/opf/global-functions/core
-
-moved to @spartacus/opf/global/functions/core
 
 
 ### Method getGlobalFunctionContainer is removed.
@@ -40914,14 +36466,6 @@ moved to @spartacus/opf/global/functions/core
 
 ### Method unregisterGlobalFunctions is removed.
 
-
-
-
-
-# Class OpfGlobalFunctionsModule
-## @spartacus/opf/global-functions
-
-moved to @spartacus/opf/global/functions
 
 
 
@@ -41008,14 +36552,6 @@ moved to @spartacus/opf/global/functions
 
 ### PropertySignature value is removed.
 
-
-
-
-
-# Class OpfApiCtaModule
-## @spartacus/opf/cta/opf-api
-
-moved to @spartacus/opf/cta/opf/api
 
 
 
@@ -42088,14 +37624,6 @@ opf: { opfBaseUrl?: string; commerceCloudPublicKey?: string; paymentOption?: { p
 
 
 
-# Class OpfApiBaseModule
-## @spartacus/opf/base/opf-api
-
-moved to @spartacus/opf/base/opf/api
-
-
-
-
 # Class OpfBaseAdapter
 ## @spartacus/opf/base/core
 
@@ -42144,66 +37672,8 @@ moved to @spartacus/opf/base/opf/api
 
 
 
-# Function defaultOpfB2bCheckoutComponentsConfig
-## @spartacus/opf/b2b-checkout/root
-
-moved to @spartacus/opf/b2b/checkout/root
-
-
-
-
-# Variable defaultOpfB2bCheckoutConfig
-## @spartacus/opf/b2b-checkout/root
-
-moved to @spartacus/opf/b2b/checkout/root
-
-
-
-
-# Variable defaultOpfB2bCheckoutOccEndpointsConfig
-## @spartacus/opf/b2b-checkout/root
-
-moved to @spartacus/opf/b2b/checkout/root
-
-
-
-
-# Variable OPF_B2B_CHECKOUT_CMS_COMPONENTS
-## @spartacus/opf/b2b-checkout/root
-
-moved to @spartacus/opf/b2b/checkout/root
-
-
-
-
-# Variable OPF_B2B_CHECKOUT_FEATURE
-## @spartacus/opf/b2b-checkout/root
-
-moved to @spartacus/opf/b2b/checkout/root
-
-
-
-
-# Class OpfB2bCheckoutRootModule
-## @spartacus/opf/b2b-checkout/root
-
-moved to @spartacus/opf/b2b/checkout/root
-
-
-
-
-# Class OpfB2bCheckoutCoreModule
-## @spartacus/opf/b2b-checkout/core
-
-moved to @spartacus/opf/b2b/checkout/core
-
-
-
-
 # Class OpfB2bCheckoutPaymentTypeService
 ## @spartacus/opf/b2b-checkout/core
-
-moved to @spartacus/opf/b2b/checkout/core
 
 
 ### Method checkoutPreconditions is removed.
@@ -42236,50 +37706,8 @@ moved to @spartacus/opf/b2b/checkout/core
 
 
 
-# Class OpfB2bCheckoutComponentsModule
-## @spartacus/opf/b2b-checkout/components
-
-moved to @spartacus/opf/b2b/checkout/components
-
-
-
-
-# Class OpfB2bCheckoutCostCenterComponent
-## @spartacus/opf/b2b-checkout/components
-
-moved to @spartacus/opf/b2b/checkout/components
-
-
-
-
-# Class OpfB2bCheckoutCostCenterModule
-## @spartacus/opf/b2b-checkout/components
-
-moved to @spartacus/opf/b2b/checkout/components
-
-
-
-
-# Class OpfB2bCheckoutDeliveryAddressComponent
-## @spartacus/opf/b2b-checkout/components
-
-moved to @spartacus/opf/b2b/checkout/components
-
-
-
-
-# Class OpfB2bCheckoutDeliveryAddressModule
-## @spartacus/opf/b2b-checkout/components
-
-moved to @spartacus/opf/b2b/checkout/components
-
-
-
-
 # Class OpfB2bCheckoutPaymentAndReviewComponent
 ## @spartacus/opf/b2b-checkout/components
-
-moved to @spartacus/opf/b2b/checkout/components
 
 
 ### Method getPaymentMethodNameCard is removed.
@@ -42292,18 +37720,8 @@ moved to @spartacus/opf/b2b/checkout/components
 
 
 
-# Class OpfB2bCheckoutPaymentAndReviewModule
-## @spartacus/opf/b2b-checkout/components
-
-moved to @spartacus/opf/b2b/checkout/components
-
-
-
-
 # Class OpfB2bCheckoutPaymentTypeComponent
 ## @spartacus/opf/b2b-checkout/components
-
-moved to @spartacus/opf/b2b/checkout/components
 
 
 ### Method adaptCheckoutSteps is removed.
@@ -42352,18 +37770,8 @@ moved to @spartacus/opf/b2b/checkout/components
 
 
 
-# Class OpfB2bCheckoutPaymentTypeModule
-## @spartacus/opf/b2b-checkout/components
-
-moved to @spartacus/opf/b2b/checkout/components
-
-
-
-
 # Class OpfB2bCheckoutPlaceOrderComponent
 ## @spartacus/opf/b2b-checkout/components
-
-moved to @spartacus/opf/b2b/checkout/components
 
 
 ### Method ngOnInit is removed.
@@ -42372,18 +37780,8 @@ moved to @spartacus/opf/b2b/checkout/components
 
 
 
-# Class OpfB2bCheckoutPlaceOrderModule
-## @spartacus/opf/b2b-checkout/components
-
-moved to @spartacus/opf/b2b/checkout/components
-
-
-
-
 # Class OpfB2bCheckoutReviewComponent
 ## @spartacus/opf/b2b-checkout/components
-
-moved to @spartacus/opf/b2b/checkout/components
 
 
 ### Method getCostCenterCard is removed.
@@ -42424,22 +37822,6 @@ moved to @spartacus/opf/b2b/checkout/components
 
 
 
-# Class OpfB2bCheckoutReviewModule
-## @spartacus/opf/b2b-checkout/components
-
-moved to @spartacus/opf/b2b/checkout/components
-
-
-
-
-# Class OpfB2bCheckoutModule
-## @spartacus/opf/b2b-checkout
-
-moved to @spartacus/opf/b2b/checkout
-
-
-
-
 # Class OccOmfOrderHistoryAdapter
 ## @spartacus/omf/order
 
@@ -42475,8 +37857,6 @@ moved to @spartacus/opf/b2b/checkout
 # Class EstimatedDeliveryDateComponent
 ## @spartacus/estimated-delivery-date/show-estimated-delivery-date
 
-moved to @spartacus/estimated/delivery/date/show/estimated/delivery/date
-
 
 ### Method getArrivalSlotInfoId is removed.
 
@@ -42496,18 +37876,8 @@ moved to @spartacus/estimated/delivery/date/show/estimated/delivery/date
 
 
 
-# Class ShowEstimatedDeliveryDateModule
-## @spartacus/estimated-delivery-date/show-estimated-delivery-date
-
-moved to @spartacus/estimated/delivery/date/show/estimated/delivery/date
-
-
-
-
 # Interface ArrivalSlot
 ## @spartacus/estimated-delivery-date/root
-
-moved to @spartacus/estimated/delivery/date/root
 
 
 ### PropertySignature at is removed.
@@ -42519,8 +37889,6 @@ moved to @spartacus/estimated/delivery/date/root
 # Interface ArrivalSlots
 ## @spartacus/estimated-delivery-date/root
 
-moved to @spartacus/estimated/delivery/date/root
-
 
 ### PropertySignature at is removed.
 
@@ -42528,38 +37896,6 @@ moved to @spartacus/estimated/delivery/date/root
 
 ### PropertySignature quantity is removed.
 
-
-
-
-
-# Variable ESTIMATED_DELIVERY_DATE_FEATURE
-## @spartacus/estimated-delivery-date/root
-
-moved to @spartacus/estimated/delivery/date/root
-
-
-
-
-# Class EstimatedDeliveryDateRootModule
-## @spartacus/estimated-delivery-date/root
-
-moved to @spartacus/estimated/delivery/date/root
-
-
-
-
-# Variable estimatedDeliveryDateTranslationChunksConfig
-## @spartacus/estimated-delivery-date/assets
-
-moved to @spartacus/estimated/delivery/date/assets
-
-
-
-
-# Variable estimatedDeliveryDateTranslations
-## @spartacus/estimated-delivery-date/assets
-
-moved to @spartacus/estimated/delivery/date/assets
 
 
 
@@ -42720,8 +38056,6 @@ Variable estimatedDeliveryDateTranslationsZh has been removed and is no longer p
 # Class EstimatedDeliveryDateComponent
 ## @spartacus/estimated-delivery-date
 
-moved to @spartacus/estimated/delivery/date/show/estimated/delivery/date
-
 
 ### Method getArrivalSlotInfoId is removed.
 
@@ -42741,66 +38075,8 @@ moved to @spartacus/estimated/delivery/date/show/estimated/delivery/date
 
 
 
-# Class EstimatedDeliveryDateModule
-## @spartacus/estimated-delivery-date
-
-moved to @spartacus/estimated/delivery/date
-
-
-
-
-# Class ShowEstimatedDeliveryDateModule
-## @spartacus/estimated-delivery-date
-
-moved to @spartacus/estimated/delivery/date/show/estimated/delivery/date
-
-
-
-
-# Enum ContentType
-## @spartacus/epd-visualization/root
-
-moved to @spartacus/epd/visualization/root
-
-
-
-
-# Function defaultEpdVisualizationComponentsConfig
-## @spartacus/epd-visualization/root
-
-moved to @spartacus/epd/visualization/root
-
-
-
-
-# Variable EPD_VISUALIZATION_FEATURE
-## @spartacus/epd-visualization/root
-
-moved to @spartacus/epd/visualization/root
-
-
-
-
-# Class EpdVisualizationConfig
-## @spartacus/epd-visualization/root
-
-moved to @spartacus/epd/visualization/root
-
-
-
-
-# Function epdVisualizationConfigValidator
-## @spartacus/epd-visualization/root
-
-moved to @spartacus/epd/visualization/root
-
-
-
-
 # Interface EpdVisualizationInnerConfig
 ## @spartacus/epd-visualization/root
-
-moved to @spartacus/epd/visualization/root
 
 
 ### PropertySignature apis is removed.
@@ -42821,18 +38097,8 @@ moved to @spartacus/epd/visualization/root
 
 
 
-# Class EpdVisualizationRootModule
-## @spartacus/epd-visualization/root
-
-moved to @spartacus/epd/visualization/root
-
-
-
-
 # Class EventListenerUtils
 ## @spartacus/epd-visualization/root
-
-moved to @spartacus/epd/visualization/root
 
 
 ### Method _detachEventListeners is removed.
@@ -42857,34 +38123,8 @@ moved to @spartacus/epd/visualization/root
 
 
 
-# Function getEpdVisualizationDefaultConfig
-## @spartacus/epd-visualization/root
-
-moved to @spartacus/epd/visualization/root
-
-
-
-
-# Function getUrl
-## @spartacus/epd-visualization/root
-
-moved to @spartacus/epd/visualization/root
-
-
-
-
-# Function isHttpOrHttps
-## @spartacus/epd-visualization/root
-
-moved to @spartacus/epd/visualization/root
-
-
-
-
 # Interface Listener
 ## @spartacus/epd-visualization/root
-
-moved to @spartacus/epd/visualization/root
 
 
 ### PropertySignature endListener is removed.
@@ -42904,8 +38144,6 @@ moved to @spartacus/epd/visualization/root
 # Interface Ui5Config
 ## @spartacus/epd-visualization/root
 
-moved to @spartacus/epd/visualization/root
-
 
 ### PropertySignature bootstrapUrl is removed.
 
@@ -42915,8 +38153,6 @@ moved to @spartacus/epd/visualization/root
 
 # Interface UsageId
 ## @spartacus/epd-visualization/root
-
-moved to @spartacus/epd/visualization/root
 
 
 ### PropertySignature keys is removed.
@@ -42932,8 +38168,6 @@ moved to @spartacus/epd/visualization/root
 # Interface UsageIdConfig
 ## @spartacus/epd-visualization/root
 
-moved to @spartacus/epd/visualization/root
-
 
 ### PropertySignature folderUsageId is removed.
 
@@ -42947,8 +38181,6 @@ moved to @spartacus/epd/visualization/root
 
 # Interface UsageIdDefinition
 ## @spartacus/epd-visualization/root
-
-moved to @spartacus/epd/visualization/root
 
 
 ### PropertySignature keyName is removed.
@@ -42964,8 +38196,6 @@ moved to @spartacus/epd/visualization/root
 # Interface UsageIdKey
 ## @spartacus/epd-visualization/root
 
-moved to @spartacus/epd/visualization/root
-
 
 ### PropertySignature name is removed.
 
@@ -42980,8 +38210,6 @@ moved to @spartacus/epd/visualization/root
 # Interface VisualizationApiConfig
 ## @spartacus/epd-visualization/root
 
-moved to @spartacus/epd/visualization/root
-
 
 ### PropertySignature baseUrl is removed.
 
@@ -42991,8 +38219,6 @@ moved to @spartacus/epd/visualization/root
 
 # Interface VisualizationInfo
 ## @spartacus/epd-visualization/root
-
-moved to @spartacus/epd/visualization/root
 
 
 ### PropertySignature category is removed.
@@ -43024,8 +38250,6 @@ moved to @spartacus/epd/visualization/root
 # Interface VisualPickingConfig
 ## @spartacus/epd-visualization/root
 
-moved to @spartacus/epd/visualization/root
-
 
 ### PropertySignature productReferenceType is removed.
 
@@ -43033,34 +38257,8 @@ moved to @spartacus/epd/visualization/root
 
 
 
-# Class EpdVisualizationApiModule
-## @spartacus/epd-visualization/epd-visualization-api
-
-moved to @spartacus/epd/visualization/epd/visualization/api
-
-
-
-
-# Class EpdVisualizationCoreModule
-## @spartacus/epd-visualization/core
-
-moved to @spartacus/epd/visualization/core
-
-
-
-
-# Variable LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER
-## @spartacus/epd-visualization/core
-
-moved to @spartacus/epd/visualization/core
-
-
-
-
 # Interface LookupVisualizationsResponse
 ## @spartacus/epd-visualization/core
-
-moved to @spartacus/epd/visualization/core
 
 
 ### PropertySignature visualizations is removed.
@@ -43071,8 +38269,6 @@ moved to @spartacus/epd/visualization/core
 
 # Interface NodeIdProductCodes
 ## @spartacus/epd-visualization/core
-
-moved to @spartacus/epd/visualization/core
 
 
 ### PropertySignature nodeId is removed.
@@ -43085,18 +38281,8 @@ moved to @spartacus/epd/visualization/core
 
 
 
-# Variable NODES_RESPONSE_NORMALIZER
-## @spartacus/epd-visualization/core
-
-moved to @spartacus/epd/visualization/core
-
-
-
-
 # Interface NodesResponse
 ## @spartacus/epd-visualization/core
-
-moved to @spartacus/epd/visualization/core
 
 
 ### PropertySignature nodes is removed.
@@ -43108,8 +38294,6 @@ moved to @spartacus/epd/visualization/core
 # Class SceneAdapter
 ## @spartacus/epd-visualization/core
 
-moved to @spartacus/epd/visualization/core
-
 
 ### Method getNodes is removed.
 
@@ -43120,8 +38304,6 @@ moved to @spartacus/epd/visualization/core
 # Class SceneConnector
 ## @spartacus/epd-visualization/core
 
-moved to @spartacus/epd/visualization/core
-
 
 ### Method getNodes is removed.
 
@@ -43131,8 +38313,6 @@ moved to @spartacus/epd/visualization/core
 
 # Class SceneNodeToProductLookupService
 ## @spartacus/epd-visualization/core
-
-moved to @spartacus/epd/visualization/core
 
 
 ### Method lookupNodeIds is removed.
@@ -43160,8 +38340,6 @@ moved to @spartacus/epd/visualization/core
 # Interface TreeNode
 ## @spartacus/epd-visualization/core
 
-moved to @spartacus/epd/visualization/core
-
 
 ### PropertySignature sid is removed.
 
@@ -43175,8 +38353,6 @@ moved to @spartacus/epd/visualization/core
 
 # Interface UsageId
 ## @spartacus/epd-visualization/core
-
-moved to @spartacus/epd/visualization/root
 
 
 ### PropertySignature keys is removed.
@@ -43192,8 +38368,6 @@ moved to @spartacus/epd/visualization/root
 # Interface UsageIdKey
 ## @spartacus/epd-visualization/core
 
-moved to @spartacus/epd/visualization/root
-
 
 ### PropertySignature name is removed.
 
@@ -43208,8 +38382,6 @@ moved to @spartacus/epd/visualization/root
 # Class VisualizationAdapter
 ## @spartacus/epd-visualization/core
 
-moved to @spartacus/epd/visualization/core
-
 
 ### Method lookupVisualization is removed.
 
@@ -43219,8 +38391,6 @@ moved to @spartacus/epd/visualization/core
 
 # Class VisualizationConnector
 ## @spartacus/epd-visualization/core
-
-moved to @spartacus/epd/visualization/core
 
 
 ### Method lookupVisualization is removed.
@@ -43232,8 +38402,6 @@ moved to @spartacus/epd/visualization/core
 # Class VisualizationLookupService
 ## @spartacus/epd-visualization/core
 
-moved to @spartacus/epd/visualization/core
-
 
 ### Method findMatchingVisualizations is removed.
 
@@ -43241,42 +38409,8 @@ moved to @spartacus/epd/visualization/core
 
 
 
-# Class CompactAddToCartComponent
-## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
-
-
-
-
-# Class CompactAddToCartModule
-## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
-
-
-
-
-# Class EpdVisualizationComponentsModule
-## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
-
-
-
-
-# Enum NavigationMode
-## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
-
-
-
-
 # Class PagedListComponent
 ## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
 
 
 ### Method ngOnInit is removed.
@@ -43285,14 +38419,6 @@ moved to @spartacus/epd/visualization/components
 
 ### Method setActiveSlideStartIndex is removed.
 
-
-
-
-
-# Class PagedListModule
-## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
 
 
 
@@ -43308,8 +38434,6 @@ Enum SelectionMode_2 has been removed and is no longer part of the public API.
 
 # Interface VisualizationLoadInfo
 ## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
 
 
 ### PropertySignature errorMessage is removed.
@@ -43334,26 +38458,8 @@ moved to @spartacus/epd/visualization/components
 
 
 
-# Enum VisualizationLoadStatus
-## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
-
-
-
-
-# Enum VisualizationLookupResult
-## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
-
-
-
-
 # Class VisualPickingProductFilterComponent
 ## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
 
 
 ### Property filter is removed.
@@ -43362,18 +38468,8 @@ moved to @spartacus/epd/visualization/components
 
 
 
-# Class VisualPickingProductFilterModule
-## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
-
-
-
-
 # Class VisualPickingProductFilterService
 ## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
 
 
 ### Method applyFilter is removed.
@@ -43392,8 +38488,6 @@ moved to @spartacus/epd/visualization/components
 
 # Class VisualPickingProductListComponent
 ## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
 
 
 ### Property activeSlideStartIndex is removed.
@@ -43421,8 +38515,6 @@ moved to @spartacus/epd/visualization/components
 # Interface VisualPickingProductListItem
 ## @spartacus/epd-visualization/components
 
-moved to @spartacus/epd/visualization/components
-
 
 ### PropertySignature product is removed.
 
@@ -43434,18 +38526,8 @@ moved to @spartacus/epd/visualization/components
 
 
 
-# Class VisualPickingProductListModule
-## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
-
-
-
-
 # Class VisualPickingProductListService
 ## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
 
 
 ### Method getFilteredProductReferences is removed.
@@ -43477,8 +38559,6 @@ moved to @spartacus/epd/visualization/components
 # Class VisualPickingTabComponent
 ## @spartacus/epd-visualization/components
 
-moved to @spartacus/epd/visualization/components
-
 
 ### Property hideNoProductReferencesIndicator is removed.
 
@@ -43502,18 +38582,8 @@ moved to @spartacus/epd/visualization/components
 
 
 
-# Class VisualPickingTabModule
-## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
-
-
-
-
 # Class VisualPickingTabService
 ## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
 
 
 ### Property hideNoProductReferencesText is removed.
@@ -43553,8 +38623,6 @@ moved to @spartacus/epd/visualization/components
 # Class VisualViewerAnimationSliderComponent
 ## @spartacus/epd-visualization/components
 
-moved to @spartacus/epd/visualization/components
-
 
 ### Property barElement is removed.
 
@@ -43590,18 +38658,8 @@ moved to @spartacus/epd/visualization/components
 
 
 
-# Class VisualViewerAnimationSliderModule
-## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
-
-
-
-
 # Class VisualViewerAnimationSliderService
 ## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
 
 
 ### Property barElement is removed.
@@ -43656,8 +38714,6 @@ moved to @spartacus/epd/visualization/components
 
 # Class VisualViewerComponent
 ## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
 
 
 ### Method activateHomeView is removed.
@@ -43754,18 +38810,8 @@ moved to @spartacus/epd/visualization/components
 
 
 
-# Class VisualViewerModule
-## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
-
-
-
-
 # Class VisualViewerService
 ## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
 
 
 ### Method activateHomeView is removed.
@@ -43870,38 +38916,6 @@ moved to @spartacus/epd/visualization/components
 
 ### Property visualizationLoadInfo is removed.
 
-
-
-
-
-# Class VisualViewerToolbarButtonComponent
-## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
-
-
-
-
-# Class VisualViewerToolbarButtonModule
-## @spartacus/epd-visualization/components
-
-moved to @spartacus/epd/visualization/components
-
-
-
-
-# Variable epdVisualizationTranslationChunksConfig
-## @spartacus/epd-visualization/assets
-
-moved to @spartacus/epd/visualization/assets
-
-
-
-
-# Variable epdVisualizationTranslations
-## @spartacus/epd-visualization/assets
-
-moved to @spartacus/epd/visualization/assets
 
 
 
@@ -44059,30 +39073,6 @@ Variable epdVisualizationTranslationsZh has been removed and is no longer part o
 
 
 
-# Class EpdVisualizationModule
-## @spartacus/epd-visualization
-
-moved to @spartacus/epd/visualization
-
-
-
-
-# Variable dpTranslationChunksConfig
-## @spartacus/digital-payments/assets
-
-moved to @spartacus/digital/payments/assets
-
-
-
-
-# Variable dpTranslations
-## @spartacus/digital-payments/assets
-
-moved to @spartacus/digital/payments/assets
-
-
-
-
 # Variable dpTranslationsCs
 ## @spartacus/digital-payments/assets
 
@@ -44236,26 +39226,8 @@ Variable dpTranslationsZh has been removed and is no longer part of the public A
 
 
 
-# Class DigitalPaymentsModule
-## @spartacus/digital-payments
-
-moved to @spartacus/digital/payments
-
-
-
-
-# Class DpCheckoutModule
-## @spartacus/digital-payments
-
-moved to @spartacus/digital/payments
-
-
-
-
 # Class DpCheckoutPaymentService
 ## @spartacus/digital-payments
-
-moved to @spartacus/digital/payments
 
 
 ### Method checkoutPreconditions is removed.
@@ -44275,8 +39247,6 @@ moved to @spartacus/digital/payments
 # Interface DpPaymentRequest
 ## @spartacus/digital-payments
 
-moved to @spartacus/digital/payments
-
 
 ### PropertySignature sessionId is removed.
 
@@ -44294,8 +39264,6 @@ moved to @spartacus/digital/payments
 
 # Interface AssociatedObject
 ## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
 
 
 ### PropertySignature code is removed.
@@ -44315,8 +39283,6 @@ moved to @spartacus/customer/ticketing/root
 # Interface AssociatedObjectsList
 ## @spartacus/customer-ticketing/root
 
-moved to @spartacus/customer/ticketing/root
-
 
 ### PropertySignature ticketAssociatedObjects is removed.
 
@@ -44326,8 +39292,6 @@ moved to @spartacus/customer/ticketing/root
 
 # Interface Attachment
 ## @spartacus/customer-ticketing/root
-
-moved to @spartacus/storefront
 
 
 ### PropertySignature filename is removed.
@@ -44343,8 +39307,6 @@ moved to @spartacus/storefront
 # Interface CategoriesList
 ## @spartacus/customer-ticketing/root
 
-moved to @spartacus/customer/ticketing/root
-
 
 ### PropertySignature ticketCategories is removed.
 
@@ -44354,8 +39316,6 @@ moved to @spartacus/customer/ticketing/root
 
 # Interface Category
 ## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
 
 
 ### PropertySignature id is removed.
@@ -44368,42 +39328,8 @@ moved to @spartacus/customer/ticketing/root
 
 
 
-# Class CreateEvent
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Variable CUSTOMER_TICKETING_CORE_FEATURE
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Variable CUSTOMER_TICKETING_FEATURE
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Class CustomerTicketingConfig
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
 # Class CustomerTicketingEventListener
 ## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
 
 
 ### Method ngOnDestroy is removed.
@@ -44440,18 +39366,8 @@ moved to @spartacus/customer/ticketing/root
 
 
 
-# Class CustomerTicketingEventModule
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
 # Class CustomerTicketingFacade
 ## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
 
 
 ### Method createTicket is removed.
@@ -44504,170 +39420,8 @@ moved to @spartacus/customer/ticketing/root
 
 
 
-# Class CustomerTicketingRootModule
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Variable DATE_FORMAT
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Function defaultCustomerTicketingComponentsConfig
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Variable defaultCustomerTicketingConfig
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Class GetTicketAssociatedObjectsQueryReloadEvent
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Class GetTicketAssociatedObjectsQueryResetEvent
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Class GetTicketCategoryQueryReloadEvent
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Class GetTicketCategoryQueryResetEvent
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Class GetTicketQueryReloadEvent
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Class GetTicketQueryResetEvent
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Class GetTicketsQueryReloadEvents
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Class GetTicketsQueryResetEvents
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Variable LIST_VIEW_PAGE_SIZE
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Variable MAX_ENTRIES_FOR_ATTACHMENT
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Variable MAX_INPUT_CHARACTERS_FOR_SUBJECT
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Variable MAX_INPUT_CHARACTERS
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Variable MAX_SIZE_FOR_ATTACHMENT
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Class NewMessageEvent
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Enum STATUS_NAME
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Enum STATUS
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
 # Interface Status
 ## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
 
 
 ### PropertySignature id is removed.
@@ -44680,34 +39434,8 @@ moved to @spartacus/customer/ticketing/root
 
 
 
-# Enum TEXT_COLOR_CLASS
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Class TicketClosedEvent
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Class TicketCreatedEvent
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
 # Interface TicketDetails
 ## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
 
 
 ### PropertySignature availableStatusTransitions is removed.
@@ -44747,8 +39475,6 @@ moved to @spartacus/customer/ticketing/root
 # Interface TicketEvent
 ## @spartacus/customer-ticketing/root
 
-moved to @spartacus/customer/ticketing/root
-
 
 ### PropertySignature addedByAgent is removed.
 
@@ -44783,8 +39509,6 @@ moved to @spartacus/customer/ticketing/root
 # Interface TicketList
 ## @spartacus/customer-ticketing/root
 
-moved to @spartacus/customer/ticketing/root
-
 
 ### PropertySignature pagination is removed.
 
@@ -44800,18 +39524,8 @@ moved to @spartacus/customer/ticketing/root
 
 
 
-# Class TicketReopenedEvent
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
 # Interface TicketSearchConfig
 ## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
 
 
 ### PropertySignature currentPage is removed.
@@ -44830,8 +39544,6 @@ moved to @spartacus/customer/ticketing/root
 
 # Interface TicketStarter
 ## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
 
 
 ### PropertySignature associatedTo is removed.
@@ -44856,26 +39568,8 @@ moved to @spartacus/customer/ticketing/root
 
 
 
-# Class UploadAttachmentSuccessEvent
-## @spartacus/customer-ticketing/root
-
-moved to @spartacus/customer/ticketing/root
-
-
-
-
-# Class CustomerTicketingOccModule
-## @spartacus/customer-ticketing/occ
-
-moved to @spartacus/customer/ticketing/occ
-
-
-
-
 # Class OccCustomerTicketingAdapter
 ## @spartacus/customer-ticketing/occ
-
-moved to @spartacus/customer/ticketing/occ
 
 
 ### Method createTicket is removed.
@@ -44944,66 +39638,8 @@ moved to @spartacus/customer/ticketing/occ
 
 
 
-# Variable CUSTOMER_TICKETING_ASSOCIATED_OBJECTS_NORMALIZER
-## @spartacus/customer-ticketing/core
-
-moved to @spartacus/customer/ticketing/core
-
-
-
-
-# Variable CUSTOMER_TICKETING_CATEGORY_NORMALIZER
-## @spartacus/customer-ticketing/core
-
-moved to @spartacus/customer/ticketing/core
-
-
-
-
-# Variable CUSTOMER_TICKETING_CREATE_NORMALIZER
-## @spartacus/customer-ticketing/core
-
-moved to @spartacus/customer/ticketing/core
-
-
-
-
-# Variable CUSTOMER_TICKETING_DETAILS_NORMALIZER
-## @spartacus/customer-ticketing/core
-
-moved to @spartacus/customer/ticketing/core
-
-
-
-
-# Variable CUSTOMER_TICKETING_EVENT_NORMALIZER
-## @spartacus/customer-ticketing/core
-
-moved to @spartacus/customer/ticketing/core
-
-
-
-
-# Variable CUSTOMER_TICKETING_FILE_NORMALIZER
-## @spartacus/customer-ticketing/core
-
-moved to @spartacus/customer/ticketing/core
-
-
-
-
-# Variable CUSTOMER_TICKETING_LIST_NORMALIZER
-## @spartacus/customer-ticketing/core
-
-moved to @spartacus/customer/ticketing/core
-
-
-
-
 # Class CustomerTicketingAdapter
 ## @spartacus/customer-ticketing/core
-
-moved to @spartacus/customer/ticketing/core
 
 
 ### Method createTicket is removed.
@@ -45043,8 +39679,6 @@ moved to @spartacus/customer/ticketing/core
 # Class CustomerTicketingConnector
 ## @spartacus/customer-ticketing/core
 
-moved to @spartacus/customer/ticketing/core
-
 
 ### Method createTicket is removed.
 
@@ -45080,18 +39714,8 @@ moved to @spartacus/customer/ticketing/core
 
 
 
-# Class CustomerTicketingCoreModule
-## @spartacus/customer-ticketing/core
-
-moved to @spartacus/customer/ticketing/core
-
-
-
-
 # Class CustomerTicketingPageMetaResolver
 ## @spartacus/customer-ticketing/core
-
-moved to @spartacus/customer/ticketing/core
 
 
 ### Method resolveBreadcrumbs is removed.
@@ -45118,8 +39742,6 @@ moved to @spartacus/customer/ticketing/core
 
 # Class CustomerTicketingService
 ## @spartacus/customer-ticketing/core
-
-moved to @spartacus/customer/ticketing/core
 
 
 ### Method createTicket is removed.
@@ -45216,18 +39838,8 @@ moved to @spartacus/customer/ticketing/core
 
 
 
-# Function isNotFoundError
-## @spartacus/customer-ticketing/core
-
-moved to @spartacus/customer/ticketing/core
-
-
-
-
 # Class NotFoundTicketRequestHandler
 ## @spartacus/customer-ticketing/core
-
-moved to @spartacus/customer/ticketing/core
 
 
 ### Method getErrors is removed.
@@ -45259,8 +39871,6 @@ moved to @spartacus/customer/ticketing/core
 # Class CustomerTicketingCloseComponent
 ## @spartacus/customer-ticketing/components
 
-moved to @spartacus/customer/ticketing/components
-
 
 ### Method ngOnDestroy is removed.
 
@@ -45275,8 +39885,6 @@ moved to @spartacus/customer/ticketing/components
 # Class CustomerTicketingCloseComponentService
 ## @spartacus/customer-ticketing/components
 
-moved to @spartacus/customer/ticketing/components
-
 
 ### Method enableCloseButton is removed.
 
@@ -45286,8 +39894,6 @@ moved to @spartacus/customer/ticketing/components
 
 # Class CustomerTicketingCloseDialogComponent
 ## @spartacus/customer-ticketing/components
-
-moved to @spartacus/customer/ticketing/components
 
 
 ### Method closeRequest is removed.
@@ -45316,26 +39922,8 @@ moved to @spartacus/customer/ticketing/components
 
 
 
-# Class CustomerTicketingCloseModule
-## @spartacus/customer-ticketing/components
-
-moved to @spartacus/customer/ticketing/components
-
-
-
-
-# Class CustomerTicketingComponentsModule
-## @spartacus/customer-ticketing/components
-
-moved to @spartacus/customer/ticketing/components
-
-
-
-
 # Class CustomerTicketingCreateComponent
 ## @spartacus/customer-ticketing/components
-
-moved to @spartacus/customer/ticketing/components
 
 
 ### Method ngOnDestroy is removed.
@@ -45351,8 +39939,6 @@ moved to @spartacus/customer/ticketing/components
 # Class CustomerTicketingCreateDialogComponent
 ## @spartacus/customer-ticketing/components
 
-moved to @spartacus/customer/ticketing/components
-
 
 ### Method buildForm is removed.
 
@@ -45360,6 +39946,23 @@ moved to @spartacus/customer/ticketing/components
 
 ### Method createTicketRequest is removed.
 
+
+
+### Property featureService changed.
+
+
+Previous version:
+
+```
+featureService: FeatureConfigService | null
+```
+
+
+Current version:
+
+```
+featureService: 
+```
 
 
 ### Method getCreateTicketPayload is removed.
@@ -45392,18 +39995,8 @@ moved to @spartacus/customer/ticketing/components
 
 
 
-# Class CustomerTicketingCreateModule
-## @spartacus/customer-ticketing/components
-
-moved to @spartacus/customer/ticketing/components
-
-
-
-
 # Class CustomerTicketingDetailsComponent
 ## @spartacus/customer-ticketing/components
-
-moved to @spartacus/customer/ticketing/components
 
 
 ### Method getStatusClass is removed.
@@ -45424,18 +40017,8 @@ moved to @spartacus/customer/ticketing/components
 
 
 
-# Class CustomerTicketingDetailsModule
-## @spartacus/customer-ticketing/components
-
-moved to @spartacus/customer/ticketing/components
-
-
-
-
 # Class CustomerTicketingDialogComponent
 ## @spartacus/customer-ticketing/components
-
-moved to @spartacus/customer/ticketing/components
 
 
 ### Property allowedTypes is removed.
@@ -45479,8 +40062,6 @@ moved to @spartacus/customer/ticketing/components
 # Class CustomerTicketingListComponent
 ## @spartacus/customer-ticketing/components
 
-moved to @spartacus/customer/ticketing/components
-
 
 ### Method changeSortCode is removed.
 
@@ -45504,18 +40085,8 @@ moved to @spartacus/customer/ticketing/components
 
 
 
-# Class CustomerTicketingListModule
-## @spartacus/customer-ticketing/components
-
-moved to @spartacus/customer/ticketing/components
-
-
-
-
 # Class CustomerTicketingMessagesComponent
 ## @spartacus/customer-ticketing/components
-
-moved to @spartacus/customer/ticketing/components
 
 
 ### Method downloadAttachment is removed.
@@ -45547,8 +40118,6 @@ moved to @spartacus/customer/ticketing/components
 # Class CustomerTicketingMessagesComponentService
 ## @spartacus/customer-ticketing/components
 
-moved to @spartacus/customer/ticketing/components
-
 
 ### Method displayAddMessageSection is removed.
 
@@ -45556,18 +40125,8 @@ moved to @spartacus/customer/ticketing/components
 
 
 
-# Class CustomerTicketingMessagesModule
-## @spartacus/customer-ticketing/components
-
-moved to @spartacus/customer/ticketing/components
-
-
-
-
 # Class CustomerTicketingReopenComponent
 ## @spartacus/customer-ticketing/components
-
-moved to @spartacus/customer/ticketing/components
 
 
 ### Method ngOnDestroy is removed.
@@ -45583,8 +40142,6 @@ moved to @spartacus/customer/ticketing/components
 # Class CustomerTicketingReopenComponentService
 ## @spartacus/customer-ticketing/components
 
-moved to @spartacus/customer/ticketing/components
-
 
 ### Method enableReopenButton is removed.
 
@@ -45594,8 +40151,6 @@ moved to @spartacus/customer/ticketing/components
 
 # Class CustomerTicketingReopenDialogComponent
 ## @spartacus/customer-ticketing/components
-
-moved to @spartacus/customer/ticketing/components
 
 
 ### Method ngOnDestroy is removed.
@@ -45620,54 +40175,6 @@ moved to @spartacus/customer/ticketing/components
 
 ### Method reopenRequest is removed.
 
-
-
-
-
-# Class CustomerTicketingReopenModule
-## @spartacus/customer-ticketing/components
-
-moved to @spartacus/customer/ticketing/components
-
-
-
-
-# Variable defaultCustomerTicketingFormLayoutConfig
-## @spartacus/customer-ticketing/components
-
-moved to @spartacus/customer/ticketing/components
-
-
-
-
-# Class MyAccountV2CustomerTicketingComponent
-## @spartacus/customer-ticketing/components
-
-moved to @spartacus/customer/ticketing/components
-
-
-
-
-# Class MyAccountV2CustomerTicketingModule
-## @spartacus/customer-ticketing/components
-
-moved to @spartacus/customer/ticketing/components
-
-
-
-
-# Variable customerTicketingTranslationChunksConfig
-## @spartacus/customer-ticketing/assets
-
-moved to @spartacus/customer/ticketing/assets
-
-
-
-
-# Variable customerTicketingTranslations
-## @spartacus/customer-ticketing/assets
-
-moved to @spartacus/customer/ticketing/assets
 
 
 
@@ -45825,26 +40332,8 @@ Variable customerTicketingTranslationsZh has been removed and is no longer part 
 
 
 
-# Class CustomerTicketingModule
-## @spartacus/customer-ticketing
-
-moved to @spartacus/customer/ticketing
-
-
-
-
-# Variable CPQ_QUOTE_FEATURE
-## @spartacus/cpq-quote/root
-
-moved to @spartacus/cpq/quote/root
-
-
-
-
 # Interface CpqDiscounts
 ## @spartacus/cpq-quote/root
-
-moved to @spartacus/cpq/quote/root
 
 
 ### PropertySignature appliedValue is removed.
@@ -45861,26 +40350,8 @@ moved to @spartacus/cpq/quote/root
 
 
 
-# Class CpqQuoteRootModule
-## @spartacus/cpq-quote/root
-
-moved to @spartacus/cpq/quote/root
-
-
-
-
-# Class CpqDiscountModule
-## @spartacus/cpq-quote/cpq-quote-discount
-
-moved to @spartacus/cpq/quote/cpq/quote/discount
-
-
-
-
 # Class CpqQuoteDiscountComponent
 ## @spartacus/cpq-quote/cpq-quote-discount
-
-moved to @spartacus/cpq/quote/cpq/quote/discount
 
 
 ### Method getDiscountedPrice is removed.
@@ -45900,8 +40371,6 @@ moved to @spartacus/cpq/quote/cpq/quote/discount
 # Class CpqQuoteHeadingComponent
 ## @spartacus/cpq-quote/cpq-quote-discount
 
-moved to @spartacus/cpq/quote/cpq/quote/discount
-
 
 ### Method ngOnDestroy is removed.
 
@@ -45915,8 +40384,6 @@ moved to @spartacus/cpq/quote/cpq/quote/discount
 
 # Class CpqQuoteOfferComponent
 ## @spartacus/cpq-quote/cpq-quote-discount
-
-moved to @spartacus/cpq/quote/cpq/quote/discount
 
 
 ### Method formatDiscount is removed.
@@ -45940,8 +40407,6 @@ moved to @spartacus/cpq/quote/cpq/quote/discount
 # Class CpqQuoteService
 ## @spartacus/cpq-quote/cpq-quote-discount
 
-moved to @spartacus/cpq/quote/cpq/quote/discount
-
 
 ### Method getFlag$ is removed.
 
@@ -45956,27 +40421,9 @@ moved to @spartacus/cpq/quote/cpq/quote/discount
 # Class CpqQuoteSharedService
 ## @spartacus/cpq-quote/cpq-quote-discount
 
-moved to @spartacus/cpq/quote/cpq/quote/discount
-
 
 ### Method showBasePriceWithDiscount is removed.
 
-
-
-
-
-# Variable cpqquoteTranslationChunksConfig
-## @spartacus/cpq-quote/assets
-
-moved to @spartacus/cpq/quote/assets
-
-
-
-
-# Variable cpqquoteTranslations
-## @spartacus/cpq-quote/assets
-
-moved to @spartacus/cpq/quote/assets
 
 
 
@@ -46134,18 +40581,8 @@ Variable cpqquoteTranslationsZh has been removed and is no longer part of the pu
 
 
 
-# Class CpqDiscountModule
-## @spartacus/cpq-quote
-
-moved to @spartacus/cpq/quote/cpq/quote/discount
-
-
-
-
 # Class CpqQuoteDiscountComponent
 ## @spartacus/cpq-quote
-
-moved to @spartacus/cpq/quote/cpq/quote/discount
 
 
 ### Method getDiscountedPrice is removed.
@@ -46165,8 +40602,6 @@ moved to @spartacus/cpq/quote/cpq/quote/discount
 # Class CpqQuoteHeadingComponent
 ## @spartacus/cpq-quote
 
-moved to @spartacus/cpq/quote/cpq/quote/discount
-
 
 ### Method ngOnDestroy is removed.
 
@@ -46178,18 +40613,8 @@ moved to @spartacus/cpq/quote/cpq/quote/discount
 
 
 
-# Class CpqQuoteModule
-## @spartacus/cpq-quote
-
-moved to @spartacus/cpq/quote
-
-
-
-
 # Class CpqQuoteOfferComponent
 ## @spartacus/cpq-quote
-
-moved to @spartacus/cpq/quote/cpq/quote/discount
 
 
 ### Method formatDiscount is removed.
@@ -46213,8 +40638,6 @@ moved to @spartacus/cpq/quote/cpq/quote/discount
 # Class CpqQuoteService
 ## @spartacus/cpq-quote
 
-moved to @spartacus/cpq/quote/cpq/quote/discount
-
 
 ### Method getFlag$ is removed.
 
@@ -46228,8 +40651,6 @@ moved to @spartacus/cpq/quote/cpq/quote/discount
 
 # Class CpqQuoteSharedService
 ## @spartacus/cpq-quote
-
-moved to @spartacus/cpq/quote/cpq/quote/discount
 
 
 ### Method showBasePriceWithDiscount is removed.
@@ -50771,6 +45192,23 @@ Variable defaultUserCmsModuleConfig has been removed and is no longer part of th
 
 
 
+### Property featureConfig changed.
+
+
+Previous version:
+
+```
+featureConfig: FeatureConfigService
+```
+
+
+Current version:
+
+```
+featureConfig: 
+```
+
+
 ### Method getCssClass is removed.
 
 
@@ -52571,7 +47009,7 @@ Interface Occ.CatalogVersion has been removed and is no longer part of the publi
 # Interface Occ.Category
 ## @spartacus/core
 
-moved to @spartacus/customer/ticketing/root
+moved to @spartacus/customer-ticketing/root
 
 
 ### PropertySignature code is removed.
@@ -52658,7 +47096,7 @@ Interface Occ.ComponentList has been removed and is no longer part of the public
 # Interface Occ.ConfigurationInfo
 ## @spartacus/core
 
-moved to @spartacus/product/configurator/common
+moved to @spartacus/product-configurator/common
 
 
 ### PropertySignature configurationLabel is removed.
@@ -54040,7 +48478,7 @@ moved to @spartacus/order/root
 # Interface Occ.OrderApproval
 ## @spartacus/core
 
-moved to @spartacus/organization/order/approval
+moved to @spartacus/organization/order-approval
 
 
 ### PropertySignature approvalDecisionRequired is removed.
@@ -54072,7 +48510,7 @@ moved to @spartacus/organization/order/approval
 # Interface Occ.OrderApprovalDecision
 ## @spartacus/core
 
-moved to @spartacus/organization/order/approval
+moved to @spartacus/organization/order-approval
 
 
 ### PropertySignature comment is removed.
@@ -54088,7 +48526,7 @@ moved to @spartacus/organization/order/approval
 # Enum Occ.OrderApprovalDecisionValue
 ## @spartacus/core
 
-moved to @spartacus/organization/order/approval
+moved to @spartacus/organization/order-approval
 
 
 
@@ -54119,7 +48557,7 @@ Interface Occ.OrderApprovalPermissionTypeList has been removed and is no longer 
 # Interface Occ.OrderApprovalRecord
 ## @spartacus/core
 
-moved to @spartacus/organization/order/approval
+moved to @spartacus/organization/order-approval
 
 
 ### PropertySignature approver is removed.
@@ -54209,7 +48647,7 @@ Interface Occ.OrderEntryList has been removed and is no longer part of the publi
 # Enum Occ.OrderEntryStatus
 ## @spartacus/core
 
-moved to @spartacus/product/configurator/common
+moved to @spartacus/product-configurator/common
 
 
 
@@ -54329,7 +48767,7 @@ Enum Occ.PageRobots has been removed and is no longer part of the public API.
 # Interface Occ.Pagination
 ## @spartacus/core
 
-moved to @spartacus/pdf/invoices/root
+moved to @spartacus/pdf-invoices/root
 
 
 ### PropertySignature count is removed.
@@ -55581,7 +50019,7 @@ moved to @spartacus/order/root
 # Interface Occ.Sort
 ## @spartacus/core
 
-moved to @spartacus/pdf/invoices/root
+moved to @spartacus/pdf-invoices/root
 
 
 ### PropertySignature asc is removed.
@@ -55672,7 +50110,7 @@ Enum Occ.SortEnum has been removed and is no longer part of the public API.
 # Interface Occ.StatusSummary
 ## @spartacus/core
 
-moved to @spartacus/product/configurator/common
+moved to @spartacus/product-configurator/common
 
 
 ### PropertySignature numberOfIssues is removed.
@@ -59375,7 +53813,7 @@ Namespace RoutingSelector has been removed and is no longer part of the public A
 # Variable RoutingSelector.getPageContext
 ## @spartacus/core
 
-moved to @spartacus/pickup/in/store/core
+moved to @spartacus/pickup-in-store/core
 
 
 Variable getPageContext changed.
@@ -64104,18 +58542,8 @@ getCostCentersState: MemoizedSelector<StateWithOrganization, EntityLoaderState<C
 
 
 
-# Variable CHECKOUT_SCHEDULED_REPLENISHMENT_CMS_COMPONENTS
-## @spartacus/checkout/scheduled-replenishment/root
-
-moved to @spartacus/checkout/scheduled/replenishment/root
-
-
-
-
 # Class CheckoutScheduledReplenishmentEventListener
 ## @spartacus/checkout/scheduled-replenishment/root
-
-moved to @spartacus/checkout/scheduled/replenishment/root
 
 
 ### Method ngOnDestroy is removed.
@@ -64128,34 +58556,8 @@ moved to @spartacus/checkout/scheduled/replenishment/root
 
 
 
-# Class CheckoutScheduledReplenishmentEventModule
-## @spartacus/checkout/scheduled-replenishment/root
-
-moved to @spartacus/checkout/scheduled/replenishment/root
-
-
-
-
-# Class CheckoutScheduledReplenishmentRootModule
-## @spartacus/checkout/scheduled-replenishment/root
-
-moved to @spartacus/checkout/scheduled/replenishment/root
-
-
-
-
-# Function defaultCheckoutComponentsConfig
-## @spartacus/checkout/scheduled-replenishment/root
-
-moved to @spartacus/checkout/scheduled/replenishment/root
-
-
-
-
 # Class CheckoutReplenishmentFormService
 ## @spartacus/checkout/scheduled-replenishment/components
-
-moved to @spartacus/checkout/scheduled/replenishment/components
 
 
 ### Method getOrderType is removed.
@@ -64188,18 +58590,8 @@ moved to @spartacus/checkout/scheduled/replenishment/components
 
 
 
-# Class CheckoutScheduledReplenishmentComponentsModule
-## @spartacus/checkout/scheduled-replenishment/components
-
-moved to @spartacus/checkout/scheduled/replenishment/components
-
-
-
-
 # Class CheckoutScheduledReplenishmentPlaceOrderComponent
 ## @spartacus/checkout/scheduled-replenishment/components
-
-moved to @spartacus/checkout/scheduled/replenishment/components
 
 
 ### Method ngOnDestroy is removed.
@@ -64220,18 +58612,8 @@ moved to @spartacus/checkout/scheduled/replenishment/components
 
 
 
-# Class CheckoutScheduledReplenishmentPlaceOrderModule
-## @spartacus/checkout/scheduled-replenishment/components
-
-moved to @spartacus/checkout/scheduled/replenishment/components
-
-
-
-
 # Class CheckoutScheduleReplenishmentOrderComponent
 ## @spartacus/checkout/scheduled-replenishment/components
-
-moved to @spartacus/checkout/scheduled/replenishment/components
 
 
 ### Method changeDayOfTheMonth is removed.
@@ -64272,30 +58654,6 @@ moved to @spartacus/checkout/scheduled/replenishment/components
 
 ### Method ngOnInit is removed.
 
-
-
-
-
-# Class CheckoutScheduleReplenishmentOrderModule
-## @spartacus/checkout/scheduled-replenishment/components
-
-moved to @spartacus/checkout/scheduled/replenishment/components
-
-
-
-
-# Variable checkoutScheduledReplenishmentTranslationChunksConfig
-## @spartacus/checkout/scheduled-replenishment/assets
-
-moved to @spartacus/checkout/scheduled/replenishment/assets
-
-
-
-
-# Variable checkoutScheduledReplenishmentTranslations
-## @spartacus/checkout/scheduled-replenishment/assets
-
-moved to @spartacus/checkout/scheduled/replenishment/assets
 
 
 
@@ -64449,14 +58807,6 @@ Variable checkoutScheduledReplenishmentTranslationsZh_TW has been removed and is
 
 
 Variable checkoutScheduledReplenishmentTranslationsZh has been removed and is no longer part of the public API.
-
-
-
-
-# Class CheckoutScheduledReplenishmentModule
-## @spartacus/checkout/scheduled-replenishment
-
-moved to @spartacus/checkout/scheduled/replenishment
 
 
 
@@ -65361,6 +59711,10 @@ moved to @spartacus/checkout/scheduled/replenishment
 
 
 
+### Property featureConfigService is removed.
+
+
+
 ### Method focusCardAfterSelecting is removed.
 
 
@@ -65558,6 +59912,10 @@ moved to @spartacus/checkout/scheduled/replenishment
 
 
 ### Property existingPaymentMethods$ is removed.
+
+
+
+### Property featureConfigService is removed.
 
 
 
@@ -67469,8 +61827,6 @@ componentData: CmsComponentData<CmsMerchandisingCarouselComponent>
 # Class CdpCustomerTicketingCloseComponentService
 ## @spartacus/cdp/customer-ticketing
 
-moved to @spartacus/cdp/customer/ticketing
-
 
 ### Method enableCloseButton is removed.
 
@@ -67481,8 +61837,6 @@ moved to @spartacus/cdp/customer/ticketing
 # Class CdpCustomerTicketingMessagesComponentService
 ## @spartacus/cdp/customer-ticketing
 
-moved to @spartacus/cdp/customer/ticketing
-
 
 ### Method displayAddMessageSection is removed.
 
@@ -67490,18 +61844,8 @@ moved to @spartacus/cdp/customer/ticketing
 
 
 
-# Class CdpCustomerTicketingModule
-## @spartacus/cdp/customer-ticketing
-
-moved to @spartacus/cdp/customer/ticketing
-
-
-
-
 # Class CdpCustomerTicketingReopenComponentService
 ## @spartacus/cdp/customer-ticketing
-
-moved to @spartacus/cdp/customer/ticketing
 
 
 ### Method enableReopenButton is removed.
@@ -67543,8 +61887,6 @@ moved to @spartacus/cdp/customer/ticketing
 # Class CDCForgotPasswordComponentService
 ## @spartacus/cdc/user-profile
 
-moved to @spartacus/cdc/user/profile
-
 
 ### Method ngOnDestroy is removed.
 
@@ -67556,18 +61898,8 @@ moved to @spartacus/cdc/user/profile
 
 
 
-# Class CDCForgotPasswordModule
-## @spartacus/cdc/user-profile
-
-moved to @spartacus/cdc/user/profile
-
-
-
-
 # Class CDCRegisterComponentService
 ## @spartacus/cdc/user-profile
-
-moved to @spartacus/cdc/user/profile
 
 
 ### Method collectDataFromRegisterForm is removed.
@@ -67600,26 +61932,8 @@ moved to @spartacus/cdc/user/profile
 
 
 
-# Class CDCRegisterModule
-## @spartacus/cdc/user-profile
-
-moved to @spartacus/cdc/user/profile
-
-
-
-
-# Class CDCUserProfileModule
-## @spartacus/cdc/user-profile
-
-moved to @spartacus/cdc/user/profile
-
-
-
-
 # Class CdcLoginFormComponentService
 ## @spartacus/cdc/user-account
-
-moved to @spartacus/cdc/user/account
 
 
 ### Method initCustomLogin is removed.
@@ -67636,18 +61950,8 @@ moved to @spartacus/cdc/user/account
 
 
 
-# Class CDCLoginFormModule
-## @spartacus/cdc/user-account
-
-moved to @spartacus/cdc/user/account
-
-
-
-
 # Class CdcReconsentComponent
 ## @spartacus/cdc/user-account
-
-moved to @spartacus/cdc/user/account
 
 
 ### Method dismissDialog is removed.
@@ -67679,8 +61983,6 @@ moved to @spartacus/cdc/user/account
 # Class CdcReconsentComponentService
 ## @spartacus/cdc/user-account
 
-moved to @spartacus/cdc/user/account
-
 
 ### Method handleReconsentUpdateError is removed.
 
@@ -67703,8 +62005,6 @@ moved to @spartacus/cdc/user/account
 # Class CdcReconsentDialogEventListener
 ## @spartacus/cdc/user-account
 
-moved to @spartacus/cdc/user/account
-
 
 ### Method ngOnDestroy is removed.
 
@@ -67716,30 +62016,6 @@ moved to @spartacus/cdc/user/account
 
 ### Method openDialog is removed.
 
-
-
-
-
-# Class CdcReconsentModule
-## @spartacus/cdc/user-account
-
-moved to @spartacus/cdc/user/account
-
-
-
-
-# Class CDCUserAccountModule
-## @spartacus/cdc/user-account
-
-moved to @spartacus/cdc/user/account
-
-
-
-
-# Variable defaultCdcReconsentLayoutConfig
-## @spartacus/cdc/user-account
-
-moved to @spartacus/cdc/user/account
 
 
 
@@ -68075,8 +62351,6 @@ Class CdcUserPreferenceSerializer has been removed and is no longer part of the 
 # Class CDCB2BRegisterComponentService
 ## @spartacus/cdc/organization/user-registration
 
-moved to @spartacus/cdc/organization/user/registration
-
 
 ### Method postRegisterMessage is removed.
 
@@ -68084,14 +62358,6 @@ moved to @spartacus/cdc/organization/user/registration
 
 ### Method registerUser is removed.
 
-
-
-
-
-# Class CDCB2BRegisterModule
-## @spartacus/cdc/organization/user-registration
-
-moved to @spartacus/cdc/organization/user/registration
 
 
 
@@ -68423,42 +62689,8 @@ Variable cdcTranslationsZh has been removed and is no longer part of the public 
 
 
 
-# Variable ADD_TO_WISHLIST_FEATURE
-## @spartacus/cart/wish-list/root
-
-moved to @spartacus/cart/wish/list/root
-
-
-
-
-# Variable CART_WISH_LIST_CORE_FEATURE
-## @spartacus/cart/wish-list/root
-
-moved to @spartacus/cart/wish/list/root
-
-
-
-
-# Variable CART_WISH_LIST_FEATURE
-## @spartacus/cart/wish-list/root
-
-moved to @spartacus/cart/wish/list/root
-
-
-
-
-# Function defaultCartWishListComponentsConfig
-## @spartacus/cart/wish-list/root
-
-moved to @spartacus/cart/wish/list/root
-
-
-
-
 # Class WishListFacade
 ## @spartacus/cart/wish-list/root
-
-moved to @spartacus/cart/wish/list/root
 
 
 ### Method addEntry is removed.
@@ -68487,22 +62719,6 @@ moved to @spartacus/cart/wish/list/root
 
 
 
-# Class WishListRootModule
-## @spartacus/cart/wish-list/root
-
-moved to @spartacus/cart/wish/list/root
-
-
-
-
-# Function getWishlistName
-## @spartacus/cart/wish-list/core
-
-moved to @spartacus/cart/wish/list/core
-
-
-
-
 # Namespace WishListActions
 ## @spartacus/cart/wish-list/core
 
@@ -68515,15 +62731,11 @@ Namespace WishListActions has been removed and is no longer part of the public A
 # Variable WishListActions.CREATE_WISH_LIST_FAIL
 ## @spartacus/cart/wish-list/core
 
-moved to @spartacus/cart/wish/list/core
-
 
 
 
 # Variable WishListActions.CREATE_WISH_LIST_SUCCESS
 ## @spartacus/cart/wish-list/core
-
-moved to @spartacus/cart/wish/list/core
 
 
 
@@ -68531,15 +62743,11 @@ moved to @spartacus/cart/wish/list/core
 # Variable WishListActions.CREATE_WISH_LIST
 ## @spartacus/cart/wish-list/core
 
-moved to @spartacus/cart/wish/list/core
-
 
 
 
 # Class WishListActions.CreateWishList
 ## @spartacus/cart/wish-list/core
-
-moved to @spartacus/cart/wish/list/core
 
 
 
@@ -68547,15 +62755,11 @@ moved to @spartacus/cart/wish/list/core
 # Class WishListActions.CreateWishListFail
 ## @spartacus/cart/wish-list/core
 
-moved to @spartacus/cart/wish/list/core
-
 
 
 
 # Class WishListActions.CreateWishListSuccess
 ## @spartacus/cart/wish-list/core
-
-moved to @spartacus/cart/wish/list/core
 
 
 
@@ -68563,15 +62767,11 @@ moved to @spartacus/cart/wish/list/core
 # Variable WishListActions.LOAD_WISH_LIST_FAIL
 ## @spartacus/cart/wish-list/core
 
-moved to @spartacus/cart/wish/list/core
-
 
 
 
 # Variable WishListActions.LOAD_WISH_LIST_SUCCESS
 ## @spartacus/cart/wish-list/core
-
-moved to @spartacus/cart/wish/list/core
 
 
 
@@ -68579,15 +62779,11 @@ moved to @spartacus/cart/wish/list/core
 # Variable WishListActions.LOAD_WISH_LIST
 ## @spartacus/cart/wish-list/core
 
-moved to @spartacus/cart/wish/list/core
-
 
 
 
 # Class WishListActions.LoadWishList
 ## @spartacus/cart/wish-list/core
-
-moved to @spartacus/cart/wish/list/core
 
 
 
@@ -68595,15 +62791,11 @@ moved to @spartacus/cart/wish/list/core
 # Class WishListActions.LoadWishListFail
 ## @spartacus/cart/wish-list/core
 
-moved to @spartacus/cart/wish/list/core
-
 
 
 
 # Class WishListActions.LoadWishListSuccess
 ## @spartacus/cart/wish-list/core
-
-moved to @spartacus/cart/wish/list/core
 
 
 
@@ -68611,23 +62803,11 @@ moved to @spartacus/cart/wish/list/core
 # TypeAlias WishListActions.WishListActions
 ## @spartacus/cart/wish-list/core
 
-moved to @spartacus/cart/wish/list/core
-
-
-
-
-# Class WishListCoreModule
-## @spartacus/cart/wish-list/core
-
-moved to @spartacus/cart/wish/list/core
-
 
 
 
 # Class WishListService
 ## @spartacus/cart/wish-list/core
-
-moved to @spartacus/cart/wish/list/core
 
 
 ### Method addEntry is removed.
@@ -68663,8 +62843,6 @@ moved to @spartacus/cart/wish/list/core
 # Class AddToWishListComponent
 ## @spartacus/cart/wish-list/components/add-to-wishlist
 
-moved to @spartacus/cart/wish/list/components/add/to/wishlist
-
 
 ### Method add is removed.
 
@@ -68692,18 +62870,8 @@ moved to @spartacus/cart/wish/list/components/add/to/wishlist
 
 
 
-# Class AddToWishListModule
-## @spartacus/cart/wish-list/components/add-to-wishlist
-
-moved to @spartacus/cart/wish/list/components/add/to/wishlist
-
-
-
-
 # Class WishListComponent
 ## @spartacus/cart/wish-list/components
-
-moved to @spartacus/cart/wish/list/components
 
 
 ### Method removeEntry is removed.
@@ -68712,18 +62880,8 @@ moved to @spartacus/cart/wish/list/components
 
 
 
-# Class WishListComponentsModule
-## @spartacus/cart/wish-list/components
-
-moved to @spartacus/cart/wish/list/components
-
-
-
-
 # Class WishListItemComponent
 ## @spartacus/cart/wish-list/components
-
-moved to @spartacus/cart/wish/list/components
 
 
 ### Method ngOnChanges is removed.
@@ -68732,22 +62890,6 @@ moved to @spartacus/cart/wish/list/components
 
 ### Method removeEntry is removed.
 
-
-
-
-
-# Variable wishListTranslationChunksConfig
-## @spartacus/cart/wish-list/assets
-
-moved to @spartacus/cart/wish/list/assets
-
-
-
-
-# Variable wishListTranslations
-## @spartacus/cart/wish-list/assets
-
-moved to @spartacus/cart/wish/list/assets
 
 
 
@@ -68905,154 +63047,8 @@ Variable wishListTranslationsZh has been removed and is no longer part of the pu
 
 
 
-# Class WishListModule
-## @spartacus/cart/wish-list
-
-moved to @spartacus/cart/wish/list
-
-
-
-
-# Variable CART_SAVED_CART_CORE_FEATURE
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Variable CART_SAVED_CART_FEATURE
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Class CloneSavedCartEvent
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Class CloneSavedCartFailEvent
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Class CloneSavedCartSuccessEvent
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Function defaultCartSavedCartComponentsConfig
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Class EditSavedCartEvent
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Class EditSavedCartFailEvent
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Class EditSavedCartSuccessEvent
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Variable NewSavedCartOrderEntriesContextToken
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Class RestoreSavedCartEvent
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Class RestoreSavedCartFailEvent
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Class RestoreSavedCartSuccessEvent
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Class SaveCartEvent
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Class SaveCartFailEvent
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Class SaveCartSuccessEvent
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Class SavedCartEvent
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
 # Class SavedCartFacade
 ## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
 
 
 ### Method clearCloneSavedCart is removed.
@@ -69165,34 +63161,8 @@ moved to @spartacus/cart/saved/cart/root
 
 
 
-# Enum SavedCartFormType
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Variable SavedCartOrderEntriesContextToken
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
-# Class SavedCartRootModule
-## @spartacus/cart/saved-cart/root
-
-moved to @spartacus/cart/saved/cart/root
-
-
-
-
 # Class OccSavedCartAdapter
 ## @spartacus/cart/saved-cart/occ
-
-moved to @spartacus/cart/saved/cart/occ
 
 
 ### Method cloneSavedCart is removed.
@@ -69229,46 +63199,6 @@ moved to @spartacus/cart/saved/cart/occ
 
 
 
-# Class SavedCartOccModule
-## @spartacus/cart/saved-cart/occ
-
-moved to @spartacus/cart/saved/cart/occ
-
-
-
-
-# Variable SAVED_CART_CLONE_CART_PROCESS_ID
-## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
-
-
-
-
-# Variable SAVED_CART_LIST_PROCESS_ID
-## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
-
-
-
-
-# Variable SAVED_CART_RESTORE_CART_PROCESS_ID
-## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
-
-
-
-
-# Variable SAVED_CART_SAVE_CART_PROCESS_ID
-## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
-
-
-
-
 # Namespace SavedCartActions
 ## @spartacus/cart/saved-cart/core
 
@@ -69281,15 +63211,11 @@ Namespace SavedCartActions has been removed and is no longer part of the public 
 # Variable SavedCartActions.CLEAR_CLONE_SAVED_CART
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Variable SavedCartActions.CLEAR_RESTORE_SAVED_CART
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69297,15 +63223,11 @@ moved to @spartacus/cart/saved/cart/core
 # Variable SavedCartActions.CLEAR_SAVE_CART
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Variable SavedCartActions.CLEAR_SAVED_CARTS
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69313,15 +63235,11 @@ moved to @spartacus/cart/saved/cart/core
 # Class SavedCartActions.ClearCloneSavedCart
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Class SavedCartActions.ClearRestoreSavedCart
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69329,15 +63247,11 @@ moved to @spartacus/cart/saved/cart/core
 # Class SavedCartActions.ClearSaveCart
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Class SavedCartActions.ClearSavedCarts
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69345,15 +63259,11 @@ moved to @spartacus/cart/saved/cart/core
 # Variable SavedCartActions.CLONE_SAVED_CART_FAIL
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Variable SavedCartActions.CLONE_SAVED_CART_SUCCESS
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69361,15 +63271,11 @@ moved to @spartacus/cart/saved/cart/core
 # Variable SavedCartActions.CLONE_SAVED_CART
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Class SavedCartActions.CloneSavedCart
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69377,15 +63283,11 @@ moved to @spartacus/cart/saved/cart/core
 # Class SavedCartActions.CloneSavedCartFail
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Class SavedCartActions.CloneSavedCartSuccess
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69393,15 +63295,11 @@ moved to @spartacus/cart/saved/cart/core
 # Variable SavedCartActions.EDIT_SAVED_CART_FAIL
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Variable SavedCartActions.EDIT_SAVED_CART_SUCCESS
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69409,15 +63307,11 @@ moved to @spartacus/cart/saved/cart/core
 # Variable SavedCartActions.EDIT_SAVED_CART
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Class SavedCartActions.EditSavedCart
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69425,15 +63319,11 @@ moved to @spartacus/cart/saved/cart/core
 # Class SavedCartActions.EditSavedCartFail
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Class SavedCartActions.EditSavedCartSuccess
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69441,15 +63331,11 @@ moved to @spartacus/cart/saved/cart/core
 # Variable SavedCartActions.LOAD_SAVED_CART_FAIL
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Variable SavedCartActions.LOAD_SAVED_CART_SUCCESS
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69457,15 +63343,11 @@ moved to @spartacus/cart/saved/cart/core
 # Variable SavedCartActions.LOAD_SAVED_CART
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Variable SavedCartActions.LOAD_SAVED_CARTS_FAIL
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69473,15 +63355,11 @@ moved to @spartacus/cart/saved/cart/core
 # Variable SavedCartActions.LOAD_SAVED_CARTS_SUCCESS
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Variable SavedCartActions.LOAD_SAVED_CARTS
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69489,15 +63367,11 @@ moved to @spartacus/cart/saved/cart/core
 # Class SavedCartActions.LoadSavedCart
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Class SavedCartActions.LoadSavedCartFail
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69505,15 +63379,11 @@ moved to @spartacus/cart/saved/cart/core
 # Class SavedCartActions.LoadSavedCarts
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Class SavedCartActions.LoadSavedCartsFail
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69521,15 +63391,11 @@ moved to @spartacus/cart/saved/cart/core
 # Class SavedCartActions.LoadSavedCartsSuccess
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Class SavedCartActions.LoadSavedCartSuccess
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69537,15 +63403,11 @@ moved to @spartacus/cart/saved/cart/core
 # Variable SavedCartActions.RESTORE_SAVED_CART_FAIL
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Variable SavedCartActions.RESTORE_SAVED_CART_SUCCESS
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69553,15 +63415,11 @@ moved to @spartacus/cart/saved/cart/core
 # Variable SavedCartActions.RESTORE_SAVED_CART
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Class SavedCartActions.RestoreSavedCart
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69569,15 +63427,11 @@ moved to @spartacus/cart/saved/cart/core
 # Class SavedCartActions.RestoreSavedCartFail
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Class SavedCartActions.RestoreSavedCartSuccess
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69585,15 +63439,11 @@ moved to @spartacus/cart/saved/cart/core
 # Variable SavedCartActions.SAVE_CART_FAIL
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Variable SavedCartActions.SAVE_CART_SUCCESS
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69601,15 +63451,11 @@ moved to @spartacus/cart/saved/cart/core
 # Variable SavedCartActions.SAVE_CART
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Class SavedCartActions.SaveCart
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69617,15 +63463,11 @@ moved to @spartacus/cart/saved/cart/core
 # Class SavedCartActions.SaveCartFail
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Class SavedCartActions.SaveCartSuccess
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 
@@ -69633,15 +63475,11 @@ moved to @spartacus/cart/saved/cart/core
 # TypeAlias SavedCartActions.SavedCartActions
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 
 
 # Class SavedCartAdapter
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 ### Method cloneSavedCart is removed.
@@ -69665,8 +63503,6 @@ moved to @spartacus/cart/saved/cart/core
 # Class SavedCartConnector
 ## @spartacus/cart/saved-cart/core
 
-moved to @spartacus/cart/saved/cart/core
-
 
 ### Method cloneSavedCart is removed.
 
@@ -69686,18 +63522,8 @@ moved to @spartacus/cart/saved/cart/core
 
 
 
-# Class SavedCartCoreModule
-## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
-
-
-
-
 # Class SavedCartEventBuilder
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 ### Method buildRestoreSavedCartEvents is removed.
@@ -69734,18 +63560,8 @@ moved to @spartacus/cart/saved/cart/core
 
 
 
-# Class SavedCartEventsModule
-## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
-
-
-
-
 # Class SavedCartService
 ## @spartacus/cart/saved-cart/core
-
-moved to @spartacus/cart/saved/cart/core
 
 
 ### Method clearCloneSavedCart is removed.
@@ -69861,8 +63677,6 @@ moved to @spartacus/cart/saved/cart/core
 # Class AddToSavedCartComponent
 ## @spartacus/cart/saved-cart/components
 
-moved to @spartacus/cart/saved/cart/components
-
 
 ### Method ngOnDestroy is removed.
 
@@ -69882,26 +63696,8 @@ moved to @spartacus/cart/saved/cart/components
 
 
 
-# Class AddToSavedCartModule
-## @spartacus/cart/saved-cart/components
-
-moved to @spartacus/cart/saved/cart/components
-
-
-
-
-# Variable defaultSavedCartFormLayoutConfig
-## @spartacus/cart/saved-cart/components
-
-moved to @spartacus/cart/saved/cart/components
-
-
-
-
 # Class NewSavedCartOrderEntriesContext
 ## @spartacus/cart/saved-cart/components
-
-moved to @spartacus/cart/saved/cart/components
 
 
 ### Method add is removed.
@@ -69914,18 +63710,8 @@ moved to @spartacus/cart/saved/cart/components
 
 
 
-# Class SavedCartComponentsModule
-## @spartacus/cart/saved-cart/components
-
-moved to @spartacus/cart/saved/cart/components
-
-
-
-
 # Class SavedCartDetailsActionComponent
 ## @spartacus/cart/saved-cart/components
-
-moved to @spartacus/cart/saved/cart/components
 
 
 ### Method ngOnDestroy is removed.
@@ -69940,8 +63726,6 @@ moved to @spartacus/cart/saved/cart/components
 
 # Class SavedCartDetailsItemsComponent
 ## @spartacus/cart/saved-cart/components
-
-moved to @spartacus/cart/saved/cart/components
 
 
 ### Method ngOnDestroy is removed.
@@ -69958,18 +63742,8 @@ moved to @spartacus/cart/saved/cart/components
 
 
 
-# Class SavedCartDetailsModule
-## @spartacus/cart/saved-cart/components
-
-moved to @spartacus/cart/saved/cart/components
-
-
-
-
 # Class SavedCartDetailsOverviewComponent
 ## @spartacus/cart/saved-cart/components
-
-moved to @spartacus/cart/saved/cart/components
 
 
 ### Method getCartDescription is removed.
@@ -70013,8 +63787,6 @@ moved to @spartacus/cart/saved/cart/components
 # Class SavedCartDetailsService
 ## @spartacus/cart/saved-cart/components
 
-moved to @spartacus/cart/saved/cart/components
-
 
 ### Method getCartDetails is removed.
 
@@ -70028,8 +63800,6 @@ moved to @spartacus/cart/saved/cart/components
 
 # Class SavedCartFormDialogComponent
 ## @spartacus/cart/saved-cart/components
-
-moved to @spartacus/cart/saved/cart/components
 
 
 ### Method build is removed.
@@ -70082,18 +63852,8 @@ moved to @spartacus/cart/saved/cart/components
 
 
 
-# Class SavedCartFormDialogModule
-## @spartacus/cart/saved-cart/components
-
-moved to @spartacus/cart/saved/cart/components
-
-
-
-
 # Interface SavedCartFormDialogOptions
 ## @spartacus/cart/saved-cart/components
-
-moved to @spartacus/cart/saved/cart/components
 
 
 ### PropertySignature cart is removed.
@@ -70108,8 +63868,6 @@ moved to @spartacus/cart/saved/cart/components
 
 # Class SavedCartListComponent
 ## @spartacus/cart/saved-cart/components
-
-moved to @spartacus/cart/saved/cart/components
 
 
 ### Method goToSavedCartDetails is removed.
@@ -70134,18 +63892,8 @@ moved to @spartacus/cart/saved/cart/components
 
 
 
-# Class SavedCartListModule
-## @spartacus/cart/saved-cart/components
-
-moved to @spartacus/cart/saved/cart/components
-
-
-
-
 # Class SavedCartOrderEntriesContext
 ## @spartacus/cart/saved-cart/components
-
-moved to @spartacus/cart/saved/cart/components
 
 
 ### Method add is removed.
@@ -70158,22 +63906,6 @@ moved to @spartacus/cart/saved/cart/components
 
 ### Method getEntries is removed.
 
-
-
-
-
-# Variable savedCartTranslationChunksConfig
-## @spartacus/cart/saved-cart/assets
-
-moved to @spartacus/cart/saved/cart/assets
-
-
-
-
-# Variable savedCartTranslations
-## @spartacus/cart/saved-cart/assets
-
-moved to @spartacus/cart/saved/cart/assets
 
 
 
@@ -70331,74 +64063,8 @@ Variable savedCartTranslationsZh has been removed and is no longer part of the p
 
 
 
-# Class SavedCartModule
-## @spartacus/cart/saved-cart
-
-moved to @spartacus/cart/saved/cart
-
-
-
-
-# Variable CART_QUICK_ORDER_CORE_FEATURE
-## @spartacus/cart/quick-order/root
-
-moved to @spartacus/cart/quick/order/root
-
-
-
-
-# Variable CART_QUICK_ORDER_FEATURE
-## @spartacus/cart/quick-order/root
-
-moved to @spartacus/cart/quick/order/root
-
-
-
-
-# Function defaultQuickOrderComponentsConfig
-## @spartacus/cart/quick-order/root
-
-moved to @spartacus/cart/quick/order/root
-
-
-
-
-# Variable defaultQuickOrderConfig
-## @spartacus/cart/quick-order/root
-
-moved to @spartacus/cart/quick/order/root
-
-
-
-
-# Variable defaultQuickOrderRoutingConfig
-## @spartacus/cart/quick-order/root
-
-moved to @spartacus/cart/quick/order/root
-
-
-
-
-# TypeAlias QuickOrderAddEntryEvent
-## @spartacus/cart/quick-order/root
-
-moved to @spartacus/cart/quick/order/root
-
-
-
-
-# Class QuickOrderConfig
-## @spartacus/cart/quick-order/root
-
-moved to @spartacus/cart/quick/order/root
-
-
-
-
 # Class QuickOrderFacade
 ## @spartacus/cart/quick-order/root
-
-moved to @spartacus/cart/quick/order/root
 
 
 ### Method addProduct is removed.
@@ -70479,34 +64145,8 @@ moved to @spartacus/cart/quick/order/root
 
 
 
-# Function quickOrderFacadeFactory
-## @spartacus/cart/quick-order/root
-
-moved to @spartacus/cart/quick/order/root
-
-
-
-
-# Variable QuickOrderOrderEntriesContextToken
-## @spartacus/cart/quick-order/root
-
-moved to @spartacus/cart/quick/order/root
-
-
-
-
-# Class QuickOrderRootModule
-## @spartacus/cart/quick-order/root
-
-moved to @spartacus/cart/quick/order/root
-
-
-
-
 # Interface CmsQuickOrderComponent
 ## @spartacus/cart/quick-order/core
-
-moved to @spartacus/cart/quick/order/core
 
 
 ### PropertySignature quickOrderListLimit is removed.
@@ -70518,8 +64158,6 @@ moved to @spartacus/cart/quick/order/core
 # Class QuickOrderCoreModule
 ## @spartacus/cart/quick-order/core
 
-moved to @spartacus/cart/quick/order/core
-
 
 ### Method forRoot is removed.
 
@@ -70529,8 +64167,6 @@ moved to @spartacus/cart/quick/order/core
 
 # Class QuickOrderService
 ## @spartacus/cart/quick-order/core
-
-moved to @spartacus/cart/quick/order/core
 
 
 ### Method addEntry is removed.
@@ -70650,8 +64286,6 @@ moved to @spartacus/cart/quick/order/core
 # Class QuickOrderStatePersistenceService
 ## @spartacus/cart/quick-order/core
 
-moved to @spartacus/cart/quick/order/core
-
 
 ### Method initSync is removed.
 
@@ -70669,8 +64303,6 @@ moved to @spartacus/cart/quick/order/core
 
 # Class CartQuickOrderFormComponent
 ## @spartacus/cart/quick-order/components
-
-moved to @spartacus/cart/quick/order/components
 
 
 ### Method applyQuickOrder is removed.
@@ -70707,18 +64339,8 @@ moved to @spartacus/cart/quick/order/components
 
 
 
-# Class CartQuickOrderFormModule
-## @spartacus/cart/quick-order/components
-
-moved to @spartacus/cart/quick/order/components
-
-
-
-
 # Class QuickOrderComponent
 ## @spartacus/cart/quick-order/components
-
-moved to @spartacus/cart/quick/order/components
 
 
 ### Method addToCart is removed.
@@ -70827,18 +64449,8 @@ moved to @spartacus/cart/quick/order/components
 
 
 
-# Class QuickOrderComponentsModule
-## @spartacus/cart/quick-order/components
-
-moved to @spartacus/cart/quick/order/components
-
-
-
-
 # Class QuickOrderFormComponent
 ## @spartacus/cart/quick-order/components
-
-moved to @spartacus/cart/quick/order/components
 
 
 ### Method add is removed.
@@ -70946,8 +64558,6 @@ moved to @spartacus/cart/quick/order/components
 # Class QuickOrderItemComponent
 ## @spartacus/cart/quick-order/components
 
-moved to @spartacus/cart/quick/order/components
-
 
 ### Property entry is removed.
 
@@ -70971,18 +64581,8 @@ moved to @spartacus/cart/quick/order/components
 
 
 
-# Class QuickOrderListModule
-## @spartacus/cart/quick-order/components
-
-moved to @spartacus/cart/quick/order/components
-
-
-
-
 # Class QuickOrderOrderEntriesContext
 ## @spartacus/cart/quick-order/components
-
-moved to @spartacus/cart/quick/order/components
 
 
 ### Method addEntries is removed.
@@ -70999,30 +64599,6 @@ moved to @spartacus/cart/quick/order/components
 
 ### Method handleResults is removed.
 
-
-
-
-
-# Class QuickOrderTableComponent
-## @spartacus/cart/quick-order/components
-
-moved to @spartacus/cart/quick/order/components
-
-
-
-
-# Variable quickOrderTranslationChunksConfig
-## @spartacus/cart/quick-order/assets
-
-moved to @spartacus/cart/quick/order/assets
-
-
-
-
-# Variable quickOrderTranslations
-## @spartacus/cart/quick-order/assets
-
-moved to @spartacus/cart/quick/order/assets
 
 
 
@@ -71180,34 +64756,8 @@ Variable quickOrderTranslationsZh has been removed and is no longer part of the 
 
 
 
-# Class QuickOrderModule
-## @spartacus/cart/quick-order
-
-moved to @spartacus/cart/quick/order
-
-
-
-
-# Variable CART_IMPORT_EXPORT_FEATURE
-## @spartacus/cart/import-export/root
-
-moved to @spartacus/cart/import/export/root
-
-
-
-
-# Class ImportExportRootModule
-## @spartacus/cart/import-export/root
-
-moved to @spartacus/cart/import/export/root
-
-
-
-
 # Interface CartNameGeneration
 ## @spartacus/cart/import-export/core
-
-moved to @spartacus/cart/import/export/core
 
 
 ### PropertySignature fromDateOptions is removed.
@@ -71220,26 +64770,8 @@ moved to @spartacus/cart/import/export/core
 
 
 
-# Enum CartNameSource
-## @spartacus/cart/import-export/core
-
-moved to @spartacus/cart/import/export/core
-
-
-
-
-# Variable defaultImportExportConfig
-## @spartacus/cart/import-export/core
-
-moved to @spartacus/cart/import/export/core
-
-
-
-
 # Interface ExportColumn
 ## @spartacus/cart/import-export/core
-
-moved to @spartacus/cart/import/export/core
 
 
 ### PropertySignature name is removed.
@@ -71254,8 +64786,6 @@ moved to @spartacus/cart/import/export/core
 
 # Interface ExportConfig
 ## @spartacus/cart/import-export/core
-
-moved to @spartacus/cart/import/export/core
 
 
 ### PropertySignature additionalColumns is removed.
@@ -71283,8 +64813,6 @@ moved to @spartacus/cart/import/export/core
 # Interface FileValidity
 ## @spartacus/cart/import-export/core
 
-moved to @spartacus/cart/import/export/core
-
 
 ### PropertySignature allowedTypes is removed.
 
@@ -71303,8 +64831,6 @@ moved to @spartacus/cart/import/export/core
 # Interface ImportConfig
 ## @spartacus/cart/import-export/core
 
-moved to @spartacus/cart/import/export/core
-
 
 ### PropertySignature cartNameGeneration is removed.
 
@@ -71316,18 +64842,8 @@ moved to @spartacus/cart/import/export/core
 
 
 
-# Class ImportExportConfig
-## @spartacus/cart/import-export/core
-
-moved to @spartacus/cart/import/export/core
-
-
-
-
 # Class ImportExportCoreModule
 ## @spartacus/cart/import-export/core
-
-moved to @spartacus/cart/import/export/core
 
 
 ### Method forRoot is removed.
@@ -71339,8 +64855,6 @@ moved to @spartacus/cart/import/export/core
 # Class ExportOrderEntriesComponent
 ## @spartacus/cart/import-export/components
 
-moved to @spartacus/cart/import/export/components
-
 
 ### Method exportCsv is removed.
 
@@ -71348,18 +64862,8 @@ moved to @spartacus/cart/import/export/components
 
 
 
-# Class ExportOrderEntriesModule
-## @spartacus/cart/import-export/components
-
-moved to @spartacus/cart/import/export/components
-
-
-
-
 # Class ExportOrderEntriesToCsvService
 ## @spartacus/cart/import-export/components
-
-moved to @spartacus/cart/import/export/components
 
 
 ### Method displayExportMessage is removed.
@@ -71407,8 +64911,6 @@ moved to @spartacus/cart/import/export/components
 # Class ImportEntriesDialogComponent
 ## @spartacus/cart/import-export/components
 
-moved to @spartacus/cart/import/export/components
-
 
 ### Method close is removed.
 
@@ -71430,8 +64932,6 @@ moved to @spartacus/cart/import/export/components
 
 # Class ImportEntriesFormComponent
 ## @spartacus/cart/import-export/components
-
-moved to @spartacus/cart/import/export/components
 
 
 ### Property allowedTypes is removed.
@@ -71471,8 +64971,6 @@ moved to @spartacus/cart/import/export/components
 # Class ImportEntriesSummaryComponent
 ## @spartacus/cart/import-export/components
 
-moved to @spartacus/cart/import/export/components
-
 
 ### Method close is removed.
 
@@ -71488,26 +64986,8 @@ moved to @spartacus/cart/import/export/components
 
 
 
-# Class ImportExportOrderEntriesComponent
-## @spartacus/cart/import-export/components
-
-moved to @spartacus/cart/import/export/components
-
-
-
-
-# Class ImportExportOrderEntriesModule
-## @spartacus/cart/import-export/components
-
-moved to @spartacus/cart/import/export/components
-
-
-
-
 # Class ImportOrderEntriesComponent
 ## @spartacus/cart/import-export/components
-
-moved to @spartacus/cart/import/export/components
 
 
 ### Method openDialog is removed.
@@ -71516,18 +64996,8 @@ moved to @spartacus/cart/import/export/components
 
 
 
-# Class ImportOrderEntriesModule
-## @spartacus/cart/import-export/components
-
-moved to @spartacus/cart/import/export/components
-
-
-
-
 # Class ImportProductsFromCsvService
 ## @spartacus/cart/import-export/components
-
-moved to @spartacus/cart/import/export/components
 
 
 ### Method csvDataToProduct is removed.
@@ -71542,8 +65012,6 @@ moved to @spartacus/cart/import/export/components
 
 # Class ImportToNewSavedCartFormComponent
 ## @spartacus/cart/import-export/components
-
-moved to @spartacus/cart/import/export/components
 
 
 ### Method buildForm is removed.
@@ -71572,22 +65040,6 @@ moved to @spartacus/cart/import/export/components
 
 ### Method updateCartName is removed.
 
-
-
-
-
-# Variable importExportTranslationChunksConfig
-## @spartacus/cart/import-export/assets
-
-moved to @spartacus/cart/import/export/assets
-
-
-
-
-# Variable importExportTranslations
-## @spartacus/cart/import-export/assets
-
-moved to @spartacus/cart/import/export/assets
 
 
 
@@ -71741,14 +65193,6 @@ Variable importExportTranslationsZh_TW has been removed and is no longer part of
 
 
 Variable importExportTranslationsZh has been removed and is no longer part of the public API.
-
-
-
-
-# Class ImportExportModule
-## @spartacus/cart/import-export
-
-moved to @spartacus/cart/import/export
 
 
 
@@ -74184,18 +67628,8 @@ Function MultiCartSelectors.getCartSelectorFactory has been removed and is no lo
 
 
 
-# Class MiniCartComponent
-## @spartacus/cart/base/components/mini-cart
-
-moved to @spartacus/cart/base/components/mini/cart
-
-
-
-
 # Class MiniCartComponentService
 ## @spartacus/cart/base/components/mini-cart
-
-moved to @spartacus/cart/base/components/mini/cart
 
 
 ### Method activeCartRequired is removed.
@@ -74224,18 +67658,8 @@ moved to @spartacus/cart/base/components/mini/cart
 
 
 
-# Class MiniCartModule
-## @spartacus/cart/base/components/mini-cart
-
-moved to @spartacus/cart/base/components/mini/cart
-
-
-
-
 # Class AddToCartComponent
 ## @spartacus/cart/base/components/add-to-cart
-
-moved to @spartacus/cart/base/components/add/to/cart
 
 
 ### Method addToCart is removed.
@@ -74276,14 +67700,6 @@ moved to @spartacus/cart/base/components/add/to/cart
 
 ### Method updateCount is removed.
 
-
-
-
-
-# Class AddToCartModule
-## @spartacus/cart/base/components/add-to-cart
-
-moved to @spartacus/cart/base/components/add/to/cart
 
 
 
@@ -74459,6 +67875,10 @@ moved to @spartacus/cart/base/components/add/to/cart
 
 
 ### Method disableClose is removed.
+
+
+
+### Property featureConfigService is removed.
 
 
 
@@ -75567,8 +68987,6 @@ asm: { agentSessionTimer?: { startingDelayInSeconds?: number; }; customerSearch?
 # Interface AdditionalRequestParameters
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature assignable is removed.
 
@@ -75588,26 +69006,8 @@ moved to @spartacus/asm/customer/360/root
 
 
 
-# Variable ASM_CUSTOMER_360_CORE_FEATURE
-## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
-
-
-
-
-# Variable ASM_CUSTOMER_360_FEATURE
-## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
-
-
-
-
 # Interface AsmCustomer360ActiveCart
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature cart is removed.
@@ -75622,8 +69022,6 @@ moved to @spartacus/asm/customer/360/root
 
 # Interface AsmCustomer360Activity
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature associatedTypeId is removed.
@@ -75655,8 +69053,6 @@ moved to @spartacus/asm/customer/360/root
 # Interface AsmCustomer360ActivityList
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature activities is removed.
 
@@ -75670,8 +69066,6 @@ moved to @spartacus/asm/customer/360/root
 
 # Interface AsmCustomer360ActivityStatus
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature code is removed.
@@ -75687,8 +69081,6 @@ moved to @spartacus/asm/customer/360/root
 # Interface AsmCustomer360ActivityType
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature code is removed.
 
@@ -75702,8 +69094,6 @@ moved to @spartacus/asm/customer/360/root
 
 # Interface AsmCustomer360Address
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature country is removed.
@@ -75735,8 +69125,6 @@ moved to @spartacus/asm/customer/360/root
 # Interface AsmCustomer360Avatar
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature format is removed.
 
@@ -75750,8 +69138,6 @@ moved to @spartacus/asm/customer/360/root
 
 # Interface AsmCustomer360CartEntry
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature basePrice is removed.
@@ -75775,8 +69161,6 @@ moved to @spartacus/asm/customer/360/root
 # Interface AsmCustomer360Coupon
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature applied is removed.
 
@@ -75795,8 +69179,6 @@ moved to @spartacus/asm/customer/360/root
 # Interface AsmCustomer360CouponList
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature coupons is removed.
 
@@ -75810,8 +69192,6 @@ moved to @spartacus/asm/customer/360/root
 
 # Interface AsmCustomer360CustomerCoupon
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature code is removed.
@@ -75831,8 +69211,6 @@ moved to @spartacus/asm/customer/360/root
 # Interface AsmCustomer360CustomerCouponList
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature customerCoupons is removed.
 
@@ -75847,8 +69225,6 @@ moved to @spartacus/asm/customer/360/root
 # Interface AsmCustomer360CustomerProfile
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature profile is removed.
 
@@ -75860,18 +69236,8 @@ moved to @spartacus/asm/customer/360/root
 
 
 
-# TypeAlias AsmCustomer360Data
-## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
-
-
-
-
 # Class AsmCustomer360Facade
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### Method get360Data is removed.
@@ -75882,8 +69248,6 @@ moved to @spartacus/asm/customer/360/root
 
 # Interface AsmCustomer360Overview
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature overview is removed.
@@ -75899,8 +69263,6 @@ moved to @spartacus/asm/customer/360/root
 # Interface AsmCustomer360Params
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature userId is removed.
 
@@ -75910,8 +69272,6 @@ moved to @spartacus/asm/customer/360/root
 
 # Interface AsmCustomer360PaymentDetail
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature cardNumber is removed.
@@ -75943,8 +69303,6 @@ moved to @spartacus/asm/customer/360/root
 # Interface AsmCustomer360ProductInterestList
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature customerProductInterests is removed.
 
@@ -75958,8 +69316,6 @@ moved to @spartacus/asm/customer/360/root
 
 # Interface AsmCustomer360Profile
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature billingAddress is removed.
@@ -75987,8 +69343,6 @@ moved to @spartacus/asm/customer/360/root
 # Interface AsmCustomer360Promotion
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature applied is removed.
 
@@ -76011,8 +69365,6 @@ moved to @spartacus/asm/customer/360/root
 # Interface AsmCustomer360PromotionList
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature promotions is removed.
 
@@ -76026,8 +69378,6 @@ moved to @spartacus/asm/customer/360/root
 
 # Interface AsmCustomer360Query
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature additionalRequestParameters is removed.
@@ -76043,8 +69393,6 @@ moved to @spartacus/asm/customer/360/root
 # Interface AsmCustomer360Request
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature options is removed.
 
@@ -76059,8 +69407,6 @@ moved to @spartacus/asm/customer/360/root
 # Interface AsmCustomer360Response
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature value is removed.
 
@@ -76070,8 +69416,6 @@ moved to @spartacus/asm/customer/360/root
 
 # Interface AsmCustomer360Review
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature createdAt is removed.
@@ -76111,8 +69455,6 @@ moved to @spartacus/asm/customer/360/root
 # Interface AsmCustomer360ReviewList
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature reviews is removed.
 
@@ -76124,18 +69466,8 @@ moved to @spartacus/asm/customer/360/root
 
 
 
-# Class AsmCustomer360RootModule
-## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
-
-
-
-
 # Interface AsmCustomer360SavedCart
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature savedCart is removed.
@@ -76148,26 +69480,8 @@ moved to @spartacus/asm/customer/360/root
 
 
 
-# Class AsmCustomer360SectionConfig
-## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
-
-
-
-
-# Class AsmCustomer360SectionData
-## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
-
-
-
-
 # Interface AsmCustomer360StoreLocation
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature address is removed.
@@ -76182,8 +69496,6 @@ moved to @spartacus/asm/customer/360/root
 
 # Interface AsmCustomer360SupportTicket
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature category is removed.
@@ -76215,8 +69527,6 @@ moved to @spartacus/asm/customer/360/root
 # Interface AsmCustomer360SupportTicketList
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature tickets is removed.
 
@@ -76230,8 +69540,6 @@ moved to @spartacus/asm/customer/360/root
 
 # Interface AsmCustomer360TabComponent
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature component is removed.
@@ -76248,34 +69556,8 @@ moved to @spartacus/asm/customer/360/root
 
 
 
-# Class AsmCustomer360TabConfig
-## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
-
-
-
-
-# Class AsmCustomer360TabsConfig
-## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
-
-
-
-
-# Enum AsmCustomer360Type
-## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
-
-
-
-
 # Interface AsmCustomerCardType
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature code is removed.
@@ -76290,8 +69572,6 @@ moved to @spartacus/asm/customer/360/root
 
 # Interface AsmCustomerOverview
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature address is removed.
@@ -76351,8 +69631,6 @@ moved to @spartacus/asm/customer/360/root
 # Interface AsmDialogActionEvent
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature actionType is removed.
 
@@ -76368,18 +69646,8 @@ moved to @spartacus/asm/customer/360/root
 
 
 
-# Enum AsmDialogActionType
-## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
-
-
-
-
 # Interface C360TicketCategory
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature code is removed.
@@ -76395,8 +69663,6 @@ moved to @spartacus/asm/customer/360/root
 # Interface C360TicketStatus
 ## @spartacus/asm/customer-360/root
 
-moved to @spartacus/asm/customer/360/root
-
 
 ### PropertySignature code is removed.
 
@@ -76410,8 +69676,6 @@ moved to @spartacus/asm/customer/360/root
 
 # Interface CustomerCart
 ## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
 
 
 ### PropertySignature code is removed.
@@ -76432,34 +69696,8 @@ moved to @spartacus/asm/customer/360/root
 
 
 
-# Enum KeyBoardEventCode
-## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
-
-
-
-
-# Enum PaymentCardCode
-## @spartacus/asm/customer-360/root
-
-moved to @spartacus/asm/customer/360/root
-
-
-
-
-# Class AsmCustomer360OccModule
-## @spartacus/asm/customer-360/occ
-
-moved to @spartacus/asm/customer/360/occ
-
-
-
-
 # Class OccAsmCustomer360Adapter
 ## @spartacus/asm/customer-360/occ
-
-moved to @spartacus/asm/customer/360/occ
 
 
 ### Method getAsmCustomer360Data is removed.
@@ -76472,18 +69710,8 @@ moved to @spartacus/asm/customer/360/occ
 
 
 
-# Variable ASM_CUSTOMER_360_NORMALIZER
-## @spartacus/asm/customer-360/core
-
-moved to @spartacus/asm/customer/360/core
-
-
-
-
 # Class AsmCustomer360Adapter
 ## @spartacus/asm/customer-360/core
-
-moved to @spartacus/asm/customer/360/core
 
 
 ### Method getAsmCustomer360Data is removed.
@@ -76495,8 +69723,6 @@ moved to @spartacus/asm/customer/360/core
 # Class AsmCustomer360Connector
 ## @spartacus/asm/customer-360/core
 
-moved to @spartacus/asm/customer/360/core
-
 
 ### Method getAsmCustomer360Data is removed.
 
@@ -76504,18 +69730,8 @@ moved to @spartacus/asm/customer/360/core
 
 
 
-# Class AsmCustomer360CoreModule
-## @spartacus/asm/customer-360/core
-
-moved to @spartacus/asm/customer/360/core
-
-
-
-
 # Class AsmCustomer360Service
 ## @spartacus/asm/customer-360/core
-
-moved to @spartacus/asm/customer/360/core
 
 
 ### Method get360Data is removed.
@@ -76524,26 +69740,8 @@ moved to @spartacus/asm/customer/360/core
 
 
 
-# Function getAsmDialogActionEvent
-## @spartacus/asm/customer-360/core
-
-moved to @spartacus/asm/customer/360/core
-
-
-
-
-# Class AsmCustomer360ActiveCartComponent
-## @spartacus/asm/customer-360/components
-
-moved to @spartacus/asm/customer/360/components
-
-
-
-
 # Class AsmCustomer360ActivityComponent
 ## @spartacus/asm/customer-360/components
-
-moved to @spartacus/asm/customer/360/components
 
 
 ### Method itemSelected is removed.
@@ -76558,8 +69756,6 @@ moved to @spartacus/asm/customer/360/components
 
 # Class AsmCustomer360Component
 ## @spartacus/asm/customer-360/components
-
-moved to @spartacus/asm/customer/360/components
 
 
 ### Method closeErrorAlert is removed.
@@ -76624,26 +69820,8 @@ moved to @spartacus/asm/customer/360/components
 
 
 
-# Class AsmCustomer360ComponentsModule
-## @spartacus/asm/customer-360/components
-
-moved to @spartacus/asm/customer/360/components
-
-
-
-
-# Class AsmCustomer360Config
-## @spartacus/asm/customer-360/components
-
-moved to @spartacus/asm/customer/360/components
-
-
-
-
 # Class AsmCustomer360CouponComponent
 ## @spartacus/asm/customer-360/components
-
-moved to @spartacus/asm/customer/360/components
 
 
 ### Method applyCouponToCustomer is removed.
@@ -76686,8 +69864,6 @@ moved to @spartacus/asm/customer/360/components
 
 # Class AsmCustomer360CustomerCouponComponent
 ## @spartacus/asm/customer-360/components
-
-moved to @spartacus/asm/customer/360/components
 
 
 ### Method changeTab is removed.
@@ -76735,8 +69911,6 @@ moved to @spartacus/asm/customer/360/components
 # Class AsmCustomer360MapComponent
 ## @spartacus/asm/customer-360/components
 
-moved to @spartacus/asm/customer/360/components
-
 
 ### Method getStoreOpening is removed.
 
@@ -76756,18 +69930,8 @@ moved to @spartacus/asm/customer/360/components
 
 
 
-# Class AsmCustomer360ProductInterestsComponent
-## @spartacus/asm/customer-360/components
-
-moved to @spartacus/asm/customer/360/components
-
-
-
-
 # Class AsmCustomer360ProductReviewsComponent
 ## @spartacus/asm/customer-360/components
-
-moved to @spartacus/asm/customer/360/components
 
 
 ### Method getLongDate is removed.
@@ -76787,8 +69951,6 @@ moved to @spartacus/asm/customer/360/components
 # Class AsmCustomer360ProfileComponent
 ## @spartacus/asm/customer-360/components
 
-moved to @spartacus/asm/customer/360/components
-
 
 ### Method getCardContent is removed.
 
@@ -76806,8 +69968,6 @@ moved to @spartacus/asm/customer/360/components
 
 # Class AsmCustomer360PromotionComponent
 ## @spartacus/asm/customer-360/components
-
-moved to @spartacus/asm/customer/360/components
 
 
 ### Method closeErrorAlert is removed.
@@ -76832,18 +69992,8 @@ moved to @spartacus/asm/customer/360/components
 
 
 
-# Class AsmCustomer360SavedCartComponent
-## @spartacus/asm/customer-360/components
-
-moved to @spartacus/asm/customer/360/components
-
-
-
-
 # Class AsmCustomer360SupportTicketsComponent
 ## @spartacus/asm/customer-360/components
-
-moved to @spartacus/asm/customer/360/components
 
 
 ### Method navigateTo is removed.
@@ -76852,38 +70002,6 @@ moved to @spartacus/asm/customer/360/components
 
 ### Method ngOnInit is removed.
 
-
-
-
-
-# Variable defaultAsmCustomer360Config
-## @spartacus/asm/customer-360/components
-
-moved to @spartacus/asm/customer/360/components
-
-
-
-
-# Variable defaultAsmCustomer360LayoutConfig
-## @spartacus/asm/customer-360/components
-
-moved to @spartacus/asm/customer/360/components
-
-
-
-
-# Variable asmCustomer360TranslationChunksConfig
-## @spartacus/asm/customer-360/assets
-
-moved to @spartacus/asm/customer/360/assets
-
-
-
-
-# Variable asmCustomer360Translations
-## @spartacus/asm/customer-360/assets
-
-moved to @spartacus/asm/customer/360/assets
 
 
 
@@ -77037,14 +70155,6 @@ Variable asmCustomer360TranslationsZh_TW has been removed and is no longer part 
 
 
 Variable asmCustomer360TranslationsZh has been removed and is no longer part of the public API.
-
-
-
-
-# Class AsmCustomer360Module
-## @spartacus/asm/customer-360
-
-moved to @spartacus/asm/customer/360
 
 
 
@@ -77525,6 +70635,10 @@ property(
 
 
 
+### Property featureConfig is removed.
+
+
+
 ### Method goToSavedCartDetails is removed.
 
 
@@ -77869,6 +70983,10 @@ property(
 ## @spartacus/asm/components
 
 
+### Property featureConfig is removed.
+
+
+
 ### Method logoutCustomer is removed.
 
 
@@ -77974,6 +71092,10 @@ property(
 
 
 ### Method createCustomer is removed.
+
+
+
+### Property featureConfig is removed.
 
 
 

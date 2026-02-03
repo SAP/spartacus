@@ -73,103 +73,66 @@ if (failCount > 0) {
 }
 
 function getPackageNameFromPath(filePath: string): string {
-  // Extract package name by reading the MAIN package.json and matching exports
-  // Main package.json has "exports" field that defines all sub-entry points
-
   const fileName = path.basename(filePath, '.d.ts');
 
-  // Skip public_api.d.ts files as they are re-exports
   if (fileName === 'public_api') {
     return '@spartacus/unknown';
   }
 
-  // Find the main library directory (e.g., dist/asm/)
-  // Example: dist/asm/types/spartacus-asm-customer-360.d.ts → dist/asm
   const distMatch = filePath.match(/^(.+\/dist\/([^\/]+))\/types\//);
 
   if (!distMatch) {
-    console.warn(`Could not extract dist folder from: ${filePath}`);
     return '@spartacus/unknown';
   }
 
-  const mainLibDir = distMatch[1]; // e.g., /path/to/dist/asm
-  const mainLibName = distMatch[2]; // e.g., asm
+  const mainLibDir = distMatch[1];
   const mainPackageJsonPath = path.join(mainLibDir, 'package.json');
 
   if (!fs.existsSync(mainPackageJsonPath)) {
-    console.warn(`Main package.json not found: ${mainPackageJsonPath}`);
     return '@spartacus/unknown';
   }
 
   try {
     const mainPackageJson = JSON.parse(fs.readFileSync(mainPackageJsonPath, 'utf-8'));
-    const baseName = mainPackageJson.name; // e.g., @spartacus/asm
+    const baseName = mainPackageJson.name;
 
     if (!baseName) {
-      console.warn(`No name field in ${mainPackageJsonPath}`);
       return '@spartacus/unknown';
     }
 
-    // Match the filename to an export entry
-    // Example: spartacus-asm-customer-360.d.ts should match export "./customer-360"
+    const exports = mainPackageJson.exports;
 
-    // Remove 'spartacus-' prefix and library name from filename
-    // spartacus-asm-customer-360 → customer-360
-    // spartacus-asm-customer-360-assets → customer-360-assets
-    let fileBaseName = fileName;
-    if (fileBaseName.startsWith('spartacus-')) {
-      fileBaseName = fileBaseName.substring('spartacus-'.length);
-    }
-
-    // Remove main lib name prefix
-    // asm-customer-360 → customer-360
-    if (fileBaseName.startsWith(mainLibName + '-')) {
-      fileBaseName = fileBaseName.substring(mainLibName.length + 1);
-    }
-
-    // If filename equals main lib name, this is the main entry point
-    if (fileBaseName === mainLibName || fileBaseName === '') {
+    if (!exports) {
       return baseName;
     }
 
-    // Match to exports - convert hyphens to slashes for path matching
-    // customer-360-assets → customer-360/assets
-    // But CAREFUL: customer-360 should stay as customer-360!
+    // Direct mapping: bundled filename to "types" field in exports
+    // spartacus-asm-customer-360-assets.d.ts maps to export with:
+    // "types": "./types/spartacus-asm-customer-360-assets.d.ts"
 
-    // Check exports field for exact match
-    if (mainPackageJson.exports) {
-      const exports = mainPackageJson.exports;
+    const bundledPath = `./types/${fileName}.d.ts`;
 
-      // Try exact match first: "./customer-360-assets"
-      const exactKey = `./${fileBaseName}`;
-      if (exports[exactKey]) {
-        // Found! Use the key but remove "./"
-        const subPath = exactKey.substring(2);
-        return `${baseName}/${subPath}`;
-      }
-
-      // Try with progressive slash substitution
-      // customer-360-assets → try customer-360/assets
-      const parts = fileBaseName.split('-');
-      for (let i = parts.length - 1; i > 0; i--) {
-        const left = parts.slice(0, i).join('-');
-        const right = parts.slice(i).join('-');
-        const tryKey = `./${left}/${right}`;
-
-        if (exports[tryKey]) {
-          return `${baseName}/${left}/${right}`;
+    // Find which export has this types path
+    for (const [exportKey, exportValue] of Object.entries(exports)) {
+      if (typeof exportValue === 'object' && exportValue !== null) {
+        const typesPath = (exportValue as any).types;
+        if (typesPath === bundledPath) {
+          // Found matching export!
+          // exportKey is like "./customer-360/assets"
+          if (exportKey === '.') {
+            return baseName;
+          }
+          // Remove leading "./"
+          const subPath = exportKey.startsWith('./') ? exportKey.substring(2) : exportKey;
+          return `${baseName}/${subPath}`;
         }
       }
-
-      // Fallback: use as-is
-      return `${baseName}/${fileBaseName}`;
     }
 
-    // No exports field - use filename as-is
-    return `${baseName}/${fileBaseName}`;
+    // Not found in exports
+    return baseName;
 
   } catch (error: any) {
-    console.warn(`Error reading ${mainPackageJsonPath}: ${error.message}`);
     return '@spartacus/unknown';
   }
 }
