@@ -47,15 +47,6 @@ let spartacusChannelSpecificConfigurationProviders = environment.b2b
     provideConfig(mediaConfig),
     ...defaultCmsContentProviders,
     provideConfig({
-      // Custom OCC backend configuration:
-      backend: {
-        occ: {
-          baseUrl: environment.occBaseUrl,
-          prefix: environment.occApiPrefix,
-        },
-      },
-    }),
-    provideConfig({
       pwa: {
         enabled: true,
         addToHomeScreen: true,
