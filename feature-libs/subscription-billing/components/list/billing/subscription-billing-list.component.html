@@ -1,5 +1,5 @@
 <ng-container *ngIf="billingList$ | async as billingList; else loading">
-  @if (billingList.results?.length > 0) {
+  <ng-container *ngIf="billingList.results?.length > 0; else noBills">
     <div class="billing-list-title-section">
       <h3>{{ 'subscriptionBillsList.title' | cxTranslate }}</h3>
     </div>
@@ -148,13 +148,15 @@
         ></cx-pagination>
       </ng-container>
     </div>
-  } @else {
-    <div class="text-center">
-      <h3>{{ 'subscriptionBillsList.noSubscriptionBills' | cxTranslate }}</h3>
-    </div>
-  }
+  </ng-container>
 </ng-container>
 
 <ng-template #loading>
   <cx-spinner></cx-spinner>
+</ng-template>
+
+<ng-template #noBills>
+  <div class="text-center">
+    <h3>{{ 'subscriptionBillsList.noSubscriptionBills' | cxTranslate }}</h3>
+  </div>
 </ng-template>
