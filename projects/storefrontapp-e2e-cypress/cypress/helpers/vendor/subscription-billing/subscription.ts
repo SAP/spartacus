@@ -417,18 +417,18 @@ export function validateSubscriptionBillingList() {
 }
 
 export function validateSubscriptionBillDetailsPage() {
-
-// Breadcrumbs
-  cy.get('cx-breadcrumb').should('exist')
+  // Breadcrumbs
+  cy.get('cx-breadcrumb')
+    .should('exist')
     .within(() => {
       cy.contains('a', 'Home').should('exist');
       cy.contains('a', 'Subscription Bills').should('exist');
     });
   // Bill details page - verify key elements
-  cy.get('cx-subscription-billing-details').should('exist')
+  cy.get('cx-subscription-billing-details')
+    .should('exist')
     .within(() => {
       cy.contains('.subscription-id').should('exist');
-      cy.get('.subscription-product').should('exist')
-      .get('a').should('exist');
+      cy.get('.subscription-product').should('exist').get('a').should('exist');
     });
 }

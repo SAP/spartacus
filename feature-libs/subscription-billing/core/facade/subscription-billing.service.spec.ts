@@ -58,9 +58,7 @@ const mockList: SubscriptionBillsList = {
     totalPages: 410,
     totalResults: 2047,
   },
-  results: [
-    mockDetail
-  ],
+  results: [mockDetail],
   sorts: [
     {
       code: 'byDocumentNumberDesc',
@@ -91,7 +89,9 @@ class MockUserIdService implements Partial<UserIdService> {
 class MockRoutingService implements Partial<RoutingService> {
   getRouterState = createSpy().and.returnValue(of(mockRouteState));
 }
-class MockSubscriptionConnector implements Partial<SubscriptionBillingConnector> {
+class MockSubscriptionConnector
+  implements Partial<SubscriptionBillingConnector>
+{
   getSubscriptionBillByCode = createSpy().and.returnValue(of(mockDetail));
   getSubscriptionBillsList = createSpy().and.returnValue(of(mockList));
 }
@@ -134,7 +134,7 @@ describe('SubscriptionBillingService', () => {
             mockPageSize,
             mockCurrentPage,
             mockSort,
-			undefined
+            undefined
           );
           expect(data).toEqual(mockList);
           done();
@@ -148,11 +148,11 @@ describe('SubscriptionBillingService', () => {
 
       service
         .getSubscriptionBillsListState(
-		  mockCurrentPage,
+          mockCurrentPage,
           mockPageSize,
           mockSort,
           undefined
-		  )
+        )
         .pipe(take(1))
         .subscribe((state) => {
           expect(connector.getSubscriptionBillsList).toHaveBeenCalledWith(
