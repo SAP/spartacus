@@ -94,7 +94,7 @@ export class OptimizedSsrEngine {
       this.ssrOptions
     );
 
-    this.log(`[spartacus] SSR optimization engine initialized`, true, {
+    this.log(`[spartacus] SSR optimization engine initialized`, {
       options: loggableSsrOptions,
     });
   }
@@ -145,13 +145,11 @@ export class OptimizedSsrEngine {
     if (fallBack) {
       this.log(
         `CSR fallback: rendering in progress (${request?.originalUrl})`,
-        true,
         { request }
       );
     } else if (concurrencyLimitExceeded) {
       this.log(
         `CSR fallback: Concurrency limit exceeded (${this.ssrOptions?.concurrency})`,
-        true,
         { request }
       );
     }
@@ -254,7 +252,7 @@ export class OptimizedSsrEngine {
     const response: Response = options.req.res;
 
     if (this.returnCachedRender(request, callback)) {
-      this.log(`Render from cache (${request?.originalUrl})`, true, {
+      this.log(`Render from cache (${request?.originalUrl})`, {
         request,
       });
       return;
@@ -273,7 +271,6 @@ export class OptimizedSsrEngine {
         this.fallbackToCsr(response, filePath, callback);
         this.log(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${request?.originalUrl}`,
-          false,
           { request }
         );
       }, timeout);
@@ -314,14 +311,7 @@ export class OptimizedSsrEngine {
     });
   }
 
-  /**
-   * @deprecated since v2211.27 - This method will be private in the future.
-   */
-  protected log(
-    message: string,
-    _ignoredLegacyDebugParameter = true,
-    context: ExpressServerLoggerContext
-  ): void {
+  private log(message: string, context: ExpressServerLoggerContext): void {
     this.logger.log(message, context || {});
   }
 
@@ -391,7 +381,6 @@ export class OptimizedSsrEngine {
 
     this.log(
       `Request is waiting for the SSR rendering to complete (${request?.originalUrl})`,
-      true,
       { request }
     );
   }
@@ -431,12 +420,11 @@ export class OptimizedSsrEngine {
         }
         this.log(
           `Rendering of ${request?.originalUrl} was not able to complete. This might cause memory leaks!`,
-          false,
           { request }
         );
       }, this.ssrOptions?.maxRenderTime ?? 300000); // 300000ms == 5 minutes
 
-    this.log(`Rendering started (${request?.originalUrl})`, true, { request });
+    this.log(`Rendering started (${request?.originalUrl})`, { request });
     this.renderingCache.setAsRendering(renderingKey);
     this.currentConcurrency++;
 
@@ -456,14 +444,13 @@ export class OptimizedSsrEngine {
         // ignore this render's result because it exceeded maxRenderTimeout
         this.log(
           `Rendering of ${request.originalUrl} completed after the specified maxRenderTime, therefore it was ignored.`,
-          false,
           { request }
         );
         return;
       }
       clearTimeout(maxRenderTimeout);
 
-      this.log(`Rendering completed (${request?.originalUrl})`, true, {
+      this.log(`Rendering completed (${request?.originalUrl})`, {
         request,
       });
       this.currentConcurrency--;
@@ -483,7 +470,6 @@ export class OptimizedSsrEngine {
     if (html) {
       this.log(
         `Request is resolved with the SSR rendering result (${request?.originalUrl})`,
-        true,
         { request }
       );
     }
