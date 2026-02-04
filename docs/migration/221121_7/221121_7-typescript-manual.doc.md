@@ -106,6 +106,11 @@
 - **Reason:** Deprecated in favor of `CdcPreferenceSerializer` service class.
 - **Action Required:** Use the `CdcPreferenceSerializer` class methods.
 
+### `OptimizedSsrEngine` Logger Method
+- **Removed Method:** `log(message: string, _ignoredLegacyDebugParameter: boolean, context: ExpressServerLoggerContext)`
+- **Reason:** Deprecated since **2211.27**
+- **Action Required:** If you extended the `OptimizedSsrEngine` and used called yourself the removed method `log()`, please update your code to use the property `this.logger` instead, e.g. `this.logger.log(message, context);`
+
 ## Removed Tokens
 
 ### `USE_LEGACY_MEDIA_COMPONENT`
