@@ -867,7 +867,7 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.renderCount).toEqual(1);
       expect(engineRunner.optimizedSsrEngine['log']).not.toHaveBeenCalledWith(
         `Rendering of ${requestUrl} was not able to complete. This might cause memory leaks!`,
-        false
+        { request: expect.objectContaining({ originalUrl: requestUrl }) }
       );
     }));
 
@@ -883,7 +883,6 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.renderCount).toEqual(0);
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering of ${requestUrl} was not able to complete. This might cause memory leaks!`,
-        false,
         { request: expect.objectContaining({ originalUrl: requestUrl }) }
       );
 
@@ -908,7 +907,6 @@ describe('OptimizedSsrEngine', () => {
       expect(engineRunner.renderCount).toEqual(0);
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering of ${requestUrl} was not able to complete. This might cause memory leaks!`,
-        false,
         { request: expect.objectContaining({ originalUrl: requestUrl }) }
       );
 
@@ -939,7 +937,6 @@ describe('OptimizedSsrEngine', () => {
       // while the concurrency slot is busy rendering the first hanging request, the second request gets the CSR version
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `CSR fallback: Concurrency limit exceeded (1)`,
-        true,
         { request: expect.objectContaining({ originalUrl: csrRequest }) }
       );
       expect(engineRunner.renderCount).toEqual(0);
@@ -950,7 +947,6 @@ describe('OptimizedSsrEngine', () => {
       tick(maxRenderTime);
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering of ${hangingRequest} was not able to complete. This might cause memory leaks!`,
-        false,
         { request: expect.objectContaining({ originalUrl: hangingRequest }) }
       );
       expect(engineRunner.renderCount).toEqual(0);
@@ -960,7 +956,6 @@ describe('OptimizedSsrEngine', () => {
       tick(1);
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering started (${ssrRequest})`,
-        true,
         { request: expect.objectContaining({ originalUrl: ssrRequest }) }
       );
       expect(getCurrentConcurrency(engineRunner)).toEqual({
@@ -986,7 +981,6 @@ describe('OptimizedSsrEngine', () => {
       tick(fiveMinutes + 101);
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
         `Rendering of ${requestUrl} completed after the specified maxRenderTime, therefore it was ignored.`,
-        false,
         { request: expect.objectContaining({ originalUrl: requestUrl }) }
       );
       expect(engineRunner.responses).toEqual(['']);
@@ -1039,12 +1033,10 @@ describe('OptimizedSsrEngine', () => {
 
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `CSR fallback: rendering in progress (${requestUrl})`,
-          true,
           { request: expect.objectContaining({ originalUrl: requestUrl }) }
         );
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
-          false,
           { request: expect.objectContaining({ originalUrl: requestUrl }) }
         );
         expect(engineRunner.responses).toEqual(['', '']);
@@ -1071,7 +1063,6 @@ describe('OptimizedSsrEngine', () => {
           tick(100);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
             `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
-            false,
             { request: expect.objectContaining({ originalUrl: requestUrl }) }
           );
 
@@ -1198,7 +1189,6 @@ describe('OptimizedSsrEngine', () => {
           tick(100);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
             `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
-            false,
             { request: expect.objectContaining({ originalUrl: requestUrl }) }
           );
           expect(engineRunner.responses).toEqual(['']); // the first request fallback to CSR due to timeout
@@ -1329,7 +1319,6 @@ describe('OptimizedSsrEngine', () => {
           tick(maxRenderTime);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
             `Rendering of ${hangingRequest} was not able to complete. This might cause memory leaks!`,
-            false,
             { request: expect.objectContaining({ originalUrl: requestUrl }) }
           );
           expect(getCurrentConcurrency(engineRunner)).toEqual({
@@ -1346,7 +1335,6 @@ describe('OptimizedSsrEngine', () => {
           tick(1);
           expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
             `Rendering started (${ssrRequest})`,
-            true,
             { request: expect.objectContaining({ originalUrl: ssrRequest }) }
           );
           expect(getCurrentConcurrency(engineRunner)).toEqual({
@@ -1383,12 +1371,10 @@ describe('OptimizedSsrEngine', () => {
 
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${requestUrl}`,
-          false,
           { request: expect.objectContaining({ originalUrl: requestUrl }) }
         );
         expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
           `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${differentUrl}`,
-          false,
           { request: expect.objectContaining({ originalUrl: differentUrl }) }
         );
 
