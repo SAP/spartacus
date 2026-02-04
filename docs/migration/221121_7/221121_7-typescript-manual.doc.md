@@ -125,6 +125,8 @@
   - Remove `useLegacyMediaComponent` from your config if you were using it.
   - If you need to use `img` HTML element instead of `picture`, pass `[elementType]="'img'"` as an input to the `MediaComponent` where needed.
 
+## Method Signature Changes
+
 ### `persist-focus.directive.ts`, `lock-focus.directive.ts`, `auto-focus.directive.ts`
 - **Method Signature Change**: The `handleFocus` method parameter type has been corrected from `KeyboardEvent` to `FocusEvent`.
   - **Before:** `handleFocus(event?: KeyboardEvent)`
