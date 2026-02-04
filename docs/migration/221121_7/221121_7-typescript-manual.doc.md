@@ -125,6 +125,14 @@
   - Remove `useLegacyMediaComponent` from your config if you were using it.
   - If you need to use `img` HTML element instead of `picture`, pass `[elementType]="'img'"` as an input to the `MediaComponent` where needed.
 
+### `persist-focus.directive.ts`, `lock-focus.directive.ts`, `auto-focus.directive.ts`
+- **Method Signature Change**: The `handleFocus` method parameter type has been corrected from `KeyboardEvent` to `FocusEvent`.
+  - **Before:** `handleFocus(event?: KeyboardEvent)`
+  - **After:** `handleFocus(event?: FocusEvent)`
+- **Reason**: The method is bound to the DOM `focus` event via `@HostListener('focus', ['$event'])`, which emits a `FocusEvent`, not a `KeyboardEvent`. The previous type annotation was incorrect.
+- **Breaking Impact**: Custom directives extending any of these classes that override `handleFocus` with a `KeyboardEvent` parameter will fail to compile.
+  - **Action Required**: Update any overridden `handleFocus` methods to use `FocusEvent` instead of `KeyboardEvent`.
+
 ## Global Changes
 
 #### `FeatureConfigService` Visibility Refactor
