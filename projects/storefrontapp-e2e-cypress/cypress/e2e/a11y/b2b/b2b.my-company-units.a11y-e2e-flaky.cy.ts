@@ -38,7 +38,7 @@ describe(
       cy.get('cx-org-unit-details').a11yRunContinuumTest();
     });
 
-    it.skip('unit details / edit panel', () => {
+    it('unit details / edit panel', () => {
       cy.get(
         'cx-org-unit-details cx-org-card cx-view .header .actions .btn.edit'
       ).click();
@@ -46,7 +46,7 @@ describe(
       cy.get('cx-org-unit-details').a11yRunContinuumTest();
     });
 
-    it.skip('unit details / edit-save panel', () => {
+    it('unit details / edit-save panel', () => {
       cy.get(
         'cx-org-unit-details cx-org-card cx-view .header .actions .btn.btn-primary'
       ).click();
@@ -56,7 +56,7 @@ describe(
       cy.get('cx-org-unit-details').a11yRunContinuumTest();
     });
 
-    it.skip('unit details / links list / child units panel', () => {
+    it('unit details / links list / child units panel', () => {
       cy.get(
         'cx-org-unit-details .main .link-list a.link:nth-child(1)'
       ).click();
@@ -69,7 +69,7 @@ describe(
       cy.get('cx-org-unit-details').a11yRunContinuumTest();
     });
 
-    it.skip('unit details / links list / child units / create panel', () => {
+    it('unit details / links list / child units / create panel', () => {
       cy.get(
         'cx-org-unit-details cx-org-unit-children .header .actions .btn'
       ).click();
@@ -77,7 +77,7 @@ describe(
       cy.get('cx-org-unit-details').a11yRunContinuumTest();
     });
 
-    it.skip('unit details / users list panel', () => {
+    it('unit details / users list panel', () => {
       cy.get(
         'cx-breadcrumb a[href="/powertools-spa/en/USD/organization/units/Rustic"]'
       ).click();
@@ -93,7 +93,7 @@ describe(
       cy.get('cx-org-unit-details').a11yRunContinuumTest();
     });
 
-    it.skip('unit details / users list / roles and rights panel', () => {
+    it('unit details / users list / roles and rights panel', () => {
       cy.get(
         'cx-org-unit-details  .main cx-table table tr:nth-child(2) td.roles a'
       ).click();
@@ -101,7 +101,7 @@ describe(
       cy.get('cx-org-unit-details').a11yRunContinuumTest();
     });
 
-    it.skip('unit details / approvers list panel', () => {
+    it('unit details / approvers list panel', () => {
       cy.get(
         'cx-breadcrumb a[href="/powertools-spa/en/USD/organization/units/Rustic"]'
       ).click();
@@ -112,7 +112,7 @@ describe(
       cy.get('cx-org-unit-assigned-approver-list').a11yRunContinuumTest();
     });
 
-    it.skip('unit details / approvers list / manage approvers panel', () => {
+    it('unit details / approvers list / manage approvers panel', () => {
       cy.get(
         'cx-org-unit-assigned-approver-list cx-org-sub-list .header .btn:first-child'
       ).click();
@@ -121,7 +121,7 @@ describe(
       cy.get('cx-org-unit-approver-list').a11yRunContinuumTest();
     });
 
-    it.skip('unit details / approvers list / manage approvers assign panel', () => {
+    it('unit details / approvers list / manage approvers assign panel', () => {
       // Assign button click
       cy.get(
         'table tr:nth-child(2) .actions cx-org-assign-cell button'
@@ -130,7 +130,7 @@ describe(
       cy.get('body').a11yRunContinuumTest();
     });
 
-    it.skip('unit details / delivery addresses list panel', () => {
+    it('unit details / delivery addresses list panel', () => {
       cy.get(
         'cx-breadcrumb a[href="/powertools-spa/en/USD/organization/units/Rustic"]'
       ).click();
@@ -141,7 +141,7 @@ describe(
       cy.get('cx-org-unit-address-list').a11yRunContinuumTest();
     });
 
-    it.skip('unit details / delivery addresses list / create panel', () => {
+    it('unit details / delivery addresses list / create panel', () => {
       cy.get(
         'cx-org-unit-address-list cx-org-sub-list .header .btn:first-child'
       ).click();
@@ -149,7 +149,7 @@ describe(
       cy.get('cx-org-unit-address-list').a11yRunContinuumTest();
     });
 
-    it.skip('unit details / cost centers list panel', () => {
+    it('unit details / cost centers list panel', () => {
       cy.get(
         'cx-breadcrumb a[href="/powertools-spa/en/USD/organization/units/Rustic"]'
       ).click();
@@ -160,7 +160,7 @@ describe(
       cy.get('cx-org-unit-cost-centers').a11yRunContinuumTest();
     });
 
-    it.skip('unit details / cost centers list / create panel', () => {
+    it('unit details / cost centers list / create panel', () => {
       cy.get(
         'cx-org-unit-cost-centers cx-org-sub-list .header .btn:first-child'
       ).click();
