@@ -68,6 +68,13 @@
 - **Property Removal**: Removed the deprecated property `totalConsents`.
   - **Action Required**: Remove any references to this property in your code.
 
+### `order-guest-register-form.component.ts`
+- **Constructor Change**: Removed `protected authService: AuthService` parameter from the constructor.
+- **Property Removal**: Removed `subscription: Subscription` property.
+- **Interface Removal**: The class no longer implements `OnDestroy`.
+- **Breaking Impact**: Custom components extending this class that pass `AuthService` in the `super()` call or access the `authService` or `subscription` properties will fail to compile.
+  - **Action Required**: Remove `AuthService` from the `super()` call and remove any references to the `authService` or `subscription` properties in subclasses.
+
 ##  Removed Methods & APIs
 
 #### `CmsGuardsService`
