@@ -16,6 +16,63 @@
   - **Impact:** This constant was deprecated since version 2211.38 in favor of `CDC_PREFERENCE_SERIALIZER`.
   - **Action Required:** Remove any references to this constant if you were using it.
 
+
+- **`Deprecated translation chunks removal`** the following members of public apis are removed:
+  - | Constant name                                | From                                                                   |
+    |----------------------------------------------|------------------------------------------------------------------------|
+    | `asmTranslations`                            | `feature-libs/asm/assets/public_api.ts`                                |
+    | `asmCustomer360Translations`                 | `feature-libs/asm/customer-360/assets/public_api.ts`                   |
+    | `cartBaseTranslations`                       | `feature-libs/cart/base/assets/public_api.ts`                          |
+    | `importExportTranslations`                   | `feature-libs/cart/import-export/assets/public_api.ts`                 |
+    | `quickOrderTranslations`                     | `feature-libs/cart/quick-order/assets/public_api.ts`                   |
+    | `savedCartTranslations`                      | `feature-libs/cart/saved-cart/assets/public_api.ts`                    |
+    | `wishListTranslations`                       | `feature-libs/cart/wish-list/assets/public_api.ts`                     |
+    | `checkoutB2BTranslations`                    | `feature-libs/checkout/b2b/assets/public_api.ts`                       |
+    | `checkoutTranslations`                       | `feature-libs/checkout/base/assets/public_api.ts`                      |
+    | `checkoutScheduledReplenishmentTranslations` | `feature-libs/checkout/scheduled-replenishment/assets/public_api.ts`   |
+    | `customerTicketingTranslations`              | `feature-libs/customer-ticketing/assets/public_api.ts`                 |
+    | `estimatedDeliveryDateTranslations`          | `feature-libs/estimated-delivery-date/assets/public_api.ts`            |
+    | `orderTranslations`                          | `feature-libs/order/assets/public_api.ts`                              |
+    | `documentFlowTranslations`                   | `feature-libs/order/document-flow/assets/public_api.ts`                |
+    | `accountSummaryTranslations`                 | `feature-libs/organization/account-summary/assets/public_api.ts`       |
+    | `organizationTranslations`                   | `feature-libs/organization/administration/assets/public_api.ts`        |
+    | `orderApprovalTranslations`                  | `feature-libs/organization/order-approval/assets/public_api.ts`        |
+    | `unitOrderTranslations`                      | `feature-libs/organization/unit-order/assets/public_api.ts`            |
+    | `organizationUserRegistrationTranslations`   | `feature-libs/organization/user-registration/assets/public_api.ts`     |
+    | `pdfInvoicesTranslations`                    | `feature-libs/pdf-invoices/assets/public_api.ts`                       |
+    | `pickupInStoreTranslations`                  | `feature-libs/pickup-in-store/assets/public_api.ts`                    |
+    | `bulkPricingTranslations`                    | `feature-libs/product/bulk-pricing/assets/public_api.ts`               |
+    | `futureStockTranslations`                    | `feature-libs/product/future-stock/assets/public_api.ts`               |
+    | `productImageZoomTranslations`               | `feature-libs/product/image-zoom/assets/public_api.ts`                 |
+    | `productVariantsTranslations`                | `feature-libs/product/variants/assets/public_api.ts`                   |
+    | `configuratorTranslations`                   | `feature-libs/product-configurator/common/assets/public_api.ts`        |
+    | `multiDimensionalSelectorTranslations`       | `feature-libs/product-multi-dimensional/selector/assets/public_api.ts` |
+    | `quoteTranslations`                          | `feature-libs/quote/assets/public_api.ts`                              |
+    | `requestedDeliveryDateTranslations`          | `feature-libs/requested-delivery-date/assets/public_api.ts`            |
+    | `storeFinderTranslations`                    | `feature-libs/storefinder/assets/public_api.ts`                        |
+    | `userAccountTranslations`                    | `feature-libs/user/account/assets/public_api.ts`                       |
+    | `userProfileTranslations`                    | `feature-libs/user/profile/assets/public_api.ts`                       |
+    | `cdcTranslations`                            | `integration-libs/cdc/assets/public_api.ts`                            |
+    | `cdsTranslations`                            | `integration-libs/cds/assets/public_api.ts`                            |
+    | `cpqquoteTranslations`                       | `integration-libs/cpq-quote/assets/public_api.ts`                      |
+    | `dpTranslations`                             | `integration-libs/digital-payments/assets/public_api.ts`               |
+    | `epdVisualizationTranslations`               | `integration-libs/epd-visualization/assets/public_api.ts`              |
+    | `opfCheckoutTranslations`                    | `integration-libs/opf/checkout/assets/public_api.ts`                   |
+    | `opfPaymentTranslations`                     | `integration-libs/opf/payment/assets/public_api.ts`                    |
+    | `s4ServiceTranslations`                      | `integration-libs/s4-service/assets/public_api.ts`                     |
+    | `s4omTranslations`                           | `integration-libs/s4om/assets/public_api.ts`                           |
+    | `translations`                               | `projects/assets/src/public_api.ts`                                    |
+
+
+  - **Action Required** Remove any references to these constants if you were using it. Please use **specific language** translations (suffixed with language code) instead,
+    like in the following example
+    ```diff
+      i18n: {
+    -   resources: translations
+    +   resources: { en: translationsEn }
+      }
+    ```
+
 ### `cart-proceed-to-checkout.component.ts`
 - **Constructor Cleanup**: Removed the deprecated constructor overload `constructor(router: Router)`.
   - **Action Required**: Any classes extending this component must now provide both `Router` and `ChangeDetectorRef` (optional) in the `super()` call.
