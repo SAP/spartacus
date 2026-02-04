@@ -54,6 +54,8 @@
     | `userProfileTranslations`                    | `feature-libs/user/profile/assets/public_api.ts`                       |
     | `cdcTranslations`                            | `integration-libs/cdc/assets/public_api.ts`                            |
     | `cdsTranslations`                            | `integration-libs/cds/assets/public_api.ts`                            |
+    | `cdsTranslationChunksConfig`                 | `integration-libs/cds/src/assets/public_api.ts`                        |
+    | `cdsTranslations`                            | `integration-libs/cds/src/assets/public_api.ts`                        |
     | `cpqquoteTranslations`                       | `integration-libs/cpq-quote/assets/public_api.ts`                      |
     | `dpTranslations`                             | `integration-libs/digital-payments/assets/public_api.ts`               |
     | `epdVisualizationTranslations`               | `integration-libs/epd-visualization/assets/public_api.ts`              |
