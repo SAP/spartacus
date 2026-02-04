@@ -80,7 +80,9 @@
     "tableHeaderColDate": "Billing Date",
     "tableHeaderColSubscriptions": "Subscriptions",
     "tableHeaderColTotal": "Total",
-    "tableViewBillCol": "View Bill"
+    "tableViewBillCol": "View Bill",
+    "reset": "Reset",
+    "submit": "Submit"
   },
   "subscriptionBillingDetails": {
     "billId": "Subscription Bill ID: ",

@@ -39,11 +39,11 @@ class MockEventService implements Partial<EventService> {
 }
 @Pipe({
   name: 'cxUrl',
-  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
+
 describe('SubscriptionBillingDetailsComponent', () => {
   let component: SubscriptionBillingDetailsComponent;
   let fixture: ComponentFixture<SubscriptionBillingDetailsComponent>;
@@ -51,8 +51,7 @@ describe('SubscriptionBillingDetailsComponent', () => {
   let facade: SubscriptionBillingFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [SubscriptionBillingDetailsComponent, MockUrlPipe],
+      imports: [I18nTestingModule, SubscriptionBillingDetailsComponent, MockUrlPipe],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: EventService, useClass: MockEventService },

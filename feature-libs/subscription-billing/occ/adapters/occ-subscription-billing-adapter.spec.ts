@@ -126,7 +126,7 @@ describe('OccSubscriptionBillingAdapter', () => {
   describe('getSubscriptionBillByCode', () => {
     it('should get subscription bill for the given bill id', (done) => {
       service
-        .getSubscriptionBillByCode(mockCustomerId, mockBillData.documentNumber!)
+        .getSubscriptionBillByCode(mockCustomerId, mockBillData.documentNumber ?? '')
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(mockBillData);
@@ -137,7 +137,7 @@ describe('OccSubscriptionBillingAdapter', () => {
         return (
           req.method === 'GET' &&
           req.url ===
-            `users/${mockCustomerId}/subscriptionbills/${mockBillData.documentNumber}`
+            `users/${mockCustomerId}/subscriptionbills/${mockBillData.documentNumber}?fields=FULL`
         );
       });
       expect(mockReq.cancelled).toBeFalsy();

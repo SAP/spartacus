@@ -12,8 +12,8 @@
           </span>
           <cx-date-picker
             [control]="$any(billsDateFilterForm.get('from'))"
-            (update)="onDateFilterChange()"
             [label]="'subscriptionBillsList.filterFromDateLabel'"
+            (update)="onFilterDateChange()"
             [min]="minDate"
             [max]="maxDate"
           ></cx-date-picker>
@@ -24,11 +24,31 @@
           </span>
           <cx-date-picker
             [control]="$any(billsDateFilterForm.get('to'))"
-            (update)="onDateFilterChange()"
             [label]="'subscriptionBillsList.filterToDateLabel'"
+            (update)="onFilterDateChange()"
             [min]="minDate"
             [max]="maxDate"
           ></cx-date-picker>
+        </div>
+        <div class="date-filters-buttons-wrapper">
+          <div class="date-filters-buttons reset">
+            <button
+              type="button"
+              class="btn btn-block btn-secondary"
+              (click)="onResetFilterDate()"
+            >
+              {{ 'subscriptionBillsList.reset' | cxTranslate }}
+            </button>
+          </div>
+          <div class="date-filters-buttons submit">
+            <button
+              type="submit"
+              class="btn btn-primary btn-block"
+              (click)="onDateFilterSubmit()"
+            >
+              {{ 'subscriptionBillsList.submit' | cxTranslate }}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -105,8 +125,8 @@
               <a
                 [routerLink]="
                   {
-                    cxRoute: 'subscriptionBillDetails',
-                    params: { billId: billing.documentNumber },
+                    cxRoute: 'subscriptionBillingDetails',
+                    params: { subscriptionBillId: billing.documentNumber },
                   } | cxUrl
                 "
               >

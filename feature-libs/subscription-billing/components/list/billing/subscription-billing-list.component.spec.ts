@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, TranslationService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import {
+  I18nTestingModule,
+  LanguageService,
+  TranslationService,
+} from '@spartacus/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   SubscriptionBillingFacade,
   SubscriptionBillsList,
@@ -8,6 +12,7 @@ import {
 import { Pipe, PipeTransform } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { SubscriptionBillingListComponent } from '@spartacus/subscription-billing/components';
+import { ActivatedRoute } from '@angular/router';
 
 const listWithData: SubscriptionBillsList = {
   pagination: {
@@ -92,10 +97,32 @@ class MockTranslationService {
 }
 @Pipe({
   name: 'cxUrl',
-  standalone: false,
 })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
+}
+
+@Pipe({
+  name: 'cxDate',
+})
+class MockDatePipe implements PipeTransform {
+  transform(): any {}
+}
+
+class MockLanguageService {
+  isocode = new BehaviorSubject('');
+
+  getActive(): Observable<string> {
+    return this.isocode;
+  }
+
+  setActive(isocode: string) {
+    this.isocode.next(isocode);
+  }
+}
+
+class MockActivatedRoute {
+  constructor(public snapshot: any) {}
 }
 
 describe('SubscriptionListComponent', () => {
@@ -104,10 +131,11 @@ describe('SubscriptionListComponent', () => {
   let facadeSpy: SubscriptionBillingFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [SubscriptionBillingListComponent, MockUrlPipe],
+      imports: [I18nTestingModule, SubscriptionBillingListComponent, MockUrlPipe, MockDatePipe],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
+        { provide: LanguageService, useClass: MockLanguageService },
+        { provide: ActivatedRoute, useValue: new MockActivatedRoute({}) },
         {
           provide: SubscriptionBillingFacade,
           useClass: MockSubscriptionBillingFacade,
@@ -123,7 +151,7 @@ describe('SubscriptionListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show list with pagination and sort if data is present', () => {
+  it('should show list with pagination, sort and date filters if data is present', () => {
     fixture.detectChanges();
     expect(
       fixture.debugElement.queryAll(By.css('.billing-list-sorting-bar')).length
@@ -136,6 +164,11 @@ describe('SubscriptionListComponent', () => {
     expect(fixture.debugElement.queryAll(By.css('tbody tr td')).length).toEqual(
       5
     );
+    expect(
+      fixture.debugElement.queryAll(By.css('cx-date-picker')).length
+    ).toEqual(2);
+    expect(fixture.debugElement.queryAll(By.css('.submit')).length).toEqual(1);
+    expect(fixture.debugElement.queryAll(By.css('.reset')).length).toEqual(1);
   });
 
   it('should show no subscription bills if data is not present', () => {
@@ -170,12 +203,27 @@ describe('SubscriptionListComponent', () => {
   it('should set the date filter correctly', () => {
     component.billsDateFilterForm.controls.from.setValue('2026-01-31');
     component.billsDateFilterForm.controls.to.setValue('2026-12-31');
-    component.onDateFilterChange();
+    component.onFilterDateChange();
+    fixture.detectChanges();
+    expect(component.minDate).toEqual('2026-01-31');
+    expect(component.maxDate).toEqual('2026-12-31');
+
+    component.onDateFilterSubmit();
     fixture.detectChanges();
     expect(component.listParams).toEqual({
       pageNumber: 0,
       sortCode: undefined,
       dateFilter: `startAt:${component.minDate}:endAt:${component.maxDate}`,
+    });
+
+    component.onResetFilterDate();
+    fixture.detectChanges();
+    expect(component.minDate).toBeNull();
+    expect(component.maxDate).toBeNull();
+    expect(component.listParams).toEqual({
+      pageNumber: 0,
+      sortCode: undefined,
+      dateFilter: undefined,
     });
   });
 });

@@ -5,6 +5,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -27,12 +28,15 @@ import { Observable } from 'rxjs';
   selector: 'cx-billing-list',
   templateUrl: './subscription-billing-list.component.html',
   imports: [
+    NgIf,
+    NgFor,
     SpinnerComponent,
     TranslatePipe,
     PaginationComponent,
     UrlPipe,
     RouterLink,
     CxDatePipe,
+    AsyncPipe,
     SortingComponent,
     DatePickerComponent,
   ],
@@ -56,10 +60,8 @@ export class SubscriptionBillingListComponent {
 
   constructor() {
     this.billsDateFilterForm.addValidators(
-      CustomFormValidators.dateRange(
-        'from',
-        'to',
-        (value: string) => new Date(value)
+      CustomFormValidators.dateRange('from', 'to', (value: string) =>
+        this.datePickerService.getDate(value)
       ) as ValidatorFn
     );
   }
@@ -89,13 +91,39 @@ export class SubscriptionBillingListComponent {
     this.getSubscriptionBillsList();
   }
 
-  onDateFilterChange(): void {
+  onFilterDateChange(): void {
     this.minDate = this.billsDateFilterForm.controls['from'].value;
     this.maxDate = this.billsDateFilterForm.controls['to'].value;
 
     this.billsDateFilterForm.controls['from'].updateValueAndValidity();
     this.billsDateFilterForm.controls['to'].updateValueAndValidity();
+  }
 
+  private getSubscriptionBillsList(): void {
+    const { pageNumber, sortCode, dateFilter } = this.listParams;
+    this.billingList$ = this.subscriptionBillsFacade.getSubscriptionBillsList(
+      this.PAGE_SIZE,
+      pageNumber,
+      sortCode,
+      dateFilter
+    );
+  }
+
+  onResetFilterDate(): void {
+    if (this.minDate && this.maxDate) {
+      this.billsDateFilterForm.reset();
+      this.minDate = null;
+      this.maxDate = null;
+      this.listParams = {
+        ...this.listParams,
+        dateFilter: undefined,
+        pageNumber: 0,
+      };
+      this.getSubscriptionBillsList();
+    }
+  }
+
+  onDateFilterSubmit(): void {
     if (
       this.minDate &&
       this.maxDate &&
@@ -109,23 +137,6 @@ export class SubscriptionBillingListComponent {
         pageNumber: 0,
       };
       this.getSubscriptionBillsList();
-    } else if (!this.minDate && !this.maxDate) {
-      this.listParams = {
-        ...this.listParams,
-        dateFilter: undefined,
-        pageNumber: 0,
-      };
-      this.getSubscriptionBillsList();
     }
-  }
-
-  private getSubscriptionBillsList(): void {
-    const { pageNumber, sortCode, dateFilter } = this.listParams;
-    this.billingList$ = this.subscriptionBillsFacade.getSubscriptionBillsList(
-      this.PAGE_SIZE,
-      pageNumber,
-      sortCode,
-      dateFilter
-    );
   }
 }

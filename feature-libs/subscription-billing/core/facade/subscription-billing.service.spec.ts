@@ -1,13 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { SubscriptionBillsList } from '@spartacus/subscription-billing/root';
+import { defaultSubscriptionBillingRoutingConfig, SubscriptionBillsList } from '@spartacus/subscription-billing/root';
 import { SubscriptionBillingConnector } from '../connector';
 import { SubscriptionBillingService } from './subscription-billing.service';
 import { RoutingService, UserIdService } from '@spartacus/core';
-
-const mockRoutingService = {
-  go: jasmine.createSpy('go'),
-};
+import createSpy = jasmine.createSpy;
 
 const listWithData: SubscriptionBillsList = {
   pagination: {
@@ -67,6 +64,12 @@ const listWithData: SubscriptionBillsList = {
   ],
 };
 
+class MockRoutingService implements Partial<RoutingService> {
+  getRouterState = createSpy().and.returnValue(
+    of(defaultSubscriptionBillingRoutingConfig)
+  );
+}
+
 describe('SubscriptionBillingService', () => {
   let connector: jasmine.SpyObj<SubscriptionBillingConnector>;
   let service: SubscriptionBillingService;
@@ -86,8 +89,8 @@ describe('SubscriptionBillingService', () => {
       providers: [
         SubscriptionBillingService,
         { provide: SubscriptionBillingConnector, useValue: connectorSpy },
-        { provide: RoutingService, useValue: mockRoutingService },
         { provide: UserIdService, useValue: userIdServiceSpy },
+        { provide: RoutingService, useValue: new MockRoutingService() },
       ],
     });
     connector = TestBed.inject(
