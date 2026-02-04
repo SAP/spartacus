@@ -37,7 +37,7 @@ export type SsrCallbackFn = (
 export class OptimizedSsrEngine {
   protected currentConcurrency = 0;
   protected renderingCache: RenderingCache;
-  private logger: ExpressServerLogger;
+  protected logger: ExpressServerLogger;
   private templateCache = new Map<string, string>();
 
   /**
