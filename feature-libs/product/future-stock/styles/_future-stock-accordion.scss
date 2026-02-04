@@ -3,6 +3,10 @@ cx-future-stock-accordion {
   overflow: hidden;
   margin-bottom: 1.25rem;
 
+  @include media-breakpoint-up(lg) {
+    padding-inline-start: 20px;
+  }
+
   .cx-future-stock-accordion-header {
     border: none;
     background-color: transparent;
