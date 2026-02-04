@@ -135,6 +135,7 @@
           }
         },
         "server": "projects/storefrontapp/src/main.server.ts",
+        "outputMode": "server",
         "prerender": false,
         "ssr": {
           "entry": "projects/storefrontapp/src/server.ts"
@@ -214,10 +215,10 @@
       "executor": "@angular-builders/custom-esbuild:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "storefrontapp:build:production,noSsr"
+          "buildTarget": "storefrontapp:build:production"
         },
         "development": {
-          "buildTarget": "storefrontapp:build:development,noSsr"
+          "buildTarget": "storefrontapp:build:development"
         }
       },
       "defaultConfiguration": "development"

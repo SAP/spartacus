@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { StaticProvider } from '@angular/core';
 import {
+  AngularNodeAppEngine,
   CommonEngineOptions,
   CommonEngineRenderOptions,
+  writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 import { Request, Response } from 'express';
-import { REQUEST, RESPONSE } from '../tokens/express.tokens';
-import { CxCommonEngine } from './cx-common-engine';
 
 /**
  * @license
@@ -27,30 +26,36 @@ export type NgSetupOptions = Pick<
 > &
   CommonEngineOptions;
 
-/**
- * @license
- * The MIT License
- * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
- *
- * See:
- * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/src/main.ts
- */
-function getReqResProviders(req: Request, res?: Response): StaticProvider[] {
-  const providers: StaticProvider[] = [
-    {
-      provide: REQUEST,
-      useValue: req,
-    },
-  ];
-  if (res) {
-    providers.push({
-      provide: RESPONSE,
-      useValue: res,
-    });
-  }
+// SPIKE - CAUTION 1 - removed providers of REQUEST and RESPONSE as there is no way to provide them via AngularNodeAppEngine.handle()
+//                       As a result, we'll need to use Angular's new DI tokens REQUEST and RESPONSE_INIT from @angular/core
+//         CAUTION 2 - now I expect some Spartacus features to be not working properly (those based in REQUEST/RESPONSE)
+//                       but please mind I've run dev server with env variable SERVER_REQUEST_ORIGIN, so perhaps it satisfies Spartacus needs
+//
+//
+//   /**
+//  * @license
+//  * The MIT License
+//  * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
+//  *
+//  * See:
+//  * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/src/main.ts
+//  */
+// function getReqResProviders(req: Request, res?: Response): StaticProvider[] {
+//   const providers: StaticProvider[] = [
+//     {
+//       provide: REQUEST,
+//       useValue: req,
+//     },
+//   ];
+//   if (res) {
+//     providers.push({
+//       provide: RESPONSE,
+//       useValue: res,
+//     });
+//   }
 
-  return providers;
-}
+//   return providers;
+// }
 
 /**
  * @license
@@ -79,47 +84,38 @@ export interface RenderOptions extends CommonEngineRenderOptions {
  * See:
  * - https://github.com/angular/universal/blob/e798d256de5e4377b704e63d993dc56ea35df97d/modules/express-engine/src/main.ts
  */
-export function ngExpressEngine(setupOptions: NgSetupOptions) {
-  const engine = new CxCommonEngine({
-    bootstrap: setupOptions.bootstrap,
-    providers: setupOptions.providers,
-    enablePerformanceProfiler: setupOptions.enablePerformanceProfiler,
-  });
+export function ngExpressEngine(
+  // SPIKE - PERHAPS we need a way to pass options like `inlineCriticalCss`, etc. in case of AngularNodeAppEngine
+  _setupOptions: NgSetupOptions
+) {
+  const angularApp = new AngularNodeAppEngine();
 
   return function (
-    filePath: string,
-    options: object,
+    _filePath: string,
+    options: object, // SPIKE - necessary properties: req, res
+    // SPIKE - I guess this callback is not needed (in server.ts it's nearly empty besides calling next(err)). but lets leave it for now
     callback: (err?: Error | null, html?: string) => void
   ) {
     try {
       const renderOptions = { ...options } as RenderOptions;
-      if (!setupOptions.bootstrap && !renderOptions.bootstrap) {
-        throw new Error('You must pass in a NgModule to be bootstrapped');
-      }
 
       const { req } = renderOptions;
       const res = renderOptions.res ?? req.res;
 
-      renderOptions.url =
-        renderOptions.url ??
-        `${req.protocol}://${req.get('host') || ''}${req.baseUrl}${req.url}`;
-      renderOptions.documentFilePath =
-        renderOptions.documentFilePath ?? filePath;
-      renderOptions.providers = [
-        ...(renderOptions.providers ?? []),
-        getReqResProviders(req, res),
-      ];
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      renderOptions.publicPath =
-        renderOptions.publicPath ??
-        setupOptions.publicPath ??
-        (options as any).settings?.views;
-      renderOptions.inlineCriticalCss =
-        renderOptions.inlineCriticalCss ?? setupOptions.inlineCriticalCss;
+      if (!res) {
+        throw new Error('Response object is required');
+      }
 
-      engine
-        .render(renderOptions)
-        .then((html) => callback(null, html))
+      angularApp
+        .handle(req)
+        .then((response) => {
+          if (response) {
+            writeResponseToNodeResponse(response, res);
+            callback(null, '');
+          } else {
+            callback(new Error('No response from AngularNodeAppEngine')); // it will be passed in server.ts to next()
+          }
+        })
         .catch(callback);
     } catch (err) {
       err instanceof Error && callback(err);

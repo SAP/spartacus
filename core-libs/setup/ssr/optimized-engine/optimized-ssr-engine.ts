@@ -6,13 +6,8 @@
 
 /* webpackIgnore: true */
 import { Request, Response } from 'express';
-import * as fs from 'fs';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
-import {
-  EXPRESS_SERVER_LOGGER,
-  ExpressServerLogger,
-  ExpressServerLoggerContext,
-} from '../logger';
+import { ExpressServerLogger, ExpressServerLoggerContext } from '../logger';
 import { getLoggableSsrOptimizationOptions } from './get-loggable-ssr-optimization-options';
 import { RenderingCache } from './rendering-cache/rendering-cache';
 import { preprocessRequestForLogger } from './request-context';
@@ -42,7 +37,8 @@ export class OptimizedSsrEngine {
   protected currentConcurrency = 0;
   protected renderingCache: RenderingCache;
   private logger: ExpressServerLogger;
-  private templateCache = new Map<string, string>();
+
+  // private templateCache = new Map<string, string>(); // SPIKE - commented our as temporarily unused
 
   /**
    * When the config `reuseCurrentRendering` is enabled, we want perform
@@ -326,15 +322,20 @@ export class OptimizedSsrEngine {
   }
 
   /** Retrieve the document from the cache or the filesystem */
-  protected getDocument(filePath: string): string {
-    let doc = this.templateCache.get(filePath);
+  protected getDocument(_filePath: string): string {
+    // SPIKE OLD
+    // let doc = this.templateCache.get(filePath);
 
-    if (!doc) {
-      doc = fs.readFileSync(filePath, 'utf-8');
-      this.templateCache.set(filePath, doc);
-    }
+    // if (!doc) {
+    //   doc = fs.readFileSync(filePath, 'utf-8');
+    //   this.templateCache.set(filePath, doc);
+    // }
 
-    return doc;
+    // return doc;
+
+    // SPIKE NEW CAUTION - we don't have access to filesystem in vite dev server
+    //                      so CSR fallback doesn't work properly, we just returning DUMMY content for now!
+    return '<html><body><h1>This should be CSR fallback, but we I dont know how to get contents of index.server.html</h1></body></html>';
   }
 
   /**
@@ -442,13 +443,17 @@ export class OptimizedSsrEngine {
 
     options = {
       ...options,
-      providers: [
-        {
-          provide: EXPRESS_SERVER_LOGGER,
-          useValue: this.logger,
-        },
-        ...(options?.providers ?? []),
-      ],
+
+      // SPIKE CAUTION - passing providers doesn't work with AngularNodeAppEngine, so commenting out for now
+      //                  but we'll nee to figure out a different way to setup JSON logger in SSR, with Request context
+      //                  NOW STANDARDIZED SSR LOGGER DOESN'T WORK!
+      // providers: [
+      //   {
+      //     provide: EXPRESS_SERVER_LOGGER,
+      //     useValue: this.logger,
+      //   },
+      //   ...(options?.providers ?? []),
+      // ],
     };
 
     this.expressEngine(filePath, options, (err, html) => {

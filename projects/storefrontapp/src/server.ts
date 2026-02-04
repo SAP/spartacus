@@ -4,18 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { APP_BASE_HREF } from '@angular/common';
+import { createNodeRequestHandler, isMainModule } from '@angular/ssr/node';
 import {
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
-  defaultExpressErrorHandlers,
   defaultSsrOptimizationOptions,
   ngExpressEngine as engine,
 } from '@spartacus/setup/ssr';
 import express from 'express';
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import { dirname, join, resolve } from 'path';
 import bootstrap from './main.server';
 
 const ssrOptions: SsrOptimizationOptions = {
@@ -30,61 +26,77 @@ const ssrOptions: SsrOptimizationOptions = {
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
 
+// Create the engine instance once, to be used directly (bypassing Express view system)
+// Otherwise we get this error from Express: https://github.com/expressjs/express/blob/91891e3aee6f2a0b1c4db1e0b499338d05bda91b/lib/application.js#L516
+// because in Vite Dev Server there are no physical files on the disk (only virtual),
+// so we cannot plug those files into Express view system.
+const ssrEngine = ngExpressEngine({ bootstrap });
+
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-  const browserDistFolder = resolve(serverDistFolder, '../browser');
-  const indexHtml = join(serverDistFolder, 'index.server.html');
-  const indexHtmlContent = readFileSync(indexHtml, 'utf-8');
 
   server.set('trust proxy', 'loopback');
 
-  // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
-  server.engine(
-    'html',
-    ngExpressEngine({
-      bootstrap,
-    })
-  );
+  // All regular routes use the Angular SSR engine directly (bypassing Express view system)
+  server.get(/.*/, (req, res, next) => {
+    ssrEngine(
+      '', // SPIKE - filePath is not used by ngExpressEngine, so just passing empty value
+      {
+        req,
 
-  server.set('view engine', 'html');
-  server.set('views', browserDistFolder);
+        // SPIKE - VERY IMPORTANT to pass `res` here, so ngExpressEngine send write response
+        // directly to it, by calling to `writeResponseToNodeResponse(response, res)` - to forward
+        // `response` from AngularNodeAppEngine to the `res` of Express
+        res,
 
-  // Serve static files from /browser
-  server.get(
-    /.*\..*/,
-    express.static(browserDistFolder, {
-      maxAge: '1y',
-    })
-  );
-
-  // All regular routes use the Universal engine
-  server.get(/.*/, (req, res) => {
-    res.render(indexHtml, {
-      req,
-      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
-    });
+        // SPIKE - providers are no longer passed to the app, because AngularNodeAppEngine doesn't accept extra providers
+        // providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
+      },
+      (err) => {
+        // if AngularNodeAppEngine.handle fails, it calls this `callback(err)`. thanks to it, here in server.ts
+        // we can forward the error to `next()` error handler
+        if (err) {
+          next(err);
+        }
+        // Note: successful response is written directly by ngExpressEngine via writeResponseToNodeResponse
+      }
+    );
   });
 
-  server.use(defaultExpressErrorHandlers(indexHtmlContent));
+  // SPIKE CAUTION - disabling our custom error handlers for now, because I don't know how to obtain
+  //                 indexHtmlContent here in vite dev server, because files seem to be virtual only there
+  // server.use(defaultExpressErrorHandlers(indexHtmlContent));
 
   return server;
 }
 
-function run() {
-  const port = process.env['PORT'] || 4000;
+// SPIKE - conflict of names (comparing to fresh angular app): app vs appInstance, so renaming to appInstance for now
+const appInstance = app();
 
-  // Start up the Node server
-  const server = app();
-  server.listen(port, () => {
-    /* eslint-disable-next-line no-console
-    --
-    It's just an example application file. This message is not crucial
-    to be logged using any special logger. Moreover, we don't have
-    any special logger available in this context. */
-    console.log(`Node Express server listening on http://localhost:${port}`);
-  });
+/**
+ * Start the server if this module is the main entry point, or it is ran via PM2.
+ * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
+ */
+if (isMainModule(import.meta.url) || process.env['pm_id']) {
+  const port = process.env['PORT'] || 4000;
+  appInstance.listen(
+    port,
+    // SPIKE - somehow it doesn't accept `(error)` argument. maybe I'm using wrong `express@4` version still locally?
+    // (error) => {
+    // if (error) {
+    //   throw error;
+    // }
+    () => {
+      /* eslint-disable-next-line no-console
+      --
+      It's just an example application file. This message is not crucial
+      to be logged using any special logger. Moreover, we don't have
+      any special logger available in this context. */
+      console.log(`Node Express server listening on http://localhost:${port}`);
+    }
+  );
 }
 
-run();
+// SPIKE - this named export is expected by Angular's builder with "outputMode": "server"
+export const reqHandler = createNodeRequestHandler(appInstance);
