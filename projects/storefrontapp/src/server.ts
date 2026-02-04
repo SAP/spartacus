@@ -16,6 +16,7 @@ import express from 'express';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'path';
+import bootstrap from './main.server';
 import AppModuleServer from './main.server';
 import { getChromeDevtoolsExpressMiddleware } from './internal';
 
@@ -45,7 +46,7 @@ export function app(): express.Express {
   server.engine(
     'html',
     ngExpressEngine({
-      bootstrap: AppModuleServer,
+      bootstrap,
     })
   );
 
