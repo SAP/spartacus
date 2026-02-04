@@ -17,8 +17,7 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'path';
 import bootstrap from './main.server';
-import AppModuleServer from './main.server';
-import { getChromeDevtoolsExpressMiddleware } from './internal';
+import { getChromeDevtoolsExpressMiddleware } from './app/private/ssr/get-chrome-devtools-express-middleware';
 
 const ssrOptions: SsrOptimizationOptions = {
   timeout: Number(
