@@ -131,7 +131,12 @@ describe('SubscriptionListComponent', () => {
   let facadeSpy: SubscriptionBillingFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, SubscriptionBillingListComponent, MockUrlPipe, MockDatePipe],
+      imports: [
+        I18nTestingModule,
+        SubscriptionBillingListComponent,
+        MockUrlPipe,
+        MockDatePipe,
+      ],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: LanguageService, useClass: MockLanguageService },

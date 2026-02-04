@@ -1,6 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { defaultSubscriptionBillingRoutingConfig, SubscriptionBillsList } from '@spartacus/subscription-billing/root';
+import {
+  defaultSubscriptionBillingRoutingConfig,
+  SubscriptionBillsList,
+} from '@spartacus/subscription-billing/root';
 import { SubscriptionBillingConnector } from '../connector';
 import { SubscriptionBillingService } from './subscription-billing.service';
 import { RoutingService, UserIdService } from '@spartacus/core';

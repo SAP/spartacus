@@ -126,7 +126,10 @@ describe('OccSubscriptionBillingAdapter', () => {
   describe('getSubscriptionBillByCode', () => {
     it('should get subscription bill for the given bill id', (done) => {
       service
-        .getSubscriptionBillByCode(mockCustomerId, mockBillData.documentNumber ?? '')
+        .getSubscriptionBillByCode(
+          mockCustomerId,
+          mockBillData.documentNumber ?? ''
+        )
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(mockBillData);

@@ -51,7 +51,11 @@ describe('SubscriptionBillingDetailsComponent', () => {
   let facade: SubscriptionBillingFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, SubscriptionBillingDetailsComponent, MockUrlPipe],
+      imports: [
+        I18nTestingModule,
+        SubscriptionBillingDetailsComponent,
+        MockUrlPipe,
+      ],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: EventService, useClass: MockEventService },
