@@ -200,7 +200,7 @@ export function clickManageServiceForActiveSubscription() {
 }
 
 export function checkCancelButtonExists() {
-  const cancelButtonSelector = `cx-subscription-details .cx-other-actions a[aria-label="Cancel Subscription"]`;
+  const cancelButtonSelector = `cx-subscription-details .subscription-actions a[aria-label="Cancel Subscription"]`;
   cy.get('cx-subscription-details', { timeout: 10000 }).should('be.visible');
   cy.get(cancelButtonSelector, { timeout: 5000 })
     .should('exist')
@@ -413,5 +413,22 @@ export function validateSubscriptionBillingList() {
       cy.get('td').eq(1).should('exist'); // Billing Date value
       cy.get('td').eq(2).should('exist'); // Subscriptions value
       cy.get('td').eq(3).should('exist'); // Total value
+    });
+}
+
+export function validateSubscriptionBillDetailsPage() {
+
+// Breadcrumbs
+  cy.get('cx-breadcrumb').should('exist')
+    .within(() => {
+      cy.contains('a', 'Home').should('exist');
+      cy.contains('a', 'Subscription Bills').should('exist');
+    });
+  // Bill details page - verify key elements
+  cy.get('cx-subscription-billing-details').should('exist')
+    .within(() => {
+      cy.contains('.subscription-id').should('exist');
+      cy.get('.subscription-product').should('exist')
+      .get('a').should('exist');
     });
 }

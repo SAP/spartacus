@@ -1,15 +1,56 @@
-import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { inject, TestBed } from '@angular/core/testing';
+import { SubscriptionBillingService } from './subscription-billing.service';
 import {
-  defaultSubscriptionBillingRoutingConfig,
+  UserIdService,
+  RoutingService,
+  OCC_USER_ID_CURRENT,
+} from '@spartacus/core';
+import { SubscriptionBillingConnector } from '../connector';
+import createSpy = jasmine.createSpy;
+import { of, take } from 'rxjs';
+import {
+  SubscriptionBill,
   SubscriptionBillsList,
 } from '@spartacus/subscription-billing/root';
-import { SubscriptionBillingConnector } from '../connector';
-import { SubscriptionBillingService } from './subscription-billing.service';
-import { RoutingService, UserIdService } from '@spartacus/core';
-import createSpy = jasmine.createSpy;
-
-const listWithData: SubscriptionBillsList = {
+const mockUserId = OCC_USER_ID_CURRENT;
+const mockRouteState = {
+  state: {
+    url: 'powertools-spa/en/USD/my-account/subscription-bill/01',
+    queryParams: {},
+    params: {},
+    context: {
+      id: '/my-account/subscription-bill/01',
+      type: 'ContentPage',
+    },
+    cmsRequired: true,
+  },
+  navigationId: 6,
+};
+const mockDetail: SubscriptionBill = {
+  billAt: '2026-04-11T00:00:00+0000',
+  documentNumber: '5776',
+  id: '01',
+  items: [
+    {
+      netAmount: 'USD0.00',
+      productCode: 'SAPCPQ_EDITRATIO_FORMAT_TIERS_cpq',
+      productName: 'SAPCPQ_EDITRATIO_FORMAT_TIERS',
+      subscriptionDocumentNumber: '807',
+      subscriptionId: '86B01278-B670-4812-B69C-55E41439D59E',
+      usageCharges: [
+        {
+          netAmount: 'USD185.00',
+          typeName: 'Charge',
+        },
+      ],
+    },
+  ],
+  netAmount: 'USD0.00',
+  numberOfSubscriptions: 1,
+  periodEndAt: '2026-04-09T00:00:00+0000',
+  periodStartAt: '2026-01-09T00:00:00+0000',
+};
+const mockList: SubscriptionBillsList = {
   pagination: {
     currentPage: 0,
     pageSize: 1,
@@ -18,30 +59,7 @@ const listWithData: SubscriptionBillsList = {
     totalResults: 2047,
   },
   results: [
-    {
-      billAt: '2026-04-11T00:00:00+0000',
-      documentNumber: '5776',
-      id: '019B9D0C-D5AC-70ED-A3FC-A7B88D1B2015',
-      items: [
-        {
-          netAmount: 'USD0.00',
-          productCode: 'SAPCPQ_EDITRATIO_FORMAT_TIERS_cpq',
-          productName: 'SAPCPQ_EDITRATIO_FORMAT_TIERS',
-          subscriptionDocumentNumber: '807',
-          subscriptionId: '86B01278-B670-4812-B69C-55E41439D59E',
-          usageCharges: [
-            {
-              netAmount: 'USD185.00',
-              typeName: 'Charge',
-            },
-          ],
-        },
-      ],
-      netAmount: 'USD0.00',
-      numberOfSubscriptions: 1,
-      periodEndAt: '2026-04-09T00:00:00+0000',
-      periodStartAt: '2026-01-09T00:00:00+0000',
-    },
+    mockDetail
   ],
   sorts: [
     {
@@ -66,88 +84,79 @@ const listWithData: SubscriptionBillsList = {
     },
   ],
 };
-
-class MockRoutingService implements Partial<RoutingService> {
-  getRouterState = createSpy().and.returnValue(
-    of(defaultSubscriptionBillingRoutingConfig)
-  );
+class MockUserIdService implements Partial<UserIdService> {
+  getUserId = createSpy().and.returnValue(of(mockUserId));
 }
 
+class MockRoutingService implements Partial<RoutingService> {
+  getRouterState = createSpy().and.returnValue(of(mockRouteState));
+}
+class MockSubscriptionConnector implements Partial<SubscriptionBillingConnector> {
+  getSubscriptionBillByCode = createSpy().and.returnValue(of(mockDetail));
+  getSubscriptionBillsList = createSpy().and.returnValue(of(mockList));
+}
 describe('SubscriptionBillingService', () => {
-  let connector: jasmine.SpyObj<SubscriptionBillingConnector>;
   let service: SubscriptionBillingService;
-  let userIdService: jasmine.SpyObj<UserIdService>;
-
+  let connector: SubscriptionBillingConnector;
   beforeEach(() => {
-    const connectorSpy = jasmine.createSpyObj('SubscriptionBillingConnector', [
-      'getSubscriptionBillsList',
-      'getSubscriptionBillByCode',
-    ]);
-
-    const userIdServiceSpy = jasmine.createSpyObj('UserIdService', [
-      'getUserId',
-    ]);
-
     TestBed.configureTestingModule({
       providers: [
         SubscriptionBillingService,
-        { provide: SubscriptionBillingConnector, useValue: connectorSpy },
-        { provide: UserIdService, useValue: userIdServiceSpy },
-        { provide: RoutingService, useValue: new MockRoutingService() },
+        { provide: UserIdService, useClass: MockUserIdService },
+        { provide: RoutingService, useClass: MockRoutingService },
+        {
+          provide: SubscriptionBillingConnector,
+          useClass: MockSubscriptionConnector,
+        },
       ],
     });
-    connector = TestBed.inject(
-      SubscriptionBillingConnector
-    ) as jasmine.SpyObj<SubscriptionBillingConnector>;
     service = TestBed.inject(SubscriptionBillingService);
-    userIdService = TestBed.inject(
-      UserIdService
-    ) as jasmine.SpyObj<UserIdService>;
+    connector = TestBed.inject(SubscriptionBillingConnector);
   });
-
-  it('should be created', () => {
-    expect(connector).toBeTruthy();
-  });
-
+  it('should inject SubscriptionBillingService', inject(
+    [SubscriptionBillingService],
+    (service: SubscriptionBillingService) => {
+      expect(service).toBeTruthy();
+    }
+  ));
   describe('getSubscriptionBillsList', () => {
-    it('should call connector method', () => {
-      const userId = 'current';
+    const mockCurrentPage = 1;
+    const mockPageSize = 5;
+    const mockSort = 'byBillingDateDesc';
 
-      connector.getSubscriptionBillsList.and.returnValue(of(listWithData));
-      userIdService.getUserId.and.returnValue(of('current'));
-
-      let response: SubscriptionBillsList | undefined;
+    it('should call connector.getSubscriptionBillsList', (done) => {
       service
-        .getSubscriptionBillsList(5, 1, 'byBillingDateDesc', undefined)
-        .subscribe((result) => (response = result));
-      expect(connector.getSubscriptionBillsList).toHaveBeenCalledWith(
-        userId,
-        5,
-        1,
-        'byBillingDateDesc',
-        undefined
-      );
-      expect(response).toEqual(listWithData);
+        .getSubscriptionBillsList(mockPageSize, mockCurrentPage, mockSort)
+        .pipe(take(1))
+        .subscribe((data) => {
+          expect(connector.getSubscriptionBillsList).toHaveBeenCalledWith(
+            mockUserId,
+            mockPageSize,
+            mockCurrentPage,
+            mockSort,
+			undefined
+          );
+          expect(data).toEqual(mockList);
+          done();
+        });
     });
 
     it('should contain the query state', (done) => {
       const mockCurrentPage = 1;
       const mockPageSize = 5;
-      const mockSort = 'byId';
-
-      connector.getSubscriptionBillsList.and.returnValue(of(listWithData));
-      userIdService.getUserId.and.returnValue(of('current'));
+      const mockSort = 'byBillingDateDesc';
 
       service
         .getSubscriptionBillsListState(
-          mockCurrentPage,
+		  mockCurrentPage,
           mockPageSize,
           mockSort,
           undefined
-        )
+		  )
+        .pipe(take(1))
         .subscribe((state) => {
           expect(connector.getSubscriptionBillsList).toHaveBeenCalledWith(
-            'current',
+            mockUserId,
             mockCurrentPage,
             mockPageSize,
             mockSort,
@@ -156,7 +165,40 @@ describe('SubscriptionBillingService', () => {
           expect(state).toEqual({
             loading: false,
             error: false,
-            data: listWithData,
+            data: mockList,
+          });
+          done();
+        });
+    });
+  });
+  describe('getSubscriptionBillByCode', () => {
+    it('should call connector.getSubscriptionBillByCode', (done) => {
+      service
+        .getSubscriptionBillByCode()
+        .pipe(take(1))
+        .subscribe((data) => {
+          expect(connector.getSubscriptionBillByCode).toHaveBeenCalledWith(
+            mockUserId,
+            '01'
+          );
+          expect(data).toEqual(mockDetail);
+          done();
+        });
+    });
+
+    it('should contain the query state', (done) => {
+      service
+        .getSubscriptionBillByCodeState()
+        .pipe(take(1))
+        .subscribe((state) => {
+          expect(connector.getSubscriptionBillByCode).toHaveBeenCalledWith(
+            mockUserId,
+            '01'
+          );
+          expect(state).toEqual({
+            loading: false,
+            error: false,
+            data: mockDetail,
           });
           done();
         });

@@ -43,7 +43,7 @@ describe('Subscription - PDP, Order Placement, List, Details', () => {
   });
 
   describe('Subscription Bills', () => {
-    it('validate subscription bill list', () => {
+    it('validate subscription bill list and detail pages', () => {
       cy.restoreLocalStorage();
       Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
 
@@ -66,7 +66,7 @@ describe('Subscription - PDP, Order Placement, List, Details', () => {
           cy.wait(10000);
         });
 
-      // [TODO] validate bill details page
+      helper.validateSubscriptionBillDetailsPage();
       signOutUser();
     });
   });
