@@ -8,4 +8,10 @@ import { RenamedSymbol } from '../../../../shared/utils/file-utils';
 //
 // Generated file, don't update manually.
 //
-export const GENERATED_RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [];
+export const GENERATED_RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
+  {
+    previousNode: 'cdsTranslationChunksConfig',
+    previousImportPath: '@spartacus/cds',
+    newImportPath: '@spartacus/cds/assets',
+  },
+];

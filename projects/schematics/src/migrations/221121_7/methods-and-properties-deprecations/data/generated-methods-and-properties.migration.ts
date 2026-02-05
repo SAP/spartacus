@@ -215,6 +215,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         '// TODO:Spartacus - The type of property \'serverLogger: import("../loggers").ExpressServerLogger\' changed to: \'serverLogger: import("@spartacus/setup/ssr").ExpressServerLogger\' ',
     },
     {
+      class: 'OptimizedSsrEngine',
+      importPath: '@spartacus/setup/ssr',
+      deprecatedNode: 'log',
+      comment:
+        "// TODO:Spartacus - Method 'log' was removed from Class 'OptimizedSsrEngine'. ",
+    },
+    {
       class: 'CmsGuardsService',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'canActivateGuard',
