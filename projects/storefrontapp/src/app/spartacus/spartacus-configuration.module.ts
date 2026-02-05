@@ -48,7 +48,7 @@ let spartacusChannelSpecificConfigurationProviders = environment.b2b
     ...defaultCmsContentProviders,
     provideConfig({
       pwa: {
-        enabled: true,
+        enabled: false,
         addToHomeScreen: true,
       },
     }),

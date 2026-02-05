@@ -135,7 +135,7 @@
           }
         },
         "server": "projects/storefrontapp/src/main.server.ts",
-        "prerender": false,
+        "outputMode": "server",
         "ssr": {
           "entry": "projects/storefrontapp/src/server.ts"
         },

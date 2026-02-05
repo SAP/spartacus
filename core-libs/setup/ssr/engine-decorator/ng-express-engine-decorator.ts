@@ -31,6 +31,12 @@ export type NgExpressEngine = (
 
 /**
  * The wrapper over the standard ngExpressEngine, that provides tokens for Spartacus
+ * 
+ * @deprecated This is the legacy decorator for the callback-based ngExpressEngine.
+ * Use CxAngularNodeAppEngine with the modern Promise-based API instead.
+ * See server-legacy.ts for the old implementation and server.ts for the modern approach.
+ * This will be removed in a future major version.
+ * 
  * @param ngExpressEngine
  */
 export class NgExpressEngineDecorator {

@@ -5,6 +5,7 @@
  */
 
 export * from './engine-decorator/index';
+export * from './engine/cx-angular-node-app-engine';
 export * from './engine/cx-common-engine';
 export * from './engine/ng-express-engine';
 export * from './error-handling/index';

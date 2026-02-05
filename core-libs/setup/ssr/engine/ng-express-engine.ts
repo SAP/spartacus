@@ -14,6 +14,11 @@ import { REQUEST, RESPONSE } from '../tokens/express.tokens';
 import { CxCommonEngine } from './cx-common-engine';
 
 /**
+ * @deprecated This is the legacy callback-based ngExpressEngine implementation.
+ * Use CxAngularNodeAppEngine with the modern Promise-based API instead.
+ * See server-legacy.ts for the old implementation and server.ts for the modern approach.
+ * This will be removed in a future major version.
+ * 
  * @license
  * The MIT License
  * Copyright (c) 2010-2023 Google LLC. http://angular.io/license
