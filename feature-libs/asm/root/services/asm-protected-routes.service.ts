@@ -37,8 +37,9 @@ export class AsmProtectedRoutesService extends ProtectedRoutesService {
    */
   override isUrlProtected(urlSegments: string[]): boolean {
     let isCsAgentLoggedIn = false;
-    this.csAgentAuthService.isCustomerSupportAgentLoggedIn()
-      .subscribe(result => isCsAgentLoggedIn = result)
+    this.csAgentAuthService
+      .isCustomerSupportAgentLoggedIn()
+      .subscribe((result) => (isCsAgentLoggedIn = result))
       .unsubscribe();
     if (isCsAgentLoggedIn) {
       return false;

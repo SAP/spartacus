@@ -63,7 +63,10 @@ describe('AsmProtectedRoutesService', () => {
             cart: { paths: ['cart'] },
           },
         });
-        spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(of(true));
+        spyOn(
+          csAgentAuthService,
+          'isCustomerSupportAgentLoggedIn'
+        ).and.returnValue(of(true));
       });
 
       it('should return false for any URL', () => {
@@ -83,7 +86,10 @@ describe('AsmProtectedRoutesService', () => {
               cart: { paths: ['cart'] },
             },
           });
-          spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(of(false));
+          spyOn(
+            csAgentAuthService,
+            'isCustomerSupportAgentLoggedIn'
+          ).and.returnValue(of(false));
         });
 
         it('should return true for protected URLs', () => {
@@ -104,7 +110,10 @@ describe('AsmProtectedRoutesService', () => {
               cart: { paths: ['cart'] },
             },
           });
-          spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(of(false));
+          spyOn(
+            csAgentAuthService,
+            'isCustomerSupportAgentLoggedIn'
+          ).and.returnValue(of(false));
         });
 
         it('should return false for all URLs', () => {
@@ -124,7 +133,10 @@ describe('AsmProtectedRoutesService', () => {
             checkout: { paths: ['checkout'] },
           },
         });
-        spyOn(csAgentAuthService, 'isCustomerSupportAgentLoggedIn').and.returnValue(of(false));
+        spyOn(
+          csAgentAuthService,
+          'isCustomerSupportAgentLoggedIn'
+        ).and.returnValue(of(false));
       });
 
       it('should delegate to parent implementation for protected URLs', () => {
