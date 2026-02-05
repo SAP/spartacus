@@ -98,6 +98,12 @@ echo ""
 echo "✓ Generation complete"
 echo ""
 
+echo "📝 Step 6: Running prettier for schematics..."
+cd ../..
+prettier --config ./.prettierrc --list-different "projects/schematics/src/migrations/**/*.ts" --write
+cd -
+echo ""
+
 echo ""
 echo "🎉 Successfully regenerated breaking changes for version ${VERSION}!"
 echo ""
