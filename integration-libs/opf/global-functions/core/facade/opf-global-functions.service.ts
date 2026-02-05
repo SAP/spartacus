@@ -98,6 +98,9 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   readyForScriptEvent$: Observable<string> =
     this._readyForScriptEvent.asObservable();
 
+  protected static readonly PAYMENT_SESSION_ID_REQUIRED_ERROR =
+    'paymentSessionId is required';
+
   registerGlobalFunctions({
     domain,
     paymentSessionId,
@@ -279,7 +282,11 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
             ?.opfPaymentSessionId;
 
         if (!finalPaymentSessionId) {
-          return Promise.reject(new Error('paymentSessionId is required'));
+          return Promise.reject(
+            new Error(
+              OpfGlobalFunctionsService.PAYMENT_SESSION_ID_REQUIRED_ERROR
+            )
+          );
         }
 
         let overlayedSpinner: void | Observable<ComponentRef<any> | undefined>;
@@ -404,7 +411,11 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
             ?.opfPaymentSessionId;
 
         if (!finalPaymentSessionId) {
-          return Promise.reject(new Error('paymentSessionId is required'));
+          return Promise.reject(
+            new Error(
+              OpfGlobalFunctionsService.PAYMENT_SESSION_ID_REQUIRED_ERROR
+            )
+          );
         }
 
         const {
@@ -872,7 +883,11 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
             ?.opfPaymentSessionId;
 
         if (!finalPaymentSessionId) {
-          return Promise.reject(new Error('paymentSessionId is required'));
+          return Promise.reject(
+            new Error(
+              OpfGlobalFunctionsService.PAYMENT_SESSION_ID_REQUIRED_ERROR
+            )
+          );
         }
 
         if (!threeDsURL) {

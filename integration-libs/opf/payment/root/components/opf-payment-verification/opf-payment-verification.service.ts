@@ -295,7 +295,7 @@ export class OpfPaymentVerificationService {
 
     return {
       paymentSessionId: metadata.opfPaymentSessionId,
-      returnPath: metadata.opf3DSRedirectReturnPath || '',
+      returnPath: metadata.opf3DSRedirectReturnPath ?? '',
     };
   }
 
