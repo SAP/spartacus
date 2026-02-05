@@ -73,7 +73,20 @@ class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
     isPaymentInProgress: false,
     opfPaymentSessionId: undefined,
     isTermsAndConditionsAlertClosed: false,
+    is3DSRedirect: false,
+    opf3DSRedirectReturnPath: undefined,
   });
+  updateOpfMetadata = jasmine.createSpy('updateOpfMetadata').and.callFake(
+    (payload: Partial<OpfMetadataModel>) => {
+      this.opfMetadataState.next({
+        ...this.opfMetadataState.value,
+        ...payload,
+      });
+    }
+  );
+  getOpfMetadataState = jasmine
+    .createSpy('getOpfMetadataState')
+    .and.returnValue(this.opfMetadataState.asObservable());
 }
 
 const mockBillingAddress: Address = {
@@ -452,6 +465,43 @@ describe('OpfGlobalFunctionsService', () => {
         opfPaymentEventsServiceMock.emitReinitiatePaymentEvent
       ).toHaveBeenCalledWith(testPaymentOptionId);
       expect(result).toBe(true);
+    });
+
+    it('should handle handle3DSRedirect event', async () => {
+      const mockThreeDsURL = 'https://3ds.example.com/challenge';
+      const mockReturnPath = 'https://test-url';
+      const opfMetadataStoreService = TestBed.inject(OpfMetadataStoreService);
+
+      const routingService = TestBed.inject(RoutingService);
+      spyOn(routingService, 'getFullUrl').and.returnValue(mockReturnPath);
+
+      const locationHrefSpy = jasmine.createSpy('locationHrefSetter');
+      const mockLocation = {
+        set href(url: string) {
+          locationHrefSpy(url);
+        },
+        get href() {
+          return '';
+        },
+      };
+      const mockWindow = {
+        location: mockLocation,
+      } as any;
+
+      spyOnProperty(windowRef, 'nativeWindow', 'get').and.returnValue(mockWindow);
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+
+      const result = await windowOpf.payments['checkout'].handle3DSRedirect(
+        mockThreeDsURL
+      );
+
+      expect(opfMetadataStoreService.updateOpfMetadata).toHaveBeenCalledWith({
+        opfPaymentSessionId: mockPaymentSessionId,
+        is3DSRedirect: true,
+        opf3DSRedirectReturnPath: mockReturnPath,
+      });
+      expect(locationHrefSpy).toHaveBeenCalledWith(mockThreeDsURL);
+      expect(result).toBeUndefined();
     });
 
     it('should remove global function for REDIRECT', () => {
