@@ -32,6 +32,7 @@ import { SpartacusModule } from './spartacus/spartacus.module';
         },
       },
     }),
+
     privateProviders,
   ],
 })
