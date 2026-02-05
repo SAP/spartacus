@@ -7,19 +7,19 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import {
-  AuthGuard,
   AuthHttpHeaderService,
   AuthService,
   AuthStorageService,
+  ProtectedRoutesService,
   provideDefaultConfig,
 } from '@spartacus/core';
 import { AsmLoaderModule } from './asm-loader.module';
 import { defaultAsmConfig } from './config/default-asm-config';
-import { AsmAuthGuard } from './guards/asm-auth.guard';
 import { UserIdHttpHeaderInterceptor } from './interceptors/user-id-http-header.interceptor';
 import { AsmAuthHttpHeaderService } from './services/asm-auth-http-header.service';
 import { AsmAuthStorageService } from './services/asm-auth-storage.service';
 import { AsmAuthService } from './services/asm-auth.service';
+import { AsmProtectedRoutesService } from './services/asm-protected-routes.service';
 
 @NgModule({
   imports: [AsmLoaderModule],
@@ -38,8 +38,8 @@ import { AsmAuthService } from './services/asm-auth.service';
       useExisting: AsmAuthHttpHeaderService,
     },
     {
-      provide: AuthGuard,
-      useExisting: AsmAuthGuard,
+      provide: ProtectedRoutesService,
+      useExisting: AsmProtectedRoutesService,
     },
     {
       provide: HTTP_INTERCEPTORS,
