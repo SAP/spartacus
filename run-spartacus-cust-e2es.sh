@@ -36,6 +36,6 @@ esac
 (cd projects/storefrontapp-e2e-cypress && npm install)
 
 # run spartacus ccv2 e2es for b2c
-npm run e2e:run:ci:jdk21:ccv2-product-configurator
+npm run e2e:run:ci:ccv2-product-configurator
 
 
