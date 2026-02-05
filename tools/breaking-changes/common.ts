@@ -20,9 +20,14 @@ export const SCHEMATICS_COMMENT_PREFIX = '// TODO:Spartacus -';
 
 // Shared Functions
 export function readAndParseDataFile(filePath: string): any {
-  const parsedData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-  console.log(`Read: ${filePath}, ${parsedData.length} entries`);
-  return parsedData;
+  try {
+    const parsedData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    console.log(`Read: ${filePath}, ${parsedData.length} entries`);
+    return parsedData;
+  } catch (_e) {
+    console.log(`Can not read: ${filePath}, using empty data set.`);
+    return [];
+  }
 }
 
 export function readBreakingChangeFile(): any {

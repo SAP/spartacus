@@ -187,20 +187,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - Property 'featureConfigService' was removed from Class 'UnitAddressItemService'. ",
     },
     {
-      class: 'PickupLocationEffect',
-      importPath: '@spartacus/pickup-in-store/core',
-      deprecatedNode: 'storeDetails$',
-      comment:
-        '// TODO:Spartacus - The type of property \'storeDetails$: import("rxjs").Observable<({ payload: any; error: any; } & import("@ngrx/store").Action<"[Pickup Locations] Get Store Details Fail">) | ({ payload: import("@spartacus/core").PointOfService; } & import("@ngrx/store").Action<"[Pickup Locations] Get Store Details Success">)> & import("@ngrx/effects").CreateEffectMetadata\' changed to: \'storeDetails$: import("rxjs").Observable<({ payload: import("@spartacus/core").PointOfService; } & import("@ngrx/store").Action<"[Pickup Locations] Get Store Details Success">) | ({ payload: any; error: any; } & import("@ngrx/store").Action<"[Pickup Locations] Get Store Details Fail">)> & import("@ngrx/effects").CreateEffectMetadata\' ',
-    },
-    {
-      class: 'StockEffect',
-      importPath: '@spartacus/pickup-in-store/core',
-      deprecatedNode: 'loadStockLevels$',
-      comment:
-        '// TODO:Spartacus - The type of property \'loadStockLevels$: import("rxjs").Observable<StockLevelActions.StockLevelFail | StockLevelActions.StockLevelSuccess> & import("@ngrx/effects").CreateEffectMetadata\' changed to: \'loadStockLevels$: import("rxjs").Observable<StockLevelActions.StockLevelSuccess | StockLevelActions.StockLevelFail> & import("@ngrx/effects").CreateEffectMetadata\' ',
-    },
-    {
       class: 'ConfiguratorAttributeSingleSelectionImageComponent',
       importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'featureConfigService',
