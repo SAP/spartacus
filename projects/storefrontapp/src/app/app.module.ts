@@ -24,9 +24,9 @@ import { SpartacusModule } from './spartacus/spartacus.module';
   ],
   providers: [
     provideConfig({
-      // Custom OCC backend configuration:
       backend: {
         occ: {
+          // Note: The next line is edited by our internal script in the `ec-automate-pipelines` repo. Don't move it to other file.
           baseUrl: environment.occBaseUrl,
           prefix: environment.occApiPrefix,
         },
