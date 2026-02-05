@@ -76,14 +76,14 @@ class MockOpfMetadataStoreService implements Partial<OpfMetadataStoreService> {
     is3DSRedirect: false,
     opf3DSRedirectReturnPath: undefined,
   });
-  updateOpfMetadata = jasmine.createSpy('updateOpfMetadata').and.callFake(
-    (payload: Partial<OpfMetadataModel>) => {
+  updateOpfMetadata = jasmine
+    .createSpy('updateOpfMetadata')
+    .and.callFake((payload: Partial<OpfMetadataModel>) => {
       this.opfMetadataState.next({
         ...this.opfMetadataState.value,
         ...payload,
       });
-    }
-  );
+    });
   getOpfMetadataState = jasmine
     .createSpy('getOpfMetadataState')
     .and.returnValue(this.opfMetadataState.asObservable());
@@ -488,12 +488,13 @@ describe('OpfGlobalFunctionsService', () => {
         location: mockLocation,
       } as any;
 
-      spyOnProperty(windowRef, 'nativeWindow', 'get').and.returnValue(mockWindow);
+      spyOnProperty(windowRef, 'nativeWindow', 'get').and.returnValue(
+        mockWindow
+      );
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
 
-      const result = await windowOpf.payments['checkout'].handle3DSRedirect(
-        mockThreeDsURL
-      );
+      const result =
+        await windowOpf.payments['checkout'].handle3DSRedirect(mockThreeDsURL);
 
       expect(opfMetadataStoreService.updateOpfMetadata).toHaveBeenCalledWith({
         opfPaymentSessionId: mockPaymentSessionId,

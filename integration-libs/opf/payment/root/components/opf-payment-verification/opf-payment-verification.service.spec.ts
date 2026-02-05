@@ -66,7 +66,8 @@ describe('OpfPaymentVerificationService', () => {
       'OpfMetadataStoreService',
       ['getOpfMetadataState', 'updateOpfMetadata', 'clearOpfMetadata']
     );
-    opfMetadataStoreServiceMock.opfMetadataState = new BehaviorSubject<OpfMetadataModel>(defaultMetadata);
+    opfMetadataStoreServiceMock.opfMetadataState =
+      new BehaviorSubject<OpfMetadataModel>(defaultMetadata);
     opfResourceLoaderServiceMock = jasmine.createSpyObj(
       'OpfResourceLoaderService',
       ['clearAllResources', 'executeScriptFromHtml', 'loadResources']
@@ -571,8 +572,6 @@ describe('OpfPaymentVerificationService', () => {
     const mockPaymentSessionId = '3ds-session-id';
     const mockReturnPath = '/checkout/payment-result';
 
-   
-
     describe('get3DSRedirectState', () => {
       it('should return state when 3DS redirect is active', () => {
         opfMetadataStoreServiceMock.opfMetadataState.next({
@@ -610,8 +609,6 @@ describe('OpfPaymentVerificationService', () => {
         expect(result).toBeNull();
       });
     });
-
-
 
     describe('verifyResultUrl with 3DS redirect', () => {
       it('should use stored payment session ID when 3DS redirect is active', (done) => {

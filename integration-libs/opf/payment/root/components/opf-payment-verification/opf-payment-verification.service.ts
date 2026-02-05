@@ -80,19 +80,19 @@ export class OpfPaymentVerificationService {
   }> {
     let paramsMap: Array<OpfKeyValueMap>;
     const is3DSRedirect = this.check3DSRedirectState();
-    
+
     return route?.routeConfig?.data?.cxRoute === OpfPage.RESULT_PAGE
       ? route.queryParams.pipe(
           concatMap((params: Params) => {
             paramsMap = this.getParamsMap(params);
-            
+
             if (is3DSRedirect) {
               const storedState = this.get3DSRedirectState();
               if (storedState?.paymentSessionId) {
                 return of(storedState.paymentSessionId);
               }
             }
-            
+
             return this.getPaymentSessionId(paramsMap);
           }),
           concatMap((paymentSessionId: string | undefined) => {
@@ -319,19 +319,21 @@ export class OpfPaymentVerificationService {
       vcr,
     });
 
-    return this.opfPaymentFacade.submitCompletePayment({
-      paymentSessionId,
-      additionalData: paramsMap,
-      callbacks: {
-        onSuccess: () => {},
-        onPending: () => {},
-        onFailure: () => {},
-      },
-      returnPath: storedState?.returnPath,
-    }).pipe(
-      finalize(() => {
-        this.clear3DSRedirectState();
+    return this.opfPaymentFacade
+      .submitCompletePayment({
+        paymentSessionId,
+        additionalData: paramsMap,
+        callbacks: {
+          onSuccess: () => {},
+          onPending: () => {},
+          onFailure: () => {},
+        },
+        returnPath: storedState?.returnPath,
       })
-    );
+      .pipe(
+        finalize(() => {
+          this.clear3DSRedirectState();
+        })
+      );
   }
 }
