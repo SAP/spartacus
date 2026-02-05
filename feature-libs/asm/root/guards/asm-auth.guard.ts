@@ -4,13 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { GuardResult, Router } from '@angular/router';
-import {
-  AuthGuard,
-  AuthRedirectService,
-  SemanticPathService,
-} from '@spartacus/core';
+import { inject, Injectable } from '@angular/core';
+import { AuthGuard } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AsmAuthService } from '../services/asm-auth.service';
@@ -23,21 +18,9 @@ import { AsmAuthService } from '../services/asm-auth.service';
  */
 @Injectable({ providedIn: 'root' })
 export class AsmAuthGuard extends AuthGuard {
-  constructor(
-    protected asmAuthService: AsmAuthService,
-    protected override authRedirectService: AuthRedirectService,
-    protected override router: Router,
-    protected override semanticPathService: SemanticPathService
-  ) {
-    super(
-      asmAuthService,
-      authRedirectService,
-      router,
-      semanticPathService
-    );
-  }
+  protected asmAuthService = inject(AsmAuthService);
 
-  override canActivate(): Observable<GuardResult> {
+  override canActivate(): Observable<boolean | import('@angular/router').UrlTree> {
     return this.asmAuthService.isUserOrCSAgentLoggedIn().pipe(
       map((isLoggedIn) => {
         if (!isLoggedIn) {
