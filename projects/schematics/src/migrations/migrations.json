@@ -114,6 +114,11 @@
       "version": "221121.7.0",
       "factory": "./221121_7/removed-public-api-deprecations/removed-public-api-deprecations#migrate",
       "description": "Comment about usage of removed public api"
+    },
+    "09-migration-v221121_7-rename-symbol": {
+      "version": "221121.7.0",
+      "factory": "./221121_7/rename-symbol/rename-symbol#migrate",
+      "description": "Rename import symbols that were moved/changed in majors"
     }
   }
 }
