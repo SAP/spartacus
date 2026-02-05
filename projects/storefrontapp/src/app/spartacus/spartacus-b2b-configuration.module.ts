@@ -27,6 +27,7 @@ if (environment.epdVisualization) {
 }
 
 @NgModule({
+  // Note: Our internal script in the `ec-automate-pipelines` repo prepends a new config chunk to this array below.
   providers: [
     // b2c
     provideConfigFactory(layoutConfigFactory),
