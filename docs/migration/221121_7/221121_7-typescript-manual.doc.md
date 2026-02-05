@@ -127,6 +127,13 @@
 - **Property Removal**: Removed the deprecated property `totalConsents`.
   - **Action Required**: Remove any references to this property in your code.
 
+### `order-guest-register-form.component.ts`
+- **Constructor Change**: Removed `protected authService: AuthService` parameter from the constructor.
+- **Property Removal**: Removed `subscription: Subscription` property.
+- **Interface Removal**: The class no longer implements `OnDestroy`.
+- **Breaking Impact**: Custom components extending this class that pass `AuthService` in the `super()` call or access the `authService` or `subscription` properties will fail to compile.
+  - **Action Required**: Remove `AuthService` from the `super()` call and remove any references to the `authService` or `subscription` properties in subclasses.
+
 ##  Removed Methods & APIs
 
 #### `CmsGuardsService`
@@ -188,6 +195,16 @@
 - **Action Required:**
   - Remove `useLegacyMediaComponent` from your config if you were using it.
   - If you need to use `img` HTML element instead of `picture`, pass `[elementType]="'img'"` as an input to the `MediaComponent` where needed.
+
+## Method Signature Changes
+
+### `persist-focus.directive.ts`, `lock-focus.directive.ts`, `auto-focus.directive.ts`
+- **Method Signature Change**: The `handleFocus` method parameter type has been corrected from `KeyboardEvent` to `FocusEvent`.
+  - **Before:** `handleFocus(event?: KeyboardEvent)`
+  - **After:** `handleFocus(event?: FocusEvent)`
+- **Reason**: The method is bound to the DOM `focus` event via `@HostListener('focus', ['$event'])`, which emits a `FocusEvent`, not a `KeyboardEvent`. The previous type annotation was incorrect.
+- **Breaking Impact**: Custom directives extending any of these classes that override `handleFocus` with a `KeyboardEvent` parameter will fail to compile.
+  - **Action Required**: Update any overridden `handleFocus` methods to use `FocusEvent` instead of `KeyboardEvent`.
 
 ## Global Changes
 
