@@ -10,7 +10,7 @@ import {
   RoutingConfig,
   UrlParsingService,
 } from '@spartacus/core';
-import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
+import { CsAgentAuthService } from './csagent-auth.service';
 
 /**
  * Extends `ProtectedRoutesService` to allow CS Agent to bypass URL protection.
@@ -22,7 +22,7 @@ import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
  */
 @Injectable({ providedIn: 'root' })
 export class AsmProtectedRoutesService extends ProtectedRoutesService {
-  protected asmAuthStorageService = inject(AsmAuthStorageService);
+  protected csAgentAuthService = inject(CsAgentAuthService);
 
   constructor(
     protected override config: RoutingConfig,
@@ -36,29 +36,13 @@ export class AsmProtectedRoutesService extends ProtectedRoutesService {
    * Otherwise, delegates to the parent implementation.
    */
   override isUrlProtected(urlSegments: string[]): boolean {
-    if (this.isCSAgentLoggedIn()) {
+    let isCsAgentLoggedIn = false;
+    this.csAgentAuthService.isCustomerSupportAgentLoggedIn()
+      .subscribe(result => isCsAgentLoggedIn = result)
+      .unsubscribe();
+    if (isCsAgentLoggedIn) {
       return false;
     }
     return super.isUrlProtected(urlSegments);
-  }
-
-  /**
-   * Synchronously checks if CS Agent is currently logged in.
-   */
-  protected isCSAgentLoggedIn(): boolean {
-    let token: { access_token?: string } | undefined;
-    let tokenTarget: TokenTarget | undefined;
-
-    this.asmAuthStorageService
-      .getToken()
-      .subscribe((t) => (token = t))
-      .unsubscribe();
-
-    this.asmAuthStorageService
-      .getTokenTarget()
-      .subscribe((t) => (tokenTarget = t))
-      .unsubscribe();
-
-    return Boolean(token?.access_token) && tokenTarget === TokenTarget.CSAgent;
   }
 }
