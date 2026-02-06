@@ -11,11 +11,16 @@ import { InjectionToken } from '@angular/core';
  *
  * It's meant to propagate errors for example to ExpressJS layer when using SSR
  * or to a Prerendering Worker when using Server Prerendering.
- * Currently, it's provided OOTB only in SSR (not prerendering), in the `CxCommonEngine` class.
  *
  * Note: We need it until Angular implements a proper propagation of async errors
- * from an app to the the higher layer in the server.
+ * from an app to the higher layer in the server.
  * For more, see the Angular issue https://github.com/angular/angular/issues/33642
+ *
+ * @deprecated Since 2211.32. Use `REQUEST_CONTEXT.cx.error` instead.
+ * In the modern SSR system (CxAngularNodeAppEngine), errors are propagated via
+ * the `cx` namespace in REQUEST_CONTEXT. This token is still supported for
+ * backward compatibility with the legacy CxCommonEngine but will be removed
+ * in a future major version.
  */
 export const PROPAGATE_ERROR_TO_SERVER = new InjectionToken<
   (error: unknown) => void

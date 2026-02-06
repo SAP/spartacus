@@ -8,6 +8,8 @@
  * Represents an outbound HTTP error that occurs when communicating with the backend.
  */
 export class OutboundHttpError extends Error {
+  override name = 'OutboundHttpError';
+
   constructor(cause: unknown) {
     super('Outbound HTTP Error', { cause });
   }
@@ -18,6 +20,8 @@ export class OutboundHttpError extends Error {
  * Extends the base OutboundHttpError class.
  */
 export class CmsPageNotFoundOutboundHttpError extends OutboundHttpError {
+  override name = 'CmsPageNotFoundOutboundHttpError';
+
   constructor(cause: unknown) {
     super(cause);
     this.message = 'CMS Page Not Found';
