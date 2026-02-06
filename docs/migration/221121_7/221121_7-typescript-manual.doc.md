@@ -53,9 +53,8 @@
     | `userAccountTranslations`                    | `@spartacus/user/account/assets`                       |
     | `userProfileTranslations`                    | `@spartacus/user/profile/assets`                       |
     | `cdcTranslations`                            | `@spartacus/cdc/assets`                                |
-    | `cdsTranslations`                            | `@spartacus/cds/assets`                                |
-    | `cdsTranslationChunksConfig`                 | `@spartacus/cds/src/assets`                            |
-    | `cdsTranslations`                            | `@spartacus/cds/src/assets`                            |
+    | `cdsTranslationChunksConfig`                 | `@spartacus/cds/assets`                            |
+    | `cdsTranslations`                            | `@spartacus/cds/assets`                            |
     | `cpqquoteTranslations`                       | `@spartacus/cpq-quote/assets`                          |
     | `dpTranslations`                             | `@spartacus/digital-payments/assets`                   |
     | `epdVisualizationTranslations`               | `@spartacus/epd-visualization/assets`                  |
