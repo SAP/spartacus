@@ -126,7 +126,7 @@
 - **Property Removal**: Removed the deprecated property `totalConsents`.
   - **Action Required**: Remove any references to this property in your code.
 
-### `order-guest-register-form.component.ts`
+### `OrderGuestRegisterFormComponent`
 - **Constructor Change**: Removed `protected authService: AuthService` parameter from the constructor.
 - **Property Removal**: Removed `subscription: Subscription` property.
 - **Interface Removal**: The class no longer implements `OnDestroy`.
@@ -197,7 +197,7 @@
 
 ## Method Signature Changes
 
-### `persist-focus.directive.ts`, `lock-focus.directive.ts`, `auto-focus.directive.ts`
+### `PersistFocusDirective`, `LockFocusDirective`, `AutoFocusDirective`
 - **Method Signature Change**: The `handleFocus` method parameter type has been corrected from `KeyboardEvent` to `FocusEvent`.
   - **Before:** `handleFocus(event?: KeyboardEvent)`
   - **After:** `handleFocus(event?: FocusEvent)`
