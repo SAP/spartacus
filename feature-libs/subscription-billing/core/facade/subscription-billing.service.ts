@@ -77,14 +77,14 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
   protected subscriptionBillsListPreConditions(): Observable<string> {
     return this.userIdService.getUserId().pipe(
       take(1),
-      map((userId) => {
+      switchMap((userId) => {
         if (!userId) {
-          throwError(
+          return throwError(
             () =>
               new Error('Subscription Bills List pre conditions are not met')
           );
         }
-        return userId;
+        return of(userId);
       })
     );
   }

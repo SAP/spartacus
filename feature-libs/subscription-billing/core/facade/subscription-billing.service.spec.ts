@@ -193,13 +193,7 @@ describe('SubscriptionBillingService', () => {
         )
         .pipe(
           tap(() => {
-            expect(connector.getSubscriptionBillsList).toHaveBeenCalledWith(
-              '',
-              mockPageSize,
-              mockCurrentPage,
-              mockSort,
-              undefined
-            );
+            expect(connector.getSubscriptionBillsList).not.toHaveBeenCalled();
           })
         )
         .subscribe((_) => {
