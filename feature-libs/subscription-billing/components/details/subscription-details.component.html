@@ -16,9 +16,7 @@
         *ngIf="subscription.status"
       >
         {{ 'subscriptionList.status' | cxTranslate }}
-        <span [ngClass]="subscription.status.toLowerCase()">{{
-          subscription.status
-        }}</span>
+        <span [ngClass]="subscription.status">{{ subscription.status }}</span>
       </div>
     </div>
     <div class="subscription-body">
