@@ -47,6 +47,7 @@ export class SubscriptionBillingListComponent {
 
   minDate: string | null = null;
   maxDate: string | null = null;
+  DATE_FILTER_FORMAT = 'startAt:%s:endAt:%s';
   PAGE_SIZE = 5;
   listParams: {
     sortCode?: string;
@@ -92,8 +93,8 @@ export class SubscriptionBillingListComponent {
   }
 
   onFilterDateChange(): void {
-    this.minDate = this.billsDateFilterForm.controls['from'].value;
-    this.maxDate = this.billsDateFilterForm.controls['to'].value;
+    this.minDate = this.billsDateFilterForm.controls.from.value;
+    this.maxDate = this.billsDateFilterForm.controls.to.value;
 
     this.billsDateFilterForm.controls['from'].updateValueAndValidity();
     this.billsDateFilterForm.controls['to'].updateValueAndValidity();
@@ -110,7 +111,7 @@ export class SubscriptionBillingListComponent {
   }
 
   onResetFilterDate(): void {
-    if (this.minDate && this.maxDate) {
+    if (this.minDate || this.maxDate) {
       this.billsDateFilterForm.reset();
       this.minDate = null;
       this.maxDate = null;
@@ -124,13 +125,8 @@ export class SubscriptionBillingListComponent {
   }
 
   onDateFilterSubmit(): void {
-    if (
-      this.minDate &&
-      this.maxDate &&
-      this.billsDateFilterForm.valid &&
-      !this.billsDateFilterForm.errors
-    ) {
-      const dateFilterParam = `startAt:${this.minDate}:endAt:${this.maxDate}`;
+    if (this.minDate && this.maxDate && this.billsDateFilterForm.valid) {
+      const dateFilterParam = this.buildDateFilter(this.minDate, this.maxDate);
       this.listParams = {
         ...this.listParams,
         dateFilter: dateFilterParam,
@@ -138,5 +134,12 @@ export class SubscriptionBillingListComponent {
       };
       this.getSubscriptionBillsList();
     }
+  }
+
+  private buildDateFilter(startDate: string, endDate: string): string {
+    return this.DATE_FILTER_FORMAT.replace('%s', startDate).replace(
+      '%s',
+      endDate
+    );
   }
 }

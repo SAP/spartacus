@@ -20,7 +20,15 @@ import {
   SubscriptionBillingFacade,
   SubscriptionBillsList,
 } from '@spartacus/subscription-billing/root';
-import { combineLatest, map, Observable, switchMap, take } from 'rxjs';
+import {
+  combineLatest,
+  map,
+  Observable,
+  of,
+  switchMap,
+  take,
+  throwError,
+} from 'rxjs';
 import { SubscriptionBillingConnector } from '../connector';
 
 @Injectable()
@@ -30,16 +38,21 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
   protected routingService = inject(RoutingService);
   protected subscriptionBillsConnector = inject(SubscriptionBillingConnector);
 
-  protected subscriptionBillPreConditions(): Observable<[string, string]> {
+  protected subscriptionBillPreConditions(): Observable<{
+    userId: string;
+    subscriptionBillCode: string;
+  }> {
     return combineLatest([
       this.userIdService.getUserId(),
       this.getSubscriptionBillCodeFromRoute(),
     ]).pipe(
-      map(([userId, subscriptionBillCode]) => {
+      switchMap(([userId, subscriptionBillCode]) => {
         if (!userId || !subscriptionBillCode) {
-          throw new Error('Subscription bill details pre conditions not met');
+          return throwError(
+            () => new Error('Subscription bill details pre conditions not met')
+          );
         }
-        return [userId, subscriptionBillCode];
+        return of({ userId, subscriptionBillCode });
       })
     );
   }
@@ -49,9 +62,9 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
   > = this.queryService.create<SubscriptionBill | undefined>(
     () =>
       this.subscriptionBillPreConditions().pipe(
-        switchMap(([customerId, subscriptionBillCode]) =>
+        switchMap(({ userId, subscriptionBillCode }) =>
           this.subscriptionBillsConnector.getSubscriptionBillByCode(
-            customerId,
+            userId,
             subscriptionBillCode
           )
         )
@@ -66,7 +79,10 @@ export class SubscriptionBillingService implements SubscriptionBillingFacade {
       take(1),
       map((userId) => {
         if (!userId) {
-          throw new Error('Subscription Bills List pre conditions are not met');
+          throwError(
+            () =>
+              new Error('Subscription Bills List pre conditions are not met')
+          );
         }
         return userId;
       })
