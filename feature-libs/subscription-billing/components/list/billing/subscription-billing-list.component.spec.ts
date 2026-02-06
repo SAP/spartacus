@@ -233,6 +233,19 @@ describe('SubscriptionBillingListComponent', () => {
       sortCode: undefined,
       dateFilter: undefined,
     });
+
+    component.minDate = '2026-12-31';
+    component.onResetFilterDate();
+    fixture.detectChanges();
+    expect(component.minDate).toBeNull();
+    expect(component.maxDate).toBeNull();
+    expect(component.listParams).toEqual({
+      pageNumber: 0,
+      sortCode: undefined,
+      dateFilter: undefined,
+    });
+
+
   });
 
   it('should set the page number correctly', () => {
