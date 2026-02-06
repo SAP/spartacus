@@ -124,7 +124,7 @@ describe('SubscriptionBillingService', () => {
     const mockPageSize = 5;
     const mockSort = 'byBillingDateDesc';
 
-    it('should call connector.getSubscriptionBillsList', (done) => {
+    it('should call connectors getSubscriptionBillsList', (done) => {
       service
         .getSubscriptionBillsList(mockPageSize, mockCurrentPage, mockSort)
         .pipe(take(1))

@@ -158,6 +158,8 @@ describe('SubscriptionListComponent', () => {
 
   it('should show list with pagination, sort and date filters if data is present', () => {
     fixture.detectChanges();
+    const spinner = fixture.debugElement.query(By.css('cx-spinner'));
+    expect(spinner).toBeTruthy();
     expect(
       fixture.debugElement.queryAll(By.css('.billing-list-sorting-bar')).length
     ).toEqual(1);
@@ -190,6 +192,9 @@ describe('SubscriptionListComponent', () => {
     expect(fixture.debugElement.queryAll(By.css('tbody tr td')).length).toEqual(
       0
     );
+    expect(
+      fixture.debugElement.queryAll(By.css('.text-center h3')).length
+    ).toEqual(1);
   });
 
   it('should set the sort order correctly', () => {
@@ -227,6 +232,16 @@ describe('SubscriptionListComponent', () => {
     expect(component.maxDate).toBeNull();
     expect(component.listParams).toEqual({
       pageNumber: 0,
+      sortCode: undefined,
+      dateFilter: undefined,
+    });
+  });
+
+  it('should set the page number correctly', () => {
+    component.onPageChange('2');
+    fixture.detectChanges();
+    expect(component.listParams).toEqual({
+      pageNumber: 2,
       sortCode: undefined,
       dateFilter: undefined,
     });

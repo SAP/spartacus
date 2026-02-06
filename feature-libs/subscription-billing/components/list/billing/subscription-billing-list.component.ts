@@ -47,7 +47,7 @@ export class SubscriptionBillingListComponent {
 
   minDate: string | null = null;
   maxDate: string | null = null;
-  DATE_FILTER_FORMAT = 'startAt:%s:endAt:%s';
+  DATE_FILTER_PARAM = 'startAt:%s:endAt:%s';
   PAGE_SIZE = 5;
   listParams: {
     sortCode?: string;
@@ -137,7 +137,7 @@ export class SubscriptionBillingListComponent {
   }
 
   private buildDateFilter(startDate: string, endDate: string): string {
-    return this.DATE_FILTER_FORMAT.replace('%s', startDate).replace(
+    return this.DATE_FILTER_PARAM.replace('%s', startDate).replace(
       '%s',
       endDate
     );
