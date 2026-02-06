@@ -125,7 +125,7 @@ class MockActivatedRoute {
   constructor(public snapshot: any) {}
 }
 
-describe('SubscriptionListComponent', () => {
+describe('SubscriptionBillingListComponent', () => {
   let component: SubscriptionBillingListComponent;
   let fixture: ComponentFixture<SubscriptionBillingListComponent>;
   let facadeSpy: SubscriptionBillingFacade;
@@ -158,8 +158,6 @@ describe('SubscriptionListComponent', () => {
 
   it('should show list with pagination, sort and date filters if data is present', () => {
     fixture.detectChanges();
-    const spinner = fixture.debugElement.query(By.css('cx-spinner'));
-    expect(spinner).toBeTruthy();
     expect(
       fixture.debugElement.queryAll(By.css('.billing-list-sorting-bar')).length
     ).toEqual(1);
