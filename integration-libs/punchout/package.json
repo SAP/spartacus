@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/punchout",
-  "version": "221121.7.0-1",
+  "version": "221121.7.0-2",
   "description": "punchout library for Spartacus",
   "keywords": [
     "spartacus",
@@ -31,11 +31,11 @@
     "@angular/forms": "^21.1.0",
     "@angular/router": "^21.1.0",
     "@ngrx/store": "^21.0.1",
-    "@spartacus/cart": "221121.7.0-1",
-    "@spartacus/core": "221121.7.0-1",
-    "@spartacus/schematics": "221121.7.0-1",
-    "@spartacus/storefront": "221121.7.0-1",
-    "@spartacus/styles": "221121.7.0-1",
+    "@spartacus/cart": "221121.7.0-2",
+    "@spartacus/core": "221121.7.0-2",
+    "@spartacus/schematics": "221121.7.0-2",
+    "@spartacus/storefront": "221121.7.0-2",
+    "@spartacus/styles": "221121.7.0-2",
     "rxjs": "^7.8.0"
   },
   "publishConfig": {
