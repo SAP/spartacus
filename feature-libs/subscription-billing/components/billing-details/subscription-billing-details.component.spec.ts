@@ -121,7 +121,7 @@ describe('SubscriptionBillingDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should render the bill details correctly', () => {
+  it('should render the bill details correctly', () => {
     fixture.detectChanges();
     const idEl = fixture.debugElement.query(By.css('.subscription-id'));
     expect(idEl.nativeElement.textContent).toContain('5776');
