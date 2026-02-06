@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import { SubscriptionBillingConnector } from '../connector';
 import createSpy = jasmine.createSpy;
-import { of, take } from 'rxjs';
+import { of, take, tap } from 'rxjs';
 import {
   SubscriptionBill,
   SubscriptionBillsList,
@@ -83,7 +83,9 @@ const mockList: SubscriptionBillsList = {
   ],
 };
 class MockUserIdService implements Partial<UserIdService> {
-  getUserId = createSpy().and.returnValue(of(mockUserId));
+  getUserId() {
+    return of(mockUserId);
+  }
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -98,6 +100,7 @@ class MockSubscriptionConnector
 describe('SubscriptionBillingService', () => {
   let service: SubscriptionBillingService;
   let connector: SubscriptionBillingConnector;
+  let userIdServiceSpy: UserIdService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -112,6 +115,7 @@ describe('SubscriptionBillingService', () => {
     });
     service = TestBed.inject(SubscriptionBillingService);
     connector = TestBed.inject(SubscriptionBillingConnector);
+    userIdServiceSpy = TestBed.inject(UserIdService);
   });
   it('should inject SubscriptionBillingService', inject(
     [SubscriptionBillingService],
@@ -171,17 +175,34 @@ describe('SubscriptionBillingService', () => {
         });
     });
   });
-  describe('getSubscriptionBillByCode', () => {
-    it('should call connector.getSubscriptionBillByCode', (done) => {
+  describe('getSubscriptionBillList with empty userId', () => {
+    const mockCurrentPage = 1;
+    const mockPageSize = 5;
+    const mockSort = 'byBillingDateDesc';
+    it('should return error observable because of no userId', (done) => {
+      spyOn(userIdServiceSpy, 'getUserId').and.returnValue(of(''));
+      service = TestBed.inject(SubscriptionBillingService);
+      connector = TestBed.inject(SubscriptionBillingConnector);
+
       service
-        .getSubscriptionBillByCode()
-        .pipe(take(1))
-        .subscribe((data) => {
-          expect(connector.getSubscriptionBillByCode).toHaveBeenCalledWith(
-            mockUserId,
-            '01'
-          );
-          expect(data).toEqual(mockDetail);
+        .getSubscriptionBillsListState(
+          mockPageSize,
+          mockCurrentPage,
+          mockSort,
+          undefined
+        )
+        .pipe(
+          tap(() => {
+            expect(connector.getSubscriptionBillsList).toHaveBeenCalledWith(
+              '',
+              mockPageSize,
+              mockCurrentPage,
+              mockSort,
+              undefined
+            );
+          })
+        )
+        .subscribe((_) => {
           done();
         });
     });

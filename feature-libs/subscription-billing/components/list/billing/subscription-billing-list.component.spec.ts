@@ -244,8 +244,6 @@ describe('SubscriptionBillingListComponent', () => {
       sortCode: undefined,
       dateFilter: undefined,
     });
-
-
   });
 
   it('should set the page number correctly', () => {
