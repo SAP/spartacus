@@ -82,7 +82,7 @@
 - **Required Dependency**: `RoutingService` is no longer optional. The `@Optional()` decorator and `inject` optional flag were removed.
   - **Action Required**: Ensure `RoutingService` is available in the injection context where this component is used.
 
-### `defaultCmsModuleConfig`
+### `defaultUserCmsModuleConfig`
 - **Config Consolidation**: Removed `defaultUserCmsModuleConfig`.
 - **Breaking Impact**: `defaultCmsModuleConfig` was updated to include the configuration that was previously only in `defaultUserCmsModuleConfig`. If you were specifically relying on the old structure of `defaultCmsModuleConfig` (without the `/users/{userId}` defined as it is now), this may affect CMS request building.
 
