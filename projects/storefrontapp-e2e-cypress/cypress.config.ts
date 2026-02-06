@@ -18,8 +18,6 @@ const API_URL =
 export default defineConfig({
   defaultCommandTimeout: 30000,
   requestTimeout: 30000,
-  projectId: 'k3nmep',
-  numTestsKeptInMemory: 100,
   chromeWebSecurity: false,
   video: false,
   retries: {
