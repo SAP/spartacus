@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cdp",
-  "version": "221121.7.0-2",
+  "version": "221121.7.0-3",
   "description": "Customer Data Platform Integration library for Spartacus",
   "keywords": [
     "spartacus",
@@ -24,8 +24,8 @@
   "peerDependencies": {
     "@angular-devkit/schematics": "^21.1.0",
     "@angular/core": "^21.1.0",
-    "@spartacus/customer-ticketing": "221121.7.0-2",
-    "@spartacus/schematics": "221121.7.0-2",
+    "@spartacus/customer-ticketing": "221121.7.0-3",
+    "@spartacus/schematics": "221121.7.0-3",
     "rxjs": "^7.8.0"
   },
   "engines": {
