@@ -8,13 +8,13 @@ import { standardUser } from '../sample-data/shared-users';
 import { visitLoginPage } from '../support/utils/login';
 import { login, register } from './auth-forms';
 import { clickHamburger } from './checkout-flow';
+import { cmsEndpoints } from './cms-endpoints';
 import { PRODUCT_LISTING } from './data-configuration';
 import { checkBanner } from './homepage';
 import { userGreetSelector } from './login';
 import { waitForPage } from './navigation';
 import { createProductQuery, QUERY_ALIAS } from './product-search';
 import { generateMail, randomString } from './user';
-import { cmsEndpoints } from './cms-endpoints';
 
 interface TestProduct {
   code: string;

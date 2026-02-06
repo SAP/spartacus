@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as alerts from './global-message';
 import { cmsEndpoints } from './cms-endpoints';
+import * as alerts from './global-message';
 
 export function signOut() {
   cy.intercept({

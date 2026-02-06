@@ -13,13 +13,11 @@ const CLIENT_ID =
 const API_URL =
   JDK_VERSION === 'JDK21'
     ? 'https://api.cg79x9wuu9-eccommerc1-p4-public.model-t.myhybris.cloud'
-    : 'https://api.c432wmya2v-teamspart3-s3-public.model-t.myhybris.cloud';
+    : 'https://40.76.109.9:9002';
 
 export default defineConfig({
-  defaultCommandTimeout: 60000,
-  requestTimeout: 60000,
-  projectId: 'k3nmep',
-  numTestsKeptInMemory: 100,
+  defaultCommandTimeout: 30000,
+  requestTimeout: 30000,
   chromeWebSecurity: false,
   video: false,
   retries: {
