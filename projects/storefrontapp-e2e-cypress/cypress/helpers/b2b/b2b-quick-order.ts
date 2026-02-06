@@ -213,9 +213,16 @@ export function addProductToCartWithQuickForm(
       .type(`${quantity}`);
   }
   const alias = this.interceptAddToCartEndpoint();
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/anonymous/carts/*`,
+  }).as('getRefreshedCart');
   cy.get('cx-cart-quick-order-form .apply-quick-order-button').click();
 
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
+  cy.wait('@getRefreshedCart');
 }
 
 export function prepareCartWithProduct() {
