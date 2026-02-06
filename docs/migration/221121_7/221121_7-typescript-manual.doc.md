@@ -123,7 +123,7 @@
 - **Method Removal**: Removed `customizeNgSelectAriaLabelDropdown()` method.
 - **Breaking Impact**: If you were overriding or calling these deprecated methods in a custom directive extending this one, your code will fail to compile.
 
-### `NgSelectA11yDirective`
+### `CdcReconsentComponent`
 - **Property Removal**: Removed the deprecated property `totalConsents`.
   - **Action Required**: Remove any references to this property in your code.
 
