@@ -22,14 +22,9 @@ import { CsAgentAuthService } from './csagent-auth.service';
  */
 @Injectable({ providedIn: 'root' })
 export class AsmProtectedRoutesService extends ProtectedRoutesService {
+  protected override config = inject(RoutingConfig);
+  protected override urlParsingService = inject(UrlParsingService);
   protected csAgentAuthService = inject(CsAgentAuthService);
-
-  constructor(
-    protected override config: RoutingConfig,
-    protected override urlParsingService: UrlParsingService
-  ) {
-    super(config, urlParsingService);
-  }
 
   /**
    * When CS Agent is logged in, URLs are not protected.
