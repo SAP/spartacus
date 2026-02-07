@@ -70,9 +70,15 @@ context('Anonymous consents - config flow', () => {
           hideConsents: [STORE_USER_INFORMATION],
         }
       );
+      cy.intercept('GET', '**/users/anonymous/consenttemplates*').as(
+        'getConsentTemplates'
+      );
       const homePage = waitForPage('homepage', 'getHomePage');
       cy.visit('/');
       cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
+      cy.wait('@getConsentTemplates')
+        .its('response.statusCode')
+        .should('eq', 200);
     });
 
     anonymousConfigTestFlow();
