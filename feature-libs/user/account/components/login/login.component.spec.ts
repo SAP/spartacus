@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import {
   AuthService,
   CxDatePipe,
+  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   RoutingService,
@@ -79,7 +80,7 @@ describe('LoginComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [LoginComponent],
+      imports: [LoginComponent, I18nTestingModule],
       providers: [
         {
           provide: ActivatedRoute,

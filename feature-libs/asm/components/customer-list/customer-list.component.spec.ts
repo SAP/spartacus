@@ -19,6 +19,7 @@ import {
 import {
   CxDatePipe,
   FeatureModulesService,
+  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   QueryState,
@@ -245,7 +246,11 @@ describe('CustomerListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [CustomerListComponent, RouterModule.forRoot([])],
+      imports: [
+        I18nTestingModule,
+        CustomerListComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         {
           provide: FeatureModulesService,

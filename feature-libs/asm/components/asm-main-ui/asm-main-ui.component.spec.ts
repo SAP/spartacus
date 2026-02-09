@@ -26,6 +26,7 @@ import {
   FeatureConfigService,
   FeatureModulesService,
   GlobalMessageService,
+  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   OAuthLibWrapperService,
@@ -235,7 +236,7 @@ describe('AsmMainUiComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [AsmMainUiComponent],
+      imports: [I18nTestingModule, AsmMainUiComponent],
       providers: [
         {
           provide: FeatureModulesService,

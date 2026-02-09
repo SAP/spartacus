@@ -10,6 +10,7 @@ import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
   GlobalMessageType,
+  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -109,7 +110,7 @@ describe('AsmCustomer360PromotionListingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent],
+      imports: [I18nTestingModule, TestHostComponent],
     })
       .overrideComponent(AsmCustomer360PromotionListingComponent, {
         remove: {

@@ -16,6 +16,7 @@ import {
 import {
   FeatureLevelDirective,
   GlobalMessageService,
+  I18nTestingModule,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
@@ -451,7 +452,7 @@ describe('ConfiguratorAddToCartButtonComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ConfiguratorAddToCartButtonComponent],
+      imports: [ConfiguratorAddToCartButtonComponent, I18nTestingModule],
       providers: [
         {
           provide: RoutingService,

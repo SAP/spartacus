@@ -4,6 +4,7 @@ import { Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import {
   CxDatePipe,
+  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -44,7 +45,7 @@ describe('WishListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [WishListComponent],
+      imports: [I18nTestingModule, WishListComponent],
       providers: [
         {
           provide: WishListFacade,

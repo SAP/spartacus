@@ -14,6 +14,7 @@ import { CsAgentAuthService } from '@spartacus/asm/root';
 import {
   CxDatePipe,
   FeaturesConfig,
+  I18nTestingModule,
   LanguageService,
   MockDatePipe,
   MockTranslatePipe,
@@ -176,7 +177,12 @@ describe('AsmCustomer360Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AsmCustomer360Component, ArgsPipe, FocusDirective],
+      imports: [
+        I18nTestingModule,
+        AsmCustomer360Component,
+        ArgsPipe,
+        FocusDirective,
+      ],
       providers: [
         CxDatePipe,
         { provide: LanguageService, useValue: mockLanguageService },

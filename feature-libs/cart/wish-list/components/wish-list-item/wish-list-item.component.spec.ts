@@ -16,6 +16,7 @@ import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart'
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   CxDatePipe,
+  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -98,7 +99,11 @@ describe('WishListItemComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [WishListItemComponent, RouterModule.forRoot([])],
+      imports: [
+        I18nTestingModule,
+        WishListItemComponent,
+        RouterModule.forRoot([]),
+      ],
     })
       .overrideComponent(WishListItemComponent, {
         remove: {

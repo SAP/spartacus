@@ -14,6 +14,7 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
+  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   RoutingService,
@@ -134,7 +135,11 @@ describe('ReplenishmentOrderHistoryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ReplenishmentOrderHistoryComponent, RouterModule.forRoot([])],
+      imports: [
+        ReplenishmentOrderHistoryComponent,
+        RouterModule.forRoot([]),
+        I18nTestingModule,
+      ],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         {

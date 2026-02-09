@@ -51,7 +51,11 @@ describe('AppliedCouponsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [AppliedCouponsComponent, MockedCartCouponComponent],
+      imports: [
+        I18nTestingModule,
+        AppliedCouponsComponent,
+        MockedCartCouponComponent,
+      ],
       providers: [
         { provide: CartVoucherFacade, useValue: mockCartVoucherService },
         {

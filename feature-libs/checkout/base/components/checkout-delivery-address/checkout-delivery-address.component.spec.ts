@@ -19,6 +19,7 @@ import {
   FeatureConfigService,
   FeaturesConfig,
   GlobalMessageService,
+  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -158,7 +159,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [CheckoutDeliveryAddressComponent],
+      imports: [I18nTestingModule, CheckoutDeliveryAddressComponent],
       providers: [
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },

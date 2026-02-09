@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   CxDatePipe,
+  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -35,7 +36,7 @@ describe('QuickOrderTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [QuickOrderTableComponent],
+      imports: [I18nTestingModule, QuickOrderTableComponent],
     })
       .overrideComponent(QuickOrderTableComponent, {
         remove: {

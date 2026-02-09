@@ -20,6 +20,7 @@ import {
   FeatureDirective,
   FeaturesConfig,
   GlobalMessageService,
+  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   PaymentDetails,
@@ -199,6 +200,7 @@ describe('CheckoutPaymentMethodComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
+        I18nTestingModule,
         CheckoutPaymentMethodComponent,
         CardComponent,
         IconComponent,

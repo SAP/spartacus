@@ -16,6 +16,7 @@ import {
   FeatureDirective,
   FeatureLevelDirective,
   GlobalMessageService,
+  I18nTestingModule,
   ImageType,
   MockDatePipe,
   MockTranslatePipe,
@@ -222,7 +223,11 @@ describe('MyInterestsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([]), MyInterestsComponent],
+      imports: [
+        RouterModule.forRoot([]),
+        MyInterestsComponent,
+        I18nTestingModule,
+      ],
       providers: [
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: LayoutConfig, useValue: MockLayoutConfig },

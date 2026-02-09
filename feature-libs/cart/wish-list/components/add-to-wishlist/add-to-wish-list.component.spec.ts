@@ -17,6 +17,7 @@ import {
   CxDatePipe,
   FeatureConfigService,
   FeatureDirective,
+  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   Product,
@@ -124,7 +125,11 @@ describe('AddToWishListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [AddToWishListComponent, RouterModule.forRoot([])],
+      imports: [
+        I18nTestingModule,
+        AddToWishListComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: WishListFacade, useClass: MockWishListService },

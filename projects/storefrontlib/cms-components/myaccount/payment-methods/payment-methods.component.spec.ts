@@ -6,6 +6,7 @@ import {
   FeatureDirective,
   FeaturesConfig,
   GlobalMessageService,
+  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   PaymentDetails,
@@ -78,7 +79,12 @@ describe('PaymentMethodsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [PaymentMethodsComponent, CardComponent, FocusDirective],
+      imports: [
+        PaymentMethodsComponent,
+        CardComponent,
+        FocusDirective,
+        I18nTestingModule,
+      ],
       providers: [
         { provide: UserPaymentService, useClass: MockUserPaymentService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },

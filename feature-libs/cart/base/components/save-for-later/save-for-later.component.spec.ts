@@ -12,6 +12,7 @@ import {
 import {
   CmsService,
   CxDatePipe,
+  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -55,7 +56,7 @@ describe('SaveForLaterComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [SaveForLaterComponent],
+      imports: [I18nTestingModule, SaveForLaterComponent],
       providers: [
         { provide: CmsService, useValue: mockCmsService },
         { provide: ActiveCartFacade, useValue: mockActiveCartService },

@@ -110,7 +110,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfiguratorCartEntryBundleInfoComponent],
+      imports: [ConfiguratorCartEntryBundleInfoComponent, I18nTestingModule],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {
