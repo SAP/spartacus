@@ -4,11 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  CmsConfig,
-  provideDefaultConfig,
-  provideDefaultConfigFactory,
-} from '@spartacus/core';
+import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { OPF_TOKENISATION_FEATURE } from './feature-name';
 import { NgModule } from '@angular/core';
 
@@ -16,7 +12,7 @@ export function defaultOpfTokenisationCmsComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [OPF_TOKENISATION_FEATURE]: {
-        cmsComponents: [''],
+        cmsComponents: ['OpfTokenisationPaymentMethodsComponent'],
       },
     },
   };
@@ -26,7 +22,6 @@ export function defaultOpfTokenisationCmsComponentsConfig(): CmsConfig {
 @NgModule({
   providers: [
     provideDefaultConfigFactory(defaultOpfTokenisationCmsComponentsConfig),
-    // provideDefaultConfig(defaultOpfTokenisationConfig),
   ],
 })
 export class OpfTokenisationRootModule {}

@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { NgModule } from '@angular/core';
+import { OpfTokenisationPaymentMethodsModule } from './opf-tokenisation-payment-methods/opf-tokenisation-payment-methods.module';
 
 @NgModule({
-  imports: [],
+  imports: [OpfTokenisationPaymentMethodsModule],
 })
 export class OpfTokenisationComponentsModule {}
