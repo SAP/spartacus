@@ -3,15 +3,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CmsBannerComponentMedia,
   CmsPDFDocumentComponent,
+  TranslatePipe,
 } from '@spartacus/core';
-import { CmsComponentData, Media, MediaService } from '@spartacus/storefront';
+import {
+  CmsComponentData,
+  IconComponent,
+  Media,
+  MediaService,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PDFComponent } from './pdf.component';
 
-@Pipe({
-  name: 'cxTranslate',
-  standalone: false,
-})
+@Pipe({ name: 'cxTranslate' })
 class MockTranslatePipe implements PipeTransform {
   transform(value: string): any {
     if (value === 'pdf.defaultTitle') return 'Document';
@@ -32,7 +35,6 @@ class MockMediaService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
 })
 class MockCxIconComponent {
   @Input() type: any;
@@ -67,7 +69,7 @@ describe('PdfComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PDFComponent, MockTranslatePipe, MockCxIconComponent],
+      imports: [PDFComponent],
       providers: [
         {
           provide: CmsComponentData,
@@ -75,7 +77,12 @@ describe('PdfComponent', () => {
         },
         { provide: MediaService, useClass: MockMediaService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PDFComponent, {
+        remove: { imports: [TranslatePipe, IconComponent] },
+        add: { imports: [MockTranslatePipe, MockCxIconComponent] },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

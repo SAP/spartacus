@@ -6,7 +6,16 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import { RouterModule } from '@angular/router';
+import {
+  CxDatePipe,
+  FeatureDirective,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { BehaviorSubject } from 'rxjs';
@@ -26,10 +35,7 @@ class MockLoginFormComponentService
   login = createSpy().and.stub();
   handleCustomLoginError = createSpy().and.stub();
 }
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -44,18 +50,33 @@ describe('LoginFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        I18nTestingModule,
         FormErrorsModule,
         SpinnerModule,
+        LoginFormComponent,
+        RouterModule.forRoot([]),
+        I18nTestingModule,
       ],
-      declarations: [LoginFormComponent, MockUrlPipe, MockFeatureDirective],
       providers: [
         {
           provide: LoginFormComponentService,
           useClass: MockLoginFormComponentService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(LoginFormComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, UrlPipe, FeatureDirective],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockFeatureDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,19 +1,19 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
 import {
-  RoutingService,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import {
   CustomerCouponService,
   GlobalMessageService,
   GlobalMessageType,
+  I18nTestingModule,
+  RoutingService,
 } from '@spartacus/core';
-import {
-  ReactiveFormsModule,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
 import { FocusDirective, FormErrorsModule } from '@spartacus/storefront';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { Observable, of } from 'rxjs';
@@ -29,7 +29,7 @@ const form = new FormGroup({
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -59,13 +59,15 @@ describe('ClaimDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        FormErrorsModule,
         ClaimDialogComponent,
         MockCxIconComponent,
         FocusDirective,
         MockFeatureDirective,
       ],
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: CustomerCouponService, useValue: couponService },

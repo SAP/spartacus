@@ -33,8 +33,8 @@ import { PermissionFormComponent } from './permission-form.component';
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    PermissionFormComponent,
   ],
-  declarations: [PermissionFormComponent],
   exports: [PermissionFormComponent],
 })
 export class PermissionFormModule {}

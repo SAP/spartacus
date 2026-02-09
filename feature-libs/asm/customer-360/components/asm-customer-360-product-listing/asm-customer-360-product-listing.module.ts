@@ -18,8 +18,8 @@ import { AsmCustomer360ProductListingComponent } from './asm-customer-360-produc
     I18nModule,
     MediaModule,
     AsmCustomer360ProductItemModule,
+    AsmCustomer360ProductListingComponent,
   ],
-  declarations: [AsmCustomer360ProductListingComponent],
   exports: [AsmCustomer360ProductListingComponent],
 })
 export class AsmCustomer360ProductListingModule {}

@@ -4,6 +4,5 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export * from './cdc-user-preference.serializer';
 export * from './cdc-preference.serializer';
 export * from './converter';

@@ -93,8 +93,15 @@ function create_shell_app {
     local EXTRA_ANGULAR_CLI_FLAGS=""
     if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "17.0.0")" -ge 0 ]; then
         EXTRA_ANGULAR_CLI_FLAGS="--standalone=false --ssr=false" # SSR can be added later by running other schematics (e.g. Spartacus installation schematics with its flag --ssr).
-        echo "Angular CLI version >= 17.0.0, so applying extra flags to the command 'ng new': ${EXTRA_ANGULAR_CLI_FLAGS}"
     fi
+    if [ "$(compareSemver "$ANGULAR_CLI_VERSION" "20.0.0")" -ge 0 ]; then
+        EXTRA_ANGULAR_CLI_FLAGS="${EXTRA_ANGULAR_CLI_FLAGS} --zoneless=false --ai-config=none --file-name-style-guide=2016"
+    fi
+
+    if [ -n "${EXTRA_ANGULAR_CLI_FLAGS}" ]; then
+        echo "Angular CLI version ${ANGULAR_CLI_VERSION} so applying extra flags to command 'ng new': ${EXTRA_ANGULAR_CLI_FLAGS}"
+    fi
+    
 
     ( cd ${INSTALLATION_DIR} && \
         ng new ${1} \

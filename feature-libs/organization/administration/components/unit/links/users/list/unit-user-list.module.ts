@@ -21,7 +21,8 @@ import { UnitUserListComponent } from './unit-user-list.component';
     UrlModule,
     SubListModule,
     DisableInfoModule,
+    UnitUserListComponent,
+    UnitUserRolesCellComponent,
   ],
-  declarations: [UnitUserListComponent, UnitUserRolesCellComponent],
 })
 export class UnitUserListModule {}

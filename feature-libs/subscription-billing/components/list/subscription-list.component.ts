@@ -4,8 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
+import { CxDatePipe, TranslatePipe, UrlPipe } from '@spartacus/core';
+import {
+  PaginationComponent,
+  SortingComponent,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import {
   SubscriptionFacade,
   SubscriptionList,
@@ -15,7 +23,18 @@ import { switchMap } from 'rxjs';
 @Component({
   selector: 'cx-subscription-list',
   templateUrl: './subscription-list.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    NgClass,
+    SortingComponent,
+    NgFor,
+    RouterLink,
+    PaginationComponent,
+    SpinnerComponent,
+    TranslatePipe,
+    CxDatePipe,
+    UrlPipe,
+  ],
 })
 export class SubscriptionListComponent {
   protected subscriptionFacade = inject(SubscriptionFacade);

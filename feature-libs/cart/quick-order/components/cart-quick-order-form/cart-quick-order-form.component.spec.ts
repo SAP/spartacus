@@ -103,8 +103,9 @@ describe('CartQuickOrderFormComponent', () => {
         FormErrorsModule,
         I18nTestingModule,
         ReactiveFormsModule,
+        CartQuickOrderFormComponent,
+        MockFeatureDirective,
       ],
-      declarations: [CartQuickOrderFormComponent, MockFeatureDirective],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {

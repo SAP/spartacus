@@ -14,7 +14,7 @@ import { NotificationPreferenceComponent } from './notification-preference.compo
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCxSpinnerComponent {}
 
@@ -52,8 +52,8 @@ describe('NotificationPreferenceComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
         NotificationPreferenceComponent,
         MockCxSpinnerComponent,
         MockFeatureDirective,

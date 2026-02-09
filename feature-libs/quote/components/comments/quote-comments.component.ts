@@ -4,14 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT } from '@angular/common';
+import { AsyncPipe, DOCUMENT, NgIf } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { EventService, TranslationService } from '@spartacus/core';
+import {
+  EventService,
+  TranslatePipe,
+  TranslationService,
+} from '@spartacus/core';
 import { QuoteDetailsReloadQueryEvent } from '@spartacus/quote/core';
 import { Quote, QuoteComment, QuoteFacade } from '@spartacus/quote/root';
 import {
   ICON_TYPE,
+  IconComponent,
   MessageEvent,
   MessageEventBoundItem,
   MessagingComponent,
@@ -28,7 +33,7 @@ const ALL_PRODUCTS_ID = '';
 @Component({
   selector: 'cx-quote-comments',
   templateUrl: './quote-comments.component.html',
-  standalone: false,
+  imports: [NgIf, IconComponent, MessagingComponent, AsyncPipe, TranslatePipe],
 })
 export class QuoteCommentsComponent {
   protected quoteFacade = inject(QuoteFacade);

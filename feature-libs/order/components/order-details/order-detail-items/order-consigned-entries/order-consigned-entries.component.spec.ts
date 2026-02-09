@@ -2,9 +2,17 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { PromotionLocation } from '@spartacus/cart/base/root';
-import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
+import {
+  CxDatePipe,
+  FeaturesConfig,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+} from '@spartacus/core';
 import { Consignment, Order } from '@spartacus/order/root';
 import { CardModule, OutletModule } from '@spartacus/storefront';
+import { ConsignmentTrackingComponent } from '../consignment-tracking/consignment-tracking.component';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries.component';
 
 const mockProduct = { product: { code: 'test' } };
@@ -69,7 +77,7 @@ const mockOrder: Order = {
 @Component({
   selector: 'cx-consignment-tracking',
   template: '',
-  standalone: false,
+  imports: [CardModule, I18nTestingModule, OutletModule],
 })
 class MockConsignmentTrackingComponent {
   @Input() consignment: Consignment;
@@ -83,7 +91,7 @@ describe('OrderConsignedEntriesComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [CardModule, I18nTestingModule, OutletModule],
+      imports: [CardModule, OutletModule, OrderConsignedEntriesComponent],
       providers: [
         {
           provide: FeaturesConfig,
@@ -92,11 +100,20 @@ describe('OrderConsignedEntriesComponent', () => {
           },
         },
       ],
-      declarations: [
-        OrderConsignedEntriesComponent,
-        MockConsignmentTrackingComponent,
-      ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderConsignedEntriesComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, ConsignmentTrackingComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockConsignmentTrackingComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

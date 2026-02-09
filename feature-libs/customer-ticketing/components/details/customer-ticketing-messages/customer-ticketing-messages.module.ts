@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   AuthGuard,
   CmsConfig,
@@ -13,10 +14,9 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatMessagingModule } from '@spartacus/storefront';
 import { CustomerTicketingMessagesComponentService } from './customer-ticketing-messages-component.service';
+import { CustomerTicketingMessagesComponent } from './customer-ticketing-messages.component';
 
 @NgModule({
   imports: [
@@ -26,6 +26,7 @@ import { CustomerTicketingMessagesComponentService } from './customer-ticketing-
     ChatMessagingModule,
     ReactiveFormsModule,
     FormsModule,
+    CustomerTicketingMessagesComponent,
   ],
   providers: [
     CustomerTicketingMessagesComponentService,
@@ -38,7 +39,6 @@ import { CustomerTicketingMessagesComponentService } from './customer-ticketing-
       },
     }),
   ],
-  declarations: [CustomerTicketingMessagesComponent],
   exports: [CustomerTicketingMessagesComponent],
 })
 export class CustomerTicketingMessagesModule {}

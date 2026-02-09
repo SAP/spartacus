@@ -25,7 +25,7 @@ import { FacetListComponent } from './facet-list.component';
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, TabModule],
 })
 class MockIconComponent {
   @Input() type: ICON_TYPE;
@@ -34,16 +34,13 @@ class MockIconComponent {
 @Component({
   selector: 'cx-facet',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, TabModule],
 })
 class MockFacetComponent {
   @Input() facet;
 }
 
-@Directive({
-  selector: '[cxFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxFocus]' })
 class MockKeyboadFocusDirective {
   @Input() cxFocus;
 }
@@ -73,8 +70,9 @@ describe('FacetListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, TabModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
+        TabModule,
         FacetListComponent,
         MockIconComponent,
         MockFacetComponent,

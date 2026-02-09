@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { cmsEndpoints } from '../../cms-endpoints';
+
 export function configureDefaultProduct() {
   cy.window().then((win) => win.sessionStorage.clear());
 
@@ -14,7 +16,7 @@ export function configureDefaultProduct() {
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages?pageType=ProductPage**`
+    )}/${cmsEndpoints.pages}?pageType=ProductPage**`
   ).as('productPage');
 
   cy.visit('/product/CX704/7%E2%80%9Dx12%E2%80%9D-mini-metal-lathe');

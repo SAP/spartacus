@@ -11,9 +11,21 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
 import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import {
+  AtMessageDirective,
+  InnerComponentsHostDirective,
+  MediaComponent,
   ProductListItemContext,
   ProductListItemContextSource,
 } from '@spartacus/storefront';
@@ -22,7 +34,7 @@ import { WishListItemComponent } from './wish-list-item.component';
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockAddToCartComponent {
   @Input() product;
@@ -32,17 +44,14 @@ class MockAddToCartComponent {
 @Component({
   selector: 'cx-media',
   template: 'mock picture component',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockPictureComponent {
   @Input() container;
   @Input() alt;
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -74,13 +83,15 @@ const mockCartEntry: OrderEntry = {
   },
 };
 
-@Directive({
-  selector: '[cxAtMessage]',
-  standalone: false,
-})
+@Directive({ selector: '[cxAtMessage]' })
 class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
 }
+
+@Directive({
+  selector: '[cxInnerComponentsHost]',
+})
+class MockInnerComponentsHostDirective {}
 
 describe('WishListItemComponent', () => {
   let component: WishListItemComponent;
@@ -90,17 +101,32 @@ describe('WishListItemComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        WishListItemComponent,
-        MockPictureComponent,
-        MockAddToCartComponent,
-        MockUrlPipe,
-        MockAtMessageDirective,
-      ],
+      imports: [WishListItemComponent, RouterModule.forRoot([])],
     })
       .overrideComponent(WishListItemComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            MediaComponent,
+            AddToCartComponent,
+            UrlPipe,
+            AtMessageDirective,
+            InnerComponentsHostDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockPictureComponent,
+            MockAddToCartComponent,
+            MockUrlPipe,
+            MockAtMessageDirective,
+            MockInnerComponentsHostDirective,
+          ],
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
       })
       .compileComponents();
   }));

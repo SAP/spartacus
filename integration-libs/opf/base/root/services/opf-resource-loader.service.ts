@@ -4,12 +4,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DOCUMENT, isPlatformServer } from '@angular/common';
-import { Injectable, NgZone, PLATFORM_ID, inject } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import {
+  Injectable,
+  NgZone,
+  PLATFORM_ID,
+  inject,
+  DOCUMENT,
+} from '@angular/core';
 import {
   Config,
-  LoggerService,
   ScriptLoader,
+  LoggerService,
   WindowRef,
 } from '@spartacus/core';
 
@@ -234,7 +240,9 @@ export class OpfResourceLoaderService {
         if (nativeWindow.OpfContext) {
           delete nativeWindow.OpfContext;
         }
-        nativeWindow.OpfContext = contextData;
+
+        nativeWindow.OpfContext = contextData ?? {};
+        nativeWindow.OpfContext.additionalData ??= {};
       }
 
       const scriptElement = this.document.createElement('script');

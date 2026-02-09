@@ -154,7 +154,7 @@ describe('CommonConfiguratorUtilsService', () => {
 
     it('throw error if cart Id cannot be found', () => {
       const incompleteCart: Cart = {};
-      expect(() => classUnderTest.getCartId(incompleteCart)).toThrowError();
+      expect(() => classUnderTest.getCartId(incompleteCart)).toThrow();
     });
   });
 
@@ -309,7 +309,7 @@ describe('CommonConfiguratorUtilsService', () => {
           sectionName,
           BREAKPOINT.lg
         )
-      ).toThrowError();
+      ).toThrow();
 
       expect(() =>
         classUnderTest.getSlotsFromLayoutConfiguration(
@@ -318,7 +318,7 @@ describe('CommonConfiguratorUtilsService', () => {
           'UnknownSection',
           BREAKPOINT.lg
         )
-      ).toThrowError();
+      ).toThrow();
 
       expect(() =>
         classUnderTest.getSlotsFromLayoutConfiguration(
@@ -327,7 +327,7 @@ describe('CommonConfiguratorUtilsService', () => {
           sectionName,
           BREAKPOINT.sm
         )
-      ).toThrowError();
+      ).toThrow();
     });
   });
 });

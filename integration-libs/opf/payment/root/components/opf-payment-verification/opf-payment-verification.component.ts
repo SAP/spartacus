@@ -17,12 +17,13 @@ import { OpfKeyValueMap, OpfPage } from '@spartacus/opf/base/root';
 import { Observable, Subscription } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
 
+import { SpinnerComponent } from '@spartacus/storefront';
 import { OpfPaymentVerificationService } from './opf-payment-verification.service';
 
 @Component({
   selector: 'cx-opf-verify-payment',
   templateUrl: './opf-payment-verification.component.html',
-  standalone: false,
+  imports: [SpinnerComponent],
 })
 export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
   protected route = inject(ActivatedRoute);
@@ -48,11 +49,13 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
             paymentSessionId,
             paramsMap: paramsMap,
             afterRedirectScriptFlag,
+            is3DSRedirect,
           }) =>
             this.runPaymentPattern({
               paymentSessionId,
               paramsMap,
               afterRedirectScriptFlag,
+              is3DSRedirect,
             })
         )
       )
@@ -88,11 +91,23 @@ export class OpfPaymentVerificationComponent implements OnInit, OnDestroy {
     paymentSessionId,
     paramsMap,
     afterRedirectScriptFlag,
+    is3DSRedirect,
   }: {
     paymentSessionId: string;
     paramsMap: OpfKeyValueMap[];
     afterRedirectScriptFlag?: string;
+    is3DSRedirect?: boolean;
   }): Observable<boolean> {
+    // Handle 3DS redirect return
+    if (is3DSRedirect) {
+      this.isHostedFieldPattern = true;
+      return this.opfPaymentVerificationService.run3DSRedirectPattern(
+        paymentSessionId,
+        paramsMap,
+        this.vcr
+      );
+    }
+
     if (afterRedirectScriptFlag === 'true') {
       this.isHostedFieldPattern = true;
       return this.opfPaymentVerificationService.runHostedFieldsPattern(

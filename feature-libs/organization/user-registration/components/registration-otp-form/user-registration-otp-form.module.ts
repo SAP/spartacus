@@ -46,8 +46,8 @@ import { UserRegistrationOTPFormComponent } from './user-registration-otp-form.c
     }),
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
+    UserRegistrationOTPFormComponent,
   ],
-  declarations: [UserRegistrationOTPFormComponent],
   exports: [UserRegistrationOTPFormComponent],
 })
 export class UserRegistrationOTPFormModule {}

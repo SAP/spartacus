@@ -4,7 +4,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { LanguageService } from '@spartacus/core';
 import { Consignment, Order, OrderHistoryFacade } from '@spartacus/order/root';
-import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
+import {
+  CxDatePipe,
+  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  TranslationService,
+} from 'projects/core/src/i18n';
 import { Observable, ReplaySubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ArrivalSlots } from '../../root/model';
@@ -40,7 +47,7 @@ class MockLanguageService {
 @Component({
   selector: 'cx-estimated-delivery-date',
   template: '',
-  standalone: false,
+  imports: [ReactiveFormsModule, I18nTestingModule],
 })
 class MockConfigureEstimatedDeliveryDateComponent {
   @Input() cartEntry: Partial<OrderEntry & Array<ArrivalSlots>>;
@@ -55,10 +62,10 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
         EstimatedDeliveryDateComponent,
-        MockConfigureEstimatedDeliveryDateComponent,
       ],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
@@ -69,7 +76,20 @@ describe('EstimatedDeliveryDateCartEntryComponent', () => {
         },
         { provide: LanguageService, useClass: MockLanguageService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(EstimatedDeliveryDateComponent, {
+        remove: {
+          imports: [TranslatePipe, CxDatePipe, EstimatedDeliveryDateComponent],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockConfigureEstimatedDeliveryDateComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

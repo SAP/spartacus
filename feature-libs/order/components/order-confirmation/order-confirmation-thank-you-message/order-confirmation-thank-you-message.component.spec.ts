@@ -2,14 +2,20 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  CxDatePipe,
+  FeatureLevelDirective,
   GlobalMessageService,
   GlobalMessageType,
-  I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
+import { AddToHomeScreenBannerComponent } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { of } from 'rxjs';
+import { OrderGuestRegisterFormComponent } from '../order-guest-register-form/order-guest-register-form.component';
 import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
 import createSpy = jasmine.createSpy;
 
@@ -24,14 +30,12 @@ const mockOrder = {
 @Component({
   selector: 'cx-add-to-home-screen-banner',
   template: '',
-  standalone: false,
 })
 class MockAddtoHomeScreenBannerComponent {}
 
 @Component({
   selector: 'cx-guest-register-form',
   template: '',
-  standalone: false,
 })
 class MockGuestRegisterFormComponent {
   @Input() guid: string;
@@ -60,19 +64,34 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        OrderConfirmationThankYouMessageComponent,
-        MockAddtoHomeScreenBannerComponent,
-        MockGuestRegisterFormComponent,
-        MockFeatureLevelDirective,
-      ],
+      imports: [OrderConfirmationThankYouMessageComponent],
       providers: [
         { provide: OrderFacade, useClass: MockOrderFacade },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: TranslationService, useClass: MockTranslationService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(OrderConfirmationThankYouMessageComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            AddToHomeScreenBannerComponent,
+            OrderGuestRegisterFormComponent,
+            FeatureLevelDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockAddtoHomeScreenBannerComponent,
+            MockGuestRegisterFormComponent,
+            MockFeatureLevelDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

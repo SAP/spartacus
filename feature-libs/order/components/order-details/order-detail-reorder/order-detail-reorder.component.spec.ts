@@ -58,8 +58,7 @@ describe('Order detail reorder component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OrderDetailReorderComponent],
+      imports: [I18nTestingModule, OrderDetailReorderComponent],
       providers: [
         {
           provide: LaunchDialogService,

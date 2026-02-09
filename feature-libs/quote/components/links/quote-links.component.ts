@@ -4,11 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import { OrderConfig } from '@spartacus/order/root';
 import {
@@ -23,7 +27,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-quote-links',
   templateUrl: './quote-links.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, RouterLink, AsyncPipe, TranslatePipe, UrlPipe],
 })
 export class QuoteLinksComponent {
   protected quoteFacade = inject(QuoteFacade);

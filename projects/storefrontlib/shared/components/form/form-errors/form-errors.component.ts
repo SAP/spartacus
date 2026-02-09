@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -16,7 +17,7 @@ import {
   inject,
 } from '@angular/core';
 import { AbstractControl, UntypedFormControl } from '@angular/forms';
-import { FeatureConfigService, isObject } from '@spartacus/core';
+import { FeatureConfigService, TranslatePipe, isObject } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -33,7 +34,7 @@ import { map, startWith } from 'rxjs/operators';
   selector: 'cx-form-errors',
   templateUrl: './form-errors.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe],
 })
 export class FormErrorsComponent implements DoCheck {
   private featureConfigService = inject(FeatureConfigService);

@@ -7,11 +7,15 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import {
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
+  MockTranslatePipe,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
 import { OrderDetailsService } from '@spartacus/order/components';
 import { CancelServiceOrderFacade } from '@spartacus/s4-service/root';
@@ -43,10 +47,7 @@ class MockRoutingService {
   go = jasmine.createSpy();
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {
     return '';
@@ -62,8 +63,12 @@ describe('CancelServiceOrderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CancelServiceOrderComponent, MockUrlPipe],
-      imports: [ReactiveFormsModule, I18nTestingModule],
+      imports: [
+        ReactiveFormsModule,
+        I18nTestingModule,
+        CancelServiceOrderComponent,
+        RouterModule.forRoot([]),
+      ],
       providers: [
         { provide: OrderDetailsService, useClass: MockOrderDetailsService },
         {
@@ -75,7 +80,16 @@ describe('CancelServiceOrderComponent', () => {
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CancelServiceOrderComponent, {
+        remove: {
+          imports: [TranslatePipe, UrlPipe],
+        },
+        add: {
+          imports: [MockTranslatePipe, MockUrlPipe],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,5 +1,6 @@
+import { NgIf } from '@angular/common';
 import { Component, TemplateRef } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../outlet.directive';
@@ -13,20 +14,23 @@ const CUSTOM_TEXT = 'customized';
 @Component({
   template: `
     <ng-container *ngIf="outletRefVisible">
-      <ng-template cxOutletRef="${OUTLET_NAME}"> ${CUSTOM_TEXT} </ng-template>
+      <ng-template [cxOutletRef]="outletName"> {{ customText }} </ng-template>
     </ng-container>
 
     <ng-container *ngIf="outletVisible">
-      <ng-container *cxOutlet="'${OUTLET_NAME}'">
-        ${STANDARD_TEXT}
-      </ng-container>
+      <ng-template [cxOutlet]="outletName">
+        {{ standardText }}
+      </ng-template>
     </ng-container>
   `,
-  standalone: false,
+  imports: [OutletDirective, OutletRefDirective, NgIf],
 })
 class TestContainerComponent {
   outletRefVisible = true;
   outletVisible = true;
+  outletName = OUTLET_NAME;
+  customText = CUSTOM_TEXT;
+  standardText = STANDARD_TEXT;
 }
 
 class MockDeferLoaderService {
@@ -58,12 +62,7 @@ describe('OutletRefDirective', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [
-        TestContainerComponent,
-        OutletDirective,
-        OutletRefDirective,
-      ],
+      imports: [TestContainerComponent, OutletDirective, OutletRefDirective],
       providers: [
         OutletService,
         { provide: DeferLoaderService, useClass: MockDeferLoaderService },

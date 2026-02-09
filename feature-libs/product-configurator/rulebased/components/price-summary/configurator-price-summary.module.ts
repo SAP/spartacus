@@ -11,7 +11,13 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.component';
 
 @NgModule({
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, I18nModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    I18nModule,
+    ConfiguratorPriceSummaryComponent,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -21,7 +27,6 @@ import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.
       },
     }),
   ],
-  declarations: [ConfiguratorPriceSummaryComponent],
   exports: [ConfiguratorPriceSummaryComponent],
 })
 export class ConfiguratorPriceSummaryModule {}

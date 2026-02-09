@@ -23,7 +23,7 @@ const mockData = {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [FormsModule, I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -43,15 +43,16 @@ describe('SuggestedAddressDialogComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, I18nTestingModule],
-      providers: [
-        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-      ],
-      declarations: [
+      imports: [
+        FormsModule,
+        I18nTestingModule,
         SuggestedAddressDialogComponent,
         MockCxIconComponent,
         FocusDirective,
         MockFeatureDirective,
+      ],
+      providers: [
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
   }));

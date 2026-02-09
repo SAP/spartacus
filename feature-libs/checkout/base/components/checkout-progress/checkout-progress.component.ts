@@ -4,23 +4,39 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   OnInit,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { CheckoutStep, CheckoutStepState } from '@spartacus/checkout/base/root';
+import {
+  CurrencyService,
+  LanguageService,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
-import { CurrencyService, LanguageService } from '@spartacus/core';
+import { MultiLinePipe } from './multiline-titles.pipe';
 
 @Component({
   selector: 'cx-checkout-progress',
   templateUrl: './checkout-progress.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    RouterLink,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    MultiLinePipe,
+  ],
 })
 export class CheckoutProgressComponent implements OnInit {
   params$ = new Observable<string[]>();

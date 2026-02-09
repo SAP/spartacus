@@ -52,8 +52,6 @@ import { ImportOrderEntriesComponent } from './import-entries/import-order-entri
       },
     }),
     FeaturesConfigModule,
-  ],
-  declarations: [
     ImportOrderEntriesComponent,
     ImportEntriesDialogComponent,
     ImportEntriesFormComponent,

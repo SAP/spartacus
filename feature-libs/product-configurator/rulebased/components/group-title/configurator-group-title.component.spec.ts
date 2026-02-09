@@ -6,20 +6,20 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
 import {
-  IconLoaderService,
-  HamburgerMenuService,
   BreakpointService,
+  HamburgerMenuService,
+  IconLoaderService,
 } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
-import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
 
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
@@ -72,7 +72,7 @@ class MockBreakpointService {
 @Component({
   selector: 'cx-hamburger-menu',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockHamburgerMenuComponent {}
 
@@ -96,8 +96,10 @@ describe('ConfiguratorGroupTitleComponent', () => {
   beforeEach(waitForAsync(() => {
     routerStateObservable = of(ConfigurationTestData.mockRouterState);
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
+        ReactiveFormsModule,
+        NgSelectModule,
         ConfiguratorGroupTitleComponent,
         MockHamburgerMenuComponent,
       ],
@@ -111,7 +113,6 @@ describe('ConfiguratorGroupTitleComponent', () => {
           provide: RoutingService,
           useClass: MockRoutingService,
         },
-
         {
           provide: ConfiguratorCommonsService,
           useClass: MockConfiguratorCommonsService,

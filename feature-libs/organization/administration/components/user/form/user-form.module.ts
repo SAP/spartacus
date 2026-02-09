@@ -31,8 +31,8 @@ import { UserFormComponent } from './user-form.component';
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    UserFormComponent,
   ],
-  declarations: [UserFormComponent],
   exports: [UserFormComponent],
 })
 export class UserFormModule {}

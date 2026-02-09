@@ -17,8 +17,8 @@ import {
   IconModule,
   KeyboardFocusModule,
 } from '@spartacus/storefront';
-import { QuoteHeaderOverviewComponent } from './quote-header-overview.component';
 import { QuoteHeaderBuyerEditModule } from '../buyer-edit/quote-header-buyer-edit.module';
+import { QuoteHeaderOverviewComponent } from './quote-header-overview.component';
 
 @NgModule({
   imports: [
@@ -28,6 +28,7 @@ import { QuoteHeaderBuyerEditModule } from '../buyer-edit/quote-header-buyer-edi
     CardModule,
     QuoteHeaderBuyerEditModule,
     KeyboardFocusModule,
+    QuoteHeaderOverviewComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -39,7 +40,6 @@ import { QuoteHeaderBuyerEditModule } from '../buyer-edit/quote-header-buyer-edi
       },
     }),
   ],
-  declarations: [QuoteHeaderOverviewComponent],
   exports: [QuoteHeaderOverviewComponent],
 })
 export class QuoteHeaderOverviewModule {}

@@ -21,7 +21,7 @@ import {
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
 import { OrderSelectors } from '@spartacus/order/core';
-import { Order, ORDER_NORMALIZER } from '@spartacus/order/root';
+import { Order, ORDER_NORMALIZER, OrderConfig } from '@spartacus/order/root';
 import {
   MockOccEndpointsService,
   mockOccModuleConfig,
@@ -56,6 +56,12 @@ const mockConfig: OmfConfig = {
   },
 };
 
+const mockOrderConfig = {
+  get showOrderQuoteLink() {
+    return false;
+  },
+};
+
 describe('OccOmfOrderHistoryAdapter', () => {
   let adapter: OccOmfOrderHistoryAdapter;
   let httpMock: HttpTestingController;
@@ -71,6 +77,7 @@ describe('OccOmfOrderHistoryAdapter', () => {
         OccOmfOrderHistoryAdapter,
         { provide: OmfConfig, useValue: mockConfig },
         { provide: OccConfig, useValue: mockOccModuleConfig },
+        { provide: OrderConfig, useValue: mockOrderConfig },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         {
           provide: OccEndpointsService,
@@ -154,64 +161,82 @@ describe('OccOmfOrderHistoryAdapter', () => {
       request.flush(orderData);
       httpMock.verify();
     }));
-  });
-  describe('getRequestHeader', () => {
-    it('should construct a request header with guid', () => {
-      const header = adapter.getRequestHeader(orderData.guid);
-      expect(header.has('my-guid-header')).toBe(true);
-      expect(header.get('my-guid-header')).toEqual(orderData.guid);
-    });
-  });
-  describe('getOrderGuid', () => {
-    it('should return guid from route query params', (done) => {
-      adapter.getOrderGuid(orderData.code ?? '').subscribe((guid) => {
-        expect(guid).toEqual(orderData.guid);
-        done();
+
+    it('should fetch a single order with quote code when showOrderQuoteLink is true', waitForAsync(() => {
+      spyOnProperty(
+        mockOrderConfig,
+        'showOrderQuoteLink',
+        'get'
+      ).and.returnValue(true);
+      adapter.load(userId, orderData.code ?? '').subscribe();
+      httpMock.expectOne((req: HttpRequest<any>) => {
+        return req.method === 'GET';
+      }, `GET a single order`);
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('orderDetail', {
+        urlParams: { userId, orderId: orderData.code },
+      });
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('quoteCode', {
+        urlParams: { userId, orderId: orderData.code },
+      });
+    }));
+    describe('getRequestHeader', () => {
+      it('should construct a request header with guid', () => {
+        const header = adapter.getRequestHeader(orderData.guid);
+        expect(header.has('my-guid-header')).toBe(true);
+        expect(header.get('my-guid-header')).toEqual(orderData.guid);
       });
     });
-    it('should return guid from store', (done) => {
-      spyOnProperty(mockActivatedRoute, 'queryParams', 'get').and.returnValue(
-        of({ guid: null })
-      );
-      spyOn(store, 'select').and.callFake((selector: any) => {
-        if (selector === OrderSelectors.getOrdersState) {
-          return of(mockOrderState);
-        }
-        return of(null);
+    describe('getOrderGuid', () => {
+      it('should return guid from route query params', (done) => {
+        adapter.getOrderGuid(orderData.code ?? '').subscribe((guid) => {
+          expect(guid).toEqual(orderData.guid);
+          done();
+        });
       });
-      adapter.getOrderGuid(orderData.code ?? '').subscribe((guid) => {
-        expect(guid).toEqual(orderData.guid);
-        done();
+      it('should return guid from store', (done) => {
+        spyOnProperty(mockActivatedRoute, 'queryParams', 'get').and.returnValue(
+          of({ guid: null })
+        );
+        spyOn(store, 'select').and.callFake((selector: any) => {
+          if (selector === OrderSelectors.getOrdersState) {
+            return of(mockOrderState);
+          }
+          return of(null);
+        });
+        adapter.getOrderGuid(orderData.code ?? '').subscribe((guid) => {
+          expect(guid).toEqual(orderData.guid);
+          done();
+        });
       });
-    });
-    it('should return undefined from store if order is not present in store', (done) => {
-      spyOnProperty(mockActivatedRoute, 'queryParams', 'get').and.returnValue(
-        of({ guid: null })
-      );
-      spyOn(store, 'select').and.callFake((selector: any) => {
-        if (selector === OrderSelectors.getOrdersState) {
-          return of({ value: { orders: [orderData] } });
-        }
-        return of(null);
+      it('should return undefined from store if order is not present in store', (done) => {
+        spyOnProperty(mockActivatedRoute, 'queryParams', 'get').and.returnValue(
+          of({ guid: null })
+        );
+        spyOn(store, 'select').and.callFake((selector: any) => {
+          if (selector === OrderSelectors.getOrdersState) {
+            return of({ value: { orders: [orderData] } });
+          }
+          return of(null);
+        });
+        adapter.getOrderGuid('guid_02').subscribe((guid) => {
+          expect(guid).toEqual(undefined);
+          done();
+        });
       });
-      adapter.getOrderGuid('guid_02').subscribe((guid) => {
-        expect(guid).toEqual(undefined);
-        done();
-      });
-    });
-    it('should return undefined from store if store is empty', (done) => {
-      spyOnProperty(mockActivatedRoute, 'queryParams', 'get').and.returnValue(
-        of({ guid: null })
-      );
-      spyOn(store, 'select').and.callFake((selector: any) => {
-        if (selector === OrderSelectors.getOrdersState) {
-          return of({ value: {} });
-        }
-        return of(null);
-      });
-      adapter.getOrderGuid('guid_02').subscribe((guid) => {
-        expect(guid).toEqual(undefined);
-        done();
+      it('should return undefined from store if store is empty', (done) => {
+        spyOnProperty(mockActivatedRoute, 'queryParams', 'get').and.returnValue(
+          of({ guid: null })
+        );
+        spyOn(store, 'select').and.callFake((selector: any) => {
+          if (selector === OrderSelectors.getOrdersState) {
+            return of({ value: {} });
+          }
+          return of(null);
+        });
+        adapter.getOrderGuid('guid_02').subscribe((guid) => {
+          expect(guid).toEqual(undefined);
+          done();
+        });
       });
     });
   });

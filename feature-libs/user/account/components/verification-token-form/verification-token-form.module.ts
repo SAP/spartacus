@@ -50,6 +50,8 @@ import { VerificationTokenFormComponent } from './verification-token-form.compon
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    VerificationTokenFormComponent,
+    VerificationTokenDialogComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -73,10 +75,6 @@ import { VerificationTokenFormComponent } from './verification-token-form.compon
       },
     }),
     provideDefaultConfig(defaultVerificationTokenLayoutConfig),
-  ],
-  declarations: [
-    VerificationTokenFormComponent,
-    VerificationTokenDialogComponent,
   ],
 })
 export class VerificationTokenFormModule {}

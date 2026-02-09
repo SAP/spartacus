@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { Order } from '@spartacus/order/root';
 import { By } from '@angular/platform-browser';
-import { LaunchDialogService } from '@spartacus/storefront';
 import { I18nTestingModule } from '@spartacus/core';
-import { OrderAttachmentsComponent } from './order-attachments.component';
 import { OrderDetailsService } from '@spartacus/order/components';
+import { Order } from '@spartacus/order/root';
+import { LaunchDialogService } from '@spartacus/storefront';
+import { of } from 'rxjs';
+import { OrderAttachmentsComponent } from './order-attachments.component';
 
 const orderData: Order = {
   code: '00001004',
@@ -24,8 +24,7 @@ describe('OrderAttachmentsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OrderAttachmentsComponent],
+      imports: [I18nTestingModule, OrderAttachmentsComponent],
       providers: [
         {
           provide: LaunchDialogService,

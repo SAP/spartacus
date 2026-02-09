@@ -4,6 +4,7 @@ import {
   FeatureConfigService,
   I18nTestingModule,
   MockTranslatePipe,
+  TranslatePipe,
 } from '@spartacus/core';
 import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
 import { FormErrorsComponent } from './form-errors.component';
@@ -26,7 +27,6 @@ describe('FormErrors', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
       providers: [
         FeatureConfigService,
         {
@@ -34,8 +34,12 @@ describe('FormErrors', () => {
           useClass: MockFeatureConfigService,
         },
       ],
-      declarations: [FormErrorsComponent, MockFeatureDirective],
-    }).compileComponents();
+    })
+      .overrideComponent(FormErrorsComponent, {
+        remove: { imports: [MockFeatureDirective, TranslatePipe] },
+        add: { imports: [MockFeatureDirective, I18nTestingModule] },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

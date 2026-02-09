@@ -11,7 +11,7 @@ import * as github from '@actions/github';
 
 async function run() {
   core.startGroup('npm');
-  let exitCode = await exec.exec('npm', ['i'], {
+  let exitCode = await exec.exec('npm', ['ci'], {
     ignoreReturnCode: true,
   });
   core.endGroup();

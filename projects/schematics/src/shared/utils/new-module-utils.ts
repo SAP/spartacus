@@ -71,6 +71,7 @@ export function ensureModuleExists(options: {
       commonModule: false,
       path: modulePath,
       module: options.module,
+      typeSeparator: '.',
     });
   };
 }

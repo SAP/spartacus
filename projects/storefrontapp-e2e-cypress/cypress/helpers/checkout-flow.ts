@@ -6,6 +6,7 @@
 
 import { products } from '../sample-data/apparel-checkout-flow';
 import {
+  buildCheckoutDetailsAfterPaymentMock,
   cart,
   cartWithCheapProduct,
   cheapProduct,
@@ -24,6 +25,7 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
+import { cmsEndpoints } from './cms-endpoints';
 import { DeepPartial } from './form';
 import { waitForPage } from './navigation';
 import { productItemSelector } from './product-search';
@@ -35,14 +37,18 @@ export const GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS = 'GET_CHECKOUT_DETAILS';
 export const firstAddToCartSelector = `${productItemSelector} cx-add-to-cart:first`;
 
 export function interceptCheckoutB2CDetailsEndpoint(newAlias?: string) {
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`
-  ).as(newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
+  const alias = newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
+  const url = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+    'BASE_SITE'
+  )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`;
 
-  return newAlias ?? GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
+  if (alias === 'GET_CHECKOUT_DETAILS_AFTER_PAYMENT_STEP_MOCK') {
+    cy.intercept('GET', url, buildCheckoutDetailsAfterPaymentMock()).as(alias);
+  } else {
+    cy.intercept('GET', url).as(alias);
+  }
+
+  return alias;
 }
 
 /**
@@ -54,12 +60,16 @@ export function clickHamburger() {
   });
 }
 
-export function waitForProductPage(productCode: string, alias: string): string {
+export function waitForProductPage(
+  productCode: string,
+  alias: string,
+  user: 'anonymous' | 'current' = 'anonymous'
+): string {
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages`,
+    )}/${cmsEndpoints.pages}`,
     query: {
       pageType: 'ProductPage',
       code: productCode,
@@ -469,6 +479,47 @@ export function proceedWithIncorrectPaymentForm(
   cy.get('cx-form-errors').should('exist');
 }
 
+export function fillPaymentFormWithCheapProductWithMock(
+  paymentDetailsData: DeepPartial<PaymentDetails> = user,
+  billingAddress?: AddressData,
+  isExpressCheckout?: boolean
+) {
+  cy.log('🛒 Filling payment method form');
+  cy.get('.cx-checkout-title').should('contain', 'Payment');
+  cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
+    .find('.cx-summary-amount')
+    .should('not.be.empty');
+
+  const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
+
+  cy.intercept({
+    method: 'POST',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/payment/sop/response*`,
+  }).as('submitPayment');
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint(
+    'GET_CHECKOUT_DETAILS_AFTER_PAYMENT_STEP_MOCK'
+  );
+
+  fillPaymentDetails(paymentDetailsData, billingAddress);
+  cy.wait('@submitPayment');
+  cy.wait(`@${reviewPage}`);
+
+  if (isExpressCheckout) return;
+
+  cy.wait(`@${getCheckoutDetailsAlias}`).then((xhr) => {
+    const response = xhr.response;
+    cy.log(`Checkout details after payment step`);
+
+    expect(response.statusCode).to.equal(200);
+
+    expect(response.body).to.have.property('deliveryAddress');
+    expect(response.body).to.have.property('deliveryMode');
+    expect(response.body).to.have.property('paymentInfo');
+  });
+}
+
 export function fillPaymentFormWithCheapProduct(
   paymentDetailsData: DeepPartial<PaymentDetails> = user,
   billingAddress?: AddressData,
@@ -500,13 +551,7 @@ export function fillPaymentFormWithCheapProduct(
 
   cy.wait(`@${getCheckoutDetailsAlias}`).then((xhr) => {
     const response = xhr.response;
-    cy.log(
-      `Checkout details after payment step: ${JSON.stringify(
-        response.body,
-        null,
-        2
-      )}`
-    );
+    cy.log(`Checkout details after payment step`);
 
     expect(response.statusCode).to.equal(200);
 

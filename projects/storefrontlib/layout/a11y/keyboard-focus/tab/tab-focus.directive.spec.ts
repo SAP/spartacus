@@ -1,14 +1,11 @@
 import { Component, Directive, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TabFocusConfig } from '../keyboard-focus.model';
 import { TabFocusDirective } from './tab-focus.directive';
 import { TabFocusService } from './tab-focus.service';
 
-@Directive({
-  selector: '[cxTabFocus]',
-  standalone: false,
-})
+@Directive({ selector: '[cxTabFocus]' })
 class CustomFocusDirective extends TabFocusDirective {
   @Input('cxTabFocus') protected config: TabFocusConfig;
 }
@@ -20,7 +17,7 @@ class CustomFocusDirective extends TabFocusDirective {
     <div [cxTabFocus]="{ tab: true }" id="b"></div>
     <div [cxTabFocus]="{ tab: false }" id="c"></div>
   `,
-  standalone: false,
+  imports: [CustomFocusDirective],
 })
 class MockComponent {}
 
@@ -35,7 +32,7 @@ describe('TabFocusDirective', () => {
   let service: TabFocusService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent, CustomFocusDirective],
+      imports: [MockComponent, CustomFocusDirective],
       providers: [
         {
           provide: TabFocusService,
