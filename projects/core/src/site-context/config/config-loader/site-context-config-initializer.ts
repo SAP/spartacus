@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable } from '@angular/core';
-import { lastValueFrom, Observable } from 'rxjs';
+import { isPlatformServer } from '@angular/common';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { catchError, lastValueFrom, Observable, of, timeout } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
 import { BaseSite } from '../../../model/misc.model';
@@ -20,10 +21,19 @@ import {
 } from '../../providers/context-ids';
 import { SiteContextConfig } from '../site-context-config';
 
+/**
+ * Timeout for fetching base sites during server-side rendering.
+ * This prevents blocking the build process during route extraction
+ * when the OCC backend is not accessible.
+ */
+const SSR_BASE_SITES_TIMEOUT_MS = 10000;
+
 @Injectable({ providedIn: 'root' })
 export class SiteContextConfigInitializer implements ConfigInitializer {
   readonly scopes = ['context'];
   readonly configFactory = () => lastValueFrom(this.resolveConfig());
+
+  protected platformId = inject(PLATFORM_ID);
 
   constructor(
     protected baseSiteService: BaseSiteService,
@@ -41,19 +51,51 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
    * Completes after emitting the value.
    */
   protected resolveConfig(): Observable<SiteContextConfig> {
-    return this.baseSiteService.getAll().pipe(
+    const baseSites$ = this.baseSiteService.getAll();
+
+    // On the server (SSR/prerendering), add timeout and error handling
+    // to prevent blocking the build process when the backend is not accessible.
+    // This is especially important during Angular CLI route extraction
+    // where no actual rendering happens.
+    const safePipe$ = isPlatformServer(this.platformId)
+      ? baseSites$.pipe(
+          timeout(SSR_BASE_SITES_TIMEOUT_MS),
+          catchError((error) => {
+            /* eslint-disable-next-line no-console */
+            console.warn(
+              `[Spartacus] Failed to fetch base sites during SSR/build: ${error?.message || error}. ` +
+                `Returning empty config. This may occur during build-time route extraction.`
+            );
+            return of([] as BaseSite[]);
+          })
+        )
+      : baseSites$;
+
+    return safePipe$.pipe(
       map((baseSites) =>
         baseSites?.find((site) => this.isCurrentBaseSite(site))
       ),
       filter((baseSite: any) => {
         if (!baseSite) {
+          // On the server during build, log a warning instead of throwing
+          // to allow the build process to continue
+          if (isPlatformServer(this.platformId)) {
+            /* eslint-disable-next-line no-console */
+            console.warn(
+              `[Spartacus] Cannot get base site config during SSR/build! ` +
+                `Current url (${this.currentUrl}) doesn't match any base site patterns. ` +
+                `This is expected during build-time route extraction. ` +
+                `Returning empty config.`
+            );
+            return true; // Allow empty baseSite to pass through for graceful fallback
+          }
           throw new Error(
             `Error: Cannot get base site config! Current url (${this.currentUrl}) doesn't match any of url patterns of any base sites.`
           );
         }
         return Boolean(baseSite);
       }),
-      map((baseSite) => this.getConfig(baseSite)),
+      map((baseSite) => (baseSite ? this.getConfig(baseSite) : {})),
       take(1)
     );
   }
