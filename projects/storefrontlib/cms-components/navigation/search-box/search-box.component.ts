@@ -29,12 +29,14 @@ import {
   UrlPipe,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, of, Subscription } from 'rxjs';
+import { combineLatest, Observable, of, Subject, Subscription } from 'rxjs';
 import {
   catchError,
+  debounceTime, distinctUntilChanged,
   filter,
   first,
   map,
+  skip,
   switchMap,
   tap,
   timeout,
