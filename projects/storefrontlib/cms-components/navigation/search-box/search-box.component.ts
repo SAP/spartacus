@@ -32,7 +32,8 @@ import {
 import { combineLatest, Observable, of, Subject, Subscription } from 'rxjs';
 import {
   catchError,
-  debounceTime, distinctUntilChanged,
+  debounceTime,
+  distinctUntilChanged,
   filter,
   first,
   map,
@@ -128,7 +129,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   onEscape() {
     if (
       this.winRef.document.activeElement !==
-      this.searchInputEl?.nativeElement ||
+        this.searchInputEl?.nativeElement ||
       this.searchBoxActive
     ) {
       setTimeout(() => {
@@ -349,7 +350,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     return (
       this.getResultElements().includes(this.getFocusedElement()) ||
       this.winRef.document.querySelector('input[aria-label="Search"]') ===
-      this.getFocusedElement()
+        this.getFocusedElement()
     );
   }
 
