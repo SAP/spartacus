@@ -63,6 +63,12 @@
       .subscription-status {
         font-size: 14px;
         font-weight: 500;
+        .Active {
+          color: var(--cx-color-success);
+        }
+        .Cancelled {
+          color: var(--cx-color-danger);
+        }
       }
     }
     .subscription-body {

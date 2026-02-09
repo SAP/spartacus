@@ -6,3 +6,4 @@
 
 export * from './subscription.facade';
 export * from './subscription-actions.facade';
+export * from './subscription-billing.facade';
