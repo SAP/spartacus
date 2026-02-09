@@ -26,7 +26,7 @@ import { RecentSearchesComponent } from './recent-searches.component';
     UrlModule,
     RouterModule,
     RecentSearchesComponent,
-    IconModule
+    IconModule,
   ],
   providers: [
     provideOutlet({
