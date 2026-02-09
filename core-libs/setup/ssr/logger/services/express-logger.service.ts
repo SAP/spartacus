@@ -4,11 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, REQUEST_CONTEXT, inject } from '@angular/core';
+import { Injectable, REQUEST, REQUEST_CONTEXT, inject } from '@angular/core';
 import { LoggerService } from '@spartacus/core';
+import { Request } from 'express';
+import { IncomingMessage } from 'http';
 import { formatWithOptions } from 'util';
 import { RequestContextWithCx } from '../../engine/request-context.model';
-import { REQUEST } from '../../tokens/express.tokens';
+import { REQUEST as LEGACY_REQUEST } from '../../tokens/express.tokens';
 import { getLoggerInspectOptions } from '../get-logger-inspect-options';
 import { EXPRESS_SERVER_LOGGER, ExpressServerLogger } from '../loggers';
 
@@ -23,12 +25,26 @@ import { EXPRESS_SERVER_LOGGER, ExpressServerLogger } from '../loggers';
  * context to the concrete server logger.
  *
  * In the modern SSR system (CxAngularNodeAppEngine), the logger is provided via
- * REQUEST_CONTEXT.cx.logger. In the legacy system (OptimizedSsrEngine), the logger
- * is provided via the EXPRESS_SERVER_LOGGER injection token.
+ * REQUEST_CONTEXT.cx.logger and the request is provided via Angular's REQUEST token.
+ * In the legacy system (OptimizedSsrEngine), the logger is provided via the
+ * EXPRESS_SERVER_LOGGER injection token and the request via Spartacus's REQUEST token.
  */
 @Injectable({ providedIn: 'root' })
 export class ExpressLoggerService implements LoggerService {
-  request = inject(REQUEST);
+  /**
+   * Request object resolved at injection time.
+   *
+   * Resolution order:
+   * 1. Legacy path: Spartacus's REQUEST token (Express Request from OptimizedSsrEngine)
+   * 2. Modern path: Angular's REQUEST token (IncomingMessage from AngularNodeAppEngine)
+   *
+   * Note: Angular's REQUEST provides IncomingMessage, not Express Request.
+   * Both are compatible for logging purposes (url, method, headers).
+   */
+  request: Request | IncomingMessage =
+    inject(LEGACY_REQUEST, { optional: true }) ??
+    (inject(REQUEST, { optional: true }) as IncomingMessage | null) ??
+    ({} as Request);
 
   /**
    * Server logger resolved at injection time.
@@ -45,27 +61,27 @@ export class ExpressLoggerService implements LoggerService {
 
   log(...args: Parameters<typeof console.log>): void {
     this.serverLogger.log(this.formatLogMessage(...args), {
-      request: this.request,
+      request: this.request as Request,
     });
   }
   warn(...args: Parameters<typeof console.warn>): void {
     this.serverLogger.warn(this.formatLogMessage(...args), {
-      request: this.request,
+      request: this.request as Request,
     });
   }
   error(...args: Parameters<typeof console.error>): void {
     this.serverLogger.error(this.formatLogMessage(...args), {
-      request: this.request,
+      request: this.request as Request,
     });
   }
   info(...args: Parameters<typeof console.info>): void {
     this.serverLogger.info(this.formatLogMessage(...args), {
-      request: this.request,
+      request: this.request as Request,
     });
   }
   debug(...args: Parameters<typeof console.debug>): void {
     this.serverLogger.debug(this.formatLogMessage(...args), {
-      request: this.request,
+      request: this.request as Request,
     });
   }
 

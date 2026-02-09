@@ -141,9 +141,7 @@ async function run() {
   const server = await app();
   server.listen(port, () => {
     /* eslint-disable-next-line no-console */
-    console.log(
-      `Node Express server (MODERN) listening on http://localhost:${port}`
-    );
+    console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
 

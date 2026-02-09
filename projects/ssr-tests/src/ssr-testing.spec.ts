@@ -9,7 +9,7 @@ jest.setTimeout(SsrUtils.DEFAULT_SSR_TIMEOUT); // set timeout to at least 1x DEF
 
 describe('SSR E2E', () => {
   let backendProxy: Server;
-  const REQUEST_PATH = '/contact'; // path to the page that is less "busy" than the homepage
+  const REQUEST_PATH = '/electronics-spa/en/USD/contact'; // path to the page that is less "busy" than the homepage
 
   afterEach(async () => {
     backendProxy?.close();
@@ -117,6 +117,7 @@ describe('SSR E2E', () => {
               backend: { timeout: { server: BACKEND_TIMEOUT_TIME_LIMIT } },
             },
           });
+          console.log(`response`, response);
 
           expect(response.statusCode).toEqual(500);
 
