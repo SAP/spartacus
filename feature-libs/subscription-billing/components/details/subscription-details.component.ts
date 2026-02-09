@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -31,6 +31,7 @@ import { Observable, of, take } from 'rxjs';
   templateUrl: './subscription-details.component.html',
   imports: [
     NgIf,
+    NgClass,
     RouterLink,
     AsyncPipe,
     TranslatePipe,
