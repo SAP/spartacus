@@ -84,6 +84,41 @@
       "version": "221121.7.0",
       "factory": "./221121_7/ssr/express-v5/index#migrate",
       "description": "Upgrade Express to v5.1.0 and update server.ts for Express 5 compatibility"
+    },
+    "03-migration-v221121_7-tsconfig-update": {
+      "version": "221121.7.0",
+      "factory": "./221121_7/tsconfig-update/index#migrate",
+      "description": "Update tsconfig.json to reflect fresh Angular 21 application"
+    },
+    "04-migration-v221121_7-move-zone-change-detection-to-main": {
+      "version": "221121.7.0",
+      "factory": "./221121_7/move-zone-change-detection-to-main/index#migrate",
+      "description": "Move provideZoneChangeDetection from main.ts to app.module.ts"
+    },
+    "05-migration-v221121_7-build-ssr-script": {
+      "version": "221121.7.0",
+      "factory": "./221121_7/ssr/build-ssr-script/index#migrate",
+      "description": "Add build:ssr script to package.json for CCv2 compatibility"
+    },
+    "06-migration-v221121_7-constructor-deprecations": {
+      "version": "221121.7.0",
+      "factory": "./221121_7/constructor-deprecations/constructor-deprecations#migrate",
+      "description": "Add or remove constructor parameters"
+    },
+    "07-migration-v221121_7-methods-and-properties-deprecations": {
+      "version": "221121.7.0",
+      "factory": "./221121_7/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
+      "description": "Comment about usage of removed public methods or properties"
+    },
+    "08-migration-v221121_7-removed-public-api-deprecations": {
+      "version": "221121.7.0",
+      "factory": "./221121_7/removed-public-api-deprecations/removed-public-api-deprecations#migrate",
+      "description": "Comment about usage of removed public api"
+    },
+    "09-migration-v221121_7-rename-symbol": {
+      "version": "221121.7.0",
+      "factory": "./221121_7/rename-symbol/rename-symbol#migrate",
+      "description": "Rename import symbols that were moved/changed in majors"
     }
   }
 }
