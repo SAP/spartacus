@@ -42,8 +42,7 @@ describe('TableComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [OutletModule],
-      declarations: [TableComponent],
+      imports: [OutletModule, TableComponent],
       providers: [
         { provide: TableRendererService, useClass: MockTableRendererService },
       ],

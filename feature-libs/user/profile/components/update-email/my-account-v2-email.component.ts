@@ -4,17 +4,27 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
   inject,
 } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
-import { GlobalMessageType, User } from '@spartacus/core';
-import { Observable } from 'rxjs';
-
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+} from '@angular/forms';
+import { GlobalMessageType, TranslatePipe, User } from '@spartacus/core';
+import {
+  FormErrorsComponent,
+  MessageComponent,
+  PasswordVisibilityToggleDirective,
+  SpinnerComponent,
+} from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { UpdateEmailComponentService } from './update-email-component.service';
 
@@ -22,8 +32,18 @@ import { UpdateEmailComponentService } from './update-email-component.service';
   selector: 'cx-my-account-v2-email',
   templateUrl: './my-account-v2-email.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
   host: { ngSkipHydration: 'true' },
+  imports: [
+    NgIf,
+    SpinnerComponent,
+    MessageComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FormErrorsComponent,
+    PasswordVisibilityToggleDirective,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class MyAccountV2EmailComponent implements OnInit {
   protected emailComponentService = inject(UpdateEmailComponentService);

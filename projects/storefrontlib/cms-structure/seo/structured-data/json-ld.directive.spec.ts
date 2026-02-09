@@ -5,7 +5,7 @@ import { JsonLdDirective } from './json-ld.directive';
 @Component({
   selector: 'cx-test-cmp',
   template: '',
-  standalone: false,
+  imports: [JsonLdDirective],
 })
 class TestComponent {}
 
@@ -26,8 +26,7 @@ describe('JsonLdDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestComponent, JsonLdDirective],
-      imports: [],
+      imports: [TestComponent, JsonLdDirective],
     });
   });
 

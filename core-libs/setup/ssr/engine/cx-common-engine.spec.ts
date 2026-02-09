@@ -11,6 +11,7 @@ import { CxCommonEngine } from './cx-common-engine';
 @Component({
   selector: 'cx-mock',
   template: 'some template',
+  // eslint-disable-next-line @angular-eslint/prefer-standalone -- This component must be non-standalone to support NgModule.bootstrap[] in the test setup
   standalone: false,
 })
 export class SuccessComponent {}
@@ -26,6 +27,7 @@ export class SuccessServerModule {}
 @Component({
   selector: 'cx-response',
   template: ``,
+  // eslint-disable-next-line @angular-eslint/prefer-standalone -- This component must be non-standalone to support NgModule.bootstrap[] in the test setup
   standalone: false,
 })
 export class WithPropagatedErrorComponent {
@@ -48,6 +50,7 @@ export const SOME_TOKEN = new InjectionToken<string>('SOME_TOKEN');
 @Component({
   selector: 'cx-token',
   template: `message:{{ someToken }}`,
+  // eslint-disable-next-line @angular-eslint/prefer-standalone -- This component must be non-standalone to support NgModule.bootstrap[] in the test setup
   standalone: false,
 })
 export class TokenComponent {

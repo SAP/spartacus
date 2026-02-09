@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import {
   AfterViewChecked,
   ChangeDetectionStrategy,
@@ -17,6 +18,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  ArgsPipe,
   byBoolean,
   byComparison,
   byNullish,
@@ -29,21 +31,35 @@ import {
   SortOrder,
   whenType,
 } from '@spartacus/asm/core';
-import { DirectionMode, DirectionService } from '@spartacus/storefront';
+import { KeyBoardEventCode } from '@spartacus/asm/customer-360/root';
+import { CxDatePipe, TranslatePipe } from '@spartacus/core';
+import {
+  DirectionMode,
+  DirectionService,
+  StarRatingComponent,
+} from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
+import { AsmCustomer360Config } from '../config/asm-customer-360-config';
 import {
   CustomerTableColumn,
   CustomerTableTextAlign,
   TableEntry,
 } from './asm-customer-360-table.model';
-import { AsmCustomer360Config } from '../config/asm-customer-360-config';
-import { KeyBoardEventCode } from '@spartacus/asm/customer-360/root';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-360-table',
   templateUrl: './asm-customer-360-table.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    NgClass,
+    StarRatingComponent,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+    ArgsPipe,
+  ],
 })
 export class AsmCustomer360TableComponent
   implements OnChanges, AfterViewChecked

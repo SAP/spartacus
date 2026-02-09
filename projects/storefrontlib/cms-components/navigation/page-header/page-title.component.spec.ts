@@ -22,8 +22,7 @@ describe('PageTitleComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [PageTitleComponent],
+      imports: [I18nTestingModule, PageTitleComponent],
       providers: [
         { provide: PageMetaService, useClass: MockPageMetaService },
         {

@@ -18,8 +18,8 @@ import { MODULE_INITIALIZER } from '@spartacus/core';
 import { OutletDirective } from './outlet.directive';
 import { OutletPosition } from './outlet.model';
 import {
-  ProvideOutletOptions,
   PROVIDE_OUTLET_OPTIONS,
+  ProvideOutletOptions,
 } from './outlet.providers';
 import { OutletService } from './outlet.service';
 
@@ -47,8 +47,7 @@ export function registerOutletsFactory(
 }
 
 @NgModule({
-  imports: [CommonModule],
-  declarations: [OutletDirective],
+  imports: [CommonModule, OutletDirective],
   exports: [OutletDirective],
 })
 export class OutletModule {

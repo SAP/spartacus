@@ -20,7 +20,13 @@ const MockMessageData: Partial<MessageData> = {
 
 @Component({
   template: '',
-  standalone: false,
+  imports: [
+    CommonModule,
+    PaginationTestingModule,
+    KeyboardFocusTestingModule,
+    I18nTestingModule,
+    IconTestingModule,
+  ],
 })
 class MessageComponent extends BaseMessageComponent {}
 
@@ -37,9 +43,8 @@ describe('BaseMessageComponent', () => {
         KeyboardFocusTestingModule,
         I18nTestingModule,
         IconTestingModule,
+        MessageComponent,
       ],
-      declarations: [MessageComponent],
-
       providers: [
         {
           provide: MessageData,

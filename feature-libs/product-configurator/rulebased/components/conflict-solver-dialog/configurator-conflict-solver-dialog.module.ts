@@ -25,11 +25,11 @@ import { defaultConfiguratorConflictSolverLayoutConfig } from './default-configu
     ConfiguratorGroupModule,
     KeyboardFocusModule,
     FeaturesConfigModule,
+    ConfiguratorConflictSolverDialogComponent,
   ],
   providers: [
     provideDefaultConfig(defaultConfiguratorConflictSolverLayoutConfig),
   ],
-  declarations: [ConfiguratorConflictSolverDialogComponent],
   exports: [ConfiguratorConflictSolverDialogComponent],
 })
 export class ConfiguratorConflictSolverDialogModule {

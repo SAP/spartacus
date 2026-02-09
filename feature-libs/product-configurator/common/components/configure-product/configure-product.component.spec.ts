@@ -61,10 +61,7 @@ class MockProductListItemContext implements Partial<ProductListItemContext> {
   product$ = of(mockProduct);
 }
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
@@ -90,8 +87,9 @@ function setupWithCurrentProductService(
     productListItemContextReturnsNull
   ) {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterModule],
-      declarations: [
+      imports: [
+        I18nTestingModule,
+        RouterModule,
         ConfigureProductComponent,
         MockUrlPipe,
         MockFeatureDirective,
@@ -113,8 +111,9 @@ function setupWithCurrentProductService(
     }).compileComponents();
   } else if (useCurrentProductServiceOnly) {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, StoreModule.forRoot({})],
-      declarations: [
+      imports: [
+        I18nTestingModule,
+        StoreModule.forRoot({}),
         ConfigureProductComponent,
         MockUrlPipe,
         MockFeatureDirective,
@@ -132,8 +131,9 @@ function setupWithCurrentProductService(
     }).compileComponents();
   } else {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, StoreModule.forRoot({})],
-      declarations: [
+      imports: [
+        I18nTestingModule,
+        StoreModule.forRoot({}),
         ConfigureProductComponent,
         MockUrlPipe,
         MockFeatureDirective,

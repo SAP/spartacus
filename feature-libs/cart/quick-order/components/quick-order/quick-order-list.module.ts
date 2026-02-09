@@ -44,6 +44,10 @@ import { QuickOrderTableComponent } from './table/quick-order-table.component';
     RouterModule,
     UrlModule,
     FeaturesConfigModule,
+    QuickOrderComponent,
+    QuickOrderFormComponent,
+    QuickOrderItemComponent,
+    QuickOrderTableComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -56,12 +60,6 @@ import { QuickOrderTableComponent } from './table/quick-order-table.component';
         },
       },
     }),
-  ],
-  declarations: [
-    QuickOrderComponent,
-    QuickOrderFormComponent,
-    QuickOrderItemComponent,
-    QuickOrderTableComponent,
   ],
   exports: [
     QuickOrderComponent,

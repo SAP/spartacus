@@ -20,8 +20,7 @@ describe('OrderConfirmationTotalsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OrderConfirmationTotalsComponent],
+      imports: [I18nTestingModule, OrderConfirmationTotalsComponent],
       providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
     }).compileComponents();
   }));

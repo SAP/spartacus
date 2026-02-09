@@ -11,7 +11,7 @@ import { IconModule } from '../../misc/icon/icon.module';
 import { PDFComponent } from './pdf.component';
 
 @NgModule({
-  imports: [CommonModule, IconModule, I18nModule],
+  imports: [CommonModule, IconModule, I18nModule, PDFComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -21,7 +21,6 @@ import { PDFComponent } from './pdf.component';
       },
     }),
   ],
-  declarations: [PDFComponent],
   exports: [PDFComponent],
 })
 export class PDFModule {}

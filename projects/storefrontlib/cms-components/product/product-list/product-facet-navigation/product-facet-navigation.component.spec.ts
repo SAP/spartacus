@@ -5,18 +5,21 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
+import { IconComponent } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
+import { ActiveFacetsComponent } from './active-facets';
+import { FacetListComponent } from './facet-list';
 import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
 
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -24,7 +27,7 @@ class MockCxIconComponent {
 @Component({
   selector: 'cx-active-facets',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockActiveFacetsComponent {
   @Input() facetList;
@@ -32,7 +35,7 @@ class MockActiveFacetsComponent {
 @Component({
   selector: 'cx-facet-list',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockFacetListComponent {
   @Input() isDialog;
@@ -53,19 +56,26 @@ describe('ProductFacetNavigationComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [
-        ProductFacetNavigationComponent,
-        MockActiveFacetsComponent,
-        MockFacetListComponent,
-        MockCxIconComponent,
-      ],
       providers: [
         {
           provide: BreakpointService,
           useClass: MockBreakpointService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductFacetNavigationComponent, {
+        add: {
+          imports: [
+            MockActiveFacetsComponent,
+            MockFacetListComponent,
+            MockCxIconComponent,
+          ],
+        },
+        remove: {
+          imports: [ActiveFacetsComponent, FacetListComponent, IconComponent],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

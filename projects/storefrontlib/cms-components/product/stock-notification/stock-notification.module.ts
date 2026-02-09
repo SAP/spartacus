@@ -21,7 +21,6 @@ import { StockNotificationDialogComponent } from './stock-notification-dialog/st
 import { StockNotificationComponent } from './stock-notification.component';
 
 @NgModule({
-  declarations: [StockNotificationComponent, StockNotificationDialogComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -30,6 +29,8 @@ import { StockNotificationComponent } from './stock-notification.component';
     UrlModule,
     KeyboardFocusModule,
     FeaturesConfigModule,
+    StockNotificationComponent,
+    StockNotificationDialogComponent,
   ],
   providers: [
     provideDefaultConfig(defaultStockNotificationLayoutConfig),

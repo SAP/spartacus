@@ -4,6 +4,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
+  FileNameStyleGuide,
   Style,
 } from '@schematics/angular/application/schema';
 import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
@@ -313,6 +314,8 @@ describe('File utils', () => {
     skipTests: false,
     projectRoot: '',
     standalone: false,
+    zoneless: false,
+    fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
   const defaultOptions = {
     project: 'schematics-test',
@@ -1032,7 +1035,7 @@ describe('File utils', () => {
       it('should return the InsertChanges', async () => {
         const filePath = '/src/app/app.component.ts';
         const source = getTsSourceFile(appTree, filePath);
-        const identifierName = 'AppComponent';
+        const identifierName = 'App';
         const commentToInsert = 'comment';
 
         const changes = insertCommentAboveIdentifier(
@@ -1042,7 +1045,7 @@ describe('File utils', () => {
           commentToInsert
         );
         expect(changes).toEqual([
-          new InsertChange(filePath, 179, commentToInsert),
+          new InsertChange(filePath, 187, commentToInsert),
         ]);
       });
     });
@@ -1051,7 +1054,7 @@ describe('File utils', () => {
       it('should return the ReplaceChange', async () => {
         const filePath = '/src/app/app.component.ts';
         const source = getTsSourceFile(appTree, filePath);
-        const oldName = 'AppComponent';
+        const oldName = 'App';
         const newName = 'NewAppComponent';
 
         const changes = renameIdentifierNode(
@@ -1061,7 +1064,7 @@ describe('File utils', () => {
           newName
         );
         expect(changes).toEqual([
-          new ReplaceChange(filePath, 192, oldName, newName),
+          new ReplaceChange(filePath, 200, oldName, newName),
         ]);
       });
     });

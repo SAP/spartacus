@@ -7,8 +7,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FeaturesConfigModule, I18nModule } from '@spartacus/core';
-import { TabModule } from '../../../../content/tab/tab.module';
 import { KeyboardFocusModule } from '../../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
+import { TabModule } from '../../../../content/tab/tab.module';
 import { IconModule } from '../../../../misc/icon/icon.module';
 import { FacetModule } from '../facet/facet.module';
 import { FacetListComponent } from './facet-list.component';
@@ -22,8 +22,8 @@ import { FacetListComponent } from './facet-list.component';
     KeyboardFocusModule,
     FeaturesConfigModule,
     TabModule,
+    FacetListComponent,
   ],
-  declarations: [FacetListComponent],
   exports: [FacetListComponent],
 })
 export class FacetListModule {}

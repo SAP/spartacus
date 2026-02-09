@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Storefront config utils ts-morph config utils getSpartacusProviders should return all providers from spartacus in file 1`] = `"...defaultCmsContentProviders"`;
 

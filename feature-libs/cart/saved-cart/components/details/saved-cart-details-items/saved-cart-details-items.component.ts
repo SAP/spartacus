@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart';
 import {
   Cart,
   CartOutlets,
@@ -25,6 +27,7 @@ import {
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
+import { OutletDirective, SpinnerComponent } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
@@ -33,7 +36,13 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
   selector: 'cx-saved-cart-details-items',
   templateUrl: './saved-cart-details-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    OutletDirective,
+    AddToCartComponent,
+    SpinnerComponent,
+    AsyncPipe,
+  ],
 })
 export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();

@@ -4,6 +4,7 @@ import {
 } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
+  FileNameStyleGuide,
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
@@ -42,6 +43,8 @@ const appOptions: ApplicationOptions = {
   style: Style.Scss,
   skipTests: false,
   standalone: false,
+  zoneless: false,
+  fileNameStyleGuide: FileNameStyleGuide.The2016,
 };
 
 const defaultOptions: SpartacusOptions = {

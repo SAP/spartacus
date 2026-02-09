@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { OrderEntry } from '@spartacus/cart/base/root';
@@ -14,7 +14,7 @@ import { EMPTY } from 'rxjs';
 
 @Component({
   selector: 'cx-subscription-cart-price-body',
-  imports: [CommonModule],
+  imports: [CommonModule, NgIf, NgFor, NgTemplateOutlet],
   standalone: true,
   templateUrl: './subscription-cart-price-body.component.html',
 })

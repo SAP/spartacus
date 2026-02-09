@@ -36,8 +36,8 @@ import { InvoicesListComponent } from './invoices-list/invoices-list.component';
     MediaModule,
     SpinnerModule,
     FeaturesConfigModule,
+    InvoicesListComponent,
   ],
-  declarations: [InvoicesListComponent],
   exports: [InvoicesListComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{

@@ -15,33 +15,37 @@ import {
   UntypedFormControl,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { CartItemContext, PromotionLocation } from '@spartacus/cart/base/root';
-import { I18nTestingModule } from '@spartacus/core';
-import { OutletModule } from '@spartacus/storefront';
-import { OutletDirective } from 'projects/storefrontlib/cms-structure/outlet/outlet.directive';
+import {
+  CxDatePipe,
+  FeatureLevelDirective,
+  MockDatePipe,
+  MockTranslatePipe,
+  TranslatePipe,
+  UrlPipe,
+} from '@spartacus/core';
+import {
+  AtMessageDirective,
+  ItemCounterComponent,
+  MediaComponent,
+  OutletModule,
+  PromotionsComponent,
+} from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
+import { CartItemValidationWarningComponent } from '../../validation/cart-item-warning/cart-item-validation-warning.component';
 import { CartItemComponent } from './cart-item.component';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
-}
-@Directive({
-  selector: '[cxOutlet]',
-  standalone: false,
-})
-class MockOutletDirective implements Partial<OutletDirective> {
-  @Input() cxOutlet: string;
 }
 
 @Component({
   template: '',
   selector: 'cx-media',
-  standalone: false,
+  imports: [],
 })
 class MockMediaComponent {
   @Input() container;
@@ -51,7 +55,7 @@ class MockMediaComponent {
 @Component({
   template: '',
   selector: 'cx-item-counter',
-  standalone: false,
+  imports: [],
 })
 class MockItemCounterComponent {
   @Input() control;
@@ -63,7 +67,7 @@ class MockItemCounterComponent {
 @Component({
   template: '',
   selector: 'cx-promotions',
-  standalone: false,
+  imports: [],
 })
 class MockPromotionsComponent {
   @Input() promotions;
@@ -94,16 +98,13 @@ const mockProduct = {
 @Component({
   selector: 'cx-cart-item-validation-warning',
   template: '',
-  standalone: false,
+  imports: [],
 })
 class MockCartItemValidationWarningComponent {
   @Input() code: string;
 }
 
-@Directive({
-  selector: '[cxAtMessage]',
-  standalone: false,
-})
+@Directive({ selector: '[cxAtMessage]' })
 class MockAtMessageDirective {
   @Input() cxAtMessage: string | string[] | undefined;
 }
@@ -121,24 +122,47 @@ describe('CartItemComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, OutletModule],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
+        OutletModule,
         CartItemComponent,
-        MockMediaComponent,
-        MockItemCounterComponent,
-        MockPromotionsComponent,
-        MockUrlPipe,
-        MockFeatureLevelDirective,
-        MockOutletDirective,
-        MockCartItemValidationWarningComponent,
-        MockAtMessageDirective,
+        RouterModule.forRoot([]),
       ],
       providers: [
         {
           provide: ControlContainer,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CartItemComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            MediaComponent,
+            ItemCounterComponent,
+            PromotionsComponent,
+            FeatureLevelDirective,
+            CartItemValidationWarningComponent,
+            AtMessageDirective,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockMediaComponent,
+            MockItemCounterComponent,
+            MockPromotionsComponent,
+            MockFeatureLevelDirective,
+            MockCartItemValidationWarningComponent,
+            MockAtMessageDirective,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -260,6 +284,7 @@ describe('CartItemComponent', () => {
   });
 
   it('should call removeItem()', () => {
+    fixture.detectChanges();
     const button: DebugElement = fixture.debugElement.query(By.css('button'));
     button.nativeElement.click();
     fixture.detectChanges();

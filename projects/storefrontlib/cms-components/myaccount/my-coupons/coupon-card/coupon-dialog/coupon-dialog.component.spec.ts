@@ -1,11 +1,17 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
-import { FocusDirective } from '@spartacus/storefront';
-import { MockFeatureDirective } from 'projects/storefrontlib/shared/test/mock-feature-directive';
+import {
+  CustomerCoupon,
+  CxDatePipe,
+  I18nTestingModule,
+  TranslatePipe,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';
+import {
+  ICON_TYPE,
+  IconComponent,
+} from '../../../../../cms-components/misc/icon/index';
 import { LaunchDialogService } from '../../../../../layout/index';
 import { CouponDialogComponent } from './coupon-dialog.component';
 
@@ -23,7 +29,7 @@ const mockCoupon: CustomerCoupon = {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -43,17 +49,17 @@ describe('CouponDialogComponent', () => {
   let launchDialogService: LaunchDialogService;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CouponDialogComponent,
-        MockCxIconComponent,
-        FocusDirective,
-        MockFeatureDirective,
-      ],
-      imports: [I18nTestingModule],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(CouponDialogComponent, {
+        remove: { imports: [IconComponent, TranslatePipe, CxDatePipe] },
+        add: {
+          imports: [MockCxIconComponent, I18nTestingModule],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

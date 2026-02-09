@@ -38,8 +38,7 @@ describe('LinkComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [GenericLinkModule],
-      declarations: [LinkComponent],
+      imports: [GenericLinkModule, LinkComponent],
       providers: [
         {
           provide: ActivatedRoute,

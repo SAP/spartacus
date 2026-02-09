@@ -82,8 +82,13 @@ describe('SavedCartDetailsItemsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({}), I18nTestingModule, OutletModule],
-      declarations: [SavedCartDetailsItemsComponent, MockFeatureDirective],
+      imports: [
+        StoreModule.forRoot({}),
+        I18nTestingModule,
+        OutletModule,
+        SavedCartDetailsItemsComponent,
+        MockFeatureDirective,
+      ],
       providers: [
         {
           provide: SavedCartFacade,

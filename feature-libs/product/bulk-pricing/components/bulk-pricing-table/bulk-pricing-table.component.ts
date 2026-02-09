@@ -4,17 +4,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { BulkPricingService } from '@spartacus/product/bulk-pricing/core';
-import { RoutingService } from '@spartacus/core';
-import { BulkPrice } from '@spartacus/product/bulk-pricing/core';
+import { RoutingService, TranslatePipe } from '@spartacus/core';
+import {
+  BulkPrice,
+  BulkPricingService,
+} from '@spartacus/product/bulk-pricing/core';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-bulk-pricing-table',
   templateUrl: './bulk-pricing-table.component.html',
-  standalone: false,
+  imports: [NgIf, NgFor, AsyncPipe, TranslatePipe],
 })
 export class BulkPricingTableComponent implements OnInit {
   protected readonly PRODUCT_KEY = 'productCode';

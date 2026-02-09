@@ -19,6 +19,7 @@ import { FooterNavigationComponent } from './footer-navigation.component';
     NavigationModule,
     GenericLinkModule,
     I18nModule,
+    FooterNavigationComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -29,7 +30,6 @@ import { FooterNavigationComponent } from './footer-navigation.component';
       },
     }),
   ],
-  declarations: [FooterNavigationComponent],
   exports: [FooterNavigationComponent],
 })
 export class FooterNavigationModule {}

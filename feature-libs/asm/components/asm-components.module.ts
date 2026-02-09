@@ -63,8 +63,6 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     PaginationModule,
     MessageComponentModule,
     FeaturesConfigModule,
-  ],
-  declarations: [
     AsmBindCartDialogComponent,
     AsmSaveCartDialogComponent,
     AsmMainUiComponent,

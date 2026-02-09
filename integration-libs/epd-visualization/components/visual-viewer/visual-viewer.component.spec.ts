@@ -216,7 +216,6 @@ class MockVisualViewerService {
 @Component({
   selector: 'cx-epd-visualization-animation-slider',
   template: '',
-  standalone: false,
 })
 export class MockVisualViewerAnimationSliderComponent {
   set value(value: number) {
@@ -266,12 +265,12 @@ describe('VisualViewerComponent', () => {
       };
 
       TestBed.configureTestingModule({
-        declarations: [VisualViewerComponent],
         imports: [
           I18nTestingModule,
           VisualViewerToolbarButtonModule,
           VisualViewerAnimationSliderModule,
           SpinnerModule,
+          VisualViewerComponent,
         ],
         providers: [
           provideConfigFactory(getTestConfig),
@@ -308,11 +307,11 @@ describe('VisualViewerComponent', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [VisualViewerComponent],
         imports: [
           I18nTestingModule,
           VisualViewerToolbarButtonModule,
           VisualViewerAnimationSliderModule,
+          VisualViewerComponent,
         ],
         providers: [
           provideConfigFactory(getTestConfig),

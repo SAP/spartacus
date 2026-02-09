@@ -4,29 +4,55 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
-  Component,
-  OnInit,
-  OnDestroy,
-  inject,
   ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  inject,
 } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription, BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  TranslatePipe,
+} from '@spartacus/core';
 import {
   CheckoutServiceDetailsFacade,
   CheckoutServiceSchedulePickerService,
 } from '@spartacus/s4-service/root';
+import {
+  DatePickerComponent,
+  FormRequiredAsterisksComponent,
+  FormRequiredLegendComponent,
+} from '@spartacus/storefront';
+import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-service-details',
   templateUrl: './checkout-service-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FormRequiredLegendComponent,
+    FormRequiredAsterisksComponent,
+    DatePickerComponent,
+    NgIf,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CheckoutServiceDetailsComponent implements OnInit, OnDestroy {
   protected activatedRoute = inject(ActivatedRoute);

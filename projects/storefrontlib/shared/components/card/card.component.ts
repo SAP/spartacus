@@ -4,8 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import {
+  NgClass,
+  NgFor,
+  NgIf,
+  NgSwitch,
+  NgSwitchCase,
+  NgTemplateOutlet,
+} from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TranslatePipe } from '@spartacus/core';
+import { IconComponent } from '../../../cms-components/misc/icon/icon.component';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
+import { FocusDirective } from '../../../layout/a11y/keyboard-focus/focus.directive';
+import { AtMessageDirective } from '../assistive-technology-message/assistive-technology-message.directive';
+import { GenericLinkComponent } from '../generic-link/generic-link.component';
+import { TruncateTextPopoverComponent } from '../truncate-text-popover/truncate-text-popover.component';
 
 export interface CardAction {
   event: string;
@@ -37,7 +51,20 @@ export interface Card {
 @Component({
   selector: 'cx-card',
   templateUrl: './card.component.html',
-  standalone: false,
+  imports: [
+    NgIf,
+    NgFor,
+    NgTemplateOutlet,
+    IconComponent,
+    FocusDirective,
+    AtMessageDirective,
+    NgSwitch,
+    NgSwitchCase,
+    GenericLinkComponent,
+    NgClass,
+    TruncateTextPopoverComponent,
+    TranslatePipe,
+  ],
 })
 export class CardComponent implements OnInit {
   iconTypes = ICON_TYPE;

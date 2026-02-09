@@ -17,7 +17,6 @@ import { OpfCheckoutTermsAndConditionsAlertModule } from '../opf-checkout-terms-
 import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component';
 
 @NgModule({
-  declarations: [OpfCheckoutPaymentsComponent],
   exports: [OpfCheckoutPaymentsComponent],
   imports: [
     CommonModule,
@@ -27,6 +26,7 @@ import { OpfCheckoutPaymentsComponent } from './opf-checkout-payments.component'
     IconModule,
     OpfCheckoutPaymentWrapperModule,
     OpfCheckoutTermsAndConditionsAlertModule,
+    OpfCheckoutPaymentsComponent,
   ],
 })
 export class OpfCheckoutPaymentsModule {}

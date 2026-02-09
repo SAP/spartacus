@@ -26,12 +26,13 @@ describe('StoreListComponent', () => {
   let intendedPickupLocationService: IntendedPickupLocationFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [StoreListComponent, MockFeatureDirective],
       imports: [
         I18nTestingModule,
         SpinnerModule,
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
+        StoreListComponent,
+        MockFeatureDirective,
       ],
       providers: [
         {
@@ -112,7 +113,6 @@ describe('StoreListComponent', () => {
 @Component({
   selector: 'cx-store-list',
   template: '',
-  standalone: false,
 })
 export class StoreListStubComponent {
   @Input() productCode: string;

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -19,29 +20,33 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
   CmsSearchBoxComponent,
-  FeatureConfigService,
   PageType,
   RoutingService,
+  TranslatePipe,
+  UrlPipe,
   WindowRef,
 } from '@spartacus/core';
-import { Observable, of, Subscription, combineLatest, Subject } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import {
+  catchError,
   filter,
+  first,
   map,
   switchMap,
   tap,
-  first,
   timeout,
-  catchError,
-  debounceTime,
-  skip,
-  distinctUntilChanged,
 } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
+import { OutletDirective } from '../../../cms-structure/outlet/outlet.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BREAKPOINT, BreakpointService } from '../../../layout/';
+import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
+import { MediaComponent } from '../../../shared/components/media/media.component';
+import { IconComponent } from '../../misc/icon/icon.component';
+import { HighlightPipe } from './highlight.pipe';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxOutlets } from './search-box-outlets.model';
 import {
@@ -68,7 +73,19 @@ const SEARCHBOX_IS_ACTIVE = 'searchbox-is-active';
   selector: 'cx-searchbox',
   templateUrl: './search-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    IconComponent,
+    NgIf,
+    NgFor,
+    RouterLink,
+    OutletDirective,
+    MediaComponent,
+    CarouselComponent,
+    AsyncPipe,
+    UrlPipe,
+    TranslatePipe,
+    HighlightPipe,
+  ],
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
   private elementRef = inject(ElementRef);
@@ -109,7 +126,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   onEscape() {
     if (
       this.winRef.document.activeElement !==
-        this.searchInputEl?.nativeElement ||
+      this.searchInputEl?.nativeElement ||
       this.searchBoxActive
     ) {
       setTimeout(() => {
@@ -136,17 +153,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   private searchInput$ = new Subject<string>();
 
   get isMobile(): Observable<boolean> | undefined {
-    return this.breakpointService?.isDown(BREAKPOINT.sm);
+    return this.breakpointService.isDown(BREAKPOINT.sm);
   }
 
-  // TODO: (CXSPA-6929) - Make dependencies no longer optional next major release
-  @Optional() changeDetecorRef = inject(ChangeDetectorRef, { optional: true });
-
-  @Optional() breakpointService = inject(BreakpointService, { optional: true });
-
-  @Optional() featureConfigService = inject(FeatureConfigService, {
-    optional: true,
-  });
+  protected breakpointService = inject(BreakpointService);
+  protected changeDetectorRef = inject(ChangeDetectorRef);
 
   constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
@@ -327,7 +338,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.softClose();
     this.searchBoxComponentService.toggleBodyClass(SEARCHBOX_IS_ACTIVE, false);
     this.searchBoxActive = false;
-    this.changeDetecorRef?.detectChanges();
+    this.changeDetectorRef.detectChanges();
     this.searchButton?.nativeElement.focus();
   }
 
@@ -336,7 +347,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     return (
       this.getResultElements().includes(this.getFocusedElement()) ||
       this.winRef.document.querySelector('input[aria-label="Search"]') ===
-        this.getFocusedElement()
+      this.getFocusedElement()
     );
   }
 
@@ -702,10 +713,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       el.focus();
       this.ignoreCloseEvent = false;
     });
-  }
-
-  isEnabledFeature(feature: string) {
-    return this.featureConfigService?.isEnabled(feature);
   }
 
   ngOnDestroy(): void {

@@ -11,14 +11,15 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
+import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-customer-ticketing-create',
   templateUrl: './customer-ticketing-create.component.html',
-  standalone: false,
+  imports: [TranslatePipe],
 })
 export class CustomerTicketingCreateComponent implements OnDestroy {
   protected subscription = new Subscription();

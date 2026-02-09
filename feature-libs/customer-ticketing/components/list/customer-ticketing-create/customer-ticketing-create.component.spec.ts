@@ -23,8 +23,7 @@ describe('CustomerTicketingCreateComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [CustomerTicketingCreateComponent],
+      imports: [I18nTestingModule, CustomerTicketingCreateComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],

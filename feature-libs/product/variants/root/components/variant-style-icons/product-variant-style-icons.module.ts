@@ -6,13 +6,18 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { UrlModule, I18nModule } from '@spartacus/core';
-import { ProductVariantStyleIconsComponent } from './product-variant-style-icons.component';
 import { RouterModule } from '@angular/router';
+import { I18nModule, UrlModule } from '@spartacus/core';
+import { ProductVariantStyleIconsComponent } from './product-variant-style-icons.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UrlModule, I18nModule],
-  declarations: [ProductVariantStyleIconsComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    ProductVariantStyleIconsComponent,
+  ],
   exports: [ProductVariantStyleIconsComponent],
 })
 export class ProductVariantStyleIconsModule {}

@@ -37,8 +37,8 @@ import { ListComponent } from './list.component';
     KeyboardFocusModule,
     PopoverModule,
     FeaturesConfigModule,
+    ListComponent,
   ],
-  declarations: [ListComponent],
   exports: [ListComponent],
 })
 export class ListModule {}

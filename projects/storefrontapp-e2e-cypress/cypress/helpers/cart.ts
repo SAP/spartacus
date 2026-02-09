@@ -8,6 +8,7 @@ import { standardUser } from '../sample-data/shared-users';
 import { visitLoginPage } from '../support/utils/login';
 import { login, register } from './auth-forms';
 import { clickHamburger } from './checkout-flow';
+import { cmsEndpoints } from './cms-endpoints';
 import { PRODUCT_LISTING } from './data-configuration';
 import { checkBanner } from './homepage';
 import { userGreetSelector } from './login';
@@ -130,7 +131,11 @@ function checkMiniCartCount(expectedCount) {
 }
 
 export function clickAddToCart() {
-  cy.get('cx-add-to-cart button[type=submit]').first().click({ force: true });
+  cy.get('cx-add-to-cart button[type=submit]', { timeout: 15000 })
+    .scrollIntoView()
+    .should('be.visible')
+    .first()
+    .click();
 }
 
 /**
@@ -232,7 +237,7 @@ function getBaseUrlPrefix() {
 export function registerCartPageRoute() {
   cy.intercept(
     'GET',
-    `${getOccUrlPrefix()}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
+    `${getOccUrlPrefix()}/${cmsEndpoints.pages}?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
   ).as('cart_page');
 }
 

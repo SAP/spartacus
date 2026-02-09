@@ -13,6 +13,7 @@ import {
 import { checkBanner } from './homepage';
 import { switchLanguage } from './language';
 import { clickHamburger, waitForPage } from './navigation';
+import { cmsEndpoints } from './cms-endpoints';
 
 const orderHistoryLink = '/my-account/orders';
 export const CART_PAGE_ALIAS = 'cartPage';
@@ -44,7 +45,7 @@ export function interceptCartPageEndpoint() {
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
+    )}/${cmsEndpoints.pages}?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
   ).as(CART_PAGE_ALIAS);
 
   return CART_PAGE_ALIAS;
@@ -211,6 +212,9 @@ export const orderHistoryTest = {
       });
       switchLanguage('en');
 
+      // wait for switch to EN language
+      cy.wait('@getOrderHistoryPage');
+
       cy.get('.cx-order-history-placed > .cx-order-history-value')
         .first()
         .then((element) => {
@@ -222,6 +226,9 @@ export const orderHistoryTest = {
       });
       switchLanguage('de');
 
+      // wait for switch to DE language
+      cy.wait('@getOrderHistoryPage');
+
       cy.get('.cx-order-history-placed > .cx-order-history-value')
         .first()
         .then((element) => {
@@ -232,6 +239,9 @@ export const orderHistoryTest = {
         clickHamburger();
       });
       switchLanguage('en'); // switch language back
+
+      // wait for switch to EN language
+      cy.wait('@getOrderHistoryPage');
     });
   },
   checkOrderDetailsUnconsignedEntries() {

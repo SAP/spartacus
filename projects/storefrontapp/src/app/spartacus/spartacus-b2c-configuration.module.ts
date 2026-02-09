@@ -46,7 +46,7 @@ const baseSite = environment.epdVisualization
     }),
     provideConfig(<PWAModuleConfig>{
       pwa: {
-        enabled: true,
+        enabled: false,
         addToHomeScreen: true,
       },
     }),

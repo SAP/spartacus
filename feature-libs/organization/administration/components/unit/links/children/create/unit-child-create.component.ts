@@ -6,6 +6,7 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
+import { UnitFormComponent } from '../../../form';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitItemService } from '../../../services/unit-item.service';
 import { UnitChildItemService } from './unit-child-item.service';
@@ -23,7 +24,7 @@ import { UnitChildItemService } from './unit-child-item.service';
       useExisting: UnitChildItemService,
     },
   ],
-  standalone: false,
+  imports: [UnitFormComponent],
 })
 export class UnitChildCreateComponent {
   unitKey$: Observable<string> = this.unitService.key$;

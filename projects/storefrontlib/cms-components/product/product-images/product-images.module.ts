@@ -24,6 +24,7 @@ import { ProductImagesComponent } from './product-images.component';
     CarouselModule,
     CarouselScrollingModule,
     LcpContextDirectiveModule,
+    ProductImagesComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -34,7 +35,6 @@ import { ProductImagesComponent } from './product-images.component';
       },
     }),
   ],
-  declarations: [ProductImagesComponent],
   exports: [ProductImagesComponent],
 })
 export class ProductImagesModule {}

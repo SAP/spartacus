@@ -31,6 +31,7 @@ import { CheckoutLoginComponent } from './checkout-login.component';
     FeaturesConfigModule,
     FormRequiredAsterisksComponent,
     FormRequiredLegendComponent,
+    CheckoutLoginComponent,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -42,7 +43,6 @@ import { CheckoutLoginComponent } from './checkout-login.component';
       },
     }),
   ],
-  declarations: [CheckoutLoginComponent],
   exports: [CheckoutLoginComponent],
 })
 export class CheckoutLoginModule {}

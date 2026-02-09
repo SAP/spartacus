@@ -4,19 +4,30 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
-  PromotionLocation,
-  CartOutlets,
   Cart,
+  CartOutlets,
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
 import { CheckoutReviewSubmitComponent } from '@spartacus/checkout/base/components';
+import { TranslatePipe } from '@spartacus/core';
+import { OutletDirective, PromotionsComponent } from '@spartacus/storefront';
+import { OpfCheckoutReviewCardComponent } from '../opf-checkout-review-card';
 
 @Component({
   selector: 'cx-opf-checkout-review-cart-details',
   templateUrl: './opf-checkout-review-cart-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    PromotionsComponent,
+    OutletDirective,
+    TranslatePipe,
+    AsyncPipe,
+    OpfCheckoutReviewCardComponent,
+    NgIf,
+  ],
 })
 export class OpfCheckoutReviewCartDetailsComponent extends CheckoutReviewSubmitComponent {
   @Input() cart: Cart | null;

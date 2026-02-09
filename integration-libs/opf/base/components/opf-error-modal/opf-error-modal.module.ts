@@ -12,9 +12,13 @@ import { defaultOpfErrorModalLayoutConfig } from './default-opf-error-modal.layo
 import { OpfErrorModalComponent } from './opf-error-modal.component';
 
 @NgModule({
-  declarations: [OpfErrorModalComponent],
   providers: [provideDefaultConfig(defaultOpfErrorModalLayoutConfig)],
   exports: [OpfErrorModalComponent],
-  imports: [CommonModule, I18nModule, KeyboardFocusModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    KeyboardFocusModule,
+    OpfErrorModalComponent,
+  ],
 })
 export class OpfErrorModalModule {}

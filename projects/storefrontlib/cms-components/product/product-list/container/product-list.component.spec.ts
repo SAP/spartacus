@@ -4,10 +4,22 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import {
+  CxDatePipe,
+  FeatureLevelDirective,
   GlobalMessageService,
   I18nTestingModule,
+  MockDatePipe,
+  MockTranslatePipe,
   ProductSearchPage,
+  TranslatePipe,
+  UrlPipe,
 } from '@spartacus/core';
+import {
+  IconComponent,
+  ProductGridItemComponent,
+  ProductListItemComponent,
+  ProductScrollComponent,
+} from '@spartacus/storefront';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { PageLayoutService } from '../../../../cms-structure';
@@ -15,6 +27,7 @@ import {
   ListNavigationModule,
   MediaComponent,
   SpinnerModule,
+  StarRatingComponent,
 } from '../../../../shared';
 import { ViewConfig } from '../../../../shared/config/view-config';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
@@ -35,7 +48,13 @@ const mockProducts = [
 @Component({
   selector: 'cx-star-rating',
   template: '',
-  standalone: false,
+  imports: [
+    ListNavigationModule,
+    FormsModule,
+    I18nTestingModule,
+    InfiniteScrollModule,
+    SpinnerModule,
+  ],
 })
 class MockStarRatingComponent {
   @Input() rating;
@@ -54,7 +73,13 @@ class MockPageLayoutService {
 @Component({
   template: '',
   selector: 'cx-product-list-item',
-  standalone: false,
+  imports: [
+    ListNavigationModule,
+    FormsModule,
+    I18nTestingModule,
+    InfiniteScrollModule,
+    SpinnerModule,
+  ],
 })
 class MockProductListItemComponent {
   @Input() product: any;
@@ -64,7 +89,13 @@ class MockProductListItemComponent {
 @Component({
   template: '',
   selector: 'cx-product-grid-item',
-  standalone: false,
+  imports: [
+    ListNavigationModule,
+    FormsModule,
+    I18nTestingModule,
+    InfiniteScrollModule,
+    SpinnerModule,
+  ],
 })
 class MockProductGridItemComponent {
   @Input() product: any;
@@ -74,14 +105,17 @@ class MockProductGridItemComponent {
 @Component({
   selector: 'cx-product-scroll',
   template: '',
-  standalone: false,
+  imports: [
+    ListNavigationModule,
+    FormsModule,
+    I18nTestingModule,
+    InfiniteScrollModule,
+    SpinnerModule,
+  ],
 })
 class MockProductScrollComponent {}
 
-@Pipe({
-  name: 'cxUrl',
-  standalone: false,
-})
+@Pipe({ name: 'cxUrl' })
 class MockUrlPipe implements PipeTransform {
   transform() {}
 }
@@ -89,20 +123,16 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [
+    ListNavigationModule,
+    FormsModule,
+    I18nTestingModule,
+    InfiniteScrollModule,
+    SpinnerModule,
+  ],
 })
 class MockCxIconComponent {
   @Input() type;
-}
-
-@Component({
-  selector: 'cx-add-to-cart',
-  template: '<button>add to cart</button>',
-  standalone: false,
-})
-class MockAddToCartComponent {
-  @Input() product;
-  @Input() showQuantity;
 }
 
 class MockViewConfig {
@@ -142,9 +172,12 @@ describe('ProductListComponent', () => {
       imports: [
         ListNavigationModule,
         FormsModule,
-        I18nTestingModule,
         InfiniteScrollModule,
         SpinnerModule,
+        ProductListComponent,
+        ProductFacetNavigationComponent,
+        MediaComponent,
+        ProductViewComponent,
       ],
       providers: [
         provideRouter([]),
@@ -165,21 +198,36 @@ describe('ProductListComponent', () => {
           useClass: MockGlobalMessageService,
         },
       ],
-      declarations: [
-        ProductListComponent,
-        ProductFacetNavigationComponent,
-        MockStarRatingComponent,
-        MockAddToCartComponent,
-        MediaComponent,
-        ProductViewComponent,
-        MockProductListItemComponent,
-        MockProductGridItemComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-        MockFeatureLevelDirective,
-        MockProductScrollComponent,
-      ],
-    }).compileComponents();
+    })
+      .overrideComponent(ProductListComponent, {
+        remove: {
+          imports: [
+            TranslatePipe,
+            CxDatePipe,
+            UrlPipe,
+            StarRatingComponent,
+            ProductListItemComponent,
+            ProductGridItemComponent,
+            IconComponent,
+            FeatureLevelDirective,
+            ProductScrollComponent,
+          ],
+        },
+        add: {
+          imports: [
+            MockTranslatePipe,
+            MockDatePipe,
+            MockUrlPipe,
+            MockStarRatingComponent,
+            MockProductListItemComponent,
+            MockProductGridItemComponent,
+            MockCxIconComponent,
+            MockFeatureLevelDirective,
+            MockProductScrollComponent,
+          ],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

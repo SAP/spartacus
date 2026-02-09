@@ -44,7 +44,7 @@ describe('serverRequestOriginFactory', () => {
       it('should throw an error if ', () => {
         expect(() => {
           serverRequestOriginFactory()();
-        }).toThrowError('');
+        }).toThrow('');
       });
     });
   });

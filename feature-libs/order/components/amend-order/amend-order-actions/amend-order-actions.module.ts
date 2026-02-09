@@ -8,8 +8,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import { AmendOrderActionsComponent } from './amend-order-actions.component';
 import { BtnLikeLinkModule } from '@spartacus/storefront';
+import { AmendOrderActionsComponent } from './amend-order-actions.component';
 
 @NgModule({
   imports: [
@@ -18,8 +18,8 @@ import { BtnLikeLinkModule } from '@spartacus/storefront';
     UrlModule,
     I18nModule,
     BtnLikeLinkModule,
+    AmendOrderActionsComponent,
   ],
-  declarations: [AmendOrderActionsComponent],
   exports: [AmendOrderActionsComponent],
 })
 export class AmendOrderActionsModule {}

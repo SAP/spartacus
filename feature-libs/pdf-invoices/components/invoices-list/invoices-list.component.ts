@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,6 +12,7 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  CxDatePipe,
   ErrorModel,
   GlobalMessageService,
   GlobalMessageType,
@@ -18,6 +20,7 @@ import {
   LanguageService,
   PaginationModel,
   SortModel,
+  TranslatePipe,
   TranslationService,
 } from '@spartacus/core';
 import {
@@ -26,7 +29,13 @@ import {
   OrderInvoiceList,
   PDFInvoicesFacade,
 } from '@spartacus/pdf-invoices/root';
-import { FileDownloadService, ICON_TYPE } from '@spartacus/storefront';
+import {
+  FileDownloadService,
+  ICON_TYPE,
+  IconComponent,
+  PaginationComponent,
+  SortingComponent,
+} from '@spartacus/storefront';
 import {
   BehaviorSubject,
   combineLatest,
@@ -40,7 +49,18 @@ import { catchError, skip, switchMap, take, tap } from 'rxjs/operators';
   selector: 'cx-invoices-list',
   templateUrl: './invoices-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    NgIf,
+    SortingComponent,
+    PaginationComponent,
+    IconComponent,
+    NgFor,
+    AsyncPipe,
+    TranslatePipe,
+    CxDatePipe,
+
+    CxDatePipe,
+  ],
 })
 export class InvoicesListComponent implements OnInit, OnDestroy {
   /* For Enum use in HTML */

@@ -11,7 +11,6 @@ import { IconLoaderService } from '../icon-loader.service';
 @Component({
   selector: 'cx-icon,[cxIcon]',
   template: `{{ type || cxIcon }}`,
-  standalone: false,
 })
 export class MockIconComponent {
   @Input() cxIcon: any;
@@ -21,6 +20,9 @@ export class MockIconComponent {
 const mockComponents = [MockIconComponent];
 
 export class MockIconLoaderService {
+  getFlipDirection() {
+    // Intentional empty method
+  }
   getHtml() {
     // Intentional empty method
   }
@@ -36,7 +38,7 @@ export class MockIconLoaderService {
 }
 
 @NgModule({
-  declarations: mockComponents,
+  imports: [...mockComponents],
   exports: mockComponents,
   providers: [
     {

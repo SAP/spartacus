@@ -17,15 +17,19 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { IconLoaderService } from '@spartacus/storefront';
+import {
+  IconComponent,
+  IconLoaderService,
+  MediaComponent,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 
 const mockProductConfiguration = ConfigurationTestData.productConfiguration;
 const PRODUCT_CODE = ConfigurationTestData.PRODUCT_CODE;
@@ -146,7 +150,7 @@ export class MockIconFontLoaderService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockCxIconComponent {
   @Input() type: any;
@@ -155,7 +159,7 @@ class MockCxIconComponent {
 @Component({
   template: '',
   selector: 'cx-media',
-  standalone: false,
+  imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
 })
 class MockMediaComponent {
   @Input() container: any;
@@ -325,11 +329,10 @@ function setDataForQuoteEntry() {
 describe('ConfigProductTitleComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
+        NgSelectModule,
         ConfiguratorProductTitleComponent,
-        MockCxIconComponent,
-        MockMediaComponent,
       ],
       providers: [
         {
@@ -358,7 +361,16 @@ describe('ConfigProductTitleComponent', () => {
           useClass: MockConfiguratorExpertModeService,
         },
       ],
-    });
+    })
+      .overrideComponent(ConfiguratorProductTitleComponent, {
+        remove: {
+          imports: [IconComponent, MediaComponent],
+        },
+        add: {
+          imports: [MockCxIconComponent, MockMediaComponent],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

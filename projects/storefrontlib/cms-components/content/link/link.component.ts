@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { AsyncPipe, NgIf } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,12 +15,13 @@ import {
 import { CmsLinkComponent } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { GenericLinkComponent } from '../../../shared/components/generic-link/generic-link.component';
 
 @Component({
   selector: 'cx-link',
   templateUrl: './link.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [NgIf, GenericLinkComponent, AsyncPipe],
 })
 export class LinkComponent implements OnDestroy, OnInit {
   @HostBinding('class') styleClasses: string | undefined;

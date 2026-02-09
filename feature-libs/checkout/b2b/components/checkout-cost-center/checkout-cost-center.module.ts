@@ -26,7 +26,7 @@ import { CheckoutCostCenterComponent } from './checkout-cost-center.component';
         },
       },
     }),
+    CheckoutCostCenterComponent,
   ],
-  declarations: [CheckoutCostCenterComponent],
 })
 export class CheckoutCostCenterModule {}

@@ -6,6 +6,7 @@
 
 import { verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
+import { cmsEndpoints } from '../../../cms-endpoints';
 
 const containerSelector = '.AccountPageTemplate';
 
@@ -14,7 +15,7 @@ export function consentManagementTabbingOrder(config: TabElement[]) {
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/components`,
+    )}/${cmsEndpoints.components}`,
   }).as('getComponents');
   cy.visit('/my-account/consents');
 
