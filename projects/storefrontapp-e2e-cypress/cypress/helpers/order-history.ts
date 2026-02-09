@@ -161,25 +161,27 @@ export const orderHistoryTest = {
         );
         return;
       });
-      doPlaceOrder().then(() => {
-        doPlaceOrder().then((orderData: any) => {
-          cy.waitForOrderToBePlacedRequest(
-            undefined,
-            undefined,
-            orderData.body.code
-          );
-          cy.visit('/my-account/orders');
-          cy.get('cx-order-history h2').should('contain', 'Order history');
-          cy.get('.cx-order-history-po').should('not.exist');
-          cy.get('.cx-order-history-cost-center').should('not.exist');
-          cy.get('.cx-order-history-code > .cx-order-history-value').should(
-            'contain',
-            orderData.body.code
-          );
-          cy.get('.cx-order-history-total > .cx-order-history-value').should(
-            'contain',
-            orderData.body.totalPrice.formattedValue
-          );
+      cy.whenJDK17(() => {
+        doPlaceOrder().then(() => {
+          doPlaceOrder().then((orderData: any) => {
+            cy.waitForOrderToBePlacedRequest(
+              undefined,
+              undefined,
+              orderData.body.code
+            );
+            cy.visit('/my-account/orders');
+            cy.get('cx-order-history h2').should('contain', 'Order history');
+            cy.get('.cx-order-history-po').should('not.exist');
+            cy.get('.cx-order-history-cost-center').should('not.exist');
+            cy.get('.cx-order-history-code > .cx-order-history-value').should(
+              'contain',
+              orderData.body.code
+            );
+            cy.get('.cx-order-history-total > .cx-order-history-value').should(
+              'contain',
+              orderData.body.totalPrice.formattedValue
+            );
+          });
         });
       });
     });

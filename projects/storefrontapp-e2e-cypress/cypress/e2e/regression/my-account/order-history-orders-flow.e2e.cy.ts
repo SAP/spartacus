@@ -6,6 +6,7 @@
 
 import {
   clickOnPrimaryDialogButton,
+  getCartItem,
   verifyProductIsDisplayed,
 } from '../../../helpers/b2b/b2b-saved-cart';
 import {
@@ -96,10 +97,13 @@ describe('Order details page', { testIsolation: false }, () => {
     it('should display order details page with consigned entries', () => {
       cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
       cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
-      cy.get('.cx-summary-total > .cx-summary-amount').should(
-        'contain',
-        formattedValue
-      );
+
+      cy.whenJDK17(() => {
+        cy.get('.cx-summary-total > .cx-summary-amount').should(
+          'contain',
+          formattedValue
+        );
+      });
     });
 
     it('should add product to cart from order details page', () => {
@@ -109,15 +113,28 @@ describe('Order details page', { testIsolation: false }, () => {
 
       verifyActionLinkHasText('Buy It Again');
 
+      clickOnActionLink();
+
+      waitForResponse(addToCartAlias);
+
+      clickOnPrimaryDialogButton();
+
+      waitForResponse(cartPageAlias);
       cy.whenJDK17(() => {
-        clickOnActionLink();
-
-        waitForResponse(addToCartAlias);
-        clickOnPrimaryDialogButton();
-
-        waitForResponse(cartPageAlias);
-
         verifyProductIsDisplayed(product.name, product.code);
+      });
+      cy.whenJDK21(() => {
+        getCartItem(product.name).within(() => {
+          cy.get('.cx-code').should('contain', product.code);
+          cy.get('cx-item-counter input').should(($input) => {
+            expect(Number($input.val())).to.be.greaterThan(0);
+          });
+          // Removing the product from cart to avoid issues with next test runs.
+          cy.get('cx-item-counter')
+            .get(`[aria-label="Remove one"]`)
+            .first()
+            .click();
+        });
       });
     });
   });
