@@ -21,13 +21,13 @@ export const ADD_TO_CART_ENDPOINT_ALIAS = 'addToCart';
 export const ORDERS_ALIAS = 'orders';
 export const CART_FROM_ORDER_ALIAS = 'cartFromOrder';
 
-export function goToOrderHistoryWithConsignedOrder() {
+export function goToB2COrderHistoryMockPage() {
   cy.login('test-user-with-orders@sap.cx.com', 'pw4all');
   cy.visit('/my-account/orders');
   cy.get('.cx-login-greet').should('contain', 'Test User');
 }
 
-export function goToB2bOrderHistoryWithOrder() {
+export function goToB2BOrderHistoryMockPage() {
   cy.login('powertools-test-user-with-orders@sap.cx.com', 'pw4all');
   cy.visit('/my-account/orders');
   cy.get('.cx-login-greet').should('contain', 'Test User');

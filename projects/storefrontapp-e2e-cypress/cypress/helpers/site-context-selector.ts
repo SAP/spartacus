@@ -8,7 +8,7 @@ import { user } from '../sample-data/checkout-flow';
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { switchSiteContext } from '../support/utils/switch-site-context';
 import { waitForPage } from './navigation';
-import { goToOrderHistoryWithConsignedOrder } from './order-history';
+import { goToB2COrderHistoryMockPage } from './order-history';
 
 export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
@@ -207,7 +207,7 @@ export function testLangSwitchOrderPage() {
 
     before(() => {
       cy.whenJDK21(() => {
-        goToOrderHistoryWithConsignedOrder();
+        goToB2COrderHistoryMockPage();
       });
       cy.whenJDK17(() => {
         doPlaceOrder();
