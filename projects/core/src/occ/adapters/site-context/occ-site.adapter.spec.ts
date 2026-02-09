@@ -64,7 +64,6 @@ describe('OccSiteAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccSiteAdapter,
         {

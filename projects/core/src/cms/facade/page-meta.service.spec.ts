@@ -154,7 +154,6 @@ describe('PageMetaService', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [],
         providers: [
           PageMetaService,
           ContentPageResolver,
@@ -215,7 +214,6 @@ describe('PageMetaService', () => {
   describe('server', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [],
         providers: [
           PageMetaService,
           ContentPageResolver,
@@ -310,7 +308,6 @@ describe('Custom PageTitleService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         { provide: CmsService, useClass: MockCmsService },
         {

@@ -62,7 +62,6 @@ describe('OccSegmentRefsInterceptor', () => {
     let httpMock: HttpTestingController;
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [],
         providers: [
           { provide: SegmentRefsConfig, useValue: mockSegmentRefsConfig },
           { provide: WindowRef, useValue: MockWindowRef1 },
@@ -101,7 +100,6 @@ describe('OccSegmentRefsInterceptor', () => {
     let httpMock: HttpTestingController;
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [],
         providers: [
           { provide: SegmentRefsConfig, useValue: mockSegmentRefsConfig },
           { provide: WindowRef, useValue: MockWindowRef2 },
@@ -140,7 +138,6 @@ describe('OccSegmentRefsInterceptor', () => {
     let httpMock: HttpTestingController;
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [],
         providers: [
           { provide: SegmentRefsConfig, useValue: mockSegmentRefsConfig },
           { provide: WindowRef, useValue: MockWindowRef3 },

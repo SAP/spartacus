@@ -37,7 +37,6 @@ describe('Replenishment Orders effect', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         ReplenishmentOrderHistoryConnector,
         fromEffect.ReplenishmentOrdersEffect,

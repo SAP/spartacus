@@ -45,7 +45,6 @@ class MockUrlPipe implements PipeTransform {
 @Component({
   template: '',
   selector: 'cx-media',
-  imports: [],
 })
 class MockMediaComponent {
   @Input() container;
@@ -55,7 +54,6 @@ class MockMediaComponent {
 @Component({
   template: '',
   selector: 'cx-item-counter',
-  imports: [],
 })
 class MockItemCounterComponent {
   @Input() control;
@@ -67,7 +65,6 @@ class MockItemCounterComponent {
 @Component({
   template: '',
   selector: 'cx-promotions',
-  imports: [],
 })
 class MockPromotionsComponent {
   @Input() promotions;
@@ -98,7 +95,6 @@ const mockProduct = {
 @Component({
   selector: 'cx-cart-item-validation-warning',
   template: '',
-  imports: [],
 })
 class MockCartItemValidationWarningComponent {
   @Input() code: string;

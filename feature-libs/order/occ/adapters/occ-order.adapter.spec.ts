@@ -81,7 +81,6 @@ describe('OccOrderAdapter', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         OccOrderAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
