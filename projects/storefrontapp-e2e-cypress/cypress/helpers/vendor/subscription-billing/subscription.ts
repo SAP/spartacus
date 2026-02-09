@@ -200,7 +200,7 @@ export function clickManageServiceForActiveSubscription() {
 }
 
 export function checkCancelButtonExists() {
-  const cancelButtonSelector = `cx-subscription-details .cx-other-actions a[aria-label="Cancel Subscription"]`;
+  const cancelButtonSelector = `cx-subscription-details .subscription-actions a[aria-label="Cancel Subscription"]`;
   cy.get('cx-subscription-details', { timeout: 10000 }).should('be.visible');
   cy.get(cancelButtonSelector, { timeout: 5000 })
     .should('exist')
@@ -383,4 +383,52 @@ export function validateSubscriptionCharges() {
   cy.get(`cx-subscription-cart-price-body`)
     .should('contain.text', 'monthly payment')
     .and('contain.text', ' pay on checkout ');
+}
+
+export function validateSubscriptionBillingList() {
+  cy.visit('/powertools-spa/en/USD/my-account/subscription-bills');
+
+  // table headers
+  cy.get('.cx-billing-list-table .cx-billing-list-thead')
+    .should('exist')
+    .within(() => {
+      cy.contains('.cx-billing-list-table-header', 'Bill ID/Number').should(
+        'exist'
+      );
+      cy.contains('.cx-billing-list-table-header', 'Billing Date').should(
+        'exist'
+      );
+      cy.contains('.cx-billing-list-table-header', 'Subscriptions').should(
+        'exist'
+      );
+      cy.contains('.cx-billing-list-table-header', 'Total').should('exist');
+    });
+
+  // first row data
+  cy.get('.cx-billing-list-table tbody tr')
+    .eq(0)
+    .should('exist')
+    .within(() => {
+      cy.get('td').eq(0).should('exist'); // Bill ID/Number value
+      cy.get('td').eq(1).should('exist'); // Billing Date value
+      cy.get('td').eq(2).should('exist'); // Subscriptions value
+      cy.get('td').eq(3).should('exist'); // Total value
+    });
+}
+
+export function validateSubscriptionBillDetailsPage() {
+  // Breadcrumbs
+  cy.get('cx-breadcrumb')
+    .should('exist')
+    .within(() => {
+      cy.contains('a', 'Home').should('exist');
+      cy.contains('a', 'Subscription Bills').should('exist');
+    });
+  // Bill details page - verify key elements
+  cy.get('cx-subscription-billing-details')
+    .should('exist')
+    .within(() => {
+      cy.contains('.subscription-id').should('exist');
+      cy.get('.subscription-product').should('exist').get('a').should('exist');
+    });
 }

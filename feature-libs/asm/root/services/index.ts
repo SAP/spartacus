@@ -9,4 +9,5 @@ export * from './asm-auth-storage.service';
 export * from './asm-auth.service';
 export * from './asm-deep-link.service';
 export * from './asm-enabler.service';
+export * from './asm-protected-routes.service';
 export * from './csagent-auth.service';
