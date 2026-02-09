@@ -98,6 +98,9 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
   readyForScriptEvent$: Observable<string> =
     this._readyForScriptEvent.asObservable();
 
+  protected static readonly PAYMENT_SESSION_ID_REQUIRED_ERROR =
+    'paymentSessionId is required';
+
   registerGlobalFunctions({
     domain,
     paymentSessionId,
@@ -116,6 +119,7 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
         this.registerStartLoadIndicator(domain, vcr);
         this.registerStopLoadIndicator(domain);
         this.registerReinitiatePaymentForm(domain);
+        this.registerHandle3DSRedirect(domain, paymentSessionId, vcr);
         break;
       case OpfGlobalFunctionsDomain.REDIRECT:
         this.registerSubmitCompleteRedirect(domain, paymentSessionId, vcr);
@@ -278,7 +282,11 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
             ?.opfPaymentSessionId;
 
         if (!finalPaymentSessionId) {
-          return Promise.reject(new Error('paymentSessionId is required'));
+          return Promise.reject(
+            new Error(
+              OpfGlobalFunctionsService.PAYMENT_SESSION_ID_REQUIRED_ERROR
+            )
+          );
         }
 
         let overlayedSpinner: void | Observable<ComponentRef<any> | undefined>;
@@ -403,7 +411,11 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
             ?.opfPaymentSessionId;
 
         if (!finalPaymentSessionId) {
-          return Promise.reject(new Error('paymentSessionId is required'));
+          return Promise.reject(
+            new Error(
+              OpfGlobalFunctionsService.PAYMENT_SESSION_ID_REQUIRED_ERROR
+            )
+          );
         }
 
         const {
@@ -854,5 +866,49 @@ export class OpfGlobalFunctionsService implements OpfGlobalFunctionsFacade {
             );
       })
     );
+  }
+
+  protected registerHandle3DSRedirect(
+    domain: OpfGlobalFunctionsDomain,
+    paymentSessionId?: string,
+    _vcr?: ViewContainerRef
+  ): void {
+    this.getGlobalFunctionContainer(domain).handle3DSRedirect = (
+      threeDsURL: string
+    ): Promise<void> => {
+      return this.ngZone.run(() => {
+        const finalPaymentSessionId =
+          paymentSessionId ??
+          this.opfMetadataStoreService.opfMetadataState.value
+            ?.opfPaymentSessionId;
+
+        if (!finalPaymentSessionId) {
+          return Promise.reject(
+            new Error(
+              OpfGlobalFunctionsService.PAYMENT_SESSION_ID_REQUIRED_ERROR
+            )
+          );
+        }
+
+        if (!threeDsURL) {
+          return Promise.reject(new Error('threeDsURL is required'));
+        }
+
+        const returnPath = this.routingService.getFullUrl({
+          cxRoute: OpfPage.RESULT_PAGE,
+        });
+
+        this.opfMetadataStoreService.updateOpfMetadata({
+          opfPaymentSessionId: finalPaymentSessionId,
+          is3DSRedirect: true,
+          opf3DSRedirectReturnPath: returnPath,
+        });
+
+        if (this.winRef.nativeWindow) {
+          this.winRef.nativeWindow.location.href = threeDsURL;
+        }
+        return Promise.resolve();
+      });
+    };
   }
 }
