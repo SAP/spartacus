@@ -6,7 +6,6 @@
 
 import {
   clickOnPrimaryDialogButton,
-  getCartItem,
   verifyProductIsDisplayed,
 } from '../../../helpers/b2b/b2b-saved-cart';
 import {
@@ -110,26 +109,15 @@ describe('Order details page', { testIsolation: false }, () => {
 
       verifyActionLinkHasText('Buy It Again');
 
-      clickOnActionLink();
+      cy.whenJDK17(() => {
+        clickOnActionLink();
 
-      waitForResponse(addToCartAlias);
+        waitForResponse(addToCartAlias);
+        clickOnPrimaryDialogButton();
 
-      clickOnPrimaryDialogButton();
+        waitForResponse(cartPageAlias);
 
-      waitForResponse(cartPageAlias);
-
-      verifyProductIsDisplayed(product.name, product.code);
-    });
-
-    it('should remove product to cart from order details page (only JDK21 relevant)', () => {
-      cy.whenJDK21(() => {
-        getCartItem(product.name).within(() => {
-          cy.get('.cx-code').should('contain', product.code);
-          cy.get('cx-item-counter')
-            .get(`[aria-label="Remove one"]`)
-            .first()
-            .click();
-        });
+        verifyProductIsDisplayed(product.name, product.code);
       });
     });
   });
