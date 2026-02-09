@@ -35,7 +35,7 @@ describe('Reorder accessibility', () => {
   });
 
   it('Reorder', () => {
-    cy.whenJDK21(() => {
+    cy.whenJDK17(() => {
       cy.visit('my-account/orders');
     });
     cy.get('cx-order-history .cx-order-history-value').first().click();
