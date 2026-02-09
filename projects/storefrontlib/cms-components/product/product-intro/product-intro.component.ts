@@ -8,6 +8,7 @@ import { AsyncPipe, DecimalPipe, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   EventService,
+  FeatureDirective,
   Product,
   TranslatePipe,
   TranslationService,
@@ -29,6 +30,7 @@ import { CurrentProductService } from '../current-product.service';
   imports: [
     NgIf,
     StarRatingComponent,
+    FeatureDirective,
     AsyncPipe,
     DecimalPipe,
     TranslatePipe,
