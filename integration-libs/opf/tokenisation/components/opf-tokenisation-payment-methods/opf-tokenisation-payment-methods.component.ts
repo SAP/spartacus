@@ -69,11 +69,9 @@ export class OpfTokenisationPaymentMethodsComponent implements OnInit {
 
   getCardContent({
     defaultPayment,
-    accountHolderName,
     expiryMonth,
     expiryYear,
     cardNumber,
-    cardType,
   }: PaymentDetails): Observable<Card> {
     return combineLatest([
       this.translation.translate('paymentCard.setAsDefault'),
