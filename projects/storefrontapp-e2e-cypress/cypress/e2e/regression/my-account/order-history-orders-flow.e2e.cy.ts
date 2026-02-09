@@ -6,11 +6,13 @@
 
 import {
   clickOnPrimaryDialogButton,
+  getCartItem,
   verifyProductIsDisplayed,
 } from '../../../helpers/b2b/b2b-saved-cart';
 import {
   clickOnActionLink,
   doPlaceOrder,
+  goToOrderHistoryWithConsignedOrder,
   interceptAddToCartEndpoint,
   interceptCartPageEndpoint,
   orderHistoryTest,
@@ -18,16 +20,22 @@ import {
   waitForResponse,
 } from '../../../helpers/order-history';
 import { viewportContext } from '../../../helpers/viewport-context';
-import { product } from '../../../sample-data/checkout-flow';
+import { consignedOrderId, product } from '../../../sample-data/checkout-flow';
 import { waitForOrderWithConsignmentToBePlacedRequest } from '../../../support/utils/order-placed';
 import { isolateTestsBefore } from '../../../support/utils/test-isolation';
 
 describe('Order History with orders', () => {
   viewportContext(['mobile'], () => {
     before(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/');
-      cy.requireLoggedIn();
+      cy.whenJDK21(() => {
+        goToOrderHistoryWithConsignedOrder();
+      });
+      cy.whenJDK17(() => {
+        cy.window().then((win) => win.sessionStorage.clear());
+        cy.visit('/');
+        cy.requireLoggedIn();
+        orderHistoryTest.checkIfOrderIsDisplayed();
+      });
     });
 
     beforeEach(() => {
@@ -48,32 +56,41 @@ describe('Order History with orders', () => {
 describe('Order details page', { testIsolation: false }, () => {
   isolateTestsBefore();
   viewportContext(['mobile', 'desktop'], () => {
-    isolateTestsBefore();
     let formattedValue: any;
-
-    orderHistoryTest.checkOrderDetailsUnconsignedEntries();
-
     before(() => {
       cy.visit('/');
-      cy.requireLoggedIn();
-      doPlaceOrder().then((orderData: any) => {
-        formattedValue = orderData.body.totalPrice.formattedValue;
-        cy.waitForOrderToBePlacedRequest(
-          undefined,
-          undefined,
-          orderData.body.code
-        );
-        cy.visit('/my-account/orders');
-        cy.get('.cx-order-history-code > .cx-order-history-value').then(
-          (el) => {
-            const orderNumber = el.text().match(/\d+/)[0];
-            waitForOrderWithConsignmentToBePlacedRequest(orderNumber);
-          }
-        );
+      cy.whenJDK17(() => {
+        cy.requireLoggedIn();
+        doPlaceOrder().then((orderData: any) => {
+          formattedValue = orderData.body.totalPrice.formattedValue;
+          cy.waitForOrderToBePlacedRequest(
+            undefined,
+            undefined,
+            orderData.body.code
+          );
+          cy.visit('/my-account/orders');
+          cy.get('.cx-order-history-code > .cx-order-history-value').then(
+            (el) => {
+              const orderNumber = el.text().match(/\d+/)[0];
+              waitForOrderWithConsignmentToBePlacedRequest(orderNumber);
+            }
+          );
+
+          cy.get('.cx-order-history-code > .cx-order-history-value')
+            .should('exist')
+            .first()
+            .click();
+        });
+      });
+      cy.whenJDK21(() => {
+        goToOrderHistoryWithConsignedOrder();
 
         cy.get('.cx-order-history-code > .cx-order-history-value')
-          .should('exist')
-          .first()
+          .contains(consignedOrderId)
+          .should('exist');
+
+        cy.get('.cx-order-history-code > .cx-order-history-value')
+          .contains(consignedOrderId)
           .click();
       });
     });
@@ -102,6 +119,18 @@ describe('Order details page', { testIsolation: false }, () => {
       waitForResponse(cartPageAlias);
 
       verifyProductIsDisplayed(product.name, product.code);
+    });
+
+    it('should remove product to cart from order details page (only JDK21 relevant)', () => {
+      cy.whenJDK21(() => {
+        getCartItem(product.name).within(() => {
+          cy.get('.cx-code').should('contain', product.code);
+          cy.get('cx-item-counter')
+            .get(`[aria-label="Remove one"]`)
+            .first()
+            .click();
+        });
+      });
     });
   });
 });

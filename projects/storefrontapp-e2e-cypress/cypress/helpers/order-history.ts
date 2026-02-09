@@ -10,16 +10,28 @@ import {
   replenishmentOrderHistoryHeaderValue,
   replenishmentOrderHistoryUrl,
 } from './b2b/b2b-replenishment-order-history';
+import { cmsEndpoints } from './cms-endpoints';
 import { checkBanner } from './homepage';
 import { switchLanguage } from './language';
 import { clickHamburger, waitForPage } from './navigation';
-import { cmsEndpoints } from './cms-endpoints';
 
 const orderHistoryLink = '/my-account/orders';
 export const CART_PAGE_ALIAS = 'cartPage';
 export const ADD_TO_CART_ENDPOINT_ALIAS = 'addToCart';
 export const ORDERS_ALIAS = 'orders';
 export const CART_FROM_ORDER_ALIAS = 'cartFromOrder';
+
+export function goToOrderHistoryWithConsignedOrder() {
+  cy.login('test-user-with-orders@sap.cx.com', 'pw4all');
+  cy.visit('/my-account/orders');
+  cy.get('.cx-login-greet').should('contain', 'Test User');
+}
+
+export function goToB2bOrderHistoryWithOrder() {
+  cy.login('powertools-test-user-with-orders@sap.cx.com', 'pw4all');
+  cy.visit('/my-account/orders');
+  cy.get('.cx-login-greet').should('contain', 'Test User');
+}
 
 export function doPlaceOrder(productData?: any) {
   let stateAuth: any;
@@ -143,6 +155,12 @@ export const orderHistoryTest = {
   // orders flow
   checkIfOrderIsDisplayed() {
     it('should display placed order in Order History', () => {
+      cy.whenJDK21(() => {
+        cy.log(
+          'Test is not supported with JDK21 as using mock data with consigned order.'
+        );
+        return;
+      });
       doPlaceOrder().then(() => {
         doPlaceOrder().then((orderData: any) => {
           cy.waitForOrderToBePlacedRequest(
