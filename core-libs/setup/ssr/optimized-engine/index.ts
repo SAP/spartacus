@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+export * from './modern-engine-adapter';
 export * from './optimized-ssr-engine';
 export * from './rendering-cache/index';
 export * from './rendering-strategy-resolver';

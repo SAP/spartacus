@@ -49,7 +49,7 @@ let spartacusChannelSpecificConfigurationProviders = environment.b2b
     provideConfig({
       pwa: {
         enabled: false,
-        addToHomeScreen: true,
+        addToHomeScreen: false,
       },
     }),
     provideConfig({

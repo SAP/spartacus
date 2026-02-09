@@ -9,6 +9,7 @@ import {
   CxAngularNodeAppEngine,
   DefaultExpressServerLogger,
   defaultExpressErrorHandlers,
+  defaultSsrOptimizationOptions,
 } from '@spartacus/setup/ssr';
 import express from 'express';
 import { existsSync, readFileSync } from 'node:fs';
@@ -16,14 +17,15 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 /**
- * Modern SSR server using AngularNodeAppEngine.
+ * Modern SSR server using AngularNodeAppEngine with full SSR optimization.
  *
- * This is the new modern implementation that uses:
+ * This implementation uses:
  * - Promise-based API instead of callbacks
  * - Web-standard Request/Response instead of Express-specific types
  * - Middleware pattern instead of view engine
  * - Error propagation via requestContext.cx namespace
  * - Server logging via requestContext.cx.logger
+ * - Full SSR optimization via OptimizedSsrEngine (timeout, caching, concurrency)
  */
 
 /**
@@ -57,6 +59,21 @@ function getIndexHtmlContent(
 </html>`;
 }
 
+/**
+ * Returns the path to the index.html file for SSR.
+ * Prefers index.server.html if it exists, otherwise falls back to browser index.html.
+ */
+function getDocumentFilePath(
+  serverDistFolder: string,
+  browserDistFolder: string
+): string {
+  const indexServerHtml = join(serverDistFolder, 'index.server.html');
+  if (existsSync(indexServerHtml)) {
+    return indexServerHtml;
+  }
+  return join(browserDistFolder, 'index.html');
+}
+
 // The Express app is exported so that it can be used by serverless Functions.
 export async function app(): Promise<express.Express> {
   const server = express();
@@ -66,11 +83,29 @@ export async function app(): Promise<express.Express> {
     serverDistFolder,
     browserDistFolder
   );
+  const documentFilePath = getDocumentFilePath(
+    serverDistFolder,
+    browserDistFolder
+  );
 
   server.set('trust proxy', 'loopback');
 
   const logger = new DefaultExpressServerLogger();
-  const angularApp = new CxAngularNodeAppEngine({ logger });
+
+  // Create CxAngularNodeAppEngine with SSR optimization enabled
+  // This provides: timeout with CSR fallback, response caching,
+  // concurrency control, and render reuse for concurrent requests
+  const angularApp = new CxAngularNodeAppEngine({
+    logger,
+    documentFilePath,
+    optimization: {
+      ...defaultSsrOptimizationOptions,
+      // Override defaults with environment variables if provided
+      timeout: Number(process.env['SSR_TIMEOUT'] ?? 3000),
+      cache: process.env['SSR_CACHE'] === 'true',
+      concurrency: Number(process.env['SSR_CONCURRENCY'] ?? 10),
+    },
+  });
 
   // Serve static files from /browser
   server.get(
