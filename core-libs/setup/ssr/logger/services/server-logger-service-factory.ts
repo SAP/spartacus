@@ -9,16 +9,20 @@ import { REQUEST as LEGACY_REQUEST } from '../../tokens/express.tokens';
 import { ExpressLoggerService } from './express-logger.service';
 import { PrerenderingLoggerService } from './prerendering-logger.service';
 
+/**
+ * Factory that selects the appropriate logger service based on the runtime context.
+ *
+ * Returns ExpressLoggerService when running in Express (SSR with either modern
+ * CxAngularNodeAppEngine or legacy OptimizedSsrEngine), detected by the presence
+ * of a REQUEST token. Returns PrerenderingLoggerService for prerendering contexts.
+ */
 export const serverLoggerServiceFactory = () => {
-  // Check for Angular's REQUEST token first (modern path from AngularNodeAppEngine)
-  const angularRequest = inject(REQUEST, { optional: true });
+  // Check for either Angular's or Spartacus's REQUEST token to detect Express context
+  const hasRequest =
+    inject(REQUEST, { optional: true }) !== null ||
+    inject(LEGACY_REQUEST, { optional: true }) !== null;
 
-  // Check for legacy Spartacus REQUEST token (from OptimizedSsrEngine)
-  const legacyRequest = inject(LEGACY_REQUEST, { optional: true });
-
-  const isExpress = angularRequest !== null || legacyRequest !== null;
-
-  return isExpress
+  return hasRequest
     ? inject(ExpressLoggerService)
     : inject(PrerenderingLoggerService);
 };
