@@ -19,7 +19,6 @@ import {
 import {
   CxDatePipe,
   FeatureModulesService,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   QueryState,
@@ -197,7 +196,6 @@ class mockFeatureModulesService implements Partial<FeatureModulesService> {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;

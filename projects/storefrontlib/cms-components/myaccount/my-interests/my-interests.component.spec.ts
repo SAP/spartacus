@@ -16,7 +16,6 @@ import {
   FeatureDirective,
   FeatureLevelDirective,
   GlobalMessageService,
-  I18nTestingModule,
   ImageType,
   MockDatePipe,
   MockTranslatePipe,
@@ -47,7 +46,6 @@ import { MyInterestsComponent } from './my-interests.component';
 @Component({
   template: '',
   selector: 'cx-pagination',
-  imports: [I18nTestingModule],
 })
 class MockPaginationComponent {
   @Input() pagination;
@@ -56,7 +54,6 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  imports: [I18nTestingModule],
 })
 class MockSortingComponent {
   @Input() sortOptions;
@@ -69,7 +66,6 @@ class MockSortingComponent {
 @Component({
   template: '',
   selector: 'cx-media',
-  imports: [I18nTestingModule],
 })
 class MockMediaComponent {
   @Input() container;
@@ -102,7 +98,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockSpinnerComponent {}
 

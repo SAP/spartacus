@@ -12,7 +12,6 @@ import {
 import {
   CmsService,
   CxDatePipe,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -23,7 +22,6 @@ import { SaveForLaterComponent } from './save-for-later.component';
 @Component({
   template: '',
   selector: 'cx-cart-item-list',
-  imports: [I18nTestingModule],
 })
 class MockCartItemListComponent {
   @Input() readonly = false;

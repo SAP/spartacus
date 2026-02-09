@@ -38,7 +38,6 @@ describe('CustomerEmulationComponent', () => {
   @Component({
     selector: 'cx-asm-bind-cart',
     template: '',
-    imports: [I18nTestingModule],
   })
   class MockAsmBindCartComponent {}
 

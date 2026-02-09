@@ -4,7 +4,6 @@ import { Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import {
   CxDatePipe,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -27,7 +26,6 @@ class MockWishListService {
 @Component({
   selector: '[cx-wish-list-item], cx-wish-list-item',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockWishListItemComponent {
   @Input()

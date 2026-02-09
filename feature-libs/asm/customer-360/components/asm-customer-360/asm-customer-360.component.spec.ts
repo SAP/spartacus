@@ -14,7 +14,6 @@ import { CsAgentAuthService } from '@spartacus/asm/root';
 import {
   CxDatePipe,
   FeaturesConfig,
-  I18nTestingModule,
   LanguageService,
   MockDatePipe,
   MockTranslatePipe,
@@ -116,7 +115,6 @@ describe('AsmCustomer360Component', () => {
   @Component({
     selector: 'cx-asm-customer-360-section',
     template: '',
-    imports: [I18nTestingModule],
   })
   class MockAsmCustomer360SectionComponent {}
 

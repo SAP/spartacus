@@ -10,7 +10,6 @@ import { By } from '@angular/platform-browser';
 import {
   CxDatePipe,
   GlobalMessageType,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -27,7 +26,6 @@ describe('AsmCustomer360PromotionListingComponent', () => {
   @Component({
     selector: 'cx-icon',
     template: '',
-    imports: [I18nTestingModule],
   })
   class MockCxIconComponent {
     @Input() type: ICON_TYPE;
@@ -36,7 +34,6 @@ describe('AsmCustomer360PromotionListingComponent', () => {
   @Component({
     selector: 'cx-message',
     template: '',
-    imports: [I18nTestingModule],
   })
   class MockCxMessageComponent {
     @Input() text: string;

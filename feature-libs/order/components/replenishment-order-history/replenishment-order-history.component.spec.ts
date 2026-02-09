@@ -14,7 +14,6 @@ import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import {
   CxDatePipe,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   RoutingService,
@@ -72,7 +71,6 @@ const replenishmentOrderHistory = new BehaviorSubject<ReplenishmentOrderList>(
 @Component({
   template: '',
   selector: 'cx-pagination',
-  imports: [I18nTestingModule],
 })
 class MockPaginationComponent {
   @Input() pagination;
@@ -81,7 +79,6 @@ class MockPaginationComponent {
 @Component({
   template: '',
   selector: 'cx-sorting',
-  imports: [I18nTestingModule],
 })
 class MockSortingComponent {
   @Input() sortOptions;

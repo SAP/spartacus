@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   CxDatePipe,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -22,7 +21,6 @@ const mockEntries: OrderEntry[] = [
 @Component({
   template: '',
   selector: '[cx-quick-order-item], cx-quick-order-item',
-  imports: [I18nTestingModule],
 })
 class MockQuickOrderItemComponent {
   @Input() entry: OrderEntry;

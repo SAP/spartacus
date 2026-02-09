@@ -20,7 +20,6 @@ import {
   FeatureDirective,
   FeaturesConfig,
   GlobalMessageService,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   PaymentDetails,
@@ -44,7 +43,6 @@ import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -164,7 +162,6 @@ const mockAddress: Address = {
 @Component({
   selector: 'cx-payment-form',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockPaymentFormComponent {
   @Input()
@@ -180,7 +177,6 @@ class MockPaymentFormComponent {
 @Component({
   selector: 'cx-spinner',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockSpinnerComponent {}
 

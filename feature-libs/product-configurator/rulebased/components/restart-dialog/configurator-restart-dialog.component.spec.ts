@@ -28,7 +28,6 @@ const product: Product = { code: 'pCode' };
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;

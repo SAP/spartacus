@@ -6,7 +6,6 @@ import {
   FeatureDirective,
   FeaturesConfig,
   GlobalMessageService,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   PaymentDetails,
@@ -31,7 +30,6 @@ class MockGlobalMessageService {
 @Component({
   template: '<div>Spinner</div>',
   selector: 'cx-spinner',
-  imports: [I18nTestingModule],
 })
 class MockCxSpinnerComponent {}
 
@@ -55,7 +53,6 @@ const mockPayment: PaymentDetails = {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;

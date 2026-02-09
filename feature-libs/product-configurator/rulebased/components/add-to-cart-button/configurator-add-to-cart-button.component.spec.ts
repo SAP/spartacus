@@ -16,7 +16,6 @@ import {
 import {
   FeatureLevelDirective,
   GlobalMessageService,
-  I18nTestingModule,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
@@ -104,7 +103,6 @@ const mockOrder: Order = {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
@@ -113,7 +111,6 @@ class MockCxIconComponent {
 @Component({
   template: '',
   selector: 'cx-item-counter',
-  imports: [I18nTestingModule],
 })
 class MockItemCounterComponent {
   @Input() min: number;

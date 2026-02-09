@@ -17,7 +17,6 @@ import {
   CxDatePipe,
   FeatureConfigService,
   FeatureDirective,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   Product,
@@ -96,7 +95,6 @@ class MockCurrentProductService {
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockIconComponent {
   @Input() type;

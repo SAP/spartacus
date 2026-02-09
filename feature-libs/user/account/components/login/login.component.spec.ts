@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import {
   AuthService,
   CxDatePipe,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   RoutingService,
@@ -59,7 +58,6 @@ class MockUserAccountFacade {
       </nav>
     </cx-navigation-ui>
   `,
-  imports: [I18nTestingModule],
 })
 class MockDynamicSlotComponent {
   @Input()

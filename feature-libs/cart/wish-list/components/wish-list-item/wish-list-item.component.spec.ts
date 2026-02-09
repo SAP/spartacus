@@ -16,7 +16,6 @@ import { AddToCartComponent } from '@spartacus/cart/base/components/add-to-cart'
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   CxDatePipe,
-  I18nTestingModule,
   MockDatePipe,
   MockTranslatePipe,
   TranslatePipe,
@@ -34,7 +33,6 @@ import { WishListItemComponent } from './wish-list-item.component';
 @Component({
   selector: 'cx-add-to-cart',
   template: '<button>add to cart</button>',
-  imports: [I18nTestingModule],
 })
 class MockAddToCartComponent {
   @Input() product;
@@ -44,7 +42,6 @@ class MockAddToCartComponent {
 @Component({
   selector: 'cx-media',
   template: 'mock picture component',
-  imports: [I18nTestingModule],
 })
 class MockPictureComponent {
   @Input() container;

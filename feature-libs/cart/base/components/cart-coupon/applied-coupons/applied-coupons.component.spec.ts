@@ -19,7 +19,6 @@ const coupon2: Voucher = { code: 'coupon2', voucherCode: 'coupon2' };
 @Component({
   selector: 'cx-icon',
   template: '',
-  imports: [I18nTestingModule],
 })
 class MockCxIconComponent {
   @Input() type: ICON_TYPE;
