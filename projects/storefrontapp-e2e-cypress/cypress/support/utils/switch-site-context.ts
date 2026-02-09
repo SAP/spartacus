@@ -11,5 +11,10 @@ export function switchSiteContext(option: string, label: string) {
     ? '.navigation .SiteContext label'
     : '.header .SiteContext label';
 
-  cy.get(selector).contains(label).parent().children('select').select(option);
+  cy.get(selector, { timeout: 10000 })
+    .contains(label)
+    .should('be.visible')
+    .parent()
+    .children('select')
+    .select(option);
 }

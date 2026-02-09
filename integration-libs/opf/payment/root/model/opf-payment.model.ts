@@ -70,6 +70,7 @@ export interface OpfPaymentGlobalMethods {
   ): Promise<OpfPaymentVerificationResponse>;
   updateCartGuestUserEmail?(email: string): Promise<boolean>;
   createCartGuestUser?(): Promise<boolean>;
+  handle3DSRedirect?(threeDsURL: string): Promise<void>;
 }
 
 export interface OpfPaymentBrowserInfo {

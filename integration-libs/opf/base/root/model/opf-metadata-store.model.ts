@@ -11,4 +11,6 @@ export interface OpfMetadataModel {
   isPaymentInProgress: boolean;
   opfPaymentSessionId: string | undefined;
   isTermsAndConditionsAlertClosed: boolean;
+  is3DSRedirect?: boolean;
+  opf3DSRedirectReturnPath?: string;
 }
