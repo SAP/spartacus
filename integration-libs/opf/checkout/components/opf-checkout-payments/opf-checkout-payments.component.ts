@@ -36,6 +36,7 @@ import {
 import {
   ICON_TYPE,
   IconComponent,
+  OutletModule,
   PaginationComponent,
   SpinnerComponent,
 } from '@spartacus/storefront';
@@ -46,6 +47,7 @@ import { map, tap } from 'rxjs/operators';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfPaymentProviderType } from '@spartacus/opf/base/root';
+import { OpfCheckoutOutlets } from '../../root/model';
 
 @Component({
   selector: 'cx-opf-checkout-payments',
@@ -61,6 +63,7 @@ import { OpfPaymentProviderType } from '@spartacus/opf/base/root';
     SpinnerComponent,
     AsyncPipe,
     TranslatePipe,
+    OutletModule,
   ],
 })
 export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
@@ -76,7 +79,7 @@ export class OpfCheckoutPaymentsComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
 
   protected paginationIndex = 0;
-
+  readonly opfCheckoutOutlets = OpfCheckoutOutlets;
   @Input()
   isHeadingDisplayed? = true;
 

@@ -16,7 +16,6 @@ import { SpinnerModule } from '@spartacus/storefront';
 import { GiftCardCheckoutComponentModule } from '../checkout';
 
 @NgModule({
-  declarations: [GiftCardComponent],
   providers: [
     GiftCardService,
     provideDefaultConfig(<CmsConfig>{
@@ -27,7 +26,6 @@ import { GiftCardCheckoutComponentModule } from '../checkout';
       },
     }),
   ],
-  exports: [GiftCardComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -36,6 +34,8 @@ import { GiftCardCheckoutComponentModule } from '../checkout';
     AppliedGiftCardModule,
     ReactiveFormsModule,
     GiftCardCheckoutComponentModule,
+    GiftCardComponent,
   ],
+  exports: [GiftCardComponent],
 })
 export class GiftCardModule {}

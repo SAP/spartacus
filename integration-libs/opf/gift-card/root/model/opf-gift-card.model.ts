@@ -27,3 +27,7 @@ export interface GiftCardBalanceRequest {
 }
 
 export type GiftCardResponse = GiftCard;
+
+export enum OpfGiftCardProviderType {
+  GIFT_CARD_PAYMENT = 'GIFT_CARD_PAYMENT',
+}

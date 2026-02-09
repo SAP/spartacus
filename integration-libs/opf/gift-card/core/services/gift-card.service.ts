@@ -15,11 +15,11 @@ import {
   OpfBaseFacade,
   OpfPaymentProviderType,
 } from '@spartacus/opf/base/root';
+import { map, startWith } from 'rxjs/operators';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OpfGiftCardConnector } from '@spartacus/opf/gift-card/core';
 import { UserIdService } from '@spartacus/core';
-import { map } from 'rxjs/operators';
 
 @Injectable()
 export class GiftCardService {
@@ -34,14 +34,22 @@ export class GiftCardService {
    * @returns Observable of gift card configuration or undefined if not found
    */
   getGiftCardConfiguration(): Observable<OpfActiveConfiguration | undefined> {
-    return this.opfBaseFacade.getActiveConfigurationsState().pipe(
-      filter((state) => !state.loading),
-      map((config) =>
-        (config?.data?.value || []).find(
-          (item) =>
-            item?.providerType === OpfPaymentProviderType.GIFT_CARD_PAYMENT
+    return this.opfBaseFacade
+      .getActiveConfigurationsState()
+      .pipe(
+        map((config) =>
+          (config?.data?.value || []).find(
+            (item) =>
+              item?.providerType === OpfPaymentProviderType.GIFT_CARD_PAYMENT
+          )
         )
-      )
+      );
+  }
+
+  isGiftCardEnabled(): Observable<boolean> {
+    return this.getGiftCardConfiguration().pipe(
+      map((config) => !!config),
+      startWith(false)
     );
   }
 

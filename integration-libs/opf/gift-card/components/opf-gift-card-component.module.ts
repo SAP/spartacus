@@ -7,7 +7,7 @@
 import {
   GiftCardOrderSummaryComponent,
   GiftCardOrderSummaryModule,
-} from './public_api';
+} from './gift-card-order-summary';
 
 import { AppliedGiftCardModule } from './applied-gift-card/applied-gift-card.module';
 import { GiftCardComponent } from './gift-card/gift-card.component';
@@ -28,4 +28,4 @@ import { provideOutlet } from '@spartacus/storefront';
     }),
   ],
 })
-export class OpfGiftCardComponentsModule {}
+export class OpfGiftCardComponentModule {}

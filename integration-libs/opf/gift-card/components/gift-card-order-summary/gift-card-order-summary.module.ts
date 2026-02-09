@@ -13,7 +13,6 @@ import { NgModule } from '@angular/core';
 import { SpinnerModule } from '@spartacus/storefront';
 
 @NgModule({
-  declarations: [GiftCardOrderSummaryComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -23,13 +22,14 @@ import { SpinnerModule } from '@spartacus/storefront';
       },
     }),
   ],
-  exports: [GiftCardOrderSummaryComponent],
   imports: [
     CommonModule,
     FormsModule,
     SpinnerModule,
     I18nModule,
     ReactiveFormsModule,
+    GiftCardOrderSummaryComponent,
   ],
+  exports: [GiftCardOrderSummaryComponent],
 })
 export class GiftCardOrderSummaryModule {}

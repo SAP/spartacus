@@ -1,75 +1,80 @@
-<ng-container *ngIf="cart$ | async as cart">
-  <div class="cx-gift-card">
-    <!-- Header -->
-    <div class="cx-gift-card-header">
-      <div class="title">
-        <span>{{ 'giftCard.title' | cxTranslate }}</span>
-      </div>
-      <!-- here add condition of maxgiftcard reaced  
+<ng-container *ngIf="isGiftCardEnabled$ | async">
+  <ng-container *ngIf="cart$ | async as cart">
+    <div class="cx-gift-card">
+      <!-- Header -->
+      <div class="cx-gift-card-header">
+        <div class="cx-gift-card-title">
+          <cx-icon type="GIFT_CARD"></cx-icon>
+          <div class="title">
+            <span>{{ 'giftCard.title' | cxTranslate }}</span>
+          </div>
+        </div>
+        <!-- here add condition of maxgiftcard reaced  
 add this on the button  [disabled]="!cart.sapGiftCardSummary?.canPlaceOrder" 
 -->
-      <button
-        type="button"
-        class="add-gift-card-link"
-        (click)="showGiftCardForm = !showGiftCardForm"
-        [disabled]="cart._availableOperations?.addGiftCard?.available"
-      >
-        {{ 'giftCard.addGiftCard' | cxTranslate }}
-      </button>
-    </div>
-
-    <!-- Gift Card Form -->
-    <form
-      *ngIf="showGiftCardForm"
-      [formGroup]="giftCardForm"
-      (ngSubmit)="addGiftCard()"
-      class="cx-gift-card-form"
-    >
-      <div class="cx-gift-card-form-wrapper">
-        <div class="form-group">
-          <label>
-            {{ 'giftCard.cardNumberLabel' | cxTranslate }}
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="cardNumber"
-            [attr.aria-label]="'giftCard.CardNumber' | cxTranslate"
-          />
-        </div>
-
-        <div class="form-group">
-          <label>
-            {{ 'giftCard.pinLabel' | cxTranslate }}
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="pin"
-            [attr.aria-label]="'giftCard.pinLabel' | cxTranslate"
-          />
-        </div>
-
         <button
-          type="submit"
-          class="btn btn-primary apply-gift-card-button"
-          [disabled]="giftCardForm.invalid || (loading$ | async)"
+          type="button"
+          class="add-gift-card-link"
+          (click)="showGiftCardForm = !showGiftCardForm"
+          [disabled]="cart._availableOperations?.addGiftCard?.available"
         >
-          {{ 'giftCard.apply' | cxTranslate }}
+          {{ 'giftCard.addGiftCard' | cxTranslate }}
         </button>
       </div>
 
-      <!-- <div aria-live="assertive" aria-atomic="true">
+      <!-- Gift Card Form -->
+      <form
+        *ngIf="showGiftCardForm"
+        [formGroup]="giftCardForm"
+        (ngSubmit)="addGiftCard()"
+        class="cx-gift-card-form"
+      >
+        <div class="cx-gift-card-form-wrapper">
+          <div class="form-group">
+            <label>
+              {{ 'giftCard.cardNumberLabel' | cxTranslate }}
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="cardNumber"
+              [attr.aria-label]="'giftCard.CardNumber' | cxTranslate"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>
+              {{ 'giftCard.pinLabel' | cxTranslate }}
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="pin"
+              [attr.aria-label]="'giftCard.pinLabel' | cxTranslate"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary apply-gift-card-button"
+            [disabled]="giftCardForm.invalid || (loading$ | async)"
+          >
+            {{ 'giftCard.apply' | cxTranslate }}
+          </button>
+        </div>
+
+        <!-- <div aria-live="assertive" aria-atomic="true">
         <span role="alert" class="cx-invalid-message">
           {{ 'giftCard.validationError' | cxTranslate }}
         </span>
       </div> -->
-    </form>
+      </form>
 
-    <!-- Applied Gift Cards -->
-    <cx-applied-gift-card
-      [giftCards]="cart.sapGiftCards || mockGiftCards"
-    ></cx-applied-gift-card>
-    <cx-gift-card-checkout-payment></cx-gift-card-checkout-payment>
-  </div>
+      <!-- Applied Gift Cards -->
+      <cx-applied-gift-card
+        [giftCards]="cart.sapGiftCards || mockGiftCards"
+      ></cx-applied-gift-card>
+      <cx-gift-card-checkout-payment></cx-gift-card-checkout-payment>
+    </div>
+  </ng-container>
 </ng-container>

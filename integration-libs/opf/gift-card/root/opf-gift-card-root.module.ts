@@ -4,11 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import {
+  CmsConfig,
+  provideConfig,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
+import { IconConfig, IconResourceType } from '@spartacus/storefront';
 
 import { NgModule } from '@angular/core';
 import { OPF_GIFT_CARD_FEATURE } from './feature-name';
-import { OpfGiftCardComponentsModule } from '../components/public_api';
+import { OpfGiftCardComponentModule } from '../components/public_api';
 import { OpfGiftCardOccModule } from '../occ/opf-gift-card-occ.module';
 
 export const GIFT_CARD_OPF_CMS_COMPONENTS: string[] = [
@@ -29,7 +34,23 @@ export function defaultOpfGiftCardComponentsConfig() {
 }
 
 @NgModule({
-  imports: [OpfGiftCardOccModule, OpfGiftCardComponentsModule],
-  providers: [provideDefaultConfigFactory(defaultOpfGiftCardComponentsConfig)],
+  imports: [OpfGiftCardOccModule, OpfGiftCardComponentModule],
+  providers: [
+    provideDefaultConfigFactory(defaultOpfGiftCardComponentsConfig),
+    provideConfig({
+      icon: {
+        symbols: {
+          GIFT_CARD: 'gift-card-icon',
+        },
+        resources: [
+          {
+            type: IconResourceType.SVG,
+            url: './assets/icons/opf-gift-card.svg',
+            types: ['GIFT_CARD'],
+          },
+        ],
+      },
+    } as IconConfig),
+  ],
 })
 export class OpfGiftCardRootModule {}

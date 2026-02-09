@@ -10,7 +10,6 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { NgModule } from '@angular/core';
 
 @NgModule({
-  declarations: [AppliedGiftCardComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -20,7 +19,7 @@ import { NgModule } from '@angular/core';
       },
     }),
   ],
-  imports: [CommonModule, I18nModule],
+  imports: [CommonModule, I18nModule, AppliedGiftCardComponent],
   exports: [AppliedGiftCardComponent],
 })
 export class AppliedGiftCardModule {}

@@ -1,61 +1,44 @@
-%cx-gift-card {
+.cx-gift-card {
+  margin-bottom: 0.5rem;
+
   @include media-breakpoint-down(md) {
     margin-top: 1rem;
   }
 
-  cx-card {
-    flex-grow: 1;
-  }
+  // cx-card {
+  //   flex-grow: 1;
+  // }
   .cx-gift-card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
     padding: 1rem 0;
-    margin-bottom: 1rem;
-
-    .title {
+    .cx-gift-card-title {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      font-size: 1rem;
-      font-weight: 500;
-      color: var(--cx-color-text);
-
-      .icon {
-        font-size: 1.2rem;
-      }
     }
 
-    // .add-gift-card-link {
-    //   background: none;
-    //   border: none;
-    //   color: var(--cx-color-primary);
-    //   font-weight: 500;
-    //   cursor: pointer;
-    //   padding: 0;
-
-    //   &:hover {
-    //     text-decoration: underline;
-    //   }
-    // }
     .add-gift-card-link {
+      margin-right: 0;
       background: none;
       border: none;
       padding: 0;
       font-weight: 500;
       color: var(--cx-color-primary);
       cursor: pointer;
-
       &:hover {
         text-decoration: underline;
       }
 
       &.disabled,
       &:disabled {
-        color: #9e9e9e; /* muted text */
+        color: var(--cx-color-secondary);
+        opacity: 0.6;
         cursor: not-allowed;
         text-decoration: none;
-        pointer-events: none; /* extra safety */
+        pointer-events: none;
       }
     }
   }
@@ -104,9 +87,10 @@
 
       .form-control {
         padding: 0.75rem;
-        border: 1px solid #ccc;
+        border: 0.5px solid var(--cx-color-dark);
         border-radius: 4px;
         font-size: 1rem;
+        height: 42px;
 
         &:focus {
           outline: none;
@@ -118,11 +102,11 @@
 
     button.apply-gift-card-button {
       margin-bottom: 20px;
-      white-space: nowrap;
-      background-color: transparent !important;
+      // white-space: nowrap;
+      // background-color: transparent !important;
       color: var(--cx-color-primary);
-      border: 3px solid var(--cx-color-primary);
-      border-radius: 50px;
+      border: 2px solid var(--cx-color-primary);
+      // border-radius: 50px;
 
       &:hover,
       &:active,

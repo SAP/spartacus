@@ -14,27 +14,41 @@ import {
   inject,
 } from '@angular/core';
 import {
-  GlobalMessageService,
-  GlobalMessageType,
-  HttpErrorModel,
-} from '@spartacus/core';
-import {
+  FormsModule,
+  ReactiveFormsModule,
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  HttpErrorModel,
+  TranslatePipe,
+} from '@spartacus/core';
+import { ICON_TYPE, IconModule, OutletModule } from '@spartacus/storefront';
+import { map, shareReplay } from 'rxjs/operators';
 
+import { AppliedGiftCardComponent } from '../applied-gift-card';
+import { CommonModule } from '@angular/common';
 import { GiftCard } from '../../root/model';
+import { GiftCardCheckoutComponent } from '../checkout';
 import { GiftCardService } from '../../core/services/gift-card.service';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { OpfActiveConfiguration } from '@spartacus/opf/base/root';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-gift-card',
   templateUrl: './gift-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    TranslatePipe,
+    CommonModule,
+    OutletModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AppliedGiftCardComponent,
+    GiftCardCheckoutComponent,
+    IconModule,
+  ],
 })
 export class GiftCardComponent implements OnInit, OnDestroy {
   protected globalMessageService = inject(GlobalMessageService);
@@ -49,7 +63,6 @@ export class GiftCardComponent implements OnInit, OnDestroy {
 
   isLoading$: Observable<boolean>;
   protected configurationId: string;
-
   mockGiftCards = [
     {
       id: 'GC1',
@@ -99,28 +112,6 @@ export class GiftCardComponent implements OnInit, OnDestroy {
     });
   }
 
-  protected initializeGiftCardConfiguration(): void {
-    this.subscription.add(
-      this.giftCardService.getGiftCardConfiguration().subscribe({
-        next: (config: OpfActiveConfiguration | undefined) => {
-          if (config?.id) {
-            this.configurationId = config.id.toString();
-          } else {
-            this.globalMessageService.add(
-              { key: 'giftCard.errors.configurationNotFound' },
-              GlobalMessageType.MSG_TYPE_ERROR
-            );
-          }
-        },
-        error: () => {
-          this.globalMessageService.add(
-            { key: 'giftCard.errors.configurationNotFound' },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        },
-      })
-    );
-  }
 
   addGiftCard(): void {
     if (this.giftCardForm.invalid) {
@@ -174,9 +165,11 @@ export class GiftCardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+  isGiftCardEnabled$ = this.giftCardService
+    .isGiftCardEnabled()
+    .pipe(shareReplay(1));
+
   ngOnInit(): void {
-    console.log('GiftCardComponent initialized');
-    this.initializeGiftCardConfiguration();
     this.buildForm();
     this.appliedGiftCards$ = this.cart$.pipe(
       map((cart) => cart?.sapGiftCards ?? [])

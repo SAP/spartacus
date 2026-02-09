@@ -1,4 +1,7 @@
-import { OpfBaseFacade, OpfPaymentProviderType } from '@spartacus/opf/base/root';
+import {
+  OpfBaseFacade,
+  OpfPaymentProviderType,
+} from '@spartacus/opf/base/root';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { GiftCardService } from './gift-card.service';
@@ -53,11 +56,16 @@ describe('GiftCardService', () => {
         data: {
           value: [
             { providerType: 'OTHER' },
-            { providerType: OpfPaymentProviderType.GIFT_CARD_PAYMENT, id: 'gc-config' },
+            {
+              providerType: OpfPaymentProviderType.GIFT_CARD_PAYMENT,
+              id: 'gc-config',
+            },
           ],
         },
       };
-      (opfBaseFacade.getActiveConfigurationsState as jest.Mock).mockReturnValue(of(mockState));
+      (opfBaseFacade.getActiveConfigurationsState as jest.Mock).mockReturnValue(
+        of(mockState)
+      );
 
       service.getGiftCardConfiguration().subscribe((result) => {
         expect(result?.id).toBe('gc-config');
@@ -66,7 +74,9 @@ describe('GiftCardService', () => {
     });
 
     it('should filter out configurations while loading', () => {
-      (opfBaseFacade.getActiveConfigurationsState as jest.Mock).mockReturnValue(of({ loading: true }));
+      (opfBaseFacade.getActiveConfigurationsState as jest.Mock).mockReturnValue(
+        of({ loading: true })
+      );
       let result;
       service.getGiftCardConfiguration().subscribe((res) => (result = res));
       expect(result).toBeUndefined();
@@ -75,13 +85,25 @@ describe('GiftCardService', () => {
 
   describe('applyGiftCard', () => {
     it('should call connector with userId and cartId', (done) => {
-      const request = { configurationId: '1', number: '123', securityCode: '000' };
+      const request = {
+        configurationId: '1',
+        number: '123',
+        securityCode: '000',
+      };
       (userIdService.getUserId as jest.Mock).mockReturnValue(of('user123'));
-      (activeCartFacade.getActiveCartId as jest.Mock).mockReturnValue(of('cart123'));
-      (opfGiftCardConnector.applyGiftCard as jest.Mock).mockReturnValue(of({ balance: 50 }));
+      (activeCartFacade.getActiveCartId as jest.Mock).mockReturnValue(
+        of('cart123')
+      );
+      (opfGiftCardConnector.applyGiftCard as jest.Mock).mockReturnValue(
+        of({ balance: 50 })
+      );
 
       service.applyGiftCard(request).subscribe((response) => {
-        expect(opfGiftCardConnector.applyGiftCard).toHaveBeenCalledWith('user123', 'cart123', request);
+        expect(opfGiftCardConnector.applyGiftCard).toHaveBeenCalledWith(
+          'user123',
+          'cart123',
+          request
+        );
         expect(response.balance).toBe(50);
         done();
       });
@@ -91,11 +113,19 @@ describe('GiftCardService', () => {
   describe('removeGiftCard', () => {
     it('should call connector to remove the card', (done) => {
       (userIdService.getUserId as jest.Mock).mockReturnValue(of('user123'));
-      (activeCartFacade.getActiveCartId as jest.Mock).mockReturnValue(of('cart123'));
-      (opfGiftCardConnector.removeGiftCard as jest.Mock).mockReturnValue(of(undefined));
+      (activeCartFacade.getActiveCartId as jest.Mock).mockReturnValue(
+        of('cart123')
+      );
+      (opfGiftCardConnector.removeGiftCard as jest.Mock).mockReturnValue(
+        of(undefined)
+      );
 
       service.removeGiftCard('gc-id').subscribe(() => {
-        expect(opfGiftCardConnector.removeGiftCard).toHaveBeenCalledWith('user123', 'cart123', 'gc-id');
+        expect(opfGiftCardConnector.removeGiftCard).toHaveBeenCalledWith(
+          'user123',
+          'cart123',
+          'gc-id'
+        );
         done();
       });
     });

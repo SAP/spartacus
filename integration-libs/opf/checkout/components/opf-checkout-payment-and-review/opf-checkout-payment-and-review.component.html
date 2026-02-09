@@ -60,7 +60,7 @@
       [isExplicit]="explicitTermsAndConditions.value"
       [ngClass]="['for-desktop']"
     ></cx-opf-checkout-terms-and-conditions-alert>
-    <ng-container *ngIf="giftcardEnabled$ | async">
+    <ng-container>
       <ng-template [cxOutlet]="opfCheckoutOutlets.OPF_CHECKOUT_GIFT_CARD">
       </ng-template>
     </ng-container>

@@ -1,10 +1,25 @@
-<div class="cx-gift-card-order-summary" *ngIf="cart$ | async as cart">
-  <div class="cx-summary-row" *ngIf="cart.sapGiftCardSummary as giftCard">
-    <div class="col-6 cx-summary-label">
-      <!-- {{ 'orderCost.subtotal' | cxTranslate }} -->Gift Card
-    </div>
-    <div class="col-6 cx-summary-amount cx-gift-card-discount">
-      - {{ giftCard?.totalAppliedAmount?.formattedValue || '$50.00' }}
+<ng-container *ngIf="isGiftCardEnabled$ | async">
+  <div class="cx-gift-card-order-summary" *ngIf="cart$ | async as cart">
+    <div class="cx-summary-row" *ngIf="cart.sapGiftCardSummary as giftCard">
+      <div class="col-6 cx-summary-label">
+        <!-- {{ 'orderCost.subtotal' | cxTranslate }} -->Gift Card
+      </div>
+      <div class="col-6 cx-summary-amount cx-gift-card-discount">
+        - {{ giftCard?.totalAppliedAmount?.formattedValue || '$50.00' }}
+      </div>
     </div>
   </div>
-</div>
+</ng-container>
+
+<ng-container *ngIf="isGiftCardEnabled$ | async">
+  <div class="cx-gift-card-order-summary" *ngIf="cart$ | async as cart">
+    <div class="cx-summary-row">
+      <div class="col-6 cx-summary-label">
+        <!-- {{ 'orderCost.subtotal' | cxTranslate }} -->Gift Card
+      </div>
+      <div class="col-6 cx-summary-amount cx-gift-card-discount">
+        - {{ '$50.00' }}
+      </div>
+    </div>
+  </div>
+</ng-container>

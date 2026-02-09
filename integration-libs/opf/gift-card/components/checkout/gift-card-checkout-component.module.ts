@@ -26,8 +26,7 @@ export const defaultPlaceOrderSpinnerLayoutConfig: LayoutConfig = {
 };
 
 @NgModule({
-  declarations: [GiftCardCheckoutComponent],
-  imports: [CommonModule, RouterModule, I18nModule],
+  imports: [CommonModule, RouterModule, I18nModule, GiftCardCheckoutComponent],
   providers: [provideDefaultConfig(defaultPlaceOrderSpinnerLayoutConfig)],
   exports: [GiftCardCheckoutComponent],
 })

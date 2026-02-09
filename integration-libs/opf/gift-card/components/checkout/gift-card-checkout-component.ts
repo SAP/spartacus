@@ -12,17 +12,22 @@ import {
   ViewContainerRef,
   inject,
 } from '@angular/core';
-import { LAUNCH_CALLER, LaunchDialogService } from '@spartacus/storefront';
+import {
+  LAUNCH_CALLER,
+  LaunchDialogService,
+  OutletModule,
+} from '@spartacus/storefront';
+import { RoutingService, TranslatePipe } from '@spartacus/core';
 
+import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { OrderFacade } from '@spartacus/order/root';
-import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-gift-card-checkout-payment',
   templateUrl: './gift-card-checkout-component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [TranslatePipe, OutletModule, CommonModule],
 })
 export class GiftCardCheckoutComponent implements OnInit {
   cart$: Observable<Cart>;

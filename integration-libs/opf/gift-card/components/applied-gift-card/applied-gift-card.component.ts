@@ -13,14 +13,23 @@ import {
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { CommonModule } from '@angular/common';
 import { GiftCard } from '../../root/model';
 import { GiftCardService } from '../../core/services';
+import { OutletModule } from '@spartacus/storefront';
+import { TranslatePipe } from '@spartacus/core';
 
 @Component({
   selector: 'cx-applied-gift-card',
   templateUrl: './applied-gift-card.component.html',
-  standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    // NgIf,
+    // NgFor,
+    CommonModule,
+    TranslatePipe,
+    OutletModule,
+  ],
 })
 export class AppliedGiftCardComponent {
   protected globalMessageService = inject(GlobalMessageService);
