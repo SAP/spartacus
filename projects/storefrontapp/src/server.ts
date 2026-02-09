@@ -9,7 +9,6 @@ import {
   CxAngularNodeAppEngine,
   DefaultExpressServerLogger,
   defaultExpressErrorHandlers,
-  defaultSsrOptimizationOptions,
 } from '@spartacus/setup/ssr';
 import express from 'express';
 import { existsSync, readFileSync } from 'node:fs';
@@ -92,14 +91,13 @@ export async function app(): Promise<express.Express> {
 
   const logger = new DefaultExpressServerLogger();
 
-  // Create CxAngularNodeAppEngine with SSR optimization enabled
-  // This provides: timeout with CSR fallback, response caching,
+  // Create CxAngularNodeAppEngine with SSR optimization
+  // Features: timeout with CSR fallback, response caching,
   // concurrency control, and render reuse for concurrent requests
   const angularApp = new CxAngularNodeAppEngine({
-    logger,
     documentFilePath,
+    logger,
     optimization: {
-      ...defaultSsrOptimizationOptions,
       // Override defaults with environment variables if provided
       timeout: Number(process.env['SSR_TIMEOUT'] ?? 3000),
       cache: process.env['SSR_CACHE'] === 'true',
