@@ -12,8 +12,8 @@ import { OpfGiftCardOccModule } from './occ/opf-gift-card-occ.module';
 @NgModule({
   imports: [
     // OpfGiftCardComponentsModule,
+        OpfGiftCardOccModule,
     OpfGiftCardCoreModule,
-    OpfGiftCardOccModule,
   ],
 })
 export class OpfGiftCardModule {}

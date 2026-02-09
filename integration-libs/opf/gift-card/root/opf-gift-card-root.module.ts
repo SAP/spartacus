@@ -7,7 +7,7 @@
 import {
   CmsConfig,
   provideConfig,
-  provideDefaultConfigFactory,
+  provideDefaultConfigFactory
 } from '@spartacus/core';
 import { IconConfig, IconResourceType } from '@spartacus/storefront';
 
@@ -15,6 +15,7 @@ import { NgModule } from '@angular/core';
 import { OPF_GIFT_CARD_FEATURE } from './feature-name';
 import { OpfGiftCardComponentModule } from '../components/public_api';
 import { OpfGiftCardOccModule } from '../occ/opf-gift-card-occ.module';
+import { defaultGiftCardCartOccEndpointsConfig } from '../occ/config';
 
 export const GIFT_CARD_OPF_CMS_COMPONENTS: string[] = [
   'GiftCardComponent',
@@ -36,6 +37,7 @@ export function defaultOpfGiftCardComponentsConfig() {
 @NgModule({
   imports: [OpfGiftCardOccModule, OpfGiftCardComponentModule],
   providers: [
+    provideConfig(defaultGiftCardCartOccEndpointsConfig),
     provideDefaultConfigFactory(defaultOpfGiftCardComponentsConfig),
     provideConfig({
       icon: {
