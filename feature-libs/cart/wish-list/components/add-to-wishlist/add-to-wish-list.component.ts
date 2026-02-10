@@ -16,11 +16,11 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import {
   AuthService,
-  FeatureDirective,
   Product,
   TranslatePipe,
   UrlPipe,
   isNotNullable,
+  FeatureDirective,
 } from '@spartacus/core';
 import {
   AtMessageDirective,
@@ -38,7 +38,6 @@ import { filter, map, take, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgIf,
-    FeatureDirective,
     AtMessageDirective,
     IconComponent,
     BtnLikeLinkDirective,
@@ -46,6 +45,7 @@ import { filter, map, take, tap } from 'rxjs/operators';
     AsyncPipe,
     TranslatePipe,
     UrlPipe,
+    FeatureDirective,
   ],
 })
 export class AddToWishListComponent {

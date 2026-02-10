@@ -295,6 +295,8 @@ export const SPARTACUS_MODULE = 'spartacus';
 export const SPARTACUS_FEATURES_MODULE = 'spartacus-features';
 export const SPARTACUS_FEATURES_NG_MODULE = 'SpartacusFeaturesModule';
 export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
+export const APP_ROUTING_MODULE_CLASS = 'AppRoutingModule';
+export const STOREFRONT_COMPONENT_CLASS = 'StorefrontComponent';
 /***** File structure end *****/
 
 /***** Feature name start *****/
