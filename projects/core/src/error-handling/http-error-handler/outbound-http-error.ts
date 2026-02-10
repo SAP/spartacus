@@ -7,6 +7,7 @@
 /**
  * Represents an outbound HTTP error that occurs when communicating with the backend.
  */
+// TODO: OPEN problem - check if names are really needed - previously type of error was recognized based on `instanceof`
 export class OutboundHttpError extends Error {
   override name = 'OutboundHttpError';
 

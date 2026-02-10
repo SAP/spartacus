@@ -83,6 +83,7 @@ export interface CxAngularNodeAppEngineOptions {
  * });
  * ```
  */
+// same layer as NgExpressDecorator
 export class CxAngularNodeAppEngine {
   private readonly logger: ExpressServerLogger;
   private readonly optimizedEngine: OptimizedSsrEngine;
@@ -109,7 +110,9 @@ export class CxAngularNodeAppEngine {
    * @returns Promise resolving to a Response object or null if no matching route,
    *          OR rejects with the error if any is propagated from the rendered app.
    */
-  handle(request: IncomingMessage | Http2ServerRequest): Promise<Response | null> {
+  handle(
+    request: IncomingMessage | Http2ServerRequest
+  ): Promise<Response | null> {
     return new Promise((resolve, reject) => {
       // Ensure originalUrl is set for render key resolution
       // Express sets this, but we provide fallback for raw IncomingMessage
@@ -135,6 +138,7 @@ export class CxAngularNodeAppEngine {
           }
           if (html) {
             resolve(
+              // TODO: Check Angular's API if there is a util that converts web standard to Node request/response
               new Response(html, {
                 status: 200,
                 headers: { 'Content-Type': 'text/html;charset=UTF-8' },

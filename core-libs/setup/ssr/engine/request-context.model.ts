@@ -18,6 +18,7 @@ export interface CxRequestContext {
    * Propagates errors from the Angular app to the server layer.
    * Used for CSR fallback on errors during SSR.
    */
+  // TODO: change name, probably to propagateErrorToServer, as it was
   error: (error: unknown) => void;
 
   /**

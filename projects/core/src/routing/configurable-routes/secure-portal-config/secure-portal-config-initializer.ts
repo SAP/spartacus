@@ -6,7 +6,7 @@
 
 import { isPlatformServer } from '@angular/common';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Observable, lastValueFrom } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
 import { ConfigInitializerService } from '../../../config/config-initializer/config-initializer.service';
@@ -35,7 +35,7 @@ export class SecurePortalConfigInitializer implements ConfigInitializer {
     return this.baseSiteService.get().pipe(
       tap((baseSite) => {
         if (!baseSite) {
-          // On the server during build, log a warning instead of throwing
+          // On the server during build (due to prerendering and bootstrapping app), log a warning instead of throwing
           // to allow the build process to continue
           if (isPlatformServer(this.platformId)) {
             /* eslint-disable-next-line no-console */

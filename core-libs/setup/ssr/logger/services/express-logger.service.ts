@@ -84,11 +84,15 @@ export class ExpressLoggerService implements LoggerService {
    * Resolves the server logger from available sources.
    * Prefers legacy EXPRESS_SERVER_LOGGER token over REQUEST_CONTEXT.cx.logger.
    */
+  // TODO: consider optimization, so the EXPRESS_SERVER_LOGGER use REQUEST_CONTEXT as a fallback, BUT might provide issues with removing deprecated code
   private resolveLogger(): ExpressServerLogger {
     return (
       inject(EXPRESS_SERVER_LOGGER, { optional: true }) ??
-      (inject(REQUEST_CONTEXT, { optional: true }) as RequestContextWithCx | null)
-        ?.cx?.logger ??
+      (
+        inject(REQUEST_CONTEXT, {
+          optional: true,
+        }) as RequestContextWithCx | null
+      )?.cx?.logger ??
       this.createFallbackLogger()
     );
   }

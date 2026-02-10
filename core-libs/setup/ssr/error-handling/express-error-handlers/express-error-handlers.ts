@@ -13,8 +13,12 @@ import { ErrorRequestHandler } from 'express';
  * We use name-based check instead of `instanceof` because the error may come
  * from a different bundle/context during SSR, causing `instanceof` to fail.
  */
+// TODO: investigate if really required
+// TODO: check if the issue with instanceof occurred during dev or prod mode
 function isCmsPageNotFoundError(err: unknown): boolean {
-  return err instanceof Error && err.name === 'CmsPageNotFoundOutboundHttpError';
+  return (
+    err instanceof Error && err.name === 'CmsPageNotFoundOutboundHttpError'
+  );
 }
 
 /**

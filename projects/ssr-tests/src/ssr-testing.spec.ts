@@ -117,7 +117,6 @@ describe('SSR E2E', () => {
               backend: { timeout: { server: BACKEND_TIMEOUT_TIME_LIMIT } },
             },
           });
-          console.log(`response`, response);
 
           expect(response.statusCode).toEqual(500);
 

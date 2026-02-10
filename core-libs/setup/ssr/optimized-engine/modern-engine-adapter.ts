@@ -30,6 +30,8 @@ import { SsrCallbackFn } from './optimized-ssr-engine';
  * );
  * ```
  */
+// TODO: consider renaming
+// the same layer as CxCommonEngine
 export class ModernEngineAdapter {
   private readonly angularEngine = new AngularNodeAppEngine();
 

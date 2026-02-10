@@ -39,7 +39,7 @@ function getIndexHtmlContent(
     return readFileSync(indexServerHtml, 'utf-8');
   }
 
-  const indexHtml = join(browserDistFolder, 'index.html');
+  const indexHtml = join(browserDistFolder, 'index.browser.html');
   if (existsSync(indexHtml)) {
     return readFileSync(indexHtml, 'utf-8');
   }
@@ -70,7 +70,7 @@ function getDocumentFilePath(
   if (existsSync(indexServerHtml)) {
     return indexServerHtml;
   }
-  return join(browserDistFolder, 'index.html');
+  return join(browserDistFolder, 'index.browser.html');
 }
 
 // The Express app is exported so that it can be used by serverless Functions.
@@ -96,7 +96,7 @@ export async function app(): Promise<express.Express> {
   // concurrency control, and render reuse for concurrent requests
   const angularApp = new CxAngularNodeAppEngine({
     documentFilePath,
-    logger,
+    logger, //TODO pass logger to optimization options
     optimization: {
       // Override defaults with environment variables if provided
       timeout: Number(process.env['SSR_TIMEOUT'] ?? 3000),

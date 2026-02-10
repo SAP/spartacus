@@ -12,6 +12,7 @@ import { ServerOptions } from './model';
  * Default fallback origin used during build-time route extraction
  * when no SERVER_REQUEST_ORIGIN is provided.
  */
+//TODO: still open problem - maybe it's possible to avoid bootstraping the app during route extraction, so this fallback is not required at all
 const DEFAULT_BUILD_ORIGIN = 'http://localhost:4200';
 
 /**
@@ -42,9 +43,10 @@ export function serverRequestOriginFactory(options?: ServerOptions): Function {
     }
 
     // Option 3: Environment variable (for prerendering or build)
-    const envOrigin = typeof process !== 'undefined' 
-      ? process.env?.['SERVER_REQUEST_ORIGIN'] 
-      : undefined;
+    const envOrigin =
+      typeof process !== 'undefined'
+        ? process.env?.['SERVER_REQUEST_ORIGIN']
+        : undefined;
     if (envOrigin) {
       return envOrigin;
     }
@@ -56,8 +58,8 @@ export function serverRequestOriginFactory(options?: ServerOptions): Function {
     /* eslint-disable-next-line no-console */
     console.warn(
       `[Spartacus] SERVER_REQUEST_ORIGIN is not set. ` +
-      `Using fallback origin "${DEFAULT_BUILD_ORIGIN}" for build-time route extraction. ` +
-      `This is expected during "ng build" and does not affect runtime SSR behavior.`
+        `Using fallback origin "${DEFAULT_BUILD_ORIGIN}" for build-time route extraction. ` +
+        `This is expected during "ng build" and does not affect runtime SSR behavior.`
     );
 
     return DEFAULT_BUILD_ORIGIN;
