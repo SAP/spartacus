@@ -87,11 +87,9 @@ describe('Order details page', { testIsolation: false }, () => {
 
         cy.get('.cx-order-history-code > .cx-order-history-value')
           .contains(consignedOrderId)
-          .should('exist');
+          .as('orderHistoryCode');
 
-        cy.get('.cx-order-history-code > .cx-order-history-value')
-          .contains(consignedOrderId)
-          .click();
+        cy.get('@orderHistoryCode').click();
       });
     });
     it('should display order details page with consigned entries', () => {

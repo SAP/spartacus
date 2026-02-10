@@ -170,9 +170,8 @@ export const orderHistoryTest = {
     it('should display placed order in Order History', () => {
       cy.whenJDK21(() => {
         cy.log(
-          'Test is not supported with JDK21 as using mock data with consigned order.'
+          'Test is skipped for JDK21 because it uses the existing order history of the test user, so placing a new order is unnecessary.'
         );
-        return;
       });
       cy.whenJDK17(() => {
         doPlaceOrder().then(() => {
