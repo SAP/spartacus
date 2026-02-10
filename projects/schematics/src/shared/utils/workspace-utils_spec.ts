@@ -49,7 +49,6 @@ describe('Workspace utils', () => {
     style: Style.Scss,
     skipTests: false,
     projectRoot: '',
-    standalone: false,
     zoneless: false,
     fileNameStyleGuide: FileNameStyleGuide.The2016,
   };
