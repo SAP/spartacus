@@ -23,6 +23,7 @@ import {
   ICON_TYPE,
   SpinnerComponent,
 } from '@spartacus/storefront';
+import { OpfTokenisationFacade } from '../../root/facade';
 
 @Component({
   selector: 'cx-opf-tokenisation-payment-methods',
@@ -44,13 +45,13 @@ export class OpfTokenisationPaymentMethodsComponent implements OnInit {
   loading$: Observable<boolean>;
 
   constructor(
-    private userPaymentService: UserPaymentService,
+    private tokenisationFacade: OpfTokenisationFacade,
     private translation: TranslationService,
     protected globalMessageService?: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
-    this.paymentMethods$ = this.userPaymentService.getPaymentMethods().pipe(
+    this.paymentMethods$ = this.tokenisationFacade.getPaymentMethods().pipe(
       tap((paymentDetails) => {
         // Set first payment method to DEFAULT if none is set
         if (
@@ -63,8 +64,8 @@ export class OpfTokenisationPaymentMethodsComponent implements OnInit {
     );
 
     this.editCard = undefined;
-    this.loading$ = this.userPaymentService.getPaymentMethodsLoading();
-    this.userPaymentService.loadPaymentMethods();
+    this.loading$ = this.tokenisationFacade.getPaymentMethodsLoading();
+    this.tokenisationFacade.loadPaymentMethods();
   }
 
   getCardContent({
@@ -110,7 +111,7 @@ export class OpfTokenisationPaymentMethodsComponent implements OnInit {
 
   deletePaymentMethod(paymentMethod: PaymentDetails): void {
     if (paymentMethod.id) {
-      this.userPaymentService.deletePaymentMethod(paymentMethod.id);
+      this.tokenisationFacade.deletePaymentMethod(paymentMethod.id);
       this.editCard = undefined;
     }
   }
@@ -124,7 +125,7 @@ export class OpfTokenisationPaymentMethodsComponent implements OnInit {
   }
 
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
-    this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id ?? '');
+    this.tokenisationFacade.setPaymentMethodAsDefault(paymentMethod.id ?? '');
     this.globalMessageService?.add(
       { key: 'paymentMessages.setAsDefaultSuccessfully' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
