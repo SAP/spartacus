@@ -35,6 +35,7 @@ export namespace Configurator {
     numDecimalPlaces?: number;
     numTotalLength?: number;
     negativeAllowed?: boolean;
+     hasNonNavigableConflict?:boolean;
     hasConflicts?: boolean;
     retractTriggered?: boolean;
     attributePriceTotal?: PriceDetails;

@@ -635,12 +635,47 @@ describe('OccConfiguratorVariantNormalizer', () => {
       );
       expect(attributes[0].hasConflicts).toBe(false);
 
-      sourceAttribute.conflicts = ['first, second'];
+      sourceAttribute.conflicts = [{ text: 'first' } as any, { text: 'second' } as any];
       occConfiguratorVariantNormalizer.convertAttribute(
         sourceAttribute,
         attributes
       );
       expect(attributes[1].hasConflicts).toBe(true);
+    });
+
+    it('should set hasNonNavigableConflict to true if exactly one conflict with approriate key exists otherwise false', () => {
+      const sourceAttribute: OccConfigurator.Attribute = {
+        name: attributeName,
+        key: attributeName,
+      };
+      const attributes: Configurator.Attribute[] = [];
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
+      expect(attributes[0].hasNonNavigableConflict).toBe(false);
+      
+      sourceAttribute.conflicts = [{ text: 'first' } as any, { text: 'second' } as any];
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
+      expect(attributes[1].hasNonNavigableConflict).toBe(false);
+
+
+      sourceAttribute.conflicts = [{ text: 'onlyConflict' } as any];
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
+      expect(attributes[2].hasNonNavigableConflict).toBe(false);
+
+      sourceAttribute.conflicts = [{ text: 'ATTRIBUTE_INCONSISTENCY_MARKER' } as any];
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
+      expect(attributes[3].hasNonNavigableConflict).toBe(true);
     });
 
     it('should set user input to blank string in case formattedValue is not present', () => {
