@@ -21,12 +21,25 @@ export const ADD_TO_CART_ENDPOINT_ALIAS = 'addToCart';
 export const ORDERS_ALIAS = 'orders';
 export const CART_FROM_ORDER_ALIAS = 'cartFromOrder';
 
+/**
+ * Navigates to the B2C Order History page for a test user with pre-defined orders.
+ *
+ * The Order History page displays two sample orders:
+ * - Order ID 100002: Contains one consigned entry with status WAITING.
+ * - Order ID 100003: Contains ine unconsigned entry with status COMPLETED.
+ */
 export function goToB2COrderHistoryPage() {
   cy.login('test-user-with-orders@sap.cx.com', 'pw4all');
   cy.visit('/my-account/orders');
   cy.get('.cx-login-greet').should('contain', 'Test User');
 }
 
+/**
+ * Navigates to the B2B Order History page for a test user with pre-defined orders.
+ *
+ * The Order History page displays one sample order:
+ * - Order ID 100004: Contains one unconsigned entrie with status COMPLETED.
+ */
 export function goToB2BOrderHistoryPage() {
   cy.login('powertools-test-user-with-orders@sap.cx.com', 'pw4all');
   cy.visit('/my-account/orders');
