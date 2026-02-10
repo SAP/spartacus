@@ -15,6 +15,11 @@ import { OpfCtaScriptsModule } from './opf-cta-scripts';
     OpfCtaElementModule,
     OpfCtaQuickBuyButtonsModule,
   ],
+  exports: [
+    OpfCtaScriptsModule,
+    OpfCtaElementModule,
+    OpfCtaQuickBuyButtonsModule,
+  ],
   providers: [],
 })
 export class OpfCtaComponentsModule {}
