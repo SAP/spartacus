@@ -5,3 +5,6 @@
  */
 
 export * from './opf-cta-components.module';
+export * from './opf-cta-element';
+export * from './opf-cta-scripts';
+export * from './opf-cta-quick-buy-buttons';
