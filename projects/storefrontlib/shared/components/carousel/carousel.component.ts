@@ -145,6 +145,19 @@ export class CarouselComponent implements OnInit, OnChanges {
       .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
       .pipe(tap(() => (this.activeSlide = 0)));
   }
+  /**
+   * Handler for the "next" button click.
+   */
+  onNextClick(event: MouseEvent, size: number): void {
+    event.stopPropagation();
+
+    const itemsLength = this.items?.length ?? 0;
+    const canMove = this.activeSlide <= itemsLength - size - 1;
+
+    if (canMove) {
+      this.activeSlide = this.activeSlide + size;
+    }
+  }
 
   onItemKeydown(event: KeyboardEvent, size: number): void {
     switch (event.key) {

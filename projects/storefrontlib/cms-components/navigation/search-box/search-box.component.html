@@ -150,6 +150,7 @@
         [template]="carouselItem"
         itemWidth="160px"
         (keybordEvent)="carouselEventPropagator($event)"
+        (mousedown)="preventDefault($event)"
       >
       </cx-carousel>
 

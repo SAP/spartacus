@@ -57,12 +57,7 @@
     <button
       *ngIf="size < items.length"
       class="next"
-      (click)="
-        $event.stopPropagation();
-        activeSlide > items.length - size - 1
-          ? null
-          : (activeSlide = activeSlide + size)
-      "
+      (click)="onNextClick($event, size)"
       [attr.aria-disabled]="activeSlide > items.length - size - 1"
       [attr.aria-label]="'carousel.nextSlide' | cxTranslate"
       [attr.title]="'carousel.nextSlide' | cxTranslate"
