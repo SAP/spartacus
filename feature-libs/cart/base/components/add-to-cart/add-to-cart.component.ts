@@ -213,7 +213,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    * When out of stock, display no numerical value.
    */
   getInventory(): string {
-    if (this.hasStock) {
+    if (this.hasStock && this.product.productTypes !== 'SUBSCRIPTION') {
       const quantityDisplay = this.maxQuantity
         ? this.maxQuantity.toString()
         : '';
