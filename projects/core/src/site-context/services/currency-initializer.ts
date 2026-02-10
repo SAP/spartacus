@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config';
@@ -13,10 +13,12 @@ import { SiteContextConfig } from '../config/site-context-config';
 import { CurrencyService } from '../facade';
 import { CURRENCY_CONTEXT_ID } from '../providers';
 import { CurrencyStatePersistenceService } from './currency-state-persistence.service';
+import { SiteContextRoutesHandler } from './site-context-routes-handler';
 
 @Injectable({ providedIn: 'root' })
 export class CurrencyInitializer implements OnDestroy {
   protected subscription: Subscription;
+  siteContextRoutesHandler = inject(SiteContextRoutesHandler);
 
   constructor(
     protected currencyService: CurrencyService,
@@ -31,7 +33,7 @@ export class CurrencyInitializer implements OnDestroy {
     this.subscription = this.configInit
       .getStable('context')
       .pipe(
-        // TODO(#12351): <--- plug here explicitly SiteContextRoutesHandler
+        switchMap(() => this.siteContextRoutesHandler.initOnce()),
         switchMap(() => this.currencyStatePersistenceService.initSync()),
         switchMap(() => this.setFallbackValue())
       )

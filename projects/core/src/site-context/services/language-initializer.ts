@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
@@ -13,9 +13,11 @@ import { SiteContextConfig } from '../config/site-context-config';
 import { LanguageService } from '../facade/language.service';
 import { LANGUAGE_CONTEXT_ID } from '../providers/context-ids';
 import { LanguageStatePersistenceService } from './language-state-persistence.service';
+import { SiteContextRoutesHandler } from './site-context-routes-handler';
 
 @Injectable({ providedIn: 'root' })
 export class LanguageInitializer implements OnDestroy {
+  siteContextRoutesHandler = inject(SiteContextRoutesHandler)
   constructor(
     protected languageService: LanguageService,
     protected languageStatePersistenceService: LanguageStatePersistenceService,
@@ -31,7 +33,7 @@ export class LanguageInitializer implements OnDestroy {
     this.subscription = this.configInit
       .getStable('context')
       .pipe(
-        // TODO(#12351): <--- plug here explicitly SiteContextRoutesHandler
+        switchMap(() => this.siteContextRoutesHandler.initOnce()),
         switchMap(() => this.languageStatePersistenceService.initSync()),
         switchMap(() => this.setFallbackValue())
       )

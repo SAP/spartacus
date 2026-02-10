@@ -5,6 +5,7 @@ import { SiteContextConfig } from '../config/site-context-config';
 import { LanguageService } from '../facade/language.service';
 import { LanguageInitializer } from './language-initializer';
 import { LanguageStatePersistenceService } from './language-state-persistence.service';
+import { SiteContextRoutesHandler } from './site-context-routes-handler';
 import createSpy = jasmine.createSpy;
 
 const mockSiteContextConfig: SiteContextConfig = {
@@ -32,6 +33,12 @@ class MockConfigInitializerService
   getStable = () => of(mockSiteContextConfig);
 }
 
+class MockSiteContextRoutesHandler
+  implements Partial<SiteContextRoutesHandler>
+{
+  initOnce = createSpy().and.returnValue(of(undefined));
+}
+
 describe('LanguageInitializer', () => {
   let initializer: LanguageInitializer;
   let languageService: LanguageService;
@@ -50,6 +57,10 @@ describe('LanguageInitializer', () => {
           provide: ConfigInitializerService,
           useClass: MockConfigInitializerService,
         },
+        {
+          provide: SiteContextRoutesHandler,
+          useClass: MockSiteContextRoutesHandler,
+        },
       ],
     });
 
@@ -65,9 +76,10 @@ describe('LanguageInitializer', () => {
   });
 
   describe('initialize', () => {
-    it('should call LanguageStatePersistenceService initSync()', () => {
+    it('should call SiteContextRoutesHandler initOnce() and LanguageStatePersistenceService initSync()', () => {
       spyOn<any>(initializer, 'setFallbackValue').and.returnValue(of(null));
       initializer.initialize();
+      expect(initializer.siteContextRoutesHandler.initOnce).toHaveBeenCalled();
       expect(languageStatePersistenceService.initSync).toHaveBeenCalled();
       expect(initializer['setFallbackValue']).toHaveBeenCalled();
     });

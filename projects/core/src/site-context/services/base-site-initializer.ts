@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
@@ -12,9 +12,12 @@ import { getContextParameterDefault } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
 import { BaseSiteService } from '../facade/base-site.service';
 import { BASE_SITE_CONTEXT_ID } from '../providers/context-ids';
+import { SiteContextRoutesHandler } from './site-context-routes-handler';
 
 @Injectable({ providedIn: 'root' })
 export class BaseSiteInitializer implements OnDestroy {
+  siteContextRoutesHandler = inject(SiteContextRoutesHandler);
+
   constructor(
     protected baseSiteService: BaseSiteService,
     protected configInit: ConfigInitializerService
@@ -29,7 +32,7 @@ export class BaseSiteInitializer implements OnDestroy {
     this.subscription = this.configInit
       .getStable('context')
       .pipe(
-        // TODO(#12351): <--- plug here explicitly SiteContextRoutesHandler
+        switchMap(() => this.siteContextRoutesHandler.initOnce()),
         switchMap(() => this.setFallbackValue())
       )
       .subscribe();
