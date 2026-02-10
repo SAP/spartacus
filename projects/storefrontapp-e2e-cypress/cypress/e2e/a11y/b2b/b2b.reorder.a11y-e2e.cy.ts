@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { goToB2BOrderHistoryMockPage } from '../../../helpers/order-history';
+import { goToB2BOrderHistoryPage } from '../../../helpers/order-history';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import {
@@ -25,7 +25,7 @@ describe('Reorder accessibility', () => {
     cy.a11yContinuumSetup();
 
     cy.whenJDK21(() => {
-      goToB2BOrderHistoryMockPage();
+      goToB2BOrderHistoryPage();
     });
     cy.whenJDK17(() => {
       loginB2bUser();

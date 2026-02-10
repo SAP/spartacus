@@ -6,7 +6,7 @@
 
 import {
   doPlaceOrder,
-  goToB2COrderHistoryMockPage,
+  goToB2COrderHistoryPage,
 } from '../../../helpers/order-history';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { consignedOrderId } from '../../../sample-data/checkout-flow';
@@ -18,7 +18,7 @@ describe('Order History Page accessibility', { testIsolation: false }, () => {
     before(() => {
       cy.a11yContinuumSetup();
       cy.whenJDK21(() => {
-        goToB2COrderHistoryMockPage();
+        goToB2COrderHistoryPage();
       });
       cy.whenJDK17(() => {
         cy.requireLoggedIn();

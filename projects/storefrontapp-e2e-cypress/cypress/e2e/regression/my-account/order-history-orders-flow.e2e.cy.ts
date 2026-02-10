@@ -12,7 +12,7 @@ import {
 import {
   clickOnActionLink,
   doPlaceOrder,
-  goToB2COrderHistoryMockPage,
+  goToB2COrderHistoryPage,
   interceptAddToCartEndpoint,
   interceptCartPageEndpoint,
   orderHistoryTest,
@@ -28,7 +28,7 @@ describe('Order History with orders', () => {
   viewportContext(['mobile'], () => {
     before(() => {
       cy.whenJDK21(() => {
-        goToB2COrderHistoryMockPage();
+        goToB2COrderHistoryPage();
       });
       cy.whenJDK17(() => {
         cy.window().then((win) => win.sessionStorage.clear());
@@ -83,7 +83,7 @@ describe('Order details page', { testIsolation: false }, () => {
         });
       });
       cy.whenJDK21(() => {
-        goToB2COrderHistoryMockPage();
+        goToB2COrderHistoryPage();
 
         cy.get('.cx-order-history-code > .cx-order-history-value')
           .contains(consignedOrderId)

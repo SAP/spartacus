@@ -8,7 +8,7 @@ import { user } from '../sample-data/checkout-flow';
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { switchSiteContext } from '../support/utils/switch-site-context';
 import { waitForPage } from './navigation';
-import { goToB2COrderHistoryMockPage } from './order-history';
+import { goToB2COrderHistoryPage } from './order-history';
 
 export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
@@ -207,7 +207,7 @@ export function testLangSwitchOrderPage() {
 
     before(() => {
       cy.whenJDK21(() => {
-        goToB2COrderHistoryMockPage();
+        goToB2COrderHistoryPage();
       });
       cy.whenJDK17(() => {
         doPlaceOrder();
