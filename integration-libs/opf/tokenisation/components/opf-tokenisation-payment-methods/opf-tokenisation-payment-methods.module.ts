@@ -31,14 +31,9 @@ import {
     OpfTokenisationPaymentMethodsComponent,
   ],
   providers: [
-    // Register a tokenisation-specific CMS component type.
-    // NOTE: This is a new CMS type and intentionally does NOT override
-    // the existing `AccountPaymentDetailsComponent`. The backend must
-    // place `OpfTokenisationPaymentMethodsComponent` on pages where
-    // tokenisation behavior is desired.
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        OpfTokenisationPaymentMethodsComponent: {
+        AccountPaymentDetailsComponent: {
           component: OpfTokenisationPaymentMethodsComponent,
           guards: [AuthGuard],
         },
