@@ -5,7 +5,7 @@
  */
 
 import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
-import { NGRX_EFFECTS, NGRX_STORE } from '../shared/constants';
+import { APP_MODULE, NGRX_EFFECTS, NGRX_STORE } from '../shared/constants';
 import { addModuleImport } from '../shared/utils/new-module-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
@@ -46,7 +46,7 @@ function configureStoreModules(
   const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
   for (const sourceFile of appSourceFiles) {
-    if (!sourceFile.getFilePath().includes('app.module.ts')) {
+    if (!sourceFile.getFilePath().includes(APP_MODULE)) {
       continue;
     }
 
