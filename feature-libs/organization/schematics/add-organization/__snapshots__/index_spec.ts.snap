@@ -110,18 +110,12 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false,
           "type": "component",
           "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false,
           "type": "directive",
           "addTypeToClassName": false
-        },
-        "@schematics/angular:pipe": {
-          "standalone": false,
-          "typeSeparator": "."
         },
         "@schematics/angular:service": {
           "type": "service",
@@ -134,6 +128,9 @@ exports[`Spartacus Organization schematics: ng-add Account summary feature gener
           "typeSeparator": "."
         },
         "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:pipe": {
           "typeSeparator": "."
         },
         "@schematics/angular:resolver": {
@@ -339,18 +336,12 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false,
           "type": "component",
           "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false,
           "type": "directive",
           "addTypeToClassName": false
-        },
-        "@schematics/angular:pipe": {
-          "standalone": false,
-          "typeSeparator": "."
         },
         "@schematics/angular:service": {
           "type": "service",
@@ -363,6 +354,9 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
           "typeSeparator": "."
         },
         "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:pipe": {
           "typeSeparator": "."
         },
         "@schematics/angular:resolver": {
@@ -568,18 +562,12 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false,
           "type": "component",
           "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false,
           "type": "directive",
           "addTypeToClassName": false
-        },
-        "@schematics/angular:pipe": {
-          "standalone": false,
-          "typeSeparator": "."
         },
         "@schematics/angular:service": {
           "type": "service",
@@ -592,6 +580,9 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
           "typeSeparator": "."
         },
         "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:pipe": {
           "typeSeparator": "."
         },
         "@schematics/angular:resolver": {
@@ -797,18 +788,12 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false,
           "type": "component",
           "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false,
           "type": "directive",
           "addTypeToClassName": false
-        },
-        "@schematics/angular:pipe": {
-          "standalone": false,
-          "typeSeparator": "."
         },
         "@schematics/angular:service": {
           "type": "service",
@@ -821,6 +806,9 @@ exports[`Spartacus Organization schematics: ng-add Unit order feature general se
           "typeSeparator": "."
         },
         "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:pipe": {
           "typeSeparator": "."
         },
         "@schematics/angular:resolver": {
@@ -1026,18 +1014,12 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false,
           "type": "component",
           "addTypeToClassName": false
         },
         "@schematics/angular:directive": {
-          "standalone": false,
           "type": "directive",
           "addTypeToClassName": false
-        },
-        "@schematics/angular:pipe": {
-          "standalone": false,
-          "typeSeparator": "."
         },
         "@schematics/angular:service": {
           "type": "service",
@@ -1050,6 +1032,9 @@ exports[`Spartacus Organization schematics: ng-add User registration feature gen
           "typeSeparator": "."
         },
         "@schematics/angular:module": {
+          "typeSeparator": "."
+        },
+        "@schematics/angular:pipe": {
           "typeSeparator": "."
         },
         "@schematics/angular:resolver": {

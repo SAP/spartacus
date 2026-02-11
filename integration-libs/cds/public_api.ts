@@ -12,8 +12,3 @@ export * from './src/cds.module';
 export * from './src/config/index';
 export * from './src/merchandising/index';
 export * from './src/profiletag/index';
-
-/**
- * @deprecated Use @spartacus/cds/assets instead.
- */
-export * from './src/assets/index';
